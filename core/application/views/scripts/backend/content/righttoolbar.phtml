@@ -1,0 +1,34 @@
+<div id="selector">
+	<div id="borderfortoolbar">
+		<div id="adminthingsviewer">
+			<div id="small" class="button"><?php echo $this->translate('Small'); ?><span>(200px)</span></div>
+			<div id="images_small" class="show_div"></div>
+
+			<div id="medium" class="button"><?php echo $this->translate('Medium'); ?><span>(300px)</span></div>
+			<div id="images_medium" class="show_div"></div>
+
+			<div id="large" class="button" ><?php echo $this->translate('Large'); ?><span>(400px)</span></div>
+			<div id="images_large" class="show_div"></div>
+
+			<div id="original" class="button"><?php echo $this->translate('Original'); ?></div>
+			<div id="images_original" class="show_div"></div>
+
+			<div id="files" class="button"><?php echo $this->translate('Files'); ?></div>
+			<div id="list_files" class="show_div"></div>
+
+			<div id="widgets" class="button"><?php echo $this->translate('Widgets Maker'); ?></div>
+			<div id="widgets_maker" class="show_div"></div>
+
+			<div id="upload_things_button" class="button"><?php echo $this->translate('Upload Things'); ?></div>
+		</div>
+	</div>
+</div>
+<select name="adminselectimgfolder" id="adminselectimgfolder">
+	<option value="0" selected="selected"><?php echo $this->translate('select folder'); ?></option>
+	<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
+		<?php foreach ($this->imageFolders as $folder): ?>
+			<option value="<?php echo $folder; ?>"><?php echo $folder; ?></option>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</select>
+<?php $this->jQuery()->addJavascript('$(function() {$(\'#adminthingsviewer\').accordion({autoHeight: false, navigation: true, collapsible: true, active: false})});'); ?>

@@ -1,0 +1,23 @@
+<?php echo $this->doctype(); ?>
+<html lang="en">
+	<head>
+		<?php $this->jQuery()->enable(); ?>
+		<?php $this->jQuery()->uiEnable(); ?>
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/thickbox/thickbox.css'); ?>
+		<?php echo $this->headLink(); ?>
+		<?php echo $this->jQuery(); ?>
+		<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/thickbox/thickbox.js'); ?>
+		<?php echo $this->headScript(); ?>
+		<?php if(!preg_match('/<meta charset="utf-8">/', $this->head)): ?>
+			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
+		<?php endif; ?>
+		<?php echo $this->head; ?>
+	</head>
+	<body>
+		<?php echo $this->layout()->content; ?>
+		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
+		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
+	</body>
+</html>
+

@@ -1,0 +1,5 @@
+<ul id="static_menu">
+	<?php foreach ($this->staticPages as $staticPage): ?>
+		<li><a href="<?php echo $this->websiteUrl . $staticPage->getUrl(); ?>" title="<?php echo ucwords($staticPage->getNavName());?>"><span><?php echo $staticPage->getNavName(); ?></span></a></li>
+	<?php endforeach; ?>
+</ul>

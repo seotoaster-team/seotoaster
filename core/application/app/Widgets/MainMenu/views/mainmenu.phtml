@@ -1,0 +1,15 @@
+<?php if(!empty($this->pages)): ?>
+	<ul id="main_menu">
+		<?php foreach ($this->pages as $key => $page): ?>
+			<li class="category"><a title="<?php echo $page['category']->getH1(); ?>" href="<?php echo $this->websiteUrl . $page['category']->getUrl(); ?>"><?php echo $page['category']->getNavName(); ?></a>
+				<?php if(isset($page['subPages'])): ?>
+					<ul id="<?php echo $page['category']->getUrl(); ?>">
+						<?php foreach ($page['subPages'] as $subPage): ?>
+							<li class="page"><a title="<?php echo $subPage->getH1(); ?>" href="<?php echo $this->websiteUrl . $subPage->getUrl(); ?>"><?php echo $subPage->getNavName(); ?></a></li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+<?php endif; ?>

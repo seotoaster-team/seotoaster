@@ -1,0 +1,4104 @@
+* {
+	margin:0;
+	padding:0;
+}
+a.generator-links img {
+	position:relative !important;
+	width: 26px !important;
+	height: 26px !important;
+	border:none !important;
+	z-index: 100 !important;
+	background-color: transparent !important;
+}
+#seotoaster {
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border:1px solid #7c7c7c;
+	position:relative;
+	font-family:arial;
+	font-size:12px;
+	color:#7c7c7c;
+	margin:0;
+	padding:0;
+	background-color:#BDE6F1;
+}
+#seotoasterversion {
+	font-size:9px;
+	line-height:5px;
+	margin-left:30px;
+	margin-top:8px;
+}
+#seotoaster ul.ultable {
+	width:100%;
+	list-style:none;
+}
+#seotoaster ul.ultable li {
+	display:inline;
+	display:block;
+	float:left;
+	font-weight:bold;
+	text-indent:15px;
+}
+#seotoaster div.success, #seotoaster div.errors {
+	position:absolute;
+	width:50%;
+	left:25%;
+	right:25%;
+	top:35%;
+	text-align:center;
+	padding:30px;
+	opacity:0.75;
+	color:#fff;
+	border:1px solid #fff;
+	-webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+	z-index:999;
+	cursor:pointer;
+	font-weight:bold;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+}
+#seotoaster div.errors ul li { list-style-type:none; }
+#seotoaster div.success { background-color:olive; }
+#seotoaster div.errors { background-color:#990000; }
+/*======= SEOTOASTER FORMS (all) ===========*/
+#seotoaster #admineditwhat, div.admineditwhat {
+	background-color:#8FD5EB;
+	-moz-border-radius-topright:15px;
+	-moz-border-radius-topleft:15px;
+	-webkit-border-top-right-radius:15px;
+	-webkit-border-top-left-radius:15px;
+	display:block;
+	width:100%;
+	height:30px;
+	font-weight:bold;
+	line-height:30px;
+	font-family:Tahoma;
+	font-size:14px;
+	letter-spacing:1px;
+	text-indent:20px;
+	margin-bottom:20px;
+}
+#seotoaster div.close_window {
+	position:absolute;
+	top:-2px;
+	right:-2px;
+	z-index:2;
+	width:40px;
+	height:45px;
+	cursor:pointer;
+	background-image:url(../images/bg-close.png);
+}
+#seotoaster label {
+	font-weight:bold;
+	font-size:14px;
+}
+#seotoaster input, #seotoaster textarea, #seotoaster select {
+	border:1px solid #7c7c7c;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	padding:4px;
+	font-weight:bold;
+}
+#seotoaster #content { padding:0; }
+#seotoaster select { padding:3px 5px 3px; }
+#seotoaster input {
+	/*height:28px;*/
+	outline:none;
+}
+#seotoaster input[type=checkbox] { height:auto; }
+/*--------- Buttons -----------*/
+#seotoaster input.formsubmit, #seotoaster button.formsubmit {
+	background-color:#7c7c7c;
+	width:200px;
+	padding:0;
+	font-size:18px;
+	color:#eee;
+	border:2px solid #fff;
+	text-transform:uppercase;
+	cursor:pointer;
+	-moz-border-radius:5px 5px 5px 5px;
+        -webkit-border-radius:5px 5px 5px 5px;
+	font-weight:bold;
+        vertical-align: middle;
+}
+#seotoaster input.formsubmit:hover, #seotoaster button.formsubmit:hover {
+	background-color:#8FD5EB;
+	color:#fff;
+}
+/*======= SCREEN: FORM screen ===========*/
+#seotoaster.adminforms {
+	width:530px;
+	height:570px;
+}
+#seotoaster.adminforms p {
+	margin-bottom:10px;
+	text-indent:25px;
+	line-height:28px;
+}
+#seotoaster.adminforms p.formcode {
+	height:80px;
+	line-height:80px;
+}
+#seotoaster.adminforms p.message {
+	height:40px;
+	line-height:40px;
+}
+#seotoaster.adminforms input, #seotoaster.adminforms input[type=checkbox], #seotoaster.adminforms textarea {
+	position:absolute;
+	left:180px;
+}
+#seotoaster.adminforms p input[type=checkbox] {
+	left:130px;
+	margin-top:2px;
+}
+#seotoaster.adminforms input#form-screen-submit {
+	left:300px;
+	bottom:20px;
+}
+
+#seotoaster.adminforms #track {
+    left:180px;
+    margin-top: 10px;
+}
+
+#seotoaster.adminforms #tracking_details {
+    height: 95px;
+}
+
+#seotoaster.adminforms #track_code {
+    width: 330px;
+    height: 90px;
+}
+
+#seotoaster.adminforms #tracking_url span#track_url_holder {
+   left: 180px;
+   position: absolute;
+   font-style: italic;
+   font-size: 1.1em;
+   text-shadow: 1px 1px 1px #fff;
+   width: 330px;
+   padding: 0px;
+   text-indent: 0px;
+   line-height: 20px;
+}
+
+#seotoaster.adminforms .form_screen_hint {
+    position: absolute; 
+    top: 550px;
+    left:160px;
+    font-size: 0.9em;
+    color: #666;
+    text-shadow: 1px 1px 1px #fff;
+    font-style: italic;
+}
+
+
+/*======= SCREEN: INSPIRED screen ===========*/
+#seotoaster.inspired {
+	width:590px;
+	height:100%;
+	margin:0 auto;
+}
+#seotoaster.inspired p {
+	margin-top:-12px;
+	margin-bottom:20px;
+	text-align:center;
+	line-height:28px;
+}
+#seotoaster.inspired div.words-list {
+	margin-left:10px;
+	margin-right:10px;
+	line-height:20px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	max-height:600px;
+	height:80%;
+	text-align: center;
+}
+#seotoaster.inspired div.words-list ul li {
+	font-size: 18px;
+	padding-left: 10%;
+	text-align: left;
+	line-height: 28px;
+}
+#seotoaster.inspired div.words-list span {
+	font-weight:bold;
+	font-size: 18px;
+}
+#seotoaster.inspired p button {
+	margin-left:20px;
+	margin-top:2px;
+	width:180px;
+}
+/*======= SCREEN: CONFIG ===========*/
+#seotoaster.admineditconfig {
+	width:570px;
+	height:575px;/*overflow-x:hidden;
+	overflow-y:auto;
+    /*min-height:590px;
+	/*height:690px;*/
+}
+#seotoaster.admineditconfig p {
+	margin-bottom:5px;
+	text-indent:35px;
+	line-height:30px;
+}
+#seotoaster.admineditconfig p span { font-weight:normal; }
+#seotoaster.admineditconfig input, #seotoaster.admineditconfig select {
+	position:absolute;
+	left:230px;
+}
+#seotoaster.admineditconfig input#editconfigsubmit {
+	left:340px;
+	margin-top:10px;
+	position:relative;
+	margin-bottom:15px;
+}
+/*======= SCREEN: addheader.PHTML ===========*/
+#seotoaster.editcode {
+	width:590px;
+	height:460px;
+}
+#seotoaster.editcode #inlinecode { margin-left: 35px; }
+#seotoaster.editcode #editcodesubmit {
+	margin-top: 5px;
+	margin-left: 350px;
+}
+/*======= SCREEN: addheader.PHTML ===========*/
+#seotoaster.admineditheader {
+	width:590px;
+	height:160px;
+}
+#seotoaster.admineditheader input[type=text] {
+	width:500px;
+	margin-left:20px;
+	margin-top:10px;
+}
+#seotoaster.admineditheader input#editheadersubmit {
+	margin-left:350px;
+	margin-top:20px;
+}
+/*======= SCREEN: googlemap.PHTML ===========*/
+#seotoaster.googlemap {
+	width:535px;
+	height:360px;
+	position:relative;
+}
+#seotoaster.googlemap #addGoogleMap textarea {
+	width:90%;
+	display:block;
+	margin:10px auto;
+}
+#seotoaster.googlemap form .formsubmit {
+	position:absolute;
+	bottom:20px;
+	right:30px;
+	width:180px;
+}
+/*#seotoaster.admineditheader input[type=text]{
+	width:500px;
+	margin-left:20px;
+	margin-top:10px;
+}
+#seotoaster.admineditheader input#editheadersubmit{
+	margin-left:350px;
+	margin-top:20px;
+}*/
+
+/*======= SCREEN: translate.PHTML ===========*/
+#seotoaster.translate {
+	width:445px;
+	min-height:210px;
+	height:auto;
+	position:absolute;
+	z-index:1000;
+}
+#seotoaster.translate #admineditwhat {
+	min-height:30px!important;
+	height:auto!important;
+	padding:5px 40px 5px 10px;
+	width:395px;
+}
+#seotoaster.translate #admineditwhat span {
+	display:block;
+	font-size:12px;
+	line-height:15px;
+	text-indent:0px;/*margin-left:10px;*/
+}
+#seotoaster.translate p { margin-left:22px; }
+#seotoaster.translate p label {
+	font-size:12px;
+	clear:both;
+	display:block;
+}
+#seotoaster.translate #lexemtext { /*float:left;*/ }
+/*
+#seotoaster.translate #editcodesubmit {
+    margin-top: 5px;
+    margin-left: 350px;
+
+}*/
+
+#seotoaster.translate #submit {
+	position:absolute;
+	right:15px;
+	bottom:15px;
+	font-size:12px;
+}
+/*======= SCREEN: manage deeplinks ===========*/
+#seotoaster.admindeeplinks {
+	width:790px;
+	height:510px;
+	overflow:hidden;
+}
+#seotoaster ul.ultable li { text-align:left; }
+#seotoaster.admindeeplinks p { text-indent:15px; }
+#seotoaster.admindeeplinks label { margin-left:8px; }
+#seotoaster.admindeeplinks p input[type='checkbox'] {
+	position:relative;
+	margin-left:12px;
+	top:8px;
+	left:0px;
+}
+#seotoaster.admindeeplinks button {
+	margin-left:550px;
+	margin-top:20px;
+}
+#seotoaster.admindeeplinks div.mandeepl {
+	border-bottom:1px dashed #eee;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+#seotoaster.admindeeplinks div.mandeepl a {
+	color:olive;
+	font-size:12px;
+}
+#seotoaster.admindeeplinks div.mandeepl div.mandeepname {
+	position:relative;
+	display:block;
+	width:300px;
+	float:left;
+	padding-left:10px;
+}
+#seotoaster.admindeeplinks div.mandeepl div.mandeepu {
+	position:relative;
+	display:block;
+	width:300px;
+	float:left;
+}
+#seotoaster.admindeeplinks div.mandeepl div.mandeepthree span {
+	position:relative;
+	display:block;
+	width:50px;
+	float:left;
+}
+#seotoaster.admindeeplinks #selectpage option { max-width:250px; }
+/*======= SCREEN: manage redirects ===========*/
+#seotoaster.admineditredirect {
+	width:830px;
+	height:590px;
+}
+#seotoaster.admineditredirect p { text-indent:15px; /*height:30px;*/ }
+#seotoaster.admineditredirect p label { margin-left:30px; }
+#seotoaster.admineditredirect button#add-redirect {
+	position:absolute;
+	top:135px;
+	left:520px;/*margin-left:520px;
+	margin-top:20px;*/
+}
+#seotoaster.admineditredirect div.redirbord {
+	border-bottom:1px dashed #eee;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+#seotoaster.admineditredirect div.redirecturl {
+	position:relative;
+	display:block;
+	width:395px;
+	float:left;
+	padding-left:10px;
+}
+#seotoaster.admineditredirect div.checkboxes {
+	position:relative;
+	display:block;
+	width:15px;
+	float:left;
+	padding-left:10px;
+}
+#seotoaster.admineditredirect div.redirecturl span {
+	position:absolute;
+	right:5px;
+	font-weight:bold;
+	color:#222;
+}
+#seotoaster.admineditredirect div.redirecturlimg {
+	position:relative;
+	display:block;
+	width:350px;
+	float:left;
+	padding-left:10px;
+}
+#seotoaster.admineditredirect div.redirecturlimg img {
+	position:absolute;
+	top:25%;
+	right:-8px;
+	border:none;
+}
+/*======= SCREEN: add/edit pages ===========*/
+#seotoaster.page {
+	background-image:url(../images/bg-create-update-page.png);
+	width:860px;
+	height:590px;
+}
+#seotoaster.page input, #seotoaster.page select, #seotoaster.page textarea { position:absolute; }
+#seotoaster.page textarea { overflow-y: auto; }
+/*--- Fields ---*/
+#seotoaster.page input#pageh1 {
+	top:75px;
+	left:36px;
+	width:355px;
+}
+#seotoaster.page input#pagetitle {
+	top:124px;
+	left:36px;
+	width:355px;
+}
+#seotoaster.page input#pageurl {
+	top:174px;
+	left:36px;
+	width:355px;
+}
+#seotoaster.page input#pagenavname {
+	top:223px;
+	left:36px;
+	width:355px;
+}
+#seotoaster.page textarea#pagemetadesc {
+	height:55px;
+	left:36px;
+	top:275px;
+	width:355px;
+}
+#seotoaster.page textarea#pagemetakeywords {
+	height:50px;
+	left:36px;
+	top:350px;
+	width:355px;
+}
+#seotoaster.page textarea#pagecatshortdesc {
+	height:125px;
+	left:36px;
+	top:420px;
+	width:355px;
+}
+#seotoaster.page #pagebestpractices {
+	top:20px;
+	left:294px;
+	border:none;
+}
+#seotoaster.page #pageshowinnav {
+	position:absolute;
+	top:154px;
+	left:704px;
+	border:none;
+}
+#seotoaster.page #selectmenu-1 {
+	left:480px;
+	top:75px;
+}
+#seotoaster.page #selectmenu-2 {
+	left:593px;
+	top:75px;
+}
+#seotoaster.page #selectmenu-0 {
+	left:706px;
+	top:75px;
+}
+#seotoaster.page #pageiscategory {
+	border:medium none;
+	left:663px;
+	top:118px;
+}
+#seotoaster.page select#pageselectcategory {
+	font-size:14px;
+	font-weight:bold;
+	left:495px;
+	padding:4px;
+	top:146px;
+	width:290px;
+	cursor: pointer; /* hand-shaped cursor */
+}
+#seotoaster.page select#pageselectcategory option { text-indent:8px; }
+#seotoaster.page #show-template-list-link-container {
+	position:absolute;
+	left:665px;
+	top:243px;
+	width:220px;
+	height:20px;
+}
+#seotoaster.page #show-template-list-link {
+	cursor:pointer;
+	font-size:13px;
+	font-weight:bold;
+	text-decoration:none;
+}
+#seotoaster.page #show-fa-list-link-container {
+	position:absolute;
+	left:665px;
+	top:278px;
+	width:220px;
+	height:20px;
+}
+#seotoaster.page #show-fa-list-link {
+	color:#7C7C7C;
+	cursor:pointer;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration:none;
+}
+/*#seotoaster.page #pageis404 {
+	border:medium none;
+	left:760px;
+	position:absolute;
+	top:307px;
+}*/
+
+/*#seotoaster.page #protected {
+	border:medium none;
+	left:760px;
+	position:absolute;
+	top:327px;
+}*/
+
+#seotoaster.page input#createpagesubmit {
+	top:545px;
+	left:623px;
+	cursor: pointer; /* hand-shaped cursor */
+}
+#seotoaster.page #pageupdateimage {
+	position:absolute;
+	top:395px;
+	left:501px;
+	width:105px;
+	height:97px;
+}
+#seotoaster.page #pageupdateimage img {
+	width:105px;
+	height: 97px;
+}
+#seotoaster.page .swfupload {
+	position:absolute;
+	top:435px;
+	left:635px;
+	overflow: hidden;
+	font-weight:bold;
+}
+#seotoaster.page p {
+	position:absolute;
+	font-weight:bold;
+	color:white;
+	left:38px;
+}
+#seotoaster.page p#headertext { top:55px; }
+#seotoaster.page p#titletext { top:105px; }
+#seotoaster.page p#urltext { top:155px; }
+#seotoaster.page p#navigationtext { top:204px; }
+#seotoaster.page p#metadesctext { top:253px; }
+#seotoaster.page p#metakeytext { top:331px; }
+#seotoaster.page p#teasertext { top:402px; }
+#seotoaster.page p#navigationblocktext {
+	left:485px;
+	top:50px;
+}
+#seotoaster.page p#settingstext {
+	left:485px;
+	top:210px;
+}
+#seotoaster.page p#imageteasertext {
+	left:485px;
+	top:370px;
+}
+#seotoaster.page p#currenttemplatetext {
+	font-size:14px;
+	left:485px;
+	top:240px;
+}
+#seotoaster.page p#pageisfeaturedtext {
+	font-size:14px;
+	left:485px;
+	top:277px;
+}
+/*
+#seotoaster.page p#pagenotfoundtext {
+	font-size:14px;
+	left:485px;
+	top:304px;
+}
+
+#seotoaster.page p#protectedtext {
+	font-size:14px;
+	left:485px;
+	top:324px;
+}
+*/
+
+#seotoaster.page div#extoptions {
+    border: 15px solid #9c9c9c;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 250px;
+    padding: 10px;
+    background: #fff;
+    height: 150px;
+    left: 500px;
+    position: absolute;
+    top: 200px;
+    z-index: 99;
+}
+
+#seotoaster.page div#extoptions p {
+/*    float: left;*/
+    position: relative;
+    font-weight: bolder;
+    color: #7c7c7c;
+    font-size: 16px;
+    width: 260px;
+    overflow: hidden;
+    text-align: left;
+    margin-bottom: 3px;
+    margin-right: 2px;
+    left: 0px;
+    
+}
+
+#seotoaster.page div#extoptions div button#applyopts {
+    width: 250px;
+}
+
+#seotoaster.page div#extoptions p:last-child {
+    margin-bottom: 0px;
+}
+
+#seotoaster.page div#extoptions p input {
+    position: relative;
+    margin-right: 5px;
+}
+
+#seotoaster.page p#pageopts {
+    left:485px;
+    top:310px;
+    width: 330px;
+    height: 26px;
+    overflow: hidden;
+}
+
+#seotoaster.page p#pageopts a {
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#seotoaster.page p#noimagetext {
+	text-align:center;
+	width:80px;
+	height:50px;
+	color:grey;
+	font-size:15px;
+	left:512px;
+	top:411px;
+}
+#fa-order {
+    position:absolute;
+    top:30px;
+    left:0px;
+    width:580px;
+    height:460px;
+    overflow:hidden;
+    background-color:#BDE6F1;   
+    z-index: 99;
+    display:none;
+}
+/*** faorder ***/
+#seotoaster.featuredareaorder {
+    width: 580px;
+    height: 500px;
+}
+#seotoaster.featuredareaorder  ul.fa-order-list {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    min-height:20px;
+    background-color: #eee;
+    padding:0;
+    max-height: 370px;
+    overflow: auto;
+    width:100%;
+}
+#seotoaster.featuredareaorder  ul.fa-order-list li{
+    border-bottom:1px dashed #FFFFFF;
+    background-color: #DDDDDD;
+    clear:both;
+    cursor:move;
+    display:block;
+    height:20px;
+    width:100%;
+}
+/*--- List templates --- */
+#seotoaster #template-list-div {
+	position:absolute;
+	top:0px;
+	z-index:200;
+	height:590px;
+	padding:0;
+	width:860px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border:1px solid #7c7c7c;
+	background-color:#BDE6F1;
+}
+#seotoaster #template-list-div ul {
+	list-style:none;
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;/*background-color:#eee;*/
+}
+#seotoaster #template-list-div ul li {
+	position:relative;
+	display:inline;
+	float:left;
+	margin:5px 10px 10px 25px;
+	width:150px;
+	height:210px;
+	border:1px solid #7c7c7c;
+	text-align:center;
+}
+#seotoaster #template-list-div ul li img {
+	width:140px;
+	height:180px;
+	border:none;
+	margin-top:5px;
+}
+#seotoaster #template-list-div ul li img:hover { border:2px solid gold; }
+#seotoaster #template-list-div ul li p {
+	line-height:20px;
+	font-weight:bold;
+	font-size:12px;
+	position:absolute;
+	bottom:0px;
+	text-align:center;
+	width:100%;
+	background-color:#555;
+	color:#fff;
+	opacity:0.75;
+	border-top:1px solid #fff;
+	left: 0px;
+}
+#seotoaster #template-list-div ul li p img {
+	width:15px;
+	height:15px;
+	margin-left:5px;
+	border:none;
+}
+#seotoaster #template-list-div ul li p img:hover { border:none; }
+/*--- List featured Areas ---*/
+#seotoaster #fa-list-div {
+	position:absolute;
+	top:0px;
+	z-index:999;
+	height:490px;
+	padding:0;
+	width:580px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	-webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+	border:30px solid #999;
+	background-color:#BDE6F1;
+	margin-left:70px;
+	margin-top:20px;
+	margin-right:auto;
+}
+#seotoaster #fa-list-div input#featured_name, #seotoaster.prsculpting input#silo-name {
+	width:300px;
+	margin-left:30px;
+}
+#seotoaster #fa-list-div button#done {
+	position:absolute;
+	top:450px;
+	left:350px;
+}
+#seotoaster button#addbutton { margin-left:350px; }
+#seotoaster #fa-list-div table {
+	margin-top:20px;
+	width:550px;
+	margin-left:auto;
+	margin-right:auto;
+}
+#seotoaster table th {
+	text-align:left;
+	font-weight:bold;
+	color:5c5c5c;
+}
+#seotoaster #fa-list-div table td, #seotoaster div#prslist table td {
+	height:20px;
+	border-bottom:1px dashed #fff;
+	font-size:13px;
+}
+#seotoaster #fa-list-div table td.new {
+	background-color:#bfffbf;
+	opacity:0.75;
+}
+#seotoaster #fa-list-div input[type=checkbox], #seotoaster.prsculpting input[type=checkbox] { position:relative; }
+/*=== prsculpting ===*/
+#seotoaster.prsculpting {
+	width: 590px;
+	height: 590px;
+}
+#seotoaster.prsculpting input { position: absolute; }
+#seotoaster.prsculpting select {
+	padding: 0;
+	border: 1px solid #fff;
+	min-width: 50px;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+}
+#seotoaster.prsculpting select.silo { width:200px; }
+#seotoaster.prsculpting input#done {
+	top: 550px;
+	left: 360px;
+}
+#seotoaster.prsculpting table {
+	width: 560px;
+	margin: 10px auto;
+}
+#seotoaster div#prslist table td { height: 30px; }
+/*========== manage user ===========*/
+#seotoaster.manageuser {
+	height:500px;
+	width:800px;
+}
+#seotoaster #adduser input, #seotoaster #adduser select, #seotoaster #adduser label { position:absolute; }
+#seotoaster #adduser input { width:150px; }
+#seotoaster #adduser label#Nickname {
+	top:7px;
+	left:19px;
+}
+#seotoaster #adduser input#Nickname {
+	top:2px;
+	left:100px;
+}
+#seotoaster #adduser label#email {
+	top:7px;
+	left:270px;
+}
+#seotoaster #adduser input#email {
+	top:2px;
+	left:320px;
+	width:200px;
+}
+#seotoaster #adduser label#login {
+	top:55px;
+	left:50px;
+}
+#seotoaster #adduser input#login {
+	top:50px;
+	left:100px;
+}
+#seotoaster #adduser label#password {
+	top:55px;
+	left:270px;
+}
+#seotoaster #adduser input#password {
+	top:50px;
+	left:355px;
+}
+#seotoaster #adduser input#submituser {
+	top:51px;
+	left:540px;
+	width:230px;
+}
+#seotoaster #adduser select#role {
+	top:2px;
+	left:600px;
+	width:110px;
+}
+#seotoaster #adduser label#role {
+	top:7px;
+	left:555px;
+	width:100px;
+}
+#seotoaster.manageuser form table td {
+	height:30px;
+	padding:5px;
+}
+#seotoaster.manageuser form label { color:#7C7C7C; }
+#seotoaster.manageuser div.users {
+	position:absolute;
+	top:155px;
+	left:30px;
+	padding:10px 10px;
+	width:710px;
+	height:290px;
+	border:1px solid #999;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	background-color:#eee;
+}
+#seotoaster.manageuser div.users div#list {
+	overflow:auto;
+	width:710px;
+	height:270px;
+}
+#seotoaster.manageuser div.users table td {
+	font-family:arial;
+	text-transform:lowercase;
+	color:#7C7C7C;
+	height:25px;
+	padding:5px;
+}
+#seotoaster.manageuser div.users table td a { }
+#seotoaster.manageuser div.users div#list table td { font-size:14px; }
+#seotoaster.manageuser div.users table.title {
+	color:#fff;
+	font-size:14px;
+	font-weight:bold;
+	border-bottom:1px solid #999;
+}
+/*========== end manage user ===========*/
+/*========== SCREEN: add template ===========*/
+#seotoaster.addtemplate {
+	width:750px;
+	height:550px;
+}
+#seotoaster.addtemplate div.noimage {
+	position:absolute;
+	top:121px;
+	left:551px;
+	width:182px;
+	height:222px;
+	background-color:#fff;
+	z-index:1;
+	text-align:center;
+}
+#seotoaster.addtemplate div.noimage p {
+	position:absolute;
+	top:35px;
+	left:40px;
+	font-size:16px;
+	font-family:Arial;
+}
+#seotoaster.addtemplate div.noimage div {
+	position:absolute;
+	text-align:center;
+	border:1px solid #ccc;
+	width:140px;
+	padding:5px 3px;
+	top:150px;
+	left:17px;
+	font-size:12px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#fff;
+	background-color:#a5c025;
+}
+#seotoaster.addtemplate div.showimage {
+	border:1px solid #999;
+	position:absolute;
+	top:120px;
+	left:550px;
+	width:182px;
+	height:222px;
+	z-index:101;
+}
+#seotoaster.addtemplate form {
+	position:absolute;
+	left:20px;
+	top:40px;
+}
+#seotoaster.addtemplate form input#templatename { width:300px; }
+#seotoaster.addtemplate form .swfupload {
+	position:absolute;
+	top:330px;
+	left:560px;
+}
+#seotoaster.addtemplate form .formsubmit {
+	position:absolute;
+	top:450px;
+	left:430px;
+	width:280px;
+}
+/*========== end add template ===========*/
+/*========== SCREEN: edittemplate ===========*/
+#seotoaster.edittemplate {
+	width:750px;
+	height:550px;
+}
+#seotoaster.edittemplate form {
+	position:absolute;
+	left:20px;
+	top:40px;
+}
+#seotoaster.edittemplate form textarea { width:510px; }
+#seotoaster.edittemplate form input#templatename { width:300px; }
+#seotoaster.edittemplate form .swfupload {
+	position:absolute;
+	top:330px;
+	left:560px;
+}
+#seotoaster.edittemplate form .formsubmit {
+	position:absolute;
+	top:450px;
+	left:430px;
+	width:280px;
+}
+#seotoaster.edittemplate div.showimage {
+	border:1px solid #999;
+	position:absolute;
+	top:120px;
+	left:550px;
+	width:182px;
+	height:222px;
+	z-index:101;
+}
+#seotoaster.edittemplate #templatechoseother {
+	position:absolute;
+	top:55px;
+	left:430px;
+	width:300px;
+	height:auto;
+	border:1px solid #fff;
+	padding:7px 0px;
+	background-color:#a5c025;
+	font-size:14px;
+	font-weight:bold;
+	text-align:center;
+}
+#seotoaster.edittemplate #templatechoseother a {
+	text-decoration:none;
+	color:#fff;
+}
+/*======= SCREEN: list template ======*/
+#seotoaster.admintemplatelist {
+	width:740px;
+	height:540px;
+	overflow:hidden;
+	font-size:14px;
+	font-weight:bold;
+	padding:0;
+}
+#seotoaster.admintemplatelist #admintemplatecontent {
+	position:absolute;
+	top:50px;
+	left:20px;
+	width:710px;
+	height:470px;
+	overflow-y:auto;
+	text-align:center;
+}
+#seotoaster.admintemplatelist #admintemplatecontent .one_template {
+	border:1px solid #999;
+	float:left;
+	height:210px;
+	width:160px;
+	padding-top:10px;
+	margin:5px 5px;
+	text-align:center;
+	color:#7C7C7C;
+	position:relative;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.admintemplatelist #admintemplatecontent .one_template p.text {
+	position:absolute;
+	bottom:5px;
+	left:0;
+	color:#fff;
+	background-color:#555;
+	width:160px;
+	text-align:center;
+}
+#seotoaster.admintemplatelist #admintemplatecontent .one_template img {
+	border:0 none;
+	cursor:pointer;
+	max-height:150px;
+	max-width:150px;
+}
+/*========== end listtemplate ===========*/
+
+
+/*========== SCREEN: edit css ===========*/
+#seotoaster.admineditcss {
+	width:590px;
+	height:590px;
+}
+#seotoaster.admineditcss #csscode {
+	position:absolute;
+	top:80px;
+	left:37px;
+	width:505px;
+	height:440px;
+	font-size:12px;
+	color:#7C7C7C;
+}
+#seotoaster.admineditcss select#selectcss {
+	position: absolute;
+	right: 50px;
+	top: 40px;
+	width: 150px;
+	height: 30px;
+	font-size: 14px;
+	color: #7c7c7c;
+	padding-left: 5px;
+}
+#seotoaster.admineditcss #editcsssubmit {
+	position: absolute;
+	right:50px;
+	top:540px;
+}
+/*============ end edit css =============*/
+
+/*=========== SCREEN: cpanel ============*/
+#seotoaster.cpanel {
+	position:absolute;
+	right:0;
+	z-index:1001;
+	top:0px;
+	right:10px;
+	width:185px;
+	height:auto;
+	border: 0;
+	background-color:#fff;
+}
+#seotoaster.cpanel #showhide {
+	position:static;
+	text-align: center;
+	z-index:1002;
+	background-color:#A5C025;
+	color: #fff;
+	padding:2px;
+	cursor:pointer;
+	font-weight:bold;
+}
+#seotoaster.cpanel #admincpanel {
+	position:static;
+	z-index:1001;
+	background-color:#BDE6F1;
+	height:auto;
+	padding-bottom:10px;
+	-moz-border-radius-bottomright:15px;
+	-moz-border-radius-bottomleft:15px;
+	-webkit-border-bottom-right-radius:15px;
+	-webkit-border-bottom-left-radius:15px;
+}
+#seotoaster.cpanel #admincpanel #cpanellogowrap {
+	text-align:center;
+	background-color: #fff;
+}
+#seotoaster.cpanel #admincpanel #cpanelimg {
+	height:180px;
+	background-image: url(../images/cpanel-img.jpg);
+	background-repeat: no-repeat;
+	width: 170px;
+	margin:0px auto;
+}
+#seotoaster.cpanel #admincpanel #cpanelimg img { max-width:170px; }
+#seotoaster.cpanel #admincpanel UL {
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+#seotoaster.cpanel #admincpanel ul li {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#seotoaster.cpanel #admincpanel ul li span {
+	display:block;
+	line-height:26px;
+	width:185px;
+	background-color:#A5C025;
+	border-bottom:1px solid white;
+	color:#FFFFFF;
+	font-size:18px;
+	font-weight:bold;
+	text-indent:5px;
+	text-decoration:none;
+	
+}
+#seotoaster.cpanel #admincpanel a { text-decoration:none; }
+#seotoaster.cpanel #admincpanel UL LI UL LI {
+	border-bottom:1px solid #DEF3FA;
+	text-indent:8px;
+}
+#seotoaster.cpanel #admincpanel UL LI UL LI:hover { background-color:#DEF3FA; }
+#seotoaster.cpanel #admincpanel UL LI UL LI a {
+	width:100%;
+	text-decoration:none;
+	font-size:12px;
+	font-weight:bold;
+	line-height:24px;
+	/*color:#4B879F;*/
+	color:#6c6c6c;
+}
+#seotoaster.cpanel #admincpanel UL LI.cpanelsubtitle {
+	color:#222;
+	font-family:Arial;
+	font-weight:bold;
+	font-size:13px;
+	border-bottom:none;
+	margin-top:3px;
+	text-indent:3px;
+	text-indent:7px;
+}
+#seotoaster.cpanel #admincpanel UL LI.cpanelsubtitle:hover { background:none; }
+/*============= end cpanel =============*/
+
+/*======= SCREEN: upload gallery =======*/
+#seotoaster.gallery {
+	width: 450px;
+	height: 200px;
+}
+#seotoaster.gallery #info {
+	position: absolute;
+	left: 20px;
+	top: 120px;
+	width: 185px;
+	height: 60px;
+	color: #fff;
+	padding:5px 2px 0px 2px;
+	text-align: center;
+	font-weight:bold;
+	border: 1px solid #fff;
+	background-color: #A5C025
+}
+#seotoaster.gallery #SWFUpload_0 {
+	position:absolute;
+	left:230px;
+	top:150px;
+}
+#seotoaster.gallery #UploadProgressGallery {
+	position:absolute;
+	left:70px;
+	top:40px;
+	height:65px;
+	width:300px;
+	z-index:101;
+	padding: 2px 1px;
+	overflow:auto;
+}
+/*========= end upload gallery =========*/
+
+/*====== SCREEN: edit/add content ======*/
+#seotoaster.editor {
+	width:940px;
+	height:590px;
+}
+#seotoaster.editor #inspired {
+	color:#fff;
+	cursor:pointer;
+	font-size:14px;
+	font-weight:bold;
+	margin-left:10px;
+	text-decoration:none;
+}
+#seotoaster.editor #toogletinymce {
+	position:absolute;
+	left:580px;
+	top:36px;
+	width:65px;
+	color:#7C7C7C;
+	cursor:pointer;
+	font-size:8px;
+	font-weight:bold;
+	text-decoration:none;
+}
+#seotoaster.editor .textthisblog {
+    position:absolute;
+    top:8px;
+    /*width:65px;*/
+    font-size:14px;
+    font-weight:bold;
+	color:#fff;
+	right:60px;
+	
+}
+#seotoaster.editor #adminright {
+	-x-system-font:none;
+	color:#FFFFFF;
+	font-size:14px;
+	font-weight:bold;
+	left:20px;
+	line-height:normal;
+	position:absolute;
+	top:8px;
+
+}
+#seotoaster.editor #adminright input {
+	float:left;
+	margin:0px 5px 0px 0px;
+	text-align:center;
+	width:20px;
+}
+#seotoaster.editor #adminright #datepicker {
+	margin-left:7px;
+	margin-top:-5px;
+	background:#FFE45C;
+	border:1px solid white;
+	width:90px;
+	cursor:pointer;
+	padding-top: 2px;
+	height:22px;
+}
+#seotoaster.editor #adminright span {
+	float:left;
+	vertical-align:middle;
+}
+#seotoaster.editor #adminright #publish_on_date { margin-right:3px; }
+#seotoaster.editor #admintextcontent {
+	/*position:relative;*/
+	margin-left:10px;
+	width:620px;
+	height:515px;
+	padding: 5px 5px;
+	border:1px solid #999;
+	background-color:#fff;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.editor select {
+	background-color:#7ACDE9;
+	border:medium none;
+	color:#FFFFFF;
+	cursor:pointer;
+	font-size:15px;
+	font-weight:bold;
+	line-height:16px;
+	outline-color:-moz-use-text-color;
+	outline-style:none;
+	outline-width:medium;
+}
+#seotoaster.editor #adminselectimgfolder {
+	position:absolute;
+	top:63px;
+	border:1px solid #FFF;
+	left:660px;
+	width:260px;
+}
+#seotoaster.editor .formsubmit {
+	position:absolute;
+	top:545px;
+	left:695px;
+}
+#seotoaster.editor #selector {
+	position:absolute;
+	top:58px;
+	right:10px;
+	background-image:url(../images/bg-editor-pattern.png);
+	width: 280px;
+	height: 480px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.editor #selector #borderfortoolbar {
+	position:relative;
+	display:block;
+	float:left;
+	margin: 40px 10px 10px 10px;
+	width: 260px;
+	height: 430px;
+	background-color:#fff;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.editor #selector #adminthingsviewer {
+	position:relative;
+	display:block;
+	float:left;
+	margin: 4px 4px 4px 4px;
+	border:none;
+	width:250px;
+	height:417px;
+	padding-bottom: 3px;
+	border: 1px solid #CCCCCC;
+	background-color:#FFFFFF;
+}
+#seotoaster.editor #selector #adminthingsviewer input {
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+	padding:0;
+	height: auto;
+	font-size:12px;
+	line-height:16px;
+	font-weight: normal;
+}
+#seotoaster.editor #selector #adminthingsviewer .button {
+	background-color:#9EDAEE;
+	border-color:#CCCCCC;
+	border-style:solid solid none;
+	border-width:1px 1px medium;
+	color:#FFFFFF;
+	cursor:s-resize;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	height:20px;
+	line-height:20px;
+	margin:2px 4px 2px 4px;
+	text-align:left;
+	text-indent:10px;
+	width:240px;
+}
+#seotoaster.editor #selector #adminthingsviewer .button span { font-size:12px; }
+#seotoaster.editor #selector #adminthingsviewer .show_div {
+	overflow-x:hidden;
+	overflow-y:auto;
+	width: 234px;
+	height: 245px;
+	border: 1px solid #CCCCCC;
+	text-align:left;
+	margin-top: 3px;
+	margin-left: 4px;
+	background-color: #F0F0EE;
+	padding: 3px;
+	color: #000000;
+	font-weight:bold;
+}
+#seotoaster.editor #selector #adminthingsviewer .hide { display:none; }
+#seotoaster.editor #selector #adminthingsviewer #list_files p {
+	text-align:left;
+	font-size:12px;
+	font-weight: normal;
+	margin: 4px 0px 4px 0px;
+}
+#seotoaster.editor #selector #adminthingsviewer #list_files p a { color:#999; }
+#seotoaster.editor #selector #adminthingsviewer #upload_things_button { cursor: pointer; }
+#seotoaster.editor #selector #adminthingsviewer #widgets_maker .hrseparate {
+	margin:5px auto 5px auto;
+	color:#eee;
+	background-color:#fff;
+	height:4px;
+}
+#seotoaster.editor #selector #widgets_maker h3 {
+	color:#7ACDE9;
+	font-size:18px;
+	margin:2px;
+}
+#seotoaster.editor #selector #widgets_maker textarea#payment_content {
+	width: 215px;
+	border:1px solid #ccc;
+	padding: 0;
+}
+#seotoaster.editor #selector #widgets_maker input[type=text] { border:1px solid #ccc; }
+#seotoaster.editor #selector #widgets_maker select {
+	border:1px solid #ccc;
+	background-color:#fefefe;
+	text-indent:2px;
+	color:#7c7c7c;
+	font-size:12px;
+	font-weight:bold;
+	width:150px;
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+	padding: 0;
+}
+#seotoaster.editor #selector #widgets_maker span {
+	font-size:12px;
+	color:#7c7c7c;
+}
+#seotoaster.editor #selector #widgets_maker .submitform {
+	background-color:#7ACDE9;
+	font-weight:bold;
+	color:#fff;
+	border:1px solid #fff;
+	font-size:12px;
+	display:block;
+	width:70px;
+	text-align:center;
+	padding:2px;
+	margin-top:8px;
+	margin-right:4px;
+	float:right;
+	cursor:pointer;
+}
+#seotoaster.editor #selector #widgets_maker small {
+	font-size:4px;
+	font-weight:normal;
+}
+#seotoaster.editor .tabtools {
+	width: 240px;
+	position: absolute;
+	top: 37px;
+	right: 40px;
+	display: block;
+	font-size:11px;
+}
+#seotoaster.editor .tabtools span {
+	padding: 0px 10px;
+	font-weight: bold;
+	color: #7c7c7c;
+	cursor: pointer;
+}
+#seotoaster.editor .tabtools span:hover { color: #fff; }
+#seotoaster.editor .tabtools span.active { color: #fff; }
+#seotoaster.editor .tabshopping {
+	width: 272px;
+	height: 472px;
+	position: absolute;
+	top: 62px;
+	right: 14px;
+	display: none;
+	z-index: 99;
+	background-color: #fff;
+	-moz-border-radius:10px;
+}
+#seotoaster.editor .tabshopping .shoppingcategories {
+	width: 270px;
+	height: 224px;
+}
+#seotoaster.editor .tabshopping .shoppingcategories .title {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 5px 0px 2px 5px;
+	color:#7ACDE8;
+}
+#seotoaster.editor .tabshopping .shoppingcategories .data {
+	margin: 0px 3px;
+	width: 258px;
+	overflow: auto;
+	padding: 2px 3px;
+	border: 1px solid #ddd;
+	font-size:12px;
+	font-weight:bold;
+	text-transform:lowercase;
+}
+#seotoaster.editor .tabshopping .shoppingcategories .data p {
+	width: 32%;
+	float: left;
+	margin: 3px 0px 0px 0px;
+}
+#seotoaster.editor .tabshopping #shoppinggroups p { width: 49%; }
+#seotoaster.editor .tabshopping .shoppingcategories .data p input[type=checkbox] { cursor: pointer; }
+#seotoaster.editor .tabshopping .shoppingcategories span.order {
+	float: left;
+	margin: 4px 10px;
+	font-weight:bold;
+}
+#seotoaster.editor .tabshopping .shoppingcategories span.order input[type=checkbox] { cursor: pointer; }
+#seotoaster.editor .tabshopping .shoppingcategories span.apply {
+	background-color: #7ACDE9;
+	border: 1px solid #eee;
+	color: #FFFFFF;
+	cursor: pointer;
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 4px 10px;
+	margin: 3px 3px 0px 0px;
+	text-align: center;
+	width: 60px;
+}
+#seotoaster.editor .tabshopping .shoppingcategories span.apply:hover {
+	background-color: #2FFF2F;
+	color: #fff;
+}
+#seotoaster.editor .tabshopping .shoppingseparate {
+	width: 270px;
+	height: 25px;
+	background-color: #BDE6F1;
+	border: 1px solid #eee;
+}
+#seotoaster.editor .tabshopping .shoppingseparate p {
+	text-align: left;
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	margin-left: 5px;
+}
+#seotoaster.editor .tabshopping .shoppingproducts {
+	width: 270px;
+	height: 215px;
+	overflow: auto;
+}
+#seotoaster.editor .tabshopping .shoppingproducts .shoppingproduct {
+	width: 46%;
+	float: left;
+	height: 50px;
+	margin: 3px 3px;
+	border: 1px solid #eee;
+}
+#seotoaster.editor .tabshopping .shoppingproducts .shoppingproduct .block1 {
+	width:45%;
+	float:left;
+}
+#seotoaster.editor .tabshopping .shoppingproducts .shoppingproduct .block2 {
+	width:50%;
+	float:left;
+}
+#seotoaster.editor .tabshopping .shoppingproducts .shoppingproduct img {
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+}
+#seotoaster.editor .tabshopping .shoppingproducts .shoppingproduct .productname {
+	color: #7c7c7c;
+	font-size: 12px;
+}
+/*======== end edit/add content ========*/
+
+/*====== SCREEN: organize pages ========*/
+#seotoaster.adminorderpages {
+	width:800px;
+	height:98%;
+	overflow:hidden;
+	position:relative;
+}
+#seotoaster.adminorderpages ul li {
+	margin:0;
+	padding:0;
+	font-size:12px;
+}
+#seotoaster.adminorderpages h2 {
+	margin: 14px auto 3px 5px;
+	font-weight: bold;
+	font-size: 16px;
+	color: #5c5c5c;
+}
+#seotoaster.adminorderpages #admineditwhat { margin-bottom:0px; }
+#seotoaster.adminorderpages div#orderlegend {
+	width:590px;
+	color:#fff;
+	height:25px;
+	line-height:25px;
+	font-weight:bold;
+	FONT-SIZE:13px;
+	position:absolute;
+	font-style:italic;
+	top:2px;
+	left:200px;
+	text-align:center;
+}
+#seotoaster.adminorderpages div#orderlegend span {
+	border-right:2px solid #fff;
+	display:block;
+	float:left;
+	text-indent:15px;
+}
+#seotoaster.adminorderpages div#orderlegend span#ordercatname { width:30%; }
+#seotoaster.adminorderpages div#orderlegend span#orderh1 { width:30%; }
+#seotoaster.adminorderpages div#orderlegend span#orderpagekeywords { width:30%; }
+#seotoaster.adminorderpages input.formsubmit {
+	position: absolute;
+	right: 10px;
+	bottom: 15px;
+}
+#seotoaster.adminorderpages input[type=text], #seotoaster.adminorderpages input[type=button] {
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+	padding: 0px;
+	height:20px;
+}
+#seotoaster.adminorderpages input[type=button] { font-size:10px; }
+#seotoaster.adminorderpages div.adminpagelist {
+	font-size:13px;
+	line-height:20px;
+	max-height:85%;
+	background-color:#eee;
+	overflow-x: hidden;
+	width:100%;
+}
+#seotoaster.adminorderpages div.adminpagelist span {
+	margin-right:5px;
+	float:left;
+	overflow:hidden;
+	height:18px;
+}
+#seotoaster.adminorderpages div.adminpagelist div.category-item, ul.no-menu, ul.stat-pages {
+	background-color:#ddd;
+	margin-bottom:10px;
+	font-weight:bold;
+	width:100%;
+	border-bottom:1px solid #888;
+}
+#seotoaster.adminorderpages div.adminpagelist div.category-item div:hover { background-color:#8c8c8c; }
+#seotoaster.adminorderpages div.adminpagelist div.category-item div {
+	background-color:#7c7c7c;
+	width:100%;
+	height:20px;
+	color:#eee;
+	cursor:move;
+}
+#seotoaster.adminorderpages span.ordercatname, span.orderpagename, span.ordercath1, span.orderpageh1, span.orderpagekeywords { text-indent:3px; }
+#seotoaster.adminorderpages span.ordercatname, span.orderpagename { width:200px; }
+#seotoaster.adminorderpages span.ordercath1, span.orderpageh1 { width:250px; }
+#seotoaster.adminorderpages span.orderpagekeywords { width:200px;/*overflow: hidden !important;*/ }
+#seotoaster.adminorderpages div.adminpagelist div.category-item span.ordercath1:hover, span.orderpageh1:hover, span.orderpagekeywords:hover {
+	cursor:text;
+	background-color:#FFFFFF;
+	background-image:url(../images/icon_page_edit.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+}
+#seotoaster.adminorderpages div.adminpagelist div.category-item ul, .stat-pages, .no-menu {
+	min-height:20px;
+	margin-left:10px;
+	padding:0;
+	list-style:none;
+	width:100%;
+}
+#seotoaster.adminorderpages div.adminpagelist div.category-item ul li, .stat-pages li, .no-menu li {
+	display:block;
+	width:100%;
+	height:20px;
+	border-bottom:1px dashed #fff;
+	cursor:move;
+	clear:both;
+}
+#seotoaster.adminorderpages ul li:hover, .stat-pages li:hover, .no-menu li:hover { background-color:#eee; }
+#seotoaster.adminorderpages div.adminpagelist div.category-item ul li span.orderpagehand, span.ordercathand, .stat-pages li span.orderpagehand, .no-menu li span.orderpagehand {
+	margin-left:5px;
+	margin-right:5px;
+	width:20px;
+	cursor:move;
+}
+#seotoaster.adminorderpages div.adminpagelist div.category-item ul li span.orderpagehand, span.ordercathand img, .stat-pages li span.orderpagehand, span.ordercathand img {
+	margin-top:3px;
+	margin-bottom:auto;
+}
+#seotoaster.adminorderpages .hide { display: none !important; }
+#seotoaster.adminorderpages .show { display: block !important; }
+.border_red {
+	border: 1px dashed red;
+	padding:4px;
+	width:auto;
+}
+/*========== end organize pages ==========*/
+
+/*======= SCREEN: edit robots.txt ========*/
+#seotoaster.admineditrobots {
+	width:590px;
+	height:460px;
+}
+#seotoaster.admineditrobots form textarea.robotscode {
+	display: block;
+	margin-left: 35px;
+}
+#seotoaster.admineditrobots form input.formsubmit[type=submit] {
+	position: absolute;
+	right: 40px;
+	top:410px;
+}
+/*========== end edit robots.txt =========*/
+
+/*=========== SCREEN: listvars ===========*/
+#seotoaster.listvars {
+	width:590px;
+	height:600px;
+}
+#seotoaster.listvars div.content {
+	margin:0px 10px 10px 15px;
+	padding:5px 5px;
+}
+/*============== end listvars ============*/
+
+/*============= SCREEN: theme ============*/
+#seotoaster.theme {
+	width: 600px;
+	height: 670px;
+}
+#seotoaster.theme div#uploadtheme {
+	width:550px;
+	height:65px;
+	margin-left: 20px;
+}
+#seotoaster.theme .swfupload {
+	position: relative;
+	top:0;
+	left:0;
+	display: block;
+}
+#seotoaster.theme div#process {
+	text-align:center;
+	width:300px;
+	height:60px;
+	overflow:auto;
+	position:absolute;
+	top:50px;
+	right:40px;
+}
+#seotoaster.theme div.list_themes {
+	border: 2px solid #fff;
+	margin: 5px 10px;
+	width: 570px;
+	height: 450px;
+	overflow: auto;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	padding: 5px 5px;
+}
+#seotoaster.theme div.one_theme {
+	position: relative;
+	height:220px;
+	width: 165px;
+	display: block;
+	float: left;
+	border:1px solid #7c7c7c;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	margin: 3px 3px;
+	padding: 5px 5px;
+}
+#seotoaster.theme div.one_theme p { color:#7C7C7C; }
+#seotoaster.theme div.one_theme a { color:#7C7C7C; }
+#seotoaster.theme div.one_theme input[type=radio] {
+	height: auto;
+	margin: 5px 5px 0px 0px;
+}
+#seotoaster.theme input.formsubmit {
+	float: right;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+/*=============== end theme ==============*/
+
+/*========= SCREEN: removethings =========*/
+#seotoaster.removethings {
+	width: 600px;
+	height: 600px;
+}
+#seotoaster.removethings #admindeleteimgheader {
+	background-color:#8393A5;
+	border-bottom:1px solid #FFFFFF;
+	border-top:1px solid #FFFFFF;
+	color:white;
+	font-family:'Trebuchet MS';
+	font-size:24px;
+	font-weight:bold;
+	text-indent:25px;
+	width:100%;
+	padding-bottom: 3px;
+}
+#seotoaster.removethings #admindeleteimgheader select {
+	color:#7C7C7C;
+	font-size:16px;
+	font-weight:bold;
+	margin: 0px 0px 0px 40px;
+	padding:1px;
+	position:relative;
+	width:200px;
+	z-index:101;
+}
+#seotoaster.removethings #removethings_images {
+	background-color:#FFFFFF;
+	border:10px solid #7ACDE8;
+	color:#000;
+	display:block;
+	font-weight:bold;
+	height:221px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	padding:8px;
+	margin: 3px 6px;
+	text-align:left;
+	width:550px !important;
+}
+#seotoaster.removethings #removethings_one_image {
+	background:#eee;
+	border:1px solid #EEEEEE;
+	float:left;
+	height:70px;
+	margin:0 2px 4px;
+	overflow:hidden;
+	position:relative;
+	vertical-align:top;
+	width:70px;
+}
+#seotoaster.removethings #removethings_one_image img {
+	max-height: 80px;
+	margin-top:2px;
+	vertical-align:top;
+}
+#seotoaster.removethings #removethings_one_image input {
+	clear:both;
+	position:absolute;
+	bottom:0px;
+	right:0px;
+}
+#seotoaster.removethings #admindeletefileheader {
+	font-family:'Trebuchet MS';
+	font-size:24px;
+	text-indent:25px;
+	color:white;
+	font-weight:bold;
+	width:100%;
+	background-color:#8393A5;
+	border-top:1px solid #fff;
+	border-bottom:1px solid #fff;
+}
+#seotoaster.removethings #removethings_files {
+	background-color:#F0F0EE;
+	border:3px solid #7ACDE8;
+	color:#000;
+	margin: 3px 13px;
+	display:block;
+	font-weight:bold;
+	height:140px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	padding:8px;
+	text-align:left;
+	width:550px;
+}
+#seotoaster.removethings #removethings_files p {
+	border-bottom:1px dashed #FFFFFF;
+	color:#7C7C7C;
+	font-size:12px;
+	line-height:26px;
+	margin-bottom:0;
+	margin-top:1px;
+	text-align:left;
+}
+#seotoaster.removethings .formsubmit {
+	float: right;
+	margin: 5px 15px 0px 0px;
+}
+#seotoaster.removethings div.success { opacity:0.9; }
+#seotoaster.removethings .checkAllRemove { font-size:10; }
+/*===========  end removethings ==========*/
+
+/*========= SCREEN: uploadthings =========*/
+#seotoaster.uploadthings {
+	background-image:url(../images/bg-upload-things-min.png);
+	width:590px;
+	height:590px;
+}
+#seotoaster.uploadthings select#adminuploadselectfolder {
+	position: absolute;
+	top: 210px;
+	left:30px;
+	width: 230px;
+	z-index: 101;
+	color: #7c7c7c;
+}
+#seotoaster.uploadthings div.or {
+	position: absolute;
+	top: 210;
+	left: 280px;
+	font-size: 24px;
+	font-weight: bold;
+	;
+	color: #fff;
+	width: 50px;
+	height: 25px;
+	padding: 0;
+}
+#seotoaster.uploadthings #adminuploadcreatefolder {
+	position: absolute;
+	top: 210;
+	right: 40px;
+	font-size: 14px;
+	width: 200px
+}
+/*=========== end uploadthings ==========*/
+
+/*=============== login form ===============*/
+#seotoaster.screencenter {
+	position: absolute;
+	overflow: auto;
+	width: 308px;
+	height: 268px;
+	left: 50%;
+	top: 50%;
+	margin-left: -154px;
+	margin-top: -134px;
+}
+#seotoaster.screencenter span a {
+	/*position:absolute;
+	left:570px;
+	top:33px;*/
+	height:15px;
+	width:65px;
+	color:#7C7C7C;
+	cursor:pointer;
+	font-size:14px;
+	font-weight:bold;
+	margin-left:100px;
+	text-decoration:none;
+}
+#seotoaster.screencenter #loginbox p {
+	height: 40px;
+	position:relative;
+	line-height:25px;
+	display:block;
+	width:90%;
+	margin:8px auto 5px auto;
+}
+#seotoaster.screencenter #loginbox p input {
+	width: 160px;
+	height: 25px;
+	font-size: 15px;
+	position: absolute;
+	right:12px;
+	padding: 3px 0px 0px 2px;
+}
+#seotoaster.screencenter .formsubmit {
+	position: absolute;
+	top:225px;
+	right: 45px;
+	width: 180px;
+}
+.forgotpassword {
+	font-family:arial;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	background-color:#BDE6F1;
+	color: #5C5C5C;
+	/*border:1px solid black;*/
+    display:none;
+	line-height:25px;
+	padding:20px;
+	font-weight:bold;
+	font-size:15px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	/*height:85px;*/
+	height:175px;
+	width:268px;
+	margin-top:-85px;
+	margin-left:-153px;
+}
+.forgotpassword input {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border:1px solid #7C7C7C;
+	font-weight:bold;
+	font-size:15px;
+	height:25px;
+	padding:3px 0 0 2px;
+	width:265px;/*margin-left:15px;*/
+}
+.forgotpassword p button {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	background-color:#7C7C7C;
+	border:2px solid #FFFFFF;
+	color:#EEEEEE;
+	cursor:pointer;
+	font-size:18px;
+	font-weight:bold;
+	padding:0;
+	text-transform:uppercase;
+	width:180px;
+	position:absolute;
+	bottom:100px;
+	right:20px;
+}
+#seotoaster.uploadthings p {
+	position: absolute;
+	z-index:100px;
+	color:white;
+	font-weight:bold;
+	font-size:12px;
+}
+#seotoaster.uploadthings p#pandvtext {
+	font-size:26px;
+	top: 55px;
+	left:25px;
+}
+#seotoaster.uploadthings p#formatingtext {
+	font-size:11;
+	top: 65px;
+	left:325px;
+}
+#seotoaster.uploadthings p#instructionimagestext, #seotoaster.uploadthings p#instructionvideotext {
+	color:#8393a5;
+	font-size:13;
+	top: 110px;
+	left:30px;
+	width:270px;
+}
+#seotoaster.uploadthings p#pandvtext {
+	font-size:26px;
+	top: 55px;
+	left:25px;
+}
+#seotoaster.uploadthings p#instructionvideotext { top: 410px; }
+#seotoaster.uploadthings p#uploadfilestext {
+	font-size:26px;
+	top: 363px;
+	left:25px;
+}
+#seotoaster.uploadthings p#filestext {
+	top: 365px;
+	left:383px;
+}
+#seotoaster.uploadthings p#pricetext {
+	color:#8393a5;
+	font-size:13px;
+	width:230px;
+	top: 412px;
+	left:326px;
+}
+/*============= end login form =============*/
+
+/*============= gallery block ===========*/
+ul.img_gallery li { position:relative; }
+ul.img_gallery a.img_gallery_delete img {
+	border:0;
+	position:absolute;
+	top:5px;
+	left:5px;
+	z-index:2;
+	font-weight:bold;
+	background-color:#fff;
+}
+div.img_gallery_upload {
+	margin:0;
+	font-size:14px;
+	display:block;
+	width:150px;
+	text-align:center;
+	line-height:20px;
+	background-color:#9bcee8;
+	padding:2px;
+	border:1px solid #fff;
+	float: right;
+}
+div.img_gallery_upload a {
+	text-decoration:none;
+	width:100%;
+	color:#7c7c7c;
+	font-weight:bold;
+}
+div.img_gallery_upload a:hover { color:#9c9c9c; }
+/*=========== end gallery block ==========*/
+
+/*============ comments block ============*/
+.comments-block .comment-item-red { border:red dashed 1px; }
+.comments-block input { margin-bottom:10px; }
+.comments-block textarea { float:left; }
+.comments-block .comment-error-block {
+	color:#b00830;
+	border:1px solid #b00830;
+	padding:6px 5px;
+}
+.comments-block .comment-error-block div { line-height:17px; }
+.comments-block .show-hide-comments-link { color:#6f6f6f; }
+.comments-block .user-name {
+	font:bold italic 10px Verdana, 'Lucida Grande', Arial, Sans-Serif;
+	color:black;
+	text-decoration:underline;
+}
+.comments-block .comment-item {
+	line-height:17px;
+	color:black;
+	font-weight:normal;
+}
+.comments-block .comment-item-red {
+	line-height:17px;
+	color:black;
+	font-weight:normal;
+}
+.comments-block .comment-item p { margin:7px 0px; }
+.comments-block .delete-comments-link {
+	position:absolute;
+	right:5px;
+	top:-2px;
+}
+.comments-block .delete-comments-link img {
+	width:16px !important;
+	border:none !important;
+}
+.comments-block .publish-comments-link {
+	position:absolute;
+	right:30px;
+	top:-2px;
+}
+.comments-block .publish-comments-link img {
+	width:16px !important;
+	border:none !important;
+}
+.comments-block .commentdata a {
+	color:#6F6F6F;
+	text-decoration:none;
+	font-weight:normal;
+}
+.comments-div-list ol { list-style-type:none; }
+.comments-div-list ol li {
+	position:relative;
+	border:1px solid #DDD;
+	margin-bottom:10px;
+	padding:5px;
+}
+#avatar-comment {
+	position:absolute;
+	right:5px;
+	top:5px;
+}
+.comments-block .error-item { display:none; }
+.comments-block .comment-form { padding-bottom:60px; }
+.comment-form label {
+	font-size:11px;
+	font-weight:normal;
+}
+.comment-form input[type='submit'] { margin:15px 0; }
+/*=========== end comments block ===========*/
+
+/*============= service Picasa =============*/
+#seotoaster.picasaService {
+	width:600px;
+	height:500px;
+}
+#seotoaster.picasaService div.albums {
+	width:580px;
+	height:410px;
+	margin-left:10px;
+	overflow-y:auto;
+	text-align:center;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.picasaService div.albums div.album {
+	position:relative;
+	width:170px;
+	height:200px;
+	border:1px solid #fff;
+	float:left;
+	padding-top:10px;
+	margin:5px 5px;
+	text-align:center;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.picasaService div.albums div.album img {
+	width:150px;
+	max-height:150px;
+	border:1px solid #ccc;
+}
+#seotoaster.picasaService div.albums div.album p.name {
+	margin-top:3px;
+	background-color:#8FD5EB;
+	color:#fff;
+	text-align:center;
+	font-size:14px;
+	font-weight:bold;
+	padding:1px 0px;
+}
+#seotoaster.picasaService div.albums div.album input.formsubmit {
+	width:160px;
+	height:20px;
+	font-size:12px;
+	padding-bottom:7px;
+	border:1px solid #fff;
+	margin:2px 3px 0px 0px;
+}
+#seotoaster.picasaService div.backtoalbums {
+	position:absolute;
+	top:50px;
+	left:25px;
+	width:16px;
+	height:16px;
+	cursor:pointer;
+	background-image:url(../images/arrowLeft.gif);
+}
+#seotoaster.picasaService div.toolbar {
+	padding:0;
+	margin-left:60px;
+	width:380px;
+	height:30px;
+	font-size:12px;
+	font-weight:bold;
+	text-align: left;
+}
+#seotoaster.picasaService div.toolbar select { width:130px; }
+#seotoaster.picasaService div.toolbar input { width:140px; }
+#seotoaster.picasaService div#proccessdownload {
+	position:absolute;
+	display:block;
+	top:50px;
+	right:10px;
+	padding:0;
+	width:110px;
+	height:20px;
+	border:1px solid #c7c7c7;
+	background-color: #FFFFCC;
+	color:#999;
+	font-size:12px;
+	font-weight:bold;
+	text-align:center;
+	padding-top:5px;
+	filter:alpha(opacity=0);
+	-moz-opacity: 0;
+	opacity: 0;
+}
+#seotoaster.picasaService div.albums div.photo {
+	position:relative;
+	width:100px;
+	height:130px;
+	border:1px solid #fff;
+	float:left;
+	padding-top:5px;
+	margin:5px 5px;
+	text-align:center;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#seotoaster.picasaService div.albums div.photo div.image {
+	height:100px;
+	margin-bottom:3px;
+}
+#seotoaster.picasaService div.albums div.photo img {
+	width:90px;
+	max-height:100px;
+	border:1px solid #ccc;
+}
+#seotoaster.picasaService div.albums div.photo input.formsubmit {
+	width:90px;
+	height:20px;
+	font-size:12px;
+	padding-bottom:7px;
+	border:1px solid #fff;
+	margin:2px 3px 0px 0px;
+	visibility:visible;
+}
+/*=========== end service Picasa ===========*/
+
+/*==================Importer=====================*/
+#seotoaster.importer {
+	width:600px;
+	height:100px;
+}
+#seotoaster.importer input[type=text] {
+	position:absolute;
+	left:10px;
+	width: 350px;
+}
+#seotoaster.importer input[type=submit] {
+	position:absolute;
+	right:10px;
+}
+/*==================draft list======================*/
+#seotoaster.draftlist {
+	width:500px;
+	height:500px;
+}
+#seotoaster.draftlist #draftwrap { text-align: center; }
+#seotoaster.draftlist #draftlist {
+	width: 470px;
+	height: 430px;
+	margin: 0px auto;
+	overflow-y: scroll;
+}
+#seotoaster.draftlist #draftlist p {
+	border-bottom: 1px dashed #fff;
+	font-size: 20px;
+	text-align: left;
+	padding: 10px 0px;
+	overflow: hidden;
+}
+#seotoaster.draftlist #draftlist p a { color: #6C6C6C; }
+#seotoaster.draftlist #draftlist p a:hover { text-decoration: none; }
+.reminder {
+	color: #5C5C5C;
+	-moz-border-radius:8px 8px 8px 8px;
+	background-color:#FFFFCC;
+	border:1px solid #DDDDDD;
+	display:block;
+	line-height:25px;
+	margin-left:170px;
+	padding:20px;
+	width:330px;
+	font-size:10px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-125px;
+}
+.reminder img {
+	vertical-align:middle;
+	margin-right:5px;
+}
+.reminder h3 {
+	font-size: 14px;
+	margin-left:125px;
+	margin-top: 5px;
+	color: #5c5c5c;
+	line-height:10px;
+}
+.reminder h3 {
+	font-size: 14px;
+	margin-left:125px;
+	margin-top: 5px;
+	color: #5c5c5c;
+	line-height:10px;
+}
+
+div#ie_warning {
+    background: #e99;
+    padding: 40px 20px;
+    text-align: center;
+    color: #fff;
+    font-size: 1.7em;
+}
+
+#organazeActions {
+	position:absolute;
+	width:150px;
+	bottom:15px;
+	left:10px;
+	font-size:10px;
+}
+/*============ Start: imgrotator ============*/
+/*.imgrotator{
+float:left;
+margin-right:10px;
+}*/
+/*============ End: imgrotator============*/
+
+/*======= start: order featured area pages ===========*/
+#seotoaster.orderfa {
+	width: 600px;
+	height: 600px;
+}
+#seotoaster.orderfa div#uploadtheme {
+	width:550px;
+	height:65px;
+	margin-left: 20px;
+}
+#seotoaster.orderfa .swfupload {
+	position: relative;
+	top:0;
+	left:0;
+	display: block;
+}
+#seotoaster.orderfa div#process {
+	text-align:center;
+	width:300px;
+	height:60px;
+	overflow:auto;
+	position:absolute;
+	top:50px;
+	right:40px;
+}
+#seotoaster.orderfa div.list_themes {
+	border: 2px solid #fff;
+	margin: 5px 10px;
+	width: 570px;
+	height: 450px;
+	overflow: auto;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	padding: 5px 5px;
+}
+#seotoaster.orderfa div.one_theme {
+	position: relative;
+	height:220px;
+	width: 165px;
+	display: block;
+	float: left;
+	border:1px solid #7c7c7c;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	margin: 3px 3px;
+	padding: 5px 5px;
+}
+#seotoaster.orderfa div.one_theme p { color:#7C7C7C; }
+#seotoaster.orderfa div.one_theme a { color:#7C7C7C; }
+#seotoaster.orderfa div.one_theme input[type=radio] {
+	height: auto;
+	margin: 5px 5px 0px 0px;
+}
+#seotoaster.orderfa input.formsubmit {
+	float: right;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+/*======= end: order featured area pages ===========*/
+
+
+/*================= shopping config ============*/
+#seotoaster.shoppingconfig {
+	width: 840px;
+	height: 510px;
+}
+#seotoaster.shoppingconfig div#list_images {
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	width: 784px;
+	height: 420px;
+	padding: 20px;
+	background-color: #fefefe;
+	border: 8px solid #999;
+	border-bottom:12px solid #999;
+	display: none;
+	z-index: 4;
+	overflow:auto;
+	-moz-border-radius:0px 0px 15px 15px;
+	-webkit-border-radius:0px 0px 15px 15px;
+}
+#seotoaster.shoppingconfig div#list_images img {
+	width:100px;
+	padding:4px;
+}
+#seotoaster.shoppingconfig .block1, #seotoaster.shoppingconfig .block2 {
+	width: 48%;
+	padding: 0 1%;
+	display: block;
+	float: left;
+}
+#seotoaster.shoppingconfig fieldset, #seotoaster.product fieldset {
+	padding:4px;
+	border:1px solid #ccc;
+	margin:3px 0px 5px 0;
+	position:relative;
+	background-color:#efefef;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#seotoaster.shoppingconfig legend, #seotoaster.product legend {
+	color: #fff;
+	font-size:14px;
+	font-weight:bold;
+	background-color:#8393A0;
+	border:1px solid #eee;
+	padding:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+    height: 14px;
+	background-image:-moz-linear-gradient(0% 100% 90deg, #b8b8b8, #8393A0);
+	background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#8393A0), to(#b8b8b8));  
+}
+#seotoaster.shoppingconfig fieldset fieldset legend{
+	font-size:14px;
+	font-weight:bold;
+	background-color:#eee;
+	border:1px solid #ccc;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+
+}
+#seotoaster.shoppingconfig fieldset fieldset legend input[type=radio]{
+    vertical-align: middle;
+    height: 14px;
+}
+#seotoaster.shoppingconfig .block1 fieldset p,
+#seotoaster.shoppingconfig .block2 fieldset p {
+	display:block;
+	overflow:hidden;
+	padding:3px 0px;
+}
+#seotoaster.shoppingconfig .block1 fieldset p input[type=text],
+#seotoaster.shoppingconfig .block1 fieldset p select,
+#seotoaster.shoppingconfig .block2 input[type=text],
+#seotoaster.shoppingconfig .block2 select {
+	width: 260px;
+	padding: 2px 3px;
+	float: right;
+	height:auto;
+}
+
+#seotoaster.shoppingconfig #settingsforpaypal { display: none; }
+#seotoaster.shoppingconfig .block1 p input[type=file] {
+	background-color:#fff;
+	padding:6px;
+	width:80%;
+	margin:0px auto;
+}
+#seotoaster.shoppingconfig textarea#shipping-general-notice {
+	color:#7c7c7c;
+	width:100%;
+	height:100px;
+	background-color:#fefefe;
+	color:#9c9c9c;
+	font-size:12px;
+	font-family:"Arial";
+	padding:5px;
+	margin-top:5px;
+}
+#seotoaster.shoppingconfig input[type=submit] {
+	position:absolute;
+	bottom:10px;
+	right:10px;
+}
+#seotoaster.shoppingconfig fieldset #info {
+	position: absolute;
+	display:block;
+	top: 16px;
+	width: 95%;
+	height:90px;
+	padding:10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background-color:#dFFFdF;
+	font-weight:bold;
+	display: none;
+	cursor: pointer;
+}
+#seotoaster.shoppingconfig fieldset div.fieldset-content {display:none;}
+#seotoaster.shoppingconfig fieldset div.active {display:block;}
+#seotoaster.shoppingconfig fieldset fieldset div div{
+        display:block;
+        float:left;
+        text-align: center;
+}
+#seotoaster.shoppingconfig input.incolumn{
+    width: 60px;
+    height: 24px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+    text-align: right;
+    padding: 2px;
+}
+#seotoaster.shoppingconfig #info div {
+	width: 50%;
+	float: left;
+}
+#seotoaster.shoppingconfig .block1 #company_logo{
+
+	
+}
+#seotoaster.shoppingconfig .block1 img.logo {
+	margin-top: 10px;
+	max-height:60px;
+    border: 0;
+	clear:both;	
+}
+#seotoaster.shoppingconfig #warning {
+    display: none;
+}
+#seotoaster.shoppingconfig #warning p {
+    color:red;
+    font-weight: bold;
+    text-align: justify;
+}
+#seotoaster .er {
+    border: 2px solid red;
+    background-color: coral;
+}
+/*================ end shopping config ============*/
+/*============ shopping tax rates config ==========*/
+#seotoaster.taxratesconfig {
+	width: 840px;
+	height: 350px;
+}
+#seotoaster.taxratesconfig #subzone-list {
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+background-color:white;
+border:15px solid #9C9C9C;
+display:none;
+height:290px;
+left:100px;
+overflow-y:scroll;
+overflow-x:hidden;
+padding:10px 10px 50px;
+position:absolute;
+top:30px;
+width:600px;
+z-index:99;
+}
+#seotoaster.taxratesconfig #subzone-list p {
+    display: block;
+    float: left;
+    font-size: 16px;
+    margin: 5px;
+    width: 182px;
+	font-weight:bolder;
+	white-space:nowrap;
+	overflow:hidden;
+}
+#seotoaster.taxratesconfig #subzone-list p input{
+margin-right:4px;
+}
+#seotoaster.taxratesconfig #taxes {
+    height: 220px;
+    width: 100%;
+    overflow-y: scroll;
+}
+#seotoaster.taxratesconfig input[type="submit"] {
+  position:absolute;
+  right:10px;
+/* bottom:10px;*/
+}
+#seotoaster.taxratesconfig input,
+#seotoaster.taxratesconfig label,
+#seotoaster.taxratesconfig select {vertical-align: middle;}
+#seotoaster.taxratesconfig select {width: 160px;}
+#seotoaster.taxratesconfig input[type=text] {
+     width: 80px;
+     margin: 0px 2px 0px 10px;
+}
+#seotoaster.taxratesconfig fieldset {
+    clear: both;
+    padding:4px;
+	border:1px solid #ccc;
+	margin: 5px 1%;
+    position:relative;
+	background-color:#eee;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#seotoaster.taxratesconfig fieldset .subzone {
+    width: 200px;
+    margin: 0px 2px 0px 30px;
+}
+#seotoaster.taxratesconfig fieldset label {
+    margin: 0px 2px 0px 2px;
+}
+
+#seotoaster.taxratesconfig input[type=text].er {
+    border-color: red;
+    background-color: tomato;
+}
+/*=============== end tax rates config ============*/
+/*========== shopping templates config ============*/
+
+#seotoaster.templatesconfig {
+    width: 800px;
+	height: 550px;
+}
+#seotoaster.templatesconfig .block1, #seotoaster.templatesconfig .block2 {
+	width: 48%;
+	padding: 0 1%;
+	display: block;
+	float: left;
+}
+#seotoaster.templatesconfig fieldset {
+	padding:6px;
+	border:1px solid #ccc;
+	margin:0px 0px 10px 0;
+	position:relative;
+	background-color:#eee;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#seotoaster.templatesconfig legend {
+	color: #fff;
+	font-size:14px;
+	font-weight:bold;
+	background-color:#8393A0;
+	border:1px solid #eee;
+	padding:5px;
+        margin-left: 10px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#seotoaster.templatesconfig .block1 fieldset .info, #seotoaster.templatesconfig .block2 fieldset .info {
+	position: absolute;
+        bottom: 0px;
+        padding:10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background-color:#dFFFdF;
+	font-weight:bold;
+	display: none;
+	cursor: pointer;
+}
+#seotoaster.templatesconfig .info div{
+        width: 50%;
+	float: left;
+}
+#seotoaster.templatesconfig .block1 fieldset span:hover, #seotoaster.templatesconfig .block2 fieldset span:hover {
+        text-decoration: underline;
+}
+#seotoaster.templatesconfig .block1 textarea {
+	color:#7c7c7c;
+	width:100%;
+	height:150px;
+	background-color:#fefefe;
+	color:#9c9c9c;
+	font-size:11px;
+	font-family:"Courier New";
+	padding:8px;
+	margin-top:5px;
+        resize: none;
+}
+#seotoaster.templatesconfig .block2 textarea {
+	color:#7c7c7c;
+	width:100%;
+	height:115px;
+	background-color:#fefefe;
+	color:#9c9c9c;
+	font-size:11px;
+	font-family:"Courier New";
+	padding:8px;
+        resize: none;
+}
+#seotoaster.templatesconfig input[type=submit] {
+	position:absolute;
+	bottom:10px;
+	right:10px;
+}
+/*======= end shopping templates config ===========*/
+
+/*=============== shopping product ==============*/
+#seotoaster.product {
+	width:840px;
+	height:520px;
+}
+#seotoaster.product .header {
+	position:relative;
+	top:-20px;
+	display:block;
+	background-color:#999;
+	padding:0px 0px 0px 10px;
+	color:#FFF;
+	overflow:hidden;
+}
+#seotoaster.product .header span, #seotoaster.product .header select {
+	padding:5px 20px;
+	cursor:pointer;
+	float:left;
+	font-size:16px;
+	font-weight:bold;
+}
+#seotoaster.product .header span:active { color:#ddd; }
+#seotoaster.product .header span:hover, #seotoaster.product .header select:hover {
+	background-color:#eee;
+	color:#7c7c7c;
+}
+#seotoaster.product .header select {
+	font-size:15px;
+	border: none;
+	background-color:#999;
+	color:#FFF;
+	outline:none;
+	margin:0;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+}
+#seotoaster.product .header select option {
+	padding:0px 6px;
+	background-color:#fff;
+	color:#9c9c9c;
+}
+#seotoaster.product div#viewpage {
+	left:285px;
+	position:absolute;
+	top:22px;
+	z-index:1;
+}
+#seotoaster.product div#viewpage a {
+	text-decoration: none;
+	color: #fff;
+	font-weight: bold;
+	padding:4px 8px;
+	background-color:#aFd00F;
+	width: 150px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#seotoaster.product div#viewpage a:hover { text-decoration: underline; }
+#seotoaster.product div#list_images {
+	position: absolute;
+	top: 60px;
+	left: 0px;
+	width: 784px;
+	height: 401px;
+	padding: 20px;
+	background-color: #fefefe;
+	border: 8px solid #999;
+	border-bottom:12px solid #999;
+	display: none;
+	z-index: 4;
+	overflow:auto;
+	-moz-border-radius:0px 0px 15px 15px;
+	-webkit-border-radius:0px 0px 15px 15px;
+}
+#seotoaster.product div#list_images img {
+	width:100px;
+	padding:4px;
+}
+#seotoaster.product .body {
+	position: relative;
+	margin-top:-10px;
+}
+#seotoaster.product .body .block1, #seotoaster.product .body .block2 {
+	display: block;
+	width: 48%;
+	padding:0% 1%;
+	float: left;
+}
+#seotoaster.product ul#prodlist li.shoproductlisting {
+	/*border:1px solid #EEE;*/
+	displau:block;
+	float:left;
+	width:100px;
+	height:100px;
+	overflow:hidden;
+	margin:7px;
+	padding:5px;
+	position:relative;
+	text-align:center;
+	-moz-box-shadow: 0 0 1em #ccc;
+	-webkit-box-shadow: 0 0 1em #ccc;
+	box-shadow: 0 0 1em #ccc;
+}
+#seotoaster.product ul#prodlist li.shoproductlisting span {
+	width:100%;
+	height:25px;
+	padding:2px 0px;
+	/*opacity:0.9;*/
+	background-color:#fff;
+	color:#8393A0;
+	position:absolute;
+	left:0;
+	bottom:0px;
+	font-size:11px;
+	letter-spacing:1px;
+	border-top:1px solid #eee;
+	font-family:tahoma;
+	font-weight:bold;
+	-moz-border-radius: 0px 0px 5px 5px;
+	-webkit-border-radius: 0px 0px 5px 5px;
+}
+#seotoaster.product ul#prodlist li.shoproductlisting span.shoproductlistingid {
+	height:12px;
+	padding:2px;
+	font-size:10px;
+	color:#7c7c7c;
+	-moz-box-shadow: 0.2em 0.2em 1em -0.2em #444;
+	-webkit-box-shadow: 0em 0.2em 1.4em -0.2em #444;
+	box-shadow: 0.2em 0.2em 1em -0.2em #444;
+	top:2px;
+	position:absolute;
+	opacity:0.9;
+}
+#seotoaster.product ul#prodlist li.shoproductlisting a { text-decoration:none; }
+#seotoaster.product ul#prodlist li.shoproductlisting img {
+	max-width:100px;
+	border:none;
+}
+#seotoaster.product .body .block1 select#image_folders {
+	padding: 4px 4px;
+	width: 150px;
+	font-size: 12px;
+	color: #7c7c7c;
+	border:none;
+}
+#seotoaster.product .body .block1 div#showimage {
+	width: 140px;
+	height: 130px;
+	display: block;
+	/* border: 1px solid #999;*/
+    overflow: hidden;
+	margin-top: 4px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	padding: 3px;
+	background-color: #FFF;
+}
+#seotoaster.product .body .block1 div#showimage img {
+	max-width:140px;
+	max-height:130px;
+	border:0;
+}
+#seotoaster.product .body .block1 div#showimage p {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 40% 0;
+}
+#seotoaster.product .body .block1 form#add_product input[type=text] {
+	width: 230px;
+	height: auto;
+	padding: 2px 2px;
+	color: #7C7C7C;
+	-moz-border-radius: 4px;
+	-wbkit-border-radius: 4px;
+}
+#seotoaster.product .body .block1 div {
+	margin-top: 3px;
+	font-weight: bold;
+}
+#seotoaster.product .body .block1 textarea {
+	color:#7c7c7c;
+	width:100%;
+	height:60px;
+	margin-bottom:6px;
+}
+#seotoaster.product .body .block1 div#product_options {
+/*	margin-top:10px;*/
+	min-height:80px;
+}
+#seotoaster.product .body .block1 div#product_options input[type=text] {
+	width: 145px;
+	color: #7c7c7c;
+}
+#seotoaster.product .body .block1 div#product_options img { cursor: pointer; }
+#seotoaster.product .body .block2 p.title {
+	font-size:14px;
+	font-weight:bold;
+}
+#seotoaster.product .body .block2 form input[type=text] {
+	height: 25px;
+	-moz-border-radius: 0;
+	width: 150px;
+	color: #7c7c7c;
+	padding: 4px 3px;
+}
+#seotoaster.product .body .block2 form input[type=button] {
+	background-color: #999;
+	border: 2px solid #FFFFFF;
+	color: #fff;
+	cursor:pointer;
+	font-size:16px;
+	padding:0;
+	margin-left: 5px;
+	text-transform: lowercase;
+	width:60px;
+}
+#seotoaster.product .body .block2 form input[type=button]:hover {
+	color: #FFFFFF;
+	background-color: #8FD5EB;
+}
+#seotoaster.product .body ul.listautocomplete {
+	position: absolute;
+	background-color: #fff;
+	list-style: none;
+	border: 1px solid #9c9c9c;
+	width: 362px;
+	height: 285px;
+	display: none;
+	z-index: 2;
+	padding:4px;
+	overflow: auto;
+	font-size: 14px;
+}
+#seotoaster.product .body ul.brandsautocomplete {
+	position: absolute;
+	z-index: 2;
+	height:150px;
+	width:198px;
+}
+#seotoaster.product .body ul.brandsautocomplete li { padding:5px; }
+#seotoaster.product .body ul.listautocomplete li { cursor: pointer; }
+#seotoaster.product .body ul.listautocomplete li:hover {
+	background-color: #8FD5EB;
+	color: #fff;
+}
+#seotoaster.product .body ul.listautocomplete li span { font-weight:bold; }
+#seotoaster.product .body .block2 div.hooked_prods {
+	position: relative;
+	top: 3px;
+	left: 0px;
+	border: 1px solid #eee;
+	backgrounds-color: #fff;
+	width: 100%;
+	height: 120px;
+	overflow: hidden;
+}
+#seotoaster.product .body .block2 div.hooked_prods p {
+	width: 30%;
+	position: relative;
+	display: block;
+	float: left;
+	height: 110px;
+	margin-left:4px;
+	text-align: center;
+	-moz-border-radius: 5px 5px;
+	-webkit-border-radius: 5px 5px;
+	background-color:#fff;
+	padding:2px;
+	border:1px solid #ccc;
+	overflow:hidden;
+}
+#seotoaster.product .body .block2 div.hooked_prods p span {
+	width:100%;
+	min-height:30px;
+	padding:2px 0px;
+	opacity:0.9;
+	background-color:#eee;
+	color:#444;
+	position:absolute;
+	left:0;
+	bottom:0px;
+	font-size:12px;
+	-moz-border-radius: 0px 0px 5px 5px;
+	-webkit-border-radius: 0px 0px 5px 5px;
+	border-top:1px solid #888;
+	font-family:tahoma;
+	font-weight:bold;
+}
+#seotoaster.product .body .block2 div#groups {
+	margin-top: 5px;
+	border: 1px solid #eee;
+	background-color: #fff;
+	height: 95px;
+	width: 378px;
+	padding:5px;
+	overflow: auto;
+}
+#seotoaster.product .body .block2 div#groups p {
+	display: block;
+	padding:4px 6px;
+	width:30%;
+	float: left;
+}
+#seotoaster.product .body .block2 div#groups p img {
+	cursor: pointer;
+	width:10px;
+}
+#seotoaster.product input[type=button].formsubmit {
+	position:absolute;
+	bottom:10px;
+	right:10px;
+}
+#seotoaster.product .body .block2 ul#tab-holder-for-hooked {
+    list-style: none outside none;
+    height: 24px;
+    overflow: hidden;
+    text-align: justify;
+}
+#seotoaster.product .body .block2 ul#tab-holder-for-hooked li {
+    position: relative;
+    display: inline-block;
+    width: 49%;
+    text-align: center;
+    padding-top: 2px;
+    cursor: pointer;
+    height: 100%;
+    border:1px solid #CCCCCC;
+    border-bottom:none;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    background-color: #999999;
+}
+#seotoaster.product .body .block2 ul#tab-holder-for-hooked li a {
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    text-decoration:none;
+}
+#seotoaster.product .body .block2 ul#tab-holder-for-hooked li.active{background-color:#ececec;}
+#seotoaster.product .body .block2 ul#tab-holder-for-hooked li.active a {color:#7c7c7c}
+#seotoaster.product .body .block2 .tabs {
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    margin-top:0;
+    display:none;
+    border-top: none;
+}
+#seotoaster.product .body .block2 .tabs legend { display:none }
+/*================ shopping product ================*/
+
+/*================ shopping cart overview ===================*/
+#seotoaster.cartview {
+ position:relative;
+ width: 900px;
+ margin: 0px auto 0px auto;
+ -moz-border-radius: 0px;
+ -webkit-border-radius: 0px;
+ border-radius: 0px;
+ border:none;
+ border-left:1px solid #efefef;
+ border-right:1px solid #efefef;
+ padding:0 5px;
+ background-color: #fff;
+}
+#seotoaster.cartview #companyinfo {
+ height:100px;
+ padding:5px;
+ position:relative;
+ margin-bottom:5px;
+}
+#seotoaster.cartview #companyinfo h1 { font-size:28px; }
+#seotoaster.cartview #companyinfo img {
+ float:left;
+ max-height:100px;
+}
+#seotoaster.cartview #companyinfo div {
+ float: left;
+ margin:5px 5px 0px 10px;
+ width:200px;
+ font-weight:bold;
+ font-size:12px;
+ line-height:130%;
+}
+#seotoaster.cartview #cartview-toplegend div, #seotoaster.cartview #cartview-itemsholder .productitem div {
+ float: left;
+ text-align: center;
+ background-color:transparent;
+}
+
+#seotoaster.cartview #cartview-toplegend div{background-color:#ddd;
+padding:6px 0;}
+
+#seotoaster.cartview #cartview-toplegend {
+ position:relative;
+ background-color:#ddd;
+ font-size:16px;
+ font-weight:bold;
+ overflow:hidden;
+ clear:both;
+}
+/*#seotoaster.cartview form#cartview-itemsholder { min-height:300px; }*/
+#seotoaster.cartview #cartview-itemsholder div.productitem {padding:2px 0px; height: 56px;   }
+#seotoaster.cartview #cartview-itemsholder div.productitem div {
+/* height: 34px;  */
+/* line-height:55px;*/
+ overflow:hidden;
+ padding:16px 0px 6px;
+}
+#seotoaster.cartview #cartview-itemsholder div.productitem div.item-photo {padding:2px 0px; height: 52px;   }
+#seotoaster.cartview #cartview-itemsholder div.productitem div.item-count {padding:12px 0px 4px;}
+#seotoaster.cartview #cartview-itemsholder div.productitem div.item-delchck {width: 9% !important;}
+#seotoaster.cartview #cartview-itemsholder div.item-photo img {height:52px; }
+#seotoaster.cartview #cartview-itemsholder div img { border:none }
+#seotoaster.cartview #totalprice {
+ padding: 10px 10px;
+ background-color: #ccc;
+ overflow:hidden;
+ zoom: 1;
+ position:relative;
+ clear:both;
+ display:block;
+}
+#seotoaster.cartview #totalprice div {
+ font-size: 16px;
+ color: #fff;
+ font-weight: bold;
+ text-align: left;
+ width:250px;
+ float:right;
+ background-color:#7C7C7C;
+ -moz-border-radius: 8px;
+ -webkit-border-radius: 8px;
+ border-radius: 8px;
+ padding:5px 10px;
+ margin-top: 10px;
+ clear: right;
+}
+#seotoaster.cartview #totalprice button {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    background-color:#8c8c8c;
+    padding:3px 14px;
+    white-space: nowrap;
+    font-size:18px;
+    border:2px solid #FFFFFF;
+    cursor:pointer;
+    color:#eee;
+    font-weight:bold;
+    text-transform:uppercase;
+    width: auto;
+    overflow:visible;
+}
+
+#seotoaster.cartview #totalprice button:hover { background-color:#8fd5eb; }
+#seotoaster.cartview form#cartview-itemsholder .productitem div.item-count input {
+     width: 45px;
+     height:20px;
+     padding: 3px;
+     font-size: 14px;
+     color: #7c7c7c;
+     text-align: right;
+     border:1px solid #eee;
+     vertical-align:middle;
+}
+#seotoaster.cartview .cart-pay {
+    display:none;
+    background-color: #eee;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+#seotoaster.cartview .cart-pay .cart-pay-title {
+    background-color:#ccc;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    text-transform:uppercase;
+    margin:10px 30px;
+    padding:4px 15px;
+    font-size:18px;
+    -moz-box-shadow:0 2px 3px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow:0 2px 3px rgba(0, 0, 0, 0.25);
+ }
+#seotoaster.cartview .cart-pay #cart-paypal-account {
+    margin: 2px 40px;
+    cursor: pointer;
+    width: 150px;
+    display: block;
+}
+#seotoaster.cartview .cart-pay #cart-settings-paypal-account input[type=text] {
+    padding: 3px 3px;
+    width: 200px;
+    height: auto;
+    margin: 0px;
+    color: #7c7c7c;
+}
+
+#seotoaster.cartview .cart-pay legend{
+    padding:8px 25px;
+    background-color:#fff;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    text-transform:uppercase;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+    border-right:1px solid #eee;
+    -moz-box-shadow:0 2px 3px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow:0 2px 3px rgba(0, 0, 0, 0.25);
+}
+#seotoaster.cartview .cart-pay  fieldset{
+    padding:10px;
+    border:1px solid #eee;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+}
+
+#seotoaster.cartview .cart-pay .cart-settings {
+    background-color: #fff;
+    padding: 10px;
+    margin: 5px 20px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    /*border: 1px solid #ccc;*/
+    display:block;
+}
+#seotoaster.cartview .cart-pay .cart-settings fieldset{
+     padding:10px;
+     border:1px solid #eee;
+     -moz-border-radius:5px;
+     -webkit-border-radius:5px;
+     border-radius:5px;
+      -moz-box-shadow:none;
+     -webkit-box-shadow:none;
+}
+#seotoaster.cartview .cart-pay #cart-credit-card {
+    padding: 2px 40px;
+    cursor: pointer;
+}
+#seotoaster.cartview .cart-pay #cart-settings-credit-card p { height: 30px; }
+#seotoaster.cartview .cart-pay #cart-settings-credit-card input[type=text], #seotoaster.cartview .cart-pay #cart-settings-credit-card select {
+    float: right;
+    width: 180px;
+    height: auto;
+    padding: 3px 3px;
+    margin: 0;
+    color:#7c7c7c;
+}
+#seotoaster.cartview .cart-pay #cart-generate-quote {
+    padding: 2px 40px;
+    cursor: pointer;
+}
+#seotoaster.cartview .cart-pay #cart-settings-quote p { padding:4px; }
+#seotoaster.cartview .cart-pay #cart-settings-quote input[type=text],
+#seotoaster.cartview .cart-pay #cart-settings-quote select,
+#seotoaster.cartview .cart-pay #cart-settings-quote textarea {
+    float: right;
+    width: 180px;
+    height: auto;
+    padding: 3px 3px;
+    margin: 0;
+    color:#7c7c7c;
+}/*
+#seotoaster.cartview .cart-pay #cart-settings-quote textarea {
+    float: right;
+    width: 200px;
+    height: 50px;
+    padding: 3px 3px;
+    margin: 0;
+    color:#7c7c7c;
+}*/
+#seotoaster.cartview #shipping-info {
+    background-color: #fff;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    zoom: 1;
+}
+#seotoaster.cartview #shipping-info #shipping-info-title {
+    background-color:#CCCCCC;
+    font-size:18px;
+    padding:6px 15px;
+    text-transform:uppercase;
+    font-weight: bold;
+    line-height: 24px;
+}
+#seotoaster.cartview #shipping-info #shipping-info-title #edit-shipping {display: none}
+#seotoaster.cartview #shipping-info form {
+    overflow: hidden;
+    zoom: 1;
+    width: 100% }
+#seotoaster.cartview #shipping-info form div {
+    -moz-border-radius:5px 5px 5px 5px;
+    -moz-box-shadow:none;
+    -webkit-border-radius:5px 5px 5px 5px;
+    border-radius:5px 5px 5px 5px;
+    -webkit-box-shadow:none;
+    border:1px solid #EEEEEE;
+    padding:10px 0px;
+    width:49%;
+    float:left;
+    margin:5px 2px;
+}
+#seotoaster.cartview #shipping-info form div textarea#gift-cart-message {
+    width: 95% !important;
+    margin-left: 10px;
+}
+#seotoaster.cartview #shipping-info form div p {padding: 0px 10px;}
+#seotoaster.cartview #shipping-info p{ height: 30px; }
+#seotoaster.cartview #shipping-info label{float:left;width:55%;}
+#seotoaster.cartview #shipping-info form input[type='text'],
+#seotoaster.cartview #shipping-info form select {
+ float: left;
+ width: 40%;
+ height: auto;
+ padding: 3px;
+ margin: 0;
+ color:#7c7c7c;
+ display: block;
+}
+#seotoaster.cartview .seofooter {
+    overflow:hidden;
+    text-align:center;
+    display:block;
+	clear:both;
+}
+#seotoaster.cartview #secure-note {
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    background-color:#7C7C7C;
+    clear:both;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    margin:20px 10px;
+    padding:10px;
+    text-align:justify;
+}
+/*==================quotes===============*/
+#seotoaster.shoppingquotes, #seotoaster.addnewquote {
+	width: 700px;
+	height: 665px;
+	margin: 0 auto;
+    margin-top: 25px;
+	overflow:hidden;
+}
+
+#seotoaster.shoppingquotes #quotetable {
+    width: 99%;
+    border: none;
+    margin: 0 auto;
+    background-color: #7c7c7c;
+    font-family: Tahoma;
+    font-size: 12px;
+}
+#seotoaster.shoppingquotes #quotetable thead{
+    height: 30px;
+    line-height: 30px;
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(153,153,153)),color-stop(1, rgb(238,238,238)));
+    background: -moz-linear-gradient(center bottom, rgb(153,153,153) 0%, rgb(238,238,238) 100%);
+}
+#seotoaster.shoppingquotes #quotetable thead th{
+    text-align: center;
+    padding-right: 16px;
+}
+
+#seotoaster.shoppingquotes #quotetable tbody {
+    background-color: #eeeeee;
+}
+
+#seotoaster.shoppingquotes #quotetable tbody td.lefted {
+    text-align: left;
+    padding-left: 2px;
+}
+#seotoaster.shoppingquotes #quotetable tbody td {
+    white-space: nowrap;
+    text-align: center;
+}
+#seotoaster.shoppingquotes #quotetable td select.highlight-new {
+    color: red;
+}
+#seotoaster.shoppingquotes #quotetable td select.highlight-sent {
+    color: green;
+}
+#seotoaster.shoppingquotes #quotetable td select.highlight-lost {
+    color: black;
+}
+#seotoaster.shoppingquotes #quotetable td select.highlight-sold {
+    color: blue;
+}
+#seotoaster.shoppingquotes #quotetable tbody td.iconz {
+    min-width: 22px;
+}
+/*==============quotes generate screen==============*/
+#seotoaster.shoppingeditquote {
+	/*width: 850px;
+	height: 674px;*/
+	background: #fff;
+	border: none;
+	text-align: center;
+}
+
+#seotoaster.shoppingeditquote #quoteedittophead {
+    clear:both;
+    float:left;
+    height:auto;
+    width:100%;
+    text-align: center;
+}
+
+#seotoaster.shoppingeditquote #quoteedittophead #center label {float:left}
+#seotoaster.shoppingeditquote #quoteedittophead #center p {
+    padding: 5px 15px;
+    font-weight: bold !important;
+    line-height: 24px;
+    text-align: right;
+}
+
+#seotoaster.shoppingeditquote #quoteedittophead .column_3 {
+    float: left;
+    width: 33%;
+}
+#seotoaster.shoppingeditquote #quoteedittophead input,
+#seotoaster.shoppingeditquote #quoteedittophead select {
+    font-size: 12px !important;
+    width: 170px;
+    height: auto;
+    padding: 2px 3px;
+    border: 1px solid #eee;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    color: #7c7c7c;
+}
+
+#seotoaster.shoppingeditquote .infoform {
+    
+}
+
+#seotoaster.shoppingeditquote .infoform p {
+    padding: 1px 5px;
+    line-height: 24px;
+    text-align: right;
+}
+
+#seotoaster.shoppingeditquote .infoform p label {
+    float: left;
+    font-weight: normal;
+    font-size: 12px;
+}
+#seotoaster.shoppingeditquote .infoform p label span{
+    color: red;
+    padding: 0 3px;
+}
+
+#seotoaster.shoppingeditquote input:hover { 
+    -moz-box-shadow: 0 0 10px #e3e3e3;
+    -webkit-box-shadow: 0 0 10px #e3e3e3;
+    box-shadow: 0 0 10px #e3e3e3;
+}
+#seotoaster.shoppingeditquote select:hover { 
+    -moz-box-shadow: 0 0 10px #e3e3e3;
+    -webkit-box-shadow: 0 0 10px #e3e3e3;
+    box-shadow: 0 0 10px #e3e3e3;
+}
+
+#seotoaster.shoppingeditquote #editquotewrapper {
+    margin: 0px auto;
+    width: 960px;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+#seotoaster.shoppingeditquote #sc-groupbrands {
+	height: 576px;
+	position: fixed;
+	z-index: 999;
+    overflow: hidden;
+	background: #fff;
+	width: 924px;
+	border: 8px solid #BDE6F1;
+	padding: 10px;
+	top: 25px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#seotoaster.shoppingeditquote #sc-groupbrands a#closeeditquote {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+#seotoaster.shoppingeditquote #sc-groupbrands p.lbl {
+	font-size: 18px;
+	text-align: left;
+	padding-left: 5px;
+	margin: 5px 0px;
+}
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-groups,
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-brands,
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-products {
+	padding: 5px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	border: 1px dashed #ccc;
+}
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-groups p, #seotoaster.shoppingeditquote #sc-groupbrands #sc-brands p {
+	display: inline;
+	margin: 5px;
+}
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-products div.shoppingproduct {
+	float:left;
+	margin: 5px;/*width: 50px;*/
+}
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-products div.shoppingproduct div.block1 img {
+	width: 50px;
+	height: 50px;
+}
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-groups { height: 80px; }
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-groups,
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-brands {
+    text-align: left;
+    background: #eee;
+}
+
+#seotoaster.shoppingeditquote #sc-groupbrands #sc-products { height: 340px; background: #eee; }
+#seotoaster.shoppingeditquote #usercart-holder { /*min-height: 340px;*/height: 100%; }
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend {
+	height: 30px;
+	background: #eee;
+}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div {
+	float: left;
+	/*width: 19%;*/
+	font-size: 18px;
+	padding-top: 3px;
+	text-align: center;
+	height: inherit;
+}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div.photo, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div.photo {width: 9%}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div.name, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div.name {width: 30%}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div.note, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div.note {width: 20%}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div.qty, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div.qty {width: 10%}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div.price, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div.price {width: 15%}
+#seotoaster.shoppingeditquote #usercart-holder #usercart-legend div.fullprice, #seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product div.fullprice {width: 15%}
+#seotoaster.shoppingeditquote #usercart-holder #usercart {
+	min-height: 300px;
+	/*overflow-y: scroll;*/
+	border-bottom: 1px dashed #eee;
+	width: 100%;
+}
+#seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product {
+	height: 65px;
+	border-bottom: 1px dashed #eee;
+}
+#seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product input[type=text] {
+	/*width: 100%;*/
+	text-align: right;
+	padding: 3px;
+}
+#seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product .adminnote { text-align: left !important; width: 90%;}
+#seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product .itqty {width: 50px;}
+#seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product .itprice,
+#seotoaster.shoppingeditquote #usercart-holder #usercart .usercart-item-product .itfullprice {width: 80px;}
+#seotoaster.shoppingeditquote #usercart-holder #statusline {
+	/*height: 40px;*/
+	/*background: #ddd;*/
+        overflow: hidden;
+	padding: 2px;
+	margin: 5px 0px;
+        width: 100%;
+}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #buttons { float: left; }
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total {
+	float: right;
+	width: 300px;
+	font-size: 22px;
+    font-weight: bold;
+	padding: 2px;
+    text-align: left;
+}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total p {height: 32px;}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total .lbl{display: inline; float: left;clear:left;margin-bottom: 5px;}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total .cnt{float:right;}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total .currency {float:right;padding: 3px 5px;font-size: 16px}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total input[type=text] {
+    width: 130px;
+    height: 20px;
+    text-align: right;
+    font-size: 18px;
+    margin: auto 1px;
+}
+#seotoaster.shoppingeditquote #usercart-holder #statusline #total hr {
+    background-color:#7c7c7c;
+    border: none;
+    clear: both;
+    height: 2px;
+    display: block;
+}
+#seotoaster.shoppingeditquote #msgholder {
+	height: 170px;
+	width: 100%;
+}
+#seotoaster.shoppingeditquote #msgholder .lbl {
+	text-align: center;
+	font-size: 14px;
+}
+#seotoaster.shoppingeditquote #msgholder #internalmsgwin, #seotoaster.shoppingeditquote #msgholder #mailuserwin {
+	height: inherit;
+	width: 48%;
+	padding: 2px;
+	text-align: center;
+}
+#seotoaster.shoppingeditquote #msgholder #mailuserwin { float:left; position: relative;/*border-right: 1px dashed #eee;*/ }
+#seotoaster.shoppingeditquote #msgholder #mailuserwin textarea, #seotoaster.shoppingeditquote #msgholder #internalmsgwin textarea {
+	width: 400px;
+	margin-right: 5px;
+}
+#seotoaster.shoppingeditquote #msgholder #mailuserwin .lbl span{
+    float: right;
+    margin-right: 45px;
+    cursor: pointer;
+}
+#seotoaster.shoppingeditquote #msgholder #mailuserwin .infovariables {
+    position: absolute;
+    top:20px;
+    left:25px;
+    background-color: #eee;
+    width: 408px;
+    height: 117px;
+    z-index: 99;
+    cursor: pointer;
+    display: none;
+}
+#seotoaster.shoppingeditquote #msgholder #mailuserwin .infovariables div {
+    width: auto;
+    text-align: left;
+}
+#seotoaster.shoppingeditquote #msgholder #internalmsgwin { float: right; }
+#seotoaster.shoppingeditquote #bottomline { 
+    bottom:0;
+    clear:both;
+    left:0;
+    position:static;
+    width:100%;
+    line-height:32px;
+    background-color: #eee;
+    font-size: 16px;
+}
+
+#seotoaster.shoppingeditquote #bottomline div {
+    display: inline;
+    margin: 1px 10px;
+}
+/*======= SCREEN: checkout ===========*/
+#seotoaster.checkout {
+	width:830px;
+	height:590px;
+	position:relative;
+}
+#seotoaster.checkout #checkoutForm {
+	display:block;
+	margin-left:30px;
+	width:460px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	position:relative;
+}
+#seotoaster.checkout #checkoutForm p {
+	/*text-indent:15px;*/
+	line-height:30px;
+	margin-bottom:10px;
+}
+#seotoaster.checkout #checkoutForm p label { /*	margin-left:30px;*/ }
+#seotoaster.checkout #checkoutForm p input {
+	left:130px;
+	position:absolute;
+	padding:4px;
+}
+#seotoaster.checkout #checkoutForm p textarea {
+	position:absolute;
+	left:130px;
+	width:300px;
+	height:45px;
+}
+#seotoaster.checkout #checkoutForm input[type="submit"] {
+	position:absolute;
+	left:255px;
+	width:175px;
+	margin-top:10px;
+}
+/*#seotoaster.checkout button#add-redirect{
+	position:absolute;
+	top:135px;
+	left:520px;
+	
+}
+
+#seotoaster.checkout div.redirbord{
+	border-bottom:1px dashed #eee;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+#seotoaster.checkout div.redirecturl{
+	position:relative;
+	display:block;
+	width:395px;
+	float:left;
+	padding-left:10px;
+}
+
+#seotoaster.checkout div.checkboxes{
+	position:relative;
+	display:block;
+	width:15px;
+	float:left;
+	padding-left:10px;
+}
+
+#seotoaster.checkout div.redirecturl span{
+	position:absolute;
+	right:5px;
+	font-weight:bold;
+	color:#222;
+}
+#seotoaster.checkout div.redirecturlimg{
+	position:relative;
+	display:block;
+	width:350px;
+	float:left;
+	padding-left:10px;
+}
+#seotoaster.checkout div.redirecturlimg img{
+	position:absolute;
+	top:25%;
+	right:-8px;
+	border:none;
+}*/
+
+/*==============quote template==========*/
+#quotemain {
+	text-align: center;
+	color: #7c7c7c;
+	font-size: 14px;
+}
+#quotemain #quotemainwrap {
+	margin: 0px auto;
+	width: 960px;
+	border: 1px solid #eee;
+}
+#quotemain #quotemainwrap h1 { font-size: 22px; }
+#quotemain #quotemainwrap #tophead { height: 150px;/*border: 1px solid #666;*/ }
+#quotemain #quotemainwrap #tophead #companyinfo,
+#quotemain #quotemainwrap #tophead #clientinfo,
+#quotemain #quotemainwrap #tophead #shippinginfo{
+	/*height: inherit;*/
+    width: 300px;
+	font-size: 20px;
+	padding: 10px 0px 0px 10px;
+    text-align: left;
+}
+#quotemain #quotemainwrap #tophead #companyinfo { float: left; }
+#quotemain #quotemainwrap #tophead #companyinfo hr {
+    background-color: #7c7c7c;
+    border: 0;
+    width: 200px;
+}
+#quotemain #quotemainwrap #tophead #clientinfo,
+#quotemain #quotemainwrap #tophead #shippinginfo{ float: right; }
+#quotemain #quotemainwrap #quotebody #total {
+	height: 25px;
+	text-align: center;
+	font-size: 22px;
+	padding-right: 5px;
+        float: right;
+        width: 300px;
+}
+#quotemain #quotemainwrap #quotebody #total .lbl{display: inline; float: left;clear:left;margin-bottom: 5px;}
+#quotemain #quotemainwrap #quotebody #total .cnt{float:right;clear:right;}
+#quotemain #quotemainwrap #quotebody #total hr {
+    background-color: #7c7c7c;
+    border: none;
+    clear: both;
+    height: 2px;
+    display: block;
+}
+#quotemain #quotemainwrap #quotebody #usercart-legend {
+	height: 35px;
+	margin: 5px 0px;
+	background-color: #eee;
+}
+#quotemain #quotemainwrap #quotebody #usercart-legend div, #quotemain #quotemainwrap #quotebody #quoteusercart .usercart-item-product div {
+	float: left;
+	/*width: 20%;*/
+	font-size: 18px;
+	padding-top: 7px;
+}
+#quotemain #quotemainwrap #quotebody #usercart-legend div.photo, #quotemain #quotemainwrap #quotebody .usercart-item-product div.photo {width: 10%}
+#quotemain #quotemainwrap #quotebody #usercart-legend div.name, #quotemain #quotemainwrap #quotebody .usercart-item-product div.name {width: 30%}
+#quotemain #quotemainwrap #quotebody #usercart-legend div.note, #quotemain #quotemainwrap #quotebody .usercart-item-product div.note {width: 20%}
+#quotemain #quotemainwrap #quotebody #usercart-legend div.qty, #quotemain #quotemainwrap #quotebody .usercart-item-product div.qty {width: 10%}
+#quotemain #quotemainwrap #quotebody #usercart-legend div.price, #quotemain #quotemainwrap #quotebody .usercart-item-product div.price {width: 15%}
+#quotemain #quotemainwrap #quotebody #usercart-legend div.fullprice, #quotemain #quotemainwrap #quotebody .usercart-item-product div.fullprice {width: 15%}
+
+#quotemain #quotemainwrap #quotebody #quoteusercart .usercart-item-product {
+	height: 70px;
+	border-bottom: 1px dashed #eee;
+    overflow: hidden;
+}
+#quotemain #quotemainwrap #quotefooter {
+    width: 60%;
+    float: left;
+    padding: 10px 5px;
+}
+#quotemain #quotemainwrap .quotetool {
+    float: right;
+    clear: both;
+    background-color: #EEEEEE;
+    border-radius: 10px 0px 0px 10px;
+    -moz-border-radius: 10px 0px 0px 10px;
+    -webkit-border-radius: 10px 0px 0px 10px;
+    padding: 4px;
+    margin: 5px 0px 5px 5px;
+    text-align: center;
+    overflow: hidden;
+    height: 50px;
+    width: 200px;
+}
+#quotemain #quotemainwrap .quotetool:hover {background-color: #DEF3FA}
+#quotemain #quotemainwrap .quotetool a {text-decoration: none;display: block; height:100%;width:100%}
+#quotemain #quotemainwrap .quotetool img {border:none;vertical-align: middle; margin-right: 5px}
+/* #quotemain #quotemainwrap #quotebody #quoteusercart .usercart-item-product div { /*font-size: 14px; width: 20%; } */
+
+/*==============add new quote==========*/
+
+/*================ promote =================*/
+#seotoaster.promote {
+    width:600px;
+    height:400px;
+}
+#seotoaster.promote .showsitemap {
+    font-size: 14px;
+    font-weight: bold;   
+    height: 30px;
+}
+#seotoaster.promote .showsitemap div {
+    text-align: center;
+    background-color:#EEEEEE;
+    border:1px solid #CCCCCC;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    padding: 4px 20px;
+    display: inline-block;    
+}
+#seotoaster.promote fieldset {
+    background-color:#EEEEEE;
+    border:1px solid #CCCCCC;
+    margin: 5px 0px 0px 10px;
+    padding:4px;
+    width: 95%;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+#seotoaster.promote fieldset legend {
+    background-color:#8393A0;
+    border:1px solid #EEEEEE;
+    color:#FFFFFF;
+    font-size:12px;
+    font-weight:bold;
+    padding:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+#seotoaster.promote fieldset p {
+    font-weight: bold;
+}
+#seotoaster.promote fieldset .pingbloglist {
+    margin-top: 10px;
+    height: 210px;
+    border: 1px solid #CCCCCC;
+    overflow: auto;
+    width: 100%;
+}
+#seotoaster.promote fieldset .pingbloglist .service {
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    padding: 4px 0px;
+    font-size: 12px;
+    border-bottom: 1px dashed #fff;
+}
+#seotoaster.promote fieldset .pingbloglist .service div {
+    float: left;
+    position: relative;
+}
+#seotoaster.promote fieldset .pingbloglist .service .service-url {
+    width: 63%;
+    padding-left: 5px;
+    overflow: hidden;
+}
+#seotoaster.promote fieldset .pingbloglist .service .service-edit {
+    width: 20%;
+}
+
+#seotoaster.promote fieldset .pingbloglist .service .service-delete {
+    width: 15%;
+}
+
+
+/*============== end promote ===============*/
+/*============== shipping multiselect ===============*/
+#seotoaster.cartview #shipping-multiselect {
+    position: fixed;
+    top: 0px;
+    left: 30%;
+    display: none;
+    z-index: 999;
+    margin: 10% auto;
+    padding: 10px;
+    border: 2px solid #7C7C7C;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background-color: #fff;
+    font: normal 14px Arial;
+    color: #3C3C3C;
+    min-width: 500px;
+}
+#seotoaster.cartview #shipping-multiselect p{line-height: 20px}
+#seotoaster.cartview #shipping-multiselect p:nth-child(odd){background-color: #eee}
+#seotoaster.cartview #shipping-multiselect input[type=radio]{vertical-align: middle; margin: 0px 5px}
+#seotoaster.cartview #shipping-multiselect .formsubmit{float:right;clear:both;margin-top:10px}
+#seotoaster.cartview #SHMS_overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    opacity: 0.5;
+    background-color: #7C7C7C;
+}
+
+
+/*====================member change password screen=============*/
+#seotoaster.member_chpass {
+    width: 350px;
+    height: 300px;
+}
+
+#seotoaster.member_chpass dl {
+    margin: 0px;
+    padding: 0px 10px;
+}
+
+#seotoaster.member_chpass dl dt {
+    color: #7c7c7c;
+    margin-bottom: 5px;
+}
+
+#seotoaster.member_chpass dl dd input[type=password] {
+    width: 320px;
+    padding: 10px 7px;
+    font-size: 15px;
+}
+
+#seotoaster.member_chpass dl dd#btnChPass-element {
+    text-align: right;
+    padding-right: 10px;
+}

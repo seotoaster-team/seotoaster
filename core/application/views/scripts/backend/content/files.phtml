@@ -1,0 +1,9 @@
+<?php if(!empty($this->files)): ?>
+	<?php foreach ($this->files as $file): ?>
+		<p>
+			<a href="javascript:;" title="<?php echo $file; ?>" onclick="insertFileLink('<?php echo $file; ?>');"><?php echo $file; ?></a>
+		</p>
+	<?php endforeach; ?>
+<?php else: ?>
+		<p><?php echo $this->translate('You have no files yet...'); ?></p>
+<?php endif; ?>

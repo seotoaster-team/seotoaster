@@ -1,0 +1,9 @@
+core/library/**/*
+plugins/*
+cache/*
+downloads/*
+images/*
+previews/*
+core/application/configs/**/*
+!*/index.html
+themes/**/*
