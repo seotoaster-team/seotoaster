@@ -5,6 +5,7 @@ downloads/*
 images/*
 previews/*
 core/application/configs/**/*
-core/application/configs/application.ini
 !*/index.html
 themes/**/*
+core/application/configs/application.ini
+
