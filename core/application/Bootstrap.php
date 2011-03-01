@@ -117,6 +117,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			'adapter' => 'array',
 			'content' => 'downloads/',
 			'scan'    => Zend_Translate::LOCALE_FILENAME,
+			'locale'  => 'en',
 			'ignore'  => array('.'),
 			'route'   => array('fr' => 'en', 'it' => 'en', 'de' => 'en'),
 			'cache'   => Zend_Registry::get('cache')
