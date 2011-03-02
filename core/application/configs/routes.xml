@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<routes>
+		<default type="Zend_Controller_Router_Route_Regex">
+            <route>(.*)</route>
+            <defaults>
+                <controller>index</controller>
+                <action>index</action>
+            </defaults>
+            <map><page>1</page></map>
+		</default>
+		<shortlogin type="Zend_Controller_Router_Route_Static">
+			<route>/go</route>
+            <defaults>
+                <controller>login</controller>
+                <action>index</action>
+            </defaults>
+		</shortlogin>
+		<logout type="Zend_Controller_Router_Route_Static">
+			<route>/logout</route>
+            <defaults>
+                <controller>login</controller>
+                <action>logout</action>
+            </defaults>
+		</logout>
+		<backend type="Zend_Controller_Router_Route">
+			<route>backend/:controller/:action/*</route>
+            <defaults>
+                <module>default</module>
+            </defaults>
+		</backend>
+	</routes>
+</config>
