@@ -3,6 +3,7 @@ date_default_timezone_set('UTC');
 
 // @todo Add multisite support
 defined('CORE') || define('CORE', realpath(dirname(__FILE__) . '/core'));
+defined('SITE_NAME') || define('SITE_NAME', '');
 
 // Define path to application directory
 defined('APPLICATION_PATH')
