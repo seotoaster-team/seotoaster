@@ -123,6 +123,56 @@ class Tools_Plugins_Tools {
 		return $pluginMapper->findEnabled();
 	}
 
+	private static function _initValues() {
+		$routesPath  = APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml';
+		if(file_exists($routesPath)) {
+			$routes = new Zend_Config_Xml($routesPath);
+			$routes = $routes->toArray();
+		}
+		$miscData         = Zend_Registry::get('misc');
+		$websiteData      = Zend_Registry::get('website');
+		return array(
+			'routesPath'     => $routesPath,
+			'routes'         => $routes,
+			'pluginsDirPath' => $websiteData['path'] . $miscData['pluginsPath']
+		);
+	}
+
+	public static function removePluginRoute($pluginName) {
+		$routesData = self::_initValues();
+		$pluginConfigPath = $routesData['pluginsDirPath'] . $pluginName . '/config/config.ini';
+		$routes           = $routesData['routes'];
+		if(!file_exists($pluginConfigPath)) {
+			return;
+		}
+		try {
+			$configIni = new Zend_Config_Ini($pluginConfigPath);
+			if(!isset($configIni->route)) {
+				return;
+			}
+			$pluginRoute = self::_formatPluginRoute($configIni->route->toArray(), $pluginName);
+			if(!empty($routes)) {
+				if(array_key_exists($pluginRoute['name'], $routes['routes'])) {
+					unset($routes['routes'][$pluginRoute['name']]);
+					$writer = new Zend_Config_Writer_Xml();
+					$writer->setConfig(new Zend_Config($routes));
+					$writer->write($routesData['routesPath']);
+				}
+			}
+		}
+		catch (Zend_Config_Exception $zce) {
+			return;
+		}
+	}
+
+	public static function removePluginsRoutes() {
+		$enabledPlugins = self::getEnabledPlugins();
+		foreach ($enabledPlugins as $plugin) {
+			self::removePluginRoute($plugin->getName());
+		}
+	}
+
+
 	private static function _formatPluginRoute($routeData, $pluginName) {
 		$name   = $routeData['name'];
 		$method = $routeData['method'];
