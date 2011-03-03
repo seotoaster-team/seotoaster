@@ -8,6 +8,10 @@ class IndexController extends Zend_Controller_Action {
     public function init() {
 		$this->_websiteData = Zend_Registry::get('website');
 		$this->_acl         = Zend_Registry::get('acl');
+		if($this->_helper->session->pluginRoutesFetched !== true) {
+			Tools_Plugins_Tools::fetchPluginsRoutes();
+			$this->_helper->session->pluginRoutesFetched = true;
+		}
 	}
 
     public function indexAction() {
