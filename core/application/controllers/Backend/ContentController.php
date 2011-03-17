@@ -24,12 +24,13 @@ class Backend_ContentController extends Zend_Controller_Action {
 		parent::init();
 		$this->_websiteData = Zend_Registry::get('website');
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
-			$this->_redirect($this->_websiteData['url'], array('exit' => true));
+			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->_containerType     = $this->getRequest()->getParam('containerType');
 		$this->_contentForm       = $this->_initCorrectForm();
-		$this->view->websiteUrl   = $this->_websiteData['url'];
+		//$this->view->websiteUrl   = $this->_websiteData['url'];
+		$this->view->websiteUrl   = $this->_helper->website->getUrl();
 		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
 		$this->_wedgetsDirPath    = $this->_websiteData['path'] . 'application/app/Widgets/';
 	}

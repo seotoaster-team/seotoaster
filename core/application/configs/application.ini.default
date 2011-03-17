@@ -22,8 +22,8 @@ phpSettings.display_errors                         = 1
 resources.frontController.params.displayExceptions = 1
 
 [database]
-database.adapter         = "mysqli"
-database.params.host     = "localhost"
+database.adapter         = ""
+database.params.host     = ""
 database.params.username = ""
 database.params.password = ""
 database.params.dbname   = ""

@@ -81,8 +81,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_WIDGETS));
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED));
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PAGE_PUBLIC));
+		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_CACHE_PAGE));
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_CODE));
-		
+		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_THEMES));
 		//resources of admin area
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_ADMINPANEL));
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PAGES));
