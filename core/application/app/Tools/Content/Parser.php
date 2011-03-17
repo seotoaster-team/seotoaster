@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of Parser
+ * Seotoaster 2 parser
  *
- * @author iamne
+ * @author Seotoaster Dev Team (SDT)
  */
 class Tools_Content_Parser {
 
@@ -85,8 +85,8 @@ class Tools_Content_Parser {
 
 	private function _changeMedia() {
 		$this->_content = preg_replace('~["\']+/*images/(.*)["\']~Us', '"themes/grayblue/images/$1"', $this->_content);
-		$this->_content = preg_replace('/(<link.*href=")(\/{0,1}[A-Za-z0-9]+\.css)(".*>)/Us','$1' . $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'] . '/$2' . '$3' , $this->_content);
-		$this->_content = preg_replace('/(<script.*src=")(\/{0,1}[A-Za-z0-9-_.]+\.js)(".*>)/U', '$1' . $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'] . '/$2' . '$3' , $this->_content);
+		$this->_content = preg_replace('~(<link.*href=")(\/{0,1}[A-Za-z0-9./_-]+\.css)(".*>)~Us','$1' . $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'] . '/$2' . '$3' , $this->_content);
+		$this->_content = preg_replace('~(<script.*src=")(\/{0,1}[A-Za-z0-9-/_.-]+\.js)(".*>)~Us', '$1' . $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'] . '/$2' . '$3' , $this->_content);
 	}
 
 	private function _findWidgets() {

@@ -3,8 +3,7 @@
 class Tools_Widgets_Tools {
 
 	public static function getNames() {
-		$websiteData = Zend_Registry::get('website');
-		return Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . 'application/app/Widgets/');
+		return Tools_Filesystem_Tools::scanDirectoryForDirs(CORE . '/application/app/Widgets/');
 	}
 
 	public static function getAllowedOptions() {

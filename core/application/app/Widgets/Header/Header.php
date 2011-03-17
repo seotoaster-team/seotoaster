@@ -4,7 +4,7 @@
  *
  * @author iamne
  */
-class Widgets_Header_Header extends Widgets_Abstract {
+class Widgets_Header_Header extends Widgets_AbstractContent {
 
 	private $_acl = null;
 

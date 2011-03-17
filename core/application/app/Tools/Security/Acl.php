@@ -28,7 +28,8 @@ class Tools_Security_Acl {
 	const RESOURCE_CONFIG         = 'config';
 	const RESOURCE_USERS          = 'users';
 	const RESOURCE_PLUGINS        = 'plugins';
-	const RESOURCE_CACHE_PAGE  = 'plugins';
+	const RESOURCE_CACHE_PAGE     = 'cachepage';
+	const RESOURCE_THEMES         = 'themes';
 
 	public static function isAllowed($resourse, $role = '') {
 		if(!$role) {

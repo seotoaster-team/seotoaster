@@ -19,7 +19,21 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	}
 
 	public function save($template) {
-		
+		if(!$template instanceof Application_Model_Models_Template) {
+			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Template instance');
+		}
+		$data = array(
+			'name'          => $template->getName(),
+			'content'       => $template->getContent(),
+			'theme_name'    => $template->getThemeName(),
+			'preview_image' => $template->getPreviewImage()
+		);
+		if(!$template->getId()) {
+			return $this->getDbTable()->insert($data);
+		}
+		else {
+			return $this->getDbTable()->update($data, array('id = ?' => $template->getId()));
+		}
 	}
 
 }

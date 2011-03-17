@@ -1,6 +1,6 @@
 <?php
 
-class Widgets_Content_Content extends Widgets_Abstract {
+class Widgets_Content_Content extends Widgets_AbstractContent {
 	
 	private $_acl     = null;
 

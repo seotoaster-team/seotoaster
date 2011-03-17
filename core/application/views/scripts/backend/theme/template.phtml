@@ -1,0 +1,14 @@
+<div id="seotoaster" class="editor">
+	<div class="admineditwhat"></div>
+	<div class="close_window" onclick="parent.tb_remove();"></div>
+	<?php
+		$this->templateForm->setAction($this->url());
+		echo $this->templateForm;
+	?>
+
+	<?php if(($previewImage = $this->templateForm->getElement('previewImage')->getValue()) != null): ?>
+
+		<img src="#" alt="template preview" />
+	<?php endif; ?>
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>

@@ -3,8 +3,6 @@
 		<input type="checkbox" id="published" <?php echo ($this->published) ? 'checked="checked"' : ''; ?> />&nbsp;Published? OR publish on&nbsp;
 		<?php echo $this->datePicker('datepicker', $this->publishingDate , array('defaultDate' => date('Y-m-d', time()), 'dateFormat' => 'yy-mm-dd')) ?>
 	</div>
-	<div id="ajax_msg" class="success" style="display: none;"><?php echo $this->translate('Working') . '...'; ?></div>
-	<div id="ajax_msg_fail" class="errors" style="display: none;"><?php echo $this->translate('Oops. Error occured.'); ?></div>
 	<div class="close_window" onclick="parent.tb_remove();"></div>
 	<div id="admintextcontent">
 		<?php
@@ -19,4 +17,4 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
-<?php //$this->jQuery()->addStylesheet($this->websiteUrl . 'system/css/datepicker.css'); ?>
+<?php //$this->jQuery()->addStylesheet($this->websiteUrl . 'system/css/smoothness/smoothness.css'); ?>
