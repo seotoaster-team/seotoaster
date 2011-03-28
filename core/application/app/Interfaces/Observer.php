@@ -1,4 +1,4 @@
 <?php
-interface Observer {
+interface Interfaces_Observer {
     public function notify($object);
 }

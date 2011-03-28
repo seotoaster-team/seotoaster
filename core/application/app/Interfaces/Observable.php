@@ -1,7 +1,7 @@
 <?php
-interface Observable {
+interface Interfaces_Observable {
 
-	public function registerObserver(Observer $object);
-	public function removeObserver(Observer $object);
+	public function registerObserver($observer);
+	public function removeObserver($observer);
 	public function notifyObservers();
 }
