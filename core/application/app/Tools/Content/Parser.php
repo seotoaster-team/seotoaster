@@ -84,9 +84,15 @@ class Tools_Content_Parser {
 	}
 
 	private function _changeMedia() {
-		$this->_content = preg_replace('~["\']+/*images/(.*)["\']~Us', '"themes/grayblue/images/$1"', $this->_content);
-		$this->_content = preg_replace('~(<link.*href=")(\/{0,1}[A-Za-z0-9./_-]+\.css)(".*>)~Us','$1' . $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'] . '/$2' . '$3' , $this->_content);
-		$this->_content = preg_replace('~(<script.*src=")(\/{0,1}[A-Za-z0-9-/_.-]+\.js)(".*>)~Us', '$1' . $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'] . '/$2' . '$3' , $this->_content);
+		$webPathToTheme = $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'];
+		$this->_content = preg_replace('~["\']+/*images/(.*)["\']~Us', $webPathToTheme . '/images/$1', $this->_content);
+		$this->_content = preg_replace('~(<link.*href=")(\/{0,1}[A-Za-z0-9./_-]+\.css[a-z0-9=?]*)(".*>)~Us','$1' . $webPathToTheme . '/$2' . '$3' , $this->_content);
+		$this->_content = preg_replace('~(<script.*src=")(\/{0,1}[A-Za-z0-9-/_.-]+\.js)(".*>)~Us', '$1' . $webPathToTheme . '/$2' . '$3' , $this->_content);
+
+		$favicoPath = $this->_options['themePath'] . $this->_options['currentTheme'] . '/favicon.ico';
+		if(file_exists($favicoPath)) {
+			$this->_content = preg_replace('~href="\/favicon.ico"~Us', 'href="' . $webPathToTheme . '/favicon.ico"', $this->_content);
+		}
 	}
 
 	private function _findWidgets() {
