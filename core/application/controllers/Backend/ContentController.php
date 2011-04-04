@@ -26,7 +26,10 @@ class Backend_ContentController extends Zend_Controller_Action {
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
+
 		$this->_helper->viewRenderer->setNoRender(true);
+		$this->_helper->layout->disableLayout();
+
 		$this->_containerType     = $this->getRequest()->getParam('containerType');
 		$this->_contentForm       = $this->_initCorrectForm();
 		//$this->view->websiteUrl   = $this->_websiteData['url'];
@@ -72,12 +75,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER) ? 0 : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
 			$container     = new Application_Model_Models_Container();
+
+			$container->registerObserver(new Tools_Content_GarbageCollector());
+
 			$container->setId($containerData['containerId'])
 				->setName($containerData['containerName'])
 				->setContainerType($containerData['containerType'])
 				->setPageId($pageId)
 				->setContent($containerData['content']);
-
 			$published = ($container->getContainerType() == Application_Model_Models_Container::TYPE_REGULARCONTENT || $container->getContainerType() == Application_Model_Models_Container::TYPE_STATICCONTENT) ? $this->getRequest()->getParam('published') : true;
 			$container->setPublished($published);
 			if(!$published) {
@@ -94,6 +99,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$this->getResponse()->setHttpResponseCode(200);
 			$this->getResponse()->setBody($mapper->save($container));
 			$this->getResponse()->sendResponse();
+
+			$container->notifyObservers();
+
 			exit;
 		}
 		return false;

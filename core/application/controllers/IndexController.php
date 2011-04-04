@@ -6,6 +6,8 @@ class IndexController extends Zend_Controller_Action {
 	protected $_acl         = null;
 
     public function init() {
+		$gc = new Tools_Content_GarbageCollector();
+		$gc->clean();
 		$this->_websiteData = Zend_Registry::get('website');
 		$this->_acl         = Zend_Registry::get('acl');
 		if($this->_helper->session->pluginRoutesFetched !== true) {
@@ -49,25 +51,27 @@ class IndexController extends Zend_Controller_Action {
 		else {
 			$this->_redirect($this->_websiteData['url']);
 		}
-		$this->_complete($pageContent);
+		$this->_complete($pageContent, $page->toArray());
 	}
 
 
-	private function _complete($pageContent) {
-		$head = '';
-		$body = '';
+	private function _complete($pageContent, $pageData) {
+		$head        = '';
+		$body        = '';
 		preg_match('~<head>(.*)</head>~sUi', $pageContent, $head);
 		preg_match('~<body>(.*)</body>~sUi', $pageContent, $body);
-		$this->view->head     = $head[1];
-		$this->view->acl      = $this->_acl;
-		$userRole             = $this->_helper->session->getCurrentUser()->getRoleId();
-		$this->view->userRole = $userRole;
+		$this->view->head         = $head[1];
+		$this->view->acl          = $this->_acl;
+		$userRole                 = $this->_helper->session->getCurrentUser()->getRoleId();
+		$this->view->userRole     = $userRole;
+		$this->view->websiteUrl   = $this->_websiteData['url'];
+		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');		
 		if($this->_acl->isAllowed($this->_helper->session->getCurrentUser(), Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+			unset($pageData['content']);
+			$this->view->pageData = $pageData;
 			$body[1] = $this->_helper->admin->renderAdminPanel($userRole) . $body[1];
 		}
 		$this->view->content      = $body[1];
-		$this->view->websiteUrl   = $this->_websiteData['url'];
-		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
 	}
 }
 

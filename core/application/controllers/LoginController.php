@@ -2,10 +2,8 @@
 
 class LoginController extends Zend_Controller_Action {
 
-	private $_websiteData = array();
-
     public function init() {
-		$this->_websiteData = Zend_Registry::get('website');
+		$this->view->websiteUrl = $this->_helper->website->getUrl();
     }
 
     public function indexAction() {
@@ -35,7 +33,7 @@ class LoginController extends Zend_Controller_Action {
 						$this->_helper->session->setCurrentUser($user);
 						unset($user);
 						$this->_helper->cache->clean();
-						$this->_redirect($this->_websiteData['url']);
+						$this->_redirect($this->_helper->website->getUrl());
 					}
 				}
 				Zend_Debug::dump('Auth failed'); die();
@@ -54,7 +52,7 @@ class LoginController extends Zend_Controller_Action {
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->_helper->session->getSession()->unsetAll();
 		$this->_helper->cache->clean();
-		$this->_redirect($this->_websiteData['url']);
+		$this->_redirect($this->_helper->website->getUrl());
 	}
 }
 

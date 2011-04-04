@@ -11,7 +11,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 		$pluginName = $this->getRequest()->getParam('name');
 		$pageData   = array('websiteUrl' => $this->_helper->website->getUrl());
 		try {
-			$plugin = Tools_Factory_PluginFactory::factory($pluginName, array(), $pageData);
+			$plugin = Tools_Factory_PluginFactory::createPlugin($pluginName, array(), $pageData);
 			$plugin->run($this->getRequest()->getParams());
 		}
 		catch (Exception $e) {

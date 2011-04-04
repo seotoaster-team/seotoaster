@@ -8,6 +8,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
+		$this->_helper->layout->disableLayout();
 	}
 
 	public function templateAction() {
