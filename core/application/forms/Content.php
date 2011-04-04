@@ -14,7 +14,6 @@ class Application_Form_Content extends Application_Form_Container {
 			'rows'     => '33',
 			'class'    => 'tinymce',
 			'value'    => $this->_content,
-			'required' => true,
 			'filters'  => array('StringTrim')
 		));
 

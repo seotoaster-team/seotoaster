@@ -4,7 +4,7 @@ class Application_Form_Login extends Zend_Form {
 
     public function init() {
 
-		$this->setMethod('post');
+		$this->setMethod(Zend_Form::METHOD_POST);
 
 		$this->addElement('text', 'email', array(
 			'label'    => 'Email:',
@@ -19,9 +19,12 @@ class Application_Form_Login extends Zend_Form {
 
 		$this->addElement('submit', 'submit', array(
 			'label'  => 'Let me in',
-			'ignore' => true
+			'ignore' => true,
+			'id'     => 'submit'
 		));
-		
+
+		$this->getElement('submit')->removeDecorator('DtDdWrapper');
+		$this->getElement('submit')->removeDecorator('Label');
     }
 
 

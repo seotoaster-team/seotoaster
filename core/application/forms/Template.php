@@ -13,7 +13,7 @@ class Application_Form_Template extends Zend_Form {
 	protected $_themeName    = '';
 
 	public function init() {
-		$this->setMethod('post');
+		$this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttrib('id', 'frm_template');
 
 		$this->addElement('text', 'name', array(

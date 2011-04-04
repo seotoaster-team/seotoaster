@@ -13,7 +13,7 @@ class Application_Form_Container extends Zend_Form {
 	protected $_pageId        = '';
 
 	public function init() {
-		$this->setMethod('post');
+		$this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttrib('id', 'frm_content');
 		
 		$this->addElement('submit', 'submit', array(
