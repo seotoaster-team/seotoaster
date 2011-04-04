@@ -1,0 +1,155 @@
+/*
+	960 Grid System ~ Core CSS.
+	Learn more ~ http://960.gs/
+
+	Licensed under GPL and MIT.
+*/
+
+/* =Containers
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_12, .seotoaster.container_16 {
+/*width: 100%;
+	margin-left: 1%;
+	margin-right: 1%;*/ }
+/* =Grid >> Global
+--------------------------------------------------------------------------------*/
+
+.seotoaster .grid_1, .seotoaster .grid_2, .seotoaster .grid_3, .seotoaster .grid_4, .seotoaster .grid_5, .seotoaster .grid_6, .seotoaster .grid_7, .seotoaster .grid_8, .seotoaster .grid_9, .seotoaster .grid_10, .seotoaster .grid_11, .seotoaster .grid_12, .seotoaster .grid_13, .seotoaster .grid_14, .seotoaster .grid_15, .seotoaster .grid_16 {
+	display: inline;
+	float: left;
+	margin-left: 1%;
+	margin-right: 1%;
+	border:0px solid #red;
+}
+.seotoaster.container_12 .grid_3, .seotoaster.container_16 .grid_4 { width: 23%; }
+.seotoaster.container_12 .grid_6, .seotoaster.container_16 .grid_8 { width: 48%; }
+.seotoaster.container_12 .grid_9, .seotoaster.container_16 .grid_12 { width: 73%; }
+.seotoaster.container_12 .grid_12, .seotoaster.container_16 .grid_16 { width: 98%; }
+/* =Grid >> Children (Alpha ~ First, Omega ~ Last)
+--------------------------------------------------------------------------------*/
+
+.seotoaster .alpha { margin-left: 0; }
+.seotoaster .omega { margin-right: 0; }
+/* =Grid >> 12 Columns
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_12 .grid_1 { width: 6.333%; }
+.seotoaster.container_12 .grid_2 { width: 14.666%; }
+.seotoaster.container_12 .grid_4 { width: 31.333%; }
+.seotoaster.container_12 .grid_5 { width: 39.666%; }
+.seotoaster.container_12 .grid_7 { width: 56.333%; }
+.seotoaster.container_12 .grid_8 { width: 64.666%; }
+.seotoaster.container_12 .grid_10 { width: 81.333%; }
+.seotoaster.container_12 .grid_11 { width: 89.666%; }
+/* =Grid >> 16 Columns
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_16 .grid_1 { width: 4.25%; }
+.seotoaster.container_16 .grid_2 { width: 10.5%; }
+.seotoaster.container_16 .grid_3 { width: 16.75%; }
+.seotoaster.container_16 .grid_5 { width: 29.25%; }
+.seotoaster.container_16 .grid_6 { width: 35.5%; }
+.seotoaster.container_16 .grid_7 { width: 41.75%; }
+.seotoaster.container_16 .grid_9 { width: 54.25%; }
+.seotoaster.container_16 .grid_10 { width: 60.5%; }
+.seotoaster.container_16 .grid_11 { width: 66.75%; }
+.seotoaster.container_16 .grid_13 { width: 79.25%; }
+.seotoaster.container_16 .grid_14 { width: 85.5%; }
+.seotoaster.container_16 .grid_15 { width: 91.75%; }
+/* =Prefix Extra Space >> Global
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_12 .prefix_3, .seotoaster.container_16 .prefix_4 { padding-left: 25%; }
+.seotoaster.container_12 .prefix_6, .seotoaster.container_16 .prefix_8 { padding-left: 50%; }
+.seotoaster.container_12 .prefix_9, .seotoaster.container_16 .prefix_12 { padding-left: 75%; }
+/* =Prefix Extra Space >> 12 Columns
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_12 .prefix_1 { padding-left: 8.333%; }
+.seotoaster.container_12 .prefix_2 { padding-left: 16.666%; }
+.seotoaster.container_12 .prefix_4 { padding-left: 33.333%; }
+.seotoaster.container_12 .prefix_5 { padding-left: 41.666%; }
+.seotoaster.container_12 .prefix_7 { padding-left: 58.333%; }
+.seotoaster.container_12 .prefix_8 { padding-left: 66.666%; }
+.seotoaster.container_12 .prefix_10 { padding-left: 83.333%; }
+.seotoaster.container_12 .prefix_11 { padding-left: 91.666%; }
+/* =Prefix Extra Space >> 16 Columns
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_16 .prefix_1 { padding-left: 6.25%; }
+.seotoaster.container_16 .prefix_2 { padding-left: 12.5%; }
+.seotoaster.container_16 .prefix_3 { padding-left: 18.75%; }
+.seotoaster.container_16 .prefix_5 { padding-left: 31.25%; }
+.seotoaster.container_16 .prefix_6 { padding-left: 37.5%; }
+.seotoaster.container_16 .prefix_7 { padding-left: 43.75%; }
+.seotoaster.container_16 .prefix_9 { padding-left: 56.25%; }
+.seotoaster.container_16 .prefix_10 { padding-left: 62.5%; }
+.seotoaster.container_16 .prefix_11 { padding-left: 68.75%; }
+.seotoaster.container_16 .prefix_13 { padding-left: 81.25%; }
+.seotoaster.container_16 .prefix_14 { padding-left: 87.5%; }
+.seotoaster.container_16 .prefix_15 { padding-left: 93.75%; }
+/* =Suffix Extra Space >> Global
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_12 .suffix_3, .seotoaster.container_16 .suffix_4 { padding-right: 25%; }
+.seotoaster.container_12 .suffix_6, .seotoaster.container_16 .suffix_8 { padding-right: 50%; }
+.seotoaster.container_12 .suffix_9, .seotoaster.container_16 .suffix_12 { padding-right: 75%; }
+/* =Suffix Extra Space >> 12 Columns
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_12 .suffix_1 { padding-right: 8.333%; }
+.seotoaster.container_12 .suffix_2 { padding-right: 16.666%; }
+.seotoaster.container_12 .suffix_4 { padding-right: 33.333%; }
+.seotoaster.container_12 .suffix_5 { padding-right: 41.666%; }
+.seotoaster.container_12 .suffix_7 { padding-right: 58.333%; }
+.seotoaster.container_12 .suffix_8 { padding-right: 66.666%; }
+.seotoaster.container_12 .suffix_10 { padding-right: 83.333%; }
+.seotoaster.container_12 .suffix_11 { padding-right: 91.666%; }
+/* =Suffix Extra Space >> 16 Columns
+--------------------------------------------------------------------------------*/
+
+.seotoaster.container_16 .suffix_1 { padding-right: 6.25%; }
+.seotoaster.container_16 .suffix_2 { padding-right: 16.5%; }
+.seotoaster.container_16 .suffix_3 { padding-right: 18.75%; }
+.seotoaster.container_16 .suffix_5 { padding-right: 31.25%; }
+.seotoaster.container_16 .suffix_6 { padding-right: 37.5%; }
+.seotoaster.container_16 .suffix_7 { padding-right: 43.75%; }
+.seotoaster.container_16 .suffix_9 { padding-right: 56.25%; }
+.seotoaster.container_16 .suffix_10 { padding-right: 62.5%; }
+.seotoaster.container_16 .suffix_11 { padding-right: 68.75%; }
+.seotoaster.container_16 .suffix_13 { padding-right: 81.25%; }
+.seotoaster.container_16 .suffix_14 { padding-right: 87.5%; }
+.seotoaster.container_16 .suffix_15 { padding-right: 93.75%; }
+/* =Clear Floated Elements
+--------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.seotoaster html body * span.clear, .seotoaster html body * div.clear, .seotoaster html body * li.clear, .seotoaster html body * dd.clear {
+	background: none;
+	border: 0;
+	clear: both;
+	display: block;
+	float: none;
+	font-size: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+/* http://www.positioniseverything.net/easyclearing.html */
+
+.seotoaster .clearfix:after {
+	clear: both;
+	content: '.';
+	display: block;
+	visibility: hidden;
+	height: 0;
+}
+.seotoaster .clearfix { display: inline-block; }
+.seotoaster * html .clearfix { height: 1%; }
+.seotoaster .clearfix { display: block; }
