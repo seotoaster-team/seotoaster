@@ -13,8 +13,8 @@
 	<?php echo $this->render('backend/content/righttoolbar.phtml'); ?>
 	<a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No Editor'); ?></a>
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/tiny_mce_gzip.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
-<?php //$this->jQuery()->addStylesheet($this->websiteUrl . 'system/css/smoothness/smoothness.css'); ?>
+<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/tinymce/tiny_mce_gzip.js'); ?>
+<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
+<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
+<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
+<?php echo $this->headScript(); ?>

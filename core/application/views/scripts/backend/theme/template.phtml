@@ -11,4 +11,5 @@
 		<img src="#" alt="template preview" />
 	<?php endif; ?>
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
+<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
+<?php echo $this->headScript(); ?>

@@ -1,85 +1,83 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/adminPanelInit.js'); ?>
-<div id="seotoaster" class="cpanel">
-	<div id="showhide"><?php echo $this->translate('Show/Hide panel'); ?></div>
-	<div id="admincpanel">
-		<div id="cpanellogowrap"><div id="cpanelimg"></div></div>
-		<ul id="menu2" class="menu expandfirst">
-			<li>
-				<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
-				<ul>
-					<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
-					<li><a href="javascript:;" onclick="" title="Edit page properties"><?php echo $this->translate('Edit page properties'); ?></a></li>
-					<li><a href="javascript:;" onclick="" title="Delete this page"><?php echo $this->translate('Delete this page'); ?></a></li>
-					<li class="cpanelsubtitle">Other pages</li>
-					<li><?php echo $this->toasterLink('backend_page', 'add', 'Create page', array('400', '400')); ?></li>
-					<li><a href="javascript:;" onclick="" title="Organize pages"><?php echo $this->translate('Organize pages'); ?></a></li>
-					<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-					<li><a href="javascript:;" onclick="" title="Draft"><?php echo $this->translate('Draft pages'); ?></a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="javascript:;"><span>MEDIA</span></a>
-				<ul>
-					<li><a href="javascript:;" onclick="" title="Upload things">Upload things</a></li>
-					<li><a href="javascript:;" onclick="" title="Remove things">Remove things</a></li>
-					<li><a href="javascript:;" onclick="" title="Import images from your online galleries">Import images</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="javascript:;"><span>SEO</span></a>
-				<ul>
-					<li><a href="javascript:;" onclick="" title="Edit 'robots.txt'">Edit 'robots.txt'</a></li>
-					<li><a href="javascript:;" onclick="" title="Add/Edit 301" >Add/Edit 301</a></li>
-					<li><a href="javascript:;" onclick="" title="Site promotion">Site promotion</a></li>
-					<li class="cpanelsubtitle">Link strategy</li>
-					<li><a href="javascript:;" onclick="" title="Deeplinks">Deeplinks</a></li>
-					<li><a href="javascript:;" onclick="" title="Manage page rank sculpting">Sculpting</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="javascript:;"><span>LAYOUT</span></a>
-				<ul>
-					<li><a href="javascript:;" onclick="" title="Add template">Add template</a></li>
-					<li><a href="javascript:;" onclick="" title="Edit this template">Edit this template</a></li>
-					<li><a href="javascript:;" onclick="" title="Edit CSS">Edit CSS</a></li>
-					<li><a href="javascript:;" onclick="" title="Themes">Themes</a></li>
-					<li><a href="javascript:;" onclick="" title="Widgets & Tokens">Widgets & Tokens</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
-				<ul>
-					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage config'); ?>"><?php echo $this->translate('Manage config'); ?></a></li>
-					<?php if($this->acl->isAllowed($this->userRole, Tools_Security_Acl::RESOURCE_USERS)): ?>
-						<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage users'); ?>"><?php echo $this->translate('Manage users'); ?></a></li>
-						<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Import pages'); ?>"><?php echo $this->translate('Import pages'); ?></a></li>
-					<?php endif; ?>
-					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Plugins'); ?>"><?php echo $this->translate('Plugins'); ?></a></li>
-				</ul>
-			</li>
+<div id="seotoaster-cpanel" class="seotoaster w200">
+	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Show/Hide panel'); ?></a></div>
+	<div id="seotoaster-logowrap"><img width="170" height="180" src="<?php echo $this->websiteUrl; ?>system/images/cpanel-img.jpg" /></div>
+	<ul id="cpanelul">
+		<li>
+			<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
+			<ul>
+				<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
+				<li><a href="javascript:;" onclick="" title="Edit page properties"><?php echo $this->translate('Edit page properties'); ?></a></li>
+				<li><a href="javascript:;" onclick="" title="Delete this page"><?php echo $this->translate('Delete this page'); ?></a></li>
+				<li class="cpanelsubtitle">Other pages</li>
+				<li><?php echo $this->toasterLink('backend_page', 'add', 'Create page', array('400', '400')); ?></li>
+				<li><a href="javascript:;" onclick="" title="Organize pages"><?php echo $this->translate('Organize pages'); ?></a></li>
+				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
+				<li><a href="javascript:;" onclick="" title="Draft"><?php echo $this->translate('Draft pages'); ?></a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:;"><span>MEDIA</span></a>
+			<ul>
+				<li><a href="javascript:;" onclick="" title="Upload things">Upload things</a></li>
+				<li><a href="javascript:;" onclick="" title="Remove things">Remove things</a></li>
+				<li><a href="javascript:;" onclick="" title="Import images from your online galleries">Import images</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:;"><span>SEO</span></a>
+			<ul>
+				<li><a href="javascript:;" onclick="" title="Edit 'robots.txt'">Edit 'robots.txt'</a></li>
+				<li><a href="javascript:;" onclick="" title="Add/Edit 301" >Add/Edit 301</a></li>
+				<li><a href="javascript:;" onclick="" title="Site promotion">Site promotion</a></li>
+				<li class="cpanelsubtitle">Link strategy</li>
+				<li><a href="javascript:;" onclick="" title="Deeplinks">Deeplinks</a></li>
+				<li><a href="javascript:;" onclick="" title="Manage page rank sculpting">Sculpting</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:;"><span>LAYOUT</span></a>
+			<ul>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Add template'); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit template', 'id/' . $this->pageData['templateId']); ?></li>
+				<li><a href="javascript:;" onclick="" title="Edit CSS">Edit CSS</a></li>
+				<li><a href="javascript:;" onclick="" title="Themes">Themes</a></li>
+				<li><a href="javascript:;" onclick="" title="Widgets & Tokens">Widgets & Tokens</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
+			<ul>
+				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage config'); ?>"><?php echo $this->translate('Manage config'); ?></a></li>
+				<?php if($this->acl->isAllowed($this->userRole, Tools_Security_Acl::RESOURCE_USERS)): ?>
+					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage users'); ?>"><?php echo $this->translate('Manage users'); ?></a></li>
+					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Import pages'); ?>"><?php echo $this->translate('Import pages'); ?></a></li>
+				<?php endif; ?>
+				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Plugins'); ?>"><?php echo $this->translate('Plugins'); ?></a></li>
+			</ul>
+		</li>
 
-			<!-- output plugins additional menus -->
-			<?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
-				<?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
-					<li>
-						<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
-						<?php if(isset($pluginAdditionalMenu['items'])): ?>
-							<ul>
-								<?php foreach ($pluginAdditionalMenu['items'] as $menuItem): ?>
-									<li><?php echo $menuItem; ?></li>
-								<?php endforeach; ?>
-							</ul>
-						<?php endif; ?>
-					</li>
-				<?php endforeach; ?>
-			<?php endif; ?>
-			<!-- /output plugins additional menus -->
-			
-		</ul>
-		<ul>
-			<li>
-				<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout"><span><?php echo $this->translate('LOGOUT'); ?></span></a>
-			</li>
-		</ul>
-	</div>
+		<!-- output plugins additional menus -->
+		<?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
+			<?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
+				<li>
+					<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
+					<?php if(isset($pluginAdditionalMenu['items'])): ?>
+						<ul>
+							<?php foreach ($pluginAdditionalMenu['items'] as $menuItem): ?>
+								<li><?php echo $menuItem; ?></li>
+							<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
+				</li>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		<!-- /output plugins additional menus -->
+
+	</ul>
+	<ul id="logoutul">
+		<li>
+			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout" style="margin-bottom:0;border-bottom:none;-moz-border-radius:0px 0px 8px 8px;-webkit-border-radius:0px 0px 8px 8px;"><?php echo $this->translate('LOGOUT'); ?></a>
+		</li>
+	</ul>
 </div>

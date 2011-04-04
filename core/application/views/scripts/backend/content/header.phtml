@@ -1,11 +1,7 @@
-<?php echo $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
-<div id="seotoaster" class="admineditheader">
-	<div class="admineditwhat"><?php echo $this->translate('Edit header'); ?></div>
-	<div id="ajax_msg" class="success" style="display: none;"><?php echo $this->translate('Working') . '...'; ?></div>
-	<div id="ajax_msg_fail" class="errors" style="display: none;"><?php echo $this->translate('Oops. Error occured.'); ?></div>
-	<div class="close_window" onclick="parent.tb_remove();"></div>
+<div>
 	<?php
 		$this->contentForm->setAction($this->websiteUrl . $this->url());
 		echo $this->contentForm;
 	?>
 </div>
+<?php echo $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
