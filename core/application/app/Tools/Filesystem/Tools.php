@@ -16,7 +16,7 @@ class Tools_Filesystem_Tools {
 	 * @param string $path Path to the directory
 	 * @return array
 	 */
-	public static function scanDirectory($path) {
+	public static function scanDirectory($path, $incFilePath = false) {
 		$foundFiles = array();
 		$path       = (string)trim($path);
 		if(!$path) {
@@ -29,7 +29,16 @@ class Tools_Filesystem_Tools {
 		if(!empty ($foundFiles)) {
 			foreach ($foundFiles as $key => $file) {
 				if(in_array($file, self::$_excludedFiles)) {
-					unset ($foundFiles[$key]);
+					unset($foundFiles[$key]);
+					continue;
+				}
+				if(is_dir($path . '/' . $file)) {
+					unset($foundFiles[array_search($file, $foundFiles)]);
+					$foundFiles = array_merge($foundFiles, self::scanDirectory($path . '/' . $file, $incFilePath));
+					continue;
+				}
+				if($incFilePath) {
+					$foundFiles[$key] = $path . '/' . $file;
 				}
 			}
 		}
@@ -63,13 +72,13 @@ class Tools_Filesystem_Tools {
 	 * @param string $extension Files extension
 	 * @return array
 	 */
-	public static function findFilesByExtension($directory, $extension) {
+	public static function findFilesByExtension($directory, $extension, $incFilePath = false) {
 		$foundFiles = array();
 		$files      = array();
-		$files      = self::scanDirectory($directory);
+		$files      = self::scanDirectory($directory, $incFilePath);
 		if(!empty($files)) {
 			foreach ($files as $file) {
-				if(preg_match('~^[a-zA-Z0-9-_\s]+\.' . $extension . '$~U', $file)) {
+				if(preg_match('~^[a-zA-Z0-9-_\s/]+\.' . $extension . '$~U', $file)) {
 					$foundFiles[] = $file;
 				}
 			}

@@ -4,7 +4,7 @@ class Tools_Factory_PluginFactory {
 
 	private function  __construct() {}
 
-	public static function factory($name, $options = array(), $toasterOptions = array()) {
+	public static function createPlugin($name, $options = array(), $toasterOptions = array()) {
 		$pluginClassName = ucfirst($name);
 		self::_validate($pluginClassName);
 		return new $pluginClassName($options, $toasterOptions);

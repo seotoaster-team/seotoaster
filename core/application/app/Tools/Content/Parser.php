@@ -72,7 +72,7 @@ class Tools_Content_Parser {
 		}
 		foreach ($widgets as $widgetData) {
 			try {
-				$widget = Tools_Factory_WidgetFactory::factory($widgetData['name'], $widgetData['options'], array_merge($this->_pageData, $this->_options));
+				$widget = Tools_Factory_WidgetFactory::createWidget($widgetData['name'], $widgetData['options'], array_merge($this->_pageData, $this->_options));
 				$replacement = $widget->render();
 			}
 			catch (Exceptions_SeotoasterException $se) {

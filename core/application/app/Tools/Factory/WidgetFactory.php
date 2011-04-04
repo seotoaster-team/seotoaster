@@ -4,7 +4,7 @@ class Tools_Factory_WidgetFactory {
 	
 	private function  __construct() {}
 
-	public static function factory($name, $options = array(), $toasterOptions = array()) {
+	public static function createWidget($name, $options = array(), $toasterOptions = array()) {
 		$name = ucfirst($name);
 		self::_validate($name);
 		$widgetClassName = 'Widgets_' . $name . '_' . $name;
