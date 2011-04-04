@@ -3,19 +3,30 @@
 	<head>
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
-		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/thickbox/thickbox.css'); ?>
+
 		<?php echo $this->headLink(); ?>
+
+		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
 		<?php echo $this->jQuery(); ?>
-		<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/thickbox/thickbox.js'); ?>
-		<?php echo $this->headScript(); ?>
-		<?php if(!preg_match('/<meta charset="utf-8">/', $this->head)): ?>
+
+		<?php if(!preg_match('/<meta charset="utf-8">/is', $this->head)): ?>
 			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
 		<?php endif; ?>
+
 		<?php echo $this->head; ?>
 	</head>
 	<body>
-		<div id="ajax_msg" class="success" style="display: none;"><?php echo $this->translate('Working') . '...'; ?></div>
+
+		<?php echo $this->render('admin/seotoasterpopup.phtml'); ?>
+
+		<div id="ajax_msg" class="ui-state-highlight ui-corner-all success" style="display: none; position: absolute; padding: 0.7em; z-index: 999;">
+			<span class="ui-icon ui-icon-gear" style="float: left; margin-right: 0.3em;"></span>
+			<?php echo $this->translate('Working') . '...'; ?>
+		</div>
 		<div id="ajax_msg_fail" class="errors" style="display: none;"><?php echo $this->translate('Oops. Error occured.'); ?></div>
 		<?php echo $this->layout()->content; ?>
 		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
