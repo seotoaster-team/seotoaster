@@ -28,7 +28,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 		$contentContent  = (null === $this->_content) ? '' : $this->_content->getContent();
 		if($this->_acl->isAllowed($currentUser, $this)) {
 			$contentContent = ($this->_checkPublished()) ? $contentContent : '<div style="border: 1px solid red">' . $contentContent . '</div>';
-			$contentContent .= $this->_addAdminLink($this->_type, ($this->_content === null || !$contentContent) ? null : $this->_content->getId(), 'Click to edit content', 940, 590);
+			$contentContent .= $this->_addAdminLink($this->_type, ($this->_content === null) ? null : $this->_content->getId(), 'Click to edit content', 940, 590);
 		}
 		else {
 			$contentContent = ($this->_checkPublished()) ? $contentContent : '';

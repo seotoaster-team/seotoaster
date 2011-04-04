@@ -16,7 +16,7 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 				return 'Plugin <strong>' . $plugin->getName() . '</strong> is not enabled.';
 			}
 			try {
-				$toasterPlugin = Tools_Factory_PluginFactory::factory($plugin->getName(), $this->_options, $this->_toasterOptions);
+				$toasterPlugin = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), $this->_options, $this->_toasterOptions);
 				return $toasterPlugin->run();
 			}
 			catch (Exceptions_SeotoasterPluginException $spe) {

@@ -15,9 +15,9 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 
 	private $_excludeFiles  = array(
 		self::FILENAME,
-		'reset.css',
-		'style.css',
-		'content.css'
+		//'reset.css',
+		//'style.css',
+		//'content.css'
 	);
 
 	protected function  _init() {
@@ -27,9 +27,10 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 		}
 	}
 
-	private function _addCss($path, $fileName) {
+	private function _addCss($cssPath) {
 		$cssContent = '';
-		$cssPath    = $path . '/' . $fileName;
+		$fileName = explode('/', $cssPath);
+		$fileName = strtoupper(end($fileName));
 		if(file_exists($cssPath)) {
 			$cssContent .= "/**** " .  strtoupper($fileName) . " start ****/\n";
 			$cssContent .= preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath));
@@ -41,22 +42,19 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 	protected function  _load() {
 		if(!file_exists($this->_themeFullPath . '/' . self::FILENAME)) {
 			$concatContent = '';
-			$concatContent .= $this->_addCss('system/js/external/thickbox', 'thickbox.css');
-			$concatContent .= $this->_addCss($this->_themeFullPath, 'reset.css');
-			$concatContent .= $this->_addCss($this->_themeFullPath, 'style.css');
-			$concatContent .= $this->_addCss($this->_themeFullPath, 'content.css');
-			$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_themeFullPath, self::FILES_EXTENSION);
+			$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_themeFullPath, self::FILES_EXTENSION, true);
+			
 			foreach ($cssFiles as $key => $cssFile) {
 				if(in_array($cssFile, $this->_excludeFiles)) {
 					continue;
 				}
-				$concatContent .= $this->_addCss($this->_themeFullPath, $cssFile);
+				$concatContent .= $this->_addCss($cssFile);
 			}
 			try {
 				Tools_Filesystem_Tools::saveFile($this->_themeFullPath . '/' . self::FILENAME , $concatContent);
 			}
 			catch (Exceptions_SeotoasterException $ste) {
-				return false;
+				return $ste->getMessage();
 			}
 		}
 		return '<link href="' . $this->_toasterOptions['websiteUrl'] . $this->_themeFullPath . '/' .  self::FILENAME . '" rel="stylesheet" type="text/css" media="screen" />';
