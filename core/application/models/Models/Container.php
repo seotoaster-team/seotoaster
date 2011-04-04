@@ -29,6 +29,10 @@ class Application_Model_Models_Container extends Application_Model_Models_Abstra
 
 	private $_content       = '';
 
+	public function  __construct(array $options = null) {
+		parent::__construct($options);
+	}
+
 	public function getContainerType() {
 		return $this->_containerType;
 	}

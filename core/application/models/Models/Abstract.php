@@ -7,7 +7,7 @@
  *
  * @author iamne
  */
-abstract class Application_Model_Models_Abstract {
+abstract class Application_Model_Models_Abstract extends Tools_System_Observable {
 
 	protected $_id = null;
 
