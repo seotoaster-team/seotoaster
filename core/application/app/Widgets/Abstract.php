@@ -33,7 +33,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 				$this->_cacheId .= $toasterOptions['id'];
 			}
 		}
-		$this->_translator = Zend_Registry::get('translator');
+		$this->_translator = Zend_Registry::get('Zend_Translate');
 		$this->_init();
 	}
 
