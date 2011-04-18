@@ -1,6 +1,5 @@
 $(function() {
-	var wndDialog = $( "#seotoaster_popup_dialog" )
-
+	var wndDialog = $("#seotoaster_popup_dialog");
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
 		url = $(this).attr('url');
@@ -23,7 +22,29 @@ $(function() {
 			}
 		});
 		wndDialog.dialog('open');
-		//console.log($(this).attr('url'));
 	});
 
+	$('form._fajax').live('submit', function(e) {
+		e.preventDefault();
+		var ajaxMessage = $('#ajax_msg');
+		var form        = $(this);
+		$.ajax({
+			url        : form.attr('action'),
+			type       : 'post',
+			dataType   : 'json',
+			data       : form.serialize(),
+			beforeSend : function() {
+				ajaxMessage.html('Working...').fadeIn();
+				if(form.hasClass('_reload')) {
+					top.location.reload();
+				}
+			},
+			success : function(response) {
+				ajaxMessage.html('Saved').fadeOut('slow');
+			},
+			error: function() {
+				ajaxMessage.html('Error occured');
+			}
+		})
+	})
 });
