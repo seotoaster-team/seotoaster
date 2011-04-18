@@ -34,7 +34,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     private $_h1               = '';
 
-    private $_shortDescription = '';
+    private $_teaserText       = '';
 
 	private $_lastUpdate       = '';
 
@@ -145,12 +145,12 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		return $this;
 	}
 
-	public function getShortDescription() {
-		return $this->_shortDescription;
+	public function getTeaserText() {
+		return $this->_teaserText;
 	}
 
-	public function setShortDescription($shortDescription) {
-		$this->_shortDescription = $shortDescription;
+	public function setTeaserText($teaserText) {
+		$this->_teaserText = $teaserText;
 		return $this;
 	}
 

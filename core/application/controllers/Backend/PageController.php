@@ -13,19 +13,35 @@ class Backend_PageController extends Zend_Controller_Action {
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
 	}
 
 	public function pageAction() {
-		$pageForm = new Application_Form_Page();
-		if($this->getRequest()->isPost()) {
-			
+		$pageForm   = new Application_Form_Page();
+		$pageId     = $this->getRequest()->getParam('id');
+		$mapper     = new Application_Model_Mappers_PageMapper();
+
+		$page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
+
+		$categoriesOptions = $mapper->selectCategoriesIdName();
+		$pageForm->getElement('pageCategory')->addMultiOptions($categoriesOptions);
+
+		if(!$this->getRequest()->isPost()) {
+			if($page instanceof Application_Model_Models_Page) {
+				$pageForm->setOptions($page->toArray());
+			}
 		}
 		else {
-			echo $pageForm;
-			//Zend_Debug::dump('paaaaage');
+			if($pageForm->isValid($this->getRequest()->getParams())) {
+				$pageData = $pageForm->getValues();
+				$page->setOptions($pageData);
+				$page->setTargetedKey($page->getH1());
+				$page->setParentId($pageData['pageCategory']);
+				$page->setShowInMenu($pageData['inMenu']);
+				$mapper->save($page);
+			}
+			exit;
 		}
+		$this->view->pageForm = $pageForm;
 	}
-
 }
 

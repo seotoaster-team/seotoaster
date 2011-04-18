@@ -9,7 +9,20 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Page instance');
 		}
 		$data = array(
-			//here all page data
+			'parent_id'           => $page->getParentId(),
+			'h1'                  => $page->getH1(),
+			'header_title'        => $page->getHeaderTitle(),
+			'url'                 => $page->getUrl(),
+			'nav_name'            => $page->getNavName(),
+			'meta_description'    => $page->getMetaDescription(),
+			'meta_keywords'       => $page->getMetaKeywords(),
+			'teaser_text'         => $page->getTeaserText(),
+			'show_in_menu'        => $page->getShowInMenu(),
+			'is_404page'          => $page->getIs404page(),
+			'protected'           => $page->getProtected(),
+			'order'               => $page->getOrder(),
+			'static_order'        => $page->getStaticOrder(),
+			'targeted_key_phrase' => $page->getTargetedKey()
 		);
 		if(null === ($id = $page->getId())) {
 			unset($data['id']);
@@ -21,10 +34,17 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
     public function find($id) {
-		
+		$result = $this->getDbTable()->find($id);
+		if(0 == count($result)) {
+			return null;
+		}
+		$row = $result->current();
+		return new Application_Model_Models_Page($row->toArray());
 	}
 
     public function fetchAll($where = '') {
+		//exclude system pages from select
+		$where .= $this->getDbTable()->getAdapter()->quoteInto(' AND system = "?"', 0);
 		$entries = array();
 		$resultSet = $this->getDbTable()->fetchAll($where);
 		if(null === $resultSet) {
@@ -63,6 +83,16 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	public function findByParentId($parentId) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', $parentId);
 		return $this->fetchAll($where);
+	}
+
+	public function selectCategoriesIdName() {
+		$result     = array();
+		$categories = $this->findByParentId(0);
+		foreach ($categories as $key => $category) {
+			$categoryName = ($category->getProtected()) ? ($category->getH1() . '*') : $category->getH1();
+			$result[$category->getId()] = $categoryName;
+		}
+		return $result;
 	}
 }
 
