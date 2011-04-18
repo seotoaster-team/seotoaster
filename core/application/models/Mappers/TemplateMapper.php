@@ -32,7 +32,6 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		$data = array(
 			'name'          => $template->getName(),
 			'content'       => $template->getContent(),
-			'theme_name'    => $template->getThemeName(),
 			'preview_image' => $template->getPreviewImage()
 		);
 		if(!$template->getId()) {

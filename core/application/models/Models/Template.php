@@ -6,8 +6,6 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	private $_content      = '';
 
-	private $_themeName    = '';
-
 	private $_previewImage = '';
 
 	public function getPreviewImage() {
@@ -34,15 +32,6 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	public function setContent($content) {
 		$this->_content = $content;
-		return $this;
-	}
-
-	public function getThemeName() {
-		return $this->_themeName;
-	}
-
-	public function setThemeName($themeName) {
-		$this->_themeName = $themeName;
 		return $this;
 	}
 
