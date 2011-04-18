@@ -13,7 +13,7 @@ body.seotoaster {
 	font-family:helvetica;
 	display:block;
 	overflow:hidden;
-/*	border:2px solid #fff;*/
+	border:2px solid #fff;
 	padding-bottom:10px;
 }
 .seotoaster .header {
@@ -75,10 +75,10 @@ body.seotoaster {
 .seotoaster form { overflow:hidden; }
 .seotoaster fieldset {
 	background:#fff;
-	background:url(../images/bg-strip.png);
+	background:url(images/bg-strip.png);
 	padding:10px;
 	position:relative;
-	margin-bottom:6px;
+	margin-bottom:10px;
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
 	border-radius:6px;
@@ -138,7 +138,7 @@ body.seotoaster {
 	font-family:Arial, Helvetica, sans-serif;
 	color:#eee;
 	padding:2px 20px;
-/*	margin-right:5px;*/
+	margin-right:5px;
 }
 .seotoaster input[type=submit]:hover {
 	background-color: #8FD5EB;
@@ -226,7 +226,7 @@ body.seotoaster {
 	background: #fff;
 	padding:5px 0px 0px 10px;
 }
-/*================ CUSTOM -----------*/
+/*================ categories in shopping -----------*/
 .seotoaster #groups * {
 	float:left;
 	white-space:nowrap;
@@ -243,7 +243,7 @@ body.seotoaster {
 	border-radius:4px;
 }
 .seotoaster #groups div img { margin-top:2px; }
-/*========= Control Panel ===========*/
+/*========= side Control Panel ===========*/
 #seotoaster-cpanel {
 	background:none;
 	position:absolute;
@@ -272,8 +272,6 @@ body.seotoaster {
 	padding:3px 5px;
 	border-bottom:1px solid #fff;
 	display:block;
-	border-radius: 0px;
-	margin-top: 0px;
 }
 #seotoaster-cpanel ul li ul li a {
 	background-color:#eFDFFF;
@@ -282,7 +280,7 @@ body.seotoaster {
 	border-bottom:1px dsolid #ddd;
 	padding:2px 4px;
 }
-#seotoaster-cpanel ul li ul li a:hover { background-color:#fFfddF;}
+#seotoaster-cpanel ul li ul li a:hover { background-color:#fFfddF; }
 #seotoaster-cpanel ul li ul li.cpanelsubtitle {
 	background-color:#dFDFFF;
 	color:#3c3c3c;
@@ -296,3 +294,109 @@ body.seotoaster {
 	text-align:center;
 }
 #seotoaster-logowrap img { max-width:200px; }
+
+
+
+/*========= EDIT CONTENT ===========*/
+.seotoaster div.header label { /*publish or not form in header*/
+	color: #ececec;
+	background-color:#666;
+	float:left;
+	padding:0px 8px;
+}
+.seotoaster div.header input[type=text] {
+	font-size:10pt;
+	padding: 1px 0px;
+	margin:0;
+}
+.seotoaster .above-editor-links, .seotoaster .above-editor-links a {
+	color:#555;
+	font-size:11pt;
+	text-align:right;
+}
+.seotoaster textarea#editcontent {
+	margin:0;
+	padding:5px;
+	height:100%;
+}
+.seotoaster ul.editortabs {
+	margin:0;
+	padding:0;
+}
+.seotoaster ul.editortabs li {
+	background-color:#eee;
+	float:left;
+	list-style:none;
+	padding:2px 5px 2px 5px;
+	border-right:1px solid #999;
+	border-top:1px solid #fff;
+}
+.seotoaster ul.editortabs li a {
+	font-size:10pt;
+	color:#666;
+	font-weight:bold;
+}
+.seotoaster ul.editortabs li:hover { background: #fff; }
+.seotoaster ul.editortabs li.active {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+
+/*========= AND AND EDIT TEMPLATE ===========*/
+.seotoaster div#templatelist {
+	position: absolute;
+	background-color: #BDE6F1;
+}
+.seotoaster div#templatelist div.template_preview {
+	position: relative;
+}
+.seotoaster div#templatelist div.template_preview {
+	border: 1px solid #000;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	text-align: center;
+	cursor: pointer;
+	margin: 2px 0 3px;
+}
+.seotoaster div#templatelist div.template_preview .template_delete {
+	display: inline;
+}
+.seotoaster div#templatelist div.template_preview .template_name {
+	background-color: #666666;
+    color: #FFFFFF;
+    margin: 0 0 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-icab-text-overflow: ellipsis;
+	-khtml-text-overflow: ellipsis;
+	-moz-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+}
+.seotoaster div#templatelist div.template_preview .template_name:hover {
+	-o-text-overflow: inherit;
+    text-overflow: inherit;
+    overflow: visible;
+}
+.seotoaster div.largebutton{
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	background-color:#690;
+	text-align:center;
+}
+.seotoaster div.largebutton:hover{
+	background-color:#6C3;
+}
+.seotoaster div.largebutton a{
+	color:#fff;
+	font-weight:bold;
+	display:block;
+	padding:20px 10px;
+
+}
+
+
+.seotoaster .red { background-color:red; }
+.seotoaster .blue { background-color:blue; }

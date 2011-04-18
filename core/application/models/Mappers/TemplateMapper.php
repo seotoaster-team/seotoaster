@@ -14,8 +14,7 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	}
 
     public function fetchAll() {
-		$resultSet = $this->getDbTable()->fetchAll();
-		Zend_Debug::dump($resultSet);
+		return $this->getDbTable()->fetchAll();
 	}
 
 	public function save($template) {
@@ -36,5 +35,20 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		}
 	}
 
+	public function findByName($name){
+		if (empty($name)){
+			throw new Exceptions_SeotoasterException('Template name cannot be empty');
+		}
+
+		$row = $this->getDbTable()->fetchRow( $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name) );
+		if (count($row) == 0){
+			return null;
+		}		
+		return new Application_Model_Models_Template($row->toArray());
+	}
+
+	public function delete(Application_Model_Models_Template $template) {
+		return $this->getDbTable()->delete( array('id = ?' => $template->getId()) );
+	}
 }
 
