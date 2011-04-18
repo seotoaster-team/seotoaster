@@ -1,4 +1,7 @@
-$(document).ready(function() {
+$(function() {
+	
+	$('#tabs').tabs();
+
 	var datepicker      = $('#datepicker');
 	var chckbxPublished = $('#published');
 

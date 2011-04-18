@@ -9,3 +9,4 @@ core/application/configs/**/*
 themes/**/*
 core/application/configs/application.ini
 core/application/configs/routes.xml
+.htaccess

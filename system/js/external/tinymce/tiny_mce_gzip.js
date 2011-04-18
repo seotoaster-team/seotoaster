@@ -16,14 +16,11 @@ var tinyMCE_GZ = {
 			t.settings[n] = s[n];
 
 		s = t.settings;
-
 		for (i=0; i<nl.length; i++) {
 			n = nl[i];
-
 			if (n.src && n.src.indexOf('tiny_mce') != -1)
 				t.baseURL = n.src.substring(0, n.src.lastIndexOf('/'));
 		}
-
 		if (!t.coreLoaded)
 			t.loadScripts(1, s.themes, s.plugins, s.languages, cb, sc);
 	},

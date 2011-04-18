@@ -1,19 +1,22 @@
-<div id="seotoaster" class="editor">
-	<div class="admineditwhat">
-		<input type="checkbox" id="published" <?php echo ($this->published) ? 'checked="checked"' : ''; ?> />&nbsp;Published? OR publish on&nbsp;
-		<?php echo $this->datePicker('datepicker', $this->publishingDate , array('defaultDate' => date('Y-m-d', time()), 'dateFormat' => 'yy-mm-dd')) ?>
-	</div>
-	<div class="close_window" onclick="parent.tb_remove();"></div>
-	<div id="admintextcontent">
-		<?php
-			$this->contentForm->setAction($this->url());
-			echo $this->contentForm;
-		?>
-	</div>
-	<?php echo $this->render('backend/content/righttoolbar.phtml'); ?>
-	<a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No Editor'); ?></a>
+<div class="grid_8 above-editor-links"><a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a> | <a id="toogletinymce" href="javascript:;">No editor</a> &nbsp;</div>
+<div class="grid_8 h570" id="editordiv">
+	<?php
+		$this->contentForm->setAction($this->url());
+		echo $this->contentForm;
+	?>
 </div>
-<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/tinymce/tiny_mce_gzip.js'); ?>
+<div class="grid_4">
+	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
+	<?php $this->tabPane('tabs', 'Products tab', array('title' => 'Products'));?>
+	<?php $this->tabPane('tabs', 'Something', array('title' => 'Tab3'));?>
+	<?php echo $this->tabContainer('tabs', array(), array('class' => 'editortabs'));?>
+</div>
+	
+
+<!--	<div class="grid_4" style="text-align:center;">
+		<input type="submit" name="submit" id="submit" value="Done" class="w250" style="float:none;margin-top:10px;">
+	</div>-->
+	<div class="clear"></div>
 <?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
 <?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
 <?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/content.js'); ?>

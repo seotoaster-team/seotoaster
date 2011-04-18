@@ -14,8 +14,15 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	}
 
     public function fetchAll() {
-		$resultSet = $this->getDbTable()->fetchAll();
-		Zend_Debug::dump($resultSet);
+		$entries = array();
+		$resultSet = $this->getDbTable()->fetchAll($where);
+		if(null === $resultSet) {
+			return null;
+		}
+		foreach ($resultSet as $row) {
+			$entries[] = new Application_Model_Models_Template($row->toArray());
+		}
+		return $entries;
 	}
 
 	public function save($template) {

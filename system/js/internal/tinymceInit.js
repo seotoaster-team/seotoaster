@@ -1,54 +1,12 @@
 $(document).ready(function(){
-	
-	//compressor
-	tinyMCE_GZ.init({
-		plugins : 'safari,preview,spellchecker,media',
-		themes : 'simple,advanced',
-		languages : 'en',
-		disk_cache : true,
-		debug : false
-	});
-
-	//seotoaster plugin for the custom widgets drop-down
-	tinymce.create('tinymce.plugins.SeotoasterWidgets', {
-		createControl: function(n, cm) {
-			switch (n) {
-				case 'widgets':
-					var widgetList = cm.createListBox('widgets', {
-						title: 'Widgets',
-						onselect: function(v) {
-							$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, v)
-						}
-					});
-					$.ajax({
-						type: 'post',
-						url: '/backend/backend_content/loadwidgets/',
-						success: function(widgets) {
-							for(var i = 0; i < widgets.length; i++) {
-								for(var j = 0; j < widgets[i].length; j++) {
-									widgetList.add('{$' + widgets[i][j] + '}', '{$' + widgets[i][j] + '}');
-								}
-							}
-						},
-						dataType: 'json'
-					});
-					return widgetList;
-				break;
-			}
-			return null;
-		}
-	})
-
-	tinymce.PluginManager.add('stw', tinymce.plugins.SeotoasterWidgets);
-
 	//init of tinymce
 	$('textarea.tinymce').tinymce({
-		//script_url: '/system/js/external/tinymce/tiny_mce.js',
+		script_url: 'system/js/external/tinymce/tiny_mce_gzip.php',
 		theme : "advanced",
 		elements : 'nourlconvert',
 		width: 620,
 		height: 506,
-		plugins : "safari,preview,spellchecker,fullscreen,media,paste,-stw",
+		plugins : "safari,preview,spellchecker,fullscreen,media,paste,stw",
 		//plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
 		theme_advanced_buttons1 : "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,formatselect,styleselect,fontsizeselect,forecolor,|,link,unlink,anchor,hr",
 		theme_advanced_buttons2 : "pastetext,charmap,image,media,|,widgets,|,fullscreen,preview,spellchecker,|,undo,redo,|,removeformat,cleanup,code",
