@@ -1,15 +1,44 @@
-<div id="seotoaster" class="editor">
-	<div class="admineditwhat"></div>
-	<div class="close_window" onclick="parent.tb_remove();"></div>
-	<?php
-		$this->templateForm->setAction($this->url());
-		echo $this->templateForm;
-	?>
+<div class="container_12 ui-helper-clearfix ui-helper-reset">
+	<div id="templatelist" class="grid_12 alpha omega h550 ui-helper-clearfix ui-helper-reset" style="display: none;"></div>
+	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
+	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
+		<div class="grid_8">
+			<div class="w300">
+				<?php echo $this->templateForm->getElement('name'); ?>
+			</div>
+			<div class="clear mt5px"></div>
+			<?php echo $this->templateForm->getElement('content'); ?>
+		</div>
 
-	<?php if(($previewImage = $this->templateForm->getElement('previewImage')->getValue()) != null): ?>
-
-		<img src="#" alt="template preview" />
-	<?php endif; ?>
+		<div class="grid_4">
+			<div class="largebutton">
+			<?php
+			echo $this->ajaxLink(
+				'Select another template to edit',
+				$this->websiteUrl . 'backend/backend_theme/gettemplate/',
+				array(
+					'complete' => 'showTemplateList(data)'
+				),
+				array('listtemplates' => 'all')
+				); ?>
+			</div>
+			<div class="mt20px textcentered h350 img-teaser">
+				<p>Upload image Mechanism</p>
+				<?php if(($previewImage = $this->templateForm->getElement('previewImage')->getValue()) != null): ?>
+					<img id="template_preview" src="<?php echo $previewImage; ?>" alt="template preview" />
+				<?php else: ?>
+					<img id="template_preview" src="/system/images/cpanel-img.jpg" alt="template preview" />
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
+		<?php echo $this->templateForm->getElement('previewImage')->setDecorators(array('ViewHelper')); ?>
+		<div class="grid_4 textcentered  mt20px"><?php echo $this->templateForm->getElement('submit'); ?></div>
+	</form>
+	<div class="grid_12 clear"></div>
 </div>
+<?php $this->jQuery()
+     ->setRenderMode(ZendX_JQuery::RENDER_JAVASCRIPT | ZendX_JQuery::RENDER_JQUERY_ON_LOAD); ?>
+<?php echo $this->jQuery(); ?>
 <?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
 <?php echo $this->headScript(); ?>

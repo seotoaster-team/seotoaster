@@ -124,7 +124,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			'route'   => array('fr' => 'en', 'it' => 'en', 'de' => 'en'),
 			'cache'   => Zend_Registry::get('cache')
 		));
-		Zend_Registry::set('translator', $translator);
+		Zend_Registry::set('Zend_Translate', $translator);
 	}
 
 	protected function _initZendX() {
