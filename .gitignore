@@ -10,3 +10,4 @@ themes/**/*
 core/application/configs/application.ini
 core/application/configs/routes.xml
 .htaccess
+/nbproject/private/
