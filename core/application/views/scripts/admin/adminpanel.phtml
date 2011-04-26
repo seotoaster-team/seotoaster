@@ -38,10 +38,10 @@
 		<li>
 			<a href="javascript:;"><span>LAYOUT</span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Add template'); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit template', 'id/' . $this->pageData['templateId']); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'editcss', 'Edit CSS'); ?></li>
-				<li><a href="javascript:;" onclick="" title="Themes">Themes</a></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Edit this template'), 'id/' . $this->pageData['templateId']); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Widgets & Tokens">Widgets & Tokens</a></li>
 			</ul>
 		</li>

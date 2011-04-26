@@ -3,8 +3,16 @@
 class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers_Abstract {
 
 	protected $_dbTable = 'Application_Model_DbTable_Template';
+	
+	protected $_defaultTemplates = array(
+		'index', 'default', 'category', 'news'
+	);
 
 	public function find($id) {
+		$id = trim($id);
+		if (empty ($id)){
+			throw new Exceptions_SeotoasterException('Template name cannot be empty');
+		}
 		$result = $this->getDbTable()->find($id);
 		if(0 == count($result)) {
 			return null;
@@ -34,14 +42,20 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 			'content'       => $template->getContent(),
 			'preview_image' => $template->getPreviewImage()
 		);
-		if(!$template->getId()) {
+		if(null === $this->find($template->getName())) {
 			return $this->getDbTable()->insert($data);
 		}
 		else {
-			return $this->getDbTable()->update($data, array('id = ?' => $template->getId()));
+			return $this->getDbTable()->update($data, array('name = ?' => $template->getName()));
 		}
 	}
 
+	/**
+	 *
+	 * @param type $name
+	 * @return Application_Model_Models_Template 
+	 * @deprecated
+	 */
 	public function findByName($name){
 		if (empty($name)){
 			throw new Exceptions_SeotoasterException('Template name cannot be empty');
@@ -55,7 +69,11 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	}
 
 	public function delete(Application_Model_Models_Template $template) {
-		return $this->getDbTable()->delete( array('id = ?' => $template->getId()) );
+		return $this->getDbTable()->delete( array('name = ?' => $template->getName()) );
+	}
+	
+	public function clearTemplates(){
+		return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
 	}
 }
-
+	

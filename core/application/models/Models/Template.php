@@ -35,9 +35,5 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 		return $this;
 	}
 
-	public function setId($id) {
-		parent::setId($id);
-		return $this;
-	}
 }
 
