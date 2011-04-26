@@ -13,7 +13,7 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		return new Application_Model_Models_Template($row->toArray());
 	}
 
-    public function fetchAll() {
+    public function fetchAll($where = '') {
 		$entries = array();
 		$resultSet = $this->getDbTable()->fetchAll($where);
 		if(null === $resultSet) {
