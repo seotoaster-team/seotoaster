@@ -3,9 +3,9 @@
 	<div class="template_preview">
 		<div class="h200 mt10px mb10px">
 		<?php if ($template['preview_image']) : ?>
-		<img src="<?php echo $template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" />
+		<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" />
 		<?php else: ?>
-		<img src="http://placehold.it/180x200/" alt="<?php echo $template['name']; ?>" />
+		<img src="<?php echo $this->websiteUrl; ?>system/images/no_preview.png" alt="<?php echo $template['name']; ?>" />
 		<?php endif; ?>
 		</div>
 		<div class="template_name">
@@ -14,7 +14,7 @@
 			<div class="template_delete"><img style="vertical-align:middle;" src="<?php echo $this->websiteUrl;?>/system/images/delete.png" alt="<?php echo $this->translate('Delete');?>" /></div>
 			<?php endif; ?>
 		</div>
-		<?php echo $this->formHidden('template-id', $template['id'], array('id' => 'template-id-'.$template['id'])); ?>
+		<?php echo $this->formHidden('template-id', $template['name'], array('id' => 'template-id-'.$template['name'])); ?>
 	</div>
 	
 </div>

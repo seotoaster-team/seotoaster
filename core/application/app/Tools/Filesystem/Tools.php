@@ -7,7 +7,7 @@
  */
 class Tools_Filesystem_Tools {
 
-	private static $_excludedFiles = array('.svn', '.', '..', '.htaccess', 'en.lng', 'fr.lng', 'concat.css');
+	private static $_excludedFiles = array('.svn', '.', '..', '.htaccess', 'en.lng', 'fr.lng');
 
 	/**
 	 * Scan directory and get all files from it.
@@ -62,7 +62,7 @@ class Tools_Filesystem_Tools {
 		$foundDirs = @scandir($path);
 		if(!empty ($foundDirs)) {
 			foreach ($foundDirs as $key => $directory) {
-				if(!is_dir($path . $directory) || in_array($directory, self::$_excludedFiles)) {
+				if(!is_dir($path .'/'. $directory) || in_array($directory, self::$_excludedFiles)) {
 					unset ($foundDirs[$key]);
 				}
 			}
@@ -111,6 +111,26 @@ class Tools_Filesystem_Tools {
 		}
 		if (file_exists($filename)){
 			return unlink($filename);
+		} else {
+			return false;
+		}
+	}
+
+	public static function deleteDir($dirname) {
+		$dirname = trim($dirname);
+		if ($dirname == ''){
+			return false;
+		}
+		if (is_dir($dirname)){
+			$listFiles = self::scanDirectory($dirname, true);
+			foreach ($listFiles as $file){
+				self::deleteFile($file);
+			}
+			$subdirs = self::scanDirectoryForDirs($dirname);
+			foreach ($subdirs as $subdir){
+				self::deleteDir($dirname.'/'.$subdir);
+			}
+			return @rmdir($dirname);
 		} else {
 			return false;
 		}
