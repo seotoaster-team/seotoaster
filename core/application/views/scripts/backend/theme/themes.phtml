@@ -1,49 +1,55 @@
-<div  class="grid_12 mb10px">
-	<fieldset><legend>Upload a new theme</legend>	
-    <div class="grid_5"><?php echo $this->toasterUploader(); ?></div>
-    <div class="grid_7">
-		<table id="theme-upload-status"></table>
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<div class="header" style="overflow:hidden;">
+		<div class="closebutton">Close</div>
+		<label>Manage themes</label>
 	</div>
-    </fieldset>
-</div> 
-<div class="grid_12">
-	<fieldset><legend>Themes list</legend>
-		<div id="themes-list" class="h350" style="overflow:auto;">
-		<?php foreach ($this->themesList as $theme) :?>
-			<div class="grid_3 mb10px themebox">
-				<span class="label" style="position:relative"><?php echo $theme['name']; ?><div class="cat-tools">
-					<?php if ($theme['isCurrent']): ?>
-					<a href="javascript:;" title="this is the current theme"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
-					<?php else : ?>
-					<a href="javascript:;" class="theme-delete" title="<?php echo $this->translate('trash this theme');?>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
-					<?php endif; ?>
-					</div>
-				</span>
-				<img src="<?php echo $theme['preview'];  ?>" class="preview" alt="<?php echo $theme['name']; ?>" />
-				<label><input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;<?php echo $this->translate('Select theme'); ?></label>
-				<input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
-			</div>
-		<?php endforeach; ?>
+	<div  class="grid_12 mb10px">
+		<fieldset><legend>Upload a new theme</legend>
+		<div class="grid_5"><?php echo $this->toasterUploader(); ?></div>
+		<div class="grid_7">
+			<table id="theme-upload-status"></table>
 		</div>
-	</fieldset>
+		</fieldset>
+	</div>
+	<div class="grid_12">
+		<fieldset><legend>Themes list</legend>
+			<div id="themes-list" class="h350" style="overflow:auto;">
+			<?php foreach ($this->themesList as $theme) :?>
+				<div class="grid_3 mb10px themebox">
+					<span class="label" style="position:relative"><?php echo $theme['name']; ?><div class="cat-tools">
+						<?php if ($theme['isCurrent']): ?>
+						<a href="javascript:;" title="this is the current theme"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
+						<?php else : ?>
+						<a href="javascript:;" class="theme-delete" title="<?php echo $this->translate('trash this theme');?>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
+						<?php endif; ?>
+						</div>
+					</span>
+					<img src="<?php echo $theme['preview'];  ?>" class="preview" alt="<?php echo $theme['name']; ?>" />
+					<label><input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;<?php echo $this->translate('Select theme'); ?></label>
+					<input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
+				</div>
+			<?php endforeach; ?>
+			</div>
+		</fieldset>
+	</div>
+	<div class="grid_12">
+		<?php echo $this->formSubmit('done', $this->translate('Done'), array('class' => 'w200')); ?>
+	</div>
+	<div class="clear"></div>
 </div>
-<div class="grid_12">
-	<?php echo $this->formSubmit('done', $this->translate('Done'), array('class' => 'w200')); ?>
-</div>
-<div class="clear"></div>
-<?php echo $this->headLink(); ?>
-<?php echo $this->headScript();?>
+<?php //echo $this->headLink(); ?>
+<?php //echo $this->headScript();?>
 <script type="text/javascript">
 $(function(){
 	$('#themes-list').bind('updateContent', function(){
 		$(this).load('<?php echo $this->websiteUrl;?>backend/backend_theme/themes/ .themebox');
 	});
-	
+
 	$('#themes-list').delegate('.theme-delete', 'click', function(){
 		if (!confirm('<?php echo $this->translate('Do you really want to delete this theme?'); ?>')) {
 			return false;
 		}
-		$.post('<?php echo $this->url(array('action'=>'deletetheme')); ?>', 
+		$.post('<?php echo $this->url(array('action'=>'deletetheme')); ?>',
 			{'name': $(this).closest('div.themebox').find('input.theme-name').val()},
 			function(response){
 				$('#themes-list').trigger('updateContent');
@@ -51,7 +57,7 @@ $(function(){
 		);
 		return false;
 	});
-	
+
 	$('#done').bind('click', function(){
 		if ($('input[name="select-theme"]:checked').size()){
 			var themeName = $('input[name="select-theme"]:checked').val();

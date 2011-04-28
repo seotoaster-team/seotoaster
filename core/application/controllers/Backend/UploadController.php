@@ -15,10 +15,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 	public function init() {
 		$this->_websiteConfig	= Zend_Registry::get('website');
 		$this->_themeConfig		= Zend_Registry::get('theme');
-		
+
 		$this->_caller = $this->getRequest()->getParam('caller');
 		$this->_uploadHandler = new Zend_File_Transfer_Adapter_Http();
-		$this->_uploadHandler->setDestination(realpath($this->_websiteConfig['path'].$this->_websiteConfig['tmp']));
+		$this->_uploadHandler->setDestination(realpath($this->_websiteConfig['path'] . $this->_websiteConfig['tmp']));
 	}
 
 	public function uploadAction() {
@@ -52,7 +52,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 	private function _uploadTheme(){
 		$this->_uploadHandler->addValidator('IsCompressed', false, array('application/zip'));
 		$this->_uploadHandler->addValidator('Extension', false, 'zip');
-		
+
 		$themeArchive = $this->_uploadHandler->getFileInfo();
 
 		if (!$this->_uploadHandler->isValid()){
@@ -62,7 +62,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 			throw new Exceptions_SeotoasterException('No zip extension loaded');
 		}
 		$tmpFolder = $this->_uploadHandler->getDestination();
-		$zip = new ZipArchive();
+		$zip       = new ZipArchive();
 		$zip->open($themeArchive['file']['tmp_name']);
 		$unzipped = $zip->extractTo($tmpFolder);
 		if ($unzipped !== true){

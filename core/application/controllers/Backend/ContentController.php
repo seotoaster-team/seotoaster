@@ -28,11 +28,10 @@ class Backend_ContentController extends Zend_Controller_Action {
 		}
 
 		$this->_helper->viewRenderer->setNoRender(true);
-		$this->_helper->layout->disableLayout();
+		//$this->_helper->layout->disableLayout();
 
 		$this->_containerType     = $this->getRequest()->getParam('containerType');
 		$this->_contentForm       = $this->_initCorrectForm();
-		//$this->view->websiteUrl   = $this->_websiteData['url'];
 		$this->view->websiteUrl   = $this->_helper->website->getUrl();
 		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
 		$this->_wedgetsDirPath    = $this->_websiteData['path'] . 'application/app/Widgets/';
@@ -83,7 +82,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 				->setContainerType($containerData['containerType'])
 				->setPageId($pageId)
 				->setContent($containerData['content']);
-			$published = ($container->getContainerType() == Application_Model_Models_Container::TYPE_REGULARCONTENT || $container->getContainerType() == Application_Model_Models_Container::TYPE_STATICCONTENT) ? $this->getRequest()->getParam('published') : true;
+			//$published = ($container->getContainerType() == Application_Model_Models_Container::TYPE_REGULARCONTENT || $container->getContainerType() == Application_Model_Models_Container::TYPE_STATICCONTENT) ? $this->getRequest()->getParam('published') : true;
+			$published = true;
 			$container->setPublished($published);
 			if(!$published) {
 				$publishOn = $this->getRequest()->getParam('publishOn');
@@ -174,8 +174,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function loadimagesAction() {
 		//@todo add images to the cache?
-		$this->_helper->getHelper('layout')->disableLayout();       
-       
+		$this->_helper->getHelper('layout')->disableLayout();
+
 		if($this->getRequest()->isPost()) {
 			$imagesData  = array();
 			$folderName  = $this->getRequest()->getParam('folderName');

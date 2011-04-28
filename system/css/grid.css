@@ -20,7 +20,7 @@
 	float: left;
 	margin-left: 1%;
 	margin-right: 1%;
-	border:0px solid #red;
+	border:0px solid red;
 }
 .seotoaster.container_12 .grid_3, .seotoaster.container_16 .grid_4 { width: 23%; }
 .seotoaster.container_12 .grid_6, .seotoaster.container_16 .grid_8 { width: 48%; }

@@ -1,7 +1,8 @@
 $(document).ready(function(){
 	//init of tinymce
+	var websiteUrl = $('#website_url').val();
 	$('textarea.tinymce').tinymce({
-		script_url: 'system/js/external/tinymce/tiny_mce_gzip.php',
+		script_url: websiteUrl + 'system/js/external/tinymce/tiny_mce_gzip.php',
 		theme : "advanced",
 		elements : 'nourlconvert',
 		width: 620,
@@ -19,7 +20,7 @@ $(document).ready(function(){
         entity_encoding : "raw",
 		paste_auto_cleanup_on_paste : true,
 		paste_remove_styles: true,
-		content_css: $('#website_url').val() + '/themes/' + $('#current_theme').val() + '/content.css',
+		content_css: websiteUrl + '/themes/' + $('#current_theme').val() + '/content.css',
 		disk_cache : true,
 		debug : false
 	})

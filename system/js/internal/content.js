@@ -1,6 +1,6 @@
 $(function() {
-	
 	$('#tabs').tabs();
+	$('#datepicker').datepicker();
 
 	var datepicker      = $('#datepicker');
 	var chckbxPublished = $('#published');

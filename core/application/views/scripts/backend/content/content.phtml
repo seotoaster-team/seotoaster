@@ -1,23 +1,26 @@
-<div class="grid_8 above-editor-links"><a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a> | <a id="toogletinymce" href="javascript:;">No editor</a> &nbsp;</div>
-<div class="grid_8 h570" id="editordiv">
-	<?php
-		$this->contentForm->setAction($this->url());
-		echo $this->contentForm;
-	?>
-</div>
-<div class="grid_4">
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<div class="header" style="overflow:hidden;">
+		<div class="closebutton">Close</div>
+		<label>
+			<input type="checkbox" id="published"/>
+			Published Now? &nbsp;&nbsp;OR&nbsp;&nbsp; Publish Date:
+		</label>
+		<input type="text" style="width:150px;" id="datepicker" />
+		<?php //echo $this->datePicker('datepicker', '', array('defaultDate' => date('Y/m/d', time()))); ?>
+	</div>
+	<div class="grid_8 above-editor-links">
+		<a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a> | <a id="toogletinymce" href="javascript:;">No editor</a>
+		<?php
+			$this->contentForm->setAction($this->url());
+			echo $this->contentForm;
+		?>
+	</div>
 	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
 	<?php $this->tabPane('tabs', 'Products tab', array('title' => 'Products'));?>
 	<?php $this->tabPane('tabs', 'Something', array('title' => 'Tab3'));?>
-	<?php echo $this->tabContainer('tabs', array(), array('class' => 'editortabs'));?>
+	<?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4'));?>
 </div>
-	
 
-<!--	<div class="grid_4" style="text-align:center;">
-		<input type="submit" name="submit" id="submit" value="Done" class="w250" style="float:none;margin-top:10px;">
-	</div>-->
-	<div class="clear"></div>
-<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
-<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
-<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
-<?php echo $this->headScript(); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.js'); ?>

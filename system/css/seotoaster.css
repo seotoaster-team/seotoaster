@@ -250,6 +250,7 @@ body.seotoaster {
 	right:5px;
 	top:0;
 	z-index:1000;
+	border: none;
 }
 #seotoaster-cpanel #showhide a {
 	background-color:#7c7c7c;
@@ -263,7 +264,7 @@ body.seotoaster {
 	margin:0;
 	padding:0;
 }
-#seotoaster-cpanel ul li { list-style:none; }
+#seotoaster-cpanel ul li { list-style:none;}
 #seotoaster-cpanel ul li a {
 	background:#666;
 	color:#eee;
@@ -272,12 +273,13 @@ body.seotoaster {
 	padding:3px 5px;
 	border-bottom:1px solid #fff;
 	display:block;
+	border-radius: 0px;
 }
 #seotoaster-cpanel ul li ul li a {
 	background-color:#eFDFFF;
 	color:#8c8c8c;
 	font-size:11pt;
-	border-bottom:1px dsolid #ddd;
+	border-bottom:1px solid #ddd;
 	padding:2px 4px;
 }
 #seotoaster-cpanel ul li ul li a:hover { background-color:#fFfddF; }

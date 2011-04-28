@@ -1,28 +1,53 @@
 $(function() {
-	var wndDialog = $("#seotoaster_popup_dialog");
+
+	/**
+	 * Seotoaster popup dialog
+	 */
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
-		url = $(this).attr('url');
-		wndDialog.dialog({
-			width    : 960,
-			height   : 600,
+		var popupWidth    = 980;
+		var popupHeight   = 670;
+		var toasterIframe = document.createElement('iframe');
+		$(toasterIframe).attr('id', '_toaster-popup')
+		var srcUrl        = $(this).attr('url');
+		$(toasterIframe).dialog({
+			width    : popupWidth,
+			minWidth : popupWidth,
+			height   : popupHeight,
 			modal    : true,
 			autoOpen : false,
 			resizable: false,
+			draggable: true,
 			title    : $(this).attr('title'),
 			open: function() {
-				$.get(url, function(response) {
-					response += '<div class="clear"></div>';
-					wndDialog.append(response);
+				$(toasterIframe).css({
+					width : popupWidth + 'px',
+					height: popupHeight + 'px',
+					padding: '0px',
+					margin: '0px'
+				})
+				.attr('scrolling', 'no')
+				.attr('frameborder', 'no')
+				.attr('src', srcUrl);
+
+				$('.ui-dialog-titlebar').hide();
+				$('.ui-dialog').css({
+					padding: '0px',
+					border: '0px',
+					background: 'transparent'
 				});
-			},
-			close: function() {
-				wndDialog.html('');
-				wndDialog.dialog('destroy');
 			}
 		});
-		wndDialog.dialog('open');
+		$(toasterIframe).dialog('open');
 	});
+
+	/**
+	 * close button functionality.
+	 *
+	 */
+	$('.closebutton').click(function() {
+		parent.closePopup();
+	})
 
 	$('form._fajax').live('submit', function(e) {
 		e.preventDefault();
@@ -34,7 +59,7 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				ajaxMessage.html('Working...').fadeIn();
+				ajaxMessage.fadeIn();
 				if(form.hasClass('_reload')) {
 					top.location.reload();
 				}
@@ -48,3 +73,7 @@ $(function() {
 		})
 	})
 });
+
+function closePopup() {
+	$( ".ui-dialog #_toaster-popup" ).dialog('close');
+}

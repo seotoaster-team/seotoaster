@@ -3,7 +3,7 @@
 class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers_Abstract {
 
 	protected $_dbTable = 'Application_Model_DbTable_Template';
-	
+
 	protected $_defaultTemplates = array(
 		'index', 'default', 'category', 'news'
 	);
@@ -21,9 +21,9 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		return new Application_Model_Models_Template($row->toArray());
 	}
 
-    public function fetchAll($where = '') {
+    public function fetchAll() {
 		$entries = array();
-		$resultSet = $this->getDbTable()->fetchAll($where);
+		$resultSet = $this->getDbTable()->fetchAll();
 		if(null === $resultSet) {
 			return null;
 		}
@@ -53,7 +53,7 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	/**
 	 *
 	 * @param type $name
-	 * @return Application_Model_Models_Template 
+	 * @return Application_Model_Models_Template
 	 * @deprecated
 	 */
 	public function findByName($name){
@@ -64,16 +64,16 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		$row = $this->getDbTable()->fetchRow( $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name) );
 		if (count($row) == 0){
 			return null;
-		}		
+		}
 		return new Application_Model_Models_Template($row->toArray());
 	}
 
 	public function delete(Application_Model_Models_Template $template) {
 		return $this->getDbTable()->delete( array('name = ?' => $template->getName()) );
 	}
-	
+
 	public function clearTemplates(){
 		return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
 	}
 }
-	
+

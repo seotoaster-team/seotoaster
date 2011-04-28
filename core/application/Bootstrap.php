@@ -21,12 +21,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$autoloader->registerNamespace('Tools_');
 	}
 
-	protected function _initRoutes() {
+	protected function _initRoutes()  {
 		$routest = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml');
 		$router  = Zend_Controller_Front::getInstance()->getRouter();
 		$router->addConfig($routest, 'routes');
 	}
-
+	
 	protected function _initDatabase() {
 		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'database');
 		$database = Zend_Db::factory($config->database);
@@ -64,6 +64,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Admin());
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Config());
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Website());
+		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Response());
 	}
 
 	protected function _initAcl() {

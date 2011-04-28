@@ -1,4 +1,8 @@
-<div class="container_12 ui-helper-clearfix ui-helper-reset">
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<div class="header" style="overflow:hidden;">
+		<div class="closebutton">Close</div>
+		<label>Manage templates</label>
+	</div>
 	<div id="templatelist" class="grid_12 alpha omega h550 ui-helper-clearfix ui-helper-reset" style="display: none;"></div>
 	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
@@ -37,8 +41,4 @@
 	</form>
 	<div class="grid_12 clear"></div>
 </div>
-<?php $this->jQuery()
-     ->setRenderMode(ZendX_JQuery::RENDER_JAVASCRIPT | ZendX_JQuery::RENDER_JQUERY_ON_LOAD); ?>
-<?php echo $this->jQuery(); ?>
-<?php $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
-<?php echo $this->headScript(); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>

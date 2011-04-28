@@ -29,7 +29,7 @@ class IndexController extends Zend_Controller_Action {
 		}
 		if(null === $page) {
 			//show 404 page and exit
-			Zend_Debug::dump('404 page'); die();
+			$this->_helper->response->notFound();
 		}
 		if($this->_acl->isAllowed($this->_helper->session->getCurrentUser(), $page)) {
 			if($this->_acl->isAllowed($this->_helper->session->getCurrentUser(), Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
