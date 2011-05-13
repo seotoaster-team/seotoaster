@@ -4,6 +4,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	protected $_dbTable = 'Application_Model_DbTable_Page';
 
+	protected $_model   = 'Application_Model_Models_Page';
+
 	public function save($page) {
 		if(!$page instanceof Application_Model_Models_Page) {
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Page instance');
@@ -33,15 +35,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		}
 	}
 
-    public function find($id) {
-		$result = $this->getDbTable()->find($id);
-		if(0 == count($result)) {
-			return null;
-		}
-		$row = $result->current();
-		return new Application_Model_Models_Page($row->toArray());
-	}
-
     public function fetchAll($where = '') {
 		//exclude system pages from select
 		$where .= $this->getDbTable()->getAdapter()->quoteInto(' AND system = "?"', 0);
@@ -51,7 +44,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			return null;
 		}
 		foreach ($resultSet as $row) {
-			$entries[] = new Application_Model_Models_Page($row->toArray());
+			$entries[] = new $this->_model($row->toArray());
 		}
 		return $entries;
 	}
@@ -69,15 +62,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	public function findByUrl($pageUrl) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
-		$row = $this->getDbTable()->fetchAll($where)->current();
-		if(null == $row) {
-			return null;
-		}
-		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
-		$row = $row->toArray();
-		$row['content'] = $rowTemplate->content;
-		unset($rowTemplate);
-		return new Application_Model_Models_Page($row);
+		return $this->_findWhere($where);
 	}
 
 	public function findByParentId($parentId) {
@@ -93,6 +78,23 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			$result[$category->getId()] = $categoryName;
 		}
 		return $result;
+	}
+
+	public function find404Page() {
+		$where  = $this->getDbTable()->getAdapter()->quoteInto('is_404page = ?', '1');
+		return $this->_findWhere($where);
+	}
+
+	private function _findWhere($where) {
+		$row    = $this->getDbTable()->fetchAll($where)->current();
+		if(null == $row) {
+			return null;
+		}
+		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
+		$row = $row->toArray();
+		$row['content'] = $rowTemplate->content;
+		unset($rowTemplate);
+		return new Application_Model_Models_Page($row);
 	}
 }
 

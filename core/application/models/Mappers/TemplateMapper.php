@@ -4,34 +4,11 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 
 	protected $_dbTable = 'Application_Model_DbTable_Template';
 
+	protected $_model   = 'Application_Model_Models_Template';
+
 	protected $_defaultTemplates = array(
 		'index', 'default', 'category', 'news'
 	);
-
-	public function find($id) {
-		$id = trim($id);
-		if (empty ($id)){
-			throw new Exceptions_SeotoasterException('Template name cannot be empty');
-		}
-		$result = $this->getDbTable()->find($id);
-		if(0 == count($result)) {
-			return null;
-		}
-		$row = $result->current();
-		return new Application_Model_Models_Template($row->toArray());
-	}
-
-    public function fetchAll() {
-		$entries = array();
-		$resultSet = $this->getDbTable()->fetchAll();
-		if(null === $resultSet) {
-			return null;
-		}
-		foreach ($resultSet as $row) {
-			$entries[] = new Application_Model_Models_Template($row->toArray());
-		}
-		return $entries;
-	}
 
 	public function save($template) {
 		if(!$template instanceof Application_Model_Models_Template) {

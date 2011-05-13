@@ -4,6 +4,8 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 
 	protected $_dbTable = 'Application_Model_DbTable_Plugin';
 
+	protected $_model   = 'Application_Model_Models_Plugin';
+
 	public function save($plugin) {
 		if(!$plugin instanceof Application_Model_Models_Plugin) {
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Plugin instance');
@@ -43,27 +45,5 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 		}
 		return $entries;
 	}
-
-	public function find($id) {
-		$result = $this->getDbTable()->find($id);
-		if(0 == count($result)) {
-			return null;
-		}
-		$row = $result->current();
-		return new Application_Model_Models_Plugin($row->toArray());
-	}
-
-	 public function fetchAll() {
-		$entries   = array();
-		$resultSet = $this->getDbTable()->fetchAll();
-		if(null === $resultSet) {
-			return null;
-		}
-		foreach ($resultSet as $row) {
-			$entries[] = new Application_Model_Models_Plugin($row->toArray());
-		}
-		return $entries;
-	}
-
 }
 

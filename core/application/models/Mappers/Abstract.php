@@ -2,7 +2,9 @@
 
 abstract class Application_Model_Mappers_Abstract {
 
-	protected $_dbTable = null;
+	protected $_dbTable        = null;
+
+	protected $_model          = '';
 
 	public function setDbTable($dbTable) {
 		if(is_string($dbTable)) {
@@ -27,9 +29,30 @@ abstract class Application_Model_Mappers_Abstract {
 
 	abstract public function save($model);
 
-    abstract public function find($id);
+    //abstract public function find($id);
 
-	abstract public function fetchAll();
+	//abstract public function fetchAll();
+
+	public function find($id) {
+		$result = $this->getDbTable()->find($id);
+		if(0 == count($result)) {
+			return null;
+		}
+		$row = $result->current();
+		return new $this->_model($row->toArray());
+	}
+
+	public function fetchAll() {
+		$entries = array();
+		$resultSet = $this->getDbTable()->fetchAll();
+		if(null === $resultSet) {
+			return null;
+		}
+		foreach ($resultSet as $row) {
+			$entries[] = new $this->_model($row->toArray());
+		}
+		return $entries;
+	}
 
 }
 
