@@ -78,7 +78,7 @@ body.seotoaster {
 	background:url('/system/images/bg-strip.png');
 	padding:10px;
 	position:relative;
-	margin-bottom:10px;
+	margin-bottom:7px;
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
 	border-radius:6px;
@@ -245,12 +245,16 @@ body.seotoaster {
 .seotoaster #groups div img { margin-top:2px; }
 /*========= side Control Panel ===========*/
 #seotoaster-cpanel {
-	background:none;
+	background:#fff;
 	position:absolute;
 	right:5px;
 	top:0;
 	z-index:1000;
 	border: none;
+	padding-bottom: 0px;
+	-moz-border-radius: 0px 0px 6px 6px;
+	-webkit-border-radius: 0px 0px 6px 6px;
+	border-radius: 0px 0px 6px 6px;
 }
 #seotoaster-cpanel #showhide a {
 	background-color:#7c7c7c;
@@ -274,6 +278,7 @@ body.seotoaster {
 	border-bottom:1px solid #fff;
 	display:block;
 	border-radius: 0px;
+	margin-top: 0px;
 }
 #seotoaster-cpanel ul li ul li a {
 	background-color:#eFDFFF;

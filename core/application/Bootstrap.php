@@ -26,7 +26,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$router  = Zend_Controller_Front::getInstance()->getRouter();
 		$router->addConfig($routest, 'routes');
 	}
-	
+
 	protected function _initDatabase() {
 		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'database');
 		$database = Zend_Db::factory($config->database);
@@ -108,7 +108,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$acl->deny(Tools_Security_Acl::ROLE_ADMIN, Tools_Security_Acl::RESOURCE_USERS);
 		$acl->deny(Tools_Security_Acl::ROLE_ADMIN, Tools_Security_Acl::RESOURCE_CODE);
 		$acl->deny(Tools_Security_Acl::ROLE_ADMIN, Tools_Security_Acl::RESOURCE_CACHE_PAGE);
-		
+
 		$acl->allow(Tools_Security_Acl::ROLE_SUPERADMIN);
 		$acl->deny(Tools_Security_Acl::ROLE_SUPERADMIN, Tools_Security_Acl::RESOURCE_CACHE_PAGE);
 

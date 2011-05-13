@@ -1,10 +1,26 @@
-<div class="seotoaster container_12 w400 h300 rounded8px totalcentered" style="margin-left:-200px;margin-top:-200px;">
-	<div class="header">
+<?php if (count($this->messages)) : ?>
+	<ul id="messages" class="ui-state-error w350" style="margin: 0px auto; list-style-type: none; padding: 15px 0px; text-align: center;">
+		<?php foreach ($this->messages as $message) : ?>
+			<li><?php echo $this->escape($message); ?></li>
+		<?php endforeach; ?>
+	</ul>
+<?php endif; ?>
+
+
+<div class="seotoaster container_12 w400 h300 rounded8px totalcentered" style="margin-left:-200px;margin-top:-200px;box-shadow: 0px 0px 30px #ccc;">
+	<div class="header" style="border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
 		<h1>Login</h1>
 	</div>
-	<div class="textcentered mb10px"> <img alt="english" onclick="setLang($(this).attr('id'))" class="langbtn" id="english" src="http://www.culot.net/system/images/flags/english.png" style="cursor: pointer;">&nbsp;&nbsp; <img alt="french" onclick="setLang($(this).attr('id'))" class="langbtn" id="french" src="http://www.culot.net/system/images/flags/french.png" style="cursor: pointer;">&nbsp;&nbsp; <img alt="german" onclick="setLang($(this).attr('id'))" class="langbtn" id="german" src="http://www.culot.net/system/images/flags/german.png" style="cursor: pointer;">&nbsp;&nbsp; <img alt="italian" onclick="setLang($(this).attr('id'))" class="langbtn" id="italian" src="http://www.culot.net/system/images/flags/italian.png" style="cursor: pointer;">&nbsp;&nbsp; <img alt="portuguese" onclick="setLang($(this).attr('id'))" class="langbtn" id="portuguese" src="http://www.culot.net/system/images/flags/portuguese.png" style="cursor: pointer;">&nbsp;&nbsp; <img alt="russian" onclick="setLang($(this).attr('id'))" class="langbtn" id="russian" src="http://www.culot.net/system/images/flags/russian.png" style="cursor: pointer;">&nbsp;&nbsp; <img alt="spanish" onclick="setLang($(this).attr('id'))" class="langbtn" id="spanish" src="http://www.culot.net/system/images/flags/spanish.png" style="cursor: pointer;">&nbsp;&nbsp;</div>
+
+	<div class="textcentered mb10px">
+		<?php if(isset($this->flagsFiles) && is_array($this->flagsFiles) && !empty($this->flagsFiles)): ?>
+			<?php foreach($this->flagsFiles as $flagFileName => $flagFilePath): ?>
+		<img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" />&nbsp;
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
     <div class="clear"></div>
-	<div  class="grid_12">
+	<div class="grid_12">
 		<form action="<?php echo $this->url(); ?>" method="post" >
 			<fieldset>
 				<legend>Welcome Back</legend>

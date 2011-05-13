@@ -3,9 +3,12 @@
 	<head>
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
+
+		<?php echo $this->head; ?>
+
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
 		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
-		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
 		<?php echo $this->headLink(); ?>
 
@@ -16,7 +19,6 @@
 			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
 		<?php endif; ?>
 
-		<?php echo $this->head; ?>
 	</head>
 	<body>
 		<div id="ajax_msg" class="ui-state-highlight ui-corner-all success" style="display: none; position: absolute; padding: 0.7em; z-index: 999;">

@@ -77,14 +77,20 @@ class Tools_Filesystem_Tools {
 	 * @param string $extension Files extension
 	 * @return array
 	 */
-	public static function findFilesByExtension($directory, $extension, $incFilePath = false) {
+	public static function findFilesByExtension($directory, $extension, $incFilePath = false, $pairs = false) {
 		$foundFiles = array();
 		$files      = array();
 		$files      = self::scanDirectory($directory, $incFilePath);
 		if(!empty($files)) {
 			foreach ($files as $file) {
 				if(preg_match('~^[a-zA-Z0-9-_\s/.]+\.' . $extension . '$~U', $file)) {
-					$foundFiles[] = $file;
+					if($pairs) {
+						$explodedFilePath = explode(DIRECTORY_SEPARATOR, $file);
+						$foundFiles[preg_replace('~\.[a-zA-Z]{3,4}~iu', '', end($explodedFilePath))] = $file;
+					}
+					else {
+						$foundFiles[] = $file;
+					}
 				}
 			}
 		}

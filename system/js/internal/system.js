@@ -1,5 +1,12 @@
 $(function() {
 
+	//seotoaster admin panel cookie
+	if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') === true) {
+		$('#cpanelul').hide();
+		$('#logoutul').hide()
+		$('#seotoaster-logowrap').hide()
+	}
+
 	/**
 	 * Seotoaster popup dialog
 	 */

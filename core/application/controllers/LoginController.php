@@ -7,6 +7,13 @@ class LoginController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+
+		//if logged in user trys to go to the login page - redirect him to the main page
+
+		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+			$this->_redirect($this->_helper->website->getUrl());
+		}
+
         $loginForm = new Application_Form_Login();
 		if($this->getRequest()->isPost()) {
 			if($loginForm->isValid($this->getRequest()->getParams())) {
@@ -36,14 +43,22 @@ class LoginController extends Zend_Controller_Action {
 						$this->_redirect($this->_helper->website->getUrl());
 					}
 				}
-				Zend_Debug::dump('Auth failed'); die();
+				$this->_helper->flashMessenger->addMessage('There is no user with such login and password.');
+				$this->_helper->redirector->gotoRoute(array('controller'=>'login', 'action'=>'index'));
 			}
 			else {
-				Zend_Debug::dump('Not valid form'); die();
+				$this->_helper->flashMessenger->addMessage('Login should be a valid email address');
+				$this->_helper->redirector->gotoRoute(array('controller'=>'login', 'action'=>'index'));
 			}
 		}
 		else {
-			$this->view->loginForm = $loginForm;
+			//getting flags
+			$this->view->flagsFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_helper->website->getPath() . 'system/images/flags', 'png', false, true);
+
+			//getting messages
+			$this->view->messages = $this->_helper->flashMessenger->getMessages();
+
+			$this->view->loginForm  = $loginForm;
 		}
 	}
 

@@ -7,9 +7,10 @@ class Application_Form_Login extends Zend_Form {
 		$this->setMethod(Zend_Form::METHOD_POST);
 
 		$this->addElement('text', 'email', array(
-			'label'    => 'Email:',
-			'required' => true,
-			'filters'  => array('StringTrim')
+			'label'      => 'Email:',
+			'required'   => true,
+			'filters'    => array('StringTrim'),
+			'validators' => array(new Zend_Validate_EmailAddress())
 		));
 
 		$this->addElement('password', 'password', array(

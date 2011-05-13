@@ -1,0 +1,19 @@
+<?php echo $this->doctype(); ?>
+<html>
+	<head>
+		<title>Page not found</title>
+	</head>
+	<body style="text-align: center;">
+		<div style="font-size: 2em; text-align: left; font-family: Arial; box-shadow: 1px 1px 5px #ddd; -moz-border-radius: 5px; -webkit-border-radius: 5px; padding: 10px; width: 640px; margin: 0px auto;">
+			<div style="color: #ff0000; font-weight: bold; text-align: center; font-size: 1.3em;">Error 404. Page not found.</div>
+			<div style="color: #cecece; padding: 10px 0px;">Sorry, but the page you were looking for can't be found.</div>
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL, $this->role)): ?>
+				<span style="color: #cecece;">
+					<br/>You can costumize this page - just create a page and assign it as 404 error page
+					<br/>Use the checkbox on the create/update page screen.
+				</span><br/><br/>
+			<?php endif; ?>
+			<a href="<?php echo $this->websiteUrl; ?>" style="color: #7c7c7c;">back to home page</a>
+		</div>
+	</body>
+</html>
