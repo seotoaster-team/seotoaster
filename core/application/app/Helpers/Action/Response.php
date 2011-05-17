@@ -15,7 +15,7 @@ class Helpers_Action_Response extends Zend_Controller_Action_Helper_Abstract {
 		if(!$body) {
 			$body = self::SUCCESS;
 		}
-		$this->_response($body, 0);
+		$this->_response($body);
 	}
 
 	public function fail($body = '') {
@@ -46,10 +46,9 @@ class Helpers_Action_Response extends Zend_Controller_Action_Helper_Abstract {
 			'responseText' => $body,
 			'httpCode'     => $code
 		));
-
 		$response = $this->getResponse();
 		$response->setHttpResponseCode($code)
-			->setBody($body);
+			->setBody($responseData);
 
 		if($headers) {
 			if(is_array($headers) && !empty ($headers)){
