@@ -29,11 +29,14 @@ class Helpers_Action_Response extends Zend_Controller_Action_Helper_Abstract {
 		if(!$body) {
 			$body = 'Ooops. Cannot find this page.';
 		}
-		$headers = array(
-			'HTTP/1.1' => '404 Not Found',
-			'Status'   => '404 File not found'
-		);
-		$this->_response($body, 0, 404, $headers);
+		
+		$this->getResponse()
+			->setHttpResponseCode(404)
+			->setBody($body)
+			->setHeader('HTTP/1.1', '404 Not Found')
+			->setHeader('Status', '404 File not found')
+			->sendResponse();
+		exit;
 	}
 
 	public function response($body, $error = 0, $code = 200, $headers = '') {
