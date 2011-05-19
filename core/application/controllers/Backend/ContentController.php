@@ -28,13 +28,11 @@ class Backend_ContentController extends Zend_Controller_Action {
 		}
 
 		$this->_helper->viewRenderer->setNoRender(true);
-		//$this->_helper->layout->disableLayout();
 
 		$this->_containerType     = $this->getRequest()->getParam('containerType');
 		$this->_contentForm       = $this->_initCorrectForm();
 		$this->view->websiteUrl   = $this->_helper->website->getUrl();
 		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
-		$this->_wedgetsDirPath    = $this->_websiteData['path'] . 'application/app/Widgets/';
 	}
 
 	public function addAction() {
@@ -58,6 +56,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$this->_contentForm->getElement('containerId')->setValue($container->getId());
 			$this->_contentForm->getElement('pageId')->setValue($container->getPageId());
 			$this->_contentForm->getElement('containerType')->setValue($container->getContainerType());
+			$this->_contentForm->setPublished($container->getPublished());
 
 			$this->view->published      = $container->getPublished();
 			$this->view->publishingDate = $container->getPublishingDate();
@@ -76,14 +75,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$container     = new Application_Model_Models_Container();
 
 			$container->registerObserver(new Tools_Content_GarbageCollector());
+			$container->registerObserver(new Tools_Seo_Generator());
 
 			$container->setId($containerData['containerId'])
 				->setName($containerData['containerName'])
 				->setContainerType($containerData['containerType'])
 				->setPageId($pageId)
 				->setContent($containerData['content']);
-			//$published = ($container->getContainerType() == Application_Model_Models_Container::TYPE_REGULARCONTENT || $container->getContainerType() == Application_Model_Models_Container::TYPE_STATICCONTENT) ? $this->getRequest()->getParam('published') : true;
-			$published = true;
+			$published = ($container->getContainerType() == Application_Model_Models_Container::TYPE_REGULARCONTENT || $container->getContainerType() == Application_Model_Models_Container::TYPE_STATICCONTENT) ? $this->getRequest()->getParam('published') : true;
 			$container->setPublished($published);
 			if(!$published) {
 				$publishOn = $this->getRequest()->getParam('publishOn');
@@ -196,9 +195,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()) {
 			$filesPath = $this->_websiteData['path'] . $this->_websiteData['downloads'];
 			$this->view->files = Tools_Filesystem_Tools::scanDirectory($filesPath);
-			$this->getResponse()->setBody(json_encode(array(
-				'data' => $this->view->render('backend/content/files.phtml')
-			)))->sendResponse();
+			$this->_helper->response->success($this->view->render('backend/content/files.phtml'));
 		}
 		exit;
 	}
@@ -225,9 +222,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 				$widgetMakerContent      = $this->view->render('backend/content/widgetmaker.phtml');
 				$this->_helper->cache->save('widgetMakerContent', $widgetMakerContent, 'wmc_', array(), Helpers_Action_Cache::CACHE_LONG);
 			}
-			$this->getResponse()->setBody(json_encode(array(
-				'data' => $widgetMakerContent
-			)))->sendResponse();
+			$this->_helper->response->success($widgetMakerContent);
 		}
 		exit;
 	}

@@ -19,6 +19,10 @@
 			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
 		<?php endif; ?>
 
+		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
+			<link rel="canonical" href="<?php echo $this->websiteUrl; ?>" />
+		<?php endif; ?>
+
 	</head>
 	<body>
 		<div id="ajax_msg" class="ui-state-highlight ui-corner-all success" style="display: none; position: absolute; padding: 0.7em; z-index: 999;">

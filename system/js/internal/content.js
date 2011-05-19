@@ -1,8 +1,11 @@
 $(function() {
-	$('#tabs').tabs();
 	$('#datepicker').datepicker();
 
+	$('#tabs').tabs();
+
+
 	var datepicker      = $('#datepicker');
+
 	var chckbxPublished = $('#published');
 
 	datepicker.attr('disabled', chckbxPublished.attr('checked'));
@@ -78,7 +81,7 @@ $(function() {
 				type       : 'post',
 				dataType   : 'json',
 				success : function(response) {
-					listFiles.html(response.data);
+					listFiles.html(response.responseText);
 				},
 				error: function() {
 					listFiles.html('Unable to load files list');
@@ -95,7 +98,7 @@ $(function() {
 				type       : 'post',
 				dataType   : 'json',
 				success : function(response) {
-					widgetsMaker.html(response.data);
+					widgetsMaker.html(response.responseText);
 				},
 				error: function() {
 					widgetsMaker.html('Unable to load widget maker.');

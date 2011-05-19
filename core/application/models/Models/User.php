@@ -1,7 +1,7 @@
 <?php
 
 class Application_Model_Models_User extends Application_Model_Models_Abstract implements Zend_Acl_Role_Interface {
-	
+
 	private $_email     = '';
 
 	private $_password  = '';
@@ -55,7 +55,7 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 	}
 
 	public function setLasLogin($lasLogin) {
-		$this->_lasLogin = $_lasLogin;
+		$this->_lasLogin = $lasLogin;
 		return $this;
 	}
 

@@ -12,10 +12,12 @@ class Application_Form_Container extends Zend_Form {
 
 	protected $_pageId        = '';
 
+	protected $_published     = true;
+
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttrib('id', 'frm_content');
-		
+
 		$this->addElement('submit', 'submit', array(
 			'label'  => 'Save container',
 			'class'  => 'formsubmit',
@@ -41,7 +43,7 @@ class Application_Form_Container extends Zend_Form {
 			'value' => $this->_containerId,
 			'id'    => 'container_id'
 		));
-		
+
 		$this->setElementDecorators(array('ViewHelper', 'Errors'));
     }
 
@@ -89,4 +91,15 @@ class Application_Form_Container extends Zend_Form {
 		$this->_containerId = $containerId;
 		return $this;
 	}
+
+	public function getPublished() {
+		return $this->_published;
+	}
+
+	public function setPublished($published) {
+		$this->_published = $published;
+		return $this;
+	}
+
+
 }
