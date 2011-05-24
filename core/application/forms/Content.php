@@ -11,7 +11,7 @@ class Application_Form_Content extends Application_Form_Container {
 		$this->addElement('textarea', 'content', array(
 			'id'       => 'content',
 			'cols'     => '85',
-			'rows'     => '33',
+			'rows'     => '27',
 			'class'    => 'tinymce',
 			'value'    => $this->_content,
 			'filters'  => array('StringTrim')

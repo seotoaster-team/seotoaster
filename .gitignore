@@ -11,3 +11,6 @@ core/application/configs/application.ini
 core/application/configs/routes.xml
 .htaccess
 /nbproject/private/
+error.log
+.zfproject.xml
+nbproject/*

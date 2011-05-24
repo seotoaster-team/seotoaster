@@ -1,8 +1,6 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
-	<div class="header" style="overflow:hidden;">
-		<div class="closebutton">Close</div>
-		<label>Manage themes</label>
-	</div>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage themes')); ?>
+
 	<div  class="grid_12 mb10px">
 		<fieldset><legend>Upload a new theme</legend>
 		<div class="grid_5"><?php echo $this->toasterUploader(); ?></div>
@@ -37,8 +35,7 @@
 	</div>
 	<div class="clear"></div>
 </div>
-<?php //echo $this->headLink(); ?>
-<?php //echo $this->headScript();?>
+
 <script type="text/javascript">
 $(function(){
 	$('#themes-list').bind('updateContent', function(){
@@ -64,8 +61,8 @@ $(function(){
 			$.post('<?php echo $this->url(array('action'=>'applytheme')); ?>',
 			{'themename' : themeName},
 			function(response){
-				if (response.done == true) {
-					$('#ajax_msg').text(response.status).fadeIn().delay(5000).fadeOut();
+				if (response.error == false) {
+					$('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
 				}
 				$('#themes-list').trigger('updateContent');
 			},
