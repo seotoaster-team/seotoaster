@@ -1,7 +1,6 @@
 <?php
 /**
- * @todo: use response helper for json responses
- * @todo: security
+ * Controller for all stuff that belongs to theme, template, css.
  */
 
 class Backend_ThemeController extends Zend_Controller_Action {
@@ -45,6 +44,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					$templateForm->getElement('previewImage')->setValue($template->getPreviewImage());
 				}
 			}
+			//building list of image folders
+			$imageFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['images']);
+			$this->view->imageFolders = $imageFolders;
 		} else {
 			if($templateForm->isValid($this->getRequest()->getPost())) {
 				$templateData = $templateForm->getValues();
@@ -54,8 +56,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					//find template by original name
 					$template = $mapper->find($originalName);
 					if (null === $template){
-						echo json_encode(array('done'=>false, 'errors'=>array($this->_translator->translate('Can\'t create template')) ));
-						exit;
+						$this->_helper->response->response($this->_translator->translate('Can\'t create template'), true);
 					}
 					// avoid renaming of system protected templates
 					if (!in_array($template->getName(), $this->_protectedTemplates)) {
@@ -67,8 +68,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					$status = 'new';
 					//if ID missing and name is not exists and name is not system protected - creating new template
 					if ( (null!==$mapper->find($templateData['name'])) || in_array($templateData['name'], $this->_protectedTemplates) ) {
-						echo json_encode(array('done'=>false, 'errors'=>array($this->_translator->translate('Template exists')) ));
-						exit;
+						$this->_helper->response->response($this->_translator->translate('Template exists'), true);
 					}
 					$template = new Application_Model_Models_Template($templateData);
 				}
@@ -86,8 +86,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					error_log($e->getMessage());
 				}
 
-				echo(json_encode(array('done'=>true, 'status' => $status )));
-				exit;
+				$this->_helper->response->response($status, false);
+
 			} else {
 				$errorMessages = array();
 				$validationErrors = $templateForm->getErrors();
@@ -111,8 +111,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 						}
 					}
 				}
-				echo json_encode( array('done'=>false, 'errors' => $errorMessages ) );
-				exit;
+
+				$this->_helper->response->response($errorMessages, true);
 			}
 		}
 		$this->view->templateForm = $templateForm;
@@ -132,26 +132,36 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		//checking, if form was submited via POST then
 		if ($this->getRequest()->isPost()){
 			$postParams = $this->getRequest()->getParams();
-			if (!isset($postParams['getcss']) && $editcssForm->isValid($postParams)){
-				$cssName = $postParams['cssname'];
-				try {
-					Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName, $postParams['content']);
-					// @todo: concat.css goes here
-					echo json_encode(array('done' => true));
-				} catch (Exceptions_SeotoasterException $e) {
-					echo json_encode(array('done' => false, 'error' => $e->getMessage()));
-				}
-				exit;
-			} elseif (isset($postParams['getcss']) && !empty ($postParams['getcss'])) {
+			if (isset($postParams['getcss']) && !empty ($postParams['getcss'])) {
 				$cssName = $postParams['getcss'];
 				try {
 					$content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName);
-					echo json_encode(array('done' => true, 'content' => $content));
+					$this->_helper->response->response($content, false);
 				} catch (Exceptions_SeotoasterException $e){
-					echo json_encode(array('done' => false, 'error' => $e->getMessage()));
+					$this->_helper->response->response($e->getMessage(), true);
 				}
-				exit;
+			} else {
+				if (is_string($postParams['content']) && empty($postParams['content'])){
+					$editcssForm->getElement('content')->setRequired(false);
+				}
+				if ($editcssForm->isValid($postParams)){
+					$cssName = $postParams['cssname'];
+					try {
+						Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName, $postParams['content']);
+						$params = array(
+							'websiteUrl' => $this->_helper->website->getUrl(),
+							'themePath'	 => $this->_websiteConfig['path'].$this->_themeConfig['path'],
+							'currentTheme' =>$this->_helper->config->getConfig('current_theme')							 
+						);
+						$concatCss = Tools_Factory_WidgetFactory::createWidget('ConcatCss', array('refresh' => true), $params);
+						$concatCss->render();
+						$this->_helper->response->response($this->_translator->translate('CSS saved') , false);
+					} catch (Exceptions_SeotoasterException $e) {
+						$this->_helper->response->response($e->getMessage(), true);
+					}
+				}
 			}
+			$this->_helper->response->response($this->_translator->translate('Undefined error'), true);
 		} else {
 			try {
 				$editcssForm->getElement('content')->setValue(Tools_Filesystem_Tools::getFile($defaultCss));
@@ -177,8 +187,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$cssTree = array();
 		foreach ($cssFiles as $file){
 			// don't show concat.css for editing
-			if (preg_match('/concat\.css$/i', $file)){
-				continue;
+			if (strtolower(basename($file)) == Widgets_ConcatCss_ConcatCss::FILENAME) { 
+				continue; 
 			}
 			preg_match_all('~^'.$currentThemePath.'/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', $file, $sequences);
 			$subfolders = $currentThemeName.'/'.$sequences[1][0];
@@ -226,20 +236,17 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				default:
 					$template = $mapper->find($listtemplates);
 					if ($template instanceof Application_Model_Models_Template) {
-						$response = array(
-							'done' => true,
-							'template' => array(
+						$template = array(
 								'id'		=> $template->getId(),
 								'name'		=> $template->getName(),
 								'content'	=> $template->getContent(),
 								'preview'	=> $template->getPreviewImage()
-							)
 						);
+						$this->_helper->response->response($template, true);
 					} else {
-						$response = array('done'=> false);
+						//$response = array('done'=> false);
+						$this->_helper->response->response($this->_translator->translate('Template not found'), true);
 					}
-					echo json_encode( $response );
-					exit;
 					break;
 			}
 		}
@@ -264,12 +271,14 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					} else {
 						$status = $this->_translator->translate('Can\'t delete template or template doesn\'t exists.');
 					}
-					echo json_encode(array('done'=>true, 'status' => $status));
-					exit;
+//					echo json_encode(array('done'=>true, 'status' => $status));
+					$this->_helper->response->response($status, false);
+//					exit;
 				}
 			}
-			echo json_encode(array('done'=>true, 'status' => $this->_translator->translate('Template doesn\'t exists')));
-			exit;
+//			echo json_encode(array('done'=>true, 'status' => $this->_translator->translate('Template doesn\'t exists')));
+			$this->_helper->response->response($this->_translator->translate('Template doesn\'t exists'), false);
+//			exit;
 		}
 	}
 
@@ -302,11 +311,13 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$errors = $this->_saveThemeInDatabase($selectedTheme);
 				if (empty ($errors)){
 					$status = sprintf($this->_translator->translate('The theme "%s" applied!'), $selectedTheme);
-					echo json_encode(array('done'=>true,'errors'=>$errors, 'status' => $status));
+//					echo json_encode(array('done'=>true,'errors'=>$errors, 'status' => $status));
+					$this->_helper->response->response($status, false);
 				} else {
-					echo json_encode(array('done'=>true,'errors'=>$errors));
+//					echo json_encode(array('done'=>true,'errors'=>$errors));
+					$this->_helper->response->response($errors, true);
 				}
-				exit;
+//				exit;
 			}
 		}
 		$this->_redirect($this->_helper->website->getUrl());
@@ -317,12 +328,14 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
 			$themeName = $this->getRequest()->getParam('name');
 			if ($this->_helper->config->getConfig('current_theme') == $themeName) {
-				echo json_encode(array('done'=>false, 'status'=>'trying to remove current theme'));
+//				echo json_encode(array('done'=>false, 'status'=>'trying to remove current theme'));
+				$this->_helper->response->response($this->_translator->translate('trying to remove current theme'), true);
 			}
 			$status = Tools_Filesystem_Tools::deleteDir($this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName);
 
-			echo json_encode(array('done'=>true,'status'=>$status));
-			exit;
+//			echo json_encode(array('done'=>true,'status'=>$status));
+//			exit;
+			$this->_helper->response->response($status, false);
 		}
 		$this->_redirect($this->_helper->website->getUrl());
 	}

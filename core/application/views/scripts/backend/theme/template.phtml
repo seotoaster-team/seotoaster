@@ -1,9 +1,8 @@
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
 <div class="seotoaster container_12 w960 h640 rounded8px">
-	<div class="header" style="overflow:hidden;">
-		<div class="closebutton">Close</div>
-		<label>Manage templates</label>
-	</div>
-	<div id="templatelist" class="grid_12 alpha omega h550 ui-helper-clearfix ui-helper-reset" style="display: none;"></div>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Add template')); ?>
+
+	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%;"></div>
 	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
 		<div class="grid_8">
@@ -21,7 +20,7 @@
 				$this->translate('Select another template to edit'),
 				$this->websiteUrl . 'backend/backend_theme/gettemplate/',
 				array(
-					'complete' => 'showTemplateList(data)'
+					'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');"
 				),
 				array('listtemplates' => 'all')
 				); ?>
@@ -41,4 +40,3 @@
 	</form>
 	<div class="grid_12 clear"></div>
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>

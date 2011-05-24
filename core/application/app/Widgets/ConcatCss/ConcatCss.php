@@ -19,11 +19,16 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 		//'style.css',
 		//'content.css'
 	);
+	
+	private $_refresh = false;
 
 	protected function  _init() {
 		parent::_init();
 		if(!empty($this->_toasterOptions)) {
 			$this->_themeFullPath = $this->_toasterOptions['themePath'] . $this->_toasterOptions['currentTheme'];
+		}
+		if(isset($this->_options) && !empty($this->_options)) {
+			$this->_refresh = isset($this->_options['refresh']) ? $this->_options['refresh']  : false ;
 		}
 	}
 
@@ -40,12 +45,12 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 	}
 
 	protected function  _load() {
-		if(!file_exists($this->_themeFullPath . '/' . self::FILENAME)) {
+		if(!file_exists($this->_themeFullPath . '/' . self::FILENAME) || $this->_refresh) {
 			$concatContent = '';
 			$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_themeFullPath, self::FILES_EXTENSION, true);
 			
 			foreach ($cssFiles as $key => $cssFile) {
-				if(in_array($cssFile, $this->_excludeFiles)) {
+				if(in_array(basename($cssFile), $this->_excludeFiles)) {
 					continue;
 				}
 				$concatContent .= $this->_addCss($cssFile);

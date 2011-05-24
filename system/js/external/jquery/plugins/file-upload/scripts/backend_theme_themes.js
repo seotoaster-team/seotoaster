@@ -42,6 +42,14 @@ $(function () {
 				}, 3000);
 				return;
 			}
+			// prevent uploading files that not match mime-type
+			if (files[index].type !== 'application/zip') {
+				handler.uploadRow.find('.file_upload_progress').html('NOT A ZIP FILE!');
+				setTimeout(function () {
+					handler.removeNode(handler.uploadRow);
+				}, 3000);
+				return;
+			}
 			callBack();
 		},
 		onCompleteAll: function (list) {

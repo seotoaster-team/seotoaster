@@ -13,13 +13,14 @@ class Application_Form_Css extends Zend_Form {
 		$this->setAttrib('id', 'editcssform');
 
 		$this->addElement('select', 'cssname', array(
-			'required'	=> 'false',
+			'required'	=> true,
 			'id'		=> 'csslist'
 		));
 
 		$this->addElement('textarea', 'content', array(
 			'id'		=> 'content',
 			'required'	=> true,
+			'allowEmpty'=> true,
 			'value'		=> $this->_content,
 			'class'		=> array('h400'),
 			'style'		=> 'font-family: monospace;font-weight:normal;'

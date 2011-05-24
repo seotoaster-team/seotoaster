@@ -1,58 +1,48 @@
-<script type="text/javascript">
-	$(function(){
-		$('#editcssform').submit(function(){
-			$.ajax({
-				url: $(this).attr('action'),
-				type: $(this).attr('method'),
-				data: $(this).serialize(),
-				dataType: 'json',
-				success: function(response){
-					if (response.done) {
-						$('#ajax_msg').text('CSS saved').delay(3000).fadeOut();
-					}
-				},
-				beforeSend: function(){
-					$('#ajax_msg_fail').hide();
-					$('#ajax_msg').text('saving css content...').fadeIn();
-				},
-				error: function(){
-					$('#ajax_msg').hide();
-					$('#ajax_msg_fail').text('Error occured.').show();
-				}
-			})
-			return false;
-		});
-
-		$('#csslist').bind('change',function(){
-			$.ajax({
-				url: '<?php echo $this->websiteUrl.$this->url(); ?>',
-				type: 'POST',
-				data: {"getcss": $(this).val()},
-				dataType: 'json',
-				success: function(response){
-					if (response.done == true){
-						$('#ajax_msg').fadeOut();
-						$('#content').val(response.content).focus();
-					}
-				},
-				beforeSend: function(){
-					$('#ajax_msg_fail').hide();
-					$('#ajax_msg').text('loading css content...').fadeIn();
-				},
-				error: function(){
-					$('#ajax_msg').hide();
-					$('#ajax_msg_fail').text('Error occured.').show();
-				}
-			});
-		});
-
+<?php $this->jQuery()->onLoadCaptureStart(); ?>
+	$('#editcssform').submit(function(){
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			data: $(this).serialize(),
+			dataType: 'json',
+			success: function(response){
+				$('#ajax_msg').text(response.responseText).delay(3000).fadeOut();
+			},
+			beforeSend: function(){
+				$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
+			},
+			error: function(){
+				$('#ajax_msg').text('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
+			}
+		})
+		return false;
 	});
-</script>
+
+	$('#csslist').bind('change',function(){
+		$.ajax({
+			url: '<?php echo $this->websiteUrl.$this->url(); ?>',
+			type: 'POST',
+			data: {"getcss": $(this).val()},
+			dataType: 'json',
+			success: function(response){
+				if (response.error == false){
+					$('#ajax_msg').fadeOut();
+					$('#content').val(response.responseText).focus();
+				}
+			},
+			beforeSend: function(){
+				$('#ajax_msg').text('<?php echo $this->translate('Loading css content...'); ?>').fadeIn();
+			},
+			error: function(){
+				$('#ajax_msg').text('<?php echo $this->translate('Error occured.'); ?>').show();
+			}
+		});
+	});
+<?php $this->jQuery()->onLoadCaptureEnd(); ?>
+	
 <div class="seotoaster editor container_12 w960 rounded8px">
-	<div class="header" style="overflow:hidden;">
-		<div class="closebutton">Close</div>
-		<label>Manage templates</label>
-	</div>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage templates')); ?>
+
 	<?php
 		$this->editcssForm->setAction($this->websiteUrl.$this->url());
 	?>
