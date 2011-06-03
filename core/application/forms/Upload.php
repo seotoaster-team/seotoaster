@@ -8,9 +8,16 @@ class Application_Form_Upload extends Zend_Form {
 
 	public function init(){
 
+		$this->setName('uploadForm')
+			 ->setMethod(self::METHOD_POST)
+			 ->setAttrib('id', 'toaster-uploader')
+			 ->setDecorators(array(
+				array('ViewScript', array('viewScript' => 'admin/uploadForm.phtml'))
+			));
+		
 		$fileUpload = new Zend_Form_Element_File('file', array(
-			'label' => 'Browse for themes',
-			'decorators' => array('Label', 'File'),
+			'label' => 'Upload',
+			'decorators' => array('File'),
 			'multiple' => true
 		));
 
@@ -20,15 +27,10 @@ class Application_Form_Upload extends Zend_Form {
 			'decorators' => array('ViewHelper')
 		));
 
-		$this->addElement('submit', 'submit', array(
+		$this->addElement('button', 'submit', array(
 			'label' => 'Upload',
 			'decorators' => array('ViewHelper')
-			));
-		
-		$this->setName('upload-form')
-			 ->setMethod(self::METHOD_POST)
-			 ->setAttrib('id', 'toaster-uploader')
-			 ->setAttrib('enctype', self::ENCTYPE_MULTIPART)
-			 ->setDecorators(array('FormElements', 'Form'));
+		));
+				
 	}
 }

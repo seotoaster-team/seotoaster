@@ -6,44 +6,44 @@
  */
 class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 
-	private $_libraryPath = 'system/js/external/jquery/plugins/file-upload/';
+	private $_libraryPath = 'system/js/external/plupload/';
 
 	private $_uploadForm = null;
-	private $_caller = null;
+	
 	private $_uploadActionUrl = array(
 		'controller' => 'backend_upload',
 		'action'     => 'upload'
 	);
-
-	public function toasterUploader(){
-		$this->_caller = array(
-			'controller' => Zend_Controller_Front::getInstance()->getRequest()->getControllerName(),
-			'action'	 => Zend_Controller_Front::getInstance()->getRequest()->getActionName()
-		);
-
-		$this->_uploadForm = new Application_Form_Upload();
-
-		$this->_processForm(implode('#',$this->_caller));
-
-		return $this->_uploadForm;
-	}
-
-	public function _processForm($caller) {
-		//assign all necessary JS and CSS
-		$this->view->headLink()->appendStylesheet($this->view->websiteUrl . $this->_libraryPath . 'jquery.fileupload-ui.css');
-		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'jquery.fileupload.js');
-		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'jquery.fileupload-ui.js');
-		$jsInitScript = $this->view->websiteUrl.$this->_libraryPath.'scripts/'.str_replace('#', '_', $caller).'.js';
-		$this->view->jQuery()->addJavascriptFile($jsInitScript);
-		switch ($caller) {
-			case 'backend_theme#themes':
-				break;
-			case 'backend_media#upload':
-				break;
-			default:
-				break;
+	
+	private $_fileTypes = array(
+		'image' => array('title'=>'Image files', 'extensions' => 'jpg,gif,png'),
+		'zip'	=> array('title' => 'Zip files', 'extensions' => 'zip'),
+		'video' => array('title' => 'Video files', 'extensions' => 'mp4, avi, mov, flv'),
+	);
+	
+	public function toasterUploader($options = null){
+		if (isset($options['caller']) && !empty($options['caller'])) {
+			$this->_uploadActionUrl['caller'] = $options['caller'];
+			$this->view->caller = $options['caller'];
 		}
-		$this->_uploadForm->setAction($this->view->url($this->_uploadActionUrl));
-		$this->_uploadForm->getElement('caller')->setValue($caller);
+		//assign all necessary JS and CSSs
+		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.js');
+		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.html5.js');
+		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.html4.js');
+		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.flash.js');
+		
+		//assign all view variables
+		$this->view->config = Zend_Registry::get('misc'); 
+		$this->view->actionUrl = $this->view->websiteUrl.$this->view->url($this->_uploadActionUrl);
+		$this->view->formId = isset($options['id']) && !empty ($options['id']) ? $options['id'] : 'toaster-uploader';
+		$this->view->buttonCaption = isset($options['caption']) && !empty ($options['caption']) ? $options['caption'] : 'Upload files';
+		
+		$this->view->fileTypes = $this->_fileTypes;
+		$this->view->filters = isset($options['filters']) && !empty ($options['filters']) ? $options['filters'] : null;
+		
+		$this->view->caller = $this->_uploadActionUrl['caller'] ? $this->_uploadActionUrl['caller'] : false;
+		
+		return $this->view->render('admin'.DIRECTORY_SEPARATOR.'uploadForm.phtml');
 	}
+
 }
