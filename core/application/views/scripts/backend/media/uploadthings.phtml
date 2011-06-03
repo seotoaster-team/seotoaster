@@ -1,0 +1,62 @@
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/uploadthings.js'); ?>
+<div class="seotoaster container_12 w600 h640 rounded8px">
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
+	<div class="grid_12 h300">
+		<h2 class="ui-helper-reset">
+			<?php echo $this->translate('Pictures');?>
+			<sub>(.jpg .gif .png)</sub>
+		</h2>
+		<div class="clear"> </div>
+		<div class="grid_7 clearfix">
+		<?php echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site. Upload as many images as you want.'); ?>
+		</div>
+		<div class="clearfix"> </div>
+		<div class="grid_5">
+			<div class="padding8px">
+			<?php echo $this->formSelect('images-select-folder', null, null, $this->listFolders); ?>
+			</div>
+		</div>
+		<div class="grid_2"><h2 class="padding8px"><?php echo $this->translate('OR'); ?></h2></div>
+		<div class="grid_5">
+			<div class="padding8px">
+			<?php echo $this->formText('images-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
+			</div>
+		</div>
+		<div class="grid_7">
+			<div id="media-toaster-uploader-filelist" class="h100"><?php echo $this->translate('No runtime loaded.');?></div>
+		</div>
+		<div class="grid_5">
+			<?php 
+				$thingsUploader = $this->toasterUploader(
+					array(
+						'id'=>'media-toaster-uploader',
+						'filters' => array('image'),
+						'caller' => 'images'
+						)); 
+				echo $thingsUploader;
+			?>
+		</div>
+	</div>
+	
+	<div class="grid_12 h300">
+		<h2 class="ui-helper-reset">
+			<?php echo $this->translate('I want to upload files');?>
+			<sub>(video,photos,files)</sub>
+		</h2>
+		<div class="grid_6"><?php echo $this->translate('All uploaded [files] will be displayed as "links" in your websites for people to "Download" them.');?></div>
+		<div class="grid_6"><?php echo $this->translate('Ex.Please download our price list here:Price list.pdf'); ?></div>
+		<div class="grid_7">
+			<div id="files-toaster-uploader-filelist" class="h100"></div>
+		</div>
+		<div class="grid_5">
+			<?php 
+				$filesUploader = $this->toasterUploader(
+					array(
+						'id'=>'files-toaster-uploader',
+						'caller' => 'files'
+						));
+				echo $filesUploader;
+			?>
+		</div>
+	</div>	
+</div>

@@ -11,7 +11,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 	private $_websiteConfig;
 	private $_themeConfig;
-
+	
 	public function init() {
 		$this->_websiteConfig	= Zend_Registry::get('website');
 		$this->_themeConfig		= Zend_Registry::get('theme');
@@ -19,6 +19,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$this->_caller = $this->getRequest()->getParam('caller');
 		$this->_uploadHandler = new Zend_File_Transfer_Adapter_Http();
 		$this->_uploadHandler->setDestination(realpath($this->_websiteConfig['path'] . $this->_websiteConfig['tmp']));
+		
 	}
 
 	public function uploadAction() {
@@ -27,29 +28,32 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$this->_uploadHandler->clearFilters()->clearValidators();
 
-		switch ($this->_caller) {
-			case 'backend_theme#themes' :
-				$response = $this->_uploadTheme();
-				break;
-			default :
-				break;
+		
+		$methodName = '_upload'.ucfirst(strtolower($this->_caller));
+		if (method_exists($this, $methodName)) {
+			$response = $this->$methodName();
+		} else {
+			throw new Exceptions_SeotoasterException('Method not allowed.');
 		}
 		clearstatcache();
-		$this->_sendResponse($response);
+		//$this->_sendResponse($response);
+		$this->_helper->json($response);
 	}
 
 	private function _sendResponse($response){
 		if ($this->getRequest()->isXmlHttpRequest()){
 			$this->getResponse()->setHeader('Content-type', 'application/json');
+		} else {
+			$this->getResponse()->setHeader('Content-type', 'text/plain');
 		}
 		$this->getResponse()
 			->setHeader('Cache-Control', 'no-cache, must-revalidate')
 			->setBody(json_encode($response))
 			->sendResponse();
-		exit();
+//		exit();
 	}
 
-	private function _uploadTheme(){
+	private function _uploadThemes(){
 		$this->_uploadHandler->addValidator('IsCompressed', false, array('application/zip'));
 		$this->_uploadHandler->addValidator('Extension', false, 'zip');
 
@@ -143,4 +147,92 @@ class Backend_UploadController extends Zend_Controller_Action {
         return true;
     }
 
+	/**
+	 * Handler for pictures/video upload interface
+	 * @return array 
+	 */
+	private function _uploadImages() {
+		$miscConfig = Zend_Registry::get('misc');
+		$folder = $this->getRequest()->getParam('folder');
+		if (!$folder || empty($folder)) {
+			return array('error' => true, 'result' => 'No files uploaded. Please select folder.');
+		}
+		$folderValidator  = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+$~');
+		if (!$folderValidator->isValid($folder)){
+			return array('error' => true, 'result' => 'Bad folder name');
+		}
+		
+		$savePath = $this->_websiteConfig['path'] . $this->_websiteConfig['images'] . $folder;
+		if (!is_dir($savePath)){
+			try{
+				Tools_Filesystem_Tools::mkDir($savePath);
+				$savePath = realpath($savePath);
+			} catch (Exceptions_SeotoasterException $e){
+				return array('error' => true, 'result' => $e->getMessage());
+			}
+		}
+		
+		$this->_uploadHandler->clearValidators()
+			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
+			->addValidator('MimeType', false, array('image/gif','image/jpeg','image/png'))
+			->addValidator('IsImage', false)
+			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['img_max_width'], 'maxheight' => $miscConfig['img_max_width']));
+		
+						
+		if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()){
+			if (!is_dir($savePath . DIRECTORY_SEPARATOR . 'original')){
+				try{
+					Tools_Filesystem_Tools::mkDir($savePath . DIRECTORY_SEPARATOR . 'original');
+				} catch (Exceptions_SeotoasterException $e){
+
+				}
+			}
+			$this->_uploadHandler->setDestination($savePath . DIRECTORY_SEPARATOR . 'original');
+			$this->_uploadHandler->receive();
+			$file = $this->_uploadHandler->getFileName();
+			
+			$status = Tools_Image_Tools::batchResize($file, $savePath);
+							
+			return array('error' => ($status !== true), 'result' => $status);
+		}
+		
+		return array('error' => true, 'result' => $this->_uploadHandler->getMessages());
+	}
+	
+	/**
+ 	 * Handler for files uploader
+	 * @return array 
+	 */
+	public function _uploadFiles(){
+		$this->_uploadHandler->clearValidators();
+		$this->_uploadHandler->clearFilters();
+		
+		$savePath = $this->_websiteConfig['path'] . $this->_websiteConfig['downloads'];
+			
+		$file = reset($this->_uploadHandler->getFileInfo());
+		$fileName = basename($this->_uploadHandler->getFileName());
+		
+		$nameValidator = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,6}$~i');
+		
+		if (!$nameValidator->isValid($fileName)) {
+			return array('result' => 'Corrupted filename' , 'error' => true);
+		}
+		
+		$this->_uploadHandler->addFilter('Rename', array(
+            'target' => $savePath . $fileName,
+            'overwrite' => true
+			));
+		
+		if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()){
+			try {
+				$this->_uploadHandler->receive();
+			} catch (Exceptions_SeotoasterException $e){
+				$response = array('result' => $e->getMessage(), 'error' => true);
+			}
+		}
+
+		$response = array('result' => $this->_uploadHandler->getMessages() , 'error' => !$this->_uploadHandler->isReceived());
+		
+		return $response;
+	}
 }
