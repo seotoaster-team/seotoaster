@@ -30,5 +30,13 @@ class Helpers_Action_Session extends Zend_Controller_Action_Helper_Abstract {
 	public function  __get($name) {
 		return $this->_session->$name;
 	}
+
+	public function __unset($name) {
+		unset($this->_session->$name);
+	}
+
+	public function __isset($name) {
+		return isset($this->_session->$name);
+	}
 }
 
