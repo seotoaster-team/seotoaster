@@ -2,38 +2,57 @@
 
 class Tools_Plugins_Tools {
 
+	const CONFIGINI_PATH = 'config/config.ini';
+
 	public static function fetchPluginsMenu($userRole = null) {
 		$additionalMenu = array();
 		$enabledPlugins = self::getEnabledPlugins();
-		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
-			$miscData    = Zend_Registry::get('misc');
-			$websiteData = Zend_Registry::get('website');
-			$pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
-			foreach ($enabledPlugins as $plugin) {
-				if($plugin instanceof Application_Model_Models_Plugin) {
-					$pluginConfigPath = $pluginDirPath . $plugin->getName() . '/config/config.ini';
-					if(file_exists($pluginConfigPath)) {
-						try {
-							$configIni = new Zend_Config_Ini($pluginConfigPath);
-							if(isset($configIni->cpanel)) {
-								$additionalMenu[$plugin->getName()]['title'] = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
-								if(isset($configIni->cpanel->items)) {
-									$items = $configIni->cpanel->items->toArray();
-									if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
-										$items = array_merge($items, $configIni->$userRole->items->toArray());
-									}
-									$additionalMenu[$plugin->getName()]['items'] = array_map(array('self', '_processPluginMenuItem'), $items);
-								}
-							}
-						}
-						catch (Zend_Config_Exception $zce) {
-							//Zend_Debug::dump($zce->getMessage()); die(); //development
-							continue; //production
-						}
-					}
+
+		if(!is_array($enabledPlugins) || empty ($enabledPlugins)) {
+			return;
+		}
+
+		$miscData       = Zend_Registry::get('misc');
+		$websiteData    = Zend_Registry::get('website');
+		$pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
+
+		foreach ($enabledPlugins as $plugin) {
+
+			if(!$plugin instanceof Application_Model_Models_Plugin) {
+				throw new Exceptions_SeotoasterPluginException('Cannot fetch plugin menu. Given parameter should Application_Model_Models_Plugin instance.');
+			}
+
+			$pluginConfigPath = $pluginDirPath . $plugin->getName() . '/' . self::CONFIGINI_PATH;
+
+			if(!file_exists($pluginConfigPath)) {
+				continue;
+			}
+
+			try {
+				$configIni = new Zend_Config_Ini($pluginConfigPath);
+				$items     = array();
+
+				if(!isset($configIni->cpanel)) {
+					continue;
 				}
+
+				$additionalMenu[$plugin->getName()]['title'] = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
+
+				if(isset($configIni->cpanel->items)) {
+					$items = $configIni->cpanel->items->toArray();
+				}
+				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
+					$items = array_merge($items, $configIni->$userRole->items->toArray());
+				}
+				$additionalMenu[$plugin->getName()]['items'] = array_map(array('self', '_processPluginMenuItem'), $items);
+
+			}
+			catch (Zend_Config_Exception $zce) {
+				//Zend_Debug::dump($zce->getMessage()); die(); //development
+				continue; //production
 			}
 		}
+
 		return $additionalMenu;
 	}
 

@@ -11,6 +11,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Page instance');
 		}
 		$data = array(
+			'template_id'         => $page->getTemplateId(),
 			'parent_id'           => $page->getParentId(),
 			'h1'                  => $page->getH1(),
 			'header_title'        => $page->getHeaderTitle(),
@@ -24,7 +25,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'protected'           => $page->getProtected(),
 			'order'               => $page->getOrder(),
 			'static_order'        => $page->getStaticOrder(),
-			'targeted_key_phrase' => $page->getTargetedKey()
+			'targeted_key_phrase' => $page->getTargetedKey(),
+			'system'              => $page->getSystem()
 		);
 		if(null === ($id = $page->getId())) {
 			unset($data['id']);
@@ -37,7 +39,12 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
     public function fetchAll($where = '') {
 		//exclude system pages from select
-		$where .= $this->getDbTable()->getAdapter()->quoteInto(' AND system = "?"', 0);
+		if($where) {
+			$where .= $this->getDbTable()->getAdapter()->quoteInto(' AND system = "?"', 0);
+		}
+		else {
+			$where = $this->getDbTable()->getAdapter()->quoteInto('system = "?"', 0);
+		}
 		$entries = array();
 		$resultSet = $this->getDbTable()->fetchAll($where);
 		if(null === $resultSet) {
@@ -59,6 +66,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $this->fetchAll($where);
 	}
 
+	public function fetchAllDraftPages() {
+
+	}
 
 	public function findByUrl($pageUrl) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
@@ -83,6 +93,13 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	public function find404Page() {
 		$where  = $this->getDbTable()->getAdapter()->quoteInto('is_404page = ?', '1');
 		return $this->_findWhere($where);
+	}
+
+	public function delete(Application_Model_Models_Page $page) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $page->getId());
+		$deleteResult = $this->getDbTable()->delete($where);
+		$page->notifyObservers();
+		return $deleteResult;
 	}
 
 	private function _findWhere($where) {

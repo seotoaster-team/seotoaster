@@ -1,4 +1,5 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
+<<<<<<< Updated upstream:core/application/views/scripts/backend/content/content.phtml
 	<div class="header" style="overflow:hidden;">
 		<div class="closebutton">Close</div>
 		<label>
@@ -7,6 +8,10 @@
 		</label>
 		<?php //echo $this->datePicker('datepicker', '', array('defaultDate' => date('Y/m/d', time()))); ?>
 	</div>
+=======
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/content/header.phtml'))); ?>
+
+>>>>>>> Stashed changes:seotoaster_core/application/views/scripts/backend/content/content.phtml
 	<div class="grid_8 above-editor-links">
 		<a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a> | <a id="toogletinymce" href="javascript:;">No editor</a>
 		<?php
@@ -14,10 +19,12 @@
 			echo $this->contentForm;
 		?>
 	</div>
+
 	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
 	<?php $this->tabPane('tabs', 'Products tab', array('title' => 'Products'));?>
 	<?php $this->tabPane('tabs', 'Something', array('title' => 'Tab3'));?>
-	<?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4'));?>
+	<?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 tabs'));?>
+
 </div>
 
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>

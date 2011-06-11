@@ -1,9 +1,9 @@
 <?php
 
 abstract class Tools_System_Observable implements Interfaces_Observable {
-	
+
 	protected $_observers = array();
-	
+
 	public function registerObserver($observer) {
 		$this->_observers[] = $observer;
 		return $this;

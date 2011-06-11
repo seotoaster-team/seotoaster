@@ -1,5 +1,7 @@
-<div class="seotoaster container_12 w900">
-	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax">
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Mange page')); ?>
+	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
 		<div class="grid_6">
 			<fieldset>
 				<legend>Meta Information</legend>
@@ -25,15 +27,30 @@
 			<fieldset>
 				<legend>Settings</legend>
 					<div class="grid_6 label">Current Template:</div>
-					<div class="grid_6" style="padding:5px 0px"><a href="#">Select Template</a></div>
+					<div class="grid_6" style="padding:5px 0px">
+						<?php
+							echo $this->ajaxLink(
+								$this->translate(!($this->pageForm->getElement('templateId')->getValue()) ? 'Select template' : $this->pageForm->getElement('templateId')->getValue()),
+								$this->websiteUrl . 'backend/backend_theme/gettemplate/',
+								array(
+									'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');",
+									'attribs'  => array(
+										'id' => 'curr-template'
+									)
+
+								),
+								array('listtemplates' => 'all')
+							);
+						?>
+					</div>
 					<div class="grid_12 clear mt5px"></div>
 					<div class="grid_6 label">Page is featured:</div>
 					<div class="grid_6"  style="padding:5px 0px"><a href="#">Not Yet</a></div>
 					<div class="grid_12 mt10px">
 						<label>This page is also</label>
 						<div class="grid_6">
-							<p><?php echo $this->pageForm->getElement('404Page'); ?></p>
-							<p><?php echo $this->pageForm->getElement('protectedPage'); ?></p>
+							<p><?php echo $this->pageForm->getElement('is404page'); ?></p>
+							<p><?php echo $this->pageForm->getElement('protected'); ?></p>
 						</div>
 					</div>
 			</fieldset>
@@ -45,8 +62,11 @@
 				</div>
 				<div class="clear"></div>
 			</fieldset>
+			<?php echo $this->pageForm->getElement('templateId'); ?>
+			<?php echo $this->pageForm->getElement('pageId'); ?>
 			<?php echo $this->pageForm->getElement('updatePage'); ?>
 		</div>
 	</form>
 	<div class="clear"></div>
 </div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>

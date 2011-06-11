@@ -16,14 +16,14 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_MEMLANDING       = 'memlanding';
 
-	private $_templateId       = 0;
+	private $_templateId       = '';
 
-	private $_parentId       = 0;
+	private $_parentId         = 0;
 
 	private $_showInMenu       = self::IN_NOMENU;
 
 	private $_navName          = '';
-	
+
 	private $_metaDescription  = '';
 
     private $_metaKeywords     = '';
@@ -53,6 +53,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	private $_siloId           = 0;
 
 	private $_content          = '';
+
+	private $_system           = false;
 
 	public function getContent() {
 		return $this->_content;
@@ -169,6 +171,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setIs404page($is404page) {
 		$this->_is404page = $is404page;
+		$this->_system    = $this->_is404page;
 		return $this;
 	}
 
@@ -251,6 +254,17 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
         }
         return $vars;
 	}
+
+	public function getSystem() {
+		return $this->_system;
+	}
+
+	public function setSystem($system) {
+		$this->_system = $system;
+		return $this;
+	}
+
+
 
 }
 

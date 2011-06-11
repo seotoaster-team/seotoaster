@@ -1,5 +1,6 @@
 $(function() {
 
+<<<<<<< Updated upstream
 	//seotoaster admin panel cookie
 	/*if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') === true) {
 		$('#cpanelul').hide();
@@ -7,53 +8,46 @@ $(function() {
 		$('#seotoaster-logowrap').hide()
 	}*/
 
+=======
+>>>>>>> Stashed changes
 	/**
 	 * Seotoaster popup dialog
 	 */
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
-		var popupWidth    = 980;
-		var popupHeight   = 670;
-		var toasterIframe = document.createElement('iframe');
-		$(toasterIframe).attr('id', '_toaster-popup')
-		var srcUrl        = $(this).attr('url');
-		$(toasterIframe).dialog({
-			width    : popupWidth,
-			minWidth : popupWidth,
-			height   : popupHeight,
-			modal    : true,
-			autoOpen : false,
-			resizable: false,
-			draggable: true,
-			title    : $(this).attr('title'),
-			open: function() {
-				$(toasterIframe).css({
-					width : popupWidth + 'px',
-					height: popupHeight + 'px',
-					padding: '0px',
-					margin: '0px'
-				})
-				.attr('scrolling', 'no')
-				.attr('frameborder', 'no')
-				.attr('src', srcUrl);
-
-				$('.ui-dialog-titlebar').hide();
-				$('.ui-dialog').css({
-					padding: '0px',
-					border: '0px',
-					background: 'transparent'
-				});
-			}
-		});
-		$(toasterIframe).dialog('open');
+		var popup = document.createElement('iframe');
+		$(popup)
+			.attr('src', $(this).attr('url'))
+			.attr('scrolling', 'no')
+			.attr('frameborder', 'no')
+			.attr('id', '__tpopup')
+			.dialog({
+				width     : 960,
+				height    : 650,
+				resizable : false,
+				modal     : true,
+				open      : function() {
+					$(popup).css({
+						width    : '965px',
+						height   : '650px',
+						padding  : '0px',
+						margin   : '0px',
+						overflow : 'hidden'
+					});
+					$('.ui-dialog-titlebar').hide();
+				},
+				close     : function() {
+					$(popup).remove();
+				}
+			});
 	});
 
-	/**
-	 * close button functionality.
-	 *
-	 */
 	$('.closebutton').click(function() {
-		parent.closePopup();
+		top.$('#__tpopup').dialog('close');
+	})
+
+	$('#ajax_msg').click(function(){
+		$(this).fadeOut();
 	})
 
 	$('form._fajax').live('submit', function(e) {
@@ -66,21 +60,30 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				ajaxMessage.fadeIn();
-				if(form.hasClass('_reload')) {
-					top.location.reload();
-				}
+				ajaxMessage.fadeIn().removeClass('ui-state-error').addClass('success');
+				$('#msg-text').text('Working...');
 			},
 			success : function(response) {
-				ajaxMessage.html('Saved').fadeOut('slow');
+				if(!response.error) {
+					if(form.hasClass('_reload')) {
+						if(response.responseText.redirectTo != 'undefined') {
+							top.location.href = $('#website_url').val() + response.responseText.redirectTo;
+							return;
+						}
+						top.location.reload();
+						return;
+					}
+					//ajaxMessage.html('Saved').fadeOut('slow');
+				}
+				else {
+					ajaxMessage.removeClass('success').addClass('ui-state-error');
+					$('#msg-text').replaceWith(response.responseText);
+				}
 			},
 			error: function() {
-				ajaxMessage.html('Error occured');
+				ajaxMessage.removeClass('success').addClass('ui-state-error');
+				$('#msg-text').text('Error occured');
 			}
 		})
 	})
 });
-
-function closePopup() {
-	$( ".ui-dialog #_toaster-popup" ).dialog('close');
-}

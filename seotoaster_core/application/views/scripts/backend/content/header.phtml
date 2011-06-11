@@ -1,7 +1,3 @@
-<div>
-	<?php
-		$this->contentForm->setAction($this->websiteUrl . $this->url());
-		echo $this->contentForm;
-	?>
-</div>
-<?php echo $this->headScript()->appendFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
+<input type="checkbox" id="published" <?php echo ($this->contentForm->getPublished()) ? 'checked="checked"' : ''; ?>/>
+Published Now? &nbsp;&nbsp;OR&nbsp;&nbsp; Publish Date:
+<?php echo $this->datePicker('dpkr', '', array('defaultDate' => date('Y/m/d', time()))); ?>

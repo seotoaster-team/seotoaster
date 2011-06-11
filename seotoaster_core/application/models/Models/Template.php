@@ -2,6 +2,16 @@
 
 class Application_Model_Models_Template extends Application_Model_Models_Abstract {
 
+	const ID_DEFAULT  = 'default';
+
+	const ID_INDEX    = 'index';
+
+	const ID_CATEGORY = 'category';
+
+	const ID_NEWS     = 'news';
+
+	const ID_PRODUCT  = 'product';
+
 	private $_name         = '';
 
 	private $_content      = '';

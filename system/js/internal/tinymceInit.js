@@ -22,7 +22,8 @@ $(document).ready(function(){
 		paste_remove_styles: true,
 		content_css: websiteUrl + '/themes/' + $('#current_theme').val() + '/content.css',
 		disk_cache : true,
-		debug : false
+		debug : false,
+		valid_elements: '*[*]'
 	})
 })
 

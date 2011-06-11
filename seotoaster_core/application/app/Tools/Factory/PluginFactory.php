@@ -21,6 +21,6 @@ class Tools_Factory_PluginFactory {
 		}
 		require_once $pluginClassPath;
 	}
-	
+
 }
 

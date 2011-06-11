@@ -1,13 +1,37 @@
 <?php
-date_default_timezone_set('UTC');
 
-// @todo Add multisite support
-defined('CORE') || define('CORE', realpath(dirname(__FILE__) . '/core'));
+/*************************************************************************
+ * Installation check
+ *
+ ************************************************************************/
+
+if(is_dir(realpath(dirname(__FILE__).'/install/'))){
+	header('Location: /install/');
+	exit();
+}
+
+/* End installation check */
+
+
+/*************************************************************************
+ * Reading current core config
+ *
+ *************************************************************************/
+$coreConfigPath = realpath(dirname(__FILE__).'/system/coreinfo.php');
+
+if(file_exists($coreConfigPath)) {
+	require_once realpath($coreConfigPath);
+}
+
+defined('CORE')      || define('CORE', realpath(dirname(__FILE__) . '/seotoaster_core'));
 defined('SITE_NAME') || define('SITE_NAME', '');
+
+/* End reading current core config */
+
 
 // Define path to application directory
 defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', CORE . '/application');
+    || define('APPLICATION_PATH', CORE . 'application');
 
 // Define application environment
 defined('APPLICATION_ENV')

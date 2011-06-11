@@ -31,15 +31,32 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		}
 	}
 
-	public function findByName($name, $pageId, $type = Application_Model_Models_Container::TYPE_REGULARCONTENT) {
+	public function findByName($name, $pageId = 0, $type = Application_Model_Models_Container::TYPE_REGULARCONTENT) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
 		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', $type);
-		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('page_id = ?', $pageId);
-		$row   = $this->getDbTable()->fetchAll($where)->current();
+		if($pageId) {
+			$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('page_id = ?', $pageId);
+		}
+		$row  = $this->getDbTable()->fetchAll($where)->current();
 		if(null == $row) {
 			return null;
 		}
 		return new Application_Model_Models_Container($row->toArray());
 	}
-}
+
+	public function findByPageId($pageId) {
+		$wehre = $this->getDbTable()->getAdapter()->quoteInto("page_id = ?", $pageId);
+		return $this->fetchAll($where);
+	}
+
+	public function deleteByPageId($pageId) {
+
+	}
+
+	public function delete(Application_Model_Models_Container $container) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto("id = ?", $container->getId());
+		$this->getDbTable()->delete($where);
+		$container->notifyObservers();
+	}
+ }
 

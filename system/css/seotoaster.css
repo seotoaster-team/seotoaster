@@ -3,17 +3,17 @@
 
 
 /*=========== General ============= */
-body.seotoaster {
+body, body.seotoaster {
 	margin:0;
 	padding:0;
 }
 .seotoaster {
-	background-color:#BDE6F1;
+	background-color: #BDE6F1;
 	position:relative;
 	font-family:helvetica;
 	display:block;
 	overflow:hidden;
-	border:2px solid #fff;
+/*	border:2px solid #fff;*/
 	padding-bottom:10px;
 }
 .seotoaster .header {
@@ -105,6 +105,11 @@ body.seotoaster {
 	text-indent:5px;
 	font-size:12pt;
 }
+
+.seotoaster label.simple-label {
+	display: inline;
+}
+
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea, .seotoaster select {
 	color:#960;
 	border:1px solid #d7d7d7;
@@ -149,6 +154,11 @@ body.seotoaster {
 .seotoaster dt:after { }
 .seotoaster dd { }
 /*=========== Tabs ========================*/
+.seotoaster .tabs {
+	background: url('/system/images/bg-strip.png') !important;
+	height: 535px;
+}
+
 .seotoaster ul.tabs {
 	border-bottom: 1px solid #999;
 	border-left: 1px solid #999;
@@ -161,7 +171,7 @@ body.seotoaster {
 	margin-bottom:10px;
 }
 .seotoaster ul.tabs li {
-	background: #e0e0e0;
+/*	background: #e0e0e0;*/
 	float: left;
 	margin: 0;
 	padding: 0;

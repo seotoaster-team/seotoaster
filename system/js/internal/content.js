@@ -1,5 +1,20 @@
 $(function() {
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+	$('#tabs').tabs();
+>>>>>>> add edit page
 	$('#datepicker').datepicker();
+=======
+
+	$('#tabs').tabs();
+	$('#dpkr')
+		.css({
+			width : '250px'
+		})
+		.datepicker();
+
+>>>>>>> Stashed changes
 
 	$('#tabs').tabs();
 
@@ -9,12 +24,12 @@ $(function() {
 	var chckbxPublished = $('#published');
 
 	datepicker.attr('disabled', chckbxPublished.attr('checked'));
-	chckbxPublished.click(function() {
+	chckbxPublished.live('click', (function() {
 		datepicker.attr('disabled', $(this).attr('checked'));
 		if($(this).attr('checked')) {
 			datepicker.val('');
 		}
-	});
+	}));
 
 	$('#frm_content').submit(function() {
 		var ajaxMsgSuccess = $('#ajax_msg');

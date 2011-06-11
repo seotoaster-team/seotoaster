@@ -1,16 +1,29 @@
-core/library/**/*
+seotoaster_core/library/**/*
 plugins/*
 cache/*
 downloads/*
 images/*
 previews/*
-core/application/configs/**/*
+seotoaster_core/application/configs/**/*
 !*/index.html
 themes/**/*
-core/application/configs/application.ini
-core/application/configs/routes.xml
+seotoaster_core/application/configs/application.ini
+seotoaster_core/application/configs/routes.xml
 .htaccess
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+/nbproject/private/
+=======
+>>>>>>> add edit page
 /nbproject/private/
 error.log
 .zfproject.xml
 nbproject/*
+<<<<<<< HEAD
+=======
+sitemap.xml
+system/coreinfo.php
+tests/*
+>>>>>>> Stashed changes
+>>>>>>> add edit page

@@ -1,6 +1,10 @@
 <?php echo $this->doctype(); ?>
 <html lang="en">
 	<head>
+		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
+			<link rel="canonical" href="<?php echo $this->websiteUrl . $this->pageData['url']; ?>" />
+		<?php endif; ?>
+
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
 
@@ -12,26 +16,31 @@
 		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
 		<?php echo $this->headLink(); ?>
 
+		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
 		<?php echo $this->jQuery(); ?>
 
 		<?php if(!preg_match('/<meta charset="utf-8">/is', $this->head)): ?>
 			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
 		<?php endif; ?>
+<<<<<<< Updated upstream:core/application/layouts/scripts/layout.phtml
 
+<<<<<<< HEAD:seotoaster_core/application/layouts/scripts/layout.phtml
 		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
 			<link rel="canonical" href="<?php echo $this->websiteUrl; ?>" />
 		<?php endif; ?>
 
+=======
+=======
+>>>>>>> Stashed changes:seotoaster_core/application/layouts/scripts/layout.phtml
+>>>>>>> add edit page:core/application/layouts/scripts/layout.phtml
 	</head>
 	<body>
-		<div id="ajax_msg" class="ui-state-highlight ui-corner-all success" style="display: none; position: absolute; padding: 0.7em; z-index: 999;">
-			<span class="ui-icon ui-icon-gear" style="float: left; margin-right: 0.3em;"></span>
-			<?php echo $this->translate('Working') . '...'; ?>
-		</div>
 
-		<div id="ajax_msg_fail" class="errors" style="display: none;"><?php echo $this->translate('Oops. Error occured.'); ?></div>
+		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_ajaxmsg.phtml'); ?>
+
 		<?php echo $this->layout()->content; ?>
+
 		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
 		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
 	</body>

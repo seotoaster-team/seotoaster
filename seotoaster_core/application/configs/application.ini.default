@@ -31,7 +31,7 @@ database.params.dbname   = ""
 [website]
 website.url         = ""
 website.path        = ""
-website.defaultPage = "index.html"
+website.defaultpage = "index.html"
 website.images      = "images/"
 website.downloads   = "downloads/"
 website.tmp         = "tmp/"

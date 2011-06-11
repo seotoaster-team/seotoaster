@@ -74,8 +74,18 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
 			$container     = new Application_Model_Models_Container();
 
+<<<<<<< Updated upstream:core/application/controllers/Backend/ContentController.php
 			$container->registerObserver(new Tools_Content_GarbageCollector());
+<<<<<<< HEAD:seotoaster_core/application/controllers/Backend/ContentController.php
 			$container->registerObserver(new Tools_Seo_Generator());
+=======
+=======
+			$container->registerObserver(new Tools_Seo_Watchdog());
+			$container->registerObserver(new Tools_Content_GarbageCollector(array(
+				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+			)));
+>>>>>>> Stashed changes:seotoaster_core/application/controllers/Backend/ContentController.php
+>>>>>>> add edit page:core/application/controllers/Backend/ContentController.php
 
 			$container->setId($containerData['containerId'])
 				->setName($containerData['containerName'])
@@ -105,7 +115,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$this->getResponse()->setBody($saveResult);
 			$this->getResponse()->sendResponse();
 
-			$container->notifyObservers();
+			$container->notifyObservers(array('test' => 'val'));
 
 			exit;
 		}
@@ -212,7 +222,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$srcPath       = $this->_websiteData['url'] . $this->_websiteData['images'] . $folder;
 			foreach ($images as $key => $image) {
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
-				$imageElement   = '<a href=' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . ' title=' . str_replace('-', '&nbsp;', $image) . ' class=thickbox><img border=0 alt='. str_replace('-', '&nbsp;',$image) . ' src=' . $srcPath . '/' . $type . '/' . $image . ' width=' . $imageSize[0] . ' height=' . $imageSize[1] . ' /></a>';
+				$imageElement   = htmlentities('<a href="javascript:;" url="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $image) . '" class="tpopup"><img border="0" alt="'. str_replace('-', '&nbsp;',$image) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
 				$imagesContent .= '<a href="javascript:;" onmousedown="$(\'#content\').tinymce().execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
 				$imagesContent .= '<img title="' . $image . '" style="vertical-align:top; margin: 0px 0px 4px 4px;" border="0" width="65" src="' . $srcPath . '/'. $type . '/' . $image .'" /></a>';
 			}

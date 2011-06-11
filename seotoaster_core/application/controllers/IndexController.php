@@ -92,8 +92,9 @@ class IndexController extends Zend_Controller_Action {
 		$body = '';
 		preg_match('~<head>(.*)</head>~sUi', $pageContent, $head);
 		preg_match('~<body>(.*)</body>~sUi', $pageContent, $body);
-		$this->view->head         = $head[1];
-		$this->view->websiteUrl   = $this->_helper->website->getUrl();
+		$this->view->head            = $head[1];
+		$this->view->websiteUrl      = $this->_helper->website->getUrl();
+		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
 		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
