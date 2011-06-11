@@ -1,16 +1,5 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
-
-	<div class="header" style="overflow:hidden;">
-		<div class="closebutton">Close</div>
-		<label>
-			<input type="checkbox" id="published" <?php echo ($this->contentForm->getPublished()) ? 'checked="checked"' : ''; ?>/>
-			Published Now? &nbsp;&nbsp;OR&nbsp;&nbsp; Publish Date:
-		</label>
-		<?php //echo $this->datePicker('datepicker', '', array('defaultDate' => date('Y/m/d', time()))); ?>
-	</div>
-
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/content/header.phtml'))); ?>
-
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/content/top.phtml'))); ?>
 	<div class="grid_8 above-editor-links">
 		<a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a> | <a id="toogletinymce" href="javascript:;">No editor</a>
 		<?php

@@ -1,0 +1,3 @@
+<input type="checkbox" id="published" <?php echo ($this->contentForm->getPublished()) ? 'checked="checked"' : ''; ?>/>
+Published Now? &nbsp;&nbsp;OR&nbsp;&nbsp; Publish Date:
+<?php echo $this->datePicker('dpkr', '', array('defaultDate' => date('Y/m/d', time()))); ?>

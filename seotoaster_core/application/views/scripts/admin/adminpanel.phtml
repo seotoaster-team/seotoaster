@@ -9,7 +9,10 @@
 			<ul>
 				<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), 'id/' . $this->pageData['id']); ?></li>
-				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
+				<?php if($this->websiteMainPage != $this->pageData['url']): ?>
+					<li><a href="javascript:;" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
+					<input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />
+				<?php endif; ?>
 				<li class="cpanelsubtitle">Other pages</li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Organize pages"><?php echo $this->translate('Organize pages'); ?></a></li>
