@@ -9,11 +9,11 @@
  */
 class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
-	private $_cache      = null;
+	private $_cache              = null;
 
-	private $_redirector = null;
+	private $_redirector         = null;
 
-	private $_website    = null;
+	private $_website            = null;
 
 	public function init() {
 		$this->_cache      = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
@@ -23,24 +23,23 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
 	public function validate($pageUrl) {
 		if(!$pageUrl) {
-			$websiteConfig = Zend_Registry::get('website');
-			$pageUrl = $websiteConfig['defaultPage'];
+			$pageUrl = $this->_website->getDefaultPage();
 		}
-		elseif(!preg_match('/\.html$/', $pageUrl)) {
+		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
-		return $pageUrl;
+		return str_replace(' ', '-', $pageUrl);
 	}
 
 	public function do301Redirect($pageUrl) {
 		$redirectMap = array();
 		$this->_redirector->setCode(301);
 
-		if(!$redirectMap = $this->_cache->load('toaster_301redirects', '303redirects')) {
+		if(!$redirectMap = $this->_cache->load('toaster_301redirects', '301redirects')) {
 			$mapper    = new Application_Model_Mappers_RedirectMapper();
 			$redirectMap = $mapper->fetchRedirectMap();
 			if(!empty ($redirectMap)) {
-				$this->_cache->save('toaster_301redirects', $redirectMap, '303redirects', array(), Helpers_Action_Cache::CACHE_LONG);
+				$this->_cache->save('toaster_301redirects', $redirectMap, '301redirects', array(), Helpers_Action_Cache::CACHE_LONG);
 			}
 		}
 
