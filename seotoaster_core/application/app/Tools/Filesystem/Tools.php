@@ -141,5 +141,18 @@ class Tools_Filesystem_Tools {
 			return false;
 		}
 	}
-}
+	
+	public static function mkDir($dirname){
+		$dirname = (string) trim($dirname);
 
+		if($dirname === '') {
+			return false;
+		}
+
+		if(!is_dir($dirname)) {
+			return @mkdir($dirname);
+		} else {
+			return false;
+		}
+	}
+}
