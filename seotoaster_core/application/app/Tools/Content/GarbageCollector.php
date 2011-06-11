@@ -1,29 +1,40 @@
 <?php
 
 /**
- * Description of GarbageCollector
+ * GarbageCollector
  *
  * @author Seotoaster Dev Team
  */
-class Tools_Content_GarbageCollector implements Interfaces_Observer, Interfaces_GarbageCollector {
+class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 
-	public function clean() {
-		$this->_collectContainers();
+	protected function _runOnDefault() {
+
 	}
 
-	private function _collectContainers() {
-		// 1. Get containers from database
-		// 2. Scan new theme for containers
-		// 3. Compare and find unused containers
+	protected function _runOnUpdate() {
+		return $this->_updateContentLinksRelatios();
 	}
 
-	public function notify($object) {
-		if($object instanceof Application_Model_Models_Container) {
-			//Zend_Debug::dump('Content updated');
+	protected function _runOnDelete() {
+
+	}
+
+	private function _updateContentLinksRelatios() {
+		if(!$this->_object instanceof Application_Model_Models_Container) {
+			throw new Exceptions_SeotoasterException('Wrong object given. Instance of Application_Model_Models_object expected.');
 		}
+
+		$links                         = array();
+		$mapper                        = new Application_Model_Mappers_LinkContainerMapper();
+		$links[$this->_object->getId()]= Tools_Content_Tools::findLinksInContent($this->_object->getContent(), true);
+		$containerId                   = $this->_object->getId();
+		$containerLinks                = $mapper->fetchStructured($containerId);
+		if(is_array($containerLinks) && isset ($containerLinks[$containerId])) {
+			$diff = array_diff($containerLinks[$containerId], $links[$containerId]);
+			$mapper->delete($containerId, $diff);
+		}
+		return $mapper->saveStructured($links);
 	}
-
-
 
 }
 
