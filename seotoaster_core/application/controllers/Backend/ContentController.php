@@ -74,18 +74,10 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
 			$container     = new Application_Model_Models_Container();
 
-<<<<<<< Updated upstream:core/application/controllers/Backend/ContentController.php
-			$container->registerObserver(new Tools_Content_GarbageCollector());
-<<<<<<< HEAD:seotoaster_core/application/controllers/Backend/ContentController.php
-			$container->registerObserver(new Tools_Seo_Generator());
-=======
-=======
 			$container->registerObserver(new Tools_Seo_Watchdog());
 			$container->registerObserver(new Tools_Content_GarbageCollector(array(
 				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 			)));
->>>>>>> Stashed changes:seotoaster_core/application/controllers/Backend/ContentController.php
->>>>>>> add edit page:core/application/controllers/Backend/ContentController.php
 
 			$container->setId($containerData['containerId'])
 				->setName($containerData['containerName'])

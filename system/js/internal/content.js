@@ -1,22 +1,10 @@
 $(function() {
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-	$('#tabs').tabs();
->>>>>>> add edit page
-	$('#datepicker').datepicker();
-=======
-
 	$('#tabs').tabs();
 	$('#dpkr')
 		.css({
 			width : '250px'
 		})
 		.datepicker();
-
->>>>>>> Stashed changes
-
-	$('#tabs').tabs();
 
 
 	var datepicker      = $('#datepicker');

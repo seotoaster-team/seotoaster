@@ -1,6 +1,5 @@
 $(function() {
 
-<<<<<<< Updated upstream
 	//seotoaster admin panel cookie
 	/*if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') === true) {
 		$('#cpanelul').hide();
@@ -8,8 +7,6 @@ $(function() {
 		$('#seotoaster-logowrap').hide()
 	}*/
 
-=======
->>>>>>> Stashed changes
 	/**
 	 * Seotoaster popup dialog
 	 */

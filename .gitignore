@@ -10,20 +10,9 @@ themes/**/*
 seotoaster_core/application/configs/application.ini
 seotoaster_core/application/configs/routes.xml
 .htaccess
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-/nbproject/private/
-=======
->>>>>>> add edit page
-/nbproject/private/
 error.log
 .zfproject.xml
 nbproject/*
-<<<<<<< HEAD
-=======
 sitemap.xml
 system/coreinfo.php
 tests/*
->>>>>>> Stashed changes
->>>>>>> add edit page
