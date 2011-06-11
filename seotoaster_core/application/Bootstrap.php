@@ -19,6 +19,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$autoloader->registerNamespace('Helpers_');
 		$autoloader->registerNamespace('Exceptions_');
 		$autoloader->registerNamespace('Tools_');
+		$autoloader->registerNamespace('Plugins_');
+		$autoloader->setFallbackAutoloader(true);
 	}
 
 	protected function _initRoutes()  {
@@ -65,6 +67,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Config());
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Website());
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Response());
+	}
+
+	protected function _initPlugins() {
+		$front = Zend_Controller_Front::getInstance();
+		$front->registerPlugin(new Plugins_Acl());
 	}
 
 	protected function _initAcl() {
