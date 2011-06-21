@@ -12,7 +12,9 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	}
 
 	protected function _runOnUpdate() {
-		return $this->_updateContentLinksRelatios();
+		$this->_updateContentLinksRelatios();
+		$this->_cleanEmptyContainer();
+
 	}
 
 	protected function _runOnDelete() {
@@ -34,6 +36,14 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 			$mapper->delete($containerId, $diff);
 		}
 		return $mapper->saveStructured($links);
+	}
+
+	public function _cleanEmptyContainer() {
+		if(!$this->_object->getContent()) {
+			$this->_object->removeObserver($this);
+			$mapper = new Application_Model_Mappers_ContainerMapper();
+			$mapper->delete($this->_object);
+		}
 	}
 
 }

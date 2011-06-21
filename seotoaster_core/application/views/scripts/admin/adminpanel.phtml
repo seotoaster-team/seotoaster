@@ -25,7 +25,6 @@
 			<ul>
 				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Remove things">Remove things</a></li>
-				<li><a href="javascript:;" onclick="" title="Import images from your online galleries">Import images</a></li>
 			</ul>
 		</li>
 		<li>
@@ -55,7 +54,6 @@
 				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage config'); ?>"><?php echo $this->translate('Manage config'); ?></a></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
 					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage users'); ?>"><?php echo $this->translate('Manage users'); ?></a></li>
-					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Import pages'); ?>"><?php echo $this->translate('Import pages'); ?></a></li>
 				<?php endif; ?>
 				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Plugins'); ?>"><?php echo $this->translate('Plugins'); ?></a></li>
 			</ul>

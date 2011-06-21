@@ -13,6 +13,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	protected function _runOnDelete() {
 		$this->_removePageUrlFromContent();
+		$this->_removeRelatedContainers();
 	}
 
 	/**
@@ -42,6 +43,16 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 				$container->setContent($content);
 				$containerMapper->save($container);
 				$container->notifyObservers();
+			}
+		}
+	}
+
+	private function _removeRelatedContainers() {
+		$containerMapper = new Application_Model_Mappers_ContainerMapper();
+		$containers      = $containerMapper->findByPageId($this->_object->getId());
+		if(!empty ($containers)) {
+			foreach ($containers as $container) {
+				$containerMapper->delete($container);
 			}
 		}
 	}

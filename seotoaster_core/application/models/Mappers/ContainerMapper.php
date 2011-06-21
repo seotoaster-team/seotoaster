@@ -45,7 +45,7 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 	}
 
 	public function findByPageId($pageId) {
-		$wehre = $this->getDbTable()->getAdapter()->quoteInto("page_id = ?", $pageId);
+		$where = $this->getDbTable()->getAdapter()->quoteInto("page_id = ?", $pageId);
 		return $this->fetchAll($where);
 	}
 

@@ -8,13 +8,19 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const IN_NOMENU            = 0;
 
+	const IDCATEGORY_DEFAULT   = -1;
+
+	const IDCATEGORY_DRAFT     = -2;
+
+	const IDCATEGORY_PRODUCT   = -3;
+
+	const IDCATEGORY_CATEGORY  = 0;
+
 	const PROTECTED_SIGN       = '*';
 
 	const OPT_PROTECTED        = 'protected';
 
 	const OPT_404PAGE          = 'is_404page';
-
-	const OPT_MEMLANDING       = 'memlanding';
 
 	private $_templateId       = '';
 

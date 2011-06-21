@@ -111,14 +111,15 @@ class Application_Form_Page extends Zend_Form {
 			'separator' => ''
 		)));
 
-		$this->addElement(new Zend_Form_Element_Radio(array(
-			'name' => 'pageCategory',
-			'id'   => 'page-category',
+		$this->addElement(new Zend_Form_Element_Select(array(
+			'name'         => 'pageCategory',
+			'id'           => 'page-category',
 			'multiOptions' => array(
-				'seotoaster' => array(
-					'-1' => 'Regular page',
-					'-2' => 'This page is a category',
-					'-3' => 'Draft pages',
+				'Seotoaster' => array(
+					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
+					Application_Model_Models_Page::IDCATEGORY_DEFAULT  => 'Make your selection',
+					Application_Model_Models_Page::IDCATEGORY_DRAFT    => 'Draft',
+					Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
 				)
 			)
 		)));
