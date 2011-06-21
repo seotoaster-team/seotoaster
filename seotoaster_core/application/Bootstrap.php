@@ -24,7 +24,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initRoutes()  {
-		$routest = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml');
+		$routest = new Zend_Config_Xml(APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml');
 		$router  = Zend_Controller_Front::getInstance()->getRouter();
 		$router->addConfig($routest, 'routes');
 	}
