@@ -117,8 +117,8 @@ class Application_Form_Page extends Zend_Form {
 			'multiOptions' => array(
 				'Seotoaster' => array(
 					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
-					Application_Model_Models_Page::IDCATEGORY_DEFAULT  => 'Make your selection',
-					Application_Model_Models_Page::IDCATEGORY_DRAFT    => 'Draft',
+					Application_Model_Models_Page::IDCATEGORY_DEFAULT  => 'This page is in no menu',
+					Application_Model_Models_Page::IDCATEGORY_DRAFT    => 'This page is draft',
 					Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
 				)
 			)

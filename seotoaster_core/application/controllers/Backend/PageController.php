@@ -34,13 +34,24 @@ class Backend_PageController extends Zend_Controller_Action {
 		else {
 			$params = $this->getRequest()->getParams();
 			if($pageForm->isValid($this->getRequest()->getParams())) {
+
+				$pageData = $pageForm->getValues();
+
+				//if we'r creating page -> check that we do not have an identical urls
+				if(!$pageId) {
+					$pageExists = $mapper->findByUrl($this->_helper->page->validate($pageData['url']));
+					if($pageExists instanceof Application_Model_Models_Page) {
+						$this->_helper->response->fail('Page with url <strong>' . $this->_helper->page->validate($pageData['url']) . '</strong> already exists.');
+						exit;
+					}
+				}
+
 				//saving old data for seo routine
 				$this->_helper->session->oldPageUrl = $page->getUrl();
 				$this->_helper->session->oldPageH1  = $page->getH1();
 
 				$page->registerObserver(new Tools_Seo_Watchdog());
 
-				$pageData = $pageForm->getValues();
 				$page->setOptions($pageData);
 				$page->setUrl($this->_helper->page->validate($pageData['url']));
 				$page->setTargetedKey($page->getH1());
@@ -73,6 +84,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
 	public function rendermenuAction() {
 		$menuType    = $this->getRequest()->getParam('mtype');
+		$pageId      = $this->getRequest()->getParam('pId');
 
 		$menuOptions = array();
 		$menuHtml    = '';
@@ -82,21 +94,33 @@ class Backend_PageController extends Zend_Controller_Action {
 		switch ($menuType) {
 			case Application_Model_Models_Page::IN_MAINMENU:
 				$categories = $mapper->selectCategoriesIdName();
-				$categories[Application_Model_Models_Page::IDCATEGORY_PRODUCT] = 'Product pages';
-				$menuOptions = array('Seotoaster' => array(strval(Application_Model_Models_Page::IDCATEGORY_CATEGORY) => 'This page is a category'), 'Categories' => $categories);
+				$menuOptions = array(
+					'-4'         => 'Make your selection',
+					'Seotoaster' => array(
+						Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
+						Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
+					),
+					'Categories' => $categories
+				);
 			break;
 			case Application_Model_Models_Page::IN_STATICMENU:
 				$menuOptions= array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');
 			break;
 			case Application_Model_Models_Page::IN_NOMENU:
-				$menuOptions = array('No menu options' => array(
-					Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'No menu',
-					Application_Model_Models_Page::IDCATEGORY_DRAFT   => 'Draft'
+				$menuOptions = array('-4' => 'Make your selection', 'No menu options' => array(
+					Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'This page is in no menu',
+					Application_Model_Models_Page::IDCATEGORY_DRAFT   => 'This page is in draft'
 				));
 			break;
 		}
-		$selectHelper = $this->view->getHelper('formSelect');
-		$this->view->select = $selectHelper->formSelect('pageCategory', '', null, $menuOptions);
+		$selectHelper       = $this->view->getHelper('formSelect');
+
+		if($pageId) {
+			$mapper   = new Application_Model_Mappers_PageMapper();
+			$currPage = $mapper->find($pageId);
+		}
+
+		$this->view->select = $selectHelper->formSelect('pageCategory', (isset($currPage) ? $currPage->getParentId() : ''), null, $menuOptions);
 	}
 
 	public function edit404pageAction() {
