@@ -30,20 +30,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initDatabase() {
-		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'database');
+		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini', 'database');
 		$database = Zend_Db::factory($config->database);
 		Zend_Db_Table_Abstract::setDefaultAdapter($database);
 		Zend_Registry::set('dbAdapter', $database);
 	}
 
 	protected function _initSession() {
-		$config  = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'website');
+		$config  = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini', 'website');
 		$session = new Zend_Session_Namespace($config->website->url, true);
 		Zend_Registry::set('session', $session);
 	}
 
 	protected function _initCache() {
-		$config               = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini');
+		$config               = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini');
 		$cacheFrontendOptions = $config->cache->cache->frontend->toArray();
 		$cacheBackendOptions  = $config->cache->cache->backend->toArray();
 		$cache = Zend_Cache::factory('Core', 'File', $cacheFrontendOptions, $cacheBackendOptions);
@@ -51,7 +51,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initRegistry() {
-		$config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini');
+		$config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini');
 		Zend_Registry::set('website', $config->website->website->toArray());
 		Zend_Registry::set('database', $config->database->database->toArray());
 		Zend_Registry::set('theme', $config->theme->theme->toArray());
