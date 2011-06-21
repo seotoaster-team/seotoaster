@@ -23,7 +23,7 @@ if(file_exists($coreConfigPath)) {
 	require_once realpath($coreConfigPath);
 }
 
-defined('CORE')      || define('CORE', realpath(dirname(__FILE__) . '/seotoaster_core'));
+defined('CORE')      || define('CORE', realpath(dirname(__FILE__) . '/seotoaster_core/'));
 defined('SITE_NAME') || define('SITE_NAME', '');
 
 /* End reading current core config */
@@ -49,7 +49,7 @@ require_once 'Zend/Application.php';
 // Create application, bootstrap, and run
 $application = new Zend_Application(
     APPLICATION_ENV,
-    APPLICATION_PATH . '/configs/application.ini'
+    APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini'
 );
 $application->bootstrap()
             ->run();
