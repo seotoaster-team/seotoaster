@@ -26,7 +26,9 @@
 				); ?>
 			</div>
 			<div class="mt20px textcentered h350 img-teaser">
-				<p style="border:1px dashed red;">@todo: Upload image mechanism. Coming soon</p>
+				
+					
+				
 				<?php if(($previewImage = $this->templateForm->getElement('previewImage')->getValue()) != null): ?>
 					<img id="template_preview" src="<?php echo $this->websiteUrl.$previewImage; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 				<?php else: ?>
@@ -39,4 +41,19 @@
 		<div class="grid_4 textcentered  mt20px"><?php echo $this->templateForm->getElement('submit'); ?></div>
 	</form>
 	<div class="grid_12 clear"></div>
+	<div>
+		<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
+	<?php 
+						$previewUploader = $this->toasterUploader(
+							array(
+								'id' => 'template-preview-uploader',
+								'caller' => 'templatePreview'
+							)
+						);
+						echo $previewUploader;
+					?>
+	</div>
 </div>
+<?php $this->jQuery()->onLoadCaptureStart();?>
+
+<?php $this->jQuery()->onLoadCaptureEnd();?>

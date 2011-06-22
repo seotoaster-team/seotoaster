@@ -13,6 +13,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 	private $_themeConfig;
 	
 	public function init() {
+		parent::init();
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_MEDIA)) {
+			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+		}
 		$this->_websiteConfig	= Zend_Registry::get('website');
 		$this->_themeConfig		= Zend_Registry::get('theme');
 
@@ -28,7 +32,6 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$this->_uploadHandler->clearFilters()->clearValidators();
 
-		
 		$methodName = '_upload'.ucfirst(strtolower($this->_caller));
 		if (method_exists($this, $methodName)) {
 			$response = $this->$methodName();
@@ -151,26 +154,13 @@ class Backend_UploadController extends Zend_Controller_Action {
 	 * Handler for pictures/video upload interface
 	 * @return array 
 	 */
-	private function _uploadImages() {
+	private function _uploadImages($savePath = null, $resize = true) {
 		$miscConfig = Zend_Registry::get('misc');
-		$folder = $this->getRequest()->getParam('folder');
-		if (!$folder || empty($folder)) {
-			return array('error' => true, 'result' => 'No files uploaded. Please select folder.');
-		}
-		$folderValidator  = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+$~');
-		if (!$folderValidator->isValid($folder)){
-			return array('error' => true, 'result' => 'Bad folder name');
-		}
 		
-		$savePath = $this->_websiteConfig['path'] . $this->_websiteConfig['images'] . $folder;
-		if (!is_dir($savePath)){
-			try{
-				Tools_Filesystem_Tools::mkDir($savePath);
-				$savePath = realpath($savePath);
-			} catch (Exceptions_SeotoasterException $e){
-				return array('error' => true, 'result' => $e->getMessage());
+		if (!$savePath) {
+			//useful if file submited directly to this method
+			$savePath = $this->_getSavePath();
 			}
-		}
 		
 		$this->_uploadHandler->clearValidators()
 			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
@@ -178,20 +168,25 @@ class Backend_UploadController extends Zend_Controller_Action {
 			->addValidator('IsImage', false)
 			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['img_max_width'], 'maxheight' => $miscConfig['img_max_width']));
 		
+		$receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
 						
 		if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()){
-			if (!is_dir($savePath . DIRECTORY_SEPARATOR . 'original')){
+			if (!is_dir($receivePath)){
 				try{
-					Tools_Filesystem_Tools::mkDir($savePath . DIRECTORY_SEPARATOR . 'original');
+					Tools_Filesystem_Tools::mkDir($receivePath);
 				} catch (Exceptions_SeotoasterException $e){
-
+					error_log($e->getMessage());
 				}
 			}
-			$this->_uploadHandler->setDestination($savePath . DIRECTORY_SEPARATOR . 'original');
+			$this->_uploadHandler->setDestination($receivePath);
 			$this->_uploadHandler->receive();
 			$file = $this->_uploadHandler->getFileName();
 			
+			if ($resize){
 			$status = Tools_Image_Tools::batchResize($file, $savePath);
+			} else {
+				$status = true;
+			}
 							
 			return array('error' => ($status !== true), 'result' => $status);
 		}
@@ -203,23 +198,25 @@ class Backend_UploadController extends Zend_Controller_Action {
  	 * Handler for files uploader
 	 * @return array 
 	 */
-	public function _uploadFiles(){
+	private function _uploadFiles($savePath = null){
 		$this->_uploadHandler->clearValidators();
 		$this->_uploadHandler->clearFilters();
 		
-		$savePath = $this->_websiteConfig['path'] . $this->_websiteConfig['downloads'];
+		if (!$savePath) {
+			$savePath = $this->_getSavePath();
+		}
 			
 		$file = reset($this->_uploadHandler->getFileInfo());
 		$fileName = basename($this->_uploadHandler->getFileName());
 		
-		$nameValidator = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,6}$~i');
+		$nameValidator = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~i');
 		
 		if (!$nameValidator->isValid($fileName)) {
 			return array('result' => 'Corrupted filename' , 'error' => true);
 		}
 		
 		$this->_uploadHandler->addFilter('Rename', array(
-            'target' => $savePath . $fileName,
+            'target' => $savePath.DIRECTORY_SEPARATOR.$fileName,
             'overwrite' => true
 			));
 		
@@ -234,5 +231,112 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$response = array('result' => $this->_uploadHandler->getMessages() , 'error' => !$this->_uploadHandler->isReceived());
 		
 		return $response;
+	}
+	
+	/**
+	 * Handler for "upload media" section
+	 */
+	private function _uploadMedia(){
+		$this->_uploadHandler->clearValidators();
+		$this->_uploadHandler->clearFilters();
+		$miscConfig = Zend_Registry::get('misc');
+		
+		$savePath = $this->_getSavePath();
+		
+		$file = reset($this->_uploadHandler->getFileInfo());
+		
+		switch ($file['type']) {
+			case 'image/png':
+			case 'image/jpg':
+			case 'image/jpeg':
+			case 'image/gif':
+				$result = $this->_uploadImages($savePath);
+				break;
+			default:
+				$result = $this->_uploadFiles($savePath);
+				break;
+}
+		
+		return $result;
+	}
+	
+	/**
+	 * Method get a 'folder' name from request array and checks if this folder exists.
+	 * If not it creates this folder
+	 * @return string directory path or false if error
+	 */
+	private function _getSavePath() {
+		$folder = $this->getRequest()->getParam('folder');
+		if (!$folder || empty($folder)) {
+			return array('error' => true, 'result' => 'No files uploaded. Please select folder.');
+		}
+		$folder = trim($folder, ' \/');
+		$folderValidator  = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+$~');
+		if (!$folderValidator->isValid($folder)){
+			return array('error' => true, 'result' => 'Bad folder name');
+		}
+		$savePath = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folder . DIRECTORY_SEPARATOR;
+		if (!is_dir($savePath)){
+			try{
+				Tools_Filesystem_Tools::mkDir($savePath);
+			} catch (Exceptions_SeotoasterException $e){
+				 error_log($e->getMessage());
+				 return false;
+			}
+		}	
+		return realpath($savePath);
+	}
+	
+	private function _uploadTemplatepreview(){
+		$miscConfig = Zend_Registry::get('misc');
+
+		$currentTheme = $this->_helper->config->getConfig('current_theme');
+		 
+		$savePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
+		
+		$templateName = trim($this->getRequest()->getParam('templateName'));
+		
+		$fileMime = $this->_uploadHandler->getMimeType();
+		
+		switch ($fileMime){
+			case 'image/png':
+				$newName = $templateName.'.png';
+				break;
+			case 'image/jpg':
+			case 'image/jpeg':
+				$newName = $templateName.'.jpg';
+				break;
+			case 'image/gif':
+				$newName = $templateName.'.gif';
+				break;
+			default:
+				return false;
+				break;
+		}
+		
+		if (!$templateName || empty ($templateName)){
+			return false;
+		}
+		$newImageFile = $savePath.$newName;
+		
+		//checking for existing images with same name ...
+		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath);
+		$existingImages = preg_grep('~^'.$templateName.'\.(png|jpg|gif)$~i', $existingImages);
+		// ...and removing them
+		foreach ($existingImages as $img){
+			Tools_Filesystem_Tools::deleteFile($savePath.$img);
+		}
+		
+		$this->_uploadHandler->addFilter('Rename',
+                   array('target' => $newImageFile,
+                         'overwrite' => true));
+		$result = $this->_uploadImages($savePath, false);
+		
+		if ($result['error'] == false) {
+			Tools_Image_Tools::resize($newImageFile, $miscConfig['template_preview_w'], true);
+			$result['thumb'] = 'data:'.$fileMime.';base64,'.base64_encode(Tools_Filesystem_Tools::getFile($newImageFile));
+		}
+		
+		return $result;
 	}
 }

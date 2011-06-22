@@ -45,7 +45,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				}
 			}
 			//building list of image folders
-			$imageFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['images']);
+			$imageFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview']);
 			$this->view->imageFolders = $imageFolders;
 		} else {
 			if($templateForm->isValid($this->getRequest()->getPost())) {

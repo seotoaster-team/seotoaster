@@ -32,10 +32,9 @@ database.params.dbname   = ""
 website.url         = ""
 website.path        = ""
 website.defaultpage = "index.html"
-website.images      = "images/"
-website.downloads   = "downloads/"
 website.tmp         = "tmp/"
 website.preview     = "previews/"
+website.media		= "media/"
 
 [theme]
 theme.path            = "themes/"
@@ -53,6 +52,11 @@ cache.frontend.ignore_user_abort       = 1
 cache.backend.cache_dir                = "cache/"
 
 [misc]
-misc.jquery        = "local"
-misc.jqueryui      = "local"
-misc.pluginsPath   = "plugins/"
+misc.jquery			= "local"
+misc.jqueryui		= "local"
+misc.pluginsPath	= "plugins/"
+misc.img_product	= 80
+misc.img_quality	= 90
+misc.img_max_width	= 2048
+misc.template_preview_w = 200
+misc.template_preview_h = 275

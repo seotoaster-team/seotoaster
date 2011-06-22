@@ -26,6 +26,9 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 			$this->_uploadActionUrl['caller'] = $options['caller'];
 			$this->view->caller = $options['caller'];
 		}
+		if (isset($options['disableResize']) && !empty ($options['disableResize'])){
+			$this->view->disableResize = (bool) $options['disableResize'];
+		}
 		//assign all necessary JS and CSSs
 		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.js');
 		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.html5.js');
