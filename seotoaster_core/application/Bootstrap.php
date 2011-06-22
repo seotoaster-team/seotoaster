@@ -143,9 +143,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		if($misc['jquery'] == 'local') {
 			$view->jQuery()->setLocalPath($website['url'] . 'system/js/external/jquery/jquery.js');
 		}
+		else {
+			$view->jQuery()->setVersion($misc['jqversion']);
+		}
 		if($misc['jqueryui'] == 'local') {
 			$view->jQuery()->setUiLocalPath($website['url'] . 'system/js/external/jquery/jquery-ui.js');
 		}
+		else {
+			$view->jQuery()->setUiVersion($misc['jquversion']);
+		}
+
 		$viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
 		Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
 	}

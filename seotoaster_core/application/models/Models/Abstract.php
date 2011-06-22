@@ -37,7 +37,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 	public function setOptions(array $options) {
 		$methods = get_class_methods($this);
         foreach ($options as $key => $value) {
-            $method = 'set' . ucfirst($this->_normalozeOptionsKey($key));
+            $method = 'set' . ucfirst($this->_normalizeOptionsKey($key));
             if (in_array($method, $methods)) {
                 $this->$method($value);
             }
@@ -54,7 +54,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 		return $this;
 	}
 
-	protected function _normalozeOptionsKey($key) {
+	protected function _normalizeOptionsKey($key) {
 		$exploded = explode('_', $key);
 		$exploded = array_map('ucfirst', $exploded);
 		return join('', $exploded);

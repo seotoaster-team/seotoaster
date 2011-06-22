@@ -17,7 +17,7 @@
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Organize pages"><?php echo $this->translate('Organize pages'); ?></a></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-				<li><a href="javascript:;" onclick="" title="Draft"><?php echo $this->translate('Draft pages'); ?></a></li>
+				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 			</ul>
 		</li>
 		<li>
