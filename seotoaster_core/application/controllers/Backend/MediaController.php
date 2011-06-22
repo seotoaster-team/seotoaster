@@ -20,8 +20,10 @@ class Backend_MediaController extends Zend_Controller_Action {
 	
 	public function uploadthingsAction() {
 		//creating list of folder in 'images' directory
-		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'].$this->_websiteConfig['images']);
+		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'].$this->_websiteConfig['media']);
+		if (!empty ($listFolders)){
 		$listFolders = array_combine($listFolders, $listFolders);
+		}
 		$this->view->listFolders = array_merge(array('select folder'), $listFolders);
 	}
 

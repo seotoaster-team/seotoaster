@@ -32,10 +32,9 @@ database.params.dbname   = ""
 website.url         = ""
 website.path        = ""
 website.defaultpage = "index.html"
-website.images      = "images/"
-website.downloads   = "downloads/"
 website.tmp         = "tmp/"
 website.preview     = "previews/"
+website.media		= "media/"
 
 [theme]
 theme.path            = "themes/"
@@ -58,3 +57,8 @@ misc.jqversion   = "1.5"
 misc.jqueryui    = "local"
 misc.jquversion  = "1.8"
 misc.pluginsPath = "plugins/"
+misc.img_product	= 80
+misc.img_quality	= 90
+misc.img_max_width	= 2048
+misc.template_preview_w = 200
+misc.template_preview_h = 275

@@ -1,62 +1,62 @@
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/uploadthings.js'); ?>
-<div class="seotoaster container_12 w600 h640 rounded8px">
+<?php $this->jQuery()->onLoadCaptureStart();?>
+$('#things-new-folder')
+	.focus(function(){
+		if ( $(this).val() == $(this).attr('data-defaultlabel') ){
+			$(this).val('')
+		}
+	})
+	.blur(function(){
+		if ( $(this).val() == '' ){
+			$(this).val($(this).attr('data-defaultlabel'))
+		}
+	})
+<?php $this->jQuery()->onLoadCaptureEnd();?>
+<style type="text/css">
+	.plupload {
+		cursor: pointer;
+	}
+</style>
+<div class="seotoaster container_12 w600 h500 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
-	<div class="grid_12 h300">
+	<div class="grid_12 h350">
 		<h2 class="ui-helper-reset">
-			<?php echo $this->translate('Pictures');?>
-			<sub>(.jpg .gif .png)</sub>
+			<?php echo $this->translate('Upload your files here');?>
 		</h2>
 		<div class="clear"> </div>
 		<div class="grid_7 clearfix">
 		<?php echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site. Upload as many images as you want.'); ?>
 		</div>
+		<div class="grid_5">
+			<img src="http://placehold.it/220x100&text=some image" />
+		</div>
+		<div class="grid_6"><?php echo $this->translate('All uploaded [files] will be displayed as "links" in your websites for people to "Download" them.');?></div>
+		<div class="grid_6"><?php echo $this->translate('Ex.Please download our price list here:Price list.pdf'); ?></div>
 		<div class="clearfix"> </div>
 		<div class="grid_5">
 			<div class="padding8px">
-			<?php echo $this->formSelect('images-select-folder', null, null, $this->listFolders); ?>
+			<?php echo $this->formSelect('things-select-folder', null, null, $this->listFolders); ?>
 			</div>
 		</div>
 		<div class="grid_2"><h2 class="padding8px"><?php echo $this->translate('OR'); ?></h2></div>
 		<div class="grid_5">
 			<div class="padding8px">
-			<?php echo $this->formText('images-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
+			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
 			</div>
 		</div>
-		<div class="grid_7">
-			<div id="media-toaster-uploader-filelist" class="h100"><?php echo $this->translate('No runtime loaded.');?></div>
+		
+		<div id="media-toaster-uploader-filelist" class="grid_8 h200" style="overflow-y: auto"><?php echo $this->translate('Upload progress will appear here.');?>
 		</div>
-		<div class="grid_5">
+		
+		<div class="grid_4">
 			<?php 
 				$thingsUploader = $this->toasterUploader(
 					array(
 						'id'=>'media-toaster-uploader',
-						'filters' => array('image'),
-						'caller' => 'images'
+						'caller' => 'media'
 						)); 
 				echo $thingsUploader;
 			?>
 		</div>
 	</div>
-	
-	<div class="grid_12 h300">
-		<h2 class="ui-helper-reset">
-			<?php echo $this->translate('I want to upload files');?>
-			<sub>(video,photos,files)</sub>
-		</h2>
-		<div class="grid_6"><?php echo $this->translate('All uploaded [files] will be displayed as "links" in your websites for people to "Download" them.');?></div>
-		<div class="grid_6"><?php echo $this->translate('Ex.Please download our price list here:Price list.pdf'); ?></div>
-		<div class="grid_7">
-			<div id="files-toaster-uploader-filelist" class="h100"></div>
-		</div>
-		<div class="grid_5">
-			<?php 
-				$filesUploader = $this->toasterUploader(
-					array(
-						'id'=>'files-toaster-uploader',
-						'caller' => 'files'
-						));
-				echo $filesUploader;
-			?>
-		</div>
-	</div>	
+		
 </div>

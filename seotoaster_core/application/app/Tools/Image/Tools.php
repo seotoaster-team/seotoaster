@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Tools
  *
@@ -34,6 +33,7 @@ class Tools_Image_Tools {
 		$fileType	= $fileInfo[2];
 		$mimeType	= $fileInfo['mime'];
 		
+		$newHeight = $newWidth;
 		if ($imgWidth > $imgHeight && $imgWidth > $newWidth){
 			if ($saveProportion) {
 				$newHeight = $imgHeight * $newWidth / $imgWidth;
@@ -41,10 +41,15 @@ class Tools_Image_Tools {
 				$newHeight = $newWidth;
 			}
 		} elseif ( $imgHeight > $imgWidth && $imgHeight > $newWidth) {
-			$newHeight = $newWidth;
+		
 			if ($saveProportion) {
 				$newWidth *= $newHeight / $imgHeight;
 			}
+		} else {
+			// if the original size less then it needs to resized at
+			// copying original file to destination and exiting
+			copy($imageFile, $destination.DIRECTORY_SEPARATOR.basename($imageFile));
+			return true;
 		}
 		
 		$newImage = imagecreatetruecolor($newWidth, $newHeight);
