@@ -53,6 +53,8 @@ cache.frontend.ignore_user_abort       = 1
 cache.backend.cache_dir                = "cache/"
 
 [misc]
-misc.jquery        = "local"
-misc.jqueryui      = "local"
-misc.pluginsPath   = "plugins/"
+misc.jquery      = "local"
+misc.jqversion   = "1.5"
+misc.jqueryui    = "local"
+misc.jquversion  = "1.8"
+misc.pluginsPath = "plugins/"

@@ -92,7 +92,7 @@ class Application_Model_Models_Container extends Application_Model_Models_Abstra
 		$methods = get_class_methods($this);
 		$props   = get_class_vars(get_class($this));
         foreach ($props as $key => $value) {
-			$method = 'get' . ucfirst($this->_normalozeOptionsKey($key));
+			$method = 'get' . ucfirst($this->_normalizeOptionsKey($key));
             if (in_array($method, $methods)) {
                 $vars[str_replace('_', '', $key)] = $this->$method();
             }

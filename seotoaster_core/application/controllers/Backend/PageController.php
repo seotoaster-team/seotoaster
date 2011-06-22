@@ -128,5 +128,12 @@ class Backend_PageController extends Zend_Controller_Action {
 		$notFoundPage = $pageMapper->find404Page();
 		$this->view->notFoundUrl = ($notFoundPage instanceof Application_Model_Models_Page) ? $notFoundPage->getUrl() : '';
 	}
+
+	public function draftAction() {
+		$pageMapper             = new Application_Model_Mappers_PageMapper();
+
+		//@todo can be added to the cache but not critical
+		$this->view->draftPages = $pageMapper->fetchAllDraftPages();
+	}
 }
 

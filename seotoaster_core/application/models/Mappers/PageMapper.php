@@ -67,7 +67,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllDraftPages() {
-
+		$where = $this->getDbTable()->getAdapter()->quoteInto("parent_id = ?", Application_Model_Models_Page::IDCATEGORY_DRAFT);
+		return $this->fetchAll($where);
 	}
 
 	public function findByUrl($pageUrl) {

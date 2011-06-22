@@ -5,21 +5,23 @@ $(function() {
 	 */
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
-		var popup = document.createElement('iframe');
+		var popup       = document.createElement('iframe');
+		var popupWidth  = $(this).data('pwidth') || 960;
+		var popupHeight = $(this).data('pheight') || 650;
 		$(popup)
-			.attr('src', $(this).attr('url'))
+			.attr('src', $(this).data('url'))
 			.attr('scrolling', 'no')
 			.attr('frameborder', 'no')
 			.attr('id', '__tpopup')
 			.dialog({
-				width     : 960,
-				height    : 650,
+				width     : popupWidth,   //960 480 / 320
+				height    : popupHeight,  // 325
 				resizable : false,
 				modal     : true,
 				open      : function() {
 					$(popup).css({
-						width    : '965px',
-						height   : '650px',
+						width    : popupWidth + 'px',
+						height   : popupHeight + 'px',
 						padding  : '0px',
 						margin   : '0px',
 						overflow : 'hidden'
