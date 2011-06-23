@@ -33,6 +33,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 		$this->_contentForm       = $this->_initCorrectForm();
 		$this->view->websiteUrl   = $this->_helper->website->getUrl();
 		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
+
+		$this->_helper->AjaxContext()->addActionContext('loadfiles', 'json')->initContext('json');
 	}
 
 	public function addAction() {
@@ -154,7 +156,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	private function _initContentToolbar() {
 		$websiteData      = Zend_Registry::get('website');
-		$imgDirectoryPath = $websiteData['path'] . $websiteData['images'];
+		$imgDirectoryPath = $websiteData['path'] . $websiteData['media'];
 		try {
 			$this->view->imageFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($imgDirectoryPath);
 		}
@@ -186,7 +188,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()) {
 			$imagesData  = array();
 			$folderName  = $this->getRequest()->getParam('folderName');
-			$imagesPath  = $this->_websiteData['path'] . $this->_websiteData['images'] . $folderName;
+			$imagesPath  = $this->_websiteData['path'] . $this->_websiteData['media'] . $folderName;
 			$imagesData  = array(
 				'small'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL),
 				'medium'   => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM),
@@ -199,22 +201,21 @@ class Backend_ContentController extends Zend_Controller_Action {
 	}
 
 	public function loadfilesAction() {
-		$this->_helper->getHelper('layout')->disableLayout();
 		if($this->getRequest()->isPost()) {
-			$filesPath = $this->_websiteData['path'] . $this->_websiteData['downloads'];
-			$this->view->files = Tools_Filesystem_Tools::scanDirectory($filesPath);
-			$this->_helper->response->success($this->view->render('backend/content/files.phtml'));
+			$folder            = $this->getRequest()->getParam('folder');
+			$filesPath         = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
+			$this->view->files = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
+			$this->view->html  = $this->view->render('backend/content/files.phtml');
 		}
-		exit;
 	}
 
 	private function _proccessImages(array $images, $path, $folder, $type) {
 		if(!empty ($images)) {
 			$imagesContent = '';
-			$srcPath       = $this->_websiteData['url'] . $this->_websiteData['images'] . $folder;
+			$srcPath       = $this->_websiteData['url'] . $this->_websiteData['media'] . $folder;
 			foreach ($images as $key => $image) {
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
-				$imageElement   = htmlentities('<a href="javascript:;" url="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $image) . '" class="tpopup"><img border="0" alt="'. str_replace('-', '&nbsp;',$image) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
+				$imageElement   = htmlentities('<a href="javascript:;" data-url="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $image) . '" class="tpopup"><img border="0" alt="'. str_replace('-', '&nbsp;',$image) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
 				$imagesContent .= '<a href="javascript:;" onmousedown="$(\'#content\').tinymce().execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
 				$imagesContent .= '<img title="' . $image . '" style="vertical-align:top; margin: 0px 0px 4px 4px;" border="0" width="65" src="' . $srcPath . '/'. $type . '/' . $image .'" /></a>';
 			}

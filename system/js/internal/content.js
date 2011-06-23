@@ -78,19 +78,22 @@ $(function() {
 
 	$('#files').click(function(){
 		var listFiles = $('#list_files');
-		if(!listFiles.html().length) {
+		//if(!listFiles.html().length) {
 			$.ajax({
 				url        : '/backend/backend_content/loadfiles',
 				type       : 'post',
 				dataType   : 'json',
+				data       : {
+					folder : $('#adminselectimgfolder').val()
+				},
 				success : function(response) {
-					listFiles.html(response.responseText);
+					listFiles.html(response.html);
 				},
 				error: function() {
 					listFiles.html('Unable to load files list');
 				}
 			})
-		}
+		//}
 	})
 
 	$('#widgets').click(function(){
@@ -126,6 +129,6 @@ function insertFileLink(fileName) {
 	$('#content').tinymce().execCommand(
 		'mceInsertContent',
 		false,
-		'<a href="/downloads/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
+		'<a href="/media/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
 	);
 }

@@ -16,7 +16,7 @@ $('#things-new-folder')
 		cursor: pointer;
 	}
 </style>
-<div class="seotoaster container_12 w600 h500 rounded8px">
+<div class="seotoaster container_12 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
 	<div class="grid_12 h350">
 		<h2 class="ui-helper-reset">
@@ -43,20 +43,20 @@ $('#things-new-folder')
 			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
 			</div>
 		</div>
-		
+
 		<div id="media-toaster-uploader-filelist" class="grid_8 h200" style="overflow-y: auto"><?php echo $this->translate('Upload progress will appear here.');?>
 		</div>
-		
+
 		<div class="grid_4">
-			<?php 
+			<?php
 				$thingsUploader = $this->toasterUploader(
 					array(
 						'id'=>'media-toaster-uploader',
 						'caller' => 'media'
-						)); 
+						));
 				echo $thingsUploader;
 			?>
 		</div>
 	</div>
-		
+
 </div>
