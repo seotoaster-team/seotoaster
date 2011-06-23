@@ -1,8 +1,7 @@
 seotoaster_core/library/**/*
 plugins/*
 cache/*
-downloads/*
-images/*
+media/*
 previews/*
 seotoaster_core/application/configs/**/*
 !*/index.html
