@@ -125,7 +125,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	protected function _initTranslator() {
 		$translator = new Zend_Translate(array(
 			'adapter' => 'array',
-			'content' => 'downloads/',
+			'content' => 'system/languages/',
 			'scan'    => Zend_Translate::LOCALE_FILENAME,
 			'locale'  => 'en',
 			'ignore'  => array('.'),
