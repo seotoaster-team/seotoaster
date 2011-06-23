@@ -16,7 +16,7 @@ class Tools_Filesystem_Tools {
 	 * @param string $path Path to the directory
 	 * @return array
 	 */
-	public static function scanDirectory($path, $incFilePath = false) {
+	public static function scanDirectory($path, $incFilePath = false, $recursively = true) {
 		$foundFiles = array();
 		$path       = (string)trim($path);
 		if(!$path) {
@@ -33,11 +33,13 @@ class Tools_Filesystem_Tools {
 					unset($foundFiles[$key]);
 					continue;
 				}
-				if(is_dir($path . '/' . $file)) {
-					unset($foundFiles[array_search($file, $foundFiles)]);
-					#$foundFiles = array_merge($foundFiles, self::scanDirectory($path . '/' . $file, $incFilePath));
-					$files = array_merge($files, self::scanDirectory($path . '/' . $file, $incFilePath));
-					continue;
+				if($recursively) {
+					if(is_dir($path . '/' . $file)) {
+						unset($foundFiles[array_search($file, $foundFiles)]);
+						//$foundFiles = array_merge($foundFiles, self::scanDirectory($path . '/' . $file, $incFilePath));
+						$files = array_merge($files, self::scanDirectory($path . '/' . $file, $incFilePath));
+						continue;
+					}
 				}
 				if($incFilePath) {
 					//$foundFiles[$key] = $path . '/' . $file;
@@ -77,11 +79,14 @@ class Tools_Filesystem_Tools {
 	 * @param string $extension Files extension
 	 * @return array
 	 */
-	public static function findFilesByExtension($directory, $extension, $incFilePath = false, $pairs = false) {
+	public static function findFilesByExtension($directory, $extension, $incFilePath = false, $pairs = false, $recursively = true) {
 		$foundFiles = array();
 		$files      = array();
-		$files      = self::scanDirectory($directory, $incFilePath);
+		$files      = self::scanDirectory($directory, $incFilePath, $recursively);
 		if(!empty($files)) {
+			if(is_array($extension)) {
+				$extension = implode('|', $extension);
+			}
 			foreach ($files as $file) {
 				if(preg_match('~^[a-zA-Z0-9-_\s/.]+\.' . $extension . '$~U', $file)) {
 					if($pairs) {
@@ -141,7 +146,7 @@ class Tools_Filesystem_Tools {
 			return false;
 		}
 	}
-	
+
 	public static function mkDir($dirname){
 		$dirname = (string) trim($dirname);
 
