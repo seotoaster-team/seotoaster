@@ -14,14 +14,16 @@
 		<?php if (!$this->disableResize): ?>
 		<?php switch ($this->caller){
 			case 'templatePreview':
-				$maxSize = $this->config['template_preview_w'];
+				$maxWidth  = $this->config['template_preview_w'];
+				$maxHeight = $this->config['template_preview_h'];
 				break;
 			default:
-				$maxSize = $this->config['img_max_width'];
+				$maxWidth = $this->config['img_max_width'];
+				$maxHeight = $maxWidth;
 				break;
 		}
 		?>
-		resize : {width : <?php echo $maxSize; ?>, height : <?php echo $maxSize; ?>, quality : <?php echo $this->config['img_quality']; ?>},
+		resize : {width : <?php echo $maxWidth; ?>, height : <?php echo $maxHeight; ?>, quality : <?php echo $this->config['img_quality']; ?>},
 		<?php endif; ?>
 		flash_swf_url : '<?php echo $this->websiteUrl;?>system/js/external/plupload/plupload.flash.swf',
 		<?php if ($this->filters): ?>

@@ -1,12 +1,8 @@
 <?php foreach ($this->templates as $template) : ?>
 <div class="grid_3 template_item" title="<?php echo sprintf($this->translate('Click to edit %s template'), $template['name']); ?>">
 	<div class="template_preview">
-		<div class="h200 mt10px mb10px">
-		<?php if ($template['preview_image']) : ?>
-		<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" />
-		<?php else: ?>
-		<img src="<?php echo $this->websiteUrl; ?>system/images/no_preview.png" alt="<?php echo $template['name']; ?>" />
-		<?php endif; ?>
+		<div class="mt10px mb30px" style="height:220px;">
+			<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;"/>
 		</div>
 		<div class="template_name">
 			<?php echo $template['name']; ?>

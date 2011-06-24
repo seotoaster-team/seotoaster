@@ -42,7 +42,9 @@ class Tools_Image_Tools {
 		} else {
 			// if the original size less then it needs to resized at
 			// copying original file to destination and exiting
-			copy($imageFile, $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($imageFile));
+			if ($destination){
+				copy($imageFile, $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($imageFile));
+			}
 			return true;
 		}
 		

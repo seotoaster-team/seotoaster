@@ -26,18 +26,12 @@
 				); ?>
 			</div>
 			<div class="mt20px textcentered h350 img-teaser">
-				
 					
-				
-				<?php if(($previewImage = $this->templateForm->getElement('previewImage')->getValue()) != null): ?>
-					<img id="template_preview" src="<?php echo $this->websiteUrl.$previewImage; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
-				<?php else: ?>
-					<img id="template_preview" src="<?php echo $this->websiteUrl; ?>system/images/no_image.png" alt="<?php echo $this->translate('Template preview'); ?>" />
-				<?php endif; ?>
+			<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
+
 			</div>
 		</div>
 		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
-		<?php echo $this->templateForm->getElement('previewImage')->setDecorators(array('ViewHelper')); ?>
 		<div class="grid_4 textcentered  mt20px"><?php echo $this->templateForm->getElement('submit'); ?></div>
 	</form>
 	<div class="grid_12 clear"></div>
@@ -54,6 +48,3 @@
 					?>
 	</div>
 </div>
-<?php $this->jQuery()->onLoadCaptureStart();?>
-
-<?php $this->jQuery()->onLoadCaptureEnd();?>

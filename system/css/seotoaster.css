@@ -391,6 +391,9 @@ body, body.seotoaster {
 	-khtml-text-overflow: ellipsis;
 	-moz-text-overflow: ellipsis;
 	-webkit-text-overflow: ellipsis;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 }
 .seotoaster div#templatelist div.template_preview .template_name:hover {
 	-o-text-overflow: inherit;

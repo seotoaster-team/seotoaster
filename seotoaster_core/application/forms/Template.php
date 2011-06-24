@@ -41,11 +41,6 @@ class Application_Form_Template extends Zend_Form {
 			'decorators' => array('ViewHelper', 'Label')
 		));
 
-		$this->addElement('hidden', 'previewImage', array(
-			'value' => $this->_previewImage,
-			'id'    => 'preview_image'
-		));
-
 		$this->addElement('hidden', 'id', array(
 			'value' => $this->_templateId,
 			'id'    => 'template_id'
