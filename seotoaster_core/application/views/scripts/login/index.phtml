@@ -1,3 +1,9 @@
+<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
+<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
+<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
+<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
+<?php echo $this->headLink(); ?>
+
 <?php if (count($this->messages)) : ?>
 	<ul id="messages" class="ui-state-error w350" style="margin: 0px auto; list-style-type: none; padding: 15px 0px; text-align: center;">
 		<?php foreach ($this->messages as $message) : ?>

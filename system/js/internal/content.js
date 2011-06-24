@@ -129,6 +129,6 @@ function insertFileLink(fileName) {
 	$('#content').tinymce().execCommand(
 		'mceInsertContent',
 		false,
-		'<a href="/media/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
+		'<a href="/media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
 	);
 }
