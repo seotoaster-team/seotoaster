@@ -9,6 +9,7 @@
 		runtimes : 'html5,flash,html4',
 		browse_button : '<?php echo $this->formId; ?>-pickfiles',
 		max_file_size : '10mb',
+		max_file_count: 10,
 		url : $('#<?php echo $this->formId; ?>').attr('action'),
 		<?php if (!$this->disableResize): ?>
 		<?php switch ($this->caller){
@@ -31,11 +32,8 @@
 	<?php echo $jsValName; ?>.bind('Init', function(up, params) {
 		<?php if ($this->caller == 'templatePreview') : //positioning for template screen ?>
 		var pos = $('#template_preview').position();
-		console.log(pos.left+'x'+pos.top);
 		var width = $('#template_preview').width();
-		console.log(width);
 		var height = $('#template_preview').height();
-		console.log(height);
 		$('#<?php echo $this->formId; ?>').css({
 			'position': 'absolute',
 			'left':	pos.left,
@@ -75,10 +73,11 @@
 
 	<?php echo $jsValName; ?>.bind('UploadProgress', function(up, file) {
 		$('#' + file.id + " .pbar").progressbar({value: file.percent});
+		window.console && console.log(file.name+': '+file.percent+'%');
 	});
 
     <?php echo $jsValName; ?>.bind('Error', function(up, err) {
-		$('#<?php echo $this->formId; ?>-filelist').append('<div class="ui-widget"><div class="ui-state-error ui-corner-all">'+
+		$('#<?php echo $this->formId; ?>-filelist').prepend('<div class="ui-widget"><div class="ui-state-error ui-corner-all">'+
                      (err.file ? err.file.name : "") + ": " + err.message + 
 					 '<span class="ui-icon ui-icon-alert"></span></div></div>'
 					 );
@@ -94,7 +93,7 @@
 					errorMessage += '<li>'+response.result[i]+'</li>';
 				}
 			} else {
-				errorMessage.html(response.result);
+				errorMessage += response.result;
 			}
 			errorMessage += '</ul>';
 			$('#' + file.id).html('<p><strong>' +file.name+'</strong>'

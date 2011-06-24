@@ -164,8 +164,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		
 		$this->_uploadHandler->clearValidators()
 			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
-			->addValidator('MimeType', false, array('image/gif','image/jpeg','image/png'))
-			->addValidator('IsImage', false)
+			->addValidator(new Validators_MimeType(array('image/gif','image/jpeg','image/jpg','image/png')), false)
 			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['img_max_width'], 'maxheight' => $miscConfig['img_max_width']));
 		
 		$receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
@@ -207,14 +206,13 @@ class Backend_UploadController extends Zend_Controller_Action {
 		}
 			
 		$file = reset($this->_uploadHandler->getFileInfo());
-		$fileName = basename($this->_uploadHandler->getFileName());
-		
-		$nameValidator = new Zend_Validate_Regex('~^[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~i');
-		
-		if (!$nameValidator->isValid($fileName)) {
+		$fileName = $this->_uploadHandler->getFileName();
+		preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $fileName, $match);
+		if (!$match) {
 			return array('result' => 'Corrupted filename' , 'error' => true);
 		}
-		
+		$fileName = $match[0];
+				
 		$this->_uploadHandler->addFilter('Rename', array(
             'target' => $savePath.DIRECTORY_SEPARATOR.$fileName,
             'overwrite' => true
