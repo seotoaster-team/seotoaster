@@ -1,6 +1,6 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
 <div class="seotoaster container_12 w960 h640 rounded8px">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Add template')); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template')); ?>
 
 	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%;"></div>
 	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
@@ -24,20 +24,20 @@
 				),
 				array('listtemplates' => 'all')
 				); ?>
-			</div>
+			</div>			
 			<div class="mt20px textcentered h350 img-teaser">
-					
+
 			<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 
 			</div>
 		</div>
-		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
+			<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
 		<div class="grid_4 textcentered  mt20px"><?php echo $this->templateForm->getElement('submit'); ?></div>
 	</form>
 	<div class="grid_12 clear"></div>
 	<div>
 		<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
-	<?php 
+		<?php 
 						$previewUploader = $this->toasterUploader(
 							array(
 								'id' => 'template-preview-uploader',
