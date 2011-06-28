@@ -419,6 +419,71 @@ body, body.seotoaster {
 .seotoaster .red { background-color:red; }
 .seotoaster .blue { background-color:blue; }
 
+/*=========== Organize Pages ==============*/
+.seotoaster span.catmove {
+	position:relative;
+	text-indent:3px;
+	padding:2px;
+	display:block;
+	overflow:hidden;
+	white-space:nowrap;
+	-moz-border-radius:0px 4px 0px 0px;
+	-webkit-border-radius:0px 4px 0px 0px;
+	border-radius:0px 4px 0px 0px;
+}
+.seotoaster span div.cat-tools {
+	position:absolute;
+	right:0px;
+	top:0px;
+	height:100%;
+	padding:2px 4px 6px 2px;
+	border-left:4px solid #fff;
+	background:#fff;
+	vertical-align:middle;
+	background:url(../images/bg-strip.png);
+	-moz-border-radius:0px 4px 0px 0px;
+	-webkit-border-radius:0px 4px 0px 0px;
+	border-radius:0px 4px 0px 0px;
+}
+.seotoaster span div.cat-tools span.ranking {
+	color:#fff;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	padding:1px 2px;
+	margin:0px 5px 0px 0px;
+	background:#FC0;
+}
+.seotoaster ul.organise {
+	font-size:11pt;
+	margin:0;
+	height:210px;
+	overflow:auto;
+	background:url(../images/bg-strip.png);
+	padding:0px 0px 2px 2px;
+	border-bottom:8px solid #EAF3FA;
+}
+.seotoaster ul.organise li {
+	border-bottom: 1px dashed #ddd;
+	padding:2px 0px;
+	text-indent:4px;
+}
+.seotoaster div.move {
+	margin:0px 2px 0px 2px;
+	float:left;
+	display:block;
+	width:6px;
+	height:14px;
+	background: url("../images/move-pages.png") no-repeat 0px 0px transparent;
+	cursor: url("../images/openhand.cur"), default;
+}
+.seotoaster ul.organise li input {
+	-webkit-appearance: checkbox;
+	box-sizing: border-box;
+	vertical-align: middle;
+	margin: -4px 3px 0 0px;
+}
+
 
 /*============= Theme Box ==============*/
 .seotoaster div.themebox {-moz-border-radius:8px;-webkit-border-radius:8px;-moz-box-shadow:0px 0px 4px #ccc;-webkit-box-shadow:0px 0px 3px #ccc;}
