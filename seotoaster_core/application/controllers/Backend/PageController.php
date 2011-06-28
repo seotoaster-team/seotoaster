@@ -82,6 +82,9 @@ class Backend_PageController extends Zend_Controller_Action {
 		}
 	}
 
+	/**
+	 * @todo Optimize this!
+	 */
 	public function rendermenuAction() {
 		$menuType    = $this->getRequest()->getParam('mtype');
 		$pageId      = $this->getRequest()->getParam('pId');
@@ -131,9 +134,24 @@ class Backend_PageController extends Zend_Controller_Action {
 
 	public function draftAction() {
 		$pageMapper             = new Application_Model_Mappers_PageMapper();
-
 		//@todo can be added to the cache but not critical
 		$this->view->draftPages = $pageMapper->fetchAllDraftPages();
+		unset($pageMapper);
+	}
+
+	public function organizeAction() {
+		$pageMapper = new Application_Model_Mappers_PageMapper();
+		$tree = array();
+		$categories = $pageMapper->findByParentId(0);
+		if(is_array($categories) && !empty ($categories)) {
+			foreach ($categories as $category) {
+				$tree[] = array(
+					'category' => $category,
+					'pages'    => $pageMapper->findByParentId($category->getId())
+				);
+			}
+			$this->view->tree = $tree;
+		}
 	}
 }
 

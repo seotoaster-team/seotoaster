@@ -15,7 +15,7 @@
 				<?php endif; ?>
 				<li class="cpanelsubtitle">Other pages</li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page')); ?></li>
-				<li><a href="javascript:;" onclick="" title="Organize pages"><?php echo $this->translate('Organize pages'); ?></a></li>
+				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
 				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 			</ul>
@@ -32,7 +32,6 @@
 			<ul>
 				<li><a href="javascript:;" onclick="" title="Edit 'robots.txt'">Edit 'robots.txt'</a></li>
 				<li><a href="javascript:;" onclick="" title="Add/Edit 301" >Add/Edit 301</a></li>
-				<li><a href="javascript:;" onclick="" title="Site promotion">Site promotion</a></li>
 				<li class="cpanelsubtitle">Link strategy</li>
 				<li><a href="javascript:;" onclick="" title="Deeplinks">Deeplinks</a></li>
 				<li><a href="javascript:;" onclick="" title="Manage page rank sculpting">Sculpting</a></li>

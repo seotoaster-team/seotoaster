@@ -37,7 +37,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		}
 	}
 
-    public function fetchAll($where = '') {
+    public function fetchAll($where = '', $order = array()) {
 		//exclude system pages from select
 		if($where) {
 			$where .= $this->getDbTable()->getAdapter()->quoteInto(' AND system = "?"', 0);
@@ -45,8 +45,11 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		else {
 			$where = $this->getDbTable()->getAdapter()->quoteInto('system = "?"', 0);
 		}
+
+		$order[] = 'order';
+
 		$entries = array();
-		$resultSet = $this->getDbTable()->fetchAll($where);
+		$resultSet = $this->getDbTable()->fetchAll($where, $order);
 		if(null === $resultSet) {
 			return null;
 		}
@@ -58,7 +61,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	public function fetchAllStaticMenuPages() {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('show_in_menu = \'?\'', Application_Model_Models_Page::IN_STATICMENU);
-		return $this->fetchAll($where);
+		return $this->fetchAll($where, array('static_order'));
 	}
 
 	public function fetchAllMainMenuPages() {

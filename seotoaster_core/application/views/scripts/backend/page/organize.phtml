@@ -1,0 +1,28 @@
+<div class="seotoaster container_12 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Organize pages')); ?>
+	<div id="sortable-main" class="h600 mb10px"  style="overflow:auto;">
+		<?php  foreach($this->tree as $key => $treeData): ?>
+			<div class="grid_3 mb10px category-data" id="<?php echo $treeData['category']->getId(); ?>">
+				<span class="label catmove">
+					<div class="move"></div>
+					<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>
+					<div class="cat-tools">
+						<span class="ranking">#<?php echo $treeData['category']->getOrder(); ?></span>
+						<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
+					</div>
+				</span>
+				<ul class="organise">
+					<?php if($treeData['pages'] && is_array($treeData['pages'])): ?>
+						<?php foreach ($treeData['pages'] as $page): ?>
+							<li><div class="move"></div><input type="checkbox" /><a href="javascript:;" title="<?php echo $page->getH1(); ?>"><?php echo $page->getNavName(); ?></a></li>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				</ul>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<div class="grid_12"></div>
+	<input type="submit" name="submit" id="submit" value="Done" class="w200">
+	<div class="clear"></div>
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/organize.js'); ?>
