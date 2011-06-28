@@ -56,10 +56,10 @@ class Tools_Filesystem_Tools {
 		$foundDirs = array();
 		$path      = (string)trim($path);
 		if(!$path) {
-			throw new Exceptions_SeotoasterException('Scaning directory: path to the directrory is empty.');
+			throw new Exceptions_SeotoasterException('Scaning directory: path <strong>(' .$path . ')</strong> to the directrory is empty.');
 		}
 		if(!is_dir($path)) {
-			throw new Exceptions_SeotoasterException('Scaning directory: path is not a directrory.');
+			throw new Exceptions_SeotoasterException('Scaning directory: path <strong>(' .$path . ')</strong> is not a directrory.');
 		}
 		$foundDirs = @scandir($path);
 		if(!empty ($foundDirs)) {

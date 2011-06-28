@@ -122,6 +122,11 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 				$containerMapper = new Application_Model_Mappers_ContainerMapper();
 				foreach ($links as $link) {
 					$page = $pageMapper->findByUrl(str_replace($websiteHelper->getUrl(), '', $link));
+
+					if($page === null) {
+						continue;
+					}
+
 					$h1   = $page->getH1();
 					unset($page);
 

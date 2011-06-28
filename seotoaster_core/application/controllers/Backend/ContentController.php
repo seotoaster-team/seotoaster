@@ -214,8 +214,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$imagesContent = '';
 			$srcPath       = $this->_websiteData['url'] . $this->_websiteData['media'] . $folder;
 			foreach ($images as $key => $image) {
+				$imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
-				$imageElement   = htmlentities('<a href="javascript:;" data-url="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $image) . '" class="tpopup"><img border="0" alt="'. str_replace('-', '&nbsp;',$image) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
+				$imageElement   = htmlentities('<a href="javascript:;" data-url="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '" class="tpopup"><img border="0" alt="'. str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
 				$imagesContent .= '<a href="javascript:;" onmousedown="$(\'#content\').tinymce().execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
 				$imagesContent .= '<img title="' . $image . '" style="vertical-align:top; margin: 0px 0px 4px 4px;" border="0" width="65" src="' . $srcPath . '/'. $type . '/' . $image .'" /></a>';
 			}

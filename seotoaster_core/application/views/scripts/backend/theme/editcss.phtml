@@ -20,7 +20,7 @@
 
 	$('#csslist').bind('change',function(){
 		$.ajax({
-			url: '<?php echo $this->websiteUrl.$this->url(); ?>',
+			url: '<?php echo $this->websiteUrl . $this->url(); ?>',
 			type: 'POST',
 			data: {"getcss": $(this).val()},
 			dataType: 'json',
@@ -38,8 +38,14 @@
 			}
 		});
 	});
+	$('#content').keydown(function(e) {
+		if(e.ctrlKey && e.keyCode == 83) {
+			e.preventDefault();
+			$('#editcssform').submit();
+		}
+	})
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
-	
+
 <div class="seotoaster editor container_12 w960 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage templates')); ?>
 
@@ -52,5 +58,5 @@
 		<div class="grid_12"><?php echo $this->editcssForm->getElement('content'); ?></div>
 		<?php echo $this->editcssForm->getElement('submit'); ?>
 	</form>
-	
+
 </div>
