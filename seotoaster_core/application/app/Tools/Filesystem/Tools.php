@@ -160,4 +160,19 @@ class Tools_Filesystem_Tools {
 			return false;
 		}
 	}
+	
+	public static function basename($filepath) {
+		$filepath = (string) trim($filepath);
+		if (!$filepath){
+			return false;
+		}
+		
+		preg_match('~[^'.DIRECTORY_SEPARATOR.']+$~i', $filepath, $match);
+		
+		if ($match) {
+			return $match[0];
+		}
+		
+		return false;
+	}
 }

@@ -16,17 +16,6 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	private $_content      = '';
 
-	private $_previewImage = '';
-
-	public function getPreviewImage() {
-		return $this->_previewImage;
-	}
-
-	public function setPreviewImage($previewImage) {
-		$this->_previewImage = $previewImage;
-		return $this;
-	}
-
 	public function getName() {
 		return $this->_name;
 	}

@@ -7,21 +7,10 @@ $(function() {
 			{'listtemplates': $(this).find('input[name="template-id"]').val()},
 			function(response){
 				if (response.error != false){
-//					var dialogTitle = 'Edit template';
-//					$dialog = $('#frm_template').closest(':ui-dialog');
-//					if ($dialog.dialog("option", "title") != dialogTitle ) $dialog.dialog("option", "title", dialogTitle);
 					$('#frm_template').find('#title').val(response.responseText.name);
 					$('#frm_template').find('#content').val(response.responseText.content);
 					$('#frm_template').find('#template_id').val(response.responseText.name);
-					var tpreview;
-					if (response.responseText.preview) {
-						tpreview = response.responseText.preview;
-						$('#frm_template').find('#preview_image').val(tpreview);
-					} else {
-						tpreview = '/system/images/no_image.png';
-						$('#frm_template').find('#preview_image').val('');
-					}
-					$('#template_preview').attr('src', $('#website_url').val()+tpreview);
+					$('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);
 				}
 			},
 			'json'
@@ -65,15 +54,16 @@ function saveTemplate() {
 }
 
 function deleteTemplate(templateContainer) {
-	$.post(
-		$('#website_url').val()+'backend/backend_theme/deletetemplate/',
-		{"id": templateContainer.find('input[name="template-id"]').val()},
-		function(response) {
-			if (response.error == true){
+	$.ajax({
+		url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
+		type: 'POST',
+		data: {"id": templateContainer.find('input[name="template-id"]').val()},
+		success: function(response) {
+			if (response.error == false){
 				templateContainer.remove();
 			} 
 			$('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
 		},
-		'json'
-	);
+		dataType: 'json'
+	});
 }

@@ -35,18 +35,22 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$mapper = new Application_Model_Mappers_TemplateMapper();
 		$currentTheme = $this->_helper->config->getConfig('current_theme');
 		if(!$this->getRequest()->isPost()) {
+			$this->view->templatePreview = 	'system/images/no_preview.png';
+			
 			if($templateName) {
 				$template = $mapper->find($templateName);
 				if($template instanceof Application_Model_Models_Template) {
 					$templateForm->getElement('content')->setValue($template->getContent());
 					$templateForm->getElement('name')->setValue($template->getName());
 					$templateForm->getElement('id')->setValue($template->getName());
-					$templateForm->getElement('previewImage')->setValue($template->getPreviewImage());
+				}
+				//get template preview image
+				$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
+				$images = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
+				if (isset($images[$template->getName()])) {
+					$this->view->templatePreview = 	$this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$images[$template->getName()];
 				}
 			}
-			//building list of image folders
-			$imageFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview']);
-			$this->view->imageFolders = $imageFolders;
 		} else {
 			if($templateForm->isValid($this->getRequest()->getPost())) {
 				$templateData = $templateForm->getValues();
@@ -62,8 +66,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					if (!in_array($template->getName(), $this->_protectedTemplates)) {
 						$template->setName($templateData['name']);
 					}
-					$template->setContent($templateData['content'])
-							 ->setPreviewImage($templateData['previewImage']);
+					$template->setContent($templateData['content']);
 				} else {
 					$status = 'new';
 					//if ID missing and name is not exists and name is not system protected - creating new template
@@ -216,16 +219,22 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()){
 			$mapper = new Application_Model_Mappers_TemplateMapper();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
+			$currentTheme = $this->_helper->config->getConfig('current_theme');
+			//get template preview image
+			$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
+			$tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
 			switch ($listtemplates) {
 				case 'all':
 					$templates = $mapper->fetchAll();
-					$templateList = array();
+					$templateList = array();			
 					foreach ($templates as $template) {
 						array_push($templateList, array(
 							'id'	=> $template->getId(),
 							'name'	=> $template->getName(),
 							'content' => $template->getContent(),
-							'preview_image' => $template->getPreviewImage()
+							'preview_image' => isset($tmplImages[$template->getName()]) ?
+								$this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] :
+								'system/images/no_preview.png'
 						));
 					}
 					$this->view->templates = $templateList;
@@ -240,7 +249,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
 								'id'		=> $template->getId(),
 								'name'		=> $template->getName(),
 								'content'	=> $template->getContent(),
-								'preview'	=> $template->getPreviewImage()
+								'preview'	=> isset($tmplImages[$template->getName()]) ?
+								$this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] :
+								'system/images/no_preview.png'
 						);
 						$this->_helper->response->response($template, true);
 					} else {
@@ -271,14 +282,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					} else {
 						$status = $this->_translator->translate('Can\'t delete template or template doesn\'t exists.');
 					}
-//					echo json_encode(array('done'=>true, 'status' => $status));
 					$this->_helper->response->response($status, false);
-//					exit;
 				}
 			}
-//			echo json_encode(array('done'=>true, 'status' => $this->_translator->translate('Template doesn\'t exists')));
 			$this->_helper->response->response($this->_translator->translate('Template doesn\'t exists'), false);
-//			exit;
 		}
 	}
 

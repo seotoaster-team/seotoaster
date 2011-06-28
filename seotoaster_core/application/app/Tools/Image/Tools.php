@@ -33,22 +33,18 @@ class Tools_Image_Tools {
 		$fileType	= $fileInfo[2];
 		$mimeType	= $fileInfo['mime'];
 		
-		$newHeight = $newWidth;
-		if ($imgWidth > $imgHeight && $imgWidth > $newWidth){
+		if ($imgWidth > $newWidth){
 			if ($saveProportion) {
 				$newHeight = $imgHeight * $newWidth / $imgWidth;
 			} else {
 				$newHeight = $newWidth;
 			}
-		} elseif ( $imgHeight > $imgWidth && $imgHeight > $newWidth) {
-		
-			if ($saveProportion) {
-				$newWidth *= $newHeight / $imgHeight;
-			}
 		} else {
 			// if the original size less then it needs to resized at
 			// copying original file to destination and exiting
-			copy($imageFile, $destination.DIRECTORY_SEPARATOR.basename($imageFile));
+			if ($destination){
+				copy($imageFile, $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($imageFile));
+			}
 			return true;
 		}
 		
@@ -60,6 +56,7 @@ class Tools_Image_Tools {
 				$image = imagecreatefromgif($imageFile);
 				$saveAlphaChannel = true;
 				break;
+			case 'image/jpg':
 			case 'image/jpeg':
 				$image = imagecreatefromjpeg($imageFile);
 				break;
@@ -86,7 +83,7 @@ class Tools_Image_Tools {
 			if (!is_dir($destination)){
 				Tools_Filesystem_Tools::mkDir($destination);
 			}
-			$imageFile = $destination . DIRECTORY_SEPARATOR . basename($imageFile);
+			$imageFile = $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($imageFile);
 		}
 		
 		switch ($mimeType) {
