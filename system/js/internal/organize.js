@@ -1,9 +1,10 @@
 $(function() {
 
 	$('#sortable-main').sortable({
-		handle : 'div.move',
-		cancel : '.nosort',
-		stop   : saveCategoriesOrder
+		handle  : 'div.move',
+		cancel  : '.nosort',
+		helper  : 'clone',
+		stop    : saveCategoriesOrder
 	});
 
 	$('.organise').sortable({
