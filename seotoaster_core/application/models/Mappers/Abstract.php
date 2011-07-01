@@ -42,6 +42,14 @@ abstract class Application_Model_Mappers_Abstract {
 		return new $this->_model($row->toArray());
 	}
 
+	protected function _findWhere($where) {
+		$row = $this->getDbTable()->fetchAll($where)->current();
+		if(null == $row) {
+			return null;
+		}
+		return new $this->_model($row->toArray());
+	}
+
 	public function fetchAll($where = null) {
 		$entries = array();
 		$resultSet = $this->getDbTable()->fetchAll($where);

@@ -4,6 +4,10 @@
 <?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
 <?php echo $this->headLink(); ?>
 
+<div style="font-family: Arial; padding: 5px; font-size: 0.8em;">
+	<a style="color: #c6c6c6;" href="<?php echo $this->websiteUrl; ?>" title="Are you lost?">&larr; back to <?php echo $_SERVER['SERVER_NAME']; ?></a>
+</div>
+
 <?php if (count($this->messages)) : ?>
 	<ul id="messages" class="ui-state-error w350" style="margin: 0px auto; list-style-type: none; padding: 15px 0px; text-align: center;">
 		<?php foreach ($this->messages as $message) : ?>
@@ -11,7 +15,6 @@
 		<?php endforeach; ?>
 	</ul>
 <?php endif; ?>
-
 
 <div class="seotoaster container_12 w400 h300 rounded8px totalcentered" style="margin-left:-200px;margin-top:-200px;box-shadow: 0px 0px 30px #c8c8c8;">
 	<div class="header" style="border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">

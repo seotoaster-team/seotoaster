@@ -1,11 +1,12 @@
 $(function() {
+	_FADE_SLOW = 4000;
 
 	/**
 	 * Seotoaster popup dialog
 	 */
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
-		var popup       = document.createElement('iframe');
+		var popup       = (top.$('#__tpopup').length) ? top.$('#__tpopup') : document.createElement('iframe');
 		var popupWidth  = $(this).data('pwidth') || 960;
 		var popupHeight = $(this).data('pheight') || 650;
 		$(popup)
@@ -65,7 +66,7 @@ $(function() {
 						top.location.reload();
 						return;
 					}
-					//ajaxMessage.html('Saved').fadeOut('slow');
+					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
 				}
 				else {
 					ajaxMessage.removeClass('success').addClass('ui-state-error');

@@ -22,8 +22,8 @@ phpSettings.display_errors                         = 1
 resources.frontController.params.displayExceptions = 1
 
 [database]
-database.adapter         = ""
-database.params.host     = ""
+database.adapter         = "pdo_mysql"
+database.params.host     = "localhost"
 database.params.username = ""
 database.params.password = ""
 database.params.dbname   = ""

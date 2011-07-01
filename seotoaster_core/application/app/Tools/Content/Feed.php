@@ -34,6 +34,9 @@ class Tools_Content_Feed {
 			return '';
 		}
 		foreach ($pages as $page) {
+			if($page->getParentId() == Application_Model_Models_Page::IDCATEGORY_DRAFT) {
+				continue;
+			}
 			$priority     = ($page->getUrl() == self::SMFEED_HIGHPRIORITY_PAGE_URL) ? '1' : '0.8';
 			$sitemapFeed .= '<url>' . PHP_EOL . '<loc>' . urlencode($websiteHelper->getUrl() . (($page->getUrl() == 'index.html') ? '' : $page->getUrl())) . '</loc>' . PHP_EOL;
 			$sitemapFeed .= '<lastmod>' . date('c', time()) . '</lastmod>' . PHP_EOL;
