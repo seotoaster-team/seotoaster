@@ -1,0 +1,14 @@
+<a href="javascript:;">Edit order</a>
+<ul id="<?php echo $this->faName; ?>" class="featureditem">
+	<?php if(!$this->faPages || empty ($this->faPages)):?>
+		<li>There are no pages in this featured area</li>
+	<?php else: ?>
+		<?php foreach($this->faPages as $page): ?>
+			<li>
+				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape($this->websiteUrl); ?>system/images/no_preview.png" /></a>
+				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
+				<span><?php echo $page->getTeaserText(); ?></span>
+			</li>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</ul>
