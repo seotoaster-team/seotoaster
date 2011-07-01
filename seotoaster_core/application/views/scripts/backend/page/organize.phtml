@@ -1,28 +1,82 @@
-<div class="seotoaster container_12 rounded8px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Organize pages')); ?>
-	<div id="sortable-main" class="h600 mb10px"  style="overflow:auto;">
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => '<div class="grid_8">Organize pages</div>', 'innerHeaderHtml' => '<div class="grid_4"><a href="javascript:;" id="collapse-global">collapse all</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" id="expand-global">expand all</a></div>')); ?>
+	<div id="sortable-main" class="h570 mb10px"  style="overflow:auto;">
 		<?php  foreach($this->tree as $key => $treeData): ?>
-			<div class="grid_3 mb10px category-data" id="<?php echo $treeData['category']->getId(); ?>">
+			<div class="grid_3 mb10px category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
 				<span class="label catmove">
 					<div class="move"></div>
 					<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>
 					<div class="cat-tools">
-						<span class="ranking">#<?php echo $treeData['category']->getOrder(); ?></span>
+						<span class="ranking">#<?php echo ++$key; ?></span>
 						<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
 					</div>
 				</span>
 				<ul class="organise">
-					<?php if($treeData['pages'] && is_array($treeData['pages'])): ?>
+					<?php if(isset($treeData['pages']) && is_array($treeData['pages'])): ?>
 						<?php foreach ($treeData['pages'] as $page): ?>
-							<li><div class="move"></div><input type="checkbox" /><a href="javascript:;" title="<?php echo $page->getH1(); ?>"><?php echo $page->getNavName(); ?></a></li>
+							<li id="<?php echo $page->getId(); ?>">
+								<div class="move"></div>
+								<input type="checkbox" />
+								<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
+							</li>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</ul>
 			</div>
 		<?php endforeach; ?>
+
+		<!-- static menu -->
+
+		<div class="grid_3 mb10px category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_STATICMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
+			<span class="label catmove">
+				<div class="move"></div>
+				<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="static menu">Static menu</a>
+				<div class="cat-tools">
+					<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
+				</div>
+			</span>
+			<ul class="organise">
+				<?php if(isset($this->staticMenu)): ?>
+					<?php foreach ($this->staticMenu as $page): ?>
+						<li id="<?php echo $page->getId(); ?>">
+							<div class="move"></div>
+							<input type="checkbox" />
+							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
+						</li>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</ul>
+		</div>
+
+		<!-- end static menu -->
+
+		<!-- no menu -->
+
+		<div class="grid_3 mb10px category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_NOMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
+			<span class="label catmove">
+				<div class="move"></div>
+				<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="static menu">No menu</a>
+				<div class="cat-tools">
+					<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
+				</div>
+			</span>
+			<ul class="organise">
+				<?php if(isset($this->noMenu)): ?>
+					<?php foreach ($this->noMenu as $page): ?>
+						<li id="<?php echo $page->getId(); ?>">
+							<div class="move"></div>
+							<input type="checkbox" />
+							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
+						</li>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</ul>
+		</div>
+
+		<!-- end no menu -->
+
+		<div class="clear"></div>
 	</div>
-	<div class="grid_12"></div>
-	<input type="submit" name="submit" id="submit" value="Done" class="w200">
-	<div class="clear"></div>
 </div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/multisortable/multisortable.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/organize.js'); ?>

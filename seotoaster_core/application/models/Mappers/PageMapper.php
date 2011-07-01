@@ -24,7 +24,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'is_404page'          => $page->getIs404page(),
 			'protected'           => $page->getProtected(),
 			'order'               => $page->getOrder(),
-			'static_order'        => $page->getStaticOrder(),
 			'targeted_key_phrase' => $page->getTargetedKey(),
 			'system'              => $page->getSystem()
 		);
@@ -60,17 +59,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllStaticMenuPages() {
-		$where = $this->getDbTable()->getAdapter()->quoteInto('show_in_menu = \'?\'', Application_Model_Models_Page::IN_STATICMENU);
-		return $this->fetchAll($where, array('static_order'));
+		$where = $this->getDbTable()->getAdapter()->quoteInto("show_in_menu = '?'", Application_Model_Models_Page::IN_STATICMENU);
+		return $this->fetchAll($where);
 	}
 
 	public function fetchAllMainMenuPages() {
-		$where = $this->getDbTable()->getAdapter()->quoteInto('show_in_menu = \'?\'', Application_Model_Models_Page::IN_MAINMENU);
+		$where = $this->getDbTable()->getAdapter()->quoteInto("show_in_menu = '?'", Application_Model_Models_Page::IN_MAINMENU);
 		return $this->fetchAll($where);
 	}
 
 	public function fetchAllDraftPages() {
 		$where = $this->getDbTable()->getAdapter()->quoteInto("parent_id = ?", Application_Model_Models_Page::IDCATEGORY_DRAFT);
+		return $this->fetchAll($where);
+	}
+
+	public function fetchAllNomenuPages() {
+		$where = sprintf("show_in_menu = '%s' AND parent_id = %d", Application_Model_Models_Page::IN_NOMENU, Application_Model_Models_Page::IDCATEGORY_DEFAULT);
 		return $this->fetchAll($where);
 	}
 
@@ -106,7 +110,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $deleteResult;
 	}
 
-	private function _findWhere($where) {
+	protected function _findWhere($where) {
 		$row    = $this->getDbTable()->fetchAll($where)->current();
 		if(null == $row) {
 			return null;

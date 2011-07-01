@@ -141,6 +141,42 @@ class Backend_PageController extends Zend_Controller_Action {
 
 	public function organizeAction() {
 		$pageMapper = new Application_Model_Mappers_PageMapper();
+
+		if($this->getRequest()->isPost()) {
+			$act = $this->getRequest()->getParam('act');
+			if(!$act) {
+				exit;
+			}
+			switch($act) {
+				case 'save':
+					$orderedList = array_unique($this->getRequest()->getParam('ordered'));
+					unset ($orderedList[array_search(Application_Model_Models_Page::IDCATEGORY_DEFAULT, $orderedList)]);
+					if(is_array($orderedList)) {
+						foreach ($orderedList as $key => $pageId) {
+							$page = $pageMapper->find($pageId);
+							$page->setOrder($key);
+							$pageMapper->save($page);
+						}
+					}
+				break;
+				case 'renew':
+					$newCategoryId = $this->getRequest()->getParam('categoryId');
+					$pagesList     = $this->getRequest()->getParam('pages');
+					$menu          = $this->getRequest()->getParam('menu');
+					foreach ($pagesList as $pageId) {
+						$page = $pageMapper->find($pageId);
+						$page->setParentId($newCategoryId);
+						$page->setShowInMenu($menu);
+						$pageMapper->save($page);
+					}
+				break;
+
+				default:
+				break;
+			}
+			exit;
+		}
+
 		$tree = array();
 		$categories = $pageMapper->findByParentId(0);
 		if(is_array($categories) && !empty ($categories)) {
@@ -152,6 +188,8 @@ class Backend_PageController extends Zend_Controller_Action {
 			}
 			$this->view->tree = $tree;
 		}
+		$this->view->staticMenu = $pageMapper->fetchAllStaticMenuPages();
+		$this->view->noMenu     = $pageMapper->fetchAllNomenuPages();
 	}
 }
 

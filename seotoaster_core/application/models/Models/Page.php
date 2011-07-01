@@ -52,8 +52,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	private $_order            = 0;
 
-	private $_staticOrder      = 0;
-
 	private $_targetedKey      = '';
 
 	private $_siloId           = 0;
@@ -205,15 +203,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setOrder($order) {
 		$this->_order = $order;
-		return $this;
-	}
-
-	public function getStaticOrder() {
-		return $this->_staticOrder;
-	}
-
-	public function setStaticOrder($staticOrder) {
-		$this->_staticOrder = $staticOrder;
 		return $this;
 	}
 
