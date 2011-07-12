@@ -46,9 +46,6 @@
 			$('#<?php echo $this->formId;?>').before('<div id="<?php echo $this->formId;?>-filelist"></div>');
 		}
 		$('#<?php echo $this->formId; ?>-filelist').html('');
-		if (window.console){
-			console.log('Current runtime: ' + params.runtime);
-		}
 	});
 	
 	<?php echo $jsValName; ?>.init();
@@ -75,7 +72,6 @@
 
 	<?php echo $jsValName; ?>.bind('UploadProgress', function(up, file) {
 		$('#' + file.id + " .pbar").progressbar({value: file.percent});
-		window.console && console.log(file.name+': '+file.percent+'%');
 	});
 
     <?php echo $jsValName; ?>.bind('Error', function(up, err) {
@@ -106,9 +102,17 @@
 		<?php if ($this->caller == 'themes') : ?>
 		$('#themes-list').trigger('updateContent');
 		<?php elseif ($this->caller == 'templatePreview'): ?>
-		window.console && console.log(response);
 		if (response.error == false && response.hasOwnProperty('thumb')){
 			$('#template_preview').attr('src', response.thumb);
+		}
+		<?php elseif ($this->caller == 'pagePreview'): ?>
+		if (response.error == false && response.hasOwnProperty('src')){
+			$('#page-preview-image').attr('src', response.src);
+			if ( $('input[name="pagePreviewImage"]').size() == 0 ){
+				$('<input type="hidden" name="pagePreviewImage" />').val(response.src).appendTo("#frm-page");
+			} else {
+				$('#frm-page input[name="pagePreviewImage"]').val(response.src);
+			}	
 		}
 		<?php endif; ?>
     });
@@ -142,5 +146,8 @@
 			<?php echo $jsValName; ?>.settings.multipart_params = {'templateName': $('#title').val()};
 		});
 	<?php endif; ?>
-
+		
+	<?php if ($this->noMultiupload) : ?>
+	$('.plupload > input:file').removeAttr('multiple');
+	<?php endif; ?>
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>

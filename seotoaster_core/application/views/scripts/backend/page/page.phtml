@@ -57,7 +57,9 @@
 			</fieldset>
 			<fieldset>
 				<legend>Page Teasers</legend>
-				<div  class="grid_4 h100">Image here <br />button here</div>
+				<div  class="grid_4 h100">
+					<img id="page-preview-image" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="140px" alt="<?php echo $this->translate('Page preview image');?>" />
+				</div>
 				<div  class="grid_8 h100">
 					<?php echo $this->pageForm->getElement('teaserText'); ?>
 				</div>
@@ -68,6 +70,11 @@
 			<?php echo $this->pageForm->getElement('updatePage'); ?>
 		</div>
 	</form>
+	<?php 
+		$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true)); 
+		echo $uploader;
+	?>
+	<div id="page-teaser-uploader-filelist" class="ui-helper-hidden"></div>
 	<div class="clear"></div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>

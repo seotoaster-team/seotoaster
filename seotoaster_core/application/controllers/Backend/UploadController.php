@@ -289,37 +289,37 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$miscConfig = Zend_Registry::get('misc');
 
 		$currentTheme = $this->_helper->config->getConfig('current_theme');
-		 
+	 
 		$savePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
 		
-		$templateName = trim($this->getRequest()->getParam('templateName'));
+		$name = trim($this->getRequest()->getParam('templateName'));
 		
 		$fileMime = $this->_uploadHandler->getMimeType();
 		
 		switch ($fileMime){
 			case 'image/png':
-				$newName = $templateName.'.png';
+				$newName = $name.'.png';
 				break;
 			case 'image/jpg':
 			case 'image/jpeg':
-				$newName = $templateName.'.jpg';
+				$newName = $name.'.jpg';
 				break;
 			case 'image/gif':
-				$newName = $templateName.'.gif';
+				$newName = $name.'.gif';
 				break;
 			default:
 				return false;
 				break;
 		}
 		
-		if (!$templateName || empty ($templateName)){
+		if (!$name || empty ($name)){
 			return false;
 		}
 		$newImageFile = $savePath.$newName;
 		
 		//checking for existing images with same name ...
 		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath, false, false);
-		$existingImages = preg_grep('~^'.$templateName.'\.(png|jpg|gif)$~i', $existingImages);
+		$existingImages = preg_grep('~^'.$name.'\.(png|jpg|gif)$~i', $existingImages);
 		// ...and removing them
 		foreach ($existingImages as $img){
 			Tools_Filesystem_Tools::deleteFile($savePath.$img);
@@ -333,6 +333,45 @@ class Backend_UploadController extends Zend_Controller_Action {
 		if ($result['error'] == false) {
 			Tools_Image_Tools::resize($newImageFile, $miscConfig['template_preview_w'], true);
 			$result['thumb'] = 'data:'.$fileMime.';base64,'.base64_encode(Tools_Filesystem_Tools::getFile($newImageFile));
+		}
+		
+		return $result;
+	}
+	
+	private function _uploadPagepreview() {
+		$miscConfig = Zend_Registry::get('misc');
+		$config = Zend_Registry::get('extConfig');
+	 
+		$savePath = $this->_websiteConfig['path'].$this->_websiteConfig['tmp'];
+			
+		$fileMime = $this->_uploadHandler->getMimeType();
+		switch ($fileMime){
+			case 'image/png':
+				$newName = '.png';
+				break;
+			case 'image/jpg':
+			case 'image/jpeg':
+				$newName = '.jpg';
+				break;
+			case 'image/gif':
+				$newName = '.gif';
+				break;
+			default:
+				return false;
+				break;
+		}
+		
+		$newName = md5(microtime(1)).$newName;
+		$newImageFile = $savePath.$newName;
+			
+		$this->_uploadHandler->addFilter('Rename',
+                   array('target' => $newImageFile,
+                         'overwrite' => true));
+		$result = $this->_uploadImages($savePath, false);
+		
+		if ($result['error'] == false) {
+			Tools_Image_Tools::resize($newImageFile, (isset($config['page_teaser_size'])?$config['page_teaser_size']:$miscConfig['page_teaser_size']), true);
+			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'].$newName;
 		}
 		
 		return $result;

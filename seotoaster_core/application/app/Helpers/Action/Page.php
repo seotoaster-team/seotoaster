@@ -47,6 +47,10 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 			$this->_redirector->gotoUrl($this->_website->getUrl() . $redirectMap[$pageUrl]);
 		}
 	}
+	
+	public function clean($pageUrl) {
+		return preg_replace('/\.html$/', '', $pageUrl);
+	}
 
 }
 
