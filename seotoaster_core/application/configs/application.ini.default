@@ -62,3 +62,4 @@ misc.img_quality	= 90
 misc.img_max_width	= 2048
 misc.template_preview_w = 180
 misc.template_preview_h = 220
+misc.page_teaser_size = 200
