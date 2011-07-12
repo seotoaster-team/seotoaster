@@ -21,6 +21,16 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 		'video' => array('title' => 'Video files', 'extensions' => 'mp4, avi, mov, flv'),
 	);
 	
+	/**
+	 * Generates upload form
+	 * @param array $options 
+	 * @param string $options['id'] Unique id for uploader form
+	 * @param boolean $options['caller'] Define context from which upload was called
+	 * @param boolean $options['disableResize'] Turn off client-side resizing (if supported in browser)
+	 * @param boolean $options['noMultiupload'] Turn off client-side multiple file selection for upload (will be applyed for all instances of upload on page)
+	 * @param array $options['filters'] Type of files allowed to be upload (for filtering in file select dialog): possible 'image', 'zip', 'video'
+	 * @return html generated form.
+	 */
 	public function toasterUploader($options = null){
 		if (isset($options['caller']) && !empty($options['caller'])) {
 			$this->_uploadActionUrl['caller'] = $options['caller'];
@@ -28,6 +38,9 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 		}
 		if (isset($options['disableResize']) && !empty ($options['disableResize'])){
 			$this->view->disableResize = (bool) $options['disableResize'];
+		}
+		if (isset($options['noMultiupload']) && !empty ($options['noMultiupload'])){
+			$this->view->noMultiupload = (bool) $options['noMultiupload'];
 		}
 		//assign all necessary JS and CSSs
 		$this->view->jQuery()->addJavascriptFile($this->view->websiteUrl.$this->_libraryPath.'plupload.js');
