@@ -2,14 +2,14 @@
 <div class="seotoaster container_12 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things')); ?>
 	<div class="grid_12">
-		<form id="" class="h500">
-			<div class="grid_3">
-			<label for="list-folders"><?php echo $this->translate('Select folder'); ?></label>
+		<form id="removeForm" class="h500">
+			<div class="grid_8">
+			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>		
 			</div>
-			<div class="grid_5">
-			<?php echo $this->formSelect('list-folders', null, null, $this->listFolders); ?>		
+			<div class="grid_4" style="text-align: center">
+				<input type="checkbox" id="check-all" />
+				<label id="check-all-label" style="cursor:pointer;" for="check-all"><?php echo $this->translate('Check all?'); ?></label>
 			</div>
-			<div class="grid_4"><label id="check-all-label" style="cursor:pointer;" for="check-all"><input type="checkbox" id="check-all" /><?php echo $this->translate('Check all?'); ?></label></div>
 		
 			<div class="grid_12 alpha omega">
 				<div id="filebrowser">
@@ -18,17 +18,17 @@
 						<li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
 					</ul>
 					<div id="filebrowser-images" class="filebrowser-zone">
-						images goes here
+						
 					</div>
 					<div id="filebrowser-files" class="filebrowser-zone">
-						files goes here
+						
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-	<div class="grid_12">
-		<input id="deleteBtn" type="button" class="formsubmit" value="<?php echo $this->translate('Delete');?>"/>
+	<div class="grid_12 ui-widget-header ui-corner-all">
+		<button id="deleteBtn" style="float:right; margin: 5px 10px;" ><?php echo $this->translate('Delete');?></button>
 	</div>
 </div>
 
@@ -47,6 +47,9 @@
 
 <script type="text/javascript">
 <?php //$this->jQuery()->onLoadCaptureStart();?>
+	$('#deleteBtn').button();
+	$('#check-all').button();
+	
 	$('#filebrowser').tabs({
 		select: function(event, ui) { 
 			var total = $(ui.panel).find('input.toremove').size();
@@ -56,13 +59,14 @@
 			} else {
 				$('#check-all').removeAttr('checked');
 			}
+			$('#check-all').button('refresh');
 		}
 	});
 	
 	// disabling clicking on non-folder item
-	$('#list-folders>option:first').attr('disabled', true);
+	$('#folder>option:first').attr('disabled', true);
 	
-	$('#list-folders').change(function(){
+	$('#folder').change(function(){
 		$('.filebrowser-zone').html('');
 		$('.counter').text('');
 		
@@ -71,13 +75,11 @@
 		}
 		
 		$('#check-all:checked').removeAttr('checked');
-		
-		var folderName = $(this).find('option:selected').text();
-		
+			
 		$.ajax({
 			url: '<?php echo $this->url(array('action'=>'getdirectorycontent'));?>',
 			type: 'post',
-			data: {folder: folderName},
+			data: {folder: $(this).val()},
 			dataType: 'json',
 			success: function(response){		
 				$('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
@@ -95,8 +97,11 @@
 		$.ajax({
 			url: '<?php echo $this->url(array('action'=>'removefile'));?>',
 			type: 'post',
-			data: $('#filebrowser').serialize(),
+			data: $('#removeForm').serialize(),
 			dataType: 'html',
+			beforeSend: function(xhr){
+				
+			},
 			success: function(response){		
 				$('#filebrowser').html(response);
 			}
@@ -110,7 +115,7 @@
 			$flag.removeAttr('checked');
 			$(this).removeClass('active');
 			if ($(this).closest('.filebrowser-zone').find('.active').size() > 0) {
-				console.log($('#check-all').removeAttr('checked'));
+				$('#check-all').removeAttr('checked');
 			}
 		} else {
 			$(this).addClass('active');
@@ -119,6 +124,7 @@
 				$('#check-all:not(:checked)').attr('checked', 'checked');
 			}
 		}
+		$('#check-all').button('refresh');
 	}).live('click', function(){
 		$(this).trigger('toggleActive');
 	}).delegate('input:checkbox', 'click', function(event){

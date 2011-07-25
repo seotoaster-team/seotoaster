@@ -1,7 +1,8 @@
 <?php
 /**
  * MediaController
- *
+ * Used for manipulation of image/files 
+ * 
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
 class Backend_MediaController extends Zend_Controller_Action {
@@ -23,9 +24,11 @@ class Backend_MediaController extends Zend_Controller_Action {
 			'getdirectorycontent'	=> 'json',
 			'removefile'			=> 'json'
 			))->initContext('json');
-		//$this->_helper->AjaxContext()->addActionContext('removefiles', 'json')->initContext('json');
 	}
 
+	/**
+	 * Renders "Upload things" screen
+	 */
 	public function uploadthingsAction() {
 		//creating list of folder in 'images' directory
 		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['media']);
@@ -35,11 +38,21 @@ class Backend_MediaController extends Zend_Controller_Action {
 		$this->view->listFolders = array_merge(array('select folder'), $listFolders);
 	}
 
+	/**
+	 * Renders "Remove things" screen
+	 */
 	public function removethingsAction() {
 		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['media']);
+		if (!empty ($listFolders)){
+			$listFolders = array_combine($listFolders, $listFolders);
+		}
 		$this->view->listFolders = array_merge(array($this->_translator->translate('select folder')), $listFolders);
 	}
 	
+	/** 
+	 * Method for loading directory content via AJAX call
+	 * @return JSON
+	 */
 	public function getdirectorycontentAction(){
 		if ($this->getRequest()->isPost()){
 			$folderName = $this->getRequest()->getParam('folder');
@@ -67,12 +80,72 @@ class Backend_MediaController extends Zend_Controller_Action {
 		}
 	}
 	
+	/** 
+	 * Action used for removing images/files from media catalog
+	 * for AJAX request
+	 * @return JSON 
+	 */
 	public function removefileAction(){
 		if ($this->getRequest()->isPost()) {
-			$toRemove = $this->getRequest()->getParams('toremove');
-			if (is_array($toRemove) && !empty ($toRemove)) {
-				
+			var_dump($this->getRequest()->getParams());
+			$folderName		= $this->getRequest()->getParam('folder');
+			if (empty ($folderName)){
+				$this->view->error = $this->_translator->translate('No folder specified');
+				return false;
 			}
+			$removeImages	= $this->getRequest()->getParam('removeImages');
+			$removeFiles	= $this->getRequest()->getParam('removeFiles');
+			$errorList		= array();
+			$folderPath		= realpath($this->_websiteConfig['path'].$this->_websiteConfig['media'].$folderName);
+			
+			if (!$folderPath || !is_dir($folderPath)){
+				$this->view->error = $this->_translator->translate('No such folder');
+				return false;
+			}
+			
+			$containerMapper	= new Application_Model_Mappers_ContainerMapper();
+			$pageMapper			= new Application_Model_Mappers_PageMapper();
+			
+			//processing images 
+			if ( isset($removeImages) && is_array($removeImages) ){
+				foreach ($removeImages as $imageName) {
+					//checking if this image in any container
+					$containers = $containerMapper->findByContent($imageName);
+					if (!empty ($containers)){
+						// formatting list of pages where image used in 
+						$errorList[$imageName] = array();
+						foreach ($containers as $container){
+							$page = $pageMapper->find($container->getPageId());
+							if (!in_array($page->getUrl(), $errorList[$imageName])){
+								$errorList[$imageName][] = $page->getUrl();
+							}
+						}
+					} else {
+						// going to remove image
+						try {
+							$result = Tools_Image_Tools::removeImageFromFilesystem($imageName, $folderName);
+							if ($result){
+								$errorList[$imageName] = $result;
+							}
+						} catch (Exceptions_SeotoasterException $e) {
+							error_log($e->getMessage().PHP_EOL.$e->getTraceAsString());
+						}
+					}
+				}
+			}
+			
+			//processing files
+			if ( isset($removeFiles) && is_array($removeFiles)){
+				foreach ($removeFiles as $file) {
+					try {
+						
+					} catch (Exception $e) {
+						error_log($e->getMessage().PHP_EOL.$e->getTraceAsString());
+					}
+								
+				}
+			}
+			var_dump($errorList);
 		}
 	}
 }
