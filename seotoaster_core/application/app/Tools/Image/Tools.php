@@ -5,7 +5,13 @@
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
 class Tools_Image_Tools {
-	
+	public static $imgResizedFolders = array(
+		'small',
+		'medium',
+		'large',
+		'product'
+	);
+
 	public function init() {
 		if (!Zend_Registry::isRegistered('extConfig')) {
 			$configTable   = new Application_Model_DbTable_Config();
@@ -144,5 +150,51 @@ class Tools_Image_Tools {
 		
 		return empty($result) ? true : $result;
 	}
-
+	
+	/**
+	 * Method removes images with given name in the given directory via recursive scan of subfolders 
+	 * such as, small, medium, etc.
+	 * @param string $imageName Name of image to be deleted
+	 * @param string $folderName Name of folder where image is
+	 * @return mixed  Boolean true on success of all operations array with errors 
+	 * @return mixed  Boolean false on empty parameters given
+	 * @return mixed  Array with errors if something went wrong
+	 */
+	public static function removeImageFromFilesystem($imageName, $folderName) {
+		$imageName = trim($imageName);
+		$folderName = trim($folderName);
+		if (empty ($imageName) || empty ($folderName)){
+			return false;
+		}
+		
+		$websiteConfig = Zend_Registry::get('website');
+		
+		$folderPath = $websiteConfig['path'].$websiteConfig['media'].$folderName;
+		if (!is_dir($folderPath)) {
+			throw new Exceptions_SeotoasterException('Wrong folder name specified');
+		}
+		
+		$errors = array();
+		
+		$subFoldersList = array_merge(self::$imgResizedFolders, array('original'));
+		foreach ($subFoldersList as $subfolder) {
+			if (!is_dir($folderPath.DIRECTORY_SEPARATOR.$subfolder)){
+				array_push($errors, 'Not a folder:'.$folderPath.DIRECTORY_SEPARATOR.$subfolder);
+				continue;
+			}
+			try {
+				Tools_Filesystem_Tools::deleteFile($folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName);
+			} catch (Exceptions_SeotoasterException $e) {
+				array_push( $errors, $imageName.': '. $e->getMessage() );
+			}
+		}
+		
+		if (empty ($errors)){
+			return true;
+		} else {
+			return $errors;
+		}
+		
+	}
+	
 }
