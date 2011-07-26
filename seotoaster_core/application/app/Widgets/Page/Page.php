@@ -6,31 +6,41 @@
  */
 class Widgets_Page_Page extends Widgets_Abstract {
 
-	const OPT_H1    = 'h1';
-
-	const OPT_ID    = 'id';
-
-	const OPT_TITLE = 'title';
 
 	protected function  _load() {
-		$content = '';
-		$type    = $this->_options[0];
-		switch ($type) {
-			case self::OPT_H1:
-				$content = $this->_toasterOptions['h1'];
-			break;
-			case self::OPT_TITLE:
-				$content = $this->_toasterOptions['headerTitle'];
-			break;
-			case self::OPT_ID:
-				$content = $this->_toasterOptions['id'];
-			break;
+		$optionMakerName = '_generate' . ucfirst($this->_options[0]) . 'Option';
+		if(method_exists($this, $optionMakerName)) {
+			return $this->$optionMakerName();
 		}
-		return $content;
+		return 'Wrong widget option: <strong>' . $this->_options[0] . '</strong>';
+	}
+
+	private function _generateIdOption() {
+		return $this->_toasterOptions['id'];
+	}
+
+	private function _generateH1Option() {
+		return $this->_toasterOptions['h1'];
+	}
+
+	private function _generateTitleOption() {
+		return $this->_toasterOptions['headerTitle'];
+	}
+
+	private function _generatePreviewOption() {
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
+ 		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
+		$pagePreviews  = preg_grep('/^' . $pageHelper->clean($this->_toasterOptions['url']) . '\.(png|jpg|gif|jpeg)$/', $files);
+
+		if(!empty ($pagePreviews)) {
+			return '<a href="' . $websiteHelper->getUrl() . $this->_toasterOptions['url'] . '" title="' . $this->_toasterOptions['h1'] . '"><img src="' . $websiteHelper->getUrl() . $websiteHelper->getPreview() . $pagePreviews[0] . '" alt="'  . $pageHelper->clean($this->_toasterOptions['url']) . '" /></a>';
+		}
+		return;
 	}
 
 	public static function getAllowedOptions() {
-		return array('page:id', 'page:h1', 'page:title');
+		return array('page:id', 'page:h1', 'page:title', 'page:preview');
 	}
 
 }
