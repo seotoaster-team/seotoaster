@@ -174,27 +174,45 @@ class Tools_Image_Tools {
 			throw new Exceptions_SeotoasterException('Wrong folder name specified');
 		}
 		
-		$errors = array();
+		$errorCount = 0;
 		
 		$subFoldersList = array_merge(self::$imgResizedFolders, array('original'));
+		
+		//list of file that can be removed
+		$removable = array();
+		
 		foreach ($subFoldersList as $subfolder) {
 			if (!is_dir($folderPath.DIRECTORY_SEPARATOR.$subfolder)){
-				array_push($errors, 'Not a folder:'.$folderPath.DIRECTORY_SEPARATOR.$subfolder);
+				error_log('Not a folder:'.$folderPath.DIRECTORY_SEPARATOR.$subfolder);
 				continue;
 			}
-			try {
-				Tools_Filesystem_Tools::deleteFile($folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName);
-			} catch (Exceptions_SeotoasterException $e) {
-				array_push( $errors, $imageName.': '. $e->getMessage() );
+			$filename = $folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName;
+			//checking if enough permission to remove file
+			if (is_file($filename) && is_writable($filename)) {
+				array_push($removable, $filename);	
 			}
 		}
 		
-		if (empty ($errors)){
+		/**
+		 * checking if we can remove all files at once
+		 * if not - returning with error
+		 */
+		if (sizeof($removable) === sizeof($subFoldersList)){
+			foreach ($removable as $file) {
+				try {
+					Tools_Filesystem_Tools::deleteFile($file);
+				} catch (Exceptions_SeotoasterException $e) {
+					$errorCount++;
+					error_log($file.': '. $e->getMessage() );
+				}
+			}
+			if ($errorCount){
+				return false;
+			}
 			return true;
-		} else {
-			return $errors;
-		}
+		} 
 		
+		return 'Permission denied';			
 	}
 	
 }
