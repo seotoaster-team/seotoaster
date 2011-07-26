@@ -50,9 +50,9 @@ abstract class Application_Model_Mappers_Abstract {
 		return new $this->_model($row->toArray());
 	}
 
-	public function fetchAll($where = null) {
+	public function fetchAll($where = null, $order = array()) {
 		$entries = array();
-		$resultSet = $this->getDbTable()->fetchAll($where);
+		$resultSet = $this->getDbTable()->fetchAll($where, $order);
 		if(null === $resultSet) {
 			return null;
 		}

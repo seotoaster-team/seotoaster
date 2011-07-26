@@ -1,6 +1,10 @@
 $(function() {
 	_FADE_SLOW = 4000;
 
+//	if(jQuery().chosen) {
+//		$('._tdropdown').chosen();
+//	}
+
 	/**
 	 * Seotoaster popup dialog
 	 */
@@ -35,6 +39,39 @@ $(function() {
 			});
 	});
 
+	$('a._tdelete').live('click', function() {
+
+		$('#ajax_msg').text('Removing...').show();
+		var url = $(this).attr('href');
+		if(!url || url == 'undefined' || url == 'javascript:;') {
+			url = $(this).data('url');
+		}
+		var callback = $(this).data('callback');
+		var deleteScreen = document.createElement('div');
+		$(deleteScreen).html('<h2>Are you sure?</h2>');
+		var link = $(this);
+		$(deleteScreen).dialog({
+			modal: true,
+			title: 'Delete',
+			resizable: false,
+			buttons: {
+				'Delete': function() {
+					$.post(url, {id: link.data('eid')}, function() {
+						if(callback) {
+							eval(callback + '()');
+						}
+						$('#ajax_msg').text('Done').fadeOut();
+						$(deleteScreen).dialog( "close" );
+					})
+				},
+				Cancel: function() {
+					$('#ajax_msg').text('').hide();
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	})
+
 	$('.closebutton').click(function() {
 		top.$('#__tpopup').dialog('close');
 	})
@@ -66,7 +103,14 @@ $(function() {
 						top.location.reload();
 						return;
 					}
+
+					//processing callback
+					var callback = $(form).data('callback');
+					eval(callback + '()');
+
 					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
+
+
 				}
 				else {
 					ajaxMessage.removeClass('success').addClass('ui-state-error');

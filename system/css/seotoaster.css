@@ -77,7 +77,7 @@ body, body.seotoaster {
 .seotoaster blockquote { }
 .seotoaster address { }
 /*=========== Forms ==========*/
-.seotoaster form { overflow:hidden; }
+/*.seotoaster form { overflow:hidden; }*/
 .seotoaster fieldset {
 	background:#fff;
 	background:url('/system/images/bg-strip.png');
@@ -116,7 +116,8 @@ body, body.seotoaster {
 }
 
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea, .seotoaster select {
-	color:#960;
+/*	color:#960;*/
+	color: #666;
 	border:1px solid #d7d7d7;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
@@ -125,7 +126,7 @@ body, body.seotoaster {
 	text-indent:8px;
 	width:100%;
 	margin:3px 0px 5px 0px;
-	font-weight:600;
+/*	font-weight:600;*/
 	font-size:11pt;
 }
 .seotoaster select {
@@ -133,6 +134,7 @@ body, body.seotoaster {
 	margin:3px 0px;
 	text-indent:2px;
 	cursor:pointer;
+	background: #fefefe;
 }
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
@@ -303,14 +305,22 @@ body, body.seotoaster {
 	padding:2px 4px;
 }
 #seotoaster-cpanel ul li ul li a:hover { background-color:#fFfddF; }
+
 #seotoaster-cpanel ul li ul li.cpanelsubtitle {
-	background-color:#dFDFFF;
-	color:#3c3c3c;
-	font-size:11pt;
-	font-weight:bold;
-	border-bottom:none;
-	padding:5px 2px 5px 5px;
+ background-color: #DFDFFF;
+ color: #3C3C3C;
+ font-size: 11pt;
+ font-weight: bold;
+ border-bottom: none;
+ padding: 2px 0px 2px 4px;
+ width:196px;
 }
+
+#seotoaster-cpanel ul li{
+ list-style: none;
+ width: 200px;
+}
+
 #seotoaster-logowrap {
 	background:#fff;
 	text-align:center;
@@ -521,4 +531,89 @@ body, body.seotoaster {
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+
+/*============= Add/Edit 301 ==============*/
+.seotoaster #redirects-list {
+	overflow-y: scroll;
+	height: 377px;
+	font-size: 12px;
+	font-family: Arial;
+	margin-bottom: 6px;
+	background: #EAF3FA;
+	width: 940px;
+}
+
+.seotoaster #redirect-title {
+	margin-top: 35px;
+}
+
+
+
+.seotoaster #domain-toggle, .seotoaster #domain-toggle-deeplinks {
+	text-decoration: none;
+	border-bottom: 1px dashed #736D6D;
+	position: absolute;
+	top: 52px;
+	font-size: 14px;
+	left: 590px;
+}
+
+.seotoaster #domain-toggle-deeplinks {
+	top: 53px;
+	left: 623px;
+}
+
+.seotoaster #redirects-list .redirect-row {
+	overflow: hidden;
+	border-bottom: 1px dashed #fff;
+	padding: 12px 0px 0px 0px;
+}
+
+.seotoaster #redirects-list .redirect-row:hover {
+	background: #f9f9f9;
+	cursor: pointer;
+}
+
+.seotoaster #redirects-list .redirect-row p {
+	float: left;
+	margin-right: 10px;
+	color: #7c7c7c;
+}
+
+/*============= Add/Edit Deeplinks ==============*/
+
+.seotoaster #deeplinks-list {
+	overflow-y: scroll;
+	height: 390px;
+	font-size: 12px;
+	font-family: Arial;
+	margin-bottom: 6px;
+	background: #EAF3FA;
+	width: 940px;
+}
+
+.seotoaster #deeplinks-list .deeplink-row {
+	overflow: hidden;
+	border-bottom: 1px dashed #fff;
+/*	margin: 10px 0px;*/
+	padding: 12px 0px 0px 0px;
+}
+
+.seotoaster #deeplinks-list .deeplink-row:hover {
+	cursor: pointer;
+	background: #f9f9f9;
+}
+
+
+.seotoaster #deeplinks-list .deeplink-row p {
+	float: left;
+	margin-right: 10px;
+	color: #7c7c7c;
+}
+
+.seotoaster #table-header {
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 25px;
 }

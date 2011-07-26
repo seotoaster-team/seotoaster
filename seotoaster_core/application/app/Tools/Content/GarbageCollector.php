@@ -23,7 +23,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 
 	private function _updateContentLinksRelatios() {
 		if(!$this->_object instanceof Application_Model_Models_Container) {
-			throw new Exceptions_SeotoasterException('Wrong object given. Instance of Application_Model_Models_object expected.');
+			throw new Exceptions_SeotoasterException('Wrong object given. Instance of Application_Model_Models_Container expected.');
 		}
 
 		$links                         = array();

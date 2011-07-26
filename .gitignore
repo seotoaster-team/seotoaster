@@ -16,3 +16,4 @@ sitemap.xml
 system/coreinfo.php
 tests/*
 robots.txt
+tmp/*
