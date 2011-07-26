@@ -7,13 +7,15 @@
  */
 class Application_Model_Models_Redirect extends Application_Model_Models_Abstract {
 
-	private $_pageId  = 0;
+	private $_pageId     = 0;
 
-	private $_fromUrl = '';
+	private $_fromUrl    = '';
 
-	private $_toUrl   = '';
+	private $_toUrl      = '';
 
-	private $_domain  = '';
+	private $_domainTo   = '';
+
+	private $_domainFrom = '';
 
 	public function getPageId() {
 		return $this->_pageId;
@@ -42,12 +44,21 @@ class Application_Model_Models_Redirect extends Application_Model_Models_Abstrac
 		return $this;
 	}
 
-	public function getDomain() {
-		return $this->_domain;
+	public function getDomainTo() {
+		return $this->_domainTo;
 	}
 
-	public function setDomain($_domain) {
-		$this->_domain = $_domain;
+	public function setDomainTo($domainTo) {
+		$this->_domainTo = $domainTo;
+		return $this;
+	}
+
+	public function getDomainFrom() {
+		return $this->_domainFrom;
+	}
+
+	public function setDomainFrom($domainFrom) {
+		$this->_domainFrom = $domainFrom;
 		return $this;
 	}
 
