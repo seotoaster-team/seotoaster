@@ -77,6 +77,8 @@ class Backend_MediaController extends Zend_Controller_Action {
 					array_push($this->view->filesList, array('name' => $item));
 				}
 			}
+		} else {
+			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 	}
 	
@@ -87,10 +89,9 @@ class Backend_MediaController extends Zend_Controller_Action {
 	 */
 	public function removefileAction(){
 		if ($this->getRequest()->isPost()) {
-			var_dump($this->getRequest()->getParams());
 			$folderName		= $this->getRequest()->getParam('folder');
 			if (empty ($folderName)){
-				$this->view->error = $this->_translator->translate('No folder specified');
+				$this->view->errorMsg = $this->_translator->translate('No folder specified');
 				return false;
 			}
 			$removeImages	= $this->getRequest()->getParam('removeImages');
@@ -98,34 +99,35 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$errorList		= array();
 			$folderPath		= realpath($this->_websiteConfig['path'].$this->_websiteConfig['media'].$folderName);
 			
+			if (!isset ($removeFiles) && !isset ($removeImages)) {
+				$this->view->errorMsg = $this->_translator->translate('Nothing to remove');
+			}
+			
 			if (!$folderPath || !is_dir($folderPath)){
-				$this->view->error = $this->_translator->translate('No such folder');
+				$this->view->errorMsg = $this->_translator->translate('No such folder');
 				return false;
 			}
 			
 			$containerMapper	= new Application_Model_Mappers_ContainerMapper();
 			$pageMapper			= new Application_Model_Mappers_PageMapper();
 			
+			//list of removed files
+			$deleted = array();
 			//processing images 
 			if ( isset($removeImages) && is_array($removeImages) ){
 				foreach ($removeImages as $imageName) {
 					//checking if this image in any container
-					$containers = $containerMapper->findByContent($imageName);
-					if (!empty ($containers)){
-						// formatting list of pages where image used in 
-						$errorList[$imageName] = array();
-						foreach ($containers as $container){
-							$page = $pageMapper->find($container->getPageId());
-							if (!in_array($page->getUrl(), $errorList[$imageName])){
-								$errorList[$imageName][] = $page->getUrl();
-							}
-						}
+					$pages = $this->_checkFileInContent($folderName.'%'.$imageName);
+					if (!empty ($pages)){
+						array_push($errorList, array('name'=>$imageName, 'errors' => $pages));
 					} else {
 						// going to remove image
 						try {
 							$result = Tools_Image_Tools::removeImageFromFilesystem($imageName, $folderName);
-							if ($result){
-								$errorList[$imageName] = $result;
+							if ($result !== true){
+								array_push($errorList, array('name' => $imageName, 'errors' => $result));
+							} else {
+								array_push($deleted, $imageName);
 							}
 						} catch (Exceptions_SeotoasterException $e) {
 							error_log($e->getMessage().PHP_EOL.$e->getTraceAsString());
@@ -136,16 +138,58 @@ class Backend_MediaController extends Zend_Controller_Action {
 			
 			//processing files
 			if ( isset($removeFiles) && is_array($removeFiles)){
-				foreach ($removeFiles as $file) {
+				foreach ($removeFiles as $fileName) {
+					if (!is_file($folderPath.DIRECTORY_SEPARATOR.$fileName)){
+						$errorList[$fileName] = $this->_translator->translate($folderPath.DIRECTORY_SEPARATOR.$fileName . ': file not found');
+					}
+					//checking if this image in any container
+					$pages = $this->_checkFileInContent($fileName);
+					if (!empty ($pages)){
+						array_push($errorList, array('name'=>$fileName, 'errors' => $pages));
+					}
 					try {
-						
+						$result = Tools_Filesystem_Tools::deleteFile($folderPath.DIRECTORY_SEPARATOR.$fileName);
+						if ($result !== true){
+							array_push($errorList, array('name' => $fileName, 'errors' => $this->_translator->translate("Can't remove file. Permission denied")));
+						} else {
+							array_push($deleted, $fileName);
+						}
 					} catch (Exception $e) {
 						error_log($e->getMessage().PHP_EOL.$e->getTraceAsString());
 					}
 								
 				}
 			}
-			var_dump($errorList);
+			$this->view->errors		= empty ($errorList) ? false : $errorList;
+			$this->view->deleted	= $deleted;
+		} else {
+			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
+	}
+	
+	/**
+	 * Checks if file/image is linked in any content and return list of pages where it used
+	 * @param string $filename Name of file
+	 * @return array List of pages where file linked
+	 */
+	private function _checkFileInContent($filename){
+		$containerMapper	= new Application_Model_Mappers_ContainerMapper();
+		$pageMapper			= new Application_Model_Mappers_PageMapper();
+		
+		$containers = $containerMapper->findByContent($filename);
+		
+		// formatting list of pages where image used in 
+		$usedOnPages = array();
+		
+		if (!empty ($containers)){
+			foreach ($containers as $container){
+				$page = $pageMapper->find($container->getPageId());
+				if (!in_array($page->getUrl(), $usedOnPages)){
+					array_push($usedOnPages, $page->getUrl());
+				}
+			}
+		}
+		
+		return $usedOnPages;
 	}
 }

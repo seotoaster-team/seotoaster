@@ -2,7 +2,7 @@
 <div class="seotoaster container_12 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things')); ?>
 	<div class="grid_12">
-		<form id="removeForm" class="h500">
+		<form id="removeForm" class="">
 			<div class="grid_8">
 			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>		
 			</div>
@@ -10,8 +10,8 @@
 				<input type="checkbox" id="check-all" />
 				<label id="check-all-label" style="cursor:pointer;" for="check-all"><?php echo $this->translate('Check all?'); ?></label>
 			</div>
-		
-			<div class="grid_12 alpha omega">
+			<div class="grid_12 mt5px"></div>
+			<div class="grid_12">
 				<div id="filebrowser">
 					<ul>
 						<li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
@@ -27,7 +27,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="grid_12 ui-widget-header ui-corner-all">
+	<div class="grid_12">
 		<button id="deleteBtn" style="float:right; margin: 5px 10px;" ><?php echo $this->translate('Delete');?></button>
 	</div>
 </div>
@@ -44,11 +44,43 @@
 		<input type="checkbox" class="toremove toremove-file" name="removeFiles[]" value="${name}" />
 	</div>
 </script>
+<script id="errorMsgTemplate" type="text/x-jquery-tmpl">
+	<div class="ui-widget">
+		<div class="ui-state-error ui-corner-all">
+			<p><span class="ui-icon ui-icon-alert" style="display:inline-block;"></span>${errorMsg}</p>
+		</div>
+	</div>
+</script>
+<script id="fileErrorTemplate" type="text/x-jquery-tmpl">
+	<div class="ui-widget">
+		<div class="ui-state-error ui-corner-all" style="margin-top: 15px; padding: 0 .7em;"> 
+			<p><span class="ui-icon ui-icon-alert" style="display:inline-block;"></span>
+			<strong>${name}&nbsp;</strong>
+			{{if errors instanceof Array}}
+			<?php echo $this->translate('is used');?>
+				{{each errors}}
+				{{if $index > 0}} and {{/if}}
+				<a href="<?php echo $this->websiteUrl;?>${$value}" target="_blank">here</a>
+				{{/each}}
+			{{else}}
+				${errors}
+			{{/if}}
+			</p>
+		</div>
+	</div>
+</script>
 
 <script type="text/javascript">
-<?php //$this->jQuery()->onLoadCaptureStart();?>
+<?php $this->jQuery()->onLoadCaptureStart();?>
 	$('#deleteBtn').button();
 	$('#check-all').button();
+	$('#ajax_msg').unbind('click').removeAttr('style').removeClass().html('').dialog({
+		maxHeight: 500,
+		width: 400,
+		resizable: false,
+		modal: true,
+		autoOpen: false
+	});
 	
 	$('#filebrowser').tabs({
 		select: function(event, ui) { 
@@ -84,7 +116,7 @@
 			success: function(response){		
 				$('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
 				$('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
-				console.log(response);
+				window.console && console.log(response);
 			}
 		});
 	});
@@ -94,19 +126,45 @@
 	 */
 	$('#deleteBtn').bind('click', function(event){
 		event.preventDefault();
+		var fileForm = $('#removeForm');
+		if ( $('#folder').val() === '0' ) {
+			proccessError({errorMsg: '<?php echo $this->translate('No folder specified');?>'});
+			return false;
+		}
+		
+		if ( fileForm.find('input.toremove:checked').size() == 0 ){
+			proccessError({errorMsg: '<?php echo $this->translate('Nothing to remove');?>'});
+			return false;
+		}
+		console.log(fileForm.serialize());
 		$.ajax({
 			url: '<?php echo $this->url(array('action'=>'removefile'));?>',
 			type: 'post',
-			data: $('#removeForm').serialize(),
-			dataType: 'html',
-			beforeSend: function(xhr){
-				
+			data: fileForm.serialize(),
+			dataType: 'json',
+			beforeSend: function(){
+				$('#deleteBtn').hide();
+			},
+			complete: function(){
+				$('#deleteBtn').show();
 			},
 			success: function(response){		
-				$('#filebrowser').html(response);
+				window.console && console.log(response);
+				proccessError(response);
+				
+				if (response.hasOwnProperty('deleted') && response.deleted.length > 0 ){
+					var removedFiles = [];
+					for (var i in response.deleted) {
+						$('#filebrowser').queue(function(next){
+							$('div.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').hide('explode', {}, 'slow', function(){
+								$(this).remove();
+							});
+							next();
+						});
+					}
+				}
 			}
 		});
-		console.log($('#filebrowser').serialize());
 	});
 	
 	$('.file-container').live('toggleActive', function(){
@@ -148,15 +206,42 @@
 	$('#check-all-label').bind('click', function(){
 		$('#check-all').trigger('change');
 	});
-<?php //$this->jQuery()->onLoadCaptureEnd();?>
+	
+	/**
+	 * function proccessing errors coming in ajax response to dialog box
+	 */
+	function proccessError(ajaxResponse){
+		var dialogHolder = $('#ajax_msg');
+		var openFlag = false;
+		
+		dialogHolder.html('');
+		
+		if (ajaxResponse.hasOwnProperty('errorMsg')){
+			dialogHolder.html($('#errorMsgTemplate').tmpl(ajaxResponse));
+			openFlag = true;
+		}
+		
+		if (ajaxResponse.hasOwnProperty('errors')){
+			if (ajaxResponse.errors !== false) {
+				openFlag = true;
+				dialogHolder.html($('#fileErrorTemplate').tmpl(ajaxResponse.errors));
+			}
+		}
+		
+		if (!dialogHolder.dialog('isOpen') && openFlag){
+			dialogHolder.dialog('option', 'title', 'Oops! Some problems here...').dialog('open');
+		}
+		
+		return dialogHolder;
+	}
+<?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>
 
 <style type="text/css">
 	#filebrowser .filebrowser-zone {
-/*		outline: 1px dashed red;*/
 		overflow-y: auto;
-		max-height: 500px;
-		max-height: 500px;
+		max-height: 450px;
+		height: 450px;
 		padding: 5px;
 	}
 	#filebrowser div.file-container {
@@ -166,6 +251,11 @@
 		max-height: 96px;
 		opacity: 1;
 		cursor: pointer;
+		-webkit-transition: opacity 0.5s ease;
+		-moz-transition: opacity 0.5s ease;
+		-o-transition: opacity 0.5s ease;
+		-ms-transition: opacity 0.5s ease;
+		transition: opacity 0.5s ease;
 	}
 	#filebrowser div.file-container.active {
 		opacity: 0.3;
@@ -173,11 +263,6 @@
 	}
 	#filebrowser div.file-container:hover {
 		opacity: 0.3;
-		-webkit-transition: opacity 0.5s ease;
-		-moz-transition: opacity 0.5s ease;
-		-o-transition: opacity 0.5s ease;
-		-ms-transition: opacity 0.5s ease;
-		transition: opacity 0.5s ease;
 	}
 	#filebrowser div.file-container img {
 		width: 100%;
@@ -191,14 +276,5 @@
 		margin: 4px;
 		background-color: yellow;
 	}
-	
-	#filebrowser div.file-container p::before {
-		content: '';
-		background: left 50% no-repeat;
-		width: 16px;
-	    height: 16px;
-	}
-	#filebrowser div.file-container label.pdf::before {
-		background-image:  url('/system/images/fileicons.png');
-	}
+
 </style>
