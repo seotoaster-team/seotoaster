@@ -58,6 +58,15 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $entries;
 	}
 
+	public function fetchAllUrls() {
+		$urls  = array();
+		$pages = $this->fetchAll();
+		foreach ($pages as $page) {
+			$urls[] = $page->getUrl();
+		}
+		return $urls;
+	}
+
 	public function fetchAllStaticMenuPages() {
 		$where = $this->getDbTable()->getAdapter()->quoteInto("show_in_menu = '?'", Application_Model_Models_Page::IN_STATICMENU);
 		return $this->fetchAll($where);
@@ -108,6 +117,19 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		$deleteResult = $this->getDbTable()->delete($where);
 		$page->notifyObservers();
 		return $deleteResult;
+	}
+
+	public function fetchIdUrlPairs() {
+		$pairs = array();
+		$pages = $this->fetchAll();
+		if(empty($pages)) {
+			return null;
+		}
+		foreach ($pages as $page) {
+			$pairs[$page->getId()] = $page->getUrl();
+		}
+		asort($pairs);
+		return $pairs;
 	}
 
 	protected function _findWhere($where) {

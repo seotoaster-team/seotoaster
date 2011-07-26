@@ -61,7 +61,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				$page->setParentId($pageData['pageCategory']);
 				$page->setShowInMenu($pageData['inMenu']);
 				$mapper->save($page);
-				
+
 				// saving new page preview image is recieved it in request
 				if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
 					$this->_processPagePreviewImage($page->getUrl(), $params['pagePreviewImage']);
@@ -71,7 +71,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				}
 
 				$page->notifyObservers();
-				
+
 				$this->_helper->response->success(array('redirectTo' => $page->getUrl()));
 				exit;
 			}
@@ -205,28 +205,27 @@ class Backend_PageController extends Zend_Controller_Action {
 		$this->view->staticMenu = $pageMapper->fetchAllStaticMenuPages();
 		$this->view->noMenu     = $pageMapper->fetchAllNomenuPages();
 	}
-	
+
 	private function _processPagePreviewImage($pageUrl, $tmpPreviewFile = null){
-		$websiteConfig = Zend_Registry::get('website');
-		$pageUrl = $this->_helper->page->clean($pageUrl);
-		$previewPath = $websiteConfig['path'].$websiteConfig['preview'];
-		
-		$filelist = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
+		$websiteConfig      = Zend_Registry::get('website');
+		$pageUrl            = $this->_helper->page->clean($pageUrl);
+		$previewPath        = $websiteConfig['path'] .$websiteConfig['preview'];
+		$filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
 		$currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/', $filelist);
-		
+
 		if ($tmpPreviewFile) {
 			$tmpPreviewFile = $websiteConfig['path'] . str_replace($this->_helper->website->getUrl(), '', $tmpPreviewFile);
 			if (is_file($tmpPreviewFile) && is_readable($tmpPreviewFile)){
 				preg_match('/\.[\w\d]{2,6}$/', $tmpPreviewFile, $extension);
 				$newPreviewImageFile = $websiteConfig['path'].$websiteConfig['preview'].$pageUrl.$extension[0];
-				
+
 				//cleaning form existing page previews
 				foreach ($currentPreviewList as $key => $file) {
 					if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
 						unset($currentPreviewList[0]);
 					}
 				}
-				
+
 				if (is_writable($tmpPreviewFile)){
 					$status = @rename($tmpPreviewFile, $newPreviewImageFile);
 				} else {
@@ -235,17 +234,17 @@ class Backend_PageController extends Zend_Controller_Action {
 				if ($status) {
 					Tools_Filesystem_Tools::deleteFile($tmpPreviewFile);
 				}
-				
+
 				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl.$extension[0];
 			}
 		}
-		
+
 		if (sizeof($currentPreviewList) == 0){
 			return false;
 		} else {
 			$pagePreviewImage = $this->_helper->website->getUrl() . $websiteConfig['preview'] . reset($currentPreviewList);
 		}
-		
+
 		return $pagePreviewImage;
 	}
 }
