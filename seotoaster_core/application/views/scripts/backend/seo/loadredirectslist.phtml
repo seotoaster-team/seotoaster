@@ -1,0 +1,12 @@
+<?php if(!empty($this->redirects)): ?>
+	<?php foreach($this->redirects as $redirect): ?>
+		<div class="redirect-row" class="grid_12">
+			<div class="grid_1"><input type="checkbox" id="<?php echo $redirect->getId(); ?>" name="massdell[<?php echo $redirect->getId(); ?>]" class="redirect-massdel"/></div>
+			<div class="grid_5"><?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?>	</div>
+			<div class="grid_5"><?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?></div>
+			<div class="grid_1">
+				<a class="remove-redirect _tdelete" data-callback="reloadRedirectsList" data-url="<?php echo $this->toasterLink('seo', 'removeredirect', '', '', true)?>" data-eid="<?php echo $redirect->getId(); ?>" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+			</div>
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>

@@ -21,6 +21,8 @@ class Application_Model_Models_Deeplink extends Application_Model_Models_Abstrac
 
 	private $_nofollow  = false;
 
+	private $_pageId    = '';
+
 	public function  __construct(array $options = null) {
 		parent::__construct($options);
 	}
@@ -67,6 +69,15 @@ class Application_Model_Models_Deeplink extends Application_Model_Models_Abstrac
 
 	public function setNofollow($nofollow) {
 		$this->_nofollow = $nofollow;
+		return $this;
+	}
+
+	public function getPageId() {
+		return $this->_pageId;
+	}
+
+	public function setPageId($pageId) {
+		$this->_pageId = $pageId;
 		return $this;
 	}
 }

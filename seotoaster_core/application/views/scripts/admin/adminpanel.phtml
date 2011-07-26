@@ -31,9 +31,9 @@
 			<a href="javascript:;"><span>SEO</span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
-				<li><li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 				<li class="cpanelsubtitle">Link strategy</li>
-				<li><a href="javascript:;" onclick="" title="Deeplinks">Deeplinks</a></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 				<li><a href="javascript:;" onclick="" title="Manage page rank sculpting">Sculpting</a></li>
 			</ul>
 		</li>

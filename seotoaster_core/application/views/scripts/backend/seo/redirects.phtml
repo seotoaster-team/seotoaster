@@ -1,3 +1,33 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect')); ?>
+	<div class="grid_12">
+		<form id="frm-redirects" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="reloadRedirectsList">
+			<div class="grid_6">
+				<?php echo $this->form->getElement('fromUrl'); ?>
+			</div>
+			<div class="grid_6">
+				<?php echo $this->form->getElement('toUrl'); ?>
+			</div>
+			<?php echo $this->form->getElement('addRedirect'); ?>
+		</form>
+
+
+		<?php
+//			$this->form->setAction($this->url());
+//			echo $this->form;
+		?>
+		<a href="javascript:;" id="domain-toggle">Extarnal url?</a>
+	</div>
+
+	<div id="redirect-title" class="grid_12">
+		<div class="grid_1"><input type="checkbox" id="massdell-main" /></div>
+		<div class="grid_5"><?php echo $this->translate('Old url'); ?></div>
+		<div class="grid_5"><?php echo $this->translate('New url'); ?></div>
+		<div class="grid_1"><?php echo $this->translate('Action'); ?></div>
+	</div>
+	<div id="redirects-list" class="grid_12"></div>
+	<div class="grid_12" style="text-align: right">
+		<button id="massdel-run"><?php echo $this->translate('Delete selected'); ?></button>
+	</div>
 </div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.js'); ?>

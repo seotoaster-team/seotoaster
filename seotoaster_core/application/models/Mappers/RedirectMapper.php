@@ -16,10 +16,11 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_DbTable_Redirect instance');
 		}
 		$data = array(
-			'page_id'  => $redirect->getPageId(),
-			'from_url' => $redirect->getFromUrl(),
-			'to_url'   => $redirect->getToUrl(),
-			'domain'   => $redirect->getDomain()
+			'page_id'     => $redirect->getPageId(),
+			'from_url'    => $redirect->getFromUrl(),
+			'to_url'      => $redirect->getToUrl(),
+			'domain_to'   => $redirect->getDomainTo(),
+			'domain_from' => $redirect->getDomainFrom()
 		);
 		if(null === ($id = $redirect->getId())) {
 			unset($data['id']);
@@ -42,7 +43,9 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
 	}
 
 	public function delete(Application_Model_Models_Redirect $redirect) {
-
+		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $redirect->getId());
+		$deleteResult = $this->getDbTable()->delete($where);
+		$redirect->notifyObservers();
 	}
 
 	public function deleteByPageId($pageId) {

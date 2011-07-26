@@ -1,0 +1,28 @@
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit deeplink')); ?>
+	<div class="grid_12">
+		<form id="frm-deeplinks" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="loadDeeplinksList">
+			<div class="grid_6">
+				<?php echo $this->form->getElement('anchorText'); ?>
+			</div>
+			<div class="grid_6">
+				<?php echo $this->form->getElement('url'); ?>
+			</div>
+			<?php echo $this->form->getElement('addDeeplink'); ?>
+		</form>
+	</div>
+	<a href="javascript:;" id="domain-toggle-deeplinks">External?</a>
+	<div class="grid_12" id="table-header">
+		<div class="grid_1"><input type="checkbox" name="deleteAll" /></div>
+		<div class="grid_4">Anchor text</div>
+		<div class="grid_4">Url</div>
+		<div class="grid_1">Rel</div>
+		<div class="grid_1">Dest</div>
+		<div class="grid_1">Action</div>
+	</div>
+	<div id="deeplinks-list" class="grid_12"></div>
+	<div class="grid_12" style="text-align: right">
+		<button id="deeplink-massdel-run"><?php echo $this->translate('Delete selected'); ?></button>
+	</div>
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/deeplinks.js'); ?>
