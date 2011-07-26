@@ -56,7 +56,7 @@ class Application_Model_Mappers_LinkContainerMapper extends Application_Model_Ma
 		return $structured;
 	}
 
-	public function fetchAll($where = null) {
+	public function fetchAll($where = null, $order = array()) {
 		$entries = array();
 		$resultSet = $this->getDbTable()->fetchAll($where);
 		if(null === $resultSet) {

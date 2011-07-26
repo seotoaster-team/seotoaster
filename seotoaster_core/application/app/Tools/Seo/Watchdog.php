@@ -17,6 +17,9 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		if($this->_object instanceof Application_Model_Models_Page) {
 			$this->_pageUpdateChain();
 		}
+		if($this->_object instanceof Application_Model_Models_Deeplink) {
+			$this->_massDeeplinkApply();
+		}
 	}
 
 	public function updateSitemap() {
@@ -31,16 +34,27 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		return $this->_updateLinkDependencies();
 	}
 
-
 	private function _pageUpdateChain() {
 		$this->_updateContainersUrls();
 		$this->_update301Redirects();
 		$this->_updateSitemap();
-		//@todo update deeplinks
+		$this->_updateDeeplinkUrl();
 	}
 
 	private function _contentUpdateChain() {
+		$this->_updateDeeplinks();
 		$this->_updateLinksTitles();
+	}
+
+	private function _updateDeeplinkUrl() {
+		$deeplinkMapper = new Application_Model_Mappers_DeeplinkMapper();
+		$deeplinks      = $deeplinkMapper->findByPageId($this->_object->getId());
+		if(!empty($deeplinks)) {
+			foreach ($deeplinks as $deeplink) {
+				$deeplink->setUrl($this->_object->getUrl());
+				$deeplinkMapper->save($deeplink);
+			}
+		}
 	}
 
 	private function _updateSitemap() {
@@ -92,6 +106,7 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		$mapper        = new Application_Model_Mappers_RedirectMapper();
 		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
 		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 
 		if(!isset($sessionHelper->oldPageUrl) || !$sessionHelper->oldPageUrl) {
 			return null;
@@ -107,11 +122,12 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		$redirect->setFromUrl($sessionHelper->oldPageUrl);
 		$redirect->setToUrl($this->_object->getUrl());
 		$redirect->setPageId($this->_object->getId());
+		$redirect->setDomainFrom($websiteHelper->getUrl());
+		$redirect->setDomainTo($websiteHelper->getUrl());
 		$mapper->save($redirect);
 
 		$cacheHelper->clean('toaster_301redirects', '301redirects');
 	}
-
 
 	private function _updateLinksTitles() {
 		if($this->_object instanceof Application_Model_Models_Container) {
@@ -130,10 +146,36 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 					$h1   = $page->getH1();
 					unset($page);
 
-					$withoutTitleUrlPattern = '~(<a\s+[^\s]*\s*href="' . $link . ')("\s*)(>.+</a>)~u';
+					$withoutTitleUrlPattern = '~(<a\s+[^\s]*\s*href="' . $link . ')("\s*)(>.+</a>)~uUs';
 					$this->_object->setContent(preg_replace($withoutTitleUrlPattern, '$1$2 title="' . $h1 . '" $3', $this->_object->getContent()));
 					$containerMapper->save($this->_object);
 				}
+			}
+		}
+	}
+
+	private function _updateDeeplinks() {
+		$deeplinkMapper = new Application_Model_Mappers_DeeplinkMapper();
+		$deeplinks      = $deeplinkMapper->fetchAll();
+		$deeplinks      = Tools_System_Tools::bobbleSortDeeplinks($deeplinks);
+		if(!empty($deeplinks)) {
+			foreach($deeplinks as $deeplink) {
+				$this->_object->setContent(Tools_Content_Tools::applyDeeplink($deeplink, $this->_object->getContent()));
+			}
+			$containerMapper = new Application_Model_Mappers_ContainerMapper();
+			$containerMapper->save($this->_object);
+		}
+	}
+
+	private function _massDeeplinkApply() {
+		$containerMapper = new Application_Model_Mappers_ContainerMapper();
+		$containers      = $containerMapper->fetchAll();
+		if(!empty ($containers)) {
+			foreach($containers as $container) {
+				$container->setContent(Tools_Content_Tools::applyDeeplink($this->_object, $container->getContent()));
+				$container->registerObserver(new Tools_Seo_Watchdog());
+				$containerMapper->save($container);
+				$container->notifyObservers();
 			}
 		}
 	}

@@ -1,0 +1,12 @@
+<?php if(!empty($this->deeplinks)): ?>
+	<?php foreach($this->deeplinks as $deeplink): ?>
+		<div class="deeplink-row">
+			<div class="grid_1"><input type="checkbox" id="<?php echo $deeplink->getId(); ?>" name="massdell[<?php echo $deeplink->getId(); ?>]" class="deeplink-massdel" /></div>
+			<div class="grid_4"><?php echo $deeplink->getName(); ?></div>
+			<div class="grid_4"><?php echo ($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $this->websiteUrl . $deeplink->getUrl() : $deeplink->getUrl(); ?></div>
+			<div class="grid_1">No follow</div>
+			<div class="grid_1" style="text-align: center"><?php echo $deeplink->getType(); ?></div>
+			<div class="grid_1" style="text-align: center"><a class="remove-deeplink _tdelete" data-callback="loadDeeplinksList" data-url="<?php echo $this->toasterLink('seo', 'removedeeplink', '', '', true)?>" data-eid="<?php echo $deeplink->getId(); ?>" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a></div>
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>
