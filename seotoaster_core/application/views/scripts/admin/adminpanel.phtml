@@ -24,7 +24,7 @@
 			<a href="javascript:;"><span>MEDIA</span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
-				<li><a href="javascript:;" onclick="" title="Remove things">Remove things</a></li>
+				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 			</ul>
 		</li>
 		<li>

@@ -121,9 +121,9 @@ class Tools_Filesystem_Tools {
 			return false;
 		}
 		if (file_exists($filename)){
-			return unlink($filename);
+			return @unlink($filename);
 		} else {
-			return false;
+			throw new Exceptions_SeotoasterException('File doesn\'t exists');
 		}
 	}
 

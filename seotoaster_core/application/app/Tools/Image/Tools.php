@@ -5,7 +5,13 @@
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
 class Tools_Image_Tools {
-	
+	public static $imgResizedFolders = array(
+		'small',
+		'medium',
+		'large',
+		'product'
+	);
+
 	public function init() {
 		if (!Zend_Registry::isRegistered('extConfig')) {
 			$configTable   = new Application_Model_DbTable_Config();
@@ -144,5 +150,69 @@ class Tools_Image_Tools {
 		
 		return empty($result) ? true : $result;
 	}
-
+	
+	/**
+	 * Method removes images with given name in the given directory via recursive scan of subfolders 
+	 * such as, small, medium, etc.
+	 * @param string $imageName Name of image to be deleted
+	 * @param string $folderName Name of folder where image is
+	 * @return mixed  Boolean true on success of all operations array with errors 
+	 * @return mixed  Boolean false on empty parameters given
+	 * @return mixed  Array with errors if something went wrong
+	 */
+	public static function removeImageFromFilesystem($imageName, $folderName) {
+		$imageName = trim($imageName);
+		$folderName = trim($folderName);
+		if (empty ($imageName) || empty ($folderName)){
+			return false;
+		}
+		
+		$websiteConfig = Zend_Registry::get('website');
+		
+		$folderPath = $websiteConfig['path'].$websiteConfig['media'].$folderName;
+		if (!is_dir($folderPath)) {
+			throw new Exceptions_SeotoasterException('Wrong folder name specified');
+		}
+		
+		$errorCount = 0;
+		
+		$subFoldersList = array_merge(self::$imgResizedFolders, array('original'));
+		
+		//list of file that can be removed
+		$removable = array();
+		
+		foreach ($subFoldersList as $subfolder) {
+			if (!is_dir($folderPath.DIRECTORY_SEPARATOR.$subfolder)){
+				error_log('Not a folder:'.$folderPath.DIRECTORY_SEPARATOR.$subfolder);
+				continue;
+			}
+			$filename = $folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName;
+			//checking if enough permission to remove file
+			if (is_file($filename) && is_writable($filename)) {
+				array_push($removable, $filename);	
+			}
+		}
+		
+		/**
+		 * checking if we can remove all files at once
+		 * if not - returning with error
+		 */
+		if (sizeof($removable) === sizeof($subFoldersList)){
+			foreach ($removable as $file) {
+				try {
+					Tools_Filesystem_Tools::deleteFile($file);
+				} catch (Exceptions_SeotoasterException $e) {
+					$errorCount++;
+					error_log($file.': '. $e->getMessage() );
+				}
+			}
+			if ($errorCount){
+				return false;
+			}
+			return true;
+		} 
+		
+		return 'Permission denied';			
+	}
+	
 }
