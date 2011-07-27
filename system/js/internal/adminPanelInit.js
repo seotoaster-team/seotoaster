@@ -11,6 +11,7 @@ $(function() {
 		$('#seotoaster-logowrap').hide()
 	}
 
+
 	$('#cpanelul').accordion({
 		autoHeight: false,
 		navigation: false,
@@ -20,6 +21,7 @@ $(function() {
 
 	$('#showhide > a').click(function() {
 		$.cookie('hideAdminPanel', ($.cookie('hideAdminPanel') == 1) ? 0 : 1);
+		$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Show panel' : 'Hide panel');
 		$('#cpanelul').slideToggle();
 		$('#logoutul').toggle();
 		$('#seotoaster-logowrap').slideToggle();

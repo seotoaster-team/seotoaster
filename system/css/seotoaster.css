@@ -269,45 +269,50 @@ body, body.seotoaster {
 	z-index:1000;
 	border: none;
 	padding-bottom: 0px;
-	-moz-border-radius: 0px 0px 6px 6px;
-	-webkit-border-radius: 0px 0px 6px 6px;
-	border-radius: 0px 0px 6px 6px;
+	-moz-border-radius: 0px 0px 8px 8px;
+	-webkit-border-radius: 0px 0px 8px 8px;
+	border-radius: 0px 0px 8px 8px;
+	box-shadow: 0px 0px 10px #444444;
+	-moz-box-shadow: 0px 0px 10px #444444;
+	-webkit-box-shadow: 0px 0px 10px #444444;
 }
 #seotoaster-cpanel #showhide a {
-	background-color:#7c7c7c;
+	background-color:#6D6D6D;
 	color:#eee;
 	font-size:12pt;
-	padding:2px;
+	padding:5px;
 	text-align:center;
 	display:block;
 }
 #seotoaster-cpanel ul {
 	margin:0;
 	padding:0;
+	border:none;
 }
 #seotoaster-cpanel ul li { list-style:none;}
 #seotoaster-cpanel ul li a {
-	background:#666;
+	background:#6D6D6D;
 	color:#eee;
 	font-weight:bold;
 	font-size:13pt;
 	padding:3px 5px;
+	border: none;
 	border-bottom:1px solid #fff;
 	display:block;
 	border-radius: 0px;
 	margin-top: 0px;
 }
 #seotoaster-cpanel ul li ul li a {
-	background-color:#eFDFFF;
-	color:#8c8c8c;
+	background-color:#fff;
+	color:#21759B;
 	font-size:11pt;
 	border-bottom:1px solid #ddd;
 	padding:2px 4px;
 }
-#seotoaster-cpanel ul li ul li a:hover { background-color:#fFfddF; }
+#seotoaster-cpanel ul li ul li a:hover { color: #E66F00; background-color:#E2F2FA; }
 
 #seotoaster-cpanel ul li ul li.cpanelsubtitle {
- background-color: #DFDFFF;
+ background-color: #E1E1E1;
  color: #3C3C3C;
  font-size: 11pt;
  font-weight: bold;

@@ -1,7 +1,7 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/adminPanelInit.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
 <div id="seotoaster-cpanel" class="seotoaster w200">
-	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Show/Hide panel'); ?></a></div>
+	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Hide panel'); ?></a></div>
 	<div id="seotoaster-logowrap"><img width="170" height="180" src="<?php echo $this->websiteUrl; ?>system/images/cpanel-img.jpg" /></div>
 	<ul id="cpanelul">
 		<li>
@@ -78,7 +78,7 @@
 	</ul>
 	<ul id="logoutul">
 		<li>
-			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout" style="margin-bottom:0;border-bottom:none;-moz-border-radius:0px 0px 8px 8px;-webkit-border-radius:0px 0px 8px 8px;"><?php echo $this->translate('LOGOUT'); ?></a>
+			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout" style="margin-bottom:0;border-bottom:none;-moz-border-radius:0px 0px 8px 8px;-webkit-border-radius:0px 0px 8px 8px; padding: 6px 5px;"><?php echo $this->translate('LOGOUT'); ?></a>
 		</li>
 	</ul>
 </div>

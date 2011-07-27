@@ -4,7 +4,7 @@ $(function() {
 
 	reloadRedirectsList();
 
-	var toUrlDropDown = $('#to-url');
+	var toUrlDropDown = $('#to-url').chosen();
 	$('#domain-toggle').toggle(function(){
 		$(this).text('Local url?');
 		$('#to-url-label').find('label').text('Extarnal url');
