@@ -1,0 +1,41 @@
+<?php return array(
+
+	/*Login screen*/
+	'Login'        => 'Вход',
+	'Welcome Back' => 'Добро Пожаловать',
+	'Password'     => 'Пароль',
+	'Let me in'    => 'Войти',
+	
+	/*Main menu*/
+	'Collapse menu'        => 'Спрятать меню',
+	'Expand menu'          => 'Показать меню',
+	'PAGES'                => 'СТРАНИЦЫ',
+	'This page'            => 'Текущая страница',
+	'Edit page properties' => 'Редактировать',
+	'Other pages'          => 'Другие страницы',
+	'Create a page'        => 'Создать страницу',
+	'Organize pages'       => 'Упорядочить',
+	'Edit 404 page'        => 'Редактировать 404',
+	'Draft'                => 'Черновики',
+	'MEDIA'                => 'МЕДИА',
+	'Upload things'        => 'Загрузить',
+	'Remove things'        => 'Удалить',
+	'SEO'                  => 'ОПТИМИЗАЦИЯ',
+	'Edit robots.txt'      => 'Редактировать robots.txt',
+	'Add / Edit 301'       => 'Управление редиректами',
+	'Link strategy'        => 'Ссылки',
+	'Deeplinks'            => 'Диплинкинг',
+	'Sculpting'            => 'Скалптинг',
+	'LAYOUT'               => 'ОТОБРАЖЕНИЕ',
+	'Add template'         => 'Добавить шаблон',
+	'Edit this template'        => 'Редактировать шаблон',
+	'Edit CSS'             => 'Редактировать CSS',
+	'Themes'               => 'Темы',
+	'Widgets & Tokens'     => 'Виджеты (помощь)',
+	'OTHER'                => 'ДРУГОЕ',
+	'Manage config'        => 'Настройки',
+	'Manage users'         => 'Пользователи',
+	'Plugins'              => 'Планины',
+	'LOGOUT'               => 'ВЫЙТИ'
+);
+?>

@@ -7,6 +7,7 @@ class IndexController extends Zend_Controller_Action {
 			Tools_Plugins_Tools::fetchPluginsRoutes();
 			$this->_helper->session->pluginRoutesFetched = true;
 		}
+		$this->_helper->AjaxContext()->addActionContext('language', 'json')->initContext('json');
 	}
 
     public function indexAction() {
@@ -101,6 +102,17 @@ class IndexController extends Zend_Controller_Action {
 			$body[1] = $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId()) . $body[1];
 		}
 		$this->view->content = $body[1];
+	}
+
+	public function languageAction() {
+		if($this->getRequest()->isPost()) {
+			$language = substr($this->getRequest()->getParam('lng'), 0, 2);
+			if($language) {
+				$locale   = $this->_helper->session->locale;
+				$locale->setLocale($locale->getLocaleToTerritory($language));
+				$this->_helper->session->locale = $locale;
+			}
+		}
 	}
 }
 

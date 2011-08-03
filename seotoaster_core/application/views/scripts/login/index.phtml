@@ -18,13 +18,13 @@
 
 <div class="seotoaster container_12 w400 h300 rounded8px" style="box-shadow: 0px 0px 30px #c8c8c8; margin: 10% auto 0px auto; padding-bottom: 0px;">
 	<div class="header" style="border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
-		<h1>Login</h1>
+		<h1><?php echo $this->translate('Login'); ?></h1>
 	</div>
 
 	<div class="textcentered mb10px">
 		<?php if(isset($this->flagsFiles) && is_array($this->flagsFiles) && !empty($this->flagsFiles)): ?>
 			<?php foreach($this->flagsFiles as $flagFileName => $flagFilePath): ?>
-		<img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" />&nbsp;
+				<img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" />&nbsp;
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
@@ -32,7 +32,7 @@
 	<div class="grid_12">
 		<form action="<?php echo $this->url(); ?>" method="post" >
 			<fieldset>
-				<legend>Welcome Back</legend>
+				<legend><?php echo $this->translate('Welcome Back'); ?></legend>
 					<dl class="Zend_Form">
 						<?php
 							echo $this->loginForm->email;

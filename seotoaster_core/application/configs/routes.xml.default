@@ -43,5 +43,13 @@
         <action>fireaction</action>
       </defaults>
     </pluginroute>
+	<languageroute>
+		<type>Zend_Controller_Router_Route_Static</type>
+      <route>/language</route>
+      <defaults>
+        <controller>index</controller>
+        <action>language</action>
+      </defaults>
+	</languageroute>
   </routes>
 </zend-config>

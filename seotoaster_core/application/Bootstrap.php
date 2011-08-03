@@ -123,16 +123,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initTranslator() {
+
+		$session = Zend_Registry::get('session');
+		$locale  = (isset($session->locale)) ? $session->locale : new Zend_Locale();
+		$session->locale = $locale;
+
 		$translator = new Zend_Translate(array(
 			'adapter' => 'array',
 			'content' => 'system/languages/',
 			'scan'    => Zend_Translate::LOCALE_FILENAME,
-			'locale'  => 'en',
+			'locale'  => $locale->getLanguage(),
 			'ignore'  => array('.'),
 			'route'   => array('fr' => 'en', 'it' => 'en', 'de' => 'en'),
 			'cache'   => Zend_Registry::get('cache')
 		));
+
+		Zend_Form::setDefaultTranslator($translator);
 		Zend_Registry::set('Zend_Translate', $translator);
+		Zend_Registry::set('session', $session);
 	}
 
 	protected function _initZendX() {
