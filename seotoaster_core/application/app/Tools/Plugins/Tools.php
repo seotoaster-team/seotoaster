@@ -209,5 +209,57 @@ class Tools_Plugins_Tools {
 		);
 		return $route;
 	}
+
+	public static function findAvialablePlugins() {
+		$website     = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+		$misc        = Zend_Registry::get('misc');
+		$pluginsPath = $website->getPath() . $misc['pluginsPath'];
+		$pluginsDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($pluginsPath);
+		$plugins     = array();
+		if(!empty ($pluginsDirs)) {
+			foreach ($pluginsDirs as $pluginDir) {
+				$required = array(
+					'readme.txt',
+					ucfirst($pluginDir) . '.php'
+				);
+				$pluginDirContent = Tools_Filesystem_Tools::scanDirectory($pluginsPath . '/' . $pluginDir, false, false);
+				if($required == (array_intersect($required, $pluginDirContent))) {
+					$plugins[] = $pluginDir;
+				}
+			}
+		}
+		return $plugins;
+	}
+
+	public static function findPluginPreview($pluginName) {
+		$website     = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+		$misc        = Zend_Registry::get('misc');
+		$pluginsPath = $website->getPath() . $misc['pluginsPath'] . $pluginName;
+		$files       = Tools_Filesystem_Tools::scanDirectory($pluginsPath, false, false);
+		array_walk($files, function($file) {
+			if(preg_match('~^preview\.(jpg|gif|png)$~ui', $file)) {
+				Zend_Registry::set('previewFile', $file);
+			}
+		});
+		if(Zend_Registry::isRegistered('previewFile')) {
+			return $website->getUrl() . $misc['pluginsPath'] . $pluginName . '/' .Zend_Registry::get('previewFile');
+		}
+		return false;
+	}
+
+	public static function findPluginByName($pluginName) {
+		$pluginMapper = new Application_Model_Mappers_PluginMapper();
+		$plugin       = $pluginMapper->findByName($pluginName);
+		if($plugin instanceof Application_Model_Models_Plugin) {
+			$plugin->setPreview(self::findPluginPreview($plugin->getName()));
+			return $plugin;
+		}
+		$plugin = new Application_Model_Models_Plugin();
+		$plugin->setName($pluginName);
+		$plugin->setPreview(self::findPluginPreview($plugin->getName()));
+		$plugin->setStatus(Application_Model_Models_Plugin::DISABLED);
+		return $plugin;
+	}
+
 }
 

@@ -51,9 +51,9 @@
 		}
 		$('#<?php echo $this->formId; ?>-filelist').html('');
 	});
-	
+
 	<?php echo $jsValName; ?>.init();
-	
+
 	<?php echo $jsValName; ?>.bind('FilesAdded', function(up, files) {
 		$.each(files, function(i, file) {
 			$('#<?php echo $this->formId; ?>-filelist').prepend(
@@ -63,10 +63,10 @@
 			$('#' + file.id + " .pbar").progressbar({value: 0})
 		});
 		up.refresh(); // Reposition Flash/Silverlight
-		
+
 		<?php echo $jsValName; ?>.start();
 	});
-	
+
 	<?php echo $jsValName; ?>.bind('FilesRemoved', function(up, files) {
 		$.each(files, function(i, file) {
 			$('#' + file.id).closest('div.ui-widget').remove().end().remove();
@@ -80,12 +80,12 @@
 
     <?php echo $jsValName; ?>.bind('Error', function(up, err) {
 		$('#<?php echo $this->formId; ?>-filelist').prepend('<div class="ui-widget"><div class="ui-state-error ui-corner-all">'+
-                     (err.file ? err.file.name : "") + ": " + err.message + 
+                     (err.file ? err.file.name : "") + ": " + err.message +
 					 '<span class="ui-icon ui-icon-alert"></span></div></div>'
 					 );
         up.refresh(); // Reposition Flash/Silverlight
     });
-    
+
     <?php echo $jsValName; ?>.bind('FileUploaded', function(up, file, info) {
 		response = jQuery.parseJSON(info.response);
 		if (response.error == true){
@@ -102,7 +102,7 @@
 			+ errorMessage.replace("'file'", file.name) + '<span class="ui-icon ui-icon-alert"></span></p>' );
 		} else {
 			$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check ui-corner-all"></span>');
-		}	
+		}
 		<?php if ($this->caller == 'themes') : ?>
 		$('#themes-list').trigger('updateContent');
 		<?php elseif ($this->caller == 'templatePreview'): ?>
@@ -116,11 +116,14 @@
 				$('<input type="hidden" name="pagePreviewImage" />').val(response.src).appendTo("#frm-page");
 			} else {
 				$('#frm-page input[name="pagePreviewImage"]').val(response.src);
-			}	
+			}
 		}
+		<?php elseif($this->caller == 'plugin'): ?>
+			$('#plugin-uploader-filelist').fadeOut(_FADE_SLOW);
+			pluginCallback();
 		<?php endif; ?>
     });
-	
+
 	<?php if ($this->caller == 'media'): ?>
 	<?php echo $jsValName; ?>.bind('BeforeUpload', function (up, file) {
 		$('#things-select-folder').attr('disabled', true);
@@ -136,21 +139,21 @@
 			$('#ajax_msg').html('<?php echo $this->translate('No folder specified'); ?>')
 				.show()
 				.one('click', function(){$(this).hide()});
-			
+
 			<?php echo $jsValName; ?>.removeFile(file);
 			<?php echo $jsValName; ?>.stop();
 			<?php echo $jsValName; ?>.refresh();
 			}
 		}
-   		$('#things-select-folder').removeAttr('disabled');  
+   		$('#things-select-folder').removeAttr('disabled');
 		$('#things-new-folder').removeAttr('disabled');
 		});
 	<?php elseif ($this->caller == 'templatePreview'): ?>
-	<?php echo $jsValName; ?>.bind('BeforeUpload', function (up, file) {	
+	<?php echo $jsValName; ?>.bind('BeforeUpload', function (up, file) {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'templateName': $('#title').val()};
 		});
 	<?php endif; ?>
-		
+
 	<?php if ($this->noMultiupload) : ?>
 	$('.plupload > input:file').removeAttr('multiple');
 	<?php endif; ?>
