@@ -622,3 +622,80 @@ body, body.seotoaster {
 	font-weight: bold;
 	margin-top: 25px;
 }
+
+
+/*============= Plugins ==============*/
+
+.seotoaster #plugins-list {
+	overflow: hidden;
+}
+
+.seotoaster #plugins-list .plugin-item {
+	float: left;
+	margin: 5px;
+	box-shadow: 0px 0px 5px #999;
+	-moz-box-shadow: 0px 0px 5px #999;
+	-web-box-shadow: 0px 0px 5px #999;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	padding: 0px 0px 5px;
+	position: relative;
+}
+
+.seotoaster #plugins-list .plugin-item .del-plugin {
+/*	display: none;*/
+	position: absolute;
+	right: 0px;
+}
+
+.seotoaster #upload-plugin {
+	height: 100px;
+	border-bottom: 1px dashed #fff;
+}
+
+.seotoaster #plugins-list .plugin-item .del-plugin img {
+	background: #fff;
+	border-radius: 7px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+}
+
+.seotoaster #plugins-list .plugin-item .plugin-image {
+	overflow: hidden;
+	height: 220px;
+	width: 180px;
+	padding: 4px;
+}
+
+.seotoaster #plugins-list .plugin-item .plugin-name {
+	color: #21759B;
+	font-weight: bold;
+	background: #fff;
+	padding: 5px;
+	margin-bottom: 5px;
+}
+
+.seotoaster #plugins-list .plugin-item .plugin-control, .seotoaster #plugins-list .plugin-item .plugin-endis {
+	font-size: 14px;
+	margin-left: 5px;
+}
+
+/*============= Manage users ==============*/
+
+.seotoaster #add-user {
+	margin-bottom: 20px;
+}
+
+.seotoaster #users-list {
+	background: #fff;
+	color: #21759B;
+}
+
+.seotoaster #users-list .user-row {
+	border-bottom: 1px solid #ddd;
+}
+
+.seotoaster #users-list .user-row .user-row-item {
+
+}

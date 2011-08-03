@@ -7,19 +7,31 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 	protected $_model   = 'Application_Model_Models_User';
 
 	public function save($user) {
-		if(!$page instanceof Application_Model_Models_User) {
+		if(!$user instanceof Application_Model_Models_User) {
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_User instance');
 		}
 		$data = array(
-			//here all user data
+			'role_id'    => $user->getRoleId(),
+			'password'   => md5($user->getPassword()),
+			'email'      => $user->getEmail(),
+			'full_name'  => $user->getFullName(),
+			'last_login' => $user->getLastLogin(),
+			'ipaddress' => $_SERVER['REMOTE_ADDR']
 		);
 		if(null === ($id = $user->getId())) {
+			$data['reg_date'] = date('Y-m-d H:i:s', time());
 			unset($data['id']);
 			return $this->getDbTable()->insert($data);
 		}
 		else {
 			return $this->getDbTable()->update($data, array('id = ?' => $id));
 		}
+	}
+
+	public function fetchAll($where = null, $order = array()) {
+		$where .= (($where) ? ' AND role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"' : 'role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
+
+		return parent::fetchAll($where, 'id ASC');
 	}
 }
 

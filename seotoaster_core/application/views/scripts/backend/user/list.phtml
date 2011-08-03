@@ -1,0 +1,14 @@
+<?php if(!empty($this->users)): ?>
+	<?php foreach($this->users as $user): ?>
+		<div class="user-row grid_12">
+			<div class="user-row-item grid_3"><?php echo $user->getEmail(); ?></div>
+			<div class="user-row-item grid_2"><?php echo $user->getFullName(); ?></div>
+			<div class="user-row-item grid_2"><?php echo $user->getRoleId(); ?></div>
+			<div class="user-row-item grid_3"><?php echo $user->getLastLogin(); ?></div>
+			<div class="user-row-item grid_1">127.0.0.1</div>
+			<div class="user-row-item grid_1">
+				<a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" data-callback="userCallback" class="del-user _tdelete" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+			</div>
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>
