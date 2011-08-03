@@ -1,0 +1,16 @@
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins')); ?>
+
+	<div id="upload-plugin">
+		<?php if(extension_loaded('zip')): ?>
+			<?php
+				$uploader = $this->toasterUploader(array('id' => 'plugin-uploader', 'caller' => 'plugin', 'noMultiupload' => true));
+				echo $uploader;
+			?>
+		<?php else: ?>
+			WHATAFUCK, DUDE?
+		<?php endif; ?>
+	</div>
+	<div id="plugins-list"></div>
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.js'); ?>

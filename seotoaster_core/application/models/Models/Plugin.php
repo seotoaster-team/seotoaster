@@ -2,17 +2,23 @@
 
 class Application_Model_Models_Plugin extends Application_Model_Models_Abstract implements Zend_Acl_Resource_Interface {
 
-	const ENABLED  = 'enabled';
+	const ENABLED             = 'enabled';
 
-	const DESABLED = 'disabled';
+	const DISABLED            = 'disabled';
 
-	private $_name   = '';
+	const INSTALL_FILE_NAME   = 'install.sql';
 
-	private $_status = '';
+	const UNINSTALL_FILE_NAME = 'uninstall.sql';
 
-	private $_cache  = false;
+	private $_name    = '';
 
-	private $_tag    = '';
+	private $_status  = '';
+
+	private $_cache   = false;
+
+	private $_tag     = '';
+
+	private $_preview = '';
 
 	public function getResourceId() {
 		return Tools_Security_Acl::RESOURCE_PLUGINS;
@@ -53,5 +59,16 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 		$this->_tag = $tag;
 		return $this;
 	}
+
+	public function getPreview() {
+		return $this->_preview;
+	}
+
+	public function setPreview($preview) {
+		$this->_preview = $preview;
+		return $this;
+	}
+
+
 }
 

@@ -11,7 +11,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 	private $_websiteConfig;
 	private $_themeConfig;
-	
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_MEDIA)) {
@@ -23,7 +23,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$this->_caller = $this->getRequest()->getParam('caller');
 		$this->_uploadHandler = new Zend_File_Transfer_Adapter_Http();
 		$this->_uploadHandler->setDestination(realpath($this->_websiteConfig['path'] . $this->_websiteConfig['tmp']));
-		
+
 	}
 
 	public function uploadAction() {
@@ -152,23 +152,23 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 	/**
 	 * Handler for pictures/video upload interface
-	 * @return array 
+	 * @return array
 	 */
 	private function _uploadImages($savePath = null, $resize = true) {
 		$miscConfig = Zend_Registry::get('misc');
-		
+
 		if (!$savePath) {
 			//useful if file submited directly to this method
 			$savePath = $this->_getSavePath();
 			}
-		
+
 		$this->_uploadHandler->clearValidators()
 			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
 			->addValidator(new Validators_MimeType(array('image/gif','image/jpeg','image/jpg','image/png')), false)
 			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['img_max_width'], 'maxheight' => $miscConfig['img_max_width']));
-		
+
 		$receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
-						
+
 		if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()){
 			if (!is_dir($receivePath)){
 				try{
@@ -180,31 +180,31 @@ class Backend_UploadController extends Zend_Controller_Action {
 			$this->_uploadHandler->setDestination($receivePath);
 			$this->_uploadHandler->receive();
 			$file = $this->_uploadHandler->getFileName();
-			
+
 			if ($resize){
 			$status = Tools_Image_Tools::batchResize($file, $savePath);
 			} else {
 				$status = true;
 			}
-							
+
 			return array('error' => ($status !== true), 'result' => $status);
 		}
-		
+
 		return array('error' => true, 'result' => $this->_uploadHandler->getMessages());
 	}
-	
+
 	/**
  	 * Handler for files uploader
-	 * @return array 
+	 * @return array
 	 */
 	private function _uploadFiles($savePath = null){
 		$this->_uploadHandler->clearValidators();
 		$this->_uploadHandler->clearFilters();
-		
+
 		if (!$savePath) {
 			$savePath = $this->_getSavePath();
 		}
-			
+
 		$file = reset($this->_uploadHandler->getFileInfo());
 		$fileName = $this->_uploadHandler->getFileName();
 		preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $fileName, $match);
@@ -212,12 +212,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 			return array('result' => 'Corrupted filename' , 'error' => true);
 		}
 		$fileName = $match[0];
-				
+
 		$this->_uploadHandler->addFilter('Rename', array(
             'target' => $savePath.DIRECTORY_SEPARATOR.$fileName,
             'overwrite' => true
 			));
-		
+
 		if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()){
 			try {
 				$this->_uploadHandler->receive();
@@ -227,10 +227,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 		}
 
 		$response = array('result' => $this->_uploadHandler->getMessages() , 'error' => !$this->_uploadHandler->isReceived());
-		
+
 		return $response;
 	}
-	
+
 	/**
 	 * Handler for "upload media" section
 	 */
@@ -238,11 +238,11 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$this->_uploadHandler->clearValidators();
 		$this->_uploadHandler->clearFilters();
 		$miscConfig = Zend_Registry::get('misc');
-		
+
 		$savePath = $this->_getSavePath();
-		
+
 		$file = reset($this->_uploadHandler->getFileInfo());
-		
+
 		switch ($file['type']) {
 			case 'image/png':
 			case 'image/jpg':
@@ -254,10 +254,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 				$result = $this->_uploadFiles($savePath);
 				break;
 }
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Method get a 'folder' name from request array and checks if this folder exists.
 	 * If not it creates this folder
@@ -281,21 +281,21 @@ class Backend_UploadController extends Zend_Controller_Action {
 				 error_log($e->getMessage());
 				 return false;
 			}
-		}	
+		}
 		return realpath($savePath);
 	}
-	
+
 	private function _uploadTemplatepreview(){
 		$miscConfig = Zend_Registry::get('misc');
 
 		$currentTheme = $this->_helper->config->getConfig('current_theme');
-	 
+
 		$savePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
-		
+
 		$name = trim($this->getRequest()->getParam('templateName'));
-		
+
 		$fileMime = $this->_uploadHandler->getMimeType();
-		
+
 		switch ($fileMime){
 			case 'image/png':
 				$newName = $name.'.png';
@@ -311,12 +311,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 				return false;
 				break;
 		}
-		
+
 		if (!$name || empty ($name)){
 			return false;
 		}
 		$newImageFile = $savePath.$newName;
-		
+
 		//checking for existing images with same name ...
 		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath, false, false);
 		$existingImages = preg_grep('~^'.$name.'\.(png|jpg|gif)$~i', $existingImages);
@@ -324,26 +324,26 @@ class Backend_UploadController extends Zend_Controller_Action {
 		foreach ($existingImages as $img){
 			Tools_Filesystem_Tools::deleteFile($savePath.$img);
 		}
-		
+
 		$this->_uploadHandler->addFilter('Rename',
                    array('target' => $newImageFile,
                          'overwrite' => true));
 		$result = $this->_uploadImages($savePath, false);
-		
+
 		if ($result['error'] == false) {
 			Tools_Image_Tools::resize($newImageFile, $miscConfig['template_preview_w'], true);
 			$result['thumb'] = 'data:'.$fileMime.';base64,'.base64_encode(Tools_Filesystem_Tools::getFile($newImageFile));
 		}
-		
+
 		return $result;
 	}
-	
+
 	private function _uploadPagepreview() {
 		$miscConfig = Zend_Registry::get('misc');
 		$config = Zend_Registry::get('extConfig');
-	 
+
 		$savePath = $this->_websiteConfig['path'].$this->_websiteConfig['tmp'];
-			
+
 		$fileMime = $this->_uploadHandler->getMimeType();
 		switch ($fileMime){
 			case 'image/png':
@@ -360,20 +360,105 @@ class Backend_UploadController extends Zend_Controller_Action {
 				return false;
 				break;
 		}
-		
+
 		$newName = md5(microtime(1)).$newName;
 		$newImageFile = $savePath.$newName;
-			
+
 		$this->_uploadHandler->addFilter('Rename',
                    array('target' => $newImageFile,
                          'overwrite' => true));
 		$result = $this->_uploadImages($savePath, false);
-		
+
 		if ($result['error'] == false) {
 			Tools_Image_Tools::resize($newImageFile, (isset($config['page_teaser_size'])?$config['page_teaser_size']:$miscConfig['page_teaser_size']), true);
 			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'].$newName;
 		}
-		
+
 		return $result;
 	}
+
+
+	private function _uploadPlugin() {
+		$this->_uploadHandler->addValidator('IsCompressed', false, array('application/zip'));
+		$this->_uploadHandler->addValidator('Extension', false, 'zip');
+		$pluginArchive = $this->_uploadHandler->getFileInfo();
+
+		if (!$this->_uploadHandler->isValid()){
+			return 'error';
+		}
+
+		$destination = $this->_uploadHandler->getDestination();
+
+		$zip         = new ZipArchive();
+		$zip->open($pluginArchive['file']['tmp_name']);
+
+		$unzipped = $zip->extractTo($destination);
+
+		if($unzipped !== true){
+			return array(
+				'name'  => $pluginArchive['file']['name'],
+				'error' => 'Can\'t extract zip file to tmp directory'
+			);
+		}
+
+		$pluginName      = str_replace('.zip', '', $pluginArchive['file']['name']);
+
+		$validateMessage = $this->_validatePlugin($pluginName);
+		$miscConfig      = Zend_Registry::get('misc');
+		if($validateMessage === true) {
+			$destinationDir = $this->_websiteConfig['path'] . $miscConfig['pluginsPath'];
+			if(is_dir($destinationDir . $pluginName)) {
+				Tools_Filesystem_Tools::deleteDir($destinationDir . $pluginName);
+			}
+			$res = $zip->extractTo($destinationDir);
+			$zip->close();
+			Tools_Filesystem_Tools::deleteDir($destination . '/' . $pluginName);
+		}
+		else {
+			$zip->close();
+			return array(
+				'name'  => $pluginArchive['file']['name'],
+				'error' => $validateMessage
+			);
+		}
+		return array(
+			'error'      => false,
+			'name'       => $pluginArchive['file']['name'],
+			'type'       => $pluginArchive['file']['type'],
+			'size'       => $pluginArchive['file']['size'],
+			'pluginname' => $pluginName
+		);
+	}
+
+	private function _validatePlugin($pluginName) {
+		$pluginFolder = realpath($this->_uploadHandler->getDestination() . '/' . $pluginName);
+		if($pluginFolder === false) {
+			return 'Plugin directory don\'t match the archive name.';
+		}
+		if(!is_dir($pluginFolder)) {
+			return 'Can not create folder for unpack zip file. 0peration not permitted.';
+		}
+
+
+		$listFiles = Tools_Filesystem_Tools::scanDirectory($pluginFolder);
+        if (empty($listFiles)) {
+            return 'Your plugin directory is empty.';
+        }
+
+        if (!preg_match("/^[a-zA-Z-0-9]{1,255}$/", $pluginName)) {
+            return 'Theme name is invalid. Only letters, digits and dashes allowed.';
+        }
+
+        if (!in_array(ucfirst($pluginName) . '.php', $listFiles)) {
+            return 'Plugin main file doesn\'t exist or has a wrong name';
+        }
+
+		if (!in_array('readme.txt', $listFiles)) {
+            return 'File "readme.txt" doesn\'t exist.';
+        }
+
+        return true;
+
+	}
+
 }
