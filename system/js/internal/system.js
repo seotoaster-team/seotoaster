@@ -1,5 +1,5 @@
 $(function() {
-	_FADE_SLOW = 4000;
+	_FADE_SLOW = 5000;
 
 //	if(jQuery().chosen) {
 //		$('._tdropdown').chosen();
@@ -40,7 +40,6 @@ $(function() {
 	});
 
 	$('a._tdelete').live('click', function() {
-
 		$('#ajax_msg').text('Removing...').show();
 		var url = $(this).attr('href');
 		if(!url || url == 'undefined' || url == 'javascript:;') {
@@ -56,11 +55,17 @@ $(function() {
 			resizable: false,
 			buttons: {
 				'Delete': function() {
-					$.post(url, {id: link.data('eid')}, function() {
+					$.post(url, {id: link.data('eid')}, function(response) {
+						$('#ajax_msg').text(response.responseText);
+						if(response.error){
+							$('#ajax_msg').addClass('ui-state-error').show();
+						}
+						else {
+							$('#ajax_msg').removeClass('ui-state-error').fadeOut(_FADE_SLOW);
+						}
 						if(callback) {
 							eval(callback + '()');
 						}
-						$('#ajax_msg').text('Done').fadeOut();
 						$(deleteScreen).dialog( "close" );
 					})
 				},
@@ -123,4 +128,12 @@ $(function() {
 			}
 		})
 	})
+
+	$('.lang-select').live('click', function() {
+		var language = $(this).attr('id');
+		$.post( $('#website_url').val() + 'language', {lng: language}, function() {
+			window.location.reload();
+		})
+	})
+
 });

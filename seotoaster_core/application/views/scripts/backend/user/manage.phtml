@@ -1,0 +1,11 @@
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage users')); ?>
+	<div id="add-user" class="grid_12">
+		<?php
+			$this->userForm->setAction($this->url());
+			echo $this->userForm;
+		?>
+	</div>
+	<div id="users-list" class="grid_12"></div>
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.js'); ?>

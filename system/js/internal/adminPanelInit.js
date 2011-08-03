@@ -21,7 +21,7 @@ $(function() {
 
 	$('#showhide > a').click(function() {
 		$.cookie('hideAdminPanel', ($.cookie('hideAdminPanel') == 1) ? 0 : 1);
-		$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Show panel' : 'Hide panel');
+		$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Expand menu' : 'Collapse menu');
 		$('#cpanelul').slideToggle();
 		$('#logoutul').toggle();
 		$('#seotoaster-logowrap').slideToggle();

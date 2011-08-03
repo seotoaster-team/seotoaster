@@ -10,12 +10,12 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
 	private $_fullName  = '';
 
-	private $_lasLogin  = '';
+	private $_lastLogin  = '';
 
 	private $_regDate   = '';
 
 	public function getRoleId() {
-		return ($this->_id) ? $this->_roleId : Tools_Security_Acl::ROLE_GUEST;
+		return ($this->_roleId) ? $this->_roleId : Tools_Security_Acl::ROLE_GUEST;
 	}
 
 	public function setRoleId($roleId) {
@@ -50,12 +50,12 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 		return $this;
 	}
 
-	public function getLasLogin() {
-		return $this->_lasLogin;
+	public function getLastLogin() {
+		return $this->_lastLogin;
 	}
 
-	public function setLasLogin($lasLogin) {
-		$this->_lasLogin = $lasLogin;
+	public function setLastLogin($lastLogin) {
+		$this->_lastLogin = $lastLogin;
 		return $this;
 	}
 

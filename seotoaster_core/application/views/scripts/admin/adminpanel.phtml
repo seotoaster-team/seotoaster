@@ -1,7 +1,7 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/adminPanelInit.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
 <div id="seotoaster-cpanel" class="seotoaster w200">
-	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Hide panel'); ?></a></div>
+	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
 	<div id="seotoaster-logowrap"><img width="170" height="180" src="<?php echo $this->websiteUrl; ?>system/images/cpanel-img.jpg" /></div>
 	<ul id="cpanelul">
 		<li>
@@ -13,7 +13,7 @@
 					<li><a href="javascript:;" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
 					<input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />
 				<?php endif; ?>
-				<li class="cpanelsubtitle">Other pages</li>
+				<li class="cpanelsubtitle"><?php echo $this->translate('Other pages'); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page')); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
@@ -21,30 +21,30 @@
 			</ul>
 		</li>
 		<li>
-			<a href="javascript:;"><span>MEDIA</span></a>
+			<a href="javascript:;"><span><?php echo $this->translate('MEDIA'); ?></span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 			</ul>
 		</li>
 		<li>
-			<a href="javascript:;"><span>SEO</span></a>
+			<a href="javascript:;"><span><?php echo $this->translate('SEO'); ?></span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
-				<li class="cpanelsubtitle">Link strategy</li>
+				<li class="cpanelsubtitle"><?php echo $this->translate('Link strategy'); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
-				<li><a href="javascript:;" onclick="" title="Manage page rank sculpting">Sculpting</a></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 			</ul>
 		</li>
 		<li>
-			<a href="javascript:;"><span>LAYOUT</span></a>
+			<a href="javascript:;"><span><?php echo $this->translate('LAYOUT'); ?></span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template')); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Edit this template'), 'id/' . $this->pageData['templateId']); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit this template', 'id/' . $this->pageData['templateId']); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes')); ?></li>
-				<li><a href="javascript:;" onclick="" title="Widgets & Tokens">Widgets & Tokens</a></li>
+				<li><a href="javascript:;" onclick="" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Tokens'); ?></a></li>
 			</ul>
 		</li>
 		<li>
@@ -52,9 +52,9 @@
 			<ul>
 				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage config'); ?>"><?php echo $this->translate('Manage config'); ?></a></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
-					<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage users'); ?>"><?php echo $this->translate('Manage users'); ?></a></li>
+					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 				<?php endif; ?>
-				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Plugins'); ?>"><?php echo $this->translate('Plugins'); ?></a></li>
+				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 			</ul>
 		</li>
 
