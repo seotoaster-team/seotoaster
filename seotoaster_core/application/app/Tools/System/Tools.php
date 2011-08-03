@@ -30,38 +30,6 @@ class Tools_System_Tools {
 		return parse_url($url);
 	}
 
-//	public static function quickSortDeeplinks($deeplinks, $low, $high) {
-//		if(($low + 1) == $high) {
-//			return $deeplinks;
-//		}
-//		$center = ceil(($low + $high) / 2);
-//		$i      = $low;
-//		$j      = $high;
-//		do {
-//
-//			while (strlen($deeplinks[$i]->getName()) < strlen($deeplinks[$center]->getName())) {
-//				$i++;
-//			}
-//			while (strlen($deeplinks[$j]->getName()) > strlen($deeplinks[$center]->getName())) {
-//				$j--;
-//			}
-//
-//			if(strlen($deeplinks[$i]->getName()) > strlen($deeplinks[$j]->getName())) {
-//				$temp      = $deeplinks[$i];
-//				$deeplinks[$i] = $deeplinks[$j];
-//				$deeplinks[$j] = $temp;
-//			}
-//			$center = ($center == $j) ? $i : $j;
-//		} while ($i < $j);
-//		if($i < $high) {
-//			self::quickSortDeeplinks($deeplinks, $i, $high);
-//		}
-//		if($j > $low) {
-//			self::quickSortDeeplinks($deeplinks, $low, $j);
-//		}
-//		return $deeplinks;
-//	}
-
 	public static function bobbleSortDeeplinks($deeplinks) {
 		$arraySize = count($deeplinks) - 1;
 		for($i = $arraySize; $i >= 0; $i--) {
@@ -75,6 +43,5 @@ class Tools_System_Tools {
 		}
 		return $deeplinks;
 	}
-
 }
 
