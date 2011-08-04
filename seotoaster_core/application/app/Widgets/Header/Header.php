@@ -14,7 +14,7 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 		$this->_name    = $this->_options[0];
 		$this->_type    = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICHEADER : Application_Model_Models_Container::TYPE_REGULARHEADER;
 		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICHEADER) ? 0 : $this->_toasterOptions['id'];
-		$this->_cacheId = $this->_name . $this->_pageId;
+		$this->_cacheId = $this->_name . $this->_pageId . $this->_type;
 	}
 
 	protected function  _load() {
