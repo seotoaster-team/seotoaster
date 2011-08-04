@@ -28,12 +28,12 @@ class LoginController extends Zend_Controller_Action {
 				$authAdapter->setCredential($loginForm->getValue('password'));
 				$authResult = $authAdapter->authenticate();
 				if($authResult->isValid()) {
-					$authUserData = $authAdapter->getResultRowObject();
+					$authUserData = $authAdapter->getResultRowObject(null, 'password');
 					if(null !== $authUserData) {
 						$user = new Application_Model_Models_User();
 						$user->setId($authUserData->id);
 						$user->setEmail($authUserData->email);
-						$user->setPassword($authUserData->password);
+						//$user->setPassword($authUserData->password);
 						$user->setRoleId($authUserData->role_id);
 						$user->setFullName($authUserData->full_name);
 						$user->setLastLogin(date('Y-m-d H:i:s', time()));

@@ -16,8 +16,11 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 			'email'      => $user->getEmail(),
 			'full_name'  => $user->getFullName(),
 			'last_login' => $user->getLastLogin(),
-			'ipaddress' => $_SERVER['REMOTE_ADDR']
+			'ipaddress'  => $_SERVER['REMOTE_ADDR']
 		);
+		if(!$user->getPassword()) {
+			unset($data['password']);
+		}
 		if(null === ($id = $user->getId())) {
 			$data['reg_date'] = date('Y-m-d H:i:s', time());
 			unset($data['id']);
