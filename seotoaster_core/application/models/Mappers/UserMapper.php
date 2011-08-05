@@ -36,5 +36,12 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 
 		return parent::fetchAll($where, 'id ASC');
 	}
+
+	public function delete(Application_Model_Models_User $user) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $user->getId());
+		$deleteResult = $this->getDbTable()->delete($where);
+		$user->notifyObservers();
+		return $deleteResult;
+	}
 }
 

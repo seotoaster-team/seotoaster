@@ -13,6 +13,8 @@ class Backend_UserController extends Zend_Controller_Action {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->_helper->AjaxContext()->addActionContext('list', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContext('delete', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContext('load', 'json')->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
 
@@ -39,6 +41,39 @@ class Backend_UserController extends Zend_Controller_Action {
 		$userMapper            = new Application_Model_Mappers_UserMapper();
 		$this->view->users     = $userMapper->fetchAll();
 		$this->view->usersList = $this->view->render('backend/user/list.phtml');
+	}
+
+	public function deleteAction() {
+		if($this->getRequest()->isPost()) {
+			$userId = $this->getRequest()->getParam('id');
+			if(!$userId) {
+				$this->_helper->response->fail('Can\'t remove user...');
+				exit;
+			}
+			$userMapper = new Application_Model_Mappers_UserMapper();
+			if($userMapper->delete($userMapper->find($userId))) {
+				$this->_helper->response->success('Removed');
+				exit;
+			}
+			$this->_helper->response->fail('Can\'t remove user...');
+		}
+	}
+
+	public function loadAction() {
+		if($this->getRequest()->isPost()) {
+			$userId = $this->getRequest()->getParam('id');
+			if(!$userId) {
+				$this->_helper->response->fail('Cannot load user...');
+				exit;
+			}
+			$userMapper = new Application_Model_Mappers_UserMapper();
+			$user       = $userMapper->find($userId);
+			$result = array(
+				'formId' => 'frm-user',
+				'data'   => $user->toArray()
+			);
+			$this->_helper->response->success($result);
+		}
 	}
 
 }

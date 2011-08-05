@@ -15,10 +15,13 @@ class Application_Form_User extends Zend_Form {
 
 	protected $_roleId   = '';
 
+	protected $_id       = '';
+
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST)
 			 ->setAttrib('class', '_fajax')
-			 ->setAttrib('data-callback', 'userCallback');
+			 ->setAttrib('data-callback', 'userCallback')
+			 ->setAttrib('id', 'frm-user');
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'e-mail',
@@ -27,10 +30,10 @@ class Application_Form_User extends Zend_Form {
 			'value'      => $this->_email,
 			'validators' => array(
 				new Zend_Validate_EmailAddress(),
-				new Zend_Validate_Db_NoRecordExists(array(
-					'table' => 'user',
-					'field' => 'email'
-				))
+//				new Zend_Validate_Db_NoRecordExists(array(
+//					'table' => 'user',
+//					'field' => 'email'
+//				))
 			),
 			'required'   => true,
 			'filters'    => array('StringTrim')
@@ -51,7 +54,7 @@ class Application_Form_User extends Zend_Form {
 			'name'       => 'password',
 			'id'         => 'password',
 			'label'      => 'Password',
-			'required'   => true,
+			'required'   => false,
 			'validators' => array(
 				new Zend_Validate_StringLength(array(
 					'encoding' => 'UTF-8',
@@ -72,6 +75,12 @@ class Application_Form_User extends Zend_Form {
 				Tools_Security_Acl::ROLE_ADMIN  => ucfirst(Tools_Security_Acl::ROLE_ADMIN)
 			),
 			'required' => true
+		)));
+
+		$this->addElement(new Zend_Form_Element_Hidden(array(
+			'id'    => 'user-id',
+			'name'  => 'id',
+			'value' => $this->_id
 		)));
 
 		$this->addElement(new Zend_Form_Element_Submit(array(
@@ -123,7 +132,14 @@ class Application_Form_User extends Zend_Form {
 		return $this;
 	}
 
+	public function getId() {
+		return $this->_id;
+	}
 
-
+	public function setId($id) {
+		$this->_id = $id;
+		$this->getElement('id')->setValue($id);
+		return $this;
+	}
 }
 

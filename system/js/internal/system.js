@@ -61,7 +61,7 @@ $(function() {
 							$('#ajax_msg').addClass('ui-state-error').show();
 						}
 						else {
-							$('#ajax_msg').removeClass('ui-state-error').fadeOut(_FADE_SLOW);
+							$('#ajax_msg').removeClass('ui-state-error').fadeOut();
 						}
 						if(callback) {
 							eval(callback + '()');
@@ -136,4 +136,26 @@ $(function() {
 		})
 	})
 
+	$('a._tedit').live('click', function(e) {
+		e.preventDefault();
+
+		var handleUrl = $(this).data('url');
+		if(!handleUrl || handleUrl == 'undefined') {
+			handleUrl = $(this).attr('href');
+		}
+
+		var eid = $(this).data('eid');
+
+		$.post(handleUrl, {id: eid}, function(response) {
+			//console.log(response.responseText.data);
+			var formToLoad = $('#' + response.responseText.formId);
+			for(var i in response.responseText.data) {
+				$('[name=' + i + ']').val(response.responseText.data[i]);
+				if(i == 'password') {
+					$('[name=' + i + ']').val('');
+				}
+			}
+		})
+
+	})
 });
