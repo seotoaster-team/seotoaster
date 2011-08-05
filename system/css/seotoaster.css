@@ -699,5 +699,5 @@ body, body.seotoaster {
 }
 
 .seotoaster #users-list .user-row .user-row-item {
-
+	padding: 5px 0px;
 }

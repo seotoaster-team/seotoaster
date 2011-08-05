@@ -2,17 +2,17 @@
 
 class Application_Model_Models_User extends Application_Model_Models_Abstract implements Zend_Acl_Role_Interface {
 
-	private $_email     = '';
+	protected $_email     = '';
 
-	private $_password  = '';
+	protected $_password  = '';
 
-	private $_roleId    = '';
+	protected $_roleId    = '';
 
-	private $_fullName  = '';
+	protected $_fullName  = '';
 
-	private $_lastLogin  = '';
+	protected $_lastLogin  = '';
 
-	private $_regDate   = '';
+	protected $_regDate   = '';
 
 	public function getRoleId() {
 		return ($this->_roleId) ? $this->_roleId : Tools_Security_Acl::ROLE_GUEST;
