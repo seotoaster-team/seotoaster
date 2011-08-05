@@ -96,7 +96,8 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 				if(in_array($optionMakerName, get_class_methods($this))) {
 					return $this->$optionMakerName();
 				}
-				return '<strong>Invalid option</strong>';
+				//return '<strong>Invalid option</strong>';
+				return $option;
 			}
 		}
 	}
