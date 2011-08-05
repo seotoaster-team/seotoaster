@@ -12,9 +12,9 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	const ID_PRODUCT  = 'product';
 
-	private $_name         = '';
+	protected $_name         = '';
 
-	private $_content      = '';
+	protected $_content      = '';
 
 	public function getName() {
 		return $this->_name;
@@ -33,6 +33,5 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 		$this->_content = $content;
 		return $this;
 	}
-
 }
 

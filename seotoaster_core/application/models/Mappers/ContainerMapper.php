@@ -58,12 +58,12 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		$this->getDbTable()->delete($where);
 		$container->notifyObservers();
 	}
-	
+
 	/**
 	 * Method finds container which contains query string inside itself
 	 * @param string $findString String to be find
 	 * @param boolean $attachPage Flag to attach page or not
-	 * @return mixed Array of containers objects or null if no matches found. 
+	 * @return mixed Array of containers objects or null if no matches found.
 	 */
 	public function findByContent($findString, $attachPage = false) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto("content LIKE ?", '%'.$findString.'%');

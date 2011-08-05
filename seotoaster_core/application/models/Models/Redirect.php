@@ -7,15 +7,15 @@
  */
 class Application_Model_Models_Redirect extends Application_Model_Models_Abstract {
 
-	private $_pageId     = 0;
+	protected $_pageId     = 0;
 
-	private $_fromUrl    = '';
+	protected $_fromUrl    = '';
 
-	private $_toUrl      = '';
+	protected $_toUrl      = '';
 
-	private $_domainTo   = '';
+	protected $_domainTo   = '';
 
-	private $_domainFrom = '';
+	protected $_domainFrom = '';
 
 	public function getPageId() {
 		return $this->_pageId;
@@ -61,7 +61,5 @@ class Application_Model_Models_Redirect extends Application_Model_Models_Abstrac
 		$this->_domainFrom = $domainFrom;
 		return $this;
 	}
-
-
 }
 

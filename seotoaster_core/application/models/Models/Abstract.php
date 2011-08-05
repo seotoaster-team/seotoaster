@@ -60,5 +60,18 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 		return join('', $exploded);
 	}
 
+	public function toArray() {
+		$vars = array();
+		$methods = get_class_methods($this);
+		$props   = get_class_vars(get_class($this));
+        foreach ($props as $key => $value) {
+			$method = 'get' . ucfirst($this->_normalizeOptionsKey($key));
+            if (in_array($method, $methods)) {
+                $vars[str_replace('_', '', $key)] = $this->$method();
+            }
+        }
+        return $vars;
+	}
+
 }
 

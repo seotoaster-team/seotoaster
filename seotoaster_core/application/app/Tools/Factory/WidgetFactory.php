@@ -1,7 +1,7 @@
 <?php
 
 class Tools_Factory_WidgetFactory {
-	
+
 	private function  __construct() {}
 
 	public static function createWidget($name, $options = array(), $toasterOptions = array()) {

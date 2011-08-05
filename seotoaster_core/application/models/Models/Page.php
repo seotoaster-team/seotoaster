@@ -22,43 +22,43 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_404PAGE          = 'is_404page';
 
-	private $_templateId       = '';
+	protected $_templateId       = '';
 
-	private $_parentId         = 0;
+	protected $_parentId         = 0;
 
-	private $_showInMenu       = self::IN_NOMENU;
+	protected $_showInMenu       = self::IN_NOMENU;
 
-	private $_navName          = '';
+	protected $_navName          = '';
 
-	private $_metaDescription  = '';
+	protected $_metaDescription  = '';
 
-    private $_metaKeywords     = '';
+    protected $_metaKeywords     = '';
 
-    private $_headerTitle      = '';
+    protected $_headerTitle      = '';
 
-    private $_url              = '';
+    protected $_url              = '';
 
-    private $_h1               = '';
+    protected $_h1               = '';
 
-    private $_teaserText       = '';
+    protected $_teaserText       = '';
 
-	private $_lastUpdate       = '';
+	protected $_lastUpdate       = '';
 
-	private $_is404page        = false;
+	protected $_is404page        = false;
 
-	private $_protected        = false;
+	protected $_protected        = false;
 
-	private $_memLandig        = false;
+	protected $_memLandig        = false;
 
-	private $_order            = 0;
+	protected $_order            = 0;
 
-	private $_targetedKey      = '';
+	protected $_targetedKey      = '';
 
-	private $_siloId           = 0;
+	protected $_siloId           = 0;
 
-	private $_content          = '';
+	protected $_content          = '';
 
-	private $_system           = false;
+	protected $_system           = false;
 
 	public function getContent() {
 		return $this->_content;
@@ -235,19 +235,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function getResourceId() {
 		return ($this->_protected) ? Tools_Security_Acl::RESOURCE_PAGE_PROTECTED : Tools_Security_Acl::RESOURCE_PAGE_PUBLIC;
-	}
-
-	public function  toArray() {
-		$vars = array();
-		$methods = get_class_methods($this);
-		$props   = get_class_vars(get_class($this));
-        foreach ($props as $key => $value) {
-			$method = 'get' . ucfirst($this->_normalizeOptionsKey($key));
-            if (in_array($method, $methods)) {
-                $vars[str_replace('_', '', $key)] = $this->$method();
-            }
-        }
-        return $vars;
 	}
 
 	public function getSystem() {

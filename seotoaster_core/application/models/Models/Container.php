@@ -17,17 +17,17 @@ class Application_Model_Models_Container extends Application_Model_Models_Abstra
 
 	const TYPE_CODE           = 5;
 
-	private $_containerType = self::TYPE_REGULARCONTENT;
+	protected $_containerType = self::TYPE_REGULARCONTENT;
 
-	private $_pageId        = 0;
+	protected $_pageId        = 0;
 
-	private $_name          = '';
+	protected $_name          = '';
 
-	private $_published     = true;
+	protected $_published     = true;
 
-	private $_pubDate       = '';
+	protected $_pubDate       = '';
 
-	private $_content       = '';
+	protected $_content       = '';
 
 	public function  __construct(array $options = null) {
 		parent::__construct($options);
@@ -86,19 +86,5 @@ class Application_Model_Models_Container extends Application_Model_Models_Abstra
 		$this->_content = $content;
 		return $this;
 	}
-
-	public function  toArray() {
-		$vars = array();
-		$methods = get_class_methods($this);
-		$props   = get_class_vars(get_class($this));
-        foreach ($props as $key => $value) {
-			$method = 'get' . ucfirst($this->_normalizeOptionsKey($key));
-            if (in_array($method, $methods)) {
-                $vars[str_replace('_', '', $key)] = $this->$method();
-            }
-        }
-        return $vars;
-	}
-
 }
 

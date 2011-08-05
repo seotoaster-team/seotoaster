@@ -11,17 +11,17 @@ class Application_Model_Models_Deeplink extends Application_Model_Models_Abstrac
 
 	const TYPE_EXTERNAL = 'ext';
 
-	private $_name      = '';
+	protected $_name      = '';
 
-	private $_url       = '';
+	protected $_url       = '';
 
-	private $_type      = self::TYPE_INTERNAL;
+	protected $_type      = self::TYPE_INTERNAL;
 
-	private $_banned    = false;
+	protected $_banned    = false;
 
-	private $_nofollow  = false;
+	protected $_nofollow  = false;
 
-	private $_pageId    = '';
+	protected $_pageId    = '';
 
 	public function  __construct(array $options = null) {
 		parent::__construct($options);

@@ -7,9 +7,9 @@
  */
 class Application_Model_Models_Featuredarea extends Application_Model_Models_Abstract {
 
-	private $_name  = '';
+	protected $_name  = '';
 
-	private $_pages = array();
+	protected $_pages = array();
 
 	public function addPage(Application_Model_Models_Page $page) {
 		$this->_pages[] = $page;

@@ -10,15 +10,15 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	const UNINSTALL_FILE_NAME = 'uninstall.sql';
 
-	private $_name    = '';
+	protected $_name    = '';
 
-	private $_status  = '';
+	protected $_status  = '';
 
-	private $_cache   = false;
+	protected $_cache   = false;
 
-	private $_tag     = '';
+	protected $_tag     = '';
 
-	private $_preview = '';
+	protected $_preview = '';
 
 	public function getResourceId() {
 		return Tools_Security_Acl::RESOURCE_PLUGINS;
