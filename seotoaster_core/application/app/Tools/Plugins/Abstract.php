@@ -72,7 +72,7 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	public function  __construct($options, $seotoasterData) {
 		$this->_options          = $options;
 		$this->_seotoasterData   = $seotoasterData;
-		$this->_websiteUrl       = $this->_seotoasterData['websiteUrl'];
+		$this->_websiteUrl       = isset($this->_seotoasterData['websiteUrl']) ? $this->_seotoasterData['websiteUrl'] : '';
 		$this->_request          = new Zend_Controller_Request_Http();
 		$this->_response         = new Zend_Controller_Response_Http();
 		$this->_redirector       = new Zend_Controller_Action_Helper_Redirector();
