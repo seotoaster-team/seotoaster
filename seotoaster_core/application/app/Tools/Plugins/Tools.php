@@ -74,8 +74,7 @@ class Tools_Plugins_Tools {
 
 	private static function _getData($method) {
 		$pluginsData = array();
-		$pluginMapper   = new Application_Model_Mappers_PluginMapper();
-		$enabledPlugins = $pluginMapper->findEnabled();
+		$enabledPlugins = self::getEnabledPlugins();
 		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
 			foreach ($enabledPlugins as $plugin) {
 				$pluginClassName = ucfirst($plugin->getName());
@@ -138,8 +137,14 @@ class Tools_Plugins_Tools {
 	}
 
 	public static function getEnabledPlugins() {
-		$pluginMapper   = new Application_Model_Mappers_PluginMapper();
-		return $pluginMapper->findEnabled();
+		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
+		$cacheHelper->init();
+		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
+			$pluginMapper   = new Application_Model_Mappers_PluginMapper();
+			$enabledPlugins = $pluginMapper->findEnabled();
+			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array(), Helpers_Action_Cache::CACHE_LONG);
+		}
+		return $enabledPlugins;
 	}
 
 	private static function _initValues() {

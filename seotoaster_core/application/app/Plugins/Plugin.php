@@ -19,18 +19,19 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 	}
 
 	private function _triggerToasterPlugins($method) {
-		$pluginMapper   = new Application_Model_Mappers_PluginMapper();
-		$enabledPlugins = $pluginMapper->findEnabled();
+		$enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins();
 		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
 			$miscData      = Zend_Registry::get('misc');
 			$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
-			foreach ($enabledPlugins as $plugin) {
-				$pluginInstance = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), array(), array('websiteUrl' => $websiteHelper->getUrl()));
-				if(method_exists($pluginInstance, $method)) {
-					$pluginInstance->$method();
+
+			array_walk($enabledPlugins, function($plugin, $key, $data) {
+				$pluginInstance = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), array(), array('websiteUrl' => $data['websiteUrl']));
+				if(method_exists($pluginInstance, $data['method'])) {
+					$pluginInstance->$data['method']();
 				}
-			}
+			}, array('method' => $method, 'websiteUrl' => $websiteHelper->getUrl()));
 		}
+
 	}
 }
 

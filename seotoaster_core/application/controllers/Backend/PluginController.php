@@ -86,6 +86,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 				$this->view->buttonText = 'Install';
 				$this->view->endisButton = false;
 			}
+			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
 		}
 	}
 
@@ -95,6 +96,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 			$plugin                   = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
 			$this->view->responseText = $pluginMapper->save($plugin->setStatus(($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Application_Model_Models_Plugin::DISABLED : Application_Model_Models_Plugin::ENABLED));
 			$this->view->buttonText   = ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? 'Disable' : 'Enable';
+			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
 		}
 	}
 
