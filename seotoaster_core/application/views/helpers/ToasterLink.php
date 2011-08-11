@@ -27,9 +27,9 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		return $link;
 	}
 
-	private function _getValidWinSize($winSizeTipe = self::WSIZE_LARGE) {
+	private function _getValidWinSize($winSizeType = self::WSIZE_LARGE) {
 		$params = array();
-		switch ($winSizeTipe) {
+		switch ($winSizeType) {
 			case self::WSIZE_LARGE:
 				$params = array(
 					'width'  => 960,
@@ -47,6 +47,14 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 					'width'  => 960,
 					'height' => 650
 				);
+			break;
+			default:
+				if (is_array($winSizeType) && isset($winSizeType['width']) && isset($winSizeType['height'])){
+					$params = array(
+						'width' => $winSizeType['width'],
+						'height' => $winSizeType['height'],
+					);
+				}
 			break;
 		}
 		return $params;
