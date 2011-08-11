@@ -50,7 +50,7 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
 			<ul>
-				<li><a href="javascript:;" onclick="" title="<?php echo $this->translate('Manage config'); ?>"><?php echo $this->translate('Manage config'); ?></a></li>
+				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
 					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 				<?php endif; ?>

@@ -1,0 +1,90 @@
+<script type="text/javascript">
+	$(function(){
+		$('#tabs').tabs();
+		
+		<?php if (count($this->messages)) : ?>
+		$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
+		<?php endif; ?>
+	});
+</script>
+<div class="seotoaster container_12">
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage Config')); ?>
+
+	<form class="grid_12" action="<?php echo $this->websiteUrl.$this->configForm->getAction(); ?>" method="<?php echo $this->configForm->getMethod();?>">
+		<div id="tabs">
+			<ul>
+				<li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
+				<li><a href="#email-config"><?php echo $this->translate('Email'); ?></a></li>
+				<?php if ($this->isSuperAdmin): ?>
+				<li><a href="#security-config"><?php echo $this->translate('Security'); ?></a></li>
+				<?php endif; ?>
+			</ul>	
+			<div id="general-config" class="clearfix">
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('language')->renderLabel(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('language')->renderViewHelper(); ?>
+				</div>
+				
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('currentTheme')->renderLabel(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('currentTheme')->renderViewHelper(); ?>
+				</div>
+
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('imgSmall')->renderLabel(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('imgSmall')->renderViewHelper(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('imgMedium')->renderLabel(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('imgMedium')->renderViewHelper(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('imgLarge')->renderLabel(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?>
+				</div>
+				
+				<?php echo $this->configForm->getElement('adminEmail');?>
+				<?php echo $this->configForm->getElement('superadminLogin');?>
+				<?php echo $this->configForm->getElement('superadminPassword');?>
+
+			</div>
+			<div id="email-config" class="clearfix">
+				<div class="grid_10">
+				<?php echo $this->configForm->getElement('useSmtp')->renderLabel(); ?>
+				</div>
+				<div clas="grid_2" style="text-align:center;">
+				<?php echo $this->configForm->getElement('useSmtp')->renderViewHelper(); ?>
+				</div>
+				<?php echo $this->configForm->getElement('smtpHost'); ?>
+				<?php echo $this->configForm->getElement('smtpLogin'); ?>
+				<?php echo $this->configForm->getElement('smtpPassword'); ?>
+			</div>
+
+			<?php if ($this->isSuperAdmin): ?>
+			<div id="security-config" class="clearfix">
+				<?php echo $this->configForm->getElement('suLogin'); ?>
+				<?php echo $this->configForm->getElement('suPassword'); ?>				
+			</div>
+			<?php endif; ?>
+		</div>
+
+		<div class="grid_12"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>
+	</form>
+</div>
+
+<style>
+	.seotoaster form input.error {
+		color: red;
+		border-color: red;
+	}
+</style>

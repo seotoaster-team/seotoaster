@@ -35,6 +35,7 @@ website.defaultpage = "index.html"
 website.tmp         = "tmp/"
 website.preview     = "previews/"
 website.media		= "media/"
+website.lang		= "system/languages/"
 
 [theme]
 theme.path            = "themes/"
