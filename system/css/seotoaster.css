@@ -358,6 +358,11 @@ body, body.seotoaster {
 	padding:5px;
 	height:100%;
 }
+
+.seotoaster div#tabs {
+	font-size: 10px;
+}
+
 .seotoaster ul.editortabs {
 	margin:0;
 	padding:0;

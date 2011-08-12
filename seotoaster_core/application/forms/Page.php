@@ -155,7 +155,8 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'  => 'updatePage',
 			'id'    => 'update-page',
-			'value' => 'Save page'
+			'value' => 'Save page',
+			'label' => 'Save page'
 		)));
 
 		//$this->setDecorators(array('ViewScript'));

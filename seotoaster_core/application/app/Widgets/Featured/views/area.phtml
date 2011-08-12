@@ -5,9 +5,9 @@
 	<?php else: ?>
 		<?php foreach($this->faPages as $page): ?>
 			<li>
-				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape($this->websiteUrl); ?>system/images/no_preview.png" /></a>
+				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape($this->websiteUrl); ?>system/images/noimage.png" /></a>
 				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
-				<span><?php echo $page->getTeaserText(); ?></span>
+				<span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
 			</li>
 		<?php endforeach; ?>
 	<?php endif; ?>
