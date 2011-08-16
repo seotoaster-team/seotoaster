@@ -35,7 +35,6 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$mapper = new Application_Model_Mappers_TemplateMapper();
 		$currentTheme = $this->_helper->config->getConfig('current_theme');
 		if(!$this->getRequest()->isPost()) {
-			$this->view->templatePreview = 	'system/images/no_preview.png';
 
 			if($templateName) {
 				$template = $mapper->find($templateName);
@@ -45,10 +44,15 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					$templateForm->getElement('id')->setValue($template->getName());
 				}
 				//get template preview image
-				$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
-				$images = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
-				if (isset($images[$template->getName()])) {
-					$this->view->templatePreview = 	$this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$images[$template->getName()];
+				try {
+					$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
+					$images = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
+					if (isset($images[$template->getName()])) {
+						$this->view->templatePreview = 	$this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$images[$template->getName()];
+					}
+				}
+				catch (Exceptions_SeotoasterException $se) {
+					$this->view->templatePreview = 	'system/images/no_preview.png';
 				}
 			}
 		} else {
