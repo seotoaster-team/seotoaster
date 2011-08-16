@@ -2,10 +2,6 @@
 
 class Widgets_Seo_Seo extends Widgets_Abstract {
 
-	const OPT_TOP    = 'top';
-
-	const OPT_BOTTOM = 'bottom';
-
 	protected function  _load() {
 		$widgetType   = array_shift($this->_options);
 		$rendererName = '_renderSeo' . ucfirst($widgetType);
@@ -20,11 +16,11 @@ class Widgets_Seo_Seo extends Widgets_Abstract {
 	}
 
 	private function _renderSeoTop() {
-		return 'SEO TOP';
+		return '';
 	}
 
 	private function _renderSeoBottom() {
-		return 'SEO BOTTOM';
+		return '';
 	}
 }
 

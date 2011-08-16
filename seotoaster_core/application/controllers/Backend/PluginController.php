@@ -113,6 +113,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 				$this->_helper->response->fail('Can\'t remove plugin\'s directory (not enough permissions). Plugin was uninstalled.');
 				exit;
 			}
+			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
 			$this->_helper->response->success('Removed');
 		}
 	}
