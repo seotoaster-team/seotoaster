@@ -16,6 +16,8 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	protected $_content      = '';
 
+	protected $_previewImage = '';
+
 	public function getName() {
 		return $this->_name;
 	}
@@ -32,6 +34,15 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 	public function setContent($content) {
 		$this->_content = $content;
 		return $this;
+	}
+
+	public function setPreviewImage($previewImage) {
+		$this->_previewImage = $previewImage;
+		return $this;
+	}
+
+	public function getPreviewImage() {
+		return $this->_previewImage;
 	}
 }
 

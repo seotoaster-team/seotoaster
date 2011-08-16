@@ -17,6 +17,7 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		$data = array(
 			'name'          => $template->getName(),
 			'content'       => $template->getContent(),
+			'preview_image' => $template->getPreviewImage()
 		);
 		if(null === $this->find($template->getName())) {
 			return $this->getDbTable()->insert($data);

@@ -36,7 +36,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$currentTheme = $this->_helper->config->getConfig('current_theme');
 		if(!$this->getRequest()->isPost()) {
 			$this->view->templatePreview = 	'system/images/no_preview.png';
-			
+
 			if($templateName) {
 				$template = $mapper->find($templateName);
 				if($template instanceof Application_Model_Models_Template) {
@@ -154,7 +154,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 						$params = array(
 							'websiteUrl' => $this->_helper->website->getUrl(),
 							'themePath'	 => $this->_websiteConfig['path'].$this->_themeConfig['path'],
-							'currentTheme' =>$this->_helper->config->getConfig('current_theme')							 
+							'currentTheme' =>$this->_helper->config->getConfig('current_theme')
 						);
 						$concatCss = Tools_Factory_WidgetFactory::createWidget('ConcatCss', array('refresh' => true), $params);
 						$concatCss->render();
@@ -190,8 +190,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$cssTree = array();
 		foreach ($cssFiles as $file){
 			// don't show concat.css for editing
-			if (strtolower(basename($file)) == Widgets_ConcatCss_ConcatCss::FILENAME) { 
-				continue; 
+			if (strtolower(basename($file)) == Widgets_ConcatCss_ConcatCss::FILENAME) {
+				continue;
 			}
 			preg_match_all('~^'.$currentThemePath.'/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', $file, $sequences);
 			$subfolders = $currentThemeName.'/'.$sequences[1][0];
@@ -226,7 +226,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			switch ($listtemplates) {
 				case 'all':
 					$templates = $mapper->fetchAll();
-					$templateList = array();			
+					$templateList = array();
 					foreach ($templates as $template) {
 						array_push($templateList, array(
 							'id'	=> $template->getId(),
