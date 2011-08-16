@@ -263,7 +263,7 @@ body, body.seotoaster {
 }
 .seotoaster #groups div img { margin-top:2px; }
 /*========= side Control Panel ===========*/
-#seotoaster-cpanel {
+.seotoaster#seotoaster-cpanel {
 	background:#fff;
 	position:absolute;
 	right:5px;
@@ -278,7 +278,7 @@ body, body.seotoaster {
 	-moz-box-shadow: 0px 0px 10px #444444;
 	-webkit-box-shadow: 0px 0px 10px #444444;
 }
-#seotoaster-cpanel #showhide a {
+.seotoaster#seotoaster-cpanel #showhide a {
 	background-color:#6D6D6D;
 	color:#eee;
 	font-size:12pt;
@@ -286,13 +286,13 @@ body, body.seotoaster {
 	text-align:center;
 	display:block;
 }
-#seotoaster-cpanel ul {
+.seotoaster#seotoaster-cpanel ul {
 	margin:0;
 	padding:0;
 	border:none;
 }
-#seotoaster-cpanel ul li { list-style:none;}
-#seotoaster-cpanel ul li a {
+.seotoaster#seotoaster-cpanel ul li { list-style:none;}
+.seotoaster#seotoaster-cpanel ul li a {
 	background:#6D6D6D;
 	color:#eee;
 	font-weight:bold;
@@ -304,16 +304,16 @@ body, body.seotoaster {
 	border-radius: 0px;
 	margin-top: 0px;
 }
-#seotoaster-cpanel ul li ul li a {
+.seotoaster#seotoaster-cpanel ul li ul li a {
 	background-color:#fff;
 	color:#21759B;
 	font-size:11pt;
 	border-bottom:1px solid #ddd;
 	padding:2px 4px;
 }
-#seotoaster-cpanel ul li ul li a:hover { color: #E66F00; background-color:#E2F2FA; }
+.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: #E66F00; background-color:#E2F2FA; }
 
-#seotoaster-cpanel ul li ul li.cpanelsubtitle {
+.seotoaster#seotoaster-cpanel ul li ul li.cpanelsubtitle {
  background-color: #E1E1E1;
  color: #3C3C3C;
  font-size: 11pt;
@@ -323,9 +323,10 @@ body, body.seotoaster {
  width:196px;
 }
 
-#seotoaster-cpanel ul li{
- list-style: none;
- width: 200px;
+.seotoaster#seotoaster-cpanel ul li{
+	list-style: none;
+	width: 200px;
+	margin: 0px;
 }
 
 #seotoaster-logowrap {

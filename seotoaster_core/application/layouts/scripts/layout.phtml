@@ -12,19 +12,19 @@
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
 
-		<?php echo $this->head; ?>
-
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)): ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
-			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/jquery/plugins/chosen/chosen.css'); ?>
+			<?php //$this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/jquery/plugins/chosen/chosen.css'); ?>
 			<?php echo $this->headLink(); ?>
 
 			<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
 			<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/chosen/chosen.jquery.min.js'); ?>
 		<?php endif; ?>
+
+		<?php echo $this->head; ?>
 
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
 		<?php echo $this->jQuery(); ?>
