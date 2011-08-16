@@ -303,6 +303,7 @@ body, body.seotoaster {
 	display:block;
 	border-radius: 0px;
 	margin-top: 0px;
+	text-decoration: none;
 }
 .seotoaster#seotoaster-cpanel ul li ul li a {
 	background-color:#fff;

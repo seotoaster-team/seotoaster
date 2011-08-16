@@ -134,12 +134,12 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	protected function _findWhere($where) {
 		$row    = $this->getDbTable()->fetchAll($where)->current();
-		if(null == $row) {
+		if(null === $row) {
 			return null;
 		}
 		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
 		$row = $row->toArray();
-		$row['content'] = $rowTemplate->content;
+		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
 		unset($rowTemplate);
 		return new Application_Model_Models_Page($row);
 	}
