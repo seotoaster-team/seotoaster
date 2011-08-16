@@ -1,5 +1,5 @@
 <?php if(!empty($this->pages)): ?>
-	<ul id="main_menu">
+	<ul class="main_menu">
 		<?php foreach ($this->pages as $key => $page): ?>
 			<li class="category"><a title="<?php echo $page['category']->getH1(); ?>" href="<?php echo $this->websiteUrl . $page['category']->getUrl(); ?>"><?php echo $page['category']->getNavName(); ?></a>
 				<?php if(isset($page['subPages'])): ?>
