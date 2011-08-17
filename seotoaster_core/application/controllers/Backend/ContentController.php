@@ -99,17 +99,18 @@ class Backend_ContentController extends Zend_Controller_Action {
 			}
 			$mapper = new Application_Model_Mappers_ContainerMapper();
 			$this->_helper->cache->clean($container->getName() . $pageId, 'widget_');
-			$this->getResponse()->setHttpResponseCode(200);
+
+			//$this->getResponse()->setHttpResponseCode(200);
 
 			$saveResult = $mapper->save($container);
 			if(!$container->getId()) {
 				$container->setId($saveResult);
 			}
 
-			$this->getResponse()->setBody($saveResult);
-			$this->getResponse()->sendResponse();
+			//$this->getResponse()->setBody($saveResult);
+			//$this->getResponse()->sendResponse();
 
-			$container->notifyObservers(array('test' => 'val'));
+			$this->_helper->response->success($saveResult);
 
 			exit;
 		}

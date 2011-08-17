@@ -23,7 +23,7 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 		$header = $mapper->findByName($this->_name, $this->_pageId, $this->_type);
 		$headerContent = (null === $header) ? '' : $header->getContent();
 		if($this->_acl->isAllowed($currentUser, $this)) {
-			$headerContent .= $this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 590, 160);
+			$headerContent .= $this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 960, 220);
 		}
 		return $headerContent;
 	}

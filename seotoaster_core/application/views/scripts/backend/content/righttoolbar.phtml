@@ -1,4 +1,12 @@
-<div class="h530 tab_content">
+<div class="h490 tab_content">
+	<select name="adminselectimgfolder" id="adminselectimgfolder">
+		<option value="0" selected="selected"><?php echo $this->translate('select folder'); ?></option>
+		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
+			<?php foreach ($this->imageFolders as $folder): ?>
+				<option value="<?php echo $folder; ?>"><?php echo $folder; ?></option>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</select>
 	<div id="selector">
 		<div id="borderfortoolbar">
 			<div id="adminthingsviewer">
@@ -24,13 +32,5 @@
 			</div>
 		</div>
 	</div>
-	<select name="adminselectimgfolder" id="adminselectimgfolder">
-		<option value="0" selected="selected"><?php echo $this->translate('select folder'); ?></option>
-		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
-			<?php foreach ($this->imageFolders as $folder): ?>
-				<option value="<?php echo $folder; ?>"><?php echo $folder; ?></option>
-			<?php endforeach; ?>
-		<?php endif; ?>
-	</select>
 </div>
 <?php $this->jQuery()->addJavascript('$(function() {$(\'#adminthingsviewer\').accordion({autoHeight: false, navigation: true, collapsible: true, active: false})});'); ?>

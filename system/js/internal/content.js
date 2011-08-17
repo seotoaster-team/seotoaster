@@ -7,7 +7,7 @@ $(function() {
 		.datepicker();
 
 
-	var datepicker      = $('#datepicker');
+	var datepicker      = $('#dpkr');
 
 	var chckbxPublished = $('#published');
 

@@ -101,7 +101,7 @@ $(function() {
 			success : function(response) {
 				if(!response.error) {
 					if(form.hasClass('_reload')) {
-						if(response.responseText.redirectTo != 'undefined') {
+						if(typeof response.responseText.redirectTo != 'undefined') {
 							top.location.href = $('#website_url').val() + response.responseText.redirectTo;
 							return;
 						}

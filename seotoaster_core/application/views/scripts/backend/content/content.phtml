@@ -1,7 +1,9 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/content/top.phtml'))); ?>
 	<div class="grid_8 above-editor-links">
-		<a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a> | <a id="toogletinymce" href="javascript:;">No editor</a>
+		<div id="links">
+			<a id="toogletinymce" href="javascript:;">No editor</a> | <a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a>
+		</div>
 		<?php
 			$this->contentForm->setAction($this->url());
 			echo $this->contentForm;

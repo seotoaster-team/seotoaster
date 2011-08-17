@@ -339,6 +339,12 @@ body, body.seotoaster {
 
 
 /*========= EDIT CONTENT ===========*/
+.seotoaster #btn-submit {
+	position: absolute;
+	bottom: 5px;
+	right: 3px;
+}
+
 .seotoaster div.header label { /*publish or not form in header*/
 	color: #ececec;
 	background-color:#666;
@@ -350,10 +356,21 @@ body, body.seotoaster {
 	padding: 1px 0px;
 	margin:0;
 }
-.seotoaster .above-editor-links, .seotoaster .above-editor-links a {
+
+.seotoaster .above-editor-links #links {
+	padding: 0px 0px 5px 0px;
+}
+
+.seotoaster .above-editor-links #links a {
+	text-transform: uppercase;
+	font-size: 10px;
+	color: #555;
+}
+
+.seotoaster .above-editor-links {
 	color:#555;
 	font-size:11pt;
-	text-align:right;
+/*	text-align:right;*/
 }
 .seotoaster textarea#editcontent {
 	margin:0;
@@ -362,7 +379,20 @@ body, body.seotoaster {
 }
 
 .seotoaster div#tabs {
-	font-size: 10px;
+	font-size: 14px;
+	padding: 0px;
+	height: 555px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.button {
+	border-radius: 0px;
+	padding: 5px 5px 5px 25px;
+}
+
+
+.seotoaster div#tabs #adminthingsviewer div.show_div {
+	background: #cecece;
+	padding: 10px 3px 5px 3px;
 }
 
 .seotoaster ul.editortabs {
