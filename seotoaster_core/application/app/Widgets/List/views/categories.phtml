@@ -1,0 +1,15 @@
+<ul id="listcategories">
+	<?php if($this->categoriesList): ?>
+        <?php foreach ($this->categoriesList as $page): ?>
+			<li>
+				<?php if($this->useImage): ?>
+					<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>">
+						<img src="<?php echo Tools_Page_Tools::getPreviewPath($page->getid(), true); ?>" alt="<?php echo $page->getH1(); ?>"/>
+					</a>
+				<?php endif; ?>
+				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>" class="listtitle"><?php echo $page->getNavName(); ?></a>
+				<span><?php echo $page->getTeaserText(); ?></span>
+			</li>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</ul>
