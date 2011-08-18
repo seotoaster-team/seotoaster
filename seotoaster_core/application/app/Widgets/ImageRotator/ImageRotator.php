@@ -8,7 +8,7 @@ class Widgets_ImageRotator_ImageRotator extends Widgets_Abstract {
 	}
 
 	protected function  _load() {
-		
+
 	}
 
 	public static function getWidgetMakerContent() {

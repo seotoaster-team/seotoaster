@@ -51,7 +51,6 @@ class IndexController extends Zend_Controller_Action {
 			$this->getResponse()->setHeader('Status', '404 File not found');
 
 		}
-
 		// Check if current user is allowed to see the requested page
 		// (such as protected pages for members only)
 		if(Tools_Security_Acl::isAllowed($page, $currentUser)) {

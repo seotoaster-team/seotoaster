@@ -52,19 +52,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		if(null === $resultSet) {
 			return null;
 		}
-		foreach ($resultSet as $row) {
-			$entries[] = new $this->_model($row->toArray());
-		}
+		$entries = array_map(array($this, '_callbackFetchAll'), $resultSet->toArray());
 		return $entries;
+	}
+
+	private function _callbackFetchAll($row) {
+		return new $this->_model($row);
 	}
 
 	public function fetchAllUrls() {
 		$urls  = array();
-		$pages = $this->fetchAll();
-		foreach ($pages as $page) {
-			$urls[] = $page->getUrl();
-		}
+		$urls = array_map(array($this, '_callbackfetchAllUrls'), $this->fetchAll());
 		return $urls;
+	}
+
+	private function _callbackfetchAllUrls($page) {
+		return $page->getUrl();
 	}
 
 	public function fetchAllStaticMenuPages() {
@@ -89,6 +92,11 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	public function findByUrl($pageUrl) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
+		return $this->_findWhere($where);
+	}
+
+	public function findByNavName($navName) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto('nav_name = ?', $navName);
 		return $this->_findWhere($where);
 	}
 
@@ -138,6 +146,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			return null;
 		}
 		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
+
 		$row = $row->toArray();
 		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
 		unset($rowTemplate);
