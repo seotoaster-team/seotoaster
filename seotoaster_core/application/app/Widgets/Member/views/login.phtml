@@ -1,0 +1,16 @@
+<?php if($this->userRole != Tools_Security_Acl::ROLE_MEMBER): ?>
+	<!-- <?php if($this->userRole == Tools_Security_Acl::ROLE_ADMIN || $this->userRole == Tools_Security_Acl::ROLE_SUPERADMIN): ?>
+		<?php echo $this->translate('You are logged in as ') . ucfirst($this->userRole); ?>
+	<?php endif; ?> -->
+	<?php if (count($this->messages)) : ?>
+		<ul id="messages" class="ui-state-error w350" style="margin: 0px auto; list-style-type: none; padding: 15px 0px; text-align: center;">
+			<?php foreach ($this->messages as $message) : ?>
+				<li><?php echo $this->escape($message); ?></li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+	<?php
+		$this->loginForm->setAction($this->websiteUrl . 'backend/login/index/');
+		echo $this->loginForm;
+	?>
+<?php endif; ?>
