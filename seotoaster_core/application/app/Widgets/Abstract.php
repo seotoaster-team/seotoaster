@@ -29,6 +29,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 		if($this->_cacheable === true) {
 			$this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
 			$this->_cacheId    = (!isset($this->_options[0])) ? strtolower(get_class($this)) : $this->_options[0];
+			$this->_cacheId   .= implode('-', $this->_options);
 			if(isset($toasterOptions['id'])) {
 				$this->_cacheId .= $toasterOptions['id'];
 			}
@@ -38,7 +39,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 	}
 
 	protected function _init() {
-		
+
 	}
 
 	public function  getResourceId() {
@@ -68,7 +69,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 	protected function _loadFromCahce() {
 		return $this->_cache->load($this->_cacheId, $this->_cachePrefix);
 	}
-	
+
 	abstract protected function _load();
 }
 

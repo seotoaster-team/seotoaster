@@ -170,10 +170,14 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 	private function _massDeeplinkApply() {
 		$containerMapper = new Application_Model_Mappers_ContainerMapper();
 		$containers      = $containerMapper->fetchAll();
+
 		if(!empty ($containers)) {
 			foreach($containers as $container) {
 				$container->setContent(Tools_Content_Tools::applyDeeplink($this->_object, $container->getContent()));
 				$container->registerObserver(new Tools_Seo_Watchdog());
+				$container->registerObserver(new Tools_Content_GarbageCollector(array(
+					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+				)));
 				$containerMapper->save($container);
 				$container->notifyObservers();
 			}

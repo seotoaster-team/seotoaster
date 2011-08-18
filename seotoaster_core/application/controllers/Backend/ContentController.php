@@ -103,9 +103,12 @@ class Backend_ContentController extends Zend_Controller_Action {
 			//$this->getResponse()->setHttpResponseCode(200);
 
 			$saveResult = $mapper->save($container);
+
 			if(!$container->getId()) {
 				$container->setId($saveResult);
 			}
+
+			$container->notifyObservers();
 
 			//$this->getResponse()->setBody($saveResult);
 			//$this->getResponse()->sendResponse();

@@ -36,13 +36,14 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 
 	public function setOptions(array $options) {
 		$methods = get_class_methods($this);
-        foreach ($options as $key => $value) {
+
+		foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($this->_normalizeOptionsKey($key));
             if (in_array($method, $methods)) {
                 $this->$method($value);
             }
         }
-        return $this;
+		return $this;
 	}
 
 	public function getId() {

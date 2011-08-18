@@ -21,10 +21,10 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 			break;
 		}
 		if(null == $containerId) {
-			return '<a class="tpopup" data-pwidth="' . $width . '" data-pheight="' . $height . '" title="' . $title . '" href="javascript:;" data-url="' . $this->_toasterOptions['websiteUrl'] . 'backend/backend_content/add/containerType/' . $containerType . '/containerName/' . $this->_options[0] . '/pageId/' . $this->_toasterOptions['id'] . '" class="generator-links"><img width="26" height="26" src="' . $this->_toasterOptions['websiteUrl'] . 'system/images/' . $adminIconName . '" alt="edit container" /></a>';
+			return '<a class="tpopup generator-links" data-pwidth="' . $width . '" data-pheight="' . $height . '" title="' . $title . '" href="javascript:;" data-url="' . $this->_toasterOptions['websiteUrl'] . 'backend/backend_content/add/containerType/' . $containerType . '/containerName/' . $this->_options[0] . '/pageId/' . $this->_toasterOptions['id'] . '" class="generator-links"><img width="26" height="26" src="' . $this->_toasterOptions['websiteUrl'] . 'system/images/' . $adminIconName . '" alt="edit container" /></a>';
 		}
 
-		return '<a class="tpopup" data-pwidth="' . $width . '" data-pheight="' . $height . '" title="' . $title . '" href="javascript:;" data-url="'. $this->_toasterOptions['websiteUrl'] . 'backend/backend_content/edit/id/' . $containerId . '/containerType/' . $containerType . '"  class="generator-links"><img width="26" height="26" src="' . $this->_toasterOptions['websiteUrl'] . 'system/images/' . $adminIconName .'" alt="edit header" /></a>';
+		return '<a class="tpopup generator-links" data-pwidth="' . $width . '" data-pheight="' . $height . '" title="' . $title . '" href="javascript:;" data-url="'. $this->_toasterOptions['websiteUrl'] . 'backend/backend_content/edit/id/' . $containerId . '/containerType/' . $containerType . '"  class="generator-links"><img width="26" height="26" src="' . $this->_toasterOptions['websiteUrl'] . 'system/images/' . $adminIconName .'" alt="edit header" /></a>';
 
 		//return '<a title="' . $title . '" href="javascript:;" onclick="showToasterPopup(\''. $this->_toasterOptions['websiteUrl'] . 'backend/backend_content/edit/id/' . $containerId . '/containerType/' . $containerType . '/\')" class="generator-links"><img width="26" height="26" src="' . $this->_toasterOptions['websiteUrl'] . 'system/images/' . $adminIconName .'" alt="edit header" /></a>';
 	}

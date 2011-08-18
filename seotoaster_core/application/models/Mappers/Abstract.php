@@ -29,10 +29,6 @@ abstract class Application_Model_Mappers_Abstract {
 
 	abstract public function save($model);
 
-    //abstract public function find($id);
-
-	//abstract public function fetchAll();
-
 	public function find($id) {
 		$result = $this->getDbTable()->find($id);
 		if(0 == count($result)) {
@@ -61,6 +57,5 @@ abstract class Application_Model_Mappers_Abstract {
 		}
 		return $entries;
 	}
-
 }
 

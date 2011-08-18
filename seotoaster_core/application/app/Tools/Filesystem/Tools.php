@@ -18,7 +18,7 @@ class Tools_Filesystem_Tools {
 	 */
 	public static function scanDirectory($path, $incFilePath = false, $recursively = true) {
 		$foundFiles = array();
-		$path       = (string)trim($path);
+		$path       = (string)trim($path = (substr($path, strlen($path)-1) == DIRECTORY_SEPARATOR) ? $path : $path . DIRECTORY_SEPARATOR);
 		if(!$path) {
 			throw new Exceptions_SeotoasterException('Scaning directory: path to the directrory is empty.');
 		}
@@ -34,16 +34,16 @@ class Tools_Filesystem_Tools {
 					continue;
 				}
 				if($recursively) {
-					if(is_dir($path . '/' . $file)) {
+					if(is_dir($path . $file)) {
 						unset($foundFiles[array_search($file, $foundFiles)]);
 						//$foundFiles = array_merge($foundFiles, self::scanDirectory($path . '/' . $file, $incFilePath));
-						$files = array_merge($files, self::scanDirectory($path . '/' . $file, $incFilePath));
+						$files = array_merge($files, self::scanDirectory($path . $file, $incFilePath));
 						continue;
 					}
 				}
 				if($incFilePath) {
 					//$foundFiles[$key] = $path . '/' . $file;
-					array_push($files, $path . '/' . $file);
+					array_push($files, $path . $file);
 				} else {
 					array_push($files, $file);
 				}
@@ -88,7 +88,7 @@ class Tools_Filesystem_Tools {
 				$extension = implode('|', $extension);
 			}
 			foreach ($files as $file) {
-				if(preg_match('~^[a-zA-Z0-9-_\s/.]+\.' . $extension . '$~U', $file)) {
+				if(preg_match('~^[a-zA-Z0-9-_\s/.]+\.' . $extension . '$~uiU', $file)) {
 					if($pairs) {
 						$explodedFilePath = explode(DIRECTORY_SEPARATOR, $file);
 						$foundFiles[preg_replace('~\.[a-zA-Z]{3,4}~iu', '', end($explodedFilePath))] = $file;
@@ -160,19 +160,19 @@ class Tools_Filesystem_Tools {
 			return false;
 		}
 	}
-	
+
 	public static function basename($filepath) {
 		$filepath = (string) trim($filepath);
 		if (!$filepath){
 			return false;
 		}
-		
+
 		preg_match('~[^'.DIRECTORY_SEPARATOR.']+$~i', $filepath, $match);
-		
+
 		if ($match) {
 			return $match[0];
 		}
-		
+
 		return false;
 	}
 }

@@ -11,6 +11,10 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 
 	protected $_pages = array();
 
+	private $_limit   = 0;
+
+	private $_random  = false;
+
 	public function addPage(Application_Model_Models_Page $page) {
 		$this->_pages[] = $page;
 	}
@@ -20,7 +24,10 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 	}
 
 	public function getPages() {
-		return $this->_pages;
+		if($this->_random) {
+			shuffle($this->_pages);
+		}
+		return ($this->_limit) ? array_slice($this->_pages, 0, $this->_limit) : $this->_pages;
 	}
 
 	public function setPages($pages) {
@@ -34,6 +41,24 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 
 	public function setName($name) {
 		$this->_name = $name;
+		return $this;
+	}
+
+	public function getLimit() {
+		return $this->_limit;
+	}
+
+	public function setLimit($limit) {
+		$this->_limit = $limit;
+		return $this;
+	}
+
+	public function getRandom() {
+		return $this->_random;
+	}
+
+	public function setRandom($random) {
+		$this->_random = $random;
 		return $this;
 	}
 }

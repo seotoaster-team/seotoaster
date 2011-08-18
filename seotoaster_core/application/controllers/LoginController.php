@@ -45,15 +45,13 @@ class LoginController extends Zend_Controller_Action {
 
 						unset($user);
 						$this->_helper->cache->clean();
-						$this->_redirect($this->_helper->website->getUrl());
+						$this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
 					}
 				}
-				$this->_helper->flashMessenger->addMessage('There is no user with such login and password.');
-				$this->_helper->redirector->gotoRoute(array('controller'=>'login', 'action'=>'index'));
+				$this->_checkRedirect(false, 'There is no user with such login and password.');
 			}
 			else {
-				$this->_helper->flashMessenger->addMessage('Login should be a valid email address');
-				$this->_helper->redirector->gotoRoute(array('controller'=>'login', 'action'=>'index'));
+				$this->_checkRedirect(false, 'Login should be a valid email address');
 			}
 		}
 		else {
@@ -72,7 +70,25 @@ class LoginController extends Zend_Controller_Action {
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->_helper->session->getSession()->unsetAll();
 		$this->_helper->cache->clean();
-		$this->_redirect($this->_helper->website->getUrl());
+		$this->_checkRedirect($this->_helper->website->getUrl(), '');
+
+	}
+
+	private function _checkRedirect($url = '', $message = '') {
+		if($message) {
+			$this->_helper->flashMessenger->addMessage($message);
+		}
+		if(isset($_SERVER['HTTP_REFERER'])) {
+			$this->_helper->session->errMemeberLogin = $this->_helper->flashMessenger->getMessages();
+			$this->_helper->redirector->gotoUrl($_SERVER['HTTP_REFERER'], array('exit' => true));
+		}
+		if(!$url) {
+			$this->_helper->redirector->gotoRoute(array(
+				'controller' => 'login',
+				'action'     =>'index'
+			));
+		}
+
 	}
 }
 

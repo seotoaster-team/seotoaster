@@ -26,15 +26,12 @@ class Tools_Deeplink_GarbageCollector extends Tools_System_GarbageCollector {
 		if(!empty ($linksContainerMap)) {
 			$containerMapper = new Application_Model_Mappers_ContainerMapper();
 			foreach ($linksContainerMap as $item) {
-				$container              = $containerMapper->find($item['id_container']);
-
+				$container = $containerMapper->find($item['id_container']);
 				$container->registerObserver(new Tools_Content_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 				)));
-
-				$deeplinkRemovalPattern = '~<a\s+(title=".*")*\s*href="' . $item['link'] . '"\s*(title=".*")*>' . $this->_object->getName() . '</a>~usU';
+				$deeplinkRemovalPattern = '~<a\s+(title=".+")*\s*href="' . $item['link'] . '"\s*(title=".*")*\s*>' . $this->_object->getName() . '</a>~usU';
 				$containerMapper->save($container->setContent(preg_replace($deeplinkRemovalPattern, $this->_object->getName(), $container->getContent())));
-
 				$container->notifyObservers();
 			}
 		}
