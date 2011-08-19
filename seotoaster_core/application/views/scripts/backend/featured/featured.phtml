@@ -1,0 +1,20 @@
+<div class="seotoaster container_12 w960 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add page to the featured area')); ?>
+	<div class="grid_12">
+		<form action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
+			<div class="grid_8">
+				<?php echo $this->faForm->getElement('name'); ?>
+			</div>
+			<div class="grid_4">
+				<?php echo $this->faForm->getElement('addFeaturedArea'); ?>
+			</div>
+		</form>
+		<?php
+//			$this->faForm->setAction($this->url());
+//			echo $this->faForm;
+		?>
+		<div id="fa-list"></div>
+	</div>
+	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

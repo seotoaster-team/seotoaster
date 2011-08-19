@@ -1,6 +1,7 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage page')); ?>
 	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
+	<div id="falist" class="h640 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
 	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
 		<div class="grid_6">
 			<fieldset>
@@ -46,7 +47,9 @@
 					</div>
 					<div class="grid_12 clear mt5px"></div>
 					<div class="grid_6 label">Page is featured:</div>
-					<div class="grid_6"  style="padding:5px 0px"><a href="#">Not Yet</a></div>
+						<div class="grid_6" style="padding:5px 0px">
+							<?php echo $this->toasterLink('backend_featured', 'featured', $this->translate('Not yet'), 'pid/' . $this->pageForm->getElement('pageId')->getValue()); ?>
+						</div>
 					<div class="grid_12 mt10px">
 						<label>This page is also</label>
 						<div class="grid_6">

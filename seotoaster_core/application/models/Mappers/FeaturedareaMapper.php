@@ -12,7 +12,36 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 	protected $_model   = 'Application_Model_Models_Featuredarea';
 
 	public function save($featuredArea) {
+		if(!$featuredArea instanceof Application_Model_Models_Featuredarea) {
+			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Featuredarea instance');
+		}
 
+		$data = array(
+			'name' => $featuredArea->getName()
+		);
+
+		//needs to be changed
+		$pages = $featuredArea->getPages();
+		$faPageDbTable =  new Application_Model_DbTable_PageFeaturedarea();
+
+		foreach ($pages as $page) {
+			$row = $faPageDbTable->createRow();
+			$row->setFromArray(array(
+				'page_id' => $page->getId(),
+				'fa_id'   => $featuredArea->getId(),
+				'order'   => 0
+			));
+			$result = $row->save();
+		}
+		//
+
+		if(null === ($id = $featuredArea->getId())) {
+			unset($data['id']);
+			return $this->getDbTable()->insert($data);
+		}
+		else {
+			return $this->getDbTable()->update($data, array('id = ?' => $id));
+		}
 	}
 
 	public function findByName($name) {

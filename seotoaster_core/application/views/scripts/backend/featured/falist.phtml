@@ -1,0 +1,10 @@
+<?php foreach($this->faeaturedAreas as $fa): ?>
+	<div class="fa-row grid_12">
+		<div class="grid_3"><?php echo $fa->getName(); ?></div>
+		<div class="grid_3">0</div>
+		<div class="grid_3"><input type="checkbox" name="addPageToFa" id="<?php echo $fa->getId(); ?>" class="add-page" /></div>
+		<div class="grid_3">
+			<a style="float:left;" data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" class="del-fa _tdelete" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+		</div>
+	</div>
+<?php endforeach; ?>

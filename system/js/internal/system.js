@@ -23,6 +23,7 @@ $(function() {
 				height    : popupHeight,  // 325
 				resizable : false,
 				modal     : true,
+				autoOpen  : false,
 				open      : function() {
 					$(popup).css({
 						width    : popupWidth + 'px',
@@ -37,6 +38,7 @@ $(function() {
 					$(popup).remove();
 				}
 			});
+			$(popup).dialog('open');
 	});
 
 	$('a._tdelete').live('click', function() {
@@ -111,11 +113,11 @@ $(function() {
 
 					//processing callback
 					var callback = $(form).data('callback');
-					eval(callback + '()');
+					if(typeof callback != 'undefined') {
+						eval(callback + '()');
+					}
 
 					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
-
-
 				}
 				else {
 					ajaxMessage.removeClass('success').addClass('ui-state-error');
