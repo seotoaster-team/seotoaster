@@ -10,35 +10,38 @@ $(function() {
 	 */
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
-		var popup       = (top.$('#__tpopup').length) ? top.$('#__tpopup') : document.createElement('iframe');
-		var popupWidth  = $(this).data('pwidth') || 960;
-		var popupHeight = $(this).data('pheight') || 650;
-		$(popup)
-			.attr('src', $(this).data('url'))
-			.attr('scrolling', 'no')
-			.attr('frameborder', 'no')
-			.attr('id', '__tpopup')
-			.dialog({
-				width     : popupWidth,   //960 480 / 320
-				height    : popupHeight,  // 325
-				resizable : false,
-				modal     : true,
-				autoOpen  : false,
-				open      : function() {
-					$(popup).css({
-						width    : popupWidth + 'px',
-						height   : popupHeight + 'px',
+		link = $(this);
+		if(top.$('#__tpopup').length) {
+			top.$('#__tpopup').dialog('option', {
+				width: link.data('pwidth') || 960,
+				height: link.data('pheight') || 650
+			});
+			top.$('#__tpopup').attr('src', link.data('url')).css({
+				width    : (link.data('pwidth') || 960) + 'px',
+				height   : (link.data('pheight') || 650) + 'px'
+			});
+			return;
+		}
+		popup = $(document.createElement('iframe')).attr('id', '__tpopup');
+		popup.dialog({
+			width: 960,
+			height: 650,
+			resizable : false,
+			modal: true,
+			open: function() {
+				$(this).attr('src', link.data('url')).css({
+						width    : (link.data('pwidth') || 960) + 'px',
+						height   : (link.data('pheight') || 650) + 'px',
 						padding  : '0px',
 						margin   : '0px',
 						overflow : 'hidden'
-					});
-					$('.ui-dialog-titlebar').hide();
-				},
-				close     : function() {
-					$(popup).remove();
-				}
-			});
-			$(popup).dialog('open');
+				});
+				$('.ui-dialog-titlebar').hide();
+			},
+			close: function() {
+				$(this).remove();
+			}
+		});
 	});
 
 	$('a._tdelete').live('click', function() {
