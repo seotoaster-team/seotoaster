@@ -15,6 +15,7 @@
 		?>
 		<div id="fa-list"></div>
 	</div>
+	<?php echo $this->toasterLink('backend_page', 'page', $this->translate('Back to page'), 'id/' . $this->pageId); ?>
 	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>
