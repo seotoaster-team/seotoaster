@@ -33,7 +33,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$templateForm = new Application_Form_Template();
 		$templateName   = $this->getRequest()->getParam('id');
 		$mapper = new Application_Model_Mappers_TemplateMapper();
-		$currentTheme = $this->_helper->config->getConfig('current_theme');
+		$currentTheme = $this->_helper->config->getConfig('currentTheme');
 		if(!$this->getRequest()->isPost()) {
 
 			if($templateName) {
@@ -158,7 +158,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 						$params = array(
 							'websiteUrl' => $this->_helper->website->getUrl(),
 							'themePath'	 => $this->_websiteConfig['path'].$this->_themeConfig['path'],
-							'currentTheme' =>$this->_helper->config->getConfig('current_theme')
+							'currentTheme' =>$this->_helper->config->getConfig('currentTheme')
 						);
 						$concatCss = Tools_Factory_WidgetFactory::createWidget('ConcatCss', array('refresh' => true), $params);
 						$concatCss->render();
@@ -186,7 +186,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 * @return <type>
 	 */
 	private function _buildCssFileList() {
-		$currentThemeName	= $this->_helper->config->getConfig('current_theme');
+		$currentThemeName	= $this->_helper->config->getConfig('currentTheme');
 		$currentThemePath	= realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName);
 
 		$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'css', true);
@@ -223,7 +223,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()){
 			$mapper = new Application_Model_Mappers_TemplateMapper();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
-			$currentTheme = $this->_helper->config->getConfig('current_theme');
+			$currentTheme = $this->_helper->config->getConfig('currentTheme');
 			//get template preview image
 			$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
 			$tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
@@ -279,7 +279,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				if ($template instanceof Application_Model_Models_Template && !in_array($template->getName(), $this->_protectedTemplates)){
 					$result = $mapper->delete($template);
 					if ($result) {
-						$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig('current_theme'));
+						$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig('currentTheme'));
 						$filename = $currentThemePath.'/'.$template->getName().'.html';
 						Tools_Filesystem_Tools::deleteFile($filename);
 						$status = $this->_translator->translate('Template deleted.');
@@ -308,7 +308,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			array_push($themesList, array(
 				'name' => $themeName,
 				'preview' => !empty ($previews) ? $this->_helper->website->getUrl().$this->_themeConfig['path'].$themeName.'/'.reset($previews) : $this->_helper->website->getUrl().'system/images/no_image.png',
-				'isCurrent' => ($this->_helper->config->getConfig('current_theme') == $themeName)
+				'isCurrent' => ($this->_helper->config->getConfig('currentTheme') == $themeName)
 			));
 		}
 
@@ -338,7 +338,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()) {
 
 			$themeName = $this->getRequest()->getParam('name');
-			if ($this->_helper->config->getConfig('current_theme') == $themeName) {
+			if ($this->_helper->config->getConfig('currentTheme') == $themeName) {
 //				echo json_encode(array('done'=>false, 'status'=>'trying to remove current theme'));
 				$this->_helper->response->response($this->_translator->translate('trying to remove current theme'), true);
 			}
@@ -421,7 +421,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
 		//updating config table
 		$configTable = new Application_Model_DbTable_Config();
-		$updateConfig = $configTable->update(array('value' => $themeName), array('name = ?'=>'current_theme'));
+		$updateConfig = $configTable->update(array('value' => $themeName), array('name = ?'=>'currentTheme'));
 
 		return $errors;
 	}

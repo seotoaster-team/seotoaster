@@ -30,7 +30,7 @@ class Tools_Image_Tools {
 		
 		$iniConfig = Zend_Registry::get('misc');
 		//setting quality
-		$quality = isset($iniConfig['img_quality']) ? $iniConfig['img_quality'] : 90;
+		$quality = isset($iniConfig['imgQuality']) ? $iniConfig['imgQuality'] : 90;
         $pngQuality = floor((100-$quality)/10);
 		
 		$fileInfo	= getimagesize($imageFile);
@@ -130,10 +130,10 @@ class Tools_Image_Tools {
 		$iniConfig = Zend_Registry::get('misc');
 		
 		$sizeConfig = array(
-			'small'	 => intval($dbConfig['img_small']),
-			'medium' => intval($dbConfig['img_medium']),
-			'large'	 => intval($dbConfig['img_large']),
-			'product' => intval($iniConfig['img_product'])
+			'small'	 => intval($dbConfig['imgSmall']),
+			'medium' => intval($dbConfig['imgMedium']),
+			'large'	 => intval($dbConfig['imgLarge']),
+			'product' => intval($iniConfig['imgProduct'])
 		);
 		
 		$errors = array();

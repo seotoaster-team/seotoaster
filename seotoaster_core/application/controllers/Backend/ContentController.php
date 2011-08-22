@@ -32,7 +32,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 		$this->_containerType     = $this->getRequest()->getParam('containerType');
 		$this->_contentForm       = $this->_initCorrectForm();
 		$this->view->websiteUrl   = $this->_helper->website->getUrl();
-		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
+		$this->view->currentTheme = $this->_helper->config->getConfig('currentTheme');
 
 		$this->_helper->AjaxContext()->addActionContext('loadfiles', 'json')->initContext('json');
 	}

@@ -165,7 +165,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$this->_uploadHandler->clearValidators()
 			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
 			->addValidator(new Validators_MimeType(array('image/gif','image/jpeg','image/jpg','image/png')), false)
-			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['img_max_width'], 'maxheight' => $miscConfig['img_max_width']));
+			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['imgMaxWidth'], 'maxheight' => $miscConfig['imgMaxWidth']));
 
 		$receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
 
@@ -288,7 +288,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 	private function _uploadTemplatepreview(){
 		$miscConfig = Zend_Registry::get('misc');
 
-		$currentTheme = $this->_helper->config->getConfig('current_theme');
+		$currentTheme = $this->_helper->config->getConfig('currentTheme');
 
 		$savePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
 
@@ -331,7 +331,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$result = $this->_uploadImages($savePath, false);
 
 		if ($result['error'] == false) {
-			Tools_Image_Tools::resize($newImageFile, $miscConfig['template_preview_w'], true);
+			Tools_Image_Tools::resize($newImageFile, $miscConfig['templatePreviewWidth'], true);
 			$result['thumb'] = 'data:'.$fileMime.';base64,'.base64_encode(Tools_Filesystem_Tools::getFile($newImageFile));
 		}
 
@@ -370,7 +370,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$result = $this->_uploadImages($savePath, false);
 
 		if ($result['error'] == false) {
-			Tools_Image_Tools::resize($newImageFile, (isset($config['page_teaser_size'])?$config['page_teaser_size']:$miscConfig['page_teaser_size']), true);
+			Tools_Image_Tools::resize($newImageFile, (isset($config['pageTeaserSize'])?$config['pageTeaserSize']:$miscConfig['pageTeaserSize']), true);
 			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'].$newName;
 		}
 

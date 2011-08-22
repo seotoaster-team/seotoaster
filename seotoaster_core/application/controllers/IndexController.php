@@ -66,7 +66,7 @@ class IndexController extends Zend_Controller_Action {
 				$parserOptions = array(
 					'websiteUrl'   => $this->_helper->website->getUrl(),
 					'websitePath'  => $this->_helper->website->getPath(),
-					'currentTheme' => $this->_helper->config->getConfig('current_theme'),
+					'currentTheme' => $this->_helper->config->getConfig('currentTheme'),
 					'themePath'    => $themeData['path'],
 				);
 				$parser = new Tools_Content_Parser($page->getContent(), $page->toArray(), $parserOptions);
@@ -94,7 +94,7 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->head            = $head[1];
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
-		$this->view->currentTheme = $this->_helper->config->getConfig('current_theme');
+		$this->view->currentTheme = $this->_helper->config->getConfig('currentTheme');
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
 			$this->view->pageData = $pageData;
