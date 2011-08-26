@@ -1,1 +1,42 @@
-kasd;lksad;lkads
+<form action="javascript:;" method="post">
+	<select id="featured-item-type">
+		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
+		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
+	</select>
+	<br/>
+
+	<select id="featured-area-item"></select>
+
+	maxres <input type="text" id="featured-item-maxres" value="5" /><br/>
+	maxch <input type="text" id="featured-item-maxch" value="250" /><br/>
+	useimg <input type="checkbox" id="featured-item-img" /><br/>
+	random <input type="checkbox" id="featured-item-rand" /><br/>
+	<input type="submit" id="fa-done" name="done" value="Done" />
+</form>
+<script type="text/javascript">
+	$(function() {
+
+		if(!$('#featured-area-item').html()) {
+			$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/render/0/namesonly/1', function(response) {
+				var optsHtml = '';
+				$.each(response.faNames, function() {
+					optsHtml += '<option value=' + this.name + '>' + this.name + '</option>'
+				})
+				$('#featured-area-item').html(optsHtml);
+			})
+		}
+
+		$('#fa-done').click(function() {
+			//console.log($('#featured-area-item option:selected').text());
+
+			var featuredWidget = '{$featured:' + $('#featured-item-type').val() + ':' + $('#featured-area-item option:selected').text() + ':' +
+									$('#featured-item-maxres').val() + ':' + $('#featured-item-maxch').val() +
+									(($('#featured-item-img').attr('checked')) ? ':img' : '') +
+									(($('#featured-item-rand').attr('checked')) ? ':random' : '') + '}';
+
+
+
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, featuredWidget);
+		})
+	});
+</script>
