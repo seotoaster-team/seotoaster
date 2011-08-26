@@ -1,0 +1,22 @@
+<form action="javascript:;" method="post">
+	<input type="text" id="feed-url" value="" />
+	maxres <input type="text" id="feed-maxres" value="5" /><br/>
+	maxch <input type="text" id="feed-maxch" value="250" /><br/>
+	<input type="submit" id="feed-done" name="done" value="Done" />
+</form>
+
+<script type="text/javascript">
+	$(function() {
+		$('#feed-done').click(function() {
+			var feedUrl = $('#feed-url').val();
+			if(!feedUrl) {
+				$('#feed-url').css({
+					background: '#3ef'
+				})
+				return;
+			}
+			featuredWidget = '{$rss:' + feedUrl + ':' + $('#feed-maxres').val() + ':' + $('#feed-maxch').val() + '}';
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, featuredWidget);
+		})
+	});
+</script>
