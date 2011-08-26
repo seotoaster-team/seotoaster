@@ -9,11 +9,9 @@
 				<?php echo $this->faForm->getElement('addFeaturedArea'); ?>
 			</div>
 		</form>
-		<?php
-//			$this->faForm->setAction($this->url());
-//			echo $this->faForm;
-		?>
-		<div id="fa-list"></div>
+		<div id="fa-list">
+			
+		</div>
 	</div>
 	<?php echo $this->toasterLink('backend_page', 'page', $this->translate('Back to page'), 'id/' . $this->pageId); ?>
 	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
