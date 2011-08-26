@@ -11,7 +11,11 @@ class Tools_Factory_PluginFactory {
 	}
 
 	private static function _validate($name) {
-		$pluginDirectory = 'plugins/' . strtolower($name);
+		$miscData        = Zend_Registry::get('misc');
+		$websiteHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$pluginDirectory = $websiteHelper->getPath() . $miscData['pluginsPath'] . strtolower($name);
+		unset($miscData);
+		unset($websiteHelper);
 		if(!is_dir($pluginDirectory)) {
 			throw new Exceptions_SeotoasterPluginException($pluginDirectory . ' is not a directory.');
 		}

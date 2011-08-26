@@ -48,8 +48,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function editAction() {
 		if(!$this->getRequest()->isPost()) {
-			$mapper = new Application_Model_Mappers_ContainerMapper();
-			$container = $mapper->find($this->getRequest()->getParam('id'));
+			$container = Application_Model_Mappers_ContainerMapper::getInstance()->find($this->getRequest()->getParam('id'));
 			if(null === $container) {
 				throw new Exceptions_SeotoasterException('Container loading failed.');
 			}
@@ -97,12 +96,12 @@ class Backend_ContentController extends Zend_Controller_Action {
 			else {
 				$container->setPublishingDate('');
 			}
-			$mapper = new Application_Model_Mappers_ContainerMapper();
+			
 			$this->_helper->cache->clean($container->getName() . $pageId, 'widget_');
 
 			//$this->getResponse()->setHttpResponseCode(200);
 
-			$saveResult = $mapper->save($container);
+			$saveResult = Application_Model_Mappers_ContainerMapper::getInstance()->save($container);
 
 			if(!$container->getId()) {
 				$container->setId($saveResult);

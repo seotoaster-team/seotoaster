@@ -27,9 +27,8 @@ class Tools_Content_Feed {
 		$sitemapFeed  = '<?xml version="1.0" encoding="UTF-8" ?>' . PHP_EOL;
 		$sitemapFeed .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
 
-		$mapper      = new Application_Model_Mappers_PageMapper();
-		$pages       = $mapper->fetchAll();
-		unset($mapper);
+		$pages       = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+
 		if(empty ($pages)) {
 			return '';
 		}

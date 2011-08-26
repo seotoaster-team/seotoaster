@@ -384,6 +384,10 @@ body, body.seotoaster {
 	height: 555px;
 }
 
+.seotoaster div#tabs div.ui-tabs-panel {
+	padding: 5px 10px !important;
+}
+
 .seotoaster div#tabs #adminthingsviewer div.button {
 	border-radius: 0px;
 	padding: 5px 5px 5px 25px;
@@ -393,6 +397,8 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div {
 	background: #cecece;
 	padding: 10px 3px 5px 3px;
+	max-height: 210px;
+	overflow-y: scroll;
 }
 
 .seotoaster ul.editortabs {

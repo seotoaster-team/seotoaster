@@ -1,8 +1,8 @@
 <?php
 /**
  * MediaController
- * Used for manipulation of image/files 
- * 
+ * Used for manipulation of image/files
+ *
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
 class Backend_MediaController extends Zend_Controller_Action {
@@ -19,7 +19,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 		$this->_websiteConfig	= Zend_Registry::get('website');
 
 		$this->_translator = Zend_Registry::get('Zend_Translate');
-		
+
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'getdirectorycontent'	=> 'json',
 			'removefile'			=> 'json'
@@ -48,8 +48,8 @@ class Backend_MediaController extends Zend_Controller_Action {
 		}
 		$this->view->listFolders = array_merge(array($this->_translator->translate('select folder')), $listFolders);
 	}
-	
-	/** 
+
+	/**
 	 * Method for loading directory content via AJAX call
 	 * @return JSON
 	 */
@@ -66,7 +66,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$listImages	= Tools_Filesystem_Tools::scanDirectory($folderPath.DIRECTORY_SEPARATOR.'small', false, false);
 			foreach ($listImages as $image) {
 				array_push($this->view->imageList, array(
-					'name' => $image, 
+					'name' => $image,
 					'src' => $this->_helper->website->getUrl().$this->_websiteConfig['media'].$folderName.DIRECTORY_SEPARATOR.'small'.DIRECTORY_SEPARATOR.$image
 				));
 			}
@@ -81,11 +81,11 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Action used for removing images/files from media catalog
 	 * for AJAX request
-	 * @return JSON 
+	 * @return JSON
 	 */
 	public function removefileAction(){
 		if ($this->getRequest()->isPost()) {
@@ -98,22 +98,19 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$removeFiles	= $this->getRequest()->getParam('removeFiles');
 			$errorList		= array();
 			$folderPath		= realpath($this->_websiteConfig['path'].$this->_websiteConfig['media'].$folderName);
-			
+
 			if (!isset ($removeFiles) && !isset ($removeImages)) {
 				$this->view->errorMsg = $this->_translator->translate('Nothing to remove');
 			}
-			
+
 			if (!$folderPath || !is_dir($folderPath)){
 				$this->view->errorMsg = $this->_translator->translate('No such folder');
 				return false;
 			}
-			
-			$containerMapper	= new Application_Model_Mappers_ContainerMapper();
-			$pageMapper			= new Application_Model_Mappers_PageMapper();
-			
+
 			//list of removed files
 			$deleted = array();
-			//processing images 
+			//processing images
 			if ( isset($removeImages) && is_array($removeImages) ){
 				foreach ($removeImages as $imageName) {
 					//checking if this image in any container
@@ -135,7 +132,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 					}
 				}
 			}
-			
+
 			//processing files
 			if ( isset($removeFiles) && is_array($removeFiles)){
 				foreach ($removeFiles as $fileName) {
@@ -157,7 +154,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 					} catch (Exception $e) {
 						error_log($e->getMessage().PHP_EOL.$e->getTraceAsString());
 					}
-								
+
 				}
 			}
 			$this->view->errors		= empty ($errorList) ? false : $errorList;
@@ -166,30 +163,27 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 	}
-	
+
 	/**
 	 * Checks if file/image is linked in any content and return list of pages where it used
 	 * @param string $filename Name of file
 	 * @return array List of pages where file linked
 	 */
 	private function _checkFileInContent($filename){
-		$containerMapper	= new Application_Model_Mappers_ContainerMapper();
-		$pageMapper			= new Application_Model_Mappers_PageMapper();
-		
-		$containers = $containerMapper->findByContent($filename);
-		
-		// formatting list of pages where image used in 
+		$containers = Application_Model_Mappers_ContainerMapper::getInstance()->findByContent($filename);
+
+		// formatting list of pages where image used in
 		$usedOnPages = array();
-		
+
 		if (!empty ($containers)){
 			foreach ($containers as $container){
-				$page = $pageMapper->find($container->getPageId());
+				$page = Application_Model_Mappers_PageMapper::getInstance()->find($container->getPageId());
 				if (!in_array($page->getUrl(), $usedOnPages)){
 					array_push($usedOnPages, $page->getUrl());
 				}
 			}
 		}
-		
+
 		return $usedOnPages;
 	}
 }

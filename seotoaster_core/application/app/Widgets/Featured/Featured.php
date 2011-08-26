@@ -7,9 +7,13 @@
  */
 class Widgets_Featured_Featured extends Widgets_Abstract {
 
-	const AREA_DESC_LENGTH = '250';
+	const AREA_DESC_LENGTH   = '250';
 
-	const AREA_PAGES_COUNT = '5';
+	const AREA_PAGES_COUNT   = '5';
+
+	const FEATURED_TYPE_PAGE = 'page';
+
+	const FEATURED_TYPE_AREA = 'area';
 
 	protected function  _init() {
 		parent::_init();
@@ -42,8 +46,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		$maxDescriptionLength = (isset($params[3]) && intval($params[3])) ? intval($params[3]) : self::AREA_DESC_LENGTH;
 		$random               = (isset($params[4]) && $params[4]) ? true : false;
 
-		$faMapper             = new Application_Model_Mappers_FeaturedareaMapper();
-		$featuredArea         = $faMapper->findByName($areaName);
+		$featuredArea         = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($areaName);
 
 		if($featuredArea === null) {
 			return $this->_translator->translate('Featured area ') . $areaName . $this->_translator->translate(' does not exist');
@@ -64,8 +67,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		if(!is_array($params) || empty($params) || !isset($params[0]) || !$params[0] || preg_match('~^\s*$~', $params[0])) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Featured page id required.'));
 		}
-		$pageMapper = new Application_Model_Mappers_PageMapper();
-		$page       = $pageMapper->find(intval($params[0]));
+		$page = Application_Model_Mappers_PageMapper::getInstance()->find(intval($params[0]));
 		if($page === null) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Page with such id is not found'));
 		}

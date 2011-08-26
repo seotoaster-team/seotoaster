@@ -25,6 +25,9 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		if(!$pageUrl) {
 			$pageUrl = $this->_website->getDefaultPage();
 		}
+		if(extension_loaded('mbstring')) {
+			$pageUrl = mb_strtolower($pageUrl);
+		}
 		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
@@ -36,8 +39,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		$this->_redirector->setCode(301);
 
 		if(!$redirectMap = $this->_cache->load('toaster_301redirects', '301redirects')) {
-			$mapper    = new Application_Model_Mappers_RedirectMapper();
-			$redirectMap = $mapper->fetchRedirectMap();
+			$redirectMap = Application_Model_Mappers_RedirectMapper::getInstance()->fetchRedirectMap();
 			if(!empty ($redirectMap)) {
 				$this->_cache->save('toaster_301redirects', $redirectMap, '301redirects', array(), Helpers_Action_Cache::CACHE_LONG);
 			}
@@ -47,7 +49,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 			$this->_redirector->gotoUrl($this->_website->getUrl() . $redirectMap[$pageUrl]);
 		}
 	}
-	
+
 	public function clean($pageUrl) {
 		return preg_replace('/\.html$/', '', $pageUrl);
 	}

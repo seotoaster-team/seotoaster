@@ -23,8 +23,7 @@ class IndexController extends Zend_Controller_Action {
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
 		if(null === ($page = $this->_helper->cache->load($pageUrl, 'pagedata_'))) {
-			$pageMapper = new Application_Model_Mappers_PageMapper();
-			$page = $pageMapper->findByUrl($pageUrl);
+			$page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
 			if(null !== $page) {
 				$this->_helper->cache->save($pageUrl, $page, 'pagedata_');
 			}
@@ -35,11 +34,8 @@ class IndexController extends Zend_Controller_Action {
 			//@todo move to separate method
 			//show 404 page and exit
 
-			if(!isset($pageMapper) || !$pageMapper instanceof Application_Model_Mappers_PageMapper) {
-				$pageMapper = new Application_Model_Mappers_PageMapper();
-			}
 
-			$page = $pageMapper->find404Page();
+			$page = Application_Model_Mappers_PageMapper::getInstance()->find404Page();
 
 			if(!$page instanceof Application_Model_Models_Page) {
 				$this->view->websiteUrl = $this->_helper->website->getUrl();

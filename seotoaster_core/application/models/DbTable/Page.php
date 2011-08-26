@@ -10,5 +10,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 			'refTableClass' => 'Application_Model_DbTable_Template'
 		),
 	);
+
+	protected $_dependentTables = array('Application_Model_DbTable_PageFeaturedarea');
 }
 

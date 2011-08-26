@@ -40,7 +40,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
 	public function triggerinstallAction() {
 		if($this->getRequest()->isPost()) {
-			$pluginMapper = new Application_Model_Mappers_PluginMapper();
+			$pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
 			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
 			$miscData     = Zend_Registry::get('misc');
 
@@ -92,9 +92,8 @@ class Backend_PluginController extends Zend_Controller_Action {
 
 	public function triggerAction() {
 		if($this->getRequest()->isPost()) {
-			$pluginMapper             = new Application_Model_Mappers_PluginMapper();
 			$plugin                   = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
-			$this->view->responseText = $pluginMapper->save($plugin->setStatus(($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Application_Model_Models_Plugin::DISABLED : Application_Model_Models_Plugin::ENABLED));
+			$this->view->responseText = Application_Model_Mappers_PluginMapper::getInstance()->save($plugin->setStatus(($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Application_Model_Models_Plugin::DISABLED : Application_Model_Models_Plugin::ENABLED));
 			$this->view->buttonText   = ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? 'Disable' : 'Enable';
 			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
 		}
@@ -102,13 +101,12 @@ class Backend_PluginController extends Zend_Controller_Action {
 
 	public function deleteAction() {
 		if($this->getRequest()->isPost()) {
-			$pluginMapper = new Application_Model_Mappers_PluginMapper();
 			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('id'));
 			$delete       = Tools_Filesystem_Tools::deleteDir($this->_helper->website->getPath() . 'plugins/' . $plugin->getName());
 			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
 			)));
-			$pluginMapper->delete($plugin);
+			Application_Model_Mappers_PluginMapper::getInstance()->delete($plugin);
 			if(!$delete) {
 				$this->_helper->response->fail('Can\'t remove plugin\'s directory (not enough permissions). Plugin was uninstalled.');
 				exit;

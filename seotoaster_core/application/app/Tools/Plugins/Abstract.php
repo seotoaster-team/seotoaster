@@ -8,14 +8,14 @@
 
 class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
-	const ACTION_POSTFIX       = 'Action';
+	const ACTION_POSTFIX        = 'Action';
 
 	/**
 	 * Options for plugin
 	 *
 	 * @var array
 	 */
-	protected $_options        = array();
+	protected $_options         = array();
 
 	/**
 	 * All data received from Seotoaster.
@@ -23,14 +23,14 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 * Contains at least website url.
 	 * @var array
 	 */
-	protected $_seotoasterData = array();
+	protected $_seotoasterData  = array();
 
 	/**
 	 * Seotoaster session
 	 *
 	 * @var Zend_Session_Namespace
 	 */
-	protected $_session        = null;
+	protected $_session         = null;
 
 	/**
 	 * Plugin view.
@@ -39,35 +39,42 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 * directory is set to plugin_directory/views/
 	 * @var Zend_View
 	 */
-	protected $_view           = null;
+	protected $_view            = null;
 
 	/**
 	 * Seotoaster website url
 	 *
 	 * @var string
 	 */
-	protected $_websiteUrl     = null;
+	protected $_websiteUrl      = null;
 
 	/**
 	 * Request object
 	 *
 	 * @var Zend_Controller_Request_Http
 	 */
-	protected $_request        = null;
+	protected $_request         = null;
 
 	/**
 	 * Response object
 	 *
 	 * @var Zend_Controller_Response_Http
 	 */
-	protected $_response       = null;
+	protected $_response        = null;
 
 	/**
 	 * Redirector helper
 	 *
 	 * @var Zend_Controller_Action_Helper_Redirector
 	 */
-	protected $_redirector     = null;
+	protected $_redirector      = null;
+
+	/**
+	 * Parameters that has been passed to the plugin
+	 *
+	 * @var array
+	 */
+	protected $_requestedParams = array();
 
 	public function  __construct($options, $seotoasterData) {
 		$this->_options          = $options;
@@ -78,11 +85,17 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_redirector       = new Zend_Controller_Action_Helper_Redirector();
 		$this->_session          = Zend_Registry::get('session');
 		$this->_view             = new Zend_View();
+
+		$layout = new Zend_Layout($this->_view->layout()->getLayout());
+		$layout->roleId = Tools_Security_Acl::ROLE_SYSTEM;
+		//$this->_view->layout($layout);
+
 		$this->_view->websiteUrl = $this->_websiteUrl;
 	}
 
 	public function run($requestedParams = array()) {
-		$optionResult = $this->_dispatchOptions();
+		$this->_requestedParams = $requestedParams;
+		$optionResult           = $this->_dispatchOptions();
 		if($optionResult) {
 			return $optionResult;
 		}
@@ -110,6 +123,10 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 				exit;
 			}
 		}
+	}
+
+	public function getRoleId() {
+		return Tools_Security_Acl::ROLE_SYSTEM;
 	}
 }
 

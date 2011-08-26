@@ -24,6 +24,13 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		$pages = $featuredArea->getPages();
 		$faPageDbTable =  new Application_Model_DbTable_PageFeaturedarea();
 
+		$pagesToDelete = $featuredArea->getDeletedPages();
+		foreach ($pagesToDelete as $pageId) {
+			$faId = $featuredArea->getId();
+			$faPageDbTable->delete('fa_id = ' . $faId . ' AND page_id = ' . $pageId);
+		}
+
+
 		foreach ($pages as $page) {
 			$row = $faPageDbTable->createRow();
 			$row->setFromArray(array(
@@ -33,7 +40,7 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 			));
 			$result = $row->save();
 		}
-		//
+
 
 		if(null === ($id = $featuredArea->getId())) {
 			unset($data['id']);
@@ -51,9 +58,10 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		if($row === null) {
 			return null;
 		}
+
 		$rowsPageFeaturedarea = $row->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
 
-		$pageMapper = new Application_Model_Mappers_PageMapper();
+		$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
 		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
 			$faPages[] = $pageMapper->find($rowPageFa->page_id);
 		}
@@ -63,5 +71,41 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		return $featuredArea;
 	}
 
+	public function fetchAll($where = null, $order = array()) {
+		$entries = array();
+		$resultSet = $this->getDbTable()->fetchAll($where, $order);
+		if(null === $resultSet) {
+			return null;
+		}
+		$pages = array();
+		foreach ($resultSet as $row) {
+			$pagesRowset = $row->findManyToManyRowset('Application_Model_DbTable_Page', 'Application_Model_DbTable_PageFeaturedarea')->toArray();
+			if(!empty ($pagesRowset)) {
+				$pages = array();
+				foreach($pagesRowset as $pageRow) {
+					$pages[] = new Application_Model_Models_Page($pageRow);
+				}
+			}
+			$data          = $row->toArray();
+			$data['pages'] = $pages;
+			$entries[] = new $this->_model($data);
+
+		}
+		return $entries;
+	}
+
+	public function findAreasByPageId($pageId) {
+		$pageDbTable = new Application_Model_DbTable_Page();
+		$pageRow     = $pageDbTable->find($pageId)->current();
+		$areasRowset = $pageRow->findManyToManyRowset('Application_Model_DbTable_Featuredarea', 'Application_Model_DbTable_PageFeaturedarea');
+		$areasRowset = $areasRowset->toArray();
+		$areas       = array();
+		if(!empty ($areasRowset)) {
+			foreach ($areasRowset as $row) {
+				$areas[] = new $this->_model($row);
+			}
+		}
+		return $areas;
+	}
 }
 

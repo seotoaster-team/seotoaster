@@ -140,8 +140,7 @@ class Tools_Plugins_Tools {
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
 		$cacheHelper->init();
 		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
-			$pluginMapper   = new Application_Model_Mappers_PluginMapper();
-			$enabledPlugins = $pluginMapper->findEnabled();
+			$enabledPlugins = Application_Model_Mappers_PluginMapper::getInstance()->findEnabled();
 			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array(), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $enabledPlugins;
@@ -253,8 +252,7 @@ class Tools_Plugins_Tools {
 	}
 
 	public static function findPluginByName($pluginName) {
-		$pluginMapper = new Application_Model_Mappers_PluginMapper();
-		$plugin       = $pluginMapper->findByName($pluginName);
+		$plugin       = Application_Model_Mappers_PluginMapper::getInstance()->findByName($pluginName);
 		if($plugin instanceof Application_Model_Models_Plugin) {
 			$plugin->setPreview(self::findPluginPreview($plugin->getName()));
 			return $plugin;

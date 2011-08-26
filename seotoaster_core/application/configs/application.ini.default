@@ -54,7 +54,7 @@ cache.backend.cache_dir                = "cache/"
 
 [misc]
 misc.jquery      = "local"
-misc.jqversion   = "1.5"
+misc.jqversion   = "1.6.2"
 misc.jqueryui    = "local"
 misc.jquversion  = "1.8"
 misc.pluginsPath = "plugins/"

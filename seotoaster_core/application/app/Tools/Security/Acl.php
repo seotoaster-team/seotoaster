@@ -13,6 +13,7 @@ class Tools_Security_Acl {
 	const ROLE_USER       = 'user';
 	const ROLE_ADMIN      = 'admin';
 	const ROLE_SUPERADMIN = 'superadmin';
+	const ROLE_SYSTEM     = 'system';
 
 	// resources
 	const RESOURCE_PAGE_PUBLIC    = 'publicpage';

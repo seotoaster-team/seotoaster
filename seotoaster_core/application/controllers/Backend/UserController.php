@@ -22,10 +22,9 @@ class Backend_UserController extends Zend_Controller_Action {
 		$userForm = new Application_Form_User();
 		if($this->getRequest()->isPost()) {
 			if($userForm->isValid($this->getRequest()->getParams())) {
-				$userMapper = new Application_Model_Mappers_UserMapper();
 				$data       = $userForm->getValues();
 				$user       = new Application_Model_Models_User($data);
-				$userMapper->save($user);
+				Application_Model_Mappers_UserMapper::getInstance()->save($user);
 				$this->_helper->response->success('Added.');
 				exit;
 			}
@@ -38,8 +37,7 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function listAction() {
-		$userMapper            = new Application_Model_Mappers_UserMapper();
-		$this->view->users     = $userMapper->fetchAll();
+		$this->view->users     = Application_Model_Mappers_UserMapper::getInstance()->fetchAll();
 		$this->view->usersList = $this->view->render('backend/user/list.phtml');
 	}
 
@@ -50,7 +48,7 @@ class Backend_UserController extends Zend_Controller_Action {
 				$this->_helper->response->fail('Can\'t remove user...');
 				exit;
 			}
-			$userMapper = new Application_Model_Mappers_UserMapper();
+			$userMapper = Application_Model_Mappers_UserMapper::getInstance();
 			if($userMapper->delete($userMapper->find($userId))) {
 				$this->_helper->response->success('Removed');
 				exit;
@@ -66,8 +64,7 @@ class Backend_UserController extends Zend_Controller_Action {
 				$this->_helper->response->fail('Cannot load user...');
 				exit;
 			}
-			$userMapper = new Application_Model_Mappers_UserMapper();
-			$user       = $userMapper->find($userId);
+			$user       = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
 			$result = array(
 				'formId' => 'frm-user',
 				'data'   => $user->toArray()

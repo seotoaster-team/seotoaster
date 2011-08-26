@@ -27,7 +27,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 		}
 
 		$links                         = array();
-		$mapper                        = new Application_Model_Mappers_LinkContainerMapper();
+		$mapper                        = Application_Model_Mappers_LinkContainerMapper::getInstance();
 		$links[$this->_object->getId()]= Tools_Content_Tools::findLinksInContent($this->_object->getContent(), true);
 		$containerId                   = $this->_object->getId();
 		$containerLinks                = $mapper->fetchStructured($containerId);
@@ -41,8 +41,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	public function _cleanEmptyContainer() {
 		if(!$this->_object->getContent()) {
 			$this->_object->removeObserver($this);
-			$mapper = new Application_Model_Mappers_ContainerMapper();
-			$mapper->delete($this->_object);
+			Application_Model_Mappers_ContainerMapper::getInstance()->delete($this->_object);
 		}
 	}
 

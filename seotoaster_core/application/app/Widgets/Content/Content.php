@@ -22,8 +22,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
 	protected function  _load() {
 		$currentUser     = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser();
-		$mapper          = new Application_Model_Mappers_ContainerMapper();
-		$this->_content = $mapper->findByName($this->_name, $this->_pageId, $this->_type);
+		$this->_content  = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
 		$contentContent  = (null === $this->_content) ? '' : $this->_content->getContent();
 		if(Tools_Security_Acl::isAllowed($this, $currentUser)) {
 			$contentContent = ($this->_checkPublished()) ? $contentContent : '<div style="border: 1px solid red">' . $contentContent . '</div>';
@@ -44,8 +43,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 					if($result == 0 || $result == 1) {
 						$this->_content->setPublishingDate('');
 						$this->_content->setPublished(true);
-						$mapper = new Application_Model_Mappers_ContainerMapper();
-						$mapper->save($this->_content);
+						Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_content);
 					}
 				}
 			}

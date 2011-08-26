@@ -40,8 +40,7 @@ class LoginController extends Zend_Controller_Action {
 						$user->setRegDate($authUserData->reg_date);
 						$this->_helper->session->setCurrentUser($user);
 
-						$userMapper = new Application_Model_Mappers_UserMapper();
-						$userMapper->save($user);
+						Application_Model_Mappers_UserMapper::getInstance()->save($user);
 
 						unset($user);
 						$this->_helper->cache->clean();

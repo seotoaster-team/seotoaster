@@ -26,8 +26,7 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	private function _renderCategoriesList() {
-		$pageMapper = new Application_Model_Mappers_PageMapper();
-		$this->_view->categoriesList = $pageMapper->findByParentId(0);
+		$this->_view->categoriesList = Application_Model_Mappers_PageMapper::getInstance()->findByParentId(0);
 		$this->_view->useImage       = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
 		return $this->_view->render('categories.phtml');
 	}
@@ -51,12 +50,11 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	private function _findPagesListByCategoryName($categoryName) {
-		$pageMapper = new Application_Model_Mappers_PageMapper();
-		$category   = $pageMapper->findByNavName($categoryName);
+		$category   = Application_Model_Mappers_PageMapper::getInstance()->findByNavName($categoryName);
 		if(!$category instanceof Application_Model_Models_Page) {
 			throw new Exceptions_SeotoasterWidgetException('There is no category with such name: ' . $categoryName);
 		}
-		return $pageMapper->findByParentId($category->getId());
+		return Application_Model_Mappers_PageMapper::getInstance()->findByParentId($category->getId());
 	}
 
 	public static function getAllowedOptions() {

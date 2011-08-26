@@ -12,8 +12,7 @@ class Tools_Page_Tools {
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
 		$previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), 'jpg|png|jpeg|gif', true, true);
 
-		$mapper        = new Application_Model_Mappers_PageMapper();
-		$page          = $mapper->find($pageId);
+		$page          = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
 		if($page instanceof Application_Model_Models_Page) {
 			$cleanUrl = $pageHelper->clean($page->getUrl());
 			unset($page);

@@ -9,8 +9,7 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 		if(!$pluginName) {
 			return $this->_translator->translate('Plugin name not specified.');
 		}
-		$pluginMapper = new Application_Model_Mappers_PluginMapper();
-		$plugin       = $pluginMapper->findByName($pluginName);
+		$plugin       = Application_Model_Mappers_PluginMapper::getInstance()->findByName($pluginName);
 		if($plugin !== null) {
 			if($plugin->getStatus() != Application_Model_Models_Plugin::ENABLED) {
 				return $this->_translator->translate('Plugin ') . $plugin->getName() . $this->_translator->translate(' is not installed.');

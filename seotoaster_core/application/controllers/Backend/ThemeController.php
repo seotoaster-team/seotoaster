@@ -32,7 +32,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	public function templateAction() {
 		$templateForm = new Application_Form_Template();
 		$templateName   = $this->getRequest()->getParam('id');
-		$mapper = new Application_Model_Mappers_TemplateMapper();
+		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
 		$currentTheme = $this->_helper->config->getConfig('currentTheme');
 		if(!$this->getRequest()->isPost()) {
 
@@ -221,7 +221,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 */
 	public function gettemplateAction(){
 		if ($this->getRequest()->isPost()){
-			$mapper = new Application_Model_Mappers_TemplateMapper();
+			$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
 			$currentTheme = $this->_helper->config->getConfig('currentTheme');
 			//get template preview image
@@ -272,7 +272,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 */
 	public function deletetemplateAction(){
 		if ($this->getRequest()->isPost()){
-			$mapper = new Application_Model_Mappers_TemplateMapper();
+			$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
 			$templateId = $this->getRequest()->getPost('id');
 			if ($templateId){
 				$template = $mapper->find($templateId);
@@ -375,7 +375,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			return array($this->_translator->translate('Can\'t apply this theme: some files are missing'));
 		}
 
-		$mapper = new Application_Model_Mappers_TemplateMapper();
+		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
 		$removedTemplatesCount = $mapper->clearTemplates(); // this will remove all templates except system required. @see $_protectedTemplates
 
 		$nameValidator = new Zend_Validate();

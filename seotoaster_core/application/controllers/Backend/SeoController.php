@@ -42,8 +42,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	public function redirectsAction() {
 		$redirectForm   = new Application_Form_Redirect();
-		$pageMapper     = new Application_Model_Mappers_PageMapper();
-		$redirectMapper = new Application_Model_Mappers_RedirectMapper();
+		$pageMapper     = Application_Model_Mappers_PageMapper::getInstance();
+		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
 
 		$redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 
@@ -80,8 +80,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function loadredirectslistAction() {
-		$redirectMapper = new Application_Model_Mappers_RedirectMapper();
-		$redirects      = $redirectMapper->fetchAll(null, array('id'));
+		$redirects      = Application_Model_Mappers_RedirectMapper::getInstance()->fetchAll(null, array('id'));
 		$this->view->redirects = array_reverse($redirects);
 		$this->view->redirectsList = $this->view->render('backend/seo/loadredirectslist.phtml');
 	}
@@ -89,7 +88,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 	public function removeredirectAction() {
 		if($this->getRequest()->isPost()) {
 			$ids            = $this->getRequest()->getParam('id');
-			$redirectMapper = new Application_Model_Mappers_RedirectMapper();
+			$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
 			if(is_array($ids)) {
 				foreach ($ids as $id) {
 					$redirectMapper->delete($redirectMapper->find($id));
@@ -104,12 +103,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	public function deeplinksAction() {
 		$deeplinksForm    = new Application_Form_Deeplink();
-		$pageMapper       = new Application_Model_Mappers_PageMapper();
+		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		if($this->getRequest()->isPost()) {
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
 				$data           = $deeplinksForm->getValues();
-				$deeplinkMapper = new Application_Model_Mappers_DeeplinkMapper();
 				$deeplink       = new Application_Model_Models_Deeplink();
 				if(intval($data['url'])) {
 					$deeplink->setType(Application_Model_Models_Deeplink::TYPE_INTERNAL);
@@ -126,7 +124,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$deeplink->setBanned(false);
 				$deeplink->setNofollow(false);
 				$deeplink->registerObserver(new Tools_Seo_Watchdog());
-				$deeplinkMapper->save($deeplink);
+				Application_Model_Mappers_DeeplinkMapper::getInstance()->save($deeplink);
 				$deeplink->notifyObservers();
 				$this->_helper->response->success('Deeplink saved');
 			}
@@ -152,7 +150,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	private function _removeDeeplink($deeplinkId) {
-		$deeplinkMapper = new Application_Model_Mappers_DeeplinkMapper();
+		$deeplinkMapper = Application_Model_Mappers_DeeplinkMapper::getInstance();
 		$deeplink       = $deeplinkMapper->find($deeplinkId);
 
 		$deeplink->registerObserver(new Tools_Deeplink_GarbageCollector(array(
@@ -163,8 +161,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 
 	public function loaddeeplinkslistAction() {
-		$deeplinkMapper = new Application_Model_Mappers_DeeplinkMapper();
-		$this->view->deeplinks = array_reverse($deeplinkMapper->fetchAll(null, array('id')));
+		$this->view->deeplinks = array_reverse(Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll(null, array('id')));
 		$this->view->deeplinksList = $this->view->render('backend/seo/deeplinkslist.phtml');
 	}
 }

@@ -19,7 +19,7 @@ class Backend_PageController extends Zend_Controller_Action {
 	public function pageAction() {
 		$pageForm   = new Application_Form_Page();
 		$pageId     = $this->getRequest()->getParam('id');
-		$mapper     = new Application_Model_Mappers_PageMapper();
+		$mapper     = Application_Model_Mappers_PageMapper::getInstance();
 
 		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName()));
 
@@ -78,14 +78,18 @@ class Backend_PageController extends Zend_Controller_Action {
 			$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($pageForm->getMessages(), get_class($pageForm)));
 			exit;
 		}
+
+		$this->view->faCount = ($page->getId()) ? sizeof(Application_Model_Mappers_FeaturedareaMapper::getInstance()->findAreasByPageId($page->getId())) : 0;
+
 		//page preview image
+
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
 		$this->view->pageForm = $pageForm;
 	}
 
 	public function deleteAction() {
 		if($this->getRequest()->isPost()) {
-			$pageMapper = new Application_Model_Mappers_PageMapper();
+			$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
 			$page       = $pageMapper->find(intval($this->getRequest()->getParam('id')));
 
 			$page->registerObserver(new Tools_Page_GarbageCollector(array(
@@ -106,7 +110,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$menuOptions = array();
 		$menuHtml    = '';
 
-		$mapper      = new Application_Model_Mappers_PageMapper();
+		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
 		switch ($menuType) {
 			case Application_Model_Models_Page::IN_MAINMENU:
@@ -133,7 +137,6 @@ class Backend_PageController extends Zend_Controller_Action {
 		$selectHelper       = $this->view->getHelper('formSelect');
 
 		if($pageId) {
-			$mapper   = new Application_Model_Mappers_PageMapper();
 			$currPage = $mapper->find($pageId);
 		}
 
@@ -141,20 +144,17 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function edit404pageAction() {
-		$pageMapper = new Application_Model_Mappers_PageMapper();
-		$notFoundPage = $pageMapper->find404Page();
+		$notFoundPage = Application_Model_Mappers_PageMapper::getInstance()->find404Page();
 		$this->view->notFoundUrl = ($notFoundPage instanceof Application_Model_Models_Page) ? $notFoundPage->getUrl() : '';
 	}
 
 	public function draftAction() {
-		$pageMapper             = new Application_Model_Mappers_PageMapper();
 		//@todo can be added to the cache but not critical
-		$this->view->draftPages = $pageMapper->fetchAllDraftPages();
-		unset($pageMapper);
+		$this->view->draftPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllDraftPages();
 	}
 
 	public function organizeAction() {
-		$pageMapper = new Application_Model_Mappers_PageMapper();
+		$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
 
 		if($this->getRequest()->isPost()) {
 			$act = $this->getRequest()->getParam('act');

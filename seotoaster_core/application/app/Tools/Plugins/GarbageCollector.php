@@ -24,7 +24,7 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector {
 		$pattern = '~{\$plugin:' . $this->_object->getName() . '[^{}]*}~usU';
 
 		//removing plugin occurences from content
-		$containerMapper = new Application_Model_Mappers_ContainerMapper();
+		$containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
 		$containers      = $containerMapper->fetchAll();
 		if(!empty ($containers)) {
 			array_walk($containers, function($container, $key, $data) {
@@ -33,11 +33,10 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector {
 			}, array('pattern' => $pattern, 'mapper' => $containerMapper));
 		}
 
-		unset($containerMapper);
 		unset($containers);
 
 		//removing plugin occurences from the templates
-		$templateMapper = new Application_Model_Mappers_TemplateMapper();
+		$templateMapper = Application_Model_Mappers_TemplateMapper::getInstance();
 		$templates      = $templateMapper->fetchAll();
 		if(!empty ($templates)) {
 			array_walk($templates, function($template, $key, $data) {
@@ -45,8 +44,6 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector {
 				$data['mapper']->save($template);
 			}, array('pattern' => $pattern, 'mapper' => $templateMapper));
 		}
-
-		unset($templateMapper);
 		unset($templates);
 	}
 }

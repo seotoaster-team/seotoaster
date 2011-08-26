@@ -27,9 +27,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
 	private function _renderMainMenu() {
 		$pagesList  = array();
-		$pageMapper = new Application_Model_Mappers_PageMapper();
-		$pages = $pageMapper->fetchAllMainMenuPages();
-		unset($pageMapper);
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
 		foreach ($pages as $key => $page) {
 			if($page->getParentId() == 0) {
 				$pagesList[$key]['category'] = $page;
@@ -45,8 +43,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	}
 
 	private function _renderStaticMenu() {
-		$pageMapper = new Application_Model_Mappers_PageMapper();
-		$this->_view->staticPages = $pageMapper->fetchAllStaticMenuPages();
+		$this->_view->staticPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
 		unset($pageMapper);
 		return $this->_view->render('staticmenu.phtml');
 	}

@@ -23,10 +23,9 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 		$websiteHelper       = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$websiteUrl          = $websiteHelper->getUrl();
 		unset ($websiteHelper);
-		$linkContainerMapper = new Application_Model_Mappers_LinkContainerMapper();
-		$data                = $linkContainerMapper->findByLink($websiteUrl . $this->_object->getUrl());
+		$data                = Application_Model_Mappers_LinkContainerMapper::getInstance()->findByLink($websiteUrl . $this->_object->getUrl());
 		if(is_array($data) && !empty ($data)) {
-			$containerMapper = new Application_Model_Mappers_ContainerMapper();
+			$containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
 			foreach ($data as $containerData) {
 				$container = $containerMapper->find($containerData['id_container']);
 
@@ -48,7 +47,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 	}
 
 	private function _removeRelatedContainers() {
-		$containerMapper = new Application_Model_Mappers_ContainerMapper();
+		$containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
 		$containers      = $containerMapper->findByPageId($this->_object->getId());
 		if(!empty ($containers)) {
 			foreach ($containers as $container) {

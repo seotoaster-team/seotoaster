@@ -3,16 +3,29 @@ $(function() {
 	loadFaList();
 
 	$('.add-page').live('click', function() {
+		var pageId = $('#pid').val();
+		var faId   = $(this).attr('id');
+		pcountEl = $('.pcount-' + faId);
 		if($(this).attr('checked')) {
-			var pageId = $('#pid').val();
 			$.post(
 				$('#website_url').val() + 'backend/backend_featured/addpagetofa/', {
 				pid  : pageId,
-				faid : $(this).attr('id')
+				faid :faId
 			},
 			function() {
 				$('#ajax_msg').text('Added').fadeOut();
-				//$('#ajax_msg').text(response.responseText).fadeOut();
+				$(pcountEl).text(parseInt(pcountEl.text()) + 1) ;
+			})
+		}
+		else {
+			$.post(
+				$('#website_url').val() + 'backend/backend_featured/rempagefromfa/', {
+				pid  : pageId,
+				faid :faId
+			},
+			function() {
+				$('#ajax_msg').text('Added').fadeOut();
+				$(pcountEl).text(parseInt(pcountEl.text()) - 1) ;
 			})
 		}
 	})
@@ -20,7 +33,7 @@ $(function() {
 });
 
 loadFaList = function() {
-	$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/', function(response) {
+	$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/pid/' + $('#pid').val() , function(response) {
 		$('#fa-list').html(response.faList);
 	})
 }

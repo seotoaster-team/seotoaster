@@ -7,13 +7,15 @@
  */
 class Application_Model_Models_Featuredarea extends Application_Model_Models_Abstract {
 
-	protected $_name  = '';
+	protected $_name       = '';
 
-	protected $_pages = array();
+	protected $_pages      = array();
 
-	private $_limit   = 0;
+	private $_deletedPages = array();
 
-	private $_random  = false;
+	private $_limit        = 0;
+
+	private $_random       = false;
 
 	public function addPage(Application_Model_Models_Page $page) {
 		$this->_pages[] = $page;
@@ -21,6 +23,7 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 
 	public function deletePage(Application_Model_Models_Page $page) {
 		unset($this->_pages[array_search($page, $this->_pages)]);
+		$this->_deletedPages[] = $page->getId();
 	}
 
 	public function getPages() {
@@ -60,6 +63,10 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 	public function setRandom($random) {
 		$this->_random = $random;
 		return $this;
+	}
+
+	public function getDeletedPages() {
+		return $this->_deletedPages;
 	}
 }
 

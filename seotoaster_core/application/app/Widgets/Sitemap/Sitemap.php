@@ -18,10 +18,7 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
 
 	protected function _load() {
 		$pagesList    = array();
-		$pageMapper   = new Application_Model_Mappers_PageMapper();
-		$configMapper = new Application_Model_Mappers_ConfigMapper();
-		$pages        = $pageMapper->fetchAllMainMenuPages();
-		unset($pageMapper);
+		$pages        = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
 		foreach ($pages as $key => $page) {
 			if($page->getParentId() == 0) {
 				$pagesList[$key]['category'] = $page;
@@ -32,7 +29,7 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
 				}
 			}
 		}
-		$this->_view->config = $configMapper->getConfig();
+		$this->_view->config = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
 		$this->_view->pages = $pagesList;
 		return $this->_view->render('sitemap.phtml');
 	}

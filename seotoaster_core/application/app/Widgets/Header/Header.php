@@ -19,8 +19,7 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 
 	protected function  _load() {
 		$currentUser = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser();
-		$mapper = new Application_Model_Mappers_ContainerMapper();
-		$header = $mapper->findByName($this->_name, $this->_pageId, $this->_type);
+		$header      = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
 		$headerContent = (null === $header) ? '' : $header->getContent();
 		if($this->_acl->isAllowed($currentUser, $this)) {
 			$headerContent .= $this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 960, 220);
