@@ -194,7 +194,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$cssTree = array();
 		foreach ($cssFiles as $file){
 			// don't show concat.css for editing
-			if (strtolower(basename($file)) == Widgets_ConcatCss_ConcatCss::FILENAME) {
+			if (strtolower(basename($file)) == Widgets_Concatcss_Concatcss::FILENAME) {
 				continue;
 			}
 			preg_match_all('~^'.$currentThemePath.'/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', $file, $sequences);
