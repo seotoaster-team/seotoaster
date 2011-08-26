@@ -160,7 +160,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 							'themePath'	 => $this->_websiteConfig['path'].$this->_themeConfig['path'],
 							'currentTheme' =>$this->_helper->config->getConfig('currentTheme')
 						);
-						$concatCss = Tools_Factory_WidgetFactory::createWidget('ConcatCss', array('refresh' => true), $params);
+						$concatCss = Tools_Factory_WidgetFactory::createWidget('Concatcss', array('refresh' => true), $params);
 						$concatCss->render();
 						$this->_helper->response->response($this->_translator->translate('CSS saved') , false);
 					} catch (Exceptions_SeotoasterException $e) {
