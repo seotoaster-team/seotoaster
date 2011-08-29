@@ -35,11 +35,11 @@ class Backend_PageController extends Zend_Controller_Action {
 			$params = $this->getRequest()->getParams();
 			if($pageForm->isValid($this->getRequest()->getParams())) {
 
-				$pageData = $pageForm->getValues();
-
+				$pageData        = $pageForm->getValues();
+				$pageData['url'] =  $this->_helper->page->validate($pageData['url']);
 				//if we'r creating page -> check that we do not have an identical urls
 				if(!$pageId) {
-					$pageExists = $mapper->findByUrl($this->_helper->page->validate($pageData['url']));
+					$pageExists = $mapper->findByUrl($pageData['url']);
 					if($pageExists instanceof Application_Model_Models_Page) {
 						$this->_helper->response->fail('Page with url <strong>' . $this->_helper->page->validate($pageData['url']) . '</strong> already exists.');
 						exit;
@@ -55,7 +55,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				$page->setOptions($pageData);
 				//prevent renaming index page
 				if ($page->getUrl() != $this->_helper->website->getDefaultpage() ) {
-					$page->setUrl($this->_helper->page->validate($pageData['url']));
+					$page->setUrl($pageData['url']);
 				}
 				$page->setTargetedKey($page->getH1());
 				$page->setParentId($pageData['pageCategory']);
