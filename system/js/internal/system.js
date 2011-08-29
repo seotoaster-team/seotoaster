@@ -10,28 +10,30 @@ $(function() {
 	 */
 	$('a.tpopup').click(function(e) {
 		e.preventDefault();
-		link = $(this);
+		link    = $(this);
+		pwidth  = link.data('pwidth') || 960;
+		pheight = link.data('pheight') || 650;
 		if(top.$('#__tpopup').length) {
 			top.$('#__tpopup').dialog('option', {
-				width: link.data('pwidth') || 960,
-				height: link.data('pheight') || 650
+				width: pwidth,
+				height: pheight
 			});
 			top.$('#__tpopup').attr('src', link.data('url')).css({
-				width    : (link.data('pwidth') || 960) + 'px',
-				height   : (link.data('pheight') || 650) + 'px'
+				width    : pwidth + 'px',
+				height   : pheight + 'px'
 			});
 			return;
 		}
 		popup = $(document.createElement('iframe')).attr('id', '__tpopup');
 		popup.dialog({
-			width: 960,
-			height: 650,
+			width: pwidth,
+			height: pheight,
 			resizable : false,
 			modal: true,
 			open: function() {
 				$(this).attr('src', link.data('url')).css({
-						width    : (link.data('pwidth') || 960) + 'px',
-						height   : (link.data('pheight') || 650) + 'px',
+						width    : pwidth + 'px',
+						height   : pheight + 'px',
 						padding  : '0px',
 						margin   : '0px',
 						overflow : 'hidden'
