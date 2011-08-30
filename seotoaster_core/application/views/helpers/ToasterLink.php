@@ -9,7 +9,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 	const WSIZE_SMALL  = 'small';
 
 	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE) {
-		$websiteData = Zend_Registry::get('website');
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$controller  = 'backend/' . ((substr($controller, 0, 7) != 'backend') ? 'backend_' . $controller : $controller);
 		$linkText    = $this->view->translate($linkText);
 
@@ -19,7 +19,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 
 		$winsize = $this->_getValidWinSize($winSizeType);
 
-		$href = $websiteData['url'] . $controller . '/' . $action . '/' . (($params) ? $params : '');
+		$href = $websiteHelper->getUrl() . $controller . '/' . $action . '/' . (($params) ? $params : '');
 		$link = '<a class="tpopup" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
 		if($hrefOnly) {
 			return $href;
