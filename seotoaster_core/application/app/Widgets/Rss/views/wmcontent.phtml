@@ -1,18 +1,26 @@
-<form action="javascript:;" method="post">
-	<input type="text" id="feed-url" value="" />
-	maxres <input type="text" id="feed-maxres" value="5" /><br/>
-	maxch <input type="text" id="feed-maxch" value="250" /><br/>
-	<input type="submit" id="feed-done" name="done" value="Done" />
+<form class="wmc-block" action="javascript:;" method="post">
+	<div class="wmc-row">
+		<label class="wmc-label" style="float: none; width: 100%;" for="feed-url"><?php echo $this->translate('Feed url'); ?></label>
+		<input class="wmc-input w100" style="float:none; width: 98%; margin: 2px;" type="text" id="feed-url" value="" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="feed-maxres"><?php echo $this->translate('Max. results'); ?></label>
+		<input class="wmc-input w100" type="text" id="feed-maxres" value="<?php echo Widgets_Rss_Rss::RSS_RESULT_COUNT; ?>" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="feed-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
+		<input class="wmc-input w100" type="text" id="feed-maxch" value="<?php echo Widgets_Rss_Rss::RSS_DESC_LENGTH; ?>" />
+	</div>
+	<input class="wmc-submit" type="submit" id="feed-done" name="done" value="Done" />
 </form>
 
 <script type="text/javascript">
 	$(function() {
+		$('#feed-url').click(function() {$(this).removeClass('wmc-error');});
 		$('#feed-done').click(function() {
 			var feedUrl = $('#feed-url').val();
 			if(!feedUrl) {
-				$('#feed-url').css({
-					background: '#3ef'
-				})
+				$('#feed-url').toggleClass('wmc-error');
 				return;
 			}
 			featuredWidget = '{$rss:' + feedUrl + ':' + $('#feed-maxres').val() + ':' + $('#feed-maxch').val() + '}';
