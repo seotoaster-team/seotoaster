@@ -18,27 +18,27 @@ class Tools_Image_Tools {
 			Zend_Registry::set('extConfig', $configTable->selectConfig());
 		}
 	}
-	
-	public static function resize($imageFile, $newWidth,  $saveProportion = true, $destination = null) {
+
+	public static function resize($imageFile, $newWidth,  $saveProportion = true, $destination = null, $crop = false) {
 		if ( !$imageFile  || !$newWidth){
 			return 'Missing parameters';
 		}
-		
+
 		if (!is_file($imageFile) || !is_readable($imageFile)){
 			return 'No file specified';
 		}
-		
+
 		$iniConfig = Zend_Registry::get('misc');
 		//setting quality
 		$quality = isset($iniConfig['imgQuality']) ? $iniConfig['imgQuality'] : 90;
         $pngQuality = floor((100-$quality)/10);
-		
+
 		$fileInfo	= getimagesize($imageFile);
 		$imgWidth	= $fileInfo[0];
 		$imgHeight	= $fileInfo[1];
 		$fileType	= $fileInfo[2];
 		$mimeType	= $fileInfo['mime'];
-		
+
 		if ($imgWidth > $newWidth){
 			if ($saveProportion) {
 				$newHeight = $imgHeight * $newWidth / $imgWidth;
@@ -53,9 +53,9 @@ class Tools_Image_Tools {
 			}
 			return true;
 		}
-		
+
 		$newImage = imagecreatetruecolor($newWidth, $newHeight);
-		
+
 		$saveAlphaChannel = false;
 		switch ($mimeType) {
 			case 'image/gif':
@@ -74,7 +74,7 @@ class Tools_Image_Tools {
 				return 'Unknow MIME type';
 				break;
 		}
-		
+
 		// fix for transparency
 		if ($saveAlphaChannel) {
 			imagealphablending($newImage, false);
@@ -82,16 +82,30 @@ class Tools_Image_Tools {
 			$transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
 			imagefilledrectangle($newImage, 0, 0, $newWidth, $newHeight, $transparent);
 		}
-		
-		imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
-		
+
+		if($crop) {
+			$xRatio = $imgWidth / $newWidth;
+			$yRatio = $imgHeight / $newHeight;
+			if($imgWidth > $imgHeight) {
+				$xOffset = (($imgWidth / $yRatio) / 2) - ($newWidth / 2);
+				imagecopyresampled($newImage, $image, -$xOffset, 0, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
+			}
+			else {
+				$yOffset = (($imgHeight / $xRatio) / 2) - ($newHeight / 2);
+				imagecopyresampled($newImage, $image, 0, -$yOffset, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
+			}
+		}
+		else {
+			imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
+		}
+
 		if ($destination) {
 			if (!is_dir($destination)){
 				Tools_Filesystem_Tools::mkDir($destination);
 			}
 			$imageFile = $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($imageFile);
 		}
-		
+
 		switch ($mimeType) {
 			case 'image/gif':
 				imagegif($newImage, $imageFile);
@@ -108,10 +122,10 @@ class Tools_Image_Tools {
 		}
 		imagedestroy($newImage);
 		imagedestroy($image);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Batch resize for image upload proccess
 	 * @param string original file
@@ -121,23 +135,23 @@ class Tools_Image_Tools {
 	public static function batchResize($imageFile, $destination) {
 		$imageFile = trim($imageFile);
 		$destination = trim($destination);
-		
+
 		if (empty($imageFile) || empty ($destination)){
 			return false;
 		}
-		
+
 		$dbConfig = Zend_Registry::get('extConfig');
 		$iniConfig = Zend_Registry::get('misc');
-		
+
 		$sizeConfig = array(
 			'small'	 => intval($dbConfig['imgSmall']),
 			'medium' => intval($dbConfig['imgMedium']),
 			'large'	 => intval($dbConfig['imgLarge']),
 			'product' => intval($iniConfig['imgProduct'])
 		);
-		
+
 		$errors = array();
-		
+
 		foreach ($sizeConfig as $type => $size){
 			if (!is_dir($destination.DIRECTORY_SEPARATOR.$type)){
 				Tools_Filesystem_Tools::mkDir($destination.DIRECTORY_SEPARATOR.$type);
@@ -147,16 +161,16 @@ class Tools_Image_Tools {
 				array_push($errors, $result);
 			}
 		}
-		
+
 		return empty($result) ? true : $result;
 	}
-	
+
 	/**
-	 * Method removes images with given name in the given directory via recursive scan of subfolders 
+	 * Method removes images with given name in the given directory via recursive scan of subfolders
 	 * such as, small, medium, etc.
 	 * @param string $imageName Name of image to be deleted
 	 * @param string $folderName Name of folder where image is
-	 * @return mixed  Boolean true on success of all operations array with errors 
+	 * @return mixed  Boolean true on success of all operations array with errors
 	 * @return mixed  Boolean false on empty parameters given
 	 * @return mixed  Array with errors if something went wrong
 	 */
@@ -166,21 +180,21 @@ class Tools_Image_Tools {
 		if (empty ($imageName) || empty ($folderName)){
 			return false;
 		}
-		
+
 		$websiteConfig = Zend_Registry::get('website');
-		
+
 		$folderPath = $websiteConfig['path'].$websiteConfig['media'].$folderName;
 		if (!is_dir($folderPath)) {
 			throw new Exceptions_SeotoasterException('Wrong folder name specified');
 		}
-		
+
 		$errorCount = 0;
-		
+
 		$subFoldersList = array_merge(self::$imgResizedFolders, array('original'));
-		
+
 		//list of file that can be removed
 		$removable = array();
-		
+
 		foreach ($subFoldersList as $subfolder) {
 			if (!is_dir($folderPath.DIRECTORY_SEPARATOR.$subfolder)){
 				error_log('Not a folder:'.$folderPath.DIRECTORY_SEPARATOR.$subfolder);
@@ -189,10 +203,10 @@ class Tools_Image_Tools {
 			$filename = $folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName;
 			//checking if enough permission to remove file
 			if (is_file($filename) && is_writable($filename)) {
-				array_push($removable, $filename);	
+				array_push($removable, $filename);
 			}
 		}
-		
+
 		/**
 		 * checking if we can remove all files at once
 		 * if not - returning with error
@@ -210,9 +224,8 @@ class Tools_Image_Tools {
 				return false;
 			}
 			return true;
-		} 
-		
-		return 'Permission denied';			
+		}
+
+		return 'Permission denied';
 	}
-	
 }
