@@ -165,4 +165,6 @@ $(function() {
 		})
 
 	})
+
+	$('a._lbox').fancybox();
 });
