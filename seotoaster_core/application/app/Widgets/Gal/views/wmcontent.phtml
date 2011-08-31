@@ -1,0 +1,40 @@
+<form class="wmc-block" action="javascript:;" method="post">
+	<div class="wmc-row">
+		<label class="wmc-label" for="gal-folders"><?php echo $this->translate('Pick a folder'); ?></label>
+		<select class="wmc-input w100" id="gal-folders"></select>
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="gal-thumb-size"><?php echo $this->translate('Thumb. size'); ?></label>
+		<input type="text" class="wmc-input w100" id="gal-thumb-size" value="<?php echo Widgets_Gal_Gal::DEFAULT_THUMB_SIZE; ?>"/>
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="gal-crop"><?php echo $this->translate('Crop image'); ?></label>
+		<input  class="wmc-input w100" type="checkbox" id="gal-crop" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="gal-caption"><?php echo $this->translate('Caption'); ?></label>
+		<input  class="wmc-input w100" type="checkbox" id="gal-caption" />
+	</div>
+	<input class="wmc-submit" type="submit" id="gal-done" name="done" value="Done" />
+</form>
+<script type="text/javascript">
+	$(function() {
+		loadFolders();
+		$('#gal-done').click(function() {
+			widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
+		})
+	})
+
+	function loadFolders() {
+		$.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/', function(response) {
+			$.each(response.responseText, function(val) {
+				$('#gal-folders')
+					.append($('<option></option>').attr({
+						value: val
+					})
+					.text(val));
+			})
+		});
+	}
+</script>
