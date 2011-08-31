@@ -46,7 +46,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 					 'id'   => $area->getId()
 				 );
 			}
-			$this->view->faNames = $names;
+			$this->view->responseData = $names;
 		}
 
 		$this->view->faeaturedAreas = $featuredAreas;
@@ -72,6 +72,9 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
 			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'));
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
+
+			}
+			if(!$page instanceof Application_Model_Models_Page) {
 
 			}
 			$fa->addPage($page);

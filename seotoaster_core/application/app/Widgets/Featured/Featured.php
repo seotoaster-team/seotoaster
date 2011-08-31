@@ -92,9 +92,4 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		unset($view);
 		return $data;
 	}
-
-	public static function getAllowedOptions() {
-		return array('featured:page:page_id', 'featured:page:page_id:description_length');
-	}
-
 }

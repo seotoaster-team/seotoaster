@@ -1,7 +1,4 @@
 <?php foreach ($this->widgetsData as $key => $widgetData): ?>
-	<?php if($key != 0): ?>
-		<hr class="hrseparate" />
-	<?php endif; ?>
 	<h3><?php echo $this->translate($widgetData['title']); ?></h3>
 	<?php echo $widgetData['content']; ?>
 <?php endforeach; ?>

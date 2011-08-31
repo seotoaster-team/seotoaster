@@ -424,6 +424,79 @@ body, body.seotoaster {
 	border-bottom: 1px solid #fff;
 }
 
+/*========= WIDGET MAKER =================*/
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker {
+	background: #fff;
+	border-left: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block {
+	overflow: hidden;
+	min-height: 100px;
+	margin-bottom: 10px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block .wmc-row {
+	overflow: hidden;
+	min-height: 25px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label,
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
+	float: left;
+	width: 110px;
+	font-size: 12px;
+	margin: 3px;
+	padding: 7px 4px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
+	float: none;
+	width: 100%;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input,
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
+	font-size: 12px;
+	float: left;
+	width: 130px;
+	margin-right: 3px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
+	float: none;
+	width: 98%;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.wmc-input[type=checkbox] {
+	margin-top: 10px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-submit {
+	background: none repeat scroll 0 0 #7C7C7C;
+    border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+    color: #EEEEEE;
+    cursor: pointer;
+    font-size: 14px;
+	border: none;
+    font-weight: bold;
+    padding: 2px 20px;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker h3 {
+	padding: 8px;
+	background: #666;
+	color: #fff;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-error {
+	border: 1px solid #ff0000;
+}
+
 /*========= AND AND EDIT TEMPLATE ===========*/
 .seotoaster div#templatelist {
 	position: absolute;

@@ -54,7 +54,7 @@ $(function() {
 		var selectedFolder = $(this).val();
 		if(selectedFolder && selectedFolder != 0) {
 			$.ajax({
-				url        : '/backend/backend_content/loadimages',
+				url        : $('#website_url').val() + 'backend/backend_content/loadimages',
 				type       : 'post',
 				dataType   : 'json',
 				data       : {

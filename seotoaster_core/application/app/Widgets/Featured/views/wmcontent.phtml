@@ -1,35 +1,46 @@
-<form action="javascript:;" method="post">
-	<select id="featured-item-type">
-		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
-		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
-	</select>
-	<br/>
+<form class="wmc-block" action="javascript:;" method="post">
+	<div class="wmc-row">
+		<label class="wmc-label" for="featured-item-type"><?php echo $this->translate('Type'); ?></label>
+		<select class="wmc-input w100" id="featured-item-type">
+			<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
+			<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
+		</select>
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" id="fa-item-lbl" for="featured-area-item"><?php echo $this->translate('Pick an area'); ?></label>
+		<select class="wmc-input w100" id="featured-area-item"></select>
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
+		<input class="wmc-input w100" type="text" id="featured-item-maxres" value="<?php echo Widgets_Featured_Featured::AREA_PAGES_COUNT; ?>" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="featured-item-maxres"><?php echo $this->translate('Max. chars.'); ?></label>
+		<input class="wmc-input w100" type="text" id="featured-item-maxch" value="<?php echo Widgets_Featured_Featured::AREA_DESC_LENGTH; ?>" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
+		<input  class="wmc-input w100"type="checkbox" id="featured-item-img" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
+		<input class="wmc-input w100" type="checkbox" id="featured-item-rand" />
+	</div>
 
-	<select id="featured-area-item"></select>
-
-	maxres <input type="text" id="featured-item-maxres" value="5" /><br/>
-	maxch <input type="text" id="featured-item-maxch" value="250" /><br/>
-	useimg <input type="checkbox" id="featured-item-img" /><br/>
-	random <input type="checkbox" id="featured-item-rand" /><br/>
-	<input type="submit" id="fa-done" name="done" value="Done" />
+	<input class="wmc-submit" type="submit" id="fa-done" name="done" value="Done" />
 </form>
 <script type="text/javascript">
 	$(function() {
+		loadData($('#featured-item-type').val());
 
-		if(!$('#featured-area-item').html()) {
-			$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/render/0/namesonly/1', function(response) {
-				var optsHtml = '';
-				$.each(response.faNames, function() {
-					optsHtml += '<option value=' + this.name + '>' + this.name + '</option>'
-				})
-				$('#featured-area-item').html(optsHtml);
-			})
-		}
+		$('#featured-item-type').change(function() {
+			$('#fa-item-lbl').toggleClass('wmc-lable wmc-label-flat').text(($(this).val() == 'page') ? 'Pick a page' : 'Pick an area');
+			$('#featured-area-item').toggleClass('wmc-input wmc-input-flat');
+			loadData($(this).val());
+		});
 
 		$('#fa-done').click(function() {
-			//console.log($('#featured-area-item option:selected').text());
-
-			var featuredWidget = '{$featured:' + $('#featured-item-type').val() + ':' + $('#featured-area-item option:selected').text() + ':' +
+			var featuredWidget = '{$featured:' + $('#featured-item-type').val() + ':' + $('#featured-area-item option:selected').val() + ':' +
 									$('#featured-item-maxres').val() + ':' + $('#featured-item-maxch').val() +
 									(($('#featured-item-img').attr('checked')) ? ':img' : '') +
 									(($('#featured-item-rand').attr('checked')) ? ':random' : '') + '}';
@@ -39,4 +50,25 @@
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, featuredWidget);
 		})
 	});
+
+
+	function loadData(type) {
+		var websiteUrl = $('#website_url').val();
+		var url = websiteUrl + 'backend/backend_featured/loadfalist/render/0/namesonly/1';
+		if(type == 'page') {
+			url = websiteUrl + 'backend/backend_page/listpages/';
+		}
+		$.getJSON(url, function(response) {
+			$('#featured-area-item').find('option').remove().end();
+			$.each(response.responseData, function() {
+				var optVal  = (type == 'page') ? this.id : this.name;
+				var optText = (type == 'page') ? this.h1 : this.name;
+				$('#featured-area-item')
+					.append($('<option></option>').attr({
+						value: optVal
+					})
+					.text(optText));
+			})
+		})
+	}
 </script>

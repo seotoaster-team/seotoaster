@@ -22,7 +22,8 @@ class Backend_MediaController extends Zend_Controller_Action {
 
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'getdirectorycontent'	=> 'json',
-			'removefile'			=> 'json'
+			'removefile'			=> 'json',
+			'loadfolders'           => 'json'
 			))->initContext('json');
 	}
 
@@ -31,11 +32,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 	 */
 	public function uploadthingsAction() {
 		//creating list of folder in 'images' directory
-		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['media']);
-		if (!empty ($listFolders)){
-			$listFolders = array_combine($listFolders, $listFolders);
-		}
-		$this->view->listFolders = array_merge(array('select folder'), $listFolders);
+		$this->view->listFolders = array_merge(array('select folder'), $this->_getFoldersList());
 	}
 
 	/**
@@ -164,6 +161,11 @@ class Backend_MediaController extends Zend_Controller_Action {
 		}
 	}
 
+	public function loadfoldersAction() {
+		$this->view->responseText = $this->_getFoldersList();
+	}
+
+
 	/**
 	 * Checks if file/image is linked in any content and return list of pages where it used
 	 * @param string $filename Name of file
@@ -185,5 +187,13 @@ class Backend_MediaController extends Zend_Controller_Action {
 		}
 
 		return $usedOnPages;
+	}
+
+	private function _getFoldersList() {
+		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['media']);
+		if (!empty ($listFolders)){
+			$listFolders = array_combine($listFolders, $listFolders);
+		}
+		return $listFolders;
 	}
 }
