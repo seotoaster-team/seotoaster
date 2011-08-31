@@ -1,16 +1,24 @@
-<form action="javascript:;" method="post">
-	relevance <input type="text" id="related-rel" value="2" /><br/>
-	max res <input type="text" id="related-maxres" value="5" /><br/>
-	useimg <input type="checkbox" id="related-img" /><br/>
-	<input type="submit" id="related-done" name="done" value="Done" />
+<form class="wmc-block" action="javascript:;" method="post">
+	<div class="wmc-row">
+		<label class="wmc-label" for="related-rel"><?php echo $this->translate('Relevance'); ?></label>
+		<input class="wmc-input w100" type="text" id="related-rel" value="<?php echo Widgets_Related_Related::REL_WORD_COUNT; ?>" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="related-maxres"><?php echo $this->translate('Max. results'); ?></label>
+		<input class="wmc-input w100" type="text" id="related-maxres" value="<?php echo Widgets_Related_Related::REL_DESC_LENGTH; ?>" />
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="related-maxres"><?php echo $this->translate('Use image'); ?></label>
+		<input class="wmc-input w100" type="checkbox" id="related-img" />
+	</div>
+	<input class="wmc-submit" type="submit" id="related-done" name="done" value="<?php echo $this->translate('Done'); ?>" />
 </form>
+
 <script type="text/javascript">
 	$(function() {
-
 		$('#related-done').click(function() {
 			widget = '{$related:' + $('#related-rel').val() + ':' + $('#related-maxres').val() + (($('#related-img').attr('checked')) ? ':img' : '') + '}';
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
 		});
-
 	})
 </script>
