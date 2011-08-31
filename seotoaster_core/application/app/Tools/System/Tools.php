@@ -43,5 +43,11 @@ class Tools_System_Tools {
 		}
 		return $deeplinks;
 	}
+
+	public static function cutExtension($string){
+		$exploded = explode('.', $string);
+		unset($exploded[sizeof($exploded) - 1]);
+		return implode('', $exploded);
+	}
 }
 
