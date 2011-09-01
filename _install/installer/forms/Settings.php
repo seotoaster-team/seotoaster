@@ -24,6 +24,7 @@ class Installer_Form_Settings extends Zend_Form {
 		$this->addElement('text', 'adminEmail', array(
 			'value'		=> '',
 			'label'		=> 'Email',
+			'title'		=> 'We will not use it for spamming',
 			'required'	=> true,
 			'allowEmpty'=> false,
 			'validators'=> array(new Zend_Validate_EmailAddress())
@@ -32,7 +33,7 @@ class Installer_Form_Settings extends Zend_Form {
 		$this->addElement('password', 'adminPassword', array(
 			'value'		=> '',
 			'label'		=> 'Password',
-			'data-tip'		=> 'At least 5 characters',
+			'title'		=> 'At least 5 characters',
 			'renderPassword' => true,
 			'required'	=> true,
 			'allowEmpty'=> false,
@@ -60,5 +61,5 @@ class Installer_Form_Settings extends Zend_Form {
 			$this->getElement($name)->setAttrib('class', 'error');
 		}
 	}
-
+	
 }

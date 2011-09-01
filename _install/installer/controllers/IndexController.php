@@ -22,15 +22,28 @@ class IndexController extends Zend_Controller_Action {
 		if ($this->getRequest()->getParam('garbage')){
 			$this->_redirect('');
 		}
+		$translator = Zend_Registry::get('Zend_Translate');
+		
 		if (!$this->getRequest()->isPost()) {
 			if (Zend_Session::sessionExists()){
 				$namespace = $this->_session->getNamespace();
 				if (isset($_SESSION[$namespace])) {
 					unset ($_SESSION[$namespace]);
 				}
+				$translator->setLocale('en');
+				Zend_Registry::set('Zend_Translate', $translator);
 				Zend_Session::regenerateId();
 			}
 		} else {
+			$lang = $this->getRequest()->getParam('lang');
+			if ($lang && Zend_Locale::isLocale($lang)){
+				$this->_session->locale->setLocale($lang);
+				if ($translator->getLocale() !== $lang){
+					$translator->setLocale($lang);
+					Zend_Registry::set('Zend_Translate', $translator);
+				}
+				$this->_session->nextStep = 1;
+			}
 			if ($this->_session->nextStep !== null) {
 			    return $this->_forward('step'.$this->_session->nextStep);
 			}
@@ -41,6 +54,8 @@ class IndexController extends Zend_Controller_Action {
 	
 	public function step1Action() {
 		$this->_session->nextStep = 1;
+		
+		$this->view->langs = $this->_findLanguages();
 		
 		$phpRequirements = array();
 		$permissions = array(
@@ -415,5 +430,19 @@ class IndexController extends Zend_Controller_Action {
 		} catch (Exception $e){
 			return $e->getMessage();
 		}
+	}
+	
+	private function _findLanguages() {
+		$availLanguages = array();
+		$langFiles = scandir(INSTALL_PATH.DIRECTORY_SEPARATOR.'system/languages/');
+		foreach ($langFiles as $file) {
+			$locale = preg_replace('~(.*)\.lng$~', '$1', $file);
+			$flagFile = 'system/images/flags/'.$locale.'.png';
+			if (is_file(INSTALL_PATH.DIRECTORY_SEPARATOR.$flagFile)){
+				$availLanguages[$locale] = $flagFile;
+			}
+		}
+		
+		return $availLanguages;
 	}
 }
