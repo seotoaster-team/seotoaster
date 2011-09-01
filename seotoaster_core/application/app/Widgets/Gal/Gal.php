@@ -51,7 +51,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 		$this->_view->original      = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path) . 'original/';
 		$this->_view->images        = $sourceImages;
 		$this->_view->useCaption    = $useCaption;
-		$this->_view->galFolderPath = $path . $galFolder;
+		$this->_view->galFolderPath = $galFolder;
 		$this->_view->galFolder     = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
 		return $this->_view->render('gallery.phtml');
 	}

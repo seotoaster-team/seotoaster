@@ -85,8 +85,8 @@ class IndexController extends Zend_Controller_Action {
 	private function _complete($pageContent, $pageData) {
 		$head = '';
 		$body = '';
-		preg_match('~<head>(.*)</head>~sUi', $pageContent, $head);
-		preg_match('~<body>(.*)</body>~sUi', $pageContent, $body);
+		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
+		preg_match('~<body.*>(.*)</body>~usUi', $pageContent, $body);
 		$this->view->head            = $head[1];
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();

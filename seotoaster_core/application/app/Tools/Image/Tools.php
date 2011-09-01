@@ -84,16 +84,25 @@ class Tools_Image_Tools {
 		}
 
 		if($crop) {
-			$xRatio = $imgWidth / $newWidth;
-			$yRatio = $imgHeight / $newHeight;
-			if($imgWidth > $imgHeight) {
-				$xOffset = (($imgWidth / $yRatio) / 2) - ($newWidth / 2);
-				imagecopyresampled($newImage, $image, -$xOffset, 0, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
+			$originalAspect = $imgWidth / $imgHeight;
+			$thumbAspect    = $newWidth / $newHeight;
+			if($originalAspect >= $thumbAspect) {
+				$thumbHeight = $newHeight;
+				$thumbWidth  = $imgWidth / ($imgHeight / $newHeight);
 			}
 			else {
-				$yOffset = (($imgHeight / $xRatio) / 2) - ($newHeight / 2);
-				imagecopyresampled($newImage, $image, 0, -$yOffset, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
+				$thumbWidth  =  $newWidth;
+				$thumbHeight = $imgHeight / ($imgWidth / $newWidth);
 			}
+			imagecopyresampled(
+				$newImage,
+				$image,
+				0 - ($thumbWidth - $newWidth) / 2,
+				0 - ($thumbHeight - $newHeight) / 2,
+				0, 0,
+				$thumbWidth, $thumbHeight,
+				$imgWidth, $imgHeight
+			);
 		}
 		else {
 			imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
