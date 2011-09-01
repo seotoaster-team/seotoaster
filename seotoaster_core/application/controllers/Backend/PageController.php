@@ -250,7 +250,7 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function listpagesAction() {
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll('', 'h1 ASC');
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll(null, array('h1 ASC'));
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
 		}, $pages);

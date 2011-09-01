@@ -339,6 +339,11 @@ body, body.seotoaster {
 
 
 /*========= EDIT CONTENT ===========*/
+
+.seotoaster #content {
+	height: 560px;
+}
+
 .seotoaster #btn-submit {
 	position: absolute;
 	bottom: 5px;
