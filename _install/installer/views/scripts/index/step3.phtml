@@ -1,0 +1,21 @@
+<div class="grid_12">
+	<div class="header">
+		<h1>Welcome to SEOTOASTER 2.0 - STEP 3</h1>
+	</div>
+	<div class="content ui-helper-clearfix">
+<!--		<div class="header">
+			<p>Website configuration</p>
+		</div>-->
+		<?php if ($this->configsSaved === false): ?>
+		<p class="state-error">Something went wrong during saving configuration files.</p>
+		<?php else :?>
+		<p class="state-success">You're in one step of finishing.</p>
+		<?php endif; ?>
+		<div class="header">Please, specify your email and password to be used for logining you into a system.</div>
+		<div class="ui-helper-clearfix">
+			<?php echo $this->settingsForm; ?>
+		</div>
+	</div>
+	
+	
+</div>

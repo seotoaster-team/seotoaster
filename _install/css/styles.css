@@ -1,0 +1,119 @@
+/* 
+ * installer styles
+ */
+#container {
+	width: 920px; 
+	margin: 30px auto 0;
+}
+.installer .header {
+	background-color: #777;
+	font-weight: bold;
+	color: #eee;
+	box-shadow: 0 1px 0 #333;
+	margin: 5px 0;
+	border-radius: 8px;
+	padding: 5px;
+	text-align: center;
+	text-shadow: 1px 1px 0 #333;
+}
+.installer .content {
+	background: url('../resourses/toaster.png') #b3c7e1 no-repeat center left;
+	padding: 10px;
+	padding-left: 400px;
+	height: 500px;
+	border-radius: 8px;
+	position: relative;
+}
+.installer h1 {
+	text-transform: uppercase;
+	font-size: 200%;
+	padding: 10px;
+}
+.installer .content .form-holder {
+	position: relative;
+}
+.installer .content form fieldset > div {
+	margin-bottom: 5px;
+	line-height: 28px;
+}
+
+.installer .content form fieldset legend {
+	width: 100%;
+	background-color: #777;
+	font-weight: bold;
+	color: #eee;
+	box-shadow: 0 1px 0 #333;
+	margin: 5px 0;
+	border-radius: 8px;
+	padding: 5px;
+	text-align: center;
+	text-shadow: 1px 1px 0 #333;
+}
+.installer .content .state-success,
+.installer .content .state-error {
+	border: 1px solid black;
+	border-radius: 4px;
+	padding: 4px 6px;
+	margin: 4px 0;
+	font-weight: bold;
+	background-color: #ddd;
+	text-align: justify;
+}
+.installer .content .form-holder .state-success,
+.installer .content .form-holder .state-error {
+	text-align: center;
+}
+.installer .content .state-success {
+	border-color: green;
+	color: green;
+}
+.installer .content .state-error {
+	border-color: red;
+	color: red;
+}
+
+.installer input {
+	border-radius: 8px;
+	padding: 4px 8px;
+}
+.installer input.error {
+	border-color: red;
+}
+
+.installer form label::after {
+	content: ':';
+}
+.installer form label.required::after {
+	content: ': *';
+}
+.installer form div > input {
+	float: right;
+}
+
+.tooltip {
+	background-color:#ff9;
+	border:1px solid #777;
+	padding:10px 15px;
+	min-width:100px;
+	display:none;
+	color:#333;
+	text-align:left;
+	font-size:12px;
+
+	-moz-box-shadow:0 0 10px #000;
+	-webkit-box-shadow:0 0 10px #000;
+	box-shadow:0 0 10px #000;
+}
+
+#loading {
+	display: none;
+	background: url('../resourses/fancy-loading.gif') #fff no-repeat center center;
+	opacity: 0.75;
+	position: absolute;
+	width: 520px;
+	height: 100%;
+	top: 0;
+	z-index: 9999;
+	margin-left: -10px;
+/*	border-radius: 20px;*/
+}
