@@ -1,0 +1,93 @@
+<div class="grid_12" id="installer">
+	<div class="ui-corner-all header">
+		<h1>Welcome to SEOTOASTER 2.0 - STEP 1</h1>
+	</div>
+	<div class="content ui-corner-all">
+		<div id="loading"></div>
+
+		<h2>Welcome to your new SEOTOASTER installation!</h2>
+		<p>This wizard will help you to setup your new SEOTOASTER website.</p>
+		
+		<div>
+		<p>We've checked your PHP configuration. </p>
+		<?php if (get_magic_quotes_gpc()) : ?>
+		<p class="state-success">The "magic_quotes" are <span style="color:red;">ON</span>. We recommend you to switch them off.</p>
+		<?php endif;?>
+		<?php if (in_array(false, $this->checks)): ?>
+		<p>We found some missing requirements:</p>
+		<ul>
+			<li class="<?php echo $this->checks['php'] ? 'state-success' : 'state-error' ;?>">
+				PHP &gt; 5.3.2
+				<span class="ui-icon <?php echo $this->checks['php'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+			<li class="<?php echo $this->checks['pdo'] ? 'state-success' : 'state-error' ;?>">
+				Mysql 5.X (Create One empty MySQL database.. example: seotoaster) and make it UTF8 Unicode if you want to use languages.
+				<br />
+				PDO extension for PHP								
+				<span class="ui-icon <?php echo $this->checks['pdo'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+
+			<li class="<?php echo $this->checks['mbstring'] ? 'state-success' : 'state-error' ;?>">
+				MBString or newer (Allows system to work with any language)
+				<span class="ui-icon <?php echo $this->checks['mbstring'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+			<li class="<?php echo $this->checks['gd'] ? 'state-success' : 'state-error' ;?>">
+				GD Libaries 2.0 or newer (Allows system to work with images)				
+				<span class="ui-icon <?php echo $this->checks['gd'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+			<li class="<?php echo $this->checks['zlib'] ? 'state-success' : 'state-error' ;?>">
+				Zlib extension for PHP (Allows the system to work with ziped themes)
+				<span class="ui-icon <?php echo $this->checks['zlib'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+			<li class="<?php echo $this->checks['zip'] ? 'state-success' : 'state-error' ;?>">
+				Zip extension for PHP (Allows themes management through the interface)
+				<span class="ui-icon <?php echo $this->checks['zip'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+			<li class="<?php echo $this->checks['curl'] ? 'state-success' : 'state-error' ;?>">
+				Curl extension for PHP (Allows the system to be in touch with 3rd party services: Google, Yahoo, PayPal, etc.)
+				<span class="ui-icon <?php echo $this->checks['curl'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
+			</li>
+		</ul>
+		<?php else: ?>
+		<p>All required PHP extensions seems to be installed.</p>
+		<?php endif; ?>
+		</div>
+		
+		<?php if ($this->failedPermissions) : ?>
+		<div>
+			<p>Opps. Check list of files and folders which have bad permissions:</p>
+			<ul>
+			<?php foreach ($this->permissions['dir'] as $dirname => $status): ?>
+				<?php if ($status !== true ): ?>
+				<li>
+					<?php echo 'Folder <b>'.$dirname.'</b>' . ' - ' . $status ; ?>
+				</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</ul>
+			<ul>
+			<?php foreach ($this->permissions['file'] as $filename => $status): ?>
+				<?php if ($status !== true ): ?>
+				<li>
+					<?php echo 'File <b>'.$filename.'</b>' . ' - ' . $status ; ?>
+				</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</ul>
+		</div>
+		<?php else: ?>
+		<div>
+			<p>All directories and files seems to have right permissions</p>
+		</div>
+		<?php endif; ?>
+		
+		<form id="gotonext" action="" method="post">
+			<?php if ($this->gotoNext === true): ?>
+			<input type="submit" value="Go forward!" name="submit" />
+			<?php else: ?>
+			<input type="submit" value="Check again" name="check" />
+			<?php endif; ?>
+		</form>
+
+	</div>
+</div>

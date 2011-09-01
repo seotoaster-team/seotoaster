@@ -6,7 +6,7 @@
  ************************************************************************/
 
 if(is_dir(realpath(dirname(__FILE__).'/install/'))){
-	header('Location: /install/');
+	header('Location: install/');
 	exit();
 }
 

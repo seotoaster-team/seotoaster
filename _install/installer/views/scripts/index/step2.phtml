@@ -1,0 +1,40 @@
+<div class="grid_12">
+	<div class="header ui-corner-all">
+		<h1>Welcome to SEOTOASTER 2.0 - STEP 2</h1>
+	</div>
+	<div class="content ui-helper-clearfix">
+		
+		<div class="ui-helper-clearfix form-holder">
+		<?php if (!empty($this->messages['core'])): ?>
+			<ul class="ui-helper-clearfix">
+			<?php foreach($this->messages['core'] as $msg): ?>
+				<li class="state-error"><?php echo $msg; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		<?php endif;?>
+		</div>
+		
+		
+		<div class="ui-helper-clearfix form-holder">
+		<?php if ($this->messages['db'] !== null): ?>
+			<?php if ($this->messages['db'] === true):?>
+				<p class="state-success">Database installed successful.</p>
+			<?php else :?>
+				<p class="state-error">
+					<span style="font-weight: normal; color: black;">Can't establish database connection. Server sent following error:</span>
+					<span><?php echo $this->messages['db']; ?></span>
+				</p>
+			</div>
+			<?php endif; ?>
+		<?php endif;?>
+		<?php echo $this->configform; ?>
+		</div>
+	
+	<form action="" method="post">
+		<?php if ($this->gotoNext === true): ?>
+		<input type="submit" value="Go forward!" name="submit" />
+		<?php endif; ?>
+	</form>
+	
+	</div>
+</div>
