@@ -40,18 +40,19 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 			if(is_file($galFolder . $image)) {
 				$imgInfo = getimagesize($galFolder . $image);
 				if($imgInfo[0] != $thumbSize) {
-					Tools_Image_Tools::resize($path . 'original/' . $image, $thumbSize, true, $galFolder, $useCrop);
+					Tools_Image_Tools::resize($path . 'original/' . $image, $thumbSize, !($useCrop), $galFolder, $useCrop);
 				}
 			}
 			else {
-				Tools_Image_Tools::resize($path . 'original/' . $image, $thumbSize, true, $galFolder, $useCrop);
+				Tools_Image_Tools::resize($path . 'original/' . $image, $thumbSize, !($useCrop), $galFolder, $useCrop);
 			}
 		}
-		$this->_view->folder      = $this->_options[0];
-		$this->_view->original    = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path) . 'original/';
-		$this->_view->images      = $sourceImages;
-		$this->_view->useCaption  = $useCaption;
-		$this->_view->galFolder   = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
+		$this->_view->folder        = $this->_options[0];
+		$this->_view->original      = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path) . 'original/';
+		$this->_view->images        = $sourceImages;
+		$this->_view->useCaption    = $useCaption;
+		$this->_view->galFolderPath = $path . $galFolder;
+		$this->_view->galFolder     = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
 		return $this->_view->render('gallery.phtml');
 	}
 
