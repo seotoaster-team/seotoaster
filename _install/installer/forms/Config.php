@@ -8,6 +8,8 @@
 class Installer_Form_Config extends Zend_Form {
 	
 	public function init(){
+		$translator = $this->getTranslator();
+		
 		$this->setName(strtolower(__CLASS__))
 			 ->setAction('')
 			 ->setAttrib('class', 'ui-helper-clearfix')
@@ -26,14 +28,14 @@ class Installer_Form_Config extends Zend_Form {
 			'value'		=> $this->_corepath,
 			'label'		=> 'Path to core',
 //			'class'		=> 'livecheck'
-			'title'		=> 'Input path to core'
+			'title'		=> ($translator ? $translator->translate('Input path to core') : 'Input path to core')
 		));
 		
 		$this->addElement('text', 'sitename', array(
 			'value'		=> $this->_sitename,
 			'label'		=> 'Site name',
 //			'class'		=> 'livecheck',
-			'title'		=> 'Give a name for your site',
+			'title'		=> ($translator ? $translator->translate('Give a name for your site') : 'Give a name for your site'),
 			'validators'=> array(
 				new Zend_Validate_Hostname(array(
 					'allow' => Zend_Validate_Hostname::ALLOW_DNS | Zend_Validate_Hostname::ALLOW_IP | Zend_Validate_Hostname::ALLOW_LOCAL,
@@ -46,7 +48,7 @@ class Installer_Form_Config extends Zend_Form {
 		$this->addElement('text', 'host', array(
 			'value'		=> 'localhost',
 			'label'		=> 'Host',
-			'title'		=> 'Database server address',
+			'title'		=> ($translator ? $translator->translate('Database server address') : 'Database server address'),
 			'validators'=> array(
 				new Zend_Validate_Hostname(array(
 					'allow' => Zend_Validate_Hostname::ALLOW_DNS | Zend_Validate_Hostname::ALLOW_IP | Zend_Validate_Hostname::ALLOW_LOCAL,
@@ -58,7 +60,7 @@ class Installer_Form_Config extends Zend_Form {
 		
 		$this->addElement('text', 'username', array(
 			'label'		=> 'User',
-			'title'		=> 'User allowed to connect to database server'
+			'title'		=> ($translator ? $translator->translate('User allowed to connect to database server') : 'User allowed to connect to database server')
 		));
 		
 		$this->addElement('password', 'password', array(

@@ -5,6 +5,15 @@
 	width: 920px; 
 	margin: 30px auto 0;
 }
+#container #language span.ui-button-text{
+	padding: 4px 10px;
+}
+#container #language label.ui-state-hover {
+	background: #3399ff;
+}
+#container #language label.ui-state-active { 
+	background: #b3c7e1;
+}
 .installer .header {
 	background-color: #777;
 	font-weight: bold;
@@ -80,13 +89,13 @@
 	border-color: red;
 }
 
-.installer form label::after {
+.installer .content form label::after {
 	content: ':';
 }
-.installer form label.required::after {
+.installer .content form label.required::after {
 	content: ': *';
 }
-.installer form div > input {
+.installer .content form div > input {
 	float: right;
 }
 

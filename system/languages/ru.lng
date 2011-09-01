@@ -36,6 +36,29 @@
 	'Manage config'        => 'Настройки',
 	'Manage users'         => 'Пользователи',
 	'Plugins'              => 'Планины',
-	'LOGOUT'               => 'ВЫЙТИ'
+	'LOGOUT'               => 'ВЫЙТИ',
+	
+	/* Инсталлятор */
+	/* шаг 1 */
+	'Welcome to your new SEOTOASTER installation!' => 'Добро пожаловать в мастер установки SEOTOASTER!',
+	'This wizard will help you to setup your new SEOTOASTER website.' => 'Этот мастрер поможет настроить Ваш новый веб-сайт.',
+	"We've checked your PHP configuration." => "Мы проверили конфигурацию PHP на Вашем сервере",
+	'We found some missing requirements' => 'Мы нашли некоторые неудовлетворенные зависимости',
+	'All required PHP extensions seems to be installed.' => 'Похоже, что все необходимые PHP-модули установлены.',
+	'All directories and files seems to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
+	'Go forward!'		   => 'Вперёд',
+	
+	/* шаг 2 */
+	'Core location settings' => 'Расположение ядра',
+	'Path to core' => 'Путь к ядру',
+	'Input path to core' => 'Укажите расположения ядра',
+	'Site name' => 'Имя сайта',
+	'Database connection settings' => 'Настройки базы данных',
+	'Host' => 'Хост',
+	'User' => 'Пользователь',
+	'Passowrd' => 'Пароль',
+	'Database name' => 'Имя базы данных',
+	'Go ahead!' => 'Вперёд',
+	"Welcome to %1\$s - STEP %2\$s" => "Добро пожаловать в %1\$s - шаг %2\$s"
 );
 ?>
