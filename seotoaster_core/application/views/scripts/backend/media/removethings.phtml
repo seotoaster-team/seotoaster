@@ -136,7 +136,6 @@
 			proccessError({errorMsg: '<?php echo $this->translate('Nothing to remove');?>'});
 			return false;
 		}
-		console.log(fileForm.serialize());
 		$.ajax({
 			url: '<?php echo $this->url(array('action'=>'removefile'));?>',
 			type: 'post',
@@ -163,6 +162,12 @@
 						});
 					}
 				}
+				if (response.hasOwnProperty('folderRemoved')){
+					if (response.folderRemoved === true){
+						$('#folder').find('option:selected').remove().end().val('0');
+					}
+				}
+
 			}
 		});
 	});

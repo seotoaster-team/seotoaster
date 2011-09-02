@@ -154,6 +154,16 @@ class Backend_MediaController extends Zend_Controller_Action {
 
 				}
 			}
+			if (!empty($deleted)) {
+				$folderContent = Tools_Filesystem_Tools::scanDirectory($folderPath, false, true);
+				if (empty($folderContent)) {
+					try {
+						$this->view->folderRemoved = Tools_Filesystem_Tools::deleteDir($folderPath);
+					} catch (Exception $e) {
+						error_log($e->getMessage());
+					}
+				}
+			}
 			$this->view->errors		= empty ($errorList) ? false : $errorList;
 			$this->view->deleted	= $deleted;
 		} else {
