@@ -25,9 +25,14 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 			$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 
 			array_walk($enabledPlugins, function($plugin, $key, $data) {
-				$pluginInstance = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), array(), array('websiteUrl' => $data['websiteUrl']));
-				if(method_exists($pluginInstance, $data['method'])) {
-					$pluginInstance->$data['method']();
+				try {
+					$pluginInstance = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), array(), array('websiteUrl' => $data['websiteUrl']));
+					if(method_exists($pluginInstance, $data['method'])) {
+						$pluginInstance->$data['method']();
+					}
+				}
+				catch (Exceptions_SeotoasterException $se) {
+					continue;
 				}
 			}, array('method' => $method, 'websiteUrl' => $websiteHelper->getUrl()));
 		}

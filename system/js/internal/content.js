@@ -1,23 +1,9 @@
 $(function() {
 	$('#tabs').tabs();
-	$('#dpkr')
-		.css({
-			width : '250px'
-		})
-		.datepicker();
+	$('#dpkr').css({width : '250px'}).datepicker();
 
-
-	var datepicker      = $('#dpkr');
-
-	var chckbxPublished = $('#published');
-
-	datepicker.attr('disabled', chckbxPublished.attr('checked'));
-	chckbxPublished.live('click', (function() {
-		datepicker.attr('disabled', $(this).attr('checked'));
-		if($(this).attr('checked')) {
-			datepicker.val('');
-		}
-	}));
+	if($('#published').length) {pubunpub();}
+	$('#published').live('click', pubunpub);
 
 	$('#frm_content').submit(function() {
 		var ajaxMsgSuccess = $('#ajax_msg');
@@ -29,7 +15,7 @@ $(function() {
 			pageId        : $(this).find('#page_id').val(),
 			containerId   : $(this).find('#container_id').val(),
 			published     : (chckbxPublished.attr('checked')) ? 1 : 0,
-			publishOn     : datepicker.val()
+			publishOn     : $('#dpkr').val()
 		}
 		$.ajax({
 			url        : $(this).attr('action'),
@@ -131,4 +117,14 @@ function insertFileLink(fileName) {
 		false,
 		'<a href="/media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
 	);
+}
+
+function pubunpub() {
+	var chckbxPublished = $('#published');
+	var dpkr            = $('#dpkr');
+	var published = (chckbxPublished.attr('checked')) ? true : false;
+	dpkr.attr('disabled', published);
+	if(published) {
+		dpkr.val('');
+	}
 }

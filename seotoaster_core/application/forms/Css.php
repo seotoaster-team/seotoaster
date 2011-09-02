@@ -7,7 +7,7 @@
 class Application_Form_Css extends Zend_Form {
 	protected $_content = '';
 	protected $_cssList = '';
-    
+
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttrib('id', 'editcssform');
@@ -18,7 +18,7 @@ class Application_Form_Css extends Zend_Form {
 		));
 
 		$this->addElement('textarea', 'content', array(
-			'id'		=> 'content',
+			'id'		=> 'csscontent',
 			'required'	=> true,
 			'allowEmpty'=> true,
 			'value'		=> $this->_content,
@@ -31,7 +31,7 @@ class Application_Form_Css extends Zend_Form {
 			'ignore'	=> true,
 			'label'		=> 'Save CSS'
 		));
-		
+
 		$this->setDecorators(array('ViewScript'))
 			->setElementDecorators(array('ViewHelper'))
 			->setElementFilters(array('StringTrim'));

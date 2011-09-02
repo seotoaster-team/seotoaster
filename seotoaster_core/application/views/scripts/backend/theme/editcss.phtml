@@ -27,7 +27,7 @@
 			success: function(response){
 				if (response.error == false){
 					$('#ajax_msg').fadeOut();
-					$('#content').val(response.responseText).focus();
+					$('#csscontent').val(response.responseText).focus();
 				}
 			},
 			beforeSend: function(){
@@ -38,7 +38,7 @@
 			}
 		});
 	});
-	$('#content').keydown(function(e) {
+	$('#csscontent').keydown(function(e) {
 		if(e.ctrlKey && e.keyCode == 83) {
 			e.preventDefault();
 			$('#editcssform').submit();

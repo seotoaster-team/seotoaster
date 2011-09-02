@@ -5,6 +5,8 @@
 
 class Backend_ThemeController extends Zend_Controller_Action {
 
+	const DEFAULT_CSS_NAME = 'style.css';
+
 	private $_protectedTemplates = array('index', 'default', 'category', 'news');
 
 	private $_websiteConfig = null;
@@ -131,10 +133,11 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 */
 	public function editcssAction() {
 		$cssFiles =	$this->_buildCssFileList();
-		$defaultCss = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . key(current($cssFiles));
+		$defaultCss = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(self::DEFAULT_CSS_NAME, current($cssFiles));
 
 		$editcssForm = new Application_Form_Css();
 		$editcssForm->getElement('cssname')->setMultiOptions($cssFiles);
+		$editcssForm->getElement('cssname')->setValue(self::DEFAULT_CSS_NAME);
 
 		//checking, if form was submited via POST then
 		if ($this->getRequest()->isPost()){
@@ -172,6 +175,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		} else {
 			try {
 				$editcssForm->getElement('content')->setValue(Tools_Filesystem_Tools::getFile($defaultCss));
+				$editcssForm->getElement('cssname')->setValue(array_search(self::DEFAULT_CSS_NAME, current($cssFiles)));
 			} catch (Exceptions_SeotoasterException $e){
 				$this->view->errorMessage = $e->getMessage();
 			}

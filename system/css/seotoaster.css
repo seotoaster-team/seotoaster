@@ -344,6 +344,10 @@ body, body.seotoaster {
 	height: 560px;
 }
 
+.seotoaster #csscontent {
+	height: 510px;
+}
+
 .seotoaster #btn-submit {
 	position: absolute;
 	bottom: 5px;
