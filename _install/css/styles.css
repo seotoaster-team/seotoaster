@@ -1,9 +1,44 @@
 /* 
  * installer styles
  */
-#container {
-	width: 920px; 
-	margin: 30px auto 0;
+@import url('http://fonts.googleapis.com/css?family=Play|PT+Sans&subset=latin,cyrillic');
+html > * {
+	font-family: 'PT Sans';
+}
+code {
+	font-family: monospace;
+}
+a, a:visited, a:active {
+	color: #3875d7;
+}
+a:hover {
+	color: blue;
+}
+footer {
+	padding-top: 10px;
+	text-align: center;
+}
+footer a{
+	color: #999 !important;
+	font-size: 10px;
+	-webkit-transition: all 0.5s ease-in;
+	-moz-transition: all 0.5s ease-in;
+	-o-transition: all 0.5s ease-in;
+	transition: all 0.5s ease-in;
+	-ms-transition: all 0.5s ease-in;
+}
+footer:hover a{
+	color: #3875d7 !important;
+	font-size: 12px;
+}
+
+ul.marked li {
+	list-style-position: inside;
+	list-style-type: square;
+}
+#container { 
+	margin: 2% auto 0;
+	width: 920px;
 }
 #container #language span.ui-button-text{
 	padding: 4px 10px;
@@ -15,31 +50,43 @@
 	background: #b3c7e1;
 }
 .installer .header {
-	background-color: #777;
-	font-weight: bold;
-	color: #eee;
-	box-shadow: 0 1px 0 #333;
 	margin: 5px 0;
-	border-radius: 8px;
 	padding: 5px;
+	        border-radius: 8px;
+	background-color: #777; background-clip: padding-box;
+	-webkit-box-shadow: 0 1px 0 #333;
+	-moz-box-shadow: 0 1px 0 #333;
+	box-shadow: 0 1px 0 #333;
+	color: #eee;
 	text-align: center;
 	text-shadow: 1px 1px 0 #333;
+	font-family: 'Play';
+	font-weight: bold;
+	   -moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box;
 }
 .installer .content {
-	background: url('../resourses/toaster.png') #b3c7e1 no-repeat center left;
+	position: relative;
 	padding: 10px;
 	padding-left: 400px;
 	height: 500px;
-	border-radius: 8px;
-	position: relative;
+	        border-radius: 8px;
+	background: url('../resourses/toaster.png') #b3c7e1 no-repeat center left; background-clip: padding-box;
+	   -moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box;
+}
+.installer .content strong {
+	font-weight: bold;
 }
 .installer h1 {
+	padding: 10px;
 	text-transform: uppercase;
 	font-size: 200%;
-	padding: 10px;
 }
 .installer .content .form-holder {
-	position: relative;
+/* position: relative; */
 }
 .installer .content form fieldset > div {
 	margin-bottom: 5px;
@@ -47,26 +94,34 @@
 }
 
 .installer .content form fieldset legend {
-	width: 100%;
-	background-color: #777;
-	font-weight: bold;
-	color: #eee;
-	box-shadow: 0 1px 0 #333;
-	margin: 5px 0;
-	border-radius: 8px;
 	padding: 5px;
+	width: 100%;
+	border-radius: 8px;
+	background-color: #777; background-clip: padding-box;
+	-webkit-box-shadow: 0 1px 0 #333;
+	   -moz-box-shadow: 0 1px 0 #333;
+	        box-shadow: 0 1px 0 #333;
+	color: #eee;
 	text-align: center;
 	text-shadow: 1px 1px 0 #333;
+	font-family: 'Play';
+	font-weight: bold;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box;
 }
 .installer .content .state-success,
 .installer .content .state-error {
+	margin: 4px 0;
+	padding: 4px 6px;
 	border: 1px solid black;
 	border-radius: 4px;
-	padding: 4px 6px;
-	margin: 4px 0;
-	font-weight: bold;
-	background-color: #ddd;
+	background-color: #ddd; background-clip: padding-box;
 	text-align: justify;
+	font-weight: bold;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box;
 }
 .installer .content .form-holder .state-success,
 .installer .content .form-holder .state-error {
@@ -82,8 +137,8 @@
 }
 
 .installer input {
-	border-radius: 8px;
 	padding: 4px 8px;
+	border-radius: 8px;
 }
 .installer input.error {
 	border-color: red;
@@ -98,31 +153,36 @@
 .installer .content form div > input {
 	float: right;
 }
-
+.installer .content form input[type=submit] {
+	position: absolute;
+	right: 0;
+	bottom: 50px;
+	margin: 10px;
+}
 .tooltip {
-	background-color:#ff9;
-	border:1px solid #777;
+	display:none;
 	padding:10px 15px;
 	min-width:100px;
-	display:none;
+	border:1px solid #777;
+	background-color:#ff9;
+	-webkit-box-shadow:0 0 10px #000;
+
+	-moz-box-shadow:0 0 10px #000;
+	box-shadow:0 0 10px #000;
 	color:#333;
 	text-align:left;
 	font-size:12px;
-
-	-moz-box-shadow:0 0 10px #000;
-	-webkit-box-shadow:0 0 10px #000;
-	box-shadow:0 0 10px #000;
 }
 
 #loading {
-	display: none;
-	background: url('../resourses/fancy-loading.gif') #fff no-repeat center center;
-	opacity: 0.75;
 	position: absolute;
-	width: 520px;
-	height: 100%;
 	top: 0;
 	z-index: 9999;
+	display: none;
 	margin-left: -10px;
-/*	border-radius: 20px;*/
+	width: 520px;
+	height: 100%;
+/* border-radius: 20px; */
+	background: url('../resourses/fancy-loading.gif') #fff no-repeat center center;
+	opacity: 0.75;
 }

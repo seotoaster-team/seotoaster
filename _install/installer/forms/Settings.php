@@ -46,7 +46,7 @@ class Installer_Form_Settings extends Zend_Form {
 		));
 		
 		$this->addElement('submit', 'submit', array(
-			'label'		=> 'Finish him!',
+			'label'		=> 'Hit me!',
 			'decorators'=> array(
 				'ViewHelper',
 				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12','mt5px') ))

@@ -82,7 +82,7 @@ class IndexController extends Zend_Controller_Action {
 					if (@mkdir($dirpath)){
 						$permissions['dir'][$dirname] = true;
 					} else {
-						$permissions['dir'][$dirname] = 'doesn\'t exists';
+						$permissions['dir'][$dirname] = 'doesn\'t exist';
 						$permissionsFail = true;
 					}
 				} catch (Exception $e) {
@@ -130,7 +130,7 @@ class IndexController extends Zend_Controller_Action {
 		$configForm = new Installer_Form_Config();
 				
 		$this->view->gotoNext = false;
-		$this->view->messages = array('core' => array(), 'db' => null);
+		$this->view->messages = array('core' => '', 'db' => null);
 		
 		$isDbReady	 = false;
 		$isCoreReady = false;
@@ -175,7 +175,7 @@ class IndexController extends Zend_Controller_Action {
 							if ( !$corepath || !is_dir($corepath) 
 								 || !is_dir($corepath.'/application')
 								 || !is_dir($corepath.'/library') ) {
-								array_push($this->view->messages['core'], 'SEOTOASTER Core not found in '.$coreinfo['corepath']);
+								$this->view->messages['core'] = 'SEOTOASTER Core not found in <code>'.$coreinfo['corepath'].'</code>';
 							} else {
 								$this->_session->coreinfo = $coreinfo;
 							}
@@ -220,9 +220,9 @@ class IndexController extends Zend_Controller_Action {
 
 				if (is_dir($configsDir)){
 					if (!is_writable($configsDir)){
-						array_push($this->view->messages['core'], 'Configs dir must be writable: '.$configsDir);
+						$this->view->messages['core'] = 'Configs dir must be writable: '.$configsDir;
 					} elseif ($this->_session->coreinfo['sitename'] === '' && !is_writable($configsDir . $this->_requirements['corePermissions']['appini'])) {
-						array_push($this->view->messages['core'], 'This files in <b>core</b> folder must be writable: <br />'.$this->_requirements['corePermissions']['configdir']. $this->_requirements['corePermissions']['appini']);
+						$this->view->messages['core'] = 'This files in <b>core</b> folder must be writable: <br />'.$this->_requirements['corePermissions']['configdir']. $this->_requirements['corePermissions']['appini'];
 					} else {
 						$isCoreReady = true;
 					}
@@ -280,6 +280,7 @@ class IndexController extends Zend_Controller_Action {
 		}
 		
 		$this->view->configsSaved = $this->_session->configsSaved;
+		$this->view->websiteUrl = $this->_session->websiteUrl;
 		
 		$this->view->settingsForm = $settingsForm;
 	}
@@ -417,10 +418,10 @@ class IndexController extends Zend_Controller_Action {
 
 			try {
 				foreach ($queries as $sql) {
-					$db->query($sql);
+//					$db->query($sql);
 				}
 				
-				$db->commit();
+//				$db->commit();
 				return true;
 			} catch (Exception $ex) {
 				$db->rollBack();

@@ -1,20 +1,20 @@
-<div class="grid_12" id="installer">
+<div class="grid_12">
 	<div class="ui-corner-all header">
 		<h1><?php echo $this->translate("Welcome to %1\$s - STEP %2\$s", 'SEOTOASTER 2.0', 1);?></h1>
 	</div>
 	<div class="content ui-corner-all">
 		<div id="loading"></div>
 
-		<h2><?php echo $this->translate('Welcome to your new SEOTOASTER installation!');?></h2>
-		<p><?php echo $this->translate('This wizard will help you to setup your new SEOTOASTER website.');?></p>
-		
+		<h2><?php echo $this->translate('Thanks for choosing SEOTOASTER!');?></h2>
+		<p><?php echo $this->translate('Let\'s proceed and setup your new SEOTOASTER powered website.');?></p>
+		<hr />
 		<div>
-		<p><?php echo $this->translate("We've checked your PHP configuration.");?></p>
+		<p><?php echo $this->translate("We've just checked your PHP configuration.");?></p>
 		<?php if (get_magic_quotes_gpc()) : ?>
 		<p class="state-success">The "magic_quotes" are <span style="color:red;">ON</span>. We recommend you to switch them off.</p>
 		<?php endif;?>
 		<?php if (in_array(false, $this->checks)): ?>
-		<p><?php echo $this->translate('We found some missing requirements');?>:</p>
+		<p><?php echo $this->translate('Ooops…We found some errors.');?>:</p>
 		<ul>
 			<li class="<?php echo $this->checks['php'] ? 'state-success' : 'state-error' ;?>">
 				PHP &gt; 5.3.2
@@ -49,18 +49,19 @@
 			</li>
 		</ul>
 		<?php else: ?>
-		<p><?php echo $this->translate('All required PHP extensions seems to be installed.');?></p>
+		<p><span class="ui-icon ui-icon-check" style="display: inline-block"></span>
+			<?php echo $this->translate('All required PHP extensions seem to be installed.');?></p>
 		<?php endif; ?>
 		</div>
 		
 		<?php if ($this->failedPermissions) : ?>
 		<div>
-			<p>Opps. Check list of files and folders which have bad permissions:</p>
-			<ul>
+			<p><?php echo $this->translate('Please check below the list of files and folders which seem to have some permissions errors:');?></p>
+			<ul class="marked">
 			<?php foreach ($this->permissions['dir'] as $dirname => $status): ?>
 				<?php if ($status !== true ): ?>
 				<li>
-					<?php echo 'Folder <b>'.$dirname.'</b>' . ' - ' . $status ; ?>
+					<?php echo 'Folder <strong>'.$dirname.'</strong>' . ' - ' . $status ; ?>
 				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
@@ -77,7 +78,8 @@
 		</div>
 		<?php else: ?>
 		<div>
-			<p><?php echo $this->translate('All directories and files seems to have right permissions.');?></p>
+			<p><span class="ui-icon ui-icon-check" style="display: inline-block"></span>
+			<?php echo $this->translate('All directories and files seem to have right permissions.');?></p>
 		</div>
 		<?php endif; ?>
 		
@@ -89,6 +91,12 @@
 			<?php endif; ?>
 		</form>
 
+		<div style="position: absolute; bottom: 5px; right: 5px; width: 500px; text-align: justify; font-size: 12px; border-top: 4px double #666; padding-top: 4px;">
+			<span style="color:red">*</span> Sometimes web hosting providers do not offer a suitable environment to the latest technology platforms like seotoaster.
+		If you run into difficulties, please visit
+		<a href="http://www.seotoaster.com/ecommerce-website-hosting-and-design.html" target="_blank" >http://www.seotoaster.com/ecommerce-website-hosting-and-design.html</a>
+		for solutions.
+		</div>
 	</div>
 </div>
 <?php echo $this->partial('_langs.phtml', array('langs' => $this->langs));?>

@@ -40,12 +40,12 @@
 	
 	/* Инсталлятор */
 	/* шаг 1 */
-	'Welcome to your new SEOTOASTER installation!' => 'Добро пожаловать в мастер установки SEOTOASTER!',
-	'This wizard will help you to setup your new SEOTOASTER website.' => 'Этот мастрер поможет настроить Ваш новый веб-сайт.',
-	"We've checked your PHP configuration." => "Мы проверили конфигурацию PHP на Вашем сервере",
+	'Thanks for choosing SEOTOASTER!' => 'Добро пожаловать в мастер установки SEOTOASTER!',
+	"Let's proceed and setup your new SEOTOASTER powered website." => 'Этот мастер поможет настроить Ваш новый веб-сайт.',
+	"We've just checked your PHP configuration." => "Мы проверили конфигурацию PHP на Вашем сервере",
 	'We found some missing requirements' => 'Мы нашли некоторые неудовлетворенные зависимости',
-	'All required PHP extensions seems to be installed.' => 'Похоже, что все необходимые PHP-модули установлены.',
-	'All directories and files seems to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
+	'All required PHP extensions seem to be installed.' => 'Похоже, что все необходимые PHP-модули установлены.',
+	'All directories and files seem to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
 	'Go forward!'		   => 'Вперёд',
 	
 	/* шаг 2 */
