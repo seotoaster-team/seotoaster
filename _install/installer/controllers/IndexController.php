@@ -418,10 +418,10 @@ class IndexController extends Zend_Controller_Action {
 
 			try {
 				foreach ($queries as $sql) {
-//					$db->query($sql);
+					$db->query($sql);
 				}
 				
-//				$db->commit();
+				$db->commit();
 				return true;
 			} catch (Exception $ex) {
 				$db->rollBack();
