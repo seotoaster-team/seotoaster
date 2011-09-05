@@ -60,8 +60,8 @@ ul.marked li {
 	color: #eee;
 	text-align: center;
 	text-shadow: 1px 1px 0 #333;
-	font-family: 'Play';
 	font-weight: bold;
+	font-family: 'Play';
 	   -moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box;
@@ -71,7 +71,7 @@ ul.marked li {
 	padding: 10px;
 	padding-left: 400px;
 	height: 500px;
-	        border-radius: 8px;
+	border-radius: 8px;
 	background: url('../resourses/toaster.png') #b3c7e1 no-repeat center left; background-clip: padding-box;
 	   -moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
@@ -104,8 +104,8 @@ ul.marked li {
 	color: #eee;
 	text-align: center;
 	text-shadow: 1px 1px 0 #333;
-	font-family: 'Play';
 	font-weight: bold;
+	font-family: 'Play';
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box;
@@ -139,6 +139,9 @@ ul.marked li {
 .installer input {
 	padding: 4px 8px;
 	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box;
 }
 .installer input.error {
 	border-color: red;
@@ -166,7 +169,6 @@ ul.marked li {
 	border:1px solid #777;
 	background-color:#ff9;
 	-webkit-box-shadow:0 0 10px #000;
-
 	-moz-box-shadow:0 0 10px #000;
 	box-shadow:0 0 10px #000;
 	color:#333;
