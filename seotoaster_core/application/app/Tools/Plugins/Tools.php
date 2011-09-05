@@ -57,9 +57,9 @@ class Tools_Plugins_Tools {
 	}
 
 	private static function _processPluginMenuItem($item) {
-		$websiteData = Zend_Registry::get('website');
-		$replaceMap = array(
-			'{url}' => $websiteData['url'],
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$replaceMap    = array(
+			'{url}' => $websiteHelper->getUrl(),
 			'\''    => '"'
 		);
 		foreach ($replaceMap as $key => $replace) {

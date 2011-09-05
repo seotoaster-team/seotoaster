@@ -14,7 +14,7 @@ $(function() {
 			containerName : $(this).find('#container_name').val(),
 			pageId        : $(this).find('#page_id').val(),
 			containerId   : $(this).find('#container_id').val(),
-			published     : (chckbxPublished.attr('checked')) ? 1 : 0,
+			published     : ($('#published').attr('checked')) ? 1 : 0,
 			publishOn     : $('#dpkr').val()
 		}
 		$.ajax({
