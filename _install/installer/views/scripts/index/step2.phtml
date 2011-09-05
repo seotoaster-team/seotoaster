@@ -4,29 +4,25 @@
 	</div>
 	<div class="content ui-helper-clearfix">
 		
-		<div class="ui-helper-clearfix form-holder">
+		<div class="ui-helper-clearfix">
+			
 		<?php if (!empty($this->messages['core'])): ?>
-			<ul class="ui-helper-clearfix">
-			<?php foreach($this->messages['core'] as $msg): ?>
-				<li class="state-error"><?php echo $msg; ?></li>
-			<?php endforeach; ?>
-			</ul>
+		<p class="state-error"><?php echo $this->messages['core']; ?></p>
 		<?php endif;?>
-		</div>
 		
-		
-		<div class="ui-helper-clearfix form-holder">
 		<?php if ($this->messages['db'] !== null): ?>
 			<?php if ($this->messages['db'] === true):?>
 				<p class="state-success">Database installed successful.</p>
 			<?php else :?>
 				<p class="state-error">
 					<span style="font-weight: normal; color: black;">Can't establish database connection. Server sent following error:</span>
-					<span><?php echo $this->messages['db']; ?></span>
+					<code><?php echo $this->messages['db']; ?></code>
 				</p>
-			</div>
 			<?php endif; ?>
 		<?php endif;?>
+		</div>
+
+		<div class="ui-helper-clearfix form-holder">
 		<?php echo $this->configform; ?>
 		</div>
 	
