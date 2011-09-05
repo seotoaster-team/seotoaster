@@ -70,9 +70,13 @@ class Tools_Content_Tools {
 			$content = self::extractWithReplace($widgetsMatches[0], $content);
 		}
 
-		$url     = '<a ' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_EXTERNAL) ? 'target="_blank"' : '') . 'href="' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $websiteHelper->getUrl() . $deeplink->getUrl() : $deeplink->getUrl()) . '">' . $deeplink->getName() . '</a>';
-		$pattern = '~([\>]{1}|\s+|[\/\>]{1})(' . $deeplink->getName() . ')([\<]{1}|\s+|[.,!\?]+)~sUu';
-		return self::insertReplaced(preg_replace($pattern, '$1' . $url . '$3', $content));
+		$pattern = '~([\>]{1}|\s+|[\/\>]{1})(' . $deeplink->getName() . ')([\<]{1}|\s+|[.,!\?]+)~sUui';
+		if(preg_match($pattern, $content, $matches)) {
+			//$url = '<a ' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_EXTERNAL) ? 'target="_blank"' : '') . 'href="' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $websiteHelper->getUrl() . $deeplink->getUrl() : $deeplink->getUrl()) . '">' . $deeplink->getName() . '</a>';
+			$url = '<a ' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_EXTERNAL) ? 'target="_blank"' : '') . 'href="' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $websiteHelper->getUrl() . $deeplink->getUrl() : $deeplink->getUrl()) . '">' . $matches[2] . '</a>';
+			return self::insertReplaced(preg_replace($pattern, '$1' . $url . '$3', $content));
+		}
+		return self::insertReplaced($content);
 	}
 
 	public static function extractWithReplace($subject, $content, $sub = '#replcaewith') {
