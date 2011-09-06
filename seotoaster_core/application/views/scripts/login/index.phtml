@@ -5,7 +5,7 @@
 <?php echo $this->headLink(); ?>
 
 <div style="font-family: Arial; padding: 5px; font-size: 0.8em;">
-	<a style="color: #c6c6c6;" href="<?php echo $this->websiteUrl; ?>" title="Are you lost?">&larr; back to <?php echo $_SERVER['SERVER_NAME']; ?></a>
+	<a style="color: #c6c6c6;" href="<?php echo $this->websiteUrl; ?>" title="<?php echo $this->translate('Are you lost?'); ?>">&larr; <?php echo $this->translate('back to'); ?>&nbsp;<?php echo $_SERVER['SERVER_NAME']; ?></a>
 </div>
 
 <?php if (count($this->messages)) : ?>

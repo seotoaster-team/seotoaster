@@ -94,5 +94,24 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		}
 	}
 
+	public function orderAction() {
+		$faId = intval($this->getRequest()->getParam('id'));
+		if(!$faId) {
+			throw new Exceptions_SeotoasterException('Wrong featured area id');
+		}
+		$featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($faId);
+		if(!$featuredArea instanceof Application_Model_Models_Featuredarea) {
+			throw new Exceptions_SeotoasterException('Cannot load featured area');
+		}
+		$featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($faId);
+		if($this->getRequest()->isPost()) {
+			$ordered = $this->getRequest()->getParam('ordered');
+			Application_Model_Mappers_FeaturedareaMapper::getInstance()->saveFaOrder($ordered, $faId);
+		}
+
+		$this->view->faPages = $featuredArea->getPages();
+		$this->view->faId = $faId;
+	}
+
 }
 

@@ -51,7 +51,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 	}
 
 	public function setId($id) {
-		$this->_id = (int) $id;
+		$this->_id = ($id) ? intval($id) : null;
 		return $this;
 	}
 

@@ -311,7 +311,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			$previews = preg_grep('/^preview\.(png|jpg|gif)$/i', $files);
 			array_push($themesList, array(
 				'name' => $themeName,
-				'preview' => !empty ($previews) ? $this->_helper->website->getUrl().$this->_themeConfig['path'].$themeName.'/'.reset($previews) : $this->_helper->website->getUrl().'system/images/no_image.png',
+				'preview' => !empty ($previews) ? $this->_helper->website->getUrl().$this->_themeConfig['path'].$themeName.'/'.reset($previews) : $this->_helper->website->getUrl().'system/images/noimage.png',
 				'isCurrent' => ($this->_helper->config->getConfig('currentTheme') == $themeName)
 			));
 		}

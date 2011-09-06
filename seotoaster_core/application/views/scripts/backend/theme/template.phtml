@@ -13,7 +13,7 @@
 			<?php echo $this->templateForm->getElement('content'); ?>
 		</div>
 
-		<div class="grid_4">
+		<div class="grid_4 h550">
 			<div class="largebutton">
 			<?php
 			echo $this->ajaxLink(
@@ -24,7 +24,7 @@
 				),
 				array('listtemplates' => 'all')
 				); ?>
-			</div>			
+			</div>
 			<div class="mt20px textcentered h350 img-teaser">
 
 			<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
@@ -37,7 +37,7 @@
 	<div class="grid_12 clear"></div>
 	<div>
 		<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
-		<?php 
+		<?php
 						$previewUploader = $this->toasterUploader(
 							array(
 								'id' => 'template-preview-uploader',

@@ -8,7 +8,7 @@ $(function() {
 			function(response){
 				if (response.error != false){
 					$('#frm_template').find('#title').val(response.responseText.name);
-					$('#frm_template').find('#content').val(response.responseText.content);
+					$('#frm_template').find('#template-content').val(response.responseText.content);
 					$('#frm_template').find('#template_id').val(response.responseText.name);
 					$('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);
 				}
@@ -26,7 +26,7 @@ $(function() {
 
 function saveTemplate() {
 	var ajaxMsg = $('#ajax_msg');
-	
+
 	$.ajax({
 		url        : $(this).attr('action'),
 		type       : 'post',
@@ -61,7 +61,7 @@ function deleteTemplate(templateContainer) {
 		success: function(response) {
 			if (response.error == false){
 				templateContainer.remove();
-			} 
+			}
 			$('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
 		},
 		dataType: 'json'

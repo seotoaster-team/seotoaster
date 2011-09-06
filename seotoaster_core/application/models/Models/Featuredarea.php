@@ -27,6 +27,7 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 	}
 
 	public function getPages() {
+		ksort($this->_pages);
 		if($this->_random) {
 			shuffle($this->_pages);
 		}

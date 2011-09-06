@@ -17,7 +17,7 @@ class Application_Form_Template extends Zend_Form {
 			 ->setAttrib('id', 'frm_template')
 			 ->setDecorators(array('ViewScript'))
 			 ->setElementDecorators(array('ViewHelper'));
-		
+
 		$this->addElement('text', 'name', array(
 			'id'       => 'title',
 			'label'    => 'Template name',
@@ -30,14 +30,14 @@ class Application_Form_Template extends Zend_Form {
 		));
 
 		$this->addElement('textarea', 'content', array(
-			'id'       => 'content',
+			'id'       => 'template-content',
 			'label'    => 'Paste your HTML code here:',
 			'cols'     => '85',
 			'rows'     => '33',
 			'value'    => $this->_content,
 			'required' => true,
 			'filters'  => array('StringTrim'),
-			'class'	   => array('h400'),
+			'class'	   => array('h500'),
 			'decorators' => array('ViewHelper', 'Label')
 		));
 

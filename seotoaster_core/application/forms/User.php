@@ -18,15 +18,15 @@ class Application_Form_User extends Zend_Form {
 	protected $_id       = '';
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST)
-			 ->setAttrib('class', '_fajax')
-			 ->setAttrib('data-callback', 'userCallback')
-			 ->setAttrib('id', 'frm-user');
+//		$this->setMethod(Zend_Form::METHOD_POST)
+//			 ->setAttrib('class', '_fajax')
+//			 ->setAttrib('data-callback', 'userCallback')
+//			 ->setAttrib('id', 'frm-user');
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'e-mail',
 			'name'       => 'email',
-			'label'      => 'Email',
+			'label'      => 'E-mail',
 			'value'      => $this->_email,
 			'validators' => array(
 				new Zend_Validate_EmailAddress(),
@@ -88,7 +88,7 @@ class Application_Form_User extends Zend_Form {
 			'id'     => 'save-user',
 			'value'  => 'Save user',
 			'ignore' => true,
-			'label'  => 'Save user'
+			'label'  => 'Save changes'
 		)));
 	}
 

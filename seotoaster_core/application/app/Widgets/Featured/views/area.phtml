@@ -1,5 +1,6 @@
 <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)): ?>
-	<a href="javascript:;">Edit order</a>
+	<a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="650" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order'); ?></a>
+	<?php //echo $this->toasterLink('backend_featured', 'order', $this->translate('Edit order'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?>
 <?php endif; ?>
 
 <ul id="<?php echo $this->faName; ?>" class="featureditem">
@@ -8,7 +9,7 @@
 	<?php else: ?>
 		<?php foreach($this->faPages as $page): ?>
 			<li>
-				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape($this->websiteUrl); ?>system/images/noimage.png" /></a>
+				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($page->getId(), true)); ?>" /></a>
 				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
 				<span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
 			</li>

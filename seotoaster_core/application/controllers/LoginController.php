@@ -58,7 +58,7 @@ class LoginController extends Zend_Controller_Action {
 			$this->view->flagsFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_helper->website->getPath() . 'system/images/flags', 'png', false, true);
 
 			//getting messages
-			$this->view->messages = $this->_helper->flashMessenger->getMessages();
+			$this->view->messages   = $this->_helper->flashMessenger->getMessages();
 
 			$this->view->loginForm  = $loginForm;
 		}

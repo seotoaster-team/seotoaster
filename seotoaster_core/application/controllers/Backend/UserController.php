@@ -25,7 +25,7 @@ class Backend_UserController extends Zend_Controller_Action {
 				$data       = $userForm->getValues();
 				$user       = new Application_Model_Models_User($data);
 				Application_Model_Mappers_UserMapper::getInstance()->save($user);
-				$this->_helper->response->success('Added.');
+				$this->_helper->response->success('Added');
 				exit;
 			}
 			else {

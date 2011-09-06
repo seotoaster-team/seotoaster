@@ -21,26 +21,8 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		);
 
 		//needs to be changed
-		$pages = $featuredArea->getPages();
-		$faPageDbTable =  new Application_Model_DbTable_PageFeaturedarea();
-
-		$pagesToDelete = $featuredArea->getDeletedPages();
-		foreach ($pagesToDelete as $pageId) {
-			$faId = $featuredArea->getId();
-			$faPageDbTable->delete('fa_id = ' . $faId . ' AND page_id = ' . $pageId);
-		}
-
-
-		foreach ($pages as $page) {
-			$row = $faPageDbTable->createRow();
-			$row->setFromArray(array(
-				'page_id' => $page->getId(),
-				'fa_id'   => $featuredArea->getId(),
-				'order'   => 0
-			));
-			$result = $row->save();
-		}
-
+		$this->_cleanPages($featuredArea->getId(), $featuredArea->getDeletedPages());
+		$this->_addPages($featuredArea->getId(), $featuredArea->getPages());
 
 		if(null === ($id = $featuredArea->getId())) {
 			unset($data['id']);
@@ -49,6 +31,50 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		else {
 			return $this->getDbTable()->update($data, array('id = ?' => $id));
 		}
+	}
+
+	private function _cleanPages($faId, $pages) {
+		if(!empty($pages)) {
+			$faPageDbTable = new Application_Model_DbTable_PageFeaturedarea();
+			foreach ($pages as $pageId) {
+				$faPageDbTable->delete('fa_id = ' . $faId . ' AND page_id = ' . $pageId);
+			}
+			unset($faPageDbTable);
+		}
+	}
+
+	private function _addPages($faId, $pages) {
+		if(!empty($pages)) {
+			$faPageDbTable = new Application_Model_DbTable_PageFeaturedarea();
+			foreach ($pages as $page) {
+				$row = $faPageDbTable->createRow();
+				$row->setFromArray(array(
+					'page_id' => $page->getId(),
+					'fa_id'   => $faId,
+					'order'   => 0
+				));
+				$result = $row->save();
+			}
+			unset($faPageDbTable);
+		}
+	}
+
+	public function find($id) {
+		$faPages = array();
+		$result  = $this->getDbTable()->find($id);
+		if(0 == count($result)) {
+			return null;
+		}
+		$row = $result->current();
+		$rowsPageFeaturedarea = $row->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
+
+		$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
+			$faPages[$rowPageFa->order] = $pageMapper->find($rowPageFa->page_id);
+		}
+		$featuredArea = new $this->_model($row->toArray());
+		$featuredArea->setPages($faPages);
+		return $featuredArea;
 	}
 
 	public function findByName($name) {
@@ -63,7 +89,7 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 
 		$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
 		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
-			$faPages[] = $pageMapper->find($rowPageFa->page_id);
+			$faPages[$rowPageFa->order] = $pageMapper->find($rowPageFa->page_id);
 		}
 
 		$featuredArea = new $this->_model($row->toArray());
@@ -77,11 +103,10 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		if(null === $resultSet) {
 			return null;
 		}
-		$pages = array();
 		foreach ($resultSet as $row) {
+			$pages = array();
 			$pagesRowset = $row->findManyToManyRowset('Application_Model_DbTable_Page', 'Application_Model_DbTable_PageFeaturedarea')->toArray();
 			if(!empty ($pagesRowset)) {
-				$pages = array();
 				foreach($pagesRowset as $pageRow) {
 					$pages[] = new Application_Model_Models_Page($pageRow);
 				}
@@ -106,6 +131,16 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 			}
 		}
 		return $areas;
+	}
+
+	public function saveFaOrder($ordered, $faId) {
+		$relationTable = new Application_Model_DbTable_PageFeaturedarea();
+		foreach ($ordered as $order => $pageId) {
+			$data = array(
+				'order' => $order
+			);
+			$relationTable->update($data, 'page_id = ' . $pageId . ' AND fa_id = ' . $faId);
+		}
 	}
 }
 

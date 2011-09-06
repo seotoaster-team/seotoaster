@@ -345,7 +345,7 @@ body, body.seotoaster {
 }
 
 .seotoaster #csscontent {
-	height: 510px;
+	height: 504px;
 }
 
 .seotoaster #btn-submit {
@@ -824,5 +824,7 @@ body, body.seotoaster {
 }
 
 .seotoaster #users-list .user-row .user-row-item {
-	padding: 5px 0px;
+	padding: 7px 0px 0px;
+	font-size: 12px;
+	overflow: hidden;
 }

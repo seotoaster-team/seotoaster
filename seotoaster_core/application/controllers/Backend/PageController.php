@@ -222,8 +222,10 @@ class Backend_PageController extends Zend_Controller_Action {
 
 				//cleaning form existing page previews
 				foreach ($currentPreviewList as $key => $file) {
-					if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
-						unset($currentPreviewList[0]);
+					if(file_exists($previewPath . $file)) {
+						if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
+							unset($currentPreviewList[0]);
+						}
 					}
 				}
 
@@ -232,7 +234,8 @@ class Backend_PageController extends Zend_Controller_Action {
 				} else {
 					$status = @copy($tmpPreviewFile, $newPreviewImageFile);
 				}
-				if ($status) {
+				if ($status && file_exists($tmpPreviewFile)) {
+
 					Tools_Filesystem_Tools::deleteFile($tmpPreviewFile);
 				}
 
