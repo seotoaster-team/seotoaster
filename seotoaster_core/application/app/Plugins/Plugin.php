@@ -32,7 +32,8 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 					}
 				}
 				catch (Exceptions_SeotoasterException $se) {
-					continue;
+					error_log($se->getMessage());
+					error_log($se->getTraceAsString());
 				}
 			}, array('method' => $method, 'websiteUrl' => $websiteHelper->getUrl()));
 		}
