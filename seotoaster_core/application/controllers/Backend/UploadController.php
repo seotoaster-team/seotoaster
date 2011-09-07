@@ -43,6 +43,13 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$this->_helper->json($response);
 	}
 
+	/**
+	 * Send response to client
+	 * deprecated since became using JSON helper 
+	 * @param type $response 
+	 * @deprecated
+	 * @todo remove before release
+	 */
 	private function _sendResponse($response){
 		if ($this->getRequest()->isXmlHttpRequest()){
 			$this->getResponse()->setHeader('Content-type', 'application/json');
@@ -57,8 +64,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 	}
 
 	private function _uploadThemes(){
-		$this->_uploadHandler->addValidator('IsCompressed', false, array('application/zip'));
-		$this->_uploadHandler->addValidator('Extension', false, 'zip');
+		$this->_uploadHandler->addValidator('Extension', false, 'zip')
+			->addValidator(new Validators_MimeType(array('application/zip')), false);
 
 		$themeArchive = $this->_uploadHandler->getFileInfo();
 
@@ -379,12 +386,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 
 	private function _uploadPlugin() {
-		$this->_uploadHandler->addValidator('IsCompressed', false, array('application/zip'));
-		$this->_uploadHandler->addValidator('Extension', false, 'zip');
+		$this->_uploadHandler->addValidator('Extension', false, 'zip')
+			->addValidator(new Validators_MimeType(array('application/zip')), false);
 		$pluginArchive = $this->_uploadHandler->getFileInfo();
 
 		if (!$this->_uploadHandler->isValid()){
-			return 'error';
+			return array('error' => true);
 		}
 
 		$destination = $this->_uploadHandler->getDestination();
