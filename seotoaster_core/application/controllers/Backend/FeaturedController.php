@@ -31,6 +31,10 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		$pageId                    = $this->getRequest()->getParam('pid');
 		$this->view->pageId        = $pageId;
 		$this->view->faForm        = $featuredForm;
+
+		if(isset ($this->_helper->session->faPull)) {
+			unset($this->_helper->session->faPull);
+		}
 	}
 
 	public function loadfalistAction() {
@@ -70,12 +74,16 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function addpagetofaAction() {
 		if($this->getRequest()->isPost()) {
 			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
-			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'));
+			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
 
 			}
 			if(!$page instanceof Application_Model_Models_Page) {
-
+				//page is no created yet, but we want to add it to fa
+				$faPull                         = array();
+				$faPull[]                       = $fa->getId();
+				$this->_helper->session->faPull = $faPull;
+				return;
 			}
 			$fa->addPage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
@@ -85,7 +93,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function rempagefromfaAction() {
 		if($this->getRequest()->isPost()) {
 			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
-			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'));
+			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
 
 			}

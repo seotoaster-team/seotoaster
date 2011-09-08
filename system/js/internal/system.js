@@ -9,6 +9,9 @@ $(function() {
 	 * Seotoaster popup dialog
 	 */
 	$('a.tpopup').click(function(e) {
+		if(!loginCheck()) {
+			return;
+		}
 		e.preventDefault();
 		link    = $(this);
 		pwidth  = link.data('pwidth') || 960;
@@ -168,3 +171,26 @@ $(function() {
 
 	$('a._lbox').fancybox();
 });
+
+function loginCheck() {
+	if($.cookie('PHPSESSID') === null) {
+		showModalMessage('Session expired', 'Your session is expired! Please, login again');
+		return false;
+	}
+	return true;
+}
+
+function showModalMessage(title, msg) {
+	var messageScreen = $('<div class="info-message"></div>').html(msg);
+	$(messageScreen).dialog({
+		modal: true,
+		title: title,
+		buttons: {
+			Ok: function() {
+				$(this).dialog('close');
+				window.location.href = $('#website_url').val();
+			}
+		}
+	});
+	return;
+}

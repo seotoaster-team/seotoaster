@@ -20,6 +20,8 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	protected $_preview = '';
 
+	protected $_license = '';
+
 	public function getResourceId() {
 		return Tools_Security_Acl::RESOURCE_PLUGINS;
 	}
@@ -69,6 +71,12 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 		return $this;
 	}
 
+	public function getLicense() {
+		return $this->_license;
+	}
 
+	public function setLicense($license) {
+		$this->_license = $license;
+	}
 }
 

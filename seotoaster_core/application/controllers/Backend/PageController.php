@@ -18,9 +18,10 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function pageAction() {
-		$pageForm   = new Application_Form_Page();
-		$pageId     = $this->getRequest()->getParam('id');
-		$mapper     = Application_Model_Mappers_PageMapper::getInstance();
+		$checkFaPull = false; //flag shows that system needs to check featured areas in session
+		$pageForm    = new Application_Form_Page();
+		$pageId      = $this->getRequest()->getParam('id');
+		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
 		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName()));
 
@@ -45,6 +46,7 @@ class Backend_PageController extends Zend_Controller_Action {
 						$this->_helper->response->fail('Page with url <strong>' . $this->_helper->page->validate($pageData['url']) . '</strong> already exists.');
 						exit;
 					}
+					$checkFaPull = true;
 				}
 
 				//saving old data for seo routine
@@ -61,7 +63,11 @@ class Backend_PageController extends Zend_Controller_Action {
 				$page->setTargetedKey($page->getH1());
 				$page->setParentId($pageData['pageCategory']);
 				$page->setShowInMenu($pageData['inMenu']);
-				$mapper->save($page);
+				$saveUpdateResult = $mapper->save($page);
+
+				if($checkFaPull) {
+					$this->_processFaPull($saveUpdateResult);
+				}
 
 				// saving new page preview image is recieved it in request
 				if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
@@ -86,6 +92,19 @@ class Backend_PageController extends Zend_Controller_Action {
 
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
 		$this->view->pageForm = $pageForm;
+	}
+
+	private function _processFaPull($pageId) {
+		if(isset ($this->_helper->session->faPull)) {
+			$faPull = $this->_helper->session->faPull;
+			foreach ($faPull as $key => $faId) {
+				$fa = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($faId, false);
+				$fa->addPage(Application_Model_Mappers_PageMapper::getInstance()->find($pageId));
+				Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+				unset($fa);
+			}
+			unset($this->_helper->session->faPull);
+		}
 	}
 
 	public function deleteAction() {

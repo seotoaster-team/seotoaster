@@ -15,7 +15,8 @@ class Application_Form_Header extends Application_Form_Container {
 			'id'       => 'content',
 			'value'    => $this->_content,
 			'required' => true,
-			'filters'  => array('StringTrim')
+			'filters'  => array('StringTrim'),
+			'class'    => 'header-content'
 		));
 
 		parent::init();

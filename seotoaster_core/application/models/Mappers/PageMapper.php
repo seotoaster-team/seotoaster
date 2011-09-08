@@ -29,10 +29,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		);
 		if(null === ($id = $page->getId())) {
 			unset($data['id']);
-			$this->getDbTable()->insert($data);
+			return $this->getDbTable()->insert($data);
 		}
 		else {
-			$this->getDbTable()->update($data, array('id = ?' => $id));
+			return $this->getDbTable()->update($data, array('id = ?' => $id));
 		}
 	}
 

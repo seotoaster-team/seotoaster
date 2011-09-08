@@ -1,16 +1,16 @@
 <?php return array(
-	
+
 	/* Общее */
-	
+
 	'Close' => 'Закрыть',
 	'close' => 'закрыть',
-	
+
 	/*Login screen*/
 	'Login'        => 'Вход',
 	'Welcome Back' => 'Добро Пожаловать',
 	'Password'     => 'Пароль',
 	'Let me in'    => 'Войти',
-	
+
 	/*Main menu*/
 	'Collapse menu'        => 'Спрятать меню',
 	'Expand menu'          => 'Показать меню',
@@ -42,7 +42,7 @@
 	'Manage users'         => 'Пользователи',
 	'Plugins'              => 'Планины',
 	'LOGOUT'               => 'ВЫЙТИ',
-	
+
 	/* Управление пользователями */
 	'Full name'    => 'Полное имя',
 	'Role'         => 'Роль',
@@ -54,9 +54,27 @@
 	'Last login'   => 'Последний визит',
 	'Ip address'   => 'IP адрес',
 	'Actions'      => 'Действия',
-	
-	
-	
+
+	/*Управление страницами*/
+
+	'Manage pages'                => 'Управление страницами',
+	'Meta Information'            => 'Мета данные',
+	'Page header H1 tag'          => 'Тэг H1',
+	'Display in browser title as' => 'Отбражать в заголовке браузера как',
+	'Page URL in address bar'     => 'URL страницы в адресной строке',
+	'Display in navigation as'    => 'Отображать в навигационном меню как',
+	'Meta description'            => 'Тэг meta-description',
+	'Meta keywords'               => 'Тэг meta-keywords',
+
+	'Navigation'                  => 'Навигация',
+	'Main Menu'                   => 'Главное меню',
+	'Static Menu'                 => 'Вспом. меню',
+	'No Menu'                     => 'Без меню',
+	'Make your selection'         => 'Выбирите',
+	'Categories'                  => 'Категории',
+
+
+
 	/* Инсталлятор */
 	/* шаг 1 */
 	'Thanks for choosing SEOTOASTER!' => 'Добро пожаловать в мастер установки SEOTOASTER!',
@@ -66,7 +84,7 @@
 	'All required PHP extensions seem to be installed.' => 'Похоже, что все необходимые PHP-модули установлены.',
 	'All directories and files seem to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
 	'Go forward!'		   => 'Вперёд',
-	
+
 	/* шаг 2 */
 	'Core location settings' => 'Расположение ядра',
 	'Path to core' => 'Путь к ядру',

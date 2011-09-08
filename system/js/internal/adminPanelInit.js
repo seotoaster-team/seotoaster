@@ -34,18 +34,7 @@ $(function() {
 				window.location.href = responseText.notFoundUrl;
 			}
 			else {
-				var tmpDiv = document.createElement('div');
-				$(tmpDiv).html('Sorry, but you don\'t have the 404 error page. You can create a page and assign it as 404 error page Use the checkbox on the create/update page screen.');
-				$(tmpDiv).dialog({
-					modal: true,
-					title: '404 Page',
-					resizable: false,
-					buttons: {
-					Ok: function() {
-						$( this ).dialog( "close" );
-					}
-			}
-				});
+				showModalMessage('404 page information', 'Sorry, but you don\'t have the 404 error page. You can create a page and assign it as 404 error page Use the checkbox on the create/update page screen.');
 			}
 		});
 	});

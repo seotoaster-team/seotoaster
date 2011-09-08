@@ -28,6 +28,9 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		$this->_view->loginForm = new Application_Form_Login();
 		$this->_view->messages  = (isset($this->_session->errMemeberLogin)) ? $this->_session->errMemeberLogin : array();
 		unset($this->_session->errMemeberLogin);
+		if(isset($this->_options[0])) {
+			$this->_session->redirectUserTo = $this->_options[0];
+		}
 		return $this->_view->render('login.phtml');
 	}
 
@@ -40,6 +43,10 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
 	private function _renderMemberDetails() {
 
+	}
+
+	public static function getAllowedOptions() {
+		return array('member:login', 'member:logout');
 	}
 }
 

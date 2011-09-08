@@ -44,6 +44,9 @@ class LoginController extends Zend_Controller_Action {
 
 						unset($user);
 						$this->_helper->cache->clean();
+						if(isset($this->_helper->session->redirectUserTo)) {
+							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
+						}
 						$this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
 					}
 				}

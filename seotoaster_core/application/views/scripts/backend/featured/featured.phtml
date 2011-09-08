@@ -1,18 +1,20 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add page to the featured area')); ?>
-	<div class="grid_12">
-		<form action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
-			<div class="grid_8">
-				<?php echo $this->faForm->getElement('name'); ?>
-			</div>
-			<div class="grid_4">
-				<?php echo $this->faForm->getElement('addFeaturedArea'); ?>
-			</div>
-		</form>
-		<div id="fa-list">
-			
+	<form action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
+		<div class="grid_8">
+			<?php echo $this->faForm->getElement('name'); ?>
 		</div>
+		<div class="grid_4">
+			<?php echo $this->faForm->getElement('addFeaturedArea'); ?>
+		</div>
+	</form>
+	<div style="padding: 5px 0px; font-size: 12px;" class="header-titles grid_12">
+		<div class="grid_6 list-row-item"><?php echo $this->translate('Name'); ?></div>
+		<div class="grid_2 list-row-item">#<?php echo $this->translate('Featured pages'); ?></div>
+		<div class="grid_2 list-row-item"><?php echo $this->translate('Add / Remove page'); ?></div>
+		<div class="grid_2 list-row-item"><?php echo $this->translate('Actions'); ?></div>
 	</div>
+	<div id="fa-list" class="grid_12 items-list"></div>
 	<?php echo $this->toasterLink('backend_page', 'page', $this->translate('Back to page'), 'id/' . $this->pageId); ?>
 	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
 </div>

@@ -1,11 +1,11 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage page')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage pages')); ?>
 	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
 	<div id="falist" class="h640 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
 	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
 		<div class="grid_6">
 			<fieldset>
-				<legend>Meta Information</legend>
+				<legend><?php echo $this->translate('Meta Information'); ?></legend>
 				<?php echo $this->pageForm->getElement('h1'); ?>
 				<?php echo $this->pageForm->getElement('headerTitle'); ?>
 				<?php echo $this->pageForm->getElement('url'); ?>
@@ -16,7 +16,7 @@
 		</div>
 		<div class="grid_6">
 			<fieldset>
-				<legend>Navigation</legend>
+				<legend><?php echo $this->translate('Navigation'); ?></legend>
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), null, $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
 				<?php //echo $this->pageForm->getElement('inMenu'); ?>
 				<div class="clear"></div>
@@ -27,7 +27,7 @@
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend>Settings</legend>
+				<legend><?php echo $this->translate('Settings'); ?></legend>
 					<div class="grid_6 label">Current Template:</div>
 					<div class="grid_6" style="padding:5px 0px">
 						<?php
@@ -59,11 +59,11 @@
 					</div>
 			</fieldset>
 			<fieldset>
-				<legend>Page Teasers</legend>
-				<div  class="grid_4 h100">
+				<legend><?php echo $this->translate('Page Teasers'); ?></legend>
+				<div  class="grid_4 h150">
 					<img id="page-preview-image" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="140px" alt="<?php echo $this->translate('Page preview image');?>" />
 				</div>
-				<div  class="grid_8 h100">
+				<div  class="grid_8 h150">
 					<?php echo $this->pageForm->getElement('teaserText'); ?>
 				</div>
 				<div class="clear"></div>

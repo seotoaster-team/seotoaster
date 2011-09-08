@@ -59,41 +59,33 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		}
 	}
 
-	public function find($id) {
+	public function find($id, $loadPages = true) {
 		$faPages = array();
 		$result  = $this->getDbTable()->find($id);
 		if(0 == count($result)) {
 			return null;
 		}
 		$row = $result->current();
-		$rowsPageFeaturedarea = $row->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
-
-		$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
-			$faPages[$rowPageFa->order] = $pageMapper->find($rowPageFa->page_id);
-		}
 		$featuredArea = new $this->_model($row->toArray());
-		$featuredArea->setPages($faPages);
+
+		if($loadPages) {
+			$featuredArea->setPages($this->_findFarowPages($row));
+		}
+
 		return $featuredArea;
 	}
 
-	public function findByName($name) {
-		//$row = $this->_findWhere($this->getDbTable()->getAdapter()->quoteInto("name=?", $name));
-		$faPages = array();
+	public function findByName($name, $loadPages = true) {
 		$row     = $this->getDbTable()->fetchAll($this->getDbTable()->getAdapter()->quoteInto("name=?", $name))->current();
 		if($row === null) {
 			return null;
 		}
+		$featuredArea = new $this->_model($row->toArray());
 
-		$rowsPageFeaturedarea = $row->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
-
-		$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
-			$faPages[$rowPageFa->order] = $pageMapper->find($rowPageFa->page_id);
+		if($loadPages) {
+			$featuredArea->setPages($this->_findFarowPages($row));
 		}
 
-		$featuredArea = new $this->_model($row->toArray());
-		$featuredArea->setPages($faPages);
 		return $featuredArea;
 	}
 
@@ -117,6 +109,16 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 
 		}
 		return $entries;
+	}
+
+	private function _findFarowPages($faRow) {
+		$faPages = array();
+		$rowsPageFeaturedarea = $faRow->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
+		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
+			$order           = array_key_exists($rowPageFa->order, $faPages) ? (array_search(end($faPages), $faPages)) + 1 : $rowPageFa->order;
+			$faPages[$order] = Application_Model_Mappers_PageMapper::getInstance()->find($rowPageFa->page_id);
+		}
+		return $faPages;
 	}
 
 	public function findAreasByPageId($pageId) {

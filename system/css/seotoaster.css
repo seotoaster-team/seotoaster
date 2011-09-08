@@ -36,6 +36,23 @@ body, body.seotoaster {
 	-moz-border-radius:0px 8px 0px 8px;
 	-webkit-border-radius:0px 8px 0px 8px;
 }
+
+.seotoaster .items-list {
+	background: #fff;
+	color: #21759B;
+}
+
+.seotoaster .items-list .list-row {
+	border-bottom: 1px solid #ddd;
+	overflow: hidden;
+}
+
+.seotoaster .items-list .list-row .list-row-item {
+	padding: 7px 0px 0px;
+	font-size: 12px;
+	overflow: hidden;
+}
+
 .seotoaster .closebutton:hover { background-color: #999; }
 .seotoaster .red { color:red; }
 /*==== Links ========*/
@@ -110,7 +127,7 @@ body, body.seotoaster {
 	font-weight:bold;
 	padding:4px 0px;
 	text-indent:5px;
-	font-size:12pt;
+	font-size: 14px;
 }
 
 .seotoaster label.simple-label {
@@ -120,23 +137,25 @@ body, body.seotoaster {
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea, .seotoaster select {
 /*	color:#960;*/
 	color: #666;
-	border:1px solid #d7d7d7;
-	-moz-border-radius:4px;
+	border:1px solid #d9d9d9;
+/*	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
-	border-radius:4px;
-	padding: 5px 0px;
-	text-indent:8px;
-	width:100%;
-	margin:3px 0px 5px 0px;
+	border-radius:4px;*/
+	padding: 8px 5px 8px 8px;
+/*	text-indent:8px;*/
+	width:96%;
+	background: #fff;
+	margin:3px 2px 5px 0px;
 /*	font-weight:600;*/
-	font-size:11pt;
+	font-size:15px;
 }
 .seotoaster select {
-	padding:5px 7px 5px 0;
+/*	padding:5px 7px 5px 0;
 	margin:3px 0px;
 	text-indent:2px;
 	cursor:pointer;
-	background: #fefefe;
+	background: #fefefe;*/
+	width:100%;
 }
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
@@ -342,6 +361,10 @@ body, body.seotoaster {
 
 .seotoaster #content {
 	height: 560px;
+}
+
+.seotoaster #content.header-content {
+	height: 20px;
 }
 
 .seotoaster #csscontent {
