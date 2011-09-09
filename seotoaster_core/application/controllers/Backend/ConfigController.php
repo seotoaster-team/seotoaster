@@ -28,7 +28,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$langList = $this->_helper->language->getLanguages(false);
 		$languageSelect = $configForm->getElement('language');
 		$languageSelect->setMultiOptions($langList);
-
+		$languageSelect->setValue($this->_helper->language->getCurrentLanguage());
+		
 		$loggedUser = $this->_helper->session->getCurrentUser();
 
 		$isSuperAdminLogged = ($loggedUser->getRoleId() === Tools_Security_Acl::ROLE_SUPERADMIN);
