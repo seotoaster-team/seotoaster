@@ -62,12 +62,14 @@ class Backend_PluginController extends Zend_Controller_Action {
 								}, $dbAdapter);
 							}
 							catch (Exception $e) {
+								error_log($e->getMessage());
 								$this->_helper->response->fail($e->getMessage());
 							}
 						}
 					}
 				}
 				catch(Exceptions_SeotoasterPluginException $se) {
+					error_log($se->getMessage());
 					$this->_helper->response->fail($se->getMessage());
 				}
 			}
