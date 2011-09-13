@@ -144,6 +144,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		));
 
 		Zend_Form::setDefaultTranslator($translator);
+		Zend_Registry::set('Zend_Locale', $locale);
 		Zend_Registry::set('Zend_Translate', $translator);
 		Zend_Registry::set('session', $session);
 	}

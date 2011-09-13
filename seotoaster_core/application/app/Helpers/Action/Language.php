@@ -51,11 +51,16 @@ class Helpers_Action_Language extends Zend_Controller_Action_Helper_Abstract {
 	}
 	
 	public function setLanguage($lang){
+		$sessionHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('session');
+		$locale   = $sessionHelper->locale;
 		if (Zend_Locale::isLocale($lang)){
+			$locale->setLocale($locale->getLocaleToTerritory($lang));
+			$sessionHelper->locale = $locale;
 			$translator = Zend_Registry::get('Zend_Translate');
-			$translator->getAdapter()->setLocale($lang);		
+			$translator->getAdapter()->setLocale($lang);
 		}
 		
+//		return $locale;
 		return $translator->getAdapter()->getLocale();
 	}
 }
