@@ -25,5 +25,14 @@ class Tools_Page_Tools {
 		$websiteHelper->getUrl() . 'system/images/noimage.png';
 	}
 
+	public static function getDraftPages() {
+		$cacheHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		if(null === ($draftPages = $cacheHelper->load(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT))) {
+			$draftPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllDraftPages();
+			$cacheHelper->save(Helpers_Action_Cache::KEY_DRAFT, $draftPages, Helpers_Action_Cache::PREFIX_DRAFT, array(), Helpers_Action_Cache::CACHE_LONG);
+		}
+		return $draftPages;
+	}
+
 }
 

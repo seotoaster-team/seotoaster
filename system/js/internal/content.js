@@ -23,7 +23,7 @@ $(function() {
 			dataType   : 'json',
 			data       : elements,
 			beforeSend : function() {
-				ajaxMsgSuccess.fadeIn();
+				ajaxMsgSuccess.fadeIn().text('Working...');
 			},
 			success : function() {
 				top.location.reload();
@@ -102,9 +102,11 @@ $(function() {
 	$('#toogletinymce').click(function() {
 		var editorId = 'content';
 		if(!tinyMCE.getInstanceById(editorId)) {
+			$(this).text('NO EDITOR');
 			tinyMCE.execCommand('mceAddControl', false, editorId);
 		}
 		else {
+			$(this).text('WITH EDITOR');
 			tinyMCE.execCommand('mceRemoveControl', false, editorId);
 		}
 	})

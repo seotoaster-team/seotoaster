@@ -28,7 +28,9 @@
 				<div id="widgets" class="button"><?php echo $this->translate('Widgets Maker'); ?></div>
 				<div id="widgets_maker" class="show_div"></div>
 
-				<div id="upload_things_button" class="button"><?php echo $this->translate('Upload Things'); ?></div>
+				<div id="upload_things_button" class="button">
+					<a style="padding: 0px;" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="650" data-pwidth="480" href="javascript:;" class="tpopup"><?php echo $this->translate('Upload Things'); ?></a>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -125,7 +125,7 @@ body, body.seotoaster {
 	color:#666;
 	display:block;
 	font-weight:bold;
-	padding:4px 0px;
+	padding:7px 0px;
 	text-indent:5px;
 	font-size: 14px;
 }
@@ -740,7 +740,7 @@ body, body.seotoaster {
 
 .seotoaster #deeplinks-list {
 	overflow-y: scroll;
-	height: 390px;
+	height: 345px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;

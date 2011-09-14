@@ -61,6 +61,12 @@ class Backend_PageController extends Zend_Controller_Action {
 					$page->setUrl($pageData['url']);
 				}
 				$page->setTargetedKey($page->getH1());
+
+				//cleaning cache if it is a draft page
+				if($pageData['pageCategory'] == Application_Model_Models_Page::IDCATEGORY_DRAFT) {
+					$this->_helper->cache->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
+				}
+
 				$page->setParentId($pageData['pageCategory']);
 				$page->setShowInMenu($pageData['inMenu']);
 				$saveUpdateResult = $mapper->save($page);
@@ -170,7 +176,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
 	public function draftAction() {
 		//@todo can be added to the cache but not critical
-		$this->view->draftPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllDraftPages();
+		$this->view->draftPages = Tools_Page_Tools::getDraftPages();
 	}
 
 	public function organizeAction() {

@@ -117,16 +117,24 @@ class Backend_SeoController extends Zend_Controller_Action {
 				}
 				else {
 					$deeplink->setType(Application_Model_Models_Deeplink::TYPE_EXTERNAL);
+					if(!Zend_Uri::check($data['url'])) {
+						$this->_helper->response->fail('Invalid external url');
+						exit;
+					}
 					$deeplink->setUrl($data['url']);
 					$deeplink->setPageId(null);
 				}
 				$deeplink->setName($data['anchorText']);
 				$deeplink->setBanned(false);
-				$deeplink->setNofollow(false);
+				$deeplink->setNofollow($data['nofollow']);
 				$deeplink->registerObserver(new Tools_Seo_Watchdog());
 				Application_Model_Mappers_DeeplinkMapper::getInstance()->save($deeplink);
 				$deeplink->notifyObservers();
 				$this->_helper->response->success('Deeplink saved');
+			}
+			else {
+				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($deeplinksForm->getMessages(), get_class($deeplinksForm)));
+				exit;
 			}
 		}
 		else {

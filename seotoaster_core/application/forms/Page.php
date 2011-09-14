@@ -143,6 +143,7 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Hidden(array(
 			'id'       => 'templateId',
 			'name'     => 'templateId',
+			'required' => true,
 			'value'    => $this->_templateId
 		)));
 

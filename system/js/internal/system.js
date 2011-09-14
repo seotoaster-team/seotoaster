@@ -1,10 +1,6 @@
 $(function() {
 	_FADE_SLOW = 5000;
 
-//	if(jQuery().chosen) {
-//		$('._tdropdown').chosen();
-//	}
-
 	/**
 	 * Seotoaster popup dialog
 	 */
@@ -17,16 +13,21 @@ $(function() {
 		pwidth  = link.data('pwidth') || 960;
 		pheight = link.data('pheight') || 650;
 		if(top.$('#__tpopup').length) {
+
+			var currUrl = top.$('#__tpopup').attr('src');
+
 			top.$('#__tpopup').dialog('option', {
-				width: pwidth,
-				height: pheight
+				width  : pwidth,
+				height : pheight
 			});
 			top.$('#__tpopup').attr('src', link.data('url')).css({
 				width    : pwidth + 'px',
 				height   : pheight + 'px'
 			});
+			top.$('#__tpopup').data('backurl', currUrl);
 			return;
 		}
+		top.$('#__tpopup').data('backurl', null);
 		popup = $(document.createElement('iframe')).attr('id', '__tpopup');
 		popup.dialog({
 			width: pwidth,
@@ -88,16 +89,33 @@ $(function() {
 	})
 
 	$('.closebutton').click(function() {
+
+		//ceck if this popup was opened from other popup, then we need to go back to the previous popup
+		if(typeof top.$('#__tpopup').data('backurl') != 'undefined' && top.$('#__tpopup').data('backurl') != null) {
+			top.$('#__tpopup').attr('src', top.$('#__tpopup').data('backurl'));
+			top.$('#__tpopup').data('backurl', null);
+			return;
+		}
+
+		//reload page if we are closing template or css edit dialog
+		//probably needs to be changed to something more universal
+		if($('#frm_template').length || $('#editcssform').length) {
+			top.location.reload();
+		}
+
 		top.$('#__tpopup').dialog('close');
+
 	})
 
 	$('#ajax_msg').click(function(){
-		$(this).fadeOut();
+
+		$(this).text('').fadeOut();
 	})
 
 	$('form._fajax').live('submit', function(e) {
 		e.preventDefault();
 		var ajaxMessage = $('#ajax_msg');
+		ajaxMessage.text('');
 		var form        = $(this);
 		$.ajax({
 			url        : form.attr('action'),
@@ -105,8 +123,7 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				ajaxMessage.fadeIn().removeClass('ui-state-error').addClass('success');
-				$('#msg-text').text('Working...');
+				ajaxMessage.fadeIn().removeClass('ui-state-error').addClass('success').text('Working...');;
 			},
 			success : function(response) {
 				if(!response.error) {
@@ -128,13 +145,11 @@ $(function() {
 					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
 				}
 				else {
-					ajaxMessage.removeClass('success').addClass('ui-state-error');
-					$('#msg-text').replaceWith(response.responseText);
+					ajaxMessage.removeClass('success').addClass('ui-state-error').html(response.responseText);
 				}
 			},
-			error: function() {
-				ajaxMessage.removeClass('success').addClass('ui-state-error');
-				$('#msg-text').text('Error occured');
+			error: function(err) {
+				ajaxMessage.removeClass('success').addClass('ui-state-error').text('An error occured');
 			}
 		})
 	})
@@ -174,23 +189,27 @@ $(function() {
 
 function loginCheck() {
 	if($.cookie('PHPSESSID') === null) {
-		showModalMessage('Session expired', 'Your session is expired! Please, login again');
+		showModalMessage('Session expired', 'Your session is expired! Please, login again', function() {
+			window.location.href = $('#website_url').val();
+		})
 		return false;
 	}
 	return true;
 }
 
-function showModalMessage(title, msg) {
+function showModalMessage(title, msg, callback) {
 	var messageScreen = $('<div class="info-message"></div>').html(msg);
 	$(messageScreen).dialog({
-		modal: true,
-		title: title,
-		buttons: {
+		modal     : true,
+		title     : title,
+		resizable : false,
+		buttons   : {
 			Ok: function() {
 				$(this).dialog('close');
-				window.location.href = $('#website_url').val();
+				if(callback) {
+					callback();
+				}
 			}
 		}
 	});
-	return;
 }
