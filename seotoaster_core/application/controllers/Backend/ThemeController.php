@@ -230,7 +230,11 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			$currentTheme = $this->_helper->config->getConfig('currentTheme');
 			//get template preview image
 			$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
-			$tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
+			if ($templatePreviewDir && is_dir($templatePreviewDir)){
+				$tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
+			} else {
+				$tmplImages = array();
+			}
 			switch ($listtemplates) {
 				case 'all':
 					$templates = $mapper->fetchAll();
