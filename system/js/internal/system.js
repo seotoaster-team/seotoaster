@@ -14,7 +14,9 @@ $(function() {
 		pheight = link.data('pheight') || 650;
 		if(top.$('#__tpopup').length) {
 
-			var currUrl = top.$('#__tpopup').attr('src');
+			var currUrl    = top.$('#__tpopup').attr('src');
+			var currWidth  = top.$('#__tpopup').css('width');
+			var currHeight = top.$('#__tpopup').css('height');
 
 			top.$('#__tpopup').dialog('option', {
 				width  : pwidth,
@@ -25,9 +27,14 @@ $(function() {
 				height   : pheight + 'px'
 			});
 			top.$('#__tpopup').data('backurl', currUrl);
+			top.$('#__tpopup').data('backwidth', currWidth);
+			top.$('#__tpopup').data('backheight', currHeight);
+
 			return;
 		}
 		top.$('#__tpopup').data('backurl', null);
+		top.$('#__tpopup').data('backwidth', null);
+		top.$('#__tpopup').data('backheight', null);
 		popup = $(document.createElement('iframe')).attr('id', '__tpopup');
 		popup.dialog({
 			width: pwidth,
@@ -92,6 +99,14 @@ $(function() {
 
 		//ceck if this popup was opened from other popup, then we need to go back to the previous popup
 		if(typeof top.$('#__tpopup').data('backurl') != 'undefined' && top.$('#__tpopup').data('backurl') != null) {
+			top.$('#__tpopup').dialog('option', {
+				width  : top.$('#__tpopup').data('backwidth').replace('px', ''),
+				height : top.$('#__tpopup').data('backheight').replace('px', '')
+			});
+			top.$('#__tpopup').css({
+				width  : top.$('#__tpopup').data('backwidth'),
+				height : top.$('#__tpopup').data('backheight')
+			});
 			top.$('#__tpopup').attr('src', top.$('#__tpopup').data('backurl'));
 			top.$('#__tpopup').data('backurl', null);
 			return;
