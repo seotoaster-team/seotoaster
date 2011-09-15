@@ -60,12 +60,14 @@ class Backend_MediaController extends Zend_Controller_Action {
 				return false;
 			}
 			$this->view->imageList = array();
-			$listImages	= Tools_Filesystem_Tools::scanDirectory($folderPath.DIRECTORY_SEPARATOR.'small', false, false);
-			foreach ($listImages as $image) {
-				array_push($this->view->imageList, array(
-					'name' => $image,
-					'src' => $this->_helper->website->getUrl().$this->_websiteConfig['media'].$folderName.DIRECTORY_SEPARATOR.'small'.DIRECTORY_SEPARATOR.$image
-				));
+			if (is_dir($folderPath.DIRECTORY_SEPARATOR.'small')) {
+				$listImages	= Tools_Filesystem_Tools::scanDirectory($folderPath.DIRECTORY_SEPARATOR.'small', false, false);
+				foreach ($listImages as $image) {
+					array_push($this->view->imageList, array(
+						'name' => $image,
+						'src' => $this->_helper->website->getUrl().$this->_websiteConfig['media'].$folderName.DIRECTORY_SEPARATOR.'small'.DIRECTORY_SEPARATOR.$image
+					));
+				}	
 			}
 			$this->view->filesList = array();
 			$listFiles	= Tools_Filesystem_Tools::scanDirectory($folderPath, false, false);
