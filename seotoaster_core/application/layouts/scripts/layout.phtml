@@ -6,7 +6,7 @@
 		<?php endif; ?>
 
 		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
-			<link rel="canonical" href="<?php echo $this->websiteUrl . $this->pageData['url']; ?>" />
+			<link rel="canonical" href="<?php echo $this->websiteUrl . (($this->pageData['url'] != $this->websiteMainPage) ? $this->pageData['url'] : ''); ?>" />
 		<?php endif; ?>
 
 		<?php $this->jQuery()->enable(); ?>

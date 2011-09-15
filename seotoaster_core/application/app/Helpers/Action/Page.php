@@ -15,6 +15,11 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
 	private $_website            = null;
 
+	private $_canonicMap         = array(
+		'index.html',
+		'index.htm'
+	);
+
 	public function init() {
 		$this->_cache      = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
 		$this->_redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
@@ -34,6 +39,15 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		}
 		return str_replace(' ', '-', $pageUrl);
 	}
+
+
+	public function doCanonicalRedirect($pageUrl) {
+		$this->_redirector->setCode(301);
+		if(in_array($pageUrl, $this->_canonicMap)) {
+			$this->_redirector->gotoUrl($this->_website->getUrl());
+		}
+	}
+
 
 	public function do301Redirect($pageUrl) {
 		$redirectMap = array();

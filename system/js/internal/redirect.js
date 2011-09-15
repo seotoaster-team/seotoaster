@@ -17,46 +17,52 @@ $(function() {
 	})
 
 	$('.redirect-massdel').live('click', function() {
-		var parentRow = $(this).parent().parent();
-		if($(this).attr('checked')) {
-			parentRow.css({
-				opacity: '0.6'
-			})
+		if(!$('.redirect-massdel').not(':checked').length) {
+			$('#massdell-main').attr('checked', true);
 		}
 		else {
-			parentRow.css({
-				opacity: '1'
-			})
+			$('#massdell-main').attr('checked', false);
 		}
 	})
 
 	$('#massdell-main').click(function() {
-		if($(this).attr('checked')) {
-			$('.redirect-massdel').attr('checked', true);
-		}
-		else {
-			$('.redirect-massdel').attr('checked', false);
-		}
+		$('.redirect-massdel').attr('checked', ($(this).attr('checked')) ? true : false);
 	})
 
 	$('#massdel-run').click(function() {
-		var ids = [];
-		$('.redirect-massdel:checked').each(function() {
-			ids.push($(this).attr('id'));
-		});
-		var url      = $('#website_url').val() + 'backend/backend_seo/removeredirect/'
-		var callback = $('#frm-redirects').data('callback');
-		$.post(url, {id: ids}, function() {
-			if(callback) {
-				eval(callback + '()');
+		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected redirects?');
+		$(messageScreen).dialog({
+			modal    : true,
+			title    : 'Removing deeplinks?',
+			resizable: false,
+			buttons: {
+				Yes: function() {
+					var ids = [];
+					$('.redirect-massdel:checked').each(function() {
+						ids.push($(this).attr('id'));
+					});
+					var url      = $('#website_url').val() + 'backend/backend_seo/removeredirect/'
+					var callback = $('#frm-redirects').data('callback');
+					$.post(url, {id: ids}, function() {
+						if(callback) {
+							eval(callback + '()');
+						}
+						$('#ajax_msg').text('Done').fadeOut();
+					})
+					$('#massdell-main').attr('checked', false);
+					$(this).dialog('close');
+				},
+				No : function() {
+					$(this).dialog('close');
+				}
 			}
-			$('#ajax_msg').text('Done').fadeOut();
-		})
+		});
 	})
 })
 
 //callback function for the ajax forms
 function reloadRedirectsList() {
+	$('#from-url').val('');
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/', function(response) {
 		$('#redirects-list').html(response.redirectsList);
 	})

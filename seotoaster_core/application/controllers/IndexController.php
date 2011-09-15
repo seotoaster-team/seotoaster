@@ -14,11 +14,18 @@ class IndexController extends Zend_Controller_Action {
 		$page        = null;
 		$pageContent = null;
 		$currentUser = $this->_helper->session->getCurrentUser();
-		$pageUrl     = $this->_helper->page->validate($this->getRequest()->getParam('page'));
+
+		// Geting requested url
+		$pageUrl     = $this->getRequest()->getParam('page');
+		
+		// Trying to do canonic redirects
+		$this->_helper->page->doCanonicalRedirect($pageUrl);
+
+		// Preparing page url and make it valid
+		$pageUrl     = $this->_helper->page->validate($pageUrl);
 
 		//Check if 301 redirect is present for requested page then do it
 		$this->_helper->page->do301Redirect($pageUrl);
-
 
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache

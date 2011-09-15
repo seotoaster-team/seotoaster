@@ -9,6 +9,7 @@ $(function() {
 		$('#cpanelul').hide();
 		$('#logoutul').hide()
 		$('#seotoaster-logowrap').hide()
+		$('#showhide > a').text('Expand menu');
 	}
 
 

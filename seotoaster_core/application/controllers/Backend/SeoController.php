@@ -54,6 +54,22 @@ class Backend_SeoController extends Zend_Controller_Action {
 			if($redirectForm->isValid($this->getRequest()->getParams())) {
 				$data     = $redirectForm->getValues();
 				$redirect = new Application_Model_Models_Redirect();
+				if(!Zend_Uri::check($data['fromUrl'])) {
+					$this->_helper->response->fail('Invalid former url.<br /> See an example http://www.example.com/formerurl.html');
+					exit;
+				}
+
+				$fromUrl       = Tools_System_Tools::getUrlPath($data['fromUrl']);
+				$inDbValidator = new Zend_Validate_Db_NoRecordExists(array(
+					'table' => 'redirect',
+					'field' => 'from_url'
+				));
+
+				if(!$inDbValidator->isValid($fromUrl)) {
+					$this->_helper->response->fail(implode('<br />', $inDbValidator->getMessages()));
+					exit;
+				}
+
 				$redirect->setFromUrl(Tools_System_Tools::getUrlPath($data['fromUrl']));
 				$redirect->setDomainFrom(Tools_System_Tools::getUrlScheme($data['fromUrl']) . '://' . Tools_System_Tools::getUrlHost($data['fromUrl']) . '/');
 				if(intval($data['toUrl'])) {
@@ -63,6 +79,10 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$redirect->setPageId($page->getId());
 				}
 				else {
+					if(!Zend_Uri::check($data['toUrl'])) {
+						$this->_helper->response->fail('Invalid external url');
+						exit;
+					}
 					$redirect->setDomainTo(Tools_System_Tools::getUrlScheme($data['toUrl']) . '://' . Tools_System_Tools::getUrlHost($data['toUrl']) . '/');
 					$redirect->setToUrl(Tools_System_Tools::getUrlPath($data['toUrl']));
 					$redirect->setPageId(null);

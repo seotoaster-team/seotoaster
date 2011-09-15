@@ -102,21 +102,18 @@ $(function() {
 		if($('#frm_template').length || $('#editcssform').length) {
 			top.location.reload();
 		}
-
 		top.$('#__tpopup').dialog('close');
-
 	})
 
 	$('#ajax_msg').click(function(){
-
 		$(this).text('').fadeOut();
 	})
 
 	$('form._fajax').live('submit', function(e) {
 		e.preventDefault();
 		var ajaxMessage = $('#ajax_msg');
-		ajaxMessage.text('');
 		var form        = $(this);
+		ajaxMessage.text('');
 		$.ajax({
 			url        : form.attr('action'),
 			type       : 'post',
@@ -138,13 +135,14 @@ $(function() {
 
 					//processing callback
 					var callback = $(form).data('callback');
-					if(typeof callback != 'undefined') {
+					if(typeof callback != 'undefined' && callback != null) {
 						eval(callback + '()');
 					}
 
 					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
 				}
 				else {
+					$(form).find('input:text').val('');
 					ajaxMessage.removeClass('success').addClass('ui-state-error').html(response.responseText);
 				}
 			},

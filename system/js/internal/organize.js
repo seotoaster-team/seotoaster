@@ -61,8 +61,11 @@ function saveCategoriesOrder() {
 		type: 'post',
 		url : $('#website_url').val() + 'backend/backend_page/organize/',
 		data: {act: 'save', ordered: ordered},
+		beforeSend: function() {
+			$('#ajax_msg').text('Saving order...').show();
+		},
 		success: function(response) {
-
+			$('#ajax_msg').text('New order saved...').fadeOut(_FADE_SLOW);
 		}
 	})
 }

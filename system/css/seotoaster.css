@@ -141,22 +141,15 @@ body, body.seotoaster {
 /*	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border-radius:4px;*/
-	padding: 8px 5px 8px 8px;
+	padding: 8px 5px;
 /*	text-indent:8px;*/
-	width:96%;
+	width:98%;
 	background: #fff;
-	margin:3px 2px 5px 0px;
+	margin: 3px 0px;
 /*	font-weight:600;*/
 	font-size:15px;
 }
-.seotoaster select {
-/*	padding:5px 7px 5px 0;
-	margin:3px 0px;
-	text-indent:2px;
-	cursor:pointer;
-	background: #fefefe;*/
-	width:100%;
-}
+
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
 	color:#eee;
@@ -367,10 +360,6 @@ body, body.seotoaster {
 	height: 20px;
 }
 
-.seotoaster #csscontent {
-	height: 504px;
-}
-
 .seotoaster #btn-submit {
 	position: absolute;
 	bottom: 5px;
@@ -574,11 +563,13 @@ body, body.seotoaster {
 	-moz-border-radius:8px;
 	-webkit-border-radius:8px;
 	border-radius:8px;
-	background-color:#690;
+/*	background-color:#690;*/
+	background: #21759B;
 	text-align:center;
 }
 .seotoaster div.largebutton:hover{
-	background-color:#6C3;
+/*	background-color:#6C3;*/
+	background-color:#E66F00;
 }
 .seotoaster div.largebutton a{
 	color:#fff;
@@ -850,4 +841,11 @@ body, body.seotoaster {
 	padding: 7px 0px 0px;
 	font-size: 12px;
 	overflow: hidden;
+}
+
+/*========== Upload form for page=======*/
+#page-teaser-uploader {
+	position: absolute;
+	bottom: 50px;
+	right: 350px;
 }

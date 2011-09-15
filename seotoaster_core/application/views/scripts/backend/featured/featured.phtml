@@ -15,7 +15,7 @@
 		<div class="grid_2 list-row-item"><?php echo $this->translate('Actions'); ?></div>
 	</div>
 	<div id="fa-list" class="grid_12 items-list"></div>
-	<?php echo $this->toasterLink('backend_page', 'page', $this->translate('Back to page'), 'id/' . $this->pageId); ?>
+	<?php //echo $this->toasterLink('backend_page', 'page', $this->translate('Back to page'), 'id/' . $this->pageId); ?>
 	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

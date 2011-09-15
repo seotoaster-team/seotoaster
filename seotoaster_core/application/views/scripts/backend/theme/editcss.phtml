@@ -45,9 +45,8 @@
 		}
 	})
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
-
 <div class="seotoaster editor container_12 w960 rounded8px">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage templates')); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
 
 	<?php
 		$this->editcssForm->setAction($this->websiteUrl.$this->url());
@@ -56,7 +55,7 @@
 		<div class="grid_8">&nbsp;</div>
 		<div class="grid_4"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
 		<div class="grid_12"><?php echo $this->editcssForm->getElement('content'); ?></div>
-		<?php echo $this->editcssForm->getElement('submit'); ?>
+		<div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
 	</form>
 
 </div>

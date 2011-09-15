@@ -18,12 +18,13 @@ class Application_Form_Css extends Zend_Form {
 		));
 
 		$this->addElement('textarea', 'content', array(
-			'id'		=> 'csscontent',
-			'required'	=> true,
-			'allowEmpty'=> true,
-			'value'		=> $this->_content,
-			'class'		=> array('h400'),
-			'style'		=> 'font-family: monospace;font-weight:normal;'
+			'id'		 => 'csscontent',
+			'required'	 => true,
+			'allowEmpty' => true,
+			'spellcheck' => 'false',
+			'value'		 => $this->_content,
+			'class'		 => array('h500'),
+			'style'		 => 'font-family: monospace;font-weight:normal;font-size:12px;'
 		));
 
 		$this->addElement('submit', 'submit', array(

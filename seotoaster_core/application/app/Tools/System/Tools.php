@@ -14,7 +14,7 @@ class Tools_System_Tools {
 
 	public static function getUrlScheme($url) {
 		$parsedUrl = self::_proccessUrl($url);
-		return $parsedUrl['scheme'];
+		return strtolower($parsedUrl['scheme']);
 	}
 
 	public static function getUrlHost($url) {

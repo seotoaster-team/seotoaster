@@ -16,7 +16,7 @@
 						<?php foreach ($treeData['pages'] as $page): ?>
 							<li id="<?php echo $page->getId(); ?>">
 								<div class="move"></div>
-								<input type="checkbox" />
+<!--								<input type="checkbox" />-->
 								<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
 							</li>
 						<?php endforeach; ?>
@@ -40,7 +40,7 @@
 					<?php foreach ($this->staticMenu as $page): ?>
 						<li id="<?php echo $page->getId(); ?>">
 							<div class="move"></div>
-							<input type="checkbox" />
+<!--							<input type="checkbox" />-->
 							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
 						</li>
 					<?php endforeach; ?>

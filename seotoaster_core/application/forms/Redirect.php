@@ -21,12 +21,12 @@ class Application_Form_Redirect extends Zend_Form {
 			 ->setAttrib('data-callback', 'reloadRedirectsList');
 
 		$this->addElement(new Zend_Form_Element_Text(array(
-			'id'       => 'from-url',
-			'name'     => 'fromUrl',
-			'label'    => 'Former url',
-			'value'    => $this->_fromUrl,
-			'required' => true,
-			'filters'  => array('StringTrim')
+			'id'         => 'from-url',
+			'name'       => 'fromUrl',
+			'label'      => 'Former url',
+			'value'      => $this->_fromUrl,
+			'required'   => true,
+			'filters'    => array('StringTrim')
 		)));
 
 		$this->addElement(new Zend_Form_Element_Select(array(

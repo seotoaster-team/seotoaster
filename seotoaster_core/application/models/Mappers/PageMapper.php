@@ -45,7 +45,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			$where = $this->getDbTable()->getAdapter()->quoteInto('system = "?"', 0);
 		}
 
-		//$order[] = 'order';
+		$order[] = 'order';
 
 		$entries = array();
 		$resultSet = $this->getDbTable()->fetchAll($where, $order);
