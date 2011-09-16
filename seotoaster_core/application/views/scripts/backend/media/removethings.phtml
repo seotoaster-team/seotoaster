@@ -174,24 +174,26 @@
 	
 	$('.file-container').live('toggleActive', function(){
 		var $flag = $(this).children('input.toremove');
+		var $parent = $(this).parent('.filebrowser-zone');
 		if ($flag.attr('checked')){
 			$flag.removeAttr('checked');
 			$(this).removeClass('active');
-			if ($(this).closest('.filebrowser-zone').find('.active').size() > 0) {
+			if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
 				$('#check-all').removeAttr('checked');
 			}
 		} else {
 			$(this).addClass('active');
 			$flag.attr('checked', 'checked');
-			if ($(this).closest('.filebrowser-zone').find('.file-container:not(.active)').size() === 0){
-				$('#check-all:not(:checked)').attr('checked', 'checked');
+			if ($parent.find('.file-container:not(.active)').size() === 0){
+				$('#check-all').attr('checked', 'checked');
 			}
 		}
 		$('#check-all').button('refresh');
 	}).live('click', function(){
 		$(this).trigger('toggleActive');
-	}).delegate('input:checkbox', 'click', function(event){
-		//
+	});
+	$('.file-container > input.toremove').live('click', function(event){
+		$(this).parent('.file-container').trigger('toggleActive');
 	});
 	
 	/**
