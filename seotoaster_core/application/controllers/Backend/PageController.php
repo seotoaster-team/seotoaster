@@ -296,9 +296,9 @@ class Backend_PageController extends Zend_Controller_Action {
 		if(!empty ($pages)) {
 			foreach ($pages as $page) {
 				$externalLinksContent .= '["'
-					. utf8_encode($page->getH1())
+					. $page->getH1()
 					. '", "'
-					. utf8_encode($this->_helper->website->getUrl() . $page->getUrl())
+					. $this->_helper->website->getUrl() . $page->getUrl()
 					. '"],';
 			}
 			$externalLinksContent = substr($externalLinksContent, 0, -1) . ');';

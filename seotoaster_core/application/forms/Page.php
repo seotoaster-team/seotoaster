@@ -55,7 +55,10 @@ class Application_Form_Page extends Zend_Form {
 			'label'    => 'Page URL in address bar',
 			'value'    => $this->_url,
 			'required' => true,
-			'filters'  => array('StringTrim'),
+			'filters'  => array(
+				new Zend_Filter_StringTrim('.'),
+				//new Zend_Filter_Alnum(array('allowwhitespace' => true))
+			)
 		)));
 
 		$this->addElement(new Zend_Form_Element_Text(array(
@@ -190,7 +193,8 @@ class Application_Form_Page extends Zend_Form {
 	}
 
 	public function setUrl($url) {
-		$this->_url = preg_replace('~\.[a-z0-9]+$~ui', '', $url);
+		$this->_url = preg_replace('~\.[a-z0-9-]+$~ui', '', $url);
+		//$this->_url = $url;
 		$this->getElement('url')->setValue($this->_url);
 		return $this;
 	}

@@ -37,7 +37,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
-		return str_replace(' ', '-', $pageUrl);
+		return preg_replace('~[\s]+~', '-', $pageUrl);
 	}
 
 
