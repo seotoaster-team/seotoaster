@@ -34,6 +34,9 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		if(extension_loaded('mbstring')) {
 			$pageUrl = mb_strtolower($pageUrl, mb_detect_encoding($pageUrl));
 		}
+
+		$pageUrl = preg_replace('/\.htm$/', '.html', $pageUrl);
+
 		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
