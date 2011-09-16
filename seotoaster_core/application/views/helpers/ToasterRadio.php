@@ -141,7 +141,7 @@ class Zend_View_Helper_ToasterRadio extends Zend_View_Helper_FormElement {
                     . $disabled
                     . $this->_htmlAttribs($attribs)
                     . $endTag
-                    . (('append' == $labelPlacement) ? '&nbsp' . $opt_label : '')
+                    . (('append' == $labelPlacement) ? '&nbsp;' . $opt_label : '')
                     . '</label></div>';
 
             // add to the array of radio buttons

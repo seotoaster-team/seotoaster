@@ -9,8 +9,8 @@ $(document).ready(function(){
 		height                  : 567,
 		plugins                 : "safari,preview,spellchecker,fullscreen,media,paste,stw",
 		//plugins               : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
-		theme_advanced_buttons1 : "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,formatselect,styleselect,fontsizeselect,forecolor,|,link,unlink,anchor,hr",
-		theme_advanced_buttons2 : "image,|,widgets,|,spellchecker,|,code,pastetext,removeformat,charmap",
+		theme_advanced_buttons1 : "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,|,link,unlink,anchor,hr",
+		theme_advanced_buttons2 : "image,|,widgets,|,spellchecker,|,code,pastetext,removeformat,charmap,fullscreen",
 		theme_advanced_buttons3 : "",
 		spellchecker_languages  : "+English=en,French=fr,German=de,Hebrew=iw,Italian=it,Polish=pl,Portuguese (Brazil)=pt-BR,"
 					              +"Portuguese (Portugal)=pt-PT,Russian=ru,Spanish=es,Ukrainian=uk",

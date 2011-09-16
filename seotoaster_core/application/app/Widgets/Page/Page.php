@@ -27,11 +27,15 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return $this->_toasterOptions['headerTitle'];
 	}
 
+	private function _generateTeaserOption() {
+		return $this->_toasterOptions['teaserText'];
+	}
+
 	private function _generatePreviewOption() {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
  		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
-		$pagePreviews  = preg_grep('/^' . $pageHelper->clean($this->_toasterOptions['url']) . '\.(png|jpg|gif|jpeg)$/', $files);
+		$pagePreviews  = array_values(preg_grep('/^' . $pageHelper->clean($this->_toasterOptions['url']) . '\.(png|jpg|gif|jpeg)$/', $files));
 
 		if(!empty ($pagePreviews)) {
 			return '<a href="' . $websiteHelper->getUrl() . $this->_toasterOptions['url'] . '" title="' . $this->_toasterOptions['h1'] . '"><img src="' . $websiteHelper->getUrl() . $websiteHelper->getPreview() . $pagePreviews[0] . '" alt="'  . $pageHelper->clean($this->_toasterOptions['url']) . '" /></a>';
@@ -40,7 +44,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('page:id', 'page:h1', 'page:title', 'page:preview');
+		return array('page:id', 'page:h1', 'page:title', 'page:preview', 'page:teaser');
 	}
 
 }

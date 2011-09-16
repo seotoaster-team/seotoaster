@@ -74,7 +74,7 @@
 		</div>
 	</form>
 	<?php
-		$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true));
+		$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload image')));
 		echo $uploader;
 	?>
 	<div id="page-teaser-uploader-filelist" class="ui-helper-hidden"></div>

@@ -27,7 +27,13 @@
 						</div>
 					</span>
 					<img src="<?php echo $theme['preview'];  ?>" class="preview" alt="<?php echo $theme['name']; ?>" />
-					<label><input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;<?php echo $this->translate('Select theme'); ?></label>
+					<label>
+						<?php if ($theme['isCurrent']): ?>
+							<span style="display: block; padding: 2px 5px;"><?php echo $this->translate('Current theme'); ?></span>
+						<?php else: ?>
+							<input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;<?php echo $this->translate('Select theme'); ?>
+						<?php endif; ?>
+					</label>
 					<input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
 				</div>
 			<?php endforeach; ?>

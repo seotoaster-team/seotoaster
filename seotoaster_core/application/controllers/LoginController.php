@@ -38,6 +38,7 @@ class LoginController extends Zend_Controller_Action {
 						$user->setFullName($authUserData->full_name);
 						$user->setLastLogin(date('Y-m-d H:i:s', time()));
 						$user->setRegDate($authUserData->reg_date);
+						$user->setIpaddress($_SERVER['REMOTE_ADDR']);
 						$this->_helper->session->setCurrentUser($user);
 
 						Application_Model_Mappers_UserMapper::getInstance()->save($user);

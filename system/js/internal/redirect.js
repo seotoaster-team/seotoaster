@@ -33,7 +33,7 @@ $(function() {
 		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected redirects?');
 		$(messageScreen).dialog({
 			modal    : true,
-			title    : 'Removing deeplinks?',
+			title    : 'Removing redirects?',
 			resizable: false,
 			buttons: {
 				Yes: function() {

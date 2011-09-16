@@ -14,6 +14,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
 	protected $_regDate   = '';
 
+	protected $_ipaddress = '';
+
 	public function getRoleId() {
 		return ($this->_roleId) ? $this->_roleId : Tools_Security_Acl::ROLE_GUEST;
 	}
@@ -67,5 +69,16 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 		$this->_regDate = $regDate;
 		return $this;
 	}
+
+	public function getIpaddress() {
+		return $this->_ipaddress;
+	}
+
+	public function setIpaddress($ipaddress) {
+		$this->_ipaddress = $ipaddress;
+		return $this;
+	}
+
+
 }
 

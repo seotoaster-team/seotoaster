@@ -483,7 +483,12 @@ body, body.seotoaster {
 	font-size: 12px;
 	float: left;
 	width: 125px;
-	margin-right: 3px;
+	padding: 5px 4px;
+/*	margin-right: 3px;*/
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select.wmc-input {
+	width: 134px;
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
@@ -677,6 +682,10 @@ body, body.seotoaster {
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+
+.seotoaster .themebox .theme-delete img {
+	margin: 7px 6px;
 }
 
 /*============= Add/Edit 301 ==============*/

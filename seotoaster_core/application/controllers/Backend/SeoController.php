@@ -12,10 +12,13 @@ class Backend_SeoController extends Zend_Controller_Action {
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
-		$this->_helper->AjaxContext()->addActionContext('loaddeeplinkslist', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('loadredirectslist', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('removeredirect', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('removedeeplink', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContexts(array(
+			'loaddeeplinkslist'	=> 'json',
+			'loadredirectslist' => 'json',
+			'removeredirect'    => 'json',
+			'removedeeplink'    => 'json',
+			'loadsculptingdata' => 'json'
+		))->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
 
@@ -191,6 +194,24 @@ class Backend_SeoController extends Zend_Controller_Action {
 	public function loaddeeplinkslistAction() {
 		$this->view->deeplinks = array_reverse(Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll(null, array('id')));
 		$this->view->deeplinksList = $this->view->render('backend/seo/deeplinkslist.phtml');
+	}
+
+
+	public function sculptingAction() {
+		$siloForm = new Application_Form_Silo();
+		if($this->getRequest()->isPost()) {
+			if($siloForm->isValid($this->getRequest()->getParams())) {
+				$silo = new Application_Model_Models_Silo($siloForm->getValues());
+				if(Application_Model_Mappers_SiloMapper::getInstance()->save($silo)) {
+					$this->_helper->response->success('Silo added.');
+				}
+			}
+		}
+		$this->view->siloForm = $siloForm;
+	}
+
+	public function loadsculptingdataAction() {
+
 	}
 }
 

@@ -5,7 +5,7 @@
 			<div class="grid_3 mb10px category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
 				<span class="label catmove">
 					<div class="move"></div>
-					<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>
+					<a href="javascript:;" class="check-all" title="Check all"><!-- img src="/system/images/check-all.gif" width="15"  / --></a>&nbsp;<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>
 					<div class="cat-tools">
 						<span class="ranking">#<?php echo ++$key; ?></span>
 						<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
@@ -30,7 +30,7 @@
 		<div class="grid_3 mb10px category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_STATICMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
 			<span class="label catmove">
 				<div class="move"></div>
-				<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="static menu">Static menu</a>
+				<a href="javascript:;" class="check-all" title="Check all"><!-- img src="/system/images/check-all.gif" width="15"  / --></a>&nbsp;<a href="javascript:;" title="static menu">Static menu</a>
 				<div class="cat-tools">
 					<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
 				</div>
@@ -55,7 +55,7 @@
 		<div class="grid_3 mb10px category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_NOMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
 			<span class="label catmove">
 				<div class="move"></div>
-				<a href="javascript:;" class="check-all" title="Check all"><img src="/system/images/check-all.gif" width="15"  /></a>&nbsp;<a href="javascript:;" title="static menu">No menu</a>
+				<a href="javascript:;" class="check-all" title="Check all"><!-- img src="/system/images/check-all.gif" width="15"  / --></a>&nbsp;<a href="javascript:;" title="static menu">No menu</a>
 				<div class="cat-tools">
 					<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
 				</div>
@@ -65,7 +65,7 @@
 					<?php foreach ($this->noMenu as $page): ?>
 						<li id="<?php echo $page->getId(); ?>">
 							<div class="move"></div>
-							<input type="checkbox" />
+<!--							<input type="checkbox" />-->
 							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
 						</li>
 					<?php endforeach; ?>

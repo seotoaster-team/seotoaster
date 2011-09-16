@@ -40,8 +40,9 @@
 		<?php
 						$previewUploader = $this->toasterUploader(
 							array(
-								'id' => 'template-preview-uploader',
-								'caller' => 'templatePreview'
+								'id'      => 'template-preview-uploader',
+								'caller'  => 'templatePreview',
+								'caption' => $this->translate('Upload image')
 							)
 						);
 						echo $previewUploader;

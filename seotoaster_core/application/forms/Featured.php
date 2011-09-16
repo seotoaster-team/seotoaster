@@ -5,7 +5,7 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_Featured extends Zend_Form{
+class Application_Form_Featured extends Zend_Form {
 
 	protected $_name = '';
 

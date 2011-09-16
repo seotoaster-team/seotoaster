@@ -11,6 +11,8 @@ class Widgets_Related_Related extends Widgets_Abstract {
 
 	const REL_DESC_LENGTH = '250';
 
+	const REL_MAX_REZULT  = '5';
+
 	const REL_USEIMAGE    = false;
 
 	protected function  _init() {
