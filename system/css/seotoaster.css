@@ -352,6 +352,11 @@ body, body.seotoaster {
 
 /*========= EDIT CONTENT ===========*/
 
+/*TinyMce widget drop-down width hack*/
+#menu_content_content_widgets_menu_co {
+	width: 240px !important;
+}
+
 .seotoaster #content {
 	height: 560px;
 }
