@@ -283,5 +283,32 @@ class Backend_PageController extends Zend_Controller_Action {
 			return $page->toArray();
 		}, $pages);
 	}
+
+	public function linkslistAction() {
+		//external_link_list_url
+
+		$this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+		$externalLinksContent = 'var tinyMCELinkList = new Array(';
+
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll(null, array('h1'));
+		if(!empty ($pages)) {
+			foreach ($pages as $page) {
+				$externalLinksContent .= '["'
+					. utf8_encode($page->getH1())
+					. '", "'
+					. utf8_encode($this->_helper->website->getUrl() . $page->getUrl())
+					. '"],';
+			}
+			$externalLinksContent = substr($externalLinksContent, 0, -1) . ');';
+			$this->getResponse()->setRawHeader('Content-type: text/javascript')
+				->setRawHeader('pragma: no-cache')
+				->setRawHeader('expires: 0')
+				->setBody($externalLinksContent)
+				->sendResponse();
+		}
+
+	}
 }
 

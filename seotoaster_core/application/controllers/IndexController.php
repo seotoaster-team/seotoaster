@@ -100,6 +100,7 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->currentTheme = $this->_helper->config->getConfig('currentTheme');
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
+			$this->view->pageData = $pageData;
 			$body[1] = $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId()) . $body[1];
 		}
 		$this->view->pageData = $pageData;

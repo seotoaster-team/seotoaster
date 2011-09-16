@@ -33,11 +33,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 */
 	public function templateAction() {
 		$templateForm = new Application_Form_Template();
-		$templateName   = $this->getRequest()->getParam('id');
-		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+		$templateName = $this->getRequest()->getParam('id');
+		$mapper       = Application_Model_Mappers_TemplateMapper::getInstance();
 		$currentTheme = $this->_helper->config->getConfig('currentTheme');
 		if(!$this->getRequest()->isPost()) {
-
 			if($templateName) {
 				$template = $mapper->find($templateName);
 				if($template instanceof Application_Model_Models_Template) {

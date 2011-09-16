@@ -27,6 +27,7 @@ $(document).ready(function(){
 		content_css: websiteUrl + '/themes/' + $('#current_theme').val() + '/content.css',
 		disk_cache : true,
 		debug : false,
+		external_link_list_url: websiteUrl + 'backend/backend_page/linkslist/',
 		valid_elements: '*[*]'
 	})
 })
