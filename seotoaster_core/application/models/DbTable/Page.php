@@ -9,6 +9,10 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 			'columns'       => 'template_id',
 			'refTableClass' => 'Application_Model_DbTable_Template'
 		),
+		'Silo'     => array(
+			'columns'       => 'silo_id',
+			'refTableClass' => 'Application_Model_DbTable_Silo'
+		)
 	);
 
 	protected $_dependentTables = array('Application_Model_DbTable_PageFeaturedarea');
