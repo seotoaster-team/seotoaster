@@ -2,7 +2,7 @@
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/content/top.phtml'))); ?>
 	<div class="grid_8 above-editor-links">
 		<div id="links">
-			<a id="toogletinymce" href="javascript:;">No editor</a> | <a href="#">Some Plugin here</a> | <a href="#">Some seotoaster.com communication</a> | <a href="#">HELP Screen</a>
+			<a href="#">Help</a> | <a href="#">Latest toaster news</a> | <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No editor'); ?></a>
 		</div>
 		<?php
 			$this->contentForm->setAction($this->url());

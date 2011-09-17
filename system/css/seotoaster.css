@@ -396,7 +396,7 @@ body, body.seotoaster {
 .seotoaster .above-editor-links {
 	color:#555;
 	font-size:11pt;
-/*	text-align:right;*/
+	text-align:right;
 }
 .seotoaster textarea#editcontent {
 	margin:0;

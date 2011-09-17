@@ -1,6 +1,7 @@
 <?php echo $this->doctype(); ?>
 <html lang="en">
 	<head>
+		<!-- added by Seotoaster layout -->
 		<?php if(!preg_match('/<meta charset="utf-8">/is', $this->head)): ?>
 			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
 		<?php endif; ?>
@@ -11,7 +12,6 @@
 
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
-
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL, $this->layout()->roleId)): ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
@@ -29,7 +29,10 @@
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
 		<?php echo $this->jQuery(); ?>
 
+		<!-- end of Seotoaster layout -->
+		<!-- from theme -->
 		<?php echo $this->head; ?>
+		<!-- end from theme -->
 
 	</head>
 	<body>

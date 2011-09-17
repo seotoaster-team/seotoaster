@@ -24,7 +24,7 @@
 	<div class="textcentered mb10px">
 		<?php if(isset($this->flagsFiles) && is_array($this->flagsFiles) && !empty($this->flagsFiles)): ?>
 			<?php foreach($this->flagsFiles as $flagFileName => $flagFilePath): ?>
-				<img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" />&nbsp;
+				<a title="<?php echo ($this->translate('Select ') . $flagFileName . $this->translate(' language'));?> " href="javascript:;"><img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" /></a>&nbsp;
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>

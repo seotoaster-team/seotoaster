@@ -85,11 +85,6 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_redirector       = new Zend_Controller_Action_Helper_Redirector();
 		$this->_session          = Zend_Registry::get('session');
 		$this->_view             = new Zend_View();
-
-		$layout = new Zend_Layout($this->_view->layout()->getLayout());
-		$layout->roleId = Tools_Security_Acl::ROLE_SYSTEM;
-		//$this->_view->layout($layout);
-
 		$this->_view->websiteUrl = $this->_websiteUrl;
 	}
 
