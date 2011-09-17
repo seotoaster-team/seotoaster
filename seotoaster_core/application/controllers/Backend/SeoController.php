@@ -49,30 +49,24 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
 
 		$redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs());
+		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if(!$this->getRequest()->isPost()) {
 			$this->view->redirects = $redirectMapper->fetchRedirectMap();
 		}
 		else {
 			if($redirectForm->isValid($this->getRequest()->getParams())) {
-				$data     = $redirectForm->getValues();
-				$redirect = new Application_Model_Models_Redirect();
-				if(!Zend_Uri::check($data['fromUrl'])) {
-					$this->_helper->response->fail('Invalid former url.<br /> See an example http://www.example.com/formerurl.html');
-					exit;
-				}
-
-				$fromUrl       = Tools_System_Tools::getUrlPath($data['fromUrl']);
+				$data          = $redirectForm->getValues();
+				$redirect      = new Application_Model_Models_Redirect();
+				$fromUrlPath   = Tools_System_Tools::getUrlPath($data['fromUrl']);
 				$inDbValidator = new Zend_Validate_Db_NoRecordExists(array(
 					'table' => 'redirect',
 					'field' => 'from_url'
 				));
-
-				if(!$inDbValidator->isValid($fromUrl)) {
+				if(!$inDbValidator->isValid($fromUrlPath)) {
 					$this->_helper->response->fail(implode('<br />', $inDbValidator->getMessages()));
 					exit;
 				}
-
 				$redirect->setFromUrl(Tools_System_Tools::getUrlPath($data['fromUrl']));
 				$redirect->setDomainFrom(Tools_System_Tools::getUrlScheme($data['fromUrl']) . '://' . Tools_System_Tools::getUrlHost($data['fromUrl']) . '/');
 				if(intval($data['toUrl'])) {
@@ -82,8 +76,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$redirect->setPageId($page->getId());
 				}
 				else {
-					if(!Zend_Uri::check($data['toUrl'])) {
-						$this->_helper->response->fail('Invalid external url');
+					$urlValidator = new Validators_UrlRegex();
+					if(!$urlValidator->isValid($data['toUrl'])) {
+						$this->_helper->response->fail('External url <br />' . implode('<br />', $urlValidator->getMessages()));
 						exit;
 					}
 					$redirect->setDomainTo(Tools_System_Tools::getUrlScheme($data['toUrl']) . '://' . Tools_System_Tools::getUrlHost($data['toUrl']) . '/');
@@ -140,8 +135,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 				}
 				else {
 					$deeplink->setType(Application_Model_Models_Deeplink::TYPE_EXTERNAL);
-					if(!Zend_Uri::check($data['url'])) {
-						$this->_helper->response->fail('Invalid external url');
+					$urlValidator = new Validators_UrlRegex();
+					if(!$urlValidator->isValid($data['url'])) {
+						$this->_helper->response->fail('External url <br />' . implode('<br />', $urlValidator->getMessages()));
 						exit;
 					}
 					$deeplink->setUrl($data['url']);

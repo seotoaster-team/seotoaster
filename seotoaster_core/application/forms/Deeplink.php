@@ -42,6 +42,10 @@ class Application_Form_Deeplink extends Zend_Form {
 			'value'                    => $this->_url,
 			'class'                    => '_tdropdown',
 			'label'                    => 'Select page',
+			'filters'                  => array(
+				new Zend_Filter_StringTrim(),
+				new Filters_UrlScheme()
+			),
 			'registerInArrayValidator' => false
 		)));
 

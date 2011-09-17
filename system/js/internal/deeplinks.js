@@ -10,7 +10,7 @@ $(function() {
 		$(this).text('Internal?');
 		urlLabel.text('Type url');
 		$('#nofollow').attr('checked', true);
-		$('#url').replaceWith('<input type="text" id="url" name="url" value="" placeholder="Type external url here..."/>');
+		$('#url').replaceWith('<input type="text" id="url" name="url" value="http://" />');
 	},
 	function() {
 		$(this).text('External?');

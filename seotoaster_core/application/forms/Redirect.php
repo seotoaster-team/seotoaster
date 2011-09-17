@@ -26,15 +26,25 @@ class Application_Form_Redirect extends Zend_Form {
 			'label'      => 'Former url',
 			'value'      => $this->_fromUrl,
 			'required'   => true,
-			'filters'    => array('StringTrim')
+			'validators' => array(
+				new Validators_UrlRegex()
+			),
+			'filters'    => array(
+				new Zend_Filter_StringTrim(),
+				new Filters_UrlScheme()
+			)
 		)));
 
 		$this->addElement(new Zend_Form_Element_Select(array(
-			'name'     => 'toUrl',
-			'id'       => 'to-url',
-			'value'    => $this->_toUrl,
-			'label'    => 'Local url',
-			'class'    => '_tdropdown',
+			'name'       => 'toUrl',
+			'id'         => 'to-url',
+			'value'      => $this->_toUrl,
+			'label'      => 'Local url',
+			'class'      => '_tdropdown',
+			'filters'    => array(
+				new Zend_Filter_StringTrim(),
+				new Filters_UrlScheme()
+			),
 			'registerInArrayValidator' => false
 		)));
 

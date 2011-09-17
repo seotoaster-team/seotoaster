@@ -8,7 +8,7 @@ $(function() {
 	$('#domain-toggle').toggle(function(){
 		$(this).text('Local url?');
 		$('#to-url-label').find('label').text('Extarnal url');
-		$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="" placeholder="Type external url here..."/>');
+		$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
 	},
 	function() {
 		$(this).text('Extarnal url?');
@@ -62,7 +62,7 @@ $(function() {
 
 //callback function for the ajax forms
 function reloadRedirectsList() {
-	$('#from-url').val('');
+	$('input:text').val('http://');
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/', function(response) {
 		$('#redirects-list').html(response.redirectsList);
 	})
