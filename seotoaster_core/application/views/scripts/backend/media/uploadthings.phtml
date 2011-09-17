@@ -24,7 +24,7 @@ $('#things-new-folder')
 		</h2>
 		<div class="clear"> </div>
 		<div class="grid_7 clearfix">
-		<?php echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site. Upload as many images as you want.'); ?>
+		<?php echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site.'); ?>
 		</div>
 		<div class="grid_5">
 			<img src="http://placehold.it/220x100&text=some image" />
@@ -51,9 +51,10 @@ $('#things-new-folder')
 			<?php
 				$thingsUploader = $this->toasterUploader(
 					array(
-						'id'=>'media-toaster-uploader',
-						'caller' => 'media'
-						));
+						'id'      => 'media-toaster-uploader',
+						'caption' => $this->translate('Choose and upload file(s)'),
+						'caller'  => 'media'
+					));
 				echo $thingsUploader;
 			?>
 		</div>
