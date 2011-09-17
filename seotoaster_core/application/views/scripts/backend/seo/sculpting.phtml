@@ -1,0 +1,12 @@
+<div class="seotoaster container_12 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Mange page runk sculpting')); ?>
+	<form method="post" action="<?php echo $this->url; ?>" class="_fajax" data-callback="sculptingCallback">
+		<div class="grid_8">
+			<?php echo $this->siloForm->getElement('name'); ?>
+		</div>
+		<div class="grid_4">
+			<?php echo $this->siloForm->getElement('addSilo'); ?>
+		</div>
+	</form>
+</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/sculpting.js'); ?>
