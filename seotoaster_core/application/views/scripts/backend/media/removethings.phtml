@@ -4,7 +4,7 @@
 	<div class="grid_12">
 		<form id="removeForm" class="">
 			<div class="grid_8">
-			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>		
+			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>
 			</div>
 			<div class="grid_4" style="text-align: center">
 				<input type="checkbox" id="check-all" />
@@ -18,10 +18,10 @@
 						<li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
 					</ul>
 					<div id="filebrowser-images" class="filebrowser-zone">
-						
+
 					</div>
 					<div id="filebrowser-files" class="filebrowser-zone">
-						
+
 					</div>
 				</div>
 			</div>
@@ -53,14 +53,14 @@
 </script>
 <script id="fileErrorTemplate" type="text/x-jquery-tmpl">
 	<div class="ui-widget">
-		<div class="ui-state-error ui-corner-all" style="margin-top: 15px; padding: 0 .7em;"> 
+		<div class="ui-state-error ui-corner-all" style="margin-top: 15px; padding: 0 .7em;">
 			<p><span class="ui-icon ui-icon-alert" style="display:inline-block;"></span>
 			<strong>${name}&nbsp;</strong>
 			{{if errors instanceof Array}}
 			<?php echo $this->translate('is used');?>
 				{{each errors}}
 				{{if $index > 0}} and {{/if}}
-				<a href="<?php echo $this->websiteUrl;?>${$value}" target="_blank">here</a>
+				<a href="<?php echo $this->websiteUrl;?>${$value}" target="_blank">here</a>. Please go remove or replace it with another image first so that your website stays pretty.
 				{{/each}}
 			{{else}}
 				${errors}
@@ -81,9 +81,9 @@
 		modal: true,
 		autoOpen: false
 	});
-	
+
 	$('#filebrowser').tabs({
-		select: function(event, ui) { 
+		select: function(event, ui) {
 			var total = $(ui.panel).find('input.toremove').size();
 			var checked = $(ui.panel).find('input.toremove:checked').size();
 			if (total > 0 && total === checked) {
@@ -94,33 +94,33 @@
 			$('#check-all').button('refresh');
 		}
 	});
-	
+
 	// disabling clicking on non-folder item
 	$('#folder>option:first').attr('disabled', true);
-	
+
 	$('#folder').change(function(){
 		$('.filebrowser-zone').html('');
 		$('.counter').text('');
-		
+
 		if ($(this).val() == 0){
 			return false;
 		}
-		
+
 		$('#check-all:checked').removeAttr('checked');
-			
+
 		$.ajax({
 			url: '<?php echo $this->url(array('action'=>'getdirectorycontent'));?>',
 			type: 'post',
 			data: {folder: $(this).val()},
 			dataType: 'json',
-			success: function(response){		
+			success: function(response){
 				$('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
 				$('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
 				window.console && console.log(response);
 			}
 		});
 	});
-	
+
 	/**
 	 * Handler for delete
 	 */
@@ -131,7 +131,7 @@
 			proccessError({errorMsg: '<?php echo $this->translate('No folder specified');?>'});
 			return false;
 		}
-		
+
 		if ( fileForm.find('input.toremove:checked').size() == 0 ){
 			proccessError({errorMsg: '<?php echo $this->translate('Nothing to remove');?>'});
 			return false;
@@ -147,10 +147,10 @@
 			complete: function(){
 				$('#deleteBtn').show();
 			},
-			success: function(response){		
+			success: function(response){
 				window.console && console.log(response);
 				proccessError(response);
-				
+
 				if (response.hasOwnProperty('deleted') && response.deleted.length > 0 ){
 					var removedFiles = [];
 					for (var i in response.deleted) {
@@ -171,7 +171,7 @@
 			}
 		});
 	});
-	
+
 	$('.file-container').live('toggleActive', function(){
 		var $flag = $(this).children('input.toremove');
 		var $parent = $(this).parent('.filebrowser-zone');
@@ -195,7 +195,7 @@
 	$('.file-container > input.toremove').live('click', function(event){
 		$(this).parent('.file-container').trigger('toggleActive');
 	});
-	
+
 	/**
 	 * handling "check all" checkbox
 	 */
@@ -213,32 +213,32 @@
 	$('#check-all-label').bind('click', function(){
 		$('#check-all').trigger('change');
 	});
-	
+
 	/**
 	 * function proccessing errors coming in ajax response to dialog box
 	 */
 	function proccessError(ajaxResponse){
 		var dialogHolder = $('#ajax_msg');
 		var openFlag = false;
-		
+
 		dialogHolder.html('');
-		
+
 		if (ajaxResponse.hasOwnProperty('errorMsg')){
 			dialogHolder.html($('#errorMsgTemplate').tmpl(ajaxResponse));
 			openFlag = true;
 		}
-		
+
 		if (ajaxResponse.hasOwnProperty('errors')){
 			if (ajaxResponse.errors !== false) {
 				openFlag = true;
 				dialogHolder.html($('#fileErrorTemplate').tmpl(ajaxResponse.errors));
 			}
 		}
-		
+
 		if (!dialogHolder.dialog('isOpen') && openFlag){
-			dialogHolder.dialog('option', 'title', 'Oops! Some problems here...').dialog('open');
+			dialogHolder.dialog('option', 'title', 'Hey!! Not so fast buddy!').dialog('open');
 		}
-		
+
 		return dialogHolder;
 	}
 <?php $this->jQuery()->onLoadCaptureEnd();?>
@@ -247,8 +247,8 @@
 <style type="text/css">
 	#filebrowser .filebrowser-zone {
 		overflow-y: auto;
-		max-height: 450px;
-		height: 450px;
+		max-height: 425px;
+		height: 425px;
 		padding: 5px;
 	}
 	#filebrowser div.file-container {
@@ -275,7 +275,7 @@
 		width: 100%;
 		height: 96px
 	}
-	#filebrowser div.file-container input.toremove { 
+	#filebrowser div.file-container input.toremove {
 		position: absolute;
 		right: 0;
 		bottom: 0;
