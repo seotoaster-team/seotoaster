@@ -194,7 +194,6 @@ class Application_Form_Page extends Zend_Form {
 
 	public function setUrl($url) {
 		$this->_url = preg_replace('~\.[a-z0-9-]+$~ui', '', $url);
-		//$this->_url = $url;
 		$this->getElement('url')->setValue($this->_url);
 		return $this;
 	}

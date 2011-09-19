@@ -114,7 +114,7 @@ $(function() {
 
 		//reload page if we are closing template or css edit dialog
 		//probably needs to be changed to something more universal
-		if($('#frm_template').length || $('#editcssform').length) {
+		if($('#frm_template').length || $('#editcssform').length || $('#fa-pages-list').length) {
 			top.location.reload();
 		}
 		top.$('#__tpopup').dialog('close');

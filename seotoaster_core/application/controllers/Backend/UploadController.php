@@ -248,7 +248,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$savePath = $this->_getSavePath();
 
-		$file = reset($this->_uploadHandler->getFileInfo());
+		$fileInfo = $this->_uploadHandler->getFileInfo();
+		$file     = reset($fileInfo);
 
 		switch ($file['type']) {
 			case 'image/png':

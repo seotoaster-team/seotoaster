@@ -27,22 +27,24 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function validate($pageUrl) {
-		if(!$pageUrl) {
-			$pageUrl = $this->_website->getDefaultPage();
-		}
+		$pageUrl = (!$pageUrl) ? $this->_website->getDefaultPage() : preg_replace('/\.htm$/', '.html', $pageUrl);
+		return $pageUrl;
+	}
 
-		if(extension_loaded('mbstring')) {
-			$pageUrl = mb_strtolower($pageUrl, mb_detect_encoding($pageUrl));
-		}
 
-		$pageUrl = preg_replace('/\.htm$/', '.html', $pageUrl);
-
+	public function filterUrl($pageUrl) {
 		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
-		return preg_replace('~[\s]+~', '-', $pageUrl);
+		if(extension_loaded('mbstring')) {
+			$pageUrl = mb_eregi_replace('[^\w\d\s.\-\/]+|[_]+', '', $this->validate($pageUrl));
+			$pageUrl = mb_strtolower($pageUrl, mb_detect_encoding($pageUrl));
+		}
+		else {
+			$pageUrl = preg_replace('~[^\w\d\s.\-\/]+|[_]+~ui', '', $pageUrl);
+		}
+		return preg_replace('~[\s-]+~', '-', $pageUrl);
 	}
-
 
 	public function doCanonicalRedirect($pageUrl) {
 		$this->_redirector->setCode(301);

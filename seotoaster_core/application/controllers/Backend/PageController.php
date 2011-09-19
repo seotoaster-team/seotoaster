@@ -38,12 +38,12 @@ class Backend_PageController extends Zend_Controller_Action {
 			if($pageForm->isValid($this->getRequest()->getParams())) {
 
 				$pageData        = $pageForm->getValues();
-				$pageData['url'] =  $this->_helper->page->validate($pageData['url']);
+				$pageData['url'] =  $this->_helper->page->filterUrl($pageData['url']);
 				//if we'r creating page -> check that we do not have an identical urls
 				if(!$pageId) {
 					$pageExists = $mapper->findByUrl($pageData['url']);
 					if($pageExists instanceof Application_Model_Models_Page) {
-						$this->_helper->response->fail('Page with url <strong>' . $this->_helper->page->validate($pageData['url']) . '</strong> already exists.');
+						$this->_helper->response->fail('Page with url <strong>' . $pageData['url'] . '</strong> already exists.');
 						exit;
 					}
 					$checkFaPull = true;
@@ -234,7 +234,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
 	private function _processPagePreviewImage($pageUrl, $tmpPreviewFile = null){
 		$websiteConfig      = Zend_Registry::get('website');
-		$pageUrl            = $this->_helper->page->clean($pageUrl);
+		$pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $this->_helper->page->clean($pageUrl));
 		$previewPath        = $websiteConfig['path'] .$websiteConfig['preview'];
 		$filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
 		$currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/', $filelist);
@@ -264,7 +264,7 @@ class Backend_PageController extends Zend_Controller_Action {
 					Tools_Filesystem_Tools::deleteFile($tmpPreviewFile);
 				}
 
-				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl.$extension[0];
+				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
 			}
 		}
 
