@@ -348,6 +348,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			->setHeader('Content-type', 'application/force-download');
 		readfile($themeArchive);
 		$this->getResponse()->sendResponse();
+		exit;
 	}
 
 	public function deletethemeAction(){
