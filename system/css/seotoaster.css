@@ -37,6 +37,11 @@ body, body.seotoaster {
 	-webkit-border-radius:0px 8px 0px 8px;
 }
 
+.seotoaster .ajaxspineer {
+	background: url('/system/images/loading.gif') no-repeat scroll 50% 0 transparent;
+	height: 25px;
+}
+
 .seotoaster .items-list {
 	background: #fff;
 	color: #21759B;
@@ -782,7 +787,9 @@ body, body.seotoaster {
 /*============= Plugins ==============*/
 
 .seotoaster #plugins-list {
-	overflow: hidden;
+	/*overflow: hidden;*/
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .seotoaster #plugins-list .plugin-item {
@@ -814,6 +821,7 @@ body, body.seotoaster {
 	border-radius: 7px;
 	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
+	padding: 5px;
 }
 
 .seotoaster #plugins-list .plugin-item .plugin-image {

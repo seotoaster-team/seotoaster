@@ -49,5 +49,28 @@ class Tools_System_Tools {
 		unset($exploded[sizeof($exploded) - 1]);
 		return implode('', $exploded);
 	}
+
+	public static function zip($pathToFile, $name = '') {
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$zipArch       = new ZipArchive();
+		$files         = array($pathToFile);
+		$exploded      = explode(DIRECTORY_SEPARATOR, $pathToFile);
+		$localName     = preg_replace('~\.[\w]+$~', '', end($exploded));
+		$destinationFile = $websiteHelper->getPath() . 'tmp/' . (($name) ? $name : $localName) . '.zip';
+		if(file_exists($destinationFile)) {
+			@unlink($destinationFile);
+		}
+		if(is_dir($pathToFile)) {
+			$files = Tools_Filesystem_Tools::scanDirectory($pathToFile, true, true);
+		}
+		$zipArch->open($destinationFile, ZipArchive::OVERWRITE);
+		if(!empty ($files)) {
+			foreach ($files as $key => $path) {
+				$zipArch->addFile($path, substr($path, strpos($path, $localName)));
+			}
+		}
+		$zipArch->close();
+		return $destinationFile;
+	}
 }
 

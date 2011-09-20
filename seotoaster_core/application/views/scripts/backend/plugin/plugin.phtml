@@ -4,13 +4,17 @@
 	<div id="upload-plugin">
 		<?php if(extension_loaded('zip')): ?>
 			<?php
-				$uploader = $this->toasterUploader(array('id' => 'plugin-uploader', 'caller' => 'plugin', 'noMultiupload' => true));
+				$uploader = $this->toasterUploader(array(
+					'id'            => 'plugin-uploader',
+					'caller'        => 'plugin',
+					'caption'       => $this->translate('Upload plugin'),
+					'noMultiupload' => true));
 				echo $uploader;
 			?>
 		<?php else: ?>
-			WHATAFUCK, DUDE?
+
 		<?php endif; ?>
 	</div>
-	<div id="plugins-list"></div>
+	<div id="plugins-list" class="h500"></div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.js'); ?>

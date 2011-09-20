@@ -12,9 +12,12 @@ class Backend_PageController extends Zend_Controller_Action {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
-		$this->_helper->AjaxContext()->addActionContext('edit404page', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('rendermenu', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('listpages', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContexts(array(
+			'edit404page' => 'json',
+			'rendermenu'  => 'json',
+			'listpages'   => 'json'
+		))->initContext('json');
+
 	}
 
 	public function pageAction() {

@@ -18,13 +18,12 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
-
-		//$this->_helper->layout->disableLayout();
-
 		$this->_websiteConfig	= Zend_Registry::get('website');
 		$this->_themeConfig		= Zend_Registry::get('theme');
-
-		$this->_translator = Zend_Registry::get('Zend_Translate');
+		$this->_translator      = Zend_Registry::get('Zend_Translate');
+//		$this->_helper->AjaxContext()->addActionContexts(array(
+//			'downloadtheme' => 'json'
+//		))->initContext('json');
 	}
 
 	/**
@@ -329,16 +328,26 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$errors = $this->_saveThemeInDatabase($selectedTheme);
 				if (empty ($errors)){
 					$status = sprintf($this->_translator->translate('The theme "%s" applied!'), $selectedTheme);
-//					echo json_encode(array('done'=>true,'errors'=>$errors, 'status' => $status));
 					$this->_helper->response->response($status, false);
 				} else {
-//					echo json_encode(array('done'=>true,'errors'=>$errors));
 					$this->_helper->response->response($errors, true);
 				}
-//				exit;
 			}
 		}
 		$this->_redirect($this->_helper->website->getUrl());
+	}
+
+	public function downloadthemeAction() {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+		$themeName    = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
+		$themeData    = Zend_Registry::get('theme');
+		$pathToTheme  = $this->_helper->website->getPath() . $themeData['path'] . $themeName ;
+		$themeArchive = Tools_System_Tools::zip($pathToTheme);
+		$this->getResponse()->setHeader('Content-Disposition', 'attachment; filename=' . Tools_Filesystem_Tools::basename($themeArchive))
+			->setHeader('Content-type', 'application/force-download');
+		readfile($themeArchive);
+		$this->getResponse()->sendResponse();
 	}
 
 	public function deletethemeAction(){
