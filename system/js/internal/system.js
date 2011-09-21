@@ -198,6 +198,8 @@ $(function() {
 	})
 
 	$('a._lbox').fancybox();
+
+	publishPages();
 });
 
 function loginCheck() {
@@ -225,4 +227,10 @@ function showModalMessage(title, msg, callback) {
 			}
 		}
 	});
+}
+
+function publishPages() {
+	if(!top.$('#__tpopup').length) {
+		$.get($('#website_url').val() + 'backend/backend_page/publishpages/');
+	}
 }

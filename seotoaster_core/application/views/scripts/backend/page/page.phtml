@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage pages')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/page/top.phtml'))); ?>
 	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
 	<div id="falist" class="h640 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
 	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
@@ -17,7 +17,7 @@
 		<div class="grid_6">
 			<fieldset>
 				<legend><?php echo $this->translate('Navigation'); ?></legend>
-				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), null, $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
+				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
 				<?php //echo $this->pageForm->getElement('inMenu'); ?>
 				<div class="clear"></div>
 				<div class="grid_12">
@@ -70,6 +70,8 @@
 			</fieldset>
 			<?php echo $this->pageForm->getElement('templateId'); ?>
 			<?php echo $this->pageForm->getElement('pageId'); ?>
+			<?php echo $this->pageForm->getElement('draft'); ?>
+			<?php echo $this->pageForm->getElement('publishAt'); ?>
 			<?php echo $this->pageForm->getElement('updatePage'); ?>
 		</div>
 	</form>

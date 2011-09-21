@@ -11,6 +11,11 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	}
 
+	protected function _runOnUpdate() {
+		$this->_cleanDraftCache();
+	}
+
+
 	protected function _runOnDelete() {
 		$this->_removePageUrlFromContent();
 		$this->_removeRelatedContainers();
@@ -54,6 +59,17 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 				$containerMapper->delete($container);
 			}
 		}
+	}
+
+	private function _cleanDraftCache() {
+		// Cleaning draft cache if draft state of the page was changed
+		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+		if($this->_object->getDraft() != $sessionHelper->oldPageDraft) {
+			$cacheHelper->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
+		}
+		unset($cacheHelper);
+		unset($sessionHelper);
 	}
 }
 

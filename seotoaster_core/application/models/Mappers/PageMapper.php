@@ -25,7 +25,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'protected'           => $page->getProtected(),
 			'order'               => $page->getOrder(),
 			'targeted_key_phrase' => $page->getTargetedKey(),
-			'system'              => $page->getSystem()
+			'system'              => $page->getSystem(),
+			'draft'               => $page->getDraft(),
+			'publish_at'          => (!$page->getPublishAt()) ? null : date('Y-m-d', strtotime($page->getPublishAt()))
 		);
 		if(null === ($id = $page->getId())) {
 			unset($data['id']);
@@ -36,18 +38,12 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		}
 	}
 
-    public function fetchAll($where = '', $order = array()) {
+    public function fetchAll($where = '', $order = array(), $fetchSysPages = false) {
 		//exclude system pages from select
-		if($where) {
-			$where .= $this->getDbTable()->getAdapter()->quoteInto(' AND system = "?"', 0);
-		}
-		else {
-			$where = $this->getDbTable()->getAdapter()->quoteInto('system = "?"', 0);
-		}
-
-		$order[] = 'order';
-
-		$entries = array();
+		$sysWhere  = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+		$where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
+		$order[]   = 'order';
+		$entries   = array();
 		$resultSet = $this->getDbTable()->fetchAll($where, $order);
 		if(null === $resultSet) {
 			return null;
@@ -81,8 +77,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllDraftPages() {
-		$where = $this->getDbTable()->getAdapter()->quoteInto("parent_id = ?", Application_Model_Models_Page::IDCATEGORY_DRAFT);
-		return $this->fetchAll($where);
+		$where = $this->getDbTable()->getAdapter()->quoteInto("draft = ?", '1');
+		return $this->fetchAll($where, array(), true);
 	}
 
 	public function fetchAllNomenuPages() {

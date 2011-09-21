@@ -31,7 +31,6 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		return $pageUrl;
 	}
 
-
 	public function filterUrl($pageUrl) {
 		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';

@@ -60,6 +60,10 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	protected $_system           = false;
 
+	protected $_draft            = false;
+
+	protected $_publishAt      = '';
+
 	public function getContent() {
 		return $this->_content;
 	}
@@ -246,7 +250,23 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		return $this;
 	}
 
+	public function getDraft() {
+		return $this->_draft;
+	}
 
+	public function setDraft($draft) {
+		$this->_draft  = $draft;
+		$this->_system = $draft;
+		return $this;
+	}
 
+	public function getPublishAt() {
+		return $this->_publishAt;
+	}
+
+	public function setPublishAt($publishAt) {
+		$this->_publishAt = $publishAt;
+		return $this;
+	}
 }
 

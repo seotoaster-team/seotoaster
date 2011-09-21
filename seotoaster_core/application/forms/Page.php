@@ -28,6 +28,10 @@ class Application_Form_Page extends Zend_Form {
 
 	protected $_pageId          = '';
 
+	protected $_draft           = false;
+
+	protected $_publishAt       = '';
+
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
 
@@ -110,7 +114,7 @@ class Application_Form_Page extends Zend_Form {
 				Application_Model_Models_Page::IN_STATICMENU => 'Static Menu',
 				Application_Model_Models_Page::IN_NOMENU     => 'No Menu'
 			),
-			'required' => true,
+			'required'  => true,
 			'separator' => ''
 		)));
 
@@ -154,6 +158,18 @@ class Application_Form_Page extends Zend_Form {
 			'id'    => 'pageId',
 			'name'  => 'pageId',
 			'value' => $this->_pageId
+		)));
+
+		$this->addElement(new Zend_Form_Element_Hidden(array(
+			'id'    => 'draft',
+			'name'  => 'draft',
+			'value' => $this->_draft
+		)));
+
+		$this->addElement(new Zend_Form_Element_Hidden(array(
+			'id'    => 'publish-at',
+			'name'  => 'publishAt',
+			'value' => $this->_publishAt
 		)));
 
 		$this->addElement(new Zend_Form_Element_Submit(array(
@@ -296,5 +312,27 @@ class Application_Form_Page extends Zend_Form {
 		$this->getElement('pageId')->setValue($pageId);
 		return $this;
 	}
+
+	public function getDraft() {
+		return $this->_draft;
+	}
+
+	public function setDraft($draft) {
+		$this->_draft = $draft;
+		$this->getElement('draft')->setValue($draft);
+		return $this;
+	}
+
+	public function getPublishAt() {
+		return $this->_publishAt;
+	}
+
+	public function setPublishAt($publishAt) {
+		$this->_publishAt = $publishAt;
+		$this->getElement('publishAt')->setValue($publishAt);
+		return $this;
+	}
+
+
 }
 

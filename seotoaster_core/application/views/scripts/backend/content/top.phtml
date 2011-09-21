@@ -1,6 +1,10 @@
 <input type="checkbox" id="published" <?php echo ($this->contentForm->getPublished()) ? 'checked="checked"' : ''; ?>/>
-Published Now? &nbsp;&nbsp;OR&nbsp;&nbsp; Publish Date:
-<?php echo $this->datePicker('dpkr', date('Y-m-d', ($this->publishingDate) ? strtotime($this->publishingDate) : time()), array(
-						'defaultDate' => date('Y-m-d', ($this->publishingDate) ? strtotime($this->publishingDate) : time())
-			)
-);?>
+<?php echo $this->translate('Published');?>? &nbsp;&nbsp;<?php echo $this->translate('OR');?>&nbsp;&nbsp; <?php echo $this->translate('Publish Date');?>:
+
+<?php echo $this->datePicker(
+	'dpkr',
+	date('Y-m-d', ($this->publishingDate) ? strtotime($this->publishingDate) : time()),
+	array(
+		'defaultDate' => date('Y-m-d', ($this->publishingDate) ? strtotime($this->publishingDate) : time())
+	));
+?>

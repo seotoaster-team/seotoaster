@@ -13,9 +13,10 @@ class Backend_PageController extends Zend_Controller_Action {
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 		$this->_helper->AjaxContext()->addActionContexts(array(
-			'edit404page' => 'json',
-			'rendermenu'  => 'json',
-			'listpages'   => 'json'
+			'edit404page'  => 'json',
+			'rendermenu'   => 'json',
+			'listpages'    => 'json',
+			'publishpages' => 'json'
 		))->initContext('json');
 
 	}
@@ -34,6 +35,7 @@ class Backend_PageController extends Zend_Controller_Action {
 			if($page instanceof Application_Model_Models_Page) {
 				$pageForm->setOptions($page->toArray());
 				$pageForm->getElement('pageId')->setValue($page->getId());
+				$pageForm->getElement('draft')->setValue($page->getDraft());
 			}
 		}
 		else {
@@ -53,22 +55,22 @@ class Backend_PageController extends Zend_Controller_Action {
 				}
 
 				//saving old data for seo routine
-				$this->_helper->session->oldPageUrl = $page->getUrl();
-				$this->_helper->session->oldPageH1  = $page->getH1();
+				$this->_helper->session->oldPageUrl   = $page->getUrl();
+				$this->_helper->session->oldPageH1    = $page->getH1();
+				$this->_helper->session->oldPageDraft = $page->getDraft();
 
 				$page->registerObserver(new Tools_Seo_Watchdog());
+				$page->registerObserver(new Tools_Page_GarbageCollector(array(
+					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+				)));
 
 				$page->setOptions($pageData);
-				//prevent renaming index page
+
+				//prevent renaming of the index page
 				if ($page->getUrl() != $this->_helper->website->getDefaultpage() ) {
 					$page->setUrl($pageData['url']);
 				}
 				$page->setTargetedKey($page->getH1());
-
-				//cleaning cache if it is a draft page
-				if($pageData['pageCategory'] == Application_Model_Models_Page::IDCATEGORY_DRAFT) {
-					$this->_helper->cache->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
-				}
 
 				$page->setParentId($pageData['pageCategory']);
 				$page->setShowInMenu($pageData['inMenu']);
@@ -154,16 +156,13 @@ class Backend_PageController extends Zend_Controller_Action {
 				);
 			break;
 			case Application_Model_Models_Page::IN_STATICMENU:
-				$menuOptions= array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');
+				$menuOptions = array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');
 			break;
 			case Application_Model_Models_Page::IN_NOMENU:
-				$menuOptions = array('-4' => 'Make your selection', 'No menu options' => array(
-					Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'This page is in no menu',
-					Application_Model_Models_Page::IDCATEGORY_DRAFT   => 'This page is in draft'
-				));
+				$menuOptions = array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');
 			break;
 		}
-		$selectHelper       = $this->view->getHelper('formSelect');
+		$selectHelper = $this->view->getHelper('formSelect');
 
 		if($pageId) {
 			$currPage = $mapper->find($pageId);
@@ -178,7 +177,6 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function draftAction() {
-		//@todo can be added to the cache but not critical
 		$this->view->draftPages = Tools_Page_Tools::getDraftPages();
 	}
 
@@ -311,7 +309,22 @@ class Backend_PageController extends Zend_Controller_Action {
 				->setBody($externalLinksContent)
 				->sendResponse();
 		}
+	}
 
+	public function publishpagesAction() {
+		$pages           = Application_Model_Mappers_PageMapper::getInstance()->fetchAllDraftPages();
+		$cleanDraftCache = false;
+		foreach($pages as $page) {
+			if(($page->getPublishAt() !== null) && ( (time() - strtotime($page->getPublishAt()))  >= 0)) {
+				$cleanDraftCache = true;
+				$page->setPublishAt(null);
+				$page->setDraft(false);
+				Application_Model_Mappers_PageMapper::getInstance()->save($page);
+			}
+		}
+		if($cleanDraftCache) {
+			$this->_cache->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
+		}
 	}
 }
 

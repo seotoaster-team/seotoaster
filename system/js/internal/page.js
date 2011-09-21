@@ -14,7 +14,7 @@ $(function() {
 		$('#templatelist').slideUp();
 	});
 
-	$('input[type=radio]').click(function() {
+	$('.menu-selector').click(function() {
 		checkMenu($(this).attr('id'));
 	})
 
@@ -25,7 +25,7 @@ $(function() {
 				$(this).val(currentValue);
 			})
 		})
-		$('input[type=radio]').each(function() {
+		$('.menu-selector').each(function() {
 			$(this).attr('checked', false);
 		});
 	}
@@ -33,16 +33,34 @@ $(function() {
 		checkMenu();
 	}
 
+	$('.draft-o-live').live('click', function() {
+		if($('#draft').length) {
+			$('#draft').val($(this).val());
+			if($(this).val() == 1) {
+				$('#autopublish-select').show();
+			}
+			else {
+				$('#autopublish-select').hide();
+			}
+		}
+	})
+	$('#datepicker').blur(function() {
+		$('#publish-at').val($(this).val());
+	})
 })
+
+function datepickerCallback() {
+	$('#publish-at').val($(this).val());
+}
 
 function checkMenu(currentMenuItem) {
 	var pageId = $('#pageId').val();
 	if(!currentMenuItem) {
-		currentMenuItem = $('input[type=radio]:checked').attr('id');
+		currentMenuItem = $('.menu-selector:checked').attr('id');
 	}
 	switch(currentMenuItem) {
 		case _STATIC_MENU_ID:
-			$.getJSON($('#website_url').val() + 'backend/backend_page/rendermenu/mtype/2', function(response) {
+			$.getJSON($('#website_url').val() + 'backend/backend_page/rendermenu/mtype/2/pId/' + pageId, function(response) {
 				$('#pageCategory').replaceWith(response.select);
 				$('#pageCategory').hide();
 			})
@@ -54,7 +72,8 @@ function checkMenu(currentMenuItem) {
 		break;
 		case _NO_MENU_ID:
 			$.getJSON($('#website_url').val() + 'backend/backend_page/rendermenu/mtype/0/pId/' + pageId, function(response) {
-				$('#pageCategory').replaceWith(response.select).show();
+				$('#pageCategory').replaceWith(response.select)
+				$('#pageCategory').hide();
 			})
 		break;
 	}

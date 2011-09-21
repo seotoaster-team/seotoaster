@@ -1,0 +1,18 @@
+<?php echo $this->translate('Manage page'); ?>&nbsp;&nbsp;
+<input type="radio" name="draft" value="0" <?php echo(!$this->pageForm->getDraft()) ? 'checked="checked"' : ''; ?> class="draft-o-live"/>Live
+<input type="radio" name="draft" value="1" <?php echo($this->pageForm->getDraft()) ? 'checked="checked"' : ''; ?> class="draft-o-live" />Draft
+<div id="autopublish-select" style="float:right; margin-right: 322px; font-size: 15px; <?php echo ($this->pageForm->getDraft()) ? '': 'display: none;';?>" class="w500">
+	<?php echo $this->translate('Automatically publish at: '); ?>
+	<?php echo $this->datePicker(
+		'datepicker',
+		((intval($this->pageForm->getPublishAt())) ? date('M j, Y', strtotime($this->pageForm->getPublishAt())) : ''),
+		array(
+			'defaultDate' => '',
+			'onSelect'    => new Zend_Json_Expr('datepickerCallback')
+		),
+		array(
+			'style' => 'width:200px !important; border-radius:2px;'
+		));
+	?>
+
+</div>
