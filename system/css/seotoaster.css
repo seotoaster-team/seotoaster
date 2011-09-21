@@ -477,7 +477,7 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label,
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
 	float: left;
-	width: 110px;
+	width: 40%;
 	font-size: 12px;
 	margin: 3px;
 	padding: 7px 4px;
@@ -492,13 +492,13 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
 	font-size: 12px;
 	float: left;
-	width: 125px;
+	width: 49%;
 	padding: 5px 4px;
 /*	margin-right: 3px;*/
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select.wmc-input {
-	width: 134px;
+	width: 53%;
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
@@ -508,6 +508,7 @@ body, body.seotoaster {
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.wmc-input[type=checkbox] {
 	margin-top: 10px;
+	width: auto;
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-submit {
