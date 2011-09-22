@@ -14,7 +14,6 @@ class Application_Form_Header extends Application_Form_Container {
 		$this->addElement('text', 'content', array(
 			'id'       => 'content',
 			'value'    => $this->_content,
-			'required' => true,
 			'filters'  => array('StringTrim'),
 			'class'    => 'header-content'
 		));
