@@ -25,8 +25,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'protected'           => $page->getProtected(),
 			'order'               => $page->getOrder(),
 			'targeted_key_phrase' => $page->getTargetedKey(),
-			'system'              => $page->getSystem(),
-			'draft'               => $page->getDraft(),
+			'system'              => intval($page->getSystem()),
+			'draft'               => intval($page->getDraft()),
 			'publish_at'          => (!$page->getPublishAt()) ? null : date('Y-m-d', strtotime($page->getPublishAt()))
 		);
 		if(null === ($id = $page->getId())) {
