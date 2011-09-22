@@ -5,7 +5,7 @@
  *
  * @author iamne
  */
-class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
+class Widgets_Concatcss_Concatcss extends Widgets_Abstract {
 
 	const FILES_EXTENSION   = 'css';
 
@@ -13,14 +13,22 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 
 	private $_themeFullPath = '';
 
+	private $_refresh       = false;
+
 	private $_excludeFiles  = array(
 		self::FILENAME,
 		//'reset.css',
 		//'style.css',
 		//'content.css'
 	);
-	
-	private $_refresh = false;
+
+	private $_cssOrder      = array(
+		'reset.css',
+		'style.css',
+		'content.css',
+		'nav.css',
+		'product.css'
+	);
 
 	protected function  _init() {
 		parent::_init();
@@ -47,8 +55,8 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 	protected function  _load() {
 		if(!file_exists($this->_themeFullPath . '/' . self::FILENAME) || $this->_refresh) {
 			$concatContent = '';
-			$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_themeFullPath, self::FILES_EXTENSION, true);
-			
+			$cssFiles      = $this->_sortCss(Tools_Filesystem_Tools::findFilesByExtension($this->_themeFullPath, self::FILES_EXTENSION, true));
+
 			foreach ($cssFiles as $key => $cssFile) {
 				if(in_array(basename($cssFile), $this->_excludeFiles)) {
 					continue;
@@ -63,6 +71,20 @@ class Widgets_ConcatCss_ConcatCss extends Widgets_Abstract {
 			}
 		}
 		return '<link href="' . $this->_toasterOptions['websiteUrl'] . $this->_themeFullPath . '/' .  self::FILENAME . '" rel="stylesheet" type="text/css" media="screen" />';
+	}
+
+	private function _sortCss($cssFiles) {
+		if(empty ($cssFiles)) {
+			return array();
+		}
+		foreach ($this->_cssOrder as $orderedPosition => $orderedFile) {
+			if(($currKey = array_search($this->_themeFullPath . '/' . $orderedFile, $cssFiles)) !== false) {
+				$tmpItem                    = $cssFiles[$orderedPosition];
+				$cssFiles[$orderedPosition] = $cssFiles[$currKey];
+				$cssFiles[$currKey]         = $tmpItem;
+			}
+		}
+		return $cssFiles;
 	}
 }
 

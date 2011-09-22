@@ -12,7 +12,7 @@ class Tools_Factory_WidgetFactory {
 	}
 
 	private static function _validate($name) {
-		$wigetDirectory = CORE . '/application/app/Widgets/' . $name;
+		$wigetDirectory = CORE . 'application/app/Widgets/' . $name;
 		if(!is_dir($wigetDirectory)) {
 			throw new Exceptions_SeotoasterException($wigetDirectory . ' is not a directory.');
 		}
