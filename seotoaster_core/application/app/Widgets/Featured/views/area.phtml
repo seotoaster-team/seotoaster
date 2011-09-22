@@ -9,7 +9,9 @@
 	<?php else: ?>
 		<?php foreach($this->faPages as $page): ?>
 			<li>
-				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($page->getId(), true)); ?>" /></a>
+				<?php if($this->useImage): ?>
+					<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($page->getId(), true)); ?>" /></a>
+				<?php endif; ?>
 				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
 				<span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
 			</li>

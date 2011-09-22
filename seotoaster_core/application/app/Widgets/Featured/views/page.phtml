@@ -1,7 +1,10 @@
 <div class="featureapage" id="fp-<?php echo $this->page->getId(); ?>">
-    <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
-		<img src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($this->page->getId(), true)); ?>" alt="<?php echo $this->page->getH1(); ?>" />
-	</a>
+
+	<?php if($this->useImage): ?>
+		<a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
+			<img src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($this->page->getId(), true)); ?>" alt="<?php echo $this->page->getH1(); ?>" />
+		</a>
+	<?php endif; ?>
     <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>" class="page-title">
 		<?php echo $this->page->getNavName(); ?>
 	</a>

@@ -55,6 +55,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		$featuredArea->setLimit($pagesCount)
 			->setRandom($random);
 
+		$this->_view->useImage                = (isset($params[3]) && $params[3] = 'img') ? true : false;
 		$this->_view->faPages                 = $featuredArea->getPages();
 		$this->_view->faId                    = $featuredArea->getId();
 		$this->_view->faName                  = $featuredArea->getName();
@@ -72,7 +73,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Page with such id is not found'));
 		}
 
-		$this->_view->pagePreviewImage = '';
+		$this->_view->useImage         = (isset($params[3]) && $params[3] = 'img') ? true : false;
 		$this->_view->descLength       = (isset($params[2]) && intval($params[2])) ? intval($params[2]) : self::AREA_DESC_LENGTH;
 		$this->_view->page             = $page;
 		return $this->_view->render('page.phtml');
