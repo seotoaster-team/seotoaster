@@ -3,7 +3,7 @@
 		<?php echo $this->translate('You are logged in as ') . ucfirst($this->userRole); ?>
 	<?php endif; ?> -->
 	<?php if (count($this->messages)) : ?>
-		<ul id="messages" class="ui-state-error w350" style="margin: 0px auto; list-style-type: none; padding: 15px 0px; text-align: center;">
+		<ul id="messages" class="ui-state-error w350">
 			<?php foreach ($this->messages as $message) : ?>
 				<li><?php echo $this->escape($message); ?></li>
 			<?php endforeach; ?>
