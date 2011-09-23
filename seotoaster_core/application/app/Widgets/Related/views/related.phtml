@@ -7,7 +7,7 @@
 						<img src="<?php echo Tools_Page_Tools::getPreviewPath($relatedPage->getId()); ?>" alt="<?php echo $relatedPage->getH1(); ?>"/>
 					</a>
 				<?php endif; ?>
-				<a href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>"><?php echo $relatedPage->getNavName(); ?></a>
+				<a href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>" class="page-title"><?php echo $relatedPage->getNavName(); ?></a>
 				<span><?php echo Tools_Text_Tools::cutText($relatedPage->getTeaserText(), $this->descLength); ?></span>
 			</li>
 		<?php endforeach; ?>
