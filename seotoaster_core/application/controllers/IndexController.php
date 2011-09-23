@@ -41,11 +41,11 @@ class IndexController extends Zend_Controller_Action {
 			//@todo move to separate method
 			//show 404 page and exit
 
-
 			$page = Application_Model_Mappers_PageMapper::getInstance()->find404Page();
 
 			if(!$page instanceof Application_Model_Models_Page) {
 				$this->view->websiteUrl = $this->_helper->website->getUrl();
+				$this->view->adminPanel = $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId());
 				$this->_helper->response->notFound($this->view->render('index/404page.phtml'));
 				exit;
 			}
@@ -72,7 +72,7 @@ class IndexController extends Zend_Controller_Action {
 					'currentTheme' => $this->_helper->config->getConfig('currentTheme'),
 					'themePath'    => $themeData['path'],
 				);
-				$parser = new Tools_Content_Parser($page->getContent(), $page->toArray(), $parserOptions);
+				$parser      = new Tools_Content_Parser($page->getContent(), $page->toArray(), $parserOptions);
 				$pageContent = $parser->parse();
 				unset($parser);
 				unset($themeData);
@@ -82,6 +82,14 @@ class IndexController extends Zend_Controller_Action {
 		else {
 			//if requested page is not allowed - redirect to the website index page
 			$this->_helper->redirector->gotoUrl($this->_helper->website->getUrl());
+		}
+
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+			//Cehcking if page has silo?
+			if($page->getSiloId()) {
+				$pageContent = Tools_Seo_Tools::runPageRankSculpting($page->getSiloId(), $pageContent);
+				$this->view->sculptingReplacement = Zend_Registry::get('sculptingReplacement');
+			}
 		}
 
 		// Finilize page generation routine

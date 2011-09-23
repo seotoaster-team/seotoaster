@@ -24,6 +24,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'is_404page'          => $page->getIs404page(),
 			'protected'           => $page->getProtected(),
 			'order'               => $page->getOrder(),
+			'silo_id'             => $page->getSiloId(),
 			'targeted_key_phrase' => $page->getTargetedKey(),
 			'system'              => intval($page->getSystem()),
 			'draft'               => intval($page->getDraft()),

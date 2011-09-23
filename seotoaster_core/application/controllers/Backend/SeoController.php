@@ -7,6 +7,8 @@
  */
 class Backend_SeoController extends Zend_Controller_Action {
 
+	private $_translator = null;
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)) {
@@ -17,8 +19,12 @@ class Backend_SeoController extends Zend_Controller_Action {
 			'loadredirectslist' => 'json',
 			'removeredirect'    => 'json',
 			'removedeeplink'    => 'json',
-			'loadsculptingdata' => 'json'
-		))->initContext('json');
+			'loadsculptingdata' => 'json',
+			'addsilotopage'     => 'json',
+			'silocat'           => 'json',
+			'unsilocat'         => 'json'
+			))->initContext('json');
+		$this->_translator      = Zend_Registry::get('Zend_Translate');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
 
@@ -207,7 +213,91 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function loadsculptingdataAction() {
+		$tree  = array();
 
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+		foreach ($pages as $key => $page) {
+			if($page->getParentId() == 0) {
+				$silo = Application_Model_Mappers_SiloMapper::getInstance()->find($page->getSiloId());
+				if(!$silo instanceof Application_Model_Models_Silo) {
+					$siloCat = false;
+				}
+				else {
+					$siloCat = ($silo->getName() == $page->getNavName()) ? true : false;
+				}
+
+				$tree[$page->getId()] = array(
+					'label'    => $page->getNavName(),
+					'isSilo'   => $siloCat,
+					//'category' => $page,
+
+				);
+				$tree[$page->getId()]['subpages'][] = $page;
+				foreach ($pages as $subPage) {
+					if($subPage->getParentId() == $page->getId()) {
+						$tree[$page->getId()]['subpages'][] = $subPage;
+					}
+				}
+			}
+			else {
+				if(!isset($tree[-1])) {
+					$tree[-1] = array(
+						'label'    => $this->_translator->translate('Without category'),
+						'category' => ''
+					);
+				}
+				$tree[-1]['subpages'][] = $page;
+			}
+		}
+
+		$silos        = Application_Model_Mappers_SiloMapper::getInstance()->fetchAll();
+		$silosOptions = array(0 => 'select a silo');
+
+		if(!empty ($silos)) {
+			foreach ($silos as $silo) {
+				$silosOptions[$silo->getId()] = $silo->getName();
+			}
+		}
+
+		$this->view->silosOptions  = $silosOptions;
+		$this->view->pages         = $tree;
+		$this->view->sculptingList = $this->view->render('backend/seo/sculptinglist.phtml');
 	}
+
+	public function addsilotopageAction() {
+		if($this->getRequest()->isPost()) {
+			$page = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->getRequest()->getParam('pid')));
+			if($page instanceof Application_Model_Models_Page) {
+				$page->setSiloId(intval($this->getRequest()->getParam('sid', 0)));
+				Application_Model_Mappers_PageMapper::getInstance()->save($page);
+			}
+		}
+	}
+
+	public function silocatAction() {
+		if($this->getRequest()->isPost()) {
+			$catPage = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->getRequest()->getParam('cid')));
+			$silo    = Application_Model_Mappers_SiloMapper::getInstance()->findByName($catPage->getNavName());
+			$silo    = ($silo instanceof Application_Model_Models_Silo) ? $silo : new Application_Model_Models_Silo();
+			$silo->setName($catPage->getNavName());
+			$silo->setRelatedPages(array_merge(Application_Model_Mappers_PageMapper::getInstance()->findByParentId($catPage->getId()), array($catPage)));
+			$siloId = Application_Model_Mappers_SiloMapper::getInstance()->save($silo);
+		}
+	}
+
+	public function unsilocatAction() {
+		if($this->getRequest()->isPost()) {
+			$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+			$catPage = $pageMapper->find(intval($this->getRequest()->getParam('cid')));
+			if($catPage instanceof Application_Model_Models_Page) {
+				$pages = array_merge($pageMapper->findByParentId($catPage->getId()), array($catPage));
+				foreach ($pages as $page) {
+					$page->setSiloId(0);
+					$pageMapper->save($page);
+				}
+			}
+		}
+	}
+
 }
 

@@ -20,10 +20,57 @@ class Application_Model_Mappers_SiloMapper extends Application_Model_Mappers_Abs
 		);
 		if(null === ($id = $silo->getId())) {
 			unset($data['id']);
-			return $this->getDbTable()->insert($data);
+			$siloId = $this->getDbTable()->insert($data);
+			$this->_saveSiloPages($siloId, $silo->getRelatedPages());
+			return $siloId;
 		}
 		else {
+			$this->_saveSiloPages($silo->getId(), $silo->getRelatedPages());
 			return $this->getDbTable()->update($data, array('id = ?' => $id));
+		}
+	}
+
+	public function find($id, $loadPages = true) {
+		$result    = $this->getDbTable()->find($id);
+		if(0 == count($result)) {
+			return null;
+		}
+		$row  = $result->current();
+		$silo = new $this->_model($row->toArray());
+
+		if($loadPages) {
+			$silo->setRelatedPages($this->_findSiloPages($row));
+		}
+		return $silo;
+	}
+
+	public function findByName($siloName, $loadPages = true) {
+		$row = $this->getDbTable()->fetchAll($this->getDbTable()->getAdapter()->quoteInto("name=?", $siloName))->current();
+		if($row === null) {
+			return null;
+		}
+		$silo = new $this->_model($row->toArray());
+		if($loadPages) {
+			$silo->setRelatedPages($this->_findSiloPages($row));
+		}
+		return $silo;
+	}
+
+	private function _findSiloPages($siloRow) {
+		$siloPages = array();
+		$rowsPageSilo = $siloRow->findDependentRowset('Application_Model_DbTable_Page');
+		foreach ($rowsPageSilo as $key => $rowPageSilo) {
+			$siloPages[] = new Application_Model_Models_Page($rowPageSilo->toArray());
+		}
+		return $siloPages;
+	}
+
+	private function _saveSiloPages($siloId, $pages) {
+		if(!empty ($pages)) {
+			foreach($pages as $page) {
+				$page->setSiloId($siloId);
+				Application_Model_Mappers_PageMapper::getInstance()->save($page);
+			}
 		}
 	}
 }
