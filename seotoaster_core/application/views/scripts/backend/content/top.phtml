@@ -3,8 +3,12 @@
 
 <?php echo $this->datePicker(
 	'dpkr',
-	date('Y-m-d', ($this->publishingDate) ? strtotime($this->publishingDate) : time()),
+	date('M j, Y', ($this->publishingDate) ? strtotime($this->publishingDate) : time()),
 	array(
-		'defaultDate' => date('Y-m-d', ($this->publishingDate) ? strtotime($this->publishingDate) : time())
+		'defaultDate' => date('M j, Y', ($this->publishingDate) ? strtotime($this->publishingDate) : time())
+	),
+	array(
+		'style' => 'width:200px !important; border-radius:2px;'
 	));
+
 ?>

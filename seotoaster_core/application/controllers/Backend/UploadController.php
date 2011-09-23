@@ -45,8 +45,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 	/**
 	 * Send response to client
-	 * deprecated since became using JSON helper 
-	 * @param type $response 
+	 * deprecated since became using JSON helper
+	 * @param type $response
 	 * @deprecated
 	 * @todo remove before release
 	 */
@@ -272,7 +272,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 	 * @return string directory path or false if error
 	 */
 	private function _getSavePath() {
-		$folder = $this->getRequest()->getParam('folder');
+		$folder = trim(preg_replace('~[^\w]+|[\s\-]+~ui', '-', filter_var($this->getRequest()->getParam('folder'), FILTER_SANITIZE_STRING)), '-');
 		if (!$folder || empty($folder)) {
 			return array('error' => true, 'result' => 'No files uploaded. Please select folder.');
 		}
@@ -378,8 +378,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$result = $this->_uploadImages($savePath, false);
 
 		if ($result['error'] == false) {
-			Tools_Image_Tools::resize($newImageFile, (isset($config['pageTeaserSize'])?$config['pageTeaserSize']:$miscConfig['pageTeaserSize']), true);
-			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'].$newName;
+			Tools_Image_Tools::resize($newImageFile, (isset($config['pageTeaserSize']) ? $config['pageTeaserSize'] : $miscConfig['pageTeaserSize']), true);
+
+
+			//Tools_Image_Tools::resize($newImageFile, '150', false, 'previews/crop', true);
+
+			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
 		}
 
 		return $result;

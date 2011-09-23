@@ -1,6 +1,6 @@
 $(function() {
 	$('#tabs').tabs();
-	$('#dpkr').css({width : '250px'}).datepicker();
+	//$('#dpkr').css({width : '250px'})
 
 	if($('#published').length) {pubunpub();}
 	$('#published').live('click', pubunpub);

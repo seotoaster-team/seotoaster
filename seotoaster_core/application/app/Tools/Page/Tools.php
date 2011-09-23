@@ -33,6 +33,5 @@ class Tools_Page_Tools {
 		}
 		return $draftPages;
 	}
-
 }
 

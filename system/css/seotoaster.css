@@ -14,8 +14,9 @@ body, body.seotoaster {
 	display:block;
 	overflow:hidden;
 /*	border:2px solid #fff;*/
-	padding-bottom:10px;
+/*	padding-bottom:10px;*/
 }
+
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
@@ -38,8 +39,8 @@ body, body.seotoaster {
 }
 
 .seotoaster .ajaxspineer {
-	background: url('/system/images/loading.gif') no-repeat scroll 50% 0 transparent;
-	height: 25px;
+	background: url('/system/images/fl.gif') no-repeat scroll 50% 0 transparent;
+	height: 65px;
 }
 
 .seotoaster .items-list {
@@ -787,7 +788,7 @@ body, body.seotoaster {
 
 /*============= Plugins ==============*/
 
-.seotoaster #plugins-list {
+.seotoaster #plugins-list, .seotoaster #sculpting-list {
 	/*overflow: hidden;*/
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -871,4 +872,11 @@ body, body.seotoaster {
 	position: absolute;
 	bottom: 50px;
 	right: 350px;
+}
+
+/*=============Page Rank Sculpting ==============*/
+
+.seotoaster .sculpting-row select {
+	padding: 1px;
+	font-size: 14px;
 }
