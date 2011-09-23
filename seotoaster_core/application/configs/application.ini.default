@@ -34,6 +34,7 @@ website.path        = ""
 website.defaultpage = "index.html"
 website.tmp         = "tmp/"
 website.preview     = "previews/"
+website.previewCrop = "previews/crop/"
 website.media		= "media/"
 website.lang		= "system/languages/"
 
@@ -64,3 +65,4 @@ misc.imgMaxWidth	= 2048
 misc.templatePreviewWidth = 180
 misc.templatePreviewHeight = 220
 misc.pageTeaserSize = 200
+misc.pageTeaserCropSize    = 200

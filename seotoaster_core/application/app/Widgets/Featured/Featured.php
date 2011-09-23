@@ -54,8 +54,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 
 		$featuredArea->setLimit($pagesCount)
 			->setRandom($random);
-
-		$this->_view->useImage                = (isset($params[3]) && $params[3] = 'img') ? true : false;
+		$this->_view->useImage                = (isset($params[3]) && ($params[3] == 'img' || $params[3] == 'imgc')) ? $params[3] : false;
 		$this->_view->faPages                 = $featuredArea->getPages();
 		$this->_view->faId                    = $featuredArea->getId();
 		$this->_view->faName                  = $featuredArea->getName();

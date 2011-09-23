@@ -379,10 +379,6 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		if ($result['error'] == false) {
 			Tools_Image_Tools::resize($newImageFile, (isset($config['pageTeaserSize']) ? $config['pageTeaserSize'] : $miscConfig['pageTeaserSize']), true);
-
-
-			//Tools_Image_Tools::resize($newImageFile, '150', false, 'previews/crop', true);
-
 			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
 		}
 

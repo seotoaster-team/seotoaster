@@ -261,10 +261,13 @@ class Backend_PageController extends Zend_Controller_Action {
 					$status = @copy($tmpPreviewFile, $newPreviewImageFile);
 				}
 				if ($status && file_exists($tmpPreviewFile)) {
-
 					Tools_Filesystem_Tools::deleteFile($tmpPreviewFile);
 				}
 
+				$miscConfig = Zend_Registry::get('misc');
+				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $this->_helper->website->getPreviewcrop(), true);
+				unset($miscConfig);
+				
 				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
 			}
 		}

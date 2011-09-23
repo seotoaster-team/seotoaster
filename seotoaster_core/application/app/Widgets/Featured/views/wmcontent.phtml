@@ -20,7 +20,9 @@
 	</div>
 	<div class="wmc-row">
 		<label class="wmc-label" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
-		<input  class="wmc-input w100"type="checkbox" id="featured-item-img" />
+<!--		<input  class="wmc-input w100"type="checkbox" id="featured-item-img" />-->
+		<input type="radio" class="featured-item-img" name="useImg" value="imgc"/><span style="font-size: 10px;">Croped</span>
+		<input type="radio" class="featured-item-img" name="useImg" value="img"/><span style="font-size: 10px;">Not croped</span>
 	</div>
 	<div class="wmc-row">
 		<label class="wmc-label" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
@@ -42,7 +44,7 @@
 		$('#fa-done').click(function() {
 			var featuredWidget = '{$featured:' + $('#featured-item-type').val() + ':' + $('#featured-area-item option:selected').val() + ':' +
 									$('#featured-item-maxres').val() + ':' + $('#featured-item-maxch').val() +
-									(($('#featured-item-img').attr('checked')) ? ':img' : '') +
+									(($('.featured-item-img:checked').val()) ? (':' + $('.featured-item-img:checked').val()) : '') +
 									(($('#featured-item-rand').attr('checked')) ? ':random' : '') + '}';
 
 
