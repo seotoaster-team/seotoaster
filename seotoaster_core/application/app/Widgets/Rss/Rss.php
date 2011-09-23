@@ -24,8 +24,16 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 		if(!isset($this->_options[0])) {
 			throw new Exceptions_SeotoasterWidgetException('Rss feed url should be specified');
 		}
+		$scheme    = 'http';
 		$feeds     = array();
-		$feedUrl   = 'http://' . html_entity_decode($this->_options[0]);
+
+		//little hack for options, needs to be somthing better
+		if(preg_match('~^https?$~', $this->_options[0])) {
+			$scheme            = array_shift($this->_options);
+			$this->_options[0] = ltrim($this->_options[0], '/');
+		}
+
+		$feedUrl   = $scheme . '://' . html_entity_decode($this->_options[0]);
 		$maxResult = isset($this->_options[1]) ? $this->_options[1] : self::RSS_RESULT_COUNT;
 
 		Zend_Uri::setConfig(array('allow_unwise' => true));
@@ -58,7 +66,8 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 			);
 			$i++;
 		}
-		$this->_view->feed = $feeds;
+		$this->_view->useImage = (isset($this->_options[2]) && $this->_options[2] == 'img') ? true : false;
+		$this->_view->feed     = $feeds;
 		return $this->_view->render('rss.phtml');
 	}
 

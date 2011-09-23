@@ -3,7 +3,9 @@
 <ul class="listxrss">
 	<?php foreach ($this->feed as $entry): ?>
 		<a href="<?php echo $entry['link']; ?>" title="<?php echo $entry['title']; ?>"><?php echo $entry['title']; ?></a>
-		<a href="<?php echo $entry['link']; ?>" title="<?php echo $entry['title']; ?>"><?php echo $entry['image']; ?></a>
+		<?php if($this->useImage && $entry['image']): ?>
+			<a href="<?php echo $entry['link']; ?>" title="<?php echo $entry['title']; ?>"><?php echo $entry['image']; ?></a>
+		<?php endif; ?>
 		<span><?php echo date("d M Y", strtotime($entry['pubDate'])); ?></span>
 		<p><?php echo $entry['description']; ?></p>
 	<?php endforeach; ?>
