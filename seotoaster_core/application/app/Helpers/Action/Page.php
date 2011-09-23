@@ -32,9 +32,6 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function filterUrl($pageUrl) {
-		if(!preg_match('/\.html$/', $pageUrl)) {
-			$pageUrl .= '.html';
-		}
 		if(extension_loaded('mbstring')) {
 			$pageUrl = mb_eregi_replace('[^\w\d\s.\-\/]+|[_]+', '', $this->validate($pageUrl));
 			$pageUrl = mb_strtolower($pageUrl, mb_detect_encoding($pageUrl));
@@ -42,7 +39,11 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		else {
 			$pageUrl = preg_replace('~[^\w\d\s.\-\/]+|[_]+~ui', '', $pageUrl);
 		}
-		return preg_replace('~[\s-]+~', '-', $pageUrl);
+		$pageUrl = trim(preg_replace('~[\s-]+~', '-', $pageUrl), '-');
+		if(!preg_match('/\.html$/', $pageUrl)) {
+			$pageUrl .= '.html';
+		}
+		return $pageUrl;
 	}
 
 	public function doCanonicalRedirect($pageUrl) {
