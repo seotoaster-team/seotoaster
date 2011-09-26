@@ -10,7 +10,7 @@ class Tools_Page_Tools {
 	public static function getPreviewPath($pageId, $capIfNoPreview = false, $croped = false) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
-		$previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . (($croped) ? $websiteHelper->getPreviewcrop() :$websiteHelper->getPreview()), 'jpg|png|jpeg|gif', true, true);
+		$previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . (($croped) ? $websiteHelper->getPreviewcrop() :$websiteHelper->getPreview()), 'jpg|png|jpeg|gif', true, true, false);
 
 		$page          = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
 		if($page instanceof Application_Model_Models_Page) {

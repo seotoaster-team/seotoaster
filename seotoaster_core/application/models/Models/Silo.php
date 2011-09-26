@@ -20,7 +20,6 @@ class Application_Model_Models_Silo extends Application_Model_Models_Abstract {
 		return $this;
 	}
 
-
 	public function getName() {
 		return $this->_name;
 	}

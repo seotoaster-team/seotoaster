@@ -205,7 +205,7 @@ $(function() {
 function loginCheck() {
 	if($.cookie('PHPSESSID') === null) {
 		showModalMessage('Session expired', 'Your session is expired! Please, login again', function() {
-			window.location.href = $('#website_url').val();
+			top.location.href = $('#website_url').val();
 		})
 		return false;
 	}

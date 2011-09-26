@@ -20,11 +20,10 @@
 	</div>
 	<div class="wmc-row">
 		<label class="wmc-label" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
-<!--		<input  class="wmc-input w100"type="checkbox" id="featured-item-img" />-->
-		<input type="radio" class="featured-item-img" name="useImg" value="imgc"/><span style="font-size: 10px;">Croped</span>
-		<input type="radio" class="featured-item-img" name="useImg" value="img"/><span style="font-size: 10px;">Not croped</span>
+		<input  class="wmc-input w100"type="checkbox" id="featured-item-img" />
+		<div style="display: none;"><input class="wmc-input w100"type="checkbox" id="featured-item-img-crop" /><span style="font-size: 11px;"><?php echo $this->translate('Croped'); ?>?</span></div>
 	</div>
-	<div class="wmc-row">
+	<div class="wmc-row" id="rand-row">
 		<label class="wmc-label" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
 		<input class="wmc-input w100" type="checkbox" id="featured-item-rand" />
 	</div>
@@ -37,14 +36,32 @@
 
 		$('#featured-item-type').change(function() {
 			$('#fa-item-lbl').toggleClass('wmc-lable wmc-label-flat').text(($(this).val() == 'page') ? 'Pick a page' : 'Pick an area');
+			$('#rand-row').toggle();
 			$('#featured-area-item').toggleClass('wmc-input wmc-input-flat');
 			loadData($(this).val());
 		});
 
+		$('#featured-item-img').click(function() {
+			$('#featured-item-img-crop').attr('checked', false);
+			if($(this).attr('checked')) {
+				$('#featured-item-img-crop').parent().show();
+			}
+			else {
+				$('#featured-item-img-crop').parent().hide();
+			}
+		})
+
 		$('#fa-done').click(function() {
+			var imgType = '';
+			if( $('#featured-item-img').attr('checked') && $('#featured-item-img-crop').attr('checked')) {
+				imgType = ':imgc';
+			}
+			else if($('#featured-item-img').attr('checked') && !$('#featured-item-img-crop').attr('checked')) {
+				imgType = ':img';
+			}
 			var featuredWidget = '{$featured:' + $('#featured-item-type').val() + ':' + $('#featured-area-item option:selected').val() + ':' +
 									$('#featured-item-maxres').val() + ':' + $('#featured-item-maxch').val() +
-									(($('.featured-item-img:checked').val()) ? (':' + $('.featured-item-img:checked').val()) : '') +
+									(imgType) +
 									(($('#featured-item-rand').attr('checked')) ? ':random' : '') + '}';
 
 

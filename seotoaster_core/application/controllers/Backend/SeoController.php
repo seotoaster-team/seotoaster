@@ -7,6 +7,9 @@
  */
 class Backend_SeoController extends Zend_Controller_Action {
 
+	const SILOCAT_ADD    = 'add';
+	const SILOCAT_REMOVE = 'remove';
+
 	private $_translator = null;
 
 	public function init() {
@@ -214,7 +217,6 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	public function loadsculptingdataAction() {
 		$tree  = array();
-
 		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
 		foreach ($pages as $key => $page) {
 			if($page->getParentId() == 0) {
@@ -229,8 +231,6 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$tree[$page->getId()] = array(
 					'label'    => $page->getNavName(),
 					'isSilo'   => $siloCat,
-					//'category' => $page,
-
 				);
 				$tree[$page->getId()]['subpages'][] = $page;
 				foreach ($pages as $subPage) {
@@ -249,16 +249,13 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$tree[-1]['subpages'][] = $page;
 			}
 		}
-
 		$silos        = Application_Model_Mappers_SiloMapper::getInstance()->fetchAll();
 		$silosOptions = array(0 => 'select a silo');
-
 		if(!empty ($silos)) {
 			foreach ($silos as $silo) {
 				$silosOptions[$silo->getId()] = $silo->getName();
 			}
 		}
-
 		$this->view->silosOptions  = $silosOptions;
 		$this->view->pages         = $tree;
 		$this->view->sculptingList = $this->view->render('backend/seo/sculptinglist.phtml');
@@ -276,28 +273,39 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	public function silocatAction() {
 		if($this->getRequest()->isPost()) {
-			$catPage = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->getRequest()->getParam('cid')));
-			$silo    = Application_Model_Mappers_SiloMapper::getInstance()->findByName($catPage->getNavName());
-			$silo    = ($silo instanceof Application_Model_Models_Silo) ? $silo : new Application_Model_Models_Silo();
-			$silo->setName($catPage->getNavName());
-			$silo->setRelatedPages(array_merge(Application_Model_Mappers_PageMapper::getInstance()->findByParentId($catPage->getId()), array($catPage)));
-			$siloId = Application_Model_Mappers_SiloMapper::getInstance()->save($silo);
-		}
-	}
-
-	public function unsilocatAction() {
-		if($this->getRequest()->isPost()) {
-			$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-			$catPage = $pageMapper->find(intval($this->getRequest()->getParam('cid')));
-			if($catPage instanceof Application_Model_Models_Page) {
-				$pages = array_merge($pageMapper->findByParentId($catPage->getId()), array($catPage));
-				foreach ($pages as $page) {
-					$page->setSiloId(0);
-					$pageMapper->save($page);
-				}
+			$action = $this->getRequest()->getParam('act', false);
+			if(!$action) {
+				throw new Exceptions_SeotoasterException($this->_translator->translate('Action is not defined'));
+			}
+			$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
+			$categoryPage     = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->getRequest()->getParam('cid')));
+			$siloRelatedPages = $pageMapper->findByParentId($categoryPage->getId());
+			if($categoryPage === null) {
+				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
+			}
+			switch ($action) {
+				case self::SILOCAT_ADD:
+					$siloMapper       = Application_Model_Mappers_SiloMapper::getInstance();
+					$silo             = $siloMapper->findByName($categoryPage->getNavName());
+					$silo             = ($silo instanceof Application_Model_Models_Silo) ? $silo : new Application_Model_Models_Silo();
+					$silo->setName($categoryPage->getNavName())
+						->setRelatedPages(array_merge($siloRelatedPages, array($categoryPage)));
+					$siloId = $siloMapper->save($silo);
+					if($siloId) {
+						$this->_helper->response->success('Siloed');
+					}
+				break;
+				case self::SILOCAT_REMOVE:
+					$pageMapper->save($categoryPage->setSiloId(0));
+					if(!empty ($siloRelatedPages)) {
+						foreach ($siloRelatedPages as $page) {
+							$page->setSiloId(0);
+							$pageMapper->save($page);
+						}
+					}
+				break;
 			}
 		}
 	}
-
 }
 

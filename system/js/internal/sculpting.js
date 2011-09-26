@@ -13,31 +13,23 @@ $(function() {
 	})
 
 	$('.silo-this-cat').live('click', function() {
-		var cid = $(this).val();
+		var cid    = $(this).val();
+		var actUrl = '';
+		$('#ajax_msg').text('Siloing category').show();
 		if($(this).attr('checked')) {
-			$('#ajax_msg').text('Siloing category').show();
-			$.post($('#website_url').val() + 'backend/backend_seo/silocat/', {
-				cid : cid
-			}, function() {
-				$('#ajax_msg').text('Done').fadeOut();
-				loadSculptingData();
-			});
+			actUrl = $('#website_url').val() + 'backend/backend_seo/silocat/act/add/';
 		}
 		else {
-			$('#ajax_msg').text('Unsiloing category').show();
-			$.post($('#website_url').val() + 'backend/backend_seo/unsilocat/', {
-				cid : cid
-			}, function() {
-				$('#ajax_msg').text('Done').fadeOut();
-				loadSculptingData();
-			});
+			actUrl = $('#website_url').val() + 'backend/backend_seo/silocat/act/remove/'
 		}
+		$.post(actUrl, {
+			cid : cid
+		}, function() {
+			$('#ajax_msg').text('Done').fadeOut();
+			loadSculptingData();
+		});
 	})
 })
-
-runPageRankSculpting = function() {
-
-}
 
 sculptingCallback = function() {
 	$('#silo-name').val('');

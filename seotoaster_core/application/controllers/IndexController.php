@@ -84,13 +84,8 @@ class IndexController extends Zend_Controller_Action {
 			$this->_helper->redirector->gotoUrl($this->_helper->website->getUrl());
 		}
 
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
-			//Cehcking if page has silo?
-			if($page->getSiloId()) {
-				$pageContent = Tools_Seo_Tools::runPageRankSculpting($page->getSiloId(), $pageContent);
-				$this->view->sculptingReplacement = Zend_Registry::get('sculptingReplacement');
-			}
-		}
+		//sculpting check
+		$pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
 
 		// Finilize page generation routine
 		$this->_complete($pageContent, $page->toArray());
@@ -113,6 +108,18 @@ class IndexController extends Zend_Controller_Action {
 		}
 		$this->view->pageData = $pageData;
 		$this->view->content  = $body[1];
+	}
+
+	private function _pageRunkSculptingDemand($page, $pageContent) {
+		// run pr sculpting only for the not logged users
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+			//Cehcking if page has silo?
+			if($page->getSiloId()) {
+				$pageContent = Tools_Seo_Tools::runPageRankSculpting($page->getSiloId(), $pageContent);
+				$this->view->sculptingReplacement = Zend_Registry::get('sculptingReplacement');
+			}
+		}
+		return $pageContent;
 	}
 
 	public function languageAction() {
