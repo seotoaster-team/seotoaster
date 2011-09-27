@@ -126,6 +126,17 @@ $(function() {
 
 	$('form._fajax').live('submit', function(e) {
 		e.preventDefault();
+
+		donotCleanInputs = [
+			'#h1',
+			'#header-title',
+			'#url',
+			'#nav-name',
+			'#meta-description',
+			'#meta-keywords',
+			'#teaser-text'
+		];
+
 		var ajaxMessage = $('#ajax_msg');
 		var form        = $(this);
 		ajaxMessage.text('');
@@ -157,7 +168,7 @@ $(function() {
 					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
 				}
 				else {
-					$(form).find('input:text').val('');
+					$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
 					ajaxMessage.removeClass('success').addClass('ui-state-error').html(response.responseText);
 				}
 			},

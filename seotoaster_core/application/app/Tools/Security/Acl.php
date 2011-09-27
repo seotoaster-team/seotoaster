@@ -32,6 +32,12 @@ class Tools_Security_Acl {
 	const RESOURCE_CACHE_PAGE     = 'cachepage';
 	const RESOURCE_THEMES         = 'themes';
 
+	private static $_allowedActions = array(
+		'Page' => array(
+			'publishpages'
+		)
+	);
+
 	public static function isAllowed($resourse, $role = '') {
 		if(!$role) {
 			$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
@@ -39,6 +45,11 @@ class Tools_Security_Acl {
 		}
 		$acl = Zend_Registry::get('acl');
 		return $acl->isAllowed($role, $resourse);
+	}
+
+	public static function isActionAllowed($controller, $action) {
+		$actions = self::$_allowedActions[$controller];
+		return (in_array($action, $actions));
 	}
 
 }

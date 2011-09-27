@@ -8,7 +8,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
 	public function init() {
 		parent::init();
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)) {
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed('Page', $this->getRequest()->getParam('action'))) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
@@ -39,9 +39,9 @@ class Backend_PageController extends Zend_Controller_Action {
 			}
 		}
 		else {
-			$params = $this->getRequest()->getParams();
-			if($pageForm->isValid($this->getRequest()->getParams())) {
-
+			$params   = $this->getRequest()->getParams();
+			$messages = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
+			if($pageForm->isValid($params)) {
 				$pageData        = $pageForm->getValues();
 				$pageData['url'] =  $this->_helper->page->filterUrl($pageData['url']);
 				//if we'r creating page -> check that we do not have an identical urls
@@ -93,7 +93,8 @@ class Backend_PageController extends Zend_Controller_Action {
 				$this->_helper->response->success(array('redirectTo' => $page->getUrl()));
 				exit;
 			}
-			$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($pageForm->getMessages(), get_class($pageForm)));
+			$messages = array_merge($pageForm->getMessages(), $messages);
+			$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($messages, get_class($pageForm)));
 			exit;
 		}
 
@@ -137,12 +138,9 @@ class Backend_PageController extends Zend_Controller_Action {
 	public function rendermenuAction() {
 		$menuType    = $this->getRequest()->getParam('mtype');
 		$pageId      = $this->getRequest()->getParam('pId');
-
 		$menuOptions = array();
 		$menuHtml    = '';
-
 		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
-
 		switch ($menuType) {
 			case Application_Model_Models_Page::IN_MAINMENU:
 				$categories = $mapper->selectCategoriesIdName();
@@ -267,7 +265,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				$miscConfig = Zend_Registry::get('misc');
 				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $this->_helper->website->getPreviewcrop(), true);
 				unset($miscConfig);
-				
+
 				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
 			}
 		}

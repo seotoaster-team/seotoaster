@@ -114,6 +114,7 @@ class Application_Form_Page extends Zend_Form {
 				Application_Model_Models_Page::IN_STATICMENU => 'Static Menu',
 				Application_Model_Models_Page::IN_NOMENU     => 'No Menu'
 			),
+			'label'     => 'Navigation',
 			'required'  => true,
 			'separator' => ''
 		)));
@@ -121,14 +122,14 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'pageCategory',
 			'id'           => 'page-category',
+			'label'        => 'Main menu',
 			'multiOptions' => array(
 				'Seotoaster' => array(
 					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
-					Application_Model_Models_Page::IDCATEGORY_DEFAULT  => 'This page is in no menu',
-					Application_Model_Models_Page::IDCATEGORY_DRAFT    => 'This page is draft',
 					Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
 				)
-			)
+			),
+			'registerInArrayValidator' => false
 		)));
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
@@ -151,6 +152,7 @@ class Application_Form_Page extends Zend_Form {
 			'id'       => 'templateId',
 			'name'     => 'templateId',
 			'required' => true,
+			'label'    => 'Current template',
 			'value'    => $this->_templateId
 		)));
 
@@ -333,6 +335,9 @@ class Application_Form_Page extends Zend_Form {
 		return $this;
 	}
 
+	public function getMainMenuOptions() {
+		return $this->getElement('pageCategory')->getMultiOptions();
+	}
 
 }
 

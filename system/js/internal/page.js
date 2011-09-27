@@ -7,6 +7,9 @@ $(function() {
 
 	$('#pageCategory').hide();
 
+	//hide label for the hidden field 'templateId'
+	$('#templateId').prev().hide();
+
 	$('#templatelist').delegate('div.template_preview', 'click', function() {
 		var templateId = $(this).find('input[name="template-id"]').val();
 		$('#templateId').val(templateId);
