@@ -1,5 +1,37 @@
 $(function() {
 
+	$('#mass-del').button().click(function() {
+		var pagesIds = [];
+		$('.page-remove:checked').each(function() {
+			pagesIds.push($(this).parent().attr('id'));
+		})
+		if(!pagesIds.length) {
+			showModalMessage('Pick a page(s)', 'You have not select any page. Pick at least one.');
+			return;
+		}
+		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected pages?');
+		$(messageScreen).dialog({
+			modal    : true,
+			title    : 'Removing pages?',
+			resizable: false,
+			buttons: {
+				Yes: function() {
+					var url  = $('#website_url').val() + 'backend/backend_page/delete/'
+					$.post(url, {id: pagesIds}, function(response) {
+						$(pagesIds).each(function() {
+							$('#' + this).remove();
+						})
+						$('#ajax_msg').html(response.responseText).show().fadeOut(_FADE_SLOW);
+					}, 'json')
+					$(this).dialog('close');
+				},
+				No : function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	});
+
 	$('#sortable-main').sortable({
 		handle  : 'div.move',
 		cancel  : '.nosort',

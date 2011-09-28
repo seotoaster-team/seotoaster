@@ -612,6 +612,11 @@ body, body.seotoaster {
 	-webkit-border-radius:0px 4px 0px 0px;
 	border-radius:0px 4px 0px 0px;
 }
+
+.seotoaster ul.organise {
+	list-style-type: none;
+}
+
 .seotoaster span div.cat-tools {
 	position:absolute;
 	right:0px;
@@ -876,7 +881,41 @@ body, body.seotoaster {
 
 /*=============Page Rank Sculpting ==============*/
 
+.seotoaster #sculpting-list {
+	margin-bottom: 8px;
+}
+
+.seotoaster form#frm-sculpting {
+	margin-bottom: 10px;
+}
+
+.seotoaster form#frm-sculpting input[type=text] {
+	width: 97%;
+}
+
+.seotoaster form#frm-sculpting input[type=submit] {
+	font-size: 20px;
+	padding: 17px 11px;
+	margin: 0px;
+}
+
+.seotoaster .sculpting-subrow {
+	margin-bottom: 5px;
+	padding: 3px 0px;
+}
+
+.seotoaster .sculpting-subrow input[type=checkbox] {
+	margin: 0px 0px 0px 3px;
+}
+
+.seotoaster .sculpting-row div:first-child {
+	padding: 7px 0px 0px 0px;
+	max-width: 600px;
+	overflow: hidden;
+}
+
 .seotoaster .sculpting-row select {
-	padding: 1px;
+	padding: 3px 2px;
 	font-size: 14px;
+	margin: 0px;
 }

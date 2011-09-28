@@ -25,7 +25,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 			'loadsculptingdata' => 'json',
 			'addsilotopage'     => 'json',
 			'silocat'           => 'json',
-			'unsilocat'         => 'json'
+			'unsilocat'         => 'json',
+			'managesilos'       => 'json'
 			))->initContext('json');
 		$this->_translator      = Zend_Registry::get('Zend_Translate');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
@@ -303,6 +304,48 @@ class Backend_SeoController extends Zend_Controller_Action {
 							$pageMapper->save($page);
 						}
 					}
+				break;
+			}
+		}
+	}
+
+	public function managesilosAction() {
+		if(!$this->getRequest()->isPost()) {
+			$this->view->siloForm = new Application_Form_Silo();
+		}
+		else {
+			$action = $this->getRequest()->getParam('act', null);
+			if($action === null) {
+				$this->_helper->response->fail('');
+			}
+			switch ($action) {
+				case 'loadlist':
+					$this->view->silos = Application_Model_Mappers_SiloMapper::getInstance()->fetchAll(null, array('name'));
+					$this->_helper->response->success($this->view->render('backend/seo/siloslist.phtml'));
+				break;
+				case 'remove':
+					$ids        = (array)$this->getRequest()->getParam('id');
+					if(empty ($ids)) {
+						$this->_helper->response->fail($this->_helper->language->translate('Silo id is not specified'));
+						exit;
+					}
+					$siloMapper = Application_Model_Mappers_SiloMapper::getInstance();
+					foreach ($ids as $siloId) {
+						$silo = $siloMapper->find($siloId, true);
+						if(!$silo instanceof Application_Model_Models_Silo) {
+							$this->_helper->response->fail($this->_helper->language->translate('Cannot find silo to remove.'));
+							exit;
+						}
+						$siloPages = $silo->getRelatedPages();
+						if(!empty ($siloPages)) {
+							foreach ($siloPages as $page) {
+								$page->setSiloId(0);
+								Application_Model_Mappers_PageMapper::getInstance()->save($page);
+							}
+						}
+						$siloMapper->delete($silo);
+					}
+					$this->_helper->response->success($this->_helper->language->translate('Silo(s) removed.'));
 				break;
 			}
 		}

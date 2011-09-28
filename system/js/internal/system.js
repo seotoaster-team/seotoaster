@@ -210,7 +210,7 @@ $(function() {
 
 	$('a._lbox').fancybox();
 
-	publishPages();
+	//publishPages();
 });
 
 function loginCheck() {

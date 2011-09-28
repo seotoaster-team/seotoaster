@@ -1,6 +1,6 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => '<div class="grid_8">Organize pages</div>', 'innerHeaderHtml' => '<div class="grid_4"><a href="javascript:;" id="collapse-global">collapse all</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" id="expand-global">expand all</a></div>')); ?>
-	<div id="sortable-main" class="h570 mb10px"  style="overflow:auto;">
+	<div id="sortable-main" class="h530 mb10px"  style="overflow:auto;">
 		<?php  foreach($this->tree as $key => $treeData): ?>
 			<div class="grid_3 mb10px category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
 				<span class="label catmove">
@@ -18,7 +18,7 @@
 						<?php foreach ($treeData['pages'] as $page): ?>
 							<li id="<?php echo $page->getId(); ?>">
 								<div class="move"></div>
-<!--								<input type="checkbox" />-->
+								<input type="checkbox" name="remove[]" class="page-remove" />
 								<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
 							</li>
 						<?php endforeach; ?>
@@ -42,7 +42,7 @@
 					<?php foreach ($this->staticMenu as $page): ?>
 						<li id="<?php echo $page->getId(); ?>">
 							<div class="move"></div>
-<!--							<input type="checkbox" />-->
+							<input type="checkbox" name="remove[]" class="page-remove" />
 							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
 						</li>
 					<?php endforeach; ?>
@@ -67,7 +67,7 @@
 					<?php foreach ($this->noMenu as $page): ?>
 						<li id="<?php echo $page->getId(); ?>">
 							<div class="move"></div>
-<!--							<input type="checkbox" />-->
+							<input type="checkbox" name="remove[]" class="page-remove" />
 							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId()); ?>
 						</li>
 					<?php endforeach; ?>
@@ -78,6 +78,9 @@
 		<!-- end no menu -->
 
 		<div class="clear"></div>
+	</div>
+	<div class="grid_12">
+		<button id="mass-del">Delete selected</button>
 	</div>
 </div>
 <?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/multisortable/multisortable.js'); ?>

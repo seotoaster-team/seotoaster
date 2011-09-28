@@ -64,6 +64,13 @@ class Backend_PageController extends Zend_Controller_Action {
 					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 				)));
 
+				if($page->getId() && $page->getParentId() == 0 && $pageData['inMenu'] != Application_Model_Models_Page::IN_MAINMENU)  {
+					if($this->_hasSubpages($page->getId())) {
+						$this->_helper->response->fail($this->_helper->language->translate('Cannot downgrade the category.<br />This page is a category page and has subpages. Please remove or move subpages to another category first'));
+						exit;
+					}
+				}
+
 				$page->setOptions($pageData);
 
 				//prevent renaming of the index page
@@ -71,9 +78,10 @@ class Backend_PageController extends Zend_Controller_Action {
 					$page->setUrl($pageData['url']);
 				}
 				$page->setTargetedKey($page->getH1());
-
 				$page->setParentId($pageData['pageCategory']);
 				$page->setShowInMenu($pageData['inMenu']);
+
+
 				$saveUpdateResult = $mapper->save($page);
 
 				if($checkFaPull) {
@@ -122,13 +130,34 @@ class Backend_PageController extends Zend_Controller_Action {
 	public function deleteAction() {
 		if($this->getRequest()->isPost()) {
 			$pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-			$page       = $pageMapper->find(intval($this->getRequest()->getParam('id')));
-
-			$page->registerObserver(new Tools_Page_GarbageCollector(array(
-				'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
-			)))->registerObserver(new Tools_Seo_Watchdog());
-
-			$this->_helper->response->success($pageMapper->delete($page));
+			$ids        = (array)$this->getRequest()->getParam('id');
+			if(empty ($ids)) {
+				$this->_helper->response->fail($this->_helper->language->translate('Page id is ot specified'));
+				exit;
+			}
+			foreach ($ids as $pageId) {
+				$page = $pageMapper->find(intval($pageId));
+				if(!$page instanceof Application_Model_Models_Page) {
+					$this->_helper->response->fail($this->_helper->language->translate('Cannot find page to remove.'));
+					exit;
+				}
+				//check if page is a category and it has subpages prevent removing the page
+				if($page->getParentId() == 0) {
+					if($this->_hasSubpages($page->getId())) {
+						$this->_helper->response->fail(array(
+							'title' => $this->_helper->language->translate('Unable to remove the page'),
+							'body'  => $this->_helper->language->translate('<h2>The page: "' . $page->getNavName() .'" is a category page and has subpages.</h2><br />Please remove or move subpages to another category first')
+						));
+						exit;
+					}
+				}
+				$page->registerObserver(new Tools_Page_GarbageCollector(array(
+					'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
+				)));
+				$pageMapper->delete($page);
+				unset($page);
+			}
+			$this->_helper->response->success($this->_helper->language->translate('Page(s) removed.'));
 		}
 	}
 
@@ -326,6 +355,11 @@ class Backend_PageController extends Zend_Controller_Action {
 		if($cleanDraftCache) {
 			$this->_cache->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
 		}
+	}
+
+	private function _hasSubpages($pageId) {
+		$subpages = Application_Model_Mappers_PageMapper::getInstance()->findByParentId($pageId);
+		return sizeof($subpages);
 	}
 }
 

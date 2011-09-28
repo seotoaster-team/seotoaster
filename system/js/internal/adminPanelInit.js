@@ -62,9 +62,17 @@ $(function() {
 						beforeSend : function() {
 							$(delPage).html('Removing page...');
 						},
-						success : function() {
-							//$( this ).dialog( "close" );
-							top.location.href = websiteUrl;
+						success : function(response) {
+							if(!response.error) {
+								top.location.href = websiteUrl;
+							}
+							else {
+								$(delPage).dialog('close');
+								showModalMessage(response.responseText.title, response.responseText.body, function() {
+									$(delPage).dialog('close');
+								});
+							}
+
 						}
 					})
 				},

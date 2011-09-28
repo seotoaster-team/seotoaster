@@ -1,4 +1,7 @@
 $(function() {
+
+	$('#addSilo-label').hide();
+
 	loadSculptingData();
 	$('.silo-select').live('change', function(){
 		var pid = $(this).attr('id');
@@ -29,6 +32,8 @@ $(function() {
 			loadSculptingData();
 		});
 	})
+
+	$('a#manage-silos').button();
 })
 
 sculptingCallback = function() {

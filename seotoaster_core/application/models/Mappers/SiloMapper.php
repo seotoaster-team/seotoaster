@@ -73,5 +73,12 @@ class Application_Model_Mappers_SiloMapper extends Application_Model_Mappers_Abs
 			}
 		}
 	}
+
+	public function delete(Application_Model_Models_Silo $silo) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $silo->getId());
+		$deleteResult = $this->getDbTable()->delete($where);
+		$silo->notifyObservers();
+		return $deleteResult;
+	}
 }
 

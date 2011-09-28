@@ -1,0 +1,74 @@
+<div class="seotoaster container_12 h640 rounded8px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage silos')); ?>
+	<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12" data-callback="siloslist">
+		<div class="grid_9">
+			<?php echo $this->siloForm->getElement('name'); ?>
+		</div>
+		<div class="grid_3">
+			<?php echo $this->siloForm->getElement('addSilo'); ?>
+		</div>
+	</form>
+	<div class="grid_12">
+		<div class="silo-row grid_12">
+			<div class="grid_1"><input type="checkbox" name="chckAllSilos" class="check-all-silos" /></div>
+			<div class="grid_9"><?php echo $this->translate('Name'); ?></div>
+			<div class="grid_2"><?php echo $this->translate('Action'); ?></div>
+		</div>
+	</div>
+	<div id="silos-list" class="grid_12 h450"></div>
+
+	<div class="grid_12">
+		<button id="mass-del">Delete selected</button>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#addSilo-label').hide();
+		siloslist();
+
+		$('#mass-del').button().click(function() {
+			var silosIds= [];
+			$('.rem-silos:checked').each(function() {
+				silosIds.push($(this).attr('id'));
+			})
+			if(!silosIds.length) {
+				showModalMessage('Pick a silo(s)', 'You have not select any silo. Pick at least one.');
+				return;
+			}
+			var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected pages?');
+			$(messageScreen).dialog({
+				modal    : true,
+				title    : 'Removing silo(s)?',
+				resizable: false,
+				buttons: {
+					Yes: function() {
+						var url  = $('#website_url').val() + 'backend/backend_seo/managesilos/'
+						$.post(url, {
+							act: 'remove',
+							id : silosIds
+						}, function(response) {
+							$(silosIds).each(function() {
+								$('#' + this).parent().parent().remove();
+							})
+							$('#ajax_msg').html(response.responseText).show().fadeOut(_FADE_SLOW);
+						}, 'json')
+						$(this).dialog('close');
+					},
+					No : function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		});
+	})
+
+	function siloslist() {
+		$('#silo-name').val('').focus();
+		$('#sculpting-list').addClass('ajaxspineer');
+		$.post($('#website_url').val() + 'backend/backend_seo/managesilos', {
+			act: 'loadlist'
+		}, function(response) {
+			$('#silos-list').removeClass('ajaxspineer').html(response.responseText);
+		})
+	}
+</script>
