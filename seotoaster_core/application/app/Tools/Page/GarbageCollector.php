@@ -18,7 +18,6 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	protected function _runOnDelete() {
 		$this->_removePageUrlFromContent();
-		//$this->_removeRelatedContainers();
 		Tools_Content_Feed::generateSitemapFeed();
 	}
 

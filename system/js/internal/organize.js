@@ -6,7 +6,7 @@ $(function() {
 			pagesIds.push($(this).parent().attr('id'));
 		})
 		if(!pagesIds.length) {
-			showModalMessage('Pick a page(s)', 'You have not select any page. Pick at least one.');
+			showModalMessage('Pick a page(s)', 'You have not selected any page. Pick at least one, please');
 			return;
 		}
 		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected pages?');

@@ -12,7 +12,7 @@ $(function() {
 		link    = $(this);
 		pwidth  = link.data('pwidth') || 960;
 		pheight = link.data('pheight') || 650;
-		if(top.$('#__tpopup').length) {
+		if(!$(this).data('') && top.$('#__tpopup').length) {
 
 			var currUrl    = top.$('#__tpopup').attr('src');
 			var currWidth  = top.$('#__tpopup').css('width');
@@ -57,10 +57,11 @@ $(function() {
 		});
 	});
 
+	//seotoaster delete item link
 	$('a._tdelete').live('click', function() {
 		$('#ajax_msg').text('Removing...').show();
 		var url = $(this).attr('href');
-		if(!url || url == 'undefined' || url == 'javascript:;') {
+		if(!url || (typeof url == 'undefined') || url == 'javascript:;') {
 			url = $(this).data('url');
 		}
 		var callback = $(this).data('callback');
@@ -73,7 +74,7 @@ $(function() {
 			resizable: false,
 			buttons: {
 				'Delete': function() {
-					$.post(url, {id: link.data('eid')}, function(response) {
+					$.post(url, {id : link.data('eid')}, function(response) {
 						$('#ajax_msg').text(response.responseText);
 						if(response.error){
 							$('#ajax_msg').addClass('ui-state-error').show();
@@ -95,6 +96,7 @@ $(function() {
 		});
 	})
 
+	//seotoaster close popup window button
 	$('.closebutton').click(function() {
 
 		//ceck if this popup was opened from other popup, then we need to go back to the previous popup
@@ -120,14 +122,10 @@ $(function() {
 		top.$('#__tpopup').dialog('close');
 	})
 
-	$('#ajax_msg').click(function(){
-		$(this).text('').fadeOut();
-	})
-
+	//seotoaster ajax form submiting
 	$('form._fajax').live('submit', function(e) {
 		e.preventDefault();
-
-		donotCleanInputs = [
+		var donotCleanInputs = [
 			'#h1',
 			'#header-title',
 			'#url',
@@ -136,7 +134,6 @@ $(function() {
 			'#meta-keywords',
 			'#teaser-text'
 		];
-
 		var ajaxMessage = $('#ajax_msg');
 		var form        = $(this);
 		ajaxMessage.text('');
@@ -158,13 +155,11 @@ $(function() {
 						top.location.reload();
 						return;
 					}
-
 					//processing callback
 					var callback = $(form).data('callback');
 					if(typeof callback != 'undefined' && callback != null) {
 						eval(callback + '()');
 					}
-
 					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
 				}
 				else {
@@ -178,23 +173,14 @@ $(function() {
 		})
 	})
 
-	$('.lang-select').live('click', function() {
-		var language = $(this).attr('id');
-		$.post( $('#website_url').val() + 'language', {lng: language}, function() {
-			window.location.reload();
-		})
-	})
-
+	//seotoaster edit item link
 	$('a._tedit').live('click', function(e) {
 		e.preventDefault();
-
 		var handleUrl = $(this).data('url');
 		if(!handleUrl || handleUrl == 'undefined') {
 			handleUrl = $(this).attr('href');
 		}
-
 		var eid = $(this).data('eid');
-
 		$.post(handleUrl, {id: eid}, function(response) {
 			//console.log(response.responseText.data);
 			var formToLoad = $('#' + response.responseText.formId);
@@ -208,7 +194,12 @@ $(function() {
 
 	})
 
+	//seotoaster gallery links
 	$('a._lbox').fancybox();
+
+	$('#ajax_msg').click(function(){
+		$(this).text('').fadeOut();
+	})
 
 	//publishPages();
 });

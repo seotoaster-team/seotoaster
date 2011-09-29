@@ -212,6 +212,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$this->_helper->response->success('Silo added.');
 				}
 			}
+			else {
+				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($siloForm->getMessages(), get_class($siloForm)));
+			}
 		}
 		$this->view->siloForm = $siloForm;
 	}
@@ -316,7 +319,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		else {
 			$action = $this->getRequest()->getParam('act', null);
 			if($action === null) {
-				$this->_helper->response->fail('');
+				$this->_helper->response->fail($this->_helper->language->translate('Action is not defined'));
 			}
 			switch ($action) {
 				case 'loadlist':
@@ -324,25 +327,19 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$this->_helper->response->success($this->view->render('backend/seo/siloslist.phtml'));
 				break;
 				case 'remove':
-					$ids        = (array)$this->getRequest()->getParam('id');
+					$ids = (array)$this->getRequest()->getParam('id');
 					if(empty ($ids)) {
 						$this->_helper->response->fail($this->_helper->language->translate('Silo id is not specified'));
-						exit;
 					}
 					$siloMapper = Application_Model_Mappers_SiloMapper::getInstance();
 					foreach ($ids as $siloId) {
 						$silo = $siloMapper->find($siloId, true);
 						if(!$silo instanceof Application_Model_Models_Silo) {
 							$this->_helper->response->fail($this->_helper->language->translate('Cannot find silo to remove.'));
-							exit;
 						}
-						$siloPages = $silo->getRelatedPages();
-						if(!empty ($siloPages)) {
-							foreach ($siloPages as $page) {
-								$page->setSiloId(0);
-								Application_Model_Mappers_PageMapper::getInstance()->save($page);
-							}
-						}
+						$silo->registerObserver(new Tools_Seo_GarbageCollector(array(
+							'action' => Tools_Seo_GarbageCollector::CLEAN_ONDELETE
+						)));
 						$siloMapper->delete($silo);
 					}
 					$this->_helper->response->success($this->_helper->language->translate('Silo(s) removed.'));

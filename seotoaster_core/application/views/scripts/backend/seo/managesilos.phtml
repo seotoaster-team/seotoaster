@@ -21,6 +21,7 @@
 		<button id="mass-del">Delete selected</button>
 	</div>
 </div>
+
 <script type="text/javascript" charset="utf-8">
 	$(function() {
 		$('#addSilo-label').hide();
@@ -32,10 +33,10 @@
 				silosIds.push($(this).attr('id'));
 			})
 			if(!silosIds.length) {
-				showModalMessage('Pick a silo(s)', 'You have not select any silo. Pick at least one.');
+				showModalMessage('Pick a silo(s)', 'You have not selected any silo. Pick at least one, please');
 				return;
 			}
-			var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected pages?');
+			var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected silos?');
 			$(messageScreen).dialog({
 				modal    : true,
 				title    : 'Removing silo(s)?',
