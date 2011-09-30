@@ -13,9 +13,11 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
-		$this->_helper->AjaxContext()->addActionContext('loadfalist', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('addpagetofa', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('rempagefromfa', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContexts(array(
+			'loadfalist'    => 'json',
+			'addpagetofa'   => 'json',
+			'rempagefromfa' => 'json'
+		))->initContext('json');
 	}
 
 	public function featuredAction() {
@@ -26,6 +28,9 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 				Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($featuredArea);
 				$this->_helper->response->success('Added');
 				exit;
+			}
+			else {
+				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($featuredForm->getMessages(), get_class($featuredForm)));
 			}
 		}
 		$pageId                    = $this->getRequest()->getParam('pid');
@@ -119,6 +124,10 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 
 		$this->view->faPages = $featuredArea->getPages();
 		$this->view->faId = $faId;
+	}
+
+	public function deleteAction() {
+
 	}
 
 }

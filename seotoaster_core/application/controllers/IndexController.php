@@ -3,10 +3,6 @@
 class IndexController extends Zend_Controller_Action {
 
     public function init() {
-		if($this->_helper->session->pluginRoutesFetched !== true) {
-			Tools_Plugins_Tools::fetchPluginsRoutes();
-			$this->_helper->session->pluginRoutesFetched = true;
-		}
 		$this->_helper->AjaxContext()->addActionContext('language', 'json')->initContext('json');
 	}
 
@@ -133,4 +129,3 @@ class IndexController extends Zend_Controller_Action {
 		}
 	}
 }
-

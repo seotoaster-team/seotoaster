@@ -62,6 +62,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	protected $_draft            = false;
 
+	protected $_news             = false;
+
 	protected $_publishAt      = '';
 
 	public function getContent() {
@@ -268,5 +270,16 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		$this->_publishAt = $publishAt;
 		return $this;
 	}
+
+	public function getNews() {
+		return $this->_news;
+	}
+
+	public function setNews($news) {
+		$this->_news = $news;
+		return $this;
+	}
+
+
 }
 

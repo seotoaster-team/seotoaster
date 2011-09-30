@@ -72,7 +72,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	protected function _initPlugins() {
 		$front = Zend_Controller_Front::getInstance();
-		$front->registerPlugin(new Plugins_Acl());
+		$front->registerPlugin(new Plugins_News());
 		$front->registerPlugin(new Plugins_Plugin());
 	}
 
@@ -122,8 +122,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$acl->allow(Tools_Security_Acl::ROLE_SUPERADMIN);
 		$acl->deny(Tools_Security_Acl::ROLE_SUPERADMIN, Tools_Security_Acl::RESOURCE_CACHE_PAGE);
 
-		$acl->allow(Tools_Security_Acl::ROLE_SYSTEM);
-
 		Zend_Registry::set('acl', $acl);
 	}
 
@@ -155,7 +153,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$misc    = Zend_Registry::get('misc');
 		$url      = preg_replace('~^https?://~', '', $website['url']);
 		$protocol = strtolower(preg_replace('~[^A-Z]~', '', $_SERVER['SERVER_PROTOCOL'])) .'://';
-		
+
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		if($misc['jquery'] == 'local') {
 			$view->jQuery()->setLocalPath($protocol . $url . 'system/js/external/jquery/jquery.js');

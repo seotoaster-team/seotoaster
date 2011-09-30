@@ -13,11 +13,9 @@ $(function() {
 		pwidth  = link.data('pwidth') || 960;
 		pheight = link.data('pheight') || 650;
 		if(!$(this).data('') && top.$('#__tpopup').length) {
-
-			var currUrl    = top.$('#__tpopup').attr('src');
-			var currWidth  = top.$('#__tpopup').css('width');
-			var currHeight = top.$('#__tpopup').css('height');
-
+			var currUrl     = top.$('#__tpopup').attr('src');
+			var currWidth   = top.$('#__tpopup').css('width');
+			var currHeight  = top.$('#__tpopup').css('height');
 			top.$('#__tpopup').dialog('option', {
 				width  : pwidth,
 				height : pheight
@@ -29,7 +27,6 @@ $(function() {
 			top.$('#__tpopup').data('backurl', currUrl);
 			top.$('#__tpopup').data('backwidth', currWidth);
 			top.$('#__tpopup').data('backheight', currHeight);
-
 			return;
 		}
 		top.$('#__tpopup').data('backurl', null);
@@ -56,6 +53,7 @@ $(function() {
 			}
 		});
 	});
+
 
 	//seotoaster delete item link
 	$('a._tdelete').live('click', function() {
@@ -98,7 +96,6 @@ $(function() {
 
 	//seotoaster close popup window button
 	$('.closebutton').click(function() {
-
 		//ceck if this popup was opened from other popup, then we need to go back to the previous popup
 		if(typeof top.$('#__tpopup').data('backurl') != 'undefined' && top.$('#__tpopup').data('backurl') != null) {
 			top.$('#__tpopup').dialog('option', {
@@ -109,11 +106,12 @@ $(function() {
 				width  : top.$('#__tpopup').data('backwidth'),
 				height : top.$('#__tpopup').data('backheight')
 			});
+
 			top.$('#__tpopup').attr('src', top.$('#__tpopup').data('backurl'));
 			top.$('#__tpopup').data('backurl', null);
+
 			return;
 		}
-
 		//reload page if we are closing template or css edit dialog
 		//probably needs to be changed to something more universal
 		if($('#frm_template').length || $('#editcssform').length || $('#fa-pages-list').length) {

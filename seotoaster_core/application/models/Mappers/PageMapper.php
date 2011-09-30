@@ -28,6 +28,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'targeted_key_phrase' => $page->getTargetedKey(),
 			'system'              => intval($page->getSystem()),
 			'draft'               => intval($page->getDraft()),
+			'news'                => intval($page->getNews()),
 			'publish_at'          => (!$page->getPublishAt()) ? null : date('Y-m-d', strtotime($page->getPublishAt()))
 		);
 		if(null === ($id = $page->getId())) {

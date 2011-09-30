@@ -46,13 +46,13 @@
 	<div class="clear"></div>
 </div>
 
-<?php $this->jQuery()->onLoadCaptureStart(); ?>
 <script type="text/javascript" charset="utf-8">
+<?php $this->jQuery()->onLoadCaptureStart(); ?>
 	$('.lang-select').live('click', function() {
 		var language = $(this).attr('id');
 		$.post( $('#website_url').val() + 'language', {lng: language}, function() {
 			window.location.reload();
 		})
 	})
-</script>
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
+</script>

@@ -1,11 +1,12 @@
 $(function() {
+	$('#addFeaturedArea-label').hide();
 
 	loadFaList();
 
 	$('.add-page').live('click', function() {
-		var pageId = $('#pid').val();
-		var faId   = $(this).attr('id');
-		pcountEl = $('.pcount-' + faId);
+		var pageId   = $('#pid').val();
+		var faId     = $(this).attr('id');
+		var pcountEl = $('.pcount-' + faId);
 		if($(this).attr('checked')) {
 			$.post(
 				$('#website_url').val() + 'backend/backend_featured/addpagetofa/', {

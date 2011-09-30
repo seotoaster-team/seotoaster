@@ -10,6 +10,15 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 	const PREDISPATCH_METHOD  = 'beforeController';
 	const POSTDISPATCH_METHOD = 'afterController';
 
+	public function routeStartup(Zend_Controller_Request_Abstract $request) {
+		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+		$sessionHelper->init();
+		if(!isset($sessionHelper->pluginRoutesFetched) || $sessionHelper->pluginRoutesFetched !== true) {
+			Tools_Plugins_Tools::fetchPluginsRoutes();
+			$sessionHelper->pluginRoutesFetched = true;
+		}
+	}
+
 	public function preDispatch(Zend_Controller_Request_Abstract $request) {
 		$this->_triggerToasterPlugins(self::PREDISPATCH_METHOD);
 	}

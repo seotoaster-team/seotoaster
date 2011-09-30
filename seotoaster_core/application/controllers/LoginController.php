@@ -7,9 +7,7 @@ class LoginController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-
 		//if logged in user trys to go to the login page - redirect him to the main page
-
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
 			$this->_redirect($this->_helper->website->getUrl());
 		}
