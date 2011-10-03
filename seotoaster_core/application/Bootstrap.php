@@ -85,7 +85,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$acl->addRole(new Zend_Acl_Role(Tools_Security_Acl::ROLE_USER), Tools_Security_Acl::ROLE_MEMBER);
 		$acl->addRole(new Zend_Acl_Role(Tools_Security_Acl::ROLE_ADMIN));
 		$acl->addRole(new Zend_Acl_Role(Tools_Security_Acl::ROLE_SUPERADMIN));
-		$acl->addRole(new Zend_Acl_Role(Tools_Security_Acl::ROLE_SYSTEM));
 
 		//resources
 		$acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_CONTENT));

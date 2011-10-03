@@ -18,7 +18,10 @@ class Tools_Seo_Tools {
 			return $pageContent;
 		}
 		$hrefs           = array_combine($links[0], $links[1]);
-		$siloedPagesUrls = array_map(array('self', '_callbackUrls'), $silo->getRelatedPages());
+		$siloedPagesUrls = array_merge(array(
+			self::$_websiteHelper->getUrl() . 'index.html',
+			self::$_websiteHelper->getUrl() . 'index.htm',
+		), array_map(array('self', '_callbackUrls'), $silo->getRelatedPages()));
 		foreach ($hrefs as $key => $href) {
 			if(in_array($href, $siloedPagesUrls)) {
 				unset($hrefs[$key]);

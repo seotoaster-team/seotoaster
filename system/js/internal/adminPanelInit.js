@@ -9,7 +9,7 @@ $(function() {
 		$('#cpanelul').hide();
 		$('#logoutul').hide()
 		$('#seotoaster-logowrap').hide()
-		$('#showhide > a').text('Expand menu');
+		$('#showhide > a').text('Expand menu').addClass('rounded-bottom');
 	}
 
 
@@ -22,7 +22,7 @@ $(function() {
 
 	$('#showhide > a').click(function() {
 		$.cookie('hideAdminPanel', ($.cookie('hideAdminPanel') == 1) ? 0 : 1);
-		$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Expand menu' : 'Collapse menu');
+		$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Expand menu' : 'Collapse menu').toggleClass('rounded-bottom');
 		$('#cpanelul').slideToggle();
 		$('#logoutul').toggle();
 		$('#seotoaster-logowrap').slideToggle();

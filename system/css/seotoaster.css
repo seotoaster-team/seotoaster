@@ -286,6 +286,12 @@ body, body.seotoaster {
 }
 .seotoaster #groups div img { margin-top:2px; }
 /*========= side Control Panel ===========*/
+.seotoaster .rounded-bottom {
+	border-radius: 0px 0px 8px 8px;
+	-moz-border-radius: 0px 0px 8px 8px;
+	-webkit-border-radius: 0px 0px 8px 8px;
+}
+
 .seotoaster#seotoaster-cpanel {
 	background:#fff;
 	position:absolute;
