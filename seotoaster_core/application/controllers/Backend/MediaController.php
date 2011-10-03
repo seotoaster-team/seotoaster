@@ -55,8 +55,8 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$folderName = filter_var($this->getRequest()->getParam('folder'), FILTER_SANITIZE_STRING);
 			$folderPath = realpath($this->_websiteConfig['path'].$this->_websiteConfig['media'] . $folderName);
 			//retrieve content for given folder
-			if (!$folderName) {
-				$this->view->error = 'No folder specified';
+			if (!$folderName || $folderPath === false) {
+				$this->view->error = 'Wrong folder specified';
 				return false;
 			}
 			$this->view->imageList = array();
