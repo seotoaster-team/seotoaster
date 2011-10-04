@@ -80,8 +80,10 @@ class IndexController extends Zend_Controller_Action {
 			$this->_helper->redirector->gotoUrl($this->_helper->website->getUrl());
 		}
 
-		//sculpting check
-		$pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
+		if(!$newsContext) {
+			//sculpting check
+			$pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
+		}
 
 		// Finilize page generation routine
 		$this->_complete($pageContent, $page->toArray());
@@ -92,7 +94,7 @@ class IndexController extends Zend_Controller_Action {
 		$head = '';
 		$body = '';
 		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
-		preg_match('~<body.*>(.*)</body>~usUi', $pageContent, $body);
+		preg_match('~(<body.*>)(.*)</body>~usUi', $pageContent, $body);
 		$this->view->head            = $head[1];
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
@@ -103,7 +105,8 @@ class IndexController extends Zend_Controller_Action {
 			$body[1] = $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId()) . $body[1];
 		}
 		$this->view->pageData = $pageData;
-		$this->view->content  = $body[1];
+		$this->view->bodyTag  = $body[1];
+		$this->view->content  = $body[2];
 	}
 
 	private function _pageRunkSculptingDemand($page, $pageContent) {
