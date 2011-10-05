@@ -53,7 +53,6 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		}
 	}
 
-
 	public function do301Redirect($pageUrl) {
 		$redirectMap = array();
 		$this->_redirector->setCode(301);
@@ -72,6 +71,10 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
 	public function clean($pageUrl) {
 		return preg_replace('/\.html$/', '', $pageUrl);
+	}
+
+	public function getCanonicMap() {
+		return $this->_canonicMap;
 	}
 
 }

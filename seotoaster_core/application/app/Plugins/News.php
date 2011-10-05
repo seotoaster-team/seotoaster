@@ -18,7 +18,8 @@ class Plugins_News extends Zend_Controller_Plugin_Abstract {
 				new Zend_Controller_Router_Route($newsFolder . '/:page', array(
 					'controller' => 'news',
 					'action'     => 'index',
-					'context'    => 'news'
+					'context'    => 'news',
+					'page'       => 'index.html'
 				))
 			);
 		}

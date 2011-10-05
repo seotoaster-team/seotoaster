@@ -7,11 +7,14 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
 			<ul>
-				<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), 'id/' . $this->pageData['id']); ?></li>
-				<?php if($this->websiteMainPage != $this->pageData['url']): ?>
-					<li><a href="javascript:;" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
-					<input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />
+				<!-- This block will be hidden on news pages -->
+				<?php if($this->newsPage !== true): ?>
+					<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
+					<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), 'id/' . $this->pageData['id']); ?></li>
+					<?php if($this->websiteMainPage != $this->pageData['url']): ?>
+						<li><a href="javascript:;" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
+						<input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />
+					<?php endif; ?>
 				<?php endif; ?>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Other pages'); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page')); ?></li>
