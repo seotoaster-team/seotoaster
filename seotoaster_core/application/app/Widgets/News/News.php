@@ -52,6 +52,9 @@ class Widgets_News_News extends Widgets_Abstract {
 		}
 		else {
 			$newsList = $newsCatMapper->fetchAll();
+			if(!$newsList || empty ($newsList)) {
+				return $this->_translator->translate('You don\'t have news yet.');
+			}
 			//fetching news pages without category
 			//making facke category 'General'
 			$generalCat     = new Application_Model_Models_NewsCategory();
