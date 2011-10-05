@@ -22,6 +22,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_404PAGE          = 'is_404page';
 
+	const CONTEXT_NEWS         = 'news';
+
 	protected $_templateId       = '';
 
 	protected $_parentId         = 0;
@@ -258,7 +260,9 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setDraft($draft) {
 		$this->_draft  = $draft;
-		$this->_system = $draft;
+		if($draft) {
+			$this->_system = $draft;
+		}
 		return $this;
 	}
 
@@ -277,6 +281,9 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setNews($news) {
 		$this->_news = $news;
+		if($news) {
+			$this->_system = $news;
+		}
 		return $this;
 	}
 

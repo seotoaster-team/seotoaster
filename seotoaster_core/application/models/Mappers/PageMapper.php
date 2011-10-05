@@ -138,13 +138,14 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $pairs;
 	}
 
-	protected function _findWhere($where) {
+	protected function _findWhere($where, $fetchSysPages = false) {
+		$sysWhere  = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+		$where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
 		$row    = $this->getDbTable()->fetchAll($where)->current();
 		if(null === $row) {
 			return null;
 		}
 		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
-
 		$row = $row->toArray();
 		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
 		unset($rowTemplate);

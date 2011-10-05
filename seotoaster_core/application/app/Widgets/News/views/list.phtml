@@ -1,0 +1,19 @@
+<?php if(!empty($this->newsList)): ?>
+	<?php foreach($this->newsList as $newsCategory): ?>
+		<h2><?php echo ucfirst($newsCategory->getName()); ?></h2>
+		<?php
+			$newsPages = $newsCategory->getNewsItems();
+			if(!empty ($newsPages)):
+				foreach ($newsPages as $newsPage):
+		?>
+			<h3><a href="<?php echo $this->websiteUrl . $this->newsFolder . '/' . $newsPage->getUrl(); ?>"><?php echo $newsPage->getHeaderTitle(); ?></a></h3>
+			<div class="news-intro">
+				<?php echo $newsPage->getTeaserText(); ?>
+			</div>
+		<?php
+				endforeach;
+			endif;
+
+		?>
+	<?php endforeach; ?>
+<?php endif; ?>

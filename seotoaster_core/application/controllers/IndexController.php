@@ -11,6 +11,10 @@ class IndexController extends Zend_Controller_Action {
 		$pageContent = null;
 		$currentUser = $this->_helper->session->getCurrentUser();
 
+		// If page was queried as news page (in news context)
+		$newsContext = $this->getRequest()->getParam('context', null);
+		$newsContext = ($newsContext && $newsContext == Application_Model_Models_Page::CONTEXT_NEWS) ? true : false;
+
 		// Geting requested url
 		$pageUrl     = $this->getRequest()->getParam('page');
 
@@ -25,10 +29,13 @@ class IndexController extends Zend_Controller_Action {
 
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
-		if(null === ($page = $this->_helper->cache->load($pageUrl, 'pagedata_'))) {
-			$page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+		$pageCacheKey = (($newsContext) ? $pageUrl . 'newspage' : $pageUrl);
+		if(null === ($page = $this->_helper->cache->load($pageCacheKey, 'pagedata_'))) {
+			// Depends on what kind page it is (news or regular) get a needed mapper
+			$mapper = ($newsContext) ? Application_Model_Mappers_NewsMapper::getInstance() : Application_Model_Mappers_PageMapper::getInstance();
+			$page   = $mapper->findByUrl($pageUrl);
 			if(null !== $page) {
-				$this->_helper->cache->save($pageUrl, $page, 'pagedata_');
+				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_');
 			}
 		}
 
@@ -86,11 +93,11 @@ class IndexController extends Zend_Controller_Action {
 		}
 
 		// Finilize page generation routine
-		$this->_complete($pageContent, $page->toArray());
+		$this->_complete($pageContent, $page->toArray(), $newsContext);
 	}
 
 
-	private function _complete($pageContent, $pageData) {
+	private function _complete($pageContent, $pageData, $newsPage = false) {
 		$head = '';
 		$body = '';
 		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
@@ -98,11 +105,12 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->head            = $head[1];
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
-		$this->view->currentTheme = $this->_helper->config->getConfig('currentTheme');
+		$this->view->currentTheme    = $this->_helper->config->getConfig('currentTheme');
+		$this->view->newsPage        = $newsPage;
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
 			$this->view->pageData = $pageData;
-			$body[1] = $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId()) . $body[1];
+			$body[1] .= $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId());
 		}
 		$this->view->pageData = $pageData;
 		$this->view->bodyTag  = $body[1];
