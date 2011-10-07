@@ -6,8 +6,6 @@
  */
 class Widgets_Header_Header extends Widgets_AbstractContent {
 
-	private $_acl = null;
-
 	protected function  _init() {
 		parent::_init();
 		$this->_acl = Zend_Registry::get('acl');

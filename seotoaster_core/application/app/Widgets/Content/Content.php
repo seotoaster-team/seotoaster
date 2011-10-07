@@ -2,16 +2,6 @@
 
 class Widgets_Content_Content extends Widgets_AbstractContent {
 
-	private $_acl     = null;
-
-	private $_type    = null;
-
-	private $_pageId  = null;
-
-	private $_name    = null;
-
-	private $_content = null;
-
 	protected function  _init() {
 		parent::_init();
 		$this->_name    = $this->_options[0];
