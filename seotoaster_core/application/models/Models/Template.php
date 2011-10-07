@@ -2,21 +2,31 @@
 
 class Application_Model_Models_Template extends Application_Model_Models_Abstract {
 
-	const ID_DEFAULT  = 'default';
+	const ID_DEFAULT   = 'default';
 
-	const ID_INDEX    = 'index';
+	const ID_INDEX     = 'index';
 
-	const ID_CATEGORY = 'category';
+	const ID_CATEGORY  = 'category';
 
-	const ID_NEWS     = 'news';
+	const ID_NEWS      = 'news';
 
-	const ID_PRODUCT  = 'product';
+	const ID_PRODUCT   = 'product';
+
+	const TYPE_REGULAR = 'regular';
+
+	const TYPE_PRODUCT = 'product';
+
+	const TYPE_LISTING = 'listing';
+
+	const TYPE_MAIL    = 'mail';
 
 	protected $_name         = '';
 
 	protected $_content      = '';
 
 	protected $_previewImage = '';
+
+	protected $_type         = self::TYPE_REGULAR;
 
 	public function getName() {
 		return $this->_name;
@@ -43,6 +53,35 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	public function getPreviewImage() {
 		return $this->_previewImage;
+	}
+
+	public function getType() {
+		return $this->_type;
+	}
+
+	/**
+	 * Set template type.
+	 * Use constants of the Application_Model_Models_Template for valid types
+	 *
+	 * @param string $type can be regular | product | listing | mail
+	 * @return Application_Model_Models_Template
+	 */
+	public function setType($type) {
+		$this->_type = $this->_validateType($type);
+		return $this;
+	}
+
+	private function _validateType($type) {
+		$validTypes = array(
+			self::TYPE_REGULAR,
+			self::TYPE_PRODUCT,
+			self::TYPE_LISTING,
+			self::TYPE_MAIL
+		);
+		if(!in_array($type, $validTypes)) {
+			throw new Exceptions_SeotoasterTemplateException('Wrong template type.');
+		}
+		return $type;
 	}
 }
 
