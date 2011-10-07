@@ -45,7 +45,7 @@ $(function() {
 		var delPage    = document.createElement('div');
 		var pageId     = $('#del-page-id').val();
 		var websiteUrl = $('#website_url').val();
-		$(delPage).html('<h2>Are you sure you want to delete this page?</h2><br/> This operation will delete all data asosiated with this page, such as: containers, 301 redirects, etc...');
+		$(delPage).html('<h2>Are you sure you want to delete this page?</h2><br/> This operation will delete all data asosiated with this page, such as: containers, 301 redirects, deeplinks. Page also will be removed from all featured areas.');
 		$(delPage).dialog({
 			modal: true,
 			title: 'Delete this page',
