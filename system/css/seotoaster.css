@@ -589,12 +589,14 @@ body, body.seotoaster {
     overflow: visible;
 }
 .seotoaster div.largebutton{
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
+	-moz-border-radius:30px;
+	-webkit-border-radius:30px;
+	border-radius:30px;
 /*	background-color:#690;*/
 	background: #21759B;
 	text-align:center;
+	font-size: 18px;
+	text-shadow: 2px 2px 4px #333333;
 }
 .seotoaster div.largebutton:hover{
 /*	background-color:#6C3;*/

@@ -6,35 +6,37 @@
 	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
 		<div class="grid_8">
-			<div class="w300">
+			<div class="grid_6">
 				<?php echo $this->templateForm->getElement('name'); ?>
 			</div>
-			<div class="clear mt5px"></div>
-			<?php echo $this->templateForm->getElement('content'); ?>
+			<div class="grid_6">
+				<?php echo $this->templateForm->getElement('templateType'); ?>
+			</div>
+			<div class="grid_12">
+				<?php echo $this->templateForm->getElement('content'); ?>
+			</div>
 		</div>
-
 		<div class="grid_4 h550">
 			<div class="largebutton">
-			<?php
-			echo $this->ajaxLink(
-				$this->translate('Select another template to edit'),
-				$this->websiteUrl . 'backend/backend_theme/gettemplate/',
-				array(
-					'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');"
-				),
-				array('listtemplates' => 'all')
-				); ?>
+				<?php
+				echo $this->ajaxLink(
+					$this->translate('Select another template to edit'),
+					$this->websiteUrl . 'backend/backend_theme/gettemplate/',
+					array(
+						'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');"
+					),
+					array('listtemplates' => 'all')
+					); ?>
 			</div>
 			<div class="mt20px textcentered h350 img-teaser">
-
-			<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
-
+				<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 			</div>
 		</div>
-			<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
-		<div class="grid_4 textcentered  mt15px"><?php echo $this->templateForm->getElement('submit'); ?></div>
+		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
+		<div class="grid_4 textcentered  mt15px">
+			<?php echo $this->templateForm->getElement('submit'); ?>
+		</div>
 	</form>
-	<div class="grid_12 clear"></div>
 	<div>
 		<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
 		<?php
