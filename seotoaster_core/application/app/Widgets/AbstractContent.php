@@ -1,6 +1,16 @@
 <?php
 abstract class Widgets_AbstractContent extends Widgets_Abstract {
 
+	protected $_acl     = null;
+
+	protected $_type    = null;
+
+	protected $_pageId  = null;
+
+	protected $_name    = null;
+
+	protected $_content = null;
+
 	protected function _addAdminLink($containerType, $containerId = null, $title = '', $width = 0, $height = 0) {
 		$adminIconName = '';
 		switch ($containerType) {
