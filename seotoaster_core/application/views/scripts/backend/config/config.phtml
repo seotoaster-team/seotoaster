@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tabs').tabs();
-		
+
 		<?php if (count($this->messages)) : ?>
 		$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
 		<?php endif; ?>
@@ -18,7 +18,7 @@
 				<?php if ($this->isSuperAdmin): ?>
 				<li><a href="#security-config"><?php echo $this->translate('Security'); ?></a></li>
 				<?php endif; ?>
-			</ul>	
+			</ul>
 			<div id="general-config" class="clearfix">
 				<div class="grid_6">
 				<?php echo $this->configForm->getElement('language')->renderLabel(); ?>
@@ -26,7 +26,7 @@
 				<div class="grid_6">
 				<?php echo $this->configForm->getElement('language')->renderViewHelper(); ?>
 				</div>
-				
+
 				<div class="grid_6">
 				<?php echo $this->configForm->getElement('currentTheme')->renderLabel(); ?>
 				</div>
@@ -52,7 +52,13 @@
 				<div class="grid_6">
 				<?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?>
 				</div>
-				
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('teaserSize')->renderLabel(); ?>
+				</div>
+				<div class="grid_6">
+				<?php echo $this->configForm->getElement('teaserSize')->renderViewHelper(); ?>
+				</div>
+
 				<?php echo $this->configForm->getElement('adminEmail');?>
 				<?php echo $this->configForm->getElement('superadminLogin');?>
 				<?php echo $this->configForm->getElement('superadminPassword');?>
@@ -73,7 +79,7 @@
 			<?php if ($this->isSuperAdmin): ?>
 			<div id="security-config" class="clearfix">
 				<?php echo $this->configForm->getElement('suLogin'); ?>
-				<?php echo $this->configForm->getElement('suPassword'); ?>				
+				<?php echo $this->configForm->getElement('suPassword'); ?>
 			</div>
 			<?php endif; ?>
 		</div>

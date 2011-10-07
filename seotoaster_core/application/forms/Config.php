@@ -6,12 +6,13 @@
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
 class Application_Form_Config extends Zend_Form {
-	private $_name = 'configForm'; 
+	private $_name = 'configForm';
 
 	protected $_currentTheme;
 	protected $_imgSmall;
 	protected $_imgMedium;
 	protected $_imgLarge;
+	protected $_teaserSize = '';
 	protected $_adminEmail;
 	protected $_useSmtp;
 	protected $_smtpHost;
@@ -20,8 +21,8 @@ class Application_Form_Config extends Zend_Form {
 	protected $_language;
 	protected $_suLogin;
 	protected $_suPassword;
-	
-		
+
+
 	public function getCurrentTheme() {
 		return $this->_currentTheme;
 	}
@@ -130,7 +131,17 @@ class Application_Form_Config extends Zend_Form {
 		$this->getElement('suPassword')->setValue($this->_suPassword);
 	}
 
-		
+	public function getTeaserSize() {
+		return $this->_teaserSize;
+	}
+
+	public function setTeaserSize($teaserSize) {
+		$this->_teaserSize = $teaserSize;
+		$this->getElement('teaserSize')->setValue($this->_teaserSize);
+		return $this;
+	}
+
+
 	public function init() {
 		$this->setName($this->_name)
 			->setMethod(Zend_FORM::METHOD_POST)
@@ -150,13 +161,13 @@ class Application_Form_Config extends Zend_Form {
 			'label'		=> 'Current Theme',
 			'readonly'	=> true
 		));
-		
+
 		$this->addElement('text', 'adminEmail', array(
 			'value'	=> $this->_adminEmail,
 			'label' => 'Admin Email',
 			'validators' => array(new Zend_Validate_EmailAddress())
 		));
-		
+
 		$this->addElement('text', 'imgSmall', array(
 			'value' => $this->_imgSmall,
 			'label' => 'Small Image Size',
@@ -172,7 +183,13 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Large Image Size',
 			'validators' => array(new Zend_Validate_Int())
 		));
-		
+
+		$this->addElement('text', 'teaserSize', array(
+			'value' => $this->_teaserSize,
+			'label' => 'Page teaser image size',
+			'validators' => array(new Zend_Validate_Int())
+		));
+
 		$this->addElement('checkbox', 'useSmtp', array(
 			'value' => $this->_useSmtp,
 			'label' => 'Use SMTP?'
@@ -189,34 +206,34 @@ class Application_Form_Config extends Zend_Form {
 			'value' => $this->_smtpPassword,
 			'label' => 'SMTP Password'
 		));
-		
+
 		$this->addElement('select', 'language', array(
 			'value' => $this->_language,
 			'label' => 'Website language'
 //			'ignore' => true
 		));
-		
+
 		$this->addElement('text', 'suLogin', array(
 			'value' => $this->_suLogin,
 			'label' => 'Login',
-			'validators' => array(new Zend_Validate_EmailAddress()),			
+			'validators' => array(new Zend_Validate_EmailAddress()),
 			'ignore' => true
 		));
-		
+
 		$this->addElement('password', 'suPassword', array(
 			'value' => $this->_suPassword,
 			'label' => 'Password',
 			'validators' => array(array('StringLength', true, array(4))),
 			'ignore' => true
 		));
-		
+
 		$this->addElement('submit', 'submit', array(
 			'label' => 'Done'
 		));
-		
-		
+
+
 	}
-	
+
 	public function proccessErrors() {
 		$errors = $this->getErrors();
 		$isAnyErrors = false;
@@ -226,7 +243,7 @@ class Application_Form_Config extends Zend_Form {
 				$isAnyErrors = true;
 			}
 		}
-		
+
 		return $isAnyErrors;
 	}
 

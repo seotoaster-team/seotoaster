@@ -347,8 +347,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 	}
 
 	private function _uploadPagepreview() {
-		$miscConfig = Zend_Registry::get('misc');
-		$config = Zend_Registry::get('extConfig');
+		$miscConfig       = Zend_Registry::get('misc');
+		$configTeaserSize = $this->_helper->config->getConfig('teaserSize');
 
 		$savePath = $this->_websiteConfig['path'].$this->_websiteConfig['tmp'];
 
@@ -378,7 +378,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$result = $this->_uploadImages($savePath, false);
 
 		if ($result['error'] == false) {
-			Tools_Image_Tools::resize($newImageFile, (isset($config['pageTeaserSize']) ? $config['pageTeaserSize'] : $miscConfig['pageTeaserSize']), true);
+			Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
 			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
 		}
 
