@@ -17,7 +17,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 
 	protected function  _load() {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
-			throw new Exceptions_SeotoasterException('You should specify folder.');
+			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify folder.'));
 		}
 
 		$path       = $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia() . $this->_options[0] . '/';

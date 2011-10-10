@@ -21,7 +21,7 @@
 	$(function() {
 		loadFolders();
 		$('#gal-done').click(function() {
-			widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
+			var widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
 		})
 	})

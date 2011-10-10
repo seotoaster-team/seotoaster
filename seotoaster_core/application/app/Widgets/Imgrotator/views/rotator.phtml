@@ -1,0 +1,35 @@
+<div id="<?php echo $this->uniq; ?>" class="rotator">
+	<?php if(!empty($this->files)): ?>
+
+		<?php foreach($this->files as $image): ?>
+			<?php $size = getimagesize('media/' . $this->folder .  $image); ?>
+			<img src="<?php echo 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" width="<?php echo $this->sliderWidth; ?>" height="<?php echo $this->sliderHeight; ?>" />
+		<?php endforeach; ?>
+
+	<?php endif; ?>
+</div>
+<?php echo $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle.js'); ?>
+
+<script type="text/javascript">
+	$(function() {
+		$('#<?php echo $this->uniq; ?>').cycle({
+			fx    : '<?php echo $this->effect; ?>',
+			speed : <?php echo $this->swapTime * 1000; ?>
+		});
+	})
+</script>
+
+<style type="text/css">
+	<?php echo $this->uniq; ?>.rotator {
+		height:  <?php echo $this->sliderHeight;?>px;
+		width:   <?php echo $this->sliderWidth;?>px;
+		padding: 0;
+		margin:  0;
+		overflow: hidden;
+	}
+
+	<?php echo $this->uniq; ?>.rotator img {
+		height:  <?php echo $this->sliderHeight;?>px;
+		width:   <?php echo $this->sliderWidth;?>px;
+	}
+</style>
