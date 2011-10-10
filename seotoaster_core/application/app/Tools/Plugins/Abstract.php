@@ -69,6 +69,8 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 */
 	protected $_redirector      = null;
 
+	protected $_translator      = null;
+
 	/**
 	 * Parameters that has been passed to the plugin
 	 *
@@ -86,6 +88,7 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_session          = Zend_Registry::get('session');
 		$this->_view             = new Zend_View();
 		$this->_view->websiteUrl = $this->_websiteUrl;
+		$this->_translator       = Zend_Registry::get('Zend_Translate');
 	}
 
 	public function run($requestedParams = array()) {

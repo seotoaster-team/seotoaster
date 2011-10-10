@@ -43,6 +43,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 		}
 		$this->view->published      = true;
 		$this->view->publishingDate = '';
+		if($this->_containerType == Application_Model_Models_Container::TYPE_REGULARCONTENT || $this->_containerType == Application_Model_Models_Container::TYPE_STATICCONTENT) {
+			$this->view->pluginsTabs = $this->_loadPluginsTabs();
+		}
 		echo $this->_renderCorrectView();
 	}
 
@@ -61,11 +64,23 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 			$this->view->published      = $container->getPublished();
 			$this->view->publishingDate = $container->getPublishingDate();
+
+			if($container->getContainerType() == Application_Model_Models_Container::TYPE_REGULARCONTENT || $container->getContainerType() == Application_Model_Models_Container::TYPE_STATICCONTENT) {
+				$this->view->pluginsTabs = $this->_loadPluginsTabs();
+			}
 		}
 		else {
 			$this->_processContent();
 		}
 		echo $this->_renderCorrectView();
+	}
+
+	private function _loadPluginsTabs() {
+		if(!($pluginsTabsData = $this->_helper->cache->load(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS))) {
+			$pluginsTabsData = Tools_Plugins_Tools::getPluginTabContent();
+			$this->_helper->cache->save(Helpers_Action_Cache::KEY_PLUGINTABS, $pluginsTabsData, Helpers_Action_Cache::PREFIX_PLUGINTABS, array(), Helpers_Action_Cache::CACHE_LONG);
+		}
+		return $pluginsTabsData;
 	}
 
 	private function _processContent() {
@@ -239,5 +254,6 @@ class Backend_ContentController extends Zend_Controller_Action {
 		}
 		exit;
 	}
+
 }
 

@@ -7,9 +7,13 @@
  */
 class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 
-	const KEY_DRAFT    = 'seotoasterDraftPages';
+	const KEY_DRAFT         = 'seotoasterDraftPages';
 
-	const PREFIX_DRAFT = 'draft_';
+	const PREFIX_DRAFT      = 'draft_';
+
+	const KEY_PLUGINTABS    = 'pluginsExtraTabs';
+
+	const PREFIX_PLUGINTABS = 'plugtabs_';
 
 	const CACHE_FLASH = '300';
 

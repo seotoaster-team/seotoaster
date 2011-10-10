@@ -72,6 +72,10 @@ class Tools_Plugins_Tools {
 		return self::_getData('getWidgetMakerContent');
 	}
 
+	public static function getPluginTabContent() {
+		return self::_getData('getTabContent');
+	}
+
 	private static function _getData($method) {
 		$pluginsData = array();
 		$enabledPlugins = self::getEnabledPlugins();

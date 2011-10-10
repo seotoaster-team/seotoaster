@@ -115,7 +115,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	public function find404Page() {
 		$where  = $this->getDbTable()->getAdapter()->quoteInto('is_404page = ?', '1');
-		return $this->_findWhere($where);
+		return $this->_findWhere($where, true);
 	}
 
 	public function delete(Application_Model_Models_Page $page) {
