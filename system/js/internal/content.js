@@ -124,7 +124,7 @@ function insertFileLink(fileName) {
 function pubunpub() {
 	var chckbxPublished = $('#published');
 	var dpkr            = $('#dpkr');
-	var published = (chckbxPublished.attr('checked')) ? true : false;
+	var published       = chckbxPublished.prop('checked');
 	dpkr.attr('disabled', published);
 	if(published) {
 		dpkr.val('');
