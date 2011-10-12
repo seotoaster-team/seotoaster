@@ -29,9 +29,12 @@ class Tools_Deeplink_GarbageCollector extends Tools_System_GarbageCollector {
 				$container->registerObserver(new Tools_Content_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 				)));
-				$deeplinkRemovalPattern = '~<a\s+(title=".+")*\s*href="' . $item['link'] . '"\s*(title=".*")*\s*>' . $this->_object->getName() . '</a>~usU';
-				$containerMapper->save($container->setContent(preg_replace($deeplinkRemovalPattern, $this->_object->getName(), $container->getContent())));
-				$container->notifyObservers();
+				//$deeplinkRemovalPattern = '~<a\s+.*\s+(title=".+")*\s*.*\s+href="' . $item['link'] . '"\s*(title=".*")*\s*>' . $this->_object->getName() . '</a>~usU';
+				$deeplinkRemovalPattern = '~<a(\s+|[^\>]+\s+)href="' . $item['link'] . '"\s*[^\>]*>' . $this->_object->getName() . '</a>~usU';
+				if(preg_match($deeplinkRemovalPattern, $container->getContent(), $matches)) {
+					$containerMapper->save($container->setContent(str_replace($matches[0], $this->_object->getName(), $container->getContent())));
+					$container->notifyObservers();
+				}
 			}
 		}
 	}

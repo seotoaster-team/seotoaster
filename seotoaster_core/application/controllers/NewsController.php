@@ -7,8 +7,6 @@
  */
 class NewsController extends Zend_Controller_Action {
 
-
-
     public function indexAction() {
 		if(in_array($this->getRequest()->getParam('page'), $this->_helper->page->getCanonicMap())) {
 			$this->_forward('list');
@@ -17,7 +15,6 @@ class NewsController extends Zend_Controller_Action {
 			$this->_forward('index', 'index');
 		}
     }
-
 
     public function listAction() {
 		$mapper        = Application_Model_Mappers_TemplateMapper::getInstance();
@@ -38,7 +35,6 @@ class NewsController extends Zend_Controller_Action {
 		$this->_complete($parser->parse(), $newsIndexPage->toArray(), true);
 	}
 
-
 	private function _complete($pageContent, $pageData, $newsPage = false) {
 		$head = '';
 		$body = '';
@@ -58,9 +54,5 @@ class NewsController extends Zend_Controller_Action {
 		$this->view->bodyTag  = $body[1];
 		$this->view->content  = $body[2];
 	}
-
-    public function viewAction() {
-
-    }
 }
 

@@ -15,7 +15,7 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 
 	const DEFAULT_SLIDER_WIDTH  = '250';
 
-	const DEFAULT_SLIDER_HEIGHT = '250';
+	const DEFAULT_SLIDER_HEIGHT = 'auto';
 
 	const DEFAULT_SWAP_EFFECT   = 'fade';
 

@@ -48,6 +48,12 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
 	public function doCanonicalRedirect($pageUrl) {
 		$this->_redirector->setCode(301);
+
+		$websiteData = Zend_Registry::get('website');
+		if($_SERVER['HTTP_HOST'] != rtrim($websiteData['url'], '/')) {
+			$this->_redirector->gotoUrl($this->_website->getUrl() . $pageUrl);
+		}
+
 		if(in_array($pageUrl, $this->_canonicMap)) {
 			$this->_redirector->gotoUrl($this->_website->getUrl());
 		}

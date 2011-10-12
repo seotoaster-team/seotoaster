@@ -53,14 +53,15 @@ cache.frontend.ignore_user_abort       = 1
 cache.backend.cache_dir                = "cache/"
 
 [misc]
-misc.jquery      = "local"
-misc.jqversion   = "1.5"
-misc.jqueryui    = "local"
-misc.jquversion  = "1.8"
-misc.pluginsPath = "plugins/"
-misc.imgProduct	= 80
-misc.imgQuality	= 90
-misc.imgMaxWidth	= 2048
-misc.templatePreviewWidth = 180
+misc.jquery                = "cdn"
+misc.jqversion             = "1.6.4"
+misc.jqueryui              = "cdn"
+misc.jquversion            = "1.8.16"
+misc.pluginsPath           = "plugins/"
+misc.imgProduct	           = 80
+misc.imgQuality	           = 90
+misc.imgMaxWidth	       = 2048
+misc.templatePreviewWidth  = 180
 misc.templatePreviewHeight = 220
-misc.pageTeaserSize = 200
+misc.pageTeaserSize        = 200
+misc.pageTeaserCropSize    = 200
