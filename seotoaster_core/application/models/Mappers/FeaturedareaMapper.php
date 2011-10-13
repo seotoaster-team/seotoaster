@@ -121,15 +121,19 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		return $faPages;
 	}
 
-	public function findAreasByPageId($pageId) {
+	public function findAreasByPageId($pageId, $loadPages = false) {
 		$pageDbTable = new Application_Model_DbTable_Page();
 		$pageRow     = $pageDbTable->find($pageId)->current();
 		$areasRowset = $pageRow->findManyToManyRowset('Application_Model_DbTable_Featuredarea', 'Application_Model_DbTable_PageFeaturedarea');
-		$areasRowset = $areasRowset->toArray();
+		//$areasRowset = $areasRowset->toArray();
 		$areas       = array();
-		if(!empty ($areasRowset)) {
+		if($areasRowset) {
 			foreach ($areasRowset as $row) {
-				$areas[] = new $this->_model($row);
+				$farea =  new $this->_model($row->toArray());
+				if($loadPages) {
+					$farea->setPages($this->_findFarowPages($row));
+				}
+				$areas[] = $farea;
 			}
 		}
 		return $areas;

@@ -7,7 +7,13 @@
  */
 class Tools_Seo_Watchdog implements Interfaces_Observer {
 
-	private $_object = null;
+	private $_options = array();
+
+	private $_object  = null;
+
+	public function __construct($options = array()) {
+		$this->_options = $options;
+	}
 
 	public function notify($object) {
 		$this->_object = $object;
@@ -42,7 +48,9 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 	}
 
 	private function _contentUpdateChain() {
-		$this->_updateDeeplinks();
+		if(!isset($this->_options['unwatch']) || $this->_options['unwatch'] != '_updateDeeplinks') {
+			$this->_updateDeeplinks();
+		}
 		$this->_updateLinksTitles();
 	}
 
@@ -156,29 +164,24 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		$deeplinks      = Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll();
 		$deeplinks      = Tools_System_Tools::bobbleSortDeeplinks($deeplinks);
 		if(!empty($deeplinks)) {
-			foreach($deeplinks as $deeplink) {
-				$this->_object->setContent(Tools_Content_Tools::applyDeeplink($deeplink, $this->_object->getContent()));
+			$page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_object->getPageId());
+			if(!$page instanceof Application_Model_Models_Page) {
+				return;
 			}
-			Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_object);
+			foreach($deeplinks as $deeplink) {
+				Tools_Content_Tools::applyDeeplinkPerPage($deeplink, $page);
+			}
+			//Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_object);
 		}
 	}
 
 	private function _massDeeplinkApply() {
-		$containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
-		$containers      = $containerMapper->fetchAll();
-
-		if(!empty ($containers)) {
-			foreach($containers as $container) {
-				$container->setContent(Tools_Content_Tools::applyDeeplink($this->_object, $container->getContent()));
-				$container->registerObserver(new Tools_Seo_Watchdog());
-				$container->registerObserver(new Tools_Content_GarbageCollector(array(
-					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
-				)));
-				$containerMapper->save($container);
-				$container->notifyObservers();
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+		if(!empty ($pages)) {
+			foreach ($pages as $page) {
+				Tools_Content_Tools::applyDeeplinkPerPage($this->_object, $page);
 			}
 		}
 	}
-
 }
 

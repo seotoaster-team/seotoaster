@@ -19,6 +19,8 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 
 	const DEFAULT_SWAP_EFFECT   = 'fade';
 
+	const DEFAULT_PICS_FOLDER   = 'original';
+
 	private $_websiteHelper     = null;
 
 	protected function  _init() {
@@ -35,21 +37,27 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify folder.'));
 		}
 
-		$slideShow         = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
-		$swapTime          = (isset($this->_options[2]) && $this->_options[2]) ? $this->_options[2] : self::DEFAULT_SWAP_TIME;
-		$sliderWidth       = (isset($this->_options[3]) && $this->_options[3]) ? $this->_options[3] : self::DEFAULT_SLIDER_WIDTH;
-		$sliderHeight      = (isset($this->_options[4]) && $this->_options[4]) ? $this->_options[4] : self::DEFAULT_SLIDER_HEIGHT;
-		$this->_view->effect = (isset($this->_options[5]) && $this->_options[5]) ? $this->_options[5] : self::DEFAULT_SWAP_EFFECT;
-
-
-		$fullPathToPics    = $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia() . $this->_options[0] . '/original/';
-		$files             = Tools_Filesystem_Tools::scanDirectory($fullPathToPics, false, false);
+		$imageFolder  = self::DEFAULT_PICS_FOLDER;
+		$sliderWidth  = (isset($this->_options[3]) && $this->_options[3]) ? $this->_options[3] : self::DEFAULT_SLIDER_WIDTH;
+		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+		if($sliderWidth <= $configHelper->getConfig('imgSmall')) {
+			$imageFolder = 'small';
+		}
+		elseif($sliderWidth <= $configHelper->getConfig('imgMedium')) {
+			$imageFolder = 'medium';
+		}
+		elseif($sliderWidth <= $configHelper->getConfig('imgLarge')) {
+			$imageFolder = 'large';
+		}
+		$fullPathToPics    = $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia() . $this->_options[0] . '/' . $imageFolder . '/';
 		$this->_view->uniq         = uniqid('rotator-');
-		$this->_view->files        = $files;
-		$this->_view->sliderWidth  = $sliderWidth;
-		$this->_view->sliderHeight = $sliderHeight;
-		$this->_view->swapTime     = $swapTime;
-		$this->_view->folder       = $this->_options[0] . '/original/';
+		$this->_view->files        = Tools_Filesystem_Tools::scanDirectory($fullPathToPics, false, false);
+		$this->_view->sliderWidth  = (isset($this->_options[3]) && $this->_options[3]) ? $this->_options[3] : self::DEFAULT_SLIDER_WIDTH;
+		$this->_view->sliderHeight = (isset($this->_options[4]) && $this->_options[4]) ? $this->_options[4] : self::DEFAULT_SLIDER_HEIGHT;
+		$this->_view->swapTime     = (isset($this->_options[2]) && $this->_options[2]) ? $this->_options[2] : self::DEFAULT_SWAP_TIME;;
+		$this->_view->slideShow    = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
+		$this->_view->folder       = $this->_options[0] . '/'. $imageFolder . '/';
+		$this->_view->effect       = (isset($this->_options[5]) && $this->_options[5]) ? $this->_options[5] : self::DEFAULT_SWAP_EFFECT;
 		return $this->_view->render('rotator.phtml');
 	}
 
