@@ -2,8 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
-.seotoaster html, .seotoaster body, .seotoaster div, .seotoaster span, .seotoaster applet, .seotoaster object, .seotoaster iframe, .seotoaster h1, .seotoaster h2, .seotoaster h3, .seotoaster h4, .seotoaster h5, .seotoaster h6, .seotoaster p, .seotoaster blockquote, .seotoaster pre, .seotoaster a, .seotoaster abbr, .seotoaster acronym, .seotoaster address, .seotoaster big, .seotoaster cite, .seotoaster code, .seotoaster del, .seotoaster dfn, .seotoaster em, .seotoaster font, .seotoaster img, .seotoaster ins, .seotoaster kbd, .seotoaster q, .seotoaster s, .seotoaster samp, .seotoaster small, .seotoaster strike, .seotoaster strong, .seotoaster sub, .seotoaster sup, .seotoaster tt, .seotoaster var, .seotoaster b, .seotoaster u, .seotoaster i, .seotoaster center, .seotoaster dl, .seotoaster dt, .seotoaster dd, .seotoaster ol, .seotoaster ul, .seotoaster li, .seotoaster fieldset, .seotoaster form, .seotoaster label, .seotoaster legend, .seotoaster table, .seotoaster caption, .seotoaster tbody, .seotoaster tfoot, .seotoaster thead, .seotoaster tr, .seotoaster th, .seotoaster td {
+#seotoaster-cpanel * {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -12,20 +11,29 @@
 	vertical-align: baseline;
 	background: transparent;
 }
-.seotoaster body { line-height: 1; }
-.seotoaster ol, .seotoaster ul { list-style: none; }
-.seotoaster blockquote, .seotoaster q { quotes: none; }
-.seotoaster blockquote:before, .seotoaster blockquote:after, .seotoaster q:before, .seotoaster q:after {
+ html,  body,  div,  span,  applet,  object,  iframe,  h1,  h2,  h3,  h4,  h5,  h6,  p,  blockquote,  pre,  a,  abbr,  acronym,  address,  big,  cite,  code,  del,  dfn,  em,  font,  img,  ins,  kbd,  q,  s,  samp,  small,  strike,  strong,  sub,  sup,  tt,  var,  b,  u,  i,  center,  dl,  dt,  dd,  ol,  ul,  li,  fieldset,  form,  label,  legend,  table,  caption,  tbody,  tfoot,  thead,  tr,  th,  td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ body { line-height: 1; }
+ ol,  ul { list-style: none; }
+ blockquote,  q { quotes: none; }
+ blockquote:before,  blockquote:after,  q:before,  q:after {
 	content: '';
 	content: none;
 }
 /* remember to define focus styles! */
-.seotoaster :focus { outline: 0; }
+ :focus { outline: 0; }
 /* remember to highlight inserts somehow! */
-.seotoaster ins { text-decoration: none; }
-.seotoaster del { text-decoration: line-through; }
+ ins { text-decoration: none; }
+ del { text-decoration: line-through; }
 /* tables still need 'cellspacing="0"' in the markup */
-.seotoaster table {
+ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
@@ -64,27 +72,27 @@
 .h600 { height:600px; }
 .h640 { height:640px; }
 
-.seotoaster .rounded8px,.seotoaster.rounded8px { -moz-border-radius:8px; -webkit-border-radius:8px;border-radius:8px; }
-.seotoaster .totalcentered, .seotoaster.totalcentered {position:absolute; top:50%; left:50%;}
-.seotoaster.textcentered,.seotoaster .textcentered{text-align:center;}
+ .rounded8px,.rounded8px { -moz-border-radius:8px; -webkit-border-radius:8px;border-radius:8px; }
+ .totalcentered, .totalcentered {position:absolute; top:50%; left:50%;}
+.textcentered, .textcentered{text-align:center;}
 
-.seotoaster .padding5px { padding:5px; }
-.seotoaster .padding8px { padding:8px; }
-.seotoaster .padding10px { padding:10px; }
-.seotoaster .mt5px { margin-top:5px; }
-.seotoaster .mt8px { margin-top:8px; }
-.seotoaster .mt10px { margin-top:10px; }
-.seotoaster .mt20px { margin-top:20px; }
-.seotoaster .mt30px { margin-top:30px; }
-.seotoaster .mt-10px { margin-top:-10px; }
-.seotoaster .mb0px { margin-bottom:0px; }
-.seotoaster .mb5px { margin-bottom:5px; }
-.seotoaster .mb8px { margin-bottom:8px; }
-.seotoaster .mb10px { margin-bottom:10px; }
-.seotoaster .mb15px { margin-bottom:15px; }
-.seotoaster .mb20px { margin-bottom:20px; }
-.seotoaster .mb30px { margin-bottom:30px; }
-.seotoaster .mleft0px { margin-left:0px; }
-.seotoaster .mleft10px { margin-left:10px; }
-.seotoaster .mleft20px { margin-left:20px; }/*Margin left*/
-.seotoaster .bottomdashed {border-bottom:2px dashed #fff;}
+ .padding5px { padding:5px; }
+ .padding8px { padding:8px; }
+ .padding10px { padding:10px; }
+ .mt5px { margin-top:5px; }
+ .mt8px { margin-top:8px; }
+ .mt10px { margin-top:10px; }
+ .mt20px { margin-top:20px; }
+ .mt30px { margin-top:30px; }
+ .mt-10px { margin-top:-10px; }
+ .mb0px { margin-bottom:0px; }
+ .mb5px { margin-bottom:5px; }
+ .mb8px { margin-bottom:8px; }
+ .mb10px { margin-bottom:10px; }
+ .mb15px { margin-bottom:15px; }
+ .mb20px { margin-bottom:20px; }
+ .mb30px { margin-bottom:30px; }
+ .mleft0px { margin-left:0px; }
+ .mleft10px { margin-left:10px; }
+ .mleft20px { margin-left:20px; }/*Margin left*/
+ .bottomdashed {border-bottom:2px dashed #fff;}
