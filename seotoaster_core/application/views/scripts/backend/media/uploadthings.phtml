@@ -1,3 +1,4 @@
+<script>
 <?php $this->jQuery()->onLoadCaptureStart();?>
 $('#things-new-folder')
 	.focus(function(){
@@ -11,43 +12,34 @@ $('#things-new-folder')
 		}
 	})
 <?php $this->jQuery()->onLoadCaptureEnd();?>
-<style type="text/css">
-	.plupload {
-		cursor: pointer;
-	}
-</style>
+</script>
+
 <div class="seotoaster container_12 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
-	<div class="grid_12 h350">
-		<h2 class="ui-helper-reset">
+	<div class="grid_12">
+		<h1 class="ui-helper-reset" style="text-align:center;">
 			<?php echo $this->translate('Upload your files here');?>
-		</h2>
-		<div class="clear"> </div>
-		<div class="grid_7 clearfix">
+		</h1>
+		<div class="clear"><hr /></div>
+		<div class="grid_6 prefix_6 clearfix h150" style="background:url(<?php echo $this->websiteUrl; ?>/system/images/img-resize-demo.jpg) no-repeat;">
 		<?php echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site.'); ?>
 		</div>
-		<div class="grid_5">
-			<img src="http://placehold.it/220x100&text=some image" />
-		</div>
+<!--		<div class="grid_6">
+			<img src="<?php echo $this->websiteUrl; ?>/system/images/img-resize-demo.jpg" alt="<?php echo $this->translate('Image resize demo');?>" />
+		</div>-->
+		<div class="grid_12"><hr /></div>
 		<div class="grid_6"><?php echo $this->translate('All uploaded [files] will be displayed as "links" in your websites for people to "Download" them.');?></div>
 		<div class="grid_6"><?php echo $this->translate('Ex.Please download our price list here:Price list.pdf'); ?></div>
-		<div class="clearfix"> </div>
+		<div class="grid_12"><hr /></div>
 		<div class="grid_5">
-			<div class="padding8px">
 			<?php echo $this->formSelect('things-select-folder', null, null, $this->listFolders); ?>
-			</div>
 		</div>
-		<div class="grid_2"><h2 class="padding8px"><?php echo $this->translate('OR'); ?></h2></div>
+		<div class="grid_2" style="line-height:42px; text-align:center;"><?php echo $this->translate('OR'); ?></div>
 		<div class="grid_5">
-			<div class="padding8px">
 			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
-			</div>
 		</div>
 
-		<div id="media-toaster-uploader-filelist" class="grid_8 h200" style="overflow-y: auto"><?php echo $this->translate('Upload progress will appear here.');?>
-		</div>
-
-		<div class="grid_4">
+		<div class="grid_8 prefix_2 suffix_2 mt5px">
 			<?php
 				$thingsUploader = $this->toasterUploader(
 					array(
@@ -57,6 +49,9 @@ $('#things-new-folder')
 					));
 				echo $thingsUploader;
 			?>
+		</div>
+		<div id="media-toaster-uploader-filelist" class="grid_10 prefix_1 suffix_1 h200 mt10px ui-widget-content" style="overflow-y: auto">
+		<?php echo $this->translate('Upload progress will appear here.');?>	
 		</div>
 	</div>
 

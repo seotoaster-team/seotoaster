@@ -22,8 +22,18 @@ $(function() {
 			deleteTemplate($(this).closest('div.template_item'));
 		}
 		return false;
-	})
-})
+	});
+	
+	$('#listtemplates-btn').button().click(function(){
+		$.post(
+			$('#website_url').val()+'backend/backend_theme/gettemplate/', 
+			{'listtemplates':'all'}, 
+			function(html){
+				$('#templatelist').html(html).slideDown().css('overflow-y', 'auto');
+			},
+			'html');
+	});
+});
 
 function saveTemplate() {
 	var ajaxMsg = $('#ajax_msg');

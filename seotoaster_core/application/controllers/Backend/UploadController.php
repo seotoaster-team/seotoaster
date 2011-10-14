@@ -326,6 +326,9 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$newImageFile = $savePath.$newName;
 
 		//checking for existing images with same name ...
+		if (!is_dir($savePath)){
+			Tools_Filesystem_Tools::mkDir($savePath);
+		}
 		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath, false, false);
 		$existingImages = preg_grep('~^'.$name.'\.(png|jpg|gif)$~i', $existingImages);
 		// ...and removing them

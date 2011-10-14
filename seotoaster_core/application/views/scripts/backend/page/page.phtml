@@ -68,11 +68,15 @@
 			</fieldset>
 			<fieldset>
 				<legend><?php echo $this->translate('Page Teasers'); ?></legend>
-				<div  class="grid_4 h150">
-					<img id="page-preview-image" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="140px" alt="<?php echo $this->translate('Page preview image');?>" />
+				<div  class="grid_4 h200">
+					<img id="page-preview-image" style="max-height: 200px;" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="140px" alt="<?php echo $this->translate('Page preview image');?>" />
 				</div>
 				<div  class="grid_8 h150">
 					<?php echo $this->pageForm->getElement('teaserText'); ?>
+					<?php
+						$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload teaser image')));
+						echo $uploader;
+					?>
 				</div>
 				<div class="clear"></div>
 			</fieldset>
@@ -83,10 +87,6 @@
 			<?php echo $this->pageForm->getElement('updatePage'); ?>
 		</div>
 	</form>
-	<?php
-		$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload image')));
-		echo $uploader;
-	?>
 	<div id="page-teaser-uploader-filelist" class="ui-helper-hidden"></div>
 	<div class="clear"></div>
 </div>

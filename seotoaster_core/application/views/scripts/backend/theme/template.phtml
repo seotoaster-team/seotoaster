@@ -2,7 +2,7 @@
 <div class="seotoaster container_12 w960 h640 rounded8px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template')); ?>
 
-	<div id="templatelist" class="h600 ui-helper-hidden" style="overflow: auto !important; width: 100%;"></div>
+	<div id="templatelist" class="h600 ui-helper-hidden" style="z-index: 99; overflow-x: hidde; overflow-y: scroll !important; width: 100%;"></div>
 	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
 		<div class="grid_8">
@@ -17,19 +17,23 @@
 			</div>
 		</div>
 		<div class="grid_4 h550">
-			<div class="largebutton">
-				<?php
-				echo $this->ajaxLink(
-					$this->translate('Select another template to edit'),
-					$this->websiteUrl . 'backend/backend_theme/gettemplate/',
-					array(
-						'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');"
-					),
-					array('listtemplates' => 'all')
-					); ?>
-			</div>
-			<div class="mt20px textcentered h350 img-teaser">
+			<input type="button" id="listtemplates-btn" value="<?php echo $this->translate('Select another template to edit');?>" />
+
+			<div class="mt20px textcentered img-teaser">
 				<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
+			</div>
+			<div style="text-align: center">
+				<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
+				<?php
+								$previewUploader = $this->toasterUploader(
+									array(
+										'id'      => 'template-preview-uploader',
+										'caller'  => 'templatePreview',
+										'caption' => $this->translate('Upload image')
+									)
+								);
+								echo $previewUploader;
+							?>
 			</div>
 		</div>
 		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
@@ -37,17 +41,4 @@
 			<?php echo $this->templateForm->getElement('submit'); ?>
 		</div>
 	</form>
-	<div>
-		<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
-		<?php
-						$previewUploader = $this->toasterUploader(
-							array(
-								'id'      => 'template-preview-uploader',
-								'caller'  => 'templatePreview',
-								'caption' => $this->translate('Upload image')
-							)
-						);
-						echo $previewUploader;
-					?>
-	</div>
 </div>

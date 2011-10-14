@@ -894,13 +894,6 @@ body, body.seotoaster {
 	overflow: hidden;
 }
 
-/*========== Upload form for page=======*/
-#page-teaser-uploader {
-	position: absolute;
-	bottom: 50px;
-	right: 350px;
-}
-
 /*=============Page Rank Sculpting ==============*/
 
 .seotoaster #sculpting-list {
