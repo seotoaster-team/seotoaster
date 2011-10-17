@@ -103,7 +103,7 @@ class Application_Form_Page extends Zend_Form {
 			'rows'     => '3',
 			'label'    => 'Teaser Text',
 			'value'    => $this->_teaserText,
-			'class'    => array('hldd00', 'h100'),
+			'class'    => array('hldd00', 'h50'),
 			'filters'  => array('StringTrim')
 		)));
 
