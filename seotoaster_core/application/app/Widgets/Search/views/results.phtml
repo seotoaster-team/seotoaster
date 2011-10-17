@@ -1,0 +1,17 @@
+<?php if(is_array($this->hits) && !empty($this->hits)): ?>
+	<?php foreach($this->hits as $hit): ?>
+		<div class="search-result-row">
+			<?php if($this->useImage): ?>
+				<a href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>">
+					<img src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($hit['pageId'], true, (($this->useImage == 'img') ? false : true))); ?>" alt="<?php echo $hit['h1']; ?>" />
+				</a>
+			<?php endif; ?>
+			<a href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>"><?php echo $hit['navName']; ?></a>
+			<span>
+				<?php echo $hit['pageTeaser']; ?>
+			</span>
+		</div>
+	<?php endforeach; ?>
+<?php else: ?>
+	<?php echo $this->hits; ?>
+<?php endif; ?>
