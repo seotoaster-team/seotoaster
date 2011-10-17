@@ -7,7 +7,7 @@ $(function() {
 	var toUrlDropDown = $('#to-url');
 	$('#domain-toggle').toggle(function(){
 		$(this).text('Local url?');
-		$('#to-url-label').find('label').text('Extarnal url');
+		$('#to-url-label').find('label').text('External url');
 		$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
 	},
 	function() {

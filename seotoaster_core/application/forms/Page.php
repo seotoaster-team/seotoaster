@@ -143,7 +143,7 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
 			'name'    => 'protected',
 			'id'      => 'protected-page',
-			'label'   => 'Protected page',
+			'label'   => 'Member only area',
 			'value'   => $this->_protected,
 			'checked' => ($this->_protected) ? 'checked' : ''
 		)));

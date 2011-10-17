@@ -5,7 +5,7 @@
 	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
 		<div class="grid_6">
 			<fieldset>
-				<legend><?php echo $this->translate('Meta Information'); ?></legend>
+				<legend><?php echo $this->translate('Page Information'); ?></legend>
 				<?php echo $this->pageForm->getElement('h1'); ?>
 				<?php echo $this->pageForm->getElement('headerTitle'); ?>
 				<?php echo $this->pageForm->getElement('url'); ?>
@@ -25,7 +25,7 @@
 			</fieldset>
 			<fieldset>
 				<legend><?php echo $this->translate('Settings'); ?></legend>
-					<div class="grid_6 label">Current Template:</div>
+					<div class="grid_6 label"><?php echo $this->translate('Settings'); ?><?php echo $this->translate('Current template'); ?>:</div>
 					<div class="grid_6" style="padding:5px 0px">
 						<?php
 							echo $this->ajaxLink(
@@ -46,17 +46,6 @@
 					<div class="grid_6 label">Page is featured:</div>
 						<div class="grid_6" style="padding:5px 0px">
 							<?php echo $this->toasterLink('backend_featured', 'featured', (!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times'), 'pid/' . $this->pageForm->getElement('pageId')->getValue()); ?>
-							<?php
-//								echo $this->ajaxLink(
-//									$this->translate((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')),
-//									$this->websiteUrl . 'backend/backend_featured/featured/',
-//									array(
-//										'update'   => '#falist',
-//										'complete' => '$("#falist").slideDown();loadFaList()'
-//									),
-//									array()
-//								);
-							?>
 						</div>
 					<div class="grid_12 mt10px">
 						<label>This page is also</label>
