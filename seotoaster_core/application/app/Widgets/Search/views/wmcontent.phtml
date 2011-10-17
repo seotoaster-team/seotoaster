@@ -1,0 +1,59 @@
+<form class="wmc-block" action="javascript:;" method="post">
+	<div class="wmc-row">
+		<label class="wmc-label-flat" for="search-results"><?php echo $this->translate('Search results'); ?></label>
+		<select class="wmc-input-flat" id="search-results"></select>
+	</div>
+	<div class="wmc-row">
+		<label class="wmc-label" for="search-item-img"><?php echo $this->translate('Use image'); ?></label>
+		<input  class="wmc-input w100"type="checkbox" id="search-item-img" />
+		<div style="display: none;"><input class="wmc-input w100"type="checkbox" id="search-item-img-crop" /><span style="font-size: 11px;"><?php echo $this->translate('Cropped'); ?>?</span></div>
+	</div>
+	<input class="wmc-submit" type="submit" id="search-done" name="done" value="Done" />
+</form>
+
+<script type="text/javascript">
+	$(function() {
+		if($('#search-results').length) {
+			load();
+		}
+		$('#search-item-img').click(function() {
+			$('#search-item-img-crop').attr('checked', false);
+			if($(this).attr('checked')) {
+				$('#search-item-img-crop').parent().show();
+			}
+			else {
+				$('#search-item-img-crop').parent().hide();
+			}
+		})
+
+		$('#search-done').live('click', function() {
+			var imgType = '';
+			if( $('#search-item-img').attr('checked') && $('#search-item-img-crop').attr('checked')) {
+				imgType = ':imgc';
+			}
+			else if($('#search-item-img').attr('checked') && !$('#search-item-img-crop').attr('checked')) {
+				imgType = ':img';
+			}
+			var searchWidget = '{$search:form:' + $('#search-results').val() + '}<br /><br />======== <strong>CODE TO INSERT IN "'
+				+ $('#search-results option:selected').text() + '" page ONLY(remove from here)</strong>  ========  <br/>'
+				+ '{$search:results' + (imgType) + '}';
+
+
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, searchWidget);
+		})
+	})
+
+	function load() {
+		$.getJSON($('#website_url').val() + 'backend/backend_page/listpages/', function(response) {
+			$.each(response.responseData, function() {
+				var optVal  = this.id;
+				var optText = this.h1;
+				$('#search-results')
+					.append($('<option></option>').attr({
+						value: optVal
+					})
+					.text(optText));
+			})
+		})
+	}
+</script>

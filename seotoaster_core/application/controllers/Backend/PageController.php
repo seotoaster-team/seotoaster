@@ -60,6 +60,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				$this->_helper->session->oldPageDraft = $page->getDraft();
 
 				$page->registerObserver(new Tools_Seo_Watchdog());
+				$page->registerObserver(new Tools_Search_Watchdog());
 				$page->registerObserver(new Tools_Page_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 				)));
@@ -83,6 +84,9 @@ class Backend_PageController extends Zend_Controller_Action {
 
 
 				$saveUpdateResult = $mapper->save($page);
+				if($page->getId() == null) {
+					$page->setId($saveUpdateResult);
+				}
 
 				if($checkFaPull) {
 					$this->_processFaPull($saveUpdateResult);

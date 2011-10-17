@@ -91,6 +91,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$container     = new Application_Model_Models_Container();
 
 			$container->registerObserver(new Tools_Seo_Watchdog());
+			$container->registerObserver(new Tools_Search_Watchdog());
 			$container->registerObserver(new Tools_Content_GarbageCollector(array(
 				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 			)));
