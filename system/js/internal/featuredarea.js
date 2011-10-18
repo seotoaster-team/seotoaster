@@ -1,5 +1,5 @@
 $(function() {
-	$('#addFeaturedArea-label').hide();
+	//$('#addFeaturedArea-label').hide();
 
 	loadFaList();
 

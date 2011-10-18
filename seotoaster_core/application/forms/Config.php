@@ -186,7 +186,7 @@ class Application_Form_Config extends Zend_Form {
 
 		$this->addElement('text', 'teaserSize', array(
 			'value' => $this->_teaserSize,
-			'label' => 'Page teaser image size',
+			'label' => 'Page Teaser Image Size',
 			'validators' => array(new Zend_Validate_Int())
 		));
 
@@ -209,7 +209,7 @@ class Application_Form_Config extends Zend_Form {
 
 		$this->addElement('select', 'language', array(
 			'value' => $this->_language,
-			'label' => 'Website language'
+			'label' => 'Website Language'
 //			'ignore' => true
 		));
 

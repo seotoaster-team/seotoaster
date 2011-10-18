@@ -20,7 +20,7 @@ body, body.seotoaster {
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
-	padding:8px;
+	padding:8px 8px 8px 55px;
 	margin-bottom:10px;
 	-moz-border-radius: 8px 8px 0px 0px;
 	-webkit-border-radius: 8px 8px 0px 0px;
@@ -552,6 +552,11 @@ body, body.seotoaster {
 	position: absolute;
 	background-color: #BDE6F1;
 }
+
+.seotoaster #listtemplates-btn {
+	padding: 7px;
+}
+
 .seotoaster div#templatelist div.template_preview {
 	position: relative;
 }
@@ -675,6 +680,8 @@ body, body.seotoaster {
 	border-bottom: 1px dashed #ddd;
 	padding:2px 0px;
 	text-indent:4px;
+	overflow: hidden;
+	height: 14px;
 }
 .seotoaster div.move {
 	margin:0px 2px 0px 2px;
@@ -936,3 +943,6 @@ body, body.seotoaster {
 }
 
 /*=====================Featured areas ======================*/
+.seotoaster #addFeaturedArea-label {
+	margin-bottom: 20px;
+}

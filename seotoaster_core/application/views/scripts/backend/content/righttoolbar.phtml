@@ -1,4 +1,7 @@
 <div class="h490 tab_content">
+	<div style="border-radius: 0px; -moz-border-radius:0px; -webkit-border-radius: 0px; padding: 2px 5px 2px 13px;" id="upload_things_button" class="button ui-accordion-header ui-helper-reset ui-state-default ui-corner-all">
+		<a style="padding: 0px;" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="650" data-pwidth="480" href="javascript:;" class="tpopup"><?php echo $this->translate('Upload Things'); ?></a>
+	</div>
 	<select name="adminselectimgfolder" id="adminselectimgfolder">
 		<option value="0" selected="selected"><?php echo $this->translate('select folder'); ?></option>
 		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
@@ -28,9 +31,9 @@
 				<div id="widgets" class="button"><?php echo $this->translate('Widgets Maker'); ?></div>
 				<div id="widgets_maker" class="show_div"></div>
 
-				<div id="upload_things_button" class="button">
+<!--				<div id="upload_things_button" class="button">
 					<a style="padding: 0px;" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="650" data-pwidth="480" href="javascript:;" class="tpopup"><?php echo $this->translate('Upload Things'); ?></a>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</div>

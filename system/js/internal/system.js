@@ -37,6 +37,7 @@ $(function() {
 			width: pwidth,
 			height: pheight,
 			resizable : false,
+			draggable : true,
 			modal: true,
 			open: function() {
 				$(this).attr('src', link.data('url')).css({
@@ -46,7 +47,16 @@ $(function() {
 						margin   : '0px',
 						overflow : 'hidden'
 				});
-				$('.ui-dialog-titlebar').hide();
+				//$('.ui-dialog-titlebar').hide();
+				$('.ui-dialog-titlebar-close').hide();
+				$('.ui-dialog-titlebar').css({
+					position     : 'absolute',
+					zIndex       : '5',
+					opacity      : '1',
+					background   : '#444 url("system/images/move.png") no-repeat scroll 37% 50%',
+					borderRadius : '8px 0px 8px 0px',
+					padding      : '4px 10px'
+				}).addClass('closebutton');
 			},
 			close: function() {
 				$(this).remove();

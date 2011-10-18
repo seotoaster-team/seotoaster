@@ -60,14 +60,22 @@ $(function() {
 
 	$('.collapse-all').click(function() {
 		$(this).parent().parent().next().slideToggle();
+		if($(this).text() == '-') {
+			$(this).text('+');
+		}
+		else {
+			$(this).text('-');
+		}
 	})
 
 	$('#collapse-global').click(function() {
 		$('.organise').slideUp();
+		$('.collapse-all').text('+');
 	})
 
 	$('#expand-global').click(function() {
 		$('.organise').slideDown();
+		$('.collapse-all').text('-');
 	})
 
 	$('.check-all').click(function() {
