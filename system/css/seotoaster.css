@@ -20,7 +20,7 @@ body, body.seotoaster {
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
-	padding:8px 8px 8px 55px;
+	padding: 8px 8px 8px 25px;
 	margin-bottom:10px;
 	-moz-border-radius: 8px 8px 0px 0px;
 	-webkit-border-radius: 8px 8px 0px 0px;

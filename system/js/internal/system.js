@@ -52,10 +52,10 @@ $(function() {
 				$('.ui-dialog-titlebar').css({
 					position     : 'absolute',
 					zIndex       : '5',
-					opacity      : '1',
-					background   : '#444 url("system/images/move.png") no-repeat scroll 37% 50%',
+					//opacity      : '1',
+					background   : '#666 url("system/images/move-pages.png") no-repeat scroll 37% 50%',
 					borderRadius : '8px 0px 8px 0px',
-					padding      : '4px 10px'
+					padding      : '4px 0px'
 				}).addClass('closebutton');
 			},
 			close: function() {
