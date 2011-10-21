@@ -27,12 +27,13 @@
 		margin:  0;
 		overflow: hidden;
 		z-index: 13;
-		position: absolute;
+		position: relative;
 	}
 
 	div#<?php echo $this->uniq; ?>.rotator img {
 		height:  <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
 		width:   <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
 		z-index: 14;
+		position: absolute;
 	}
 </style>
