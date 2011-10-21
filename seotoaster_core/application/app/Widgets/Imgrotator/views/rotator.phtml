@@ -20,16 +20,18 @@
 </script>
 
 <style type="text/css">
-	<?php echo $this->uniq; ?>.rotator {
+	div#<?php echo $this->uniq; ?>.rotator {
 		height:  <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
 		width:   <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
 		padding: 0;
 		margin:  0;
 		overflow: hidden;
+		z-index: 13;
 	}
 
-	<?php echo $this->uniq; ?>.rotator img {
+	div#<?php echo $this->uniq; ?>.rotator img {
 		height:  <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
 		width:   <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
+		z-index: 14;
 	}
 </style>
