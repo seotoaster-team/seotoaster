@@ -2,7 +2,7 @@
 	<?php if(!empty($this->files)): ?>
 		<?php foreach($this->files as $image): ?>
 			<?php $size = getimagesize('media/' . $this->folder .  $image); ?>
-			<img src="<?php echo 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo (($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?> <?php echo (($this->sliderHeight == 'auto') ? '' : 'height="' . $this->sliderHeight . '"'); ?> />
+			<img src="<?php echo 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo (($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
 		<?php endforeach; ?>
 
 	<?php endif; ?>
@@ -24,14 +24,8 @@
 		width:   <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
 		padding: 0;
 		margin:  0;
-		overflow: hidden;
 		z-index: 13;
+		overflow:hidden;
 	}
 
-	div#<?php echo $this->uniq; ?>.rotator img {
-		/*height:  <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;*/
-		/*width:   <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;*/
-		z-index: 14;
-		position: absolute;
-	}
 </style>

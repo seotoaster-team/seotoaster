@@ -9,7 +9,7 @@
 	</div>
 	<div class="wmc-row">
 		<label class="wmc-label" for="rotator-thumb-height"><?php echo $this->translate('Max. height'); ?></label>
-		<input type="text" class="wmc-input w100" id="rotator-thumb-height" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT; ?>"/>
+		<input type="text" class="wmc-input w100" id="rotator-thumb-height" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
 	</div>
 	<div class="wmc-row">
 		<label class="wmc-label" for="rotator-slideshow"><?php echo $this->translate('Slide show'); ?></label>
@@ -58,6 +58,11 @@
 <script type="text/javascript">
 	$(function() {
 		loadFolders();
+
+		$('#rotator-thumb-width').blur(function() {
+			$('#rotator-thumb-height').val($(this).val());
+		})
+
 		$('#rotator-done').click(function() {
 			var widget = '{$imgrotator:' + $('#rotator-folders').val() + ':' + ($('#rotator-slideshow').attr('checked') ? 1 : 0) + ':' + $('#rotator-interval').val() + ':' + $('#rotator-thumb-width').val() + ':' + $('#rotator-thumb-height').val() + ':' + $('#rotator-effect').val() + '}';
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
