@@ -1,6 +1,5 @@
 <div id="<?php echo $this->uniq; ?>" class="rotator">
 	<?php if(!empty($this->files)): ?>
-
 		<?php foreach($this->files as $image): ?>
 			<?php $size = getimagesize('media/' . $this->folder .  $image); ?>
 			<img src="<?php echo 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo (($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?> <?php echo (($this->sliderHeight == 'auto') ? '' : 'height="' . $this->sliderHeight . '"'); ?> />
@@ -27,7 +26,6 @@
 		margin:  0;
 		overflow: hidden;
 		z-index: 13;
-		position: relative;
 	}
 
 	div#<?php echo $this->uniq; ?>.rotator img {
