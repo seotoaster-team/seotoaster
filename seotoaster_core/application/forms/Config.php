@@ -59,14 +59,14 @@ class Application_Form_Config extends Zend_Form {
 		$this->getElement('imgLarge')->setValue($this->_imgLarge);
 	}
 
-	public function getAdminEmail() {
+	/*public function getAdminEmail() {
 		return $this->_adminEmail;
 	}
 
 	public function setAdminEmail($_adminEmail) {
 		$this->_adminEmail = $_adminEmail;
 		$this->getElement('adminEmail')->setValue($this->_adminEmail);
-	}
+	}*/
 
 	public function getUseSmtp() {
 		return $this->_useSmtp;
@@ -162,11 +162,11 @@ class Application_Form_Config extends Zend_Form {
 			'readonly'	=> true
 		));
 
-		$this->addElement('text', 'adminEmail', array(
+		/*$this->addElement('text', 'adminEmail', array(
 			'value'	=> $this->_adminEmail,
 			'label' => 'Admin Email',
 			'validators' => array(new Zend_Validate_EmailAddress())
-		));
+		));*/
 
 		$this->addElement('text', 'imgSmall', array(
 			'value' => $this->_imgSmall,
@@ -215,7 +215,7 @@ class Application_Form_Config extends Zend_Form {
 
 		$this->addElement('text', 'suLogin', array(
 			'value' => $this->_suLogin,
-			'label' => 'Login',
+			'label' => 'E-mail',
 			'validators' => array(new Zend_Validate_EmailAddress()),
 			'ignore' => true
 		));

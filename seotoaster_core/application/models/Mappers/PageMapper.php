@@ -90,7 +90,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	public function findByUrl($pageUrl) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
-		return $this->_findWhere($where);
+		$page  = $this->_findWhere($where);
+		return ($page !== null) ? $page : $this->_findWhere($where, true);
 	}
 
 	public function findByNavName($navName) {
@@ -139,9 +140,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	protected function _findWhere($where, $fetchSysPages = false) {
-		$sysWhere  = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
-		$where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
-		$row    = $this->getDbTable()->fetchAll($where)->current();
+		$sysWhere = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+		$where   .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
+		$row      = $this->getDbTable()->fetchAll($where)->current();
 		if(null === $row) {
 			return null;
 		}

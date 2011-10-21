@@ -11,7 +11,7 @@ $(function() {
 		$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
 	},
 	function() {
-		$(this).text('Extarnal url?');
+		$(this).text('External url?');
 		$('#to-url-label').find('label').text('Local url');
 		$('#to-url').replaceWith(toUrlDropDown);
 	})

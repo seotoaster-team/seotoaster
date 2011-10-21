@@ -122,14 +122,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 			if(!$container->getId()) {
 				$container->setId($saveResult);
 			}
-
 			$container->notifyObservers();
-
-			//$this->getResponse()->setBody($saveResult);
-			//$this->getResponse()->sendResponse();
-
 			$this->_helper->response->success($saveResult);
-
 			exit;
 		}
 		return false;

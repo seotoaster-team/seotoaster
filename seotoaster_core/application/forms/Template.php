@@ -46,12 +46,12 @@ class Application_Form_Template extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'templateType',
 			'id'           => 'template-type',
-			'label'        => 'Type',
+			'label'        => 'Used for',
 			'multiOptions' => array(
-				Application_Model_Models_Template::TYPE_REGULAR => Application_Model_Models_Template::TYPE_REGULAR,
-				Application_Model_Models_Template::TYPE_PRODUCT => Application_Model_Models_Template::TYPE_PRODUCT,
-				Application_Model_Models_Template::TYPE_LISTING => Application_Model_Models_Template::TYPE_LISTING,
-				Application_Model_Models_Template::TYPE_MAIL    => Application_Model_Models_Template::TYPE_MAIL
+				Application_Model_Models_Template::TYPE_REGULAR => 'Regular page',
+				Application_Model_Models_Template::TYPE_PRODUCT => 'Product page',
+				Application_Model_Models_Template::TYPE_LISTING => 'Product listing',
+				Application_Model_Models_Template::TYPE_MAIL    => 'E-mail sending'
 			),
 			'value'        => $this->_type
 		)));

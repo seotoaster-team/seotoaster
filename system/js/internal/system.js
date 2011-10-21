@@ -47,7 +47,9 @@ $(function() {
 						margin   : '0px',
 						overflow : 'hidden'
 				});
-				//$('.ui-dialog-titlebar').hide();
+				$('.ui-dialog-titlebar').hide();
+
+				/* drag-n-drop holder
 				$('.ui-dialog-titlebar-close').hide();
 				$('.ui-dialog-titlebar').css({
 					position     : 'absolute',
@@ -57,6 +59,8 @@ $(function() {
 					borderRadius : '8px 0px 8px 0px',
 					padding      : '4px 0px'
 				}).addClass('closebutton');
+				*/
+
 			},
 			close: function() {
 				$(this).remove();

@@ -15,13 +15,19 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 
 	const PREFIX_PLUGINTABS = 'plugtabs_';
 
-	const CACHE_FLASH = '300';
+	const KEY_DEEPLINKS     = 'seotoasterDeeplinks';
 
-	const CACHE_SHORT = '3600';
+	const PREFIX_DEEPLINKS  = 'deeplinks_';
 
-	const CACHE_LONG  = '86400';
+	const CACHE_FLASH       = '300';
 
-	protected $_cache = null;
+	const CACHE_SHORT       = '3600';
+
+	const CACHE_NORMAL      = '43200';
+
+	const CACHE_LONG        = '86400';
+
+	protected $_cache       = null;
 
 	public function  init() {
 		$this->_cache = Zend_Registry::get('cache');

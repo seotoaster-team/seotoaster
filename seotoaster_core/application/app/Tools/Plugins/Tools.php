@@ -231,6 +231,12 @@ class Tools_Plugins_Tools {
 					ucfirst($pluginDir) . '.php'
 				);
 				$pluginDirContent = Tools_Filesystem_Tools::scanDirectory($pluginsPath . '/' . $pluginDir, false, false);
+
+				// check if plugin is bundle, then do not show in the plugin managment screen
+				if(in_array('.bundle', $pluginDirContent)) {
+					continue;
+				}
+
 				if($required == (array_intersect($required, $pluginDirContent))) {
 					$plugins[] = $pluginDir;
 				}
