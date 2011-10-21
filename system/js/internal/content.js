@@ -1,9 +1,5 @@
 $(function() {
 	$('#tabs').tabs();
-	//$('#dpkr').css({width : '250px'})
-
-	if($('#published').length) {pubunpub();}
-	$('#published').live('click', pubunpub);
 
 	$('#frm_content').submit(function() {
 		var ajaxMsgSuccess = $('#ajax_msg');
@@ -14,8 +10,8 @@ $(function() {
 			containerName : $(this).find('#container_name').val(),
 			pageId        : $(this).find('#page_id').val(),
 			containerId   : $(this).find('#container_id').val(),
-			published     : ($('#published').attr('checked')) ? 1 : 0,
-			publishOn     : $('#dpkr').val()
+			published     : ($('#published').prop('checked')) ? 1 : 0,
+			publishOn     : $('#datepicker').val()
 		}
 		$.ajax({
 			url        : $(this).attr('action'),
@@ -119,14 +115,4 @@ function insertFileLink(fileName) {
 		false,
 		'<a href="/media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
 	);
-}
-
-function pubunpub() {
-	var chckbxPublished = $('#published');
-	var dpkr            = $('#dpkr');
-	var published       = chckbxPublished.prop('checked');
-	dpkr.attr('disabled', published);
-	if(published) {
-		dpkr.val('');
-	}
 }

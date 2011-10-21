@@ -1,5 +1,13 @@
+<!--$this->render('backend/content/top.phtml')-->
 <div class="seotoaster container_12 w960 h640 rounded8px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/content/top.phtml'))); ?>
+	<?php
+		$draftOrLive = $this->toasterDraftorlive(array(
+			'published'        => $this->contentForm->getPublished(),
+			'publishAt'        => $this->publishingDate,
+			'onselectCallback' => null
+		));
+		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive));
+	?>
 	<div class="grid_8 above-editor-links">
 		<div id="links">
 			<a href="#">Help</a> | <a href="#">Latest toaster news</a> | <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No editor'); ?></a>

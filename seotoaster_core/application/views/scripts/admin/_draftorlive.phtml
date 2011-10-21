@@ -1,0 +1,24 @@
+<input type="checkbox" id="published" <?php echo ($this->published) ? 'checked="checked"' : ''; ?> name="published" value="<?php echo ($this->published) ? '1' : '0'; ?>" />
+<?php echo $this->translate($this->publishedLabel);?>
+<span id="publish-later" style="display: none;">&nbsp;&nbsp;<?php echo $this->translate($this->publishAtLabel);?>:&nbsp;&nbsp;
+	<?php echo $this->datePicker(
+		'datepicker',
+		((intval($this->publishAt)) ? date('M j, Y', strtotime($this->publishAt)) : ''),
+		array(
+			'defaultDate' => '',
+			'onSelect'    => (isset($this->onselectCallback)) ? new Zend_Json_Expr($this->onselectCallback) : ''
+		),
+		array(
+			'style' => 'width:200px !important; border-radius:2px;'
+		));
+	?>
+</span>
+<script type="text/javascript">
+	$(function() {
+		pubunpub();
+		$('#published').live('click', pubunpub);
+	})
+	function pubunpub() {
+		$('#publish-later').css({display : (($('#published').prop('checked')) ? 'none' : 'inline')});
+	}
+</script>

@@ -36,15 +36,9 @@ $(function() {
 		checkMenu();
 	}
 
-	$('.draft-o-live').live('click', function() {
+	$('#published').live('click', function() {
 		if($('#draft').length) {
-			$('#draft').val($(this).val());
-			if($(this).val() == 1) {
-				$('#autopublish-select').show();
-			}
-			else {
-				$('#autopublish-select').hide();
-			}
+			$('#draft').val(($(this).prop('checked') ? 0 : 1));
 		}
 	})
 	$('#datepicker').blur(function() {
