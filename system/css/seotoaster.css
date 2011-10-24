@@ -123,7 +123,7 @@ body, body.seotoaster {
 /*.seotoaster form { overflow:hidden; }*/
 .seotoaster fieldset {
 	background:#fff;
-	/*background:url('/system/images/bg-strip.png');*/
+	background:url('/system/images/bg-strip.png');
 	padding:6px;
 	position:relative;
 	margin-bottom:7px;
@@ -167,7 +167,7 @@ body, body.seotoaster {
 	width:98%;
 	background: #fff;
 	margin: 0px 0px 2px 0px;
-	font-size:10pt;
+	font-size:11pt;
 	resize: none;
 	-moz-border-radius:3px;
 	-webit-border-radius:3px;
@@ -496,7 +496,6 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker {
 	background: #fff;
 }
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker h3{margin-bottom:5px;}
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block {
 	overflow: hidden;
@@ -504,43 +503,13 @@ body, body.seotoaster {
 	margin-bottom: 10px;
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block .wmc-row {
-	overflow: hidden;
-	margin:5px 0;
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.formsubmit{
+	margin-top:8px;
+	clear:both;
+	
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label,
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
-	float: left;
-	width: 40%;
-	font-size: 10pt;
-	padding:0px 0 0px 0px;
-}
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
-	float: none;
-	width: 100%;
-}
-
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input,
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
-	float: left;
-	width: 49%;
-}
-
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select.wmc-input {
-	width: 53%;
-}
-
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
-	float: none;
-	width: 98%;
-}
-
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.wmc-input[type=checkbox] {
-	margin-top: 10px;
-	width: auto;
-}
 .seotoaster select#adminselectimgfolder{
 	font-size:13pt;
 	cursor: pointer;
@@ -549,33 +518,20 @@ body, body.seotoaster {
 	width: auto;
 }
 
-
-
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-submit {
-	background: none repeat scroll 0 0 #7C7C7C;
-    border-radius: 4px 4px 4px 4px;
-	-moz-border-radius: 4px 4px 4px 4px;
-	-webkit-border-radius: 4px 4px 4px 4px;
-    color: #EEEEEE;
-    cursor: pointer;
-    font-size: 14px;
-	border: none;
-    font-weight: bold;
-    padding: 2px 20px;
-}
-
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker h3 {
 	padding: 8px;
 	background: #666;
 	color: #fff;
+	margin-bottom:5px;
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker label.nopad{padding: 0px}
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.nopad{padding: 0px}
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker label.nopad{padding: 2px 0px;}
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.nopad{padding: 2px 0px;}
+
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select {
 	cursor: pointer;
 	border: 1px solid #BDE6F1;
