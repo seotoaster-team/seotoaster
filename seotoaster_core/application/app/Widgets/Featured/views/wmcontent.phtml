@@ -17,7 +17,7 @@
 	<label class="grid_5 nopad" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
 	<div class="grid_7 nopad">
 		<input type="checkbox" id="featured-item-img" />
-		<input class="cropped" type="checkbox" id="featured-item-img-crop" /><span class="cropped" style="font-size: 11px;"><?php echo $this->translate('Cropped'); ?>?</span>
+		<input class="cropped" type="checkbox" id="featured-item-img-crop" /><span class="nopad label cropped" style="display: inline;"><?php echo $this->translate('Cropped'); ?>?</span>
 	</div>
 	<label class="grid_5 nopad rand-row" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
 	<div class="grid_7 nopad rand-row">
@@ -86,10 +86,10 @@
 					.text(optText));
 			})
 			if($('#featured-item-type').val() == 'page') {
-				$('#featured-area-item').append('<option value="0" selected="selected">Select a page</option>')
+				$('#featured-area-item').prepend('<option value="0" selected="selected">Select a page</option>')
 			}
 			else {
-				$('#featured-area-item').append('<option value="Select a featured area" selected="selected">Select a featured area</option>');
+				$('#featured-area-item').prepend('<option value="Select a featured area" selected="selected">Select a featured area</option>');
 			}
 		})
 	}
