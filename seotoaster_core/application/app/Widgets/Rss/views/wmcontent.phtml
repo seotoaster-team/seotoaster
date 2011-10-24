@@ -1,17 +1,15 @@
 <form class="wmc-block" action="javascript:;" method="post">
-	<div class="wmc-row">
-		<label class="wmc-label" style="float: none; width: 100%;" for="feed-url"><?php echo $this->translate('Feed url'); ?></label>
-		<input class="wmc-input w100" style="float:none; width: 95%; margin: 2px;" type="text" id="feed-url" value="" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="feed-maxres"><?php echo $this->translate('Max. results'); ?></label>
-		<input class="wmc-input w100" type="text" id="feed-maxres" value="<?php echo Widgets_Rss_Rss::RSS_RESULT_COUNT; ?>" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="feed-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
-		<input class="wmc-input w100" type="text" id="feed-maxch" value="<?php echo Widgets_Rss_Rss::RSS_DESC_LENGTH; ?>" />
-	</div>
-	<input class="wmc-submit" type="submit" id="feed-done" name="done" value="Done" />
+
+	<label class="nopad grid_12" for="feed-url"><?php echo $this->translate('Feed url'); ?></label>
+	<input class="nopad grid_12" type="text" id="feed-url" value="" />
+
+	<label class="nopad grid_5" for="feed-maxres"><?php echo $this->translate('Max. results'); ?></label>
+	<input class="nopad grid_7" type="text" id="feed-maxres" value="<?php echo Widgets_Rss_Rss::RSS_RESULT_COUNT; ?>" />
+
+	<label class="nopad grid_5" for="feed-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
+	<input class="nopad grid_7" type="text" id="feed-maxch" value="<?php echo Widgets_Rss_Rss::RSS_DESC_LENGTH; ?>" />
+
+	<div><input class="formsubmit" type="submit" id="feed-done" name="done" value="Done" /></div>
 </form>
 
 <script type="text/javascript">

@@ -15,11 +15,11 @@ body, body.seotoaster {
 	font-family:tahoma, geneva, verdana, sans-serif;
 	display:block;
 	overflow:hidden;
-	
-	
+
+
 	background:-moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6+ */
 	background:-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1))); /* Chrome,Safari4+ */
-	
+
 
 
 
@@ -178,10 +178,10 @@ body, body.seotoaster {
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
 	color:#eee;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
-	border:2px solid #fff;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	border:none;
 	cursor:pointer;
 	float:right;
 	font-size:14pt;
@@ -542,7 +542,7 @@ body, body.seotoaster {
 	width: auto;
 }
 .seotoaster select#adminselectimgfolder{
-	font-size:13pt;	
+	font-size:13pt;
 	cursor: pointer;
 	text-transform: capitalize;
 	margin-bottom:3px;
@@ -572,6 +572,13 @@ body, body.seotoaster {
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
+}
+
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker label.nopad{padding: 0px}
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.nopad{padding: 0px}
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select {
+	cursor: pointer;
+	border: 1px solid #BDE6F1;
 }
 
 /*========= AND AND EDIT TEMPLATE ===========*/

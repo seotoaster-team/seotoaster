@@ -1,54 +1,50 @@
 <form class="wmc-block" action="javascript:;" method="post">
-	<div class="wmc-row">
-		<label class="wmc-label" for="featured-item-type"><?php echo $this->translate('Type'); ?></label>
-		<select class="wmc-input w100" id="featured-item-type">
-			<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
-			<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
-		</select>
+
+	<label class="nopad grid_5" for="featured-item-type"><?php echo $this->translate('Type'); ?></label>
+	<select class="nopad grid_7" id="featured-item-type">
+		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
+		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
+	</select>
+
+	<select class="nopad grid_12" id="featured-area-item"></select>
+
+	<label class="nopad grid_5 max-res-row" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
+	<input class="nopad grid_7 max-res-row" type="text" id="featured-item-maxres" value="<?php echo Widgets_Featured_Featured::AREA_PAGES_COUNT; ?>" />
+
+	<label class="nopad grid_5" for="featured-item-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
+	<input class="nopad grid_7" type="text" id="featured-item-maxch" value="<?php echo Widgets_Featured_Featured::AREA_DESC_LENGTH; ?>" />
+
+	<label class="grid_5 nopad" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
+	<div class="grid_7 nopad">
+		<input type="checkbox" id="featured-item-img" />
+		<input class="cropped" type="checkbox" id="featured-item-img-crop" /><span class="cropped" style="font-size: 11px;"><?php echo $this->translate('Cropped'); ?>?</span>
 	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" id="fa-item-lbl" for="featured-area-item"><?php echo $this->translate('Pick an area'); ?></label>
-		<select class="wmc-input w100" id="featured-area-item"></select>
-	</div>
-	<div class="wmc-row" id="max-res-row">
-		<label class="wmc-label" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
-		<input class="wmc-input w100" type="text" id="featured-item-maxres" value="<?php echo Widgets_Featured_Featured::AREA_PAGES_COUNT; ?>" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="featured-item-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
-		<input class="wmc-input w100" type="text" id="featured-item-maxch" value="<?php echo Widgets_Featured_Featured::AREA_DESC_LENGTH; ?>" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
-		<input  class="wmc-input w100"type="checkbox" id="featured-item-img" />
-		<div style="display: none;"><input class="wmc-input w100"type="checkbox" id="featured-item-img-crop" /><span style="font-size: 11px;"><?php echo $this->translate('Cropped'); ?>?</span></div>
-	</div>
-	<div class="wmc-row" id="rand-row">
-		<label class="wmc-label" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
-		<input class="wmc-input w100" type="checkbox" id="featured-item-rand" />
+	<label class="grid_5 nopad rand-row" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
+	<div class="grid_7 nopad rand-row">
+		<input type="checkbox" id="featured-item-rand" />
 	</div>
 
-	<input class="wmc-submit" type="submit" id="fa-done" name="done" value="Done" />
+	<div><input class="formsubmit" type="submit" id="fa-done" name="done" value="Done" /></div>
 </form>
 <script type="text/javascript">
 	$(function() {
+		$('.cropped').hide();
+
 		loadData($('#featured-item-type').val());
 
 		$('#featured-item-type').change(function() {
-			$('#fa-item-lbl').toggleClass('wmc-lable wmc-label-flat').text(($(this).val() == 'page') ? 'Pick a page' : 'Pick an area');
-			$('#rand-row').toggle();
-			$('#max-res-row').toggle();
-			$('#featured-area-item').toggleClass('wmc-input wmc-input-flat');
+			$('.rand-row').toggle();
+			$('.max-res-row').toggle();
 			loadData($(this).val());
 		});
 
 		$('#featured-item-img').click(function() {
 			$('#featured-item-img-crop').attr('checked', false);
 			if($(this).attr('checked')) {
-				$('#featured-item-img-crop').parent().show();
+				$('.cropped').show();
 			}
 			else {
-				$('#featured-item-img-crop').parent().hide();
+				$('.cropped').hide();
 			}
 		})
 
@@ -89,6 +85,12 @@
 					})
 					.text(optText));
 			})
+			if($('#featured-item-type').val() == 'page') {
+				$('#featured-area-item').append('<option value="0" selected="selected">Select a page</option>')
+			}
+			else {
+				$('#featured-area-item').append('<option value="Select a featured area" selected="selected">Select a featured area</option>');
+			}
 		})
 	}
 </script>

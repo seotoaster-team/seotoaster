@@ -1,21 +1,18 @@
 <form class="wmc-block" action="javascript:;" method="post">
-	<div class="wmc-row">
-		<label class="wmc-label" for="gal-folders"><?php echo $this->translate('Pick a folder'); ?></label>
-		<select class="wmc-input w100" id="gal-folders"></select>
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="gal-thumb-size"><?php echo $this->translate('Thumb. size'); ?></label>
-		<input type="text" class="wmc-input w100" id="gal-thumb-size" value="<?php echo Widgets_Gal_Gal::DEFAULT_THUMB_SIZE; ?>"/>
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="gal-crop"><?php echo $this->translate('Crop image'); ?></label>
-		<input  class="wmc-input w100" type="checkbox" id="gal-crop" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="gal-caption"><?php echo $this->translate('Caption'); ?></label>
-		<input  class="wmc-input w100" type="checkbox" id="gal-caption" />
-	</div>
-	<input class="wmc-submit" type="submit" id="gal-done" name="done" value="Done" />
+
+	<label class="nopad grid_6" for="gal-folders"><?php echo $this->translate('Select a folder'); ?></label>
+	<select class="nopad grid_6" id="gal-folders"></select>
+
+	<label class="nopad grid_6" for="gal-thumb-size"><?php echo $this->translate('Thumb. size'); ?></label>
+	<input type="text" class="nopad grid_6" id="gal-thumb-size" value="<?php echo Widgets_Gal_Gal::DEFAULT_THUMB_SIZE; ?>"/>
+
+	<label class="nopad grid_6" for="gal-crop"><?php echo $this->translate('Crop image'); ?></label>
+	<div class="nopad grid_6"><input type="checkbox" id="gal-crop" /></div>
+
+	<label class="nopad grid_6" for="gal-caption"><?php echo $this->translate('Caption'); ?></label>
+	<div class="nopad grid_6"><input type="checkbox" id="gal-caption" /></div>
+
+	<div><input class="formsubmit" type="submit" id="gal-done" name="done" value="Done" /></div>
 </form>
 <script type="text/javascript">
 	$(function() {

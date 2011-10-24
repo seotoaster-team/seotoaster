@@ -1,58 +1,52 @@
 <form class="wmc-block" action="javascript:;" method="post">
-	<div class="wmc-row">
-		<label class="wmc-label" for="rotator-folders"><?php echo $this->translate('Pick a folder'); ?></label>
-		<select class="wmc-input w100" id="rotator-folders"></select>
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="rotator-thumb-width"><?php echo $this->translate('Max. width'); ?></label>
-		<input type="text" class="wmc-input w100" id="rotator-thumb-width" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="rotator-thumb-height"><?php echo $this->translate('Max. height'); ?></label>
-		<input type="text" class="wmc-input w100" id="rotator-thumb-height" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="rotator-slideshow"><?php echo $this->translate('Slide show'); ?></label>
-		<input  class="wmc-input w100" type="checkbox" checked="checked" id="rotator-slideshow" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="rotator-interval"><?php echo $this->translate('Rotate time'); ?></label>
-		<input  class="wmc-input w100" type="text" id="rotator-interval" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME; ?>" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="rotator-effect"><?php echo $this->translate('Effect'); ?></label>
-		<select  class="wmc-input w100" id="rotator-effect">
-			<option value="blindX">blindX</option>
-			<option value="blindY">blindY</option>
-			<option value="blindZ">blindZ</option>
-			<option value="cover">cover</option>
-			<option value="curtainX">curtainX</option>
-			<option value="curtainY">curtainY</option>
-			<option value="fade" selected="selected">fade</option>
-			<option value="fadeZoom">fadeZoom</option>
-			<option value="growX">growX</option>
-			<option value="growY">growY</option>
-			<option value="none">none</option>
-			<option value="scrollUp">scrollUp</option>
-			<option value="scrollDown">scrollDown</option>
-			<option value="scrollLeft">scrollLeft</option>
-			<option value="scrollRight">scrollRight</option>
-			<option value="scrollHorz">scrollHorz</option>
-			<option value="scrollVert">scrollVert</option>
-			<option value="shuffle">shuffle</option>
-			<option value="slideX">slideX</option>
-			<option value="slideY">slideY</option>
-			<option value="toss">toss</option>
-			<option value="turnUp">turnUp</option>
-			<option value="turnDown">turnDown</option>
-			<option value="turnLeft">turnLeft</option>
-			<option value="turnRight">turnRight</option>
-			<option value="uncover">uncover</option>
-			<option value="wipe">wipe</option>
-			<option value="zoom">zoom</option>
-		</select>
-	</div>
-	<input class="wmc-submit" type="submit" id="rotator-done" name="done" value="Done" />
+
+	<label class="nopad grid_6" for="rotator-folders"><?php echo $this->translate('Select a folder'); ?></label>
+	<select class="nopad grid_6" id="rotator-folders"></select>
+
+	<label class="nopad grid_6" for="rotator-thumb-width"><?php echo $this->translate('Max. width'); ?></label>
+	<input type="text" class="nopad grid_6" id="rotator-thumb-width" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
+
+	<label class="nopad grid_6" for="rotator-thumb-height"><?php echo $this->translate('Max. height'); ?></label>
+	<input type="text" class="nopad grid_6" id="rotator-thumb-height" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
+
+	<label class="nopad grid_6" for="rotator-slideshow"><?php echo $this->translate('Slide show'); ?></label>
+	<div class="nopad grid_6"><input class="wmc-input w100" type="checkbox" checked="checked" id="rotator-slideshow" /></div>
+
+	<label class="nopad grid_6" for="rotator-interval"><?php echo $this->translate('Rotate time'); ?></label>
+	<input class="nopad grid_6" type="text" id="rotator-interval" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME; ?>" />
+
+	<label class="nopad grid_6" for="rotator-effect"><?php echo $this->translate('Effect'); ?></label>
+	<select class="nopad grid_6" id="rotator-effect">
+		<option value="blindX">blindX</option>
+		<option value="blindY">blindY</option>
+		<option value="blindZ">blindZ</option>
+		<option value="cover">cover</option>
+		<option value="curtainX">curtainX</option>
+		<option value="curtainY">curtainY</option>
+		<option value="fade" selected="selected">fade</option>
+		<option value="fadeZoom">fadeZoom</option>
+		<option value="growX">growX</option>
+		<option value="growY">growY</option>
+		<option value="none">none</option>
+		<option value="scrollUp">scrollUp</option>
+		<option value="scrollDown">scrollDown</option>
+		<option value="scrollLeft">scrollLeft</option>
+		<option value="scrollRight">scrollRight</option>
+		<option value="scrollHorz">scrollHorz</option>
+		<option value="scrollVert">scrollVert</option>
+		<option value="shuffle">shuffle</option>
+		<option value="slideX">slideX</option>
+		<option value="slideY">slideY</option>
+		<option value="toss">toss</option>
+		<option value="turnUp">turnUp</option>
+		<option value="turnDown">turnDown</option>
+		<option value="turnLeft">turnLeft</option>
+		<option value="turnRight">turnRight</option>
+		<option value="uncover">uncover</option>
+		<option value="wipe">wipe</option>
+		<option value="zoom">zoom</option>
+	</select>
+	<div><input class="formsubmit" type="submit" id="rotator-done" name="done" value="Done" /></div>
 </form>
 
 <script type="text/javascript">

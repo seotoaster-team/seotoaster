@@ -1,17 +1,15 @@
 <form class="wmc-block" action="javascript:;" method="post">
-	<div class="wmc-row">
-		<label class="wmc-label" for="related-rel"><?php echo $this->translate('Relevance'); ?></label>
-		<input class="wmc-input w100" type="text" id="related-rel" value="<?php echo Widgets_Related_Related::REL_WORD_COUNT; ?>" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="related-maxres"><?php echo $this->translate('Max. results'); ?></label>
-		<input class="wmc-input w100" type="text" id="related-maxres" value="<?php echo Widgets_Related_Related::REL_MAX_REZULT; ?>" />
-	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="related-maxres"><?php echo $this->translate('Use image'); ?></label>
-		<input class="wmc-input w100" type="checkbox" id="related-img" />
-	</div>
-	<input class="wmc-submit" type="submit" id="related-done" name="done" value="<?php echo $this->translate('Done'); ?>" />
+
+	<label class="nopad grid_5" for="related-rel"><?php echo $this->translate('Relevance'); ?></label>
+	<input class="nopad grid_7" type="text" id="related-rel" value="<?php echo Widgets_Related_Related::REL_WORD_COUNT; ?>" />
+
+	<label class="nopad grid_5" for="related-maxres"><?php echo $this->translate('Max. results'); ?></label>
+	<input class="nopad grid_7" type="text" id="related-maxres" value="<?php echo Widgets_Related_Related::REL_MAX_REZULT; ?>" />
+
+	<label class="nopad grid_5" for="related-maxres"><?php echo $this->translate('Use image'); ?></label>
+	<input class="nopad grid_7" type="checkbox" id="related-img" />
+
+	<div><input class="formsubmit" type="submit" id="related-done" name="done" value="<?php echo $this->translate('Done'); ?>" /></div>
 </form>
 
 <script type="text/javascript">

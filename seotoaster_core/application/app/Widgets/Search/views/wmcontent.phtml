@@ -1,14 +1,14 @@
 <form class="wmc-block" action="javascript:;" method="post">
-	<div class="wmc-row">
-		<label class="wmc-label-flat" for="search-results"><?php echo $this->translate('Search results'); ?></label>
-		<select class="wmc-input-flat" id="search-results"></select>
+
+	<label class="nopad grid_12" for="search-results"><?php echo $this->translate('Select a search results page'); ?></label>
+	<select class="nopad grid_12" id="search-results"></select>
+
+	<label class="nopad grid_5" for="search-item-img"><?php echo $this->translate('Use image'); ?></label>
+	<div class="grid_7 nopad">
+		<input type="checkbox" id="search-item-img" />
+		<input class="cropped" type="checkbox" id="search-item-img-crop" /><span class="cropped" style="font-size: 11px;"><?php echo $this->translate('Cropped'); ?>?</span>
 	</div>
-	<div class="wmc-row">
-		<label class="wmc-label" for="search-item-img"><?php echo $this->translate('Use image'); ?></label>
-		<input  class="wmc-input w100"type="checkbox" id="search-item-img" />
-		<div style="display: none;"><input class="wmc-input w100"type="checkbox" id="search-item-img-crop" /><span style="font-size: 11px;"><?php echo $this->translate('Cropped'); ?>?</span></div>
-	</div>
-	<input class="wmc-submit" type="submit" id="search-done" name="done" value="Done" />
+	<div><input class="formsubmit" type="submit" id="search-done" name="done" value="Done" /></div>
 </form>
 
 <script type="text/javascript">
@@ -19,10 +19,10 @@
 		$('#search-item-img').click(function() {
 			$('#search-item-img-crop').attr('checked', false);
 			if($(this).attr('checked')) {
-				$('#search-item-img-crop').parent().show();
+				$('.cropped').show();
 			}
 			else {
-				$('#search-item-img-crop').parent().hide();
+				$('.cropped').hide();
 			}
 		})
 
