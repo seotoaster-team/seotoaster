@@ -89,7 +89,7 @@ $(function() {
 					widgetsMaker.html(response.responseText);
 				},
 				error: function() {
-					widgetsMaker.html('Unable to load widget maker.');
+					widgetsMaker.html('<h4 style="text-align: center;">Unable to load widget maker.</h4>');
 				}
 			})
 		}
