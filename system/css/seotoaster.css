@@ -8,34 +8,48 @@ body, body.seotoaster {
 	padding:0;
 }
 .seotoaster {
-	background-color: #BDE6F1;
+	/*background-color: #BDE6F1;*/
+	/*background-color:#E1E1E1;*/
 	position:relative;
-	font-family:helvetica;
+	/*font-family:"helvetica neue",Helvetica,sans-serif,Tahoma;*/
+	font-family:tahoma, geneva, verdana, sans-serif;
 	display:block;
 	overflow:hidden;
-/*	border:2px solid #fff;*/
-/*	padding-bottom:10px;*/
+	
+	
+	background:-moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6+ */
+	background:-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1))); /* Chrome,Safari4+ */
+	
+
+
+
+
 }
+
+
 
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
-	padding: 8px;
+	padding: 4px 0px 6px 4px;;
 	margin-bottom:10px;
-	-moz-border-radius: 8px 8px 0px 0px;
+	height:22px;
 	-webkit-border-radius: 8px 8px 0px 0px;
+	-moz-border-radius: 8px 8px 0px 0px;
+	border-radius: 8px 8px 0px 0px;
 }
 .seotoaster .closebutton {
 	background-color: #444444;
 	color: #FFFFFF;
 	cursor:pointer;
 	font-weight: bold;
-	padding: 6px 10px 8px 20px;
+	padding: 8px 10px 8px 14px;
 	position: absolute;
 	right: 0;
 	top: 0;
-	-moz-border-radius:0px 8px 0px 8px;
-	-webkit-border-radius:0px 8px 0px 8px;
+	-webkit-border-radius: 0px 8px 0px 0px;
+	-moz-border-radius: 0px 8px 0px 0px;
+	border-radius: 0px 8px 0px 0px;
 }
 
 .seotoaster .ajaxspineer {
@@ -109,35 +123,35 @@ body, body.seotoaster {
 /*.seotoaster form { overflow:hidden; }*/
 .seotoaster fieldset {
 	background:#fff;
-	background:url('/system/images/bg-strip.png');
-	padding:10px;
+	/*background:url('/system/images/bg-strip.png');*/
+	padding:6px;
 	position:relative;
 	margin-bottom:7px;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
 	overflow:hidden;
-	font-size:11pt;
+	/*font-size:11pt;*/
 }
 .seotoaster legend {
 	background:#888;
 	color:#eee;
-	font-size:12pt;
+	font-size:11pt;
 	font-weight:bold;
 	padding:4px 20px;
 	text-transform:uppercase;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
 }
 .seotoaster label, .seotoaster .label {
-	background-color:#EAF3FA;
+	/*background-color:#EAF3FA;*/
+	/*background-color:#E1E1E1;*/
 	color:#666;
 	display:block;
 	font-weight:bold;
-	padding:7px 0px;
-	text-indent:5px;
-	font-size: 14px;
+	padding:4px 0px 4px 5px;
+	font-size: 10pt;
 }
 
 .seotoaster label.simple-label {
@@ -146,20 +160,20 @@ body, body.seotoaster {
 
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea, .seotoaster select {
 /*	color:#960;*/
-	color: #666;
-	border:1px solid #d9d9d9;
-/*	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;*/
-	padding: 8px 5px;
-/*	text-indent:8px;*/
+	/*color: DarkGoldenRod;*/
+	color:Coral;
+	border:1px solid #BDE6F1;
+	padding:4px 0 2px 5px;
 	width:98%;
 	background: #fff;
-	margin: 3px 0px;
-/*	font-weight:600;*/
-	font-size:15px;
+	margin: 0px 0px 2px 0px;
+	font-size:10pt;
 	resize: none;
+	-moz-border-radius:3px;
+	-webit-border-radius:3px;
+	border-radius: 3px;
 }
+.seotoaster select {padding: 0px;}
 
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
@@ -401,21 +415,27 @@ body, body.seotoaster {
 	margin:0;
 }
 
+
+.seotoaster .above-editor-links {
+	color:DarkSlateGray;
+	font-size:11pt;
+	text-align:right;
+}
+
 .seotoaster .above-editor-links #links {
 	padding: 0px 0px 5px 0px;
+	margin-right: 5px;
 }
 
 .seotoaster .above-editor-links #links a {
 	text-transform: uppercase;
 	font-size: 10px;
-	color: #555;
+	color: DarkSlateGray;
+	text-shadow: 1px 0px 0px #fff;
 }
+.seotoaster .above-editor-links #links a:hover {color:DimGray;text-shadow: -1px 0px 0px #fff;}
+.seotoaster .above-editor-links #links a:active{ text-shadow: none;}
 
-.seotoaster .above-editor-links {
-	color:#555;
-	font-size:11pt;
-	text-align:right;
-}
 .seotoaster textarea#editcontent {
 	margin:0;
 	padding:5px;
@@ -433,16 +453,19 @@ body, body.seotoaster {
 }
 
 .seotoaster div#tabs #adminthingsviewer div.button {
-	border-radius: 0px;
-	padding: 2px 5px 2px 25px;
+	border-radius: 2px;
+	font-size: 11pt;
+    padding: 5px 5px 3px 25px;
+    text-shadow: 1px 0 0 #FFFFFF;
 }
 
 
 .seotoaster div#tabs #adminthingsviewer div.show_div {
-	background: #cecece;
+	background: #E7E7E7e;
 	padding: 10px 3px 5px 3px;
-	max-height: 265px;
-	overflow-y: scroll;
+	max-height: 250px;
+	overflow-y: auto;
+	scrollbar-width: 5px;
 }
 
 .seotoaster ul.editortabs {
@@ -472,9 +495,8 @@ body, body.seotoaster {
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker {
 	background: #fff;
-	border-left: 1px solid #aaa;
-	border-right: 1px solid #aaa;
 }
+.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker h3{margin-bottom:5px;}
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block {
 	overflow: hidden;
@@ -484,16 +506,15 @@ body, body.seotoaster {
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block .wmc-row {
 	overflow: hidden;
-	min-height: 25px;
+	margin:5px 0;
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label,
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
 	float: left;
 	width: 40%;
-	font-size: 12px;
-	margin: 3px;
-	padding: 7px 4px;
+	font-size: 10pt;
+	padding:0px 0 0px 0px;
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-label-flat {
@@ -503,11 +524,8 @@ body, body.seotoaster {
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input,
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-input-flat {
-	font-size: 12px;
 	float: left;
 	width: 49%;
-	padding: 5px 4px;
-/*	margin-right: 3px;*/
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select.wmc-input {
@@ -523,6 +541,15 @@ body, body.seotoaster {
 	margin-top: 10px;
 	width: auto;
 }
+.seotoaster select#adminselectimgfolder{
+	font-size:13pt;	
+	cursor: pointer;
+	text-transform: capitalize;
+	margin-bottom:3px;
+	width: auto;
+}
+
+
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-submit {
 	background: none repeat scroll 0 0 #7C7C7C;
