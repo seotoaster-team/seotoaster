@@ -69,6 +69,11 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 */
 	protected $_redirector      = null;
 
+	/**
+	 * Translator
+	 *
+	 * @var Zend_Translate
+	 */
 	protected $_translator      = null;
 
 	/**

@@ -161,8 +161,12 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 	}
 
 	private function _updateDeeplinks() {
-		$deeplinks      = Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll();
-		$deeplinks      = Tools_System_Tools::bobbleSortDeeplinks($deeplinks);
+		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
+		if(null === ($deeplinks = $cacheHelper->load(Helpers_Action_Cache::KEY_DEEPLINKS, Helpers_Action_Cache::PREFIX_DEEPLINKS))) {
+			$deeplinks = Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll();
+			$deeplinks = Tools_System_Tools::bobbleSortDeeplinks($deeplinks);
+			$cacheHelper->save(Helpers_Action_Cache::KEY_DEEPLINKS, $deeplinks, Helpers_Action_Cache::PREFIX_DEEPLINKS, array(), Helpers_Action_Cache::CACHE_NORMAL);
+		}
 		if(!empty($deeplinks)) {
 			$page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_object->getPageId());
 			if(!$page instanceof Application_Model_Models_Page) {
