@@ -17,9 +17,10 @@ body, body.seotoaster {
 	overflow:hidden;
 
 
-	background:-moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6+ */
-	background:-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1))); /* Chrome,Safari4+ */
+	/*background:-moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6+ */
+	/*background:-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1))); /* Chrome,Safari4+ */
 
+	background: #dae8ed url('/system/images/sbg.png');
 
 }
 
@@ -121,12 +122,14 @@ body, body.seotoaster {
 .seotoaster fieldset {
 	background:#fff;
 	background:url('/system/images/bg-strip.png');
+/*	background: #fafafa;*/
+	border:1px solid #ddd;
 	padding:6px;
 	position:relative;
 	margin-bottom:7px;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
 	overflow:hidden;
 	/*font-size:11pt;*/
 }
@@ -161,6 +164,7 @@ body, body.seotoaster {
 	color:CadetBlue;
 	border:1px solid #BDE6F1;
 	padding:4px 0 2px 5px;
+	padding: 8px 3px;
 	width:98%;
 	background: #fff;
 	margin: 0px 0px 2px 0px;
@@ -170,7 +174,7 @@ body, body.seotoaster {
 	-webit-border-radius:3px;
 	border-radius: 3px;
 }
-.seotoaster select {padding: 0px;}
+.seotoaster select {padding: 7px 0px;}
 
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
@@ -185,7 +189,7 @@ body, body.seotoaster {
 	font-weight:bold;
 	font-family:Arial, Helvetica, sans-serif;
 	color:#eee;
-	padding:2px 20px;
+	padding:5px 20px;
 	margin-right:5px;
 }
 .seotoaster input[type=submit]:hover {
@@ -504,7 +508,7 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.formsubmit{
 	margin-top:8px;
 	clear:both;
-	
+
 }
 
 

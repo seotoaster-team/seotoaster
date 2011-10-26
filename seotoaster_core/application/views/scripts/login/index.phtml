@@ -16,23 +16,24 @@
 	</ul>
 <?php endif; ?>
 
-<div class="seotoaster container_12 w400 h300 rounded8px" style="box-shadow: 0px 0px 30px #c8c8c8; margin: 10% auto 0px auto; padding-bottom: 5px;">
-	<div class="header" style="border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
-		<h1><?php echo $this->translate('Login'); ?></h1>
+<div class="seotoaster container_12 w400 h295 rounded8px" style="box-shadow: 0px 0px 20px #bbb; margin: 10% auto 2% auto;">
+	<div class="header">
+		<?php echo $this->translate('Welcome Back'); ?>
 	</div>
 
-	<div class="textcentered mb10px">
-		<?php if(isset($this->flagsFiles) && is_array($this->flagsFiles) && !empty($this->flagsFiles)): ?>
-			<?php foreach($this->flagsFiles as $flagFileName => $flagFilePath): ?>
-				<a title="<?php echo ($this->translate('Select ') . $flagFileName . $this->translate(' language'));?> " href="javascript:;"><img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" /></a>&nbsp;
-			<?php endforeach; ?>
-		<?php endif; ?>
-	</div>
+
     <div class="clear"></div>
 	<div class="grid_12">
+		<div class="textcentered mb15px mt5px">
+			<?php if(isset($this->flagsFiles) && is_array($this->flagsFiles) && !empty($this->flagsFiles)): ?>
+				<?php foreach($this->flagsFiles as $flagFileName => $flagFilePath): ?>
+					<a class="flag-button" title="<?php echo ($this->translate('Select ') . $flagFileName . $this->translate(' language'));?> " href="javascript:;"><img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" /></a>&nbsp;
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
 		<form action="<?php echo $this->url(); ?>" method="post" >
 			<fieldset>
-				<legend><?php echo $this->translate('Welcome Back'); ?></legend>
+<!--				<legend><?php echo $this->translate('Welcome Back'); ?></legend>-->
 					<dl class="Zend_Form">
 						<?php
 							echo $this->loginForm->email;
@@ -46,6 +47,23 @@
 	<div class="clear"></div>
 </div>
 
+<style>
+	.seotoaster .header {
+		padding: 10px 5px 4px 11px;
+		font-weight: bold;
+	}
+	.seotoaster label, .seotoaster input[type=text], .seotoaster input[type=password] {
+		font-size: 12pt;
+	}
+	.seotoaster fieldset {
+		padding-bottom: 30px;
+		width: 370px;
+		margin: 0px auto;
+		margin-bottom: 7px;
+	}
+</style>
+
+
 <script type="text/javascript" charset="utf-8">
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
 	$('.lang-select').live('click', function() {
@@ -54,5 +72,6 @@
 			window.location.reload();
 		})
 	})
+	//$('.textcentered').buttonset();
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>
