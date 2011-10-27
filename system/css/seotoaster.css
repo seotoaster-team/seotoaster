@@ -388,10 +388,16 @@ body, body.seotoaster {
 /*TinyMce widget drop-down width hack*/
 #menu_content_content_widgets_menu_co {
 	width: 240px !important;
+	background-color: #fff;
+	-moz-border-radius:0px 0px 6px 6px;
+	-webkit-border-radius:0px 0px 6px 6px;
+	border-radius:0px 0px 6px 6px;
+	-moz-box-shadow:0px 2px 5px #333;
+	paddding:4px 10px 7px 0px;
 }
 
 .seotoaster #content {
-	height: 560px;
+	height: 500px;
 }
 
 .seotoaster #content.header-content {
@@ -549,36 +555,41 @@ body, body.seotoaster {
 	padding: 7px;
 }
 
+
 .seotoaster div#templatelist div.template_preview {
 	position: relative;
-}
-.seotoaster div#templatelist div.template_preview {
-	border: 1px solid #000;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
+	border: 1px solid #fff;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
 	text-align: center;
 	cursor: pointer;
 	margin: 2px 0 3px;
+	background-color:#fff;
+	overflow:hidden;
 }
 .seotoaster div#templatelist div.template_preview .template_delete {
 	display: inline;
 }
 .seotoaster div#templatelist div.template_preview .template_name {
-	line-height: 30px;
+	padding:5px 0px;
+	margin: 0px;
 	background-color: #666666;
+	font-size:11pt;
     color: #FFFFFF;
-    margin: 0 0 10px;
 	overflow: hidden;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
 	-icab-text-overflow: ellipsis;
 	-khtml-text-overflow: ellipsis;
 	-moz-text-overflow: ellipsis;
 	-webkit-text-overflow: ellipsis;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+	-moz-border-radius:0px 0px 3px 3px;
+	-webkit-border-radius:0px 0px 3px 3px;
+	border-radius:0px 0px 3px 3px;
 }
 .seotoaster div#templatelist div.template_preview .template_name:hover {
 	-o-text-overflow: inherit;
@@ -613,10 +624,6 @@ body, body.seotoaster {
 
 /*=========== Add/Edit page ===============*/
 
-.seotoaster .page-opts label {
-	width: 48%;
-	float: left;
-}
 
 
 /*=========== Organize Pages ==============*/
