@@ -1,8 +1,8 @@
 <?php foreach ($this->templates as $template) : ?>
-<div class="grid_3 template_item" title="<?php echo sprintf($this->translate('Click to edit %s template'), $template['name']); ?>">
+<div class="grid_2 template_item" title="<?php echo sprintf($this->translate('Click to edit %s template'), $template['name']); ?>">
 	<div class="template_preview">
-		<div class="mt10px mb30px" style="height:220px;">
-			<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;"/>
+		<div style="height:220px;">
+			<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
 		</div>
 		<div class="template_name">
 			<?php echo $template['name']; ?>
@@ -12,7 +12,5 @@
 		</div>
 		<?php echo $this->formHidden('template-id', $template['name'], array('id' => 'template-id-'.$template['name'])); ?>
 	</div>
-	
 </div>
-
 <?php endforeach; ?>

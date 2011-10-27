@@ -135,6 +135,11 @@ class Backend_ContentController extends Zend_Controller_Action {
 		switch ($this->_containerType) {
 			case Application_Model_Models_Container::TYPE_REGULARCONTENT:
 			case Application_Model_Models_Container::TYPE_STATICCONTENT:
+				$this->view->imagesSizes = array(
+					'small'  => $this->_helper->config->getConfig('imgSmall'),
+					'medium' => $this->_helper->config->getConfig('imgMedium'),
+					'large'  => $this->_helper->config->getConfig('imgLarge')
+				);
 				$rendered = $this->view->render('backend/content/content.phtml');
 			break;
 			case Application_Model_Models_Container::TYPE_REGULARHEADER:

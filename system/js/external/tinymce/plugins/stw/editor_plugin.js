@@ -13,9 +13,14 @@
 						type: 'post',
 						url: '/backend/backend_content/loadwidgets/',
 						success: function(widgets) {
-							for(var i = 0; i < widgets.length; i++) {
-								for(var j = 0; j < widgets[i].length; j++) {
-									widgetList.add('{$' + widgets[i][j] + '}', '{$' + widgets[i][j] + '}');
+							for(var i in widgets) {
+								for(var j in widgets[i]) {
+									if(typeof widgets[i][j].alias != 'undefined') {
+										widgetList.add(widgets[i][j].alias, '{$' + widgets[i][j].option + '}');
+									}
+									else {
+										widgetList.add('{$' + widgets[i][j] + '}', '{$' + widgets[i][j] + '}');
+									}
 								}
 							}
 						},
@@ -29,6 +34,5 @@
 	})
 	tinymce.PluginManager.add('stw', tinymce.plugins.SeotoasterWidgets);
 })();
-	
 
-	
+
