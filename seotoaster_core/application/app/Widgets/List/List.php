@@ -58,7 +58,35 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('list:categories', 'list:categories:img', 'list:pages', 'list:pages:img', 'list:pages:category_name', 'list:pages:category_name:img');
+
+		return array(
+			array(
+				'alias'  => 'List all categories',
+				'option' => 'list:categories'
+			),
+			array(
+				'alias'  => 'List all categories (with images)',
+				'option' => 'list:categories:img'
+			),
+			array(
+				'alias'  => 'List all pages for current category',
+				'option' => 'list:pages'
+			),
+			array(
+				'alias'  => 'List all pages for current category (with images)',
+				'option' => 'list:pages'
+			),
+			array(
+				'alias'  => 'List all pages for category',
+				'option' => 'list:pages:category_name'
+			),
+			array(
+				'alias'  => 'List all pages for category (with images)',
+				'option' => 'list:pages:category_name:img'
+			)
+		);
+
+		//return array('list:categories', 'list:categories:img', 'list:pages', 'list:pages:img', 'list:pages:category_name', 'list:pages:category_name:img');
 	}
 }
 

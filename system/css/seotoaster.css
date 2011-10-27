@@ -542,7 +542,7 @@ body, body.seotoaster {
 /*========= AND AND EDIT TEMPLATE ===========*/
 .seotoaster div#templatelist {
 	position: absolute;
-	background-color: #BDE6F1;
+	background: #dae8ed url('/system/images/sbg.png');
 }
 
 .seotoaster #listtemplates-btn {
