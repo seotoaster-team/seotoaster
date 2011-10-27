@@ -16,12 +16,18 @@ class Application_Form_Featured extends Zend_Form {
 			 ->setAttrib('data-callback', 'loadFaList');
 
 		$this->addElement(new Zend_Form_Element_Text(array(
-			'id'       => 'fa-name',
-			'name'     => 'name',
-			'label'    => 'Featured area name',
-			'value'    => $this->_name,
-			'required' => true,
-			'filters'  => array('StringTrim')
+			'id'         => 'fa-name',
+			'name'       => 'name',
+			'label'      => 'Featured area name',
+			'value'      => $this->_name,
+			'validators' => array(
+				new Zend_Validate_Db_NoRecordExists(array(
+					'table' => 'featured_area',
+					'field' => 'name'
+				))
+			),
+			'required'   => true,
+			'filters'    => array('StringTrim')
 		)));
 
 		$this->addElement(new Zend_Form_Element_Submit(array(

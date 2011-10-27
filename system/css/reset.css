@@ -83,8 +83,13 @@
 .h640 { height:640px; }
 .h650 { height:650px; }
 
- .rounded8px,.rounded8px { -moz-border-radius:8px; -webkit-border-radius:8px;border-radius:8px; }
- .totalcentered, .totalcentered {position:absolute; top:50%; left:50%;}
+.h80p {
+	height: 80%;
+}
+
+.rounded3px,.rounded3px { -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+.rounded8px,.rounded8px { -moz-border-radius:8px; -webkit-border-radius:8px;border-radius:8px; }
+.totalcentered, .totalcentered {position:absolute; top:50%; left:50%;}
 .textcentered, .textcentered{text-align:center;}
 
  .padding5px { padding:5px; }

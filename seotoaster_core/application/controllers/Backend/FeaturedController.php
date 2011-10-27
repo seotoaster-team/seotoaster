@@ -16,7 +16,8 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'loadfalist'    => 'json',
 			'addpagetofa'   => 'json',
-			'rempagefromfa' => 'json'
+			'rempagefromfa' => 'json',
+			'delete'        => 'json'
 		))->initContext('json');
 	}
 

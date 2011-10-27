@@ -12,9 +12,11 @@ class Backend_UserController extends Zend_Controller_Action {
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
-		$this->_helper->AjaxContext()->addActionContext('list', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('delete', 'json')->initContext('json');
-		$this->_helper->AjaxContext()->addActionContext('load', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContexts(array(
+			'list'   => 'json',
+			'delete' => 'json',
+			'load'   => 'json'
+		))->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
 

@@ -32,22 +32,39 @@ body, body.seotoaster {
 	padding: 4px 0px 6px 4px;;
 	margin-bottom:10px;
 	height:22px;
-	-webkit-border-radius: 8px 8px 0px 0px;
+/*	-webkit-border-radius: 8px 8px 0px 0px;
 	-moz-border-radius: 8px 8px 0px 0px;
-	border-radius: 8px 8px 0px 0px;
+	border-radius: 8px 8px 0px 0px;*/
+	-webkit-border-radius: 3px 3px 0px 0px;
+	-moz-border-radius: 3px 3px 0px 0px;
+	border-radius: 3px 3px 0px 0px;
 }
 .seotoaster .closebutton {
 	background-color: #444444;
 	color: #FFFFFF;
 	cursor:pointer;
 	font-weight: bold;
-	padding: 8px 10px 8px 14px;
+	padding: 8px 0px 8px 0px;
 	position: absolute;
 	right: 0;
 	top: 0;
-	-webkit-border-radius: 0px 8px 0px 0px;
+/*	-webkit-border-radius: 0px 8px 0px 0px;
 	-moz-border-radius: 0px 8px 0px 0px;
-	border-radius: 0px 8px 0px 0px;
+	border-radius: 0px 8px 0px 0px;*/
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.seotoaster .closebutton span.close {
+	padding: 7px 10px;
+	margin: 0px;
+}
+
+.seotoaster .closebutton span.help {
+	font-size: 12px;
+	padding: 10px 9px 8px 9px;
+	background: #ccc;
 }
 
 .seotoaster .ajaxspineer {
@@ -71,7 +88,7 @@ body, body.seotoaster {
 	overflow: hidden;
 }
 
-.seotoaster .closebutton:hover { background-color: #999; }
+.seotoaster .closebutton span.close:hover { background-color: #999; }
 .seotoaster .red { color:red; }
 /*==== Links ========*/
 .seotoaster a {
@@ -397,7 +414,12 @@ body, body.seotoaster {
 }
 
 .seotoaster #content {
-	height: 500px;
+	height: 558px;
+	width: 610px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	paddding:4px 10px 7px 0px;
 }
 
 .seotoaster #content.header-content {
@@ -407,7 +429,7 @@ body, body.seotoaster {
 .seotoaster #btn-submit {
 	position: absolute;
 	bottom: 5px;
-	right: 3px;
+	right: 8px;
 }
 
 .seotoaster div.header label { /*publish or not form in header*/
@@ -453,6 +475,9 @@ body, body.seotoaster {
 	font-size: 14px;
 	padding: 0px;
 	height: 555px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .seotoaster div#tabs div.ui-tabs-panel {

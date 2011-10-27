@@ -1,5 +1,9 @@
 <div class="header" style="overflow:hidden;">
-	<div class="closebutton"><?php echo $this->translate('Close'); ?></div>
+	<div class="closebutton">
+		<span class="help"><?php echo $this->translate('Help'); ?></span>
+		<span class="close"><?php echo $this->translate('Close'); ?></span>
+	</div>
+
 <!--	<label>-->
 		<?php echo (isset($this->headerText) ? $this->translate($this->headerText) : ''); ?>
 		<?php if(isset($this->innerHeaderHtml) && $this->innerHeaderHtml): ?>
