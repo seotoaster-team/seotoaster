@@ -1,8 +1,8 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
-<div class="seotoaster container_12 w960 h80p rounded8px">
+<div class="seotoaster container_12 w960 h80p rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template')); ?>
 
-	<div id="templatelist" class="h600 ui-helper-hidden" style="z-index: 99; overflow-x: hidde; overflow-y: scroll !important; width: 100%;"></div>
+	<div id="templatelist" class="h610 ui-helper-hidden" style="z-index: 99; overflow-x: hidde; overflow-y: scroll !important; width: 100%; margin-top: -42px; padding-top: 15px;"></div>
 	<?php $this->templateForm->setAction($this->websiteUrl.$this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
 		<div class="grid_8">

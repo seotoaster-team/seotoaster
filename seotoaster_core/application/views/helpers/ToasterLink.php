@@ -32,20 +32,20 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		switch ($winSizeType) {
 			case self::WSIZE_LARGE:
 				$params = array(
-					'width'  => 960,
-					'height' => 650
+					'width'  => 964,
+					'height' => 654
 				);
 			break;
 			case self::WSIZE_MEDIUM:
 				$params = array(
 					'width'  => 480,
-					'height' => 650
+					'height' => 654
 				);
 			break;
 			case self::WSIZE_SMALL:
 				$params = array(
-					'width'  => 960,
-					'height' => 650
+					'width'  => 964,
+					'height' => 654
 				);
 			break;
 			default:

@@ -1,3 +1,11 @@
+<!--<div class="header" style="overflow:hidden;"><a href="javascript:;" id="lnk-back">Back</a></div>-->
+<script type="text/javascript">
+	$(function(){
+		$('#lnk-back').click(function(){
+			$('#templatelist').slideUp();
+		})
+	})
+</script>
 <?php foreach ($this->templates as $template) : ?>
 <div class="grid_2 template_item" title="<?php echo sprintf($this->translate('Click to edit %s template'), $template['name']); ?>">
 	<div class="template_preview">

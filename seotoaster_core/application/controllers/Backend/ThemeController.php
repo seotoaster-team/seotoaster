@@ -222,9 +222,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 */
 	public function gettemplateAction(){
 		if ($this->getRequest()->isPost()){
-			$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+			$mapper        = Application_Model_Mappers_TemplateMapper::getInstance();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
-			$currentTheme = $this->_helper->config->getConfig('currentTheme');
+			$currentTheme  = $this->_helper->config->getConfig('currentTheme');
 			//get template preview image
 			$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
 			if ($templatePreviewDir && is_dir($templatePreviewDir)){

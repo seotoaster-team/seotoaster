@@ -11,7 +11,7 @@ $(function() {
 		e.preventDefault();
 		link    = $(this);
 		pwidth  = link.data('pwidth') || 960;
-		pheight = link.data('pheight') || 650;
+		pheight = link.data('pheight') || 654;
 		if(!$(this).data('') && top.$('#__tpopup').length) {
 			var currUrl     = top.$('#__tpopup').attr('src');
 			var currWidth   = top.$('#__tpopup').css('width');
@@ -32,7 +32,7 @@ $(function() {
 		top.$('#__tpopup').data('backurl', null);
 		top.$('#__tpopup').data('backwidth', null);
 		top.$('#__tpopup').data('backheight', null);
-		popup = $(document.createElement('iframe')).attr('id', '__tpopup');
+		popup = $(document.createElement('iframe')).attr('id', '__tpopup').attr('scrolling', 'no');
 		popup.dialog({
 			width: pwidth,
 			height: pheight,
