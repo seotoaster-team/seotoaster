@@ -32,40 +32,47 @@ body, body.seotoaster {
 	padding: 4px 0px 6px 4px;;
 	margin-bottom:10px;
 	height:22px;
-/*	-webkit-border-radius: 8px 8px 0px 0px;
-	-moz-border-radius: 8px 8px 0px 0px;
-	border-radius: 8px 8px 0px 0px;*/
 	-webkit-border-radius: 3px 3px 0px 0px;
 	-moz-border-radius: 3px 3px 0px 0px;
 	border-radius: 3px 3px 0px 0px;
+
 }
 .seotoaster .closebutton {
 	background-color: #444444;
 	color: #FFFFFF;
 	cursor:pointer;
 	font-weight: bold;
-	padding: 8px 0px 8px 0px;
+	/*padding: 8px 0px 8px 0px;*/
+	height:32px;
 	position: absolute;
 	right: 0;
 	top: 0;
-/*	-webkit-border-radius: 0px 8px 0px 0px;
-	-moz-border-radius: 0px 8px 0px 0px;
-	border-radius: 0px 8px 0px 0px;*/
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	overflow: hidden;
 }
 
 .seotoaster .closebutton span.close {
-	padding: 7px 10px;
+	display:block;
+	padding: 7px 10px 9px;
 	margin: 0px;
+	float:left;
 }
 
 .seotoaster .closebutton span.help {
-	font-size: 12px;
-	padding: 10px 9px 8px 9px;
-	background: #ccc;
+    background: none repeat scroll 0 0 #666666;
+    color: lightBlue;
+    font-size: 10px;
+    font-weight: normal;
+    padding:10px 10px 12px 10px;
+    text-shadow: 0.02em  0 0.03em #FFFFFF;
+    display: block;
+    float: left;
 }
+.seotoaster .closebutton span.help:hover {
+    text-decoration:underline;
+   }
 
 .seotoaster .ajaxspineer {
 	background: url('/system/images/fl.gif') no-repeat scroll 50% 0 transparent;
