@@ -409,6 +409,13 @@ body, body.seotoaster {
 
 /*========= EDIT CONTENT ===========*/
 
+/* override seotoaster ui styles */
+
+.ui-tabs .ui-tabs-nav li a {
+	padding: 3px 7px;
+	color: #7c7c7c;
+}
+
 /*TinyMce widget drop-down width hack*/
 #menu_content_content_widgets_menu_co {
 	width: 240px !important;
@@ -435,6 +442,8 @@ body, body.seotoaster {
 
 .seotoaster #btn-submit {
 	margin: 9px 11px;
+	margin: 10px 12px;
+    width: 295px;
 }
 
 .seotoaster div.header label { /*publish or not form in header*/
