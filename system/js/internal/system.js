@@ -24,6 +24,11 @@ $(function() {
 				width    : pwidth + 'px',
 				height   : pheight + 'px'
 			});
+
+			top.$('#__tpopup').parent().css({
+				left : '437px'
+			})
+
 			top.$('#__tpopup').data('backurl', currUrl);
 			top.$('#__tpopup').data('backwidth', currWidth);
 			top.$('#__tpopup').data('backheight', currHeight);
@@ -120,6 +125,10 @@ $(function() {
 				width  : top.$('#__tpopup').data('backwidth'),
 				height : top.$('#__tpopup').data('backheight')
 			});
+
+			if(top.$('#__tpopup').parent().css('left') == '437px') {
+				top.$('#__tpopup').parent().css({left: '231px'});
+			}
 
 			top.$('#__tpopup').attr('src', top.$('#__tpopup').data('backurl'));
 			top.$('#__tpopup').data('backurl', null);
