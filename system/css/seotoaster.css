@@ -227,7 +227,7 @@ body, body.seotoaster {
 /*=========== Tabs ========================*/
 .seotoaster .tabs {
 	background: url('/system/images/bg-strip.png') !important;
-	height: 535px;
+/*	height: 535px;*/
 }
 
 .seotoaster ul.tabs {
@@ -434,9 +434,7 @@ body, body.seotoaster {
 }
 
 .seotoaster #btn-submit {
-	position: absolute;
-	bottom: 5px;
-	right: 8px;
+	margin: 9px 11px;
 }
 
 .seotoaster div.header label { /*publish or not form in header*/
@@ -480,8 +478,7 @@ body, body.seotoaster {
 
 .seotoaster div#tabs {
 	font-size: 14px;
-	padding: 0px;
-	height: 555px;
+	padding: 0 0 5px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -502,7 +499,7 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div {
 	background: #E7E7E7e;
 	padding: 10px 03px 5px 3px;
-	max-height: 250px;
+	max-height: 235px;
 	overflow-y: auto;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
@@ -575,6 +572,7 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select {
 	cursor: pointer;
 	border: 1px solid #BDE6F1;
+	padding: 2px 0px;
 }
 
 /*========= AND AND EDIT TEMPLATE ===========*/

@@ -1,5 +1,5 @@
 <!--$this->render('backend/content/top.phtml')-->
-<div class="seotoaster container_12 w960 h80p rounded3px" style="min-height: 645px;">
+<div class="seotoaster container_12 w960 h650 rounded3px">
 	<?php
 		$draftOrLive = $this->toasterDraftorlive(array(
 			'published'        => $this->contentForm->getPublished(),
@@ -13,9 +13,16 @@
 			<a href="#">Help</a> | <a href="#">Latest toaster news</a> | <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No editor'); ?></a>
 		</div>
 		<?php
-			$this->contentForm->setAction($this->url());
-			echo $this->contentForm;
+			/*$this->contentForm->setAction($this->url());
+			echo $this->contentForm;*/
 		?>
+		<form id="frm_content" action="/backend/backend_content/edit/id/29/containerType/1" method="post" enctype="application/x-www-form-urlencoded">
+			<?php echo $this->contentForm->getElement('content'); ?>
+			<?php echo $this->contentForm->getElement('containerType'); ?>
+			<?php echo $this->contentForm->getElement('containerName'); ?>
+			<?php echo $this->contentForm->getElement('pageId'); ?>
+			<?php echo $this->contentForm->getElement('containerId'); ?>
+		</form>
 	</div>
 
 	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
@@ -31,6 +38,7 @@
 	<?php endif; ?>
 
 	<?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 tabs'));?>
+	<?php echo $this->contentForm->getElement('submit'); ?>
 
 </div>
 
@@ -41,5 +49,8 @@
 <script type="text/javascript">
 	$(function() {
 		$('#tabs ul').removeClass('ui-corner-all').addClass('ui-corner-top')
+		$('#btn-submit').click(function(){
+			$('#frm_content').submit();
+		})
 	})
 </script>
