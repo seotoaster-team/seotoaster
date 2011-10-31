@@ -17,9 +17,6 @@ body, body.seotoaster {
 	overflow:hidden;
 	border: 2px solid #fff;
 
-	/*background:-moz-linear-gradient(-45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6+ */
-	/*background:-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1))); /* Chrome,Safari4+ */
-
 	background: #dae8ed url('/system/images/sbg.png');
 
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
@@ -30,13 +27,13 @@ body, body.seotoaster {
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
-	padding: 4px 0px 6px 4px;;
+	padding: 7px 0px 3px 6px;;
 	margin-bottom:10px;
 	height:22px;
 	-webkit-border-radius: 3px 3px 0px 0px;
 	-moz-border-radius: 3px 3px 0px 0px;
 	border-radius: 3px 3px 0px 0px;
-
+	font-size:11pt;
 }
 .seotoaster .closebutton {
 	background-color: #444444;
@@ -418,6 +415,7 @@ body, body.seotoaster {
 }
 
 /*TinyMce widget drop-down width hack*/
+
 #menu_content_content_widgets_menu_co {
 	width: 240px !important;
 	background-color: #fff;
@@ -457,6 +455,8 @@ body, body.seotoaster {
 	font-size:10pt;
 	padding: 1px 0px;
 	margin:0;
+	position:relative;
+	top: -3px;
 }
 
 
@@ -507,7 +507,7 @@ body, body.seotoaster {
 
 
 .seotoaster div#tabs #adminthingsviewer div.show_div {
-	background: #E7E7E7e;
+	background: #fff;
 	padding: 10px 03px 5px 3px;
 	max-height: 235px;
 	overflow-y: auto;
@@ -542,6 +542,7 @@ body, body.seotoaster {
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker {
 	background: #fff;
+	/*background-image: url('http://www.aladdinremodelers.com/images/grid.gif');*/
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block {
@@ -551,8 +552,10 @@ body, body.seotoaster {
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.formsubmit{
-	margin-top:8px;
+	margin-top:5px;
 	clear:both;
+	font-size: 11pt;
+	padding:2px 20px;
 
 }
 
@@ -566,12 +569,16 @@ body, body.seotoaster {
 }
 
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker h3 {
-	padding: 8px;
-	background: #666;
-	color: #fff;
-	margin-bottom:5px;
+	padding: 5px 0px 5px 8px;
+	background: #7C7C7C;
+	color: white;
+	margin-bottom: 5px;
+/*	-webkit-box-shadow: 0px 2px 2px #ddd;
+	-moz-box-shadow: 0px 2px 2px #aaa;
+	box-shadow: 0px 2px 2px #aaa;
+	-webkit-border-radius:2px 2px 0px 0px;*/
+	/*border-bottom: 1px solid #BBB;*/
 }
-
 .seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
 }
@@ -663,8 +670,21 @@ body, body.seotoaster {
 .seotoaster .blue { background-color:blue; }
 
 /*=========== Add/Edit page ===============*/
-
-
+div#page-teaser-uploader{
+	text-align:center;
+	padding: 8px;
+}
+div#page-teaser-uploader button.ui-state-default{
+-moz-border-radius: #3px;
+-webkit-order-radius: #3px;
+border-radius: #3px;
+border:1px solid #fff;
+}
+div#page-teaser-uploader span.ui-button-text{
+		padding: 4px 10px;	
+		line-height: normal;
+		color: #3C78A7;
+}
 
 /*=========== Organize Pages ==============*/
 .seotoaster span.catmove {
