@@ -441,13 +441,13 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Dialog#theming
  */
-.ui-dialog { position: absolute; /*padding: .2em;*/ width: 300px; overflow: hidden; }
+.ui-dialog { position: absolute; /*padding: .2em;*/ width: 300px; overflow: hidden; background: #eee;}
 .ui-dialog .ui-dialog-titlebar { padding: .4em 1em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
 .ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
 .ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; }
-.ui-dialog .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
+.ui-dialog .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; background: #fff;}
 .ui-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0 0 0; background-image: none; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { float: right; }
 .ui-dialog .ui-dialog-buttonpane button { margin: .5em .4em .5em 0; cursor: pointer; }
@@ -503,7 +503,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Datepicker#theming
  */
-.ui-datepicker { width: 17em; padding: .2em .2em 0; display: none; }
+.ui-datepicker { width: 17em; padding: .2em .2em 0; display: none; background: #dae8ed;}
 .ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
 .ui-datepicker .ui-datepicker-prev-hover, .ui-datepicker .ui-datepicker-next-hover { top: 1px; }

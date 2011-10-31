@@ -4,7 +4,7 @@
 		<?php if($this->draftPages && is_array($this->draftPages)): ?>
 			<?php foreach($this->draftPages as $draftPage): ?>
 				<p style="overflow: hidden;">
-					<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>" style="text-decoration: underline; font-size: 30px; font-family: Arial;"  href="javascript:;" title="<?php echo $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
+					<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
 				</p>
 			<?php endforeach; ?>
 		<?php endif; ?>
