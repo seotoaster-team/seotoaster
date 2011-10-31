@@ -15,7 +15,7 @@ class Application_Form_Robots extends Zend_Form {
 			'cols'     => '45',
 			'rows'     => '7',
 			'label'    => 'Robots txt',
-			'class'    => 'h490',
+			'class'    => 'h220',
 			'value'    => $this->_content,
 			'filters'  => array('StringTrim')
 		)));
@@ -26,6 +26,9 @@ class Application_Form_Robots extends Zend_Form {
 			'label'  => 'Save robots.txt',
 			'class'  => 'formsubmit',
 		)));
+
+		$this->setElementDecorators(array('ViewHelper', 'Label'));
+		$this->getElement('updateRobots')->removeDecorator('Label');
 	}
 
 	public function getContent() {

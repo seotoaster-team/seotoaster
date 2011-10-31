@@ -33,7 +33,7 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('SEO'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, Zend_View_Helper_ToasterLink::WSIZE_SMALL); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Link strategy'); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
@@ -43,8 +43,8 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('LAYOUT'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template')); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit this template', 'id/' . $this->pageData['templateId']); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template'), 'pid/' . $this->pageData['id']); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit this template', 'id/' . $this->pageData['templateId'] . '/pid/' . $this->pageData['id']); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Tokens'); ?></a></li>

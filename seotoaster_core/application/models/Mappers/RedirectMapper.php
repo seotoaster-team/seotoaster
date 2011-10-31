@@ -36,7 +36,7 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
 		$redirects   = $this->fetchAll();
 		if(!empty($redirects)) {
 			foreach ($redirects as $redirect) {
-				$redirectMap[$redirect->getFromUrl()] = $redirect->getToUrl();
+				$redirectMap[$redirect->getFromUrl()] = $redirect->getdomainTo() . $redirect->getToUrl();
 			}
 		}
 		return $redirectMap;

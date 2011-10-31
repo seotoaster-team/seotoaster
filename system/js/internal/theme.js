@@ -23,11 +23,11 @@ $(function() {
 		}
 		return false;
 	});
-	
+
 	$('#listtemplates-btn').button().click(function(){
 		$.post(
-			$('#website_url').val()+'backend/backend_theme/gettemplate/', 
-			{'listtemplates':'all'}, 
+			$('#website_url').val()+'backend/backend_theme/gettemplate/',
+			{'listtemplates':'all', 'pageId' : $('#pageId').val()},
 			function(html){
 				$('#templatelist').html(html).slideDown().css('overflow-y', 'auto');
 			},

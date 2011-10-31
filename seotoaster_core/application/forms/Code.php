@@ -23,7 +23,7 @@ class Application_Form_Code extends Application_Form_Container {
 			'cols'     => '85',
 			'rows'     => '30',
 			'class'    => 'code-content',
-			'style'    => 'height: 526px; font-family: Arial monospace;',
+			'style'    => 'height: 220px; font-family: Arial monospace; width: 458px;',
 			'value'    => $this->_content,
 			'filters'  => array('StringTrim')
 		));

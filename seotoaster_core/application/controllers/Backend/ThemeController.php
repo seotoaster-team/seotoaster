@@ -33,6 +33,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$mapper       = Application_Model_Mappers_TemplateMapper::getInstance();
 		$currentTheme = $this->_helper->config->getConfig('currentTheme');
 		if(!$this->getRequest()->isPost()) {
+			$templateForm->getElement('pageId')->setValue($this->getRequest()->getParam('pid'));
 			if($templateName) {
 				$template = $mapper->find($templateName);
 				if($template instanceof Application_Model_Models_Template) {
@@ -224,6 +225,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()){
 			$mapper        = Application_Model_Mappers_TemplateMapper::getInstance();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
+			$pageId        = $this->getRequest()->getParam('pageId');
+			if($pageId) {
+				$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
+			}
 			$currentTheme  = $this->_helper->config->getConfig('currentTheme');
 			//get template preview image
 			$templatePreviewDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme.DIRECTORY_SEPARATOR.$this->_themeConfig['templatePreview'];
@@ -238,7 +243,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				case Application_Model_Models_Template::TYPE_PRODUCT:
 				case Application_Model_Models_Template::TYPE_LISTING:
 				case Application_Model_Models_Template::TYPE_MAIL:
-					$this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme);
+					$template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : null;
+					$this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
 					$this->view->protectedTemplates = $this->_protectedTemplates;
 					echo $this->view->render($this->getViewScript('templateslist'));
 				break;
@@ -247,7 +253,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					if ($template instanceof Application_Model_Models_Template) {
 						$template = array(
 								'id'		=> $template->getId(),
-								'name'		=> $template->getName(),
+								'name'		=> Tools_Text_Tools::cutText($template->getName(), 10),
+								'fullName'  => $template->getName(),
 								'type'      => $template->getType(),
 								'content'	=> $template->getContent(),
 								'preview'	=> isset($tmplImages[$template->getName()]) ?
@@ -265,14 +272,16 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		}
 	}
 
-	private function _getTemplateListByType($type, $tmplImages, $currentTheme) {
+	private function _getTemplateListByType($type, $tmplImages, $currentTheme, $currTemplate = '') {
 		$where        = (($type != 'all') ? "type = '" . $type . "'" : null);
 		$templates    = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll($where);
 		$templateList = array();
 		foreach ($templates as $template) {
 			array_push($templateList, array(
 				'id'	        => $template->getId(),
-				'name'	        => $template->getName(),
+				'name'	        => Tools_Text_Tools::cutText($template->getName(), 10),
+				'fullName'      => $template->getName(),
+				'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
 				'content'       => $template->getContent(),
 				'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] : 'system/images/no_preview.png'
 			));

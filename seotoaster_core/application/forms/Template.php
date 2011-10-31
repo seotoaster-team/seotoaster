@@ -61,6 +61,11 @@ class Application_Form_Template extends Zend_Form {
 			'id'    => 'template_id'
 		));
 
+		$this->addElement(new Zend_Form_Element_Hidden(array(
+			'id'    => 'pageId',
+			'name'  => 'pageId',
+		)));
+
 		$this->addElement('submit', 'submit', array(
 			'label'  => 'Save changes',
 			'class'  => array('formsubmit', 'w250'),

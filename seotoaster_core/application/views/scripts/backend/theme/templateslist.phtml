@@ -6,8 +6,9 @@
 		})
 	})
 </script>
+<div style="overflow-y: scroll;" class="h520">
 <?php foreach ($this->templates as $template) : ?>
-<div class="grid_2 template_item" title="<?php echo sprintf($this->translate('Click to edit %s template'), $template['name']); ?>">
+<div class="grid_2 template_item <?php echo ((isset($template['isCurrent']) && $template['isCurrent']) ? 'curr-template' : ''); ?>" title="<?php echo sprintf($this->translate('%s template'), $template['fullName']); ?>">
 	<div class="template_preview">
 		<div style="height:220px;">
 			<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
@@ -22,3 +23,4 @@
 	</div>
 </div>
 <?php endforeach; ?>
+</div>

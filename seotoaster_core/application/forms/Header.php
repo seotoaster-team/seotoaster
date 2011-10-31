@@ -19,5 +19,13 @@ class Application_Form_Header extends Application_Form_Container {
 		));
 
 		parent::init();
+
+		$this->addElement('submit', 'submit', array(
+			'id'     => 'btn-submit',
+			'label'  => 'Save content',
+			'class'  => 'formsubmit',
+			'style'  => 'margin: 10px 5px',
+			'ignore' => true
+		));
     }
 }
