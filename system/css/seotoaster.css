@@ -631,6 +631,12 @@ body, body.seotoaster {
 	-webkit-border-radius:0px 0px 3px 3px;
 	border-radius:0px 0px 3px 3px;
 }
+
+.seotoaster div#templatelist .curr-template {
+	background: #E66F00;
+}
+
+
 .seotoaster div#templatelist div.template_preview .template_name:hover {
 	-o-text-overflow: inherit;
     text-overflow: inherit;
