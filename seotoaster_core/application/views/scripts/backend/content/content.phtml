@@ -16,7 +16,7 @@
 			/*$this->contentForm->setAction($this->url());
 			echo $this->contentForm;*/
 		?>
-		<form id="frm_content" action="/backend/backend_content/edit/id/29/containerType/1" method="post" enctype="application/x-www-form-urlencoded">
+		<form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 			<?php echo $this->contentForm->getElement('content'); ?>
 			<?php echo $this->contentForm->getElement('containerType'); ?>
 			<?php echo $this->contentForm->getElement('containerName'); ?>
