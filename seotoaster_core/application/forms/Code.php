@@ -34,6 +34,14 @@ class Application_Form_Code extends Application_Form_Container {
 
 		parent::init();
 
+		$this->addElement('submit', 'submit', array(
+			'id'     => 'btn-submit',
+			'label'  => 'Save content',
+			'class'  => 'formsubmit',
+			'style'  => 'margin: 10px 0px',
+			'ignore' => true
+		));
+
 		$this->removeDecorator('DtDdWrapper');
 		$this->removeDecorator('DlWrapper');
 

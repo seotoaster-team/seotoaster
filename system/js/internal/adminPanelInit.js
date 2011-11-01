@@ -80,7 +80,7 @@ $(function() {
 					$( this ).dialog( "close" );
 				}
 			}
-		});
+		}).parent().css({background : '#eee'});
 	})
 
 })

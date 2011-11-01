@@ -33,7 +33,7 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 		}
 
 		if($this->_acl->isAllowed($currentUser, $this)) {
-			$codeContent .= $this->_addAdminLink($this->_type, (!$codeContent) ? null : $code->getId(), $this->_translator->translate('Click to edit header'), 480, 350);
+			$codeContent .= $this->_addAdminLink($this->_type, (!$codeContent) ? null : $code->getId(), $this->_translator->translate('Click to edit header'), 480, 341);
 		}
 
 		return $codeContent;
