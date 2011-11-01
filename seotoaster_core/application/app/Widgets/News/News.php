@@ -91,7 +91,21 @@ class Widgets_News_News extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('news:list', 'news:scroller', 'news:category_name');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Lis of all news'),
+				'options' => 'news:list'
+			),
+			array(
+				'alias'   => $translator->translate('Lis of all news by category name'),
+				'options' => 'news:category_name'
+			),
+			array(
+				'alias'   => $translator->translate('News scroller'),
+				'options' => 'news:scroller'
+			)
+		);
 	}
 }
 

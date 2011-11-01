@@ -1,5 +1,5 @@
 <!--$this->render('backend/content/top.phtml')-->
-<div class="seotoaster container_12 w960 h650 rounded3px">
+<div class="seotoaster container_12 w960 h590 rounded3px">
 	<?php
 		$draftOrLive = $this->toasterDraftorlive(array(
 			'published'        => $this->contentForm->getPublished(),
@@ -26,8 +26,8 @@
 	</div>
 
 	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
-	<?php $this->tabPane('tabs', 'Shopping', array('title' => 'Shopping'));?>
-	<?php //$this->tabPane('tabs', 'Smth', array('title' => 'Tab3'));?>
+	<?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets'), 'contentUrl' => $this->websiteUrl . 'backend/backend_content/loadwidgetmaker'));?>
+	<?php $this->tabPane('tabs', 'Shopping', array('title' => $this->translate('Shopping')));?>
 
 	<?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
 

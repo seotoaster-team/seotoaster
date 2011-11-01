@@ -244,13 +244,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function loadwidgetmakerAction() {
 		$this->_helper->getHelper('layout')->disableLayout();
-		if($this->getRequest()->isPost()) {
+		if($this->getRequest()->isPost() || $this->getRequest()->isGet()) {
 			if(!($widgetMakerContent = $this->_helper->cache->load('widgetMakerContent', 'wmc_'))) {
 				$this->view->widgetsData = array_merge(Tools_Widgets_Tools::getWidgetmakerContent(), Tools_Plugins_Tools::getWidgetmakerContent());
 				$widgetMakerContent      = $this->view->render('backend/content/widgetmaker.phtml');
 				$this->_helper->cache->save('widgetMakerContent', $widgetMakerContent, 'wmc_', array(), Helpers_Action_Cache::CACHE_LONG);
 			}
-			$this->_helper->response->success($widgetMakerContent);
+			//$this->_helper->response->success($widgetMakerContent);
+			echo $widgetMakerContent;
 		}
 		exit;
 	}

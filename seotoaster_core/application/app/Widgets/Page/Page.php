@@ -45,7 +45,29 @@ class Widgets_Page_Page extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('page:id', 'page:h1', 'page:title', 'page:preview', 'page:teaser');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Current page id'),
+				'options' => 'page:id'
+			),
+			array(
+				'alias'   => $translator->translate('Current page h1'),
+				'options' => 'page:h1'
+			),
+			array(
+				'alias'   => $translator->translate('Current page title'),
+				'options' => 'page:title'
+			),
+			array(
+				'alias'   => $translator->translate('Current page teaser image'),
+				'options' => 'page:preview'
+			),
+			array(
+				'alias'   => $translator->translate('Current page teaser text'),
+				'options' => 'page:teaser'
+			)
+		);
 	}
 
 }

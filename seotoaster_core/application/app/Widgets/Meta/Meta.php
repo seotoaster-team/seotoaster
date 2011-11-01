@@ -27,10 +27,5 @@ class Widgets_Meta_Meta extends Widgets_Abstract {
 		}
 		return $metaContent;
 	}
-
-	public static function getAllowedOptions() {
-		return array('meta:description', 'meta:keywords');
-	}
-
 }
 

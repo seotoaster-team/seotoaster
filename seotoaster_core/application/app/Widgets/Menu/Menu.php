@@ -49,7 +49,17 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('menu:main', 'menu:static');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Main menu'),
+				'options' => 'menu:main'
+			),
+			array(
+				'alias'   => $translator->translate('Static menu'),
+				'options' => 'menu:static'
+			)
+		);
 	}
 
 }

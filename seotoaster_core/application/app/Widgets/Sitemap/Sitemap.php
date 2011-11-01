@@ -35,7 +35,13 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('sitemap');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Site map'),
+				'options' => 'sitemap'
+			)
+		);
 	}
 }
 

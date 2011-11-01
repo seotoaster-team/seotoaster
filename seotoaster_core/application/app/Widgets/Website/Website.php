@@ -20,7 +20,13 @@ class Widgets_Website_Website extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('website:url');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Website url'),
+				'options' => 'website:url'
+			)
+		);
 	}
 
 }

@@ -1,4 +1,6 @@
-<?php foreach ($this->widgetsData as $key => $widgetData): ?>
-	<h3><?php echo $this->translate($widgetData['title']); ?></h3>
-	<?php echo $widgetData['content']; ?>
-<?php endforeach; ?>
+<div id="widgets_maker" class="show_div">
+	<?php foreach ($this->widgetsData as $key => $widgetData): ?>
+		<h3><?php echo $this->translate($widgetData['title']); ?></h3>
+		<?php echo $widgetData['content']; ?>
+	<?php endforeach; ?>
+</div>

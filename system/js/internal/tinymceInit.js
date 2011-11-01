@@ -6,7 +6,7 @@ $(document).ready(function(){
 		theme                   : "advanced",
 		elements                : 'nourlconvert',
 		width                   : 620,
-		height                  : 565,
+		height                  : 510,
 		plugins                 : "safari,preview,spellchecker,fullscreen,media,paste,stw", //table
 		//plugins               : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
 		theme_advanced_buttons1 : "bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,|,link,unlink,anchor,hr",

@@ -12,7 +12,17 @@ class Widgets_Seo_Seo extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('seo:top', 'seo:bottom');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Seo top content'),
+				'options' => 'seo:top'
+			),
+			array(
+				'alias'   => $translator->translate('Seo bottom content'),
+				'options' => 'seo:bottom'
+			)
+		);
 	}
 
 	private function _renderSeoTop() {

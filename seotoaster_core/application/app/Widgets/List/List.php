@@ -58,30 +58,30 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-
+		$translator = Zend_Registry::get('Zend_Translate');
 		return array(
 			array(
-				'alias'  => 'List all categories',
+				'alias'  => $translator->translate('List all categories'),
 				'option' => 'list:categories'
 			),
 			array(
-				'alias'  => 'List all categories (with images)',
+				'alias'  => $translator->translate('List all categories (with images)'),
 				'option' => 'list:categories:img'
 			),
 			array(
-				'alias'  => 'List all pages for current category',
+				'alias'  => $translator->translate('List all pages for current category'),
 				'option' => 'list:pages'
 			),
 			array(
-				'alias'  => 'List all pages for current category (with images)',
+				'alias'  => $translator->translate('List all pages for current category (with images)'),
 				'option' => 'list:pages'
 			),
 			array(
-				'alias'  => 'List all pages for category',
+				'alias'  => $translator->translate('List all pages for category'),
 				'option' => 'list:pages:category_name'
 			),
 			array(
-				'alias'  => 'List all pages for category (with images)',
+				'alias'  => $translator->translate('List all pages for category (with images)'),
 				'option' => 'list:pages:category_name:img'
 			)
 		);

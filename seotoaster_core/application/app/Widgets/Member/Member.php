@@ -46,7 +46,17 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	}
 
 	public static function getAllowedOptions() {
-		return array('member:login', 'member:logout');
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Member area login form'),
+				'options' => 'member:login'
+			),
+			array(
+				'alias'   => $translator->translate('Member area logout button'),
+				'options' => 'member:logout'
+			)
+		);
 	}
 }
 

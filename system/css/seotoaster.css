@@ -427,7 +427,7 @@ body, body.seotoaster {
 }
 
 .seotoaster #content {
-	height: 558px;
+	height: 505px;
 	width: 610px;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -510,7 +510,7 @@ body, body.seotoaster {
 .seotoaster div#tabs #adminthingsviewer div.show_div {
 	background: #fff;
 	padding: 10px 03px 5px 3px;
-	max-height: 235px;
+	max-height: 215px;
 	overflow-y: auto;
 	border-left:1px solid #ddd;
 	border-right:1px solid #ddd;
@@ -541,18 +541,21 @@ body, body.seotoaster {
 
 /*========= WIDGET MAKER =================*/
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker {
+div.show_div#widgets_maker {
 	background: #fff;
+	max-height: 450px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	/*background-image: url('http://www.aladdinremodelers.com/images/grid.gif');*/
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-block {
+div.show_div#widgets_maker .wmc-block {
 	overflow: hidden;
 	min-height: 100px;
 	margin-bottom: 10px;
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.formsubmit{
+div.show_div#widgets_maker input.formsubmit{
 	margin-top:5px;
 	clear:both;
 	font-size: 11pt;
@@ -569,7 +572,7 @@ body, body.seotoaster {
 	width: auto;
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker h3 {
+div.show_div#widgets_maker h3 {
 	padding: 5px 0px 5px 8px;
 	background: #7C7C7C;
 	color: white;
@@ -580,14 +583,14 @@ body, body.seotoaster {
 	-webkit-border-radius:2px 2px 0px 0px;*/
 	/*border-bottom: 1px solid #BBB;*/
 }
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker .wmc-error {
+div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
 }
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker label.nopad{padding: 0px 0px;}
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker input.nopad{padding: 2px 0px;}
+div.show_div#widgets_maker label.nopad{padding: 0px 0px;}
+div.show_div#widgets_maker input.nopad{padding: 2px 0px;}
 
-.seotoaster div#tabs #adminthingsviewer div.show_div#widgets_maker select {
+div.show_div#widgets_maker select {
 	cursor: pointer;
 	border: 1px solid #BDE6F1;
 	padding: 2px 0px;
