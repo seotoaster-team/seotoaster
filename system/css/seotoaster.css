@@ -1021,4 +1021,5 @@ div#page-teaser-uploader span.ui-button-text{
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	overflow: hidden;
 }
