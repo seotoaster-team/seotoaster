@@ -134,8 +134,8 @@ body, body.seotoaster {
 /*========= Formats ===========*/
 .seotoaster p {
 	/*line-height:1.5em;*/
-	overflow: hidden;
-	margin: 5px 0px;
+	/*overflow: hidden;
+	margin: 5px 0px;*/
 }
 .seotoaster blockquote { }
 .seotoaster address { }
@@ -543,10 +543,11 @@ body, body.seotoaster {
 
 div.show_div#widgets_maker {
 	background: #fff;
-	max-height: 450px;
+	max-height: 440px;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	/*background-image: url('http://www.aladdinremodelers.com/images/grid.gif');*/
+	margin-top: 10px;
+	margin-right: -5px;
 }
 
 div.show_div#widgets_maker .wmc-block {
@@ -574,14 +575,10 @@ div.show_div#widgets_maker input.formsubmit{
 
 div.show_div#widgets_maker h3 {
 	padding: 5px 0px 5px 8px;
-	background: #7C7C7C;
+	background-color: LightSalmon;
 	color: white;
 	margin-bottom: 5px;
-/*	-webkit-box-shadow: 0px 2px 2px #ddd;
-	-moz-box-shadow: 0px 2px 2px #aaa;
-	box-shadow: 0px 2px 2px #aaa;
-	-webkit-border-radius:2px 2px 0px 0px;*/
-	/*border-bottom: 1px solid #BBB;*/
+margin-right:2px;
 }
 div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
@@ -643,8 +640,12 @@ div.show_div#widgets_maker select {
 	border-radius:0px 0px 3px 3px;
 }
 
-.seotoaster div#templatelist .curr-template {
-	background: #E66F00;
+
+.seotoaster div#templatelist .curr-template div.template_preview{
+	/*border:1px solid red;*/
+	-moz-box-shadow:0px 0px 10px indianred;
+	-webkit-box-shadow:0px 0px 10px indianred;
+	box-shadow:0px 0px 10px indianred;
 }
 
 
@@ -695,6 +696,33 @@ div#page-teaser-uploader span.ui-button-text{
 		line-height: normal;
 		color: #3C78A7;
 }
+
+#media-toaster-uploader-filelist div.ui-widget{
+font-family: tahoma,Verdana,Arial,sans-serif;
+    font-size: 10pt;
+}
+
+#media-toaster-uploader-filelist div.ui-widget p{
+	float: left;
+    width: 95%;
+    padding:0px;
+   }
+   
+   #media-toaster-uploader-filelist div.ui-widget span{
+	float: left;
+    width: 5%;
+    }
+    
+    
+    #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight{
+    background: none repeat scroll 0 0 lightSeaGreen;
+    border: 1px solid lavender;
+    color: lavender;
+    font-size: 10pt;
+    margin: 1px;
+    overflow: hidden;
+    padding: 1px 5px;
+   }
 
 /*=========== Organize Pages ==============*/
 .seotoaster span.catmove {
