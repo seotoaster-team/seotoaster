@@ -46,6 +46,11 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		return new Application_Model_Models_Template($row->toArray());
 	}
 
+	public function findByType($type) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto("type = ?", $type);
+		return $this->fetchAll($where);
+	}
+
 	public function delete(Application_Model_Models_Template $template) {
 		return $this->getDbTable()->delete( array('name = ?' => $template->getName()) );
 	}

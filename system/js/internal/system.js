@@ -95,10 +95,10 @@ $(function() {
 					$.post(url, {id : link.data('eid')}, function(response) {
 						$('#ajax_msg').text(response.responseText);
 						if(response.error){
-							$('#ajax_msg').addClass('ui-state-error').show();
+							$('#ajax_msg').addClass('error').show();
 						}
 						else {
-							$('#ajax_msg').removeClass('ui-state-error').fadeOut();
+							$('#ajax_msg').removeClass('error').fadeOut();
 						}
 						if(callback) {
 							eval(callback + '()');
@@ -165,7 +165,7 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				ajaxMessage.fadeIn().removeClass('ui-state-error').addClass('success').text('Working...');;
+				ajaxMessage.fadeIn().removeClass('error').addClass('success').text('Working...');;
 			},
 			success : function(response) {
 				if(!response.error) {
@@ -186,11 +186,11 @@ $(function() {
 				}
 				else {
 					$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
-					ajaxMessage.removeClass('success').addClass('ui-state-error').html(response.responseText);
+					ajaxMessage.removeClass('success').addClass('error').html(response.responseText);
 				}
 			},
 			error: function(err) {
-				ajaxMessage.removeClass('success').addClass('ui-state-error').text('An error occured');
+				ajaxMessage.removeClass('success').addClass('error').text('An error occured');
 			}
 		})
 	})
@@ -220,7 +220,7 @@ $(function() {
 	$('a._lbox').fancybox();
 
 	$('#ajax_msg').click(function(){
-		$(this).text('').fadeOut();
+		$(this).text('').slideUp();
 	})
 
 	//publishPages();

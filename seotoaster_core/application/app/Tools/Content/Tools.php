@@ -41,7 +41,7 @@ class Tools_Content_Tools {
 		$html = '<ul>';
 		foreach ($messages as $element => $messageData) {
 			$errMessages = array_values($messageData);
-			$html .= '<li><strong>' . (($form) ? $form->getElement($element)->getLabel() : $element) . '</strong>';
+			$html .= '<li><span class="error-title">' . (($form) ? $form->getElement($element)->getLabel() : $element) . '</span>';
 			$html .= '<ul>';
 			foreach ($errMessages as $message) {
 				$html .= '<li>' . $message . '</li>';

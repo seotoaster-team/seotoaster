@@ -22,6 +22,26 @@ body, body.seotoaster {
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
+.success, .error {
+	cursor: pointer;
+	display: none;
+	position: absolute;
+	padding: 30px 10% 20px 10%;
+	z-index: 999;
+	text-align: left;
+	width: 80%;
+	margin: 0px auto;
+	font-size: 12pt;
+	color: lavender;
+	font-weight: bold;
+	min-height: 100px;
+	background: lightSeaGreen;
+	opacity: 0.9;
+}
+
+.error {
+	background: indianred;
+}
 
 
 .seotoaster .header {
@@ -707,13 +727,13 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     width: 95%;
     padding:0px;
    }
-   
+
    #media-toaster-uploader-filelist div.ui-widget span{
 	float: left;
     width: 5%;
     }
-    
-    
+
+
     #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight{
     background: none repeat scroll 0 0 lightSeaGreen;
     border: 1px solid lavender;
