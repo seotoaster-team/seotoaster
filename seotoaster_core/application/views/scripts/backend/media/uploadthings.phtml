@@ -14,23 +14,16 @@ $('#things-new-folder')
 <?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>
 
-<div class="seotoaster container_12 h645 rounded3px">
+<div class="seotoaster container_12 h500 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
 	<div class="grid_12">
 		<h1 class="ui-helper-reset" style="text-align:center;">
-			<?php echo $this->translate('Upload your files here');?>
+			<?php echo $this->translate('Upload your files and images');?>
 		</h1>
 		<div class="clear"><hr /></div>
-		<div class="grid_6 prefix_6 clearfix h150" style="background:url(<?php echo $this->websiteUrl; ?>/system/images/img-resize-demo.jpg) no-repeat;">
-		<?php echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site.'); ?>
-		</div>
-<!--		<div class="grid_6">
-			<img src="<?php echo $this->websiteUrl; ?>/system/images/img-resize-demo.jpg" alt="<?php echo $this->translate('Image resize demo');?>" />
+<!--		<div class="grid_6 prefix_6 clearfix h150" style="background:url(<?php echo $this->websiteUrl; ?>/system/images/img-resize-demo.jpg) no-repeat;">
+		 <?php //echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site.'); ?>
 		</div>-->
-		<div class="grid_12"><hr /></div>
-		<div class="grid_6"><?php echo $this->translate('All uploaded [files] will be displayed as "links" in your websites for people to "Download" them.');?></div>
-		<div class="grid_6"><?php echo $this->translate('Ex.Please download our price list here:Price list.pdf'); ?></div>
-		<div class="grid_12"><hr /></div>
 		<div class="grid_5">
 			<?php echo $this->formSelect('things-select-folder', null, null, $this->listFolders); ?>
 		</div>
@@ -50,7 +43,7 @@ $('#things-new-folder')
 				echo $thingsUploader;
 			?>
 		</div>
-		<div id="media-toaster-uploader-filelist" class="grid_10 prefix_1 suffix_1 h200 mt10px ui-widget-content" style="overflow-y: auto">
+		<div id="media-toaster-uploader-filelist" class="grid_10 prefix_1 suffix_1 h300 mt10px ui-widget-content" style="overflow-y: auto">
 		<?php echo $this->translate('Upload progress will appear here.');?>
 		</div>
 	</div>
