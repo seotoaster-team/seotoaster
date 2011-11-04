@@ -165,7 +165,7 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				ajaxMessage.fadeIn().removeClass('error').addClass('success').text('Working...');;
+				ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');;
 			},
 			success : function(response) {
 				if(!response.error) {

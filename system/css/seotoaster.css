@@ -17,7 +17,7 @@ body, body.seotoaster {
 	overflow:hidden;
 	border: 2px solid #fff;
 
-	background: #dae8ed url('/system/images/sbg.png');
+	background: #dae8ed /*#BDE6F1*/ url('/system/images/sbg.png');
 
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }

@@ -76,6 +76,10 @@ class Tools_Plugins_Tools {
 		return self::_getData('getTabContent');
 	}
 
+	public static function getPluginEditorLink() {
+		return self::_getData('getEditorLink');
+	}
+
 	private static function _getData($method) {
 		$pluginsData = array();
 		$enabledPlugins = self::getEnabledPlugins();

@@ -77,7 +77,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	private function _loadPluginsTabs() {
 		if(!($pluginsTabsData = $this->_helper->cache->load(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS))) {
-			$pluginsTabsData = Tools_Plugins_Tools::getPluginTabContent();
+			$pluginsTabsData  = Tools_Plugins_Tools::getPluginTabContent();
 			$this->_helper->cache->save(Helpers_Action_Cache::KEY_PLUGINTABS, $pluginsTabsData, Helpers_Action_Cache::PREFIX_PLUGINTABS, array(), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $pluginsTabsData;
@@ -140,7 +140,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 					'medium' => $this->_helper->config->getConfig('imgMedium'),
 					'large'  => $this->_helper->config->getConfig('imgLarge')
 				);
-				$rendered = $this->view->render('backend/content/content.phtml');
+				$this->view->pluginsEditorLinks = $this->_loadPluginsEditorLinks();
+				$rendered                       = $this->view->render('backend/content/content.phtml');
 			break;
 			case Application_Model_Models_Container::TYPE_REGULARHEADER:
 			case Application_Model_Models_Container::TYPE_STATICHEADER:
@@ -151,6 +152,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 			break;
 		}
 		return $rendered;
+	}
+
+	private function _loadPluginsEditorLinks() {
+		if(!($pluginsEditorLinks = $this->_helper->cache->load(Helpers_Action_Cache::KEY_PLUGINEDITOR_LINKS, Helpers_Action_Cache::PREFIX_PLUGINEDITOR_LINKS))) {
+			$pluginsEditorLinks  = Tools_Plugins_Tools::getPluginEditorLink();
+			$this->_helper->cache->save(Helpers_Action_Cache::KEY_PLUGINEDITOR_LINKS, $pluginsEditorLinks, Helpers_Action_Cache::PREFIX_PLUGINEDITOR_LINKS, array(), Helpers_Action_Cache::CACHE_LONG);
+		}
+		return $pluginsEditorLinks;
 	}
 
 	private function _initCorrectForm() {

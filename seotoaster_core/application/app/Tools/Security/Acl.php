@@ -35,6 +35,9 @@ class Tools_Security_Acl {
 	private static $_allowedActions = array(
 		'Page' => array(
 			'publishpages'
+		),
+		'Form' => array(
+			'receiveform'
 		)
 	);
 
