@@ -27,7 +27,7 @@
 
 	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
 	<?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets'), 'contentUrl' => $this->websiteUrl . 'backend/backend_content/loadwidgetmaker'));?>
-	<?php $this->tabPane('tabs', 'Shopping', array('title' => $this->translate('Shopping')));?>
+	<?php $this->tabPane('tabs', 'Products', array('title' => $this->translate('Products')));?>
 
 	<?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
 
