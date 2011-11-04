@@ -1,0 +1,32 @@
+<style>
+	.success, .error {
+		cursor: pointer;
+		display: none;
+		position: absolute;
+		padding: 30px 10% 20px 10%;
+		z-index: 999;
+		text-align: left;
+		width: 80%;
+		margin: 0px auto;
+		font-size: 12pt;
+		color: lavender;
+		font-weight: bold;
+		min-height: 100px;
+		background: lightSeaGreen;
+		opacity: 0.9;
+	}
+
+	.error {
+		background: indianred;
+	}
+</style>
+<?php if($this->form): ?>
+<form class="_fajax" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
+	<?php echo $this->form->getCode(); ?>
+	<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
+	<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+</form>
+<?php endif; ?>
+<?php if($this->allowMidification): ?>
+	<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="574" data-url="http://www.seotoaster2.dev/backend/backend_form/manageform/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a>
+<?php endif; ?>
