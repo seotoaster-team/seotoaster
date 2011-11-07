@@ -3,16 +3,14 @@
 		<style>
 
 		</style>
-
 		<h3><?php echo $this->translate('New message was posted on the website.'); ?></h3>
-		<div>
-			Message here
-		</div>
 		<?php if(is_array($this->params) && !empty ($this->params)): ?>
 			<dl>
 				<?php foreach($this->params as $name => $param): ?>
-					<dt><?php echo $name; ?></dt>
-					<dd><?php echo $param; ?></dd>
+					<?php if(!in_array($name, $this->badParams)): ?>
+						<dt><?php echo $name; ?></dt>
+						<dd><?php echo $param; ?></dd>
+					<?php endif;?>
 				<?php endforeach; ?>
 			</dl>
 		<?php endif; ?>

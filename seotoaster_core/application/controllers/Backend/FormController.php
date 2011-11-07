@@ -50,7 +50,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
     public function receiveformAction(){
         if($this->getRequest()->isPost()) {
-            $formParams = $this->getRequest()->getParams();
+            $formParams    = $this->getRequest()->getParams();
 			if(!empty ($formParams)) {
 				$form   = Application_Model_Mappers_FormMapper::getInstance()->findByName($formParams['formName']);
 				$mailer = new Tools_Mail_Mailer();
@@ -62,7 +62,8 @@ class Backend_FormController extends Zend_Controller_Action {
 						$mailer->setMailFromLabel($formParams['name']);
 					}
 					$mailer->setSubject($this->_helper->language->translate('New mesage was posted on the website'));
-					$this->view->params = $formParams;
+					$this->view->badParams = array('controller', 'action', 'module', 'formName');
+					$this->view->params    = $formParams;
 					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
 					if($mailer->send()) {
 
