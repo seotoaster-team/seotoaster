@@ -19,6 +19,10 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 
 	const PREFIX_PLUGINEDITOR_LINKS = 'plugedlinks_';
 
+	const KEY_PLUGINEDITOR_TOP      = 'pluginsExtraEditorTop';
+
+	const PREFIX_PLUGINEDITOR_TOP   = 'plugedtop_';
+
 	const KEY_DEEPLINKS             = 'seotoasterDeeplinks';
 
 	const PREFIX_DEEPLINKS          = 'deeplinks_';

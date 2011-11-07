@@ -3,11 +3,17 @@
 		<span class="help"><?php echo $this->translate('Help'); ?></span>
 		<span class="close"><?php echo $this->translate('Close'); ?></span>
 	</div>
-
-<!--	<label>-->
-		<?php echo (isset($this->headerText) ? $this->translate($this->headerText) : ''); ?>
-		<?php if(isset($this->innerHeaderHtml) && $this->innerHeaderHtml): ?>
-			<?php echo $this->innerHeaderHtml; ?>
-		<?php endif; ?>
-<!--	</label>-->
+	<?php echo (isset($this->headerText) ? $this->translate($this->headerText) : ''); ?>
+	<?php if(isset($this->innerHeaderHtml) && $this->innerHeaderHtml): ?>
+		<?php echo $this->innerHeaderHtml; ?>
+	<?php endif; ?>
+	<?php if(isset($this->pluginsSpace) && is_array($this->pluginsSpace) && !empty ($this->pluginsSpace)): ?>
+		<div class="pluginspace">
+			<?php foreach($this->pluginsSpace as $pluginEditorTop): ?>
+				<div class="<?php echo (isset($pluginEditorTop['title']) ? $pluginEditorTop['title']: ''); ?>">
+					<?php echo(isset($pluginEditorTop['code']) ? $pluginEditorTop['code'] : ''); ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 </div>

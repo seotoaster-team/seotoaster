@@ -80,6 +80,10 @@ class Tools_Plugins_Tools {
 		return self::_getData('getEditorLink');
 	}
 
+	public static function getPluginEditorTop() {
+		return self::_getData('getEditorTop');
+	}
+
 	private static function _getData($method) {
 		$pluginsData = array();
 		$enabledPlugins = self::getEnabledPlugins();

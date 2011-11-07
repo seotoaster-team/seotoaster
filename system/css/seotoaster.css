@@ -446,6 +446,12 @@ body, body.seotoaster {
 	paddding:4px 10px 7px 0px;
 }
 
+.seotoaster .pluginspace {
+	float: right;
+	width: 435px;
+	margin-right: 110px;
+}
+
 .seotoaster #content {
 	height: 505px;
 	width: 610px;

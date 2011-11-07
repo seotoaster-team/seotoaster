@@ -141,6 +141,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 					'large'  => $this->_helper->config->getConfig('imgLarge')
 				);
 				$this->view->pluginsEditorLinks = $this->_loadPluginsEditorLinks();
+				$this->view->pluginsEditorTop   = $this->_loadPluginsEditorTop();
 				$rendered                       = $this->view->render('backend/content/content.phtml');
 			break;
 			case Application_Model_Models_Container::TYPE_REGULARHEADER:
@@ -160,6 +161,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$this->_helper->cache->save(Helpers_Action_Cache::KEY_PLUGINEDITOR_LINKS, $pluginsEditorLinks, Helpers_Action_Cache::PREFIX_PLUGINEDITOR_LINKS, array(), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $pluginsEditorLinks;
+	}
+
+	private function _loadPluginsEditorTop() {
+		if(!($pluginsEditorTop = $this->_helper->cache->load(Helpers_Action_Cache::KEY_PLUGINEDITOR_TOP, Helpers_Action_Cache::PREFIX_PLUGINEDITOR_TOP))) {
+			$pluginsEditorTop  = Tools_Plugins_Tools::getPluginEditorTop();
+			$this->_helper->cache->save(Helpers_Action_Cache::KEY_PLUGINEDITOR_LINKS, $pluginsEditorTop, Helpers_Action_Cache::PREFIX_PLUGINEDITOR_TOP, array(), Helpers_Action_Cache::CACHE_LONG);
+		}
+		return $pluginsEditorTop;
 	}
 
 	private function _initCorrectForm() {

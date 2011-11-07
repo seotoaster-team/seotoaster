@@ -6,14 +6,18 @@
 			'publishAt'        => $this->publishingDate,
 			'onselectCallback' => null
 		));
-		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive));
+
+		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+			'innerHeaderHtml' => $draftOrLive,
+			'pluginsSpace'    => $this->pluginsEditorTop
+		));
 	?>
 	<div class="grid_8 above-editor-links">
 		<div id="links">
 			<!-- $pluginEditorLink -->
 			<?php if(isset($this->pluginsEditorLinks) && is_array($this->pluginsEditorLinks) && !empty ($this->pluginsEditorLinks)): ?>
 				<?php foreach($this->pluginsEditorLinks as $pluginEditorLink): ?>
-					<?php echo $pluginEditorLink['link']; ?>
+					| <?php echo $pluginEditorLink['link']; ?>
 					<?php if(isset($pluginEditorLink['script'])): ?>
 						<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); ?>
 					<?php endif; ?>
