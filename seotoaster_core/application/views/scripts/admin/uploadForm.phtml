@@ -2,8 +2,8 @@
 	<button style="cursor:pointer;" id="<?php echo $this->formId; ?>-pickfiles" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></button>
 </div>
 <script>
-<?php 
-$jsValName = 'js'.str_replace(' ','',ucwords(str_replace('-', ' ', $this->formId))); 
+<?php
+$jsValName = 'js'.str_replace(' ','',ucwords(str_replace('-', ' ', $this->formId)));
 switch ($this->caller){
 	case 'templatePreview':
 		$maxWidth  = $this->config['templatePreviewWidth'];
@@ -56,7 +56,7 @@ switch ($this->caller){
 		});
 		<?php if ($this->caller == 'media'): ?>
 		$('#things-select-folder,#things-new-folder').attr('disabled', 'disabled');
-		
+
 		var newfolder = $('#things-new-folder').val();
 		if ( newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' ) {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': newfolder};
@@ -65,7 +65,7 @@ switch ($this->caller){
 			if (folder != '0' && folder != '') {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': folder};
 			} else {
-				$('#ajax_msg').html('<?php echo $this->translate('No folder specified'); ?>').show();
+				$('#ajax_msg').addClass('error').html('<?php echo $this->translate('No folder specified'); ?>').show();
 					//.one('click', function(){ $(this).hide() });
 
 				$.each(files, function(i, file) {
@@ -138,7 +138,7 @@ switch ($this->caller){
 
 	<?php if ($this->caller == 'media'): ?>
 	<?php echo $jsValName; ?>.bind('BeforeUpload', function (up, file) {
-		
+
 		});
 	<?php elseif ($this->caller == 'templatePreview'): ?>
 	<?php echo $jsValName; ?>.bind('BeforeUpload', function (up, file) {
@@ -149,6 +149,6 @@ switch ($this->caller){
 	<?php if ($this->noMultiupload) : ?>
 	$('.plupload > input:file').removeAttr('multiple');
 	<?php endif; ?>
-	
+
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>

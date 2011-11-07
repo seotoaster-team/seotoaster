@@ -241,7 +241,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$folder             = $this->getRequest()->getParam('folder');
 			$filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
 			$this->view->files  = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
-			$this->view->html   = $this->view->render('backend/content/files.phtml');
+			$this->view->html   = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 style="text-align: center;">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
 		}
 	}
 
