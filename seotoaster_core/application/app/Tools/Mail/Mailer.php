@@ -158,8 +158,8 @@ class Tools_Mail_Mailer {
 		if($initBody) {
 			$entityParser = new Tools_Content_EntityParser();
 			$entityParser->setDictionary($this->_dictonary);
-			$templateCOntent = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_mailTemplateName);
-			$this->_body     = $entityParser->parse($bodyTemplate->getContent());
+			$bodyTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_mailTemplateName);
+			$this->_body  = $entityParser->parse($bodyTemplate->getContent());
 		}
 		return $this;
 	}
