@@ -3,10 +3,18 @@
 		<style>
 
 		</style>
-		
-		<h3><?php echo $this->translate('New message was posted on the website.'); ?></h3>
-		<ul>
 
-		</ul>
+		<h3><?php echo $this->translate('New message was posted on the website.'); ?></h3>
+		<div>
+			Message here
+		</div>
+		<?php if(is_array($params) && !empty ($params)): ?>
+			<dl>
+				<?php foreach($params as $name => $param): ?>
+					<dt><?php echo $name; ?></dt>
+					<dd><?php echo $param; ?></dd>
+				<?php endforeach; ?>
+			</dl>
+		<?php endif; ?>
 	</body>
 </html>

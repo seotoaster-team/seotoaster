@@ -62,6 +62,7 @@ class Backend_FormController extends Zend_Controller_Action {
 						$mailer->setMailFromLabel($formParams['name']);
 					}
 					$mailer->setSubject($this->_helper->language->translate('New mesage was posted on the website'));
+					$this->view->params = $formParams;
 					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
 					if($mailer->send()) {
 						// sending reply
