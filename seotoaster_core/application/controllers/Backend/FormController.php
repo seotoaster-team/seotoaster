@@ -57,7 +57,10 @@ class Backend_FormController extends Zend_Controller_Action {
 				// To site owner
 				if(isset($formParams['email'])) {
 					$mailer->setMailTo($form->getContactEmail());
-					$mailer->setMailFrom($formParams['email'], $formParams['email']);
+					$mailer->setMailFrom($formParams['email']);
+					if(isset($formParams['name'])) {
+						$mailer->setMailFromLabel($formParams['name']);
+					}
 					$mailer->setSubject($this->_helper->language->translate('New mesage was posted on the website'));
 					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
 					if($mailer->send()) {

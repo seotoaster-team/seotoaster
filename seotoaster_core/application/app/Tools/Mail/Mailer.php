@@ -72,7 +72,7 @@ class Tools_Mail_Mailer {
 
 	public function send() {
 		$this->_prepare();
-		$this->_send();
+		return $this->_send();
 	}
 
 	public function prepare() {
