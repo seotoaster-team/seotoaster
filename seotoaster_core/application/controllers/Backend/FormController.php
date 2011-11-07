@@ -62,8 +62,10 @@ class Backend_FormController extends Zend_Controller_Action {
 					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
 					if($mailer->send()) {
 						$this->_helper->response->success($form->getMessageSuccess());
+						exit;
 					}
 					$this->_helper->response->fail($form->getMessageError());
+					exit;
 				}
 			}
         }
