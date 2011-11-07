@@ -4,7 +4,7 @@ class Application_Form_Form extends Zend_Form {
 
 	protected $_code              = '';
 
-	protected $_contactMail       = '';
+	protected $_contactEmail       = '';
 
 	protected $_messageSuccess    = '';
 
@@ -37,9 +37,9 @@ class Application_Form_Form extends Zend_Form {
 
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'contact-mail',
-			'name'       => 'contactMail',
+			'name'       => 'contactEmail',
 			'label'      => 'Contact mail',
-			'value'      => $this->_contactMail,
+			'value'      => $this->_contactEmail,
 			'required'   => true,
 			'filters'    => array('StringTrim'),
             'validators' => array(new Zend_Validate_EmailAddress())
@@ -118,105 +118,4 @@ class Application_Form_Form extends Zend_Form {
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
     }
-
-    public function getCode() {
-		return $this->_code;
-	}
-
-	public function setCode($code) {
-		$this->_code = $code;
-		$this->getElement('code')->setValue($code);
-		return $this;
-	}
-
-    public function getEmailTo() {
-		return $this->_emailTo;
-	}
-
-	public function setEmailTo($emailTo) {
-		$this->_emailTo = $emailTo;
-		$this->getElement('emailTo')->setValue($emailTo);
-		return $this;
-	}
-
-    public function getMessageSuccess() {
-		return $this->_messageSuccess;
-	}
-
-	public function setMessageSuccess($messageSuccess) {
-		$this->_messageSuccess = $messageSuccess;
-		$this->getElement('messageSuccess')->setValue($messageSuccess);
-		return $this;
-	}
-
-    public function getMessageError() {
-		return $this->_messageError;
-	}
-
-	public function setMessageError($messageError) {
-		$this->_messageError = $messageError;
-		$this->getElement('messageError')->setValue($messageError);
-		return $this;
-	}
-
-    public function getEmailFrom() {
-		return $this->_emailFrom;
-	}
-
-	public function setEmailFrom($emailFrom) {
-		$this->_emailFrom = $emailFrom;
-		$this->getElement('emailFrom')->setValue($emailFrom);
-		return $this;
-	}
-
-    public function getEmailSubject() {
-		return $this->_emailSubject;
-	}
-
-	public function setEmailSubject($emailSubject) {
-		$this->_emailSubject = $emailSubject;
-		$this->getElement('emailSubject')->setValue($emailSubject);
-		return $this;
-	}
-
-    public function getTrackingCode() {
-		return $this->_emailBody;
-	}
-
-	public function setTrackingCode($trackingCode) {
-		$this->_trackingCode = $trackingCode;
-		$this->getElement('trackingCode')->setValue($trackingCode);
-		return $this;
-	}
-
-    public function getName() {
-		return $this->_name;
-	}
-
-	public function setName($name) {
-		$this->_name = $name;
-		$this->getElement('name')->setValue($name);
-		return $this;
-	}
-
-	public function getReplyTo() {
-		return $this->_replyTo;
-	}
-
-	public function setReplyTo($replyTo) {
-		$this->_replyTo = $replyTo;
-		$this->getElement('replyTo')->setValue($replyTo);
-		return $this;
-	}
-
-	public function getMailTemplate() {
-		return $this->_mailTemplate;
-	}
-
-	public function setMailTemplate($mailTemplate) {
-		$this->_mailTemplate = $mailTemplate;
-		$this->getElement('mailTemplate')->setValue($mailTemplate);
-		return $this;
-	}
-
 }

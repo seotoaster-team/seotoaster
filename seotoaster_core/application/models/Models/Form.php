@@ -11,7 +11,7 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 
     protected $_code                = '';
 
-    protected $_contactMail         = '';
+    protected $_contactEmail         = '';
 
     protected $_messageSuccess      = '';
 
@@ -52,12 +52,12 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 		return $this;
 	}
 
-	public function getContactMail() {
-		return $this->_contactMail;
+	public function getContactEmail() {
+		return $this->_contactEmail;
 	}
 
-	public function setContactMail($contactMail) {
-		$this->_contactMail = $contactMail;
+	public function setContactEmail($contactEmail) {
+		$this->_contactEmail = $contactEmail;
 		return $this;
 	}
 

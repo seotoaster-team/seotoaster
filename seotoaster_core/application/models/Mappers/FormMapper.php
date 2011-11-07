@@ -18,7 +18,7 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
 		$data = array(
 			'name'                => $form->getName(),
 			'code'                => $form->getCode(),
-			'contact_email'       => $form->getContactMail(),
+			'contact_email'       => $form->getContactEmail(),
 			'message_success'     => $form->getMessageSuccess(),
 			'message_error'       => $form->getMessageError(),
 			'reply_from'          => $form->getReplyFrom(),

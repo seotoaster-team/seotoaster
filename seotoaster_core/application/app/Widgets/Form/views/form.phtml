@@ -21,12 +21,12 @@
 	}
 </style>
 <?php if($this->form): ?>
-<form class="_fajax" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
-	<?php echo $this->form->getCode(); ?>
-	<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
-	<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
-</form>
+	<form class="_fajax" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
+		<?php echo $this->form->getCode(); ?>
+		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
+		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+	</form>
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
-<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="574" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a>
+	<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="574" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a>
 <?php endif; ?>

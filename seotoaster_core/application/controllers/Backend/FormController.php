@@ -31,13 +31,13 @@ class Backend_FormController extends Zend_Controller_Action {
                 $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($formForm->getMessages(), get_class($formForm)));
             }
         }
-		$formName      = filter_var($this->getRequest()->getParam('formName'), FILTER_SANITIZE_STRING);
+		$formName      = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
 		$form          = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
 		$mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
 		$formForm->getElement('name')->setValue($formName);
 		$formForm->getElement('replyMailTemplate')->setMultioptions($mailTemplates);
 		if($form !== null){
-			$formForm->setOptions($form->toArray());
+			$formForm->populate($form->toArray());
 		}
         $this->view->formForm = $formForm;
     }
