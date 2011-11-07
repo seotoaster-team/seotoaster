@@ -8,6 +8,7 @@ body, body.seotoaster {
 	padding:0;
 }
 .seotoaster {
+		color:#666;
 	/*background-color: #BDE6F1;*/
 	/*background-color:#E1E1E1;*/
 	position:relative;
@@ -187,9 +188,6 @@ body, body.seotoaster {
 	border-radius:2px;
 }
 .seotoaster label, .seotoaster .label {
-	/*background-color:#EAF3FA;*/
-	/*background-color:#E1E1E1;*/
-	color:#666;
 	display:block;
 	font-weight:bold;
 	padding:4px 0px 4px 5px;
@@ -500,7 +498,7 @@ body, body.seotoaster {
 
 .seotoaster .above-editor-links #links a {
 	text-transform: uppercase;
-	font-size: 10px;
+	font-size: 7pt;
 	color: DarkSlateGray;
 	text-shadow: 1px 0px 0px #fff;
 }
@@ -737,7 +735,11 @@ font-family: tahoma,Verdana,Arial,sans-serif;
    #media-toaster-uploader-filelist div.ui-widget span{
 	float: left;
     width: 5%;
+    display: none;
     }
+    
+    
+    
 
 
     #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight{
@@ -749,6 +751,18 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     overflow: hidden;
     padding: 1px 5px;
    }
+
+#media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul{
+display:block;
+margin: 2px 0px;
+color:#cc0000;
+clear:both;	
+list-style: square;
+}
+#media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul li{
+	padding:2px;
+	
+}
 
 /*=========== Organize Pages ==============*/
 .seotoaster span.catmove {
