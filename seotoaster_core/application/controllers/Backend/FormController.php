@@ -56,11 +56,10 @@ class Backend_FormController extends Zend_Controller_Action {
 				$mailer = new Tools_Mail_Mailer();
 				// To site owner
 				if(isset($formParams['email'])) {
-					$mailer->setMailTo($form->getContactMail());
+					$mailer->setMailTo($form->getContactEmail());
 					$mailer->setMailFrom($formParams['email']);
-					$mailer->setSubject($this->_helper->language->translate('New message was posted'));
-					$mailer->setBody($this->view->render('adminmail.phtml'));
-					$mailer->prepare();
+					$mailer->setSubject($this->_helper->language->translate('New meesage was posted on the website'));
+					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
 					$mailer->send();
 				}
 			}
