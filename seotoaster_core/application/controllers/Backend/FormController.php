@@ -67,11 +67,13 @@ class Backend_FormController extends Zend_Controller_Action {
 					if($mailer->send()) {
 
 						// sending reply
-//						$mailer->setMailTo($formParams['email']);
-//						$mailer->setMailFrom($form->getReplyFrom());
-//						$mailer->setSubject($form->getReplySubject());
-//						$mailer->setMailTemplateName($form->getReplyMailTemplate(), true);
-//						$mailer->send();
+						$mailer = new Tools_Mail_Mailer();
+
+						$mailer->setMailTo($formParams['email']);
+						$mailer->setMailFrom($form->getReplyFrom());
+						$mailer->setSubject($form->getReplySubject());
+						$mailer->setMailTemplateName($form->getReplyMailTemplate(), true);
+						$mailer->send();
 
 						$this->_helper->response->success($form->getMessageSuccess());
 						exit;
