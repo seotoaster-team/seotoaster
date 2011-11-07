@@ -16,7 +16,7 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Form instance');
 		}
 		$data = array(
-			'name'                => $form->gextName(),
+			'name'                => $form->getName(),
 			'code'                => $form->getCode(),
 			'contact_email'       => $form->getContactEmail(),
 			'message_success'     => $form->getMessageSuccess(),
