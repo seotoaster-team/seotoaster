@@ -65,6 +65,7 @@ class Backend_FormController extends Zend_Controller_Action {
 					$this->view->params = $formParams;
 					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
 					if($mailer->send()) {
+
 						// sending reply
 						$mailer->setMailTo($formParams['email']);
 						$mailer->setMailFrom($form->getReplyFrom());

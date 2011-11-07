@@ -8,9 +8,9 @@
 		<div>
 			Message here
 		</div>
-		<?php if(is_array($params) && !empty ($params)): ?>
+		<?php if(is_array($this->params) && !empty ($this->params)): ?>
 			<dl>
-				<?php foreach($params as $name => $param): ?>
+				<?php foreach($this->params as $name => $param): ?>
 					<dt><?php echo $name; ?></dt>
 					<dd><?php echo $param; ?></dd>
 				<?php endforeach; ?>
