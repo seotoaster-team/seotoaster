@@ -53,11 +53,11 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 		return array(
 			array(
 				'alias'   => $translator->translate('Main menu'),
-				'options' => 'menu:main'
+				'option' => 'menu:main'
 			),
 			array(
 				'alias'   => $translator->translate('Static menu'),
-				'options' => 'menu:static'
+				'option' => 'menu:static'
 			)
 		);
 	}

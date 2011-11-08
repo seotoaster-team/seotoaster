@@ -39,7 +39,7 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
 		return array(
 			array(
 				'alias'   => $translator->translate('Site map'),
-				'options' => 'sitemap'
+				'option' => 'sitemap'
 			)
 		);
 	}

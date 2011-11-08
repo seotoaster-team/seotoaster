@@ -24,7 +24,7 @@ class Widgets_Website_Website extends Widgets_Abstract {
 		return array(
 			array(
 				'alias'   => $translator->translate('Website url'),
-				'options' => 'website:url'
+				'option' => 'website:url'
 			)
 		);
 	}

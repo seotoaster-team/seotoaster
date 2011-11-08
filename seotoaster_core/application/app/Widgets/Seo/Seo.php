@@ -16,11 +16,11 @@ class Widgets_Seo_Seo extends Widgets_Abstract {
 		return array(
 			array(
 				'alias'   => $translator->translate('Seo top content'),
-				'options' => 'seo:top'
+				'option' => 'seo:top'
 			),
 			array(
 				'alias'   => $translator->translate('Seo bottom content'),
-				'options' => 'seo:bottom'
+				'option' => 'seo:bottom'
 			)
 		);
 	}

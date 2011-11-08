@@ -95,15 +95,15 @@ class Widgets_News_News extends Widgets_Abstract {
 		return array(
 			array(
 				'alias'   => $translator->translate('Lis of all news'),
-				'options' => 'news:list'
+				'option' => 'news:list'
 			),
 			array(
 				'alias'   => $translator->translate('Lis of all news by category name'),
-				'options' => 'news:category_name'
+				'option' => 'news:category_name'
 			),
 			array(
 				'alias'   => $translator->translate('News scroller'),
-				'options' => 'news:scroller'
+				'option' => 'news:scroller'
 			)
 		);
 	}

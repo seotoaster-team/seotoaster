@@ -49,12 +49,12 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		$translator = Zend_Registry::get('Zend_Translate');
 		return array(
 			array(
-				'alias'   => $translator->translate('Member area login form'),
-				'options' => 'member:login'
+				'alias'   => $translator->translate('Member area login box'),
+				'option' => 'member:login'
 			),
 			array(
 				'alias'   => $translator->translate('Member area logout button'),
-				'options' => 'member:logout'
+				'option' => 'member:logout'
 			)
 		);
 	}

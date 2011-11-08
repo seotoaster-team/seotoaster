@@ -49,23 +49,23 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return array(
 			array(
 				'alias'   => $translator->translate('Current page id'),
-				'options' => 'page:id'
+				'option' => 'page:id'
 			),
 			array(
 				'alias'   => $translator->translate('Current page h1'),
-				'options' => 'page:h1'
+				'option' => 'page:h1'
 			),
 			array(
 				'alias'   => $translator->translate('Current page title'),
-				'options' => 'page:title'
+				'option' => 'page:title'
 			),
 			array(
 				'alias'   => $translator->translate('Current page teaser image'),
-				'options' => 'page:preview'
+				'option' => 'page:preview'
 			),
 			array(
 				'alias'   => $translator->translate('Current page teaser text'),
-				'options' => 'page:teaser'
+				'option' => 'page:teaser'
 			)
 		);
 	}
