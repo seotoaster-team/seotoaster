@@ -12,32 +12,7 @@ $(function() {
 		var link    = $(this);
 		var pwidth  = link.data('pwidth') || 960;
 		var pheight = link.data('pheight') || 580;
-		if(!$(this).data('') && top.$('#__tpopup').length) {
-			var currUrl     = top.$('#__tpopup').attr('src');
-			var currWidth   = top.$('#__tpopup').css('width');
-			var currHeight  = top.$('#__tpopup').css('height');
-			top.$('#__tpopup').dialog('option', {
-				width  : pwidth,
-				height : pheight
-			});
-			top.$('#__tpopup').attr('src', link.data('url')).css({
-				width    : pwidth + 'px',
-				height   : pheight + 'px'
-			});
-
-			top.$('#__tpopup').parent().css({
-				left : '437px'
-			})
-
-			top.$('#__tpopup').data('backurl', currUrl);
-			top.$('#__tpopup').data('backwidth', currWidth);
-			top.$('#__tpopup').data('backheight', currHeight);
-			return;
-		}
-		top.$('#__tpopup').data('backurl', null);
-		top.$('#__tpopup').data('backwidth', null);
-		top.$('#__tpopup').data('backheight', null);
-		var popup = $(document.createElement('iframe')).attr('id', '__tpopup').attr('scrolling', 'no').addClass('rounded3px');
+		var popup = $(document.createElement('iframe')).attr('class', '__tpopup').attr('scrolling', 'no').addClass('rounded3px');
 		popup.parent().css({background: 'none'});
 		popup.dialog({
 			width: pwidth,
@@ -116,32 +91,9 @@ $(function() {
 
 	//seotoaster close popup window button
 	$('.closebutton').click(function() {
-		//ceck if this popup was opened from other popup, then we need to go back to the previous popup
-		if(typeof top.$('#__tpopup').data('backurl') != 'undefined' && top.$('#__tpopup').data('backurl') != null) {
-			top.$('#__tpopup').dialog('option', {
-				width  : top.$('#__tpopup').data('backwidth').replace('px', ''),
-				height : top.$('#__tpopup').data('backheight').replace('px', '')
-			});
-			top.$('#__tpopup').css({
-				width  : top.$('#__tpopup').data('backwidth'),
-				height : top.$('#__tpopup').data('backheight')
-			});
-
-			if(top.$('#__tpopup').parent().css('left') == '437px') {
-				top.$('#__tpopup').parent().css({left: '231px'});
-			}
-
-			top.$('#__tpopup').attr('src', top.$('#__tpopup').data('backurl'));
-			top.$('#__tpopup').data('backurl', null);
-
-			return;
-		}
-		//reload page if we are closing template or css edit dialog
-		//probably needs to be changed to something more universal
-		if($('#frm_template').length || $('#editcssform').length || $('#fa-pages-list').length) {
-			top.location.reload();
-		}
-		top.$('#__tpopup').dialog('close');
+		$('.__tpopup', window.parent.document).hide('destroy');
+		$('.ui-widget-overlay', window.parent.document).hide();
+		$('.__tpopup', window.parent.document).remove();
 	})
 
 	//seotoaster ajax form submiting
@@ -251,6 +203,7 @@ function showModalMessage(title, msg, callback) {
 			}
 		}
 	}).css({background : '#eee'});
+	$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
 }
 
 function publishPages() {

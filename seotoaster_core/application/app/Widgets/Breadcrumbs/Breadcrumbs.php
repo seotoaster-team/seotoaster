@@ -23,5 +23,15 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 		$crumbs[] = '<a href="' . $page->getUrl() . '" title="' . $page->getH1() . '">' . $page->getNavName() . '</a>';
 		return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
 	}
+
+	public static function getAllowedOptions() {
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'   => $translator->translate('Breadcrumbs'),
+				'option' => 'breadcrumbs'
+			)
+		);
+	}
 }
 

@@ -65,24 +65,20 @@ class Application_Form_Form extends Zend_Form {
 			'registerInArrayValidator' => false
 		)));
 
-        $this->addElement(new Zend_Form_Element_Textarea(array(
+        $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'success-message',
 			'name'     => 'messageSuccess',
-			'label'    => 'Success Message:',
+			'label'    => 'Success Message',
 			'value'    => $this->_successMessage,
-            'cols'     => '45',
-			'rows'     => '1',
 			'required' => true,
 			'filters'  => array('StringTrim')
 		)));
 
-        $this->addElement(new Zend_Form_Element_Textarea(array(
+        $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'error-message',
 			'name'     => 'messageError',
-			'label'    => 'Error Message:',
+			'label'    => 'Error Message',
 			'value'    => $this->_errorMessage,
-            'cols'     => '45',
-			'rows'     => '1',
 			'required' => true,
 			'filters'  => array('StringTrim')
 		)));
@@ -90,7 +86,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'reply-subject',
 			'name'     => 'replySubject',
-			'label'    => 'Auto reply subject:',
+			'label'    => 'Auto reply subject',
 			'value'    => $this->_replySubject,
 			'required' => true,
 			'filters'  => array('StringTrim'),
@@ -100,7 +96,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Textarea(array(
 			'id'       => 'tracking-code',
 			'name'     => 'trackingCode',
-			'label'    => 'Tracking conversion code',
+			'label'    => 'Conversion tracking code',
 			'value'    => $this->_trackingCode,
             'cols'     => '45',
 			'rows'     => '5',

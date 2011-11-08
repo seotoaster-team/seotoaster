@@ -11,7 +11,7 @@
 	?>
 
 	<div id="templatelist" class="h580 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
-	<div id="falist" class="h640 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1;"></div>
+	<div id="falist" class="h570 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
 	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
 		<div class="grid_6">
 			<fieldset>
@@ -55,7 +55,18 @@
 					<div class="grid_12 clear mt5px"></div>
 					<div class="grid_6"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
 					<div class="grid_6">
-						<?php echo $this->toasterLink('backend_featured', 'featured', (!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times'), 'pid/' . $this->pageForm->getElement('pageId')->getValue()); ?>
+						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '480', 'height' => '649')); ?>
+
+						<?php
+//							echo $this->ajaxLink(
+//								$this->translate((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')),
+//								$this->websiteUrl . 'backend/backend_featured/featured/pageId/' . $this->pageForm->getElement('pageId')->getValue(),
+//								array(
+//									'complete' => "$('#falist').html(data).slideDown();",
+//								)
+//							);
+						?>
+
 					</div>
 					<div class="grid_12 mt10px">
 						<label class="nopad grid_6">
@@ -99,3 +110,4 @@ $(function() {
 </script>
 
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
+<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

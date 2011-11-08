@@ -619,7 +619,7 @@ div.show_div#widgets_maker select {
 }
 
 /*========= AND AND EDIT TEMPLATE ===========*/
-.seotoaster div#templatelist {
+.seotoaster div#templatelist, .seotoaster div#falist {
 	position: absolute;
 	background: #dae8ed url('/system/images/sbg.png');
 }
