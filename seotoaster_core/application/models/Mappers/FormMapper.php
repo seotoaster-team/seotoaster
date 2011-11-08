@@ -27,7 +27,7 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
 			'tracking_code'       => $form->getTrackingCode()
 		);
 
-        if(null === ($id = $form->getId())) {
+        if(!($id = $form->getId())) {
 			unset($data['id']);
 			return $this->getDbTable()->insert($data);
 		}

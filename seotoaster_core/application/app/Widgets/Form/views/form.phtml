@@ -24,6 +24,13 @@
 	<form class="_fajax" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
+
+		<?php if($this->useCaptcha): ?>
+			<img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
+			<input type="text" name="captcha" value="" />
+			<input type="hidden" name="captchaId" value="<?php echo $this->captchaId; ?>" />
+		<?php endif; ?>
+
 		<input onclick="$(document).scrollTop(0)" type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>

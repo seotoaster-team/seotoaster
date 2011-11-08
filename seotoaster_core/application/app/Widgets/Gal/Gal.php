@@ -57,16 +57,18 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 	}
 
 	public static function getWidgetMakerContent() {
-		$view = new Zend_View(array(
+		$translator = Zend_Registry::get('Zend_Translate');
+		$view       = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
 
 		$data = array(
-			'title'   => 'Image Gallery',
+			'title'   => $translator->translate('Image Gallery'),
 			'content' => $view->render('wmcontent.phtml')
 		);
 
 		unset($view);
+		unset($translator);
 		return $data;
 	}
 }

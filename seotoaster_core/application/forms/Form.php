@@ -18,8 +18,9 @@ class Application_Form_Form extends Zend_Form {
 
 	protected $_replyMailTemplate = '';
 
-    protected $_name              = '';
+	protected $_name              = '';
 
+	protected $_id                = null;
 
     public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
@@ -110,6 +111,12 @@ class Application_Form_Form extends Zend_Form {
 			'id'    => 'form-name',
 			'name'  => 'name',
 			'value' => $this->_formName
+		)));
+
+		$this->addElement(new Zend_Form_Element_Hidden(array(
+			'id'    => 'form-id',
+			'name'  => 'id',
+			'value' => $this->_id
 		)));
 
         $this->addElement('submit', 'submit', array(

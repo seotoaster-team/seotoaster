@@ -89,6 +89,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 				$this->view->endisButton = false;
 			}
 			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
+			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 		}
 	}
 
@@ -98,6 +99,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 			$this->view->responseText = Application_Model_Mappers_PluginMapper::getInstance()->save($plugin->setStatus(($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Application_Model_Models_Plugin::DISABLED : Application_Model_Models_Plugin::ENABLED));
 			$this->view->buttonText   = ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? 'Disable' : 'Enable';
 			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
+			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 		}
 	}
 
@@ -114,6 +116,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 				exit;
 			}
 			$this->_helper->cache->clean('enabledPlugins', 'plugins_');
+			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 			$this->_helper->response->success('Removed');
 		}
 	}

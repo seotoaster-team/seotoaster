@@ -74,6 +74,7 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 		);
 
 		unset($view);
+		unset($translator);
 		return $data;
 	}
 

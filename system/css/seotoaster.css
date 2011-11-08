@@ -446,8 +446,9 @@ body, body.seotoaster {
 
 .seotoaster .pluginspace {
 	float: right;
-	width: 435px;
-	margin-right: 110px;
+	width: 430px;
+	margin-right: 115px;
+	text-align: right;
 }
 
 .seotoaster #content {
@@ -737,9 +738,9 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     width: 5%;
     display: none;
     }
-    
-    
-    
+
+
+
 
 
     #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight{
@@ -756,12 +757,12 @@ font-family: tahoma,Verdana,Arial,sans-serif;
 display:block;
 margin: 2px 0px;
 color:#cc0000;
-clear:both;	
+clear:both;
 list-style: square;
 }
 #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul li{
 	padding:2px;
-	
+
 }
 
 /*=========== Organize Pages ==============*/

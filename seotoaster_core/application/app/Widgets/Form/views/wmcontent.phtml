@@ -1,0 +1,44 @@
+<form class="wmc-block" action="javascript:;" method="post">
+
+	<label class="nopad grid_6" for="forms-newname"><?php echo $this->translate('Form name'); ?></label>
+	<input type="text" class="nopad grid_6" id="forms-newname" value="" />
+
+	<label class="nopad grid_6" for="forms-existing"><?php echo $this->translate('Select a form'); ?></label>
+	<select class="nopad grid_6" id="forms-existing"></select>
+
+	<label class="nopad grid_6" for="forms-captcha"><?php echo $this->translate('Use captcha'); ?></label>
+	<div class="nopad grid_6"><input type="checkbox" id="forms-captcha" /></div>
+
+	<div class="grid_12"><input class="formsubmit" type="submit" id="forms-done" name="done" value="Done" /></div>
+</form>
+
+<script type="text/javascript">
+	$(function() {
+		loadForms();
+
+		$('#forms-done').click(function() {
+
+			var formName   = ($('#forms-existing').val() == 0) ? $('#forms-newname').val() : $('#forms-existing').val();
+			var useCaptcha = ($('#forms-captcha').attr('checked') ? ':captcha' : '');
+
+			var widget = '{$form:' + formName + useCaptcha + '}';
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
+		})
+
+	})
+
+	function loadForms() {
+		$.post($('#website_url').val() + 'backend/backend_form/loadforms/', function(response) {
+			if(response.formsNames.length) {
+				$.each(response.formsNames, function(val) {
+					$('#forms-existing')
+					.append($('<option></option>').attr({
+						value: response.formsNames[val]
+					})
+					.text(response.formsNames[val]));
+				})
+				$('#forms-existing').prepend('<option value="0" selected="selected">Select a form</option>')
+			}
+		})
+	}
+</script>
