@@ -148,5 +148,12 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 			$relationTable->update($data, 'page_id = ' . $pageId . ' AND fa_id = ' . $faId);
 		}
 	}
+
+	public function delete(Application_Model_Models_Featuredarea $featuredArea) {
+		$where        = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $featuredArea->getId());
+		$deleteResult = $this->getDbTable()->delete($where);
+		$featuredArea->notifyObservers();
+		return $deleteResult;
+	}
 }
 

@@ -29,19 +29,6 @@ $(function() {
 						overflow : 'hidden'
 				});
 				$('.ui-dialog-titlebar').hide();
-
-				/* drag-n-drop holder
-				$('.ui-dialog-titlebar-close').hide();
-				$('.ui-dialog-titlebar').css({
-					position     : 'absolute',
-					zIndex       : '5',
-					//opacity      : '1',
-					background   : '#666 url("system/images/move-pages.png") no-repeat scroll 37% 50%',
-					borderRadius : '8px 0px 8px 0px',
-					padding      : '4px 0px'
-				}).addClass('closebutton');
-				*/
-
 			},
 			close: function() {
 				$(this).remove();
@@ -87,6 +74,7 @@ $(function() {
 				}
 			}
 		});
+		$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
 	})
 
 	//seotoaster close popup window button

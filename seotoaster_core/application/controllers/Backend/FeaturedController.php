@@ -93,7 +93,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$fa->addPage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
-			$this->_helper->response->success('Added.');
+			$this->_helper->response->success($this->_helper->language->translate('Page added to featured area'));
 		}
 	}
 
@@ -106,6 +106,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$fa->deletePage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+			$this->_helper->response->success($this->_helper->language->translate('Page removed from featured area'));
 		}
 	}
 
@@ -129,7 +130,25 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	}
 
 	public function deleteAction() {
+		if($this->getRequest()->isPost()) {
+			$faId = $this->getRequest()->getParam('id');
+			if(is_array($faId) && !empty ($faId)) {
+				foreach ($faId as $id) {
+					$this->_delete($id);
+				}
+			}
+			else {
+				$this->_delete($faId);
+			}
+		}
+	}
 
+	private function _delete($id) {
+		$faMapper     = Application_Model_Mappers_FeaturedareaMapper::getInstance();
+		$featuredArea = $faMapper->find($id);
+		if($featuredArea instanceof Application_Model_Models_Featuredarea) {
+			return $faMapper->delete($featuredArea);
+		}
 	}
 
 }
