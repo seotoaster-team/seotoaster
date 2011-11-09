@@ -101,6 +101,7 @@ body, body.seotoaster {
 .seotoaster .items-list {
 	background: #fff;
 	color: #21759B;
+	overflow: hidden;
 }
 
 .seotoaster .items-list .list-row {
@@ -1083,6 +1084,12 @@ list-style: square;
 /*=====================Featured areas ======================*/
 .seotoaster #addFeaturedArea-label {
 	margin-bottom: 20px;
+}
+
+.seotoaster #add-featured-area {
+	font-size: 16px;
+	padding: 7px 6px;
+	margin-top: 21px;
 }
 
 /*============toaster popup========*/

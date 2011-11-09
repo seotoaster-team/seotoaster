@@ -13,8 +13,8 @@ $(function() {
 				pid  : pageId,
 				faid :faId
 			},
-			function() {
-				$('#ajax_msg').text('Added').fadeOut();
+			function(response) {
+				$('#ajax_msg').html(response.responseText).fadeIn('slow').fadeOut('slow');
 				$(pcountEl).text(parseInt(pcountEl.text()) + 1) ;
 			})
 		}
@@ -25,7 +25,7 @@ $(function() {
 				faid :faId
 			},
 			function() {
-				$('#ajax_msg').text('Added').fadeOut();
+				$('#ajax_msg').text('Removed').fadeOut();
 				$(pcountEl).text(parseInt(pcountEl.text()) - 1) ;
 			})
 		}

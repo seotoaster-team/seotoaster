@@ -93,6 +93,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$fa->addPage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+			$this->_helper->response->success('Added.');
 		}
 	}
 
