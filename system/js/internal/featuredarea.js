@@ -1,8 +1,13 @@
 $(function() {
 	$('#addFeaturedArea-label').hide();
-	$('#fa-massdel-run').button();
+
 	loadFaList();
 	$('.add-page').live('click', function() {
+
+		var chckbx = $('[type=checkbox]:checked');
+
+		window.parent.jQuery('a.featured').text((chckbx.length) ? 'Yes, ' + chckbx.length + ' times' : 'Not yet');
+
 		var pageId     = $('#pid').val();
 		var faId       = $(this).attr('id');
 		var pcountEl   = $('.pcount-' + faId);

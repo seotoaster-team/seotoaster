@@ -20,7 +20,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		$winsize = $this->_getValidWinSize($winSizeType);
 
 		$href = $websiteHelper->getUrl() . $controller . '/' . $action . '/' . (($params) ? $params : '');
-		$link = '<a class="tpopup" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
+		$link = '<a class="tpopup ' . strtolower($action) . '" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
 		if($hrefOnly) {
 			return $href;
 		}

@@ -86,7 +86,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			if(!$page instanceof Application_Model_Models_Page) {
 				//page is no created yet, but we want to add it to fa
-				$faPull                         = array();
+				$faPull                         = isset($this->_helper->session->faPull) ? $this->_helper->session->faPull : array();
 				$faPull[]                       = $fa->getId();
 				$this->_helper->session->faPull = $faPull;
 				$this->_helper->response->success($this->_helper->language->translate('Page added to featured area'));
