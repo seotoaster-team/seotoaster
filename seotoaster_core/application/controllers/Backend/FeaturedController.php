@@ -89,7 +89,8 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 				$faPull                         = array();
 				$faPull[]                       = $fa->getId();
 				$this->_helper->session->faPull = $faPull;
-				return;
+				$this->_helper->response->success($this->_helper->language->translate('Page added to featured area'));
+				//return;
 			}
 			$fa->addPage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
@@ -103,6 +104,18 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
 
+			}
+			if(!$page instanceof Application_Model_Models_Page) {
+				//page is no created yet, but we want to add it to fa
+				$faPull = $this->_helper->session->faPull;
+				if(is_array($faPull) && !empty ($faPull)) {
+					if(in_array($fa->getId(), $faPull)) {
+						unset($faPull[array_search($fa->getId(), $faPull)]);
+						$this->_helper->session->faPull = $faPull;
+					}
+				}
+				$this->_helper->response->success($this->_helper->language->translate('Page removed from featured area'));
+				//return;
 			}
 			$fa->deletePage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);

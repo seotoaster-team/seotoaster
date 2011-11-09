@@ -110,7 +110,7 @@ body, body.seotoaster {
 }
 
 .seotoaster .items-list .list-row .list-row-item {
-	padding: 7px 0px 0px;
+	padding: 7px 0px 3px;
 	font-size: 12px;
 	overflow: hidden;
 }
@@ -447,8 +447,8 @@ body, body.seotoaster {
 
 .seotoaster .pluginspace {
 	float: right;
-	width: 430px;
-	margin-right: 115px;
+	max-width: 430px;
+	margin-right: 80px;
 	text-align: right;
 }
 

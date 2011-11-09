@@ -1,5 +1,6 @@
 $(function() {
 	$('#addFeaturedArea-label').hide();
+	$('#fa-massdel-run').button();
 	loadFaList();
 	$('.add-page').live('click', function() {
 		var pageId     = $('#pid').val();
