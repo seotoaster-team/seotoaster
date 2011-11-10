@@ -23,6 +23,12 @@ $(function() {
 			pluginCallback();
 		})
 	})
+
+	$('.plugin-item').live('mouseenter', function (){
+		$(this).find('.del-plugin').fadeIn(100);
+	}).live('mouseleave', function() {
+		$(this).find('.del-plugin').hide();
+	})
 })
 
 function pluginCallback() {

@@ -57,7 +57,7 @@
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
 					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
 				<?php endif; ?>
-				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
+				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '964', 'height' => '584')); ?></li>
 			</ul>
 		</li>
 
