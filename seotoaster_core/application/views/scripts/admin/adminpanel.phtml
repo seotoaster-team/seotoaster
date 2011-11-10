@@ -45,7 +45,7 @@
 			<ul>
 				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template'), 'pid/' . $this->pageData['id']); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit this template', 'id/' . $this->pageData['templateId'] . '/pid/' . $this->pageData['id']); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS'), false, false, array('width' => '524', 'height' => '584')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Tokens'); ?></a></li>
 			</ul>
