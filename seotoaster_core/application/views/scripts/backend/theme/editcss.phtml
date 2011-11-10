@@ -49,7 +49,7 @@
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
 
 	<?php
-		$this->editcssForm->setAction($this->websiteUrl.$this->url());
+		$this->editcssForm->setAction($this->url());
 	?>
 	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
 		<div class="grid_8">&nbsp;</div>
