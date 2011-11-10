@@ -101,7 +101,8 @@ body, body.seotoaster {
 .seotoaster .items-list {
 	background: #fff;
 	color: #21759B;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .seotoaster .items-list .list-row {
