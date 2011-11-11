@@ -26,7 +26,7 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('MEDIA'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
+				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, array('width' => '484', 'height' => '504')); ?></li>
 				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '504', 'height' => '594')); ?></li>
 			</ul>
 		</li>
