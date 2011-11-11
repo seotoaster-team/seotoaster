@@ -18,7 +18,7 @@
 				<?php endif; ?>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Other pages'); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), '', false, array('width' => '954', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), '', false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), '', false, array('width' => '964', 'height' => '599')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
 				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, array('width' => 480, 'height' => 534)); ?></li>
 			</ul>
@@ -27,7 +27,7 @@
 			<a href="javascript:;"><span><?php echo $this->translate('MEDIA'); ?></span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
-				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
+				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '504', 'height' => '594')); ?></li>
 			</ul>
 		</li>
 		<li>
