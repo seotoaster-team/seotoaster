@@ -1,7 +1,8 @@
 <div class="seotoaster container_12 w960 h580 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins')); ?>
 
-	<div id="upload-plugin">
+	<div id="upload-plugin" class="grid_12">
+		<fieldset><legend><?php echo $this->translate('Upload a new plugin'); ?></legend>
 		<?php if(extension_loaded('zip')): ?>
 			<?php
 				$uploader = $this->toasterUploader(array(
@@ -15,6 +16,6 @@
 
 		<?php endif; ?>
 	</div>
-	<div id="plugins-list" class="h465"></div>
+	<div id="plugins-list" class="h440 grid_12"></div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.js'); ?>
