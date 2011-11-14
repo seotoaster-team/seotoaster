@@ -1004,10 +1004,21 @@ list-style: square;
 
 .seotoaster #plugins-list .plugin-item .plugin-image {
 	overflow: hidden;
-	height: 136px;
+	height: 204px;
 	padding: 4px;
 }
-
+.seotoaster #plugins-list .plugin-item .plugin-image img{
+    width:100%;
+}
+.seotoaster #plugins-list .plugin-item .readme-plugin {
+    	position: absolute;
+        left: 0px;
+         background: white;
+        border-radius: 7px;
+        -webkit-border-radius: 7px;
+        padding: 3px;
+        
+}
 .seotoaster #plugins-list .plugin-item .plugin-name {
 	color: #21759B;
 	font-weight: bold;
