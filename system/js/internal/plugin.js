@@ -26,8 +26,10 @@ $(function() {
 
 	$('.plugin-item').live('mouseenter', function (){
 		$(this).find('.del-plugin').fadeIn(100);
+		$(this).find('.readme-plugin').fadeIn(100);
 	}).live('mouseleave', function() {
 		$(this).find('.del-plugin').hide();
+		$(this).find('.readme-plugin').hide();
 	})
 })
 
@@ -37,7 +39,7 @@ function pluginCallback() {
 		$('.plugin-control, .plugin-endis').button();
 	})
 }
-$('.readme-plugin').live("click", function(){  
+$('.readme-plugin').live("click", function(){
     var pluginName = $(this).attr('id');
     $.post($('#website_url').val() + 'backend/backend_plugin/readme/', {
          pluginName : pluginName

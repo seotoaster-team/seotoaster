@@ -1004,7 +1004,7 @@ list-style: square;
 
 .seotoaster #plugins-list .plugin-item .plugin-image {
 	overflow: hidden;
-	height: 204px;
+	height: 136px;
 	padding: 4px;
 }
 .seotoaster #plugins-list .plugin-item .plugin-image img{
@@ -1017,7 +1017,7 @@ list-style: square;
         border-radius: 7px;
         -webkit-border-radius: 7px;
         padding: 3px;
-        
+
 }
 .seotoaster #plugins-list .plugin-item .plugin-name {
 	color: #21759B;
