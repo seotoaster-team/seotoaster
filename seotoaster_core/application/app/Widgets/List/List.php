@@ -74,7 +74,7 @@ class Widgets_List_List extends Widgets_Abstract {
 			),
 			array(
 				'alias'  => $translator->translate('List all pages for current category (with images)'),
-				'option' => 'list:pages'
+				'option' => 'list:pages:img'
 			),
 			array(
 				'alias'  => $translator->translate('List all pages for category'),
