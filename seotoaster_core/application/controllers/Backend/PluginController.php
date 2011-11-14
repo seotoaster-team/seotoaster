@@ -26,6 +26,22 @@ class Backend_PluginController extends Zend_Controller_Action {
 		$this->view->plugins     = $this->_getPreparedPlugins();
 		$this->view->pluginsList = $this->view->render('backend/plugin/list.phtml');
 	}
+	public function readmeAction(){
+        if($this->getRequest()->isPost()) {
+           $pluginName = $this->getRequest()->getParam('pluginName');
+           $miscData = Zend_Registry::get('misc');
+           $readmePath =  $miscData['pluginsPath'].$pluginName. '/readme.txt';
+           if(file_exists($readmePath) && is_readable($readmePath)){
+               $this->_helper->response->success($this->_helper->language->translate(nl2br(htmlspecialchars(file_get_contents($readmePath)))));           
+           }
+           if(!file_exists($readmePath)){
+               $this->_helper->response->fail($this->_helper->language->translate('Missing readme file'));
+           }
+           if(!is_readable($readmePath)){
+               $this->_helper->response->fail($this->_helper->language->translate('File readme is not readable'));
+           }
+        }
+    }
 
 	private function _getPreparedPlugins() {
 		$prepared = array();
