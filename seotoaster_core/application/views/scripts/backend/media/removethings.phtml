@@ -93,7 +93,9 @@
 			}
 			$('#check-all').button('refresh');
 		}
-	});
+	})
+
+	$('.ui-tabs-nav').removeClass('ui-corner-all').addClass('ui-corner-top');
 
 	// disabling clicking on non-folder item
 	$('#folder>option:first').attr('disabled', true);

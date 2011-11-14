@@ -876,12 +876,12 @@ list-style: square;
 
 /*============= Add/Edit 301 ==============*/
 .seotoaster #redirects-list {
-	overflow-y: scroll;
+	overflow-y: auto;
 	height: 377px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;
-	background: #EAF3FA;
+	background: #fff;
 	width: 940px;
 }
 
@@ -925,12 +925,12 @@ list-style: square;
 /*============= Add/Edit Deeplinks ==============*/
 
 .seotoaster #deeplinks-list {
-	overflow-y: scroll;
+	overflow-y: auto;
 	height: 345px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;
-	background: #EAF3FA;
+	background: #fff;
 	width: 940px;
 }
 
