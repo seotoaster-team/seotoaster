@@ -203,7 +203,7 @@
 	 */
 	$('#check-all').change(function(){
 		var selectedIndex = $( "#filebrowser" ).tabs( "option", "selected" );
-		if ($(this).attr('checked')) {
+		if (this.checked === true) {
 			var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container:not(.active)')
 		} else {
 			var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
