@@ -23,6 +23,7 @@ body, body.seotoaster {
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
+
 .success, .error {
 	cursor: pointer;
 	display: none;
