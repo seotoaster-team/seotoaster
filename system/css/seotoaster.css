@@ -730,13 +730,19 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     font-size: 10pt;
 }
 
-#media-toaster-uploader-filelist div.ui-widget p{
+#media-toaster-uploader-filelist div.ui-widget p,#page-teaser-uploader-filelist div.ui-widget p{
 	float: left;
-    width: 95%;
+    width: 100%;
     padding:0px;
    }
+   #page-teaser-uploader-filelist div.ui-widget{
+    bottom: 140px;
+    position: absolute;
+    right: 20px;
+    width: 440px;
+}
 
-   #media-toaster-uploader-filelist div.ui-widget span{
+   #media-toaster-uploader-filelist div.ui-widget span, #page-teaser-uploader-filelist div.ui-widget span{
 	float: left;
     width: 5%;
     display: none;
@@ -746,7 +752,7 @@ font-family: tahoma,Verdana,Arial,sans-serif;
 
 
 
-    #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight{
+    #media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight, #page-teaser-uploader-filelist div.ui-widget div.ui-state-highlight{
     background: none repeat scroll 0 0 lightSeaGreen;
     border: 1px solid lavender;
     color: lavender;
@@ -756,14 +762,14 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     padding: 1px 5px;
    }
 
-#media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul{
+#media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul,#page-teaser-uploader-filelist div.ui-widget div.ui-state-highlight ul{
 display:block;
 margin: 2px 0px;
 color:#cc0000;
 clear:both;
 list-style: square;
 }
-#media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul li{
+#media-toaster-uploader-filelist div.ui-widget div.ui-state-highlight ul li, #page-teaser-uploader-filelist div.ui-widget div.ui-state-highlight ul li{
 	padding:2px;
 
 }
