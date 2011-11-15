@@ -16,9 +16,9 @@
 	</div>
 	<div class="grid_12">
 		<fieldset><legend>Themes list</legend>
-			<div id="themes-list" class="h350" style="overflow:auto;">
+			<div id="themes-list" class="h350">
 			<?php foreach ($this->themesList as $theme) :?>
-				<div class="grid_3 mb10px themebox" style="position: relative;">
+				<div class="mb10px themebox h170" style="position: relative;">
 					<span class="label" style="position:relative"><?php echo $theme['name']; ?><div class="cat-tools">
 						<?php if ($theme['isCurrent']): ?>
 						<a href="javascript:;" title="this is the current theme"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
@@ -36,7 +36,7 @@
 						<?php endif; ?>
 					</label>
 					<input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
-					<a class="lnk-download" style="position: absolute; left: 180px; top: 203px;" href="javascript:;" title="<?php echo ($this->translate('Download') . ' ' . $theme['name'] . ' ' . $this->translate('theme')); ?>"><img style="height: 30px; width: 30px;" src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
+					<a class="lnk-download" style="position: absolute; left: 140px; top: 178px;" href="javascript:;" title="<?php echo ($this->translate('Download') . ' ' . $theme['name'] . ' ' . $this->translate('theme')); ?>"><img style="height: 30px; width: 30px;" src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
 				</div>
 			<?php endforeach; ?>
 			</div>
