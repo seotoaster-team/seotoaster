@@ -23,7 +23,7 @@ class Application_Form_Css extends Zend_Form {
 			'allowEmpty' => true,
 			'spellcheck' => 'false',
 			'value'		 => $this->_content,
-			'class'		 => array('h500'),
+			'class'		 => array('h435'),
 			'style'		 => 'font-family: monospace;font-weight:normal;font-size:12px;'
 		));
 

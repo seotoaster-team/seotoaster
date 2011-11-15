@@ -1,20 +1,26 @@
-<div class="seotoaster container_12 w960 h640 rounded3px">
+<div class="seotoaster container_12 w960 h580 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins')); ?>
 
-	<div id="upload-plugin">
-		<?php if(extension_loaded('zip')): ?>
-			<?php
-				$uploader = $this->toasterUploader(array(
-					'id'            => 'plugin-uploader',
-					'caller'        => 'plugin',
-					'caption'       => $this->translate('Upload plugin'),
-					'noMultiupload' => true));
-				echo $uploader;
-			?>
-		<?php else: ?>
+	<div id="upload-plugin" class="grid_12">
+		<fieldset><legend><?php echo $this->translate('Upload a new plugin'); ?></legend>
+			<div class="grid_5"><?php if(extension_loaded('zip')): ?>
+				<?php
+					$uploader = $this->toasterUploader(array(
+						'id'            => 'plugin-uploader',
+						'caller'        => 'plugin',
+						'caption'       => $this->translate('Upload plugin'),
+						'noMultiupload' => true));
+					echo $uploader;
+				?>
+				<?php else: ?>
 
-		<?php endif; ?>
+				<?php endif; ?>
+			</div>
+			<div class="grid_7">
+				<div id="plugin-uploader-filelist"></div>
+			</div>
+		</fieldset>
 	</div>
-	<div id="plugins-list" class="h470"></div>
+	<div id="plugins-list" class="h440 grid_12"></div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.js'); ?>

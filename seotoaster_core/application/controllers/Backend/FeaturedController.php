@@ -86,13 +86,15 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			if(!$page instanceof Application_Model_Models_Page) {
 				//page is no created yet, but we want to add it to fa
-				$faPull                         = array();
+				$faPull                         = isset($this->_helper->session->faPull) ? $this->_helper->session->faPull : array();
 				$faPull[]                       = $fa->getId();
 				$this->_helper->session->faPull = $faPull;
-				return;
+				$this->_helper->response->success($this->_helper->language->translate('Page added to featured area'));
+				//return;
 			}
 			$fa->addPage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+			$this->_helper->response->success($this->_helper->language->translate('Page added to featured area'));
 		}
 	}
 
@@ -103,8 +105,21 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
 
 			}
+			if(!$page instanceof Application_Model_Models_Page) {
+				//page is no created yet, but we want to add it to fa
+				$faPull = $this->_helper->session->faPull;
+				if(is_array($faPull) && !empty ($faPull)) {
+					if(in_array($fa->getId(), $faPull)) {
+						unset($faPull[array_search($fa->getId(), $faPull)]);
+						$this->_helper->session->faPull = $faPull;
+					}
+				}
+				$this->_helper->response->success($this->_helper->language->translate('Page removed from featured area'));
+				//return;
+			}
 			$fa->deletePage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+			$this->_helper->response->success($this->_helper->language->translate('Page removed from featured area'));
 		}
 	}
 
@@ -128,7 +143,25 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	}
 
 	public function deleteAction() {
+		if($this->getRequest()->isPost()) {
+			$faId = $this->getRequest()->getParam('id');
+			if(is_array($faId) && !empty ($faId)) {
+				foreach ($faId as $id) {
+					$this->_delete($id);
+				}
+			}
+			else {
+				$this->_delete($faId);
+			}
+		}
+	}
 
+	private function _delete($id) {
+		$faMapper     = Application_Model_Mappers_FeaturedareaMapper::getInstance();
+		$featuredArea = $faMapper->find($id);
+		if($featuredArea instanceof Application_Model_Models_Featuredarea) {
+			return $faMapper->delete($featuredArea);
+		}
 	}
 
 }

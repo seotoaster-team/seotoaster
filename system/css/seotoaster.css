@@ -102,6 +102,8 @@ body, body.seotoaster {
 .seotoaster .items-list {
 	background: #fff;
 	color: #21759B;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .seotoaster .items-list .list-row {
@@ -110,7 +112,7 @@ body, body.seotoaster {
 }
 
 .seotoaster .items-list .list-row .list-row-item {
-	padding: 7px 0px 0px;
+	padding: 7px 0px 3px;
 	font-size: 12px;
 	overflow: hidden;
 }
@@ -447,8 +449,8 @@ body, body.seotoaster {
 
 .seotoaster .pluginspace {
 	float: right;
-	width: 430px;
-	margin-right: 115px;
+	max-width: 430px;
+	margin-right: 80px;
 	text-align: right;
 }
 
@@ -875,12 +877,12 @@ list-style: square;
 
 /*============= Add/Edit 301 ==============*/
 .seotoaster #redirects-list {
-	overflow-y: scroll;
+	overflow-y: auto;
 	height: 377px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;
-	background: #EAF3FA;
+	background: #fff;
 	width: 940px;
 }
 
@@ -924,12 +926,12 @@ list-style: square;
 /*============= Add/Edit Deeplinks ==============*/
 
 .seotoaster #deeplinks-list {
-	overflow-y: scroll;
+	overflow-y: auto;
 	height: 345px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;
-	background: #EAF3FA;
+	background: #fff;
 	width: 940px;
 }
 
@@ -963,7 +965,7 @@ list-style: square;
 
 .seotoaster #plugins-list, .seotoaster #sculpting-list {
 	/*overflow: hidden;*/
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 }
 
@@ -978,6 +980,8 @@ list-style: square;
 	-webkit-border-radius: 5px;
 	padding: 0px 0px 5px;
 	position: relative;
+	width: 174px;
+	overflow: hidden;
 }
 
 .seotoaster #plugins-list .plugin-item .del-plugin {
@@ -987,7 +991,7 @@ list-style: square;
 }
 
 .seotoaster #upload-plugin {
-	height: 100px;
+/*	height: 55px;*/
 	border-bottom: 1px dashed #fff;
 }
 
@@ -1001,11 +1005,21 @@ list-style: square;
 
 .seotoaster #plugins-list .plugin-item .plugin-image {
 	overflow: hidden;
-	height: 220px;
-	width: 180px;
+	height: 136px;
 	padding: 4px;
 }
+.seotoaster #plugins-list .plugin-item .plugin-image img{
+    width:100%;
+}
+.seotoaster #plugins-list .plugin-item .readme-plugin {
+    	position: absolute;
+        left: 0px;
+         background: white;
+        border-radius: 7px;
+        -webkit-border-radius: 7px;
+        padding: 3px;
 
+}
 .seotoaster #plugins-list .plugin-item .plugin-name {
 	color: #21759B;
 	font-weight: bold;
@@ -1017,6 +1031,10 @@ list-style: square;
 .seotoaster #plugins-list .plugin-item .plugin-control, .seotoaster #plugins-list .plugin-item .plugin-endis {
 	font-size: 14px;
 	margin-left: 5px;
+}
+
+.seotoaster #plugins-list .plugin-item .plugin-control span, .seotoaster #plugins-list .plugin-item .plugin-endis span {
+	padding: 4px 9px;
 }
 
 /*============= Manage users ==============*/
@@ -1084,6 +1102,13 @@ list-style: square;
 /*=====================Featured areas ======================*/
 .seotoaster #addFeaturedArea-label {
 	margin-bottom: 20px;
+}
+
+.seotoaster #add-featured-area {
+	font-size: 16px;
+	padding: 7px 6px;
+	margin-top: 21px;
+	margin-right: 0px;
 }
 
 /*============toaster popup========*/

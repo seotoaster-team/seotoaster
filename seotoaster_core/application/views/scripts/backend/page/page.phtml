@@ -1,4 +1,4 @@
-<div class="seotoaster container_12 w950 h580 rounded3px" id="addedit-page">
+<div class="seotoaster container_12 w950 h570 rounded3px" id="addedit-page">
 	<?php // echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/page/top.phtml'))); ?>
 
 	<?php
@@ -55,7 +55,7 @@
 					<div class="grid_12 clear mt5px"></div>
 					<div class="grid_6"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
 					<div class="grid_6">
-						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '480', 'height' => '649')); ?>
+						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
 
 						<?php
 //							echo $this->ajaxLink(

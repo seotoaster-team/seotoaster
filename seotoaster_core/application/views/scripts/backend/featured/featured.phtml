@@ -1,4 +1,4 @@
-<div class="seotoaster container_12 w480 h570 rounded3px">
+<div class="seotoaster container_12 w480 h550 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add a page to featured areas | Create a featured area')); ?>
 	<form id="frm-featured-area" action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
 		<div class="grid_8">
@@ -9,12 +9,13 @@
 		</div>
 	</form>
 	<div style="padding: 5px 0px; font-size: 12px;" class="header-titles grid_12">
-		<div class="grid_6 list-row-item"><?php echo $this->translate('Featured area name'); ?></div>
-		<div class="grid_2 list-row-item">#<?php echo $this->translate('Featured pages'); ?></div>
-		<div class="grid_2 list-row-item"><?php echo $this->translate('Add / Remove page'); ?></div>
+		<div class="grid_6 list-row-item">
+			<?php echo $this->translate('Featured area name'); ?>
+		</div>
+		<div class="grid_4 list-row-item"><?php echo $this->translate('Featured?'); ?></div>
 		<div class="grid_2 list-row-item"><?php echo $this->translate('Actions'); ?></div>
 	</div>
-	<div id="fa-list" class="grid_12 items-list"></div>
+	<div id="fa-list" class="grid_12 items-list h400"></div>
 	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

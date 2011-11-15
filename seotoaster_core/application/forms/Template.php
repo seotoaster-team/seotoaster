@@ -39,7 +39,7 @@ class Application_Form_Template extends Zend_Form {
 			'value'    => $this->_content,
 			'required' => true,
 			'filters'  => array('StringTrim'),
-			'class'	   => array('h480'),
+			'class'	   => array('h440'),
 			'decorators' => array('ViewHelper', 'Label')
 		));
 

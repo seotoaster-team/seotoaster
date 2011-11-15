@@ -1,5 +1,5 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
-<div class="seotoaster container_12 h645 rounded3px">
+<div class="seotoaster container_12 h590 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things')); ?>
 	<div class="grid_12">
 		<form id="removeForm" class="">
@@ -93,7 +93,9 @@
 			}
 			$('#check-all').button('refresh');
 		}
-	});
+	})
+
+	$('.ui-tabs-nav').removeClass('ui-corner-all').addClass('ui-corner-top');
 
 	// disabling clicking on non-folder item
 	$('#folder>option:first').attr('disabled', true);
@@ -238,7 +240,7 @@
 		if (!dialogHolder.dialog('isOpen') && openFlag){
 			dialogHolder.dialog('option', 'title', 'Hey!! Not so fast buddy!').dialog('open');
 		}
-
+		dialogHolder.css({background : '#eee'}).addClass('ui-corner-all');
 		return dialogHolder;
 	}
 <?php $this->jQuery()->onLoadCaptureEnd();?>
@@ -247,8 +249,8 @@
 <style type="text/css">
 	#filebrowser .filebrowser-zone {
 		overflow-y: auto;
-		max-height: 425px;
-		height: 425px;
+		max-height: 400px;
+		height: 400px;
 		padding: 5px;
 	}
 	#filebrowser div.file-container {

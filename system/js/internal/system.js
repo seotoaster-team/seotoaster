@@ -12,7 +12,7 @@ $(function() {
 		var link    = $(this);
 		var pwidth  = link.data('pwidth') || 960;
 		var pheight = link.data('pheight') || 580;
-		var popup = $(document.createElement('iframe')).attr('class', '__tpopup').attr('scrolling', 'no').addClass('rounded3px');
+		var popup = $(document.createElement('iframe')).attr('scrolling', 'no').addClass('__tpopup rounded3px');
 		popup.parent().css({background: 'none'});
 		popup.dialog({
 			width: pwidth,
@@ -28,20 +28,7 @@ $(function() {
 						margin   : '0px',
 						overflow : 'hidden'
 				});
-				$('.ui-dialog-titlebar').hide();
-
-				/* drag-n-drop holder
-				$('.ui-dialog-titlebar-close').hide();
-				$('.ui-dialog-titlebar').css({
-					position     : 'absolute',
-					zIndex       : '5',
-					//opacity      : '1',
-					background   : '#666 url("system/images/move-pages.png") no-repeat scroll 37% 50%',
-					borderRadius : '8px 0px 8px 0px',
-					padding      : '4px 0px'
-				}).addClass('closebutton');
-				*/
-
+				$('.ui-dialog-titlebar').remove();
 			},
 			close: function() {
 				$(this).remove();
@@ -87,13 +74,12 @@ $(function() {
 				}
 			}
 		});
+		$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
 	})
 
 	//seotoaster close popup window button
 	$('.closebutton').click(function() {
-		$('.__tpopup', window.parent.document).hide('destroy');
-		$('.ui-widget-overlay', window.parent.document).hide();
-		$('.__tpopup', window.parent.document).remove();
+		window.parent.jQuery('.__tpopup').dialog('close');
 	})
 
 	//seotoaster ajax form submiting

@@ -10,42 +10,42 @@
 				<!-- This block will be hidden on news pages -->
 				<?php if($this->newsPage !== true): ?>
 					<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
-					<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), 'id/' . $this->pageData['id'], false, array('width' => '950', 'height' => '574')); ?></li>
+					<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), 'id/' . $this->pageData['id'], false, array('width' => '954', 'height' => '574')); ?></li>
 					<?php if($this->websiteMainPage != $this->pageData['url']): ?>
 						<li><a href="javascript:;" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
 						<input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />
 					<?php endif; ?>
 				<?php endif; ?>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Other pages'); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), '', false, array('width' => '950', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), '', false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), '', false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), '', false, array('width' => '964', 'height' => '599')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, Zend_View_Helper_ToasterLink::WSIZE_SMALL); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, array('width' => 480, 'height' => 534)); ?></li>
 			</ul>
 		</li>
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('MEDIA'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
-				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
+				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, array('width' => '484', 'height' => '504')); ?></li>
+				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '504', 'height' => '594')); ?></li>
 			</ul>
 		</li>
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('SEO'); ?></span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, Zend_View_Helper_ToasterLink::WSIZE_SMALL); ?></li>
-				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '644')); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '964', 'height' => '594')); ?></li>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Link strategy'); ?></li>
-				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '644')); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '594')); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
 			</ul>
 		</li>
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('LAYOUT'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template'), 'pid/' . $this->pageData['id']); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit this template', 'id/' . $this->pageData['templateId'] . '/pid/' . $this->pageData['id']); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template'), 'pid/' . $this->pageData['id'], false, array('width' => '964', 'height' => '594')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', 'Edit this template', 'id/' . $this->pageData['templateId'] . '/pid/' . $this->pageData['id'], false, array('width' => '964', 'height' => '594')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS'), false, false, array('width' => '524', 'height' => '584')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Tokens'); ?></a></li>
 			</ul>
@@ -53,11 +53,11 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '480', 'height' => '364')); ?></li>
+				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '484', 'height' => '364')); ?></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
-					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
+					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '964', 'height' => '594')); ?></li>
 				<?php endif; ?>
-				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, Zend_View_Helper_ToasterLink::WSIZE_LARGE); ?></li>
+				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '964', 'height' => '584')); ?></li>
 			</ul>
 		</li>
 

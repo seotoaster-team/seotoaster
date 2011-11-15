@@ -1,10 +1,10 @@
-<div class="seotoaster container_12 h480 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage drafts')); ?>
-	<div class="grid_12">
+<div class="seotoaster container_12 h530 rounded3px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage drafts (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')')); ?>
+	<div class="grid_12 items-list h480">
 		<?php if($this->draftPages && is_array($this->draftPages)): ?>
-			<?php foreach($this->draftPages as $draftPage): ?>
-				<p style="overflow: hidden;">
-					<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
+			<?php foreach($this->draftPages as $number => $draftPage): ?>
+				<p style="overflow: hidden; padding: 5px;" class="list-row">
+					#<?php echo ++$number; ?>&nbsp;<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
 				</p>
 			<?php endforeach; ?>
 		<?php endif; ?>
