@@ -735,10 +735,11 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     width: 100%;
     padding:0px;
    }
+   
    #page-teaser-uploader-filelist div.ui-widget{
-    bottom: 140px;
-    position: absolute;
-    right: 20px;
+    bottom: 0;
+    position: relative;
+    right: 150px;
     width: 440px;
 }
 
