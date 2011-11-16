@@ -10,7 +10,7 @@ class Validators_UrlRegex extends Zend_Validate_Abstract {
 	const URL = 'url';
 
 	protected $_messageTemplates = array(
-		self::URL => "'%value%' is no valid url"
+		self::URL => "'%value%' is not valid url"
 	);
 
 	public function isValid($value) {

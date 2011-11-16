@@ -30,7 +30,7 @@ $(function() {
 	})
 
 	$('#massdel-run').click(function() {
-		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected redirects?');
+		var messageScreen = $('<div class="info-message error"></div>').html('Do you really want to remove selected redirects?').css({background: 'indianred', color: 'lavender'});
 		$(messageScreen).dialog({
 			modal    : true,
 			title    : 'Removing redirects?',
@@ -56,7 +56,7 @@ $(function() {
 					$(this).dialog('close');
 				}
 			}
-		});
+		}).parent().css({background: 'indianred'});
 	})
 })
 

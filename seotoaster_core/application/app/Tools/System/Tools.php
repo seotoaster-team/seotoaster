@@ -80,7 +80,7 @@ class Tools_System_Tools {
 		$captcha->setTimeout('300')
 			->setWordLen('5')
 			->setHeight(45)
-			->setFont($websiteHelper->getPath() . 'system/fonts/Goulong.ttf')
+			->setFont($websiteHelper->getPath() . 'system/fonts/Alcohole.ttf')
 			->setImgDir($websiteHelper->getPath() . $websiteHelper->getTmp())
 			->setFontSize(20);
 		$captcha->setDotNoiseLevel(0);

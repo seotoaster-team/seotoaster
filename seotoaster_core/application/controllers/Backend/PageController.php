@@ -73,6 +73,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				}
 
 				$page->setOptions($pageData);
+				$page = $this->_setAdditionalOptions($page, $pageData['pageOption']);
 
 				//prevent renaming of the index page
 				if ($page->getUrl() != $this->_helper->website->getDefaultpage() ) {
@@ -116,6 +117,32 @@ class Backend_PageController extends Zend_Controller_Action {
 
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
 		$this->view->pageForm = $pageForm;
+	}
+
+	private function _setAdditionalOptions(Application_Model_Models_Page $page, $option) {
+		$page->setIs404page(0)
+			->setProtected(0)
+			->setMemLanding(0)
+			->setErrLoginLanding(0)
+			->setSignupLanding(0);
+		switch ($option) {
+			case Application_Model_Models_Page::OPT_404PAGE:
+				$page->setIs404page(1);
+			break;
+			case Application_Model_Models_Page::OPT_PROTECTED:
+				$page->setProtected(1);
+			break;
+			case Application_Model_Models_Page::OPT_ERRLAND:
+				$page->setErrLoginLanding(1);
+			break;
+			case Application_Model_Models_Page::OPT_MEMLAND:
+				$page->setMemLanding(1);
+			break;
+			case Application_Model_Models_Page::OPT_SIGNUPLAND:
+				$page->setSignupLanding(1);
+			break;
+		}
+		return $page;
 	}
 
 	private function _processFaPull($pageId) {

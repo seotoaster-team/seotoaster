@@ -46,7 +46,7 @@ $(function() {
 		}
 		var callback = $(this).data('callback');
 		var deleteScreen = document.createElement('div');
-		$(deleteScreen).html('<h2>Are you sure?</h2>');
+		$(deleteScreen).css({color:'lavender'}).html('<h2>Are you sure?</h2>');
 		var link = $(this);
 		$(deleteScreen).dialog({
 			modal: true,
@@ -73,8 +73,8 @@ $(function() {
 					$( this ).dialog( "close" );
 				}
 			}
-		});
-		$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
+		}).parent().css({background: 'indianred'});
+		//$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
 	})
 
 	//seotoaster close popup window button

@@ -43,6 +43,7 @@ body, body.seotoaster {
 
 .error {
 	background: indianred;
+	color:lavender;
 }
 
 
@@ -735,7 +736,7 @@ font-family: tahoma,Verdana,Arial,sans-serif;
     width: 100%;
     padding:0px;
    }
-   
+
    #page-teaser-uploader-filelist div.ui-widget{
     bottom: 0;
     position: relative;
@@ -903,7 +904,7 @@ list-style: square;
 /*============= Add/Edit 301 ==============*/
 .seotoaster #redirects-list {
 	overflow-y: auto;
-	height: 377px;
+	height: 360px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;
@@ -912,7 +913,7 @@ list-style: square;
 }
 
 .seotoaster #redirect-title {
-	margin-top: 35px;
+/*	margin-top: 35px;*/
 }
 
 
@@ -952,7 +953,7 @@ list-style: square;
 
 .seotoaster #deeplinks-list {
 	overflow-y: auto;
-	height: 345px;
+	height: 320px;
 	font-size: 12px;
 	font-family: Arial;
 	margin-bottom: 6px;
@@ -982,7 +983,7 @@ list-style: square;
 .seotoaster #table-header {
 	font-size: 15px;
 	font-weight: bold;
-	margin-top: 25px;
+/*	margin-top: 25px;*/
 }
 
 

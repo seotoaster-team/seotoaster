@@ -32,6 +32,8 @@ class Application_Form_Page extends Zend_Form {
 
 	protected $_publishAt       = '';
 
+	protected $_pageOption      = 0;
+
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
 
@@ -111,7 +113,7 @@ class Application_Form_Page extends Zend_Form {
 			'name' => 'inMenu',
 			'multiOptions' => array(
 				Application_Model_Models_Page::IN_MAINMENU   => 'Main Menu',
-				Application_Model_Models_Page::IN_STATICMENU => 'Static Menu',
+				Application_Model_Models_Page::IN_STATICMENU => 'Flat Menu',
 				Application_Model_Models_Page::IN_NOMENU     => 'No Menu'
 			),
 			'label'     => 'Navigation',
@@ -130,6 +132,22 @@ class Application_Form_Page extends Zend_Form {
 				)
 			),
 			'registerInArrayValidator' => false
+		)));
+
+		$this->addElement(new Zend_Form_Element_Select(array(
+			'name'         => 'pageOption',
+			'id'           => 'page-options',
+			'label'        => 'This page is',
+			'multiOptions' => array(
+				'0'                                           => 'Select an option',
+				Application_Model_Models_Page::OPT_404PAGE    => 'Not found 404 page',
+				Application_Model_Models_Page::OPT_PROTECTED  => 'Member only',
+				Application_Model_Models_Page::OPT_ERRLAND    => 'Error login landing',
+				Application_Model_Models_Page::OPT_MEMLAND    => 'Member landing',
+				Application_Model_Models_Page::OPT_SIGNUPLAND => 'Member signup landing',
+			),
+			'registerInArrayValidator' => false,
+			'value' => $this->_pageOption
 		)));
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
@@ -270,8 +288,11 @@ class Application_Form_Page extends Zend_Form {
 	}
 
 	public function setIs404page($is404page) {
-		$this->_is404page = $is404page;
-		$this->getElement('is404page')->setValue($is404page);
+		$this->_is404page  = $is404page; // deprecated
+		if($is404page) {
+			$this->_pageOption = Application_Model_Models_Page::OPT_404PAGE;
+			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_404PAGE);
+		}
 		return $this;
 	}
 
@@ -280,8 +301,35 @@ class Application_Form_Page extends Zend_Form {
 	}
 
 	public function setProtected($protected) {
-		$this->_protected = $protected;
-		$this->getElement('protected')->setValue($protected);
+		$this->_protected = $protected; // deprecated
+		if($protected) {
+			$this->_pageOption = Application_Model_Models_Page::OPT_PROTECTED;
+			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_PROTECTED);
+		}
+		return $this;
+	}
+
+	public function setMemLanding($memLanding) {
+		if($memLanding) {
+			$this->_pageOption = Application_Model_Models_Page::OPT_MEMLAND;
+			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_MEMLAND);
+		}
+		return $this;
+	}
+
+	public function setErrLoginLanding($errLanding) {
+		if($errLanding) {
+			$this->_pageOption = Application_Model_Models_Page::OPT_ERRLAND;
+			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_ERRLAND);
+		}
+		return $this;
+	}
+
+	public function setSignupLanding($signupLanding) {
+		if($signupLanding) {
+			$this->_pageOption = Application_Model_Models_Page::OPT_SIGNUPLAND;
+			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_SIGNUPLAND);
+		}
 		return $this;
 	}
 

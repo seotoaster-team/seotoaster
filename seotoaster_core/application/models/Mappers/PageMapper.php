@@ -23,6 +23,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'show_in_menu'        => $page->getShowInMenu(),
 			'is_404page'          => $page->getIs404page(),
 			'protected'           => $page->getProtected(),
+			'mem_landing'         => $page->getMemLanding(),
+			'signup_landing'      => $page->getSignupLanding(),
+			'err_login_landing'   => $page->getErrLoginLanding(),
 			'order'               => $page->getOrder(),
 			'silo_id'             => $page->getSiloId(),
 			'targeted_key_phrase' => $page->getTargetedKey(),
@@ -92,6 +95,18 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
 		$page  = $this->_findWhere($where);
 		return ($page !== null) ? $page : $this->_findWhere($where, true);
+	}
+
+	public function findErrorLoginLanding() {
+		return $this->_findWhere("err_login_landing = '1'");
+	}
+
+	public function findMemberLanding() {
+		return $this->_findWhere("mem_landing = '1'");
+	}
+
+	public function findSignupLandign() {
+		return $this->_findWhere("signup_landing = '1'");
 	}
 
 	public function findByNavName($navName) {

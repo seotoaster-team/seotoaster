@@ -42,7 +42,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 		return $this->_view->render('mainmenu.phtml');
 	}
 
-	private function _renderStaticMenu() {
+	private function _renderFlatMenu() {
 		$this->_view->staticPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
 		unset($pageMapper);
 		return $this->_view->render('staticmenu.phtml');
@@ -56,8 +56,8 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 				'option' => 'menu:main'
 			),
 			array(
-				'alias'   => $translator->translate('Static menu'),
-				'option' => 'menu:static'
+				'alias'   => $translator->translate('Flat menu'),
+				'option' => 'menu:flat'
 			)
 		);
 	}

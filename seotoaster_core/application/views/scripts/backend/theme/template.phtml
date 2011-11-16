@@ -20,7 +20,7 @@
 			<input type="button" id="listtemplates-btn" value="<?php echo $this->translate('Select another template to edit');?>" />
 
 			<div class="mt20px textcentered img-teaser">
-				<img id="template_preview" src="<?php echo $this->websiteUrl.$this->templatePreview; ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
+				<img id="template_preview" src="<?php echo $this->websiteUrl . (($this->templatePreview) ? $this->templatePreview : 'system/images/no_preview.png'); ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 			</div>
 			<div style="text-align: center">
 				<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>

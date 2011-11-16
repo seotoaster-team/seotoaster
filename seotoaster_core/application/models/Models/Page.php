@@ -22,6 +22,12 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_404PAGE          = 'is_404page';
 
+	const OPT_ERRLAND          = 'errland';
+
+	const OPT_MEMLAND          = 'mamland';
+
+	const OPT_SIGNUPLAND       = 'signupland';
+
 	const CONTEXT_NEWS         = 'news';
 
 	protected $_templateId       = '';
@@ -50,7 +56,11 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	protected $_protected        = false;
 
-	protected $_memLandig        = false;
+	protected $_memLanding        = false;
+
+	protected $_errLoginLanding  = false;
+
+	protected $_signupLanding    = false;
 
 	protected $_order            = 0;
 
@@ -196,12 +206,30 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		return $this;
 	}
 
-	public function getMemLandig() {
-		return $this->_memLandig;
+	public function getMemLanding() {
+		return $this->_memLanding;
 	}
 
-	public function setMemLandig($memLandig) {
-		$this->_memLandig = $memLandig;
+	public function setMemLanding($memLanding) {
+		$this->_memLanding = $memLanding;
+		return $this;
+	}
+
+	public function getErrLoginLanding() {
+		return $this->_errLoginLanding;
+	}
+
+	public function setErrLoginLanding($errLoginLanding) {
+		$this->_errLoginLanding = $errLoginLanding;
+		return $this;
+	}
+
+	public function getSignupLanding() {
+		return $this->_signupLanding;
+	}
+
+	public function setSignupLanding($signupLanding) {
+		$this->_signupLanding = $signupLanding;
 		return $this;
 	}
 

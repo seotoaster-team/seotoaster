@@ -35,7 +35,7 @@ $(function() {
 
 	$('#deeplink-massdel-run').click(function() {
 
-		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected deeplinks?');
+		var messageScreen = $('<div class="info-message"></div>').css({color:'lavender'}).html('Do you really want to remove selected deeplinks?');
 		$(messageScreen).dialog({
 			modal    : true,
 			title    : 'Removing deeplinks?',
@@ -61,7 +61,7 @@ $(function() {
 					$(this).dialog('close');
 				}
 			}
-		});
+		}).parent().css({background: 'indianred'});
 	})
 })
 
