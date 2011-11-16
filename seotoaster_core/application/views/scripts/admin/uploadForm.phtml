@@ -39,7 +39,7 @@ switch ($this->caller){
 
 	<?php echo $jsValName; ?>.bind('Init', function(up, params) {
 		if ($('#<?php echo $this->formId;?>-filelist').size() == 0) {
-			$('#<?php echo $this->formId;?>').before('<div id="<?php echo $this->formId;?>-filelist"></div>');
+			$('#<?php echo $this->formId;?>').after('<div id="<?php echo $this->formId;?>-filelist"></div>');
 		}
 		$('#<?php echo $this->formId; ?>-filelist').html('');
 	});
