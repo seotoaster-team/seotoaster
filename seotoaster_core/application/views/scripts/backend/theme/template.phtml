@@ -1,5 +1,5 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
-<div class="seotoaster container_12 w960 h590 rounded3px">
+<div class="seotoaster container_12 w960 h590 rounded3px refreshOnClose">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template')); ?>
 
 	<div id="templatelist" class="h640 ui-helper-hidden" style="z-index: 99; overflow: hidden; width: 100%; margin-top: -42px;"></div>
@@ -17,11 +17,14 @@
 			</div>
 		</div>
 		<div class="grid_4 h500">
-			<input type="button" id="listtemplates-btn" value="<?php echo $this->translate('Select another template to edit');?>" />
+			<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
+				<input type="button" id="listtemplates-btn" value="<?php echo $this->translate('Select another template to edit');?>" />
+			<?php endif; ?>
 
 			<div class="mt20px textcentered img-teaser">
 				<img id="template_preview" src="<?php echo $this->websiteUrl . (($this->templatePreview) ? $this->templatePreview : 'system/images/no_preview.png'); ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 			</div>
+
 			<div style="text-align: center">
 				<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
 				<?php
