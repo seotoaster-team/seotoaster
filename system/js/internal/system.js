@@ -182,8 +182,8 @@ function loginCheck() {
 	return true;
 }
 
-function showModalMessage(title, msg, callback) {
-	var messageScreen = $('<div class="info-message"></div>').html(msg);
+function showModalMessage(title, msg, callback, err) {
+	var messageScreen = $('<div class="info-message' + ((typeof err != 'undefined' && err) ? ' error' : '') + '"></div>').html(msg);
 	$(messageScreen).dialog({
 		modal     : true,
 		title     : title,
@@ -198,6 +198,10 @@ function showModalMessage(title, msg, callback) {
 		}
 	}).css({background : '#eee'});
 	$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
+	if(typeof err != 'undefined' && err) {
+		$('.ui-widget-content').css({background: 'indianred'});
+	}
+
 }
 
 function publishPages() {
