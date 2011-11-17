@@ -6,7 +6,7 @@
 			data: $(this).serialize(),
 			dataType: 'json',
 			success: function(response){
-				$('#ajax_msg').text(response.responseText).delay(3000).fadeOut();
+				$('#ajax_msg').text(response.responseText).fadeOut(_FADE_NORMAL);
 			},
 			beforeSend: function(){
 				$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
