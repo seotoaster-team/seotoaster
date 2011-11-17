@@ -6,7 +6,7 @@
 			data: $(this).serialize(),
 			dataType: 'json',
 			success: function(response){
-				$('#ajax_msg').text(response.responseText).delay(3000).fadeOut();
+				$('#ajax_msg').text(response.responseText).fadeOut(_FADE_NORMAL);
 			},
 			beforeSend: function(){
 				$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
@@ -45,7 +45,7 @@
 		}
 	})
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
-<div class="seotoaster container_12 w520 h580 rounded3px">
+<div class="seotoaster container_12 w520 h580 rounded3px refreshOnClose">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
 
 	<?php

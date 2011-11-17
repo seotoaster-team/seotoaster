@@ -19,7 +19,7 @@ $(function() {
 		var cid    = $(this).val();
 		var actUrl = '';
 		$('#ajax_msg').text('Siloing category').show();
-		if($(this).attr('checked')) {
+		if($(this).prop('checked')) {
 			actUrl = $('#website_url').val() + 'backend/backend_seo/silocat/act/add/';
 		}
 		else {

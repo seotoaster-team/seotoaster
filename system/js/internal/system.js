@@ -1,5 +1,9 @@
 $(function() {
-	_FADE_SLOW = 5000;
+
+	_FADE_SLOW   = 5000;
+	_FADE_NORMAL = 2000;
+	_FADE_FAST   = 700;
+	_FADE_FLASH  = 300;
 
 	/**
 	 * Seotoaster popup dialog
@@ -79,6 +83,10 @@ $(function() {
 
 	//seotoaster close popup window button
 	$('.closebutton').click(function() {
+		if(window.parent.jQuery('.__tpopup').contents().find('div.seotoaster').hasClass('refreshOnClose')) {
+			window.parent.location.reload();
+			window.parent.jQuery('.__tpopup').dialog('close');
+		}
 		window.parent.jQuery('.__tpopup').dialog('close');
 	})
 
@@ -120,7 +128,7 @@ $(function() {
 					if(typeof callback != 'undefined' && callback != null) {
 						eval(callback + '()');
 					}
-					ajaxMessage.html(response.responseText).fadeOut(_FADE_SLOW);
+					ajaxMessage.html(response.responseText).fadeOut(_FADE_FAST);
 				}
 				else {
 					$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
@@ -174,8 +182,8 @@ function loginCheck() {
 	return true;
 }
 
-function showModalMessage(title, msg, callback) {
-	var messageScreen = $('<div class="info-message"></div>').html(msg);
+function showModalMessage(title, msg, callback, err) {
+	var messageScreen = $('<div class="info-message' + ((typeof err != 'undefined' && err) ? ' error' : '') + '"></div>').html(msg);
 	$(messageScreen).dialog({
 		modal     : true,
 		title     : title,
@@ -190,6 +198,10 @@ function showModalMessage(title, msg, callback) {
 		}
 	}).css({background : '#eee'});
 	$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
+	if(typeof err != 'undefined' && err) {
+		$('.ui-widget-content').css({background: 'indianred'});
+	}
+
 }
 
 function publishPages() {

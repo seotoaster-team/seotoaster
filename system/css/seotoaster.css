@@ -28,7 +28,7 @@ body, body.seotoaster {
 	cursor: pointer;
 	display: none;
 	position: absolute;
-	padding: 30px 10% 20px 10%;
+	padding: 4% 10% 4% 10%;
 	z-index: 999;
 	text-align: left;
 	width: 80%;
@@ -36,7 +36,7 @@ body, body.seotoaster {
 	font-size: 12pt;
 	color: lavender;
 	font-weight: bold;
-	min-height: 100px;
+	min-height: 50px;
 	background: lightSeaGreen;
 	opacity: 0.9;
 }
