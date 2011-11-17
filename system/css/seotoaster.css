@@ -208,7 +208,7 @@ body, body.seotoaster {
 	color:CadetBlue;
 	border:1px solid #BDE6F1;
 	padding:4px 0 2px 5px;
-	padding: 8px 3px;
+	padding: 6px 3px;
 	width:98%;
 	background: #fff;
 	margin: 0px 0px 2px 0px;
@@ -218,7 +218,7 @@ body, body.seotoaster {
 	-webit-border-radius:3px;
 	border-radius: 3px;
 }
-.seotoaster select {padding: 7px 0px;}
+/*.seotoaster select {padding: 7px 0px;}*/
 
 .seotoaster input[type=submit] {
 	background:#7C7C7C;
