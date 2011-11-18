@@ -41,6 +41,11 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		return '<a href="' . $this->_website->getUrl() . 'logout">Logout</a>';
 	}
 
+	private function _renderMemberSignup() {
+		$this->_view->signupForm = new Application_Form_Signup();
+		return $this->_view->render('signup.phtml');
+	}
+
 	private function _renderMemberDetails() {
 
 	}
@@ -48,6 +53,10 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	public static function getAllowedOptions() {
 		$translator = Zend_Registry::get('Zend_Translate');
 		return array(
+			array(
+				'alias'   => $translator->translate('Member area sign-up box'),
+				'option' => 'member:signup'
+			),
 			array(
 				'alias'   => $translator->translate('Member area login box'),
 				'option' => 'member:login'

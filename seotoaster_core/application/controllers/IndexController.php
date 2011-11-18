@@ -83,8 +83,9 @@ class IndexController extends Zend_Controller_Action {
 			}
 		}
 		else {
-			//if requested page is not allowed - redirect to the website index page
-			$this->_helper->redirector->gotoUrl($this->_helper->website->getUrl());
+			//if requested page is not allowed - redirect to the signup landing page
+			$signupLanding = Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_SIGNUPLAND);
+			$this->_helper->redirector->gotoUrl(($signupLanding instanceof Application_Model_Models_Page) ? $this->_helper->website->getUrl() . $signupLanding->getUrl() : $this->_helper->website->getUrl());
 		}
 
 		if(!$newsContext) {

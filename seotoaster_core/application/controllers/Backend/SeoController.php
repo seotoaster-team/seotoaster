@@ -245,9 +245,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 			}
 			else {
 				if(!isset($tree[-1])) {
+					$silo     = Application_Model_Mappers_SiloMapper::getInstance()->findByName($this->_translator->translate('Without category'));
 					$tree[-1] = array(
 						'label'    => $this->_translator->translate('Without category'),
-						'category' => ''
+						'category' => '',
+						'isSilo'   => ($silo instanceof Application_Model_Models_Silo && $page->getSiloId() == -1)
 					);
 				}
 				$tree[-1]['subpages'][] = $page;
@@ -282,25 +284,34 @@ class Backend_SeoController extends Zend_Controller_Action {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Action is not defined'));
 			}
 			$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
-			$categoryPage     = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->getRequest()->getParam('cid')));
-			$siloRelatedPages = $pageMapper->findByParentId($categoryPage->getId());
+			$cid              = intval($this->getRequest()->getParam('cid'));
+			$categoryPage     = ($cid != Application_Model_Models_Page::IDCATEGORY_DEFAULT) ? $pageMapper->find($cid) : $cid;
+			$siloRelatedPages = $pageMapper->findByParentId(($categoryPage instanceof Application_Model_Models_Page) ? $categoryPage->getId() : $categoryPage);
 			if($categoryPage === null) {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
 			}
 			switch ($action) {
 				case self::SILOCAT_ADD:
 					$siloMapper       = Application_Model_Mappers_SiloMapper::getInstance();
-					$silo             = $siloMapper->findByName($categoryPage->getNavName());
+					$silo             = $siloMapper->findByName(($categoryPage instanceof Application_Model_Models_Page) ? $categoryPage->getNavName() : $this->_helper->language->translate('Without category'));
 					$silo             = ($silo instanceof Application_Model_Models_Silo) ? $silo : new Application_Model_Models_Silo();
-					$silo->setName($categoryPage->getNavName())
-						->setRelatedPages(array_merge($siloRelatedPages, array($categoryPage)));
+					if($categoryPage instanceof Application_Model_Models_Page) {
+						$silo->setName($categoryPage->getNavName())
+							->setRelatedPages(array_merge($siloRelatedPages, array($categoryPage)));
+					}
+					else {
+						$silo->setName($this->_helper->language->translate('Without category'))
+							->setRelatedPages($siloRelatedPages);
+					}
 					$siloId = $siloMapper->save($silo);
 					if($siloId) {
 						$this->_helper->response->success('Siloed');
 					}
 				break;
 				case self::SILOCAT_REMOVE:
-					$pageMapper->save($categoryPage->setSiloId(0));
+					if($categoryPage instanceof Application_Model_Models_Page) {
+						$pageMapper->save($categoryPage->setSiloId(0));
+					}
 					if(!empty ($siloRelatedPages)) {
 						foreach ($siloRelatedPages as $page) {
 							$page->setSiloId(0);
