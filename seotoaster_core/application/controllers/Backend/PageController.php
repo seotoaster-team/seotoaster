@@ -74,6 +74,8 @@ class Backend_PageController extends Zend_Controller_Action {
 
 
 				$page = $this->_setAdditionalOptions($page, $pageData['pageOption']);
+				unset($pageData['protected']);
+				unset($pageData['is404page']);
 				$page->setOptions($pageData);
 
 				//prevent renaming of the index page

@@ -14,9 +14,9 @@
 		<div id="tabs">
 			<ul>
 				<li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
-				<li><a href="#email-config"><?php echo $this->translate('Email'); ?></a></li>
+				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
 				<?php if ($this->isSuperAdmin): ?>
-				<li><a href="#security-config"><?php echo $this->translate('Security'); ?></a></li>
+				<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
 				<?php endif; ?>
 			</ul>
 			<div id="general-config">
@@ -27,12 +27,12 @@
 				<?php echo $this->configForm->getElement('language')->renderViewHelper(); ?>
 				</div>
 
-				<div class="grid_6">
+<!--				<div class="grid_6">
 				<?php echo $this->configForm->getElement('currentTheme')->renderLabel(); ?>
 				</div>
 				<div class="grid_6">
 				<?php echo $this->configForm->getElement('currentTheme')->renderViewHelper(); ?>
-				</div>
+				</div>-->
 
 				<div class="grid_6">
 				<?php echo $this->configForm->getElement('imgSmall')->renderLabel(); ?>

@@ -18,5 +18,12 @@ class Tools_Mail_Tools {
 		return $hash;
 	}
 
+	public static function sendSignupEmail() {
+
+	}
+
+	public static function sendMailToSiteOwner($mailType) {
+
+	}
 }
 

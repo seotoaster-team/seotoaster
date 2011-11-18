@@ -439,7 +439,7 @@ body, body.seotoaster {
 /*TinyMce widget drop-down width hack*/
 
 #menu_content_content_widgets_menu_co {
-	width: 240px !important;
+	width: 305px !important;
 	background-color: #fff;
 	-moz-border-radius:0px 0px 6px 6px;
 	-webkit-border-radius:0px 0px 6px 6px;
@@ -454,7 +454,7 @@ body, body.seotoaster {
     width: 420px;
 }
 .seotoaster .pluginspace div{
-		float: right;	
+		float: right;
 	}
 .seotoaster .pluginspace label{
 	float:left;
@@ -718,7 +718,7 @@ div.show_div#widgets_maker select {
     position: relative;
 }
 div.ace_scroller{
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 #editor {
     background: white;
@@ -917,7 +917,7 @@ list-style: square;
 }
 
 .seotoaster .themebox .theme-delete img {
-	margin: 7px 6px;
+	margin: 2px 6px;
 }
 
 /*============= Add/Edit 301 ==============*/

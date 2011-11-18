@@ -7,7 +7,7 @@
  */
 class Tools_Filesystem_Tools {
 
-	private static $_excludedFiles = array('.svn', '.', '..', '.htaccess');
+	private static $_excludedFiles = array('.svn', '.', '..', '.htaccess', 'concat.css');
 
 	/**
 	 * Scan directory and get all files from it.

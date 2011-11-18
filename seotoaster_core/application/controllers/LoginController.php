@@ -44,12 +44,23 @@ class LoginController extends Zend_Controller_Action {
 
 						unset($user);
 						$this->_helper->cache->clean();
+
+						if($authUserData->role_id == Tools_Security_Acl::ROLE_MEMBER) {
+							$this->_memberRedirect();
+						}
+
 						if(isset($this->_helper->session->redirectUserTo)) {
 							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
 						}
 						$this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
 					}
 				}
+
+				$signInType = $this->getRequest()->getParam('singintype');
+				if($signInType && $signInType == Tools_Security_Acl::ROLE_MEMBER) {
+					$this->_memberRedirect(false);
+				}
+
 				$this->_checkRedirect(false, 'There is no user with such login and password.');
 			}
 			else {
@@ -74,6 +85,13 @@ class LoginController extends Zend_Controller_Action {
 		$this->_helper->cache->clean();
 		$this->_checkRedirect($this->_helper->website->getUrl(), '');
 
+	}
+
+	private function _memberRedirect($success = true) {
+		$landingPage = ($success) ? Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_MEMLAND) : Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_ERRLAND);
+		if($landingPage instanceof Application_Model_Models_Page) {
+			$this->_redirect($this->_helper->website->getUrl() . $landingPage->getUrl(), array('exit' => true));
+		}
 	}
 
 	private function _checkRedirect($url = '', $message = '') {

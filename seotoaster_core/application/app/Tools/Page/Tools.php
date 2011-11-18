@@ -33,5 +33,24 @@ class Tools_Page_Tools {
 		}
 		return $draftPages;
 	}
+
+	public static function getLandingPage($type) {
+		if(!isset($type) || empty ($type)) {
+			throw new Exceptions_SeotoasterException('You should specify landing page type');
+		}
+		$landingPage = null;
+		switch ($type) {
+			case Application_Model_Models_Page::OPT_SIGNUPLAND:
+				$landingPage = Application_Model_Mappers_PageMapper::getInstance()->findSignupLandign();
+			break;
+			case Application_Model_Models_Page::OPT_MEMLAND:
+				$landingPage = Application_Model_Mappers_PageMapper::getInstance()->findMemberLanding();
+			break;
+			case Application_Model_Models_Page::OPT_ERRLAND:
+				$landingPage = Application_Model_Mappers_PageMapper::getInstance()->findErrorLoginLanding();
+			break;
+		}
+		return $landingPage;
+	}
 }
 

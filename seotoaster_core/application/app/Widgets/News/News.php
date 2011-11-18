@@ -94,11 +94,11 @@ class Widgets_News_News extends Widgets_Abstract {
 		$translator = Zend_Registry::get('Zend_Translate');
 		return array(
 			array(
-				'alias'   => $translator->translate('Lis of all news'),
+				'alias'   => $translator->translate('List all news'),
 				'option' => 'news:list'
 			),
 			array(
-				'alias'   => $translator->translate('Lis of all news by category name'),
+				'alias'   => $translator->translate('List all news by category name'),
 				'option' => 'news:category_name'
 			),
 			array(
