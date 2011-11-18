@@ -1,4 +1,7 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>  
 <div class="seotoaster container_12 w960 h590 rounded3px refreshOnClose">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template')); ?>
 
@@ -12,8 +15,9 @@
 			<div class="grid_6">
 				<?php echo $this->templateForm->getElement('templateType'); ?>
 			</div>
-			<div class="grid_12">
-				<?php echo $this->templateForm->getElement('content'); ?>
+			<div class="grid_12"><?php echo $this->templateForm->getElement('content')->renderLabel(); ?></div>
+			<div class="grid_12 h450" id="edittemplate">
+				<?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
 			</div>
 		</div>
 		<div class="grid_4 h500">

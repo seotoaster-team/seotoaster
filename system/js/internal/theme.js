@@ -1,3 +1,10 @@
+window.onload = function() {
+    var editor = ace.edit("edittemplate");
+        editor.setTheme("ace/theme/crimson_editor");
+    var HTMLMode = require("ace/mode/html").Mode;
+        editor.getSession().setMode(new HTMLMode());
+        editor.getSession().getValue();
+        editor.getSession().setUseWrapMode(true);
 $(function() {
 	$('#frm_template').submit(saveTemplate);
 
@@ -8,7 +15,8 @@ $(function() {
 			function(response){
 				if (response.error != false){
 					$('#frm_template').find('#title').val(response.responseText.name);
-					$('#frm_template').find('#template-content').val(response.responseText.content);
+                    editor.getSession().setValue(response.responseText.content);
+					//$('#frm_template').find('#template-content').val(response.responseText.content);
 					$('#frm_template').find('#template_id').val(response.responseText.name);
 					$('#frm_template').find('#template-type').val(response.responseText.type);
 					$('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);
@@ -37,12 +45,19 @@ $(function() {
 
 function saveTemplate() {
 	var ajaxMsg = $('#ajax_msg');
-
+    var templateContent = editor.getSession().getValue();
 	$.ajax({
 		url        : $(this).attr('action'),
 		type       : 'post',
 		dataType   : 'json',
-		data       : $(this).serialize(),
+		data : {  
+            content : templateContent, 
+            pageId : $('#pageId').val(), 
+            templateType : $('#template-type').val(), 
+            name : $('#title').val(),
+            id: $('#template_id').val()
+        },
+        
 		beforeSend : function() {
 			ajaxMsg.fadeIn().text('Working...');
 		},
@@ -65,16 +80,17 @@ function saveTemplate() {
 }
 
 function deleteTemplate(templateContainer) {
-	$.ajax({
-		url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
-		type: 'POST',
-		data: {"id": templateContainer.find('input[name="template-id"]').val()},
-		success: function(response) {
-			if (response.error == false){
-				templateContainer.remove();
-			}
-			$('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
-		},
-		dataType: 'json'
-	});
+    $.ajax({
+        url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
+        type: 'POST',
+        data: {"id": templateContainer.find('input[name="template-id"]').val()},
+        success: function(response) {
+            if (response.error == false){
+                templateContainer.remove();
+            }
+            $('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
+        },
+        dataType: 'json'
+    });
+ }
 }
