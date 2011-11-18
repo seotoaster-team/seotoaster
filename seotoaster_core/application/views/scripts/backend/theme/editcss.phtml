@@ -1,7 +1,7 @@
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
 
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
-    
+
 <div class="seotoaster container_12 w630 h580 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
 
@@ -11,15 +11,16 @@
 	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
 		<div class="grid_8">&nbsp;</div>
         <div class="grid_4"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
+		<div class="clearfix"></div>
         <div class="h440 mb10px" id="editor" style="position:relative;width:96%;margin-left:2%;"><?php echo $this->editcssForm->getElement('content'); ?></div>
         <div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
 	</form>
 
 </div>
-    
+
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>    
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>
 
 <script>
 window.onload = function() {
@@ -48,7 +49,7 @@ window.onload = function() {
 		})
 		return false;
 	});
-      
+
     $('#csslist').bind('change',function(){
 		$.ajax({
 			url: '<?php echo $this->websiteUrl . $this->url(); ?>',
@@ -69,8 +70,8 @@ window.onload = function() {
 				$('#ajax_msg').text('<?php echo $this->translate('Error occured.'); ?>').show();
 			}
 		});
-	});    
-    
+	});
+
 };
 </script>
 
