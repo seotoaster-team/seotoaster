@@ -2,7 +2,7 @@
 
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
     
-<div class="seotoaster container_12 w520 h580 rounded3px">
+<div class="seotoaster container_12 w630 h580 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
 
 	<?php
@@ -11,20 +11,20 @@
 	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
 		<div class="grid_8">&nbsp;</div>
         <div class="grid_4"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
-        <div class="grid_12 h440 mb10px" id="editor" style="position:relative;"><?php echo $this->editcssForm->getElement('content'); ?></div>
-      	<div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
+        <div class="h440 mb10px" id="editor" style="position:relative;width:96%;margin-left:2%;"><?php echo $this->editcssForm->getElement('content'); ?></div>
+        <div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
 	</form>
 
 </div>
     
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-solarized_light.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>    
 
 <script>
 window.onload = function() {
     var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/solarized_light");
+        editor.setTheme("ace/theme/crimson_editor");
     var CSSMode = require("ace/mode/css").Mode;
         editor.getSession().setMode(new CSSMode());
         editor.getSession().getValue();
@@ -73,4 +73,5 @@ window.onload = function() {
     
 };
 </script>
+
 

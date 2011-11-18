@@ -720,6 +720,10 @@ div.show_div#widgets_maker select {
 div.ace_scroller{
     overflow-x: hidden; 
 }
+#editor {
+    background: white;
+    border: 2px solid #FFFFFF;
+}
 
 .seotoaster .red { background-color:red; }
 .seotoaster .blue { background-color:blue; }
