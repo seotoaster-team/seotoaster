@@ -449,11 +449,18 @@ body, body.seotoaster {
 }
 
 .seotoaster .pluginspace {
-	float: right;
-	max-width: 430px;
-	margin-right: 80px;
-	text-align: right;
+    float: right;
+    margin-right: 105px;
+    width: 420px;
 }
+.seotoaster .pluginspace div{
+		float: right;	
+	}
+.seotoaster .pluginspace label{
+	float:left;
+	margin-top:2px;
+	padding:0px;
+	}
 
 .seotoaster #content {
 	height: 505px;
