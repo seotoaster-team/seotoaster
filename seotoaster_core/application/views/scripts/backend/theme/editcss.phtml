@@ -1,12 +1,43 @@
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
-	$('#editcssform').submit(function(){
-		$.ajax({
+
+<?php $this->jQuery()->onLoadCaptureEnd(); ?>
+    
+<div class="seotoaster container_12 w520 h580 rounded3px">
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
+
+	<?php
+		$this->editcssForm->setAction($this->url());
+	?>
+	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
+		<div class="grid_8">&nbsp;</div>
+        <div class="grid_4"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
+        <div class="grid_12 h440 mb10px" id="editor" style="position:relative;"><?php echo $this->editcssForm->getElement('content'); ?></div>
+      	<div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
+	</form>
+
+</div>
+    
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-solarized_light.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>    
+
+<script>
+window.onload = function() {
+    var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/solarized_light");
+    var CSSMode = require("ace/mode/css").Mode;
+        editor.getSession().setMode(new CSSMode());
+        editor.getSession().getValue();
+        editor.getSession().setUseWrapMode(true);
+    $('#editcssform').submit(function(){
+	var cssContent = editor.getSession().getValue();
+       $.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
-			data: $(this).serialize(),
+			data: {cssname : $("#csslist").val(), content : cssContent},
 			dataType: 'json',
 			success: function(response){
-				$('#ajax_msg').text(response.responseText).fadeOut(_FADE_NORMAL);
+				$('#ajax_msg').text(response.responseText).delay(3000).fadeOut();
 			},
 			beforeSend: function(){
 				$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
@@ -17,8 +48,8 @@
 		})
 		return false;
 	});
-
-	$('#csslist').bind('change',function(){
+      
+    $('#csslist').bind('change',function(){
 		$.ajax({
 			url: '<?php echo $this->websiteUrl . $this->url(); ?>',
 			type: 'POST',
@@ -27,7 +58,8 @@
 			success: function(response){
 				if (response.error == false){
 					$('#ajax_msg').fadeOut();
-					$('#csscontent').val(response.responseText).focus();
+                    editor.getSession().setValue(response.responseText);
+					//$('#csscontent').val(response.responseText).focus();
 				}
 			},
 			beforeSend: function(){
@@ -37,25 +69,8 @@
 				$('#ajax_msg').text('<?php echo $this->translate('Error occured.'); ?>').show();
 			}
 		});
-	});
-	$('#csscontent').keydown(function(e) {
-		if(e.ctrlKey && e.keyCode == 83) {
-			e.preventDefault();
-			$('#editcssform').submit();
-		}
-	})
-<?php $this->jQuery()->onLoadCaptureEnd(); ?>
-<div class="seotoaster container_12 w520 h580 rounded3px refreshOnClose">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
+	});    
+    
+};
+</script>
 
-	<?php
-		$this->editcssForm->setAction($this->url());
-	?>
-	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
-		<div class="grid_8">&nbsp;</div>
-		<div class="grid_4"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
-		<div class="grid_12"><?php echo $this->editcssForm->getElement('content'); ?></div>
-		<div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
-	</form>
-
-</div>

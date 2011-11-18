@@ -704,7 +704,15 @@ div.show_div#widgets_maker select {
 	padding:20px 10px;
 
 }
-
+#edittemplate {
+    background: white;
+    border: 6px solid #FFFFFF;
+    border-radius: 3px 3px 3px 3px;
+    position: relative;
+}
+div.ace_scroller{
+    overflow-x: hidden; 
+}
 
 .seotoaster .red { background-color:red; }
 .seotoaster .blue { background-color:blue; }
