@@ -922,6 +922,11 @@ list-style: square;
 }
 
 /*============= Add/Edit 301 ==============*/
+
+.seotoaster #urlType-element label {
+	float: left;
+}
+
 .seotoaster #redirects-list {
 	overflow-y: auto;
 	height: 360px;

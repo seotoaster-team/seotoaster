@@ -35,11 +35,23 @@ class Application_Form_Redirect extends Zend_Form {
 			)
 		)));
 
+		$this->addElement(new Zend_Form_Element_Radio(array(
+			'name'         => 'urlType',
+			'multiOptions' => array(
+				0 => 'Local url',
+				1 => 'External url'
+			),
+			//'label'     => 'Url',
+			'required'  => true,
+			'separator' => '',
+			'value'     => 'local'
+		)));
+
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'       => 'toUrl',
 			'id'         => 'to-url',
 			'value'      => $this->_toUrl,
-			'label'      => 'Local url',
+			//'label'      => 'Url',
 			'class'      => '_tdropdown',
 			'filters'    => array(
 				new Zend_Filter_StringTrim(),
