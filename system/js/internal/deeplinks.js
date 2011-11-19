@@ -1,24 +1,19 @@
 $(function() {
 
+	$('#urlType-label').hide();
+
 	$('#deeplink-massdel-run').button();
 
 	loadDeeplinksList();
 
 	var urlDropDown = $('#url');
 	var urlLabel    = $('#url-label').find('label');
-	$('#domain-toggle-deeplinks').toggle(function(){
-		$(this).text('Internal?');
-		urlLabel.text('Type url');
-		$('#nofollow').attr('checked', true);
-		$('#url').replaceWith('<input type="text" id="url" name="url" value="http://" />');
-	},
-	function() {
-		$(this).text('External?');
-		urlLabel.text('Select page');
-		$('#nofollow').attr('checked', false);
+	$('#urlType-0').click(function() {
 		$('#url').replaceWith(urlDropDown);
 	})
-
+	$('#urlType-1').click(function(){
+		$('#url').replaceWith('<input type="text" id="url" name="url" value="http://" />');
+	})
 
 	$('#chk-all').click(function() {
 		 $('.deeplink-massdel').attr('checked', ($(this).attr('checked')) ? true : false);
