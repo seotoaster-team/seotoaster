@@ -50,20 +50,20 @@ function saveTemplate() {
 		url        : $(this).attr('action'),
 		type       : 'post',
 		dataType   : 'json',
-		data : {  
-            content : templateContent, 
-            pageId : $('#pageId').val(), 
-            templateType : $('#template-type').val(), 
+		data : {
+            content : templateContent,
+            pageId : $('#pageId').val(),
+            templateType : $('#template-type').val(),
             name : $('#title').val(),
             id: $('#template_id').val()
         },
-        
+
 		beforeSend : function() {
 			ajaxMsg.fadeIn().text('Working...');
 		},
 		success : function(response) {
 			if (response.error != true){
-				ajaxMsg.text('Template saved');
+				ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
 				if (response.responseText == 'new') {
 					$(this).find('input').val('');
 				}
