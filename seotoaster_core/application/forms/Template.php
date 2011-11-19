@@ -68,7 +68,8 @@ class Application_Form_Template extends Zend_Form {
 
 		$this->addElement('submit', 'submit', array(
 			'label'  => 'Save changes',
-			'class'  => array('formsubmit', 'w250'),
+			'class'  => array('formsubmit', 'grid_3'),
+			'style'  => 'float:none;',
 			'ignore' => true
 		));
 	}
