@@ -455,6 +455,7 @@ body, body.seotoaster {
 }
 .seotoaster .pluginspace div{
 		float: right;
+		border-right: 1px solid #EEEEEE;
 	}
 .seotoaster .pluginspace label{
 	float:left;
