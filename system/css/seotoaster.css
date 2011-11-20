@@ -352,8 +352,8 @@ body, body.seotoaster {
 }
 
 .seotoaster#seotoaster-cpanel {
-	font-family:tahoma, geneva, verdana, sans-serif;
-	font-size: 14px;
+	font-family:tahoma, geneva, verdana, sans-serif !important;
+	font-size: 14px !important;
 	background:#fff;
 	position:absolute;
 	right:5px;
