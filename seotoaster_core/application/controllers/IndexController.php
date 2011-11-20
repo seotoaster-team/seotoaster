@@ -102,7 +102,7 @@ class IndexController extends Zend_Controller_Action {
 		$head = '';
 		$body = '';
 		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
-		preg_match('~(<body.*>)(.*)</body>~usUi', $pageContent, $body);
+		preg_match('~(<body.*>)(.*)</body>~usi', $pageContent, $body);
 		$this->view->head            = $head[1];
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
