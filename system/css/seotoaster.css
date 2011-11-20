@@ -352,8 +352,6 @@ body, body.seotoaster {
 }
 
 .seotoaster#seotoaster-cpanel {
-	font-family:tahoma, geneva, verdana, sans-serif !important;
-	font-size: 14px !important;
 	background:#fff;
 	position:absolute;
 	right:5px;
@@ -387,7 +385,8 @@ body, body.seotoaster {
 	background:#6D6D6D;
 	color:#eee;
 	font-weight:bold;
-	font-size:13pt;
+	font-size:13pt !important;
+	font-family:tahoma, geneva, verdana, sans-serif !important;
 	padding:3px 5px;
 	border: none;
 	border-bottom:1px solid #fff;
@@ -399,7 +398,7 @@ body, body.seotoaster {
 .seotoaster#seotoaster-cpanel ul li ul li a {
 	background-color:#fff;
 	color:#21759B;
-	font-size:11pt;
+	font-size:11pt !important;
 	border-bottom:1px solid #ddd;
 	padding:2px 4px;
 }
@@ -408,7 +407,7 @@ body, body.seotoaster {
 .seotoaster#seotoaster-cpanel ul li ul li.cpanelsubtitle {
  background-color: #E1E1E1;
  color: #3C3C3C;
- font-size: 11pt;
+ font-size: 11pt !important;
  font-weight: bold;
  border-bottom: none;
  padding: 2px 0px 2px 4px;
