@@ -395,6 +395,10 @@ body, body.seotoaster {
 	margin-top: 0px;
 	text-decoration: none;
 }
+.seotoaster#seotoaster-cpanel ul li a span {
+	font-size: 13pt !important;
+}
+
 .seotoaster#seotoaster-cpanel ul li ul li a {
 	background-color:#fff;
 	color:#21759B;
