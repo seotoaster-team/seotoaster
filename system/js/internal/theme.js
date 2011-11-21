@@ -2,6 +2,7 @@ window.onload = function() {
     var editor = ace.edit("edittemplate");
         editor.setTheme("ace/theme/crimson_editor");
     var HTMLMode = require("ace/mode/html").Mode;
+		$('#title').focus();
         editor.getSession().setMode(new HTMLMode());
         editor.getSession().getValue();
         editor.getSession().setUseWrapMode(true);

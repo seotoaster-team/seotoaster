@@ -27,6 +27,7 @@ window.onload = function() {
 	editor.getSession().setMode(new CSSMode());
 	editor.getSession().getValue();
 	editor.getSession().setUseWrapMode(true);
+	$('#csslist').focus();
     $('#editcssform').submit(function(){
 		var cssContent = editor.getSession().getValue();
 		$.ajax({
