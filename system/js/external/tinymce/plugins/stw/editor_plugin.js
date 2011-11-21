@@ -4,7 +4,7 @@
 			switch (n) {
 				case 'widgets':
 					var widgetList = cm.createListBox('widgets', {
-						title: 'Widgets',
+						title: 'Toaster codes',
 						onselect: function(v) {
 							$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, v)
 						}

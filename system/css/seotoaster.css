@@ -397,6 +397,7 @@ body, body.seotoaster {
 }
 .seotoaster#seotoaster-cpanel ul li a span {
 	font-size: 13pt !important;
+	font-family:tahoma, geneva, verdana, sans-serif !important;
 }
 
 .seotoaster#seotoaster-cpanel ul li ul li a {
@@ -451,6 +452,10 @@ body, body.seotoaster {
 	border-radius:0px 0px 6px 6px;
 	-moz-box-shadow:0px 2px 5px #333;
 	paddding:4px 10px 7px 0px;
+}
+
+#content_widgets_text {
+	width: 85px !important;
 }
 
 .seotoaster .pluginspace {

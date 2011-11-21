@@ -45,15 +45,8 @@
 
 		<?php if(isset($this->sculptingReplacement)): ?>
 			<!-- PRSCULPTING -->
-			<script type="text/javascript" charset="utf-8">
-				$(function() {
-					var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;
-					$.each(sculptingReplacement, function() {
-						$('span._toaster-sculpting-' + this.id).replaceWith(this.repl);
-					})
-				});
-			</script>
-			<!-- PRSCULPTING -->
+			<script type="text/javascript" charset="utf-8">$(function() {var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;$.each(sculptingReplacement, function() {$('span.' + this.id).replaceWith(this.repl);})});</script>
+			<!-- /PRSCULPTING -->
 		<?php endif; ?>
 	</body>
 </html>

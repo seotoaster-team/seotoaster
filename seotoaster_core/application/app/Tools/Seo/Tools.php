@@ -31,7 +31,7 @@ class Tools_Seo_Tools {
 			if($page === null) {
 				continue;
 			}
-			$pageContent            = str_replace($key, '<span class="_toaster-sculpting-' . md5($key) . '">' . $page->getNavName() . '</span>', $pageContent);
+			$pageContent            = str_replace($key, '<span class="' . md5($key) . '">' . $page->getNavName() . '</span>', $pageContent);
 			$sculptingReplacement[] = array(
 				'id'   => md5($key),
 				'repl' => $key
