@@ -52,7 +52,7 @@ class Tools_Seo_Tools {
 		if(is_array($seoData) && !empty($seoData)) {
 			return $seoData[0];
 		}
-		return false;
+		return new Application_Model_Models_Seodata();
 	}
 
 }
