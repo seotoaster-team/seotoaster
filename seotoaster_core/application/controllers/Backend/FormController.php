@@ -14,7 +14,7 @@ class Backend_FormController extends Zend_Controller_Action {
     	$this->view->websiteUrl = $this->_helper->website->getUrl();
         $this->_helper->AjaxContext()->addActionContexts(array(
 			'manageform'  => 'json',
-			'deleteform'  => 'json',
+			'delete'  => 'json',
 			'loadforms'   => 'json',
 			'receiveform' => 'json'
 		))->initContext('json');
@@ -33,8 +33,8 @@ class Backend_FormController extends Zend_Controller_Action {
 				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($formForm->getMessages(), get_class($formForm)));
 			}
 		}
-		$formName = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
-		$form = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
+		$formName      = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
+		$form          = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
 		$mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
 		$formForm->getElement('name')->setValue($formName);
 		$formForm->getElement('replyMailTemplate')->setMultioptions($mailTemplates);
@@ -44,10 +44,10 @@ class Backend_FormController extends Zend_Controller_Action {
 		$this->view->formForm = $formForm;
 	}
 
-    public function deleteformAction(){
-       $excistForm = $this->getRequest()->getParam('excistForm');
+    public function deleteAction(){
+       $id         = $this->getRequest()->getParam('id');
        $formMapper = Application_Model_Mappers_FormMapper::getInstance();
-       $formMapper->deleteForm($formMapper->findFormByName($excistForm));
+       return $formMapper->delete($formMapper->find($id));
     }
 
 	public function loadformsAction() {
