@@ -1,12 +1,3 @@
-<script type="text/javascript">
-	$(function(){
-		$('#tabs').tabs();
-
-		<?php if (count($this->messages)) : ?>
-		$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
-		<?php endif; ?>
-	});
-</script>
 <div class="seotoaster container_12 h360">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config')); ?>
 
@@ -86,7 +77,15 @@
 		<div class="grid_12"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>
 	</form>
 </div>
+<script type="text/javascript">
+	$(function(){
+		$('#tabs').tabs();
 
+		<?php if (count($this->messages)) : ?>
+		$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
+		<?php endif; ?>
+	});
+</script>
 <style>
 	.seotoaster form input.error {
 		color: red;

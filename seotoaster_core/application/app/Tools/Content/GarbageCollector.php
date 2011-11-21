@@ -7,6 +7,7 @@
  */
 class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 
+
 	protected function _runOnDefault() {
 
 	}
@@ -14,7 +15,11 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	protected function _runOnUpdate() {
 		$this->_updateContentLinksRelatios();
 		$this->_cleanEmptyContainer();
+		$this->_trimWidgets();
+	}
 
+	public function updateContentLinksRelatios() {
+		$this->_updateContentLinksRelatios();
 	}
 
 	protected function _runOnDelete() {
@@ -36,6 +41,14 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 			$mapper->delete($containerId, $diff);
 		}
 		return $mapper->saveStructured($links);
+	}
+
+	private function _trimWidgets() {
+		$content = $this->_object->getContent();
+		if($content) {
+			$this->_object->setContent(preg_replace('~<p>({\$.*})</p>~usi', '$1', $content));
+			Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_object);
+		}
 	}
 
 	public function _cleanEmptyContainer() {

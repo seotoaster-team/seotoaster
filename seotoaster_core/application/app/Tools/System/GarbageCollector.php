@@ -43,6 +43,16 @@ abstract class Tools_System_GarbageCollector implements Interfaces_GarbageCollec
 		}
 	}
 
+	public function getObject() {
+		return $this->_object;
+	}
+
+	public function setObject($object) {
+		$this->_object = $object;
+		return $this;
+	}
+
+
 	public function clean() {}
 
 	protected function _runOnCreate() {}

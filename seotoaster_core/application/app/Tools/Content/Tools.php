@@ -69,9 +69,10 @@ class Tools_Content_Tools {
 				$container->registerObserver(new Tools_Seo_Watchdog(array(
 					'unwatch' => '_updateDeeplinks'
 				)));
-				$container->registerObserver(new Tools_Content_GarbageCollector(array(
-					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
-				)));
+
+				$gc = new Tools_Content_GarbageCollector();
+				$gc->setObject($container)->updateContentLinksRelatios();
+				
 				$containerMapper->save($container);
 				$container->notifyObservers();
 			}
