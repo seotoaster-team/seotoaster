@@ -245,7 +245,7 @@ class Application_Form_Config extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
 			'name'  => 'memPagesInMenu',
 			'value' => $this->_showProtectedPagesInMenu,
-			'label' => 'Member only pages in menu',
+			'label' => 'Member pages in menu?',
 		)));
 
 		$this->addElement('submit', 'submit', array(
