@@ -26,12 +26,24 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	}
 
 	private function _renderMainMenu() {
-		$pagesList  = array();
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
+		$pagesList       = array();
+		$pages           = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
+		$configHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+		if(($showMemberPages = $configHelper->getConfig('memPagesInMenu')) == null) {
+			$showMemberPages = true;
+		}
+
+		$showMemberPages = $configHelper->getConfig('memPagesInMenu');
 		foreach ($pages as $key => $page) {
 			if($page->getParentId() == 0) {
+				if(!Tools_Security_Acl::isAllowed($page) && !$showMemberPages) {
+					continue;
+				}
 				$pagesList[$key]['category'] = $page;
 				foreach ($pages as $subPage) {
+					if(!Tools_Security_Acl::isAllowed($subPage) && !$showMemberPages) {
+						continue;
+					}
 					if($subPage->getParentId() == $page->getId()) {
 						$pagesList[$key]['subPages'][] = $subPage;
 					}

@@ -22,6 +22,13 @@ class Application_Form_Config extends Zend_Form {
 	protected $_suLogin;
 	protected $_suPassword;
 
+	/**
+	 * Wether or not to include protected pages into the menus
+	 *
+	 * @var boolean
+	 */
+	protected $_showProtectedPagesInMenu = true;
+
 
 	public function getCurrentTheme() {
 		return $this->_currentTheme;
@@ -141,6 +148,14 @@ class Application_Form_Config extends Zend_Form {
 		return $this;
 	}
 
+	public function getShowProtectedPagesInMenu() {
+		return $this->_showProtectedPagesInMenu;
+	}
+
+	public function setShowProtectedPagesInMenu($showProtectedPagesInMenu) {
+		$this->_showProtectedPagesInMenu = $showProtectedPagesInMenu;
+		return this;
+	}
 
 	public function init() {
 		$this->setName($this->_name)
@@ -156,9 +171,9 @@ class Application_Form_Config extends Zend_Form {
 				))
 			->setElementFilters(array('StringTrim', 'StripTags'));
 
-		$this->addElement('text', 'currentTheme', array(
+		$this->addElement('hidden', 'currentTheme', array(
 			'value'		=> $this->_currentTheme,
-			'label'		=> 'Current Theme',
+			//'label'		=> 'Current Theme',
 			'readonly'	=> true
 		));
 
@@ -226,6 +241,12 @@ class Application_Form_Config extends Zend_Form {
 			'validators' => array(array('StringLength', true, array(4))),
 			'ignore' => true
 		));
+
+		$this->addElement(new Zend_Form_Element_Checkbox(array(
+			'name'  => 'memPagesInMenu',
+			'value' => $this->_showProtectedPagesInMenu,
+			'label' => 'Member only pages in menu',
+		)));
 
 		$this->addElement('submit', 'submit', array(
 			'label' => 'Done'

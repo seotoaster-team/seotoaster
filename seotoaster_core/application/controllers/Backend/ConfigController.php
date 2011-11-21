@@ -29,7 +29,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$languageSelect = $configForm->getElement('language');
 		$languageSelect->setMultiOptions($langList);
 		$languageSelect->setValue($this->_helper->language->getCurrentLanguage());
-		
+
 		$loggedUser = $this->_helper->session->getCurrentUser();
 
 		$isSuperAdminLogged = ($loggedUser->getRoleId() === Tools_Security_Acl::ROLE_SUPERADMIN);
@@ -72,6 +72,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 						$userMapper->save($loggedUser);
 					}
 				}
+
+				//$showMemberOnlyPages = intval($configForm->getElement('memPagesInMenu')->getValue());
 
 				//proccessing form to db
 				$this->_configMapper->save($configForm->getValues());
