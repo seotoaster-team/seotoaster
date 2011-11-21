@@ -28,6 +28,7 @@ class Widgets_List_List extends Widgets_Abstract {
 	private function _renderCategoriesList() {
 		$this->_view->categoriesList = Application_Model_Mappers_PageMapper::getInstance()->findByParentId(0);
 		$this->_view->useImage       = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
+		$this->_view->crop           = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
 		return $this->_view->render('categories.phtml');
 	}
 
@@ -39,6 +40,7 @@ class Widgets_List_List extends Widgets_Abstract {
 		$categoryName = $this->_toasterOptions['navName'];
 		$this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
 		$this->_view->useImage  = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
+		$this->_view->crop      = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
 		return $this->_view->render('pages.phtml');
 	}
 
@@ -46,6 +48,7 @@ class Widgets_List_List extends Widgets_Abstract {
 		$categoryName = $this->_options[1];
 		$this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
 		$this->_view->useImage  = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
+		$this->_view->crop      = (isset($this->_options[3]) && $this->_options[3]) ? true : false;
 		return $this->_view->render('pages.phtml');
 	}
 
