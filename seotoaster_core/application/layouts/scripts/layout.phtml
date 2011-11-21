@@ -33,16 +33,12 @@
 		<!-- from theme -->
 		<?php echo $this->head; ?>
 		<!-- end from theme -->
-
 	</head>
 	<?php echo $this->bodyTag; ?>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_ajaxmsg.phtml'); ?>
-
 		<?php echo $this->layout()->content; ?>
-
 		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
 		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
-
 		<?php if(isset($this->sculptingReplacement)): ?>
 			<!-- PRSCULPTING -->
 			<script type="text/javascript" charset="utf-8">$(function() {var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;$.each(sculptingReplacement, function() {$('span.' + this.id).replaceWith(this.repl);})});</script>

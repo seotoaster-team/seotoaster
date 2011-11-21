@@ -46,5 +46,14 @@ class Tools_Seo_Tools {
 		return self::$_websiteHelper->getUrl() . $page->getUrl();
 	}
 
+	public static function loadSeodata() {
+		$mapper  = Application_Model_Mappers_SeodataMapper::getInstance();
+		$seoData = $mapper->fetchAll();
+		if(is_array($seoData) && !empty($seoData)) {
+			return $seoData[0];
+		}
+		return false;
+	}
+
 }
 

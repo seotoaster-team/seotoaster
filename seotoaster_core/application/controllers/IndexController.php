@@ -99,15 +99,17 @@ class IndexController extends Zend_Controller_Action {
 
 
 	private function _complete($pageContent, $pageData, $newsPage = false) {
-		$head = '';
-		$body = '';
+		$head    = '';
+		$body    = '';
+		$seoData = Tools_Seo_Tools::loadSeodata();
 		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
-		preg_match('~(<body.*>)(.*)</body>~usi', $pageContent, $body);
-		$this->view->head            = $head[1];
+		preg_match('~(<body[^\>]*>)(.*)</body>~uis', $pageContent, $body);
+		$this->view->head            = $head[1] . $seoData->getSeoHead();
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
 		$this->view->currentTheme    = $this->_helper->config->getConfig('currentTheme');
 		$this->view->newsPage        = $newsPage;
+		$body[1]                    .= $seoData->getSeoTop();
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
 			$this->view->pageData = $pageData;
@@ -115,7 +117,7 @@ class IndexController extends Zend_Controller_Action {
 		}
 		$this->view->pageData = $pageData;
 		$this->view->bodyTag  = $body[1];
-		$this->view->content  = $body[2];
+		$this->view->content  = $body[2] . $seoData->getSeoBottom();
 	}
 
 	private function _pageRunkSculptingDemand($page, $pageContent) {
