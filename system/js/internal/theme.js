@@ -1,11 +1,13 @@
 window.onload = function() {
-    var editor = ace.edit("edittemplate");
+    if (!$.browser.msie) {
+        var editor = ace.edit("edittemplate");
         editor.setTheme("ace/theme/crimson_editor");
-    var HTMLMode = require("ace/mode/html").Mode;
+        var HTMLMode = require("ace/mode/html").Mode;
 		$('#title').focus();
         editor.getSession().setMode(new HTMLMode());
         editor.getSession().getValue();
         editor.getSession().setUseWrapMode(true);
+    }
 $(function() {
 	$('#frm_template').submit(saveTemplate);
 
@@ -16,8 +18,7 @@ $(function() {
 			function(response){
 				if (response.error != false){
 					$('#frm_template').find('#title').val(response.responseText.name);
-                    editor.getSession().setValue(response.responseText.content);
-					//$('#frm_template').find('#template-content').val(response.responseText.content);
+                    $.browser.msie ? $('#frm_template').find('#template-content').val(response.responseText.content) : editor.getSession().setValue(response.responseText.content);
 					$('#frm_template').find('#template_id').val(response.responseText.name);
 					$('#frm_template').find('#template-type').val(response.responseText.type);
 					$('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);
@@ -46,12 +47,14 @@ $(function() {
 
 function saveTemplate() {
 	var ajaxMsg = $('#ajax_msg');
-    var templateContent = editor.getSession().getValue();
+    if (!$.browser.msie){
+        var templateContent = editor.getSession().getValue();
+    }
 	$.ajax({
 		url        : $(this).attr('action'),
 		type       : 'post',
 		dataType   : 'json',
-		data : {
+		data: $.browser.msie ? $(this).serialize() : {
             content : templateContent,
             pageId : $('#pageId').val(),
             templateType : $('#template-type').val(),
@@ -95,3 +98,4 @@ function deleteTemplate(templateContainer) {
     });
  }
 }
+
