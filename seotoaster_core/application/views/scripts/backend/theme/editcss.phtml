@@ -20,20 +20,24 @@
 
 <script type="text/javascript">
 window.onload = function() {
-    var editor  = ace.edit("editor");
-	var CSSMode = require("ace/mode/css").Mode;
-
-	editor.setTheme("ace/theme/crimson_editor");
-	editor.getSession().setMode(new CSSMode());
-	editor.getSession().getValue();
-	editor.getSession().setUseWrapMode(true);
-	$('#csslist').focus();
+    if (!$.browser.msie) {
+        var editor  = ace.edit("editor");
+        var CSSMode = require("ace/mode/css").Mode;
+        
+    	editor.setTheme("ace/theme/crimson_editor");
+        editor.getSession().setMode(new CSSMode());
+        editor.getSession().getValue();
+        editor.getSession().setUseWrapMode(true);
+        $('#csslist').focus();
+    }
     $('#editcssform').submit(function(){
-		var cssContent = editor.getSession().getValue();
+		if (!$.browser.msie){
+            var cssContent = editor.getSession().getValue();
+        }
 		$.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
-			data: {cssname : $("#csslist").val(), content : cssContent},
+			data: $.browser.msie ? $(this).serialize() : {cssname : $("#csslist").val(), content : cssContent},
 			dataType: 'json',
 			success: function(response){
 				$('#ajax_msg').text(response.responseText).fadeOut(_FADE_FAST);
@@ -47,7 +51,7 @@ window.onload = function() {
 		})
 		return false;
 	});
-
+    
     $('#csslist').bind('change',function(){
 		$.ajax({
 			url: '<?php echo $this->websiteUrl . $this->url(); ?>',
@@ -57,8 +61,7 @@ window.onload = function() {
 			success: function(response){
 				if (response.error == false){
 					$('#ajax_msg').fadeOut(_FADE_FAST);
-                    editor.getSession().setValue(response.responseText);
-					//$('#csscontent').val(response.responseText).focus();
+                    $.browser.msie ? $('#csscontent').val(response.responseText).focus() : editor.getSession().setValue(response.responseText);
 				}
 			},
 			beforeSend: function(){
@@ -69,7 +72,7 @@ window.onload = function() {
 			}
 		});
 	});
-
+    
 	$('textarea').keydown(function(e) {
 		if(e.ctrlKey && e.keyCode == 83) {
 			e.preventDefault();
@@ -78,5 +81,4 @@ window.onload = function() {
 	})
 };
 </script>
-
 
