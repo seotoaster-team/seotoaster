@@ -46,7 +46,8 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	private function _trimWidgets() {
 		$content = $this->_object->getContent();
 		if($content) {
-			$this->_object->setContent(preg_replace('~<p>({\$.*})</p>~usi', '$1', $content));
+			$content = str_replace('<p>{', '{', $content);
+			$this->_object->setContent(str_replace('}</p>', '}', $content));
 			Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_object);
 		}
 	}
