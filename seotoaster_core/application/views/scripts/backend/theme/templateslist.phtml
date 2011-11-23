@@ -14,7 +14,7 @@
 			<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
 		</div>
 		<div class="template_name">
-			<?php echo $template['name']; ?>
+			<?php echo Tools_Text_Tools::cutText($template['name'], 10); ?>
 			<?php if (!in_array($template['name'], $this->protectedTemplates)): ?>
 			<div class="template_delete"><img style="vertical-align:middle;" src="<?php echo $this->websiteUrl;?>/system/images/delete.png" alt="<?php echo $this->translate('Delete');?>" /></div>
 			<?php endif; ?>

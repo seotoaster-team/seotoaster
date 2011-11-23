@@ -12,13 +12,13 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	const ID_PRODUCT   = 'product';
 
-	const TYPE_REGULAR = 'regular';
+	const TYPE_REGULAR = 'typeregular';
 
-	const TYPE_PRODUCT = 'product';
+	const TYPE_PRODUCT = 'typeproduct';
 
-	const TYPE_LISTING = 'listing';
+	const TYPE_LISTING = 'typelisting';
 
-	const TYPE_MAIL    = 'mail';
+	const TYPE_MAIL    = 'typemail';
 
 	protected $_name         = '';
 

@@ -28,9 +28,9 @@ $(function() {
 		);
 		$('#templatelist').slideUp();
 	}).delegate('div.template_delete', 'click', function(){
-		if (confirm('Do you really want to delete this template?')){
+		//if (confirm('Do you really want to delete this template?')){
 			deleteTemplate($(this).closest('div.template_item'));
-		}
+		//}
 		return false;
 	});
 
@@ -84,18 +84,33 @@ function saveTemplate() {
 }
 
 function deleteTemplate(templateContainer) {
-    $.ajax({
-        url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
-        type: 'POST',
-        data: {"id": templateContainer.find('input[name="template-id"]').val()},
-        success: function(response) {
-            if (response.error == false){
-                templateContainer.remove();
-            }
-            $('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
-        },
-        dataType: 'json'
-    });
- }
+    var messageScreen = $('<div class="info-message"></div>').css({color:'lavender'}).html('Do you really want to remove this template?');
+	$(messageScreen).dialog({
+		modal    : true,
+		title    : 'Remove template?',
+		resizable: false,
+		buttons: {
+			Yes: function() {
+				$.ajax({
+					url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
+					type: 'post',
+					data: {"id": templateContainer.find('input[name="template-id"]').val()},
+					success: function(response) {
+						if (response.error == false){
+							templateContainer.remove();
+						}
+						$('#ajax_msg').text(response.responseText).fadeIn().fadeOut(_FADE_FAST);
+					},
+					dataType: 'json'
+				});
+				$(this).dialog('close');
+			},
+			No : function() {
+				$(this).dialog('close');
+			}
+		}
+	}).parent().css({background: 'indianred'});
+}
+
 }
 

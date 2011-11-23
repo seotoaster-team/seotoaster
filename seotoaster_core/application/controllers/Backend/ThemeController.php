@@ -243,7 +243,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				case Application_Model_Models_Template::TYPE_PRODUCT:
 				case Application_Model_Models_Template::TYPE_LISTING:
 				case Application_Model_Models_Template::TYPE_MAIL:
-					$template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : null;
+					$template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
 					$this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
 					$this->view->protectedTemplates = $this->_protectedTemplates;
 					echo $this->view->render($this->getViewScript('templateslist'));
@@ -253,7 +253,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					if ($template instanceof Application_Model_Models_Template) {
 						$template = array(
 								'id'		=> $template->getId(),
-								'name'		=> Tools_Text_Tools::cutText($template->getName(), 10),
+								'name'		=> $template->getName(),
 								'fullName'  => $template->getName(),
 								'type'      => $template->getType(),
 								'content'	=> $template->getContent(),
@@ -279,7 +279,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		foreach ($templates as $template) {
 			array_push($templateList, array(
 				'id'	        => $template->getId(),
-				'name'	        => Tools_Text_Tools::cutText($template->getName(), 10),
+				'name'	        => $template->getName(),
 				'fullName'      => $template->getName(),
 				'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
 				'content'       => $template->getContent(),
