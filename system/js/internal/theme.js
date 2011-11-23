@@ -28,9 +28,7 @@ $(function() {
 		);
 		$('#templatelist').slideUp();
 	}).delegate('div.template_delete', 'click', function(){
-		//if (confirm('Do you really want to delete this template?')){
-			deleteTemplate($(this).closest('div.template_item'));
-		//}
+		deleteTemplate($(this).closest('div.template_item'));
 		return false;
 	});
 

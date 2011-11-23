@@ -1,15 +1,15 @@
 <?php if(!empty($this->users)): ?>
 	<?php foreach($this->users as $user): ?>
-		<div class="user-row" style="overflow: hidden;">
-			<div class="user-row-item grid_3"><?php echo $user->getEmail(); ?></div>
-			<div class="user-row-item grid_2"><?php echo $user->getFullName(); ?></div>
-			<div class="user-row-item grid_2"><?php echo $this->translate(ucfirst($user->getRoleId())); ?></div>
-			<div class="user-row-item grid_2"><?php echo intval($user->getLastLogin()) ? date('D d M Y', strtotime($user->getLastLogin())) : $this->translate('Not visited yet'); ?></div>
-			<div class="user-row-item grid_2"><?php echo ($user->getIpaddress()) ? $user->getIpaddress() : $this->translate('Unknown'); ?></div>
-			<div class="user-row-item grid_1" style="overflow: hidden;">
+		<tr class="user-row grid_12" style="overflow: hidden;">
+			<td class="user-row-item grid_2"><?php echo $user->getEmail(); ?></td>
+			<td class="user-row-item grid_3"><?php echo $user->getFullName(); ?></td>
+			<td class="user-row-item grid_2"><?php echo $this->translate(ucfirst($user->getRoleId())); ?></td>
+			<td class="user-row-item grid_2"><?php echo intval($user->getLastLogin()) ? date('D d M Y', strtotime($user->getLastLogin())) : $this->translate('Not visited yet'); ?></td>
+			<td class="user-row-item grid_2"><?php echo ($user->getIpaddress()) ? $user->getIpaddress() : $this->translate('Unknown'); ?></td>
+			<td class="user-row-item grid_1" style="overflow: hidden;">
 				<a style="float:left;margin-right: 10px;" data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" href="javascript:;" class="_tedit"><img src="<?php echo $this->websiteUrl; ?>system/images/edit.png" alt="edit"/></a>
 				<a style="float:left;" data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" data-callback="userCallback" class="del-user _tdelete" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
-			</div>
-		</div>
+			</td>
+		</tr>
 	<?php endforeach; ?>
 <?php endif; ?>

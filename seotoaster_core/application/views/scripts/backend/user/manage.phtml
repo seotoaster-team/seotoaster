@@ -18,14 +18,38 @@
 			<?php echo $this->userForm->getElement('id'); ?>
 		</form>
 	</div>
-	<div style="padding: 5px 0px; font-size: 12px;" class="header-titles grid_12">
-		<div class="user-row-item grid_3"><?php echo $this->translate('E-mail'); ?></div>
-		<div class="user-row-item grid_2"><?php echo $this->translate('Full name'); ?></div>
-		<div class="user-row-item grid_2"><?php echo $this->translate('Role'); ?></div>
-		<div class="user-row-item grid_2"><?php echo $this->translate('Last login'); ?></div>
-		<div class="user-row-item grid_2"><?php echo $this->translate('Ip address'); ?></div>
-		<div class="user-row-item grid_1"><?php echo $this->translate('Actions'); ?></div>
-	</div>
-	<div id="users-list" class="grid_12"></div>
+	<table class="sortable grid_12" id="users-list">
+		<thead class="grid_12">
+			<tr class="grid_12">
+				<th class="grid_2"><?php echo $this->translate('E-mail'); ?></th>
+				<th class="grid_3"><?php echo $this->translate('Full name'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Role'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Last login'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Ip address'); ?></th>
+				<th class="grid_1"><?php echo $this->translate('Actions'); ?></th>
+			</tr>
+		</thead>
+		<tbody class="grid_12">
+<!--			<tr class="grid_12">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>-->
+		</tbody>
+<!--		<tfoot>
+			<tr>
+				<th class="grid_3"><?php echo $this->translate('E-mail'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Full name'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Role'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Last login'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Ip address'); ?></th>
+				<th class="grid_1"><?php echo $this->translate('Actions'); ?></th>
+			</tr>
+		</tfoot>-->
+	</table>
 </div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.js'); ?>
