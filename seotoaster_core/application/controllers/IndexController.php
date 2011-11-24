@@ -103,7 +103,7 @@ class IndexController extends Zend_Controller_Action {
 		$body    = '';
 		$seoData = Tools_Seo_Tools::loadSeodata();
 		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
-		preg_match('~(<body[^\>]*>)(.*)</body>~uis', $pageContent, $body);
+		preg_match('~(<body[^\>]*>)(.*)</body>~usi', $pageContent, $body);
 		$this->view->head            = $head[1] . $seoData->getSeoHead();
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();

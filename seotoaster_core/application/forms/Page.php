@@ -140,11 +140,11 @@ class Application_Form_Page extends Zend_Form {
 			'label'        => 'This page is',
 			'multiOptions' => array(
 				'0'                                           => 'Select an option',
-				Application_Model_Models_Page::OPT_404PAGE    => 'Not found 404 page',
-				Application_Model_Models_Page::OPT_PROTECTED  => 'Member only',
-				Application_Model_Models_Page::OPT_ERRLAND    => 'Error login landing',
-				Application_Model_Models_Page::OPT_MEMLAND    => 'Member landing',
-				Application_Model_Models_Page::OPT_SIGNUPLAND => 'Member signup landing',
+				Application_Model_Models_Page::OPT_404PAGE    => 'our error 404 "Not found" page',
+				Application_Model_Models_Page::OPT_PROTECTED  => 'accessible only to logged-in members',
+				Application_Model_Models_Page::OPT_ERRLAND    => 'our membership login error page',
+				Application_Model_Models_Page::OPT_MEMLAND    => 'where members land after logging-in',
+				Application_Model_Models_Page::OPT_SIGNUPLAND => 'where members land after signed-up'
 			),
 			'registerInArrayValidator' => false,
 			'value' => $this->_pageOption
