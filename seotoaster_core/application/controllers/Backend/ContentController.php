@@ -225,12 +225,22 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$imagesData  = array();
 			$folderName  = $this->getRequest()->getParam('folderName');
 			$imagesPath  = $this->_websiteData['path'] . $this->_websiteData['media'] . $folderName;
-			$imagesData  = array(
-				'small'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL),
-				'medium'   => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM),
-				'large'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_LARGE), $imagesPath, $folderName, self::IMG_CONTENTTYPE_LARGE),
-				'original' => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_ORIGINAL)
-			);
+			try {
+                $imagesData  = array(
+                    'small'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL),
+                    'medium'   => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM),
+                    'large'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_LARGE), $imagesPath, $folderName, self::IMG_CONTENTTYPE_LARGE),
+                    'original' => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_ORIGINAL)
+                );
+            }
+            catch(Exceptions_SeotoasterException $se) {
+                $imagesData = array(
+                    'small'    => $this->_helper->language->translate('No images were found'),
+                    'medium'   => $this->_helper->language->translate('No images were found'),
+                    'large'    => $this->_helper->language->translate('No images were found'),
+                    'original' => $this->_helper->language->translate('No images were found')
+                );
+            }
 			$this->getResponse()->setBody(json_encode($imagesData))->sendResponse();
 		}
 		exit;
