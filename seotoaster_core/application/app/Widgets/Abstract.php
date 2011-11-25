@@ -28,12 +28,11 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 		$this->_toasterOptions = $toasterOptions;
 		if($this->_cacheable === true) {
 			$this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
-			$this->_cacheId    = (!isset($this->_options[0])) ? strtolower(get_class($this)) : $this->_options[0];
-			$this->_cacheId   .= implode('-', $this->_options);
+			$this->_cacheId   = strtolower(get_called_class()).(!empty($this->_options)?'-'.implode('-', $this->_options):'');
 			if(isset($toasterOptions['id'])) {
-				$this->_cacheId .= $toasterOptions['id'];
-			}
-		}
+                $this->_cacheId .= '_pid-'.$toasterOptions['id'];
+            }
+        }
 		$this->_translator = Zend_Registry::get('Zend_Translate');
 		$this->_init();
 	}
@@ -50,7 +49,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 	public function render() {
 		$content = null;
 		if($this->_cacheable) {
-			if(null === ($content = $this->_loadFromCahce())) {
+			if(null === ($content = $this->_loadFromCache())) {
 				try {
 					$content = $this->_load();
 					$this->_cache->save($this->_cacheId, $content, $this->_cachePrefix);
@@ -66,7 +65,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 		return $content;
 	}
 
-	protected function _loadFromCahce() {
+	protected function _loadFromCache() {
 		return $this->_cache->load($this->_cacheId, $this->_cachePrefix);
 	}
 
