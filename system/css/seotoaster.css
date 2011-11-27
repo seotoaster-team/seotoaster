@@ -23,30 +23,49 @@ body, body.seotoaster {
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
+.error {
+	background-color: indianred;
+}
+.success {
+	background-color:lightSeaGreen;
+}
 
 .success, .error {
 	cursor: pointer;
 	display: none;
 	position: absolute;
-	padding: 4% 10% 4% 10%;
 	z-index: 999;
 	text-align: left;
-	width: 80%;
+	width: 100%;
 	margin: 0px auto;
-	font-size: 12pt;
+	font-size: 11pt;
 	color: lavender;
-	font-weight: bold;
 	min-height: 50px;
-	background: lightSeaGreen;
-	opacity: 0.9;
+	opacity: 0.95;
 }
 
-.error {
-	background: indianred;
-	color:lavender;
+.success ul, .error ul{
+padding:20px 5%;
+font-weight:bold;
+list-style-type: square;
+}
+.success ul li, .error ul li{
+	border-bottom:1px dashed lavender;
+	margin-bottom:10px;
 }
 
+.success ul li ul, .error ul li ul{
+	padding:2px;
+	font-weight:normal;
+	list-style-type: none;
 
+}
+.success ul li ul li, .error ul li ul li{
+		border:none;
+		margin:0px;
+}
+	
+	
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
@@ -407,7 +426,7 @@ body, body.seotoaster {
 	border-bottom:1px solid #ddd;
 	padding:2px 4px;
 }
-.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: #E66F00; background-color:#E2F2FA; }
+.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: indianred; background-color:#E2F2FA; }
 
 .seotoaster#seotoaster-cpanel ul li ul li.cpanelsubtitle {
  background-color: #E1E1E1;
@@ -675,12 +694,12 @@ div.show_div#widgets_maker select {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
 	-icab-text-overflow: ellipsis;
 	-khtml-text-overflow: ellipsis;
 	-moz-text-overflow: ellipsis;
 	-webkit-text-overflow: ellipsis;
+	text-overflow: ellipsis;
 	-moz-border-radius:0px 0px 3px 3px;
 	-webkit-border-radius:0px 0px 3px 3px;
 	border-radius:0px 0px 3px 3px;
@@ -693,7 +712,10 @@ div.show_div#widgets_maker select {
 	-webkit-box-shadow:0px 0px 10px indianred;
 	box-shadow:0px 0px 10px indianred;
 }
-
+.seotoaster div#templatelist .curr-template div.template_preview .template_name{
+	 background-color:indianred;
+	}
+	
 
 .seotoaster div#templatelist div.template_preview .template_name:hover {
 	-o-text-overflow: inherit;
@@ -886,14 +908,15 @@ list-style: square;
 }
 
 .seotoaster div.themebox {
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
 	-moz-box-shadow:0px 0px 4px #ccc;
 	-webkit-box-shadow:0px 0px 3px #ccc;
 	width: 172px;
 	height: 209px;
 	float: left;
 	margin: 5px;
+	background-color:#fff;
 }
 
 .seotoaster .themebox img.preview {
@@ -906,6 +929,7 @@ list-style: square;
  border-radius:8px 8px 0px 0px;
  overflow: hidden;
  max-width: 170px;
+ border-botom:1px solid #eee;
 }
 .seotoaster div.themebox label {
 	 -moz-border-radius: 0px 0px 8px 8px;
@@ -939,7 +963,7 @@ list-style: square;
 .seotoaster #redirects-list {
 	overflow-y: auto;
 	height: 360px;
-	font-size: 12px;
+	font-size: 12pt;
 	font-family: Arial;
 	margin-bottom: 6px;
 	background: #fff;
@@ -1035,13 +1059,14 @@ list-style: square;
 	box-shadow: 0px 0px 5px #999;
 	-moz-box-shadow: 0px 0px 5px #999;
 	-web-box-shadow: 0px 0px 5px #999;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 	padding: 0px 0px 5px;
 	position: relative;
 	width: 174px;
 	overflow: hidden;
+	text-align: center;
 }
 
 .seotoaster #plugins-list .plugin-item .del-plugin {
@@ -1089,12 +1114,11 @@ list-style: square;
 }
 
 .seotoaster #plugins-list .plugin-item .plugin-control, .seotoaster #plugins-list .plugin-item .plugin-endis {
-	font-size: 14px;
-	margin-left: 5px;
+	font-size: 12pt;
 }
 
 .seotoaster #plugins-list .plugin-item .plugin-control span, .seotoaster #plugins-list .plugin-item .plugin-endis span {
-	padding: 4px 9px;
+	padding: 2px 8px;
 }
 
 /*============= Manage users ==============*/
