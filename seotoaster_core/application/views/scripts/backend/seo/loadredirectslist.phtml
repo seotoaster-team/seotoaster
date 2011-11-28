@@ -1,10 +1,10 @@
 <?php if(!empty($this->redirects)): ?>
 	<?php foreach($this->redirects as $redirect): ?>
-		<div class="redirect-row" class="grid_12">
-			<div class="grid_1"><input type="checkbox" id="<?php echo $redirect->getId(); ?>" name="massdell[<?php echo $redirect->getId(); ?>]" class="redirect-massdel"/></div>
-			<div class="grid_5"><?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?>	</div>
-			<div class="grid_5"><?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?></div>
-			<div class="grid_1">
+		<div class="redirect-row">
+			<div style="float:left;width:40px; text-align:center;padding-top:3px"><input type="checkbox" id="<?php echo $redirect->getId(); ?>" name="massdell[<?php echo $redirect->getId(); ?>]" class="redirect-massdel"/></div>
+			<div style="float:left;width:410px; text-align:left;padding:5px 10px"><?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?>	</div>
+			<div style="float:left;width:410px; text-align:left;padding:5px 10px"><?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?></div>
+			<div style="float:left;width:40px; text-align:center;padding-top:5px">
 				<a class="remove-redirect _tdelete" data-callback="reloadRedirectsList" data-url="<?php echo $this->toasterLink('seo', 'removeredirect', '', '', true)?>" data-eid="<?php echo $redirect->getId(); ?>" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
 			</div>
 		</div>

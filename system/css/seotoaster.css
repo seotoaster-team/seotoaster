@@ -1100,7 +1100,7 @@ list-style: square;
 /*============= Manage users ==============*/
 
 .seotoaster #add-user {
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 }
 
 .seotoaster #users-list {
@@ -1109,8 +1109,8 @@ list-style: square;
 	overflow-x: hidden;
 	overflow-y: auto;
 	padding: 10px 0px;
-	max-height: 285px;
-	height: 285px;
+	max-height: 347px;
+	height: 380px;
 }
 
 .seotoaster #users-list th {
@@ -1121,9 +1121,10 @@ list-style: square;
 .seotoaster #users-list tr:hover {background: #eee;}
 
 .seotoaster #users-list_filter {
-	float: right;
-	padding-right: 14px;
+	float: left;
+	padding-left: 8px;
 	width: 200px;
+    margin-top: -40px;
 }
 
 .seotoaster #users-list .user-row {

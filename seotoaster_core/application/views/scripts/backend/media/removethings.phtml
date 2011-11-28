@@ -257,7 +257,7 @@
 		text-align: center;
 		margin-top: 5px;
 		position: relative;
-		max-height: 96px;
+		height: 70px;
 		opacity: 1;
 		cursor: pointer;
 		-webkit-transition: opacity 0.5s ease;
@@ -267,7 +267,7 @@
 		transition: opacity 0.5s ease;
 	}
 	#filebrowser div.file-container.active {
-		opacity: 0.3;
+		opacity: 0.35;
 		outline: 1px solid red;
 	}
 	#filebrowser div.file-container:hover {
@@ -275,10 +275,11 @@
 	}
 	#filebrowser div.file-container img {
 		width: 100%;
-		height: 96px
+		height: 70px
 	}
 	#filebrowser div.file-container input.toremove {
 		position: absolute;
+		display: none;
 		right: 0;
 		bottom: 0;
 		padding: 2px;

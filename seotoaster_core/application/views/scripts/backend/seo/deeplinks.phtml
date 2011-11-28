@@ -5,10 +5,13 @@
 			<div class="grid_6">
 				<?php echo $this->form->getElement('anchorText'); ?>
 			</div>
-			<div class="grid_6">
+			<div class="grid_6" style="position: relative;">
 				<?php echo $this->form->getElement('urlType'); ?>
 				<?php echo $this->form->getElement('url'); ?>
-				<?php echo $this->form->getElement('nofollow'); ?>
+				<div style="position: absolute; top:5px; right: 10px;">
+					<label style="float: left;"><?php echo $this->translate('No follow?'); ?></label>
+					<?php echo $this->form->getElement('nofollow')->renderViewHelper(); ?>
+				</div>
 			</div>
 			<?php echo $this->form->getElement('addDeeplink'); ?>
 		</form>

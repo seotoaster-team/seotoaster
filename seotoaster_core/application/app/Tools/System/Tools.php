@@ -9,7 +9,7 @@ class Tools_System_Tools {
 
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
-		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/') : '';
+		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/') : 'index.html';
 	}
 
 	public static function getUrlScheme($url) {
@@ -23,7 +23,13 @@ class Tools_System_Tools {
 	}
 
 	private static function _proccessUrl($url) {
-		$uri = Zend_Uri::factory($url);
+		try {
+			$uri = Zend_Uri::factory($url);
+		}
+		catch(Exception $e) {
+			$url = 'http://' . $url;
+			$uri = Zend_Uri::factory('http://' . $url);
+		}
 		if(!$uri->valid()) {
 			throw new Exceptions_SeotoasterException($url . ' is not valid');
 		}
@@ -87,6 +93,14 @@ class Tools_System_Tools {
 		$captcha->setLineNoiseLevel(0);
 		$captcha->generate();    //command to generate session + create image
 		return $captcha->getId();   //returns the ID given to session image
+	}
+
+	public static function arrayToCsv($data) {
+		if(!empty($data)) {
+			foreach($data as $csvRow) {
+
+			}
+		}
 	}
 }
 
