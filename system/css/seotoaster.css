@@ -124,11 +124,13 @@ list-style-type: square;
 	color: #21759B;
 	overflow-x: hidden;
 	overflow-y: auto;
+    padding: 0px;
 }
 
 .seotoaster .items-list .list-row {
 	border-bottom: 1px solid #ddd;
 	overflow: hidden;
+    padding: 5px;
 }
 
 .seotoaster .items-list .list-row .list-row-item {

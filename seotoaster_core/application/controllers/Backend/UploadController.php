@@ -131,27 +131,27 @@ class Backend_UploadController extends Zend_Controller_Action {
         }
 
         if (!in_array('style.css', $listFiles)) {
-            return 'File "style.css" doesn\'t exits.';
+            return 'File "style.css" doesn\'t exists.';
         }
 
         if (!file_exists($themeFolder . '/index.html')) {
-            return 'File "index.html" doesn\'t exits.';
+            return 'File "index.html" doesn\'t exists.';
         }
 
         if (!file_exists($themeFolder . '/category.html')) {
-            return 'File "category.html" doesn\'t exits.';
+            return 'File "category.html" doesn\'t exists.';
         }
 
         if (!file_exists($themeFolder . '/default.html')) {
-            return 'File "default.html" doesn\'t exits.';
+            return 'File "default.html" doesn\'t exists.';
         }
 
         if (!file_exists($themeFolder . '/news.html')) {
-            return 'File "news.html" doesn\'t exits.';
+            return 'File "news.html" doesn\'t exists.';
         }
 
         if (!is_dir($themeFolder . '/images/')) {
-            return 'Directory "images" doesn\'t exits.';
+            return 'Directory "images" doesn\'t exists.';
         }
 
         return true;
