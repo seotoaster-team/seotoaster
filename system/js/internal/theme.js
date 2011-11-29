@@ -7,6 +7,7 @@ window.onload = function() {
         editor.getSession().setMode(new HTMLMode());
         editor.getSession().getValue();
         editor.getSession().setUseWrapMode(true);
+		editor.setShowPrintMargin(false);
     }
 $(function() {
 	$('#frm_template').submit(saveTemplate);
