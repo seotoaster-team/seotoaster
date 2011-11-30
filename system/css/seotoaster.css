@@ -1233,3 +1233,6 @@ list-style: square;
     overflow: hidden !important;
     width: 50px !important;
  }
+ form#frm_template .ace-crimson-editor .ace_gutter {
+    width: 30px !important; 
+ }
