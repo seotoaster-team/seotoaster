@@ -995,7 +995,7 @@ list-style: square;
 .seotoaster #redirects-list .redirect-row {
 	overflow: hidden;
 	border-bottom: 1px dashed #fff;
-	padding: 12px 0px 0px 0px;
+	padding: 4px 0px;
 }
 
 .seotoaster #redirects-list .redirect-row:hover {
