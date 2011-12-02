@@ -15,6 +15,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 		if(is_array($options)) {
 			$this->setOptions($options);
 		}
+        $this->_readObserversQueue();
 	}
 
 	public function __set($name, $value) {
@@ -73,6 +74,27 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
         }
         return $vars;
 	}
+
+    /**
+     * Checking the observer queue. If any, register those observers
+	 * 
+     */
+    protected function _readObserversQueue() {
+        static $checked = array();
+		$modelClassName = get_called_class();
+        if(!in_array($modelClassName, $checked)) {
+			$dbTable   = new Application_Model_DbTable_ObserversQueue();
+            $resultSet = $dbTable->fetchAll('namespace="' . $modelClassName . '"');
+            $checked[] = $modelClassName;
+            if($resultSet === null) {
+                return;
+            }
+            foreach($resultSet as $resultRow) {
+                $rowArray  = $resultRow->toArray();
+                $this->registerObserver(new $rowArray['observer']());
+            }
+        }
+    }
 
 }
 

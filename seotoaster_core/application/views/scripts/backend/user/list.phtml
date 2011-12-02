@@ -4,7 +4,7 @@
 			<td class="user-row-item grid_2"><?php echo $user->getEmail(); ?></td>
 			<td class="user-row-item grid_3"><?php echo $user->getFullName(); ?></td>
 			<td class="user-row-item grid_2"><?php echo $this->translate(ucfirst($user->getRoleId())); ?></td>
-			<td class="user-row-item grid_2"><?php echo intval($user->getLastLogin()) ? date('D d M Y', strtotime($user->getLastLogin())) : '-'; ?></td>
+			<td class="user-row-item grid_2"><?php echo intval($user->getLastLogin()) ? date('Y-m-d', strtotime($user->getLastLogin())) : '-'; ?></td>
 			<td class="user-row-item grid_2"><?php echo ($user->getIpaddress()) ? $user->getIpaddress() : '-'; ?></td>
 			<td class="user-row-item grid_1" style="overflow: hidden;">
 				<a style="float:left;margin-right: 10px;" data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" href="javascript:;" class="_tedit"><img src="<?php echo $this->websiteUrl; ?>system/images/edit.png" alt="edit"/></a>

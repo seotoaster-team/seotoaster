@@ -15,7 +15,8 @@ class Backend_UserController extends Zend_Controller_Action {
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'list'   => 'json',
 			'delete' => 'json',
-			'load'   => 'json'
+			'load'   => 'json',
+            'export' => 'json'
 		))->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
@@ -75,5 +76,29 @@ class Backend_UserController extends Zend_Controller_Action {
 		}
 	}
 
+    public function exportAction() {
+        if($this->getRequest()->isPost()) {
+            if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+                $users        = Application_Model_Mappers_UserMapper::getInstance()->fetchAll();
+                $dataToExport = array();
+                foreach($users as $user) {
+                    $usrData = $user->toArray();
+                    unset($usrData['password']);
+                    unset($usrData['id']);
+                    $dataToExport[] = $usrData;
+                }
+                Tools_System_Tools::arrayToCsv($dataToExport, array(
+                    $this->_helper->language->translate('E-mail'),
+                    $this->_helper->language->translate('Role'),
+                    $this->_helper->language->translate('Full name'),
+                    $this->_helper->language->translate('Last login date'),
+                    $this->_helper->language->translate('Registration date'),
+                    $this->_helper->language->translate('IP address')
+                ));
+                $this->_helper->response->success($this->_helper->language->translate('Users list exported'));
+            }
+            $this->_helper->response->fail($this->_helper->language->translate('Cannot export users list.'));
+        }
+    }
 }
 

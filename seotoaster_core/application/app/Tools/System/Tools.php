@@ -95,11 +95,18 @@ class Tools_System_Tools {
 		return $captcha->getId();   //returns the ID given to session image
 	}
 
-	public static function arrayToCsv($data) {
+	public static function arrayToCsv($data, $headers = array()) {
 		if(!empty($data)) {
+            $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+            $data[]        = $headers;
+            $data          = array_reverse($data);
+            $fileName      = 'userslist.' . date("Y-m-d", time()) . '.csv';
+            $filePath      = $websiteHelper->getPath() . $websiteHelper->getTmp() . $fileName;
+            $expFile       = fopen($filePath, 'w');
 			foreach($data as $csvRow) {
-
+                fputcsv($expFile, $csvRow, ',', '"');
 			}
+            fclose($expFile);
 		}
 	}
 }

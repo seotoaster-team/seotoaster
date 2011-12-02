@@ -768,10 +768,11 @@ div#page-teaser-uploader{
 	padding: 8px;
 }
 div#page-teaser-uploader button.ui-state-default{
--moz-border-radius: #3px;
--webkit-order-radius: #3px;
-border-radius: #3px;
-border:1px solid #fff;
+    -moz-border-radius: #3px;
+    -webkit-order-radius: #3px;
+    border-radius: 3px;
+    border:1px solid #fff;
+    color: #7c7c7c;
 }
 div#page-teaser-uploader span.ui-button-text{
 		padding: 4px 10px;
