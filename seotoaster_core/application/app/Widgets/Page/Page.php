@@ -31,6 +31,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return $this->_toasterOptions['teaserText'];
 	}
 
+	private function _generateUrlOption() {
+			return $this->_toasterOptions['url'];
+	}
+
 	private function _generatePreviewOption() {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
