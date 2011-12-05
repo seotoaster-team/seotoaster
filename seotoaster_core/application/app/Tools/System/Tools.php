@@ -107,7 +107,9 @@ class Tools_System_Tools {
                 fputcsv($expFile, $csvRow, ',', '"');
 			}
             fclose($expFile);
+			return $filePath;
 		}
+		return false;
 	}
 }
 

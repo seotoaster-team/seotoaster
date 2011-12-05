@@ -17,7 +17,9 @@
 			<?php echo $this->userForm->getElement('saveUser'); ?>
 			<?php echo $this->userForm->getElement('id'); ?>
 		</form>
-        <a style="position: absolute; left: 220px; bottom:0px; font-size: 12px;" href="javascript:;" id="export-users"><?php echo $this->translate('export as csv file'); ?></a>
+		<form id="expusrs" action="<?php echo $this->websiteUrl; ?>backend/backend_user/export/" method="post">
+        	<a style="position: absolute; left: 220px; bottom:0px; font-size: 12px;" href="javascript:;" id="export-users"><?php echo $this->translate('export as csv file'); ?></a>
+		</form>
 	</div>
 	<table class="sortable grid_12" id="users-list">
 		<thead class="grid_12">

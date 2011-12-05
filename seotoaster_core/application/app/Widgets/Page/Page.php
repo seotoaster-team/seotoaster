@@ -32,7 +32,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
 	}
 
 	private function _generateUrlOption() {
-			return $this->_toasterOptions['url'];
+		return $this->_toasterOptions['url'];
 	}
 
 	private function _generatePreviewOption() {

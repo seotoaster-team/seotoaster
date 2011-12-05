@@ -15,8 +15,7 @@ class Backend_UserController extends Zend_Controller_Action {
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'list'   => 'json',
 			'delete' => 'json',
-			'load'   => 'json',
-            'export' => 'json'
+			'load'   => 'json'
 		))->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
@@ -87,7 +86,7 @@ class Backend_UserController extends Zend_Controller_Action {
                     unset($usrData['id']);
                     $dataToExport[] = $usrData;
                 }
-                Tools_System_Tools::arrayToCsv($dataToExport, array(
+                $exportResult = Tools_System_Tools::arrayToCsv($dataToExport, array(
                     $this->_helper->language->translate('E-mail'),
                     $this->_helper->language->translate('Role'),
                     $this->_helper->language->translate('Full name'),
@@ -95,9 +94,17 @@ class Backend_UserController extends Zend_Controller_Action {
                     $this->_helper->language->translate('Registration date'),
                     $this->_helper->language->translate('IP address')
                 ));
-                $this->_helper->response->success($this->_helper->language->translate('Users list exported'));
+				if($exportResult) {
+					$usersArchive = Tools_System_Tools::zip($exportResult);
+					$this->getResponse()->setHeader('Content-Disposition', 'attachment; filename=' . Tools_Filesystem_Tools::basename($usersArchive))
+						->setHeader('Content-type', 'application/force-download');
+					readfile($usersArchive);
+					$this->getResponse()->sendResponse();
+				}
+				exit;
+               //$this->_helper->response->success($this->_helper->language->translate('Users list exported'));
             }
-            $this->_helper->response->fail($this->_helper->language->translate('Cannot export users list.'));
+            //$this->_helper->response->fail($this->_helper->language->translate('Cannot export users list.'));
         }
     }
 }
