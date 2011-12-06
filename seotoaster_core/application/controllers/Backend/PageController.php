@@ -127,6 +127,7 @@ class Backend_PageController extends Zend_Controller_Action {
 			->setProtected(0)
 			->setMemLanding(0)
 			->setErrLoginLanding(0)
+			->setCheckout(0)
 			->setSignupLanding(0);
 		switch ($option) {
 			case Application_Model_Models_Page::OPT_404PAGE:
@@ -143,6 +144,9 @@ class Backend_PageController extends Zend_Controller_Action {
 			break;
 			case Application_Model_Models_Page::OPT_SIGNUPLAND:
 				$page->setSignupLanding(1);
+			break;
+			case Application_Model_Models_Page::OPT_CHECKOUT:
+				$page->setCheckout(1) ;
 			break;
 		}
 		return $page;

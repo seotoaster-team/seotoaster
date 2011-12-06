@@ -428,7 +428,8 @@ list-style-type: square;
 	border-bottom:1px solid #ddd;
 	padding:2px 4px;
 }
-.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: indianred; background-color:#E2F2FA; }
+
+.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: indianred; background-color: whitesmoke; }
 
 .seotoaster#seotoaster-cpanel ul li ul li.cpanelsubtitle {
  background-color: lavender;
@@ -560,6 +561,8 @@ list-style-type: square;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+    position: relative;
+    overflow: hidden;
 }
 
 .seotoaster div#tabs div.ui-tabs-panel {

@@ -25,6 +25,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'protected'           => $page->getProtected(),
 			'mem_landing'         => $page->getMemLanding(),
 			'signup_landing'      => $page->getSignupLanding(),
+			'checkout'            => $page->getCheckout(),
 			'err_login_landing'   => $page->getErrLoginLanding(),
 			'order'               => $page->getOrder(),
 			'silo_id'             => $page->getSiloId(),

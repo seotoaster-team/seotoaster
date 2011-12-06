@@ -225,6 +225,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()){
 			$mapper        = Application_Model_Mappers_TemplateMapper::getInstance();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
+			$additional = $this->getRequest()->getParam('additional');
 			$pageId        = $this->getRequest()->getParam('pageId');
 			if($pageId) {
 				$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
@@ -243,6 +244,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				case Application_Model_Models_Template::TYPE_PRODUCT:
 				case Application_Model_Models_Template::TYPE_LISTING:
 				case Application_Model_Models_Template::TYPE_MAIL:
+				case Application_Model_Models_Template::TYPE_CHECKOUT:
 					$template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
 					$this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
 					$this->view->protectedTemplates = $this->_protectedTemplates;

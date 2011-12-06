@@ -48,7 +48,7 @@
 									)
 
 								),
-								array('listtemplates' => Application_Model_Models_Template::TYPE_REGULAR)
+								array('listtemplates' => 'all')
 							);
 						?>
 					</div>
@@ -56,28 +56,9 @@
 					<div class="grid_6"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
 					<div class="grid_6">
 						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
-
-						<?php
-//							echo $this->ajaxLink(
-//								$this->translate((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')),
-//								$this->websiteUrl . 'backend/backend_featured/featured/pageId/' . $this->pageForm->getElement('pageId')->getValue(),
-//								array(
-//									'complete' => "$('#falist').html(data).slideDown();",
-//								)
-//							);
-						?>
-
 					</div>
 					<div class="grid_12 mt10px">
-							<?php echo $this->pageForm->getElement('pageOption'); ?>
-<!--						<label class="nopad grid_6">
-							<?php echo $this->translate('Not found 404 page'); ?>
-							<?php echo $this->pageForm->getElement('is404page')->renderViewHelper(); ?>
-						</label>-->
-<!--						<label class="nopad grid_5">
-							<?php echo $this->translate('Member only area'); ?>
-							<?php echo $this->pageForm->getElement('protected')->renderViewHelper(); ?>
-						</label>-->
+						<?php echo $this->pageForm->getElement('pageOption'); ?>
 					</div>
 			</fieldset>
 			<fieldset>
@@ -98,6 +79,7 @@
 			<?php echo $this->pageForm->getElement('pageId'); ?>
 			<?php echo $this->pageForm->getElement('draft'); ?>
 			<?php echo $this->pageForm->getElement('publishAt'); ?>
+			<?php echo $this->pageForm->getElement('pageType'); ?>
 			<?php echo $this->pageForm->getElement('updatePage'); ?>
 		</div>
 	</form>

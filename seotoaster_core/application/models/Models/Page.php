@@ -28,6 +28,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_SIGNUPLAND       = 'signupland';
 
+	const OPT_CHECKOUT         = 'checkout';
+
 	const CONTEXT_NEWS         = 'news';
 
 	protected $_templateId       = '';
@@ -61,6 +63,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	protected $_errLoginLanding  = false;
 
 	protected $_signupLanding    = false;
+
+	protected $_checkout         = false;
 
 	protected $_order            = 0;
 
@@ -215,6 +219,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		return $this;
 	}
 
+
+
 	public function getErrLoginLanding() {
 		return $this->_errLoginLanding;
 	}
@@ -313,6 +319,14 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 			$this->_system = $news;
 		}
 		return $this;
+	}
+
+	public function setCheckout($checkout) {
+		$this->_checkout = $checkout;
+	}
+
+	public function getCheckout() {
+		return $this->_checkout;
 	}
 
 

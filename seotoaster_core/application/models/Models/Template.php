@@ -2,21 +2,23 @@
 
 class Application_Model_Models_Template extends Application_Model_Models_Abstract {
 
-	const ID_DEFAULT   = 'default';
+	const ID_DEFAULT    = 'default';
 
-	const ID_INDEX     = 'index';
+	const ID_INDEX      = 'index';
 
-	const ID_CATEGORY  = 'category';
+	const ID_CATEGORY   = 'category';
 
-	const ID_NEWS      = 'news';
+	const ID_NEWS       = 'news';
 
-	const ID_PRODUCT   = 'product';
+	const ID_PRODUCT    = 'product';
 
-	const TYPE_REGULAR = 'typeregular';
+	const TYPE_REGULAR  = 'typeregular';
 
-	const TYPE_PRODUCT = 'typeproduct';
+	const TYPE_PRODUCT  = 'typeproduct';
 
-	const TYPE_LISTING = 'typelisting';
+	const TYPE_LISTING  = 'typelisting';
+
+	const TYPE_CHECKOUT = 'typecheckout';
 
 	const TYPE_MAIL    = 'typemail';
 
@@ -75,6 +77,7 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 		$validTypes = array(
 			self::TYPE_REGULAR,
 			self::TYPE_PRODUCT,
+			self::TYPE_CHECKOUT,
 			self::TYPE_LISTING,
 			self::TYPE_MAIL
 		);

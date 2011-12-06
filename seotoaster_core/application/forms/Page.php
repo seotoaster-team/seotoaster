@@ -144,7 +144,8 @@ class Application_Form_Page extends Zend_Form {
 				Application_Model_Models_Page::OPT_PROTECTED  => 'accessible only to logged-in members',
 				Application_Model_Models_Page::OPT_ERRLAND    => 'our membership login error page',
 				Application_Model_Models_Page::OPT_MEMLAND    => 'where members land after logging-in',
-				Application_Model_Models_Page::OPT_SIGNUPLAND => 'where members land after signed-up'
+				Application_Model_Models_Page::OPT_SIGNUPLAND => 'where members land after signed-up',
+				Application_Model_Models_Page::OPT_CHECKOUT   => 'the cart checkout page'
 			),
 			'registerInArrayValidator' => false,
 			'value' => $this->_pageOption
