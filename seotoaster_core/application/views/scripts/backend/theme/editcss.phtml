@@ -54,7 +54,7 @@ window.onload = function() {
     
     $('#csslist').bind('change',function(){
 		$.ajax({
-			url: '<?php echo $this->websiteUrl . $this->url(); ?>',
+			url: '<?php echo $this->websiteUrl; ?>backend/backend_theme/editcss/',
 			type: 'POST',
 			data: {"getcss": $(this).val()},
 			dataType: 'json',
