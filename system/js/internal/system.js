@@ -197,9 +197,10 @@ function showModalMessage(title, msg, callback, err) {
 			}
 		}
 	}).css({background : '#eee'});
-	$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
+	$('.ui-dialog').css({background : '#eee'}).addClass('ui-corner-all');
 	if(typeof err != 'undefined' && err) {
-		$('.ui-widget-content').css({background: 'indianred'});
+		$('.ui-dialog').css({background: 'indianred'});
+		$('.info-message').css({background: 'indianred'});
 	}
 
 }

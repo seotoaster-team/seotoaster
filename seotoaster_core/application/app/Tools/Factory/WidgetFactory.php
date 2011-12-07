@@ -6,9 +6,17 @@ class Tools_Factory_WidgetFactory {
 
 	public static function createWidget($name, $options = array(), $toasterOptions = array()) {
 		$name = ucfirst(strtolower($name));
-		self::_validate($name);
+		//self::_validate($name);
 		$widgetClassName = 'Widgets_' . $name . '_' . $name;
-		return new $widgetClassName($options, $toasterOptions);
+		try {
+			return new $widgetClassName($options, $toasterOptions);
+		}
+		catch (Exceptions_SeotoasterWidgetException $se) {
+			return $se->getMessage();
+		}
+		catch(Exception $e) {
+			return $e->getMessage();
+		}
 	}
 
 	private static function _validate($name) {

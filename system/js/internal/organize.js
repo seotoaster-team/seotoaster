@@ -9,7 +9,7 @@ $(function() {
 			showModalMessage('Pick a page(s)', 'You have not selected any page. Pick at least one, please');
 			return;
 		}
-		var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected pages?');
+		var messageScreen = $('<div class="info-message error"></div>').html('Do you really want to remove selected pages?');
 		$(messageScreen).dialog({
 			modal    : true,
 			title    : 'Removing pages?',
@@ -29,7 +29,7 @@ $(function() {
 					$(this).dialog('close');
 				}
 			}
-		});
+		}).parent().css({background: 'indianred'});
 	});
 
 	$('#sortable-main').sortable({

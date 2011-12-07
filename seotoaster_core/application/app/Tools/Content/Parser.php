@@ -73,7 +73,7 @@ class Tools_Content_Parser {
 		foreach ($widgets as $widgetData) {
 			try {
 				$widget = Tools_Factory_WidgetFactory::createWidget($widgetData['name'], $widgetData['options'], array_merge($this->_pageData, $this->_options));
-				$replacement = $widget->render();
+				$replacement = (is_object($widget)) ? $widget->render() : $widget;
 			}
 			catch (Exceptions_SeotoasterException $se) {
 				$replacement = 'Can not load widget: <b>' . $widgetData['name'] . '</b>';
