@@ -323,6 +323,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setCheckout($checkout) {
 		$this->_checkout = $checkout;
+		return $this;
 	}
 
 	public function getCheckout() {
