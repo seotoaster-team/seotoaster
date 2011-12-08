@@ -17,3 +17,4 @@ system/coreinfo.php
 tests/*
 robots.txt
 tmp/*
+.idea/*

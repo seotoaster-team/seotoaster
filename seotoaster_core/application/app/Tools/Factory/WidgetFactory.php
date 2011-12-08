@@ -6,23 +6,25 @@ class Tools_Factory_WidgetFactory {
 
 	public static function createWidget($name, $options = array(), $toasterOptions = array()) {
 		$name = ucfirst(strtolower($name));
-		self::_validate($name);
-		$widgetClassName = 'Widgets_' . $name . '_' . $name;
-		return new $widgetClassName($options, $toasterOptions);
+		if(self::_validate($name)) {
+			$widgetClassName = 'Widgets_' . $name . '_' . $name;
+			return new $widgetClassName($options, $toasterOptions);
+		}
+		throw new Exceptions_SeotoasterException('Cannot create a widget: ' . $name);
 	}
 
 	private static function _validate($name) {
-//		$wigetDirectory = CORE . 'application/app/Widgets/' . $name;
-//		if(!is_dir($wigetDirectory)) {
-//			throw new Exceptions_SeotoasterException($wigetDirectory . ' is not a directory.');
-//		}
-//		$widgetClassPath = $wigetDirectory . '/' . $name . '.php';
-//		if(!file_exists($widgetClassPath)) {
-//			throw new Exceptions_SeotoasterException($widgetClassPath . ' not found.');
-//		}
-		if(!preg_match('~^[A-Za-z0-9]+$~ui',$name)) {
-			throw new Exceptions_SeotoasterException('Wrong widget name: ' . $name);
+		$incPath = explode(PATH_SEPARATOR, get_include_path());
+		if(is_array($incPath) && !empty($incPath)) {
+			foreach($incPath as $path) {
+				$widgetDirectory = $path . '/Widgets/' . $name;
+				if(is_dir($widgetDirectory) && file_exists($widgetDirectory . '/' . $name . '.php')) {
+					return true;
+				}
+			}
+			return false;
 		}
+		return false;
 	}
 }
 
