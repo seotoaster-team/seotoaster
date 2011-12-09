@@ -8,7 +8,7 @@ $(function() {
 	/**
 	 * Seotoaster popup dialog
 	 */
-	$('a.tpopup').click(function(e) {
+	$('a.tpopup').live('click', function(e) {
 		if(!loginCheck()) {
 			return;
 		}
