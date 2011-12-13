@@ -21,7 +21,8 @@ $(function() {
 						$(pagesIds).each(function() {
 							$('#' + this).remove();
 						})
-						$('#ajax_msg').html(response.responseText).show().fadeOut(_FADE_SLOW);
+						//$('#ajax_msg').html(response.responseText).show().fadeOut(_FADE_SLOW);
+						smoke.alert(response.responseTextn);
 					}, 'json')
 					$(this).dialog('close');
 				},
@@ -102,10 +103,13 @@ function saveCategoriesOrder() {
 		url : $('#website_url').val() + 'backend/backend_page/organize/',
 		data: {act: 'save', ordered: ordered},
 		beforeSend: function() {
-			$('#ajax_msg').text('Saving order...').show();
+			//$('#ajax_msg').text('Saving order...').show();
+			smoke.signal('Saving order...');
 		},
 		success: function(response) {
-			$('#ajax_msg').text('New order saved...').fadeOut(_FADE_SLOW);
+			//$('#ajax_msg').text('New order saved...').fadeOut(_FADE_SLOW);
+			$('.smoke-base').remove();
+			smoke.alert('New order saved...');
 		}
 	})
 }

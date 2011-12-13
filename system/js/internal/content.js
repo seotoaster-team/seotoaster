@@ -19,7 +19,8 @@ $(function() {
 			dataType   : 'json',
 			data       : elements,
 			beforeSend : function() {
-				ajaxMsgSuccess.fadeIn().text('Working...');
+				//ajaxMsgSuccess.fadeIn().text('Working...');
+				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/tla.gif" alt="working..." />');
 			},
 			success : function() {
 				top.location.reload();

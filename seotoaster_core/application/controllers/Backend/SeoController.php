@@ -198,7 +198,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 
 	public function loaddeeplinkslistAction() {
-		$this->view->deeplinks = array_reverse(Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll(null, array('id')));
+		$this->view->deeplinks = Application_Model_Mappers_DeeplinkMapper::getInstance()->fetchAll(null, array('name'));
 		$this->view->deeplinksList = $this->view->render('backend/seo/deeplinkslist.phtml');
 	}
 

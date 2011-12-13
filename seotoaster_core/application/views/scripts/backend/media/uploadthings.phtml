@@ -1,5 +1,6 @@
 <script>
 <?php $this->jQuery()->onLoadCaptureStart();?>
+$('#things-new-folder').val('');
 $('#things-new-folder')
 	.focus(function(){
 		if ( $(this).val() == $(this).attr('data-defaultlabel') ){
@@ -25,7 +26,7 @@ $('#things-new-folder')
 		 <?php //echo $this->translate('All uploaded pictures will be resized 3 times for automatic insertion each time you edit content on your web site.'); ?>
 		</div>-->
 		<div class="grid_5">
-			<?php echo $this->formSelect('things-select-folder', null, null, $this->listFolders); ?>
+			<?php echo $this->formSelect('things-select-folder', (isset($this->currFolder) ? $this->currFolder : null), null, $this->listFolders); ?>
 		</div>
 		<div class="grid_2" style="line-height:42px; text-align:center;"><?php echo $this->translate('OR'); ?></div>
 		<div class="grid_5">

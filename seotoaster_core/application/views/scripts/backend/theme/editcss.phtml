@@ -40,13 +40,17 @@ window.onload = function() {
 			data: $.browser.msie ? $(this).serialize() : {cssname : $("#csslist").val(), content : cssContent},
 			dataType: 'json',
 			success: function(response){
-				$('#ajax_msg').text(response.responseText).fadeOut(_FADE_FAST);
+				//$('#ajax_msg').text(response.responseText).fadeOut(_FADE_FAST);
+				$('.smoke-base').remove();
+				smoke.alert(response.responseText);
 			},
 			beforeSend: function(){
-				$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
+				//$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
+				smoke.signal('<?php echo $this->translate('saving css content...'); ?>');
 			},
 			error: function(){
-				$('#ajax_msg').text('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
+				$('.smoke-base').remove();
+				smoke.signal('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
 			}
 		})
 		return false;
@@ -60,15 +64,17 @@ window.onload = function() {
 			dataType: 'json',
 			success: function(response){
 				if (response.error == false){
-					$('#ajax_msg').fadeOut(_FADE_FAST);
-                    $.browser.msie ? $('#csscontent').val(response.responseText).focus() : editor.getSession().setValue(response.responseText);
+					$('.smoke-base').remove();
+					$.browser.msie ? $('#csscontent').val(response.responseText).focus() : editor.getSession().setValue(response.responseText);
 				}
 			},
 			beforeSend: function(){
-				$('#ajax_msg').text('<?php echo $this->translate('Loading css content...'); ?>').fadeIn();
+				//smoke.signal('<?php echo $this->translate('saving css content...'); ?>');
+				smoke.signal('<img src="<?php echo $this->websiteUrl; ?>system/images/tla.gif" alt="working..." />');
 			},
 			error: function(){
-				$('#ajax_msg').text('<?php echo $this->translate('Error occured.'); ?>').show();
+				$('.smoke-base').hide();
+				smoke.alert('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
 			}
 		});
 	});

@@ -62,16 +62,18 @@ function saveTemplate() {
         },
 
 		beforeSend : function() {
-			ajaxMsg.fadeIn().text('Working...');
+			//ajaxMsg.fadeIn().text('Working...');
 		},
 		success : function(response) {
-			if (response.error != true){
-				ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
+			if (response.error != true) {
+				//ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
+				smoke.alert('Template saved', {ok: 'Okay'});
 				if (response.responseText == 'new') {
 					$(this).find('input').val('');
 				}
 			} else {
-				ajaxMsg.html(response.responseText.join('. '));
+				smoke.alert(response.responseText.join('. '), {ok: 'Okay'});
+				//ajaxMsg.html(response.responseText.join('. '));
 			}
 			//top.location.reload();
 		},

@@ -111,7 +111,8 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');;
+				//ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');
+				smoke.signal('Working...');
 			},
 			success : function(response) {
 				if(!response.error) {
@@ -128,15 +129,21 @@ $(function() {
 					if(typeof callback != 'undefined' && callback != null) {
 						eval(callback + '()');
 					}
-					ajaxMessage.html(response.responseText).fadeOut(_FADE_FAST);
+					//ajaxMessage.html(response.responseText).fadeOut(_FADE_FAST);
+					$('.smoke-base').remove();
+					smoke.alert(response.responseText);
 				}
 				else {
 					$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
-					ajaxMessage.removeClass('success').addClass('error').html(response.responseText);
+					//ajaxMessage.removeClass('success').addClass('error').html(response.responseText);
+					$('.smoke-base').remove();
+					smoke.alert(response.responseText);
 				}
 			},
 			error: function(err) {
-				ajaxMessage.removeClass('success').addClass('error').text('An error occured');
+				//ajaxMessage.removeClass('success').addClass('error').text('An error occured');
+				$('.smoke-base').remove();
+				smoke.alert('An error occured');
 			}
 		})
 	})
