@@ -40,7 +40,7 @@
 </script>
 <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
     <div class="file-container">
-		<label>${name}</label>
+		<label data-type="${name}">${name}</label>
 		<input type="checkbox" class="toremove toremove-file" name="removeFiles[]" value="${name}" />
 	</div>
 </script>
@@ -286,5 +286,27 @@
 		margin: 4px;
 		background-color: yellow;
 	}
-
+    #filebrowser-files div.file-container {
+        height: auto;
+    }
+    #filebrowser-files div.file-container label[data-type]::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        margin-right: 5px;
+        background: url(/system/images/filetypes.png) no-repeat top left;
+        background-position: 0 -34px;
+    }
+    #filebrowser-files div.file-container label[data-type$='.doc']::before{ background-position: 0 0;}
+    #filebrowser-files div.file-container label[data-type$='.exe']::before{ background-position: 0 -17px;}
+    #filebrowser-files div.file-container label[data-type$='.mov']::before{ background-position: 0 -51px;}
+    #filebrowser-files div.file-container label[data-type$='.mp3']::before{ background-position: 0 -68px;}
+    #filebrowser-files div.file-container label[data-type$='.pdf']::before{ background-position: 0 -85px;}
+    #filebrowser-files div.file-container label[data-type$='.psd']::before{ background-position: 0 -102px;}
+    #filebrowser-files div.file-container label[data-type$='.swf']::before{ background-position: 0 -119px;}
+    #filebrowser-files div.file-container label[data-type$='.txt']::before{ background-position: 0 -136px;}
+    #filebrowser-files div.file-container label[data-type$='.wmv']::before{ background-position: 0 -153px;}
+    #filebrowser-files div.file-container label[data-type$='.xls']::before{ background-position: 0 -170px;}
+    #filebrowser-files div.file-container label[data-type$='.zip']::before{ background-position: 0 -187px;}
 </style>
