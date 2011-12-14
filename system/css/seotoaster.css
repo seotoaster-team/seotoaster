@@ -643,6 +643,23 @@ div.show_div#widgets_maker input.formsubmit{
 	width: auto;
 }
 
+#adminthingsviewer #list_files p > a[title]{
+    padding-left: 20px;
+    background: url(/system/images/filetypes.png) no-repeat top left;
+    background-position: 0 -34px;
+}
+#adminthingsviewer #list_files p > a[title$='.doc']{ background-position: 0 0;}
+#adminthingsviewer #list_files p > a[title$='.exe']{ background-position: 0 -17px;}
+#adminthingsviewer #list_files p > a[title$='.mov']{ background-position: 0 -51px;}
+#adminthingsviewer #list_files p > a[title$='.mp3']{ background-position: 0 -68px;}
+#adminthingsviewer #list_files p > a[title$='.pdf']{ background-position: 0 -85px;}
+#adminthingsviewer #list_files p > a[title$='.psd']{ background-position: 0 -102px;}
+#adminthingsviewer #list_files p > a[title$='.swf']{ background-position: 0 -119px;}
+#adminthingsviewer #list_files p > a[title$='.txt']{ background-position: 0 -136px;}
+#adminthingsviewer #list_files p > a[title$='.wmv']{ background-position: 0 -153px;}
+#adminthingsviewer #list_files p > a[title$='.xls']{ background-position: 0 -170px;}
+#adminthingsviewer #list_files p > a[title$='.zip']{ background-position: 0 -187px;}
+
 div.show_div#widgets_maker h3 {
 	padding: 5px 0px 5px 8px;
 	background-color: #e6e6fa;
