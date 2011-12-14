@@ -377,7 +377,7 @@ list-style-type: square;
 	position:absolute;
 	right:5px;
 	top:0;
-	z-index:1000;
+	z-index:1100;
 	border: none;
 	padding-bottom: 0px;
 	-moz-border-radius: 0px 0px 8px 8px;

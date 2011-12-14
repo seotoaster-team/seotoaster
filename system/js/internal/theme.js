@@ -69,7 +69,9 @@ function saveTemplate() {
 				//ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
 				smoke.alert('Template saved', {ok: 'Okay'});
 				if (response.responseText == 'new') {
-					$(this).find('input').val('');
+					//$(this).find('input').val('');
+					$('#title').val('');
+					editor.getSession().setValue('');
 				}
 			} else {
 				smoke.alert(response.responseText.join('. '), {ok: 'Okay'});
