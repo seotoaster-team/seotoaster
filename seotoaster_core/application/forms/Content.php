@@ -21,15 +21,5 @@ class Application_Form_Content extends Application_Form_Container {
 
 		$this->removeDecorator('DtDdWrapper');
 		$this->removeDecorator('DlWrapper');
-
-//		$this->getElement('submit')->setDecorators(array(
-//			'ViewHelper',
-//            'Errors',
-//			array(
-//				array('data' => 'HtmlTag'),
-//				array('tag' => 'div')
-//			)
-//		));
-
     }
 }

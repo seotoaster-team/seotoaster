@@ -5,7 +5,10 @@ class Application_Form_Login extends Zend_Form {
     public function init() {
 
 		$this->setMethod(Zend_Form::METHOD_POST);
-		//$this->setTranslator();
+
+	    $this->setAttribs(array(
+		    'id' => 'login-form'
+	    ));
 
 		$this->addElement('text', 'email', array(
 			'label'      => 'E-mail',
@@ -27,6 +30,8 @@ class Application_Form_Login extends Zend_Form {
 
 		$this->getElement('submit')->removeDecorator('DtDdWrapper');
 		$this->getElement('submit')->removeDecorator('Label');
+	    $this->removeDecorator('DtDdWrapper');
+	    $this->removeDecorator('DlWrapper');
     }
 
 

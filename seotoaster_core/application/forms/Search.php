@@ -14,7 +14,7 @@ class Application_Form_Search extends Zend_Form {
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttribs(array(
-			'id'     => 'frm-search',
+			'id'     => 'search-form',
 		));
 
 		$this->addElement(new Zend_Form_Element_Text(array(

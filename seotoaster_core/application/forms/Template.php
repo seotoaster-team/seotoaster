@@ -73,6 +73,9 @@ class Application_Form_Template extends Zend_Form {
 			'style'  => 'float:none;',
 			'ignore' => true
 		));
+
+		$this->removeDecorator('DtDdWrapper');
+		$this->removeDecorator('DlWrapper');
 	}
 
 }

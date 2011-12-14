@@ -9,6 +9,11 @@ class Application_Form_Signup extends Application_Form_User {
 
 	public function init() {
 		parent::init();
+
+		$this->setAttribs(array(
+			'id' => 'signup-form'
+		));
+
 		$this->removeElement('roleId');
 
 		$saveButton = $this->getElement('saveUser');
@@ -29,6 +34,9 @@ class Application_Form_Signup extends Application_Form_User {
 		)));
 
 		$this->addElement(($saveButton->setLabel('Sign Up')));
+
+		$this->removeDecorator('DtDdWrapper');
+		$this->removeDecorator('DlWrapper');
 	}
 }
 

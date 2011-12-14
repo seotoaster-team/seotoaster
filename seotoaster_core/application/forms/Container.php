@@ -46,6 +46,8 @@ class Application_Form_Container extends Zend_Form {
 		));
 
 		$this->setElementDecorators(array('ViewHelper', 'Errors'));
+		$this->removeDecorator('DtDdWrapper');
+		$this->removeDecorator('DlWrapper');
     }
 
 	public function getContent() {
