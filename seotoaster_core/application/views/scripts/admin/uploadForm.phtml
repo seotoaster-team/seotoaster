@@ -65,8 +65,7 @@ switch ($this->caller){
 			if (folder != '0' && folder != '') {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': folder};
 			} else {
-				$('#ajax_msg').addClass('error').html('<?php echo $this->translate('No folder specified'); ?>').show();
-					//.one('click', function(){ $(this).hide() });
+				smoke.signal('<?php echo $this->translate('No folder specified'); ?>');
 
 				$.each(files, function(i, file) {
 					<?php echo $jsValName; ?>.removeFile(file);
