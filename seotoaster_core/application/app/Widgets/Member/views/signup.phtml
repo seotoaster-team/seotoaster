@@ -1,3 +1,8 @@
+<?php if($this->errors !== null && is_array($this->errors)): ?>
+	<?php foreach($this->errors as $error): ?>
+		<?php echo $error; ?>
+	<?php endforeach; ?>
+<?php endif; ?>
 <?php
 	$this->signupForm->setAction($this->websiteUrl . 'backend/signup/signup/');
 	echo $this->signupForm;

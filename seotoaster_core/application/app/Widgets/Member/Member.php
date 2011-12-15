@@ -9,7 +9,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		$this->_view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-		$this->_website                 = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$this->_website          = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_website->getUrl();
 		$this->_session          = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
 	}
@@ -42,7 +42,11 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	}
 
 	private function _renderMemberSignup() {
-		$this->_view->signupForm = new Application_Form_Signup();
+		$this->_view->signupForm       = new Application_Form_Signup();
+		$flashMessanger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+		$errorMessages                 = $flashMessanger->getMessages();
+		$this->_session->signupPageUrl = $this->_toasterOptions['url'];
+		$this->_view->errors           = ($errorMessages) ? $errorMessages : null;
 		return $this->_view->render('signup.phtml');
 	}
 

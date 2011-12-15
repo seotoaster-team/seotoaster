@@ -16,6 +16,7 @@ class SignupController extends Zend_Controller_Action {
 	}
 
 	public function signupAction() {
+		$this->_helper->viewRenderer->setNoRender(true);
 		if($this->getRequest()->isPost()) {
 			$signupForm = new Application_Form_Signup();
 			if($signupForm->isValid($this->getRequest()->getParams())) {
@@ -27,7 +28,10 @@ class SignupController extends Zend_Controller_Action {
 				)));
 
 				$user->setRoleId(Tools_Security_Acl::ROLE_MEMBER);
-				//Application_Model_Mappers_UserMapper::getInstance()->save($user);
+				$signupResult = Application_Model_Mappers_UserMapper::getInstance()->save($user);
+				if(!$user->getId()) {
+					$user->setId($signupResult);
+				}
 
 				//send mails by notifying mail observer about successful sign-up,
 				$user->notifyObservers();
@@ -41,10 +45,12 @@ class SignupController extends Zend_Controller_Action {
 				}
 			}
 			else {
-				$errorMessages = Tools_Content_Tools::proccessFormMessagesIntoHtml($signupForm->getMessages(), get_class($signupForm));
+				$this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($signupForm->getMessages(), get_class($signupForm)));
+				$signupPageUrl = $this->_helper->session->signupPageUrl;
+				unset($this->_helper->session->signupPageUrl);
+				$this->_redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
 			}
 		}
-
 	}
 
 }

@@ -94,6 +94,11 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_view             = new Zend_View();
 		$this->_view->websiteUrl = $this->_websiteUrl;
 		$this->_translator       = Zend_Registry::get('Zend_Translate');
+		$this->_init();
+	}
+
+	protected function _init() {
+
 	}
 
 	public function run($requestedParams = array()) {
