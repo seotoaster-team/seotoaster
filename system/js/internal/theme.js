@@ -42,6 +42,13 @@ $(function() {
 			},
 			'html');
 	});
+
+	$('textarea').keydown(function(e) {
+		if(e.ctrlKey && e.keyCode == 83) {
+			e.preventDefault();
+			saveTemplate();
+		}
+	})
 });
 
 function saveTemplate() {
@@ -67,7 +74,7 @@ function saveTemplate() {
 		success : function(response) {
 			if (response.error != true) {
 				//ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
-				smoke.alert('Template saved', {ok: 'Okay'});
+				smoke.signal('Template saved');
 				if (response.responseText == 'new') {
 					//$(this).find('input').val('');
 					$('#title').val('');

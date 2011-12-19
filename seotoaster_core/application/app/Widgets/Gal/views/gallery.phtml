@@ -7,7 +7,7 @@
 					<img src="<?php echo $this->galFolder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>" />
 				</a>
 				<?php if($this->useCaption): ?>
-					<p class="image_caption"><?php echo $image; ?></p>
+					<p class="image_caption"><?php echo Tools_System_Tools::cutExtension($image); ?></p>
 				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>

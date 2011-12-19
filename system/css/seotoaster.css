@@ -429,7 +429,7 @@ list-style-type: square;
 	padding:2px 4px;
 }
 
-.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: indianred; background-color: whitesmoke; }
+.seotoaster#seotoaster-cpanel ul li ul li a:hover { color: #ffa500; background-color: whitesmoke; }
 
 .seotoaster#seotoaster-cpanel ul li ul li.cpanelsubtitle {
  background-color: lavender;
@@ -730,12 +730,12 @@ div.show_div#widgets_maker select {
 
 .seotoaster div#templatelist .curr-template div.template_preview{
 	/*border:1px solid red;*/
-	-moz-box-shadow:0px 0px 10px indianred;
-	-webkit-box-shadow:0px 0px 10px indianred;
-	box-shadow:0px 0px 10px indianred;
+	-moz-box-shadow:0px 0px 10px #ffa500;
+	-webkit-box-shadow:0px 0px 10px #ffa500;
+	box-shadow:0px 0px 10px #ffa500;
 }
 .seotoaster div#templatelist .curr-template div.template_preview .template_name{
-	 background-color:indianred;
+	 background-color: #ffa500;
 	}
 	
 
