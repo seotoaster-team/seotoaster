@@ -37,7 +37,7 @@
 
 <script type="text/javascript">
 	(function($){
-		$('.lnk-filter').live('click', function() {
+		$('.lnk-filter').click(function() {
 			var tplType = $(this).attr('id');
 			$.post(
 				$('#website_url').val()+'backend/backend_theme/gettemplate/',
