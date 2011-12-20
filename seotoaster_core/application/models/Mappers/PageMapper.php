@@ -110,6 +110,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $this->_findWhere("signup_landing = '1'");
 	}
 
+	public function findCheckout() {
+		return $this->_findWhere("checkout = '1'");
+	}
+
 	public function findByNavName($navName) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('nav_name = ?', $navName);
 		return $this->_findWhere($where);

@@ -52,5 +52,9 @@ class Tools_Page_Tools {
 		}
 		return $landingPage;
 	}
+
+	public static function getCheckoutPage() {
+		return Application_Model_Mappers_PageMapper::getInstance()->findCheckout();
+	}
 }
 
