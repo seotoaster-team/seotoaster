@@ -1259,9 +1259,15 @@ list-style: square;
  }
 
  /*============= Add / Edit template =================*/
-#filters .lnk-filter {
-	color: lightBlue;
-    font-size: 10px;
-    padding:10px 10px 12px 10px;
-    text-shadow: 0.02em  0 0.03em #FFFFFF;
+#filters.tpllistfilter {
+	float: right;
+	margin: 1px 15px 0 0;
+	font-size: 10pt;
+}
+
+#filters.tpllistfilter .lnk-filter {
+	color: lavender;
+	font-size: 10pt;
+	padding: 10px 5px 12px 5px;
+	text-shadow: 0.02em 0 0.03em #444;
 }
