@@ -18,7 +18,7 @@ $('#things-new-folder')
 <div class="seotoaster container_12 h500 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
 	<div class="grid_12">
-		<h1 class="ui-helper-reset" style="text-align:center;">
+		<h1 class="ui-helper-reset mb10px" style="text-align:center;">
 			<?php echo $this->translate('Upload your files and images');?>
 		</h1>
 		<div class="clear"><hr /></div>
@@ -28,12 +28,12 @@ $('#things-new-folder')
 		<div class="grid_5">
 			<?php echo $this->formSelect('things-select-folder', (isset($this->currFolder) ? $this->currFolder : null), null, $this->listFolders); ?>
 		</div>
-		<div class="grid_2" style="line-height:42px; text-align:center;"><?php echo $this->translate('OR'); ?></div>
+		<div class="grid_2" style="line-height:30px; text-align:center;"><?php echo $this->translate('OR'); ?></div>
 		<div class="grid_5">
 			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
 		</div>
 
-		<div class="grid_12 textcentered">
+		<div class="grid_12 textcentered mt10px">
 			<?php
 				$thingsUploader = $this->toasterUploader(
 					array(
@@ -44,7 +44,7 @@ $('#things-new-folder')
 				echo $thingsUploader;
 			?>
 		</div>
-		<div id="media-toaster-uploader-filelist" class="grid_10 prefix_1 suffix_1 h300 mt10px ui-widget-content" style="overflow-y: auto">
+		<div id="media-toaster-uploader-filelist" class="grid_12 h300 mt10px ui-widget-content" style="overflow-y: auto">
 		<?php echo $this->translate('Upload progress will appear here.');?>
 		</div>
 	</div>

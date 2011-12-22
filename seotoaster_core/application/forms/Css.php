@@ -28,7 +28,7 @@ class Application_Form_Css extends Zend_Form {
 		));
 
 		$this->addElement('submit', 'submit', array(
-			'class'		=> array('formsubmit', 'w200'),
+			'class'		=> array('formsubmit'),
 			'ignore'	=> true,
 			'label'		=> 'Save CSS'
 		));

@@ -8,23 +8,26 @@
 	<div id="templatelist" class="h640 ui-helper-hidden" style="z-index: 99; overflow: hidden; width: 100%; margin-top: -42px;"></div>
 	<?php $this->templateForm->setAction($this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
-		<div class="grid_9">
-			<div class="grid_6">
+
+			<div class="grid_5">
 				<?php echo $this->templateForm->getElement('name'); ?>
 			</div>
-			<div class="grid_6">
+			<div class="grid_4">
 				<?php echo $this->templateForm->getElement('templateType'); ?>
 			</div>
-			<div class="grid_12"><?php echo $this->templateForm->getElement('content')->renderLabel(); ?></div>
-			<div class="grid_12 h450" id="edittemplate">
-				<?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
-			</div>
-		</div>
 		<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
 			<input type="button" class="grid_3" id="listtemplates-btn" value="<?php echo $this->translate('Other templates');?>" />
 		<?php endif; ?>
+            <div class="clear"></div>
+            <div class="grid_9 mt10px"><?php echo $this->templateForm->getElement('content')->renderLabel(); ?>
+              <div class="h440" id="edittemplate">
+                <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
+              </div>
+            </div>
+
+
 		<div class="grid_3 h450">
-			<div class="mt20px mb20px textcentered img-teaser">
+			<div class="mt30px mb10px textcentered img-teaser">
 				<img id="template_preview" src="<?php echo $this->websiteUrl . (($this->templatePreview) ? $this->templatePreview : 'system/images/no_preview.png'); ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 			</div>
 			<div style="text-align: center">

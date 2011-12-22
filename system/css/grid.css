@@ -15,7 +15,7 @@
 /* =Grid >> Global
 --------------------------------------------------------------------------------*/
 
-.seotoaster .grid_1, .seotoaster .grid_2, .seotoaster .grid_3, .seotoaster .grid_4, .seotoaster .grid_5, .seotoaster .grid_6, .seotoaster .grid_7, .seotoaster .grid_8, .seotoaster .grid_9, .seotoaster .grid_10, .seotoaster .grid_11, .seotoaster .grid_12, .seotoaster .grid_13, .seotoaster .grid_14, .seotoaster .grid_15, .seotoaster .grid_16 {
+.seotoaster .grid_1, .seotoaster .grid_0_5, .seotoaster .grid_2, .seotoaster .grid_3, .seotoaster .grid_4, .seotoaster .grid_5, .seotoaster .grid_6, .seotoaster .grid_7, .seotoaster .grid_8, .seotoaster .grid_9, .seotoaster .grid_10, .seotoaster .grid_11, .seotoaster .grid_12, .seotoaster .grid_13, .seotoaster .grid_14, .seotoaster .grid_15, .seotoaster .grid_16 {
 	display: inline;
 	float: left;
 	margin-left: 1%;
@@ -24,7 +24,7 @@
 .seotoaster.container_12 .grid_3, .seotoaster.container_16 .grid_4 { width: 23%; }
 .seotoaster.container_12 .grid_6, .seotoaster.container_16 .grid_8 { width: 48%; }
 .seotoaster.container_12 .grid_9, .seotoaster.container_16 .grid_12 { width: 73%; }
-.seotoaster.container_12 .grid_12, .seotoaster.container_16 .grid_16 { width: 98%; }
+.seotoaster.container_12 .grid_12, .seotoaster.container_16 .grid_16 { width: 98%; clear:both; display: block; }
 /* =Grid >> Children (Alpha ~ First, Omega ~ Last)
 --------------------------------------------------------------------------------*/
 
@@ -34,6 +34,7 @@
 --------------------------------------------------------------------------------*/
 
 .seotoaster.container_12 .grid_1 { width: 6.333%; }
+.seotoaster.container_12 .grid_0_5 { width: 3.166%; }
 .seotoaster.container_12 .grid_2 { width: 14.666%; }
 .seotoaster.container_12 .grid_4 { width: 31.333%; }
 .seotoaster.container_12 .grid_5 { width: 39.666%; }
@@ -148,6 +149,14 @@
 	display: block;
 	visibility: hidden;
 	height: 0;
+}
+.seotoaster .clear {
+	clear:both;
+	display:block;
+	overflow:hidden;
+	visibility:hidden;
+	width:0;
+	height:0
 }
 .seotoaster .clearfix { display: inline-block; }
 .seotoaster * html .clearfix { height: 1%; }

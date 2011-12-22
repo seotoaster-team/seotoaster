@@ -24,7 +24,7 @@ class Application_Form_Robots extends Zend_Form {
 			'name'  => 'updateRobots',
 			'id'    => 'update-robots',
 			'label'  => 'Save robots.txt',
-			'class'  => 'formsubmit',
+			'class'  => 'formsubmit mt5px',
 		)));
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));

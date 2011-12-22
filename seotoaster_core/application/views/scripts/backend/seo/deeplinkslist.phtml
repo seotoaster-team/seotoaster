@@ -1,7 +1,7 @@
 <?php if(!empty($this->deeplinks)): ?>
 	<?php foreach($this->deeplinks as $deeplink): ?>
 		<div class="deeplink-row">
-			<div class="grid_1"><input type="checkbox" id="<?php echo $deeplink->getId(); ?>" name="massdell[<?php echo $deeplink->getId(); ?>]" class="deeplink-massdel" /></div>
+			<div class="grid_0_5"><input type="checkbox" id="<?php echo $deeplink->getId(); ?>" name="massdell[<?php echo $deeplink->getId(); ?>]" class="deeplink-massdel" /></div>
 			<div class="grid_4"><?php echo $deeplink->getName(); ?></div>
 			<div class="grid_5"><?php echo ($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $this->websiteUrl . $deeplink->getUrl() : $deeplink->getUrl(); ?></div>
 			<div class="grid_1"><?php echo ($deeplink->getNofollow()) ? $this->translate('No follow') : $this->translate('Follow'); ?></div>

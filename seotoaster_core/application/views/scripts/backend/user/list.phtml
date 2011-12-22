@@ -1,8 +1,8 @@
 <?php if(!empty($this->users)): ?>
 	<?php foreach($this->users as $user): ?>
-		<tr class="user-row grid_12" style="overflow: hidden;">
-			<td class="user-row-item grid_2"><?php echo $user->getEmail(); ?></td>
-			<td class="user-row-item grid_3"><?php echo $user->getFullName(); ?></td>
+		<tr class="user-row" style="overflow: hidden; display: block">
+			<td class="user-row-item grid_3"><?php echo $user->getEmail(); ?></td>
+			<td class="user-row-item grid_2"><?php echo $user->getFullName(); ?></td>
 			<td class="user-row-item grid_2"><?php echo $this->translate(ucfirst($user->getRoleId())); ?></td>
 			<td class="user-row-item grid_2"><?php echo intval($user->getLastLogin()) ? date('Y-m-d', strtotime($user->getLastLogin())) : '-'; ?></td>
 			<td class="user-row-item grid_2"><?php echo ($user->getIpaddress()) ? $user->getIpaddress() : '-'; ?></td>

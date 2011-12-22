@@ -1,6 +1,6 @@
 <div class="seotoaster container_12 h590 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage users')); ?>
-	<div id="add-user" class="grid_12" style="position: relative;">
+	<div id="add-user" style="position: relative; overflow: hidden;">
 		<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="userCallback">
 			<div class="grid_6">
 				<?php echo $this->userForm->getElement('email'); ?>
@@ -22,17 +22,17 @@
 		</form>
 	</div>
 	<table class="sortable grid_12" id="users-list">
-		<thead class="grid_12">
-			<tr class="grid_12">
-				<th class="grid_2"><?php echo $this->translate('E-mail'); ?></th>
-				<th class="grid_3"><?php echo $this->translate('Full name'); ?></th>
+		<thead style="display: block;">
+			<tr style="display: block; overflow: hidden">
+				<th class="grid_3"><?php echo $this->translate('E-mail'); ?></th>
+				<th class="grid_2"><?php echo $this->translate('Full name'); ?></th>
 				<th class="grid_2"><?php echo $this->translate('Role'); ?></th>
 				<th class="grid_2"><?php echo $this->translate('Last login'); ?></th>
 				<th class="grid_2"><?php echo $this->translate('Ip address'); ?></th>
 				<th class="grid_1"><?php echo $this->translate('Actions'); ?></th>
 			</tr>
 		</thead>
-		<tbody class="grid_12">
+		<tbody style="display: block;">
 		</tbody>
 	</table>
 </div>

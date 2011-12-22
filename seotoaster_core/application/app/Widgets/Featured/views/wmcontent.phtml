@@ -1,26 +1,26 @@
 <form class="wmc-block" action="javascript:;" method="post">
 
-	<label class="nopad grid_5" for="featured-item-type"><?php echo $this->translate('Type'); ?></label>
-	<select class="nopad grid_7" id="featured-item-type">
+	<label class="nopad grid_6" for="featured-item-type"><?php echo $this->translate('Type'); ?></label>
+	<select class="nopad grid_6" id="featured-item-type">
 		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
 		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
 	</select>
 
 	<select class="nopad grid_12" id="featured-area-item"></select>
 
-	<label class="nopad grid_5 max-res-row" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
-	<input class="nopad grid_7 max-res-row" type="text" id="featured-item-maxres" value="<?php echo Widgets_Featured_Featured::AREA_PAGES_COUNT; ?>" />
+	<label class="nopad grid_6 max-res-row" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
+	<input class="nopad grid_6 max-res-row" type="text" id="featured-item-maxres" value="<?php echo Widgets_Featured_Featured::AREA_PAGES_COUNT; ?>" />
 
-	<label class="nopad grid_5" for="featured-item-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
-	<input class="nopad grid_7" type="text" id="featured-item-maxch" value="<?php echo Widgets_Featured_Featured::AREA_DESC_LENGTH; ?>" />
+	<label class="nopad grid_6" for="featured-item-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
+	<input class="nopad grid_6" type="text" id="featured-item-maxch" value="<?php echo Widgets_Featured_Featured::AREA_DESC_LENGTH; ?>" />
 
-	<label class="grid_5 nopad" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
-	<div class="grid_7 nopad">
+	<label class="grid_6 nopad" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
+	<div class="grid_6 nopad">
 		<input type="checkbox" id="featured-item-img" />
 		<input class="cropped" type="checkbox" id="featured-item-img-crop" /><span class="nopad label cropped" style="display: inline;"><?php echo $this->translate('Cropped'); ?>?</span>
 	</div>
-	<label class="grid_5 nopad rand-row" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
-	<div class="grid_7 nopad rand-row">
+	<label class="grid_6 nopad rand-row" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
+	<div class="grid_6 nopad rand-row">
 		<input type="checkbox" id="featured-item-rand" />
 	</div>
 

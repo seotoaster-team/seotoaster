@@ -93,7 +93,7 @@ class Application_Form_Page extends Zend_Form {
 			'cols'     => '45',
 			'rows'     => '3',
 			'label'    => 'Meta keywords',
-			'class'    => 'h55',
+			'class'    => 'h75',
 			'value'    => $this->_metaKeywords,
 			'filters'  => array('StringTrim')
 		)));
@@ -105,7 +105,7 @@ class Application_Form_Page extends Zend_Form {
 			'rows'     => '3',
 			'label'    => 'Teaser Text',
 			'value'    => $this->_teaserText,
-			'class'    => array('hldd00', 'h50'),
+			'class'    => array('hldd00', 'h130'),
 			'filters'  => array('StringTrim')
 		)));
 

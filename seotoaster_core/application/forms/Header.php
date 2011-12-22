@@ -24,7 +24,7 @@ class Application_Form_Header extends Application_Form_Container {
 			'id'     => 'btn-submit',
 			'label'  => 'Save content',
 			'class'  => 'formsubmit',
-			'style'  => 'margin: 10px 5px',
+			'style'  => 'margin: 10px 5px; width:auto;',
 			'ignore' => true
 		));
     }

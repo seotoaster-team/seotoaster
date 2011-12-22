@@ -29,7 +29,7 @@
 				<legend><?php echo $this->translate('Navigation'); ?></legend>
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
 				<div class="clear"></div>
-				<div class="grid_12">
+				<div class="grid_12 mt5px">
 					<?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
 				</div>
 			</fieldset>
@@ -52,26 +52,27 @@
 							);
 						?>
 					</div>
-					<div class="grid_12 clear mt5px"></div>
-					<div class="grid_6"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
-					<div class="grid_6">
+					<div class="clear"></div>
+					<div class="grid_6 mt5px"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
+					<div class="grid_6 mt5px">
 						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
 					</div>
-					<div class="grid_12 mt10px">
+					<div class="grid_12 mt5px">
 						<?php echo $this->pageForm->getElement('pageOption'); ?>
 					</div>
 			</fieldset>
 			<fieldset>
 				<legend><?php echo $this->translate('Page Teasers'); ?></legend>
-				<div  class="grid_4 h160" style="overflow: hidden;">
-					<img id="page-preview-image" style="max-height: 200px;" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="140px" alt="<?php echo $this->translate('Page preview image');?>" />
-				</div>
-				<div  class="grid_8 h150">
-					<?php echo $this->pageForm->getElement('teaserText'); ?>
+				<div  class="grid_4">
+					<img id="page-preview-image" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
 					<?php
-						$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload teaser image')));
+						$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload image')));
 						echo $uploader;
 					?>
+				</div>
+				<div  class="grid_8">
+					<?php echo $this->pageForm->getElement('teaserText'); ?>
+
 				</div>
 				<div class="clear"></div>
 			</fieldset>

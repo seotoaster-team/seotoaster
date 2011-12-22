@@ -5,7 +5,7 @@
 				<?php echo $fa->getName(); ?>&nbsp;(<span class="pcount-<?php echo $fa->getId(); ?>"><?php echo sizeof($fa->getPages()); ?></span>)</div>
 			<div class="grid_4 list-row-item"><input type="checkbox" name="addPageToFa" id="<?php echo $fa->getId(); ?>" class="add-page" <?php echo (in_array($fa->getId(), $this->currentFareasIds)) ? 'checked="checked"' : ''; ?>/></div>
 			<div class="grid_2 list-row-item">
-				<a style="float:left;" data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" class="del-fa _tdelete" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+				<a data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" class="del-fa _tdelete" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
 			</div>
 		</div>
 	<?php endforeach; ?>

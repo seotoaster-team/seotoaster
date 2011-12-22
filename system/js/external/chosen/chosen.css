@@ -1,6 +1,7 @@
 /* @group Base */
 .chzn-container {
-  font-size: 13px;
+  font-size: 11pt;
+  color: CadetBlue;
   position: relative;
   display: inline-block;
   zoom: 1;
@@ -138,22 +139,17 @@
 
 /* @group Multi Chosen */
 .chzn-container-multi .chzn-choices {
-  background-color: #fff;
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-  background-image: -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-  background-image: -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-  background-image: -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
-  background-image: -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
-  background-image: linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  border: 1px solid #aaa;
-  margin: 0;
   padding: 0;
   cursor: text;
   overflow: hidden;
   height: auto !important;
-  height: 1%;
   position: relative;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDE6F1;
+    color: CadetBlue;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11pt;
+    margin: 0;
 }
 .chzn-container-multi .chzn-choices li {
   float: left;
@@ -240,8 +236,9 @@
 }
 .chzn-container .chzn-results li {
   display: none;
-  line-height: 80%;
-  padding: 7px 7px 8px;
+  font-size: 11pt;
+  color: CadetBlue;
+  padding: 2px 2px 2px;
   margin: 0;
   list-style: none;
 }
@@ -250,7 +247,7 @@
   display: list-item;
 }
 .chzn-container .chzn-results .highlighted {
-  background: #3875d7;
+  background: #3399ff;
   color: #fff;
 }
 .chzn-container .chzn-results li em {
@@ -314,11 +311,11 @@
   background-position: -18px 1px;
 }
 .chzn-container-active .chzn-choices {
-  -webkit-box-shadow: 0 0 5px rgba(0,0,0,.3);
+/*  -webkit-box-shadow: 0 0 5px rgba(0,0,0,.3);
   -moz-box-shadow   : 0 0 5px rgba(0,0,0,.3);
   -o-box-shadow     : 0 0 5px rgba(0,0,0,.3);
   box-shadow        : 0 0 5px rgba(0,0,0,.3);
-  border: 1px solid #5897fb;
+  border: 1px solid #5897fb;*/
 }
 .chzn-container-active .chzn-choices .search-field input {
   color: #111 !important;

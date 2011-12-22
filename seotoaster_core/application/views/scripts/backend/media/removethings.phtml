@@ -6,12 +6,12 @@
 			<div class="grid_8">
 			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>
 			</div>
-			<div class="grid_4" style="text-align: center">
+			<div class="grid_4" style="text-align: right;">
 				<input type="checkbox" id="check-all" />
 				<label id="check-all-label" style="cursor:pointer;" for="check-all"><?php echo $this->translate('Check all?'); ?></label>
 			</div>
-			<div class="grid_12 mt5px"></div>
-			<div class="grid_12">
+			<div class="clear"></div>
+			<div class="grid_12 mt10px">
 				<div id="filebrowser">
 					<ul>
 						<li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
@@ -28,7 +28,7 @@
 		</form>
 	</div>
 	<div class="grid_12">
-		<button id="deleteBtn" style="float:right; margin: 5px 10px;" ><?php echo $this->translate('Delete');?></button>
+		<button id="deleteBtn" style="float:right; margin: 9px 5px;" ><?php echo $this->translate('Delete');?></button>
 	</div>
 </div>
 
@@ -40,7 +40,7 @@
 </script>
 <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
     <div class="file-container">
-		<label data-type="${name}">${name}</label>
+		<label>${name}</label>
 		<input type="checkbox" class="toremove toremove-file" name="removeFiles[]" value="${name}" />
 	</div>
 </script>
@@ -249,8 +249,8 @@
 <style type="text/css">
 	#filebrowser .filebrowser-zone {
 		overflow-y: auto;
-		max-height: 400px;
-		height: 400px;
+
+		height: 415px;
 		padding: 5px;
 	}
 	#filebrowser div.file-container {
@@ -286,6 +286,7 @@
 		margin: 4px;
 		background-color: yellow;
 	}
+
     #filebrowser-files div.file-container {
         height: auto;
     }

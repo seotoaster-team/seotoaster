@@ -1,23 +1,25 @@
-<div class="seotoaster container_12 h590 rounded3px">
+<div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit deeplink')); ?>
 	<div class="grid_12">
 		<form id="frm-deeplinks" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="loadDeeplinksList">
-			<div class="grid_6">
+			<div class="grid_5 alpha">
 				<?php echo $this->form->getElement('anchorText'); ?>
 			</div>
-			<div class="grid_6" style="position: relative;">
+			<div class="grid_5" style="position: relative;">
 				<?php echo $this->form->getElement('urlType'); ?>
 				<?php echo $this->form->getElement('url'); ?>
-				<div style="position: absolute; top:5px; right: 10px;">
+				<div style="position: absolute; top:0px; right: 5px;">
 					<label style="float: left;"><?php echo $this->translate('No follow?'); ?></label>
 					<?php echo $this->form->getElement('nofollow')->renderViewHelper(); ?>
 				</div>
 			</div>
+            <div style="overflow: hidden">
 			<?php echo $this->form->getElement('addDeeplink'); ?>
+            </div>
 		</form>
 	</div>
 	<div class="grid_12" id="table-header">
-		<div class="grid_1"><input type="checkbox" id="chk-all" name="deleteAll" /></div>
+		<div class="grid_0_5"><input type="checkbox" id="chk-all" name="deleteAll" /></div>
 		<div class="grid_4">Anchor text</div>
 		<div class="grid_5">Url</div>
 		<div class="grid_1">Rel</div>

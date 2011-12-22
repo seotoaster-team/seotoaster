@@ -1,22 +1,22 @@
-<div class="seotoaster container_12 h555 rounded3px">
+<div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect')); ?>
 	<div class="grid_12 mb10px">
 		<form id="frm-redirects" style="overflow: hidden;" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="reloadRedirectsList">
-			<div class="grid_4 mt5px">
+			<div class="grid_5 alpha">
 				<?php echo $this->form->getElement('fromUrl'); ?>
 			</div>
 			<div class="grid_5">
 				<?php echo $this->form->getElement('urlType'); ?>
 				<?php echo $this->form->getElement('toUrl'); ?>
 			</div>
-			<div class="grid3 mt5px" style="overflow: hidden;">
+			<div style="overflow: hidden;">
 				<?php echo $this->form->getElement('addRedirect')->renderViewHelper(); ?>
 			</div>
 		</form>
 	</div>
 
 	<div id="redirect-title" class="grid_12">
-		<div class="grid_1"><input type="checkbox" id="massdell-main" /></div>
+		<div class="grid_0_5"><input type="checkbox" id="massdell-main" /></div>
 		<div class="grid_5"><?php echo $this->translate('Former url'); ?></div>
 		<div class="grid_5"><?php echo $this->translate('New url'); ?></div>
 		<div class="grid_1"><?php echo $this->translate('Action'); ?></div>
