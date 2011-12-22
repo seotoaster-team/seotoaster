@@ -1,6 +1,17 @@
 <div id="widgets_maker" class="show_div">
+	<h3 style="display: none;" id="widgets-header"></h3>
+	<div id="widget-controls">
+		<?php //echo $this->translate('Click on the widget icon and it will be shown here.'); ?>
+	</div>
 	<?php foreach ($this->widgetsData as $key => $widgetData): ?>
-		<h3><?php echo $this->translate($widgetData['title']); ?></h3>
+		<?php if(isset($widgetData['title']) && $widgetData['title']): ?>
+			<h3><?php echo $this->translate($widgetData['title']); ?></h3>
+		<?php endif; ?>
 		<?php echo $widgetData['content']; ?>
 	<?php endforeach; ?>
+	<script type="text/javascript">
+		(function($) {
+			$('div.widget-control-img:even').css({marginRight : '4px'})
+		})(jQuery);
+	</script>
 </div>

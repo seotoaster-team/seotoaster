@@ -56,7 +56,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title'   => 'Search engine',
+			//'title'   => 'Search engine',
 			'content' => $view->render('wmcontent.phtml')
 		);
 

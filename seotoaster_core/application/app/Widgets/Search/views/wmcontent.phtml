@@ -1,4 +1,5 @@
-<form class="wmc-block" action="javascript:;" method="post">
+<div class="widget-control-img" id="search-img"></div>
+<form class="wmc-block" action="javascript:;" id="search-widget-form" style="display: none;" method="post">
 
 	<label class="nopad grid_12" for="search-results"><?php echo $this->translate('Select a search results page'); ?></label>
 	<select class="nopad grid_12" id="search-results"></select>
@@ -13,10 +14,16 @@
 
 <script type="text/javascript">
 	$(function() {
+		$('.widget-control-img#search-img').click(function() {
+			$('#widgets-header').text('<?php echo $this->translate('Search engine'); ?>').fadeIn();
+			$('#widget-controls').html($('#search-widget-form').html());
+			//$('#search-widget-form').slideDown();
+		});
+
 		if($('#search-results').length) {
 			load();
 		}
-		$('#search-item-img').click(function() {
+		$('#search-item-img').live('click', function() {
 			$('#search-item-img-crop').attr('checked', false);
 			if($(this).attr('checked')) {
 				$('.cropped').show();
@@ -24,7 +31,7 @@
 			else {
 				$('.cropped').hide();
 			}
-		})
+		});
 
 		$('#search-done').live('click', function() {
 			var imgType = '';

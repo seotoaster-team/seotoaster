@@ -77,7 +77,7 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title'   => 'Rss feed',
+			//'title'   => 'Rss feed',
 			'content' => $view->render('wmcontent.phtml')
 		);
 

@@ -85,7 +85,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title'   => $translator->translate('Featured'),
+			//'title'   => '', //$translator->translate('Featured'),
 			'content' => $view->render('wmcontent.phtml')
 		);
 

@@ -69,7 +69,7 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title'   => $translator->translate('Image rotator'),
+			//'title'   => $translator->translate('Image rotator'),
 			'content' => $view->render('wmcontent.phtml')
 		);
 

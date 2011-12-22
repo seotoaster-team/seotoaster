@@ -1,4 +1,5 @@
-<form class="wmc-block" action="javascript:;" method="post">
+<div class="widget-control-img" id="rotator-img"></div>
+<form class="wmc-block" id="imgrotator-widget-form" action="javascript:;" style="display: none;" method="post">
 
 	<label class="nopad grid_6" for="rotator-folders"><?php echo $this->translate('Select a folder'); ?></label>
 	<select class="nopad grid_6" id="rotator-folders"></select>
@@ -51,13 +52,17 @@
 
 <script type="text/javascript">
 	$(function() {
-		loadFolders();
-
-		$('#rotator-thumb-width').blur(function() {
+		$('.widget-control-img#rotator-img').click(function() {
+			loadFolders();
+			$('#widgets-header').text('<?php echo $this->translate('Image rotator'); ?>').fadeIn();
+			$('#widget-controls').html($('#imgrotator-widget-form').html());
+			//$('#imgrotator-widget-form').slideDown();
+		});
+		$('#rotator-thumb-width').live('blur', function() {
 			$('#rotator-thumb-height').val($(this).val());
-		})
+		});
 
-		$('#rotator-done').click(function() {
+		$('#rotator-done').live('click', function() {
 			var widget = '{$imgrotator:' + $('#rotator-folders').val() + ':' + ($('#rotator-slideshow').attr('checked') ? 1 : 0) + ':' + $('#rotator-interval').val() + ':' + $('#rotator-thumb-width').val() + ':' + $('#rotator-thumb-height').val() + ':' + $('#rotator-effect').val() + '}';
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
 		})

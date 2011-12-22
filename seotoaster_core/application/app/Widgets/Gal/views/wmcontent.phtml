@@ -1,4 +1,5 @@
-<form class="wmc-block" action="javascript:;" method="post">
+<div class="widget-control-img" id="gal-img"></div>
+<form class="wmc-block" id="gal-widget-form" action="javascript:;" style="display: none;" method="post">
 
 	<label class="nopad grid_6" for="gal-folders"><?php echo $this->translate('Select a folder'); ?></label>
 	<select class="nopad grid_6" id="gal-folders"></select>
@@ -17,7 +18,13 @@
 <script type="text/javascript">
 	$(function() {
 		loadFolders();
-		$('#gal-done').click(function() {
+		$('.widget-control-img#gal-img').click(function() {
+			$('#widgets-header').text('<?php echo $this->translate('Image gallery'); ?>').fadeIn();
+			$('#widget-controls').html($('#gal-widget-form').html());
+			//$('#gal-widget-form').slideDown();
+		});
+
+		$('#gal-done').live('click', function() {
 			var widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
 		})

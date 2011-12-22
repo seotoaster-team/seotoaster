@@ -1,4 +1,5 @@
-<form class="wmc-block" action="javascript:;" method="post">
+<div class="widget-control-img" id="rss-img"></div>
+<form class="wmc-block" action="javascript:;" id="rss-widget-form" style="display: none;" method="post">
 
 	<label class="nopad grid_12" for="feed-url"><?php echo $this->translate('Feed url'); ?></label>
 	<input class="nopad grid_12" type="text" id="feed-url" value="" />
@@ -14,15 +15,20 @@
 
 <script type="text/javascript">
 	$(function() {
-		$('#feed-url').click(function() {$(this).removeClass('wmc-error');});
-		$('#feed-done').click(function() {
+		$('.widget-control-img#rss-img').click(function() {
+			$('#widgets-header').text('<?php echo $this->translate('Rss feed'); ?>').fadeIn();
+			$('#widget-controls').html($('#rss-widget-form').html());
+			//$('#rss-widget-form').slideDown();
+		});
+		$('#feed-url').live('click', function() {$(this).removeClass('wmc-error');});
+		$('#feed-done').live('click', function() {
 			var feedUrl = $('#feed-url').val();
 			if(!feedUrl) {
 				$('#feed-url').toggleClass('wmc-error');
 				return;
 			}
-			featuredWidget = '{$rss:' + feedUrl + ':' + $('#feed-maxres').val() + ':' + $('#feed-maxch').val() + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, featuredWidget);
+			var rssWidget = '{$rss:' + feedUrl + ':' + $('#feed-maxres').val() + ':' + $('#feed-maxch').val() + '}';
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, rssWidget);
 		})
 	});
 </script>

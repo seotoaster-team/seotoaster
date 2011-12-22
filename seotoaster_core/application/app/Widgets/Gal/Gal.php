@@ -63,7 +63,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title'   => $translator->translate('Image Gallery'),
+			//'title'   => $translator->translate('Image Gallery'),
 			'content' => $view->render('wmcontent.phtml')
 		);
 

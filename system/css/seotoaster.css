@@ -671,7 +671,7 @@ div.show_div#widgets_maker {
 	overflow-y: scroll;
 	overflow-x: hidden;
 	margin-top: 5px;
-	margin-right: -5px;
+	/*margin-right: -5px;*/
 }
 
 div.show_div#widgets_maker .wmc-block {
@@ -1363,3 +1363,62 @@ list-style: square;
 #list_files p > a[title$='.wmv']{ background-position: 0 -153px;}
 #list_files p > a[title$='.xls']{ background-position: 0 -170px;}
 #list_files p > a[title$='.zip']{ background-position: 0 -187px;}
+
+/*================= widgets icons ===============================*/
+.widget-control-img {
+	background: url('/system/images/widgets.jpg') no-repeat top left;
+	height: 63px;
+	width: 130px;
+	cursor: pointer;
+	float: left;
+	margin-bottom: 4px;
+}
+.widget-control-img#featured-area-img {
+	background-position: 0 0;
+}
+.widget-control-img#featured-area-img:hover {
+	background-position: 0 -63px;
+}
+.widget-control-img#featured-page-img {
+	background-position: -130px 0;
+}
+.widget-control-img#featured-page-img:hover {
+	background-position: -130px -63px;
+}
+.widget-control-img#forms-img {
+	background-position: -260px 0;
+}
+.widget-control-img#forms-img:hover {
+	background-position: -260px -63px;
+}
+.widget-control-img#gal-img {
+	background-position: -390px 0;
+}
+.widget-control-img#gal-img:hover {
+	background-position: -390px -63px;
+}
+.widget-control-img#rotator-img {
+	background-position: -520px 0;
+}
+.widget-control-img#rotator-img:hover {
+	background-position: -520px -63px;
+}
+.widget-control-img#related-img {
+	background-position: -650px 0;
+}
+.widget-control-img#related-img:hover {
+	background-position: -650px -63px;
+}
+.widget-control-img#rss-img {
+	background-position: -780px 0;
+}
+.widget-control-img#rss-img:hover {
+	background-position: -780px -63px;
+}
+.widget-control-img#search-img {
+	background-position: -910px 0;
+}
+.widget-control-img#search-img:hover {
+	background-position: -910px -63px;
+}
+

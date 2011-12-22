@@ -58,7 +58,7 @@ class Widgets_Related_Related extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title'   => 'Related pages list',
+			//'title'   => 'Related pages list',
 			'content' => $view->render('wmcontent.phtml')
 		);
 

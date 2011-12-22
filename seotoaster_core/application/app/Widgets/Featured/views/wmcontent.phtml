@@ -1,19 +1,17 @@
-<form class="wmc-block" action="javascript:;" method="post">
-
-	<label class="nopad grid_6" for="featured-item-type"><?php echo $this->translate('Type'); ?></label>
-	<select class="nopad grid_6" id="featured-item-type">
-		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?></option>
-		<option value="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?>"><?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?></option>
-	</select>
-
+<div class="widget-control-img" id="featured-area-img"></div>
+<div class="widget-control-img" id="featured-page-img"></div>
+<form id="featured-widget-form" class="wmc-block" style="display: none;"  action="javascript:;" method="post">
+<!--	<label class="nopad grid_6" for="featured-item-type">--><?php //echo $this->translate('Type'); ?><!--</label>-->
+<!--	<select class="nopad grid_6" id="featured-item-type">-->
+<!--		<option value="--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?><!--">--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?><!--</option>-->
+<!--		<option value="--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?><!--">--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?><!--</option>-->
+<!--	</select>-->
+	<input type="hidden" id="featured-item-type" val="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>" />
 	<select class="nopad grid_12" id="featured-area-item"></select>
-
 	<label class="nopad grid_6 max-res-row" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
 	<input class="nopad grid_6 max-res-row" type="text" id="featured-item-maxres" value="<?php echo Widgets_Featured_Featured::AREA_PAGES_COUNT; ?>" />
-
 	<label class="nopad grid_6" for="featured-item-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
 	<input class="nopad grid_6" type="text" id="featured-item-maxch" value="<?php echo Widgets_Featured_Featured::AREA_DESC_LENGTH; ?>" />
-
 	<label class="grid_6 nopad" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
 	<div class="grid_6 nopad">
 		<input type="checkbox" id="featured-item-img" />
@@ -23,14 +21,33 @@
 	<div class="grid_6 nopad rand-row">
 		<input type="checkbox" id="featured-item-rand" />
 	</div>
-
 	<div class="grid_12"><input class="formsubmit" type="submit" id="fa-done" name="done" value="Done" /></div>
 </form>
 <script type="text/javascript">
 	$(function() {
+		loadData($('#featured-item-type').val());
+		$('.widget-control-img').click(function() {
+			if($(this).attr('id') == 'featured-page-img') {
+				console.log('trololo?');
+				$('#featured-item-type').val('page');
+				$('.rand-row').hide();
+				$('.max-res-row').hide();
+				$('#widgets-header').text('<?php echo $this->translate('Featured page'); ?>').fadeIn();
+				loadData($('#featured-item-type').val());
+			}
+			else {
+				$('#featured-item-type').val('area');
+				$('.rand-row').show();
+				$('.max-res-row').show();
+				$('#widgets-header').text('<?php echo $this->translate('Featured area'); ?>').fadeIn();
+				loadData($('#featured-item-type').val());
+			}
+			$('#widget-controls').html($('#featured-widget-form').html());
+			//$('#featured-widget-form').slideDown();
+
+		});
 		$('.cropped').hide();
 
-		loadData($('#featured-item-type').val());
 
 		$('#featured-item-type').change(function() {
 			$('.rand-row').toggle();
@@ -38,17 +55,17 @@
 			loadData($(this).val());
 		});
 
-		$('#featured-item-img').click(function() {
+		$('#featured-item-img').live('click', function() {
 			$('#featured-item-img-crop').attr('checked', false);
 			if($(this).attr('checked')) {
-				$('.cropped').show();
+				$('.cropped').fadeIn();
 			}
 			else {
-				$('.cropped').hide();
+				$('.cropped').fadeOut();
 			}
 		})
 
-		$('#fa-done').click(function() {
+		$('#fa-done').live('click', function() {
 			var imgType = '';
 			if( $('#featured-item-img').attr('checked') && $('#featured-item-img-crop').attr('checked')) {
 				imgType = ':imgc';
@@ -60,9 +77,6 @@
 									$('#featured-item-maxres').val() + ':' + $('#featured-item-maxch').val() +
 									(imgType) +
 									(($('#featured-item-rand').attr('checked')) ? ':random' : '') + '}';
-
-
-
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, featuredWidget);
 		})
 	});

@@ -37,7 +37,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		));
 
 		$data = array(
-			'title' => $translator->translate('Forms'),
+			//'title' => $translator->translate('Forms'),
 			'content' => $view->render('wmcontent.phtml')
 		);
 
