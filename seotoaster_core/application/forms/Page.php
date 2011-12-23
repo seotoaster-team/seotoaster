@@ -318,6 +318,14 @@ class Application_Form_Page extends Zend_Form {
 		return $this;
 	}
 
+	public function setCheckout($checkout) {
+		if($checkout) {
+			$this->_pageOption = Application_Model_Models_Page::OPT_CHECKOUT;
+			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_CHECKOUT);
+		}
+		return $this;
+	}
+
 	public function setErrLoginLanding($errLanding) {
 		if($errLanding) {
 			$this->_pageOption = Application_Model_Models_Page::OPT_ERRLAND;

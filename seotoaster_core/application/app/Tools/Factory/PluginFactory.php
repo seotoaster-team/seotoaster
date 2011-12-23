@@ -17,11 +17,17 @@ class Tools_Factory_PluginFactory {
 		unset($miscData);
 		unset($websiteHelper);
 		if(!is_dir($pluginDirectory)) {
-			throw new Exceptions_SeotoasterPluginException($pluginDirectory . ' is not a directory.');
+			if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+				throw new Exceptions_SeotoasterPluginException($pluginDirectory . ' is not a directory.');
+			}
+			throw new Exceptions_SeotoasterPluginException('<!-- ' . $pluginDirectory . ' is not a directory. -->');
 		}
 		$pluginClassPath = $pluginDirectory . '/' . $name . '.php';
 		if(!file_exists($pluginClassPath)) {
-			throw new Exceptions_SeotoasterPluginException($pluginClassPath . ' not found.');
+			if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+				throw new Exceptions_SeotoasterPluginException($pluginClassPath . ' not found.');
+			}
+			throw new Exceptions_SeotoasterPluginException('<!--' . $pluginClassPath . ' not found. -->');
 		}
 		require_once $pluginClassPath;
 	}
