@@ -37,7 +37,8 @@ class Tools_Content_Feed {
 				continue;
 			}
 			$priority     = ($page->getUrl() == self::SMFEED_HIGHPRIORITY_PAGE_URL) ? '1' : '0.8';
-			$sitemapFeed .= '<url>' . PHP_EOL . '<loc>' . urlencode($websiteHelper->getUrl() . (($page->getUrl() == 'index.html') ? '' : $page->getUrl())) . '</loc>' . PHP_EOL;
+			//$sitemapFeed .= '<url>' . PHP_EOL . '<loc>' . urlencode($websiteHelper->getUrl() . (($page->getUrl() == 'index.html') ? '' : $page->getUrl())) . '</loc>' . PHP_EOL;
+			$sitemapFeed .= '<url>' . PHP_EOL . '<loc>' . $websiteHelper->getUrl() . (($page->getUrl() == 'index.html') ? '' : $page->getUrl()) . '</loc>' . PHP_EOL;
 			$sitemapFeed .= '<lastmod>' . date('c', time()) . '</lastmod>' . PHP_EOL;
 			$sitemapFeed .= '<changefreq>' . self::SMFEED_CHANGEFREEQ . '</changefreq>' . PHP_EOL;
 			$sitemapFeed .= '<priority>' . $priority . '</priority>' . PHP_EOL . '</url>' . PHP_EOL;
