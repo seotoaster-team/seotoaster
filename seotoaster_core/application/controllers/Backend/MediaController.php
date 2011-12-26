@@ -196,7 +196,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 		if (!empty ($containers)){
 			foreach ($containers as $container){
 				$page = Application_Model_Mappers_PageMapper::getInstance()->find($container->getPageId());
-				if (!in_array($page->getUrl(), $usedOnPages)){
+				if ($page !== null && !in_array($page->getUrl(), $usedOnPages)){
 					array_push($usedOnPages, $page->getUrl());
 				}
 			}
