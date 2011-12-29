@@ -83,16 +83,26 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 */
 	protected $_requestedParams = array();
 
+	/**
+	 * Toaster response helper
+	 *
+	 * @var Helpers_Action_Response
+	 */
+	protected $_responseHelper  = null;
+
 	public function  __construct($options, $seotoasterData) {
 		$this->_options          = $options;
 		$this->_seotoasterData   = $seotoasterData;
 		$this->_websiteUrl       = isset($this->_seotoasterData['websiteUrl']) ? $this->_seotoasterData['websiteUrl'] : '';
 		$this->_request          = new Zend_Controller_Request_Http();
 		$this->_response         = new Zend_Controller_Response_Http();
+		$this->_responseHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
 		$this->_redirector       = new Zend_Controller_Action_Helper_Redirector();
 		$this->_session          = Zend_Registry::get('session');
 		$this->_view             = new Zend_View();
 		$this->_view->websiteUrl = $this->_websiteUrl;
+		$this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
+		$this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		$this->_translator       = Zend_Registry::get('Zend_Translate');
 		$this->_init();
 	}
