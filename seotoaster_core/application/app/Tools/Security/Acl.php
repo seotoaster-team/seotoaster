@@ -41,13 +41,20 @@ class Tools_Security_Acl {
 		)
 	);
 
-	public static function isAllowed($resourse, $role = '') {
+	/**
+     * Check if user allowed to access to resource
+     * @static
+     * @param string $resource Name of resource
+     * @param string $role User role. If not given - current logged user role will be used
+     * @return bool
+     */
+    public static function isAllowed($resource, $role = '') {
 		if(!$role) {
 			$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
 			$role          = $sessionHelper->getCurrentUser()->getRoleId();
 		}
 		$acl = Zend_Registry::get('acl');
-		return $acl->isAllowed($role, $resourse);
+		return $acl->has($resource) ? $acl->isAllowed($role, $resource) : true ;
 	}
 
 	public static function isActionAllowed($controller, $action) {

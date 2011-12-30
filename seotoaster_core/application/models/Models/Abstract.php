@@ -82,7 +82,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
     protected function _readObserversQueue() {
         static $checked = array();
 		$modelClassName = get_called_class();
-        if(!in_array($modelClassName, $checked)) {
+//        if(!in_array($modelClassName, $checked)) {
 			$dbTable   = new Application_Model_DbTable_ObserversQueue();
 	        $resultSet = $dbTable->fetchAll($dbTable->getAdapter()->quoteInto('namespace="?"', $modelClassName));
             $checked[] = $modelClassName;
@@ -93,7 +93,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
                 $rowArray  = $resultRow->toArray();
                 $this->registerObserver(new $rowArray['observer']());
             }
-        }
+//        }
     }
 
 }

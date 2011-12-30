@@ -83,12 +83,19 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 */
 	protected $_requestedParams = array();
 
+
 	/**
 	 * Toaster response helper
 	 *
 	 * @var Helpers_Action_Response
 	 */
 	protected $_responseHelper  = null;
+
+    /**
+     * Access control list binding
+     * @var array List of ROLE => actions pairs
+     */
+    protected $_securedActions = array();
 
 	public function  __construct($options, $seotoasterData) {
 		$this->_options          = $options;
@@ -104,12 +111,34 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
 		$this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		$this->_translator       = Zend_Registry::get('Zend_Translate');
+		$this->_initAcl();
 		$this->_init();
 	}
 
 	protected function _init() {
 
 	}
+
+    /**
+     * Access control list initializing
+     */
+    protected function _initAcl() {
+        if (!empty($this->_securedActions)){
+            $acl = Zend_Registry::get('acl');
+            foreach($this->_securedActions as $role => $actions){
+                if (is_array($actions) && !empty($actions)){
+                    foreach ($actions as $action){
+                        $resource = new Zend_Acl_Resource(get_called_class().'-'.$action);
+                        if (! $acl->has($resource)){
+                            $acl->addResource($resource);
+                            $acl->allow($role, $resource);
+                        }
+                    }
+                }
+            }
+            Zend_Registry::set('acl', $acl);
+        }
+    }
 
 	public function run($requestedParams = array()) {
 		$this->_requestedParams = $requestedParams;
@@ -136,7 +165,8 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	private function _dispatch($params) {
 		$action = (isset($params['run'])) ? $params['run'] . self::ACTION_POSTFIX : null;
 		if($action !== null) {
-			if(in_array($action, get_class_methods($this))) {
+			if(in_array($action, get_class_methods($this))
+                    && Tools_Security_Acl::isAllowed(get_called_class().'-'.$params['run'])) {
 				$this->$action();
 				exit;
 			}
