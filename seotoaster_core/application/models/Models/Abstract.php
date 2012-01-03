@@ -80,20 +80,30 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 	 * 
      */
     protected function _readObserversQueue() {
-        static $checked = array();
+        if (Zend_Registry::isRegistered('observers_queue')) {
+            $checked = Zend_Registry::get('observers_queue');
+        } else {
+            $checked = array();
+        }
+
 		$modelClassName = get_called_class();
-//        if(!in_array($modelClassName, $checked)) {
+        if(!array_key_exists($modelClassName, $checked)) {
 			$dbTable   = new Application_Model_DbTable_ObserversQueue();
-	        $resultSet = $dbTable->fetchAll($dbTable->getAdapter()->quoteInto('namespace="?"', $modelClassName));
-            $checked[] = $modelClassName;
-            if($resultSet === null) {
-                return;
+	        $resultSet = $dbTable->fetchAll($dbTable->select()->where('namespace = ?', $modelClassName));
+            $checked[$modelClassName] = array();
+            if($resultSet->count()) {
+                foreach($resultSet as $resultRow) {
+                    $rowArray  = $resultRow->toArray();
+                    array_push($checked[$modelClassName], $rowArray['observer']);
+                }
             }
-            foreach($resultSet as $resultRow) {
-                $rowArray  = $resultRow->toArray();
-                $this->registerObserver(new $rowArray['observer']());
+        }
+        if (!empty($checked[$modelClassName])){
+            foreach ($checked[$modelClassName] as $observer) {
+                $this->registerObserver(new $observer());
             }
-//        }
+        }
+        Zend_Registry::set('observers_queue', $checked);
     }
 
 }
