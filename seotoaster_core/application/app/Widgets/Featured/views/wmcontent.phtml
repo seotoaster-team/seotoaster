@@ -1,11 +1,6 @@
 <div class="widget-control-img" id="featured-area-img"></div>
 <div class="widget-control-img" id="featured-page-img"></div>
 <form id="featured-widget-form" class="wmc-block" style="display: none;"  action="javascript:;" method="post">
-<!--	<label class="nopad grid_6" for="featured-item-type">--><?php //echo $this->translate('Type'); ?><!--</label>-->
-<!--	<select class="nopad grid_6" id="featured-item-type">-->
-<!--		<option value="--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?><!--">--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?><!--</option>-->
-<!--		<option value="--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?><!--">--><?php //echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE ;?><!--</option>-->
-<!--	</select>-->
 	<input type="hidden" id="featured-item-type" val="<?php echo Widgets_Featured_Featured::FEATURED_TYPE_AREA ;?>" />
 	<select class="nopad grid_12" id="featured-area-item"></select>
 	<label class="nopad grid_6 max-res-row" id="fa-maxres-lbl" for="featured-item-maxres"><?php echo $this->translate('Max. result'); ?></label>
@@ -26,9 +21,10 @@
 <script type="text/javascript">
 	$(function() {
 		loadData($('#featured-item-type').val());
-		$('.widget-control-img').click(function() {
+		$('.widget-control-img').on('click', function() {
+			var widgetControlsContainer = $('#widget-controls');
+			widgetControlsContainer.fadeIn();
 			if($(this).attr('id') == 'featured-page-img') {
-				console.log('trololo?');
 				$('#featured-item-type').val('page');
 				$('.rand-row').hide();
 				$('.max-res-row').hide();
@@ -42,9 +38,7 @@
 				$('#widgets-header').text('<?php echo $this->translate('Featured area'); ?>').fadeIn();
 				loadData($('#featured-item-type').val());
 			}
-			$('#widget-controls').html($('#featured-widget-form').html());
-			//$('#featured-widget-form').slideDown();
-
+			widgetControlsContainer.html($('#featured-widget-form').html());
 		});
 		$('.cropped').hide();
 

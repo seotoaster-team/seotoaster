@@ -665,6 +665,11 @@ body, body.seotoaster {
 
 /*========= WIDGET MAKER =================*/
 
+div#widget-controls {
+	overflow: hidden;
+	padding-bottom: 5px;
+}
+
 div.show_div#widgets_maker {
 	background: #fff;
 	max-height: 440px;
