@@ -723,10 +723,15 @@ div.show_div#widgets_maker select {
 	background: #dae8ed;
 }
 
+.seotoaster #other-templates {
+	margin-top: 25px;
+	overflow: hidden;
+	text-align: center;
+	padding: 5px 0;
+}
+
 .seotoaster #listtemplates-btn {
-	font-size: 13pt !important;
-    margin-top: 23px;
-    padding: 4px 10px 4px !important;
+	border-bottom: 1px dashed #3C78A7;
 }
 
 .seotoaster #template-preview-uploader-pickfiles {width:100%;}
@@ -1259,6 +1264,15 @@ list-style: square;
 }
 
 /*=============Page Rank Sculpting ==============*/
+
+.seotoaster #button-wrapper {
+	padding: 5px 0;
+	text-align: right;
+}
+
+.seotoaster #button-wrapper #manage-silos {
+	border-bottom: 1px dashed #3C78A7;
+}
 
 .seotoaster #sculpting-list {
 	margin-bottom: 8px;

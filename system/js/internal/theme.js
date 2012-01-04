@@ -33,7 +33,8 @@ $(function() {
 		return false;
 	});
 
-	$('#listtemplates-btn').button().click(function(){
+	$('#listtemplates-btn').click(function(e){
+		e.preventDefault();
 		$.post(
 			$('#website_url').val()+'backend/backend_theme/gettemplate/',
 			{'listtemplates':'all', 'pageId' : $('#pageId').val()},

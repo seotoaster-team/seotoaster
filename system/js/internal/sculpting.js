@@ -33,7 +33,7 @@ $(function() {
 		});
 	})
 
-	$('a#manage-silos').button();
+//	$('a#manage-silos').button();
 })
 
 sculptingCallback = function() {
