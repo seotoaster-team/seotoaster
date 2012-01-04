@@ -83,7 +83,7 @@ function saveTemplate() {
 					editor.getSession().setValue('');
 				}
 			} else {
-				smoke.alert(response.responseText.join('. '), {ok: 'Okay'});
+				smoke.alert(response.responseText.join('. '), {ok: 'Okay', classname:'errors'});
 				//ajaxMsg.html(response.responseText.join('. '));
 			}
 			//top.location.reload();
@@ -111,7 +111,9 @@ function deleteTemplate(templateContainer) {
 						if (response.error == false){
 							templateContainer.remove();
 						}
-						$('#ajax_msg').text(response.responseText).fadeIn().fadeOut(_FADE_FAST);
+						//$('#ajax_msg').text(response.responseText).fadeIn().fadeOut(_FADE_FAST);
+						smoke.signal(response.responseText);
+						$('.smoke-base').fadeOut(_FADE_FAST);
 					},
 					dataType: 'json'
 				});

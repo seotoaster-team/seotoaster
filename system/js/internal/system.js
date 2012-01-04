@@ -137,7 +137,7 @@ $(function() {
 					$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
 					//ajaxMessage.removeClass('success').addClass('error').html(response.responseText);
 					$('.smoke-base').remove();
-					smoke.alert(response.responseText);
+					smoke.alert(response.responseText, {classname:"errors"});
 				}
 			},
 			error: function(err) {

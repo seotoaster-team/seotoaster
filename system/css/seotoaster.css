@@ -22,8 +22,10 @@ body, body.seotoaster {
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
-.error {
-	background-color: indianred;
+.error,
+.errors {
+	background-color: indianred !important;
+	opacity: .74;
 }
 .success {
 	background-color: /*cadetBlue*/ #7097ae;

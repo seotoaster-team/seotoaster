@@ -2,12 +2,14 @@ $(function() {
 	pluginCallback();
 	$('.plugin-control').live('click', function() {
 		var lnk = $(this);
-		$('#ajax_msg').text('Working').show();
+		//$('#ajax_msg').text('Working').show();
+		smoke.signal('Working...');
 		$.post($('#website_url').val() + 'backend/backend_plugin/triggerinstall/', {
 			name : lnk.attr('id')
 		},
 		function(response) {
-			$('#ajax_msg').fadeOut();
+			//$('#ajax_msg').fadeOut();
+			$('.smoke-base').fadeOut();
 			pluginCallback();
 		})
 	})

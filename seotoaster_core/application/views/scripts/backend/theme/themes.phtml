@@ -74,7 +74,8 @@ $(function(){
 			{'themename' : themeName},
 			function(response){
 				if (response.error == false) {
-					$('#ajax_msg').text(response.responseText).fadeIn().delay(5000).fadeOut();
+					smoke.signal(response.responseText);
+					$('.smoke-base').fadeOut();
 				}
 				$('#themes-list').trigger('updateContent');
 			},

@@ -109,7 +109,8 @@ function saveCategoriesOrder() {
 		success: function(response) {
 			//$('#ajax_msg').text('New order saved...').fadeOut(_FADE_SLOW);
 			$('.smoke-base').remove();
-			smoke.alert('New order saved...');
+			smoke.signal('New order saved...');
+			$('.smoke-base').fadeOut();
 		}
 	})
 }
