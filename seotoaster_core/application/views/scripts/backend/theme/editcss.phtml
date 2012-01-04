@@ -43,7 +43,7 @@ window.onload = function() {
 				//$('#ajax_msg').text(response.responseText).fadeOut(_FADE_FAST);
 				$('.smoke-base').remove();
 				smoke.signal(response.responseText);
-				$('.smoke-base').fadeOut();
+				$('.smoke-base').delay(1300).slideUp();
 			},
 			beforeSend: function(){
 				//$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();

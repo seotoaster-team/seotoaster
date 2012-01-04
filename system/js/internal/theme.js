@@ -76,7 +76,7 @@ function saveTemplate() {
 			if (response.error != true) {
 				//ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
 				smoke.signal('Template saved');
-				$('.smoke-base').fadeOut();
+				$('.smoke-base').delay(1300).slideUp();
 				if (response.responseText == 'new') {
 					//$(this).find('input').val('');
 					$('#title').val('');

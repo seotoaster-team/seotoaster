@@ -1,7 +1,7 @@
 $(function() {
 
 	_FADE_SLOW   = 5000;
-	_FADE_NORMAL = 2000;
+	_FADE_NORMAL = 1500;
 	_FADE_FAST   = 700;
 	_FADE_FLASH  = 300;
 
@@ -112,7 +112,7 @@ $(function() {
 			data       : form.serialize(),
 			beforeSend : function() {
 				//ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');
-				smoke.signal('Working...');
+				smoke.signal('Working...', 30000);
 			},
 			success : function(response) {
 				if(!response.error) {
@@ -130,8 +130,9 @@ $(function() {
 						eval(callback + '()');
 					}
 					//ajaxMessage.html(response.responseText).fadeOut(_FADE_FAST);
-					$('.smoke-base').remove();
-					smoke.alert(response.responseText);
+					smoke.signal(response.responseText, 30000);
+					$('.smoke-base').delay(1300).slideUp();
+					//smoke.alert(response.responseText);
 				}
 				else {
 					$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
