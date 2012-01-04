@@ -16,7 +16,7 @@ $(function() {
 		var link    = $(this);
 		var pwidth  = link.data('pwidth') || 960;
 		var pheight = link.data('pheight') || 580;
-		var popup = $(document.createElement('iframe')).attr('scrolling', 'no').addClass('__tpopup rounded3px');
+		var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency'}).addClass('__tpopup rounded3px');
 		popup.parent().css({background: 'none'});
 		popup.dialog({
 			width: pwidth,

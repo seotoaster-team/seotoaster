@@ -1,6 +1,6 @@
 $(function() {
 	userCallback();
-    $('#export-users').button();
+    //$('#export-users').button();
     $('#export-users').click(function() {
         $('#expusrs').submit();
         //$.post($('#website_url').val() + 'backend/backend_user/export/', function(response) {

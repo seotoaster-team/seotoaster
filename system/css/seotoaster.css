@@ -1238,6 +1238,17 @@ list-style: square;
      margin-top: 5px;
 }
 
+#expusrs {
+	float: right;
+	margin-right: 85px;
+}
+
+#expusrs a {
+	color: lavender;
+	font-size: 10pt;
+	padding: 10px 5px 12px 5px;
+	text-shadow: 0.02em 0 0.03em #444;
+}
 
 .seotoaster #users-list thead tr {  padding: 7px 0 5px; }
 .seotoaster #users-list th {
@@ -1388,58 +1399,62 @@ list-style: square;
 /*================= widgets icons ===============================*/
 .widget-control-img {
 	background: url('/system/images/widgets.jpg') no-repeat top left;
-	height: 63px;
-	width: 129px;
+	height: 61px;
+	width: 127px;
 	cursor: pointer;
 	float: left;
 	margin-bottom: 4px;
+	border: 1px solid #d3d3d3;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 }
 .widget-control-img#featured-area-img {
 	background-position: 0 0;
 }
 .widget-control-img#featured-area-img:hover {
-	background-position: 0 -63px;
+	background-position: 0 -61px;
 }
 .widget-control-img#featured-page-img {
-	background-position: -130px 0;
+	background-position: -127px 0;
 }
 .widget-control-img#featured-page-img:hover {
-	background-position: -130px -63px;
+	background-position: -127px -61px;
 }
 .widget-control-img#forms-img {
-	background-position: -260px 0;
+	background-position: -254px 0;
 }
 .widget-control-img#forms-img:hover {
-	background-position: -260px -63px;
+	background-position: -254px -61px;
 }
 .widget-control-img#gal-img {
-	background-position: -390px 0;
+	background-position: -381px 0;
 }
 .widget-control-img#gal-img:hover {
-	background-position: -390px -63px;
+	background-position: -381px -61px;
 }
 .widget-control-img#rotator-img {
-	background-position: -520px 0;
+	background-position: -508px 0;
 }
 .widget-control-img#rotator-img:hover {
-	background-position: -520px -63px;
+	background-position: -508px -61px;
 }
 .widget-control-img#related-img {
-	background-position: -650px 0;
+	background-position: -635px 0;
 }
 .widget-control-img#related-img:hover {
-	background-position: -650px -63px;
+	background-position: -635px -61px;
 }
 .widget-control-img#rss-img {
-	background-position: -780px 0;
+	background-position: -762px 0;
 }
 .widget-control-img#rss-img:hover {
-	background-position: -780px -63px;
+	background-position: -762px -61px;
 }
 .widget-control-img#search-img {
-	background-position: -910px 0;
+	background-position: -889px 0;
 }
 .widget-control-img#search-img:hover {
-	background-position: -910px -63px;
+	background-position: -889px -61px;
 }
 

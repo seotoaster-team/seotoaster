@@ -1,5 +1,8 @@
 <div class="seotoaster container_12 h590 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage users')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+		'headerText'      => $this->translate('Manage users'),
+		'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">'. $this->translate('export as csv file') . '</a></form>'
+	)); ?>
 	<div id="add-user" style="position: relative; overflow: hidden;">
 		<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="userCallback">
 			<div class="grid_6">
@@ -16,9 +19,6 @@
 			</div>
 			<?php echo $this->userForm->getElement('saveUser'); ?>
 			<?php echo $this->userForm->getElement('id'); ?>
-		</form>
-		<form id="expusrs" action="<?php echo $this->websiteUrl; ?>backend/backend_user/export/" method="post">
-        	<a style="position: absolute; left: 220px; bottom:0px; font-size: 12px;" href="javascript:;" id="export-users"><?php echo $this->translate('export as csv file'); ?></a>
 		</form>
 	</div>
 	<table class="sortable grid_12" id="users-list">

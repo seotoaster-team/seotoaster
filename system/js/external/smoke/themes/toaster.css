@@ -18,7 +18,8 @@
 		color:#eee;
 		font-weight: normal;
     /*background-color: rgba(0,0,0,.75);*/
-	background-color: rgba(32,178,170,.75);
+	//background-color: rgba(32,178,170,.75);
+	background-color: rgba(105,141,167,.75);
     font-size:25px;
 		border-radius: 0;
 }
