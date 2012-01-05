@@ -44,6 +44,17 @@
 				var dataUrl = el.data('url') + 'folder/' + $(this).val() + '/';
 				el.data('url', dataUrl);
 			}
-		})
+		}).mousedown(function() {
+			var el = $(this);
+	   	    $.get('<?php echo $this->websiteUrl; ?>backend/backend_content/refreshfolders/', function(response) {
+			    if(!response.error) {
+				    el.empty();
+				    el.append('<option value="0" selected="selected"><?php echo $this->translate('selec2:50 error.lt folder'); ?></option>');
+				    $.each(response.responseText, function(id, folderName) {
+					    el.append('<option value="' + folderName + '">' + folderName + '</option>')
+				    });
+			    }
+		    });
+		});
 	})
 </script>

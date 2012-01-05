@@ -16,7 +16,9 @@
 				<?php echo $this->templateForm->getElement('templateType'); ?>
 			</div>
 		<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-			<input type="button" class="grid_3 greenbtn" id="listtemplates-btn" value="<?php echo $this->translate('Other templates');?>" />
+			<div class="grid_3" id="other-templates">
+				<a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate('Edit other templates');?> ]</a>
+			</div>
 		<?php endif; ?>
             <div class="clear"></div>
             <div class="grid_9 mt10px"><?php echo $this->templateForm->getElement('content')->renderLabel(); ?>
