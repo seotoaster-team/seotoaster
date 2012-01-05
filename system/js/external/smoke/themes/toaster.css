@@ -18,7 +18,8 @@
     text-transform: none;
 	color:#fff;
 		font-weight: normal;
-    background-color: #7097ae;
+    /*background-color: #7097ae;*/
+	background-color: rgba(32,178,170,0.85);
     border-left: 2px solid #fff;
     border-right: 2px solid #fff;
     opacity: 0.95;

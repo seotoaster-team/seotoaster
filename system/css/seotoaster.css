@@ -19,11 +19,12 @@ body, body.seotoaster {
     font-size:11pt;
 	background: #dae8ed /*#BDE6F1*/;
 
-	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
-.error {
-	background-color: indianred;
+.error,
+.errors {
+	background-color: indianred !important;
 }
 .success {
 	background-color: /*cadetBlue*/ #7097ae;
@@ -70,8 +71,7 @@ body, body.seotoaster {
     border:none;
     margin:0;
 }
-	
-	
+
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
@@ -106,7 +106,7 @@ body, body.seotoaster {
     background: url("/system/uithemes/seotoasterui/images/ui-icons_ffffff_256x240.png") -95px -127px no-repeat;
     text-indent: -5000em;
 	margin: 5px;
-    font-size: 0pt;
+    font-size: 0;
 	float:left;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -798,7 +798,16 @@ div.show_div#widgets_maker select {
   margin-right: 40px;
 
 }
+
+.seotoaster #other-templates {
+	margin-top: 25px;
+	overflow: hidden;
+	text-align: center;
+	padding: 5px 0;
+}
+
 .seotoaster #listtemplates-btn {
+
 }
 
 .seotoaster #template-preview-uploader-pickfiles {width:100%;}
