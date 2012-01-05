@@ -2,10 +2,10 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>
-<div class="seotoaster container_12 h590 rounded3px refreshOnClose">
+<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template')); ?>
 
-	<div id="templatelist" class="h640 ui-helper-hidden" style="z-index: 99; overflow: hidden; width: 100%; margin-top: -42px;"></div>
+	<div id="templatelist" class="h580 ui-helper-hidden" style="z-index: 99; overflow: hidden; width: 100%; margin-top: -42px;"></div>
 	<?php $this->templateForm->setAction($this->url()); ?>
 	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
 
@@ -16,19 +16,17 @@
 				<?php echo $this->templateForm->getElement('templateType'); ?>
 			</div>
 		<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-			<div class="grid_3" id="other-templates">
-				<a id="listtemplates-btn" href="javascript:;"><?php echo $this->translate('Other templates');?></a>
-			</div>
+			<input type="button" class="grid_3 greenbtn" id="listtemplates-btn" value="<?php echo $this->translate('Other templates');?>" />
 		<?php endif; ?>
             <div class="clear"></div>
             <div class="grid_9 mt10px"><?php echo $this->templateForm->getElement('content')->renderLabel(); ?>
-              <div class="h440" id="edittemplate">
+              <div id="edittemplate">
                 <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
               </div>
             </div>
 
 
-		<div class="grid_3 h450">
+		<div class="grid_3 h430">
 			<div class="mt30px mb10px textcentered img-teaser">
 				<img id="template_preview" src="<?php echo $this->websiteUrl . (($this->templatePreview) ? $this->templatePreview : 'system/images/no_preview.png'); ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
 			</div>

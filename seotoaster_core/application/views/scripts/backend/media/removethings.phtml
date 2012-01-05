@@ -1,5 +1,5 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
-<div class="seotoaster container_12 h590 rounded3px">
+<div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things')); ?>
 	<div class="grid_12">
 		<form id="removeForm" class="">
@@ -250,11 +250,10 @@
 	#filebrowser .filebrowser-zone {
 		overflow-y: auto;
 
-		height: 415px;
+		height: 395px;
 		padding: 5px;
 	}
 	#filebrowser div.file-container {
-		text-align: center;
 		margin-top: 5px;
 		position: relative;
 		height: 70px;
@@ -267,11 +266,11 @@
 		transition: opacity 0.5s ease;
 	}
 	#filebrowser div.file-container.active {
-		opacity: 0.35;
+		opacity: 0.55;
 		outline: 1px solid red;
 	}
 	#filebrowser div.file-container:hover {
-		opacity: 0.3;
+		opacity: 0.5;
 	}
 	#filebrowser div.file-container img {
 		width: 100%;

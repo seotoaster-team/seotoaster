@@ -1,6 +1,6 @@
 <div class="seotoaster container_12 h640 rounded8px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage silos')); ?>
-	<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12" data-callback="siloslist">
+	<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax" data-callback="siloslist">
 		<div class="grid_9">
 			<?php echo $this->siloForm->getElement('name'); ?>
 		</div>
@@ -9,15 +9,15 @@
 		</div>
 	</form>
 	<div class="grid_12">
-		<div class="silo-row grid_12">
+	     <div class="silo-row grid_12" style="font-size:10pt;font-weight: bold;padding: 9px 0 5px;">
 			<div class="grid_1"><input type="checkbox" name="chckAllSilos" class="check-all-silos" /></div>
 			<div class="grid_9"><?php echo $this->translate('Name'); ?></div>
-			<div class="grid_2"><?php echo $this->translate('Action'); ?></div>
+			<div class="grid_2" style="text-align:right;"><?php echo $this->translate('Action'); ?></div>
 		</div>
 	</div>
 	<div id="silos-list" class="grid_12 h450"></div>
 
-	<div class="grid_12">
+	<div class="grid_12" style="text-align: right;">
 		<button id="mass-del">Delete selected</button>
 	</div>
 </div>

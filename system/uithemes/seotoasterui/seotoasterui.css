@@ -438,7 +438,7 @@ button.ui-button-icons-only { width: 3.7em; }
 
 /*button text element */
 .ui-button .ui-button-text { display: block; line-height: normal;  }
-.ui-button-text-only .ui-button-text { padding: 5px 10px 4px; }
+.ui-button-text-only .ui-button-text { padding: 5px 16px 4px; }
 .ui-button-text-only.ui-state-hover .ui-button-text {  }
 .ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: /*.4em;*/5px; text-indent: -9999999px; }
 .ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: /* .4em 1em .4em 2.1em;*/ 5px 10px 4px 26px;}
@@ -534,7 +534,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  */
 .ui-datepicker { width: 17em; padding: .2em .2em 0; display: none; background: lavender; font-size: 11pt;}
 .ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
-.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 4px; width: 19px; height: 18px; }
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 4px; width: 18px; height: 18px; }
 .ui-datepicker .ui-datepicker-prev-hover, .ui-datepicker .ui-datepicker-next-hover {top:3px; }
 .ui-datepicker .ui-datepicker-prev { left:4px; }
 .ui-datepicker .ui-datepicker-next { right:4px; }

@@ -1,10 +1,10 @@
-<div class="seotoaster container_12 h530 rounded3px">
+<div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage drafts (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')')); ?>
 	<?php if($this->draftPages && is_array($this->draftPages)): ?>
-		<ol class="grid_12 items-list h480">
+		<ol class="grid_12 items-list h520">
 			<?php foreach($this->draftPages as $number => $draftPage): ?>
 				<li class="list-row">
-					#<?php echo ++$number; ?>&nbsp;<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
+					&nbsp;#<?php echo ++$number; ?>&nbsp;<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
 				</li>
 			<?php endforeach; ?>
 		</ol>

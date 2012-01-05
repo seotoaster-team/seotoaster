@@ -1,6 +1,6 @@
 <?php if(is_array($this->silos) && !empty ($this->silos)): ?>
 	<?php foreach ($this->silos as $key => $silo): ?>
-		<div class="grid_12 silo-row">
+		<div class="silo-row grid_12">
 			<div class="grid_1"><input id="<?php echo $silo->getId(); ?>" type="checkbox" name="remSilo[]" class="rem-silos" /></div>
 			<div class="grid_10"><?php echo $silo->getName(); ?></div>
 			<div class="grid_1">
@@ -9,6 +9,5 @@
 		</div>
 	<?php endforeach; ?>
 <?php else: ?>
-	<?php echo $this->translate('You have no silos, yet'); ?>
+	<?php echo $this->translate('You have no silos yet'); ?>
 <?php endif; ?>
-

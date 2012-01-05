@@ -22,10 +22,8 @@ body, body.seotoaster {
 	moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
-.error,
-.errors {
-	background-color: indianred !important;
-	opacity: .74;
+.error {
+	background-color: indianred;
 }
 .success {
 	background-color: /*cadetBlue*/ #7097ae;
@@ -34,20 +32,24 @@ body, body.seotoaster {
 .success, .error {
 	cursor: pointer;
 	display: none;
-	position: absolute;
+	position: fixed;
     left:0;
     right:0;
 	z-index: 999;
 	text-align: center;
-    padding: 30px;
-	margin: 0 ;
-	font-size: 12pt;
-    font-weight: bold;
+    padding: 15px;
+	margin: 0px ;
+	font-size: 25px;
+    font-weight: normal;
     font-family:tahoma, geneva, verdana, sans-serif;
 	color: #fff;
 	opacity: 0.95;
 }
-
+.seotoaster .success, .seotoaster .error {
+   top:34px;
+   border-left: 2px solid #fff;
+   border-right: 2px solid #fff;
+}
 .success ul, .error ul{
     padding:20px 5%;
     font-weight:bold;
@@ -127,7 +129,32 @@ body, body.seotoaster {
 .seotoaster .closebutton span.help:hover {
     text-decoration:underline;
 }
+a.generator-links img {
+    background-color: transparent !important;
+    border: medium none !important;
+    height: 26px !important;
+    position: relative !important;
+    width: 26px !important;
+    z-index: 100 !important;
+}
+a.generator-links.plugin {
+    background:url(/system/images/editadd-plugin.png) no-repeat #F68B0E left center;
 
+border: 1px solid #7C7C7C;
+border-radius: 2px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+color: white;
+display: inline-block;
+font-family: verdana;
+font-size: 11px;
+height: 11px;
+font-weight: bold;
+margin-top: 6px;
+padding: 2px 5px 5px 20px;
+text-decoration: none;
+text-transform: uppercase
+}
 .seotoaster .ajaxspineer {
 	background: url('/system/images/fl.gif') no-repeat scroll 50% 0 transparent;
 	height: 65px;
@@ -144,14 +171,14 @@ body, body.seotoaster {
 .seotoaster .items-list .list-row {
 	overflow: hidden;
     border-bottom: 1px dashed #ccc;
-    padding: 3px 0 0;
+    padding: 8px 0 5px;
+    font-size: 10pt;
 }
 .seotoaster .items-list .list-row:hover {
   background: #f9f9f9;
   cursor: pointer;
 }
 .seotoaster .items-list .list-row .list-row-item {
-	padding: 5px 0 5px;
 	font-size: 10pt;
 	overflow: hidden;
 }
@@ -197,9 +224,13 @@ body, body.seotoaster {
 .seotoaster ol { padding:10px; }
 .seotoaster ol li { list-style:decimal-leading-zero; }
 /*========= Formats ===========*/
-/*.seotoaster p {}*/
-/*.seotoaster blockquote { }*/
-/*.seotoaster address { }*/
+.seotoaster p {
+	/*line-height:1.5em;*/
+	/*overflow: hidden;
+	margin: 5px 0px;*/
+}
+.seotoaster blockquote { }
+.seotoaster address { }
 /*=========== Forms ==========*/
 /*.seotoaster form { overflow:hidden; }*/
 .seotoaster fieldset {
@@ -250,13 +281,14 @@ body, body.seotoaster {
 	-moz-border-radius:3px;
 	-webit-border-radius:3px;
 	border-radius: 3px;
-    -moz-box-sizing: border-box;
-   -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+
 }
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea {
    width:98%;
    padding: 6px 3px;
+}
+.seotoaster textarea#tracking-code {
+  width: 96%;
 }
 .seotoaster input[type=checkbox], .seotoaster input[type=radio] {
   margin: 0 0;
@@ -264,13 +296,15 @@ body, body.seotoaster {
   height: 13px;
 }
 .seotoaster select  {
-  width:100%;
+  width:98%;
+    -moz-box-sizing: content-box;
+   -webkit-box-sizing: content-box;
+    box-sizing: content-box;
   padding: 5px 3px;
 }
 .seotoaster optgroup {
   font-style: normal;
 }
-/*.seotoaster select {padding: 7px 0;}*/
 
 .seotoaster input[type=submit] {
     background: #939393;
@@ -299,6 +333,7 @@ body, body.seotoaster {
 	padding:3px 16px 4px;
 	margin-right:5px;
     min-width: 140px;
+    overflow: visible;
 
 }
 .seotoaster input[type=submit]:hover {
@@ -313,10 +348,36 @@ body, body.seotoaster {
     -moz-box-shadow: 0 1px 0 0 #969696 inset;
     -webkit-box-shadow: 0 1px 0 0 #969696 inset;
 }
-/*.seotoaster dl { }*/
-/*.seotoaster dt { }*/
-/*.seotoaster dt:after { }*/
-/*.seotoaster dd { }*/
+.seotoaster input.greenbtn {
+    background: #98cc70;
+    background: -moz-linear-gradient(top, #98cc70 0%, #81b858 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#98cc70), color-stop(100%,#81b858));
+    background: -webkit-linear-gradient(top, #98cc70 0%,#81b858 100%);
+    background: -o-linear-gradient(top, #98cc70 0%,#81b858 100%);
+    background: -ms-linear-gradient(top, #98cc70 0%,#81b858 100%);
+    background: linear-gradient(top, #98cc70 0%,#81b858 100%);
+    border-color: #81b858 #81b858 #7cad55;
+    box-shadow: 0 1px 0 0 #aad48a inset;
+    -moz-box-shadow: 0 1px 0 0 #aad48a inset;
+    -webkit-box-shadow: 0 1px 0 0 #aad48a inset;
+    text-shadow: 0 -1px 0 #6fa54d;
+}
+.seotoaster input.greenbtn:hover {
+    background: #91c26c;
+    background: -moz-linear-gradient(top, #91c26c 0%, #7eb158 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#91c26c), color-stop(100%,#7eb158));
+    background: -webkit-linear-gradient(top, #91c26c 0%,#7eb158 100%);
+    background: -o-linear-gradient(top, #91c26c 0%,#7eb158 100%);
+    background: -ms-linear-gradient(top, #91c26c 0%,#7eb158 100%);
+    background: linear-gradient(top, #91c26c 0%,#7eb158 100%);
+    box-shadow: 0 1px 0 0 #a4cc85 inset;
+    -moz-box-shadow: 0 1px 0 0 #a4cc85 inset;
+    -webkit-box-shadow: 0 1px 0 0 #a4cc85 inset;
+}
+.seotoaster dl { }
+.seotoaster dt { }
+.seotoaster dt:after { }
+.seotoaster dd { }
 /*=========== Tabs ========================*/
 .seotoaster .tabs {
 /*	background: url('/system/images/bg-strip.png') !important;
@@ -454,7 +515,6 @@ body, body.seotoaster {
 	padding:0;
 	border:none;
 }
-.seotoaster#seotoaster-cpanel ul li { list-style:none;}
 .seotoaster#seotoaster-cpanel ul li a {
 	background:#6D6D6D;
 	color:#eee;
@@ -465,9 +525,16 @@ body, body.seotoaster {
 	border: none;
 	border-bottom:1px solid #fff;
 	display:block;
-	border-radius: 0;
-	margin-top: 0;
+	margin-top: 0px;
 	text-decoration: none;
+    -moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+.seotoaster#seotoaster-cpanel ul#logoutul a {
+   	-moz-border-radius: 0px 0px 8px 8px;
+	-webkit-border-radius: 0px 0px 8px 8px;
+	border-radius: 0px 0px 8px 8px;
 }
 .seotoaster#seotoaster-cpanel ul li a span {
 	font-size: 13pt !important;
@@ -535,12 +602,13 @@ body, body.seotoaster {
 
 .seotoaster .pluginspace {
     float: right;
-    margin-right: 75px;
+    margin-right: 105px;
     width: 420px;
 }
 .seotoaster .pluginspace div{
 		float: right;
 		border-right: 1px solid #EEEEEE;
+        padding-right: 7px;
 	}
 .seotoaster .pluginspace label{
 	float:left;
@@ -548,18 +616,12 @@ body, body.seotoaster {
 	padding:0;
 	}
 
-.seotoaster #content {
+.seotoaster textarea#content {
 	height: 505px;
 	width: 610px;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	paddding:4px 10px 7px 0;
-}
-
-.seotoaster #content.header-content {
-	height: 20px;
-	width: 98%;
 }
 
 .seotoaster #btn-submit {
@@ -571,10 +633,11 @@ body, body.seotoaster {
 	color: #ececec;
 	background-color:#666;
 	float:left;
-	padding:0 8px;
+	padding:0px 8px;
 }
 .seotoaster div.header #publish-later { margin-left: 10px; }
-.seotoaster div.header input#published { margin-top: 3px; }
+.seotoaster div.header input[type=checkbox] { margin-top: 5px; }
+.seotoaster div.header input[type=checkbox] { margin-top: 0px\0/; }
 .seotoaster div.header input[type=text] {
 	font-size:10pt;
 	padding: 1px 2px;
@@ -667,18 +730,12 @@ body, body.seotoaster {
 
 /*========= WIDGET MAKER =================*/
 
-div#widget-controls {
-	overflow: hidden;
-	padding-bottom: 5px;
-}
-
 div.show_div#widgets_maker {
-	background: #fff;
 	max-height: 440px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	margin-top: 5px;
-	/*margin-right: -5px;*/
+	margin-right: -5px;
 }
 
 div.show_div#widgets_maker .wmc-block {
@@ -688,14 +745,18 @@ div.show_div#widgets_maker .wmc-block {
 }
 
 div.show_div#widgets_maker input.formsubmit{
-	margin-top:5px;
 	clear:both;
 	font-size: 11pt;
 	padding:2px 20px;
     min-width: 30px;
-
 }
-
+div.show_div#widgets_maker #widget-controls {
+    background: #fff;
+    margin-bottom: 5px;
+    overflow: hidden;
+    padding: 5px 0;
+    display: none;
+}
 
 .seotoaster select#adminselectimgfolder{
 	cursor: pointer;
@@ -713,15 +774,17 @@ div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
 }
 
-div.show_div#widgets_maker label.nopad{padding-left: 0;}
-div.show_div#widgets_maker input.nopad{padding: 2px 0;}
+div.show_div#widgets_maker label.nopad{padding-left: 0px;}
+div.show_div#widgets_maker input.nopad{padding: 2px 0px; margin-left: 0; margin-right: 0;}
 div.show_div#widgets_maker div.nopad{min-height:25px;}
 div.show_div#widgets_maker div.nopad input[type="checkbox"]{margin-top:5px;}
 
 div.show_div#widgets_maker select {
 	cursor: pointer;
 	border: 1px solid #BDE6F1;
-	padding: 1px 0;
+	padding: 1px 0px;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 /*========= AND AND EDIT TEMPLATE ===========*/
@@ -730,15 +793,15 @@ div.show_div#widgets_maker select {
 	background: #dae8ed;
 }
 
-.seotoaster #other-templates {
-	margin-top: 25px;
-	overflow: hidden;
-	text-align: center;
-	padding: 5px 0;
-}
+.seotoaster #filters.tpllistfilter {
+  float: right;
+  margin-right: 40px;
 
+}
 .seotoaster #listtemplates-btn {
-	border-bottom: 1px dashed #3C78A7;
+	font-size: 13pt !important;
+    margin-top: 23px;
+    padding: 4px 10px 4px !important;
 }
 
 .seotoaster #template-preview-uploader-pickfiles {width:100%;}
@@ -771,8 +834,8 @@ img#template_preview {
 	display: inline;
 }
 .seotoaster div#templatelist div.template_preview .template_name {
-	padding:5px 0;
-	margin: 0;
+	padding:5px 0px;
+	margin: 0px;
 	background-color: #666666;
 	font-size:11pt;
     color: #FFFFFF;
@@ -833,7 +896,15 @@ img#template_preview {
     background: white;
     border: 6px solid #FFFFFF;
     border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
     position: relative;
+    overflow: hidden;
+    height: 415px;
+}
+#edittemplate textarea {
+  border: none;
+  background: none;
 }
 div.ace_scroller{
     overflow-x: hidden;
@@ -841,6 +912,10 @@ div.ace_scroller{
 #editor {
     background: white;
     border: 6px solid #FFFFFF;
+    overflow: hidden;
+    margin: 3px 0 10px 1%;
+    width: 96%;
+    position: relative;
 }
 
 .seotoaster .red { background-color:red; }
@@ -849,8 +924,8 @@ div.ace_scroller{
 /*=========== Add/Edit page ===============*/
 img#page-preview-image {
   border: 1px solid #BDE6F1;
-    -moz-border-radius: 3px;
-    -webkit-order-radius: 3px;
+  -moz-border-radius: #3px;
+    -webkit-order-radius: #3px;
     border-radius: 3px;
   width: 135px;
   height: 125px;
@@ -861,10 +936,8 @@ div#page-teaser-uploader{
 }
 
 div#page-teaser-uploader span.ui-button-text{
-	 /*	padding: 4px 10px;
-		line-height: normal;
-		color: #3C78A7;  */
-        width: 114px;
+     padding: 5px 0px 4px;
+     width: 134px;
 }
 #page-teaser-uploader-filelist{
     height: 17px;
@@ -909,17 +982,23 @@ list-style: square;
 /*=========== Organize Pages ==============*/
 .seotoaster span.catmove {
 	position:relative;
-	text-indent:3px;
 	padding:2px;
 	display:block;
+    background: #666;
 	overflow:hidden;
 	white-space:nowrap;
-	-moz-border-radius:0 4px 0 0;
-	-webkit-border-radius:0 4px 0 0;
-	border-radius:0 4px 0 0;
+	-moz-border-radius:0px 3px 0px 0px;
+	-webkit-border-radius:0px 3px 0px 0px;
+	border-radius:0px 3px 0px 0px;
 }
-
-.seotoaster ul.organise {
+.seotoaster span.catmove a {
+  color: #fff;
+}
+.seotoaster #sortable-main {
+  overflow-y: auto;
+  margin-bottom:7px;
+}
+.seotoaster ul.organise, .seotoaster ul.organise li {
 	list-style-type: none;
 }
 
@@ -929,30 +1008,28 @@ list-style: square;
 	top:0;
 	height:100%;
 	padding:2px 4px 6px 2px;
-	border-left:4px solid #fff;
-	background:#fff;
 	vertical-align:middle;
-	background:url(../images/bg-strip.png);
-	-moz-border-radius:0 4px 0 0;
-	-webkit-border-radius:0 4px 0 0;
-	border-radius:0 4px 0 0;
+}
+.collapse-all {
+  display: inline-block;
+  width: 13px;
+  text-align: center;
 }
 .seotoaster span div.cat-tools span.ranking {
 	color:#fff;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
 	padding:1px 2px;
-	margin:0 5px 0 0;
-	background:#FC0;
+	background:cadetblue;
 }
 .seotoaster ul.organise {
 	font-size:11pt;
 	margin:0;
-	height:210px;
+	height:205px;
 	overflow:auto;
 	background:url(../images/bg-strip.png);
-	padding:0 0 2px 2px;
+	padding:2px 2px;
 }
 .seotoaster ul.organise li {
 	border-bottom: 1px dashed #ddd;
@@ -1004,6 +1081,7 @@ list-style: square;
 .seotoaster .themebox img.preview {
 	width:auto;
 	height:145px;
+    max-width: 170px;
 }
 .seotoaster div.themebox span.label {
 
@@ -1047,11 +1125,10 @@ list-style: square;
 }
 .seotoaster #redirects-list {
 	overflow-y: auto;
-	height: 385px;
+	height: 380px;
 	font-size: 10pt;
 	margin-bottom: 7px;
 	background: #fff;
-	width: 940px;
 }
 
 .seotoaster #redirect-title {
@@ -1063,7 +1140,7 @@ list-style: square;
 .seotoaster input#add-redirect {
     font-size: 13pt;
     margin-right: 0;
-    margin-top: 23px;
+    margin-top: 24px;
     display: block;
 
 }
@@ -1085,7 +1162,7 @@ list-style: square;
 .seotoaster #redirects-list .redirect-row {
 	overflow: hidden;
 	border-bottom: 1px dashed #ccc;
-	padding: 7px 0 6px;
+	padding: 8px 0px 5px;
 }
 .seotoaster #redirects-list .redirect-row .grid_1 {text-align:center;}
 .seotoaster #redirects-list .redirect-row:hover {
@@ -1103,7 +1180,7 @@ list-style: square;
 
 .seotoaster #deeplinks-list {
 	overflow-y: auto;
-	height: 385px;
+	height: 380px;
 	font-size: 10pt;
 	margin-bottom: 7px;
 	background: #fff;
@@ -1112,12 +1189,12 @@ list-style: square;
 .seotoaster #deeplinks-list .deeplink-row {
 	overflow: hidden;
 	border-bottom: 1px dashed #ccc;
-	padding: 7px 0 6px 0;
+	padding: 8px 0px 5px 0px;
 }
 .seotoaster input#add-deeplink {
     font-size: 13pt;
     margin-right: 0;
-    margin-top: 8px;
+    margin-top: 9px;
     display: block;
 /*    padding: 4px 4px 4px;
     width: 100%; */
@@ -1143,7 +1220,7 @@ list-style: square;
     padding: 19px 0 5px;
 }
 
-
+/*===============Sculpting==================*/
 /*============= Plugins ==============*/
 
 .seotoaster #plugins-list, .seotoaster #sculpting-list {
@@ -1180,7 +1257,7 @@ list-style: square;
         border-radius: 3px;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
-        padding: 5px;
+        padding: 5px 5px 3px;
 }
 .seotoaster #plugins-list .plugin-item .readme-plugin {
     	position: absolute;
@@ -1233,24 +1310,13 @@ list-style: square;
 	background: #fff;
 	overflow-x: hidden;
 	overflow-y: auto;
-	max-height: 365px;
-	height: 380px;
+	height: 345px;
+	max-height: 345px;
      margin-top: 5px;
 }
 
-#expusrs {
-	float: right;
-	margin-right: 85px;
-}
-
-#expusrs a {
-	color: lavender;
-	font-size: 10pt;
-	padding: 10px 5px 12px 5px;
-	text-shadow: 0.02em 0 0.03em #444;
-}
-
-.seotoaster #users-list thead tr {  padding: 7px 0 5px; }
+.seotoaster #users-list {height:auto\0/;}
+.seotoaster #users-list thead th {  padding: 7px 0 5px; }
 .seotoaster #users-list th {
 	font-size: 14px;
 	cursor: pointer;
@@ -1259,7 +1325,7 @@ list-style: square;
 }
 
 .seotoaster input#save-user {margin-right:10px;}
-.seotoaster #users-list tbody tr:hover {background: #f9f9f9;}
+.seotoaster #users-list tbody tr.user-row:hover {background: #f9f9f9;}
 
 .seotoaster #users-list_filter {
 	float: left;
@@ -1268,13 +1334,15 @@ list-style: square;
     margin-top: -40px;
 }
 
-.seotoaster #users-list .user-row, .seotoaster #users-list .odd {
+.seotoaster #users-list .user-row {
 	border-bottom: 1px dashed #CCCCCC;
-    padding: 7px 0 6px;
     display: block;
 }
-.seotoaster #users-list .dataTables_empty {
-    padding:0 10px;
+.seotoaster #users-list .user-row td {
+    padding: 7px 0 6px;
+}
+.seotoaster #users-list td.dataTables_empty {
+    padding:7px 10px 6px;
     font-size: 10pt;
 }
 .seotoaster #users-list .user-row .user-row-item {
@@ -1283,21 +1351,13 @@ list-style: square;
 
 /*=============Page Rank Sculpting ==============*/
 
-.seotoaster #button-wrapper {
-	padding: 5px 0;
-	text-align: right;
-}
-
-.seotoaster #button-wrapper #manage-silos {
-	border-bottom: 1px dashed #3C78A7;
-}
-
 .seotoaster #sculpting-list {
 	margin-bottom: 8px;
 }
 
 .seotoaster form#frm-sculpting {
 	margin-bottom: 16px;
+    overflow: hidden;
 }
 
 .seotoaster form#frm-sculpting input[type=text] {
@@ -1307,8 +1367,8 @@ list-style: square;
 .seotoaster form#frm-sculpting input[type=submit] {
     font-size: 13pt;
     margin-right: 0;
-    margin-top: 23px;
-    min-width:110px;
+    margin-top: 24px;
+    min-width:10px;
 /*    width: 100%;
     padding: 4px 6px 4px; */
 }
@@ -1321,26 +1381,38 @@ list-style: square;
 }
 
 .seotoaster .sculpting-subrow input[type=checkbox] {
-	margin: 0 0 0 3px;
+	margin: 0px 0px 0px 3px;
 }
 
 .seotoaster .sculpting-row select {
 	padding: 3px 2px;
 	font-size: 14px;
-	margin: 0;
+	margin: 0px;
 }
-
+.seotoaster #silos-list {
+  background: #fff;
+  color: #21759B;
+  margin-bottom: 7px;
+  overflow-y: auto;
+}
+.seotoaster #silos-list .silo-row {
+    border-bottom: 1px dashed #CCCCCC;
+    font-size: 10pt;
+    overflow: hidden;
+    padding: 8px 0 5px;
+}
+.seotoaster #silos-list .silo-row:hover {
+  background: #f9f9f9;
+  cursor: pointer;
+}
 /*=====================Featured areas ======================*/
 .seotoaster #addFeaturedArea-label {
 	margin-bottom: 20px;
 }
 
 .seotoaster #add-featured-area {
-	font-size: 13pt;
-	padding: 4px 4px 4px;
-/*    width: 100%;  */
 	margin-top: 23px;
-	margin-right: 0;
+	margin-right: 0px;
 }
 
 /*============toaster popup========*/

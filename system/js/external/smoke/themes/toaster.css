@@ -3,9 +3,10 @@
 }
 
 .smoke-base .dialog {
-  top: 0;
+  top: 34px;
   left: 0;
-  width: 100%;
+  right:0;
+  width: auto;
 }
 
 .smoke-base .dialog-inner {
@@ -13,15 +14,18 @@
 }
 
 .smoke {
-		font-family: arial, serif;
+	font-family:tahoma, geneva, verdana, sans-serif;
     text-transform: none;
-		color:#eee;
+	color:#fff;
 		font-weight: normal;
-    /*background-color: rgba(0,0,0,.75);*/
-	background-color: rgba(32,178,170,.85);
-	/*background-color: rgba(105,141,167,.85);*/
+    background-color: #7097ae;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    opacity: 0.95;
     font-size:25px;
 		border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
 }
 .dialog-buttons {
 	margin: 0px 0 5px 0;
@@ -29,6 +33,8 @@
 
 .dialog-buttons button {
     border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     text-transform: none;
     background-color: #ebebeb;
     color: #333;

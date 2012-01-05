@@ -1,10 +1,10 @@
 <div class="seotoaster container_12 w480 h550 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add a page to featured areas | Create a featured area')); ?>
 	<form id="frm-featured-area" action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
-		<div class="grid_8">
+		<div class="grid_7">
 			<?php echo $this->faForm->getElement('name'); ?>
 		</div>
-		<div class="grid_4">
+		<div class="grid_5">
 			<?php echo $this->faForm->getElement('addFeaturedArea'); ?>
 		</div>
 	</form>
