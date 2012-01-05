@@ -46,44 +46,30 @@ $(function() {
 		var pageId     = $('#del-page-id').val();
 		var websiteUrl = $('#website_url').val();
 		smoke.confirm('Are you sure you want to delete this page?', function(e) {
+			if(e) {
+				$.ajax({
+					url        : websiteUrl + 'backend/backend_page/delete/',
+					type       : 'post',
+					dataType   : 'json',
+					data       : {
+						id : pageId
+					},
+					beforeSend : function() {
+						smoke.signal('Removing page...', 30000);
+					},
+					success : function(response) {
+						if(!response.error) {
+							top.location.href = websiteUrl;
+						}
+						else {
+							$(delPage).dialog('close');
+							smoke.alert(response.responseText.body, {'classname':'errors'});
+						}
 
+					}
+				})
+			}
 		});
-//		$(delPage).css({color:'lavender'}).html('<h2 style="color:lavender;">Are you sure you want to delete this page?</h2><br/> This operation will delete all data asosiated with this page, such as: containers, 301 redirects, deeplinks. Page also will be removed from all featured areas.');
-//		$(delPage).dialog({
-//			modal: true,
-//			title: 'Delete this page',
-//			resizable: false,
-//			buttons: {
-//				'Delete this page': function() {
-//					$.ajax({
-//						url        : websiteUrl + 'backend/backend_page/delete',
-//						type       : 'post',
-//						dataType   : 'json',
-//						data       : {
-//							id : pageId
-//						},
-//						beforeSend : function() {
-//							$(delPage).html('Removing page...');
-//						},
-//						success : function(response) {
-//							if(!response.error) {
-//								top.location.href = websiteUrl;
-//							}
-//							else {
-//								$(delPage).dialog('close');
-//								showModalMessage(response.responseText.title, response.responseText.body, function() {
-//									$(delPage).dialog('close');
-//								});
-//							}
-//
-//						}
-//					})
-//				},
-//				Cancel: function() {
-//					$( this ).dialog( "close" );
-//				}
-//			}
-//		}).parent().css({background : 'indianred'});
+		$('div.smoke').css({backgroundColor:'indianred'});
 	})
-
-})
+});
