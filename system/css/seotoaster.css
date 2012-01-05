@@ -738,7 +738,7 @@ div.show_div#widgets_maker select {
 }
 
 .seotoaster #listtemplates-btn {
-	border-bottom: 1px dashed #3C78A7;
+	/*border-bottom: 1px dashed #3C78A7;*/
 }
 
 .seotoaster #template-preview-uploader-pickfiles {width:100%;}
@@ -1289,7 +1289,7 @@ list-style: square;
 }
 
 .seotoaster #button-wrapper #manage-silos {
-	border-bottom: 1px dashed #3C78A7;
+	/*border-bottom: 1px dashed #3C78A7;*/
 }
 
 .seotoaster #sculpting-list {
