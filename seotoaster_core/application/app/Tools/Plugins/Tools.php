@@ -282,5 +282,37 @@ class Tools_Plugins_Tools {
 		return $plugin;
 	}
 
+    public static function fetchPluginsIncludePath() {
+        $path         = array();
+        $enabledPlugins = self::getEnabledPlugins();
+        if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
+            $miscData       = Zend_Registry::get('misc');
+            $websiteData    = Zend_Registry::get('website');
+            $pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
+            foreach ($enabledPlugins as $plugin) {
+                if($plugin instanceof Application_Model_Models_Plugin) {
+                    $pluginConfigPath = $pluginDirPath . $plugin->getName() . '/config/config.ini';
+                    if(file_exists($pluginConfigPath)) {
+                        try {
+                            $configIni = new Zend_Config_Ini($pluginConfigPath);
+                            if(!isset($configIni->include_path)) {
+                                continue;
+                            }
+                            $includePath = realpath($pluginDirPath . $plugin->getName() .DIRECTORY_SEPARATOR. trim(str_replace(array('\\','/'), DIRECTORY_SEPARATOR, $configIni->include_path)));
+                            if (is_dir($includePath) && !in_array($includePath, $path)){
+                                array_push($path, $includePath);
+                            }
+                        }
+                        catch (Zend_Config_Exception $zce) {
+                            //Zend_Debug::dump($zce->getMessage()); die(); //development
+                            continue; //production
+                        }
+                    }
+                }
+            }
+        }
+
+        return $path;
+    }
 }
 
