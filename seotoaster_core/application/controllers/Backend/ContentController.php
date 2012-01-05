@@ -35,6 +35,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 		$this->view->currentTheme = $this->_helper->config->getConfig('currentTheme');
 
 		$this->_helper->AjaxContext()->addActionContext('loadfiles', 'json')->initContext('json');
+		$this->_helper->AjaxContext()->addActionContext('refreshfolders', 'json')->initContext('json');
 	}
 
 	public function addAction() {
@@ -284,5 +285,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 		exit;
 	}
 
+	public function refreshfoldersAction() {
+		$websiteData = Zend_Registry::get('website');
+		$this->_helper->response->success(Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . $websiteData['media']));
+	}
 }
 
