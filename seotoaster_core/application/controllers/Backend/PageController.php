@@ -347,7 +347,8 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function listpagesAction() {
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll(null, array('h1 ASC'));
+		$where = 'template_id != "' . Application_Model_Models_Template::ID_PRODUCT . '"';
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
 		}, $pages);
@@ -361,7 +362,8 @@ class Backend_PageController extends Zend_Controller_Action {
 
 		$externalLinksContent = 'var tinyMCELinkList = new Array(';
 
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll(null, array('h1'));
+		$where = 'template_id != "' . Application_Model_Models_Template::ID_PRODUCT . '"';
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
 		if(!empty ($pages)) {
 			foreach ($pages as $page) {
 				$externalLinksContent .= '["'

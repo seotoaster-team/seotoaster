@@ -11,19 +11,19 @@ class Widgets_Seo_Seo extends Widgets_Abstract {
 		throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong seo widget type'));
 	}
 
-	public static function getAllowedOptions() {
-		$translator = Zend_Registry::get('Zend_Translate');
-		return array(
-			array(
-				'alias'   => $translator->translate('Seo top content'),
-				'option' => 'seo:top'
-			),
-			array(
-				'alias'   => $translator->translate('Seo bottom content'),
-				'option' => 'seo:bottom'
-			)
-		);
-	}
+//	public static function getAllowedOptions() {
+//		$translator = Zend_Registry::get('Zend_Translate');
+//		return array(
+//			array(
+//				'alias'   => $translator->translate('Seo top content'),
+//				'option' => 'seo:top'
+//			),
+//			array(
+//				'alias'   => $translator->translate('Seo bottom content'),
+//				'option' => 'seo:bottom'
+//			)
+//		);
+//	}
 
 	private function _renderSeoTop() {
 		return '';

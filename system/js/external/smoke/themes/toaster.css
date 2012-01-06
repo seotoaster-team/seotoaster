@@ -4,8 +4,8 @@
 
 .smoke-base .dialog {
   top: 34px;
-  left: 0;
-  right:0;
+  left: 2px;
+  right: 2px;
   width: auto;
 }
 
@@ -20,8 +20,6 @@
 		font-weight: normal;
     /*background-color: #7097ae;*/
 	background-color: rgba(32,178,170,0.85);
-    border-left: 2px solid #fff;
-    border-right: 2px solid #fff;
     opacity: 0.95;
     font-size:25px;
 		border-radius: 0;
