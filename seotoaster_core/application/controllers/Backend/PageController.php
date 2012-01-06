@@ -347,7 +347,8 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function listpagesAction() {
-		$where = 'template_id != "' . Application_Model_Models_Template::ID_PRODUCT . '"';
+		$productCategoryPage = $this->_getProductCategoryPage();
+		$where               = (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
 		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
@@ -360,9 +361,9 @@ class Backend_PageController extends Zend_Controller_Action {
 		$this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
+		$productCategoryPage = $this->_getProductCategoryPage();
+		$where               = (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
 		$externalLinksContent = 'var tinyMCELinkList = new Array(';
-
-		$where = 'template_id != "' . Application_Model_Models_Template::ID_PRODUCT . '"';
 		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
 		if(!empty ($pages)) {
 			foreach ($pages as $page) {
@@ -400,6 +401,11 @@ class Backend_PageController extends Zend_Controller_Action {
 	private function _hasSubpages($pageId) {
 		$subpages = Application_Model_Mappers_PageMapper::getInstance()->findByParentId($pageId);
 		return sizeof($subpages);
+	}
+
+	private function _getProductCategoryPage() {
+		$pageUrl = 'product-pages';
+		return Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
 	}
 }
 
