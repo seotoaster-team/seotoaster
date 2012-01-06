@@ -347,9 +347,7 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function listpagesAction() {
-		$productCategoryPage = $this->_getProductCategoryPage();
-		$where               = (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($this->_getProductCategoryPageWhere(), array('h1 ASC'));
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
 		}, $pages);
@@ -361,10 +359,9 @@ class Backend_PageController extends Zend_Controller_Action {
 		$this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-		$productCategoryPage = $this->_getProductCategoryPage();
-		$where               = (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
+
 		$externalLinksContent = 'var tinyMCELinkList = new Array(';
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($this->_getProductCategoryPageWhere(), array('h1'));
 		if(!empty ($pages)) {
 			foreach ($pages as $page) {
 				$externalLinksContent .= '["'
@@ -403,9 +400,9 @@ class Backend_PageController extends Zend_Controller_Action {
 		return sizeof($subpages);
 	}
 
-	private function _getProductCategoryPage() {
-		$pageUrl = 'product-pages';
-		return Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+	private function _getProductCategoryPageWhere() {
+		$productCategoryPage = Tools_Page_Tools::getProductCategoryPage();
+		return (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
 	}
 }
 

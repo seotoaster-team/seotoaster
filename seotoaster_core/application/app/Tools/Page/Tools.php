@@ -56,5 +56,17 @@ class Tools_Page_Tools {
 	public static function getCheckoutPage() {
 		return Application_Model_Mappers_PageMapper::getInstance()->findCheckout();
 	}
+
+	public static function getProductCategoryPage() {
+		// We need to know product category page url
+		// This url specified in the bundle plugin "Shopping"
+		// But this plugin may not be present in the system (not recommended)
+		$shopping = Tools_Plugins_Tools::findPluginByName('shopping');
+		$pageUrl  = ($shopping->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Shopping::PRODUCT_CATEGORY_URL : null;
+		if($pageUrl === null) {
+			return null;
+		}
+		return Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+	}
 }
 
