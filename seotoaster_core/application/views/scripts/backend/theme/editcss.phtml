@@ -47,7 +47,7 @@ window.onload = function() {
 			},
 			beforeSend: function(){
 				//$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
-				smoke.signal('<?php echo $this->translate('saving css content...'); ?>');
+				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
 			},
 			error: function(){
 				$('.smoke-base').remove();

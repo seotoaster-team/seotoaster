@@ -9,7 +9,8 @@ class Tools_Image_Tools {
 		'small',
 		'medium',
 		'large',
-		'product'
+		'product',
+		'crop'
 	);
 
 	public function init() {

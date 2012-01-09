@@ -112,7 +112,7 @@ $(function() {
 			data       : form.serialize(),
 			beforeSend : function() {
 				//ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');
-				smoke.signal('Working...', 30000);
+				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
 			},
 			success : function(response) {
 				if(!response.error) {

@@ -71,10 +71,12 @@ function saveTemplate() {
 
 		beforeSend : function() {
 			//ajaxMsg.fadeIn().text('Working...');
+			smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
 		},
 		success : function(response) {
 			if (response.error != true) {
 				//ajaxMsg.text('Template saved').fadeOut(_FADE_FAST);
+				$('.smoke-base').remove();
 				smoke.signal('Template saved');
 				$('.smoke-base').delay(1300).slideUp();
 				if (response.responseText == 'new') {

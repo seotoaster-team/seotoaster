@@ -28,6 +28,9 @@ $(document).ready(function(){
 		disk_cache : true,
 		debug : false,
 		external_link_list_url: websiteUrl + 'backend/backend_page/linkslist/',
+		force_br_newlines : false,
+	    force_p_newlines : true,
+	    forced_root_block : '',
 		valid_elements: '*[*]'
 	})
 })

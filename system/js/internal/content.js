@@ -20,7 +20,7 @@ $(function() {
 			data       : elements,
 			beforeSend : function() {
 				//ajaxMsgSuccess.fadeIn().text('Working...');
-				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/tla.gif" alt="working..." />');
+				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
 			},
 			success : function() {
 				top.location.reload();

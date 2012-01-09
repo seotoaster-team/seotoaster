@@ -167,12 +167,18 @@ class Backend_UploadController extends Zend_Controller_Action {
 		if (!$savePath) {
 			//useful if file submited directly to this method
 			$savePath = $this->_getSavePath();
-			}
+		}
 
 		$this->_uploadHandler->clearValidators()
 			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
 			->addValidator(new Validators_MimeType(array('image/gif','image/jpeg','image/jpg','image/png')), false)
 			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['imgMaxWidth'], 'maxheight' => $miscConfig['imgMaxWidth']));
+
+		$explodedFile = explode(DIRECTORY_SEPARATOR, $this->_uploadHandler->getFileName());
+		$fileInfo     = explode('.', end($explodedFile));
+		$goodFileName = preg_replace('/[^A-z0-9.-_]+/ui', '', $fileInfo[0]) . '.' . $fileInfo[1];
+
+		$this->_uploadHandler->addFilter('Rename', array('target' => $goodFileName, 'overwrite' => true));
 
 		$receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
 
