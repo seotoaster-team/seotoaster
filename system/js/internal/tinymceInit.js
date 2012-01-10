@@ -2,7 +2,7 @@ $(document).ready(function(){
 	//init of tinymce
 	var websiteUrl = $('#website_url').val();
 	$('textarea.tinymce').tinymce({
-		script_url              : websiteUrl + 'system/js/external/tinymce/tiny_mce.js',
+		script_url              : websiteUrl + 'system/js/external/tinymce/tiny_mce_gzip.php',
 		theme                   : "advanced",
 		elements                : 'nourlconvert',
         width                   : 620,

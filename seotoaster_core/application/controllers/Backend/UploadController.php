@@ -176,7 +176,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$explodedFile = explode(DIRECTORY_SEPARATOR, $this->_uploadHandler->getFileName());
 		$fileInfo     = explode('.', end($explodedFile));
-		$goodFileName = preg_replace('/[^A-z0-9.-_]+/ui', '', $fileInfo[0]) . '.' . $fileInfo[1];
+		$fileInfo[0]  = preg_replace('/[\s]+/ui', '-', $fileInfo[0]);
+		$goodFileName = preg_replace('/[^A-z0-9.\-_]+/ui', '', $fileInfo[0]) . '.' . $fileInfo[1];
 
 		$this->_uploadHandler->addFilter('Rename', array('target' => $goodFileName, 'overwrite' => true));
 
