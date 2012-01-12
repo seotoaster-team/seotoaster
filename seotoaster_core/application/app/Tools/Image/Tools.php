@@ -205,9 +205,10 @@ class Tools_Image_Tools {
 		//list of file that can be removed
 		$removable = array();
 
-		foreach ($subFoldersList as $subfolder) {
+		foreach ($subFoldersList as $key => $subfolder) {
 			if (!is_dir($folderPath.DIRECTORY_SEPARATOR.$subfolder)){
 				error_log('Not a folder:'.$folderPath.DIRECTORY_SEPARATOR.$subfolder);
+				unset($subFoldersList[$key]);
 				continue;
 			}
 			$filename = $folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName;
