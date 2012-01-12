@@ -213,6 +213,14 @@ function showModalMessage(title, msg, callback, err) {
 
 }
 
+function showSpinner() {
+	smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
+}
+
+function hideSpinner() {
+	$('.smoke-base').delay(1300).slideUp();
+}
+
 function publishPages() {
 	if(!top.$('#__tpopup').length) {
 		$.get($('#website_url').val() + 'backend/backend_page/publishpages/');
