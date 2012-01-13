@@ -38,7 +38,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
 			return '';
 		}
-		return '<a href="' . $this->_website->getUrl() . 'logout">Logout</a>';
+		return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">Logout</a>';
 	}
 
 	private function _renderMemberSignup() {
