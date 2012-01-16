@@ -14,8 +14,7 @@
 	</ul>
 <script type="text/javascript" charset="utf-8">
 	$(function() {
-		var currentUrl = window.location.href;
-		//currentUrl     = currentUrl.replace(/#.*/g, '');
+		var currentUrl = decodeURI(window.location.href);
 		if(currentUrl && typeof currentUrl != 'undefined') {
 			$('*').find("a[href='" + currentUrl + "']").each(function() {
 				$(this).addClass('current');
