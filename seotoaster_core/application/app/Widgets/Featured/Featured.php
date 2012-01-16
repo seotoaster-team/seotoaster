@@ -42,8 +42,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 
 		$areaName             = $params[0];
 		$pagesCount           = (isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT;
-		$useImages            = (isset($params[2]) && $params[2]) ? true : false;
-		$maxDescriptionLength = (isset($params[3]) && intval($params[3])) ? intval($params[3]) : self::AREA_DESC_LENGTH;
+		$maxDescriptionLength = (isset($params[2]) && intval($params[2])) ? intval($params[2]) : self::AREA_DESC_LENGTH;
 		$random               = (isset($params[4]) && $params[4]) ? true : false;
 
 		$featuredArea         = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($areaName);
