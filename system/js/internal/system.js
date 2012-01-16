@@ -19,18 +19,18 @@
 			var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency'}).addClass('__tpopup rounded3px');
 			popup.parent().css({background: 'none'});
 
-			var viewportHeight = 0;
-			var viewportWidth  = 0;
-			if(typeof window.innerHeight != undefined) {
-				viewportHeight = window.innerHeight;
-				viewportWidth  = window.innerWidth;
-			} else if (typeof document.documentElement.clientHeight != 'undefined' && document.documentElement.clientHeight) {
-				viewportHeight = document.documentElement.clientHeight;
-				viewportWidth  = document.documentElement.clientWidth;
-			} else {
-				viewportHeight = document.body.clientHeight;
-				viewportWidth  = document.body.clientWidth;
-			}
+//			var viewportHeight = 0;
+//			var viewportWidth  = 0;
+//			if(typeof window.innerHeight != undefined) {
+//				viewportHeight = window.innerHeight;
+//				viewportWidth  = window.innerWidth;
+//			} else if (typeof document.documentElement.clientHeight != 'undefined' && document.documentElement.clientHeight) {
+//				viewportHeight = document.documentElement.clientHeight;
+//				viewportWidth  = document.documentElement.clientWidth;
+//			} else {
+//				viewportHeight = document.body.clientHeight;
+//				viewportWidth  = document.body.clientWidth;
+//			}
 
 			popup.dialog({
 				width: pwidth,
@@ -42,12 +42,12 @@
 					$(this).attr('src', link.data('url')).css({
 							width    : pwidth + 'px',
 							height   : pheight + 'px',
-							position : 'fixed',
+							//position : 'fixed',
 							padding  : '0px',
 							margin   : '0px',
 							overflow : 'hidden',
-							top      : Math.ceil((viewportHeight / 2) - (pheight / 2)) + 'px',
-							left     : Math.ceil((viewportWidth / 2) - (pwidth / 2)) + 'px'
+//							top      : Math.ceil((viewportHeight / 2) - (pheight / 2)) + 'px',
+//							left     : Math.ceil((viewportWidth / 2) - (pwidth / 2)) + 'px'
 					});
 					$('.ui-dialog-titlebar').remove();
 				},
