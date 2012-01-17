@@ -16,22 +16,25 @@
 	<div class="grid_12"><input class="formsubmit" type="submit" id="gal-done" name="done" value="Done" /></div>
 </form>
 <script type="text/javascript">
-	$(function() {
-		loadFolders();
-		$('.widget-control-img#gal-img').click(function() {
-			$('#widgets-header').text('<?php echo $this->translate('Image gallery'); ?>').fadeIn();
-			$('#widget-controls').html($('#gal-widget-form').html());
-			//$('#gal-widget-form').slideDown();
-		});
+	(function($) {
+		$(function() {
+			loadFolders();
+			$('.widget-control-img#gal-img').click(function() {
+				$('#widgets-header').text('<?php echo $this->translate('Image gallery'); ?>').fadeIn();
+				$('#widget-controls').html($('#gal-widget-form').html());
+				//$('#gal-widget-form').slideDown();
+			});
 
-		$('#gal-done').live('click', function() {
-			var widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
+			$('#gal-done').live('click', function() {
+				var widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
+				$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
+			})
 		})
-	})
+	})(jQuery);
+
 
 	function loadFolders() {
-		$.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/', function(response) {
+		$.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/img/1', function(response) {
 			$.each(response.responseText, function(val) {
 				$('#gal-folders')
 					.append($('<option></option>').attr({

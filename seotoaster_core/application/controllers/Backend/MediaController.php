@@ -178,7 +178,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 	}
 
 	public function loadfoldersAction() {
-		$this->view->responseText = $this->_getFoldersList();
+		$this->view->responseText = $this->_getFoldersList($this->getRequest()->getParam('img', false));
 	}
 
 
@@ -205,9 +205,16 @@ class Backend_MediaController extends Zend_Controller_Action {
 		return $usedOnPages;
 	}
 
-	private function _getFoldersList() {
+	private function _getFoldersList($imagesOnly = false) {
 		$listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($this->_websiteConfig['path'] . $this->_websiteConfig['media']);
-		if (!empty ($listFolders)){
+		if (!empty ($listFolders)) {
+			if($imagesOnly) {
+				foreach($listFolders as $key => $folder) {
+					if(!is_dir($this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folder . '/small')) {
+						unset($listFolders[$key]);
+					}
+				}
+			}
 			$listFolders = array_combine($listFolders, $listFolders);
 		}
 		return $listFolders;

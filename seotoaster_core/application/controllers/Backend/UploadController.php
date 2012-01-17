@@ -220,7 +220,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 			$savePath = $this->_getSavePath();
 		}
 
-		$file = reset($this->_uploadHandler->getFileInfo());
+		$fileInfo = $this->_uploadHandler->getFileInfo();
+		$file     = reset($fileInfo);
 		$fileName = $this->_uploadHandler->getFileName();
 		preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $fileName, $match);
 		if (!$match) {
