@@ -12,7 +12,7 @@
 
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
-		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL, $this->roleId)): ?>
+		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
 			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>

@@ -306,7 +306,7 @@ text-transform: uppercase
   font-style: normal;
 }
 
-.seotoaster input[type=submit] {
+.seotoaster input[type=submit], .seotoaster button {
     background: #939393;
     background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
@@ -1358,12 +1358,14 @@ list-style: square;
 /*=============Page Rank Sculpting ==============*/
 
 .seotoaster #button-wrapper {
-	padding: 5px 0;
-	text-align: right;
+	/*padding: 5px 0;*/
+	/*text-align: right;*/
 }
 
 .seotoaster #button-wrapper #manage-silos {
 	/*border-bottom: 1px dashed #3C78A7;*/
+	margin-top: 10px;
+	float: left;
 }
 
 .seotoaster #sculpting-list {

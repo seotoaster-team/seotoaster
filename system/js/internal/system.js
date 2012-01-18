@@ -66,7 +66,7 @@
 		});
 
 		//seotoaster close popup window button
-		$(document).on('click', '.closebutton', function() {
+		$(document).on('click', '.closebutton, .save-and-close', function() {
 			if(window.parent.jQuery('.__tpopup').contents().find('div.seotoaster').hasClass('refreshOnClose')) {
 				window.parent.location.reload();
 				window.parent.jQuery('.__tpopup').dialog('close');
@@ -75,7 +75,7 @@
 			if(typeof window.parent.$('iframe').dialog != 'undefined') {
 				window.parent.$('iframe').dialog('close');
 			} else {
-
+				console.log('Alarm! Something went wrong!');
 			}
 
 		});
@@ -215,7 +215,8 @@ function showSpinner() {
 }
 
 function hideSpinner() {
-	$('.smoke-base').delay(1300).slideUp();
+	//$('.smoke-base').delay(1300).slideUp();
+	$('.smoke-base').slideUp();
 }
 
 function publishPages() {
