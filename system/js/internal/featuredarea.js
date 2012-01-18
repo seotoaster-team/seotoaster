@@ -2,7 +2,7 @@ $(function() {
 	$('#addFeaturedArea-label').hide();
 
 	loadFaList();
-	$('.add-page').live('click', function() {
+	$(document).on('click', '.add-page', function() {
 
 		var chckbx = $('[type=checkbox]:checked');
 
@@ -13,13 +13,16 @@ $(function() {
 		var pcountEl   = $('.pcount-' + faId);
 		var handlerUrl = ($(this).prop('checked')) ? 'addpagetofa/' : 'rempagefromfa/'
 		var el         = $(this);
+		showSpinner();
 		$.post(
 			$('#website_url').val() + 'backend/backend_featured/' + handlerUrl, {
 			pid  : pageId,
 			faid :faId
 		},
 		function(response) {
-			$('#ajax_msg').html(response.responseText).fadeIn('slow').fadeOut('slow');
+			hideSpinner();
+			showMessage(response.responseText);
+			//$('#ajax_msg').html(response.responseText).fadeIn('slow').fadeOut('slow');
 			pcountEl.text((el.prop('checked') ? parseInt(pcountEl.text()) + 1 : parseInt(pcountEl.text()) - 1)) ;
 		})
 	})

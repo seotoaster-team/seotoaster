@@ -12,22 +12,20 @@ $(function() {
 			containerId   : $(this).find('#container_id').val(),
 			published     : ($('#published').prop('checked')) ? 1 : 0,
 			publishOn     : $('#datepicker').val()
-		}
+		};
 		$.ajax({
 			url        : $(this).attr('action'),
 			type       : 'post',
 			dataType   : 'json',
 			data       : elements,
 			beforeSend : function() {
-				//ajaxMsgSuccess.fadeIn().text('Working...');
-				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
+				showSpinner();
 			},
 			success : function() {
 				top.location.reload();
 			},
-			error: function() {
-				ajaxMsgSuccess.hide();
-				ajaxMsgFail.show();
+			error: function(response) {
+				showMessage(response.responseText(), true);
 			}
 		})
 		return false;

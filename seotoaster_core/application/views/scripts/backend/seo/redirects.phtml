@@ -23,7 +23,8 @@
 	</div>
 	<div id="redirects-list" class="grid_12"></div>
 	<div class="grid_12" style="text-align: right">
-		<button id="massdel-run"><?php echo $this->translate('Delete selected'); ?></button>
+		<button class="mdel-button" id="massdel-run"><?php echo $this->translate('Delete selected'); ?></button>
+		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.js'); ?>

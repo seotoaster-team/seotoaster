@@ -1,6 +1,6 @@
 <div class="seotoaster container_12 w450 h570 rounded3px">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties')); ?>
-    <form class="_fajax _reload" id="formWidget" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
+    <form class="_fajax _reload" data-norefresh="1" id="formWidget" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
 			<div class="grid_6">
 				<?php echo $this->formForm->getElement('code')->renderLabel(); ?>
 				<?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>

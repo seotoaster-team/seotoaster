@@ -129,6 +129,11 @@ body, body.seotoaster {
 .seotoaster .closebutton span.help:hover {
     text-decoration:underline;
 }
+
+.seotoaster .mdel-button {
+	float: left;
+}
+
 a.generator-links img {
     background-color: transparent !important;
     border: medium none !important;
@@ -306,7 +311,7 @@ text-transform: uppercase
   font-style: normal;
 }
 
-.seotoaster input[type=submit], .seotoaster button {
+.seotoaster input[type=submit], .seotoaster button.save-and-close {
     background: #939393;
     background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
@@ -984,6 +989,21 @@ list-style: square;
 	padding:2px;
 
 }
+
+#seo-tip {
+	clear:both;
+	text-align: left;
+	border-left: 5px solid #698DA7;
+	padding: 6px 16px;
+	font-style: italic;
+	font-size: 12px;
+	background: url("/system/images/bg-strip.png") repeat 0px 0 transparent;
+}
+#seo-tip span {
+	font-weight: bold;
+}
+
+background: url("/system/images/bg-strip.png") repeat 0px 0 transparent;
 
 /*=========== Organize Pages ==============*/
 .seotoaster span.catmove {

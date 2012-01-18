@@ -37,7 +37,7 @@ class Backend_FormController extends Zend_Controller_Action {
 		$form          = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
 		$mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
 		$formForm->getElement('name')->setValue($formName);
-		$formForm->getElement('replyMailTemplate')->setMultioptions($mailTemplates);
+		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		if($form !== null) {
 			$formForm->populate($form->toArray());
 		}

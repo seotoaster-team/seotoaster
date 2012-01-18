@@ -123,7 +123,12 @@ class Backend_ContentController extends Zend_Controller_Action {
 			if(!$container->getId()) {
 				$container->setId($saveResult);
 			}
-			$container->notifyObservers();
+
+			try {
+				$container->notifyObservers();
+			} catch(Exceptions_SeotoasterWidgetException $twe) {
+				$this->_helper->response->fail($twe->getMessage());
+			}
 			$this->_helper->response->success($saveResult);
 			exit;
 		}

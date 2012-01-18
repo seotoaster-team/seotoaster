@@ -28,7 +28,7 @@ class Application_Form_Form extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Textarea(array(
 			'id'       => 'code',
 			'name'     => 'code',
-			'label'    => 'Form code',
+			'label'    => 'Form code*',
 			'value'    => $this->_code,
             'cols'     => '45',
 			'rows'     => '5',
@@ -39,7 +39,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'contact-mail',
 			'name'       => 'contactEmail',
-			'label'      => 'Contact mail',
+			'label'      => 'Contact mail*',
 			'value'      => $this->_contactEmail,
 			'required'   => true,
 			'filters'    => array('StringTrim'),
@@ -49,7 +49,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'reply-from',
 			'name'       => 'replyFrom',
-			'label'      => 'Auto reply from',
+			'label'      => 'Auto reply from*',
 			'value'      => $this->_replyFrom,
 			'required'   => true,
 			'filters'    => array('StringTrim'),
@@ -68,7 +68,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'success-message',
 			'name'     => 'messageSuccess',
-			'label'    => 'Success Message',
+			'label'    => 'Success Message*',
 			'value'    => $this->_successMessage,
 			'required' => true,
 			'filters'  => array('StringTrim')

@@ -33,7 +33,7 @@ $('#things-new-folder')
 			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
 		</div>
 
-		<div class="grid_12 textcentered mt10px">
+		<div class="grid_12 textcentered mt10px mb10px">
 			<?php
 				$thingsUploader = $this->toasterUploader(
 					array(
@@ -44,8 +44,11 @@ $('#things-new-folder')
 				echo $thingsUploader;
 			?>
 		</div>
+		<div id="seo-tip" class="grid_11">
+			<span><?php echo $this->translate('SEO tip'); ?></span>: <?php echo $this->translate('Have you thought about  meaningfully naming your images files after your keywords');?>?
+		</div>
 		<div id="media-toaster-uploader-filelist" class="grid_12 h300 mt10px ui-widget-content" style="overflow-y: auto">
-		<?php echo $this->translate('Upload progress will appear here.');?>
+			<?php echo $this->translate('Upload progress will appear here.');?>
 		</div>
 	</div>
 

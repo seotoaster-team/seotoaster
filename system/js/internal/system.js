@@ -101,8 +101,6 @@
 				dataType   : 'json',
 				data       : form.serialize(),
 				beforeSend : function() {
-					//ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');
-					//smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
 					showSpinner();
 				},
 				success : function(response) {
@@ -126,23 +124,22 @@
 						//smoke.alert(response.responseText);
 					}
 					else {
-						$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
-						//ajaxMessage.removeClass('success').addClass('error').html(response.responseText);
-						//$('.smoke-base').remove();
+						if(!$(form).data('norefresh')) {
+							$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
+						}
 						hideSpinner();
 						smoke.alert(response.responseText, {classname:"errors"});
 					}
 				},
 				error: function(err) {
-					//ajaxMessage.removeClass('success').addClass('error').text('An error occured');
 					$('.smoke-base').remove();
-					smoke.alert('An error occured');
+					showMessage('Error accured', true);
 				}
 			})
 		})
 
 		//seotoaster edit item link
-		$('a._tedit').on('click', function(e) {
+		$(document).on('click', 'a._tedit', function(e) {
 			e.preventDefault();
 			var handleUrl = $(this).data('url');
 			if(!handleUrl || handleUrl == 'undefined') {

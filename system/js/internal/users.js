@@ -1,22 +1,23 @@
 $(function() {
 	userCallback();
-    //$('#export-users').button();
+	$('.sortable').dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bDestroy":true,
+		"bRetrive" : true
+	});
+
     $('#export-users').click(function() {
         $('#expusrs').submit();
-        //$.post($('#website_url').val() + 'backend/backend_user/export/', function(response) {
-            //$('#ajax_msg').text(response.responseText).fadeIn().fadeOut();
-        //})
     })
-})
+});
 
 function userCallback() {
+	showSpinner();
 	$.getJSON($('#website_url').val() + 'backend/backend_user/list/', function(response) {
+		hideSpinner();
 		$('#users-list tbody').html(response.usersList);
-		$('.sortable').dataTable({
-			"bPaginate": false,
-			"bLengthChange": false,
-			"bInfo": false,
-			"bAutoWidth": false
-		});
 	})
 }
