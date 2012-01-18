@@ -8,7 +8,7 @@
 		/**
 		 * Seotoaster popup dialog
 		 */
-		$('a.tpopup').on('click', function(e) {
+		$(document).on('click', 'a.tpopup', function(e) {
 			if(!loginCheck()) {
 				return;
 			}
@@ -16,7 +16,7 @@
 			var link    = $(this);
 			var pwidth  = link.data('pwidth') || 960;
 			var pheight = link.data('pheight') || 580;
-			var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency'}).addClass('__tpopup rounded3px');
+			var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'topastePopup'}).addClass('__tpopup rounded3px');
 			popup.parent().css({background: 'none'});
 
 			popup.dialog({
@@ -43,53 +43,41 @@
 
 
 		//seotoaster delete item link
-		$('a._tdelete').on('click', function() {
-			$('#ajax_msg').text('Removing...').show();
-			var url = $(this).attr('href');
-			if(!url || (typeof url == 'undefined') || url == 'javascript:;') {
+		$(document).on('click', 'a._tdelete', function() {
+			var url      = $(this).attr('href');
+			var callback = $(this).data('callback');
+			var elId     =  $(this).data('eid');
+			if((typeof url == 'undefined') || !url || url == 'javascript:;') {
 				url = $(this).data('url');
 			}
-			var callback = $(this).data('callback');
-			var deleteScreen = document.createElement('div');
-			$(deleteScreen).css({color:'lavender'}).html('<h2>Are you sure?</h2>');
-			var link = $(this);
-			$(deleteScreen).dialog({
-				modal: true,
-				title: 'Delete',
-				resizable: false,
-				buttons: {
-					'Delete': function() {
-						$.post(url, {id : link.data('eid')}, function(response) {
-							$('#ajax_msg').text(response.responseText);
-							if(response.error){
-								$('#ajax_msg').addClass('error').show();
-							}
-							else {
-								$('#ajax_msg').removeClass('error').fadeOut();
-							}
-							if(callback) {
-								eval(callback + '()');
-							}
-							$(deleteScreen).dialog( "close" );
-						})
-					},
-					Cancel: function() {
-						$('#ajax_msg').text('').hide();
-						$( this ).dialog( "close" );
-					}
+			smoke.confirm('You are about to remove an item. Are you sure?', function(e) {
+				if(e) {
+					$.post(url, {id : elId}, function(response) {
+						var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
+						showMessage(responseText, (!(typeof response.error == 'undefined' || !response.error)));
+	                    if(typeof callback != 'undefined') {
+							eval(callback + '()');
+						}
+					})
+				} else {
+					$('.smoke-base').remove();
 				}
-			}).parent().css({background: 'indianred'});
-			//$('.ui-widget-content').css({background : '#eee'}).addClass('ui-corner-all');
-		})
+			}, {classname:"errors"});
+		});
 
 		//seotoaster close popup window button
-		$('.closebutton').on('click', function() {
+		$(document).on('click', '.closebutton', function() {
 			if(window.parent.jQuery('.__tpopup').contents().find('div.seotoaster').hasClass('refreshOnClose')) {
 				window.parent.location.reload();
 				window.parent.jQuery('.__tpopup').dialog('close');
 			}
-			//console.log(parent.$('iframe'));
-			parent.$('iframe').dialog('close');
+			//parent.$('iframe').dialog('close');
+			if(typeof window.parent.$('iframe').dialog != 'undefined') {
+				window.parent.$('iframe').dialog('close');
+			} else {
+
+			}
+
 		});
 
 		//seotoaster ajax form submiting
@@ -114,7 +102,8 @@
 				data       : form.serialize(),
 				beforeSend : function() {
 					//ajaxMessage.slideDown().removeClass('error').addClass('success').text('Working...');
-					smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
+					//smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
+					showSpinner();
 				},
 				success : function(response) {
 					if(!response.error) {
@@ -139,7 +128,8 @@
 					else {
 						$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
 						//ajaxMessage.removeClass('success').addClass('error').html(response.responseText);
-						$('.smoke-base').remove();
+						//$('.smoke-base').remove();
+						hideSpinner();
 						smoke.alert(response.responseText, {classname:"errors"});
 					}
 				},
@@ -177,50 +167,59 @@
 	});
 })(jQuery);
 
-	function loginCheck() {
-		//console.log(typeof jQuery != 'undefined');
-		if(jQuery.cookie && $.cookie('PHPSESSID') === null) {
-			showModalMessage('Session expired', 'Your session is expired! Please, login again', function() {
-				top.location.href = $('#website_url').val();
-			})
-			return false;
-		}
-		return true;
+function loginCheck() {
+	//console.log(typeof jQuery != 'undefined');
+	if(jQuery.cookie && $.cookie('PHPSESSID') === null) {
+		showModalMessage('Session expired', 'Your session is expired! Please, login again', function() {
+			top.location.href = $('#website_url').val();
+		})
+		return false;
 	}
+	return true;
+}
 
-	function showModalMessage(title, msg, callback, err) {
-		var messageScreen = $('<div class="info-message' + ((typeof err != 'undefined' && err) ? ' error' : '') + '"></div>').html(msg);
-		$(messageScreen).dialog({
-			modal     : true,
-			title     : title,
-			resizable : false,
-			buttons   : {
-				Ok: function() {
-					$(this).dialog('close');
-					if(callback) {
-						callback();
-					}
+function showModalMessage(title, msg, callback, err) {
+	var messageScreen = $('<div class="info-message' + ((typeof err != 'undefined' && err) ? ' error' : '') + '"></div>').html(msg);
+	$(messageScreen).dialog({
+		modal     : true,
+		title     : title,
+		resizable : false,
+		buttons   : {
+			Ok: function() {
+				$(this).dialog('close');
+				if(callback) {
+					callback();
 				}
 			}
-		}).css({background : '#eee'});
-		$('.ui-dialog').css({background : '#eee'}).addClass('ui-corner-all');
-		if(typeof err != 'undefined' && err) {
-			$('.ui-dialog').css({background: 'indianred'});
-			$('.info-message').css({background: 'indianred'});
 		}
-
+	}).css({background : '#eee'});
+	$('.ui-dialog').css({background : '#eee'}).addClass('ui-corner-all');
+	if(typeof err != 'undefined' && err) {
+		$('.ui-dialog').css({background: 'indianred'});
+		$('.info-message').css({background: 'indianred'});
 	}
 
-	function showSpinner() {
-		smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
-	}
+}
 
-	function hideSpinner() {
-		$('.smoke-base').delay(1300).slideUp();
+function showMessage(msg, err) {
+	if(err) {
+		smoke.alert(msg, {classname:"errors"});
+		return;
 	}
+	smoke.signal(msg);
+	$('.smoke-base').delay(1300).slideUp();
+}
 
-	function publishPages() {
-		if(!top.$('#__tpopup').length) {
-			$.get($('#website_url').val() + 'backend/backend_page/publishpages/');
-		}
+function showSpinner() {
+	smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
+}
+
+function hideSpinner() {
+	$('.smoke-base').delay(1300).slideUp();
+}
+
+function publishPages() {
+	if(!top.$('#__tpopup').length) {
+		$.get($('#website_url').val() + 'backend/backend_page/publishpages/');
 	}
+}

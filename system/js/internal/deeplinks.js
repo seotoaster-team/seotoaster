@@ -19,7 +19,7 @@ $(function() {
 		 $('.deeplink-massdel').attr('checked', ($(this).attr('checked')) ? true : false);
 	})
 
-	 $('.deeplink-massdel').live('click', function() {
+	 $('.deeplink-massdel').on('click', function() {
 		if(!$('.deeplink-massdel').not(':checked').length) {
 			$('#chk-all').attr('checked', true);
 		}

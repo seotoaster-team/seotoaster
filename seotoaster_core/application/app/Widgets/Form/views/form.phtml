@@ -31,7 +31,7 @@
 			<input type="hidden" name="captchaId" value="<?php echo $this->captchaId; ?>" />
 		<?php endif; ?>
 
-		<input onclick="$(document).scrollTop(0)" type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
