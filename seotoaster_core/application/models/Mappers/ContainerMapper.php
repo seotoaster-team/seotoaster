@@ -49,6 +49,14 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		return $this->fetchAll($where);
 	}
 
+	public function findContentContainersByPageId($pageId) {
+		$where  = $this->getDbTable()->getAdapter()->quoteInto("page_id = ?", $pageId);
+		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type != ?', Application_Model_Models_Container::TYPE_REGULARHEADER);
+		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type != ?', Application_Model_Models_Container::TYPE_STATICHEADER);
+		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type != ?', Application_Model_Models_Container::TYPE_CODE);
+		return $this->fetchAll($where);
+	}
+
 	public function deleteByPageId($pageId) {
 
 	}

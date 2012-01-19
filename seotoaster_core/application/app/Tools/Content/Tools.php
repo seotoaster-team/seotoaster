@@ -56,9 +56,11 @@ class Tools_Content_Tools {
 
 	public static function applyDeeplinkPerPage(Application_Model_Models_Deeplink $deeplink, Application_Model_Models_Page $page) {
 		$containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
-		$containers      = $containerMapper->findByPageId($page->getId());
+		//$containers      = $containerMapper->findByPageId($page->getId());
+		$containers      = $containerMapper->findContentContainersByPageId($page->getId());
 		if(!empty ($containers)) {
 			foreach ($containers as $container) {
+				$initialContentLength = strlen($container->getContent());
 
 				if(Zend_Registry::isRegistered('applied') && Zend_Registry::get('applied') === true) {
 					Zend_Registry::set('applied', false);
@@ -73,9 +75,11 @@ class Tools_Content_Tools {
 				$gc = new Tools_Content_GarbageCollector();
 				$gc->setObject($container)->updateContentLinksRelatios();
 				
-				$containerMapper->save($container);
-				$container->notifyObservers();
-			}
+				if($initialContentLength != strlen($container->getContent())) {
+					$containerMapper->save($container);
+					$container->notifyObservers();
+				}
+            }
 		}
 	}
 
@@ -110,7 +114,9 @@ class Tools_Content_Tools {
 		if(preg_match($pattern, $content, $matches)) {
 			Zend_Registry::set('applied', true);
 			$url = '<a ' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_EXTERNAL) ? ('target="_blank" title="' . $deeplink->getUrl() . '" ') : '') . 'href="' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $websiteHelper->getUrl() . $deeplink->getUrl() : $deeplink->getUrl()) . '">' . $matches[2] . '</a>';
-			return self::insertReplaced(preg_replace('~' . $deeplink->getName() . '~us', $url, $content, 1));
+			$c = preg_replace('~' . $matches[2] . '~uU', $url, $content, 1);
+			//return self::insertReplaced(preg_replace('~' . $matches[2] . '~uU', $url, $content, 1));
+			return self::insertReplaced($c);
 		}
 		return self::insertReplaced($content);
 	}

@@ -48,12 +48,14 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 	}
 
 	private function _contentUpdateChain() {
-		if((!isset($this->_options['unwatch']) || $this->_options['unwatch'] != '_updateDeeplinks')
-			&& ($this->_object->getContainerType() != Application_Model_Models_Container::TYPE_REGULARHEADER)
+		if(($this->_object->getContainerType() != Application_Model_Models_Container::TYPE_REGULARHEADER)
 			&& ($this->_object->getContainerType() != Application_Model_Models_Container::TYPE_STATICHEADER)) {
-			$this->_updateDeeplinks();
+
+			if(!isset($this->_options['unwatch']) || $this->_options['unwatch'] != '_updateDeeplinks') {
+				$this->_updateDeeplinks();
+			}
+			$this->_updateLinksTitles();
 		}
-		$this->_updateLinksTitles();
 	}
 
 	private function _updateDeeplinkUrl() {
