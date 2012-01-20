@@ -58,6 +58,7 @@ $(function() {
 						smoke.signal('Removing page...', 30000);
 					},
 					success : function(response) {
+						hideSpinner();
 						if(!response.error) {
 							top.location.href = websiteUrl;
 						}
@@ -69,6 +70,6 @@ $(function() {
 					}
 				})
 			}
-		}, {'classname':'errors'});
+		}, {'classname':'errors', 'ok':'Yes', 'cancel':'No'});
 	})
 });
