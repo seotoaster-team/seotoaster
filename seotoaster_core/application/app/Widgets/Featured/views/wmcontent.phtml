@@ -10,7 +10,7 @@
 	<label class="grid_6 nopad" for="featured-item-img"><?php echo $this->translate('Use image'); ?></label>
 	<div class="grid_6 nopad">
 		<input type="checkbox" id="featured-item-img" />
-		<input class="cropped" type="checkbox" id="featured-item-img-crop" /><span class="nopad label cropped" style="display:inline-block; verticlal-align:top;"><?php echo $this->translate('Cropped'); ?>?</span>
+		<input class="cropped" type="checkbox" id="featured-item-img-crop" /><span class="nopad label cropped" style="display:none;"><?php echo $this->translate('Cropped'); ?>?</span>
 	</div>
 	<label class="grid_6 nopad rand-row" for="featured-item-rand"><?php echo $this->translate('Random'); ?></label>
 	<div class="grid_6 nopad rand-row">
@@ -49,15 +49,9 @@
 			loadData($(this).val());
 		});
 
-		$('#featured-item-img').live('click', function() {
-			$('#featured-item-img-crop').attr('checked', false);
-			if($(this).attr('checked')) {
-				$('.cropped').fadeIn();
-			}
-			else {
-				$('.cropped').fadeOut();
-			}
-		})
+		$(document).on('click', '#featured-item-img', function() {
+			$('.cropped').fadeToggle();
+		});
 
 		$('#fa-done').live('click', function() {
 			var imgType = '';

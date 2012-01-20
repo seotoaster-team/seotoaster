@@ -5,7 +5,7 @@
 	<label class="nopad grid_6" for="search-item-img"><?php echo $this->translate('Use image'); ?></label>
 	<div class="grid_6 nopad">
 		<input type="checkbox" id="search-item-img" />
-		<input class="cropped" type="checkbox" id="search-item-img-crop" /><span class="nopad label cropped" style="display:inline-block; verticlal-align:top;"><?php echo $this->translate('Cropped'); ?>?</span>
+		<input class="cropped" type="checkbox" id="search-item-img-crop" /><span class="nopad label cropped" style="display:none;"><?php echo $this->translate('Cropped'); ?>?</span>
 	</div>
 	<div class="grid_12"><input class="formsubmit" type="submit" id="search-done" name="done" value="Done" /></div>
 </form>
@@ -21,15 +21,10 @@
 		if($('#search-results').length) {
 			load();
 		}
-		$('#search-item-img').live('click', function() {
-			$('#search-item-img-crop').attr('checked', false);
-			if($(this).attr('checked')) {
-				$('.cropped').show();
-			}
-			else {
-				$('.cropped').hide();
-			}
+		$(document).on('click', '#search-item-img', function() {
+			$('.cropped').fadeToggle();
 		});
+
 
 		$('#search-done').live('click', function() {
 			var imgType = '';

@@ -1,28 +1,30 @@
 <div class="widget-control-img" id="related-img"></div>
 <form class="wmc-block" action="javascript:;" id="related-widget-form" style="display: none;" method="post">
-
 	<label class="nopad grid_6" for="related-rel"><?php echo $this->translate('Relevance'); ?></label>
 	<input class="nopad grid_6" type="text" id="related-rel" value="<?php echo Widgets_Related_Related::REL_WORD_COUNT; ?>" />
-
 	<label class="nopad grid_6" for="related-maxres"><?php echo $this->translate('Max. results'); ?></label>
 	<input class="nopad grid_6" type="text" id="related-maxres" value="<?php echo Widgets_Related_Related::REL_MAX_REZULT; ?>" />
-
 	<label class="nopad grid_6" for="related-maxres"><?php echo $this->translate('Use image'); ?></label>
-	<div class="nopad grid_6"><input type="checkbox" id="related-img" /></div>
-
+	<div class="nopad grid_6">
+		<input type="checkbox" id="related-img" />
+		<input class="cropped" type="checkbox" id="related-img-crop" style="display:none;" /><span class="cropped nopad label" style="display:none;" ><?php echo $this->translate('Cropped'); ?>?</span>
+	</div>
 	<div class="grid_12"><input class="formsubmit" type="submit" id="related-done" name="done" value="<?php echo $this->translate('Done'); ?>" /></div>
 </form>
-
 <script type="text/javascript">
-	$(function() {
-		$('.widget-control-img#related-img').click(function() {
-			$('#widgets-header').text('<?php echo $this->translate('Related pages'); ?>').fadeIn();
-			$('#widget-controls').html($('#related-widget-form').html());
-			//$('#related-widget-form').slideDown();
-		});
-		$('#related-done').live('click', function() {
-			widget = '{$related:' + $('#related-rel').val() + ':' + $('#related-maxres').val() + (($('#related-img').attr('checked')) ? ':img' : '') + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
-		});
-	})
+	(function() {
+		$(function() {
+			$('.widget-control-img#related-img').click(function() {
+				$('#widgets-header').text('<?php echo $this->translate('Related pages'); ?>').fadeIn();
+				$('#widget-controls').html($('#related-widget-form').html());
+			});
+			$(document).on('click', '#related-img', function() {
+				$('.cropped').fadeToggle();
+			});
+			$('#related-done').live('click', function() {
+				widget = '{$related:' + $('#related-rel').val() + ':' + $('#related-maxres').val() + (($('#related-img').attr('checked')) ? ':img' : '') + '}';
+				$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
+			});
+		})
+	})(jQuery);
 </script>
