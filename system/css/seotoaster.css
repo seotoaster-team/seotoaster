@@ -1566,4 +1566,7 @@ background: url("/system/images/bg-strip.png") repeat 0px 0 transparent;
 .widget-control-img#search-img:hover {
 	background-position: -889px -61px;
 }
-
+input[type=checkbox].cropped {
+	verticlal-align:top;
+	display: inline-block;
+}

@@ -330,6 +330,17 @@ class Backend_PageController extends Zend_Controller_Action {
 				}
 
 				$miscConfig = Zend_Registry::get('misc');
+
+				// unlink old croped page previews
+				if(!empty($currentPreviewList)) {
+					foreach($currentPreviewList as $fileToUnlink) {
+						$unlinkPath = $this->_helper->website->getPreviewcrop() . $fileToUnlink;
+						if(file_exists($unlinkPath)) {
+							unlink($unlinkPath);
+						}
+					}
+				}
+
 				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $this->_helper->website->getPreviewcrop(), true);
 				unset($miscConfig);
 
