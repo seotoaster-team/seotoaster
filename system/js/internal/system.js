@@ -159,7 +159,9 @@
 
 		});
 		//seotoaster gallery links
-		$('a._lbox').fancybox();
+		if(jQuery.fancybox) {
+			$('a._lbox').fancybox();
+		}
 		//publishPages();
 	});
 })(jQuery);
