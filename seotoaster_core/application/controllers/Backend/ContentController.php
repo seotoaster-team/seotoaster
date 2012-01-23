@@ -93,11 +93,11 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 			$container->registerObserver(new Tools_Seo_Watchdog());
 			$container->registerObserver(new Tools_Search_Watchdog());
-//			$container->registerObserver(new Tools_Content_GarbageCollector(array(
-//				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
-//			)));
+			$container->registerObserver(new Tools_Content_GarbageCollector(array(
+				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+			)));
 
-			$container->setId($containerData['containerId'])
+			$container->setId($containerId)
 				->setName($containerData['containerName'])
 				->setContainerType($containerData['containerType'])
 				->setPageId($pageId)
