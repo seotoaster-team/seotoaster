@@ -13,10 +13,11 @@ class Backend_PageController extends Zend_Controller_Action {
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 		$this->_helper->AjaxContext()->addActionContexts(array(
-			'edit404page'  => 'json',
-			'rendermenu'   => 'json',
-			'listpages'    => 'json',
-			'publishpages' => 'json'
+			'edit404page'      => 'json',
+			'rendermenu'       => 'json',
+			'listpages'        => 'json',
+			'publishpages'     => 'json',
+			'checkforsubpages' => 'json'
 		))->initContext('json');
 
 	}
@@ -163,6 +164,13 @@ class Backend_PageController extends Zend_Controller_Action {
 			}
 			unset($this->_helper->session->faPull);
 		}
+	}
+
+	public function checkforsubpagesAction() {
+		$this->_helper->response->success(array(
+			'subpages' => $this->_hasSubpages($this->getRequest()->getParam('pid')),
+			'message'  => '<h2>' . $this->_helper->language->translate('This page is a category and has subpages.') . '</h2>' . $this->_helper->language->translate('Please remove or move subpages to another category first')
+		));
 	}
 
 	public function deleteAction() {

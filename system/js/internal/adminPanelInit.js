@@ -41,35 +41,52 @@ $(function() {
 	});
 
 	//admin panel delete this page link
-	$('#del-this-page').click(function(){
-		var delPage    = document.createElement('div');
+	$('#del-this-page').click(function() {
 		var pageId     = $('#del-page-id').val();
 		var websiteUrl = $('#website_url').val();
-		smoke.confirm('Are you sure you want to delete this page?', function(e) {
-			if(e) {
-				$.ajax({
-					url        : websiteUrl + 'backend/backend_page/delete/',
-					type       : 'post',
-					dataType   : 'json',
-					data       : {
-						id : pageId
-					},
-					beforeSend : function() {
-						smoke.signal('Removing page...', 30000);
-					},
-					success : function(response) {
-						hideSpinner();
-						if(!response.error) {
-							top.location.href = websiteUrl;
-						}
-						else {
-							$(delPage).dialog('close');
-							smoke.alert(response.responseText.body, {'classname':'errors'});
-						}
 
-					}
-				})
-			}
-		}, {'classname':'errors', 'ok':'Yes', 'cancel':'No'});
+		var isCategory = !!($(this).data('cid') == 0);
+		if(isCategory) {
+			$.getJSON(websiteUrl + 'backend/backend_page/checkforsubpages/pid/' + pageId, function(response) {
+				if(response.responseText.subpages) {
+					smoke.alert(response.responseText.message, {'classname':'errors'});
+					return false;
+				} else {
+					showDelConfirm();
+				}
+			});
+		} else {
+			showDelConfirm();
+		}
 	})
 });
+
+function showDelConfirm() {
+	var pageId     = $('#del-page-id').val();
+	var websiteUrl = $('#website_url').val();
+	smoke.confirm('Are you sure you want to delete this page?', function(e) {
+		if(e) {
+			$.ajax({
+				url        : websiteUrl + 'backend/backend_page/delete/',
+				type       : 'post',
+				dataType   : 'json',
+				data       : {
+					id : pageId
+				},
+				beforeSend : function() {
+					smoke.signal('Removing page...', 30000);
+				},
+				success : function(response) {
+					hideSpinner();
+					if(!response.error) {
+						top.location.href = websiteUrl;
+					}
+					else {
+						smoke.alert(response.responseText.body, {'classname':'errors'});
+					}
+
+				}
+			})
+		}
+	}, {'classname':'errors', 'ok':'Yes', 'cancel':'No'});
+}
