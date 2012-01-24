@@ -62,7 +62,7 @@
 				} else {
 					$('.smoke-base').remove();
 				}
-			}, {classname:"errors"});
+			}, {classname:"errors", 'ok':'Yes', 'cancel':'No'});
 		});
 
 		//seotoaster close popup window button
