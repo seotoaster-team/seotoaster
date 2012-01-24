@@ -68,8 +68,8 @@ class LoginController extends Zend_Controller_Action {
 			}
 		}
 		else {
-			//getting flags
-			$this->view->flagsFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_helper->website->getPath() . 'system/images/flags', 'png', false, true);
+			//getting available system translations
+            $this->view->languages = $this->_helper->language->getLanguages();
 
 			//getting messages
 			$this->view->messages   = $this->_helper->flashMessenger->getMessages();

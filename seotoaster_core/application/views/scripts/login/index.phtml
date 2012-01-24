@@ -23,11 +23,13 @@
 
 
     <div class="clear"></div>
-	<div class="grid_12">
-		<div class="textcentered mb15px mt5px">
-			<?php if(isset($this->flagsFiles) && is_array($this->flagsFiles) && !empty($this->flagsFiles)): ?>
-				<?php foreach($this->flagsFiles as $flagFileName => $flagFilePath): ?>
-					<a class="flag-button" title="<?php echo ($this->translate('Select ') . $flagFileName . $this->translate(' language'));?> " href="javascript:;"><img alt="<?php echo $flagFileName; ?>" class="lang-select" id="<?php echo $flagFileName; ?>" src="<?php echo $this->websiteUrl . 'system/images/flags/' . $flagFilePath; ?>" border="0" /></a>&nbsp;
+    <div class="grid_12">
+        <div class="textcentered mb15px mt5px">
+            <?php if(isset($this->languages) && is_array($this->languages) && !empty($this->languages)): ?>
+				<?php foreach($this->languages as $lang): ?>
+					<a class="flag-button" title="<?php echo ($this->translate('Select ') . $lang['language'] . $this->translate(' language'));?> " href="#">
+                        <img alt="<?php echo $lang['language']; ?>" class="lang-select" data-lng="<?php echo $lang['name']; ?>" src="<?php echo $this->websiteUrl . $lang['flag']; ?>" border="0" />
+                    </a>&nbsp;
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</div>
@@ -58,7 +60,7 @@
 	.seotoaster fieldset {
 		padding-bottom: 30px;
 		width: 370px;
-		margin: 0px auto;
+		margin: 0 auto;
 		margin-bottom: 7px;
 	}
 </style>
@@ -66,9 +68,9 @@
 
 <script type="text/javascript" charset="utf-8">
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
-	$('.lang-select').live('click', function() {
-		var language = $(this).attr('id');
-		$.post( $('#website_url').val() + 'language', {lng: language}, function() {
+	$('.lang-select').on('click', function(e) {
+        e.preventDefault();
+		$.post( $('#website_url').val() + 'language/', {lng: $(this).data('lng')}, function() {
 			window.location.reload();
 		})
 	})

@@ -260,7 +260,7 @@ class Application_Form_Config extends Zend_Form {
 		$isAnyErrors = false;
 		foreach ($errors as $element => $errorsArray) {
 			if (!empty ($errorsArray)){
-				$this->getElement($element)->setAttrib('class', 'error');
+				$this->getElement($element)->setAttrib('class', 'errors');
 				$isAnyErrors = true;
 			}
 		}

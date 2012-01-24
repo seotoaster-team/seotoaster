@@ -82,13 +82,7 @@
 		$('#tabs').tabs();
 
 		<?php if (count($this->messages)) : ?>
-		$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
+		//$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
 		<?php endif; ?>
 	});
 </script>
-<style>
-	.seotoaster form input.error {
-		color: red;
-		border-color: red;
-	}
-</style>

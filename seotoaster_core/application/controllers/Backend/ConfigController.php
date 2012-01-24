@@ -25,10 +25,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$configForm = new Application_Form_Config();
 		$configForm->setAction($this->_helper->url->url());
 
-		$langList = $this->_helper->language->getLanguages(false);
 		$languageSelect = $configForm->getElement('language');
-		$languageSelect->setMultiOptions($langList);
-		$languageSelect->setValue($this->_helper->language->getCurrentLanguage());
+		$languageSelect->setMultiOptions($this->_helper->language->getLanguages(false));
 
 		$loggedUser = $this->_helper->session->getCurrentUser();
 
@@ -51,6 +49,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				$selectedLang = $languageSelect->getValue();
 				if ($selectedLang != $this->_helper->language->getCurrentLanguage()) {
 					$this->_helper->language->setLanguage($selectedLang);
+                    $languageSelect->setMultiOptions($this->_helper->language->getLanguages(false));
 				}
 				if ( $isSuperAdminLogged ) {
 					$newPass	= $configForm->getElement('suPassword')->getValue();

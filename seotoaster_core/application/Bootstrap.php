@@ -125,9 +125,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initTranslator() {
-
+        $config = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
 		$session = Zend_Registry::get('session');
-		$locale  = (isset($session->locale)) ? $session->locale : new Zend_Locale();
+
+        $locale  = (isset($session->locale)) ? $session->locale : new Zend_Locale(Zend_Locale::getLocaleToTerritory($config['language']));
+
 		$session->locale = $locale;
 
 		$translator = new Zend_Translate(array(

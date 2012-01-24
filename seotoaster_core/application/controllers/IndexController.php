@@ -3,7 +3,7 @@
 class IndexController extends Zend_Controller_Action {
 
     public function init() {
-		$this->_helper->AjaxContext()->addActionContext('language', 'json')->initContext('json');
+		$this->_helper->ajaxContext->addActionContext('language', 'json')->initContext('json');
 	}
 
     public function indexAction() {
@@ -132,14 +132,31 @@ class IndexController extends Zend_Controller_Action {
 		return $pageContent;
 	}
 
+    /**
+     * Language changing route:
+     * via GET - /language/lng/%locale%
+     * via POST - /language/ with data {lng: %locale%}
+     */
 	public function languageAction() {
-		if($this->getRequest()->isPost()) {
-			$language = substr($this->getRequest()->getParam('lng'), 0, 2);
-			if($language) {
-				$locale   = $this->_helper->session->locale;
-				$locale->setLocale($locale->getLocaleToTerritory($language));
-				$this->_helper->session->locale = $locale;
-			}
-		}
+        $this->_helper->layout->disableLayout(true);
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $language = filter_var($this->getRequest()->getParam('lng'),FILTER_SANITIZE_STRING);
+        $originUrl = parse_url($this->_helper->website->getUrl(), PHP_URL_HOST);
+
+        if(!empty($language) ) {
+            $result = $this->_helper->language->setLanguage($language);
+
+            $referer = $this->getRequest()->getServer('HTTP_REFERER');
+
+            if (!$this->getRequest()->isXmlHttpRequest()){
+
+                if ( !empty($referer) && parse_url($referer, PHP_URL_HOST) === $originUrl ) {
+                    $this->_redirect($this->getRequest()->getServer('HTTP_REFERER'));
+                }
+            } else {
+                $this->view->result = $result;
+            }
+        }
 	}
 }
