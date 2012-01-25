@@ -1,5 +1,5 @@
-<ul id="listpages">
-	<?php if(isset($this->pagesList)): ?>
+<?php if(isset($this->pagesList)): ?>
+	<ul class="listpages">
 		<?php foreach ($this->pagesList as $page):  ?>
 			<li>
 				<?php if($this->useImage): ?>
@@ -11,5 +11,7 @@
 				<span><?php echo $page->getTeaserText(); ?></span>
 			 </li>
 		<?php endforeach; ?>
-	<?php endif; ?>
-</ul>
+	</ul>
+<?php else: ?>
+	<!-- NO PAGES TO LIST -->
+<?php endif; ?>
