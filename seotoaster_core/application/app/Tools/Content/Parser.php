@@ -7,11 +7,15 @@
  */
 class Tools_Content_Parser {
 
-	private $_pageData = null;
+	const PARSE_DEEP = 5;
 
-	private $_content = null;
+	private $_pageData  = null;
 
-	private $_options = array();
+	private $_content   = null;
+
+	private $_options   = array();
+
+	private $_iteration = 0;
 
 	public function  __construct($content = null, $pageData = null, $options = null) {
 		if(null !== $content) {
@@ -66,9 +70,11 @@ class Tools_Content_Parser {
 	}
 
 	private function _parse() {
+		$this->_iteration++;
 		$replacement = '';
 		$widgets = $this->_findWidgets();
-		if(empty($widgets)) {
+
+		if(empty($widgets) || ($this->_iteration >= self::PARSE_DEEP)) {
 			return;
 		}
 		foreach ($widgets as $widgetData) {
