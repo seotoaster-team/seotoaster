@@ -24,26 +24,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initRoutes()  {
-		$routest = new Zend_Config_Xml(APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml');
+        $routesXmlPath = is_file(APPLICATION_PATH . '/configs/'.SITE_NAME.'.routes.xml') ? APPLICATION_PATH . '/configs/'.SITE_NAME.'.routes.xml' : APPLICATION_PATH . '/configs/routes.xml' ;
+		$routes = new Zend_Config_Xml($routesXmlPath);
 		$router  = Zend_Controller_Front::getInstance()->getRouter();
-		$router->addConfig($routest, 'routes');
+		$router->addConfig($routes, 'routes');
 	}
 
 	protected function _initDatabase() {
-		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini', 'database');
+		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'database');
 		$database = Zend_Db::factory($config->database);
 		Zend_Db_Table_Abstract::setDefaultAdapter($database);
 		Zend_Registry::set('dbAdapter', $database);
 	}
 
 	protected function _initSession() {
-		$config  = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini', 'website');
+		$config  = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'website');
 		$session = new Zend_Session_Namespace($config->website->url, true);
 		Zend_Registry::set('session', $session);
 	}
 
 	protected function _initCache() {
-		$config               = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini');
+		$config               = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini');
 		$cacheFrontendOptions = $config->cache->cache->frontend->toArray();
 		$cacheBackendOptions  = $config->cache->cache->backend->toArray();
 		$cache = Zend_Cache::factory('Core', 'File', $cacheFrontendOptions, $cacheBackendOptions);
@@ -51,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initRegistry() {
-		$config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini');
+		$config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini');
 		Zend_Registry::set('website', $config->website->website->toArray());
 		Zend_Registry::set('database', $config->database->database->toArray());
 		Zend_Registry::set('theme', $config->theme->theme->toArray());
@@ -149,11 +150,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initZendX() {
-		$view    = new Zend_View();
-		$website = Zend_Registry::get('website');
-		$misc    = Zend_Registry::get('misc');
-		$url      = preg_replace('~^https?://~', '', $website['url']);
-		$protocol = strtolower(preg_replace('~[^A-Z]~', '', $_SERVER['SERVER_PROTOCOL'])) .'://';
+		$view       = new Zend_View();
+		$website    = Zend_Registry::get('website');
+		$misc       = Zend_Registry::get('misc');
+		$url        = preg_replace('~^https?://~', '', $website['url']);
+		$protocol   = strtolower(preg_replace('~[^A-Z]~', '', $_SERVER['SERVER_PROTOCOL'])) .'://';
 
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		if($misc['jquery'] == 'local') {

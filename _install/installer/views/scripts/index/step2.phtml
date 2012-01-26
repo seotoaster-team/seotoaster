@@ -12,10 +12,12 @@
 		
 		<?php if ($this->messages['db'] !== null): ?>
 			<?php if ($this->messages['db'] === true):?>
-				<p class="state-success">Database installed successful.</p>
+				<p class="state-success"><?php echo $this->translate('Database installed successful'); ?></p>
 			<?php else :?>
 				<p class="state-error">
-					<span style="font-weight: normal; color: black;">Can't establish database connection. Server sent following error:</span>
+					<span style="font-weight: normal; color: black;">
+                        <?php echo $this->translate("Can't install database. Server sent following error:"); ?>
+                    </span>
 					<code><?php echo $this->messages['db']; ?></code>
 				</p>
 			<?php endif; ?>
@@ -28,7 +30,7 @@
 	
 	<form action="" method="post">
 		<?php if ($this->gotoNext === true): ?>
-		<input type="submit" value="Go forward!" name="submit" />
+		<input type="submit" value="<?php echo $this->translate('Go forward!');?>" name="submit" />
 		<?php endif; ?>
 	</form>
 	

@@ -34,6 +34,7 @@ website.path        = "{websitepath}"
 website.defaultpage = "index.html"
 website.tmp         = "tmp/"
 website.preview     = "previews/"
+website.previewCrop = "previews/crop/"
 website.media		= "media/"
 website.lang		= "system/languages/"
 
@@ -54,7 +55,7 @@ cache.backend.cache_dir                = "cache/"
 
 [misc]
 misc.jquery                = "cdn"
-misc.jqversion             = "1.6.4"
+misc.jqversion             = "1.7.1"
 misc.jqueryui              = "cdn"
 misc.jquversion            = "1.8.16"
 misc.pluginsPath           = "plugins/"

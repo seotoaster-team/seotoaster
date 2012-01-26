@@ -49,7 +49,7 @@ require_once 'Zend/Application.php';
 // Create application, bootstrap, and run
 $application = new Zend_Application(
     APPLICATION_ENV,
-    APPLICATION_PATH . '/configs/' . SITE_NAME . 'application.ini'
+    APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini'
 );
 $application->bootstrap()
             ->run();
