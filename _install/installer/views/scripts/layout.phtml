@@ -15,49 +15,48 @@
 		
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
-		<?php //$this->jQuery()->addJavascriptFile('https://raw.github.com/ckald/jquery-pjax/master/jquery.pjax.js'); ?>
 		<?php $this->jQuery()->addJavascriptFile('http://cdn.jquerytools.org/1.2.5/tiny/jquery.tools.min.js'); ?>
-		
+
 		<script>
-			<?php $this->jQuery()->onLoadCaptureStart();?>
-				$('#container form').live('submit', function(e){
-					// display loading message
-					$('#loading').fadeIn();
-					
-					if( !$(e.target).attr('action'))
-						e.target = $(e.target).closest('form');
+        <?php $this->jQuery()->onLoadCaptureStart();?>
+        $('#container').on('submit', 'form', function(e){
+            // display loading message
+            $('#loading').fadeIn();
 
-					$.ajax({
-						type: "POST",
-						url: $(e.target).attr('action'),
-						data: $(e.target).serialize(),
-						beforeSend : function(xhr) {
-							return xhr.setRequestHeader('X-PJAX','true'); // IMPORTANT
-						},
-						success: function(response){
-							$('#container').html(response);
-							$('#container form :input[title!=""]').tooltip({
-								   position: "top center",
-								   opacity: 0.8
-							});
-							$('#container .content').prepend($('<div></div>', {id: 'loading'}));
-							$('#loading').fadeOut();
-						},
-						error: function() {
-							$('#loading').fadeOut();
-						}
-					});
+            if( !$(e.target).attr('action'))
+                e.target = $(e.target).closest('form');
 
-				  e.preventDefault();
-				  return false;
-			   });
-			   
-//			   $('#content form input.livecheck').live('change', function(){
-//					$(this).closest('form').trigger('submit');
-//			   });
-			<?php $this->jQuery()->onLoadCaptureEnd();?>
+            $.ajax({
+                type: "POST",
+                url: $(e.target).attr('action'),
+                data: $(e.target).serialize(),
+                beforeSend : function(xhr) {
+                    return xhr.setRequestHeader('X-PJAX','true'); // IMPORTANT
+                },
+                success: function(response){
+                    $('#container').html(response);
+                    $('#container form :input[title!=""]').tooltip({
+                           position: "top center",
+                           opacity: 0.8
+                    });
+                    $('#container .content').prepend($('<div></div>', {id: 'loading'}));
+                    $('#loading').fadeOut();
+                },
+                error: function() {
+                    $('#loading').fadeOut();
+                }
+            });
+
+          e.preventDefault();
+          return false;
+       });
+
+//       $('#content form input.livecheck').live('change', function(){
+//            $(this).closest('form').trigger('submit');
+//       });
+        <?php $this->jQuery()->onLoadCaptureEnd();?>
 		</script>
-		
+
 		<?php echo $this->jQuery(); ?>
 	</head>
 	<body>

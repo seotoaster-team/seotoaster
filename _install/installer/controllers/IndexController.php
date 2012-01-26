@@ -207,7 +207,9 @@ class IndexController extends Zend_Controller_Action {
 					}
 					
 				} else {
-					$coreForm->processErrors();
+                    if (!$configForm->getElement('sitename')->isValid($params['sitename'])){
+                        $this->view->messages['core'] = 'Site name should not contain spaces or special characters';
+                    }
 				}
 			//checking if it is possible to write config files into given core folder
 			if (isset($this->_session->coreinfo)){
@@ -223,7 +225,8 @@ class IndexController extends Zend_Controller_Action {
 						$this->view->messages['core'] = 'Configs dir must be writable: '.$configsDir;
 					} elseif ($this->_session->coreinfo['sitename'] === '' && !is_writable($configsDir . $this->_requirements['corePermissions']['appini'])) {
 						$this->view->messages['core'] = 'This files in <b>core</b> folder must be writable: <br />'.$this->_requirements['corePermissions']['configdir']. $this->_requirements['corePermissions']['appini'];
-					} else {
+					}
+                    if (empty($this->view->messages['core'])) {
 						$isCoreReady = true;
 					}
 				} 
@@ -257,12 +260,11 @@ class IndexController extends Zend_Controller_Action {
 	public function step3Action() { 
 		$settingsForm = new Installer_Form_Settings();
 		
-		if (!isset($this->_session->configsSaved) || $this->_session->configsSaved != true) {
+		if (!isset($this->_session->configsSaved) || $this->_session->configsSaved !== true) {
 			$url = parse_url($_SERVER['HTTP_REFERER']);
 			$instFolderName = preg_replace('~^.*/([^/]*)$~', '$1', INSTALLER_PATH);
 			$this->_session->websiteUrl = $url['host'] .  preg_replace('~^(.*/)'.$instFolderName.'/?(index.php)?$~i', '$1', $url['path']);
-			$result = $this->_saveConfigToFs();
-			$this->_session->configsSaved = $result;
+			$this->_session->configsSaved = $this->_saveConfigToFs();
 		}
 		
 		$params = $this->getRequest()->getParams();
@@ -351,12 +353,13 @@ class IndexController extends Zend_Controller_Action {
 			$corepath = realpath($this->_session->coreinfo['corepath']);
 			$configPath = realpath($this->_session->coreinfo['corepath'] . DIRECTORY_SEPARATOR . $this->_requirements['corePermissions']['configdir']);
 		}
-		
+
+        $sitename = !empty ($this->_session->coreinfo['sitename']) ? $this->_session->coreinfo['sitename'] : 'application';
 		//saving coreinfo.php
 		try {
 			$data = "<?php" . PHP_EOL .
-					"define ('CORE', '".$corepath."/');" . PHP_EOL .
-					"define ('SITE_NAME', '". $this->_session->coreinfo['sitename'] ."/');" . PHP_EOL ;
+					"define ('CORE', '$corepath/');" . PHP_EOL .
+					"define ('SITE_NAME', '$sitename');" . PHP_EOL ;
 			file_put_contents(INSTALL_PATH.DIRECTORY_SEPARATOR.$this->_requirements['permissions']['file']['coreinfo'], $data);
 			unset($data);
 		} catch (Exception $e) {
@@ -364,12 +367,10 @@ class IndexController extends Zend_Controller_Action {
 			error_log($e->getTraceAsString());
 		}
 		
-		$savePath = $this->_session->coreinfo['sitename'] === '' ? $configPath : $configPath . DIRECTORY_SEPARATOR . $this->_session->coreinfo['sitename'];
-		
-		if (!is_dir($savePath)){
-			mkdir($savePath);
-		}
-		
+		$iniPath = ($this->_session->coreinfo['sitename'] === ''
+                ? $configPath . DIRECTORY_SEPARATOR . 'application'
+                : $configPath . DIRECTORY_SEPARATOR . $this->_session->coreinfo['sitename'] ) . '.ini';
+
 		//initializing template of application.ini 
 		$appIni = file_get_contents(INSTALLER_PATH.'/resourses/application.ini.default');
 		
@@ -384,14 +385,9 @@ class IndexController extends Zend_Controller_Action {
 				),
 			$appIni);
 		
-		//saving application.ini and copying routes.xml files to specified core folder
+		//saving application.ini
 		try {
-			if (
-				file_put_contents($savePath.DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['appini'], $appIni) &&
-				copy(INSTALLER_PATH.'/resourses/routes.xml.default', $savePath.DIRECTORY_SEPARATOR.'routes.xml')
-			) {
-				return true;
-			} 
+			return (bool) file_put_contents($iniPath, $appIni);
 		} catch (Exception $e){
 			error_log($e->getMessage());
 			error_log($e->getTraceAsString());
@@ -434,16 +430,22 @@ class IndexController extends Zend_Controller_Action {
 	}
 	
 	private function _findLanguages() {
-		$availLanguages = array();
-		$langFiles = scandir(INSTALL_PATH.DIRECTORY_SEPARATOR.'system/languages/');
-		foreach ($langFiles as $file) {
-			$locale = preg_replace('~(.*)\.lng$~', '$1', $file);
-			$flagFile = 'system/images/flags/'.$locale.'.png';
-			if (is_file(INSTALL_PATH.DIRECTORY_SEPARATOR.$flagFile)){
-				$availLanguages[$locale] = $flagFile;
-			}
+        $translate = Zend_Registry::get('Zend_Translate');
+		$availLanguages = $translate->getAdapter()->getList();
+		$flags = scandir(INSTALL_PATH.DIRECTORY_SEPARATOR.'system/images/flags/');
+
+        foreach ($flags as $flag) {
+            if (!is_file(INSTALL_PATH.DIRECTORY_SEPARATOR.'system/images/flags/'.$flag)){
+                continue;
+            }
+			$locale = new Zend_Locale(Zend_Locale::getLocaleToTerritory(substr($flag, 0, 2)));
+			$lang = $locale->getLanguage();
+            if (array_key_exists($lang, $availLanguages)){
+                $availLanguages[$lang] = 'system/images/flags/'.$flag;
+            }
+            unset($locale, $lang, $flag);
 		}
-		
+
 		return $availLanguages;
 	}
 }

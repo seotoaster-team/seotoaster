@@ -60,7 +60,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$view    = new Zend_View();
 		
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
-		$view->jQuery()->setVersion('1.6');
+		$view->jQuery()->setVersion('1.7');
 		$view->jQuery()->setUiVersion('1.8');
 
 		$viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
