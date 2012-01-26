@@ -31,7 +31,8 @@ class Tools_Content_EntityParser {
 	public function parse($content) {
 		if(!empty ($this->_dictionary)) {
 			foreach ($this->_dictionary as $sub => $replace) {
-				$content = str_replace('{' . $sub . '}', $replace, $content);
+				//$content = str_replace('{' . $sub . '}', $replace, $content);
+				$content = strtr($content, array('{' . $sub . '}' => $replace));
 			}
 		}
 		return $content;

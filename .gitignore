@@ -1,7 +1,9 @@
 seotoaster_core/library/**/*
 plugins/*
 cache/*
+!cache/.gitignore
 media/*
+!media/.gitignore
 previews/*
 seotoaster_core/application/configs/**/*
 !*/index.html
@@ -17,4 +19,5 @@ system/coreinfo.php
 tests/*
 robots.txt
 tmp/*
+!tmp/.gitignore
 .idea/*
