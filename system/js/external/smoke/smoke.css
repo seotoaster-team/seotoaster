@@ -77,7 +77,7 @@
 
 .smoke-base {
   background: rgba(0,0,0,.3);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#90000000,endColorstr=#900000000);
+/*  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#90000000,endColorstr=#900000000);   */
 }
 
 .smoke-base .dialog {
@@ -92,8 +92,7 @@
 
 .smoke {
   text-transform: uppercase;
-  background-color: rgba(255,255,255,1);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#ffffff);
+  background-color: rgb(255,255,255);
 }
 
 .dialog-buttons button {
@@ -104,7 +103,7 @@
 }
 
 button.cancel {
-  background-color: rgba(0,0,0,.7);
+  background-color: rgb(0,0,0,.7);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#444444,endColorstr=#444444);
 }
 

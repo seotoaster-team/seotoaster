@@ -120,7 +120,7 @@ body, body.seotoaster {
     color: lightBlue;
     font-size: 10px;
     font-weight: normal;
-    padding:10px 10px 12px 10px;
+    padding:7px 10px 12px 10px;
     text-shadow: 0.02em  0 0.03em #FFFFFF;
     display: block;
     float: left;
@@ -143,21 +143,20 @@ a.generator-links img {
 }
 a.generator-links.plugin {
     background:url(/system/images/editadd-plugin.png) no-repeat #F68B0E left center;
-
-border: 1px solid #7C7C7C;
-border-radius: 2px;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-color: white;
-display: inline-block;
-font-family: verdana;
-font-size: 11px;
-height: 11px;
-font-weight: bold;
-margin-top: 6px;
-padding: 2px 5px 5px 20px;
-text-decoration: none;
-text-transform: uppercase
+    border: 1px solid #7C7C7C;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    color: white;
+    display: inline-block;
+    font-family: verdana;
+    font-size: 11px;
+    height: 11px;
+    font-weight: bold;
+    margin-top: 6px;
+    padding: 2px 5px 5px 20px;
+    text-decoration: none;
+    text-transform: uppercase
 }
 .seotoaster .ajaxspineer {
 	background: url('/system/images/fl.gif') no-repeat scroll 50% 0 transparent;
@@ -200,7 +199,7 @@ text-transform: uppercase
 .seotoaster .header a {
 	color:#e7e7e7;
 }
-.seotoaster .header a:hover { border-bottom:1px dotted #e7e7e7; }
+.seotoaster .header a:hover { border-bottom:1px solid #e7e7e7; }
 .seotoaster a:hover { }
 .seotoaster a:visited { }
 .seotoaster a:active { }
@@ -231,7 +230,7 @@ text-transform: uppercase
 .seotoaster p {
 	/*line-height:1.5em;*/
 	/*overflow: hidden;
-	margin: 5px 0px;*/
+	margin: 5px 0;*/
 }
 .seotoaster blockquote { }
 .seotoaster address { }
@@ -310,7 +309,7 @@ text-transform: uppercase
   font-style: normal;
 }
 
-.seotoaster input[type=submit], .seotoaster button.save-and-close {
+.seotoaster input[type=submit], .seotoaster button.save-and-close, button#save-btn {
     background: #939393;
     background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
@@ -340,7 +339,7 @@ text-transform: uppercase
     overflow: visible;
 
 }
-.seotoaster input[type=submit]:hover {
+.seotoaster input[type=submit]:hover, .seotoaster button.save-and-close:hover, button#save-btn:hover {
     background: #888888;
     background: -moz-linear-gradient(top, #888888 0%, #727272 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#888888), color-stop(100%,#727272));
@@ -352,31 +351,31 @@ text-transform: uppercase
     -moz-box-shadow: 0 1px 0 0 #969696 inset;
     -webkit-box-shadow: 0 1px 0 0 #969696 inset;
 }
-.seotoaster input.greenbtn {
-    background: #98cc70;
-    background: -moz-linear-gradient(top, #98cc70 0%, #81b858 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#98cc70), color-stop(100%,#81b858));
-    background: -webkit-linear-gradient(top, #98cc70 0%,#81b858 100%);
-    background: -o-linear-gradient(top, #98cc70 0%,#81b858 100%);
-    background: -ms-linear-gradient(top, #98cc70 0%,#81b858 100%);
-    background: linear-gradient(top, #98cc70 0%,#81b858 100%);
-    border-color: #81b858 #81b858 #7cad55;
-    box-shadow: 0 1px 0 0 #aad48a inset;
-    -moz-box-shadow: 0 1px 0 0 #aad48a inset;
-    -webkit-box-shadow: 0 1px 0 0 #aad48a inset;
-    text-shadow: 0 -1px 0 #6fa54d;
+.seotoaster input.blue-btn {
+    background: #87b0c8;
+    background: -moz-linear-gradient(top, #87b0c8 0%, #739db6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87b0c8), color-stop(100%,#739db6));
+    background: -webkit-linear-gradient(top, #87b0c8 0%,#739db6 100%);
+    background: -o-linear-gradient(top, #87b0c8 0%,#739db6 100%);
+    background: -ms-linear-gradient(top, #87b0c8 0%,#739db6 100%);
+    background: linear-gradient(top, #87b0c8 0%,#739db6 100%);
+    border-color: #739db6 #739db6 #7097ae;
+    box-shadow: 0 1px 0 0 #9dbed1 inset;
+    -moz-box-shadow: 0 1px 0 0 #9dbed1 inset;
+    -webkit-box-shadow: 0 1px 0 0 #9dbed1 inset;
+    text-shadow: 0 -1px 0 #698da7;
 }
-.seotoaster input.greenbtn:hover {
-    background: #91c26c;
-    background: -moz-linear-gradient(top, #91c26c 0%, #7eb158 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#91c26c), color-stop(100%,#7eb158));
-    background: -webkit-linear-gradient(top, #91c26c 0%,#7eb158 100%);
-    background: -o-linear-gradient(top, #91c26c 0%,#7eb158 100%);
-    background: -ms-linear-gradient(top, #91c26c 0%,#7eb158 100%);
-    background: linear-gradient(top, #91c26c 0%,#7eb158 100%);
-    box-shadow: 0 1px 0 0 #a4cc85 inset;
-    -moz-box-shadow: 0 1px 0 0 #a4cc85 inset;
-    -webkit-box-shadow: 0 1px 0 0 #a4cc85 inset;
+.seotoaster input.blue-btn:hover {
+    background: #84aac1;
+    background: -moz-linear-gradient(top, #84aac1 0%, #7299b1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#84aac1), color-stop(100%,#7299b1));
+    background: -webkit-linear-gradient(top, #84aac1 0%,#7299b1 100%);
+    background: -o-linear-gradient(top, #84aac1 0%,#7299b1 100%);
+    background: -ms-linear-gradient(top, #84aac1 0%,#7299b1 100%);
+    background: linear-gradient(top, #84aac1 0%,#7299b1 100%);
+    box-shadow: 0 1px 0 0 #99b8ca inset;
+    -moz-box-shadow: 0 1px 0 0 #99b8ca inset;
+    -webkit-box-shadow: 0 1px 0 0 #99b8ca inset;
 }
 .seotoaster dl { }
 .seotoaster dt { }
@@ -529,16 +528,16 @@ text-transform: uppercase
 	border: none;
 	border-bottom:1px solid #fff;
 	display:block;
-	margin-top: 0px;
+	margin-top: 0;
 	text-decoration: none;
-    -moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
+    -moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
 }
 .seotoaster#seotoaster-cpanel ul#logoutul a {
-   	-moz-border-radius: 0px 0px 8px 8px;
-	-webkit-border-radius: 0px 0px 8px 8px;
-	border-radius: 0px 0px 8px 8px;
+   	-moz-border-radius: 0 0 8px 8px;
+	-webkit-border-radius: 0 0 8px 8px;
+	border-radius: 0 0 8px 8px;
 }
 .seotoaster#seotoaster-cpanel ul li a span {
 	font-size: 13pt !important;
@@ -637,11 +636,11 @@ text-transform: uppercase
 	color: #ececec;
 	background-color:#666;
 	float:left;
-	padding:0px 8px;
+	padding:0 8px;
 }
 .seotoaster div.header #publish-later { margin-left: 10px; }
-.seotoaster div.header input[type=checkbox] { margin-top: 5px; }
-.seotoaster div.header input[type=checkbox] { margin-top: 0; }
+.seotoaster div.header input[type=checkbox] { margin-top: 2px; }
+.seotoaster div.header input[type=checkbox] { margin-top: 0\0/; }
 .seotoaster div.header input[type=text] {
 	font-size:10pt;
 	padding: 1px 2px;
@@ -778,15 +777,15 @@ div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
 }
 
-div.show_div#widgets_maker label.nopad{padding-left: 0px;}
-div.show_div#widgets_maker input.nopad{padding: 2px 0px; margin-left: 0; margin-right: 0;}
+div.show_div#widgets_maker label.nopad{padding-left: 0;}
+div.show_div#widgets_maker input.nopad{padding: 2px 0; margin-left: 0; margin-right: 0;}
 div.show_div#widgets_maker div.nopad{min-height:25px;}
 div.show_div#widgets_maker div.nopad input[type="checkbox"]{margin-top:5px;}
 
 div.show_div#widgets_maker select {
 	cursor: pointer;
 	border: 1px solid #BDE6F1;
-	padding: 1px 0px;
+	padding: 1px 0;
     margin-left: 0;
     margin-right: 0;
 }
@@ -798,9 +797,14 @@ div.show_div#widgets_maker select {
 }
 
 .seotoaster #filters.tpllistfilter {
-  float: right;
-  margin-right: 40px;
+    float: right;
+    margin-right: 20px;
+    font-size: 10pt;
+}
 
+#filters.tpllistfilter .lnk-filter {
+    color: lavender;
+    margin: 0 5px 0 5px;
 }
 
 .seotoaster #other-templates {
@@ -844,8 +848,8 @@ img#template_preview {
 	display: inline;
 }
 .seotoaster div#templatelist div.template_preview .template_name {
-	padding:5px 0px;
-	margin: 0px;
+	padding:5px 0;
+	margin: 0;
 	background-color: #666666;
 	font-size:11pt;
     color: #FFFFFF;
@@ -946,7 +950,7 @@ div#page-teaser-uploader{
 }
 
 div#page-teaser-uploader span.ui-button-text{
-     padding: 5px 0px 4px;
+     padding: 5px 0 4px;
      width: 134px;
 }
 #page-teaser-uploader-filelist{
@@ -996,7 +1000,7 @@ list-style: square;
 	padding: 6px 16px;
 	font-style: italic;
 	font-size: 12px;
-	background: url("/system/images/bg-strip.png") repeat 0px 0 transparent;
+	background: url("/system/images/bg-strip.png") repeat 0 0 transparent;
 }
 #seo-tip span {
 	font-weight: bold;
@@ -1010,9 +1014,9 @@ list-style: square;
     background: #666;
 	overflow:hidden;
 	white-space:nowrap;
-	-moz-border-radius:0px 3px 0px 0px;
-	-webkit-border-radius:0px 3px 0px 0px;
-	border-radius:0px 3px 0px 0px;
+	-moz-border-radius:0 3px 0 0;
+	-webkit-border-radius:0 3px 0 0;
+	border-radius:0 3px 0 0;
 }
 .seotoaster span.catmove a {
   color: #fff;
@@ -1047,7 +1051,7 @@ list-style: square;
 	background:cadetblue;
 }
 .seotoaster ul.organise {
-	font-size:11pt;
+	font-size:10pt;
 	margin:0;
 	height:205px;
 	overflow:auto;
@@ -1185,7 +1189,7 @@ list-style: square;
 .seotoaster #redirects-list .redirect-row {
 	overflow: hidden;
 	border-bottom: 1px dashed #ccc;
-	padding: 8px 0px 5px;
+	padding: 8px 0 5px;
 }
 .seotoaster #redirects-list .redirect-row .grid_1 {text-align:center;}
 .seotoaster #redirects-list .redirect-row:hover {
@@ -1212,7 +1216,7 @@ list-style: square;
 .seotoaster #deeplinks-list .deeplink-row {
 	overflow: hidden;
 	border-bottom: 1px dashed #ccc;
-	padding: 8px 0px 5px 0px;
+	padding: 8px 0 5px 0;
 }
 .seotoaster input#add-deeplink {
     font-size: 13pt;
@@ -1263,7 +1267,7 @@ list-style: square;
 	-webkit-border-radius: 3px;
 	padding: 0 0 5px;
 	position: relative;
-	width: 170px;
+	width: 169px;
     background: #fff;
 	overflow: hidden;
 	text-align: center;
@@ -1316,17 +1320,23 @@ list-style: square;
 }
 
 .seotoaster #plugins-list .plugin-item .plugin-control span, .seotoaster #plugins-list .plugin-item .plugin-endis span {
-	padding: 2px 8px;
+	padding: 2px 7px;
 }
-/*============Manage congig=================*/
+/*============Manage config=================*/
 .seotoaster #general-config, .seotoaster #email-config, .seotoaster #security-config {
-  overflow: hidden;
-  margin-bottom: 10px;
+    overflow: hidden;
+    margin-bottom: 7px;
+    min-height: 228px;
 }
 /*============= Manage users ==============*/
 
-.seotoaster #add-user {
-	/*margin-bottom: 20px;*/
+.seotoaster #users-list_wrapper {
+    position: relative;
+}
+.seotoaster #expusrs {
+    float: right;
+    font-size: 10pt;
+    margin-right: 190px;
 }
 
 .seotoaster #users-list {
@@ -1352,11 +1362,13 @@ list-style: square;
 
 .seotoaster #users-list_filter {
 	float: left;
-	padding-left: 8px;
-	width: 200px;
-    margin-top: -40px;
+	/*padding-left: 8px;*/
+	/*width: 200px;*/
+    margin-top: -31px;
 }
-
+.seotoaster #users-list_filter label {
+    margin-top: 5px;
+}
 .seotoaster #users-list .user-row {
 	border-bottom: 1px dashed #CCCCCC;
     display: block;
@@ -1415,13 +1427,13 @@ list-style: square;
 }
 
 .seotoaster .sculpting-subrow input[type=checkbox] {
-	margin: 0px 0px 0px 3px;
+	margin: 0 0 0 3px;
 }
 
 .seotoaster .sculpting-row select {
 	padding: 3px 2px;
 	font-size: 14px;
-	margin: 0px;
+	margin: 0;
 }
 .seotoaster #silos-list {
   background: #fff;
@@ -1446,9 +1458,26 @@ list-style: square;
 
 .seotoaster #add-featured-area {
 	margin-top: 23px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 
+.seotoaster #fa-pages-list {
+    margin:10px;
+    height: 448px;
+    overflow-y: auto;
+    background: url("../images/bg-strip.png") repeat 0 0;
+}
+.seotoaster #fa-pages-list li {
+    list-style: none outside none;
+    padding: 3px 0;
+    font-size: 10pt;
+    overflow: hidden;
+    border-bottom: 1px dashed #DDDDDD;
+    cursor: url("../images/openhand.cur"), default;
+}
+.seotoaster #fa-pages-list li .grid_1 {
+    text-align: right;
+}
 /*============toaster popup========*/
 #__tpopup {
 	border-radius: 3px;
@@ -1469,20 +1498,6 @@ list-style: square;
  form#frm_template .ace-crimson-editor .ace_gutter {
     width: 30px !important; 
  }
-
- /*============= Add / Edit template =================*/
-#filters.tpllistfilter {
-    float: right;
-    margin: 1px 15px 0 0;
-    font-size: 10pt;
-}
-
-#filters.tpllistfilter .lnk-filter {
-    color: lavender;
-    font-size: 10pt;
-    padding: 10px 5px 12px 5px;
-    text-shadow: 0.02em 0 0.03em #444;
-}
 
 /*============= Filetype icons for editor =================*/
 #list_files p > a[title]{

@@ -19,8 +19,8 @@
 	color:#fff;
 		font-weight: normal;
     /*background-color: #7097ae;*/
-	background-color: rgba(32,178,170,0.85);
-    opacity: 0.95;
+	background-color: rgb(32,178,170);
+    opacity: 0.90;
     font-size:25px;
 		border-radius: 0;
 	-moz-border-radius: 0;

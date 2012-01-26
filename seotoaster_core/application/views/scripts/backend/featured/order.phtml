@@ -21,7 +21,7 @@
 				var els     = $('#fa-pages-list').find('li');
 				$.each(els, function() {
 					ordered.push($(this).attr('id'));
-					$(this).find('div:first').text(++number);
+					$(this).find('div:first').text('+'+(++number));
 				});
 				$('#ajax_msg').text('Saving order...').show();
 				$.post($('#website_url').val() + 'backend/backend_featured/order/', {

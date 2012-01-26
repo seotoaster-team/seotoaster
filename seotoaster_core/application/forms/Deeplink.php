@@ -72,6 +72,7 @@ class Application_Form_Deeplink extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'  => 'addDeeplink',
 			'id'    => 'add-deeplink',
+            'class' => 'blue-btn',
 			'value' => 'Add deeplink',
 			'label' => 'Add deeplink'
 		)));
