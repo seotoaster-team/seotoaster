@@ -7,11 +7,15 @@
  */
 class Tools_Content_Parser {
 
-	private $_pageData = null;
+	const PARSE_DEEP = 5;
 
-	private $_content = null;
+	private $_pageData  = null;
 
-	private $_options = array();
+	private $_content   = null;
+
+	private $_options   = array();
+
+	private $_iteration = 0;
 
 	public function  __construct($content = null, $pageData = null, $options = null) {
 		if(null !== $content) {
@@ -31,6 +35,7 @@ class Tools_Content_Parser {
 	public function parse() {
 		$this->_parse();
 		$this->_changeMedia();
+		$this->_runMagicSpaces();
 		return $this->_content;
 	}
 
@@ -65,9 +70,11 @@ class Tools_Content_Parser {
 	}
 
 	private function _parse() {
+		$this->_iteration++;
 		$replacement = '';
 		$widgets = $this->_findWidgets();
-		if(empty($widgets)) {
+
+		if(empty($widgets) || ($this->_iteration >= self::PARSE_DEEP)) {
 			return;
 		}
 		foreach ($widgets as $widgetData) {
@@ -110,6 +117,22 @@ class Tools_Content_Parser {
 			}
 		}
 		return $widgets;
+	}
+
+	private function _runMagicSpaces() {
+		preg_match_all('~{([\w]+)}~ui', $this->_content, $spacesFound);
+		if(!empty($spacesFound) && isset($spacesFound[1])) {
+			foreach($spacesFound[1] as $spaceName) {
+				try {
+					$magicSpace     = Tools_Factory_MagicSpaceFactory::createMagicSpace($spaceName, $this->_content, array_merge($this->_pageData, $this->_options));
+					$this->_content = $magicSpace->run();
+				}
+				catch (Exception $e) {
+					error_log($e->getMessage());
+					continue;
+				}
+			}
+		}
 	}
 
 	private function _replace($replacement, $name, $options = array()) {
