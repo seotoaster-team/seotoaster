@@ -3,7 +3,7 @@
 	<?php if(isset($this->faPages) && is_array($this->faPages) && !empty($this->faPages)): ?>
 		<ul id="fa-pages-list">
 			<?php foreach($this->faPages as $key => $page): ?>
-			<li id="<?php echo $page->getId(); ?>" style="cursor: pointer;">
+				<li id="<?php echo $page->getId(); ?>">
 					<div class="grid_1"><?php echo ++$key; ?></div>
 					<div class="grid_11"><?php echo $page->getNavName(); ?></div>
 				</li>
@@ -21,14 +21,15 @@
 				var els     = $('#fa-pages-list').find('li');
 				$.each(els, function() {
 					ordered.push($(this).attr('id'));
-					$(this).find('div:first').text('+'+(++number));
+					$(this).find('div:first').text((++number));
 				});
-				$('#ajax_msg').text('Saving order...').show();
+				showSpinner();
 				$.post($('#website_url').val() + 'backend/backend_featured/order/', {
 					ordered : ordered,
 					id      : <?php echo $this->faId; ?>
 				}, function() {
-					$('#ajax_msg').text('Saved').fadeOut();
+					//$('#ajax_msg').text('Saved').fadeOut();
+					hideSpinner();
 				});
 			}
 		});

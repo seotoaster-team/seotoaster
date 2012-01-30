@@ -118,9 +118,10 @@ body, body.seotoaster {
 .seotoaster .closebutton span.help {
     background: none repeat scroll 0 0 #666666;
     color: lightBlue;
-    font-size: 10pt;
+    font-size: 8pt;
     font-weight: normal;
-    padding:7px 10px 12px 10px;
+    /*padding:7px 10px 12px 10px;*/
+	padding: 9px;
     text-shadow: 0.02em  0 0.03em #FFFFFF;
     display: block;
     float: left;
