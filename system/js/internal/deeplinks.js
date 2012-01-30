@@ -29,35 +29,32 @@ $(function() {
 	 })
 
 	$('#deeplink-massdel-run').click(function() {
-
-		var messageScreen = $('<div class="info-message"></div>').css({color:'lavender'}).html('Do you really want to remove selected deeplinks?');
-		$(messageScreen).dialog({
-			modal    : true,
-			title    : 'Removing deeplinks?',
-			resizable: false,
-			buttons: {
-				Yes: function() {
-					var ids = [];
-					$('.deeplink-massdel:checked').each(function() {
-						ids.push($(this).attr('id'));
-					});
-					var url      = $('#website_url').val() + 'backend/backend_seo/removedeeplink/'
-					var callback = $('#frm-deeplinks').data('callback');
-					$.post(url, {id: ids}, function() {
-						if(callback) {
-							eval(callback + '()');
-						}
-						$('#ajax_msg').text('Done').fadeOut();
-					})
-					$('#chk-all').attr('checked', false);
-					$(this).dialog('close');
-				},
-				No : function() {
-					$(this).dialog('close');
-				}
+		var ids = [];
+		$('.deeplink-massdel:checked').each(function() {
+			ids.push($(this).attr('id'));
+		});
+		if(!ids.length) {
+			showMessage('Select at least one item please', true);
+			return false;
+		}
+		smoke.confirm('You are about to remove a deeplink(s). Are you sure?', function(e) {
+			if(e) {
+				var url      = $('#website_url').val() + 'backend/backend_seo/removedeeplink/';
+				var callback = $('#frm-deeplinks').data('callback');
+				showSpinner();
+				$.post(url, {id : ids}, function(response) {
+					hideSpinner();
+					var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
+					showMessage(responseText, (!(typeof response.error == 'undefined' || !response.error)));
+	                if(typeof callback != 'undefined') {
+						eval(callback + '()');
+					}
+				})
+			} else {
+				$('.smoke-base').remove();
 			}
-		}).parent().css({background: 'indianred'});
-	})
+		}, {classname:"errors", 'ok':'Yes', 'cancel':'No'});
+	});
 })
 
 function loadDeeplinksList() {

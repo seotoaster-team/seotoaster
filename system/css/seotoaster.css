@@ -118,7 +118,7 @@ body, body.seotoaster {
 .seotoaster .closebutton span.help {
     background: none repeat scroll 0 0 #666666;
     color: lightBlue;
-    font-size: 10px;
+    font-size: 10pt;
     font-weight: normal;
     padding:7px 10px 12px 10px;
     text-shadow: 0.02em  0 0.03em #FFFFFF;
@@ -236,7 +236,7 @@ a.generator-links.plugin {
 .seotoaster address { }
 /*=========== Forms ==========*/
 /*.seotoaster form { overflow:hidden; }*/
-.seotoaster fieldset {
+.seotoaster fieldset, .seotoaster .pluginform {
 	background:#fff;
 	background:url('/system/images/bg-strip.png');
 	border:1px solid #ddd;
@@ -248,6 +248,11 @@ a.generator-links.plugin {
 	border-radius:3px;
 	overflow:hidden;
 }
+.seotoaster .pluginform {
+	margin:6px;
+	overflow:visible;
+}
+
 .seotoaster legend {
 	background:#888;
 	color:#eee;
@@ -266,7 +271,11 @@ a.generator-links.plugin {
 	font-size: 10pt;
     line-height: 11pt;
 }
-
+.seotoaster .pluginform label{
+    margin:5px 5px 5px 0 !important;
+	clear:both;
+	padding:2px;
+}
 .seotoaster label.simple-label {
 	display: inline;
 }
@@ -285,6 +294,9 @@ a.generator-links.plugin {
 	-webit-border-radius:3px;
 	border-radius: 3px;
 
+}
+.seotoaster .pluginform input[type="text"], .seotoaster .pluginform input[type="password"], .seotoaster .pluginform textarea, .seotoaster .pluginform select{
+	margin-bottom:4px;
 }
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea {
    width:98%;
@@ -309,7 +321,7 @@ a.generator-links.plugin {
   font-style: normal;
 }
 
-.seotoaster input[type=submit], .seotoaster button.save-and-close, button#save-btn {
+.seotoaster input[type=submit], .seotoaster button.save-and-close, button#save-btn, .seotoaster .pluginform button {
     background: #939393;
     background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
@@ -339,6 +351,9 @@ a.generator-links.plugin {
     overflow: visible;
 
 }
+.seotoaster .pluginform input[type=submit], .seotoaster .pluginform button {
+	margin:12px 0 4px;
+}
 .seotoaster input[type=submit]:hover, .seotoaster button.save-and-close:hover, button#save-btn:hover {
     background: #888888;
     background: -moz-linear-gradient(top, #888888 0%, #727272 100%);
@@ -351,7 +366,7 @@ a.generator-links.plugin {
     -moz-box-shadow: 0 1px 0 0 #969696 inset;
     -webkit-box-shadow: 0 1px 0 0 #969696 inset;
 }
-.seotoaster input.blue-btn {
+.seotoaster input.blue-btn, .seotoaster .pluginform button.blue-btn {
     background: #87b0c8;
     background: -moz-linear-gradient(top, #87b0c8 0%, #739db6 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87b0c8), color-stop(100%,#739db6));
@@ -365,7 +380,7 @@ a.generator-links.plugin {
     -webkit-box-shadow: 0 1px 0 0 #9dbed1 inset;
     text-shadow: 0 -1px 0 #698da7;
 }
-.seotoaster input.blue-btn:hover {
+.seotoaster input.blue-btn:hover, .seotoaster .pluginform button.blue-btn:hover {
     background: #84aac1;
     background: -moz-linear-gradient(top, #84aac1 0%, #7299b1 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#84aac1), color-stop(100%,#7299b1));
@@ -1321,6 +1336,14 @@ list-style: square;
 
 .seotoaster #plugins-list .plugin-item .plugin-control span, .seotoaster #plugins-list .plugin-item .plugin-endis span {
 	padding: 2px 7px;
+}
+.seotoaster .pluginform input[type="checkbox"] {
+	margin:8px 2px;
+}
+.seotoaster .pluginform div.px {
+	font-weight:bold;
+	padding:8px 0;
+	font-size:10pt;
 }
 /*============Manage config=================*/
 .seotoaster #general-config, .seotoaster #email-config, .seotoaster #security-config {

@@ -40,18 +40,16 @@ window.onload = function() {
 			data: $.browser.msie ? $(this).serialize() : {cssname : $("#csslist").val(), content : cssContent},
 			dataType: 'json',
 			success: function(response){
-				//$('#ajax_msg').text(response.responseText).fadeOut(_FADE_FAST);
-				$('.smoke-base').remove();
-				smoke.signal(response.responseText);
-				$('.smoke-base').delay(1300).slideUp();
+				hideSpinner();
+				showMessage(response.responseText);
+				//$('.smoke-base').delay(1300).slideUp();
 			},
 			beforeSend: function(){
-				//$('#ajax_msg').text('<?php echo $this->translate('saving css content...'); ?>').fadeIn();
-				smoke.signal('<img src="' + $('#website_url').val() + '/system/images/loading.gif" alt="working..." />', 30000);
+				showSpinner();
 			},
 			error: function(){
 				$('.smoke-base').remove();
-				smoke.signal('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
+				showMessage('<?php echo $this->translate('Error occured.'); ?>', true);
 			}
 		})
 		return false;
@@ -64,14 +62,13 @@ window.onload = function() {
 			data: {"getcss": $(this).val()},
 			dataType: 'json',
 			success: function(response){
-				if (response.error == false){
-					$('.smoke-base').remove();
+				if (!response.error){
+					hideSpinner();
 					$.browser.msie ? $('#csscontent').val(response.responseText).focus() : editor.getSession().setValue(response.responseText);
 				}
 			},
 			beforeSend: function(){
-				//smoke.signal('<?php echo $this->translate('saving css content...'); ?>');
-				smoke.signal('<img src="<?php echo $this->websiteUrl; ?>system/images/tla.gif" alt="working..." />');
+				showSpinner();
 			},
 			error: function(){
 				$('.smoke-base').hide();

@@ -115,9 +115,6 @@ class Backend_ContentController extends Zend_Controller_Action {
 			}
 
 			$this->_helper->cache->clean($container->getName() . $pageId, 'widget_');
-
-			//$this->getResponse()->setHttpResponseCode(200);
-
 			$saveResult = Application_Model_Mappers_ContainerMapper::getInstance()->save($container);
 
 			if(!$container->getId()) {
