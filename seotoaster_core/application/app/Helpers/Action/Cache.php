@@ -60,10 +60,20 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 		return $this->_cache->save($data, $cacheId, $tags, $lifeTime);
 	}
 
-	public function clean($cacheId = '', $cachePrefix = '') {
+    /**
+     * Remove cache matching id, prefix or tags
+     * @param string $cacheId cache id to remove
+     * @param string $cachePrefix cache prefix to remove
+     * @param array $tags array of cache tags to remove
+     */
+	public function clean($cacheId = '', $cachePrefix = '', $tags = array()) {
 		$this->_cache->clean(Zend_Cache::CLEANING_MODE_OLD);
 		if(!$cachePrefix && !$cacheId) {
-			$this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+            if (is_array($tags) && !empty($tags)){
+                $this->_cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $tags);
+            } else {
+                $this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+            }
 		}
 		else {
 			$cacheId = $this->_makeCacheId($cacheId, $cachePrefix);
