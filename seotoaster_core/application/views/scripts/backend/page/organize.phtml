@@ -80,7 +80,8 @@
 		<div class="clear"></div>
 	</div>
 	<div class="grid_12" style="text-align: right;">
-		<button id="mass-del">Delete selected</button>
+		<button class="mdel-button" id="mass-del">Delete selected</button>
+		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</div>
 </div>
 <?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/multisortable/multisortable.js'); ?>

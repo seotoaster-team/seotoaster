@@ -1,5 +1,6 @@
 <div class="header" style="overflow:hidden;"><?php echo $this->translate('Templates list'); ?>
 	<div id="filters" class="tpllistfilter">
+		<span class="lnk-filter"><?php echo $this->translate('Filter by');?>: </span>
 		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_REGULAR; ?>"><?php echo $this->translate('Regular page'); ?></a> |
 		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_PRODUCT; ?>"><?php echo $this->translate('Product page'); ?></a> |
 		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_LISTING; ?>"><?php echo $this->translate('Product listing'); ?></a> |
