@@ -118,10 +118,8 @@
 						if(typeof callback != 'undefined' && callback != null) {
 							eval(callback + '()');
 						}
-						//ajaxMessage.html(response.responseText).fadeOut(_FADE_FAST);
-						smoke.signal(response.responseText, 30000);
-						$('.smoke-base').delay(1300).slideUp();
-						//smoke.alert(response.responseText);
+						hideSpinner();
+						showMessage(response.responseText);
 					}
 					else {
 						if(!$(form).data('norefresh')) {
@@ -167,7 +165,6 @@
 })(jQuery);
 
 function loginCheck() {
-	//console.log(typeof jQuery != 'undefined');
 	if(jQuery.cookie && $.cookie('PHPSESSID') === null) {
 		showModalMessage('Session expired', 'Your session is expired! Please, login again', function() {
 			top.location.href = $('#website_url').val();
@@ -175,29 +172,6 @@ function loginCheck() {
 		return false;
 	}
 	return true;
-}
-
-function showModalMessage(title, msg, callback, err) {
-	var messageScreen = $('<div class="info-message' + ((typeof err != 'undefined' && err) ? ' error' : '') + '"></div>').html(msg);
-	$(messageScreen).dialog({
-		modal     : true,
-		title     : title,
-		resizable : false,
-		buttons   : {
-			Ok: function() {
-				$(this).dialog('close');
-				if(callback) {
-					callback();
-				}
-			}
-		}
-	}).css({background : '#eee'});
-	$('.ui-dialog').css({background : '#eee'}).addClass('ui-corner-all');
-	if(typeof err != 'undefined' && err) {
-		$('.ui-dialog').css({background: 'indianred'});
-		$('.info-message').css({background: 'indianred'});
-	}
-
 }
 
 function showMessage(msg, err) {
@@ -209,13 +183,26 @@ function showMessage(msg, err) {
 	$('.smoke-base').delay(1300).slideUp();
 }
 
+function showConfirm(msg, yesCallback, noCallback) {
+	smoke.confirm(msg, function(e) {
+		if(e) {
+			if(typeof yesCallback != 'undefined') {
+				yesCallback();
+			}
+		} else {
+		    if(typeof noCallback != 'undefined') {
+			    noCallback();
+		    }
+		}
+	}, {classname : 'errors', ok : 'Yes', cancel : 'No'});
+}
+
 function showSpinner() {
 	smoke.signal('<img src="' + $('#website_url').val() + 'system/images/loading.gif" alt="working..." />', 30000);
 }
 
 function hideSpinner() {
-	//$('.smoke-base').delay(1300).slideUp();
-	$('.smoke-base').remove();
+	$('.smoke-base').hide();
 }
 
 function publishPages() {

@@ -265,5 +265,9 @@ class Tools_Mail_Mailer {
 	public function setOptions() {
 		//@TODO finish this method
 	}
+
+	public function addAttachment(Zend_Mime_Part $attachment) {
+		$this->_mailer->addAttachment($attachment);
+	}
 }
 

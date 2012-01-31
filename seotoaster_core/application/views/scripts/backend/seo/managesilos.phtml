@@ -18,7 +18,8 @@
 	<div id="silos-list" class="grid_12 h450"></div>
 
 	<div class="grid_12" style="text-align: right;">
-		<button id="mass-del">Delete selected</button>
+<!--		<button id="mass-del">Delete selected</button>-->
+		<a href="javascript:;" class="delete-selected" id="mass-del">[ <?php echo $this->translate('Delete selected');?> ]</a>
 	</div>
 </div>
 
@@ -27,49 +28,45 @@
 		$('#addSilo-label').hide();
 		siloslist();
 
-		$('#mass-del').button().click(function() {
+		$('#mass-del').click(function() {
 			var silosIds= [];
 			$('.rem-silos:checked').each(function() {
 				silosIds.push($(this).attr('id'));
-			})
+			});
 			if(!silosIds.length) {
-				showModalMessage('Pick a silo(s)', 'You have not selected any silo. Pick at least one, please');
-				return;
+				showMessage('Select at least one item, please', true);
+				return false;
 			}
-			var messageScreen = $('<div class="info-message"></div>').html('Do you really want to remove selected silos?');
-			$(messageScreen).dialog({
-				modal    : true,
-				title    : 'Removing silo(s)?',
-				resizable: false,
-				buttons: {
-					Yes: function() {
-						var url  = $('#website_url').val() + 'backend/backend_seo/managesilos/'
-						$.post(url, {
-							act: 'remove',
-							id : silosIds
-						}, function(response) {
-							$(silosIds).each(function() {
-								$('#' + this).parent().parent().remove();
-							})
-							$('#ajax_msg').html(response.responseText).show().fadeOut(_FADE_SLOW);
-						}, 'json')
-						$(this).dialog('close');
+			showConfirm('You are about to remove one or many silos. Are you sure?', function() {
+				$.ajax({
+					url: $('#website_url').val() + 'backend/backend_seo/managesilos/',
+					type: 'post',
+					data: {
+						act : 'remove',
+						id  : silosIds
 					},
-					No : function() {
-						$(this).dialog('close');
+					dataType: 'json',
+					beforeSend: function() {showSpinner();},
+					success: function(response) {
+						hideSpinner();
+						showMessage(response.responseText);
+						$(silosIds).each(function() {
+							$('#' + this).parent().parent().remove();
+						});
 					}
-				}
+				});
 			});
 		});
-	})
+	});
 
 	function siloslist() {
 		$('#silo-name').val('').focus();
-		$('#sculpting-list').addClass('ajaxspineer');
+		showSpinner();
 		$.post($('#website_url').val() + 'backend/backend_seo/managesilos', {
 			act: 'loadlist'
 		}, function(response) {
-			$('#silos-list').removeClass('ajaxspineer').html(response.responseText);
+			hideSpinner();
+			$('#silos-list').html(response.responseText);
 		})
 	}
 </script>

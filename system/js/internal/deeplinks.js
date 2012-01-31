@@ -2,7 +2,7 @@ $(function() {
 
 	$('#urlType-label').hide();
 
-	$('#deeplink-massdel-run').button();
+	//$('#deeplink-massdel-run').button();
 
 	loadDeeplinksList();
 
@@ -34,31 +34,35 @@ $(function() {
 			ids.push($(this).attr('id'));
 		});
 		if(!ids.length) {
-			showMessage('Select at least one item please', true);
+			showMessage('Select at least one item, please', true);
 			return false;
 		}
-		smoke.confirm('You are about to remove a deeplink(s). Are you sure?', function(e) {
-			if(e) {
-				var url      = $('#website_url').val() + 'backend/backend_seo/removedeeplink/';
-				var callback = $('#frm-deeplinks').data('callback');
-				showSpinner();
-				$.post(url, {id : ids}, function(response) {
+		showConfirm('You are about to remove one or many deeplinks. Are you sure?', function() {
+			var callback = $('#frm-deeplinks').data('callback');
+			$.ajax({
+				url: $('#website_url').val() + 'backend/backend_seo/removedeeplink/',
+				type: 'post',
+				data: {
+					id: ids
+				},
+				dataType: 'json',
+				beforeSend: function() {showSpinner();},
+				success: function(response) {
 					hideSpinner();
-					var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
-					showMessage(responseText, (!(typeof response.error == 'undefined' || !response.error)));
-	                if(typeof callback != 'undefined') {
+					showMessage(response.responseText, response.error);
+					if(typeof callback != 'undefined') {
 						eval(callback + '()');
 					}
-				})
-			} else {
-				$('.smoke-base').remove();
-			}
-		}, {classname:"errors", 'ok':'Yes', 'cancel':'No'});
+				}
+			});
+		});
 	});
-})
+});
 
 function loadDeeplinksList() {
+	showSpinner();
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loaddeeplinkslist/', function(response) {
 		$('#deeplinks-list').html(response.deeplinksList);
+		hideSpinner();
 	})
 }

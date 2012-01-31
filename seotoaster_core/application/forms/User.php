@@ -87,6 +87,7 @@ class Application_Form_User extends Zend_Form {
 			'name'   => 'saveUser',
 			'id'     => 'save-user',
 			'value'  => 'Save user',
+			'class'  => 'blue-btn',
 			'ignore' => true,
 			'label'  => 'Save user'
 		)));

@@ -271,7 +271,9 @@ class Backend_PageController extends Zend_Controller_Action {
 							$page->setOrder($key);
 							$pageMapper->save($page);
 						}
+						$this->_helper->response->success($this->_helper->language->translate('New order saved'));
 					}
+					$this->_helper->response->fail($this->_helper->language->translate('Can\'t save order. List is broken'));
 				break;
 				case 'renew':
 					$newCategoryId = $this->getRequest()->getParam('categoryId');

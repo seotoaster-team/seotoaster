@@ -64,6 +64,7 @@ class Application_Form_Redirect extends Zend_Form {
 			'name'  => 'addRedirect',
 			'id'    => 'add-redirect',
 			'value' => 'Add redirect',
+			'class' => 'blue-btn',
 			'label' => 'Add redirect'
 		)));
 

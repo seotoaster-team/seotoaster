@@ -1,6 +1,6 @@
 $(function() {
 	$('#urlType-label, #to-url-label').hide();
-	$('#massdel-run').button();
+	//$('#massdel-run').button();
 	reloadRedirectsList();
 	var toUrlDropDown = $('#to-url');
 	$('#urlType-0').click(function() {
@@ -21,40 +21,42 @@ $(function() {
 		$('.redirect-massdel').attr('checked', ($(this).attr('checked')) ? true : false);
 	});
 	$('#massdel-run').click(function() {
-		var messageScreen = $('<div class="info-message error"></div>').html('Do you really want to remove selected redirects?').css({background: 'indianred', color: 'lavender'});
-		$(messageScreen).dialog({
-			modal    : true,
-			title    : 'Removing redirects?',
-			resizable: false,
-			buttons: {
-				Yes: function() {
-					var ids = [];
-					$('.redirect-massdel:checked').each(function() {
-						ids.push($(this).attr('id'));
-					});
-					var url      = $('#website_url').val() + 'backend/backend_seo/removeredirect/'
-					var callback = $('#frm-redirects').data('callback');
-					$.post(url, {id: ids}, function() {
-						if(callback) {
-							eval(callback + '()');
-						}
-						$('#ajax_msg').text('Done').fadeOut();
-					})
-					$('#massdell-main').attr('checked', false);
-					$(this).dialog('close');
+		var ids = [];
+		$('.redirect-massdel:checked').each(function() {
+			ids.push($(this).attr('id'));
+		});
+		if(!ids.length) {
+			showMessage('Select at least one item, please', true);
+			return false;
+		}
+		showConfirm('You are about to remove one or many redirects. Are you sure?', function() {
+			var callback = $('#frm-redirects').data('callback');
+			$.ajax({
+				url: $('#website_url').val() + 'backend/backend_seo/removeredirect/',
+				type: 'post',
+				data: {
+					id: ids
 				},
-				No : function() {
-					$(this).dialog('close');
+				dataType: 'json',
+				beforeSend: function() {showSpinner();},
+				success: function(response) {
+					hideSpinner();
+					showMessage(response.responseText, response.error);
+					if(typeof callback != 'undefined') {
+						eval(callback + '()');
+					}
 				}
-			}
-		}).parent().css({background: 'indianred'});
+			});
+		});
 	})
-})
+});
 
 //callback function for the ajax forms
 function reloadRedirectsList() {
 	$('input:text').val('http://');
+	showSpinner();
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/', function(response) {
+		hideSpinner();
 		$('#redirects-list').html(response.redirectsList);
 	})
 }

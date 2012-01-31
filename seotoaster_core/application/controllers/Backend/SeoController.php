@@ -126,6 +126,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$redirectMapper->delete($redirectMapper->find($ids));
 			}
 			$this->_helper->cache->clean('toaster_301redirects', '301redirects');
+			$this->_helper->response->success($this->_helper->language->translate('Redirect(s) removed.'));
 		}
 	}
 
@@ -183,6 +184,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 			else {
 				$this->_removeDeeplink($ids);
 			}
+			$this->_helper->response->success($this->_helper->language->translate('Deeplink(s) removed.'));
 		}
 	}
 

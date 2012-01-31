@@ -55,15 +55,20 @@ $(function(){
 	});
 
 	$('#themes-list').delegate('.theme-delete', 'click', function(){
-		if (!confirm('<?php echo $this->translate('Do you really want to delete this theme?'); ?>')) {
-			return false;
-		}
-		$.post('<?php echo $this->url(array('action'=>'deletetheme')); ?>',
-			{'name': $(this).closest('div.themebox').find('input.theme-name').val()},
-			function(response){
-				$('#themes-list').trigger('updateContent');
-			}
-		);
+		var themeName = $(this).closest('div.themebox').find('input.theme-name').val();
+		showConfirm('You are about to remove theme. Are you sure?', function() {
+			$.ajax({
+		        url: '<?php echo $this->url(array('action'=>'deletetheme')); ?>',
+		        type: 'post',
+			    beforeSend: function() {showSpinner();},
+			    data: {name: themeName},
+		        success: function(response) {
+			        hideSpinner();
+			        $('#themes-list').trigger('updateContent');
+		        },
+		        dataType: 'json'
+		    });
+		});
 		return false;
 	});
 

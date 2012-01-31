@@ -34,6 +34,7 @@ class Application_Form_Featured extends Zend_Form {
 			'name'  => 'addFeaturedArea',
 			'id'    => 'add-featured-area',
 			'value' => 'Add featured area',
+			'class' => 'blue-btn',
 			'label' => 'Add featured area'
 		)));
 

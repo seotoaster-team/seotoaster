@@ -134,6 +134,14 @@ body, body.seotoaster {
 	float: left;
 }
 
+.seotoaster .delete-selected {
+	font-size:10pt;
+	margin-top: 7px;
+	color: #cd5c5c;
+	font-weight: bold;
+	float: left;
+}
+
 a.generator-links img {
     background-color: transparent !important;
     border: medium none !important;

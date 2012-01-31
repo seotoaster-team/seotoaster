@@ -1,36 +1,31 @@
 $(function() {
-
-	$('#mass-del').button().click(function() {
+	$('#mass-del').click(function() {
 		var pagesIds = [];
 		$('.page-remove:checked').each(function() {
 			pagesIds.push($(this).parent().attr('id'));
-		})
+		});
 		if(!pagesIds.length) {
-			showModalMessage('Pick a page(s)', 'You have not selected any page. Pick at least one, please');
+			showMessage('Select at least one item please', true);
 			return;
 		}
-		var messageScreen = $('<div class="info-message error"></div>').html('Do you really want to remove selected pages?');
-		$(messageScreen).dialog({
-			modal    : true,
-			title    : 'Removing pages?',
-			resizable: false,
-			buttons: {
-				Yes: function() {
-					var url  = $('#website_url').val() + 'backend/backend_page/delete/'
-					$.post(url, {id: pagesIds}, function(response) {
-						$(pagesIds).each(function() {
-							$('#' + this).remove();
-						})
-						//$('#ajax_msg').html(response.responseText).show().fadeOut(_FADE_SLOW);
-						smoke.alert(response.responseTextn);
-					}, 'json')
-					$(this).dialog('close');
+		showConfirm('You are about to remove one or many pages. Are you sure?', function() {
+			$.ajax({
+				url: $('#website_url').val() + 'backend/backend_page/delete/',
+				type: 'post',
+				data: {
+					id: pagesIds
 				},
-				No : function() {
-					$(this).dialog('close');
+				dataType: 'json',
+				beforeSend: function() {showSpinner();},
+				success: function(response) {
+					hideSpinner();
+					showMessage(response.responseText);
+					$(pagesIds).each(function() {
+						$('#' + this).remove();
+					})
 				}
-			}
-		}).parent().css({background: 'indianred'});
+			});
+		});
 	});
 
 	$('#sortable-main').sortable({
@@ -46,7 +41,7 @@ $(function() {
 			var pages = [];
 			$(this).find('li').each(function() {
 				pages.push($(this).attr('id'));
-			})
+			});
 			renewedData = {
 				act        : 'renew',
 				menu       : $(this).parent().data('menu'),
@@ -102,15 +97,13 @@ function saveCategoriesOrder() {
 		type: 'post',
 		url : $('#website_url').val() + 'backend/backend_page/organize/',
 		data: {act: 'save', ordered: ordered},
+		dataType: 'json',
 		beforeSend: function() {
-			//$('#ajax_msg').text('Saving order...').show();
-			smoke.signal('Saving order...');
+			showSpinner();
 		},
 		success: function(response) {
-			//$('#ajax_msg').text('New order saved...').fadeOut(_FADE_SLOW);
-			$('.smoke-base').remove();
-			smoke.signal('New order saved...');
-			$('.smoke-base').fadeOut();
+			hideSpinner();
+			showMessage(response.responseText, response.error);
 		}
 	})
 }
