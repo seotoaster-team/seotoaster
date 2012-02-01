@@ -261,21 +261,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 	private function _proccessImages(array $images, $path, $folder, $type) {
 		if(!empty ($images)) {
 			$imagesContent = '';
-			$srcPathFull   = $this->_helper->website->getUrl() . $this->_helper->website->getMedia() . $folder;
-            $websiteUrl    = Zend_Registry::get('website');
-            $url           = str_replace('www', '', $websiteUrl['url']);
+	        $cleanUrl      = str_replace('www.', '', $this->_websiteData['url']);
             foreach ($images as $key => $image) {
-                if($this->_helper->config->getConfig('parallelDownload')){
-                    $mediaServer = Tools_Content_Tools::getMediaServer();
-                    if(!$mediaServer) {
-                        $srcPath = $srcPathFull; 
-                    }
-                    $srcPath     = str_replace($websiteUrl['url'], $mediaServer. '.' . $url , $srcPathFull);
-                }
-                else{
-                    $srcPath = $srcPathFull; 
-                }
-                
+                $srcPath        = $this->_getImageSourcePath($this->_websiteData['url'], $cleanUrl, $folder);
                 $imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
 				$imageElement   = htmlspecialchars('<a class="_lbox" href="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '"><img border="0" alt="'. str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
@@ -284,6 +272,17 @@ class Backend_ContentController extends Zend_Controller_Action {
 			}
 			return $imagesContent;
 		}
+	}
+
+	private function _getImageSourcePath($websiteUrl, $cleanWebsiteUrl, $folder) {
+		$path = $this->_helper->website->getUrl() . $this->_helper->website->getMedia() . $folder;
+		if($this->_helper->config->getConfig('mediaServers')) {
+			$mediaServer = Tools_Content_Tools::getMediaServer();
+			if($mediaServer) {
+		   	    $path = str_replace($websiteUrl, $mediaServer . '.' . $cleanWebsiteUrl, $path);
+			}
+		}
+		return $path;
 	}
 
 	public function loadwidgetmakerAction() {

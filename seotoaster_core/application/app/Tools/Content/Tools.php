@@ -149,8 +149,8 @@ class Tools_Content_Tools {
 	}
 
 	public static function getMediaServer(){
-        $websiteData = Zend_Registry::get('website');
+        $websiteData  = Zend_Registry::get('website');
         $mediaServers = (isset($websiteData['mediaServers']) && is_array($websiteData['mediaServers'])) ? $websiteData['mediaServers'] : array();  
-        return array_rand($mediaServers);
+        return $mediaServers[array_rand($mediaServers)];
     }
 }
