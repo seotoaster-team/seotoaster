@@ -28,7 +28,7 @@ $('#things-new-folder')
 		<div class="grid_5">
 			<?php echo $this->formSelect('things-select-folder', (isset($this->currFolder) ? $this->currFolder : null), null, $this->listFolders); ?>
 		</div>
-		<div class="grid_2" style="line-height:30px; text-align:center;"><?php echo $this->translate('OR'); ?></div>
+		<div class="grid_2" style="line-height:30px; text-align:center;"><span class="circle"><?php echo $this->translate('OR'); ?></span></div>
 		<div class="grid_5">
 			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
 		</div>

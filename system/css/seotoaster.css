@@ -142,6 +142,15 @@ body, body.seotoaster {
 	float: left;
 }
 
+.seotoaster span.circle {
+  background-color: #bbb;
+  padding: 10px;
+  border-radius:45px;
+  -moz-border-radius:45px;
+  -webkit-border-radius:45px;
+  color: #fff;
+}
+
 a.generator-links img {
     background-color: transparent !important;
     border: medium none !important;
@@ -1451,6 +1460,28 @@ list-style: square;
     padding: 4px 6px 4px; */
 }
 
+.seotoaster .sculpting-subrow:first-child div:first-child {
+  font-weight:bold;
+}
+.seotoaster .sculpting-subrow:first-child div+div {
+  text-align: right;
+}
+.seotoaster .sculpting-subrow input.silo-this-cat {
+  float: right;
+  margin-top: 6px;
+}
+.seotoaster .sculpting-row {
+    background:url('/system/images/bg-strip.png');
+    border:1px solid #ddd;
+    position:relative;
+        padding: 6px;
+    margin-bottom:7px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    overflow:hidden;
+}
+
 .seotoaster .sculpting-subrow {
 	margin-bottom: 5px;
    height:26px;
@@ -1611,6 +1642,6 @@ list-style: square;
 	background-position: -889px -61px;
 }
 input[type=checkbox].cropped {
-	verticlal-align:top;
+	vertical-align:top;
 	display: inline-block;
 }
