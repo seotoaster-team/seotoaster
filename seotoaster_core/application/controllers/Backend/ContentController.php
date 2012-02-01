@@ -261,9 +261,22 @@ class Backend_ContentController extends Zend_Controller_Action {
 	private function _proccessImages(array $images, $path, $folder, $type) {
 		if(!empty ($images)) {
 			$imagesContent = '';
-			$srcPath       = $this->_helper->website->getUrl() . $this->_helper->website->getMedia() . $folder;
-			foreach ($images as $key => $image) {
-				$imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
+			$srcPathFull   = $this->_helper->website->getUrl() . $this->_helper->website->getMedia() . $folder;
+            $websiteUrl    = Zend_Registry::get('website');
+            $url           = str_replace('www', '', $websiteUrl['url']);
+            foreach ($images as $key => $image) {
+                if($this->_helper->config->getConfig('parallelDownload')){
+                    $mediaServer = Tools_Content_Tools::getMediaServer();
+                    if(!$mediaServer) {
+                        $srcPath = $srcPathFull; 
+                    }
+                    $srcPath     = str_replace($websiteUrl['url'], $mediaServer. '.' . $url , $srcPathFull);
+                }
+                else{
+                    $srcPath = $srcPathFull; 
+                }
+                
+                $imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
 				$imageElement   = htmlspecialchars('<a class="_lbox" href="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '"><img border="0" alt="'. str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
 				$imagesContent .= '<a href="javascript:;" onmousedown="$(\'#content\').tinymce().execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
