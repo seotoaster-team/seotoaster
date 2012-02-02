@@ -15,7 +15,7 @@ $(document).ready(function(){
 		spellchecker_languages  : "+English=en,French=fr,German=de,Hebrew=iw,Italian=it,Polish=pl,Portuguese (Brazil)=pt-BR,"
 					              +"Portuguese (Portugal)=pt-PT,Russian=ru,Spanish=es,Ukrainian=uk",
 		spellchecker_rpc_url    : websiteUrl + 'system/js/external/tinymce/plugins/spellchecker/rpc.php',
-		theme_advanced_blockformats: "p,address,pre,h2,h3,h4,h5,h6",
+		theme_advanced_blockformats: "div,blockquote,p,address,pre,h2,h3,h4,h5,h6",
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
 //		theme_advanced_statusbar_location : "bottom",

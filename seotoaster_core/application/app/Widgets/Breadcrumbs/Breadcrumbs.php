@@ -20,7 +20,8 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 			$parentPage = $pageMapper->find($page->getParentId());
 			$crumbs[]   = '<a href="' . $parentPage->getUrl() . '" title="' . $parentPage->getH1() . '">' . $parentPage->getNavName() . '</a>';
 		}
-		$crumbs[] = '<a href="' . $page->getUrl() . '" title="' . $page->getH1() . '">' . $page->getNavName() . '</a>';
+		//$crumbs[] = '<a href="' . $page->getUrl() . '" title="' . $page->getH1() . '">' . $page->getNavName() . '</a>';
+		$crumbs[] = $page->getNavName();
 		return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
 	}
 
