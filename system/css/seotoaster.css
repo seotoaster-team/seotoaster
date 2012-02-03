@@ -1026,7 +1026,7 @@ list-style: square;
 
 }
 
-#seo-tip {
+.seo-tip {
 	clear:both;
 	text-align: left;
 	border-left: 5px solid #698DA7;
@@ -1035,7 +1035,7 @@ list-style: square;
 	font-size: 12px;
 	background: url("/system/images/bg-strip.png") repeat 0 0 transparent;
 }
-#seo-tip span {
+.seo-tip span {
 	font-weight: bold;
 }
 
