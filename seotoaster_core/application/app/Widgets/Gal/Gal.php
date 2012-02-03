@@ -20,10 +20,17 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify folder.'));
 		}
 
-		$path       = $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia() . $this->_options[0] . '/';
-		$thumbSize  = isset($this->_options[1]) ? $this->_options[1] : self::DEFAULT_THUMB_SIZE;
-		$useCrop    = isset($this->_options[2]) ? (boolean)$this->_options[2] : false;
-		$useCaption = isset($this->_options[3]) ? (boolean)$this->_options[3] : false;
+		$configHelper        = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+		$path                = $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia() . $this->_options[0] . '/';
+
+		$mediaServersAllowed = $configHelper->getConfig('mediaServers');
+		unset($configHelper);
+		$websiteData         = ($mediaServersAllowed) ? Zend_Registry::get('website') : null;
+
+
+		$thumbSize           = isset($this->_options[1]) ? $this->_options[1] : self::DEFAULT_THUMB_SIZE;
+		$useCrop             = isset($this->_options[2]) ? (boolean)$this->_options[2] : false;
+		$useCaption          = isset($this->_options[3]) ? (boolean)$this->_options[3] : false;
 
 		if(!is_dir($path)) {
 			throw new Exceptions_SeotoasterException($path . ' is not a directory.');
@@ -36,7 +43,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 			 @mkdir($galFolder);
 		}
 
-		foreach ($sourceImages as $image) {
+		foreach ($sourceImages as $key => $image) {
 			if(is_file($galFolder . $image)) {
 				$imgInfo = getimagesize($galFolder . $image);
 				if($imgInfo[0] != $thumbSize) {
@@ -46,13 +53,27 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 			else {
 				Tools_Image_Tools::resize($path . 'original/' . $image, $thumbSize, !($useCrop), $galFolder, $useCrop);
 			}
+
+			$sourcePart = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
+			if($mediaServersAllowed) {
+				$mediaServer     = Tools_Content_Tools::getMediaServer();
+				$cleanWebsiteUrl = str_replace('www.', '', $websiteData['url']);
+				$sourcePart      = str_replace($websiteData['url'], $mediaServer . '.' . $cleanWebsiteUrl, $sourcePart);
+			}
+			$sourceImages[$key] = array(
+				'path' => $sourcePart . $image,
+				'name' => $image
+			);
 		}
-		$this->_view->folder        = $this->_options[0];
-		$this->_view->original      = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path) . 'original/';
-		$this->_view->images        = $sourceImages;
-		$this->_view->useCaption    = $useCaption;
-		$this->_view->galFolderPath = $galFolder;
-		$this->_view->galFolder     = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
+
+
+		$this->_view->folder              = $this->_options[0];
+		$this->_view->original            = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path) . 'original/';
+		$this->_view->images              = $sourceImages;
+		$this->_view->useCaption          = $useCaption;
+		$this->_view->galFolderPath       = $galFolder;
+		$this->_view->mediaServersAllowed = $mediaServersAllowed;
+		$this->_view->galFolder           = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
 		return $this->_view->render('gallery.phtml');
 	}
 
