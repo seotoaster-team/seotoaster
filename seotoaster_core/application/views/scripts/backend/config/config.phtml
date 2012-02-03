@@ -8,6 +8,7 @@
 				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
 				<?php if ($this->isSuperAdmin): ?>
 				<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
+				<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
 				<?php endif; ?>
 			</ul>
 			<div id="general-config">
@@ -72,6 +73,9 @@
 				<?php echo $this->configForm->getElement('suPassword'); ?>
 			</div>
 			<?php endif; ?>
+			<div id="advaced-config" class="clearfix">
+                <?php echo $this->configForm->getElement('mediaServers'); ?>
+            </div>
 		</div>
 
 		<div class="grid_12"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>

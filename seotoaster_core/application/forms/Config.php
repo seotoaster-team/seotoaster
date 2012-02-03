@@ -21,6 +21,7 @@ class Application_Form_Config extends Zend_Form {
 	protected $_language;
 	protected $_suLogin;
 	protected $_suPassword;
+	protected $_mediaServers;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -29,6 +30,14 @@ class Application_Form_Config extends Zend_Form {
 	 */
 	protected $_showProtectedPagesInMenu = true;
 
+	public function getMediaServers() {
+		return $this->_mediaServers;
+	}
+
+	public function setMediaServers($_mediaServers) {
+		$this->_mediaServers = $_mediaServers;
+		$this->getElement('mediaServers')->setValue($this->_mediaServers);
+	}
 
 	public function getCurrentTheme() {
 		return $this->_currentTheme;
@@ -252,6 +261,10 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Done'
 		));
 
+		$this->addElement('checkbox', 'mediaServers', array(
+			'value' => $this->_mediaServers,
+			'label' => 'Use mediaServers?'
+		));
 
 	}
 
