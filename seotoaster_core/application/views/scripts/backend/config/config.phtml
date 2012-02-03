@@ -74,7 +74,12 @@
 			</div>
 			<?php endif; ?>
 			<div id="advaced-config" class="clearfix">
-                <?php echo $this->configForm->getElement('mediaServers'); ?>
+                <div class="grid_6 mt5px">
+					<?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>
+				</div>
+                <div class="grid_6 mt10px">
+					<?php echo $this->configForm->getElement('mediaServers')->renderViewHelper(); ?>
+				</div>
             </div>
 		</div>
 
