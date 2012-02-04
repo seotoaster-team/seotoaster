@@ -3,6 +3,7 @@
 <div id="seotoaster-cpanel" class="seotoaster w200">
 	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
 	<div id="seotoaster-logowrap"><img width="170" height="180" src="<?php echo $this->websiteUrl; ?>system/images/cpanel-img.jpg" /></div>
+	<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	<ul id="cpanelul">
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
@@ -78,6 +79,7 @@
 		<!-- /output plugins additional menus -->
 
 	</ul>
+	<?php endif; ?>
 	<ul id="logoutul">
 		<li>
 			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout" style="margin-bottom:0;border-bottom:none; padding: 6px 5px;"><?php echo $this->translate('LOGOUT'); ?></a>
