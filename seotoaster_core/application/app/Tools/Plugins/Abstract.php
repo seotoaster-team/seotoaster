@@ -77,6 +77,13 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	protected $_translator      = null;
 
 	/**
+	 * Path to plugin's languages files
+	 *
+	 * @var string
+	 */
+	protected $_languagesPath   = 'system/languages/';
+
+	/**
 	 * Parameters that has been passed to the plugin
 	 *
 	 * @var array
@@ -110,13 +117,26 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_view->websiteUrl = $this->_websiteUrl;
 		$this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
 		$this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
-		$this->_translator       = Zend_Registry::get('Zend_Translate');
 		$this->_initAcl();
+		$this->_initTranslator();
 		$this->_init();
 	}
 
 	protected function _init() {
 
+	}
+
+	protected function _initTranslator() {
+		$this->_translator = Zend_Registry::get('Zend_Translate');
+		$langsPath         = __DIR__ . '/' . $this->_languagesPath;
+		if(is_dir($langsPath) && is_readable($langsPath)) {
+			$locale = Zend_Registry::get('Zend_Locale');
+			$this->_translator->addTranslation(array(
+				'content' => $langsPath . $locale->getLanguage() . '.lng',
+				'locale'  => $locale,
+		        'clear'   => true
+			));
+		}
 	}
 
     /**
