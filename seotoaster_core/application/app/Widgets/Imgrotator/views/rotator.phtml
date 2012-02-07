@@ -2,7 +2,7 @@
 	<?php if(!empty($this->files)): ?>
 		<?php foreach($this->files as $image): ?>
 			<?php $size = getimagesize('media/' . $this->folder .  $image); ?>
-			<img src="<?php echo 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo (($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
+			<img src="<?php echo (($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo (($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
 		<?php endforeach; ?>
 
 	<?php endif; ?>

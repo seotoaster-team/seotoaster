@@ -37,9 +37,10 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify folder.'));
 		}
 
+		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 		$imageFolder  = self::DEFAULT_PICS_FOLDER;
 		$sliderWidth  = (isset($this->_options[3]) && $this->_options[3]) ? $this->_options[3] : self::DEFAULT_SLIDER_WIDTH;
-		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+
 		if($sliderWidth <= $configHelper->getConfig('imgSmall')) {
 			$imageFolder = 'small';
 		}
@@ -50,6 +51,8 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 			$imageFolder = 'large';
 		}
 		$fullPathToPics    = $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia() . $this->_options[0] . '/' . $imageFolder . '/';
+
+		$this->_view->mediaServersAllowed = $configHelper->getConfig('mediaServers');
 		$this->_view->uniq         = uniqid('rotator-');
 		$this->_view->files        = Tools_Filesystem_Tools::scanDirectory($fullPathToPics, false, false);
 		$this->_view->sliderWidth  = (isset($this->_options[3]) && $this->_options[3]) ? $this->_options[3] : self::DEFAULT_SLIDER_WIDTH;
