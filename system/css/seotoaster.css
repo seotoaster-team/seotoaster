@@ -317,8 +317,8 @@ a.generator-links.plugin {
 	margin-bottom:4px;
 }
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea {
-   width:98%;
-   padding: 6px 3px;
+	width:98%;
+	padding: 6px 0 6px 3px;
 }
 .seotoaster textarea#tracking-code {
   width: 96%;
