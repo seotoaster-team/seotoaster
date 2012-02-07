@@ -149,10 +149,15 @@ class Tools_Content_Tools {
 	}
 
 	public static function getMediaServer(){
-        $websiteData  = Zend_Registry::get('website');
-        $mediaServers = (isset($websiteData['mediaServers']) && is_array($websiteData['mediaServers'])) ? $websiteData['mediaServers'] : array();  
+        $mediaServers = self::getMediaServers();
         return $mediaServers[array_rand($mediaServers)];
     }
+
+	public static function getMediaServers($string = false) {
+		$websiteData  = Zend_Registry::get('website');
+		$mediaServers = (isset($websiteData['mediaServers']) && is_array($websiteData['mediaServers'])) ? $websiteData['mediaServers'] : array();
+		return ($string) ? json_encode($mediaServers) : $mediaServers;
+	}
 
 	public static function applyMediaServers($string) {
 		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
