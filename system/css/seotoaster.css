@@ -597,10 +597,14 @@ a.generator-links.plugin {
  width:196px;
 }
 
-.seotoaster#seotoaster-cpanel ul li{
+.seotoaster#seotoaster-cpanel ul li {
 	list-style: none;
 	width: 200px;
 	margin: 0;
+}
+
+.seotoaster#seotoaster-cpanel .ui-accordion-li-fix {
+	display: inline-block !important;
 }
 
 #seotoaster-logowrap {
