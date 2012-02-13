@@ -128,15 +128,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Registry::set('acl', $acl);
 	}
 
-	protected function _initTranslator() {
+    protected function _initLocale() {
         $config = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
+        $name = Zend_Locale::getLocaleToTerritory($config['language']);
+        if ($name !== null){
+            $locale = new Zend_Locale($name);
+        } else {
+            $locale = new Zend_Locale();
+        }
+        $locale->setCache(Zend_Registry::get('cache'));
+
+        Zend_Registry::set('Zend_Locale', $locale);
+    }
+
+    protected function _initTranslator() {
 		$session = Zend_Registry::get('session');
 
-        $locale  = (isset($session->locale)) ? $session->locale : new Zend_Locale(Zend_Locale::getLocaleToTerritory($config['language']));
+        $locale  = (isset($session->locale)) ? $session->locale : Zend_Registry::get('Zend_Locale');
 
-		$session->locale = $locale;
+        $session->locale = $locale;
 
-		$translator = new Zend_Translate(array(
+        $translator = new Zend_Translate(array(
 			'adapter' => 'array',
 			'content' => 'system/languages/',
 			'scan'    => Zend_Translate::LOCALE_FILENAME,
