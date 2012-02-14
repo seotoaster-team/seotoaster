@@ -127,8 +127,9 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	}
 
 	protected function _initTranslator() {
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_translator = Zend_Registry::get('Zend_Translate');
-		$langsPath         = __DIR__ . '/' . $this->_languagesPath;
+		$langsPath         = $websiteHelper->getPath() . 'plugins/' . strtolower(get_called_class()) . '/' . $this->_languagesPath;
 		if(is_dir($langsPath) && is_readable($langsPath)) {
 			$locale = Zend_Registry::get('Zend_Locale');
 			$this->_translator->addTranslation(array(
