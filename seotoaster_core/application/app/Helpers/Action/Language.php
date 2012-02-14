@@ -63,6 +63,8 @@ class Helpers_Action_Language extends Zend_Controller_Action_Helper_Abstract {
 
 	public function setLanguage($selectedLanguage){
 		$sessionHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('session');
+        $cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+
 		$locale        = $sessionHelper->locale;
         $newLocale = Zend_Locale::getLocaleToTerritory($selectedLanguage);
 
@@ -76,6 +78,7 @@ class Helpers_Action_Language extends Zend_Controller_Action_Helper_Abstract {
         $sessionHelper->locale = $locale;
         Zend_Registry::get('Zend_Translate')->setLocale($locale);
 
+        $cacheHelper->clean(false, false, array('locale', 'language'));
 		return $locale->getLanguage();
 	}
 
