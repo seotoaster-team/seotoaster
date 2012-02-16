@@ -1,4 +1,4 @@
-<div class="seotoaster container_12 h570 rounded3px">
+<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => '<div class="grid_8">Organize pages</div>', 'innerHeaderHtml' => '<div class="grid_4"><a href="javascript:;" id="collapse-global">collapse all</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" id="expand-global">expand all</a></div>')); ?>
 	<div id="sortable-main" class="h480">
 		<?php  foreach($this->tree as $key => $treeData): ?>
