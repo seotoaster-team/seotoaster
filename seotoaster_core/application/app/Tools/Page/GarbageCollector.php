@@ -18,7 +18,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	protected function _runOnDelete() {
 		$this->_removePageUrlFromContent();
-		Tools_Content_Feed::generateSitemapFeed();
+		Tools_Filesystem_Tools::saveFile('sitemap.xml', Tools_Content_Feed::generateSitemapFeed());
 		Tools_Search_Tools::removeFromIndex($this->_object->getId());
 	}
 
