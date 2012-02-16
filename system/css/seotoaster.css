@@ -82,7 +82,7 @@ body, body.seotoaster {
 	border-radius: 3px 3px 0 0;
 	font-size:11pt;
 }
-.seotoaster .closebutton {
+.seotoaster .closebutton, .seotoaster .closebutton-list {
 	color: #FFFFFF;
 	cursor:pointer;
 	font-weight: bold;
@@ -97,7 +97,7 @@ body, body.seotoaster {
 	overflow: hidden;
 }
 
-.seotoaster .closebutton span.close {
+.seotoaster .closebutton span.close, .seotoaster .closebutton-list span.close-list {
 	display:block;
     width: 19px;
     height: 18px;
