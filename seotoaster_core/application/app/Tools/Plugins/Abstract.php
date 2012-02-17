@@ -132,11 +132,17 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$langsPath         = $websiteHelper->getPath() . 'plugins/' . strtolower(get_called_class()) . '/' . $this->_languagesPath;
 		if(is_dir($langsPath) && is_readable($langsPath)) {
 			$locale = Zend_Registry::get('Zend_Locale');
-			$this->_translator->addTranslation(array(
-				'content' => $langsPath . $locale->getLanguage() . '.lng',
-				'locale'  => $locale,
-		        'clear'   => true
-			));
+			try {
+				$this->_translator->addTranslation(array(
+					'content' => $langsPath . $locale->getLanguage() . '.lng',
+					'locale'  => $locale,
+			        'clear'   => true
+				));
+			} catch (Exception $e) {
+				if(APPLICATION_ENV == 'development') {
+					error_log($e->getTraceAsString());
+				}
+			}
 		}
 	}
 

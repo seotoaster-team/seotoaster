@@ -3,10 +3,25 @@ abstract class Tools_MagicSpaces_Abstract {
 
 	protected $_name         = '';
 
+	/**
+	 * Full and parsed page content
+	 *
+	 * @var string
+	 */
 	protected $_content      = '';
 
+	/**
+	 * Parsed magic space content
+	 *
+	 * @var string
+	 */
 	protected $_spaceContent = '';
 
+	/**
+	 * Seotoaster's current page data
+	 *
+	 * @var array
+	 */
 	protected $_toasterData  = array();
 
 	public function __construct($name = '', $content = '', $toasterData = array()) {
