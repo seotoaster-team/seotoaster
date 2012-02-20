@@ -132,6 +132,12 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$langsPath         = $websiteHelper->getPath() . 'plugins/' . strtolower(get_called_class()) . '/' . $this->_languagesPath;
 		if(is_dir($langsPath) && is_readable($langsPath)) {
 			$locale = Zend_Registry::get('Zend_Locale');
+			if(!file_exists($langsPath . $locale->getLanguage() . '.lng')) {
+				if(APPLICATION_ENV == 'development') {
+					error_log('Language file ' . $locale->getLanguage() . '.lng does not exist');
+				}
+				return false;
+			}
 			try {
 				$this->_translator->addTranslation(array(
 					'content' => $langsPath . $locale->getLanguage() . '.lng',
@@ -140,7 +146,7 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 				));
 			} catch (Exception $e) {
 				if(APPLICATION_ENV == 'development') {
-					error_log($e->getTraceAsString());
+					error_log($e->getMessage() . "\n" . $e->getTraceAsString());
 				}
 			}
 		}
