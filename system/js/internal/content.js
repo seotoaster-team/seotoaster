@@ -2,8 +2,6 @@ $(function() {
 	$('#tabs').tabs();
 
 	$('#frm_content').submit(function() {
-		var ajaxMsgSuccess = $('#ajax_msg');
-		var ajaxMsgFail    = $('#ajax_msg_fail');
 		elements = {
 			content       : $(this).find('#content').val(),
 			containerType : $(this).find('#container_type').val(),

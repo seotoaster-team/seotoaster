@@ -1,13 +1,13 @@
 <?php if(!empty($this->plugins)): ?>
 	<?php foreach($this->plugins as $plugin): ?>
 		<div class="plugin-item">
-			<a style="display: none;" href="javascript:;" class="readme-plugin" id="<?php echo $plugin->getName(); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/readme.png" alt="readme"/></a>
+			<a style="display: none;" href="javascript:;" class="readme-plugin" data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/readme.png" alt="readme"/></a>
 			<a data-url="<?php echo $this->toasterLink('plugin', 'delete', '', null, true); ?>" data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" class="del-plugin _tdelete" style="display: none;" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
 			<div class="plugin-image">
 				<img src="<?php echo $plugin->getPreview(); ?>" alt="<?php echo $plugin->getName(); ?> preview" />
 			</div>
 			<p class="plugin-name"><?php echo ucfirst($plugin->getName()); ?></p>
-			<a class="plugin-control" id="<?php echo $plugin->getName(); ?>" href="javascript:;"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install') ; ?></a>
+			<a class="plugin-control" id="<?php echo $plugin->getName(); ?>" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install') ; ?></a>
 			<a class="plugin-endis" style="<?php echo ($plugin->getId()) ? '' : 'display:none' ;?>" id="endis-<?php echo $plugin->getName(); ?>" data-name="<?php echo $plugin->getName(); ?>" href="javascript:;"><?php echo ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? $this->translate('Disable') : $this->translate('Enable'); ?></a>
 		</div>
 	<?php endforeach; ?>

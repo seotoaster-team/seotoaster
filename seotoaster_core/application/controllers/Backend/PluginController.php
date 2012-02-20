@@ -29,8 +29,8 @@ class Backend_PluginController extends Zend_Controller_Action {
 	public function readmeAction(){
         if($this->getRequest()->isPost()) {
            $pluginName = $this->getRequest()->getParam('pluginName');
-           $miscData = Zend_Registry::get('misc');
-           $readmePath =  $miscData['pluginsPath'].$pluginName. '/readme.txt';
+           $miscData   = Zend_Registry::get('misc');
+           $readmePath =  $miscData['pluginsPath'] . $pluginName . '/readme.txt';
            if(file_exists($readmePath) && is_readable($readmePath)){
                $this->_helper->response->success($this->_helper->language->translate(nl2br(htmlspecialchars(file_get_contents($readmePath)))));           
            }
@@ -48,7 +48,13 @@ class Backend_PluginController extends Zend_Controller_Action {
 		$plugins  = Tools_Plugins_Tools::findAvialablePlugins();
 		if(!empty ($plugins)) {
 			foreach ($plugins as $pluginName) {
-				$prepared[] = Tools_Plugins_Tools::findPluginByName($pluginName);
+				$plugin      = Tools_Plugins_Tools::findPluginByName($pluginName);
+				$preview     = $plugin->getPreview();
+				$previewPath = str_replace($this->_helper->website->getUrl(), $this->_helper->website->getPath(), $preview);
+				if(!$preview || !file_exists($previewPath)) {
+					$plugin->setPreview($this->_helper->website->getUrl() . 'system/images/noimage.png');
+				}
+				$prepared[] = $plugin;
 			}
 		}
 		return $prepared;
