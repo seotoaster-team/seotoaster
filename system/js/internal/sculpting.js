@@ -17,7 +17,6 @@ $(function() {
 	$(document).on('click', '.silo-this-cat', function() {
 		var cid    = $(this).val();
 		var actUrl = '';
-		//$('#ajax_msg').text('Siloing category').show();
 		showSpinner();
 		if($(this).prop('checked')) {
 			actUrl = $('#website_url').val() + 'backend/backend_seo/silocat/act/add/';

@@ -266,7 +266,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		}
 		$this->view->silosOptions  = $silosOptions;
 		ksort($tree);
-		$this->view->pages         = array_reverse($tree);
+		$this->view->pages         = array_reverse($tree, true);
 		$this->view->sculptingList = $this->view->render('backend/seo/sculptinglist.phtml');
 	}
 
