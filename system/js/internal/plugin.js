@@ -16,7 +16,7 @@ $(function() {
 			pluginName: pluginName
 		}, function(response) {
 			if(!response.error) {
-				var readmeText = (typeof response.responseText == 'undefined') ? 'No readme for this plugin provided' : response.responseText;
+				var readmeText = (typeof response.responseText == 'undefined' || response.responseText == 'success') ? 'No readme for this plugin provided' : response.responseText;
 				var readmeDialog = $('<div style="overflow-y:auto; font-size: 14px; padding: 10px; background: #fff;" id="' + pluginName + '-readme">' + readmeText + '</div>');
 				readmeDialog.dialog({
 		            modal: true,
