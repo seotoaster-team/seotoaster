@@ -26,11 +26,11 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	protected $_seotoasterData  = array();
 
 	/**
-	 * Seotoaster session
+	 * Seotoaster session helper
 	 *
-	 * @var Zend_Session_Namespace
+	 * @var Helpers_Action_Session
 	 */
-	protected $_session         = null;
+	protected $_sessionHelper   = null;
 
 	/**
 	 * Plugin view.
@@ -100,23 +100,47 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
     /**
      * Access control list binding
+     *
      * @var array List of ROLE => actions pairs
      */
     protected $_securedActions = array();
 
+	/**
+	 * Website helper
+	 *
+	 * @var null|Helpers_Action_Website
+	 */
+	protected $_websiteHelper  = null;
+
 	public function  __construct($options, $seotoasterData) {
+		// setting up Seotoaster data and plugin options
 		$this->_options          = $options;
 		$this->_seotoasterData   = $seotoasterData;
-		$this->_websiteUrl       = isset($this->_seotoasterData['websiteUrl']) ? $this->_seotoasterData['websiteUrl'] : '';
-		$this->_request          = new Zend_Controller_Request_Http();
-		$this->_response         = new Zend_Controller_Response_Http();
+
+		// setting up helpers
+		$this->_sessionHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_responseHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
 		$this->_redirector       = new Zend_Controller_Action_Helper_Redirector();
-		$this->_session          = Zend_Registry::get('session');
+
+		// setting up request and response objects
+		$front = Zend_Controller_Front::getInstance();
+		$this->_request          = $front->getRequest();
+		$this->_response         = $front->getResponse();
+		unset($front);
+
+		// setting up view
 		$this->_view             = new Zend_View();
+		$this->_websiteUrl       = $this->_websiteHelper->getUrl();
+		$this->_pluginName       = strtolower(__CLASS__);
 		$this->_view->websiteUrl = $this->_websiteUrl;
+		$this->_view->pluginName = $this->_pluginName;
+
+		// setting up view helpers (standart and ZendX)
 		$this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
 		$this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+
+		// runing init routines
 		$this->_initAcl();
 		$this->_initTranslator();
 		$this->_init();
