@@ -55,7 +55,7 @@ $(function() {
 		}
 	});
 
-	$('#files').click(function(){
+	$(document).on('click', '#files', function() {
 		var listFiles = $('#list_files');
 		//if(!listFiles.html().length) {
 			$.ajax({
