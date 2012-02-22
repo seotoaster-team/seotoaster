@@ -112,6 +112,8 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 */
 	protected $_websiteHelper  = null;
 
+	protected $_pluginName     = '';
+
 	public function  __construct($options, $seotoasterData) {
 		// setting up Seotoaster data and plugin options
 		$this->_options          = $options;
