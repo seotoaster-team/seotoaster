@@ -277,7 +277,11 @@ class Tools_Plugins_Tools {
 		}
 		$plugin = new Application_Model_Models_Plugin();
 		$plugin->setName($pluginName);
-		$plugin->setPreview(self::findPluginPreview($plugin->getName()));
+		try {
+			$plugin->setPreview(self::findPluginPreview($plugin->getName()));
+		} catch (Exceptions_SeotoasterException $se){
+			$plugin->setPreview(Zend_Controller_Action_HelperBroker::getStaticHelper('Website')->getUrl().'system/images/noimage.png');
+		}
 		$plugin->setStatus(Application_Model_Models_Plugin::DISABLED);
 		return $plugin;
 	}
