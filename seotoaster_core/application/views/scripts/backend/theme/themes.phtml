@@ -2,7 +2,7 @@
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage themes')); ?>
 
 	<div  class="grid_12 mb10px">
-		<fieldset><legend>Upload a new theme</legend>
+		<fieldset>
 		<div class="grid_5"><?php echo $this->toasterUploader(array(
 						'id'=>'themes-uploader',
 						'filters' => array('zip'),
@@ -16,7 +16,7 @@
 	</div>
 	<div class="grid_12">
 		<fieldset><legend>Themes list</legend>
-			<div id="themes-list" class="h360">
+			<div id="themes-list" class="h380">
 			<?php foreach ($this->themesList as $theme) :?>
 				<div class="themebox" style="position: relative;">
 					<span class="label" style="position:relative"><?php echo $theme['name']; ?><div class="cat-tools">

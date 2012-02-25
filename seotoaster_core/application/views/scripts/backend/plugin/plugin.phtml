@@ -2,7 +2,7 @@
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins')); ?>
 
 	<div id="upload-plugin" class="grid_12 mb10px">
-		<fieldset><legend><?php echo $this->translate('Upload a new plugin'); ?></legend>
+		<fieldset>
 			<div class="grid_5"><?php if(extension_loaded('zip')): ?>
 				<?php
 					$uploader = $this->toasterUploader(array(
@@ -23,7 +23,7 @@
 	</div>
     <div class="grid_12">
 		<fieldset><legend>Plugins list</legend>
-	      <div id="plugins-list" class="h400"></div>
+	      <div id="plugins-list" class="h420"></div>
         </fieldset>
     </div>
 </div>
