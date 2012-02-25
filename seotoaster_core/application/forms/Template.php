@@ -52,7 +52,8 @@ class Application_Form_Template extends Zend_Form {
 				Application_Model_Models_Template::TYPE_PRODUCT  => 'Product page',
 				Application_Model_Models_Template::TYPE_CHECKOUT => 'Checkout page',
 				Application_Model_Models_Template::TYPE_LISTING  => 'Product listing',
-				Application_Model_Models_Template::TYPE_MAIL     => 'E-mail sending'
+				Application_Model_Models_Template::TYPE_MAIL     => 'E-mail sending',
+				Application_Model_Models_Template::TYPE_QUOTE    => 'Quote'
 			),
 			'value'        => $this->_type
 		)));

@@ -38,14 +38,12 @@
 <?php $this->jQuery()->addJavascript('$(function() {$(\'#adminthingsviewer\').accordion({autoHeight: false, navigation: true, collapsible: true, active: false})});'); ?>
 <script type="text/javascript">
 	$(function() {
-		//var el = $('#adminselectimgfolder');
 		$(document).on('change', '#adminselectimgfolder', function() {
 			if($(this).val() != 0) {
 				var el = $('#upload_things_button a');
 				var dataUrl = el.data('url').replace(/folder\/.*/, '') + 'folder/' + $(this).val() + '/';
 				el.data('url', dataUrl);
 			}
-			console.log(dataUrl);
 		}).on('focus', '#adminselectimgfolder', function() {
 			var el = $(this);
 			$.get('<?php echo $this->websiteUrl; ?>backend/backend_content/refreshfolders/', function(response) {
