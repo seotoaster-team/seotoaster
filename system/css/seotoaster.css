@@ -74,7 +74,7 @@ body, body.seotoaster {
 .seotoaster .header {
 	background-color:#666;
 	color:#eee;
-	padding: 6px 0 4px 6px;
+	padding: 7px 0 2px 8px;
 	margin-bottom:10px;
 	height:22px;
 	-webkit-border-radius: 3px 3px 0 0;
@@ -282,6 +282,16 @@ a.generator-links.plugin {
 	-webkit-border-radius:2px;
 	border-radius:2px;
 }
+.seotoaster fieldset fieldset {
+  background: #fff;
+}
+.seotoaster fieldset fieldset legend {
+  background: #eee;
+  color: #666;
+  width:91%;
+  font-size:10pt;
+  border: 1px solid #ddd;
+}
 .seotoaster label, .seotoaster .label {
 	display:block;
 	font-weight:bold;
@@ -299,8 +309,6 @@ a.generator-links.plugin {
 }
 
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea, .seotoaster select {
-/*	color:#960;*/
-	/*color: DarkGoldenRod;*/
 	color:CadetBlue;
 	border:1px solid #BDE6F1;
 	background: #fff;
@@ -317,8 +325,8 @@ a.generator-links.plugin {
 	margin-bottom:4px;
 }
 .seotoaster input[type=text], .seotoaster input[type=password], .seotoaster textarea {
-	width:98%;
-	padding: 6px 0 6px 3px;
+	width:97%;
+	padding: 6px 3px 6px 3px;
 }
 .seotoaster textarea#tracking-code {
   width: 96%;
@@ -329,7 +337,7 @@ a.generator-links.plugin {
   height: 13px;
 }
 .seotoaster select  {
-  width:98%;
+  width:97%;
     -moz-box-sizing: content-box;
    -webkit-box-sizing: content-box;
     box-sizing: content-box;
@@ -339,7 +347,7 @@ a.generator-links.plugin {
   font-style: normal;
 }
 
-.seotoaster input[type=submit], .seotoaster button.save-and-close, button#save-btn, .seotoaster .pluginform button {
+.seotoaster input[type=submit], .seotoaster input[type=button], .seotoaster button.save-and-close, button#save-btn, .seotoaster .pluginform button {
     background: #939393;
     background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
@@ -354,25 +362,28 @@ a.generator-links.plugin {
     -moz-box-shadow: 0 1px 0 0 #9f9f9f inset;
     -webkit-box-shadow: 0 1px 0 0 #9f9f9f inset;
     text-shadow: 0 -1px 0 #636363;
+    text-align: center;
     color: #FFFFFF;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 	border-radius:3px;
 	cursor:pointer;
-	float:right;
 	font-size:13pt;
 	font-weight:bold;
 	font-family:Arial, Helvetica, sans-serif;
 	padding:3px 16px 4px;
+	margin-left:5px;
 	margin-right:5px;
     min-width: 140px;
     overflow: visible;
-
+}
+.seotoaster input[type="submit"], .seotoaster button.save-and-close, button#save-btn, .seotoaster .pluginform button {
+    float:right;
 }
 .seotoaster .pluginform input[type=submit], .seotoaster .pluginform button {
 	margin:12px 0 4px;
 }
-.seotoaster input[type=submit]:hover, .seotoaster button.save-and-close:hover, button#save-btn:hover {
+.seotoaster input[type=submit]:hover, .seotoaster input[type=button]:hover, .seotoaster button.save-and-close:hover, button#save-btn:hover, .seotoaster .pluginform button:hover {
     background: #888888;
     background: -moz-linear-gradient(top, #888888 0%, #727272 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#888888), color-stop(100%,#727272));
@@ -384,7 +395,7 @@ a.generator-links.plugin {
     -moz-box-shadow: 0 1px 0 0 #969696 inset;
     -webkit-box-shadow: 0 1px 0 0 #969696 inset;
 }
-.seotoaster input.blue-btn, .seotoaster .pluginform button.blue-btn {
+.seotoaster input.blue-btn, .seotoaster button.blue-btn {
     background: #87b0c8;
     background: -moz-linear-gradient(top, #87b0c8 0%, #739db6 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87b0c8), color-stop(100%,#739db6));
@@ -398,7 +409,25 @@ a.generator-links.plugin {
     -webkit-box-shadow: 0 1px 0 0 #9dbed1 inset;
     text-shadow: 0 -1px 0 #698da7;
 }
-.seotoaster input.blue-btn:hover, .seotoaster .pluginform button.blue-btn:hover {
+.seotoaster button.blue-btn {
+    border-style: solid;
+    border-width: 1px;
+    text-align: center;
+    color: #FFFFFF;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	cursor:pointer;
+	font-size:13pt;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	padding:3px 16px 4px;
+	margin-left:5px;
+	margin-right:5px;
+    min-width: 140px;
+    overflow: visible;
+}
+.seotoaster input.blue-btn:hover, .seotoaster button.blue-btn:hover {
     background: #84aac1;
     background: -moz-linear-gradient(top, #84aac1 0%, #7299b1 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#84aac1), color-stop(100%,#7299b1));
@@ -410,6 +439,7 @@ a.generator-links.plugin {
     -moz-box-shadow: 0 1px 0 0 #99b8ca inset;
     -webkit-box-shadow: 0 1px 0 0 #99b8ca inset;
 }
+
 .seotoaster dl { }
 .seotoaster dt { }
 .seotoaster dt:after { }
@@ -550,13 +580,13 @@ a.generator-links.plugin {
 	margin:0;
 	padding:0;
 	border:none;
+    font-family:tahoma, geneva, verdana, sans-serif !important;
 }
 .seotoaster#seotoaster-cpanel ul li a {
 	background:#6D6D6D;
 	color:#eee;
 	font-weight:bold;
 	font-size:13pt !important;
-	font-family:tahoma, geneva, verdana, sans-serif !important;
 	padding:3px 5px;
 	border: none;
 	border-bottom:1px solid #fff;
@@ -601,6 +631,7 @@ a.generator-links.plugin {
 	list-style: none;
 	width: 200px;
 	margin: 0;
+    vertical-align: top;
 }
 
 .seotoaster#seotoaster-cpanel .ui-accordion-li-fix {
@@ -1001,13 +1032,14 @@ div#page-teaser-uploader span.ui-button-text{
 
 
 #media-toaster-uploader-filelist div.ui-widget p, #page-teaser-uploader-filelist div.ui-widget p, #themes-uploader-filelist div.ui-widget p, #plugin-uploader-filelist div.ui-widget p {
-	float: right;
     width: 95%;
-    padding:1px;
+    padding:1px 1px 1px 4%;
+    margin-bottom: -16px;
 }
 
 #media-toaster-uploader-filelist div.ui-widget span, #page-teaser-uploader-filelist div.ui-widget span, #themes-uploader-filelist div.ui-widget span, #plugin-uploader-filelist div.ui-widget span {
 	float: left;
+    margin-right: 3px;
 
 }
 
@@ -1371,7 +1403,7 @@ list-style: square;
 	font-size:10pt;
 }
 /*============Manage config=================*/
-.seotoaster #general-config, .seotoaster #email-config, .seotoaster #security-config {
+.seotoaster #general-config, .seotoaster #email-config, .seotoaster #security-config, .seotoaster #advaced-config {
     overflow: hidden;
     margin-bottom: 7px;
     min-height: 228px;
@@ -1391,9 +1423,8 @@ list-style: square;
 	background: #fff;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: 335px;
-	max-height: 335px;
-     margin-top: 5px;
+	height: 350px;
+	max-height: 350px;
 }
 
 .seotoaster #users-list {height:auto\0/;}
@@ -1410,9 +1441,20 @@ list-style: square;
 
 .seotoaster #users-list_filter {
 	float: left;
-	/*padding-left: 8px;*/
-	/*width: 200px;*/
+    font-size: 10pt;
+    font-weight: bold;
+    margin-left: 1%;
     margin-top: -31px;
+    background-color: #fff;
+     -moz-border-radius: 5px 5px 0 0;
+    -webkit-order-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    width: 30%;
+    padding: 8px 6px 0 9px;
+}
+.seotoaster #users-list_filter input {
+  width:75%;
+  margin-left: 5px;
 }
 .seotoaster #users-list_filter label {
     margin-top: 5px;
@@ -1497,7 +1539,7 @@ list-style: square;
 }
 
 .seotoaster .sculpting-subrow input[type=checkbox] {
-	margin: 0 0 0 3px;
+	margin: 6px 0 0 3px;
 }
 
 .seotoaster .sculpting-row select {
