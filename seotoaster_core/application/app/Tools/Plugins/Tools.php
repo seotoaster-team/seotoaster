@@ -153,7 +153,7 @@ class Tools_Plugins_Tools {
 		$cacheHelper->init();
 		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
 			$enabledPlugins = Application_Model_Mappers_PluginMapper::getInstance()->findEnabled();
-			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array(), Helpers_Action_Cache::CACHE_LONG);
+			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $enabledPlugins;
 	}
