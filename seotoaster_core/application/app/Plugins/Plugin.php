@@ -12,17 +12,18 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request) {
 		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$sessionHelper->init();
+		$cacheHelper->init();
 		if(!isset($sessionHelper->pluginRoutesFetched) || $sessionHelper->pluginRoutesFetched !== true) {
 			Tools_Plugins_Tools::fetchPluginsRoutes();
 			$sessionHelper->pluginRoutesFetched = true;
 		}
-        if (!isset($sessionHelper->pluginIncludePath)) {
-            $sessionHelper->pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
-        }
-        if (!empty($sessionHelper->pluginIncludePath)){
-            set_include_path(implode(PATH_SEPARATOR,$sessionHelper->pluginIncludePath).PATH_SEPARATOR.get_include_path());
-        }
+		if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_'))){
+			$pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
+			$cacheHelper->save('includePath', $pluginIncludePath, 'plugins_', array(), Helpers_Action_Cache::CACHE_LONG);
+		}
+        set_include_path(implode(PATH_SEPARATOR,$pluginIncludePath).PATH_SEPARATOR.get_include_path());
     }
 
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
