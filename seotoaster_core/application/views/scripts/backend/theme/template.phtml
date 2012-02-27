@@ -45,7 +45,13 @@
 								echo $previewUploader;
 							?>
 			</div>
+			<div style="text-align: center;" class="mt30px">
+				<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
+					[<?php echo $this->toasterLink('backend_page', 'listpages', 'Pages use this template', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 574)); ?>]
+				<?php endif; ?>
+			</div>
 		</div>
+
 		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
 <!--		<div class="grid_3 textcentered  mt15px">-->
 			<?php echo $this->templateForm->getElement('submit'); ?>

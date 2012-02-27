@@ -13,6 +13,8 @@ window.onload = function() {
 		$('#frm_template').submit(saveTemplate);
 
 		$('#templatelist').delegate('div.template_preview', 'click', function(){
+			var tplOldName   = $('#frm_template').find('#title').val();
+			var lnkListPages = $('.listpages');
 			$.post(
 				$('#website_url').val()+'backend/backend_theme/gettemplate/',
 				{'listtemplates': $(this).find('input[name="template-id"]').val()},
@@ -23,6 +25,9 @@ window.onload = function() {
 						$('#frm_template').find('#template_id').val(response.responseText.name);
 						$('#frm_template').find('#template-type').val(response.responseText.type);
 						$('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);
+
+						var dataUrl = lnkListPages.data('url');
+						lnkListPages.data('url', dataUrl.replace(tplOldName, response.responseText.name));
 					}
 				},
 				'json'
