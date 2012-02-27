@@ -1423,8 +1423,8 @@ list-style: square;
 	background: #fff;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: 350px;
-	max-height: 350px;
+	height: 335px;
+	max-height: 335px;
 }
 
 .seotoaster #users-list {height:auto\0/;}
