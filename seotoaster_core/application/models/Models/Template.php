@@ -20,7 +20,9 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	const TYPE_CHECKOUT = 'typecheckout';
 
-	const TYPE_MAIL    = 'typemail';
+	const TYPE_MAIL     = 'typemail';
+
+	const TYPE_QUOTE    = 'typequote';
 
 	protected $_name         = '';
 
@@ -79,7 +81,8 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 			self::TYPE_PRODUCT,
 			self::TYPE_CHECKOUT,
 			self::TYPE_LISTING,
-			self::TYPE_MAIL
+			self::TYPE_MAIL,
+			self::TYPE_QUOTE
 		);
 		if(!in_array($type, $validTypes)) {
 			throw new Exceptions_SeotoasterTemplateException('Wrong template type.');

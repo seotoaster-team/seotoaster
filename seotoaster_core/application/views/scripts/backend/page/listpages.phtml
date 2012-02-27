@@ -1,0 +1,23 @@
+<div class="seotoaster container_12 h570 rounded3px">
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'List pages using <strong>' . $this->templateName . '</strong> template')); ?>
+	<?php if($this->responseData && is_array($this->responseData)): ?>
+		<ol class="grid_12 items-list h520">
+			<?php foreach($this->responseData as $number => $page): ?>
+				<li class="list-row">
+					&nbsp;#<?php echo ++$number; ?>&nbsp;<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $page['url']; ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $page['h1']; ?>"><?php echo $page['navName']; ?></a>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+	<?php else: ?>
+		<ol class="grid_12 items-list h520">
+			<li style="text-align: center;"><?php echo $this->translate('There are no pages with this template!'); ?></li>
+		</ol>
+	<?php endif; ?>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$('.draft-page-link').click(function() {
+			top.location.href = $(this).data('url');
+		})
+	})
+</script>

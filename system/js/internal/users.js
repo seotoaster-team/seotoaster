@@ -9,15 +9,15 @@ function userCallback() {
 	showSpinner();
 	$.getJSON($('#website_url').val() + 'backend/backend_user/list/', function(response) {
 		hideSpinner();
-		$('#users-list tbody').html(response.usersList);
 		$('.sortable').dataTable({
-			"bPaginate": false,
-			"bLengthChange": false,
-			"bInfo": false,
-			"bAutoWidth": false,
-			"bDestroy":true,
-			"bRetrive" : true,
-			"bProcessing": false
+			"bPaginate"     : false,
+			"bLengthChange" : true,
+			"bInfo"         : false,
+			"bAutoWidth"    : false,
+			"bDestroy"      : true,
+			"bRetrive"      : true,
+			"bProcessing"   : false
 		})
+		$('#users-list tbody').html(response.usersList);
 	})
 }
