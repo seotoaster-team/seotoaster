@@ -374,7 +374,7 @@ class Backend_PageController extends Zend_Controller_Action {
 			$this->view->templateName = $templateName;
 			$where                   = 'template_id="' . $templateName . '"';
 		}
-		$pages                    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), !!($templateName));
+		$pages                    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
 		}, $pages);
