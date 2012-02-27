@@ -19,5 +19,13 @@ abstract class Tools_System_Observable implements Interfaces_Observable {
 			$observer->notify($this);
 		}
 	}
+
+	public function setObservers($observers) {
+		$this->_observers = $observers;
+	}
+
+	public function getObservers() {
+		return $this->_observers;
+	}
 }
 

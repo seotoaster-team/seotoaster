@@ -21,6 +21,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$this->_websiteConfig	= Zend_Registry::get('website');
 		$this->_themeConfig		= Zend_Registry::get('theme');
 		$this->_translator      = Zend_Registry::get('Zend_Translate');
+		$this->_helper->AjaxContext()->addActionContexts(array(
+			'pagesviatemplate' => 'json'
+		))->initContext('json');
+
 	}
 
 	/**
@@ -41,6 +45,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					$templateForm->getElement('name')->setValue($template->getName());
 					$templateForm->getElement('id')->setValue($template->getName());
 					$templateForm->getElement('templateType')->setValue($template->getType());
+					$this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
 				}
 				//get template preview image
 				try {
@@ -459,6 +464,17 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$updateConfig = $configTable->update(array('value' => $themeName), array('name = ?'=>'currentTheme'));
 
 		return $errors;
+	}
+
+	/**
+	 * Returns amount of pages using specific template
+	 *
+	 */
+	public function pagesviatemplateAction() {
+		$templateName = $this->getRequest()->getParam('template', '');
+		if($templateName) {
+			$this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
+		}
 	}
 }
 

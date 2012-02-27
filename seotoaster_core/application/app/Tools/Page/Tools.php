@@ -70,5 +70,10 @@ class Tools_Page_Tools {
 		}
 		return Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
 	}
+
+	public static function getPagesCountByTemplate($templateName) {
+		$pageDbTable   = new Application_Model_DbTable_Page();
+		return $pageDbTable->getAdapter()->query($pageDbTable->select()->where('template_id="' . $templateName . '"'))->rowCount();
+	}
 }
 

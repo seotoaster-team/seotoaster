@@ -28,6 +28,11 @@ window.onload = function() {
 
 						var dataUrl = lnkListPages.data('url');
 						lnkListPages.data('url', dataUrl.replace(tplOldName, response.responseText.name));
+						$.getJSON($('#website_url').val()+'backend/backend_theme/pagesviatemplate/', {
+							template: response.responseText.name
+						}, function(response) {
+							$('#pcount').text(response.pagesUsingTemplate);
+						})
 					}
 				},
 				'json'
