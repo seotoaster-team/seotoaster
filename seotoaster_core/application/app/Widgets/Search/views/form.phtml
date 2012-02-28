@@ -1,13 +1,15 @@
 <?php echo $this->searchForm; ?>
-
 <?php if($this->renewIndex): ?>
 	<script type="text/javascript">
-
+	$(function(){
 		//renew search index. only when super admin are logged in
-
-		$.post('<?php echo $this->_websiteUrl;?>backend/search/managesearchindex/', {doaction: 'renew'}, function(response) {
-
-		});
-
+		if (!$.cookie('searchIndexRenewed')){
+			$.post('<?php echo $this->_websiteUrl;?>backend/search/managesearchindex/', {doaction: 'renew'}, function(response) {
+				if (!response.error){
+					$.cookie('searchIndexRenewed', true, { expires: 1 });
+				}
+			});
+		}
+	});
 	</script>
 <?php endif; ?>
