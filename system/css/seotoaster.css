@@ -102,7 +102,7 @@ body, body.seotoaster {
     width: 19px;
     height: 18px;
     border: 1px solid #666;
-    background: url("/system/uithemes/seotoasterui/images/ui-icons_ffffff_256x240.png") -95px -127px no-repeat;
+    background: url("../uithemes/seotoasterui/images/ui-icons_ffffff_256x240.png") -95px -127px no-repeat;
     text-indent: -5000em;
 	margin: 5px;
     font-size: 0;
@@ -112,7 +112,7 @@ body, body.seotoaster {
 	border-radius: 3px;
 }
 .seotoaster .closebutton span.close:hover {
-  background: url("/system/uithemes/seotoasterui/images/ui-icons_454545_256x240.png") -95px -127px no-repeat #E6E6FA;
+  background: url("../uithemes/seotoasterui/images/ui-icons_454545_256x240.png") -95px -127px no-repeat #E6E6FA;
   border-color: #bbb;
 }
 .seotoaster .closebutton span.help {
@@ -160,7 +160,7 @@ a.generator-links img {
     z-index: 100 !important;
 }
 a.generator-links.plugin {
-    background:url(/system/images/editadd-plugin.png) no-repeat #F68B0E left center;
+    background:url(../images/editadd-plugin.png) no-repeat #F68B0E left center;
     border: 1px solid #7C7C7C;
     border-radius: 2px;
     -moz-border-radius: 2px;
@@ -177,7 +177,7 @@ a.generator-links.plugin {
     text-transform: uppercase
 }
 .seotoaster .ajaxspineer {
-	background: url('/system/images/fl.gif') no-repeat scroll 50% 0 transparent;
+	background: url('../images/fl.gif') no-repeat scroll 50% 0 transparent;
 	height: 65px;
 }
 
@@ -256,7 +256,7 @@ a.generator-links.plugin {
 /*.seotoaster form { overflow:hidden; }*/
 .seotoaster fieldset, .seotoaster .pluginform {
 	background:#fff;
-	background:url('/system/images/bg-strip.png');
+	background:url('../images/bg-strip.png');
 	border:1px solid #ddd;
 	padding:6px;
 	position:relative;
@@ -446,7 +446,7 @@ a.generator-links.plugin {
 .seotoaster dd { }
 /*=========== Tabs ========================*/
 .seotoaster .tabs {
-/*	background: url('/system/images/bg-strip.png') !important;
+/*	background: url('../images/bg-strip.png') !important;
 	height: 535px;*/
 }
 
@@ -1072,7 +1072,7 @@ list-style: square;
 	padding: 6px 16px;
 	font-style: italic;
 	font-size: 12px;
-	background: url("/system/images/bg-strip.png") repeat 0 0 transparent;
+	background: url("../images/bg-strip.png") repeat 0 0 transparent;
 }
 .seo-tip span {
 	font-weight: bold;
@@ -1520,7 +1520,7 @@ list-style: square;
   margin-top: 6px;
 }
 .seotoaster .sculpting-row {
-    background:url('/system/images/bg-strip.png');
+    background:url('../images/bg-strip.png');
     border:1px solid #ddd;
     position:relative;
         padding: 6px;
@@ -1614,7 +1614,7 @@ list-style: square;
 /*============= Filetype icons for editor =================*/
 #list_files p > a[title]{
     padding-left: 20px;
-    background: url(/system/images/filetypes.png) no-repeat top left;
+    background: url(../images/filetypes.png) no-repeat top left;
     background-position: 0 -34px;
 }
 #list_files p > a[title$='.doc']{ background-position: 0 0;}
@@ -1631,7 +1631,7 @@ list-style: square;
 
 /*================= widgets icons ===============================*/
 .widget-control-img {
-	background: url('/system/images/widgets.jpg') no-repeat top left;
+	background: url('../images/widgets.jpg') no-repeat top left;
 	height: 61px;
 	width: 127px;
 	cursor: pointer;
