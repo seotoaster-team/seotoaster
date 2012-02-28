@@ -59,7 +59,7 @@ $(function() {
 		var listFiles = $('#list_files');
 		//if(!listFiles.html().length) {
 			$.ajax({
-				url        : '/backend/backend_content/loadfiles',
+				url        : $('#website_url').val() + '/backend/backend_content/loadfiles',
 				type       : 'post',
 				dataType   : 'json',
 				data       : {
@@ -79,7 +79,7 @@ $(function() {
 		var widgetsMaker = $('#widgets_maker');
 		if(!widgetsMaker.html().length) {
 			$.ajax({
-				url        : '/backend/backend_content/loadwidgetmaker',
+				url        : $('#website_url').val() + '/backend/backend_content/loadwidgetmaker',
 				type       : 'post',
 				dataType   : 'json',
 				success : function(response) {
