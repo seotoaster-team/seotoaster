@@ -1,30 +1,32 @@
 <div class="seotoaster container_12 h570 rounded3px refreshOnClose">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Organize pages', 'innerHeaderHtml' => '<div style="float:right; font-size:10pt; margin-right: 190px;"><a href="javascript:;" id="collapse-global">collapse all</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" id="expand-global">expand all</a></div>')); ?>
 	<div id="sortable-main" class="h480">
-		<?php  foreach($this->tree as $key => $treeData): ?>
-			<div class="grid_3 mb10px category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
-				<span class="label catmove">
-					<div class="move"></div>
-					<a href="javascript:;" class="check-all" title="Check all"><!-- img src="/system/images/check-all.gif" width="15"  / --></a>&nbsp;
-<!--					<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>-->
-					<?php echo $this->toasterLink('backend_page', 'page', $this->translate($treeData['category']->getNavName()), 'id/' . $treeData['category']->getId(), false, array('width' => '954', 'height' => '574')); ?>
-					<div class="cat-tools">
-						<span class="ranking">#<?php echo ++$key; ?></span>
-						<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
-					</div>
-				</span>
-				<ul class="organise">
-					<?php if(isset($treeData['pages']) && is_array($treeData['pages'])): ?>
-						<?php foreach ($treeData['pages'] as $page): ?>
-							<li id="<?php echo $page->getId(); ?>">
-								<div class="move"></div>
-								<input type="checkbox" name="remove[]" class="page-remove" />
-								<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
-							</li>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</ul>
-			</div>
+		<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
+			<?php  foreach($this->tree as $key => $treeData): ?>
+				<div class="grid_3 mb10px category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
+					<span class="label catmove">
+						<div class="move"></div>
+						<a href="javascript:;" class="check-all" title="Check all"><!-- img src="/system/images/check-all.gif" width="15"  / --></a>&nbsp;
+	<!--					<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>-->
+						<?php echo $this->toasterLink('backend_page', 'page', $this->translate($treeData['category']->getNavName()), 'id/' . $treeData['category']->getId(), false, array('width' => '954', 'height' => '574')); ?>
+						<div class="cat-tools">
+							<span class="ranking">#<?php echo ++$key; ?></span>
+							<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
+						</div>
+					</span>
+					<ul class="organise">
+						<?php if(isset($treeData['pages']) && is_array($treeData['pages'])): ?>
+							<?php foreach ($treeData['pages'] as $page): ?>
+								<li id="<?php echo $page->getId(); ?>">
+									<div class="move"></div>
+									<input type="checkbox" name="remove[]" class="page-remove" />
+									<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
+								</li>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</ul>
+				</div>
+			<?php endforeach; ?>
 		<?php endforeach; ?>
 
 		<!-- static menu -->
