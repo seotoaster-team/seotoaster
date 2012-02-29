@@ -89,7 +89,7 @@ class Backend_FormController extends Zend_Controller_Action {
 					if(isset($formParams['name'])) {
 						$mailer->setMailFromLabel($formParams['name']);
 					}
-					$mailer->setSubject($this->_helper->language->translate('New mesage was posted on the website'));
+					$mailer->setSubject($this->_helper->language->translate('New message was posted on the website'));
 
 					$this->view->badParams = array('controller', 'action', 'module', 'formName', 'captcha', 'captchaId');
 					$this->view->params    = $formParams;
@@ -101,7 +101,10 @@ class Backend_FormController extends Zend_Controller_Action {
 						$mailer->setMailTo($formParams['email']);
 						$mailer->setMailFrom($form->getReplyFrom());
 						$mailer->setSubject($form->getReplySubject());
-						$mailer->setMailTemplateName($form->getReplyMailTemplate(), true);
+                        if($form->getReplyFromName() != ''){
+                            $mailer->setMailFromLabel($form->getReplyFromName());
+                        }
+                        $mailer->setMailTemplateName($form->getReplyMailTemplate(), true);
 						$mailer->send();
 
 						$this->_helper->response->success($form->getMessageSuccess());
