@@ -223,7 +223,7 @@ class Backend_PageController extends Zend_Controller_Action {
 					'-4'         => 'Make your selection',
 					'Seotoaster' => array(
 						Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
-						Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
+						//Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
 					),
 					'Categories' => $categories
 				);
