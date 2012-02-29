@@ -11,7 +11,7 @@
 					});
 					$.ajax({
 						type: 'post',
-						url: '/backend/backend_content/loadwidgets/',
+						url: $('#website_url').val() + 'backend/backend_content/loadwidgets/',
 						success: function(widgets) {
 							for(var i in widgets) {
 								for(var j in widgets[i]) {
