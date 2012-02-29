@@ -47,9 +47,19 @@ class Application_Form_Form extends Zend_Form {
 		)));
 
         $this->addElement(new Zend_Form_Element_Text(array(
+			'id'         => 'reply-from-name',
+			'name'       => 'replyFromName',
+			'label'      => 'Auto reply from name',
+			'value'      => $this->_replyFromName,
+			'required'   => false,
+			'filters'    => array('StringTrim'),
+            'validators' => array(new Zend_Validate_Alnum(array('allowWhiteSpace' => true)))
+		)));
+        
+        $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'reply-from',
 			'name'       => 'replyFrom',
-			'label'      => 'Auto reply from*',
+			'label'      => 'Auto reply from email*',
 			'value'      => $this->_replyFrom,
 			'required'   => true,
 			'filters'    => array('StringTrim'),
