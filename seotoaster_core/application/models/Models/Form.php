@@ -18,6 +18,8 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
     protected $_messageError        = '';
 
     protected $_replyFrom           = '';
+    
+    protected $_replyFromName       = '';
 
     protected $_replySubject        = '';
 
@@ -85,6 +87,15 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 
 	public function setReplyFrom($replyFrom) {
 		$this->_replyFrom = $replyFrom;
+		return $this;
+	}
+    
+    public function getReplyFromName() {
+		return $this->_replyFromName;
+	}
+
+	public function setReplyFromName($replyFromName) {
+		$this->_replyFromName = $replyFromName;
 		return $this;
 	}
 
