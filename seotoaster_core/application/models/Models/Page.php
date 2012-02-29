@@ -12,8 +12,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const IDCATEGORY_DRAFT     = -2;
 
-	const IDCATEGORY_PRODUCT   = -3;
-
 	const IDCATEGORY_CATEGORY  = 0;
 
 	const PROTECTED_SIGN       = '*';

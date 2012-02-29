@@ -127,8 +127,8 @@ class Application_Form_Page extends Zend_Form {
 			'label'        => 'Main menu',
 			'multiOptions' => array(
 				'Seotoaster' => array(
-					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
-					Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
+					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category'
+					//Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
 				)
 			),
 			'registerInArrayValidator' => false
