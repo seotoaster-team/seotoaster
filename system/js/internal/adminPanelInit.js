@@ -18,7 +18,17 @@ $(function() {
 		navigation: false,
 		clearStyle: true,
 		icons: false
-	})
+	});
+
+	if($.cookie('currSectionOpen')) {
+		$('#cpanelul').accordion('activate', parseInt($.cookie('currSectionOpen')));
+	}
+
+	$(document).on('click', '#cpanelul li', function() {
+		$.cookie('currSectionOpen', $(this).index());
+	});
+
+
 
 	$('#showhide > a').click(function() {
 		$.cookie('hideAdminPanel', ($.cookie('hideAdminPanel') == 1) ? 0 : 1);

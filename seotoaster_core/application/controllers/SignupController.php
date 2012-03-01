@@ -42,6 +42,8 @@ class SignupController extends Zend_Controller_Action {
 				if($signupLandingPage instanceof Application_Model_Models_Page) {
 					$this->_redirect($this->_helper->website->getUrl() . $signupLandingPage->getUrl());
 					exit;
+				} else {
+					$this->_redirect($this->_helper->website->getUrl());
 				}
 			}
 			else {
