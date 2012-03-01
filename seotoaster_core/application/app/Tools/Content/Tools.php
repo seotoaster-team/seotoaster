@@ -38,7 +38,7 @@ class Tools_Content_Tools {
 
 	public static function proccessFormMessagesIntoHtml($messages, $formClassName = '') {
 		$form = ($formClassName) ? new $formClassName() : null;
-		$html = '<ul>';
+		$html = '<ul class="form-errors">';
 		foreach ($messages as $element => $messageData) {
 			$errMessages = array_values($messageData);
 			$html .= '<li><span class="error-title">' . (($form) ? $form->getElement($element)->getLabel() : $element) . '</span>';
