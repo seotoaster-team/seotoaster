@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Signup
+ * Signup form
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
@@ -9,13 +9,7 @@ class Application_Form_Signup extends Application_Form_User {
 
 	public function init() {
 		parent::init();
-
-		$this->setAttribs(array(
-			'id' => 'signup-form'
-		));
-
 		$this->removeElement('roleId');
-
 		$saveButton = $this->getElement('saveUser');
 		$this->removeElement('saveUser');
 
@@ -29,14 +23,34 @@ class Application_Form_Signup extends Application_Form_User {
 				'dotNoiseLevel'  => 0,
 				'lineNoiseLevel' => 0,
 				'wordLen'        => 5,
-				'timeout'        => 300,
-			),
+				'timeout'        => 300
+			)
 		)));
-
 		$this->addElement(($saveButton->setLabel('Sign Up')));
+		$this->_initDecorators();
+	}
 
-		$this->removeDecorator('DtDdWrapper');
-		$this->removeDecorator('DlWrapper');
+	protected function _initDecorators() {
+		//setting up form element decorators
+		$this->setDecorators(array(
+			'FormElements',
+			'Form'
+		));
+		$this->removeDecorator('HtmlTag');
+
+		//setting up decorators for all form elements
+		//changing html wrapper DtDd to p
+		$this->setElementDecorators(array(
+			'ViewHelper',
+			'Errors',
+			'Label',
+			array('HtmlTag', array('tag' => 'p'))
+		));
+		//remove ViewHelper decorator from the captcha element
+		$this->getElement('verification')->removeDecorator('ViewHelper');
+		// remove Label decorator from submit button
+		$this->getElement('saveUser')->removeDecorator('Label');
+		$this->getElement('id')->removeDecorator('HtmlTag');
 	}
 }
 

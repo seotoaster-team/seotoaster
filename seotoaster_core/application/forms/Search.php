@@ -9,7 +9,7 @@ class Application_Form_Search extends Zend_Form {
 
 	protected $_resultsPageId = 0;
 
-	protected $_search       = '';
+	protected $_search        = '';
 
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
@@ -38,6 +38,29 @@ class Application_Form_Search extends Zend_Form {
 			'value' => 'doSearch',
 			'label' => 'Search'
 		)));
+
+		$this->_initDecorators();
+	}
+
+	protected function _initDecorators() {
+		//setting up form element decorators
+		$this->setDecorators(array(
+			'FormElements',
+			'Form'
+		));
+		$this->removeDecorator('HtmlTag');
+
+		//setting up decorators for all form elements
+		//changing html wrapper DtDd to p
+		$this->setElementDecorators(array(
+			'ViewHelper',
+			'Errors',
+			'Label',
+			array('HtmlTag', array('tag' => 'p'))
+		));
+		// remove Label decorator from submit button
+		$this->getElement('doSearch')->removeDecorator('Label');
+		$this->getElement('resultsPageId')->removeDecorator('HtmlTag');
 	}
 
 	public function getResultsPageId() {

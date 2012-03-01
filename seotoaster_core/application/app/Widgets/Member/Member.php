@@ -25,7 +25,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
 	private function _renderMemberLogin() {
 		$this->_view->userRole  = $this->_session->getCurrentUser()->getRoleId();
-		$this->_view->loginForm = new Application_Form_Login();
+		$this->_view->loginForm = $this->_reInitDecorators(new Application_Form_Login());
 		$this->_view->messages  = (isset($this->_session->errMemeberLogin)) ? $this->_session->errMemeberLogin : array();
 		unset($this->_session->errMemeberLogin);
 		if(isset($this->_options[0])) {
@@ -70,6 +70,24 @@ class Widgets_Member_Member extends Widgets_Abstract {
 				'option' => 'member:logout'
 			)
 		);
+	}
+
+	private function _reInitDecorators($loginForm) {
+	   	$loginForm->setDecorators(array(
+   			'FormElements',
+   			'Form'
+   		));
+		$loginForm->removeDecorator('HtmlTag');
+
+		$loginForm->setElementDecorators(array(
+			'ViewHelper',
+			'Errors',
+			'Label',
+			array('HtmlTag', array('tag' => 'p'))
+		));
+		$loginForm->getElement('submit')->removeDecorator('Label');
+
+		return $loginForm;
 	}
 }
 
