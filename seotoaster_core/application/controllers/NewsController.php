@@ -21,15 +21,16 @@ class NewsController extends Zend_Controller_Action {
 		$newsTempate   = $mapper->find('news');
 		$newsIndexPage = new Application_Model_Models_Page();
 		$newsIndexPage->setHeaderTitle($this->_helper->language->translate('Newsroom'));
+	    $newsIndexPage->setH1($this->_helper->language->translate('Newsroom'));
+	    $newsIndexPage->setNavName($this->_helper->language->translate('Newsroom'));
+	    //$newsIndexPage->
+	    $newsIndexPage->setTemplateId($newsTempate->getName());
 		$themeData     = Zend_Registry::get('theme');
 		$parserOptions = array(
 			'websiteUrl'     => $this->_helper->website->getUrl(),
 			'websitePath'    => $this->_helper->website->getPath(),
 			'currentTheme'   => $this->_helper->config->getConfig('currentTheme'),
-			'themePath'      => $themeData['path'],
-			'excludeWidgets' => array(
-
-			)
+			'themePath'      => $themeData['path']
 		);
 		$parser = new Tools_Content_Parser($newsTempate->getContent(), $newsIndexPage->toArray(), $parserOptions);
 		$this->_complete($parser->parse(), $newsIndexPage->toArray(), true);

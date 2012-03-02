@@ -69,7 +69,7 @@ class Application_Form_Form extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'id'         => 'reply-mail-template',
 			'name'       => 'replyMailTemplate',
-			'label'      => 'Auto reply mail template',
+			'label'      => 'Auto reply mail template*',
 			'value'      => $this->_replyMailTemplate,
 			'required'   => true,
 			'registerInArrayValidator' => false
@@ -96,7 +96,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'reply-subject',
 			'name'     => 'replySubject',
-			'label'    => 'Auto reply subject',
+			'label'    => 'Auto reply subject*',
 			'value'    => $this->_replySubject,
 			'required' => true,
 			'filters'  => array('StringTrim'),
