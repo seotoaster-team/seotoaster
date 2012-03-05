@@ -62,7 +62,19 @@
 				<div class="grid_9 mt10px">
 				<?php echo $this->configForm->getElement('useSmtp')->renderViewHelper(); ?>
 				</div>
-				<?php echo $this->configForm->getElement('smtpHost'); ?>
+				<div class="clear"></div>
+				<div class="grid_6">
+					<?php echo $this->configForm->getElement('smtpHost')->renderLabel(); ?>
+					<?php echo $this->configForm->getElement('smtpHost')->renderViewHelper(); ?>
+				</div>
+				<div class="grid_4 alpha">
+					<?php echo $this->configForm->getElement('smtpPort')->renderLabel(); ?>
+					<?php echo $this->configForm->getElement('smtpPort')->renderViewHelper(); ?>
+				</div>
+				<div class="grid_2 alpha">
+					<?php echo $this->configForm->getElement('smtpSsl')->renderLabel(); ?>
+					<?php echo $this->configForm->getElement('smtpSsl')->renderViewHelper(); ?>
+				</div>
 				<?php echo $this->configForm->getElement('smtpLogin'); ?>
 				<?php echo $this->configForm->getElement('smtpPassword'); ?>
 			</div>

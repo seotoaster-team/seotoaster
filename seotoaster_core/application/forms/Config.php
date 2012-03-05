@@ -18,6 +18,8 @@ class Application_Form_Config extends Zend_Form {
 	protected $_smtpHost;
 	protected $_smtpLogin;
 	protected $_smtpPassword;
+	protected $_smtpPort;
+	protected $_smtpSsl;
 	protected $_language;
 	protected $_suLogin;
 	protected $_suPassword;
@@ -166,6 +168,26 @@ class Application_Form_Config extends Zend_Form {
 		return this;
 	}
 
+	public function setSmtpPort($smtpPort) {
+		$this->_smtpPort = $smtpPort;
+		$this->getElement('smtpPort')->setValue($smtpPort);
+		return $this;
+	}
+
+	public function getSmtpPort() {
+		return $this->_smtpPort;
+	}
+
+	public function setSmtpSsl($smtpSsl) {
+		$this->_smtpSsl = $smtpSsl;
+		$this->getElement('smtpSsl')->setValue($smtpSsl);
+		return $this;
+	}
+
+	public function getSmtpSsl() {
+		return $this->_smtpSsl;
+	}
+
 	public function init() {
 		$this->setName($this->_name)
 			->setMethod(Zend_FORM::METHOD_POST)
@@ -220,7 +242,8 @@ class Application_Form_Config extends Zend_Form {
 		));
 		$this->addElement('text', 'smtpHost', array(
 			'value' => $this->_smtpHost,
-			'label' => 'SMTP Hostname'
+			'label' => 'SMTP Hostname',
+			'placeholder' => 'e.g., smtp.gmail.com'
 		));
 		$this->addElement('text', 'smtpLogin', array(
 			'value' => $this->_smtpLogin,
@@ -229,6 +252,24 @@ class Application_Form_Config extends Zend_Form {
 		$this->addElement('password', 'smtpPassword', array(
 			'value' => $this->_smtpPassword,
 			'label' => 'SMTP Password'
+		));
+
+		$this->addElement('text', 'smtpPort', array(
+			'value' => $this->_smtpPort,
+			'class' => 'optional',
+			'label' => 'SMTP Port',
+			'placeholder' => 'empty by default',
+			'validators' => array(new Zend_Validate_Digits())
+		));
+
+		$this->addElement('select', 'smtpSsl', array(
+			'label' => 'SSL',
+			'class' => 'optional',
+			'multiOptions' => array(
+				0 => 'no',
+				'ssl'  => 'SSL',
+				'tls'  => 'TLS'
+			)
 		));
 
 		$this->addElement('select', 'language', array(

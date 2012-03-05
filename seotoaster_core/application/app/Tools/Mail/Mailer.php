@@ -119,7 +119,9 @@ class Tools_Mail_Mailer {
 		try {
 			return $this->_mailer->send();
 		}
-		catch (Zend_Mail_Transport_Exception $se) {
+		catch (Zend_Mail_Exception $zme) {
+			error_log($zme->getMessage());
+			error_log($zme->getTraceAsString());
 			return false;
 		}
 	}
@@ -135,7 +137,7 @@ class Tools_Mail_Mailer {
 	 * @return Tools_Mail_Mailer
 	 */
 	public function setSmtpConfig(array $smtpConfig) {
-		$this->_smtpConfig = $smtpConfig;
+		$this->_smtpConfig = array_merge($this->_smtpConfig, $smtpConfig);
 		return $this;
 	}
 
