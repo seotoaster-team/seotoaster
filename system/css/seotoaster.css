@@ -217,7 +217,7 @@ a.generator-links.plugin {
 .seotoaster .header a {
 	color:#e7e7e7;
 }
-.seotoaster .header a:hover { border-bottom:1px solid #e7e7e7; }
+.seotoaster .header a:hover { /*border-bottom:1px solid #e7e7e7;*/ }
 .seotoaster a:hover { }
 .seotoaster a:visited { }
 .seotoaster a:active { }

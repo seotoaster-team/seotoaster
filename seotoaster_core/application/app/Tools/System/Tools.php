@@ -111,5 +111,10 @@ class Tools_System_Tools {
 		}
 		return false;
 	}
+
+	public static function getRequestUri() {
+		$front = Zend_Controller_Front::getInstance();
+		return $front->getRequest()->getParam('page', false);
+	}
 }
 

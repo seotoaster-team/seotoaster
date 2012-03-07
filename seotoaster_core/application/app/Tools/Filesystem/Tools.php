@@ -75,20 +75,21 @@ class Tools_Filesystem_Tools {
 	/**
 	 * Scan given directory for files with given extension
 	 *
+	 * @todo recode this method to use "glob" php function
+	 *
 	 * @param string $directory Directory to scan
 	 * @param string $extension Files extension
 	 * @return array
 	 */
 	public static function findFilesByExtension($directory, $extension, $incFilePath = false, $pairs = false, $recursively = true) {
 		$foundFiles = array();
-		$files      = array();
 		$files      = self::scanDirectory($directory, $incFilePath, $recursively);
 		if(!empty($files)) {
 			if(is_array($extension)) {
 				$extension = implode('|', $extension);
 			}
 			foreach ($files as $file) {
-				$fileMatch = (extension_loaded('mbstring')) ? mb_ereg_match('^[\w\-_\s\/.]+\.(' . $extension . ')$', $file) : preg_match('~^[\w\-_\s/.]+\.' . $extension . '$~uiU', $file);
+				$fileMatch = (extension_loaded('mbstring')) ? mb_ereg_match('^.+\.(' . $extension . ')$', $file) : preg_match('~^.+\.' . $extension . '$~uiU', $file);
 				if($fileMatch) {
 					if($pairs) {
 						$explodedFilePath = explode(DIRECTORY_SEPARATOR, $file);
