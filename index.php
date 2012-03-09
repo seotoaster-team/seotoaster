@@ -1,4 +1,7 @@
 <?php
+// setting pcre.backtrack_limit to a BIIIG value
+ini_set('pcre.backtrack_limit', '10000000000000');
+
 
 /*************************************************************************
  * Installation check

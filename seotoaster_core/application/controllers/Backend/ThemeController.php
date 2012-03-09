@@ -22,7 +22,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$this->_themeConfig		= Zend_Registry::get('theme');
 		$this->_translator      = Zend_Registry::get('Zend_Translate');
 		$this->_helper->AjaxContext()->addActionContexts(array(
-			'pagesviatemplate' => 'json'
+			'pagesviatemplate' => 'json',
 		))->initContext('json');
 
 	}
@@ -230,7 +230,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()){
 			$mapper        = Application_Model_Mappers_TemplateMapper::getInstance();
 			$listtemplates = $this->getRequest()->getParam('listtemplates');
-			$additional = $this->getRequest()->getParam('additional');
+			$additional    = $this->getRequest()->getParam('additional');
 			$pageId        = $this->getRequest()->getParam('pageId');
 			if($pageId) {
 				$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
