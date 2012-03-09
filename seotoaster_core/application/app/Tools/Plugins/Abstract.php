@@ -172,7 +172,7 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 				));
 			} catch (Exception $e) {
 				if(APPLICATION_ENV == 'development') {
-					error_log($e->getMessage() . "\n" . $e->getTraceAsString());
+					error_log("(plugin: " . strtolower(get_called_class()) . ") " . $e->getMessage() . "\n" . $e->getTraceAsString());
 				}
 			}
 		}
