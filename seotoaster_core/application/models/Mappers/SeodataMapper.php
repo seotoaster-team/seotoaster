@@ -19,6 +19,7 @@ class Application_Model_Mappers_SeodataMapper extends Application_Model_Mappers_
 			'seo_top'    => $seodata->getPageId(),
 			'seo_bottom' => $seodata->getName(),
 			'seo_head'   => $seodata->getUrl()
+
 		);
 		if(null === ($id = $seodata->getId())) {
 			unset($data['id']);
