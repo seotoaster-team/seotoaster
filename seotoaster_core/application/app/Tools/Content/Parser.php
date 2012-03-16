@@ -69,6 +69,16 @@ class Tools_Content_Parser {
 		return $this;
 	}
 
+	/**
+	 * Simple parsing of content. No theme and media changes, no magic space proccessing
+	 *
+	 * @return null
+	 */
+	public function parseSimple() {
+		$this->_parse();
+		return $this->_content;
+	}
+
 	private function _parse() {
 		$this->_iteration++;
 		$replacement = '';
