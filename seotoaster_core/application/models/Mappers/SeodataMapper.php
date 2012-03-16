@@ -16,10 +16,9 @@ class Application_Model_Mappers_SeodataMapper extends Application_Model_Mappers_
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_DbTable_Seodata instance');
 		}
 		$data = array(
-			'seo_top'    => $seodata->getPageId(),
-			'seo_bottom' => $seodata->getName(),
-			'seo_head'   => $seodata->getUrl()
-
+			'seo_top'    => $seodata->getSeoTop(),
+			'seo_bottom' => $seodata->getSeoBottom(),
+			'seo_head'   => $seodata->getSeoHead()
 		);
 		if(null === ($id = $seodata->getId())) {
 			unset($data['id']);
