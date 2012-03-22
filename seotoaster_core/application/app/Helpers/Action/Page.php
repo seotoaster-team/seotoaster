@@ -33,11 +33,11 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
 	public function filterUrl($pageUrl) {
 		if(extension_loaded('mbstring')) {
-			$pageUrl = mb_eregi_replace('[^\w\d\s.\-\/]+|[_]+', '', $this->validate($pageUrl));
+			$pageUrl = mb_eregi_replace('[^\w\d\s_.\-\/]+', '', $this->validate($pageUrl));
 			$pageUrl = mb_strtolower($pageUrl, mb_detect_encoding($pageUrl));
 		}
 		else {
-			$pageUrl = preg_replace('~[^\w\d\s.\-\/]+|[_]+~ui', '', $pageUrl);
+			$pageUrl = preg_replace('~[^\w\d\s_.\-\/]+~ui', '', $pageUrl);
 		}
 		$pageUrl = trim(preg_replace('~[\s-]+~', '-', $pageUrl), '-');
 		if(!preg_match('/\.html$/', $pageUrl)) {
