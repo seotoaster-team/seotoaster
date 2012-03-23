@@ -101,15 +101,33 @@ class IndexController extends Zend_Controller_Action {
 	private function _complete($pageContent, $pageData, $newsPage = false) {
 		$head    = '';
 		$body    = '';
+
+		$themeData = Zend_Registry::get('theme');
+		$parserOptions = array(
+			'websiteUrl'   => $this->_helper->website->getUrl(),
+			'websitePath'  => $this->_helper->website->getPath(),
+			'currentTheme' => $this->_helper->config->getConfig('currentTheme'),
+			'themePath'    => $themeData['path'],
+		);
+
+		//parsing seo data
 		$seoData = Tools_Seo_Tools::loadSeodata();
+		$seoData = $seoData->toArray();
+		unset($seoData['id']);
+		$seoData = array_map(function($item) use ($pageData, $parserOptions){
+			$parser = new Tools_Content_Parser(null, $pageData, $parserOptions);
+			return !empty($item) ? $parser->setContent($item)->parseSimple() : $item;
+		}, $seoData);
+
 		preg_match('~<head>(.*)</head>~sUui', $pageContent, $head);
 		preg_match('~(<body[^\>]*>)(.*)</body>~usi', $pageContent, $body);
-		$this->view->head            = $head[1] . $seoData->getSeoHead();
+
+		$this->view->head            = $head[1] . $seoData['seoHead'];
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
 		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
 		$this->view->currentTheme    = $this->_helper->config->getConfig('currentTheme');
 		$this->view->newsPage        = $newsPage;
-		$body[1]                    .= $seoData->getSeoTop();
+		$body[1]                    .= $seoData['seoTop'];
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
 			$this->view->pageData = $pageData;
@@ -117,7 +135,7 @@ class IndexController extends Zend_Controller_Action {
 		}
 		$this->view->pageData = $pageData;
 		$this->view->bodyTag  = $body[1];
-		$this->view->content  = $body[2] . $seoData->getSeoBottom();
+		$this->view->content  = $body[2] . $seoData['seoBottom'];
 	}
 
 	private function _pageRunkSculptingDemand($page, $pageContent) {
