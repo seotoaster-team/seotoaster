@@ -7,6 +7,10 @@
  */
 class Backend_UploadController extends Zend_Controller_Action {
     private $_caller = null;
+
+	/**
+	 * @var Zend_File_Transfer_Adapter_Http
+	 */
 	private $_uploadHandler = null;
 
 	private $_websiteConfig;
@@ -184,7 +188,17 @@ class Backend_UploadController extends Zend_Controller_Action {
 					error_log($e->getMessage());
 				}
 			}
-			$this->_uploadHandler->setDestination($receivePath);
+			/**
+			 * Renaming file if additional field 'name' was submited with file
+			 */
+			if (false !== ($newName = $this->getRequest()->getParam('name', false))){
+				$this->_uploadHandler->addFilter('Rename', array(
+					'target'    => $receivePath.DIRECTORY_SEPARATOR.$newName,
+					'overwrite' => true
+				));
+			} else {
+				$this->_uploadHandler->setDestination($receivePath);
+			}
 			$this->_uploadHandler->receive();
 			$file = $this->_uploadHandler->getFileName();
 
