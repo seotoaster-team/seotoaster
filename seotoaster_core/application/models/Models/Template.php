@@ -71,7 +71,8 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 	 * @return Application_Model_Models_Template
 	 */
 	public function setType($type) {
-		$this->_type = $this->_validateType($type);
+		//$this->_type = $this->_validateType($type);
+		$this->_type = $type;
 		return $this;
 	}
 

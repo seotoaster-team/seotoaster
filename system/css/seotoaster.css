@@ -1330,7 +1330,7 @@ list-style: square;
 
 .seotoaster #plugins-list .plugin-item {
 	float: left;
-	margin: 0 5px 10px;
+	margin: 4px 5px 5px;
 	box-shadow: 0 0 4px #CCCCCC;
 	-moz-box-shadow: 0 0 4px #CCCCCC;
 	-web-box-shadow: 0 0 4px #CCCCCC;
@@ -1371,7 +1371,7 @@ list-style: square;
 
 .seotoaster #plugins-list .plugin-item .plugin-image {
 	overflow: hidden;
-	height: 126px;
+	height: 135px;
 	margin: 4px;
 }
 .seotoaster #plugins-list .plugin-item .plugin-image img{

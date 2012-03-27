@@ -169,17 +169,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$website    = Zend_Registry::get('website');
 		$misc       = Zend_Registry::get('misc');
 		$url        = preg_replace('~^https?://~', '', $website['url']);
-		$protocol   = strtolower(preg_replace('~[^A-Z]~', '', $_SERVER['SERVER_PROTOCOL'])) .'://';
+		$request    = new Zend_Controller_Request_Http();
+		$protocol   = $request->getScheme();
 
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		if($misc['jquery'] == 'local') {
-			$view->jQuery()->setLocalPath($protocol . $url . 'system/js/external/jquery/jquery.js');
+			$view->jQuery()->setLocalPath($protocol .'://'. $url . 'system/js/external/jquery/jquery.js');
 		}
 		else {
-			$view->jQuery()->setVersion($misc['jqversion']);
+			$view->jQuery()
+					->setCdnSsl($request->isSecure())
+					->setVersion($misc['jqversion']);
 		}
 		if($misc['jqueryui'] == 'local') {
-			$view->jQuery()->setUiLocalPath($protocol . $url . 'system/js/external/jquery/jquery-ui.js');
+			$view->jQuery()->setUiLocalPath($protocol .'://'. $url . 'system/js/external/jquery/jquery-ui.js');
 		}
 		else {
 			$view->jQuery()->setUiVersion($misc['jquversion']);

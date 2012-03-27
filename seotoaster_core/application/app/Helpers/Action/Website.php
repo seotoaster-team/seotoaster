@@ -4,8 +4,8 @@ class Helpers_Action_Website extends Zend_Controller_Action_Helper_Abstract {
 
 	public function getUrl() {
 		$url      = preg_replace('~^https?://~', '', $this->_getParam('url'));
-		$protocol = strtolower(preg_replace('~[^A-Z]~', '', $_SERVER['SERVER_PROTOCOL']));
-		return $protocol . '://' . $url;
+//		$protocol = strtolower(preg_replace('~[^A-Z]~', '', $_SERVER['SERVER_PROTOCOL']));
+		return Zend_Controller_Front::getInstance()->getRequest()->getScheme() . '://' . $url;
 	}
 
 	public function  __call($name, $arguments) {
