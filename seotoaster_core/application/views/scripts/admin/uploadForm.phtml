@@ -22,9 +22,11 @@ switch ($this->caller){
 <?php $this->jQuery()->onLoadCaptureStart();?>
 	jQuery.ui && $('#<?php echo $this->formId; ?>-pickfiles').button();
 
-	var <?php echo $jsValName; ?> = new plupload.Uploader({
+	window.<?php echo $jsValName; ?> = new plupload.Uploader({
 		runtimes : 'html5,flash,html4',
 		browse_button : '<?php echo $this->formId; ?>-pickfiles',
+		rename: true,
+		unique_names: false,
 		max_file_size : '10mb',
 		max_file_count: 10,
 		url : $('#<?php echo $this->formId; ?>-pickfiles').data('url'),

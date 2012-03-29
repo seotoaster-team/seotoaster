@@ -116,5 +116,22 @@ class Tools_System_Tools {
 		$front = Zend_Controller_Front::getInstance();
 		return $front->getRequest()->getParam('page', false);
 	}
+
+	public static function getTemplatesHash($type = 'all') {
+		$mapper    = Application_Model_Mappers_TemplateMapper::getInstance();
+		$hash      = array();
+		$templates = array();
+		if($type == 'all') {
+			$templates = $mapper->fetchAll();
+		} else {
+			$templates = $mapper->findByType($type);
+		}
+		if(!empty($templates)) {
+			foreach($templates as $template) {
+				$hash[$template->getName()] = ucfirst($template->getName());
+			}
+		}
+		return $hash;
+	}
 }
 
