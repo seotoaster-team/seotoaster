@@ -3,7 +3,15 @@
 class Tools_Widgets_Tools {
 
 	public static function getNames() {
-		return Tools_Filesystem_Tools::scanDirectoryForDirs(CORE . '/application/app/Widgets/');
+		$includePath = explode(PATH_SEPARATOR, get_include_path());
+		$widgetsNames = array();
+		foreach ($includePath as $path) {
+			if (is_readable($path.DIRECTORY_SEPARATOR.'Widgets')) {
+				$widgetsNames = array_merge($widgetsNames, Tools_Filesystem_Tools::scanDirectoryForDirs($path.DIRECTORY_SEPARATOR.'Widgets'));
+			}
+		}
+		sort($widgetsNames);
+		return $widgetsNames;
 	}
 
 	public static function getAllowedOptions() {
