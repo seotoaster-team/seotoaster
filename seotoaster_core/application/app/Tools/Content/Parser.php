@@ -115,7 +115,7 @@ class Tools_Content_Parser {
 	private function _findWidgets() {
 		$widgets = array();
 		//[\w\s\-:,\p{L}\p{M}\p{P}\?\&=~+@#\&\/\>\<]
-		preg_match_all('/{\$([\w]+:*.+)}/usU', $this->_content, $found);
+		preg_match_all('/{\$([\w]+:*[^{}]*)}/ui', $this->_content, $found);
 		if(!empty ($found) && isset($found[1])) {
 			foreach($found[1] as $widgetString) {
 				$expWidgetString = explode(':', $widgetString);
