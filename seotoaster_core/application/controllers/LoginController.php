@@ -74,6 +74,9 @@ class LoginController extends Zend_Controller_Action {
 			//getting messages
 			$this->view->messages   = $this->_helper->flashMessenger->getMessages();
 
+			//unset url redirect set from any login widget
+			unset($this->_helper->session->redirectUserTo);
+
 			$this->view->loginForm  = $loginForm;
 		}
 	}

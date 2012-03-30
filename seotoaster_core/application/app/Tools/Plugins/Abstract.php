@@ -10,6 +10,8 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
 	const ACTION_POSTFIX        = 'Action';
 
+	const OPTION_MAKER_PREFIX   = '_makeOption';
+
 	/**
 	 * Options for plugin
 	 *
@@ -211,7 +213,7 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	protected function _dispatchOptions() {
 		if(!empty($this->_options)) {
 			foreach ($this->_options as $option) {
-				$optionMakerName = '_makeOption' . ucfirst($option);
+				$optionMakerName = self::OPTION_MAKER_PREFIX . ucfirst($option);
 				if(in_array($optionMakerName, get_class_methods($this))) {
 					return $this->$optionMakerName();
 				}
