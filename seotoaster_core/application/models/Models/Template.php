@@ -26,39 +26,52 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	protected $_name         = '';
 
-	protected $_content      = '';
+	protected $_oldName      = null;
 
-	protected $_previewImage = '';
+	protected $_content      = '';
 
 	protected $_type         = self::TYPE_REGULAR;
 
+	/**
+	 * Return template name
+	 * @return string
+	 */
 	public function getName() {
 		return $this->_name;
 	}
 
+	/**
+	 * Set template name
+	 * @param $name
+	 * @return Application_Model_Models_Template
+	 */
 	public function setName($name) {
 		$this->_name = $name;
 		return $this;
 	}
 
+	/**
+	 * Returns template content
+	 * @return string
+	 */
 	public function getContent() {
 		return $this->_content;
 	}
 
+	/**
+	 * Set template content
+	 * @param $content
+	 * @return Application_Model_Models_Template
+	 */
 	public function setContent($content) {
 		$this->_content = $content;
 		return $this;
 	}
 
-	public function setPreviewImage($previewImage) {
-		$this->_previewImage = $previewImage;
-		return $this;
-	}
-
-	public function getPreviewImage() {
-		return $this->_previewImage;
-	}
-
+	/**
+	 * Returns type of template
+	 * @return string
+	 */
 	public function getType() {
 		return $this->_type;
 	}
@@ -89,6 +102,26 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 			throw new Exceptions_SeotoasterTemplateException('Wrong template type.');
 		}
 		return $type;
+	}
+
+	/**
+	 * Set old name
+	 * Used for template renaming
+	 * @param $oldName
+	 * @return Application_Model_Models_Template
+	 */
+	public function setOldName($oldName) {
+		$this->_oldName = $oldName;
+		return $this;
+	}
+
+	/**
+	 * Get old name
+	 * Used for template renaming
+	 * @return null
+	 */
+	public function getOldName() {
+		return $this->_oldName;
 	}
 }
 

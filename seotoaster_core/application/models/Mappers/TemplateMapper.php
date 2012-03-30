@@ -10,6 +10,13 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		'index', 'default', 'category', 'news'
 	);
 
+	/**
+	 * Method save template instance to db
+	 * @param $template Application_Model_Models_Template Template object
+	 * @param bool $forceNew
+	 * @return mixed
+	 * @throws Exceptions_SeotoasterException
+	 */
 	public function save($template) {
 		if(!$template instanceof Application_Model_Models_Template) {
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Template instance');
@@ -17,44 +24,45 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		$data = array(
 			'name'          => $template->getName(),
 			'content'       => $template->getContent(),
-			'preview_image' => $template->getPreviewImage(),
 			'type'          => $template->getType()
 		);
-		if(null === $this->find($template->getName())) {
+		if ( $template->getOldName() === null && null === $this->find($template->getName())) {
 			return $this->getDbTable()->insert($data);
 		}
 		else {
-			return $this->getDbTable()->update($data, array('name = ?' => $template->getName()));
+			$whereName = $template->getOldName() === null ? $template->getName() : $template->getOldName();
+			$status = $this->getDbTable()->update($data, array('name = ?' => $whereName));
+			if ($status && $template->getOldName() != $template->getName()) {
+				$pagesTable = new Application_Model_DbTable_Page();
+				$updatedPageCount = $pagesTable->update(array('template_id' => $template->getName()), array('template_id = ?' => $template->getOldName()));
+			}
+			return $status;
 		}
 	}
 
 	/**
-	 *
-	 * @param type $name
-	 * @return Application_Model_Models_Template
-	 * @deprecated
+	 * Fetch template by type
+	 * @param $type Template type
+	 * @return array|null Results
 	 */
-	public function findByName($name){
-		if (empty($name)){
-			throw new Exceptions_SeotoasterException('Template name cannot be empty');
-		}
-
-		$row = $this->getDbTable()->fetchRow( $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name) );
-		if (count($row) == 0){
-			return null;
-		}
-		return new Application_Model_Models_Template($row->toArray());
-	}
-
 	public function findByType($type) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto("type = ?", $type);
 		return $this->fetchAll($where);
 	}
 
+	/**
+	 * Remove template
+	 * @param Application_Model_Models_Template $template
+	 * @return mixed
+	 */
 	public function delete(Application_Model_Models_Template $template) {
 		return $this->getDbTable()->delete( array('name = ?' => $template->getName()) );
 	}
 
+	/**
+	 * Flush all templates except requires
+	 * @return mixed
+	 */
 	public function clearTemplates(){
 		return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
 	}
