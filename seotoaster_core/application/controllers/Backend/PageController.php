@@ -313,7 +313,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $this->_helper->page->clean($pageUrl));
 		$previewPath        = $websiteConfig['path'] .$websiteConfig['preview'];
 		$filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
-		$currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/', $filelist);
+		$currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/i', $filelist);
 
 		if ($tmpPreviewFile) {
 			$tmpPreviewFile = $websiteConfig['path'] . str_replace($this->_helper->website->getUrl(), '', $tmpPreviewFile);
@@ -322,15 +322,17 @@ class Backend_PageController extends Zend_Controller_Action {
 				$newPreviewImageFile = $websiteConfig['path'].$websiteConfig['preview'].$pageUrl.$extension[0];
 
 				//cleaning form existing page previews
-				foreach ($currentPreviewList as $key => $file) {
-					if(file_exists($previewPath . $file)) {
-						if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
-							unset($currentPreviewList[0]);
+				if(!empty($currentPreviewList)) {
+					foreach ($currentPreviewList as $key => $file) {
+						if(file_exists($previewPath . $file)) {
+							if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
+								unset($currentPreviewList[0]);
+							}
 						}
 					}
 				}
 
-				if (is_writable($tmpPreviewFile)){
+				if (is_writable($newPreviewImageFile)){
 					$status = @rename($tmpPreviewFile, $newPreviewImageFile);
 				} else {
 					$status = @copy($tmpPreviewFile, $newPreviewImageFile);
