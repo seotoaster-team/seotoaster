@@ -193,11 +193,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 			 */
 			if (false !== ($newName = $this->getRequest()->getParam('name', false))){
 				$this->_uploadHandler->addFilter('Rename', array(
-					'target'    => $receivePath.DIRECTORY_SEPARATOR.$newName,
+					'target'    => $receivePath . $newName,
 					'overwrite' => true
 				));
 			} else {
-				$this->_uploadHandler->setDestination($receivePath);
+				//$this->_uploadHandler->setDestination($receivePath);
+				$this->_uploadHandler->addFilter('Rename', $receivePath);
 			}
 			$this->_uploadHandler->receive();
 			$file = $this->_uploadHandler->getFileName();
@@ -387,8 +388,9 @@ class Backend_UploadController extends Zend_Controller_Action {
 				break;
 		}
 
-		$newName = md5(microtime(1)).$newName;
+		$newName      = md5(microtime(1)).$newName;
 		$newImageFile = $savePath.$newName;
+		$realName     = $this->getRequest()->getParam('name', false);
 
 		$this->_uploadHandler->addFilter('Rename',
                    array('target' => $newImageFile,
@@ -396,6 +398,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$result = $this->_uploadImages($savePath, false);
 
 		if ($result['error'] == false) {
+			if($realName) {
+				$newName      = $realName;
+				$newImageFile = $savePath . $realName;
+			}
 			Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
 			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
 		}
