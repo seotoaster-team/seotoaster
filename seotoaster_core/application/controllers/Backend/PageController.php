@@ -43,6 +43,12 @@ class Backend_PageController extends Zend_Controller_Action {
 		else {
 			$params   = $this->getRequest()->getParams();
 			$messages = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
+
+			//if page is optiized by samba unset optimized values from update
+			if(isset($params['optimized']) && $params['optimized']) {
+				$params = $this->_restoreOriginalValues($params);
+			}
+
 			if($pageForm->isValid($params)) {
 				$pageData        = $pageForm->getValues();
 				$pageData['url'] =  $this->_helper->page->filterUrl($pageData['url']);
@@ -122,7 +128,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
 		$this->view->sambaOptimized   = $page->getOptimized();
 		if($page->getOptimized()) {
-			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords', 'updatePage'));
+			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords'));
 		}
 		$this->view->pageForm = $pageForm;
 	}
@@ -459,6 +465,18 @@ class Backend_PageController extends Zend_Controller_Action {
 	private function _getProductCategoryPageWhere() {
 		$productCategoryPage = Tools_Page_Tools::getProductCategoryPage();
 		return (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
+	}
+
+	private function _restoreOriginalValues($pageData) {
+		$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageData['pageId'], true);
+		$pageData['h1']              = $page->getH1();
+		$pageData['headerTitle']     = $page->getHeaderTitle();
+		$pageData['navName']         = $page->getNavName();
+		$pageData['url']             = $page->getUrl();
+		$pageData['metaKeywords']    = $page->getMetaKeywords();
+		$pageData['metaDescription'] = $page->getMetaDescription();
+		unset($page);
+		return $pageData;
 	}
 }
 

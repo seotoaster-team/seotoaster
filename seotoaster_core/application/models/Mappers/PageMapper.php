@@ -2,11 +2,13 @@
 
 class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abstract {
 
-	protected $_dbTable   = 'Application_Model_DbTable_Page';
+	protected $_dbTable       = 'Application_Model_DbTable_Page';
 
-	protected $_model     = 'Application_Model_Models_Page';
+	protected $_model         = 'Application_Model_Models_Page';
 
-	protected $_optimized = false;
+	protected $_optimized     = false;
+
+	protected $_originalsOnly = false;
 
 	protected $_optimizedFields = array(
 		'h1',
@@ -56,7 +58,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		}
 	}
 
-    public function fetchAll($where = '', $order = array(), $fetchSysPages = false) {
+    public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false) {
 		//exclude system pages from select
 		$sysWhere  = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
 		$where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
@@ -66,7 +68,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		if(null === $resultSet) {
 			return null;
 		}
-		$entries = array_map(array($this, '_callbackFetchAll'), $resultSet->toArray());
+	    $this->_originalsOnly = $originalsOnly;
+		$entries              = array_map(array($this, '_callbackFetchAll'), $resultSet->toArray());
 		return $entries;
 	}
 
@@ -75,7 +78,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'table' => $this->getDbTable(),
 			'data'  => $row
 		));
-		return $this->_toModel($this->_optimizedRowWalk($row)->toArray());
+		return $this->_toModel(($this->_originalsOnly) ? $row->toArray() : $this->_optimizedRowWalk($row)->toArray());
 	}
 
 	public function fetchAllUrls() {

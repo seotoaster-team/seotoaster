@@ -48,6 +48,7 @@ $(function() {
 		$('#publish-at').val($(this).val());
 	});
 
+	$('#optimized').val($('#toggle-optimized').attr('checked') ? 1 : 0);
 	$(document).on('click', '#toggle-optimized', function(e) {
 		var optimized = ($(this).attr('checked') ? 1 : 0);
 		$('#optimized').val(optimized);
@@ -61,10 +62,8 @@ $(function() {
 				field.val(val);
 				if(optimized) {
 					field.attr('disabled', true).attr('readonly', 'readonly');
-					submit.attr('disabled', true).attr('readonly', 'readonly');
 				} else {
 					field.removeAttr('disabled').removeAttr('readonly');
-					submit.removeAttr('disabled').removeAttr('readonly');
 				}
 			});
 		}, 'json')
