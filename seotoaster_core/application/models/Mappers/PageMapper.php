@@ -2,9 +2,19 @@
 
 class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abstract {
 
-	protected $_dbTable = 'Application_Model_DbTable_Page';
+	protected $_dbTable         = 'Application_Model_DbTable_Page';
 
-	protected $_model   = 'Application_Model_Models_Page';
+	protected $_model           = 'Application_Model_Models_Page';
+
+	protected $_optimizedFields = array(
+		'h1',
+		'header_title',
+		'url',
+		'nav_name',
+		'meta_description',
+		'meta_keywords',
+		'targeted_key_phrase'
+	);
 
 	public function save($page) {
 		if(!$page instanceof Application_Model_Models_Page) {
@@ -40,6 +50,20 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			return $this->getDbTable()->insert($data);
 		}
 		else {
+			//check if this page in "optimized" table, then save data there
+			$optimizedTable = new Application_Model_DbTable_Optimized();
+			$inOptimized    = $optimizedTable->find($id);
+			if($inOptimized) {
+				$optimizedData = array();
+				foreach($data as $field => $value) {
+					if(in_array($field, $this->_optimizedFields)) {
+						$optimizedData[$field] = $value;
+						unset($data[$field]);
+					}
+				}
+				$optimizedData['modified'] = 1;
+				$optimizedTable->update($optimizedData, array('page_id = ?' => $id));
+			}
 			return $this->getDbTable()->update($data, array('id = ?' => $id));
 		}
 	}
@@ -59,7 +83,11 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	private function _callbackFetchAll($row) {
-		return new $this->_model($row);
+		$row = new Zend_Db_Table_Row(array(
+			'table' => $this->getDbTable(),
+			'data'  => $row
+		));
+		return new $this->_model($this->_optimizedRowWalk($row)->toArray());
 	}
 
 	public function fetchAllUrls() {
@@ -159,18 +187,44 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $pairs;
 	}
 
-	protected function _findWhere($where, $fetchSysPages = false) {
+	protected function  _findWhere($where, $fetchSysPages = false) {
 		$sysWhere = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
 		$where   .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
 		$row      = $this->getDbTable()->fetchAll($where)->current();
 		if(null === $row) {
 			return null;
 		}
+
+		//check in optimized talbe
+		$row = $this->_optimizedRowWalk($row);
+
 		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
-		$row = $row->toArray();
+		$row         = $row->toArray();
 		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
 		unset($rowTemplate);
 		return new Application_Model_Models_Page($row);
+	}
+
+	protected function _optimizedRowWalk($row) {
+		$optimizedRowset = $row->findDependentRowset('Application_Model_DbTable_Optimized')->current();
+		if($optimizedRowset === null) {
+			return $row;
+		}
+		foreach($optimizedRowset as $propertyName => $propertyValue) {
+			if($propertyValue && isset($row->$propertyName)) {
+				$row->$propertyName = $propertyValue;
+			}
+		}
+        return $row;
+	}
+
+	public function find($id) {
+		$result = $this->getDbTable()->find($id);
+		if(0 == count($result)) {
+			return null;
+		}
+		$row = $this->_optimizedRowWalk($result->current());
+		return new $this->_model($row->toArray());
 	}
 }
 

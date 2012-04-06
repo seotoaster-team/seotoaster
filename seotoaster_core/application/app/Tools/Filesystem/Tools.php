@@ -89,7 +89,7 @@ class Tools_Filesystem_Tools {
 				$extension = implode('|', $extension);
 			}
 			foreach ($files as $file) {
-				$fileMatch = (extension_loaded('mbstring')) ? mb_ereg_match('^.+\.(' . $extension . ')$', $file) : preg_match('~^.+\.' . $extension . '$~uiU', $file);
+				$fileMatch = (extension_loaded('mbstring')) ? mb_eregi('^.+\.(' . $extension . ')$', $file) : preg_match('~^.+\.' . $extension . '$~uiU', $file);
 				if($fileMatch) {
 					if($pairs) {
 						$explodedFilePath = explode(DIRECTORY_SEPARATOR, $file);

@@ -72,6 +72,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					}
 					// avoid renaming of system protected templates
 					if (!in_array($template->getName(), $this->_protectedTemplates)) {
+						$template->setOldName($originalName);
 						$template->setName($templateData['name']);
 					}
 					$template->setContent($templateData['content']);

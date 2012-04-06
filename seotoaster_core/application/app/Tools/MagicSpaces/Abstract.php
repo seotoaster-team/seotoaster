@@ -52,12 +52,12 @@ abstract class Tools_MagicSpaces_Abstract {
 			return '';
 		}
 		$space = strtolower($this->_name);
- 		preg_match('~{' . $space . '}(.*){/' . $space . '}~sui', $this->_content, $found);
+ 		preg_match('~{' . $space . '}(.*){/' . $space . '}~suiU', $this->_content, $found);
 		return (is_array($found) && !empty($found) && isset($found[1])) ? $found[1] : '';
 	}
 
 	protected function _replace($spaceContent) {
 		$space = strtolower($this->_name);
-		return preg_replace('~{' . $space . '}.*{/' . $space . '}~siu', $spaceContent, $this->_content, 1);
+		return preg_replace('~{' . $space . '}.*{/' . $space . '}~siuU', $spaceContent, $this->_content, 1);
 	}
 }
