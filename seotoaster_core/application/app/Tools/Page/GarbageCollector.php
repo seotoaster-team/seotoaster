@@ -13,6 +13,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	protected function _runOnUpdate() {
 		$this->_cleanDraftCache();
+		$this->_cleanOptimized();
 	}
 
 
@@ -71,6 +72,14 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 		}
 		unset($cacheHelper);
 		unset($sessionHelper);
+	}
+
+	private function _cleanOptimized() {
+		$optimizedDbTable = new Application_Model_DbTable_Optimized();
+		$optimizedExists  = $optimizedDbTable->find($this->_object->getId())->current();
+		if($optimizedExists && !$this->_object->getOptimized()) {
+			$optimizedDbTable->delete(array('page_id = ?' => $this->_object->getId()));
+		}
 	}
 }
 

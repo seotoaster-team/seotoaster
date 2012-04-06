@@ -78,7 +78,9 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	protected $_news             = false;
 
-	protected $_publishAt      = '';
+	protected $_publishAt        = '';
+
+	protected $_optimized        = false;
 
 	public function getContent() {
 		return $this->_content;
@@ -328,6 +330,13 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		return $this->_checkout;
 	}
 
+	public function setOptimized($optimized) {
+		$this->_optimized = $optimized;
+		return $this;
+	}
 
+	public function getOptimized() {
+		return $this->_optimized;
+	}
 }
 
