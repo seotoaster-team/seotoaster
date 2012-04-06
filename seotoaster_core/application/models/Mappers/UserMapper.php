@@ -24,6 +24,9 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 		if(null === ($id = $user->getId())) {
 			$data['reg_date'] = date('Y-m-d H:i:s', time());
 			unset($data['id']);
+			if ($user->getReferer()){
+				$data['referer'] = $user->getReferer();
+			}
 			return $this->getDbTable()->insert($data);
 		}
 		else {

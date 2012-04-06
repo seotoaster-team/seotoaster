@@ -11,6 +11,13 @@ class IndexController extends Zend_Controller_Action {
 		$pageContent = null;
 		$currentUser = $this->_helper->session->getCurrentUser();
 
+	    // tracking referer
+	    if (!isset($this->_helper->session->refererUrl)){
+		    $refererUrl = $this->getRequest()->getHeader('referer');
+		    $currentUser->setReferer($refererUrl);
+		    $this->_helper->session->setCurrentUser($currentUser);
+		    $this->_helper->session->refererUrl = $refererUrl;
+	    }
 		// If page was queried as news page (in news context)
 		$newsContext = $this->getRequest()->getParam('context', null);
 		$newsContext = ($newsContext && $newsContext == Application_Model_Models_Page::CONTEXT_NEWS) ? true : false;

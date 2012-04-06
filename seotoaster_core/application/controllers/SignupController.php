@@ -28,6 +28,9 @@ class SignupController extends Zend_Controller_Action {
 				)));
 
 				$user->setRoleId(Tools_Security_Acl::ROLE_MEMBER);
+				if (isset($this->_helper->session->refererUrl)){
+					$user->setReferer($this->_helper->session->refererUrl);
+				}
 				$signupResult = Application_Model_Mappers_UserMapper::getInstance()->save($user);
 				if(!$user->getId()) {
 					$user->setId($signupResult);
