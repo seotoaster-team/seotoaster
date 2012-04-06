@@ -7,7 +7,11 @@
 			'publishAt'        => $this->pageForm->getPublishAt(),
 			'onselectCallback' => 'datepickerCallback'
 		));
-		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive));
+		$optimizedCheck = '';
+	    if($this->sambaOptimized):
+			$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . $this->translate('Optimized by SEO Samba');
+		endif;
+		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck));
 	?>
 
 	<div id="templatelist" class="h580 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
@@ -79,6 +83,7 @@
 			<?php echo $this->pageForm->getElement('templateId'); ?>
 			<?php echo $this->pageForm->getElement('pageId'); ?>
 			<?php echo $this->pageForm->getElement('draft'); ?>
+			<?php echo $this->pageForm->getElement('optimized'); ?>
 			<?php echo $this->pageForm->getElement('publishAt'); ?>
 			<?php echo $this->pageForm->getElement('pageType'); ?>
 			<?php echo $this->pageForm->getElement('updatePage'); ?>

@@ -188,6 +188,11 @@ class Application_Form_Page extends Zend_Form {
 		)));
 
 		$this->addElement(new Zend_Form_Element_Hidden(array(
+			'id'    => 'optimized',
+			'name'  => 'optimized'
+		)));
+
+		$this->addElement(new Zend_Form_Element_Hidden(array(
 			'id'    => 'publish-at',
 			'name'  => 'publishAt',
 			'value' => $this->_publishAt
@@ -396,5 +401,18 @@ class Application_Form_Page extends Zend_Form {
 		return $this->getElement('pageCategory')->getMultiOptions();
 	}
 
+	public function lockField($fieldName) {
+		$field = $this->getElement($fieldName)
+			->setAttribs(array(
+				'disabled' => true,
+				'readonly' => true
+			));
+	}
+
+	public function lockFields($fields) {
+		foreach($fields as $fieldName) {
+			$this->lockField($fieldName);
+		}
+	}
 }
 

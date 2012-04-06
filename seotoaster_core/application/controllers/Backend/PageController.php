@@ -17,7 +17,8 @@ class Backend_PageController extends Zend_Controller_Action {
 			'rendermenu'       => 'json',
 			'listpages'        => 'json',
 			'publishpages'     => 'json',
-			'checkforsubpages' => 'json'
+			'checkforsubpages' => 'json',
+			'toggleoptimized'  => 'json'
 		))->initContext('json');
 
 	}
@@ -118,8 +119,11 @@ class Backend_PageController extends Zend_Controller_Action {
 		$this->view->faCount = ($page->getId()) ? sizeof(Application_Model_Mappers_FeaturedareaMapper::getInstance()->findAreasByPageId($page->getId())) : 0;
 
 		//page preview image
-
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
+		$this->view->sambaOptimized   = $page->getOptimized();
+		if($page->getOptimized()) {
+			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords', 'updatePage'));
+		}
 		$this->view->pageForm = $pageForm;
 	}
 
@@ -424,6 +428,27 @@ class Backend_PageController extends Zend_Controller_Action {
 		if($cleanDraftCache) {
 			$this->_cache->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
 		}
+	}
+
+	/**
+	 * Toggle fields values between original and optimized
+	 * @throws Exceptions_SeotoasterException
+	 */
+	public function toggleoptimizedAction() {
+		if(!$this->getRequest()->isPost()) {
+			throw new Exceptions_SeotoasterException('Direct access is not allowed.');
+		}
+		$optimized        = $this->getRequest()->getParam('optimized');
+		$pageId           = $this->getRequest()->getParam('pid');
+		$page             = Application_Model_Mappers_PageMapper::getInstance()->find($pageId, !$optimized);
+		$this->view->data = array(
+			'h1'              => $page->getH1(),
+			'headerTitle'     => $page->getHeaderTitle(),
+			'navName'         => $page->getNavName(),
+			'url'             => $page->getUrl(),
+			'metaDescription' => $page->getMetaDescription(),
+			'metaKeywords'    => $page->getMetaKeywords()
+		);
 	}
 
 	private function _hasSubpages($pageId) {

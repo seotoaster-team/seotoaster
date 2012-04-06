@@ -2,9 +2,11 @@
 
 class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abstract {
 
-	protected $_dbTable         = 'Application_Model_DbTable_Page';
+	protected $_dbTable   = 'Application_Model_DbTable_Page';
 
-	protected $_model           = 'Application_Model_Models_Page';
+	protected $_model     = 'Application_Model_Models_Page';
+
+	protected $_optimized = false;
 
 	protected $_optimizedFields = array(
 		'h1',
@@ -50,20 +52,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			return $this->getDbTable()->insert($data);
 		}
 		else {
-			//check if this page in "optimized" table, then save data there
-			$optimizedTable = new Application_Model_DbTable_Optimized();
-			$inOptimized    = $optimizedTable->find($id);
-			if($inOptimized) {
-				$optimizedData = array();
-				foreach($data as $field => $value) {
-					if(in_array($field, $this->_optimizedFields)) {
-						$optimizedData[$field] = $value;
-						unset($data[$field]);
-					}
-				}
-				$optimizedData['modified'] = 1;
-				$optimizedTable->update($optimizedData, array('page_id = ?' => $id));
-			}
 			return $this->getDbTable()->update($data, array('id = ?' => $id));
 		}
 	}
@@ -87,7 +75,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'table' => $this->getDbTable(),
 			'data'  => $row
 		));
-		return new $this->_model($this->_optimizedRowWalk($row)->toArray());
+		return $this->_toModel($this->_optimizedRowWalk($row)->toArray());
 	}
 
 	public function fetchAllUrls() {
@@ -202,7 +190,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		$row         = $row->toArray();
 		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
 		unset($rowTemplate);
-		return new Application_Model_Models_Page($row);
+		return $this->_toModel($row);
 	}
 
 	protected function _optimizedRowWalk($row) {
@@ -210,6 +198,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		if($optimizedRowset === null) {
 			return $row;
 		}
+		$this->_optimized = true;
 		foreach($optimizedRowset as $propertyName => $propertyValue) {
 			if($propertyValue && isset($row->$propertyName)) {
 				$row->$propertyName = $propertyValue;
@@ -218,13 +207,24 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $row;
 	}
 
-	public function find($id) {
+	public function find($id, $originalsOnly = false) {
 		$result = $this->getDbTable()->find($id);
 		if(0 == count($result)) {
 			return null;
 		}
-		$row = $this->_optimizedRowWalk($result->current());
-		return new $this->_model($row->toArray());
+		$row = ($originalsOnly) ? $result->current() : $this->_optimizedRowWalk($result->current());
+		return $this->_toModel($row);
+	}
+
+	protected function _toModel($row) {
+		if($row instanceof Zend_Db_Table_Row) {
+			$row = $row->toArray();
+		}
+		if($this->_optimized) {
+			$row['optimized'] = true;
+			$this->_optimized = false;
+		}
+		return new $this->_model($row);
 	}
 }
 

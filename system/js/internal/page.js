@@ -43,10 +43,32 @@ $(function() {
 		if($('#draft').length) {
 			$('#draft').val(($(this).prop('checked') ? 0 : 1));
 		}
-	})
+	});
 	$('#datepicker').blur(function() {
 		$('#publish-at').val($(this).val());
-	})
+	});
+
+	$(document).on('click', '#toggle-optimized', function(e) {
+		var optimized = ($(this).attr('checked') ? 1 : 0);
+		$('#optimized').val(optimized);
+		$.post($('#website_url').val() + 'backend/backend_page/toggleoptimized/', {
+			pid: $('#pageId').val(),
+			optimized: optimized
+		}, function(response) {
+			$.each(response.data, function(key, val) {
+				var field  = $('[name=' + key + ']', $('#frm-page'));
+				var submit = $('#update-page');
+				field.val(val);
+				if(optimized) {
+					field.attr('disabled', true).attr('readonly', 'readonly');
+					submit.attr('disabled', true).attr('readonly', 'readonly');
+				} else {
+					field.removeAttr('disabled').removeAttr('readonly');
+					submit.removeAttr('disabled').removeAttr('readonly');
+				}
+			});
+		}, 'json')
+	});
 })
 
 function datepickerCallback() {
