@@ -38,5 +38,37 @@ class Tools_Content_EntityParser {
 		return $content;
 	}
 
+	/**
+	 * Method scan given object for properties which has public getters
+	 * and generate array of entities-replacements pairs from this method
+	 * @param $object Object
+	 * @return Tools_Content_EntityParser Return self for chaining
+	 * @throws Exceptions_SeotoasterException
+	 */
+	public function objectToDictionary($object) {
+		if (!is_object($object)) {
+			throw new Exceptions_SeotoasterException('Given variable must be an object');
+		}
+		$reflection = new Zend_Reflection_Class($object);
+		$dictionary = array();
+		foreach ($reflection->getProperties() as $prop) {
+			$normalizedPropName = join('', array_map('ucfirst', explode('_',$prop->getName())));
+			$getter = 'get' . join('', array_map('ucfirst', explode('_',$prop->getName())));
+			if ($reflection->hasMethod($getter)){
+				$replacement = $object->$getter();
+				$className = preg_replace('/.*_([\w\d]*)$/','$1', $reflection->getName());
+				$entityName = strtolower($className.':'.$normalizedPropName);
+				if (!is_array($replacement) && !is_object($replacement)){
+					$dictionary[$entityName] = $replacement;
+				}
+
+			}
+		}
+
+		$this->addToDictionary($dictionary);
+
+		return $this;
+	}
+
 }
 
