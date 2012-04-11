@@ -12,21 +12,22 @@
 
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
-		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
-			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
-			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
-			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
-			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
 
-			<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
+		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css'); ?>
+		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/js/external/smoke/smoke.css'); ?>
+
+		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
+		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
+		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
+		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
+		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
 		<?php endif; ?>
-		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css'); ?>
-		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/smoke/smoke.css'); ?>
-		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/smoke/themes/toaster.css'); ?>
+
 		<?php echo $this->headLink(); ?>
 
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js'); ?>
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.mousewheel-3.0.4.pack.js'); ?>
+		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js'); ?>
 
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
