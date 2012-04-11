@@ -75,15 +75,17 @@
   padding: 5px;
 }
 
+/* toaster theme */
+
 .smoke-base {
-  background: rgba(0,0,0,.3);
-/*  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#90000000,endColorstr=#900000000);   */
+    background: none;
 }
 
 .smoke-base .dialog {
-  top: 25%;
-  left: 25%;
-  width: 50%;
+    top: 34px;
+    left: 2px;
+    right: 2px;
+    width: auto;
 }
 
 .smoke-base .dialog-inner {
@@ -91,22 +93,49 @@
 }
 
 .smoke {
-  text-transform: uppercase;
-  background-color: rgb(255,255,255);
+    font-family:tahoma, geneva, verdana, sans-serif;
+    text-transform: none;
+    color:#fff;
+    font-weight: normal;
+    /*background-color: #7097ae;*/
+    background-color: rgb(32,178,170);
+    opacity: 0.90;
+    font-size: 25px;
+            border-radius: 0;
+       -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
+.dialog-buttons {
+	margin: 0px 0 5px 0;
 }
 
 .dialog-buttons button {
-  border-radius: 5px;
-  text-transform: uppercase;
-  background-color: #000;
-  color: #fff;
+    text-transform: none;
+    background-color: #ebebeb;
+    color: #333;
+    font-size:13px;
+    padding: 7px 10px;
+    margin: 0 10px;
+            border-radius: 3px;
+       -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 button.cancel {
-  background-color: rgb(0,0,0,.7);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#444444,endColorstr=#444444);
+    background-color: #999;
+    color:#222
 }
 
 .queue{
 	display:none;
+}
+
+.dialog-prompt{
+	margin-top:0;
+}
+.dialog-prompt input{
+	width:300px;
+	text-align:center;
+	background-color:#ccc;
 }
