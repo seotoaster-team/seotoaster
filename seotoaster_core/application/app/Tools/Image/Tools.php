@@ -20,7 +20,7 @@ class Tools_Image_Tools {
 		}
 	}
 
-	public static function resize($imageFile, $newWidth,  $saveProportion = true, $destination = null, $crop = false) {
+	public static function resize($imageFile, $newWidth,  $saveProportion = true, $destination = null, $crop = false, $fixRotate = true) {
 		if ( !$imageFile  || !$newWidth){
 			return 'Missing parameters';
 		}
@@ -54,9 +54,6 @@ class Tools_Image_Tools {
 			}
 			return true;
 		}
-
-		$newImage = imagecreatetruecolor($newWidth, $newHeight);
-
 		$saveAlphaChannel = false;
 		switch ($mimeType) {
 			case 'image/gif':
@@ -75,7 +72,35 @@ class Tools_Image_Tools {
 				return 'Unknow MIME type';
 				break;
 		}
-
+        
+        if($fixRotate){
+            $exif = exif_read_data($imageFile, 0, true);
+            if(isset($exif['IFD0']['Orientation'])){
+                $ort = $exif['IFD0']['Orientation'];
+                switch($ort){
+                    default:
+                    case 1: // nothing
+                        break;
+                    case 3: // 180 rotate left
+                         $image = imagerotate($image, 180, 0);
+                        break;
+                    case 6: // 90 rotate right
+                        $image = imagerotate($image, -90, 0);
+                        
+                        break;
+                    case 8:    // 90 rotate left
+                        $image = imagerotate($image, 90, 0);
+                        
+                        break;
+                }
+                if($ort == 6 || $ort == 8){
+                    list($newWidth, $newHeight) = array($newHeight, $newWidth);
+                    list($imgWidth, $imgHeight) = array($imgHeight, $imgWidth);
+                } 
+                
+          }
+        }
+        $newImage = imagecreatetruecolor($newWidth, $newHeight);
 		// fix for transparency
 		if ($saveAlphaChannel) {
 			imagealphablending($newImage, false);
