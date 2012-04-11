@@ -89,7 +89,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 		$modelClassName = get_called_class();
         if(!array_key_exists($modelClassName, $checked)) {
 			$dbTable   = new Application_Model_DbTable_ObserversQueue();
-	        $resultSet = $dbTable->fetchAll($dbTable->select()->where('namespace = ?', $modelClassName));
+	        $resultSet = $dbTable->fetchAll($dbTable->select()->where('observable = ?', $modelClassName));
             $checked[$modelClassName] = array();
             if($resultSet->count()) {
                 foreach($resultSet as $resultRow) {
