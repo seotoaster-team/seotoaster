@@ -188,23 +188,27 @@ class Backend_UploadController extends Zend_Controller_Action {
 					error_log($e->getMessage());
 				}
 			}
-			/**
-			 * Renaming file if additional field 'name' was submited with file
-			 */
-			if (false !== ($newName = $this->getRequest()->getParam('name', false))){
-				$this->_uploadHandler->addFilter('Rename', array(
-					'target'    => $receivePath . $newName,
-					'overwrite' => true
-				));
-			} else {
-				//$this->_uploadHandler->setDestination($receivePath);
-				$this->_uploadHandler->addFilter('Rename', $receivePath);
+			if (!$this->_uploadHandler->hasFilter('Rename')){
+				/**
+				 * Renaming file if additional field 'name' was submited with file
+				 */
+				if (false !== ($newName = $this->getRequest()->getParam('name', false))){
+					$this->_uploadHandler->addFilter('Rename', array(
+						'target'    => $receivePath .DIRECTORY_SEPARATOR. $newName,
+						'overwrite' => true
+					));
+				} else {
+					$this->_uploadHandler->addFilter('Rename', array(
+						'target' => $receivePath,
+						'overwite' => true
+					));
+				}
 			}
 			$this->_uploadHandler->receive();
 			$file = $this->_uploadHandler->getFileName();
 
 			if ($resize){
-			$status = Tools_Image_Tools::batchResize($file, $savePath);
+				$status = Tools_Image_Tools::batchResize($file, $savePath);
 			} else {
 				$status = true;
 			}
@@ -345,11 +349,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 		if (!is_dir($savePath)){
 			Tools_Filesystem_Tools::mkDir($savePath);
 		}
-		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath, false, false);
-		$existingImages = preg_grep('~^'.$name.'\.(png|jpg|gif)$~i', $existingImages);
+//		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath, false, false);
+//		$existingImages = preg_grep('~^'.$name.'\.(png|jpg|gif)$~i', $existingImages);
+		$existingImages = glob($savePath.$name.'.{png,jpeg,jpg,gif}', GLOB_BRACE);
 		// ...and removing them
 		foreach ($existingImages as $img){
-			Tools_Filesystem_Tools::deleteFile($savePath.$img);
+			Tools_Filesystem_Tools::deleteFile($img);
 		}
 
 		$this->_uploadHandler->addFilter('Rename',
@@ -390,7 +395,6 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$newName      = md5(microtime(1)).$newName;
 		$newImageFile = $savePath.$newName;
-		$realName     = $this->getRequest()->getParam('name', false);
 
 		$this->_uploadHandler->addFilter('Rename',
                    array('target' => $newImageFile,
@@ -398,10 +402,6 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$result = $this->_uploadImages($savePath, false);
 
 		if ($result['error'] == false) {
-			if($realName) {
-				$newName      = $realName;
-				$newImageFile = $savePath . $realName;
-			}
 			Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
 			$result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
 		}
