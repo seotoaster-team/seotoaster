@@ -1,59 +1,45 @@
-<div class="widget-control-img" id="search-img"></div>
-<form class="wmc-block" action="javascript:;" id="search-widget-form" style="display: none;" method="post">
-	<label class="nopad grid_12" for="search-results"><?php echo $this->translate('Select a search results page'); ?></label>
-	<select class="nopad grid_12" id="search-results"></select>
-	<label class="nopad grid_6" for="search-item-img"><?php echo $this->translate('Use image'); ?></label>
-	<div class="grid_6 nopad">
-		<input type="checkbox" id="search-item-img" />
-		<input class="cropped" type="checkbox" id="search-item-img-crop" /><span class="nopad label cropped" style="display:none;"><?php echo $this->translate('Cropped'); ?>?</span>
+<form action="javascript:;" method="post" data-name="search" id="search-widget-form" class="wmc-block">
+	<?php echo $this->formLabel('search-results', $this->translate('Select a search results page'), array('class' => 'nopad grid_12')); ?>
+	<?php echo $this->formSelect('searchResults', null, array('id' => 'search-results', 'class' => 'nopad grid_12 validate')); ?>
+	<?php echo $this->formLabel('search-item-img', $this->translate('Use image'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('useImage', 'img', array('id' => 'search-item-img')); ?>
+		<?php echo $this->formLabel('search-image-cropped', $this->translate('Cropped'), array('style' => 'display:none;', 'class' => 'cropped-img')); ?>
+		<?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'search-image-cropped', 'style' => 'display:none;', 'class' => 'cropped-img')); ?>
 	</div>
-	<div class="grid_12"><input class="formsubmit" type="submit" id="search-done" name="done" value="Done" /></div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-search')); ?>
+	</div>
 </form>
-
 <script type="text/javascript">
 	$(function() {
-		$('.widget-control-img#search-img').click(function() {
-			$('#widgets-header').text('<?php echo $this->translate('Search engine'); ?>').fadeIn();
-			$('#widget-controls').html($('#search-widget-form').html());
-			//$('#search-widget-form').slideDown();
-		});
-
 		if($('#search-results').length) {
-			load();
+			$.getJSON($('#website_url').val() + 'backend/backend_page/listpages/', function(response) {
+				$.each(response.responseData, function() {
+					var optVal  = this.id;
+					var optText = this.h1;
+					$('#search-results')
+						.append($('<option></option>').attr({
+							value: optVal
+						})
+						.text(optText));
+				})
+			})
 		}
-		$(document).on('click', '#search-item-img', function() {
-			$('.cropped').fadeToggle();
-		});
-
-
-		$('#search-done').live('click', function() {
+		$(document).on('click', '.apply-widget-search', function() {
 			var imgType = '';
-			if( $('#search-item-img').attr('checked') && $('#search-item-img-crop').attr('checked')) {
+			if($('#search-item-img').prop('checked') && $('#search-image-cropped').prop('checked')) {
 				imgType = ':imgc';
 			}
-			else if($('#search-item-img').attr('checked') && !$('#search-item-img-crop').attr('checked')) {
+			else if($('#search-item-img').prop('checked') && !$('#search-image-cropped').prop('checked')) {
 				imgType = ':img';
 			}
 			var searchWidget = '{$search:form:' + $('#search-results').val() + '}<br /><br />======== <strong>CODE TO INSERT IN "'
 				+ $('#search-results option:selected').text() + '" page ONLY(remove from here)</strong>  ========  <br/>'
 				+ '{$search:results' + (imgType) + '}';
-
-
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, searchWidget);
-		})
-	})
-
-	function load() {
-		$.getJSON($('#website_url').val() + 'backend/backend_page/listpages/', function(response) {
-			$.each(response.responseData, function() {
-				var optVal  = this.id;
-				var optText = this.h1;
-				$('#search-results')
-					.append($('<option></option>').attr({
-						value: optVal
-					})
-					.text(optText));
-			})
-		})
-	}
+		}).on('click', '#search-item-img', function() {
+		    $('.cropped-img').fadeToggle();
+	    });
+	});
 </script>

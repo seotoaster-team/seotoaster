@@ -51,13 +51,17 @@ class Widgets_Search_Search extends Widgets_Abstract {
 	}
 
 	public static function getWidgetMakerContent() {
+		$translator = Zend_Registry::get('Zend_Translate');
 		$view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => 'Search engine',
-			'content' => $view->render('wmcontent.phtml')
+			'title'   => $translator->translate('Search engine'),
+			'content' => $view->render('wmcontent.phtml'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/search.png',
+			)
 		);
 
 		unset($view);

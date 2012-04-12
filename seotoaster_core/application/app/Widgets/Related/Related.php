@@ -53,13 +53,17 @@ class Widgets_Related_Related extends Widgets_Abstract {
 	}
 
 	public static function getWidgetMakerContent() {
+		$translator = Zend_Registry::get('Zend_Translate');
 		$view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => 'Related pages list',
-			'content' => $view->render('wmcontent.phtml')
+			'title'   => $translator->translate('Related pages'),
+			'content' => $view->render('wmcontent.phtml'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/relatedPages.png',
+			)
 		);
 
 		unset($view);

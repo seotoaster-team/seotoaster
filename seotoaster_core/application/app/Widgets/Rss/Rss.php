@@ -72,13 +72,17 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 	}
 
 	public static function getWidgetMakerContent() {
-		$view = new Zend_View(array(
+		$translator = Zend_Registry::get('Zend_Translate');
+		$view       = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => 'Rss feed',
-			'content' => $view->render('wmcontent.phtml')
+			'title'   => $translator->translate('Rss feed'),
+			'content' => $view->render('wmcontent.phtml'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/rss.png',
+			)
 		);
 
 		unset($view);

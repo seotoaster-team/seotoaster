@@ -1,82 +1,26 @@
-<div class="widget-control-img" id="rotator-img"></div>
-<form class="wmc-block" id="imgrotator-widget-form" action="javascript:;" style="display: none;" method="post">
-
-	<label class="nopad grid_6" for="rotator-folders"><?php echo $this->translate('Select a folder'); ?></label>
-	<select class="nopad grid_6" id="rotator-folders"></select>
-
-	<label class="nopad grid_6" for="rotator-thumb-width"><?php echo $this->translate('Max. width'); ?></label>
-	<input type="text" class="nopad grid_6" id="rotator-thumb-width" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
-
-	<label class="nopad grid_6" for="rotator-thumb-height"><?php echo $this->translate('Max. height'); ?></label>
-	<input type="text" class="nopad grid_6" id="rotator-thumb-height" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH; ?>"/>
-
-	<label class="nopad grid_6" for="rotator-slideshow"><?php echo $this->translate('Slide show'); ?></label>
-	<div class="nopad grid_6"><input class="wmc-input w100" type="checkbox" checked="checked" id="rotator-slideshow" /></div>
-
-	<label class="nopad grid_6" for="rotator-interval"><?php echo $this->translate('Rotate time'); ?></label>
-	<input class="nopad grid_6" type="text" id="rotator-interval" value="<?php echo Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME; ?>" />
-
-	<label class="nopad grid_6" for="rotator-effect"><?php echo $this->translate('Effect'); ?></label>
-	<select class="nopad grid_6" id="rotator-effect">
-		<option value="blindX">blindX</option>
-		<option value="blindY">blindY</option>
-		<option value="blindZ">blindZ</option>
-		<option value="cover">cover</option>
-		<option value="curtainX">curtainX</option>
-		<option value="curtainY">curtainY</option>
-		<option value="fade" selected="selected">fade</option>
-		<option value="fadeZoom">fadeZoom</option>
-		<option value="growX">growX</option>
-		<option value="growY">growY</option>
-		<option value="none">none</option>
-		<option value="scrollUp">scrollUp</option>
-		<option value="scrollDown">scrollDown</option>
-		<option value="scrollLeft">scrollLeft</option>
-		<option value="scrollRight">scrollRight</option>
-		<option value="scrollHorz">scrollHorz</option>
-		<option value="scrollVert">scrollVert</option>
-		<option value="shuffle">shuffle</option>
-		<option value="slideX">slideX</option>
-		<option value="slideY">slideY</option>
-		<option value="toss">toss</option>
-		<option value="turnUp">turnUp</option>
-		<option value="turnDown">turnDown</option>
-		<option value="turnLeft">turnLeft</option>
-		<option value="turnRight">turnRight</option>
-		<option value="uncover">uncover</option>
-		<option value="wipe">wipe</option>
-		<option value="zoom">zoom</option>
-	</select>
-	<div class="grid_12"><input class="formsubmit" type="submit" id="rotator-done" name="done" value="Done" /></div>
+<form action="javascript:;" method="post" data-name="imgrotator" id="imgrotator-widget-form" class="wmc-block">
+	<?php echo $this->formLabel('rotator-folders', $this->translate('Select a folder'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formSelect('rotatorFolders', null, array('id' => 'rotator-folders', 'class' => 'nopad grid_6 folders')); ?>
+	<?php echo $this->formLabel('rotator-slideshow', $this->translate('Slide show'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('rotatorSlideshow', null, array('id' => 'rotator-slideshow', 'class' => 'wmc-input w100 allowzero')); ?>
+	</div>
+	<?php echo $this->formLabel('rotator-interval', $this->translate('Rotate time'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('rotatorInterval', Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME, array('id' => 'rotator-interval', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. width'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('rotatorThumbWidth', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH, array('id' => 'rotator-thumb-width', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('rotator-thumb-height', $this->translate('Max. height'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('rotatorThumbHeight', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT, array('id' => 'rotator-thumb-height', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'nopad grid_6'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+	</div>
 </form>
-
 <script type="text/javascript">
 	$(function() {
-		$('.widget-control-img#rotator-img').click(function() {
-			loadFolders();
-			$('#widgets-header').text('<?php echo $this->translate('Image rotator'); ?>').fadeIn();
-			$('#widget-controls').html($('#imgrotator-widget-form').html());
-			//$('#imgrotator-widget-form').slideDown();
-		});
-		$('#rotator-thumb-width').live('blur', function() {
+		$(document).on('blur', '#rotator-thumb-width', function() {
 			$('#rotator-thumb-height').val($(this).val());
 		});
-
-		$('#rotator-done').live('click', function() {
-			var widget = '{$imgrotator:' + $('#rotator-folders').val() + ':' + ($('#rotator-slideshow').attr('checked') ? 1 : 0) + ':' + $('#rotator-interval').val() + ':' + $('#rotator-thumb-width').val() + ':' + $('#rotator-thumb-height').val() + ':' + $('#rotator-effect').val() + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
-		})
-	})
-
-	function loadFolders() {
-		$.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/', function(response) {
-			$.each(response.responseText, function(val) {
-				$('#rotator-folders')
-					.append($('<option></option>').attr({
-						value: val
-					})
-					.text(val));
-			})
-		});
-	}
+	});
 </script>

@@ -761,15 +761,15 @@ a.generator-links.plugin {
 	padding: 5px 10px 10px !important;
 }
 
-.seotoaster div#tabs #adminthingsviewer div.button {
+.seotoaster div#tabs #adminthingsviewer div.button, #widgets_maker h3.button {
 	border-radius: 2px;
-	font-size: 11pt;
+	font-size: 10pt;
     padding: 5px 5px 3px 25px;
   /*  text-shadow: 1px 0 0 #FFFFFF;       */
 }
 
 
-.seotoaster div#tabs #adminthingsviewer div.show_div {
+.seotoaster div#tabs #adminthingsviewer div.show_div, div#widgets_maker div {
 	background: #fff;
 	padding: 5px 3px 8px 3px;
 	max-height: 215px;
@@ -777,6 +777,15 @@ a.generator-links.plugin {
 	border-left:1px solid #d3d3d3;
 	border-right:1px solid #d3d3d3;
 	border-bottom:1px solid #d3d3d3;
+}
+
+div#widgets_maker div.nopad {
+	padding: 0;
+	border: 0;
+}
+
+div#widgets_maker select.nopad {
+	padding: 2px 0;
 }
 
 .seotoaster ul.editortabs {
@@ -844,13 +853,26 @@ div.show_div#widgets_maker h3 {
 	color: #666;
 	margin-bottom: 5px;
 }
+
+div#widgets_maker .cropped-img {
+	display: inline-block;
+}
+
+div#widgets_maker h3.ui-accordion-header {
+	padding:  0;
+}
+
+div#widgets_maker h3.ui-accordion-header img {
+	margin-right: 10px;
+}
+
 div.show_div#widgets_maker .wmc-error {
 	border: 1px solid #ff0000;
 }
 
-div.show_div#widgets_maker label.nopad{padding-left: 0;}
-div.show_div#widgets_maker input.nopad{padding: 2px 0; margin-left: 0; margin-right: 0;}
-div.show_div#widgets_maker div.nopad{min-height:25px;}
+div.show_div#widgets_maker label.nopad, #widgets_maker div.ui-accordion-content label.nopad {padding-left: 0;}
+div.show_div#widgets_maker input.nopad, #widgets_maker div.ui-accordion-content input.nopad {padding: 2px 1px; margin-left: 0; margin-right: 0;}
+div.show_div#widgets_maker div.nopad,  #widgets_maker div.ui-accordion-content div.nopad {min-height:25px;}
 div.show_div#widgets_maker div.nopad input[type="checkbox"]{margin-top:5px;}
 
 div.show_div#widgets_maker select {
@@ -1450,14 +1472,16 @@ list-style: square;
     -webkit-order-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
     width: 30%;
-    padding: 8px 6px 0 9px;
+    /*padding: 8px 6px 0 9px;*/
 }
 .seotoaster #users-list_filter input {
-  width:75%;
-  margin-left: 5px;
+  width:93%;
+  /*margin-left: 5px;*/
 }
 .seotoaster #users-list_filter label {
-    margin-top: 5px;
+    /*margin-top: 5px;*/
+	padding-left: 7px;
+	color: #3C78A7;
 }
 .seotoaster #users-list .user-row {
 	border-bottom: 1px dashed #CCCCCC;
