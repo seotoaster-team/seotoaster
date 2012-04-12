@@ -446,15 +446,6 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				array_push($errors, 'Can\'t read template file: '.$tmplName);
 			}
 
-			// getting template preview image
-			$previews = preg_grep('/('.$tmplName.')\.(png|gif|jpg)/', $previewFiles);
-			if (!empty ($previews)){
-				$previewImage = $this->_themeConfig['path'].$themeName.'/images/templatepreview/'.reset($previews);
-			} else {
-				$previewImage = '';
-			}
-			$template->setPreviewImage($previewImage);
-
 			// saving template to db
 			$mapper->save($template);
 			unset($template);
