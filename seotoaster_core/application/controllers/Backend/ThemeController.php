@@ -432,7 +432,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				continue;
 			}
 
-			$template = $mapper->findByName($tmplName);
+			$template = $mapper->find($tmplName);
 			if (! $template instanceof Application_Model_Models_Template) {
 				$template = new Application_Model_Models_Template();
 				$template->setName($tmplName);
