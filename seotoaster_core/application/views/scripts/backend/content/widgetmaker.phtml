@@ -11,7 +11,7 @@
 <?php echo $this->accordionContainer('widgets_maker'); ?>
 <script type="text/javascript">
 	$(function() {
-		$('#widgets_maker').accordion({collapsible:true, active:false, icons:false}).find('h3').addClass('button');
+		$('#widgets_maker').accordion({collapsible:true, active:false, icons:false, autoHeight:false}).find('h3').addClass('button');
 		$(document).on('click', '.apply-widget', function() {
 			var error      = false;
 			var widgetForm = $(this).closest('form');
