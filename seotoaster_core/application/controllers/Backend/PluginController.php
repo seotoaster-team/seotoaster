@@ -6,7 +6,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
 	public function init() {
 		parent::init();
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PUBLIC)) {
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->_helper->AjaxContext()->addActionContext('triggerinstall', 'json')->initContext('json');
