@@ -1,3 +1,5 @@
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
 <div class="seotoaster container_12 h360">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config')); ?>
 
@@ -6,6 +8,7 @@
 			<ul>
 				<li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
 				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
+				<li><a href="#action-triggers"><?php echo $this->translate('Actions emails'); ?></a></li>
 				<?php if ($this->isSuperAdmin): ?>
 				<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
 				<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
@@ -79,6 +82,9 @@
 				<?php echo $this->configForm->getElement('smtpPassword'); ?>
 			</div>
 
+			<div id="action-triggers" class="clearfix h200" style="overflow-x: hidden; overflow-y: scroll;">
+				<div><button id="new-trigger-action"><?php echo $this->translate('Add'); ?></button></div>
+			</div>
 			<?php if ($this->isSuperAdmin): ?>
 			<div id="security-config" class="clearfix">
 				<?php echo $this->configForm->getElement('suLogin'); ?>
@@ -101,9 +107,56 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tabs').tabs();
+		var actionTriggerTmpl = $('#triggerActionTemplate').template(),
+			actions = $.parseJSON('<?php echo json_encode($this->actions);?>'),
+			lastActionId = 0;
 
 		<?php if (count($this->messages)) : ?>
 		//$('#ajax_msg').html('<p><?php echo reset($this->messages); ?></p>').show();
 		<?php endif; ?>
+		$('#new-trigger-action').on('click', function(e){
+			e.preventDefault();
+			$('#action-triggers').append($.tmpl(actionTriggerTmpl, {index: lastActionId++}));
+		});
+		$('#action-triggers').on('click', '.trigger-action span.ui-icon', function(){
+			var id = $(this).closest('fieldset').find('input[name*=id]');
+			if (id.length) {
+				$(this).closest('fieldset').find('input[name*=delete]').val(true);
+				$(this).closest('fieldset').hide();
+			} else {
+				$(this).closest('fieldset').remove();
+			}
+		});
+		$.each(actions, function(index, item){
+			item.index = item.id;
+			var action = $.tmpl(actionTriggerTmpl, item);
+			$('select[name*=triggerName]', action).val(item.triggerName);
+			$('select[name*=recipient]', action).val(item.recipient);
+			$('select[name*=templateName]', action).val(item.templateName);
+			$('textarea[name*=message]', action).val(item.message);
+			$('#action-triggers').append(action);
+			lastActionId = (lastActionId < item.id) &&  (item.id + 1);
+		});
 	});
 </script>
+<script id="triggerActionTemplate" type="text/x-jquery-tmpl">
+	<fieldset class="trigger-action">
+		{{if id}}
+		<input type="hidden" name="actions[${index}][id]" value="${id}"/>
+		<input type="hidden" name="actions[${index}][delete]" value="false"/>
+		{{/if}}
+		<span class="ui-icon ui-icon-closethick" style="float:right; cursor:pointer;"></span>
+		When <?php echo $this->formSelect('actions[${index}][triggerName]', null, array('id'=>false), $this->triggers);?> notify
+		<?php echo $this->formSelect('actions[${index}][recipient]', null, array('id'=>false), $this->recipients);?>
+		using template <?php echo $this->formSelect('actions[${index}][templateName]',null, array('id'=>false), $this->templates);?>
+		with following message: <?php echo $this->formTextarea('actions[${index}][message]', null, array('id'=>false, 'rows'=>3)); ?>
+	</fieldset>
+</script>
+<style type="text/css">
+	fieldset.trigger-action {
+
+	}
+	fieldset.trigger-action select {
+		width: 180px;
+	}
+</style>

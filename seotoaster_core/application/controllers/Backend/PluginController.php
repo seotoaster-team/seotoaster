@@ -73,6 +73,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 				try {
 					$sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
 					if(strlen($sqlFileContent)) {
+						//@todo change unsafe explode in next line
 						$queries = explode(';', $sqlFileContent);
 						if(is_array($queries) && !empty ($queries)) {
 							$dbAdapter = Zend_Registry::get('dbAdapter');
