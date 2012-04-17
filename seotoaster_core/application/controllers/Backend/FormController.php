@@ -6,9 +6,13 @@
  */
 class Backend_FormController extends Zend_Controller_Action {
 
+	public static $_allowedActions = array(
+		'receiveform'
+	);
+
     public function init() {
 		parent::init();
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed('Form', $this->getRequest()->getParam('action'))) {
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed()) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
     	$this->view->websiteUrl = $this->_helper->website->getUrl();

@@ -38,11 +38,15 @@ class Tools_Security_Acl {
 		),
 		'Form' => array(
 			'receiveform'
+		),
+		'Plugin' => array(
+			'fireaction'
 		)
 	);
 
 	/**
      * Check if user allowed to access to resource
+	 *
      * @static
      * @param string $resource Name of resource
      * @param string $role User role. If not given - current logged user role will be used
@@ -57,9 +61,20 @@ class Tools_Security_Acl {
 		return $acl->has($resource) ? $acl->isAllowed($role, $resource) : true ;
 	}
 
-	public static function isActionAllowed($controller, $action) {
-		$actions = self::$_allowedActions[$controller];
-		return (in_array($action, $actions));
+	/**
+	 * Get current controller and action and check if this action exists in
+	 *
+	 * Allowed actions list. "Allowed action list" shold be specified in the controller
+	 * Via public static property: public static $_allowedActions = array('receiveform');
+	 *
+	 * @return bool
+	 */
+	public static function isActionAllowed() {
+		$controller          = Zend_Controller_Front::getInstance()->getRequest()->getParam('controller');
+		$controllerClassName = implode('_', array_map(function($part) {
+			return ucfirst($part);
+		}, explode('_', $controller))) . 'Controller';
+		return (in_array(Zend_Controller_Front::getInstance()->getRequest()->getParam('action'), $controllerClassName::$_allowedActions));
 	}
 
 }
