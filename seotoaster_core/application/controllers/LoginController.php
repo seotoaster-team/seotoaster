@@ -130,7 +130,7 @@ class LoginController extends Zend_Controller_Action {
 					$this->_helper->flashMessenger->addMessage('We\'ve sent an email to ' . $user->getEmail() . ' containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.');
 
 				   	//temporary mail sending
-					$resetUrl = $this->_helper->website->getUrl() . 'login/reset/email/' . $user->getEmail() . '/token/' . $resetToken->getTokenHash();
+					$resetUrl = $this->_helper->website->getUrl() . 'login/reset/email/' . $user->getEmail() . '/key/' . $resetToken->getTokenHash();
 					$mailer   = new Tools_Mail_Mailer();
 					$mailer->setMailFrom('support@seotoaster.com');
 					$mailer->setMailFromLabel('Seotoaster support team');
@@ -168,7 +168,7 @@ class LoginController extends Zend_Controller_Action {
 		$error = false;
 		$form  = new Application_Form_PasswordReset();
 		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);
-		$token = filter_var($this->getRequest()->getParam('token', false), FILTER_SANITIZE_STRING);
+		$token = filter_var($this->getRequest()->getParam('key', false), FILTER_SANITIZE_STRING);
 
 		if(!$email || !$token) {
 			$error = true;
