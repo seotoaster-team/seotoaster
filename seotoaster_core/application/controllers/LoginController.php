@@ -111,7 +111,109 @@ class LoginController extends Zend_Controller_Action {
 				'action'     =>'index'
 			));
 		}
+	}
 
+	public function passwordretrieveAction() {
+		$form = new Application_Form_PasswordRetrieve();
+		if($this->getRequest()->isPost()) {
+			if($form->isValid($this->getRequest()->getParams())) {
+				$retrieveData = $form->getValues();
+				$user = Application_Model_Mappers_UserMapper::getInstance()->findByEmail(filter_var($retrieveData['email'], FILTER_SANITIZE_EMAIL));
+				//create new reset token and send e-mail to the user
+				$resetToken = new Application_Model_Models_PasswordRecoveryToken(array(
+					'saltString' => $retrieveData['email'],
+					'expiredAt'  => date(DATE_ATOM, strtotime('+1 day', time())),
+					'userId'     => $user->getId()
+				));
+				$resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
+				if($resetTokenId) {
+					$this->_helper->flashMessenger->addMessage('We\'ve sent an email to ' . $user->getEmail() . ' containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.');
+
+				   	//temporary mail sending
+					$resetUrl = $this->_helper->website->getUrl() . 'login/reset/email/' . $user->getEmail() . '/token/' . $resetToken->getTokenHash();
+					$mailer   = new Tools_Mail_Mailer();
+					$mailer->setMailFrom('support@seotoaster.com');
+					$mailer->setMailFromLabel('Seotoaster support team');
+					$mailer->setMailTo($user->getEmail());
+					$mailer->setBody('<a href="' . $resetUrl . '">' . $resetUrl . '</a>');
+					$mailer->setSubject('[Seotoaster] Please reset your password');
+					$mailer->send();
+
+					$this->_helper->redirector->gotoRoute(array(
+						'controller' => 'login',
+						'action'     => 'passwordretrieve'
+					));
+				}
+			} else {
+				$messages       = array_values($form->getMessages());
+				$flashMessanger = $this->_helper->flashMessenger;
+				foreach($messages as $messageData) {
+					if(is_array($messageData)) {
+						array_walk($messageData, function($msg) use($flashMessanger) {
+							$flashMessanger->addMessage($msg);
+						});
+					} else {
+						$flashMessanger->addMessage($messageData);
+					}
+				}
+				return $this->_redirect($this->_helper->website->getUrl() . 'login/retrieve/');
+			}
+		}
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
+		$this->view->form     = $form;
+	}
+
+	public function passwordresetAction() {
+		//cehck the get string for the tokens http://mytoaster.com/login/reset/email/myemail@mytoaster.com/token/adadajqwek123klajdlkasdlkq2e3
+		$error = false;
+		$form  = new Application_Form_PasswordReset();
+		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);
+		$token = filter_var($this->getRequest()->getParam('token', false), FILTER_SANITIZE_STRING);
+
+		if(!$email || !$token) {
+			$error = true;
+		}
+		$resetToken = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->findByTokenAndMail($token, $email);
+		if(!$resetToken
+			|| $resetToken->getStatus() != Application_Model_Models_PasswordRecoveryToken::STATUS_NEW
+			|| $this->_isTokenExpired($resetToken)) {
+				$error = true;
+		}
+		if($error) {
+			$error = false;
+			$this->_helper->flashMessenger->addMessage('Token is incorrect. Please, enter your e-mail one more time.');
+			return $this->_redirect($this->_helper->website->getUrl() . 'login/retrieve/');
+		}
+
+		if($this->getRequest()->isPost()) {
+			if($form->isValid($this->getRequest()->getParams())) {
+				$resetData = $form->getValues();
+				$mapper    = Application_Model_Mappers_UserMapper::getInstance();
+				$user      = $mapper->find($resetToken->getUserId());
+				$user->setPassword($resetData['password']);
+				$mapper->save($user);
+				$resetToken->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_USED);
+				Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
+			} else {
+				$this->_helper->flashMessenger->addMessage('Passwords');
+			}
+		}
+		$this->view->form = $form;
+	}
+
+	/**
+	 * Check if the token is expired. If so change status and return true.
+	 *
+	 * @param Application_Model_Models_PasswordRecoveryToken $token
+	 * @return bool
+	 */
+	private function _isTokenExpired(Application_Model_Models_PasswordRecoveryToken $token) {
+		if(strtotime($token->getExpiredAt()) < time()) {
+			$token->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_EXPIRED);
+			Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($token);
+			return true;
+		}
+		return false;
 	}
 }
 
