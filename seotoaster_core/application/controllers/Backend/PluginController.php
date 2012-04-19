@@ -102,6 +102,10 @@ class Backend_PluginController extends Zend_Controller_Action {
 				}
 			}
 
+			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(
+				array('action' => ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED) ? Tools_System_GarbageCollector::CLEAN_ONCREATE : Tools_System_GarbageCollector::CLEAN_ONDELETE)
+			));
+
 			if($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED) {
 				$plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
 				$pluginMapper->save($plugin);
@@ -124,9 +128,11 @@ class Backend_PluginController extends Zend_Controller_Action {
 	public function triggerAction() {
 		if($this->getRequest()->isPost()) {
 			$plugin                   = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
+			$plugin->registerObserver(
+				new Tools_Plugins_GarbageCollector(array('action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE))
+			);
 			$this->view->responseText = Application_Model_Mappers_PluginMapper::getInstance()->save($plugin->setStatus(($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Application_Model_Models_Plugin::DISABLED : Application_Model_Models_Plugin::ENABLED));
 			$this->view->buttonText   = ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? 'Disable' : 'Enable';
-			$this->_helper->cache->clean(null, null, array('plugins'));
 			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 		}
 	}

@@ -18,11 +18,13 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 			'license' => $plugin->getLicense()
 		);
 		if(!$plugin->getId()) {
-			return $this->getDbTable()->insert($data);
+			$status = $this->getDbTable()->insert($data);
 		}
 		else {
-			return $this->getDbTable()->update($data, array('id = ?' => $plugin->getId()));
+			$status = $this->getDbTable()->update($data, array('id = ?' => $plugin->getId()));
 		}
+		$plugin->notifyObservers();
+		return  $status;
 	}
 
 	public function findByName($name) {
