@@ -565,6 +565,7 @@ a.generator-links.plugin {
 	box-shadow: 0 0 10px #444444;
 	-moz-box-shadow: 0 0 10px #444444;
 	-webkit-box-shadow: 0 0 10px #444444;
+	text-align: left;
 }
 
 .seotoaster#seotoaster-cpanel #showhide a {

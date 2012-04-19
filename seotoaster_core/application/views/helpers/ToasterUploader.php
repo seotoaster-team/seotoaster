@@ -53,7 +53,8 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 		//assign all view variables
 		$this->view->config     = Zend_Registry::get('misc');
 		$this->view->teaserSize = $dbConfigHelper->getConfig('teaserSize');
-		$this->view->actionUrl = trim($this->view->websiteUrl,'/') . $this->view->url($this->_uploadActionUrl, 'backend');
+		$this->view->actionUrl  = preg_replace('~/.*[/]*backend/~iu', $this->view->websiteUrl . 'backend/', $this->view->url($this->_uploadActionUrl, 'backend'));
+		//$this->view->actionUrl = trim($this->view->websiteUrl,'/') . $this->view->url($this->_uploadActionUrl, 'backend');
 		$this->view->formId = isset($options['id']) && !empty ($options['id']) ? $options['id'] : 'toaster-uploader';
 		$this->view->buttonCaption = isset($options['caption']) && !empty ($options['caption']) ? $options['caption'] : 'Upload files';
 

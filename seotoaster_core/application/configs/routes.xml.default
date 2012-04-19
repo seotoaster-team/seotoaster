@@ -51,5 +51,21 @@
         <action>language</action>
       </defaults>
 	</languageroute>
+	<resetpassword>
+		<type>Zend_Controller_Router_Route</type>
+		<route>/login/reset/*</route>
+		<defaults>
+			<controller>login</controller>
+			<action>passwordreset</action>
+		</defaults>
+	</resetpassword>
+	<retrievepassword>
+        <type>Zend_Controller_Router_Route</type>
+        <route>/login/retrieve/*</route>
+        <defaults>
+            <controller>login</controller>
+            <action>passwordretrieve</action>
+        </defaults>
+    </retrievepassword>
   </routes>
 </zend-config>
