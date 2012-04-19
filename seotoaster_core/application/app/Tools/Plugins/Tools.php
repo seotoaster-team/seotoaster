@@ -318,5 +318,21 @@ class Tools_Plugins_Tools {
 
         return $path;
     }
+
+	public static function registerPluginsIncludePath($force = false){
+		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+
+		if ($force) {
+			$cacheHelper->clean(null, null, array('plugins'));
+		}
+
+		if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_')) || $force){
+			$pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
+			$cacheHelper->save('includePath', $pluginIncludePath, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_NORMAL);
+		}
+		if (!empty($pluginIncludePath)){
+            set_include_path(implode(PATH_SEPARATOR,$pluginIncludePath).PATH_SEPARATOR.get_include_path());
+		}
+	}
 }
 
