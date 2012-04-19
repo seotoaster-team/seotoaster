@@ -38,7 +38,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
 			->setAction($this->_websiteHelper->getUrl() . 'backend/search/search/');
 
 		$this->_view->searchForm = $searchForm;
-		$this->_view->renewIndex = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL);
+		$this->_view->renewIndex = $this->_isIndexRenewNeeded();
 		return $this->_view->render('form.phtml');
 	}
 
@@ -66,6 +66,18 @@ class Widgets_Search_Search extends Widgets_Abstract {
 
 		unset($view);
 		return $data;
+	}
+
+	private function _isIndexRenewNeeded() {
+		//if role of the current user < member - we do not re-build index
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+			return false;
+		}
+		if(($renewed = $this->_cache->load('indexRenewed', 'widget_search_index')) === null) {
+			$this->_cache->save('indexRenewed', true, 'widget_search_index', array('search_index_renew'), (Helpers_Action_Cache::CACHE_LONG * 30));
+			return true;
+		}
+		return false;
 	}
 }
 
