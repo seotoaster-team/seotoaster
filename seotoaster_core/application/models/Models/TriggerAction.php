@@ -5,44 +5,44 @@
  */
 class Application_Model_Models_TriggerAction extends Application_Model_Models_Abstract {
 
-	protected $trigger;
+	protected $_trigger;
 
-	protected $template;
+	protected $_template;
 
-	protected $recipient;
+	protected $_recipient;
 
-	protected $message;
+	protected $_message;
 
 
 	public function setMessage($message) {
-		$this->message = $message;
+		$this->_message = $message;
 	}
 
 	public function getMessage() {
-		return $this->message;
+		return $this->_message;
 	}
 
 	public function setRecipient($recipient) {
-		$this->recipient = $recipient;
+		$this->_recipient = $recipient;
 	}
 
 	public function getRecipient() {
-		return $this->recipient;
+		return $this->_recipient;
 	}
 
 	public function setTemplate($templateName) {
-		$this->template = $templateName;
+		$this->_template = $templateName;
 	}
 
 	public function getTemplate() {
-		return $this->template;
+		return $this->_template;
 	}
 
 	public function setTrigger($triggerName) {
-		$this->trigger = $triggerName;
+		$this->_trigger = $triggerName;
 	}
 
 	public function getTrigger() {
-		return $this->trigger;
+		return $this->_trigger;
 	}
 }
