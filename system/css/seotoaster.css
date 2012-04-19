@@ -1426,7 +1426,9 @@ list-style: square;
 	font-size:10pt;
 }
 /*============Manage config=================*/
-.seotoaster #general-config, .seotoaster #email-config, .seotoaster #security-config, .seotoaster #advaced-config {
+.seotoaster #general-config, .seotoaster #email-config,
+.seotoaster #security-config, .seotoaster #advaced-config,
+.seotoaster #action-triggers {
     overflow: hidden;
     margin-bottom: 7px;
     min-height: 228px;
