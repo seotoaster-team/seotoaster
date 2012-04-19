@@ -5,9 +5,9 @@
  */
 class Application_Model_Models_TriggerAction extends Application_Model_Models_Abstract {
 
-	protected $triggerName;
+	protected $trigger;
 
-	protected $templateName;
+	protected $template;
 
 	protected $recipient;
 
@@ -30,19 +30,19 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 		return $this->recipient;
 	}
 
-	public function setTemplateName($templateName) {
-		$this->templateName = $templateName;
+	public function setTemplate($templateName) {
+		$this->template = $templateName;
 	}
 
-	public function getTemplateName() {
-		return $this->templateName;
+	public function getTemplate() {
+		return $this->template;
 	}
 
-	public function setTriggerName($triggerName) {
-		$this->triggerName = $triggerName;
+	public function setTrigger($triggerName) {
+		$this->trigger = $triggerName;
 	}
 
-	public function getTriggerName() {
-		return $this->triggerName;
+	public function getTrigger() {
+		return $this->trigger;
 	}
 }

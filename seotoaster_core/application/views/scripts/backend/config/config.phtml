@@ -130,9 +130,9 @@
 		$.each(actions, function(index, item){
 			item.index = item.id;
 			var action = $.tmpl(actionTriggerTmpl, item);
-			$('select[name*=triggerName]', action).val(item.triggerName);
+			$('select[name*=trigger]', action).val(item.trigger);
 			$('select[name*=recipient]', action).val(item.recipient);
-			$('select[name*=templateName]', action).val(item.templateName);
+			$('select[name*=template]', action).val(item.template);
 			$('textarea[name*=message]', action).val(item.message);
 			$('#action-triggers').append(action);
 			lastActionId = (lastActionId < item.id) &&  (item.id + 1);
@@ -146,9 +146,9 @@
 		<input type="hidden" name="actions[${index}][delete]" value="false"/>
 		{{/if}}
 		<span class="ui-icon ui-icon-closethick" style="float:right; cursor:pointer;"></span>
-		When <?php echo $this->formSelect('actions[${index}][triggerName]', null, array('id'=>false), $this->triggers);?> notify
+		When <?php echo $this->formSelect('actions[${index}][trigger]', null, array('id'=>false), $this->triggers);?> notify
 		<?php echo $this->formSelect('actions[${index}][recipient]', null, array('id'=>false), $this->recipients);?>
-		using template <?php echo $this->formSelect('actions[${index}][templateName]',null, array('id'=>false), $this->templates);?>
+		using template <?php echo $this->formSelect('actions[${index}][template]',null, array('id'=>false), $this->templates);?>
 		with following message: <?php echo $this->formTextarea('actions[${index}][message]', null, array('id'=>false, 'rows'=>3)); ?>
 	</fieldset>
 </script>

@@ -61,6 +61,10 @@ class Application_Model_Mappers_EmailTriggersMapper extends Application_Model_Ma
 		return $this->getDbTable()->fetchAll($where, $order, $limit, $offset)->toArray();
 	}
 
+	public function findByTriggerName($triggerName) {
+		return $this->getDbTable()->fetchAll(array('`trigger` = ?' => $triggerName));
+	}
+
 	/**
 	 * Registers plugin triggers with their observers
 	 * @param $pluginName string Name of plugin
