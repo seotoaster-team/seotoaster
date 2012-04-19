@@ -4,12 +4,20 @@
  * Abstract plugin class. Contains all init parameters,
  *
  * Options, Dispatchers, Optionmakers, etc...
+ * @property $emailTriggers array|null List of email triggers-watchers pairs
+ * @property $emailRecipients array|null List of plugin specific email recivers
  */
 
 class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
+	/**
+	 * @const   ACTION_POSTFIX  Method which name ends with this postfix will be dispatched as action
+	 */
 	const ACTION_POSTFIX        = 'Action';
 
+	/**
+	 * @const   OPTION_MAKER_PREFIX Method which name begins with this prefix will be dispatched as content generator
+	 */
 	const OPTION_MAKER_PREFIX   = '_makeOption';
 
 	/**

@@ -19,11 +19,7 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 			Tools_Plugins_Tools::fetchPluginsRoutes();
 			$sessionHelper->pluginRoutesFetched = true;
 		}
-		if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_'))){
-			$pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
-			$cacheHelper->save('includePath', $pluginIncludePath, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_NORMAL);
-		}
-        set_include_path(implode(PATH_SEPARATOR,$pluginIncludePath).PATH_SEPARATOR.get_include_path());
+		Tools_Plugins_Tools::registerPluginsIncludePath();
     }
 
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
