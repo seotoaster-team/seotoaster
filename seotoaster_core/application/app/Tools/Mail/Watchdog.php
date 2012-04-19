@@ -42,15 +42,21 @@ class Tools_Mail_Watchdog implements Interfaces_Observer {
 
 	public function notify($object) {
 		if(isset($this->_options['trigger'])) {
+			if ($this->_triggers === null) {
+				$this->_initTriggers(true);
+			}
 			$triggerName = strtolower($this->_options['trigger']);
-			$activeTriggers = array_filter($this->_triggers, function($observer) use ($triggerName) {
-				return $observer['trigger_name'] === $triggerName;
+			$activeTriggers = array_filter($this->_triggers, function($trig) use ($triggerName) {
+				return ($trig['trigger_name'] === $triggerName && $trig['enabled'] === Application_Model_Mappers_EmailTriggersMapper::TRIGGER_STATUS_ENABLED);
 			});
 			if (!empty($activeTriggers)){
 				foreach($activeTriggers as $trigger) {
-					if (class_exists($trigger['observer']) && $trigger['enabled'] === Application_Model_Mappers_EmailTriggersMapper::TRIGGER_STATUS_ENABLED ) {
-						$observer = new $trigger['observer']($this->_options);
-						$observer->notify($object);
+					if (class_exists($trigger['observer'])) {
+						$actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($this->_options['trigger'])->toArray();
+						array_walk($actions, function($action, $key, $context){
+							$observer = new $context['observer']($action);
+							$observer->notify($context['object']);
+						}, array('observer' => $trigger['observer'], 'object' => $object));
 					}
 				}
 			}

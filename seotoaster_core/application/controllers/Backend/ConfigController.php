@@ -85,7 +85,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			if (false !== ($actions = $this->_request->getParam('actions', false))){
 				$removeActions =  array();
 				foreach($actions as $action) {
-					if (isset($action['delete']) && (bool)$action['delete'] === true){
+					if (isset($action['delete']) && $action['delete'] === "true"){
 						array_push($removeActions, $action['id']);
 						continue;
 					}
