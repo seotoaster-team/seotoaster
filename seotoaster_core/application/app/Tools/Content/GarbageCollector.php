@@ -16,6 +16,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 		$this->_updateContentLinksRelatios();
 		$this->_cleanEmptyContainer();
 		$this->_trimWidgets();
+		$this->_resetSearchIndexRenewFlag();
 	}
 
 	public function updateContentLinksRelatios() {
@@ -23,7 +24,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	}
 
 	protected function _runOnDelete() {
-
+		$this->_resetSearchIndexRenewFlag();
 	}
 
 	private function _updateContentLinksRelatios() {
@@ -57,6 +58,11 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 			$this->_object->removeObserver($this);
 			Application_Model_Mappers_ContainerMapper::getInstance()->delete($this->_object);
 		}
+	}
+
+	private function _resetSearchIndexRenewFlag() {
+		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		$cacheHelper->clean(null, null, array('search_index_renew'));
 	}
 
 }
