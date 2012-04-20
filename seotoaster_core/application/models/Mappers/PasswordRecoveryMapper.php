@@ -25,10 +25,12 @@ class Application_Model_Mappers_PasswordRecoveryMapper extends Application_Model
 		);
 
 		if(false === ($exists = $this->_tokenForUserExists($recoveryToken->getUserId()))) {
-			return $this->getDbTable()->insert($data);
+			$result = $this->getDbTable()->insert($data);
 		} else {
-			return $this->getDbTable()->update($data, array('id = ?' => $exists->getId()));
+			$result = $this->getDbTable()->update($data, array('id = ?' => $exists->getId()));
 		}
+		$recoveryToken->notifyObservers();
+		return $result;
 	}
 
 	public function findByToken($token) {
