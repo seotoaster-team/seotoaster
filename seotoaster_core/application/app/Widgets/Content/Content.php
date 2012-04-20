@@ -15,8 +15,9 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 		$this->_content  = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
 		$contentContent  = (null === $this->_content) ? '' : $this->_content->getContent();
 		if(Tools_Security_Acl::isAllowed($this, $currentUser)) {
-			$contentContent = ($this->_checkPublished()) ? $contentContent : '<div style="border: 1px dashed red">' . $contentContent . '</div>';
+//			$contentContent = ($this->_checkPublished()) ? $contentContent : '<div style="border: 1px dashed red">' . $contentContent . '</div>';
 			$contentContent .= $this->_addAdminLink($this->_type, ($this->_content === null) ? null : $this->_content->getId(), 'Click to edit content', 964, 594);
+			$contentContent = '<div class="container-wrapper '. ($this->_checkPublished() ? '' : 'unpublished') .'">'.$contentContent.'</div>';
 		}
 		else {
 			$contentContent = ($this->_checkPublished()) ? $contentContent : '';

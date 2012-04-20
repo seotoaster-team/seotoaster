@@ -21,6 +21,7 @@
 		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
 		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
 		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
+		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/redactor/css/redactor.css'); ?>
 		<?php endif; ?>
 
 		<?php echo $this->headLink(); ?>
@@ -31,6 +32,7 @@
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js'); ?>
 
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
+		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/redactor/redactor.min.js'); ?>
 		<?php echo $this->jQuery(); ?>
 
 		<!-- end of Seotoaster layout -->

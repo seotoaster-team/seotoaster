@@ -1721,3 +1721,13 @@ input[type=checkbox].cropped {
 	vertical-align:top;
 	display: inline-block;
 }
+.container-wrapper {
+    border: 1px solid transparent;
+}
+.container-wrapper:hover {
+    border: 1px dashed #AAAAAA;
+}
+.container-wrapper.unpublished {
+    border-color: red;
+    border-style: dashed;
+}
