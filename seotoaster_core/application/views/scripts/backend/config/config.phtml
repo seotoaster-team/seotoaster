@@ -10,8 +10,8 @@
 				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
 				<li><a href="#action-triggers"><?php echo $this->translate('Actions emails'); ?></a></li>
 				<?php if ($this->isSuperAdmin): ?>
-				<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
-				<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
+					<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
+					<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
 				<?php endif; ?>
 			</ul>
 			<div id="general-config">
@@ -86,19 +86,19 @@
 				<div><button id="new-trigger-action"><?php echo $this->translate('Add'); ?></button></div>
 			</div>
 			<?php if ($this->isSuperAdmin): ?>
-			<div id="security-config" class="clearfix">
-				<?php echo $this->configForm->getElement('suLogin'); ?>
-				<?php echo $this->configForm->getElement('suPassword'); ?>
-			</div>
+				<div id="security-config" class="clearfix">
+					<?php echo $this->configForm->getElement('suLogin'); ?>
+					<?php echo $this->configForm->getElement('suPassword'); ?>
+				</div>
+				<div id="advaced-config" class="clearfix">
+	                <div class="grid_4 mt5px">
+						<?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>
+					</div>
+	                <div class="grid_8 mt10px">
+						<?php echo $this->configForm->getElement('mediaServers')->renderViewHelper(); ?>
+					</div>
+	            </div>
 			<?php endif; ?>
-			<div id="advaced-config" class="clearfix">
-                <div class="grid_4 mt5px">
-					<?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>
-				</div>
-                <div class="grid_8 mt10px">
-					<?php echo $this->configForm->getElement('mediaServers')->renderViewHelper(); ?>
-				</div>
-            </div>
 		</div>
 
 		<div class="grid_12"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>

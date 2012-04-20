@@ -17,6 +17,9 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 	}
 
 	protected function _load() {
+		if(!$this->_checkEnabled()) {
+			return '';
+		}
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify code container name.'));
 		}
@@ -47,6 +50,11 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 	 */
 	public function  getResourceId() {
 		return Tools_Security_Acl::RESOURCE_CONTENT;
+	}
+
+	private function _checkEnabled() {
+		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+		return (boolean)$configHelper->getConfig('codeEnabled');
 	}
 }
 
