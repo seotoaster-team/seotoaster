@@ -173,7 +173,7 @@ $(function() {
                   .width($(self).width());
             var redactor = editor.redactor({
                 lang: 'en',
-                toolbar: 'mini',
+                toolbar: false,
                 autoformat: false
             });
             $(self).hide();
