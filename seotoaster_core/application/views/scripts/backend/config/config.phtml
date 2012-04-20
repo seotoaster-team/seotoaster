@@ -108,7 +108,7 @@
 	$(function(){
 		$('#tabs').tabs();
 		var actionTriggerTmpl = $('#triggerActionTemplate').template(),
-			actions = $.parseJSON('<?php echo json_encode($this->actions);?>'),
+			actions = <?php echo json_encode($this->actions);?>,
 			lastActionId = 0;
 
 		<?php if (count($this->messages)) : ?>
