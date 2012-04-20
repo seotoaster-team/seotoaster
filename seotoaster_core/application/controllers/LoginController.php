@@ -125,20 +125,12 @@ class LoginController extends Zend_Controller_Action {
 					'expiredAt'  => date(DATE_ATOM, strtotime('+1 day', time())),
 					'userId'     => $user->getId()
 				));
+				$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
+					'trigger' => Tools_Mail_SystemWatchdog::TRIGGER_PASSWORDRETRIEVE
+				)));
 				$resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
 				if($resetTokenId) {
 					$this->_helper->flashMessenger->addMessage('We\'ve sent an email to ' . $user->getEmail() . ' containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.');
-
-				   	//temporary mail sending
-					$resetUrl = $this->_helper->website->getUrl() . 'login/reset/email/' . $user->getEmail() . '/key/' . $resetToken->getTokenHash();
-					$mailer   = new Tools_Mail_Mailer();
-					$mailer->setMailFrom('support@seotoaster.com');
-					$mailer->setMailFromLabel('Seotoaster support team');
-					$mailer->setMailTo($user->getEmail());
-					$mailer->setBody('<a href="' . $resetUrl . '">' . $resetUrl . '</a>');
-					$mailer->setSubject('[Seotoaster] Please reset your password');
-					$mailer->send();
-
 					$this->_helper->redirector->gotoRoute(array(
 						'controller' => 'login',
 						'action'     => 'passwordretrieve'
@@ -194,10 +186,14 @@ class LoginController extends Zend_Controller_Action {
 				$mapper->save($user);
 				$resetToken->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_USED);
 				Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
+				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
+				return $this->_redirect($this->_helper->website->getUrl() . 'go');
 			} else {
-				$this->_helper->flashMessenger->addMessage('Passwords');
+				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Passwords should match'));
+				return $this->_redirect($resetToken->getResetUrl());
 			}
 		}
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		$this->view->form = $form;
 	}
 

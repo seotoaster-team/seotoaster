@@ -17,15 +17,23 @@ class Application_Form_PasswordReset extends Zend_Form {
 		$this->setDecorators(array('FormElements', 'Form'));
 
 		$this->addElement(new Zend_Form_Element_Password(array(
-			'name'  => 'password',
-			'id'    => 'password',
-			'label' => 'Password'
+			'name'     => 'password',
+			'id'       => 'password',
+			'label'    => 'Password',
+			'errorMessages' => array(
+				'isEmpty' => 'Invalid password'
+			),
+			'required' => true
 		)));
 
 		$this->addElement(new Zend_Form_Element_Password(array(
-			'name'  => 'confirmPassword',
-			'id'    => 'confirm-password',
-			'label' => 'Confirm password'
+			'name'     => 'confirmPassword',
+			'id'       => 'confirm-password',
+			'label'    => 'Confirm password',
+			'validators' => array(
+				new Zend_Validate_Identical('password')
+			),
+			'required' => true
 		)));
 
 		$this->addDisplayGroups(array(

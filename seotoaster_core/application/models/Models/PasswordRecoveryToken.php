@@ -11,19 +11,21 @@ class Application_Model_Models_PasswordRecoveryToken extends Application_Model_M
 
 	const STATUS_USED      = 'used';
 
-	const STATUS_EXPIRED   = 'expired';
+	const STATUS_EXPIRED     = 'expired';
 
-	protected $_tokenHash  = '';
+	const RESET_URL_TEMPLATE = '%slogin/reset/email/%s/key/%s';
 
-	protected $_saltString = '_password.recovery_';
+	protected $_tokenHash    = '';
 
-	protected $_userId     = 0;
+	protected $_saltString   = '_password.recovery_';
 
-	protected $_status     = self::STATUS_NEW;
+	protected $_userId       = 0;
 
-	protected $_createdAt  = '';
+	protected $_status       = self::STATUS_NEW;
 
-	protected $_expiredAt  = '';
+	protected $_createdAt    = '';
+
+	protected $_expiredAt    = '';
 
 	public function setCreatedAt($createdAt) {
 		$this->_createdAt = $createdAt;
@@ -83,6 +85,20 @@ class Application_Model_Models_PasswordRecoveryToken extends Application_Model_M
 
 	public function getSaltString() {
 		return $this->_saltString;
+	}
+
+	public function getUserEmail() {
+		return Application_Model_Mappers_UserMapper::getInstance()->find($this->_userId)->getEmail();
+	}
+
+	public function getResetUrl() {
+		return $this->_generateResetUrl();
+	}
+
+	protected function _generateResetUrl() {
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$user          = Application_Model_Mappers_UserMapper::getInstance()->find($this->_userId);
+		return sprintf(self::RESET_URL_TEMPLATE, $websiteHelper->getUrl(), $user->getEmail(), $this->_tokenHash);
 	}
 
 	protected function _generateTokenHash($string = '') {
