@@ -74,7 +74,11 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				//$showMemberOnlyPages = intval($configForm->getElement('memPagesInMenu')->getValue());
 
 				//proccessing form to db
-				$this->_configMapper->save($configForm->getValues());
+				$config = $configForm->getValues();
+				if ($config['smtpPassword'] === null && null === $this->getRequest()->getParam('smtpPassword', null)){
+					unset($config['smtpPassword']);
+				}
+				$this->_configMapper->save($config);
 				$this->_helper->flashMessenger->addMessage('Setting saved');
 			} else {
 				if ($configForm->proccessErrors()) {
