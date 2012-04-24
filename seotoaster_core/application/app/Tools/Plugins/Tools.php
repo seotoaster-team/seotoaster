@@ -29,26 +29,22 @@ class Tools_Plugins_Tools {
 			}
 
 			try {
-				$configIni = new Zend_Config_Ini($pluginConfigPath);
-				$items     = array();
-
-				if(!isset($configIni->cpanel)) {
+				$configIni  = new Zend_Config_Ini($pluginConfigPath);
+				$configData = (isset($configIni->$userRole) ? $configIni->$userRole->toArray() : (isset($configIni->cpanel) ? $configIni->cpanel->toArray() : array()));
+				if(empty($configData)) {
 					continue;
 				}
-
-				$additionalMenu[$plugin->getName()]['title'] = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
-
-				if(isset($configIni->cpanel->items)) {
-					$items = $configIni->cpanel->items->toArray();
+				$additionalMenu[$plugin->getName()]['title'] = strtoupper((isset($configData['title'])) ? $configData['title'] : $plugin->getName());
+				if(isset($configData['items'])) {
+					$additionalMenu[$plugin->getName()]['items'] = array_map(function($item) {
+						$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+						$replaceMap    = array('search'  => array('{url}', '\''), 'replace' => array($websiteHelper->getUrl(), '"'));
+						return str_replace($replaceMap['search'], $replaceMap['replace'], $item);
+					}, $configData['items']);
 				}
-				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
-					$items = array_merge($items, $configIni->$userRole->items->toArray());
-				}
-				$additionalMenu[$plugin->getName()]['items'] = array_map(array('self', '_processPluginMenuItem'), $items);
-
 			}
 			catch (Zend_Config_Exception $zce) {
-				//Zend_Debug::dump($zce->getMessage()); die(); //development
+				//error_log($zce->getMessage() . "\n" . $zce->getTraceAsString()); die(); //development
 				continue; //production
 			}
 		}
@@ -56,17 +52,20 @@ class Tools_Plugins_Tools {
 		return $additionalMenu;
 	}
 
-	private static function _processPluginMenuItem($item) {
-		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$replaceMap    = array(
-			'{url}' => $websiteHelper->getUrl(),
-			'\''    => '"'
-		);
-		foreach ($replaceMap as $key => $replace) {
-			$item = str_replace($key, $replace, $item);
-		}
-		return $item;
-	}
+//	private static function _processPluginMenuItem($item) {
+//		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+//		$replaceMap    = array(
+//			'search'  => array(
+//				'{url}',
+//				'\''
+//			),
+//			'replace' => array(
+//				$websiteHelper->getUrl(),
+//				'"'
+//			)
+//		);
+//		return str_replace($replaceMap['search'], $replaceMap['replace'], $item);
+//	}
 
 	public static function getWidgetmakerContent() {
 		return self::_getData('getWidgetMakerContent');
