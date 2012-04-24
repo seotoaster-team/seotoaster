@@ -10,16 +10,30 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 
 	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$controller  = 'backend/' . ((substr($controller, 0, 7) != 'backend') ? 'backend_' . $controller : $controller);
 		$linkText    = $this->view->translate($linkText);
-
-		if(is_array($params)) {
-			$params = implode('/', $params);
-		}
 
 		$winsize = $this->_getValidWinSize($winSizeType);
 
-		$href = $websiteHelper->getUrl() . $controller . '/' . $action . '/' . (($params) ? $params : '');
+		switch ($controller){
+			case (strpos($controller, 'backend') === 0):
+				$routeParams = array(
+					'controller' => $controller,
+					'action'     => $action
+				);
+				$routeName = 'backend';
+				break;
+			case 'plugin':
+				$routeParams = array(
+					'name' => $action
+				);
+				$routeName = 'pluginroute';
+				break;
+		}
+		if (is_array($params)) {
+			$routeParams = array_merge($routeParams, $params);
+		}
+		$href = trim($websiteHelper->getUrl(), '/') . $this->view->url($routeParams, $routeName) .(is_string($params)?'/'.$params:null);
+
 		$link = '<a class="tpopup ' . strtolower($action) . '" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
 		if($hrefOnly) {
 			return $href;
@@ -36,6 +50,13 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 					'height' => 644
 				);
 			break;
+			default:
+				if (is_array($winSizeType) && isset($winSizeType['width']) && isset($winSizeType['height'])){
+					return array(
+						'width' => $winSizeType['width'],
+						'height' => $winSizeType['height'],
+					);
+				}
 			case self::WSIZE_MEDIUM:
 				$params = array(
 					'width'  => 480,
@@ -47,14 +68,6 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 					'width'  => 350,
 					'height' => 354
 				);
-			break;
-			default:
-				if (is_array($winSizeType) && isset($winSizeType['width']) && isset($winSizeType['height'])){
-					$params = array(
-						'width' => $winSizeType['width'],
-						'height' => $winSizeType['height'],
-					);
-				}
 			break;
 		}
 		return $params;
