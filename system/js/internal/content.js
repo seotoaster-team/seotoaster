@@ -20,6 +20,8 @@ $(function() {
 				showSpinner();
 			},
 			success : function() {
+				localStorage.removeItem(generateStorageKey());
+
 				top.location.reload();
 			},
 			error: function(response) {
@@ -102,9 +104,31 @@ $(function() {
 			$(this).text('WITH EDITOR');
 			tinyMCE.execCommand('mceRemoveControl', false, editorId);
 		}
-	})
+	});
+
+	var restoredContent = localStorage.getItem(generateStorageKey());
+	if(restoredContent !== null) {
+		showConfirm('We have found content that has not been saved! Restore?', function() {
+			$('#content').val(restoredContent);
+		}, function() {
+			localStorage.removeItem(generateStorageKey());
+		})
+	}
 })
 
+function dispatchEditorKeyup(editor, event) {
+    if(editor.keyUpTimer === null) {
+	    editor.keyUpTimer = setTimeout(function() {
+		    localStorage.setItem(generateStorageKey(), editor.getContent());
+		    editor.keyUpTimer = null;
+	    }, 1000)
+    }
+}
+
+function generateStorageKey() {
+	var actionUrlComponents = $('#frm_content').attr('action').split('/');
+	return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
+}
 
 function insertFileLink(fileName) {
 	$('#content').tinymce().execCommand(
