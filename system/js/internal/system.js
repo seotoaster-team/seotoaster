@@ -66,7 +66,6 @@ $(function() {
 
 	//seotoaster close popup window button
 	$(document).on('click', '.closebutton, .save-and-close', function() {
-		var close    = true;
 		var restored = localStorage.getItem(generateStorageKey());
 		if(restored !== null) {
 			showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function() {
