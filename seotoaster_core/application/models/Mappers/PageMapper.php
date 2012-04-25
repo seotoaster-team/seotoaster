@@ -181,13 +181,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	protected function  _findWhere($where, $fetchSysPages = false) {
 		$sysWhere = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
 		$where   .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
+
 		$row      = $this->getDbTable()->fetchAll($where)->current();
+
 		if(null === $row) {
-			return null;
+
+			//try to find row in the optimized table
+			$optimizedDbTable = new Application_Model_DbTable_Optimized();
+			$optimizedRowset  = $optimizedDbTable->fetchAll(str_replace(' AND ' . $sysWhere, '', $where));
+			if($optimizedRowset === null) {
+				return null;
+			}
+			$row = $optimizedRowset->current()->findParentRow('Application_Model_DbTable_Page');
 		}
 
 		//check in optimized talbe
-		$row = $this->_optimizedRowWalk($row);
+		$row = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset : null));
 
 		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
 		$row         = $row->toArray();
@@ -196,8 +205,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $this->_toModel($row);
 	}
 
-	protected function _optimizedRowWalk($row) {
-		$optimizedRowset = $row->findDependentRowset('Application_Model_DbTable_Optimized')->current();
+	protected function _optimizedRowWalk($row, $optimizedRowset = null) {
+		if(!$optimizedRowset) {
+			$optimizedRowset = $row->findDependentRowset('Application_Model_DbTable_Optimized')->current();
+		}
 		if($optimizedRowset === null) {
 			return $row;
 		}
