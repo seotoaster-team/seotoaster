@@ -189,7 +189,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			//try to find row in the optimized table
 			$optimizedDbTable = new Application_Model_DbTable_Optimized();
 			$optimizedRowset  = $optimizedDbTable->fetchAll(str_replace(' AND ' . $sysWhere, '', $where));
-			if($optimizedRowset === null) {
+			if($optimizedRowset->current() === null) {
 				return null;
 			}
 			$row = $optimizedRowset->current()->findParentRow('Application_Model_DbTable_Page');
