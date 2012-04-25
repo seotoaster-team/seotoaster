@@ -1,34 +1,28 @@
-<div class="widget-control-img" id="rss-img"></div>
-<form class="wmc-block" action="javascript:;" id="rss-widget-form" style="display: none;" method="post">
+<form action="javascript:;" method="post" data-name="rss" id="rss-widget-form" class="wmc-block">
+	<?php echo $this->formLabel('feed-url', $this->translate('Feed url'), array('class' => 'nopad grid_12')); ?>
+	<?php echo $this->formText('feedUrl', '', array('id' => 'feed-url', 'class' => 'nopad grid_12 validate')); ?>
 
-	<label class="nopad grid_12" for="feed-url"><?php echo $this->translate('Feed url'); ?></label>
-	<input class="nopad grid_12" type="text" id="feed-url" value="" />
+	<?php echo $this->formLabel('feed-maxres', $this->translate('Max. results'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('feedMaxres', Widgets_Rss_Rss::RSS_RESULT_COUNT, array('id' => 'feed-maxres', 'class' => 'nopad grid_6')); ?>
 
-	<label class="nopad grid_6" for="feed-maxres"><?php echo $this->translate('Max. results'); ?></label>
-	<input class="nopad grid_6" type="text" id="feed-maxres" value="<?php echo Widgets_Rss_Rss::RSS_RESULT_COUNT; ?>" />
+	<?php echo $this->formLabel('feed-maxch', $this->translate('Max. chars.'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('feedMaxch', Widgets_Rss_Rss::RSS_DESC_LENGTH, array('id' => 'feed-maxch', 'class' => 'nopad grid_6')); ?>
 
-	<label class="nopad grid_6" for="feed-maxch"><?php echo $this->translate('Max. chars.'); ?></label>
-	<input class="nopad grid_6" type="text" id="feed-maxch" value="<?php echo Widgets_Rss_Rss::RSS_DESC_LENGTH; ?>" />
+	<?php echo $this->formLabel('feed-item-img', $this->translate('Use image'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('useImage', 'img', array('id' => 'feed-item-img')); ?>
+	</div>
 
-	<div class="grid_12"><input class="formsubmit" type="submit" id="feed-done" name="done" value="Done" /></div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+	</div>
 </form>
-
 <script type="text/javascript">
 	$(function() {
-		$('.widget-control-img#rss-img').click(function() {
-			$('#widgets-header').text('<?php echo $this->translate('Rss feed'); ?>').fadeIn();
-			$('#widget-controls').html($('#rss-widget-form').html());
-			//$('#rss-widget-form').slideDown();
-		});
-		$('#feed-url').live('click', function() {$(this).removeClass('wmc-error');});
-		$('#feed-done').live('click', function() {
-			var feedUrl = $('#feed-url').val();
-			if(!feedUrl) {
-				$('#feed-url').toggleClass('wmc-error');
-				return;
+		$(document).on('focus', '#feed-url', function() {
+			if($(this).hasClass('red-border')) {
+				$(this).removeClass('red-border');
 			}
-			var rssWidget = '{$rss:' + feedUrl + ':' + $('#feed-maxres').val() + ':' + $('#feed-maxch').val() + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, rssWidget);
 		})
-	});
+	})
 </script>

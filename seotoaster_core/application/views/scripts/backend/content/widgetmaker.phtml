@@ -1,17 +1,57 @@
-<div id="widgets_maker" class="show_div">
-	<h3 style="display: none;" id="widgets-header"></h3>
-	<div id="widget-controls" style="display: none;">
-		<?php //echo $this->translate('Click on the widget icon and it will be shown here.'); ?>
-	</div>
-	<?php foreach ($this->widgetsData as $key => $widgetData): ?>
-		<?php if(isset($widgetData['title']) && $widgetData['title']): ?>
-			<h3><?php echo $this->translate($widgetData['title']); ?></h3>
-		<?php endif; ?>
-		<?php echo $widgetData['content']; ?>
-	<?php endforeach; ?>
-	<script type="text/javascript">
-		(function($) {
-			$('div.widget-control-img:even').css({marginRight : '4px'})
-		})(jQuery);
-	</script>
-</div>
+<style type="text/css">
+	.red-border {
+		border-color: #ff0000 !important;
+	}
+</style>
+<?php foreach ($this->widgetsData as $key => $widgetData): ?>
+	<?php $this->accordionPane('widgets_maker', $widgetData['content'], array(
+		'title' => (isset($widgetData['title']) ? ((isset($widgetData['icons']) ? '<img src="' . $widgetData['icons'][0] . '" />' : '') . $widgetData['title']) : 'NOTITLE'),
+	)); ?>
+<?php endforeach; ?>
+<?php echo $this->accordionContainer('widgets_maker'); ?>
+<script type="text/javascript">
+	$(function() {
+		$('#widgets_maker').accordion({collapsible:true, active:false, icons:false, autoHeight:false}).find('h3').addClass('button');
+		$(document).on('click', '.apply-widget', function() {
+			var error      = false;
+			var widgetForm = $(this).closest('form');
+			var widgetHtml = '{$' + widgetForm.data('name');
+			widgetForm.find(':input:visible').not('[type=hidden], [type=submit]').each(function() {
+				if($(this).attr('type') == 'checkbox' && !$(this).prop('checked')) {
+					if($(this).hasClass('allowzero')) {
+						widgetHtml += ':0';
+					}
+					return;
+				}
+				if($(this).hasClass('validate')) {
+					if(!$(this).val() || $(this).val() == 0) {
+						$(this).addClass('red-border');
+						error = true;
+					}
+				}
+
+				if(!error) {
+					if($(this).val() == 'imgc') {
+						widgetHtml = widgetHtml.replace(':img', '');
+					}
+					widgetHtml += ':' + $(this).val();
+				}
+			});
+			if(!error) {
+				widgetHtml += '}';
+				$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, widgetHtml);
+			}
+		})
+
+		//loading forlders list
+		$.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/img/1', function(response) {
+			$.each(response.responseText, function(val) {
+				$('.folders')
+					.append($('<option></option>').attr({
+						value: val
+					})
+					.text(val));
+			})
+		});
+	})
+</script>

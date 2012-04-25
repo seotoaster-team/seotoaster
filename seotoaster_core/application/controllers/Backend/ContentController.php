@@ -42,6 +42,10 @@ class Backend_ContentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()) {
 			$this->_processContent();
 		}
+		if ($this->getRequest()->isXmlHttpRequest()){
+			$container = new Application_Model_Models_Container(array('containerType' => $this->_containerType));
+			$this->_helper->json->direct($container->toArray());
+		}
 		$this->view->published      = true;
 		$this->view->publishingDate = '';
 		if($this->_containerType == Application_Model_Models_Container::TYPE_REGULARCONTENT || $this->_containerType == Application_Model_Models_Container::TYPE_STATICCONTENT) {
@@ -55,6 +59,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$container = Application_Model_Mappers_ContainerMapper::getInstance()->find($this->getRequest()->getParam('id'));
 			if(null === $container) {
 				throw new Exceptions_SeotoasterException('Container loading failed.');
+			}
+			if ($this->getRequest()->isXmlHttpRequest()){
+				$this->_helper->json->direct($container->toArray());
 			}
 			$this->_contentForm->getElement('content')->setValue($container->getContent());
 			$this->_contentForm->getElement('containerName')->setValue($container->getName());

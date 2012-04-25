@@ -66,17 +66,15 @@ $(function() {
 
 	//seotoaster close popup window button
 	$(document).on('click', '.closebutton, .save-and-close', function() {
-		if(window.parent.jQuery('.__tpopup').contents().find('div.seotoaster').hasClass('refreshOnClose')) {
-			window.parent.location.reload();
-			window.parent.jQuery('.__tpopup').dialog('close');
-		}
-		//parent.$('iframe').dialog('close');
-		if(typeof window.parent.$('iframe').dialog != 'undefined') {
-			window.parent.$('iframe').dialog('close');
+		var restored = localStorage.getItem(generateStorageKey());
+		if(restored !== null) {
+			showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function() {
+				localStorage.removeItem(generateStorageKey());
+				closePopup();
+			});
 		} else {
-			console.log('Alarm! Something went wrong!');
+			closePopup();
 		}
-
 	});
 
 	//seotoaster ajax form submiting
@@ -160,6 +158,50 @@ $(function() {
 		$('a._lbox').fancybox();
 	}
 	//publishPages();
+
+    $(document).on('dblclick', '.container-wrapper', function(){
+        var self = this,
+            url = $(this).find('.tpopup.generator-links').data('url'),
+            editContainer = $('<div></div>');
+        $(editContainer).insertBefore($(this));
+        $.getJSON(url, function(response){
+            var editor = $('<textarea>').appendTo(editContainer);
+            editor.val(response.content)
+                  .height($(self).height())
+                  .width($(self).width());
+            var redactor = editor.redactor({
+                lang: 'en',
+                toolbar: false,
+                autoformat: false
+            });
+            $(self).hide();
+
+            var btnCancel = $('<input type="button" class="btn" value="Cancel" />');
+                btnCancel.on('click', function(){ redactor.destroy(); $(editContainer).remove(); $(self).show(); });
+
+            var btnSave = $('<input type="button" class="btn" value="Save" />');
+                btnSave.on('click', function(){
+                    var data = {
+                        content: redactor.getCodeEditor(),
+                        containerType : response.containerType,
+                        containerName : response.name,
+                        pageId        : response.pageId,
+                        containerId   : response.id,
+                        published     : (response.published ? 1 : 0),
+                        publishOn     : response.publishingDate
+                    };
+
+                    $.post(url, data, function(resp){
+                        if (resp.hasOwnProperty('error') && !!resp.error === false) {
+                            window.location.reload();
+                        }
+                    }, 'json');
+                });
+
+            redactor.$frame.before(btnSave)
+                    .before(btnCancel);
+        });
+    });
 });
 
 
@@ -208,4 +250,25 @@ function publishPages() {
 	if(!top.$('#__tpopup').length) {
 		$.get($('#website_url').val() + 'backend/backend_page/publishpages/');
 	}
+}
+
+function closePopup() {
+	if(window.parent.jQuery('.__tpopup').contents().find('div.seotoaster').hasClass('refreshOnClose')) {
+		window.parent.location.reload();
+		window.parent.jQuery('.__tpopup').dialog('close');
+	}
+	//parent.$('iframe').dialog('close');
+	if(typeof window.parent.$('iframe').dialog != 'undefined') {
+		window.parent.$('iframe').dialog('close');
+	} else {
+		console.log('Alarm! Something went wrong!');
+	}
+}
+
+function generateStorageKey() {
+	if($('#frm_content').length) {
+		var actionUrlComponents = $('#frm_content').attr('action').split('/');
+		return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
+	}
+	return null;
 }

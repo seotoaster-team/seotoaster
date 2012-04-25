@@ -83,9 +83,13 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
 
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => $translator->translate('Image Gallery'),
-			'content' => $view->render('wmcontent.phtml')
+			'title'   => $translator->translate('Image Gallery'),
+			'content' => $view->render('wmcontent.phtml'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/imageGallery.png',
+			)
 		);
 
 		unset($view);

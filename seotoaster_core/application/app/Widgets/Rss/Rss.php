@@ -66,19 +66,23 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 			);
 			$i++;
 		}
-		$this->_view->useImage = (isset($this->_options[2]) && $this->_options[2] == 'img') ? true : false;
+		$this->_view->useImage = (isset($this->_options[3]) && $this->_options[3] == 'img') ? true : false;
 		$this->_view->feed     = $feeds;
 		return $this->_view->render('rss.phtml');
 	}
 
 	public static function getWidgetMakerContent() {
-		$view = new Zend_View(array(
+		$translator = Zend_Registry::get('Zend_Translate');
+		$view       = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => 'Rss feed',
-			'content' => $view->render('wmcontent.phtml')
+			'title'   => $translator->translate('Rss feed'),
+			'content' => $view->render('wmcontent.phtml'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/rss.png',
+			)
 		);
 
 		unset($view);
@@ -87,7 +91,7 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 
 
 	private function _getRssEntryImage($content) {
-		preg_match('~<img\s+.*src=".+".*\s+/>~uUi', $content, $matches);
+		preg_match('~<img\s+.*src=".+".*\s*/>~uUi', $content, $matches);
 		return (!empty ($matches)) ? $matches[0] : '';
 	}
 

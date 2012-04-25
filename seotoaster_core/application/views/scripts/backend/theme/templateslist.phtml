@@ -24,7 +24,11 @@
 <div class="grid_2 template_item <?php echo ((isset($template['isCurrent']) && $template['isCurrent']) ? 'curr-template' : ''); ?>" title="<?php echo sprintf($this->translate('%s template'), $template['fullName']); ?>">
 	<div class="template_preview">
 		<div>
-			<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
+			<?php if($template['preview_image']): ?>
+				<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
+			<?php else: ?>
+		     	<div style="margin-top: 20px;padding: 0 5px;"><?php echo ucfirst($template['name']); ?></div>
+			<?php endif; ?>
 		</div>
 		<div class="template_name">
 			<?php echo Tools_Text_Tools::cutText($template['name'], 10); ?>

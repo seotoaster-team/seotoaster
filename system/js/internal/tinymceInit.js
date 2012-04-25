@@ -31,6 +31,13 @@ $(document).ready(function(){
 		force_br_newlines : false,
 	    force_p_newlines : true,
 	    forced_root_block : '',
-		valid_elements: '*[*]'
+		valid_elements: '*[*]',
+		setup : function(ed) {
+			ed.keyUpTimer = null;
+			ed.onKeyUp.add(function(ed, e) {
+				//@see content.js for this function
+				dispatchEditorKeyup(ed, e);
+			});
+		}
 	})
 })

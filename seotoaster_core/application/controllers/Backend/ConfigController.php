@@ -43,7 +43,6 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		}
 
 		if ($this->getRequest()->isPost()){
-
 			if ($configForm->isValid($this->getRequest()->getParams())){
 				//proccessing language changing
 				$selectedLang = $languageSelect->getValue();
@@ -75,11 +74,29 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				//$showMemberOnlyPages = intval($configForm->getElement('memPagesInMenu')->getValue());
 
 				//proccessing form to db
-				$this->_configMapper->save($configForm->getValues());
+				$config = $configForm->getValues();
+				if ($config['smtpPassword'] === null && null === $this->getRequest()->getParam('smtpPassword', null)){
+					unset($config['smtpPassword']);
+				}
+				$this->_configMapper->save($config);
 				$this->_helper->flashMessenger->addMessage('Setting saved');
 			} else {
 				if ($configForm->proccessErrors()) {
 					$this->_helper->flashMessenger->addMessage('Some fields are wrong');
+				}
+			}
+
+			if (false !== ($actions = $this->_request->getParam('actions', false))){
+				$removeActions =  array();
+				foreach($actions as $action) {
+					if (isset($action['delete']) && $action['delete'] === "true"){
+						array_push($removeActions, $action['id']);
+						continue;
+					}
+					Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($action);
+				}
+				if (!empty($removeActions)) {
+					Application_Model_Mappers_EmailTriggersMapper::getInstance()->delete($removeActions);
 				}
 			}
 		} else {
@@ -103,6 +120,23 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		$this->view->configForm = $configForm;
+
+		$triggers = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getTriggers(true);
+		$this->view->triggers = array_combine($triggers, $triggers);
+		array_unshift($this->view->triggers,  'select trigger');
+		$recipients = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
+		$this->view->recipients = array_combine($recipients, $recipients);
+		array_unshift($this->view->recipients,  'select recipient');
+
+		$templates = Application_Model_Mappers_TemplateMapper::getInstance()->findByType(Application_Model_Models_Template::TYPE_MAIL);
+		$this->view->templates = array('select template');
+		if (!empty($templates)){
+			foreach ($templates as $tmpl) {
+				$this->view->templates[$tmpl->getName()] = $tmpl->getName();
+			}
+		}
+
+		$this->view->actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
 	}
 
 

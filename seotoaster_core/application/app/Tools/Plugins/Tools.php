@@ -36,15 +36,21 @@ class Tools_Plugins_Tools {
 					continue;
 				}
 
-				$additionalMenu[$plugin->getName()]['title'] = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
+				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
+				$additionalMenu[$title]['title'] = $title;
 
 				if(isset($configIni->cpanel->items)) {
-					$items = $configIni->cpanel->items->toArray();
+					$items = array_values($configIni->cpanel->items->toArray());
 				}
 				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
-					$items = array_merge($items, $configIni->$userRole->items->toArray());
+					$items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
 				}
-				$additionalMenu[$plugin->getName()]['items'] = array_map(array('self', '_processPluginMenuItem'), $items);
+				array_walk($items, array('self', '_processPluginMenuItem'), $plugin);
+				if (isset($additionalMenu[$title]['items'])){
+					$additionalMenu[$title]['items'] += $items;
+				} else {
+					$additionalMenu[$title]['items'] = $items;
+				}
 
 			}
 			catch (Zend_Config_Exception $zce) {
@@ -56,14 +62,22 @@ class Tools_Plugins_Tools {
 		return $additionalMenu;
 	}
 
-	private static function _processPluginMenuItem($item) {
+	private static function _processPluginMenuItem(&$item, $index, $plugin) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$replaceMap    = array(
-			'{url}' => $websiteHelper->getUrl(),
-			'\''    => '"'
-		);
-		foreach ($replaceMap as $key => $replace) {
-			$item = str_replace($key, $replace, $item);
+		if (is_string($item)){
+			$item = strtr($item, array(
+				'{url}' => $websiteHelper->getUrl(), '\''    => '"'
+			));
+		} elseif (is_array($item)) {
+			$item = array_merge(
+				array(
+					'run'       => 'index',
+					'name'      => $plugin->getName(),
+					'width'     => null,
+					'height'    => null
+				),
+				$item
+			);
 		}
 		return $item;
 	}
@@ -318,5 +332,21 @@ class Tools_Plugins_Tools {
 
         return $path;
     }
+
+	public static function registerPluginsIncludePath($force = false){
+		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+
+		if ($force) {
+			$cacheHelper->clean(null, null, array('plugins'));
+		}
+
+		if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_')) || $force){
+			$pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
+			$cacheHelper->save('includePath', $pluginIncludePath, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_NORMAL);
+		}
+		if (!empty($pluginIncludePath)){
+            set_include_path(implode(PATH_SEPARATOR,$pluginIncludePath).PATH_SEPARATOR.get_include_path());
+		}
+	}
 }
 

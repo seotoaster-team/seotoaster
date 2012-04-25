@@ -1,47 +1,17 @@
-<div class="widget-control-img" id="gal-img"></div>
-<form class="wmc-block" id="gal-widget-form" action="javascript:;" style="display: none;" method="post">
-
-	<label class="nopad grid_6" for="gal-folders"><?php echo $this->translate('Select a folder'); ?></label>
-	<select class="nopad grid_6" id="gal-folders"></select>
-
-	<label class="nopad grid_6" for="gal-thumb-size"><?php echo $this->translate('Thumb. size'); ?></label>
-	<input type="text" class="nopad grid_6" id="gal-thumb-size" value="<?php echo Widgets_Gal_Gal::DEFAULT_THUMB_SIZE; ?>"/>
-
-	<label class="nopad grid_6" for="gal-crop"><?php echo $this->translate('Crop image'); ?></label>
-	<div class="nopad grid_6"><input type="checkbox" id="gal-crop" /></div>
-
-	<label class="nopad grid_6" for="gal-caption"><?php echo $this->translate('Caption'); ?></label>
-	<div class="nopad grid_6"><input type="checkbox" id="gal-caption" /></div>
-
-	<div class="grid_12"><input class="formsubmit" type="submit" id="gal-done" name="done" value="Done" /></div>
+<form action="javascript:;" method="post" data-name="gal" id="gal-widget-form" class="wmc-block">
+	<?php echo $this->formLabel('gal-folders', $this->translate('Select a folder'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formSelect('galFolders', null, array('id' => 'gal-folders', 'class' => 'nopad grid_6 folders')); ?>
+	<?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('gal-crop', $this->translate('Crop image'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop')); ?>
+	</div>
+	<?php echo $this->formLabel('gal-caption', $this->translate('Caption'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption')); ?>
+	</div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+	</div>
 </form>
-<script type="text/javascript">
-	(function($) {
-		$(function() {
-			loadFolders();
-			$('.widget-control-img#gal-img').click(function() {
-				$('#widgets-header').text('<?php echo $this->translate('Image gallery'); ?>').fadeIn();
-				$('#widget-controls').html($('#gal-widget-form').html());
-				//$('#gal-widget-form').slideDown();
-			});
-
-			$('#gal-done').live('click', function() {
-				var widget = '{$gal:' + $('#gal-folders').val() + ':' + $('#gal-thumb-size').val() + ':' + ($('#gal-crop').attr('checked') ? 1 : 0) + ':' + ($('#gal-caption').attr('checked') ? 1 : 0) + '}';
-				$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
-			})
-		})
-	})(jQuery);
-
-
-	function loadFolders() {
-		$.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/img/1', function(response) {
-			$.each(response.responseText, function(val) {
-				$('#gal-folders')
-					.append($('<option></option>').attr({
-						value: val
-					})
-					.text(val));
-			})
-		});
-	}
-</script>

@@ -1,45 +1,44 @@
-<div class="widget-control-img" id="forms-img"></div>
-<form class="wmc-block" id="forms-widget-form" action="javascript:;" style="display: none;" method="post">
-	<label class="nopad grid_6" for="forms-newname"><?php echo $this->translate('Form name'); ?></label>
-	<input type="text" class="nopad grid_6" id="forms-newname" value="" />
-	<label class="nopad grid_6" for="forms-existing"><?php echo $this->translate('Select a form'); ?></label>
-	<select class="nopad grid_6" id="forms-existing"></select>
-	<label class="nopad grid_6" for="forms-captcha"><?php echo $this->translate('Use captcha'); ?></label>
-	<div class="nopad grid_6"><input type="checkbox" id="forms-captcha" /></div>
-	<div class="grid_12"><input class="formsubmit" type="submit" id="forms-done" name="done" value="Done" /></div>
+<form action="javascript:;" method="post" data-name="form" id="forms-widget-form" class="wmc-block">
+	<?php echo $this->formLabel('forms-newname', $this->translate('Form name'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('formsNewname', '', array('id' => 'forms-newname', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('forms-existing', $this->translate('Select a form'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formSelect('formsExisting', null, array('id' => 'forms-existing', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('forms-captcha', $this->translate('Use captcha'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
+	</div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-forms')); ?>
+	</div>
 </form>
-
 <script type="text/javascript">
 	$(function() {
-		$('#forms-img').live('click', function() {
-			loadForms();
-			$('#widgets-header').text('<?php echo $this->translate('Forms'); ?>').fadeIn();
-			$('#widget-controls').html($('#forms-widget-form').html());
-			//$('#forms-widget-form').slideDown();
-		});
-
-
-		$('#forms-done').live('click', function() {
-			var formName   = ($('#forms-existing').val() == 0) ? $('#forms-newname').val() : $('#forms-existing').val();
-			var useCaptcha = ($('#forms-captcha').attr('checked') ? ':captcha' : '');
-			var widget = '{$form:' + formName + useCaptcha + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
-		})
-
-	});
-
-	function loadForms() {
+		var formsSelect = $('#forms-existing');
 		$.post($('#website_url').val() + 'backend/backend_form/loadforms/', function(response) {
 			if(response.formsNames.length) {
 				$.each(response.formsNames, function(val) {
-					$('#forms-existing')
-					.append($('<option></option>').attr({
-						value: response.formsNames[val]
-					})
-					.text(response.formsNames[val]));
-				})
-				$('#forms-existing').prepend('<option value="0" selected="selected">Select a form</option>')
+					formsSelect.append($('<option></option>').attr({value: response.formsNames[val]}).text(response.formsNames[val]));
+				});
 			}
-		})
-	}
+			formsSelect.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a form'); ?></option>')
+		});
+
+		$(document).on('click', '.apply-widget-forms', function() {
+			var widgetForm = $(this).closest('form');
+			var widgetHtml = '{$' + widgetForm.data('name');
+			if($('#forms-newname').val().trim() != '') {
+				widgetHtml += ':' + $('#forms-newname').val()
+			} else if($('#forms-existing').val() != 0) {
+				widgetHtml += ':' + $('#forms-existing').val();
+			} else {
+				$('#forms-existing').addClass('red-border');
+				$('#forms-newname').addClass('red-border');
+				widgetHtml = '';
+			}
+			if(widgetHtml != '') {
+				widgetHtml += ($('#forms-captcha').prop('checked') ? ':1}' : '}');
+				$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, widgetHtml);
+			}
+		});
+	});
 </script>

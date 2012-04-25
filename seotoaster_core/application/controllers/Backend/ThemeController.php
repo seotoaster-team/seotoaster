@@ -291,7 +291,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				'fullName'      => $template->getName(),
 				'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
 				'content'       => $template->getContent(),
-				'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] : 'system/images/no_preview.png'
+				'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] : false //'system/images/no_preview.png'
 			));
 		}
 		return $templateList;
@@ -452,8 +452,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		}
 
 		//updating config table
-		$configTable = new Application_Model_DbTable_Config();
-		$updateConfig = $configTable->update(array('value' => $themeName), array('name = ?'=>'currentTheme'));
+		Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
 
 		return $errors;
 	}

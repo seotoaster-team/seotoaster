@@ -1,30 +1,20 @@
-<div class="widget-control-img" id="related-img"></div>
-<form class="wmc-block" action="javascript:;" id="related-widget-form" style="display: none;" method="post">
-	<label class="nopad grid_6" for="related-rel"><?php echo $this->translate('Relevance'); ?></label>
-	<input class="nopad grid_6" type="text" id="related-rel" value="<?php echo Widgets_Related_Related::REL_WORD_COUNT; ?>" />
-	<label class="nopad grid_6" for="related-maxres"><?php echo $this->translate('Max. results'); ?></label>
-	<input class="nopad grid_6" type="text" id="related-maxres" value="<?php echo Widgets_Related_Related::REL_MAX_REZULT; ?>" />
-	<label class="nopad grid_6" for="related-maxres"><?php echo $this->translate('Use image'); ?></label>
+<form action="javascript:;" method="post" data-name="related" id="related-widget-form" class="wmc-block">
+	<?php echo $this->formLabel('related-rel', $this->translate('Relevance'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('relatedRel', Widgets_Related_Related::REL_WORD_COUNT, array('id' => 'related-rel', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('related-maxres', $this->translate('Max. results'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('relatedMaxres', Widgets_Related_Related::REL_MAX_REZULT, array('id' => 'related-maxres', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('related-img', $this->translate('Use image'), array('class' => 'nopad grid_6')); ?>
 	<div class="nopad grid_6">
-		<input type="checkbox" id="related-img" />
-		<input class="cropped" type="checkbox" id="related-img-crop" style="display:none;" /><span class="cropped nopad label" style="display:none;" ><?php echo $this->translate('Cropped'); ?>?</span>
+		<?php echo $this->formCheckbox('relatedImg', 'img', array('id' => 'related-img')); ?>
+		<?php echo $this->formLabel('use-image-cropped', $this->translate('Cropped'), array('style' => 'display:none;', 'class' => 'cropped-img')); ?>
+		<?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped', 'style' => 'display:none;', 'class' => 'cropped-img')); ?>
 	</div>
-	<div class="grid_12"><input class="formsubmit" type="submit" id="related-done" name="done" value="<?php echo $this->translate('Done'); ?>" /></div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+	</div>
 </form>
 <script type="text/javascript">
-	(function() {
-		$(function() {
-			$('.widget-control-img#related-img').click(function() {
-				$('#widgets-header').text('<?php echo $this->translate('Related pages'); ?>').fadeIn();
-				$('#widget-controls').html($('#related-widget-form').html());
-			});
-			$(document).on('click', '#related-img', function() {
-				$('.cropped').fadeToggle();
-			});
-			$('#related-done').live('click', function() {
-				widget = '{$related:' + $('#related-rel').val() + ':' + $('#related-maxres').val() + (($('#related-img').attr('checked')) ? ':img' : '') + '}';
-				$('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widget);
-			});
-		})
-	})(jQuery);
+	$(document).on('click', '#related-img', function() {
+	    $('.cropped-img').fadeToggle();
+    });
 </script>

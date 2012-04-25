@@ -11,15 +11,46 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 	 * Default swap time in seconds
 	 *
 	 */
-	const DEFAULT_SWAP_TIME     = '2';
+	const DEFAULT_SWAP_TIME        = '2';
 
-	const DEFAULT_SLIDER_WIDTH  = '250';
+	const DEFAULT_SLIDER_WIDTH     = '250';
 
-	const DEFAULT_SLIDER_HEIGHT = 'auto';
+	const DEFAULT_SLIDER_HEIGHT    = '250';
 
-	const DEFAULT_SWAP_EFFECT   = 'fade';
+	const DEFAULT_SWAP_EFFECT      = 'fade';
 
-	const DEFAULT_PICS_FOLDER   = 'original';
+	const DEFAULT_PICS_FOLDER      = 'original';
+
+	public static $_defaultEffects = array(
+		'blindX'      => 'blindX',
+		'blindY'      => 'blindY',
+		'blindZ'      => 'blindZ',
+		'cover'       => 'cover',
+		'curtainX'    => 'curtainX',
+		'curtainY'    => 'curtainY',
+		'fade'        => 'fade',
+		'fadeZoom'    => 'fadeZoom',
+		'growX'       => 'growX',
+		'growY'       => 'growY',
+		'none'        => 'none',
+		'scrollUp'    => 'scrollUp',
+		'scrollDown'  => 'scrollDown',
+		'scrollLeft'  => 'scrollLeft',
+		'scrollRight' => 'scrollRight',
+		'scrollHorz'  => 'scrollHorz',
+		'scrollVert'  => 'scrollVert',
+		'shuffle'     => 'shuffle',
+		'slideX'      => 'slideX',
+		'slideY'      => 'slideY',
+		'toss'        => 'toss',
+		'turnUp'      => 'turnUp',
+		'turnDown'    => 'turnDown',
+		'turnLeft'    => 'turnLeft',
+		'turnRight'   => 'turnRight',
+		'uncover'     => 'uncover',
+		'wipe'        => 'wipe',
+		'zoom'        => 'zoom'
+	);
 
 	private $_websiteHelper     = null;
 
@@ -70,10 +101,13 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 		$view       = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => $translator->translate('Image rotator'),
-			'content' => $view->render('wmcontent.phtml')
+			'title'   => $translator->translate('Image rotator'),
+			'content' => $view->render('wmcontent.phtml'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/imageRotator.png',
+			)
 		);
 
 		unset($view);

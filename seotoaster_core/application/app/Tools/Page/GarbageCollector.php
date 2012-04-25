@@ -14,6 +14,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 	protected function _runOnUpdate() {
 		$this->_cleanDraftCache();
 		$this->_cleanOptimized();
+		$this->_resetSearchIndexRenewFlag();
 	}
 
 
@@ -21,6 +22,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 		$this->_removePageUrlFromContent();
 		Tools_Filesystem_Tools::saveFile('sitemap.xml', Tools_Content_Feed::generateSitemapFeed());
 		Tools_Search_Tools::removeFromIndex($this->_object->getId());
+		$this->_resetSearchIndexRenewFlag();
 	}
 
 	/**
@@ -80,6 +82,11 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 		if($optimizedExists && !$this->_object->getOptimized()) {
 			$optimizedDbTable->delete(array('page_id = ?' => $this->_object->getId()));
 		}
+	}
+
+	private function _resetSearchIndexRenewFlag() {
+		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		$cacheHelper->clean(null, null, array('search_index_renew'));
 	}
 }
 

@@ -83,8 +83,12 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
 
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			//'title'   => '', //$translator->translate('Featured'),
+			'title'   => $translator->translate('Featured'),
+			'icons'   => array(
+				$websiteHelper->getUrl() . 'system/images/widgets/featured.png',
+			),
 			'content' => $view->render('wmcontent.phtml')
 		);
 
