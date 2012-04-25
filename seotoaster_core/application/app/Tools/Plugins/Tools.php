@@ -47,7 +47,7 @@ class Tools_Plugins_Tools {
 				}
 				array_walk($items, array('self', '_processPluginMenuItem'), $plugin);
 				if (isset($additionalMenu[$title]['items'])){
-					$additionalMenu[$title]['items'] += $items;
+					$additionalMenu[$title]['items'] = array_merge($additionalMenu[$title]['items'], $items);
 				} else {
 					$additionalMenu[$title]['items'] = $items;
 				}
