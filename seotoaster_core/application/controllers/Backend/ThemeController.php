@@ -452,8 +452,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		}
 
 		//updating config table
-		$configTable = new Application_Model_DbTable_Config();
-		$updateConfig = $configTable->update(array('value' => $themeName), array('name = ?'=>'currentTheme'));
+		Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
 
 		return $errors;
 	}

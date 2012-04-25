@@ -7,6 +7,12 @@
 
 	<?php echo $this->formLabel('feed-maxch', $this->translate('Max. chars.'), array('class' => 'nopad grid_6')); ?>
 	<?php echo $this->formText('feedMaxch', Widgets_Rss_Rss::RSS_DESC_LENGTH, array('id' => 'feed-maxch', 'class' => 'nopad grid_6')); ?>
+
+	<?php echo $this->formLabel('feed-item-img', $this->translate('Use image'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('useImage', 'img', array('id' => 'feed-item-img')); ?>
+	</div>
+
 	<div class="grid_12 nopad">
 		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
 	</div>

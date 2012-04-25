@@ -29,22 +29,32 @@ class Tools_Plugins_Tools {
 			}
 
 			try {
-				$configIni  = new Zend_Config_Ini($pluginConfigPath);
-				$configData = (isset($configIni->$userRole) ? $configIni->$userRole->toArray() : (isset($configIni->cpanel) ? $configIni->cpanel->toArray() : array()));
-				if(empty($configData)) {
+				$configIni = new Zend_Config_Ini($pluginConfigPath);
+				$items     = array();
+
+				if(!isset($configIni->cpanel)) {
 					continue;
 				}
-				$additionalMenu[$plugin->getName()]['title'] = strtoupper((isset($configData['title'])) ? $configData['title'] : $plugin->getName());
-				if(isset($configData['items'])) {
-					$additionalMenu[$plugin->getName()]['items'] = array_map(function($item) {
-						$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-						$replaceMap    = array('search'  => array('{url}', '\''), 'replace' => array($websiteHelper->getUrl(), '"'));
-						return str_replace($replaceMap['search'], $replaceMap['replace'], $item);
-					}, $configData['items']);
+
+				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
+				$additionalMenu[$title]['title'] = $title;
+
+				if(isset($configIni->cpanel->items)) {
+					$items = array_values($configIni->cpanel->items->toArray());
 				}
+				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
+					$items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
+				}
+				array_walk($items, array('self', '_processPluginMenuItem'), $plugin);
+				if (isset($additionalMenu[$title]['items'])){
+					$additionalMenu[$title]['items'] += $items;
+				} else {
+					$additionalMenu[$title]['items'] = $items;
+				}
+
 			}
 			catch (Zend_Config_Exception $zce) {
-				//error_log($zce->getMessage() . "\n" . $zce->getTraceAsString()); die(); //development
+				//Zend_Debug::dump($zce->getMessage()); die(); //development
 				continue; //production
 			}
 		}
@@ -52,20 +62,25 @@ class Tools_Plugins_Tools {
 		return $additionalMenu;
 	}
 
-//	private static function _processPluginMenuItem($item) {
-//		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-//		$replaceMap    = array(
-//			'search'  => array(
-//				'{url}',
-//				'\''
-//			),
-//			'replace' => array(
-//				$websiteHelper->getUrl(),
-//				'"'
-//			)
-//		);
-//		return str_replace($replaceMap['search'], $replaceMap['replace'], $item);
-//	}
+	private static function _processPluginMenuItem(&$item, $index, $plugin) {
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		if (is_string($item)){
+			$item = strtr($item, array(
+				'{url}' => $websiteHelper->getUrl(), '\''    => '"'
+			));
+		} elseif (is_array($item)) {
+			$item = array_merge(
+				array(
+					'run'       => 'index',
+					'name'      => $plugin->getName(),
+					'width'     => null,
+					'height'    => null
+				),
+				$item
+			);
+		}
+		return $item;
+	}
 
 	public static function getWidgetmakerContent() {
 		return self::_getData('getWidgetMakerContent');

@@ -250,8 +250,9 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'SMTP Login',
 		));
 		$this->addElement('password', 'smtpPassword', array(
-			'value' => $this->_smtpPassword,
-			'label' => 'SMTP Password'
+			'value'  => $this->_smtpPassword,
+			'label'  => 'SMTP Password',
+			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
 		$this->addElement('text', 'smtpPort', array(
@@ -289,7 +290,8 @@ class Application_Form_Config extends Zend_Form {
 			'value' => $this->_suPassword,
 			'label' => 'Password',
 			'validators' => array(array('StringLength', true, array(4))),
-			'ignore' => true
+			'ignore' => true,
+			'placeholder' => '*******'
 		));
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(

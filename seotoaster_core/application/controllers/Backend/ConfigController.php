@@ -74,7 +74,11 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				//$showMemberOnlyPages = intval($configForm->getElement('memPagesInMenu')->getValue());
 
 				//proccessing form to db
-				$this->_configMapper->save($configForm->getValues());
+				$config = $configForm->getValues();
+				if ($config['smtpPassword'] === null && null === $this->getRequest()->getParam('smtpPassword', null)){
+					unset($config['smtpPassword']);
+				}
+				$this->_configMapper->save($config);
 				$this->_helper->flashMessenger->addMessage('Setting saved');
 			} else {
 				if ($configForm->proccessErrors()) {
@@ -119,10 +123,10 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 		$triggers = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getTriggers(true);
 		$this->view->triggers = array_combine($triggers, $triggers);
-		array_unshift($this->view->triggers,  'select action');
+		array_unshift($this->view->triggers,  'select trigger');
 		$recipients = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
 		$this->view->recipients = array_combine($recipients, $recipients);
-		array_unshift($this->view->recipients,  'select receiver');
+		array_unshift($this->view->recipients,  'select recipient');
 
 		$templates = Application_Model_Mappers_TemplateMapper::getInstance()->findByType(Application_Model_Models_Template::TYPE_MAIL);
 		$this->view->templates = array('select template');

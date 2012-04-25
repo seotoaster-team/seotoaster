@@ -66,7 +66,7 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 			);
 			$i++;
 		}
-		$this->_view->useImage = (isset($this->_options[2]) && $this->_options[2] == 'img') ? true : false;
+		$this->_view->useImage = (isset($this->_options[3]) && $this->_options[3] == 'img') ? true : false;
 		$this->_view->feed     = $feeds;
 		return $this->_view->render('rss.phtml');
 	}
@@ -91,7 +91,7 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 
 
 	private function _getRssEntryImage($content) {
-		preg_match('~<img\s+.*src=".+".*\s+/>~uUi', $content, $matches);
+		preg_match('~<img\s+.*src=".+".*\s*/>~uUi', $content, $matches);
 		return (!empty ($matches)) ? $matches[0] : '';
 	}
 

@@ -8,7 +8,7 @@
 			<ul>
 				<li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
 				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
-				<li><a href="#action-triggers"><?php echo $this->translate('Actions emails'); ?></a></li>
+				<li><a href="#action-triggers"><?php echo $this->translate('Action emails'); ?></a></li>
 				<?php if ($this->isSuperAdmin): ?>
 					<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
 					<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
@@ -83,7 +83,7 @@
 			</div>
 
 			<div id="action-triggers" class="clearfix h200" style="overflow-x: hidden; overflow-y: scroll;">
-				<div><button id="new-trigger-action"><?php echo $this->translate('Add'); ?></button></div>
+				<div><button class="blue-btn" id="new-trigger-action"><?php echo $this->translate('Add'); ?></button></div>
 			</div>
 			<?php if ($this->isSuperAdmin): ?>
 				<div id="security-config" class="clearfix">
@@ -158,5 +158,10 @@
 	}
 	fieldset.trigger-action select {
 		width: 180px;
+	}
+	#new-trigger-action {
+		position: fixed;
+		bottom: 10px;
+		left: 10px;
 	}
 </style>
