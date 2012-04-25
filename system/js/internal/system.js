@@ -264,3 +264,8 @@ function closePopup() {
 		console.log('Alarm! Something went wrong!');
 	}
 }
+
+function generateStorageKey() {
+	var actionUrlComponents = $('#frm_content').attr('action').split('/');
+	return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
+}

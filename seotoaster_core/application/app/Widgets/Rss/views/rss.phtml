@@ -3,7 +3,7 @@
 <ul class="listxrss">
 	<?php foreach ($this->feed as $entry): ?>
 		<li>
-			<a href="<?php echo $entry['link']; ?>" title="<?php echo $entry['title']; ?>"><?php echo $entry['title']; ?></a>
+			<a href="<?php echo $entry['link']; ?>" title="<?php echo $entry['title']; ?>" class="page-title"><?php echo $entry['title']; ?></a>
 			<?php if($this->useImage && $entry['image']): ?>
 				<a href="<?php echo $entry['link']; ?>" title="<?php echo $entry['title']; ?>"><?php echo $entry['image']; ?></a>
 			<?php endif; ?>

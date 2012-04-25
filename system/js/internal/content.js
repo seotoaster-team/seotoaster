@@ -112,7 +112,7 @@ $(function() {
 			$('#content').val(restoredContent);
 		}, function() {
 			localStorage.removeItem(generateStorageKey());
-		})
+		}, 'success');
 	}
 })
 
@@ -123,11 +123,6 @@ function dispatchEditorKeyup(editor, event) {
 		    editor.keyUpTimer = null;
 	    }, 1000)
     }
-}
-
-function generateStorageKey() {
-	var actionUrlComponents = $('#frm_content').attr('action').split('/');
-	return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
 }
 
 function insertFileLink(fileName) {
