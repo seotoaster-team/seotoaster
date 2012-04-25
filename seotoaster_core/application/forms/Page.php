@@ -62,8 +62,7 @@ class Application_Form_Page extends Zend_Form {
 			'value'    => $this->_url,
 			'required' => true,
 			'filters'  => array(
-				new Zend_Filter_StringTrim('.'),
-				//new Zend_Filter_Alnum(array('allowwhitespace' => true))
+				new Zend_Filter_StringTrim('.')
 			)
 		)));
 

@@ -26,6 +26,12 @@ class Application_Form_Signup extends Application_Form_User {
 				'timeout'        => 300
 			)
 		)));
+
+		$this->getElement('email')->addValidator(new Zend_Validate_Db_NoRecordExists(array(
+			'table' => 'user',
+		    'field' => 'email'
+		)));
+
 		$this->addElement(($saveButton->setLabel('Sign Up')));
 		$this->_initDecorators();
 	}
