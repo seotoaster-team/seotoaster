@@ -266,6 +266,9 @@ function closePopup() {
 }
 
 function generateStorageKey() {
-	var actionUrlComponents = $('#frm_content').attr('action').split('/');
-	return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
+	if($('#frm_content').length) {
+		var actionUrlComponents = $('#frm_content').attr('action').split('/');
+		return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
+	}
+	return null;
 }
