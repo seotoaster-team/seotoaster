@@ -13,9 +13,6 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		$linkText      = htmlentities($this->view->translate($linkText));
 		$winsize       = $this->_getValidWinSize($winSizeType);
 
-		$routeParams = array();
-		$routeName   = '';
-
 		switch ($controller){
 			case (strpos($controller, 'backend') === 0):
 				$routeParams = array(

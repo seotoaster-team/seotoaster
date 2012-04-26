@@ -49,6 +49,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$cacheFrontendOptions = $config->cache->cache->frontend->toArray();
 		$cacheBackendOptions  = $config->cache->cache->backend->toArray();
 		$cache = Zend_Cache::factory('Core', 'File', $cacheFrontendOptions, $cacheBackendOptions);
+		Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 		Zend_Registry::set('cache', $cache);
 	}
 
