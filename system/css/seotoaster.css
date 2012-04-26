@@ -1722,15 +1722,12 @@ input[type=checkbox].cropped {
 	display: inline-block;
 }
 .container-wrapper {
-    border: 1px dashed transparent;
-            box-sizing: border-box;
-       -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    outline: 1px dashed transparent;
 }
 .container-wrapper:hover {
-    border: 1px dashed #AAAAAA;
+    outline: 1px dashed #AAAAAA;
 }
 .container-wrapper.unpublished {
-    border-color: red;
-    border-style: dashed;
+    outline-color: red;
+    outline-style: dashed;
 }
