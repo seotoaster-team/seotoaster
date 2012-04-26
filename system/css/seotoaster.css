@@ -786,7 +786,7 @@ div#widgets_maker div.nopad {
 }
 
 div#widgets_maker select.nopad {
-	padding: 2px 0;
+	padding: 2px 1px;
 	margin-left: 0;
 	margin-right: 0;
 }
