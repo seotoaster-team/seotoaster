@@ -10,9 +10,11 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 
 	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$linkText    = $this->view->translate($linkText);
+		$linkText      = htmlentities($this->view->translate($linkText));
+		$winsize       = $this->_getValidWinSize($winSizeType);
 
-		$winsize = $this->_getValidWinSize($winSizeType);
+		$routeParams = array();
+		$routeName   = '';
 
 		switch ($controller){
 			case (strpos($controller, 'backend') === 0):
@@ -27,6 +29,13 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 					'name' => $action
 				);
 				$routeName = 'pluginroute';
+				break;
+			default:
+				$routeParams = array(
+					'controller' => 'backend_' . $controller,
+					'action'     => $action
+				);
+				$routeName = 'backend';
 				break;
 		}
 		if (is_array($params)) {

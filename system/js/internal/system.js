@@ -128,7 +128,7 @@ $(function() {
 			},
 			error: function(err) {
 				$('.smoke-base').remove();
-				showMessage('Error accured', true);
+				showMessage('Oops! sorry but something fishy is going on - try again or call for support.', true);
 			}
 		})
 	})
