@@ -14,7 +14,10 @@ seotoaster_core/application/configs/routes.xml
 error.log
 .zfproject.xml
 nbproject/*
-sitemap.xml
+sitemap*
+!sitemap.xml.default
+!sitemapnews.xml.default
+!sitemapindex.xml.default
 system/coreinfo.php
 tests/*
 robots.txt

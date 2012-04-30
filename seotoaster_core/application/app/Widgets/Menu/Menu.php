@@ -12,13 +12,13 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 		$this->_view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
-		$website = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$this->_view->websiteUrl = $website->getUrl();
 	}
 
 	protected function  _load() {
+        $website      = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$menuType     = $this->_options[0];
 		$rendererName = '_render' . ucfirst($menuType) . 'Menu';
+        $this->_view->websiteUrl = $website->getUrl();
 		if(method_exists($this, $rendererName)) {
 			return $this->$rendererName();
 		}
@@ -26,32 +26,30 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	}
 
 	private function _renderMainMenu() {
-		$pagesList       = array();
-		$pages           = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
-		$configHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
-		if(($showMemberPages = $configHelper->getConfig('memPagesInMenu')) == null) {
-			$showMemberPages = true;
-		}
+        $pagesList       = array();
+        $pages           = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
+        $configHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $showMemberPages = (boolean) $configHelper->getConfig('memPagesInMenu');
+        $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
+        foreach ($pages as $key => $page) {
+            if($page->getParentId() == 0) {
+                if($page->getResourceId() == Tools_Security_Acl::RESOURCE_PAGE_PROTECTED && !$isAllowed && !$showMemberPages) {
+                    continue;
+                }
 
-		$showMemberPages = $configHelper->getConfig('memPagesInMenu');
-		foreach ($pages as $key => $page) {
-			if($page->getParentId() == 0) {
-				if(!Tools_Security_Acl::isAllowed($page) && !$showMemberPages) {
-					continue;
-				}
-				$pagesList[$key]['category'] = $page;
-				foreach ($pages as $subPage) {
-					if(!Tools_Security_Acl::isAllowed($subPage) && !$showMemberPages) {
-						continue;
-					}
-					if($subPage->getParentId() == $page->getId()) {
-						$pagesList[$key]['subPages'][] = $subPage;
-					}
-				}
-			}
-		}
-		$this->_view->pages = $pagesList;
-		return $this->_view->render('mainmenu.phtml');
+                $pagesList[$key]['category'] = $page;
+                foreach ($pages as $subPage) {
+                    if($subPage->getResourceId() == Tools_Security_Acl::RESOURCE_PAGE_PROTECTED && !$isAllowed && !$showMemberPages) {
+                        continue;
+                    }
+                    if($subPage->getParentId() == $page->getId()) {
+                        $pagesList[$key]['subPages'][] = $subPage;
+                    }
+                }
+            }
+        }
+        $this->_view->pages = $pagesList;
+        return $this->_view->render('mainmenu.phtml');
 	}
 
 	private function _renderFlatMenu() {

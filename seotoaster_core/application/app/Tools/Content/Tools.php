@@ -150,7 +150,7 @@ class Tools_Content_Tools {
 
 	public static function getMediaServer(){
         $mediaServers = self::getMediaServers();
-        return $mediaServers[array_rand($mediaServers)];
+        return (!empty($mediaServers)) ? $mediaServers[array_rand($mediaServers)] : '';
     }
 
 	public static function getMediaServers($string = false) {
