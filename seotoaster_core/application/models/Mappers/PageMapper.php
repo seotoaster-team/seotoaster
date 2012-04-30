@@ -100,7 +100,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllMainMenuPages() {
-
         return $this->getDbTable()->fetchAllMenu(Application_Model_Models_Page::IN_MAINMENU);
 	}
 
