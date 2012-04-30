@@ -133,5 +133,38 @@ class Tools_System_Tools {
 		}
 		return $hash;
 	}
+
+	public static function sqlProfiler(){
+		if (APPLICATION_ENV !== 'development' || !isset($_COOKIE['_profileSql'])) {
+			exit;
+		}
+		$profiler   = Zend_Db_Table_Abstract::getDefaultAdapter()->getProfiler();
+		$totalTime  = $profiler->getTotalElapsedSecs();
+		$queryCount = $profiler->getTotalNumQueries();
+
+		$pageUrl = Zend_Controller_Front::getInstance()->getRequest()->getRequestUri();
+		$htmlResult  = '<pre id="seotoaster-profiler-out">';
+		$htmlResult .= '<h1>'.$pageUrl.'</h1>'.PHP_EOL;
+		$htmlResult .= '';
+		$htmlResult .= '<table border="1"><thead><tr><th>QUERY</th><th>TIME (sec)</th></tr></thead><tbody>';
+		foreach ($profiler->getQueryProfiles() as $query) {
+			$htmlResult .= sprintf('<tr><td>%s</td><td>%s</td></tr>', $query->getQuery(), number_format($query->getElapsedSecs(), 6));
+		}
+		$htmlResult .='</tbody>';
+		$htmlResult .='<tfoot><tr><th>TOTAL '.$queryCount.'</th><th>'.number_format($totalTime, 6).'</th></tr></tfoot>';
+		$htmlResult .='</pre>';
+
+		$pathToTmp = Zend_Controller_Action_HelperBroker::getExistingHelper('website')->getPath() . 'tmp/';
+		$reportName = 'sqlprofile_'.'_pid-'.getmypid().'_'.date('Ymd').'.html';
+		try {
+			Tools_Filesystem_Tools::saveFile($pathToTmp.$reportName, $htmlResult);
+		} catch (Exception $e){
+
+		}
+
+		if (!Zend_Controller_Front::getInstance()->getRequest()->isXmlHttpRequest()){
+			echo '<a href="tmp/'.$reportName.'" target="_blank">view sql profile</a>';
+		}
+	}
 }
 

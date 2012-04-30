@@ -192,5 +192,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
 		Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
 	}
+
+	protected function _initDbProfiler() {
+		if (APPLICATION_ENV === 'development') {
+			if (isset($_GET['_profileSql'])){
+				setcookie('_profileSql', $_GET['_profileSql']);
+			}
+			$profiler = new Zend_Db_Profiler();
+			$profiler->setEnabled(true);
+			Zend_Db_Table_Abstract::getDefaultAdapter()->setProfiler($profiler);
+			register_shutdown_function(array('Tools_System_Tools', 'sqlProfiler'));
+		}
+	}
 }
 
