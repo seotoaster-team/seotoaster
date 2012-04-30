@@ -65,21 +65,24 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		$order[]   = 'order';
 		$entries   = array();
 		$resultSet = $this->getDbTable()->fetchAll($where, $order);
-		if(null === $resultSet) {
+
+        if(null === $resultSet) {
 			return null;
 		}
 	    $this->_originalsOnly = $originalsOnly;
-		$entries              = array_map(array($this, '_callbackFetchAll'), $resultSet->toArray());
+        if(!$resultSet || empty($resultSet)) {
+            return null;
+        }
+        foreach($resultSet as $row) {
+            $row = new Zend_Db_Table_Row(array(
+                'table' => $this->getDbTable(),
+                'data'  => $row->toArray()
+            ));
+            $entries[] = $this->_toModel(($this->_originalsOnly) ? $row->toArray() : $this->_optimizedRowWalk($row)->toArray());
+        }
 		return $entries;
 	}
 
-	private function _callbackFetchAll($row) {
-		$row = new Zend_Db_Table_Row(array(
-			'table' => $this->getDbTable(),
-			'data'  => $row
-		));
-		return $this->_toModel(($this->_originalsOnly) ? $row->toArray() : $this->_optimizedRowWalk($row)->toArray());
-	}
 
 	public function fetchAllUrls() {
 		$urls  = array();
@@ -97,8 +100,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllMainMenuPages() {
-		$where = $this->getDbTable()->getAdapter()->quoteInto("show_in_menu = '?'", Application_Model_Models_Page::IN_MAINMENU);
-		return $this->fetchAll($where);
+
+        return $this->getDbTable()->fetchAllMenu(Application_Model_Models_Page::IN_MAINMENU);
 	}
 
 	public function fetchAllDraftPages() {

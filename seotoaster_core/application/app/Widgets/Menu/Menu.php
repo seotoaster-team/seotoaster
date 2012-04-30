@@ -31,19 +31,19 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
         $configHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $showMemberPages = (boolean) $configHelper->getConfig('memPagesInMenu');
         $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
-        foreach ($pages as $key => $page) {
-            if($page->getParentId() == 0) {
-                if($page->getResourceId() == Tools_Security_Acl::RESOURCE_PAGE_PROTECTED && !$isAllowed && !$showMemberPages) {
+
+        foreach($pages as $key => $page) {
+            if($page['parentId'] == 0) {
+                if($page['protected'] && !$isAllowed && !$showMemberPages) {
                     continue;
                 }
-
                 $pagesList[$key]['category'] = $page;
-                foreach ($pages as $subPage) {
-                    if($subPage->getResourceId() == Tools_Security_Acl::RESOURCE_PAGE_PROTECTED && !$isAllowed && !$showMemberPages) {
+                foreach($pages as $subPage) {
+                    if($subPage['protected'] && !$isAllowed && !$showMemberPages) {
                         continue;
                     }
-                    if($subPage->getParentId() == $page->getId()) {
-                        $pagesList[$key]['subPages'][] = $subPage;
+                    if($subPage['parentId'] == $page['id']) {
+                       $pagesList[$key]['subPages'][] = $subPage;
                     }
                 }
             }
