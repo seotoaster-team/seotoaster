@@ -27,7 +27,8 @@
 			<?php if($template['preview_image']): ?>
 				<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
 			<?php else: ?>
-		     	<div style="margin-top: 20px;padding: 0 5px;"><?php echo ucfirst($template['name']); ?></div>
+		     	<div style="margin-top: 20px;padding: 0 5px; font-size: 24px;"><?php echo ucfirst($template['name']); ?></div><br/>
+                <span>(<?php echo $this->translate('used %s times', $template['pagesCount']); ?>)</span>
 			<?php endif; ?>
 		</div>
 		<div class="template_name">

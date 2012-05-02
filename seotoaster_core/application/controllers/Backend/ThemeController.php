@@ -291,7 +291,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				'fullName'      => $template->getName(),
 				'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
 				'content'       => $template->getContent(),
-				'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] : false //'system/images/no_preview.png'
+				'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] : false, //'system/images/no_preview.png'
+                'pagesCount'    => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
 			));
 		}
 		return $templateList;
