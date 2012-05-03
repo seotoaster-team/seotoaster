@@ -404,7 +404,8 @@ class Application_Form_Page extends Zend_Form {
 		$field = $this->getElement($fieldName)
 			->setAttribs(array(
 				'disabled' => true,
-				'readonly' => true
+				'readonly' => true,
+                'class'    => 'noedit'
 			));
 	}
 

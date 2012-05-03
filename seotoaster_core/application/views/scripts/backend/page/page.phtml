@@ -9,7 +9,7 @@
 		));
 		$optimizedCheck = '';
 	    if($this->sambaOptimized):
-			$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . $this->translate('Optimized by SEO Samba');
+			$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized');
 		endif;
 		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck));
 	?>

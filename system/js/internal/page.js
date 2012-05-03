@@ -50,25 +50,39 @@ $(function() {
 
 	$('#optimized').val($('#toggle-optimized').attr('checked') ? 1 : 0);
 	$(document).on('click', '#toggle-optimized', function(e) {
-		var optimized = ($(this).attr('checked') ? 1 : 0);
-		$('#optimized').val(optimized);
-		$.post($('#website_url').val() + 'backend/backend_page/toggleoptimized/', {
-			pid: $('#pageId').val(),
-			optimized: optimized
-		}, function(response) {
-			$.each(response.data, function(key, val) {
-				var field  = $('[name=' + key + ']', $('#frm-page'));
-				var submit = $('#update-page');
-				field.val(val);
-				if(optimized) {
-					field.attr('disabled', true).attr('readonly', 'readonly');
-				} else {
-					field.removeAttr('disabled').removeAttr('readonly');
-				}
-			});
-		}, 'json')
+        var optCheck  = $(this);
+        var optimized = optCheck.attr('checked') ? 1 : 0;
+        if(!optimized) {
+            showConfirm('Are you sure? After you save the page all optimization will be lost!', function() {
+                toggleOptimized(optimized);
+            }, function() {
+                optCheck.attr('checked', true);
+            });
+        } else {
+            toggleOptimized(optimized);
+        }
+
 	});
 })
+
+function toggleOptimized(optimized) {
+    $('#optimized').val(optimized);
+    $.post($('#website_url').val() + 'backend/backend_page/toggleoptimized/', {
+        pid: $('#pageId').val(),
+        optimized: optimized
+    }, function(response) {
+        $.each(response.data, function(key, val) {
+            var field  = $('[name=' + key + ']', $('#frm-page'));
+            var submit = $('#update-page');
+            field.val(val);
+            if(optimized) {
+                field.attr('disabled', true).attr('readonly', 'readonly').addClass('noedit');
+            } else {
+                field.removeAttr('disabled').removeAttr('readonly').removeClass('noedit');
+            }
+        });
+    }, 'json');
+}
 
 function datepickerCallback() {
 	$('#publish-at').val($(this).val());
