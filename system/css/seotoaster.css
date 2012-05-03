@@ -1055,6 +1055,10 @@ div#page-teaser-uploader span.ui-button-text{
     width: 437px;
 }
 
+.noedit {
+    background-color: #eee !important;
+}
+
 
 #media-toaster-uploader-filelist div.ui-widget p, #page-teaser-uploader-filelist div.ui-widget p, #themes-uploader-filelist div.ui-widget p, #plugin-uploader-filelist div.ui-widget p {
     width: 95%;

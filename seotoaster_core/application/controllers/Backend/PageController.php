@@ -44,9 +44,10 @@ class Backend_PageController extends Zend_Controller_Action {
 				$pageForm->getElement('draft')->setValue($page->getDraft());
 
 				$defaultPageUrl = $this->_helper->website->getDefaultpage();
-				if($pageForm->getElement('url')->getValue() == ($this->_helper->page->clean($defaultPageUrl) || $defaultPageUrl)) {
+				if($pageForm->getElement('url')->getValue() == $this->_helper->page->clean($defaultPageUrl)) {
 					$pageForm->getElement('url')->setAttribs(array(
-						'readonly' => true
+						'readonly' => true,
+                        'class'    => 'noedit'
 					));
 				}
 			}
