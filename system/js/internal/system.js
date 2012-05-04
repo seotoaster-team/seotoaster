@@ -159,7 +159,9 @@ $(function() {
 	}
 	//publishPages();
 
-    $(document).on('dblclick', '.container-wrapper', function(){
+    $(document).on('dblclick', '.container-wrapper', function(e){
+        if (!e.ctrlKey) return false;
+
         var self = this,
             url = $(this).find('.tpopup.generator-links').data('url'),
             editContainer = $('<div></div>');
