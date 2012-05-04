@@ -64,9 +64,13 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'optimizedMetaKeywords'      => 'meta_keywords'
             ))
             ->where($where);
+        $data = $this->getAdapter()->fetchRow($select);
+        if(!$data) {
+            return null;
+        }
         return new Zend_Db_Table_Row(array(
             'table' => $this,
-            'data'  => $this->getAdapter()->fetchRow($select)
+            'data'  => $data
         ));
     }
 
@@ -84,7 +88,10 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             ))
             ->where($where)
             ->order($order);
-        $r = $this->getAdapter()->fetchAll($select);
+        $data = $this->getAdapter()->fetchAll($select);
+        if(!$data) {
+            return null;
+        }
         return new Zend_Db_Table_Rowset(array(
             'table' => $this,
             'rowClass' => $this->getRowClass(),
