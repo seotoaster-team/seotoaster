@@ -64,7 +64,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		$where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
 		$order[]   = 'order';
 		$entries   = array();
-		$resultSet = $this->getDbTable()->fetchAll($where, $order);
+		$resultSet = $this->getDbTable()->fetchAllPages($where, $order);
 
         if(null === $resultSet) {
 			return null;
@@ -74,11 +74,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             return null;
         }
         foreach($resultSet as $row) {
-            $row = new Zend_Db_Table_Row(array(
-                'table' => $this->getDbTable(),
-                'data'  => $row->toArray()
-            ));
-            $entries[] = $this->_toModel(($this->_originalsOnly) ? $row->toArray() : $this->_optimizedRowWalk($row)->toArray());
+            $entries[] = $this->_toModel($row, $originalsOnly);
         }
 		return $entries;
 	}
@@ -183,17 +179,13 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	protected function  _findWhere($where, $fetchSysPages = false) {
 		$sysWhere = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
 		$where   .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
-
 		$row      = $this->getDbTable()->fetchAll($where)->current();
-
 		if(null === $row) {
-
 			//try to find row in the optimized table
 			$optimizedDbTable = new Application_Model_DbTable_Optimized();
 			try {
 				$optimizedRowset  = $optimizedDbTable->fetchAll(str_replace(' AND ' . $sysWhere, '', $where));
-			}
-			catch(Exception $e) {
+			} catch(Exception $e) {
 				return null;
 			}
 			if($optimizedRowset->current() === null) {
@@ -201,10 +193,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			}
 			$row = $optimizedRowset->current()->findParentRow('Application_Model_DbTable_Page');
 		}
-
-		//check in optimized talbe
-		$row = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset : null));
-
+		$row         = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset : null));
 		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
 		$row         = $row->toArray();
 		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
@@ -229,23 +218,42 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function find($id, $originalsOnly = false) {
-		$result = $this->getDbTable()->find($id);
-		if(0 == count($result)) {
+    	$row = $this->getDbTable()->findPage($id);
+		if(null == $row) {
 			return null;
 		}
-		$row = ($originalsOnly) ? $result->current() : $this->_optimizedRowWalk($result->current());
-		return $this->_toModel($row);
+		return $this->_toModel($row, $originalsOnly);
 	}
 
-	protected function _toModel($row) {
+	protected function _toModel($row, $originalsOnly = false) {
 		if($row instanceof Zend_Db_Table_Row) {
 			$row = $row->toArray();
 		}
-		if($this->_optimized) {
-			$row['optimized'] = true;
-			$this->_optimized = false;
+		if(!$originalsOnly && $this->_isOptimized($row)) {
+            $this->_optimized           = false;
+			$row['optimized']           = true;
+            $row['h1']                  = isset($row['optimizedH1']) ? $row['optimizedH1'] : $row['h1'];
+            $row['url']                 = isset($row['optimizedUrl']) ? $row['optimizedUrl'] : $row['url'];
+            $row['header_title']        = isset($row['optimizedHeaderTitle']) ? $row['optimizedHeaderTitle'] : $row['header_title'];
+            $row['nav_name']            = isset($row['optimizedNavName']) ? $row['optimizedNavName'] : $row['nav_name'];
+            $row['targeted_key_phrase'] = isset($row['optimizedTargetedKeyPhrase']) ? $row['optimizedTargetedKeyPhrase'] : $row['targeted_key_phrase'];
+            $row['meta_description']    = isset($row['optimizedMetaDescription']) ? $row['optimizedMetaDescription'] : $row['meta_description'];
+            $row['meta_keywords']       = isset($row['optimizedMetaKeywords']) ? $row['optimizedMetaKeywords'] : $row['meta_keywords'];
 		}
 		return new $this->_model($row);
 	}
+
+    private function _isOptimized($row) {
+        if($row instanceof Zend_Db_Table_Row) {
+            $row = $row->toArray();
+        }
+        $isOptimized = false;
+        foreach($row as $key => $value) {
+            if(false !== (strpos($key, 'optimized', 0))) {
+                $isOptimized = $isOptimized || (boolean)$value;
+            }
+        }
+        return $isOptimized;
+    }
 }
 
