@@ -4,7 +4,7 @@
 		<ol class="grid_12 items-list h520">
 			<?php foreach($this->responseData as $number => $page): ?>
 				<li class="list-row">
-					&nbsp;#<?php echo ++$number; ?>&nbsp;<a class="draft-page-link" data-url="<?php echo $this->websiteUrl . $page['url']; ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $page['h1']; ?>"><?php echo $page['navName']; ?></a>
+					&nbsp;#<?php echo ++$number; ?>&nbsp;<a class="draft-page-link" href="<?php echo $this->websiteUrl . $page['url']; ?>"  target="_blank" title="<?php echo 'Go to page: ', $page['h1']; ?>"><?php echo $page['navName']; ?></a>
 				</li>
 			<?php endforeach; ?>
 		</ol>
@@ -16,8 +16,8 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		$('.draft-page-link').click(function() {
-			top.location.href = $(this).data('url');
-		})
+//		$('.draft-page-link').click(function() {
+//			top.location.href = $(this).data('url');
+//		})
 	})
 </script>
