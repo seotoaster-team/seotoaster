@@ -52,8 +52,12 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	}
 
 	private function _renderFlatMenu() {
-		$this->_view->staticPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
-		return $this->_view->render('staticmenu.phtml');
+        $flatMenuPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
+        if($flatMenuPages && is_array($flatMenuPages) && !empty($flatMenuPages)) {
+            $this->_view->staticPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
+            return $this->_view->render('staticmenu.phtml');
+        }
+        return '';
 	}
 
 	public static function getAllowedOptions() {
