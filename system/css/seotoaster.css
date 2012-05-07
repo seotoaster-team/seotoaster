@@ -786,7 +786,9 @@ div#widgets_maker div.nopad {
 }
 
 div#widgets_maker select.nopad {
-	padding: 2px 0;
+	padding: 2px 1px;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .seotoaster ul.editortabs {
@@ -1051,6 +1053,10 @@ div#page-teaser-uploader span.ui-button-text{
     height: 17px;
     overflow: hidden;
     width: 437px;
+}
+
+.noedit {
+    background-color: #eee !important;
 }
 
 
@@ -1722,15 +1728,12 @@ input[type=checkbox].cropped {
 	display: inline-block;
 }
 .container-wrapper {
-    border: 1px dashed transparent;
-            box-sizing: border-box;
-       -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    outline: 1px dashed transparent;
 }
 .container-wrapper:hover {
-    border: 1px dashed #AAAAAA;
+    outline: 1px dashed #AAAAAA;
 }
 .container-wrapper.unpublished {
-    border-color: red;
-    border-style: dashed;
+    outline-color: red;
+    outline-style: dashed;
 }

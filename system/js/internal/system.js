@@ -128,7 +128,7 @@ $(function() {
 			},
 			error: function(err) {
 				$('.smoke-base').remove();
-				showMessage('Error accured', true);
+				showMessage('Oops! sorry but something fishy is going on - try again or call for support.', true);
 			}
 		})
 	})
@@ -159,7 +159,9 @@ $(function() {
 	}
 	//publishPages();
 
-    $(document).on('dblclick', '.container-wrapper', function(){
+    $(document).on('dblclick', '.container-wrapper', function(e){
+        if (!e.ctrlKey) return false;
+
         var self = this,
             url = $(this).find('.tpopup.generator-links').data('url'),
             editContainer = $('<div></div>');

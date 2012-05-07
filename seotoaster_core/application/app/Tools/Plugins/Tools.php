@@ -37,7 +37,12 @@ class Tools_Plugins_Tools {
 				}
 
 				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
-				$additionalMenu[$title]['title'] = $title;
+				if (!isset($additionalMenu[$title])){
+					$additionalMenu[$title] = array(
+						'title' => $title,
+						'items' => array()
+					);
+				}
 
 				if(isset($configIni->cpanel->items)) {
 					$items = array_values($configIni->cpanel->items->toArray());
@@ -45,13 +50,39 @@ class Tools_Plugins_Tools {
 				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
 					$items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
 				}
-				array_walk($items, array('self', '_processPluginMenuItem'), $plugin);
-				if (isset($additionalMenu[$title]['items'])){
-					$additionalMenu[$title]['items'] += $items;
-				} else {
-					$additionalMenu[$title]['items'] = $items;
-				}
 
+				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+				foreach ($items as $item) {
+					if (is_string($item)){
+						$item = strtr($item, array(
+							'{url}' => $websiteUrl,
+							'\''    => '"'
+						));
+					} elseif (is_array($item)) {
+						$item = array_merge(
+							array(
+								'run'       => 'index',
+								'name'      => $plugin->getName(),
+								'width'     => null,
+								'height'    => null
+							),
+							$item
+						);
+						if (isset($item['section'])){
+							$subTitle = strtoupper($item['section']);
+							if (!isset($additionalMenu[$subTitle])){
+								$additionalMenu[$subTitle] = array(
+									'title' => $subTitle,
+									'items' => array()
+								);
+							}
+							array_push($additionalMenu[$subTitle]['items'], $item);
+							unset($subTitle);
+							continue;
+						}
+					}
+					array_push($additionalMenu[$title]['items'], $item);
+				}
 			}
 			catch (Zend_Config_Exception $zce) {
 				//Zend_Debug::dump($zce->getMessage()); die(); //development
@@ -59,9 +90,13 @@ class Tools_Plugins_Tools {
 			}
 		}
 
+
 		return $additionalMenu;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private static function _processPluginMenuItem(&$item, $index, $plugin) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		if (is_string($item)){

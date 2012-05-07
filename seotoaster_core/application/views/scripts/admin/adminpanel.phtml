@@ -21,6 +21,12 @@
 				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
 				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, array('width' => 480, 'height' => 574)); ?></li>
+			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['PAGES']) && isset($this->additionalMenu['PAGES']['items'])): ?>
+			<?php foreach($this->additionalMenu['PAGES']['items'] as $item):?>
+				<?php echo $this->toasterAdminpanelItem($item); ?>
+			<?php endforeach;?>
+			<?php unset($this->additionalMenu['PAGES']);?>
+			<?php endif;?>
 			</ul>
 		</li>
 		<li>
@@ -28,6 +34,12 @@
 			<ul>
 				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, array('width' => '480', 'height' => '504')); ?></li>
 				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '480', 'height' => '574')); ?></li>
+			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA']) && isset($this->additionalMenu['MEDIA']['items'])): ?>
+			<?php foreach($this->additionalMenu['MEDIA']['items'] as $item):?>
+				<?php echo $this->toasterAdminpanelItem($item); ?>
+			<?php endforeach;?>
+			<?php unset($this->additionalMenu['MEDIA']);?>
+			<?php endif;?>
 			</ul>
 		</li>
 		<li>
@@ -38,6 +50,12 @@
 				<li class="cpanelsubtitle"><?php echo $this->translate('Link strategy'); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
+			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['SEO']) && isset($this->additionalMenu['SEO']['items'])): ?>
+			<?php foreach($this->additionalMenu['SEO']['items'] as $item):?>
+				<?php echo $this->toasterAdminpanelItem($item); ?>
+			<?php endforeach;?>
+			<?php unset($this->additionalMenu['SEO']);?>
+			<?php endif;?>
 			</ul>
 		</li>
 		<li>
@@ -48,6 +66,12 @@
 				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS'), false, false, array('width' => '634', 'height' => '574')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<li><a href="javascript:;" onclick="" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Tokens'); ?></a></li>
+			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT']) && isset($this->additionalMenu['LAYOUT']['items'])): ?>
+			<?php foreach($this->additionalMenu['LAYOUT']['items'] as $item):?>
+				<?php echo $this->toasterAdminpanelItem($item); ?>
+			<?php endforeach;?>
+			<?php unset($this->additionalMenu['LAYOUT']);?>
+			<?php endif;?>
 			</ul>
 		</li>
 		<li>
@@ -58,6 +82,12 @@
 					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<?php endif; ?>
 				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['OTHER']) && isset($this->additionalMenu['OTHER']['items'])): ?>
+			<?php foreach($this->additionalMenu['OTHER']['items'] as $item):?>
+				<?php echo $this->toasterAdminpanelItem($item); ?>
+			<?php endforeach;?>
+			<?php unset($this->additionalMenu['OTHER']);?>
+			<?php endif;?>
 			</ul>
 		</li>
 
@@ -67,21 +97,11 @@
 				<li>
 					<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
 					<?php if(isset($pluginAdditionalMenu['items'])): ?>
-						<ul>
-							<?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
-								<?php if (is_string($menuItem)): ?>
-								<li><?php echo $menuItem; ?></li>
-								<?php elseif (is_array($menuItem) && !empty($menuItem)) :?>
-								<li><?php echo $this->toasterLink(
-									'plugin', $menuItem['name'],
-									isset($menuItem['title'])?$menuItem['title']:$menuItem['run'],
-									array('run' => $menuItem['run']),
-									false,
-									array('width' => $menuItem['width'], 'height' => $menuItem['height'])
-								); ?></li>
-								<?php endif;?>
-							<?php endforeach; ?>
-						</ul>
+					<ul>
+					<?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
+					<?php echo $this->toasterAdminpanelItem($menuItem); ?>
+					<?php endforeach; ?>
+					</ul>
 					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
