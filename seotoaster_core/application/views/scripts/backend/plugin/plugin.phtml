@@ -1,7 +1,7 @@
 <div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins')); ?>
 
-	<div id="upload-plugin" class="grid_12 mb10px">
+	<div id="upload-plugin" class="grid_12">
 		<fieldset>
 			<div class="grid_5"><?php if(extension_loaded('zip')): ?>
 				<?php
@@ -22,8 +22,16 @@
 		</fieldset>
 	</div>
     <div class="grid_12">
-		<fieldset><legend>Plugins list</legend>
-	      <div id="plugins-list" class="h420"></div>
+        <fieldset class="h200">
+            <legend><?php echo $this->translate('Available plugins'); ?></legend>
+            <?php echo $this->toasterFrame('plugins-for-mojo.html', array(
+                'height' => 180
+            )); ?>
+        </fieldset>
+    </div>
+    <div class="grid_12">
+		<fieldset><legend><?php echo $this->translate('Installed plugins'); ?></legend>
+	      <div id="plugins-list" class="h210"></div>
         </fieldset>
     </div>
 </div>
