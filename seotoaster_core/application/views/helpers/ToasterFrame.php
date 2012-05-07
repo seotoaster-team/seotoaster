@@ -1,10 +1,7 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: iamne
- * Date: 5/7/12
- * Time: 7:12 PM
- * To change this template use File | Settings | File Templates.
+ * Toaster frame helper. Create iframe to the main seotoaster website
+ *
  */
 class Zend_View_Helper_Toasterframe extends Zend_View_Helper_Abstract {
 
