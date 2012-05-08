@@ -11,7 +11,7 @@ class Tools_Page_Tools {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
-		$previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . (($croped) ? $websiteHelper->getPreviewcrop() :$websiteHelper->getPreview()), 'jpg|png|jpeg|gif', true, true, false);
+		$previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . (($croped) ? $websiteHelper->getPreviewCrop() :$websiteHelper->getPreview()), 'jpg|png|jpeg|gif', true, true, false);
 
 		$page          = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
 		$websiteUrl    = ($configHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUr());
