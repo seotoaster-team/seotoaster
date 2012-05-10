@@ -1359,7 +1359,7 @@ list-style: square;
 
 .seotoaster .plugins-list .plugin-item {
 	float: left;
-	margin: 4px 5px 5px;
+	margin: 7px 5px;
 	box-shadow: 0 0 4px #CCCCCC;
 	-moz-box-shadow: 0 0 4px #CCCCCC;
 	-web-box-shadow: 0 0 4px #CCCCCC;
