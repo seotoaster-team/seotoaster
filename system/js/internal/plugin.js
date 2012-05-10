@@ -1,5 +1,5 @@
 $(function() {
-	pluginCallback();
+	//pluginCallback();
 	$(document).on('click', '.plugin-control', function() {
 		triggerPlugin('install', $(this));
 	}).on('click', '.plugin-endis', function() {
@@ -41,7 +41,7 @@ $(function() {
 
 function pluginCallback() {
 	$.getJSON($('#website_url').val() + 'backend/backend_plugin/list/', function(response) {
-		$('#plugins-list').html(response.pluginsList);
+		$('.plugins-list').html(response.pluginsList);
 		$('.plugin-control, .plugin-endis').button();
 	})
 }

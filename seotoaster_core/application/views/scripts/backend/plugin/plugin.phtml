@@ -1,3 +1,8 @@
+<style type="text/css">
+    .ui-tabs .ui-tabs-panel {
+        padding: 5px;
+    }
+</style>
 <div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins')); ?>
 
@@ -22,17 +27,32 @@
 		</fieldset>
 	</div>
     <div class="grid_12">
-        <fieldset class="h200">
-            <legend><?php echo $this->translate('Available plugins'); ?></legend>
-            <?php echo $this->toasterFrame('plugins-for-mojo.html', array(
-                'height' => 180
-            )); ?>
-        </fieldset>
-    </div>
-    <div class="grid_12">
-		<fieldset><legend><?php echo $this->translate('Installed plugins'); ?></legend>
-	      <div id="plugins-list" class="h210"></div>
-        </fieldset>
+        <?php
+            $this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 400)), array(
+                'title' => $this->translate('Available plugins')
+            ));
+
+            $this->tabPane('plugintab', '<div class="plugins-list"></div>', array(
+                'title'      => $this->translate('Installed plugins'),
+                'contentUrl' => $this->websiteUrl . 'backend/backend_plugin/list/',
+            ));
+
+            echo $this->tabContainer('plugintab', array(), array('class' => 'plugintabs'));
+        ?>
+
+
     </div>
 </div>
+<script type="text/javascript">
+    $('#plugintab').tabs({
+        'ajaxOptions': {
+            success: function(xhr, status, index, anchor) {
+                $('#ui-tabs-1').addClass('plugins-list h400');
+                $('.plugins-list').html(xhr.pluginsList);
+                $('.plugin-control, .plugin-endis').button();
+                //return;
+            }
+        }
+    })
+</script>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.js'); ?>
