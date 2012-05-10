@@ -28,7 +28,7 @@
 	</div>
     <div class="grid_12">
         <?php
-            $this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 400)), array(
+            $this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 425)), array(
                 'title' => $this->translate('Available plugins')
             ));
 
@@ -47,7 +47,7 @@
     $('#plugintab').tabs({
         'ajaxOptions': {
             success: function(xhr, status, index, anchor) {
-                $('#ui-tabs-1').addClass('plugins-list h400');
+                $('#ui-tabs-1').addClass('plugins-list h425');
                 $('.plugins-list').html(xhr.pluginsList);
                 $('.plugin-control, .plugin-endis').button();
                 //return;
