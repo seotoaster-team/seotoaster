@@ -400,7 +400,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		}
 		$pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
 		$sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
-		$pages    = array_merge($pages, $sysPages);
+		$pages    = array_merge((array)$pages, (array)$sysPages);
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
 		}, $pages);
