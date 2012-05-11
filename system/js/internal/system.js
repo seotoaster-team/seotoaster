@@ -78,7 +78,7 @@ $(function() {
 	});
 
 	//seotoaster ajax form submiting
-	$('form._fajax').on('submit', function(e) {
+	$(document).on('submit', 'form._fajax', function(e) {
 		e.preventDefault();
 		var donotCleanInputs = [
 			'#h1',

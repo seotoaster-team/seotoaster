@@ -16,7 +16,7 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	protected $_cache   = false;
 
-	protected $_tag     = '';
+	protected $_tags    = '';
 
 	protected $_preview = '';
 
@@ -53,12 +53,12 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 		return $this;
 	}
 
-	public function getTag() {
-		return $this->_tag;
+	public function getTags($asString = false) {
+		return ($asString) ? implode(',', $this->_tags) : $this->_tags;
 	}
 
-	public function setTag($tag) {
-		$this->_tag = $tag;
+	public function setTags($tags) {
+		$this->_tags = (is_string($tags) ? explode(',', $tags) : $tags);
 		return $this;
 	}
 

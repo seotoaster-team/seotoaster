@@ -133,19 +133,23 @@ class Tools_Plugins_Tools {
 		return self::_getData('getEditorTop');
 	}
 
-	private static function _getData($method) {
+    public static function getEcommerceConfigTabs() {
+        return self::_getData('getEcommerceConfigTab', array('ecommerce'));
+    }
+
+	private static function _getData($method, $tags = array()) {
 		$pluginsData = array();
-		$enabledPlugins = self::getEnabledPlugins();
+		$enabledPlugins = (!empty($tags)) ? self::getPluginsByTags($tags) : self::getEnabledPlugins();
 		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
 			foreach ($enabledPlugins as $plugin) {
-				$pluginClassName = ucfirst($plugin->getName());
-				$pluginPath = 'plugins/' . $plugin->getName() . '/' . $pluginClassName . '.php';
-				if(file_exists($pluginPath)) {
-					require_once $pluginPath;
-					if(method_exists($pluginClassName, $method)) {
-						$pluginsData[] = $pluginClassName::$method();
-					}
-				}
+                $pluginClassName = ucfirst($plugin->getName());
+                $pluginPath = 'plugins/' . $plugin->getName() . '/' . $pluginClassName . '.php';
+                if(file_exists($pluginPath)) {
+                    require_once $pluginPath;
+                    if(method_exists($pluginClassName, $method)) {
+                        $pluginsData[] = $pluginClassName::$method();
+                    }
+                }
 			}
 		}
 		return $pluginsData;
@@ -206,6 +210,32 @@ class Tools_Plugins_Tools {
 		}
 		return $enabledPlugins;
 	}
+
+    /**
+     * Find plugins with specified tags
+     *
+     * @static
+     * @param array $tags
+     * @return mixed
+     */
+    public static function getPluginsByTags($tags) {
+        if(!is_array($tags)) {
+            $tags = (array)$tags;
+        }
+        if(empty($tags)) {
+            return null;
+        }
+        $plugins = self::getEnabledPlugins();
+        if(!is_array($plugins) || empty($plugins)) {
+            return null;
+        }
+        return array_filter($plugins, function($plugin) use($tags) {
+            $pluginTags = $plugin->getTags();
+            if(is_array($pluginTags) && array_intersect($tags, $pluginTags)) {
+                return $plugin;
+            }
+        });
+    }
 
 	private static function _initValues() {
 		$routesPath  = APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml';
