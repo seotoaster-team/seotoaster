@@ -254,6 +254,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					$template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
 					$this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
 					$this->view->protectedTemplates = $this->_protectedTemplates;
+                    $this->view->types              = $mapper->fetchAllTypes();
 					echo $this->view->render($this->getViewScript('templateslist'));
 				break;
 				default:
