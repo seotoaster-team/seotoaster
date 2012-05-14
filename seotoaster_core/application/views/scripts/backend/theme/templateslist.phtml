@@ -52,7 +52,7 @@
 				function(response) {
 					try {
 						responseObject = $.parseJSON(response);
-						$('.h520').html('Oops, ' + responseObject.responseText + '. Looks like you do not have any template of this type');
+						$('.h520').html('<div style="text-align: center;">Oops, ' + responseObject.responseText + '. Looks like you do not have any template of this type</div>');
 					}
 					catch(err) {
 						$('#templatelist').html(response);
