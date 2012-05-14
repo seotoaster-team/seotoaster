@@ -37,8 +37,15 @@ class Tools_Search_Tools {
 		if(!is_dir($searchIndexFolder)) {
 			return false;
 		}
-		$toasterSearchIndex = Zend_Search_Lucene::open($searchIndexFolder);
-		$hits               = $toasterSearchIndex->find(strval($term));
+        try {
+		    $toasterSearchIndex = Zend_Search_Lucene::open($searchIndexFolder);
+        } catch (Exception $e) {
+            if(APPLICATION_ENV == 'development') {
+                error_log("(plugin: " . strtolower(get_called_class()) . ") " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            }
+            return false;
+        }
+		$hits = $toasterSearchIndex->find(strval($term));
 		if(is_array($hits) && !empty ($hits)) {
 			foreach ($hits as $hit) {
 				$toasterSearchIndex->delete($hit->id);
@@ -55,7 +62,14 @@ class Tools_Search_Tools {
 			if(!is_dir($searchIndexFolder)) {
 				return false;
 			}
-			$toasterSearchIndex = Zend_Search_Lucene::open($searchIndexFolder);
+            try {
+                $toasterSearchIndex = Zend_Search_Lucene::open($searchIndexFolder);
+            } catch (Exception $e) {
+                if(APPLICATION_ENV == 'development') {
+                    error_log("(plugin: " . strtolower(get_called_class()) . ") " . $e->getMessage() . "\n" . $e->getTraceAsString());
+                }
+                return false;
+            }
 		}
 
 
@@ -67,6 +81,7 @@ class Tools_Search_Tools {
 				$contents .= $container->getContent();
 			}
 		}
+        //@todo save contents to the cache and do not query for containers each time
 
 		$document = new Zend_Search_Lucene_Document();
 		$document->addField(Zend_Search_Lucene_Field::keyword('pageId', $page->getId()));

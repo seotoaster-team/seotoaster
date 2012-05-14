@@ -47,14 +47,7 @@ class Application_Form_Template extends Zend_Form {
 			'name'         => 'templateType',
 			'id'           => 'template-type',
 			'label'        => 'Used for',
-			'multiOptions' => array(
-				Application_Model_Models_Template::TYPE_REGULAR  => 'Regular page',
-				Application_Model_Models_Template::TYPE_PRODUCT  => 'Product page',
-				Application_Model_Models_Template::TYPE_CHECKOUT => 'Checkout page',
-				Application_Model_Models_Template::TYPE_LISTING  => 'Product listing',
-				Application_Model_Models_Template::TYPE_MAIL     => 'E-mail sending',
-				Application_Model_Models_Template::TYPE_QUOTE    => 'Quote'
-			),
+			'multiOptions' => Application_Model_Mappers_TemplateMapper::getInstance()->fetchAllTypes(),
 			'value'        => $this->_type
 		)));
 
