@@ -1,18 +1,18 @@
 <?php if(!empty($this->pages)): ?>
 	<ul class="sitemap">
 		<?php foreach ($this->pages as $key => $page): ?>
-			<li><a title="<?php echo $page['category']->getH1(); ?>" href="<?php echo $this->websiteUrl . $page['category']->getUrl(); ?>"><?php echo $page['category']->getNavName(); ?></a>
+			<li><a title="<?php echo ($page['category']['optimizedH1']) ? $page['category']['optimizedH1'] : $page['category']['h1']; ?>" href="<?php echo $this->websiteUrl . ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url']); ?>"><?php echo ($page['category']['optimizedNavName'] ? $page['category']['optimizedNavName'] : $page['category']['navName']) ; ?></a>
 				<?php if(isset($page['subPages'])): ?>
-					<ul id="<?php echo $page['category']->getUrl(); ?>">
+					<ul id="<?php echo str_replace('.html', '', ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url'])); ?>">
 						<?php foreach ($page['subPages'] as $subPage): ?>
-							<li class="page"><a title="<?php echo $subPage->getH1(); ?>" href="<?php echo $this->websiteUrl . $subPage->getUrl(); ?>"><?php echo $subPage->getNavName(); ?></a></li>
+							<li class="page"><a title="<?php echo ($subPage['optimizedH1']) ? $subPage['optimizedH1'] : $subPage['h1']; ?>" href="<?php echo $this->websiteUrl . ($subPage['optimizedUrl'] ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo ($subPage['optimizedNavName'] ? $subPage['optimizedNavName'] : $subPage['navName']) ; ?></a></li>
 						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
 		<li>
-			<a href="<?php echo $this->websiteUrl . $this->config['newsFolder'];?>/" title="News" ><?php echo $this->translate('News');?></a>
+			<a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo $this->translate('News');?></a>
 		</li>
 	</ul>
 <?php endif; ?>
