@@ -90,7 +90,7 @@ class Tools_Plugins_Tools {
 			}
 		}
 
-
+        sort($additionalMenu);
 		return $additionalMenu;
 	}
 
