@@ -36,7 +36,7 @@
 				widgetHtml = '';
 			}
 			if(widgetHtml != '') {
-				widgetHtml += ($('#forms-captcha').prop('checked') ? ':1}' : '}');
+				widgetHtml += ($('#forms-captcha').prop('checked') ? ':captcha}' : '}');
 				$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, widgetHtml);
 			}
 		});
