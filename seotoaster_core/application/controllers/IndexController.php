@@ -37,14 +37,14 @@ class IndexController extends Zend_Controller_Action {
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
 		$pageCacheKey = (($newsContext) ? $pageUrl . 'newspage' : $pageUrl);
-		if(null === ($page = $this->_helper->cache->load($pageCacheKey, 'pagedata_'))) {
+//		if(null === ($page = $this->_helper->cache->load($pageCacheKey, 'pagedata_'))) {
 			// Depends on what kind page it is (news or regular) get a needed mapper
 			$mapper = ($newsContext) ? Application_Model_Mappers_NewsMapper::getInstance() : Application_Model_Mappers_PageMapper::getInstance();
 			$page   = $mapper->findByUrl($pageUrl);
-			if(null !== $page) {
-				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_');
-			}
-		}
+//			if(null !== $page) {
+//				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_');
+//			}
+//		}
 
 		// If page doesn't exists in the system - show 404 page
 		if(null === $page) {
