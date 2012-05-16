@@ -9,7 +9,7 @@ class Installer_Form_Config extends Zend_Form {
 	
 	public function init(){
 		$translator = $this->getTranslator();
-		
+
 		$this->setName(strtolower(__CLASS__))
 			 ->setAction('')
 			 ->setAttrib('class', 'ui-helper-clearfix')
@@ -65,11 +65,13 @@ class Installer_Form_Config extends Zend_Form {
 		
 		$this->addElement('password', 'password', array(
 			'label'		=> 'Password',
+			'title'     => ($translator ? $translator->translate('Password for database') : 'Password for database'),
 			'renderPassword' => true
 		));
 		
 		$this->addElement('text', 'dbname', array(
-			'label'		=> 'Database name'
+			'label'		=> 'Database name',
+			'title'     => ($translator ? $translator->translate('Name of the database to use') : 'Name of the database to use')
 		));
 	
 		$this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo', array('legend' => 'Core location settings'));
