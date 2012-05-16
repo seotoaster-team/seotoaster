@@ -4,6 +4,8 @@ class Widgets_Form_Form extends Widgets_Abstract {
 
 	private $_websiteHelper  = null;
 
+	protected $_cacheable    = false;
+
 	protected function _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
