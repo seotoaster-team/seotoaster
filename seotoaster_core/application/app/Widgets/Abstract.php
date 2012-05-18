@@ -21,6 +21,8 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 
 	protected $_cacheable      = true;
 
+	protected $_cacheTags      = array();
+
 	protected $_translator     = null;
 
 	public function  __construct($options = null, $toasterOptions = array()) {
@@ -52,7 +54,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 			if(null === ($content = $this->_loadFromCache())) {
 				try {
 					$content = $this->_load();
-					$this->_cache->save($this->_cacheId, $content, $this->_cachePrefix);
+					$this->_cache->save($this->_cacheId, $content, $this->_cachePrefix, is_array($this->_cacheTags) ? $this->_cacheTags : array());
 				}
 				catch (Exceptions_SeotoasterException $ste) {
 					$content = $ste->getMessage();

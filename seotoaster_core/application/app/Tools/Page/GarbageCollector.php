@@ -14,6 +14,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 	protected function _runOnUpdate() {
 		$this->_cleanDraftCache();
 		$this->_cleanOptimized();
+		$this->_cleanCachedPageData();
 		$this->_resetSearchIndexRenewFlag();
 	}
 
@@ -87,6 +88,12 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 	private function _resetSearchIndexRenewFlag() {
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$cacheHelper->clean(null, null, array('search_index_renew'));
+	}
+
+	private function _cleanCachedPageData(){
+		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		$cacheHelper->clean($this->_object->getUrl(), 'pagedata_');
+		$cacheHelper->clean(false, false, array('pid_'.$this->_object->getId(), 'Widgets_Menu_Menu'));
 	}
 }
 
