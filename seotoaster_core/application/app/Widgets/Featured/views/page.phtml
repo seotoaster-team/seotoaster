@@ -1,6 +1,6 @@
 <div class="featureapage" id="fp-<?php echo $this->page->getId(); ?>">
 	<?php if($this->useImage): ?>
-		<a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
+		<a class="page-teaser-image" title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
 			<img src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($this->page->getId(), true, (($this->useImage == 'img') ? false : true))); ?>" alt="<?php echo $this->page->getH1(); ?>" />
 		</a>
 	<?php endif; ?>

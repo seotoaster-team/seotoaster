@@ -53,10 +53,10 @@ class Tools_Mail_Watchdog implements Interfaces_Observer {
 				foreach($activeTriggers as $trigger) {
 					if (class_exists($trigger['observer'])) {
 						$actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($this->_options['trigger'])->toArray();
-						array_walk($actions, function($action, $key, $context){
-							$observer = new $context['observer']($action);
+                        array_walk($actions, function($action, $key, $context){
+							$observer = new $context['observer'](array_merge($action, $context['options']));
 							$observer->notify($context['object']);
-						}, array('observer' => $trigger['observer'], 'object' => $object));
+						}, array('observer' => $trigger['observer'], 'object' => $object, 'options' => $this->_options));
 					}
 				}
 			}
