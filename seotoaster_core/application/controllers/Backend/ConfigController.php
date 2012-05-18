@@ -139,5 +139,21 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$this->view->actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
 	}
 
-
+    public function mailmessageAction() {
+        $triggerName = $this->getRequest()->getParam('trigger', false);
+        if(!$triggerName) {
+            throw new Exceptions_SeotoasterException('Not enough parameter passed!');
+        }
+        $trigger = reset(Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray());
+        if($this->getRequest()->isPost()) {
+            $trigger = new Application_Model_Models_TriggerAction($trigger);
+            $m = $this->getRequest()->getParam('msg');
+            $trigger->setMessage($this->getRequest()->getParam('msg'));
+            Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($trigger);
+            $this->_helper->response->success();
+            return;
+        }
+        $this->_helper->response->success($trigger['message']);
+        return true;
+    }
 }
