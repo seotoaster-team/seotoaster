@@ -32,7 +32,11 @@
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js'); ?>
 
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
+
+		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/redactor/redactor.min.js'); ?>
+		<?php endif; ?>
+
 		<?php echo $this->jQuery(); ?>
 
 		<!-- end of Seotoaster layout -->
