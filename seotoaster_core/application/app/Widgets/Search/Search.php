@@ -17,6 +17,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
 		$this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+
+		$this->_cacheable = false;
 	}
 
 	protected function _load() {

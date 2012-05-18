@@ -16,7 +16,7 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 	);
 
 	private $_fileTypes = array(
-		'image' => array('title'=>'Image files', 'extensions' => 'jpg,gif,png'),
+		'image' => array('title'=>'Image files', 'extensions' => 'jpg,gif,png,jpeg'),
 		'zip'	=> array('title' => 'Zip files', 'extensions' => 'zip'),
 		'video' => array('title' => 'Video files', 'extensions' => 'mp4, avi, mov, flv'),
 	);

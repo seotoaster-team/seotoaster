@@ -9,6 +9,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
 	protected function  _init() {
 		parent::_init();
+		$this->_cacheId   = strtolower(__CLASS__).(!empty($this->_options)?'-'.implode('-', $this->_options):'');
 		$this->_view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
