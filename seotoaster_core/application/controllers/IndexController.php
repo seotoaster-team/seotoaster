@@ -69,9 +69,9 @@ class IndexController extends Zend_Controller_Action {
 		if(Tools_Security_Acl::isAllowed($page, $currentUser)) {
 
 			//Check if page caching is allowed for current user
-			if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE, $currentUser)) {
-				$pageContent = $this->_helper->cache->load($pageUrl, 'page_');
-			}
+//			if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE, $currentUser)) {
+//				$pageContent = $this->_helper->cache->load($pageUrl, 'page_');
+//			}
 
 			//Parsing page content and saving it to the cache
 			if(null === $pageContent) {
@@ -86,7 +86,7 @@ class IndexController extends Zend_Controller_Action {
 				$pageContent = $parser->parse();
 				unset($parser);
 				unset($themeData);
-				$this->_helper->cache->save($page->getUrl(), $pageContent, 'page_');
+//				$this->_helper->cache->save($page->getUrl(), $pageContent, 'page_');
 			}
 		}
 		else {

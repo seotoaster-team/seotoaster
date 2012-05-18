@@ -55,7 +55,7 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 		return $this->_cache->load($cahcheId);
 	}
 
-	public function save($cacheId, $data, $cachePrefix = '', $tags = array(), $lifeTime = '') {
+	public function save($cacheId, $data, $cachePrefix = '', $tags = array(), $lifeTime = self::CACHE_FLASH) {
 		$cacheId = $this->_makeCacheId($cacheId, $cachePrefix);
 		return $this->_cache->save($data, $cacheId, $tags, $lifeTime);
 	}

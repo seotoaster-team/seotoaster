@@ -10,7 +10,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 
 	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$linkText      = htmlentities($this->view->translate($linkText));
+		$linkText      = htmlspecialchars($this->view->translate($linkText));
 		$winsize       = $this->_getValidWinSize($winSizeType);
 
 		switch ($controller){

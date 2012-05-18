@@ -55,6 +55,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
 				'alias'   => $translator->translate('Current page id'),
 				'option' => 'page:id'
 			),
+            array(
+                'alias'   => $translator->translate('Current page url'),
+                'option' => 'page:url'
+            ),
 			array(
 				'alias'   => $translator->translate('Current page h1'),
 				'option' => 'page:h1'

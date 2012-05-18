@@ -66,5 +66,11 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	public function clearTemplates(){
 		return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
 	}
+
+
+    public function fetchAllTypes() {
+        $dbTable = new Application_Model_DbTable_TemplateType();
+        return $dbTable->getAdapter()->fetchPairs($dbTable->select()->order('title ASC'));
+    }
 }
 

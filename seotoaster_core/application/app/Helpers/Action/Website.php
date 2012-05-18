@@ -9,8 +9,11 @@ class Helpers_Action_Website extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function  __call($name, $arguments) {
-		$name = strtolower(str_replace('get', '', $name));
-		return $this->_getParam($name);
+        $name = str_replace('get', '', $name);
+        if(($param = $this->_getParam(strtolower($name))) == '') {
+            return $this->_getParam(lcfirst($name));
+        }
+        return $param;
 	}
 
 	private function _getParam($name) {

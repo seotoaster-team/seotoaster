@@ -17,20 +17,29 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
 	}
 
 	protected function _load() {
-		$pagesList    = array();
-		$pages        = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
-		foreach ($pages as $key => $page) {
-			if($page->getParentId() == 0) {
-				$pagesList[$key]['category'] = $page;
-				foreach ($pages as $subPage) {
-					if($subPage->getParentId() == $page->getId()) {
-						$pagesList[$key]['subPages'][] = $subPage;
-					}
-				}
-			}
-		}
-		$this->_view->config = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
-		$this->_view->pages = $pagesList;
+        $pagesList       = array();
+        $pages           = Application_Model_Mappers_PageMapper::getInstance()->fetchAllMainMenuPages();
+        $configHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $showMemberPages = (boolean) $configHelper->getConfig('memPagesInMenu');
+        $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
+        foreach($pages as $key => $page) {
+            if($page['parentId'] == 0) {
+                if($page['protected'] && !$isAllowed && !$showMemberPages) {
+                    continue;
+                }
+                $pagesList[$key]['category'] = $page;
+                foreach($pages as $subPage) {
+                    if($subPage['protected'] && !$isAllowed && !$showMemberPages) {
+                        continue;
+                    }
+                    if($subPage['parentId'] == $page['id']) {
+                        $pagesList[$key]['subPages'][] = $subPage;
+                    }
+                }
+            }
+        }
+        $this->_view->pages      = $pagesList;
+		$this->_view->newsFolder = $configHelper->getConfig('newsFolder');
 		return $this->_view->render('sitemap.phtml');
 	}
 

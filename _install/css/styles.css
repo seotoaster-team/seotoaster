@@ -72,7 +72,7 @@ ul.marked li {
 	padding-left: 400px;
 	height: 500px;
 	border-radius: 8px;
-	background: url('../resourses/toaster.png') #b3c7e1 no-repeat center left; background-clip: padding-box;
+	background: url('toaster.png') #b3c7e1 no-repeat center left; background-clip: padding-box;
 	   -moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box;

@@ -70,8 +70,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		if($page === null) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Page with such id is not found'));
 		}
-		$this->_view->useImage         = (isset($params[3]) && ($params[3] == 'img' || $params[3] == 'imgc')) ? $params[3] : false;
-		$this->_view->descLength       = (isset($params[2]) && intval($params[2])) ? intval($params[2]) : self::AREA_DESC_LENGTH;
+		$this->_view->useImage         = (isset($params[2]) && ($params[2] == 'img' || $params[2] == 'imgc')) ? $params[2] : false;
+		$this->_view->descLength       = (isset($params[1]) && intval($params[1])) ? intval($params[1]) : self::AREA_DESC_LENGTH;
 		$this->_view->page             = $page;
 		return $this->_view->render('page.phtml');
 	}

@@ -16,6 +16,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 		$this->_updateContentLinksRelatios();
 		$this->_cleanEmptyContainer();
 		$this->_trimWidgets();
+		$this->_cleanCached();
 		$this->_resetSearchIndexRenewFlag();
 	}
 
@@ -63,6 +64,12 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	private function _resetSearchIndexRenewFlag() {
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$cacheHelper->clean(null, null, array('search_index_renew'));
+	}
+
+	private function _cleanCached(){
+		$cacheId   =  $this->_object->getName() . intval($this->_object->getPageId()) . $this->_object->getContainerType();
+		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		$cacheHelper->clean($cacheId, 'widget_');
 	}
 
 }

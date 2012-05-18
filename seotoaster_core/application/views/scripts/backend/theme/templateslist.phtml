@@ -3,13 +3,12 @@
 		<span class="close-list"><?php echo $this->translate('Close'); ?></span>
 	</div>
 	<div id="filters" class="tpllistfilter">
-		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_REGULAR; ?>"><?php echo $this->translate('Regular page'); ?></a> |
-		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_PRODUCT; ?>"><?php echo $this->translate('Product page'); ?></a> |
-		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_LISTING; ?>"><?php echo $this->translate('Product listing'); ?></a> |
-		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_MAIL; ?>"><?php echo $this->translate('E-mail sending'); ?></a> |
-		<a href="javascript:;" class="lnk-filter" id="<?php echo Application_Model_Models_Template::TYPE_CHECKOUT; ?>"><?php echo $this->translate('Checkout page'); ?></a> |
+		<?php if(isset($this->types) && $this->types): ?>
+            <?php foreach($this->types as $name => $title): ?>
+                <a href="javascript:;" class="lnk-filter" id="<?php echo $name; ?>"><?php echo $this->translate($title); ?></a> |
+            <?php endforeach; ?>
+        <?php endif; ?>
 		<a href="javascript:;" class="lnk-filter" id="all"><?php echo $this->translate('All'); ?></a>
-<!--		<a href="javascript:;" class="lnk-filter" id="all">[ --><?php //echo $this->translate('Back'); ?><!-- ]</a>-->
 	</div>
 </div>
 <script type="text/javascript">
@@ -53,7 +52,7 @@
 				function(response) {
 					try {
 						responseObject = $.parseJSON(response);
-						$('.h520').html('Oops, ' + responseObject.responseText + '. Looks like you do not have any template of this type');
+						$('.h520').html('<div style="text-align: center;">Oops, ' + responseObject.responseText + '. Looks like you do not have any template of this type</div>');
 					}
 					catch(err) {
 						$('#templatelist').html(response);

@@ -368,14 +368,14 @@ class Backend_PageController extends Zend_Controller_Action {
 				// unlink old croped page previews
 				if(!empty($currentPreviewList)) {
 					foreach($currentPreviewList as $fileToUnlink) {
-						$unlinkPath = $this->_helper->website->getPreviewcrop() . $fileToUnlink;
+						$unlinkPath = $this->_helper->website->getPreviewCrop() . $fileToUnlink;
 						if(file_exists($unlinkPath)) {
 							unlink($unlinkPath);
 						}
 					}
 				}
 
-				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $this->_helper->website->getPreviewcrop(), true);
+				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $this->_helper->website->getPreviewCrop(), true);
 				unset($miscConfig);
 
 				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
@@ -400,7 +400,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		}
 		$pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
 		$sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
-		$pages    = array_merge($pages, $sysPages);
+		$pages    = array_merge((array)$pages, (array)$sysPages);
 		$this->view->responseData = array_map(function($page) {
 			return $page->toArray();
 		}, $pages);

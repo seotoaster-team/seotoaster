@@ -12,6 +12,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
+		if (is_array($this->_options) && isset($this->_options[1]) && $this->_options[1] === 'captcha') {
+			$this->_cacheable = false;
+		}
     }
     protected function _load() {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {

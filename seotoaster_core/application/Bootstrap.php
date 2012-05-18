@@ -198,10 +198,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			if (isset($_GET['_profileSql'])){
 				setcookie('_profileSql', $_GET['_profileSql']);
 			}
-			$profiler = new Zend_Db_Profiler();
-			$profiler->setEnabled(true);
-			Zend_Db_Table_Abstract::getDefaultAdapter()->setProfiler($profiler);
-			register_shutdown_function(array('Tools_System_Tools', 'sqlProfiler'));
+			if (isset($_COOKIE['_profileSql'])){
+				$profiler = new Zend_Db_Profiler();
+				$profiler->setEnabled(true);
+				Zend_Db_Table_Abstract::getDefaultAdapter()->setProfiler($profiler);
+				register_shutdown_function(array('Tools_System_Tools', 'sqlProfiler'));
+			}
 		}
 	}
 }

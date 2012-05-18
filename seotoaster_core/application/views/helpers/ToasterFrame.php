@@ -15,7 +15,7 @@ class Zend_View_Helper_Toasterframe extends Zend_View_Helper_Abstract {
                     width="' . $params['width'] . '"
                     height="' . $params['height'] . '"
                     frameborder="' . intval($params['frameborder']) . '"
-                    seamless>
+                    seamless scrolling="auto">
                 </iframe>';
     }
 

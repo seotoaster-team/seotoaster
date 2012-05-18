@@ -1351,15 +1351,15 @@ list-style: square;
 /*===============Sculpting==================*/
 /*============= Plugins ==============*/
 
-.seotoaster #plugins-list, .seotoaster #sculpting-list {
+.seotoaster .plugins-list, .seotoaster #sculpting-list {
 	/*overflow: hidden;*/
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-.seotoaster #plugins-list .plugin-item {
+.seotoaster .plugins-list .plugin-item {
 	float: left;
-	margin: 4px 5px 5px;
+	margin: 7px 5px;
 	box-shadow: 0 0 4px #CCCCCC;
 	-moz-box-shadow: 0 0 4px #CCCCCC;
 	-web-box-shadow: 0 0 4px #CCCCCC;
@@ -1373,11 +1373,11 @@ list-style: square;
 	overflow: hidden;
 	text-align: center;
 }
-.seotoaster #plugins-list .plugin-item a.ui-button {
+.seotoaster .plugins-list .plugin-item a.ui-button {
   font-size: 12pt !important;
   min-width: 20px;
 }
-.seotoaster #plugins-list .plugin-item .del-plugin {
+.seotoaster .plugins-list .plugin-item .del-plugin {
 /*	display: none;*/
 	position: absolute;
 	right: 0;
@@ -1387,7 +1387,7 @@ list-style: square;
         -moz-border-radius: 3px;
         padding: 5px 5px 3px;
 }
-.seotoaster #plugins-list .plugin-item .readme-plugin {
+.seotoaster .plugins-list .plugin-item .readme-plugin {
     	position: absolute;
         left: 0;
          background: white;
@@ -1398,16 +1398,16 @@ list-style: square;
 
 }
 
-.seotoaster #plugins-list .plugin-item .plugin-image {
+.seotoaster .plugins-list .plugin-item .plugin-image {
 	overflow: hidden;
 	height: 135px;
 	margin: 4px;
 }
-.seotoaster #plugins-list .plugin-item .plugin-image img{
+.seotoaster .plugins-list .plugin-item .plugin-image img{
     width:100%;
 }
 
-.seotoaster #plugins-list .plugin-item .plugin-name {
+.seotoaster .plugins-list .plugin-item .plugin-name {
 	font-weight: bold;
 	background: #fff;
 	padding: 5px;
@@ -1416,11 +1416,11 @@ list-style: square;
     font-size: 10pt;
 }
 
-.seotoaster #plugins-list .plugin-item .plugin-control, .seotoaster #plugins-list .plugin-item .plugin-endis {
+.seotoaster .plugins-list .plugin-item .plugin-control, .seotoaster .plugins-list .plugin-item .plugin-endis {
 	font-size: 12pt;
 }
 
-.seotoaster #plugins-list .plugin-item .plugin-control span, .seotoaster #plugins-list .plugin-item .plugin-endis span {
+.seotoaster .plugins-list .plugin-item .plugin-control span, .seotoaster .plugins-list .plugin-item .plugin-endis span {
 	padding: 2px 7px;
 }
 .seotoaster .pluginform input[type="checkbox"] {

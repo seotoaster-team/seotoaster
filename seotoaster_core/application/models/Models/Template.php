@@ -22,8 +22,6 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	const TYPE_MAIL     = 'typemail';
 
-	const TYPE_QUOTE    = 'typequote';
-
 	protected $_name         = '';
 
 	protected $_oldName      = null;

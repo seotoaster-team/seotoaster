@@ -244,38 +244,38 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			} else {
 				$tmplImages = array();
 			}
-			switch ($listtemplates) {
-				case 'all':
-				case Application_Model_Models_Template::TYPE_REGULAR:
-				case Application_Model_Models_Template::TYPE_PRODUCT:
-				case Application_Model_Models_Template::TYPE_LISTING:
-				case Application_Model_Models_Template::TYPE_MAIL:
-				case Application_Model_Models_Template::TYPE_CHECKOUT:
-					$template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
-					$this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
-					$this->view->protectedTemplates = $this->_protectedTemplates;
-					echo $this->view->render($this->getViewScript('templateslist'));
-				break;
-				default:
-					$template = $mapper->find($listtemplates);
-					if ($template instanceof Application_Model_Models_Template) {
-						$template = array(
-								'id'		=> $template->getId(),
-								'name'		=> $template->getName(),
-								'fullName'  => $template->getName(),
-								'type'      => $template->getType(),
-								'content'	=> $template->getContent(),
-								'preview'	=> isset($tmplImages[$template->getName()]) ?
-								$this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] :
-								'system/images/no_preview.png'
-						);
-						$this->_helper->response->response($template, true);
-					} else {
-						//$response = array('done'=> false);
-						$this->_helper->response->response($this->_translator->translate('Template not found'), true);
-					}
-					break;
-			}
+
+            $types = $mapper->fetchAllTypes();
+            if(array_key_exists($listtemplates, array_merge($types, array('all' => 'all')))) {
+                $template                       = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
+                $this->view->templates          = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
+                if(empty($this->view->templates) || !$this->view->templates) {
+                    $this->_helper->response->response($this->_translator->translate('Template not found'), true);
+                    return true;
+                }
+                $this->view->protectedTemplates = $this->_protectedTemplates;
+                $this->view->types              = $types;
+                echo $this->view->render($this->getViewScript('templateslist'));
+            } else {
+                $template = $mapper->find($listtemplates);
+                if ($template instanceof Application_Model_Models_Template) {
+                    $template = array(
+                        'id'		=> $template->getId(),
+                        'name'		=> $template->getName(),
+                        'fullName'  => $template->getName(),
+                        'type'      => $template->getType(),
+                        'content'	=> $template->getContent(),
+                        'preview'	=> isset($tmplImages[$template->getName()]) ?
+                            $this->_themeConfig['path'].$currentTheme.'/'.$this->_themeConfig['templatePreview'].$tmplImages[$template->getName()] :
+                            'system/images/no_preview.png'
+                    );
+                    $this->_helper->response->response($template, true);
+                } else {
+                    //$response = array('done'=> false);
+                    $this->_helper->response->response($this->_translator->translate('Template not found'), true);
+                }
+            }
+
 			exit;
 		}
 	}

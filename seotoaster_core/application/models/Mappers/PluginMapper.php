@@ -11,11 +11,10 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Plugin instance');
 		}
 		$data = array(
-			'name'    => $plugin->getName(),
-			'status'  => $plugin->getStatus(),
-			'cache'   => intval($plugin->getCache()),
-			'tag'     => $plugin->getTag(),
-			'license' => $plugin->getLicense()
+			'name'     => $plugin->getName(),
+			'status'   => $plugin->getStatus(),
+			'tags'     => $plugin->getTags(true),
+			'license'  => $plugin->getLicense()
 		);
 		if(!$plugin->getId()) {
 			$status = $this->getDbTable()->insert($data);
