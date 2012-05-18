@@ -42,7 +42,7 @@ class IndexController extends Zend_Controller_Action {
 			$mapper = ($newsContext) ? Application_Model_Mappers_NewsMapper::getInstance() : Application_Model_Mappers_PageMapper::getInstance();
 			$page   = $mapper->findByUrl($pageUrl);
 			if(null !== $page) {
-				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_');
+				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($page->getTemplateId()));
 			}
 		}
 
