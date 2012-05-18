@@ -274,3 +274,37 @@ function generateStorageKey() {
 	}
 	return null;
 }
+
+function showMailMessageEdit(trigger, callback) {
+    $.getJSON($('#website_url').val() + 'backend/backend_config/mailmessage/', {
+        'trigger' : trigger
+    }, function(response) {
+        $(msgEditScreen).remove();
+        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg"></textarea>').val(response.responseText).css({
+            width  : '555px',
+            height : '155px',
+            resizable: "none"
+        }));
+        $('#trigger-msg').val(response.responseText);
+        msgEditScreen.dialog({
+            modal: true,
+            title: 'Edit message title',
+            width: 600,
+            height: 300,
+            resizable: false,
+            show: 'clip',
+            hide: 'clip',
+            buttons: [
+                {
+                    text: "Okay",
+                    click: function(e) {
+                        msgEditScreen.dialog('close');
+                        callback($('#trigger-msg').val());
+                    }
+                }
+            ]
+        }).parent().css({
+            background: '#DAE8ED'
+        });
+    }, 'json');
+}

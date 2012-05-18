@@ -39,7 +39,7 @@
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
 	<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="624" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
-	<a href="http://www.seosamba.com/free-form-maker.html" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Get form code'); ?></a> |
+	<a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Get form code'); ?></a> |
 	<?php if($this->form): ?>
 		<a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
 	<?php endif; ?>
