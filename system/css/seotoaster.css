@@ -1733,7 +1733,6 @@ input[type=checkbox].cropped {
 .container-wrapper:hover {
     outline: 1px dashed #AAAAAA;
 }
-.container-wrapper.unpublished {
-    outline-color: red;
-    outline-style: dashed;
+.unpublished {
+    outline: 1px dashed #ff0000;
 }

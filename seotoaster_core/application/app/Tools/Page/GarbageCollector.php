@@ -11,6 +11,10 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	}
 
+	protected function _runOnCreate() {
+		$this->_cleanCachedPageData();
+	}
+
 	protected function _runOnUpdate() {
 		$this->_cleanDraftCache();
 		$this->_cleanOptimized();
@@ -23,6 +27,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 		$this->_removePageUrlFromContent();
 		Tools_Filesystem_Tools::saveFile('sitemap.xml', Tools_Content_Feed::generateSitemapFeed());
 		Tools_Search_Tools::removeFromIndex($this->_object->getId());
+		$this->_cleanCachedPageData();
 		$this->_resetSearchIndexRenewFlag();
 	}
 

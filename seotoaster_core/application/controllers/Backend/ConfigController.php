@@ -78,6 +78,10 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				if ($config['smtpPassword'] === null && null === $this->getRequest()->getParam('smtpPassword', null)){
 					unset($config['smtpPassword']);
 				}
+
+				if ($config['inlineEditor'] !== $this->_helper->config->getConfig('inlineEditor')){
+					$this->_helper->cache->clean(false, false, array('Widgets_Content_Content'));
+				}
 				$this->_configMapper->save($config);
 				$this->_helper->flashMessenger->addMessage('Setting saved');
 			} else {

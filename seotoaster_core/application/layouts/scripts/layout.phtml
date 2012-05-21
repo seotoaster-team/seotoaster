@@ -21,7 +21,9 @@
 		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
 		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
 		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
-		<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/redactor/css/redactor.css'); ?>
+			<?php if((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')):?>
+			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/redactor/css/redactor.css'); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<?php echo $this->headLink(); ?>
@@ -33,9 +35,13 @@
 
 		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
 
-		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
-		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/redactor/redactor.min.js'); ?>
-		<?php endif; ?>
+		<?php
+		if( (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId))
+			&& (bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')
+		  ){
+			$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/redactor/redactor.min.js');
+		}
+		?>
 
 		<?php echo $this->jQuery(); ?>
 
