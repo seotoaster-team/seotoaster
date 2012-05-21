@@ -89,7 +89,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$template->setType($templateData['templateType']);
 				$result = $mapper->save($template);
 				if ($result){
-					$this->_helper->cache->clean(false, false, array($template->getName()));
+					$this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
 				}
 				// saving to file in theme folder
 				$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
