@@ -1,5 +1,4 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
 <div class="seotoaster container_12 h360">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config')); ?>
 
@@ -134,6 +133,8 @@
 			$('select[name*=recipient]', action).val(item.recipient);
 			$('select[name*=template]', action).val(item.template);
 			$('textarea[name*=message]', action).val(item.message);
+            $('input[name*=from]', action).val(item.from);
+            $('input[name*=subject]', action).val(item.subject);
 			$('#action-triggers').append(action);
 			lastActionId = (lastActionId < item.id) &&  (item.id + 1);
 		});
@@ -150,13 +151,15 @@
 		<?php echo $this->formSelect('actions[${index}][recipient]', null, array('id'=>false), $this->recipients);?>
 		using template <?php echo $this->formSelect('actions[${index}][template]',null, array('id'=>false), $this->templates);?>
 		with following message: <?php echo $this->formTextarea('actions[${index}][message]', null, array('id'=>false, 'rows'=>3)); ?>
+        from: <?php echo $this->formText('actions[${index}][from]', null, array('id'=>false)); ?>
+        with subject: <?php echo $this->formText('actions[${index}][subject]', null, array('id'=>false)); ?>
 	</fieldset>
 </script>
 <style type="text/css">
 	fieldset.trigger-action {
 
 	}
-	fieldset.trigger-action select {
+	fieldset.trigger-action select, fieldset.trigger-action input[type=text] {
 		width: 180px;
 	}
 	#new-trigger-action {
