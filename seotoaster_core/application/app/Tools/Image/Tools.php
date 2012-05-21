@@ -74,7 +74,7 @@ class Tools_Image_Tools {
 		}
         
         if($fixRotate){
-            $exif = exif_read_data($imageFile, 0, true);
+            $exif = @exif_read_data($imageFile, 0, true);
             if(isset($exif['IFD0']['Orientation'])){
                 $ort = $exif['IFD0']['Orientation'];
                 switch($ort){
