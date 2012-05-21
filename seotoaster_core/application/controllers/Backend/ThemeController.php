@@ -356,6 +356,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$errors = $this->_saveThemeInDatabase($selectedTheme);
 				if (empty ($errors)){
 					$status = sprintf($this->_translator->translate('The theme "%s" applied!'), $selectedTheme);
+					$this->_helper->cache->clean(false, false);
 					$this->_helper->response->response($status, false);
 				} else {
 					$this->_helper->response->response($errors, true);
