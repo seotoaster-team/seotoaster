@@ -44,5 +44,10 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 
 		//return '<a title="' . $title . '" href="javascript:;" onclick="showToasterPopup(\''. $this->_toasterOptions['websiteUrl'] . 'backend/backend_content/edit/id/' . $containerId . '/containerType/' . $containerType . '/\')" class="generator-links"><img width="26" height="26" src="' . $this->_toasterOptions['websiteUrl'] . 'system/images/' . $adminIconName .'" alt="edit header" /></a>';
 	}
+
+	protected function _init() {
+		parent::_init();
+		array_push($this->_cacheTags, __CLASS__);
+	}
 }
 
