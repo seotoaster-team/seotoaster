@@ -50,7 +50,6 @@ var RLANG = {
 	title: 'Подсказка',
 	image_view: 'Скачать изображение',
 	image_position: 'Обтекание текстом',
-	none: 'нет',
 	left: 'слева',
 	right: 'справа',
 	image_web_link: 'Cсылка на изображение',
@@ -71,5 +70,6 @@ var RLANG = {
 	horizontalrule: 'Горизонтальная линейка',
 	fullscreen: 'Во весь экран',
 	deleted: 'Зачеркнутый',
-	none: 'Нет'								
+	none: 'Нет',
+	anchor: 'Якорь'									
 };
