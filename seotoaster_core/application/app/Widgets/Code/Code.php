@@ -8,11 +8,8 @@
 class Widgets_Code_Code extends Widgets_AbstractContent {
 
 	protected function  _init() {
-		parent::_init();
 		$this->_type    = Application_Model_Models_Container::TYPE_CODE;
-		$this->_acl     = Zend_Registry::get('acl');
-		$this->_name    = $this->_options[0];
-		$this->_pageId  = $this->_toasterOptions['id'];
+		parent::_init();
 		$this->_cacheId = $this->_name . $this->_pageId;
 	}
 
@@ -23,7 +20,6 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify code container name.'));
 		}
-		$currentUser = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser();
 		$code        = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
 		$codeContent = (null === $code) ? '' : $code->getContent();
 
@@ -35,7 +31,7 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 			$codeContent .= $returned;
 		}
 
-		if($this->_acl->isAllowed($currentUser, $this)) {
+		if(Tools_Security_Acl::isAllowed($this)) {
 			$codeContent .= $this->_addAdminLink($this->_type, (!$codeContent) ? null : $code->getId(), $this->_translator->translate('Click to edit header'), 480, 341);
 		}
 

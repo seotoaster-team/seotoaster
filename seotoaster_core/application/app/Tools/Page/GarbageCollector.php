@@ -98,7 +98,12 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 	private function _cleanCachedPageData(){
 		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$cacheHelper->clean($this->_object->getUrl(), 'pagedata_');
-		$cacheHelper->clean(false, false, array('pid_'.$this->_object->getId(), 'Widgets_Menu_Menu'));
+		$tags = array(
+			'pid_'.$this->_object->getId(),
+			'Widgets_Menu_Menu',
+			'Widgets_Related_Related'
+		);
+		$cacheHelper->clean(false, false, $tags);
 	}
 }
 

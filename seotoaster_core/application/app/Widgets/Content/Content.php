@@ -3,18 +3,18 @@
 class Widgets_Content_Content extends Widgets_AbstractContent {
 
 	protected function  _init() {
-		parent::_init();
-		$this->_name    = $this->_options[0];
 		$this->_type    = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;
-		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICCONTENT) ? 0 : $this->_toasterOptions['id'];
-		$this->_cacheId = $this->_name . $this->_pageId . $this->_type;
+		parent::_init();
+//		$this->_name    = $this->_options[0];
+//		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICCONTENT) ? 0 : $this->_toasterOptions['id'];
+//		$this->_cacheId = $this->_name . $this->_pageId . $this->_type;
+//		$this->_cacheId .= Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
 	}
 
 	protected function  _load() {
-		$currentUser     = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser();
 		$this->_content  = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
 		$contentContent  = (null === $this->_content) ? '' : $this->_content->getContent();
-		if(Tools_Security_Acl::isAllowed($this, $currentUser)) {
+		if(Tools_Security_Acl::isAllowed($this)) {
 			//$contentContent = ($this->_checkPublished()) ? $contentContent : '<div style="border: 1px dashed red">' . $contentContent . '</div>';
 			$contentContent .= $this->_addAdminLink($this->_type, ($this->_content === null) ? null : $this->_content->getId(), 'Click to edit content', 964, 594);
 			if ((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')){

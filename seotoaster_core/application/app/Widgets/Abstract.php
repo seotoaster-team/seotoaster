@@ -34,6 +34,7 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 			if(isset($toasterOptions['id'])) {
                 $this->_cacheId .= '_pid-'.$toasterOptions['id'];
             }
+			$this->_cacheId .= '_'.Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
         }
 		$this->_translator = Zend_Registry::get('Zend_Translate');
 		$this->_init();

@@ -22,6 +22,7 @@ class Widgets_Related_Related extends Widgets_Abstract {
 		));
 		$website = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $website->getUrl();
+		array_push($this->_cacheTags, __CLASS__);
 	}
 
 

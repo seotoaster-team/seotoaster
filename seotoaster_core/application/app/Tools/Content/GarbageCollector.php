@@ -16,16 +16,21 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 		$this->_updateContentLinksRelatios();
 		$this->_cleanEmptyContainer();
 		$this->_trimWidgets();
-		$this->_cleanCached();
+		$this->_cleanCachedContent();
 		$this->_resetSearchIndexRenewFlag();
+	}
+
+	protected function _runOnDelete() {
+		$this->_cleanCachedContent();
+		$this->_resetSearchIndexRenewFlag();
+	}
+
+	protected function _runOnCreate() {
+		$this->_cleanCachedContent();
 	}
 
 	public function updateContentLinksRelatios() {
 		$this->_updateContentLinksRelatios();
-	}
-
-	protected function _runOnDelete() {
-		$this->_resetSearchIndexRenewFlag();
 	}
 
 	private function _updateContentLinksRelatios() {
@@ -66,10 +71,10 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 		$cacheHelper->clean(null, null, array('search_index_renew'));
 	}
 
-	private function _cleanCached(){
-		$cacheId   =  $this->_object->getName() . intval($this->_object->getPageId()) . $this->_object->getContainerType();
+	private function _cleanCachedContent(){
+		$cacheTag = $this->_object->getName() .'_'. $this->_object->getContainerType() .'_pid_'. intval($this->_object->getPageId());
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
-		$cacheHelper->clean($cacheId, 'widget_');
+		$cacheHelper->clean(false, false, array($cacheTag));
 	}
 
 }

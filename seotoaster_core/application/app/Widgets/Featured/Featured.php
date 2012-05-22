@@ -22,6 +22,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		));
 		$website = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $website->getUrl();
+		//checking if its area and random
+		if (!empty($this->_options) && (reset($this->_options) === self::FEATURED_TYPE_AREA ) && (1 === intval(end($this->_options)))){
+			$this->_cacheable = false;
+		}
 	}
 
 	protected function _load() {
@@ -59,6 +63,11 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		$this->_view->faName                  = $featuredArea->getName();
 		$this->_view->faPageDescriptionLength = $maxDescriptionLength;
 
+		// adding cache tag for this fa
+		array_push($this->_cacheTags, 'fa_'.$areaName);
+		foreach ($featuredArea->getPages() as $page){
+			array_push($this->_cacheTags, 'pid_'.$page->getId());
+		}
 		return $this->_view->render('area.phtml');
 	}
 

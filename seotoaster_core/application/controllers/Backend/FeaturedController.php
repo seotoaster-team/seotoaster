@@ -81,6 +81,9 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		if($this->getRequest()->isPost()) {
 			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
 			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
+			$fa->registerObserver(new Tools_Featured_GarbageCollector(array(
+				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+			)));
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
 
 			}
@@ -94,6 +97,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$fa->addPage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+			$fa->notifyObservers();
 			$this->_helper->response->success($this->_helper->language->translate('Page added to featured area'));
 		}
 	}
@@ -102,6 +106,9 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		if($this->getRequest()->isPost()) {
 			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
 			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
+			$fa->registerObserver(new Tools_Featured_GarbageCollector(array(
+				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+			)));
 			if(!$fa instanceof Application_Model_Models_Featuredarea) {
 
 			}
@@ -119,6 +126,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$fa->deletePage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
+			$fa->notifyObservers();
 			$this->_helper->response->success($this->_helper->language->translate('Page removed from featured area'));
 		}
 	}
@@ -132,10 +140,13 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		if(!$featuredArea instanceof Application_Model_Models_Featuredarea) {
 			throw new Exceptions_SeotoasterException('Cannot load featured area');
 		}
-		$featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($faId);
 		if($this->getRequest()->isPost()) {
+			$featuredArea->registerObserver(new Tools_Featured_GarbageCollector(array(
+				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+			)));
 			$ordered = $this->getRequest()->getParam('ordered');
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->saveFaOrder($ordered, $faId);
+			$featuredArea->notifyObservers();
 		}
 
 		$this->view->faPages = $featuredArea->getPages();
@@ -160,6 +171,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		$faMapper     = Application_Model_Mappers_FeaturedareaMapper::getInstance();
 		$featuredArea = $faMapper->find($id);
 		if($featuredArea instanceof Application_Model_Models_Featuredarea) {
+
 			return $faMapper->delete($featuredArea);
 		}
 	}
