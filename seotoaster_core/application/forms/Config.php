@@ -24,6 +24,7 @@ class Application_Form_Config extends Zend_Form {
 	protected $_suLogin;
 	protected $_suPassword;
 	protected $_mediaServers;
+	protected $_inlineEditor;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -309,6 +310,10 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Use mediaServers?'
 		));
 
+		$this->addElement('checkbox', 'inlineEditor', array(
+			'value' => $this->_inlineEditor,
+			'label' => 'Enabel inline editing?'
+		));
 	}
 
 	public function proccessErrors() {
@@ -322,6 +327,16 @@ class Application_Form_Config extends Zend_Form {
 		}
 
 		return $isAnyErrors;
+	}
+
+	public function setInlineEditor($inlineEditor) {
+		$this->_inlineEditor = $inlineEditor;
+		$this->getElement('inlineEditor')->setValue($this->_inlineEditor);
+		return $this;
+	}
+
+	public function getInlineEditor() {
+		return $this->_inlineEditor;
 	}
 
 }

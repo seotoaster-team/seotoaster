@@ -88,6 +88,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				// saving/updating template in db
 				$template->setType($templateData['templateType']);
 				$result = $mapper->save($template);
+				if ($result){
+					$this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
+				}
 				// saving to file in theme folder
 				$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
 				$filepath = $currentThemePath.'/'.$templateData['name'].'.html';
@@ -353,6 +356,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$errors = $this->_saveThemeInDatabase($selectedTheme);
 				if (empty ($errors)){
 					$status = sprintf($this->_translator->translate('The theme "%s" applied!'), $selectedTheme);
+					$this->_helper->cache->clean(false, false);
 					$this->_helper->response->response($status, false);
 				} else {
 					$this->_helper->response->response($errors, true);

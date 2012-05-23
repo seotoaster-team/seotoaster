@@ -1052,18 +1052,20 @@ div#page-teaser-uploader span.ui-button-text{
 #page-teaser-uploader-filelist{
     height: 17px;
     overflow: hidden;
+}
+form#frm-page #page-teaser-uploader-filelist {
     width: 437px;
 }
-
 .noedit {
     background-color: #eee !important;
 }
 
-
 #media-toaster-uploader-filelist div.ui-widget p, #page-teaser-uploader-filelist div.ui-widget p, #themes-uploader-filelist div.ui-widget p, #plugin-uploader-filelist div.ui-widget p {
     width: 95%;
-    padding:1px 1px 1px 4%;
+    padding:1px 1px 1px 16px;
     margin-bottom: -16px;
+    line-height: 10pt;
+    white-space: nowrap;
 }
 
 #media-toaster-uploader-filelist div.ui-widget span, #page-teaser-uploader-filelist div.ui-widget span, #themes-uploader-filelist div.ui-widget span, #plugin-uploader-filelist div.ui-widget span {
@@ -1135,8 +1137,9 @@ list-style: square;
 	right:0;
 	top:0;
 	height:100%;
-	padding:2px 4px 6px 2px;
+	padding:2px 4px 6px 3px;
 	vertical-align:middle;
+    background-color: #666666;
 }
 .collapse-all {
   display: inline-block;
@@ -1733,7 +1736,6 @@ input[type=checkbox].cropped {
 .container-wrapper:hover {
     outline: 1px dashed #AAAAAA;
 }
-.container-wrapper.unpublished {
-    outline-color: red;
-    outline-style: dashed;
+.unpublished {
+    outline: 1px dashed #ff0000;
 }

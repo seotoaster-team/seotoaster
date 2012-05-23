@@ -13,6 +13,10 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
 	protected $_message;
 
+    protected $_from    = '';
+
+    protected $_subject = '';
+
 
 	public function setMessage($message) {
 		$this->_message = $message;
@@ -45,4 +49,23 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 	public function getTrigger() {
 		return $this->_trigger;
 	}
+
+    public function setFrom($from) {
+        $this->_from = $from;
+        return $this;
+    }
+
+    public function getFrom() {
+        return $this->_from;
+    }
+
+    public function setSubject($subject) {
+        $this->_subject = $subject;
+        return $this;
+    }
+
+    public function getSubject() {
+        return $this->_subject;
+    }
+
 }

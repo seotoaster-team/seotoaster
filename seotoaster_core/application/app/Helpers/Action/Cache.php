@@ -57,7 +57,7 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 
 	public function save($cacheId, $data, $cachePrefix = '', $tags = array(), $lifeTime = self::CACHE_FLASH) {
 		$cacheId = $this->_makeCacheId($cacheId, $cachePrefix);
-		return $this->_cache->save($data, $cacheId, $tags, $lifeTime);
+		return $this->_cache->save($data, $cacheId, $this->_sanitazeTags($tags), $lifeTime);
 	}
 
     /**
@@ -67,6 +67,7 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
      * @param array $tags array of cache tags to remove
      */
 	public function clean($cacheId = '', $cachePrefix = '', $tags = array()) {
+		$tags = $this->_sanitazeTags($tags);
 		$this->_cache->clean(Zend_Cache::CLEANING_MODE_OLD);
 		if(!$cachePrefix && !$cacheId) {
             if (is_array($tags) && !empty($tags)){
@@ -79,6 +80,13 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 			$cacheId = $this->_makeCacheId($cacheId, $cachePrefix);
 			$this->_cache->remove($cacheId);
 		}
+	}
+
+	private function _sanitazeTags($tags){
+		if (is_array($tags)){
+			return preg_replace('/[^\w\d_]/', '', $tags);
+		}
+		return array();
 	}
 }
 

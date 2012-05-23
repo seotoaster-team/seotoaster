@@ -10,6 +10,11 @@ class Widgets_Meta_Meta extends Widgets_Abstract {
 
 	const TYPE_DESCRIPTION = 'description';
 
+	protected function _init() {
+		parent::_init();
+		$this->_cacheTags = array('pid_'.$this->_toasterOptions['id']);
+	}
+
 	protected function  _load() {
 		return $this->_getMetaContent();
 	}

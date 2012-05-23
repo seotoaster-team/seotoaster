@@ -47,7 +47,7 @@
 		}).on('focus', '#adminselectimgfolder', function() {
 			var el = $(this);
 			$.get('<?php echo $this->websiteUrl; ?>backend/backend_content/refreshfolders/', function(response) {
-			    if(!response.error) {
+			    if(!response.error && response.responseText.length > 7) {
 				    el.empty();
 				    el.append('<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>');
 				    $.each(response.responseText, function(id, folderName) {

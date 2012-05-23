@@ -164,14 +164,16 @@ $(function() {
 
         var self = this,
             url = $(this).find('.tpopup.generator-links').data('url'),
-            editContainer = $('<div></div>');
-        $(editContainer).insertBefore($(this));
+            editContainer = $('<div class="inline-editor"></div>');
+        $(editContainer).insertBefore(this);
         $.getJSON(url, function(response){
-            var editor = $('<textarea>').appendTo(editContainer);
+            var editor = $('<textarea>');
+//            editor.data('container', response);
+            $(editContainer).append(editor);
             editor.val(response.content)
                   .height($(self).height())
                   .width($(self).width());
-            var redactor = editor.redactor({
+            $(editor).redactor({
                 lang: 'en',
                 toolbar: false,
                 autoformat: false
@@ -179,12 +181,12 @@ $(function() {
             $(self).hide();
 
             var btnCancel = $('<input type="button" class="btn" value="Cancel" />');
-                btnCancel.on('click', function(){ redactor.destroy(); $(editContainer).remove(); $(self).show(); });
+                btnCancel.on('click', function(){ $(editor).destroyEditor(); $(editContainer).remove(); $(self).show(); });
 
             var btnSave = $('<input type="button" class="btn" value="Save" />');
                 btnSave.on('click', function(){
                     var data = {
-                        content: redactor.getCodeEditor(),
+                        content: $(editor).getCode(),
                         containerType : response.containerType,
                         containerName : response.name,
                         pageId        : response.pageId,
@@ -199,9 +201,7 @@ $(function() {
                         }
                     }, 'json');
                 });
-
-            redactor.$frame.before(btnSave)
-                    .before(btnCancel);
+            $(editContainer).prepend(btnSave, btnCancel);
         });
     });
 });
@@ -294,6 +294,7 @@ function showMailMessageEdit(trigger, callback) {
             resizable: false,
             show: 'clip',
             hide: 'clip',
+            draggable: false,
             buttons: [
                 {
                     text: "Okay",

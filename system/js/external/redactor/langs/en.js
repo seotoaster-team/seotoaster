@@ -71,5 +71,6 @@ var RLANG = {
 	horizontalrule: 'Horizontal rule',
 	fullscreen: 'Fullscreen',
 	deleted: 'Deleted',
-	none: 'None'
+	none: 'None',
+	anchor: 'Anchor'
 };
