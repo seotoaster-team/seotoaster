@@ -69,9 +69,9 @@ class Application_Form_Form extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'id'         => 'reply-mail-template',
 			'name'       => 'replyMailTemplate',
-			'label'      => 'Auto reply mail template*',
+			'label'      => 'Auto reply mail template',
 			'value'      => $this->_replyMailTemplate,
-			'required'   => true,
+			//'required'   => true,
 			'registerInArrayValidator' => false
 		)));
 

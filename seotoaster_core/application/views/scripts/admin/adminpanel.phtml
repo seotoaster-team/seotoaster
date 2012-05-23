@@ -78,6 +78,7 @@
 			<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
 			<ul>
 				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '600', 'height' => '364')); ?></li>
+                <li><?php echo $this->toasterLink('backend_config', 'actionmails', $this->translate('Action e-mails'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
 					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<?php endif; ?>

@@ -1,0 +1,184 @@
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
+<div class="seotoaster container_12 h570 rounded3px">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage action e-mails')); ?>
+    <div class="grid_12">
+        <fieldset id="actions-select">
+            <?php
+                echo $this->formLabel('actions', 'Select an actions');
+                echo $this->formSelect('actions', null, null, $this->actionsOptions);
+            ?>
+<!--            <button class="blue-btn" id="new-trigger-action">--><?php //echo $this->translate('Add'); ?><!--</button>-->
+        </fieldset>
+    </div>
+    <form action="javascript:;" method="post" id="ations-triggers-frm">
+        <div class="grid_12 h400" id="action-triggers">
+            <fieldset class="h400">
+                <p><?php echo $this->translate('Please, select an action above'); ?></p>
+            </fieldset>
+        </div>
+    </form>
+    <?php echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions')); ?>
+
+<script id="triggerActionTemplate" type="text/x-jquery-tmpl">
+    {{each(key, trigger) triggers}}
+        {{each(name, data) trigger}}
+            {{if name == triggerName}}
+                <fieldset class="mb10px">
+                    {{if triggerId}}
+                        <?php echo $this->formHidden('actions[${index}][id]', '${triggerId}'); ?>
+                        <?php echo $this->formHidden('actions[${index}][delete]', 'false'); ?>
+                    {{/if}}
+                    <span class="ui-icon ui-icon-closethick" style="float:right; cursor:pointer;"></span>
+                    <?php echo $this->formHidden('actions[${index}][trigger]', '${name}'); ?>
+                    <div class="trigger-title">
+                        <?php echo $this->translate('When'); ?> <strong>${title}</strong><br />
+                    </div>
+                    <?php echo $this->formLabel('recipients', 'send an e-mail to'); ?>
+                    <?php echo $this->formSelect('actions[${index}][recipient]', '${sendto}', null, $this->recipients); ?>
+                    <?php echo $this->formLabel('mailTemplates', 'use template'); ?>
+                    <?php echo $this->formSelect('actions[${index}][template]', null, null, $this->mailTemplates); ?>
+                    <?php echo $this->formLabel('message', 'with message'); ?>
+                    <?php echo $this->formTextarea('actions[${index}][message]', '${message}', array('rows' => 5, 'cols' => 30)); ?>
+                    <?php echo $this->formLabel('from', 'from'); ?>
+                    <?php echo $this->formText('actions[${index}][from]', '${from}'); ?>
+                    <?php echo $this->formLabel('subject', 'with subject'); ?>
+                    <?php echo $this->formText('actions[${index}][subject]', '${subject}'); ?>
+                </fieldset>
+            {{/if}}
+        {{/each}}
+    {{/each}}
+</script>
+
+<script type="text/x-jquery-tmpl" id="triggersTabs">
+    <ul id="triggers-tabs-holder">
+        {{each(key, trigger) triggers}}
+            {{if key == currentTrigger }}
+                {{each(name, data) trigger}}
+                    <li><a href="#${key}-triegger-${name.replace(/\s+/g, '-')}">${title}</a></li>
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    </ul>
+    {{each(key, trigger) triggers}}
+        {{if key == currentTrigger }}
+            {{each(name, data) trigger}}
+                <div id="${key}-triegger-${name.replace(/\s+/g, '-')}" class="tabs-contents h350">
+                    <div style="clear: both"></div>
+                    <button class="blue-btn new-trigger-action" data-trigger-name="${name}"><?php echo $this->translate('Add a receipient'); ?></button>
+                </div>
+            {{/each}}
+        {{/if}}
+    {{/each}}
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        $('#save-actions').hide();
+        var triggersTabsTmpl  = $('#triggersTabs').template();
+        var actionTriggers    = <?php echo json_encode($this->pluginTriggers); ?>;
+        var actions           = <?php echo json_encode($this->actions);?>;
+        var lastId            = 0;
+
+        $(document).on('change', '#actions', function() {
+            if($(this).val() != 0) {
+               $('#save-actions').show()
+            } else {
+                //$('#save-actions').hide()
+                return false;
+            }
+            $('#action-triggers').tabs('destroy');
+            $('#action-triggers').empty().append($.tmpl(triggersTabsTmpl, {triggers: actionTriggers, currentTrigger: $(this).val()}));
+            $('#action-triggers').tabs({
+                create: function(event, ui) {
+                    $.each(actions, function(index, item) {
+                        var triggerHolderId = $('#actions').val() + '-triegger-' + item.trigger;
+                        var triggerHolder   = $(event.target).find('#' + triggerHolderId);
+                        var action          = $.tmpl($('#triggerActionTemplate').template(), {triggers: actionTriggers, triggerName: item.trigger, index: item.id, triggerId: item.id});
+                        $('select[name*=trigger]', action).val(item.trigger);
+                        $('select[name*=recipient]', action).val(item.recipient);
+                        $('select[name*=template]', action).val(item.template);
+                        $('textarea[name*=message]', action).val(item.message);
+                        $('input[name*=from]', action).val(item.from);
+                        $('input[name*=subject]', action).val(item.subject);
+                        $(triggerHolder).prepend(action);
+                    });
+                }
+            });
+        }).on('click', '.new-trigger-action', function(e) {
+            e.preventDefault();
+            var triggerName       = $(e.target).data('triggerName');
+            var actionTriggerTmpl = $('#triggerActionTemplate').template();
+            $(e.target).parent().prepend($.tmpl(actionTriggerTmpl, {triggers: actionTriggers, triggerName: triggerName, index: (lastId++)}));
+        }).on('click', '#save-actions', function(e) {
+            $.ajax({
+                url: '<?php echo $this->escape($this->url()); ?>',
+                type: 'post',
+                dataType: 'json',
+                data: $('#ations-triggers-frm').serialize(),
+                beforeSend: function() {
+                    showSpinner();
+                },
+                success: function(response) {
+                    hideSpinner();
+                    showMessage(response.responseText);
+                }
+            });
+        }).on('click', 'span.ui-icon', function(){
+            var id = $(this).closest('fieldset').find('input[name*=id]');
+            if (id.length) {
+                $(this).closest('fieldset').find('input[name*=delete]').val(true);
+                $(this).closest('fieldset').hide();
+            } else {
+                $(this).closest('fieldset').remove();
+            }
+        });
+    });
+</script>
+
+<style type="text/css">
+    fieldset#actions-select {
+        float: left;
+        width: 260px;
+    }
+    fieldset#actions-select select {
+        width: 250px;
+    }
+    #action-triggers select, #action-triggers input[type=text], #action-triggers label, #action-triggers textarea {
+        width: 255px;
+        /*float: left;*/
+    }
+    #action-triggers label {
+        float: left;
+        font-size: 14px;
+        width: 130px;
+    }
+    #action-triggers textarea {
+        height: 50px;
+    }
+    #action-triggers .tabs-contents {
+        overflow-y: auto !important;
+    }
+    .tabs-contents {
+        overflow: hidden;
+    }
+    .tabs-contents fieldset {
+        width: 409px;
+        float: left;
+        margin-bottom: 20px;
+    }
+    .tabs-contents fieldset:nth-child(odd) {
+        margin-right: 25px;
+    }
+    .trigger-title {
+        margin-bottom: 5px;
+        border-bottom: 1px solid #aeaeae;
+        padding-bottom: 5px;
+    }
+    fieldset p {
+        font-size: 30px;
+        font-weight: bold;
+        text-shadow: 0 1px 2px #333;
+        text-align: center;
+        margin-top: 30px;
+    }
+</style>

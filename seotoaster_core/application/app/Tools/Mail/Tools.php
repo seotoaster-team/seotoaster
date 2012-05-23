@@ -9,7 +9,37 @@ class Tools_Mail_Tools {
 
 	private static $_mailRenderer = null;
 
-	public static function getMailTemplatesHash() {
+    /**
+     * Initialize toaster mailer with valid transport
+     *
+     * @static
+     * @return Tools_Mail_Mailer Seotoaster mailer instance
+     */
+    public static function initMailer(){
+        $config        = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig();
+        $mailer = new Tools_Mail_Mailer();
+
+        if ((bool)$config['useSmtp']){
+            $smtpConfig = array(
+                'host'      => $config['smtpHost'],
+                'username'  => $config['smtpLogin'],
+                'password'  => $config['smtpPassword']
+            );
+            if ((bool)$config['smtpSsl']){
+                $smtpConfig['ssl'] = $config['smtpSsl'];
+            }
+            if (!empty($config['smtpPort'])){
+                $smtpConfig['port'] = $config['smtpPort'];
+            }
+            $mailer->setSmtpConfig($smtpConfig);
+            $mailer->setTransport(Tools_Mail_Mailer::MAIL_TYPE_SMTP);
+        } else {
+            $mailer->setTransport(Tools_Mail_Mailer::MAIL_TYPE_MAIL);
+        }
+        return $mailer;
+    }
+
+    public static function getMailTemplatesHash() {
 		$hash          = array();
 		$mailTemplates = Application_Model_Mappers_TemplateMapper::getInstance()->findByType(Application_Model_Models_Template::TYPE_MAIL);
 		if(!empty ($mailTemplates)) {
