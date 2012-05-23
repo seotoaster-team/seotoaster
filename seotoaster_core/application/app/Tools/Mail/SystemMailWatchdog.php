@@ -66,7 +66,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     protected function _sendPasswordretrieveMail() {
         $this->_entityParser->objectToDictionary($this->_object);
-        $mailer   = new Tools_Mail_Mailer();
+        $mailer   = Tools_Mail_Tools::initMailer();
         $mailer->setMailFrom('support@seotoaster.com');
         $mailer->setMailFromLabel('Seotoaster support team');
         $mailer->setMailTo($this->_object->getUserEmail());
