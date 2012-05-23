@@ -1135,8 +1135,9 @@ list-style: square;
 	right:0;
 	top:0;
 	height:100%;
-	padding:2px 4px 6px 2px;
+	padding:2px 4px 6px 3px;
 	vertical-align:middle;
+    background-color: #666666;
 }
 .collapse-all {
   display: inline-block;
