@@ -294,6 +294,7 @@ function showMailMessageEdit(trigger, callback) {
             resizable: false,
             show: 'clip',
             hide: 'clip',
+            draggable: false,
             buttons: [
                 {
                     text: "Okay",
