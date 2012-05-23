@@ -288,20 +288,23 @@ class Tools_Plugins_Tools {
 
 
 	private static function _formatPluginRoute($routeData, $pluginName) {
-		$name   = $routeData['name'];
-		$method = $routeData['method'];
+		$routeName  = $routeData['name'];
+		$method     = $routeData['method'];
 		unset ($routeData['name']);
 		unset ($routeData['method']);
 		$route = array(
-			'name' => $name,
+			'name' => $routeName,
 			'data' => $routeData
 		);
-		$route['data']['defaults'] = array(
+		if (!isset($routeData['defaults']) || empty($routeData['defaults'])){
+			$routeData['defaults'] = array();
+		}
+		$route['data']['defaults'] = array_merge($routeData['defaults'], array(
 			'controller' => 'backend_plugin',
 			'action'     => 'fireaction',
 			'name'       => $pluginName,
 			'run'        => $method
-		);
+		));
 		return $route;
 	}
 
