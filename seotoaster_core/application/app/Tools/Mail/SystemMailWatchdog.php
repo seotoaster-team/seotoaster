@@ -24,7 +24,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	 * Password recovery trigger
 	 *
 	 */
-	const TRIGGER_PASSWORDRETRIEVE = 'passwordretrieveMail';
+	const TRIGGER_PASSWORDRETRIEVE = 'passwordretrieve';
 
 	private $_options      = array();
 
