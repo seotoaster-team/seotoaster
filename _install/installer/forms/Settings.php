@@ -24,7 +24,6 @@ class Installer_Form_Settings extends Zend_Form {
 		$this->addElement('text', 'adminEmail', array(
 			'value'		=> '',
 			'label'		=> 'Email',
-			'title'		=> 'We will not use it for spamming',
 			'required'	=> true,
 			'allowEmpty'=> false,
 			'validators'=> array(new Zend_Validate_EmailAddress())
