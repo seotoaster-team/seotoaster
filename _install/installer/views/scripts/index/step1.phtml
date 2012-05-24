@@ -57,11 +57,11 @@
 		<?php if ($this->failedPermissions) : ?>
 		<div>
 			<p><?php echo $this->translate('Please check below the list of files and folders which seem to have some permissions errors:');?></p>
-			<ul class="marked">
+			<ul>
 			<?php foreach ($this->permissions['dir'] as $dirname => $status): ?>
 				<?php if ($status !== true ): ?>
 				<li>
-					<?php echo 'Folder <strong>'.$dirname.'</strong>' . ' - ' . $status ; ?>
+					<span class="err ui-icon ui-icon-notice"><?php echo 'Folder <strong>'.$dirname.'</strong>' . ' - ' . $status ; ?></span>
 				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
@@ -70,7 +70,7 @@
 			<?php foreach ($this->permissions['file'] as $filename => $status): ?>
 				<?php if ($status !== true ): ?>
 				<li>
-					<?php echo 'File <b>'.$filename.'</b>' . ' - ' . $status ; ?>
+					<span class="err ui-icon ui-icon-notice"><?php echo 'File <b>'.$filename.'</b>' . ' - ' . $status ; ?></span>
 				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
