@@ -26,7 +26,11 @@ class SearchController extends Zend_Controller_Action {
 			$resultsPageId  = filter_var($this->getRequest()->getParam('resultsPageId'), FILTER_VALIDATE_INT);
 			$pageToRedirect = Application_Model_Mappers_PageMapper::getInstance()->find($resultsPageId);
 
-
+            $searchIndexDirPath = $this->_helper->website->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
+            $searchIndexFiles   = Tools_Filesystem_Tools::scanDirectory($searchIndexDirPath);
+            if(empty($searchIndexFiles)) {
+                Tools_Search_Tools::renewIndex(true);
+            }
 			$toasterSearchIndex = Zend_Search_Lucene::open($this->_helper->website->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER);
 			$searchHits         = $toasterSearchIndex->find($searchTerm);
 			if(is_array($searchHits) && !empty($searchHits)) {
@@ -45,6 +49,7 @@ class SearchController extends Zend_Controller_Action {
 			else {
 				$this->_helper->session->searchHits = $this->_helper->language->translate('Nothing found');
 			}
+
 			$this->_redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
 		}
 	}

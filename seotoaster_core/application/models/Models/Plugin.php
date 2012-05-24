@@ -16,7 +16,7 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	protected $_cache   = false;
 
-	protected $_tags    = '';
+	protected $_tags    = array();
 
 	protected $_preview = '';
 
