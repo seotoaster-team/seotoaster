@@ -64,16 +64,21 @@ class Application_Form_User extends Zend_Form {
 			'value'      => $this->_password
 		)));
 
+		$acl = Zend_Registry::get('acl');
+		$roles = array_filter($acl->getRoles(), function($role){
+			return $role !== Tools_Security_Acl::ROLE_SUPERADMIN;
+		});
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'roleId',
 			'id'           => 'role-id',
 			'label'        => 'Role',
 			'value'        => $this->_roleId,
-			'multiOptions' => array(
-				Tools_Security_Acl::ROLE_MEMBER => ucfirst(Tools_Security_Acl::ROLE_MEMBER),
-				Tools_Security_Acl::ROLE_USER   => ucfirst(Tools_Security_Acl::ROLE_USER),
-				Tools_Security_Acl::ROLE_ADMIN  => ucfirst(Tools_Security_Acl::ROLE_ADMIN)
-			),
+//			'multiOptions' => array(
+//				Tools_Security_Acl::ROLE_MEMBER => ucfirst(Tools_Security_Acl::ROLE_MEMBER),
+//				Tools_Security_Acl::ROLE_USER   => ucfirst(Tools_Security_Acl::ROLE_USER),
+//				Tools_Security_Acl::ROLE_ADMIN  => ucfirst(Tools_Security_Acl::ROLE_ADMIN)
+//			),
+			'multiOptions' => array_combine($roles, array_map('ucfirst', $roles)),
 			'required' => true
 		)));
 
