@@ -12,6 +12,7 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function renderAdminPanel($userRole = null) {
+		$userRole = preg_replace('/[^\w\d_]/', '', $userRole);
 		if(!$additionalMenu = $this->_cache->load('admin_addmenu', $userRole)) {
 			$additionalMenu = Tools_Plugins_Tools::fetchPluginsMenu($userRole);
 			$this->_cache->save('admin_addmenu', $additionalMenu, $userRole, array(), '7200');
