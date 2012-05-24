@@ -7,7 +7,7 @@
  */
 class Tools_Search_Tools {
 
-	public static function renewIndex() {
+	public static function renewIndex($forceCreate = false) {
 		$websiteHelper     = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$searchIndexFolder = $websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
 		$pages             = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
@@ -23,12 +23,12 @@ class Tools_Search_Tools {
 
 		self::removeIndex();
 
-		$toasterSearchIndex = (!is_dir($searchIndexFolder)) ? Zend_Search_Lucene::create($searchIndexFolder) : Zend_Search_Lucene::open($searchIndexFolder);
+		$toasterSearchIndex = (!is_dir($searchIndexFolder) || $forceCreate) ? Zend_Search_Lucene::create($searchIndexFolder) : Zend_Search_Lucene::open($searchIndexFolder);
 
 		foreach ($pages as $page) {
 			self::addPageToIndex($page, $toasterSearchIndex);
 		}
-		//$toasterSearchIndex->optimize();
+		$toasterSearchIndex->optimize();
 	}
 
 	public static function removeFromIndex($term) {

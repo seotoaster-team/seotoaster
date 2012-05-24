@@ -1,4 +1,5 @@
-<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)): ?>
+<!-- probably for we have to change resource passing to the isAllowed. Not it is not obivious why we are checking RESOURCE_PLUGINS -->
+<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	<a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="650" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order'); ?></a>
 <?php endif; ?>
 
