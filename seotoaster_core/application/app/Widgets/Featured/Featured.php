@@ -66,7 +66,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		// adding cache tag for this fa
 		array_push($this->_cacheTags, 'fa_'.$areaName);
 		foreach ($featuredArea->getPages() as $page){
-			array_push($this->_cacheTags, 'pid_'.$page->getId());
+			array_push($this->_cacheTags, 'pageid_'.$page->getId());
 		}
 		return $this->_view->render('area.phtml');
 	}
@@ -82,7 +82,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		$this->_view->useImage         = (isset($params[2]) && ($params[2] == 'img' || $params[2] == 'imgc')) ? $params[2] : false;
 		$this->_view->descLength       = (isset($params[1]) && intval($params[1])) ? intval($params[1]) : self::AREA_DESC_LENGTH;
 		$this->_view->page             = $page;
-		array_push($this->_cacheTags, 'pid_'.$page->getId());
+		array_push($this->_cacheTags, 'pageid_'.$page->getId());
 		return $this->_view->render('page.phtml');
 	}
 
