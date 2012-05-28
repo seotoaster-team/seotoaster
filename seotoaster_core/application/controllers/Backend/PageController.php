@@ -139,7 +139,11 @@ class Backend_PageController extends Zend_Controller_Action {
 		//page preview image
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
 		$this->view->sambaOptimized   = $page->getOptimized();
-		if($page->getOptimized()) {
+
+        // page help section
+        $this->view->helpSection = ($pageId) ? 'editpage' : 'addpage';
+
+        if($page->getOptimized()) {
 			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords'));
 		}
 		$this->view->pageForm = $pageForm;

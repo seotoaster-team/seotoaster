@@ -1,6 +1,6 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
 <div class="seotoaster container_12 h360">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config')); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config', 'helpSection' => $this->helpSection)); ?>
 
 	<form class="grid_12" action="<?php echo $this->configForm->getAction(); ?>" method="<?php echo $this->configForm->getMethod();?>">
 		<div id="tabs">

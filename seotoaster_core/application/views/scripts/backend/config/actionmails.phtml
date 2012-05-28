@@ -4,7 +4,7 @@
     <div class="grid_12">
         <fieldset id="actions-select">
             <?php
-                echo $this->formLabel('actions', 'Select an actions');
+                echo $this->formLabel('actions', 'Select event area');
                 echo $this->formSelect('actions', null, null, $this->actionsOptions);
             ?>
 <!--            <button class="blue-btn" id="new-trigger-action">--><?php //echo $this->translate('Add'); ?><!--</button>-->
@@ -13,7 +13,9 @@
     <form action="javascript:;" method="post" id="ations-triggers-frm">
         <div class="grid_12 h400" id="action-triggers">
             <fieldset class="h400">
-                <p><?php echo $this->translate('Please, select an action above'); ?></p>
+                <p><?php echo $this->translate('Action emails are event-triggered emails sent automatically by system or plug-ins. Define how they look under the layout/template menu and what they do and when right here.'); ?></p>
+                <p>--------------------------</p>
+                <p><?php echo $this->translate('Please, select an event area above to view & edit currently configured related action emails or create new ones.'); ?></p>
             </fieldset>
         </div>
     </form>

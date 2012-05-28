@@ -1,6 +1,6 @@
 <div class="header" style="overflow:hidden;">
 	<div class="closebutton">
-		<span class="help"><?php echo $this->translate('Help'); ?></span>
+		<span class="help"><?php echo $this->toasterHelp(isset($this->helpSection) ? $this->helpSection : ''); ?></span>
 		<span class="close"><?php echo $this->translate('Close'); ?></span>
 	</div>
 	<?php echo (isset($this->headerText) ? $this->translate($this->headerText) : ''); ?>
