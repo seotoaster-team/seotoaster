@@ -29,6 +29,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             'scriptPath' => __DIR__ . '/views'
         ));
         $this->_view->prepopName    = $this->_prepopName;
+        $this->_view->websiteUrl    = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
         $this->_view->commonOptions = array(
             'pageId'        => $this->_toasterOptions['id'],
             'containerType' => Application_Model_Models_Container::TYPE_PREPOP,
