@@ -51,7 +51,6 @@
 		<!-- end from theme -->
 	</head>
 	<?php echo $this->bodyTag; ?>
-		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_ajaxmsg.phtml'); ?>
 		<?php echo $this->layout()->content; ?>
 		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
 		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />

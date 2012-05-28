@@ -9,12 +9,13 @@
 			
 			<p>Now you need to remove or rename folder <strong>"install"</strong> in <code><?php echo INSTALL_PATH; ?></code> before going live.</p>
 			
-			<p>Than click on link next and login with your email and password.</p>
+			<p>Then click on the following link and login with your e-mail and password.</p>
 		
 			<p>Your login url:
 			<a href="<?php echo $this->protocol . '://' .$this->websiteUrl.'go'; ?>"><?php echo $this->protocol . '://' .$this->websiteUrl.'go'; ?></a>
 			</p>
 		</div>
-	
+
+		<?php echo $this->partial('_server.phtml'); ?>
 	</div>
 </div>

@@ -11,8 +11,17 @@
 				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
-		<li>
-			<a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo $this->translate('News');?></a>
-		</li>
 	</ul>
+<?php endif; ?>
+<!-- flat pages here -->
+<?php if(!empty($this->flatPages)): ?>
+    <ul class="sitemap">
+        <?php foreach ($this->flatPages as $key => $flatPage): ?>
+            <?php $flatPage = $flatPage->toArray(); ?>
+            <li class="page"><a title="<?php echo isset($flatPage['optimizedH1']) ? $flatPage['optimizedH1'] : $flatPage['h1']; ?>" href="<?php echo $this->websiteUrl . (isset($flatPage['optimizedUrl']) ? $flatPage['optimizedUrl'] : $flatPage['url']); ?>"><?php echo (isset($flatPage['optimizedNavName']) ? $flatPage['optimizedNavName'] : $flatPage['navName']) ; ?></a></li>
+        <?php endforeach; ?>
+        <li>
+            <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo $this->translate('News');?></a>
+        </li>
+    </ul>
 <?php endif; ?>

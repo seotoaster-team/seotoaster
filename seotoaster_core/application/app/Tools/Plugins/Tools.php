@@ -2,7 +2,9 @@
 
 class Tools_Plugins_Tools {
 
-	const CONFIGINI_PATH = 'config/config.ini';
+	const CONFIGINI_PATH   = 'config/config.ini';
+
+    const LOADER_EXTENSION = 'IonCube Loader';
 
 	public static function fetchPluginsMenu($userRole = null) {
 		$additionalMenu = array();
@@ -93,6 +95,50 @@ class Tools_Plugins_Tools {
         sort($additionalMenu);
 		return $additionalMenu;
 	}
+
+
+    /**
+     * Fetch plugins action e-mails triggers from config file
+     *
+     * @static
+     * @return mixed
+     */
+    public static function fetchPluginsTriggers() {
+        $triggers      = array();
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $miscConfig    = Zend_Registry::get('misc');
+
+        $enabledPlugins = self::getEnabledPlugins();
+        if(!is_array($enabledPlugins) || empty($enabledPlugins)) {
+            return false;
+        }
+
+        $pluginDirPath  = $websiteHelper->getPath() . $miscConfig['pluginsPath'];
+
+        foreach($enabledPlugins as $plugin) {
+            $configIniPath = $pluginDirPath . $plugin->getName() . '/' . self::CONFIGINI_PATH;
+
+            if(!file_exists($configIniPath)) {
+                continue;
+            }
+
+            try {
+                $configIni = new Zend_Config_Ini($configIniPath);
+            } catch (Zend_Config_Exception $zce) {
+                if(APPLICATION_ENV == 'development') {
+                    Zend_Debug::dump($zce->getMessage() . '<br />' . $zce->getTraceAsString());
+                }
+                error_log("(plugin: " . strtolower(get_called_class()) . ") " . $se->getMessage() . "\n" . $se->getTraceAsString());
+            }
+            if(!isset($configIni->actiontriggers)) {
+                continue;
+            }
+
+            $triggers = array_merge($triggers, $configIni->actiontriggers->toArray());
+        }
+        return $triggers;
+    }
+
 
 	/**
 	 * @deprecated
@@ -206,10 +252,33 @@ class Tools_Plugins_Tools {
 		$cacheHelper->init();
 		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
 			$enabledPlugins = Application_Model_Mappers_PluginMapper::getInstance()->findEnabled();
+
+            // if we do not have the proper encoder loaded we have to exclude plugins that, requires that encoder, from enabled
+            if(!extension_loaded(self::LOADER_EXTENSION)) {
+                $pluginsData = self::_initValues();
+                foreach($enabledPlugins as $key => $plugin) {
+                    if(file_exists($pluginsData['pluginsDirPath'] . $plugin->getName() . '/.toasted')) {
+                        unset($enabledPlugins[$key]);
+                    }
+                }
+            }
+
+
 			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $enabledPlugins;
 	}
+
+    public static function loaderCanExec($name) {
+        if(!extension_loaded(self::LOADER_EXTENSION)) {
+            $pluginsData = self::_initValues();
+            if(file_exists($pluginsData['pluginsDirPath'] . $name . '/.toasted')) {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
 
     /**
      * Find plugins with specified tags
@@ -239,7 +308,8 @@ class Tools_Plugins_Tools {
 
 	private static function _initValues() {
 		$routesPath  = APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml';
-		if(file_exists($routesPath)) {
+		$routes      = array();
+        if(file_exists($routesPath)) {
 			$routes = new Zend_Config_Xml($routesPath);
 			$routes = $routes->toArray();
 		}
@@ -288,20 +358,23 @@ class Tools_Plugins_Tools {
 
 
 	private static function _formatPluginRoute($routeData, $pluginName) {
-		$name   = $routeData['name'];
-		$method = $routeData['method'];
+		$routeName  = $routeData['name'];
+		$method     = $routeData['method'];
 		unset ($routeData['name']);
 		unset ($routeData['method']);
 		$route = array(
-			'name' => $name,
+			'name' => $routeName,
 			'data' => $routeData
 		);
-		$route['data']['defaults'] = array(
+		if (!isset($routeData['defaults']) || empty($routeData['defaults'])){
+			$routeData['defaults'] = array();
+		}
+		$route['data']['defaults'] = array_merge($routeData['defaults'], array(
 			'controller' => 'backend_plugin',
 			'action'     => 'fireaction',
 			'name'       => $pluginName,
 			'run'        => $method
-		);
+		));
 		return $route;
 	}
 

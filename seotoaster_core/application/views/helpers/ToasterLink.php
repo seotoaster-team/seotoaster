@@ -8,8 +8,17 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 
 	const WSIZE_SMALL  = 'small';
 
+	/**
+	 * Generates a link wrapped in <a /> tag according to a given controller/action that will be opened in popup
+	 * @param $controller Controller name
+	 * @param $action Action name
+	 * @param $linkText Link message. Will be passed to translator
+	 * @param string $params
+	 * @param bool $hrefOnly If true - return only url
+	 * @param string $winSizeType
+	 * @return string
+	 */
 	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE) {
-		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$linkText      = htmlspecialchars($this->view->translate($linkText));
 		$winsize       = $this->_getValidWinSize($winSizeType);
 
@@ -38,8 +47,9 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		if (is_array($params)) {
 			$routeParams = array_merge($routeParams, $params);
 		}
-		$href = trim($websiteHelper->getUrl(), '/') . $this->view->url($routeParams, $routeName) .(is_string($params)?'/'.$params:null);
-
+		$scheme = Zend_Controller_Front::getInstance()->getRequest()->getScheme();
+		$host = Zend_Controller_Front::getInstance()->getRequest()->getHttpHost();
+		$href = $scheme.'://'.$host. $this->view->url($routeParams, $routeName) .(is_string($params)?'/'.$params:null);
 		$link = '<a class="tpopup ' . strtolower($action) . '" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
 		if($hrefOnly) {
 			return $href;

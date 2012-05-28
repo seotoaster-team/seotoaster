@@ -312,7 +312,7 @@ class Application_Form_Config extends Zend_Form {
 
 		$this->addElement('checkbox', 'inlineEditor', array(
 			'value' => $this->_inlineEditor,
-			'label' => 'Enabel inline editing?'
+			'label' => 'Enable edit zones highlighting?'
 		));
 	}
 

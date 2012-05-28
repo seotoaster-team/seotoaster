@@ -4,7 +4,7 @@ class IndexController extends Zend_Controller_Action {
 
     public function init() {
 		$this->_helper->ajaxContext->addActionContext('language', 'json')->initContext('json');
-	}
+    }
 
     public function indexAction() {
 		$page        = null;
@@ -43,7 +43,7 @@ class IndexController extends Zend_Controller_Action {
 			$page   = $mapper->findByUrl($pageUrl);
 			if(null !== $page) {
 				$cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
-				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag));
+				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_'.$page->getId()));
 			}
 		}
 

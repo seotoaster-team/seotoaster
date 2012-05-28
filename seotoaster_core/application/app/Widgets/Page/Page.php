@@ -7,7 +7,7 @@
 class Widgets_Page_Page extends Widgets_Abstract {
 
 	protected function _init() {
-		$this->_cacheTags = array('pid_'.$this->_toasterOptions['id']);
+		array_push($this->_cacheTags , 'pageid_'.$this->_toasterOptions['id']);
 	}
 
 	protected function  _load() {

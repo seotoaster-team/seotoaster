@@ -143,6 +143,12 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$this->view->actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
 	}
 
+    /**
+     * Action for alter mail messasge before sending
+     *
+     * @return bool
+     * @throws Exceptions_SeotoasterException
+     */
     public function mailmessageAction() {
         $triggerName = $this->getRequest()->getParam('trigger', false);
         if(!$triggerName) {
@@ -159,5 +165,36 @@ class Backend_ConfigController extends Zend_Controller_Action {
         }
         $this->_helper->response->success($trigger['message']);
         return true;
+    }
+
+    public function actionmailsAction() {
+        if($this->getRequest()->isPost()) {
+            $actions = $this->getRequest()->getParam('actions', false);
+            if($actions !== false) {
+                $removeActions =  array();
+                foreach($actions as $action) {
+                    //@todo add triggers automaticaly?
+                    if (isset($action['delete']) && $action['delete'] === "true"){
+                        array_push($removeActions, $action['id']);
+                        continue;
+                    }
+                    Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($action);
+                }
+                if (!empty($removeActions)) {
+                    Application_Model_Mappers_EmailTriggersMapper::getInstance()->delete($removeActions);
+                }
+                $this->_helper->response->success($this->_helper->language->translate('Changes saved'));
+                return true;
+            }
+        }
+        $pluginsTriggers            = Tools_Plugins_Tools::fetchPluginsTriggers();
+        $recipients                 = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
+        $this->view->recipients     = array_combine($recipients, $recipients);
+        $this->view->mailTemplates  = Tools_Mail_Tools::getMailTemplatesHash();
+        $this->view->pluginTriggers = $pluginsTriggers;
+        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select an action')), array_combine(array_keys($pluginsTriggers), array_map(function($pluginTrigger) {
+            return ucfirst($pluginTrigger);
+        }, array_keys($pluginsTriggers))));
+        $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
     }
 }

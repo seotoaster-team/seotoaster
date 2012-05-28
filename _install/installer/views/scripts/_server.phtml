@@ -1,0 +1,22 @@
+<?php if (isset($_SERVER['SERVER_SOFTWARE'])): ?>
+		<?php if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false):?>
+			<div class="grid_10 prefix_1 suffix_1 mt20px">
+				<p>We've detected that you're running Apache server.</p>
+				<p>Put following code to <code>.htaccess</code> file in seotoaster folder:</p>
+<pre class="rounded8px" style="margin: 10px; padding: 10px; border: 1px solid #bbb; background-color: #d3d3d3;">
+RewriteEngine On
+<?php if (!empty($_SERVER['REQUEST_URI'])){
+	$baseUrl = explode(DIRECTORY_SEPARATOR, $_SERVER['REQUEST_URI']);
+	array_splice($baseUrl, -2, 2);
+	$baseUrl = implode(DIRECTORY_SEPARATOR, $baseUrl);
+	echo !empty($baseUrl)?'RewriteBase '.$baseUrl.DIRECTORY_SEPARATOR.PHP_EOL:'';
+}
+?>
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]</pre>
+			</div>
+		<?php endif;?>
+<?php endif; ?>
