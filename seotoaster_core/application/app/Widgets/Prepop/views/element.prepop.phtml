@@ -1,8 +1,23 @@
-<?php echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => 'prepop-select'), $this->options); ?>
+<?php
+    switch($this->elementType) {
+        case Widgets_Prepop_Prepop::TYPE_TEXT:
+            echo $this->formText($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType));
+        break;
+        case Widgets_Prepop_Prepop::TYPE_SELECT:
+            echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType), $this->options);
+        break;
+        case Widgets_Prepop_Prepop::TYPE_RADIO:
+            echo $this->formRadio($this->prepopName, $this->prepopContent, array(
+                    'class'      => 'prepop-' . $this->elementType,
+                ),
+            $this->options);
+        break;
+    }
+
+?>
 <script type="text/javascript">
     $(function() {
-        $(document).on('change', '.prepop-select', function(e) {
-
+        $(document).on('<?php echo $this->onJsElementAction; ?>', '.prepop-<?php echo $this->elementType; ?>', function(e) {
             var pageId        = '<?php echo $this->commonOptions['pageId']; ?>';
             var containerType = '<?php echo $this->commonOptions['containerType']; ?>';
             var containerName = '<?php echo $this->commonOptions['containerName']; ?>';
@@ -11,7 +26,6 @@
             if(!isNaN(parseInt(containerId))) {
                 url = '<?php echo $this->websiteUrl; ?>backend/backend_content/edit/id/' + containerId + '/containerType/' + containerType;
             }
-
             $.post(url, {
                 containerType : containerType,
                 containerId   : containerId,

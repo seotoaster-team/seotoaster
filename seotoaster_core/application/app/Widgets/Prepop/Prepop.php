@@ -8,11 +8,19 @@
  */
 class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
+    const TYPE_TEXT     = 'text';
+
+    const TYPE_SELECT = 'select';
+
+    const TYPE_RADIO  = 'radio';
+
     protected $_prepopName        = '';
 
     protected $_prepopContent     = null;
 
     protected $_prepopContainerId = null;
+
+    protected $_cacheable         = false;
 
     protected function _init() {
         parent::_init();
@@ -41,12 +49,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
         // user role should be a member at least to be able to edit
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-            return $this->_prepopContent;
+            return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
         }
 
         //assign common view vars for the prepop
         $this->_view->prepopContent    = $this->_prepopContent;
         $this->_view->prepopConainerId = $this->_prepopContainerId;
+        $this->_view->elementType      = $this->_options[0];
 
         $rendererName = '_renderPrepop' . ucfirst(array_shift($this->_options));
         if(method_exists($this, $rendererName)) {
@@ -57,13 +66,30 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     protected function _renderPrepopSelect() {
+        $this->_view->onJsElementAction = 'change';
+        $this->_view->options           = $this->_generateSelectOptions();
+        return $this->_view->render('element.prepop.phtml');
+    }
+
+    protected function _renderPrepopRadio() {
+        $this->_view->onJsElementAction = 'click';
+        $this->_view->options           = $this->_generateSelectOptions();
+        return $this->_view->render('element.prepop.phtml');
+    }
+
+    protected function _renderPrepopText() {
+        $this->_view->onJsElementAction = 'blur';
+        return $this->_view->render('element.prepop.phtml');
+    }
+
+    private function _generateSelectOptions() {
         $arrayValues = array_map(function($value) {
             return trim($value);
         }, array_values($this->_options));
-        $this->_view->options = array_combine($arrayValues, array_map(function($option) {
+
+        return array_combine($arrayValues, array_map(function($option) {
             return ucfirst($option);
         }, $arrayValues));
-        return $this->_view->render('select.prepop.phtml');
     }
 
     protected function _getAllowedOptions() {

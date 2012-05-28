@@ -24,7 +24,13 @@
 			<div class="grid_7">
 				<div id="plugin-uploader-filelist"></div>
 			</div>
+            <?php if(!extension_loaded(Tools_Plugins_Tools::LOADER_EXTENSION)): ?>
+                <div class="ui-state-error ui-corner-all" style="width: 500px; float: right; padding: 2px 10px;">
+                    <?php echo $this->translate('We\'ve detected that you don\'t have the "%s" extension installed. Some plugins might not be able to function properly.', Tools_Plugins_Tools::LOADER_EXTENSION); ?>
+                </div>
+            <?php endif; ?>
 		</fieldset>
+
 	</div>
     <div class="grid_12">
         <?php

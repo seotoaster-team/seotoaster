@@ -10,12 +10,15 @@
 		<hr />
 		<div>
 		<p><?php echo $this->translate("We've just checked your PHP configuration.");?></p>
+         <?php if(!extension_loaded('IonCube Loader')): ?>
+            <p style="color:#cd5c5c;"><span class="ui-icon ui-icon-close" style="float: left;"></span><?php echo $this->translate("We've detected that you don't have the IonCube Loader. We recommend you to install it or ask your hoster to do that for you.");?></p>
+         <?php endif; ?>
 		<?php if (get_magic_quotes_gpc()) : ?>
 		<p class="state-success">The "magic_quotes" are <span style="color:red;">ON</span>. We recommend you to switch them off.</p>
 		<?php endif;?>
 		<?php if (in_array(false, $this->checks)): ?>
 		<p><?php echo $this->translate('Ooops…We found some errors.');?>:</p>
-		<ul>
+		<ul style="height: 280px; overflow-x: hidden; overflow-y: auto;">
 			<li class="<?php echo $this->checks['php'] ? 'state-success' : 'state-error' ;?>">
 				PHP &gt; 5.3.2
 				<span class="ui-icon <?php echo $this->checks['php'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
