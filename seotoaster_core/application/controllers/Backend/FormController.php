@@ -71,52 +71,59 @@ class Backend_FormController extends Zend_Controller_Action {
             $formParams    = $this->getRequest()->getParams();
 			if(!empty ($formParams)) {
 
-				if(isset($formParams['captcha'])) {
+				//validating captcha
+                if(isset($formParams['captcha'])) {
 					if(!$this->_validateCaptcha($formParams['captcha'], $formParams['captchaId'])) {
 						$this->_helper->response->fail($this->_helper->language->translate('Captcha is not valid.'));
 					}
 				}
 
+                // get the form details
 				$form   = Application_Model_Mappers_FormMapper::getInstance()->findByName($formParams['formName']);
-				$mailer = new Tools_Mail_Mailer();
+				$mailer = Tools_Mail_Tools::initMailer();
 
-				// To site owner
-				if(isset($formParams['email'])) {
+				// sending mails
+                $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
+                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT
+                ));
+                $resutl = $sysMailWatchdog->notify($form);
 
-					$validator = new Zend_Validate_EmailAddress();
-					if(!$validator->isValid($formParams['email'])) {
-						$this->_helper->response->fail($this->_helper->language->translate('Email address is not valid'));
-					}
-
-					$mailer->setMailTo($form->getContactEmail());
-					$mailer->setMailFrom($formParams['email']);
-					if(isset($formParams['name'])) {
-						$mailer->setMailFromLabel($formParams['name']);
-					}
-					$mailer->setSubject($this->_helper->language->translate('New message was posted on the website'));
-
-					$this->view->badParams = array('controller', 'action', 'module', 'formName', 'captcha', 'captchaId');
-					$this->view->params    = $formParams;
-					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
-
-					if($mailer->send()) {
-						// sending reply
-						$mailer = new Tools_Mail_Mailer();
-						$mailer->setMailTo($formParams['email']);
-						$mailer->setMailFrom($form->getReplyFrom());
-						$mailer->setSubject($form->getReplySubject());
-                        if($form->getReplyFromName() != ''){
-                            $mailer->setMailFromLabel($form->getReplyFromName());
-                        }
-                        $mailer->setMailTemplateName($form->getReplyMailTemplate(), true);
-						$mailer->send();
-
-						$this->_helper->response->success($form->getMessageSuccess());
-						exit;
-					}
-					$this->_helper->response->fail($form->getMessageError());
-					exit;
-				}
+//				if(isset($formParams['email'])) {
+//
+//					$validator = new Zend_Validate_EmailAddress();
+//					if(!$validator->isValid($formParams['email'])) {
+//						$this->_helper->response->fail($this->_helper->language->translate('Email address is not valid'));
+//					}
+//
+//					$mailer->setMailTo($form->getContactEmail());
+//					$mailer->setMailFrom($formParams['email']);
+//					if(isset($formParams['name'])) {
+//						$mailer->setMailFromLabel($formParams['name']);
+//					}
+//					$mailer->setSubject($this->_helper->language->translate('New message was posted on the website'));
+//
+//					$this->view->badParams = array('controller', 'action', 'module', 'formName', 'captcha', 'captchaId');
+//					$this->view->params    = $formParams;
+//					$mailer->setBody($this->view->render('backend/form/adminmail.phtml'));
+//
+//					if($mailer->send()) {
+//						// sending reply
+//						$mailer = new Tools_Mail_Mailer();
+//						$mailer->setMailTo($formParams['email']);
+//						$mailer->setMailFrom($form->getReplyFrom());
+//						$mailer->setSubject($form->getReplySubject());
+//                        if($form->getReplyFromName() != ''){
+//                            $mailer->setMailFromLabel($form->getReplyFromName());
+//                        }
+//                        $mailer->setMailTemplateName($form->getReplyMailTemplate(), true);
+//						$mailer->send();
+//
+//						$this->_helper->response->success($form->getMessageSuccess());
+//						exit;
+//					}
+//					$this->_helper->response->fail($form->getMessageError());
+//					exit;
+//				}
 			}
         }
     }

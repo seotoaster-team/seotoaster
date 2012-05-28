@@ -196,6 +196,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 			case Application_Model_Models_Container::TYPE_CODE:
 				$form = new Application_Form_Code();
 			break;
+            case Application_Model_Models_Container::TYPE_PREPOP:
+                $form = new Application_Form_Prepop();
+            break;
 		}
 		return $form;
 	}

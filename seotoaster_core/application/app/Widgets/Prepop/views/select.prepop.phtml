@@ -1,0 +1,27 @@
+<?php echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => 'prepop-select'), $this->options); ?>
+<script type="text/javascript">
+    $(function() {
+        $(document).on('change', '.prepop-select', function(e) {
+
+            var pageId        = '<?php echo $this->commonOptions['pageId']; ?>';
+            var containerType = '<?php echo $this->commonOptions['containerType']; ?>';
+            var containerName = '<?php echo $this->commonOptions['containerName']; ?>';
+            var containerId   = '<?php echo $this->prepopConainerId; ?>';
+            var url           = '<?php echo $this->websiteUrl; ?>backend/backend_content/add/containerType/' + containerType + '/containerName/' + containerName + '/pageId/' + pageId;
+            if(!isNaN(parseInt(containerId))) {
+                url = '<?php echo $this->websiteUrl; ?>backend/backend_content/edit/id/' + containerId + '/containerType/' + containerType;
+            }
+
+            $.post(url, {
+                containerType : containerType,
+                containerId   : containerId,
+                content       : $(e.target).val(),
+                pageId        : pageId,
+                containerName : containerName,
+                published     : 1
+            }, function(response) {
+
+            }, 'json');
+        })
+    })
+</script>
