@@ -250,9 +250,11 @@ class Backend_PageController extends Zend_Controller_Action {
 					'Seotoaster' => array(
 						Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
 						//Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
-					),
-					'Categories' => $categories
+					)
 				);
+                if(is_array($categories) && !empty($categories)) {
+                    $menuOptions['Categories'] = $categories;
+                }
 			break;
 			case Application_Model_Models_Page::IN_STATICMENU:
 				$menuOptions = array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');

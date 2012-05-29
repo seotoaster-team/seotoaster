@@ -12,12 +12,21 @@
                 ),
             $this->options);
         break;
+        case Widgets_Prepop_Prepop::TYPE_TEXTAREA:
+            echo $this->formTextarea($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType));
+        break;
+        case Widgets_Prepop_Prepop::TYPE_CHECKBOX:
+            echo $this->formMultiCheckbox($this->prepopName, ($this->prepopContent) ? explode('~', $this->prepopContent) : null, array(
+                'class'      => $this->prepopName . ' prepop-' . $this->elementType,
+            ),
+            $this->options);
+        break;
     }
 
 ?>
 <script type="text/javascript">
     $(function() {
-        $(document).on('<?php echo $this->onJsElementAction; ?>', '.prepop-<?php echo $this->elementType; ?>', function(e) {
+        $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo ($this->elementType != (Widgets_Prepop_Prepop::TYPE_CHECKBOX) && $this->elementType != (Widgets_Prepop_Prepop::TYPE_RADIO) ? ('#' . $this->prepopName) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function(e) {
             var pageId        = '<?php echo $this->commonOptions['pageId']; ?>';
             var containerType = '<?php echo $this->commonOptions['containerType']; ?>';
             var containerName = '<?php echo $this->commonOptions['containerName']; ?>';
@@ -26,10 +35,20 @@
             if(!isNaN(parseInt(containerId))) {
                 url = '<?php echo $this->websiteUrl; ?>backend/backend_content/edit/id/' + containerId + '/containerType/' + containerType;
             }
+
+            var elementType = '<?php echo $this->elementType; ?>';
+            var content     = $(e.target).val();
+            if(elementType == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
+                content = '';
+                $('input[type=checkbox].<?php echo $this->prepopName; ?>:checked').each(function() {
+                    content += '~' + $(this).val();
+                });
+            }
+
             $.post(url, {
                 containerType : containerType,
                 containerId   : containerId,
-                content       : $(e.target).val(),
+                content       : content,
                 pageId        : pageId,
                 containerName : containerName,
                 published     : 1

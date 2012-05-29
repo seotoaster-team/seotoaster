@@ -10,9 +10,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     const TYPE_TEXT     = 'text';
 
-    const TYPE_SELECT = 'select';
+    const TYPE_TEXTAREA = 'textarea';
 
-    const TYPE_RADIO  = 'radio';
+    const TYPE_CHECKBOX = 'checkbox';
+
+    const TYPE_SELECT   = 'select';
+
+    const TYPE_RADIO    = 'radio';
 
     protected $_prepopName        = '';
 
@@ -66,6 +70,20 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     }
 
+    protected function _renderPrepopTextarea() {
+        if(!$this->_prepopContent && isset($this->_options[0])) {
+            $this->_view->prepopContent = $this->_options[0];
+        }
+        $this->_view->onJsElementAction = 'blur';
+        return $this->_view->render('element.prepop.phtml');
+    }
+
+    protected function _renderPrepopCheckbox() {
+        $this->_view->onJsElementAction = 'click';
+        $this->_view->options           = $this->_generateSelectOptions();
+        return $this->_view->render('element.prepop.phtml');
+    }
+
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
         $this->_view->options           = $this->_generateSelectOptions();
@@ -79,6 +97,9 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     protected function _renderPrepopText() {
+        if(!$this->_prepopContent && isset($this->_options[0])) {
+            $this->_view->prepopContent = $this->_options[0];
+        }
         $this->_view->onJsElementAction = 'blur';
         return $this->_view->render('element.prepop.phtml');
     }
