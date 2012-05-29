@@ -58,9 +58,15 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
         }
-
         // user role should be a member at least to be able to edit
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+            if($this->_options[0] == self::TYPE_CHECKBOX) {
+                $translator           = $this->_translator;
+                $this->_prepopContent = implode('&nbsp;', array_map(function($option) use($translator) {
+
+                    return $translator->translate('Yes');
+                }, array_filter(explode('~', $this->_prepopContent))));
+            }
             return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
         }
 
@@ -73,7 +79,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         if(method_exists($this, $rendererName)) {
             return $this->$rendererName();
         }
-        throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong prepop type <strong>' . $prepopType . '</strong>'));
+        throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong prepop type'));
 
     }
 
