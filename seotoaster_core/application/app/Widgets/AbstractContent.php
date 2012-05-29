@@ -48,8 +48,8 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 	protected function _init() {
 		parent::_init();
 		$this->_name    = $this->_options[0];
-		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICCONTENT || $this->_type == Application_Model_Models_Container::TYPE_STATICHEADER) ? 0 : $this->_toasterOptions['id'];
-		$contentId = $this->_name .'_'. $this->_type .'_pid_'. $this->_pageId ;
+		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICCONTENT || $this->_type == Application_Model_Models_Container::TYPE_STATICHEADER || $this->_type == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? 0 : $this->_toasterOptions['id'];
+        $contentId = $this->_name .'_'. $this->_type .'_pid_'. $this->_pageId ;
 
 		array_push($this->_cacheTags, preg_replace('/[^\w\d_]/', '', $contentId));
 		$this->_cacheId = $contentId .'_'. Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();

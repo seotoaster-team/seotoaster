@@ -27,6 +27,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected $_cacheable         = false;
 
     protected function _init() {
+        if(end($this->_options) == 'static') {
+            $this->_type = Application_Model_Models_Container::TYPE_PREPOPSTATIC;
+            unset($this->_options[array_search(end($this->_options), $this->_options)]);
+        } else {
+            $this->_type = Application_Model_Models_Container::TYPE_PREPOP;
+        }
+
         parent::_init();
         $this->_prepopName          = array_shift($this->_options);
         $this->_view                = new Zend_View(array(
@@ -35,9 +42,9 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $this->_view->prepopName    = $this->_prepopName;
         $this->_view->websiteUrl    = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
         $this->_view->commonOptions = array(
-            'pageId'        => $this->_toasterOptions['id'],
-            'containerType' => Application_Model_Models_Container::TYPE_PREPOP,
-            'containerName' => $this->_prepopName
+            'pageId'        => $this->_pageId,
+            'containerType' => $this->_type,
+            'containerName' => $this->_name
         );
     }
 
@@ -46,7 +53,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             throw new Exceptions_SeotoasterWidgetException('Not enough parameters for the widget <strong>prepop</strong>.');
         }
 
-        $prepop = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_prepopName, $this->_toasterOptions['id'], Application_Model_Models_Container::TYPE_PREPOP);
+        $prepop = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
         if($prepop) {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
@@ -118,4 +125,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     }
 
+    public function  getResourceId() {
+        return Tools_Security_Acl::RESOURCE_CONTENT;
+    }
 }
