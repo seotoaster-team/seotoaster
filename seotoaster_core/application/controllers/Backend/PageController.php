@@ -85,7 +85,7 @@ class Backend_PageController extends Zend_Controller_Action {
 					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 				)));
 
-				if($page->getId() && $page->getParentId() == 0 && $pageData['inMenu'] != Application_Model_Models_Page::IN_MAINMENU)  {
+				if($page->getId() && $page->getParentId() == 0 && ($pageData['inMenu'] != Application_Model_Models_Page::IN_MAINMENU || $pageData['pageCategory'] != 0))  {
 					if($this->_hasSubpages($page->getId())) {
 						$this->_helper->response->fail($this->_helper->language->translate('Cannot downgrade the category.<br />This page is a category page and has subpages. Please remove or move subpages to another category first'));
 						exit;
