@@ -53,7 +53,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
 
         // user role should be a member at least to be able to edit
-        if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+        if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
             return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
         }
 
