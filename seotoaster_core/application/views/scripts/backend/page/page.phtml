@@ -57,7 +57,7 @@
 						?>
 					</div>
 					<div class="clear"></div>
-					<div class="grid_6 mt5px"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
+					<div class="grid_6 mt5px"><label><?php echo $this->translate('Is this page already tagged?'); ?></label></div>
 					<div class="grid_6 mt5px">
 						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
 					</div>
