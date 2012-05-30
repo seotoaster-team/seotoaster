@@ -184,13 +184,14 @@ class Application_Model_Mappers_EmailTriggersMapper extends Application_Model_Ma
 	 * @param $pluginName
 	 * @return mixed|null
 	 */
-	private function _getPluginObserversList($pluginName){
-
-		if(Tools_Plugins_Tools::loaderCanExec($pluginName)) {
+	private function _getPluginObserversList($pluginName) {
+        try {
             $pluginReflection = new Zend_Reflection_Class(Tools_Factory_PluginFactory::createPlugin($pluginName));
-		    if ($pluginReflection->hasProperty(Tools_Mail_Watchdog::OBSERVER_LIST_PROP)){
-			    return $pluginReflection->getStaticPropertyValue(Tools_Mail_Watchdog::OBSERVER_LIST_PROP);
-		    }
+        } catch (Exceptions_SeotoasterPluginException $spe) {
+            return null;
+        }
+        if ($pluginReflection->hasProperty(Tools_Mail_Watchdog::OBSERVER_LIST_PROP)){
+            return $pluginReflection->getStaticPropertyValue(Tools_Mail_Watchdog::OBSERVER_LIST_PROP);
         }
 		return null;
 	}

@@ -6,6 +6,9 @@ class Tools_Factory_PluginFactory {
 
 	public static function createPlugin($name, $options = array(), $toasterOptions = array()) {
 		$pluginClassName = ucfirst($name);
+        if(!Tools_Plugins_Tools::loaderCanExec($name)) {
+            throw new Exceptions_SeotoasterPluginException('Can not create ' . $pluginClassName . ' plugin. You have to install the proper loader');
+        }
 		self::_validate($pluginClassName);
 		return new $pluginClassName($options, $toasterOptions);
 	}
