@@ -1,7 +1,7 @@
 <?php
     switch($this->elementType) {
         case Widgets_Prepop_Prepop::TYPE_TEXT:
-            echo $this->formText($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType));
+            echo $this->formText($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
         break;
         case Widgets_Prepop_Prepop::TYPE_SELECT:
             echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType), $this->options);
@@ -13,11 +13,11 @@
             $this->options);
         break;
         case Widgets_Prepop_Prepop::TYPE_TEXTAREA:
-            echo $this->formTextarea($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType));
+            echo $this->formTextarea($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
         break;
         case Widgets_Prepop_Prepop::TYPE_CHECKBOX:
             echo $this->formMultiCheckbox($this->prepopName, ($this->prepopContent) ? explode('~', $this->prepopContent) : null, array(
-                'class'      => $this->prepopName . ' prepop-' . $this->elementType,
+                'class'      => $this->prepopName . ' prepop-' . $this->elementType
             ),
             $this->options);
         break;
@@ -48,7 +48,7 @@
             <?php if(isset($this->limit) && $this->limit): ?>
                 var limit = '<?php echo $this->limit; ?>';
                 if(content.length > limit) {
-                    alert('Hey, not so fast! It\'s to many text here. Please remove some to fit ' + limit + ' characters limit');
+                    alert('Hey, not so fast! It\'s to mcuch text here. Please remove some to fit ' + limit + ' characters limit');
                     return false;
                 }
             <?php endif; ?>
