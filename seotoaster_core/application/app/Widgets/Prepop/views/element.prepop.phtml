@@ -1,0 +1,68 @@
+<?php
+    switch($this->elementType) {
+        case Widgets_Prepop_Prepop::TYPE_TEXT:
+            echo $this->formText($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+        break;
+        case Widgets_Prepop_Prepop::TYPE_SELECT:
+            echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType), $this->options);
+        break;
+        case Widgets_Prepop_Prepop::TYPE_RADIO:
+            echo $this->formRadio($this->prepopName, $this->prepopContent, array(
+                    'class'      => 'prepop-' . $this->elementType,
+                ),
+            $this->options);
+        break;
+        case Widgets_Prepop_Prepop::TYPE_TEXTAREA:
+            echo $this->formTextarea($this->prepopName, $this->prepopContent, array('class' => 'prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+        break;
+        case Widgets_Prepop_Prepop::TYPE_CHECKBOX:
+            echo $this->formMultiCheckbox($this->prepopName, ($this->prepopContent) ? explode('~', $this->prepopContent) : null, array(
+                'class'      => $this->prepopName . ' prepop-' . $this->elementType
+            ),
+            $this->options);
+        break;
+    }
+
+?>
+<script type="text/javascript">
+    $(function() {
+        $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo ($this->elementType != (Widgets_Prepop_Prepop::TYPE_CHECKBOX) && $this->elementType != (Widgets_Prepop_Prepop::TYPE_RADIO) ? ('#' . $this->prepopName) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function(e) {
+            var pageId        = '<?php echo $this->commonOptions['pageId']; ?>';
+            var containerType = '<?php echo $this->commonOptions['containerType']; ?>';
+            var containerName = '<?php echo $this->commonOptions['containerName']; ?>';
+            var containerId   = '<?php echo $this->prepopConainerId; ?>';
+            var url           = '<?php echo $this->websiteUrl; ?>backend/backend_content/add/containerType/' + containerType + '/containerName/' + containerName + '/pageId/' + pageId;
+            if(!isNaN(parseInt(containerId))) {
+                url = '<?php echo $this->websiteUrl; ?>backend/backend_content/edit/id/' + containerId + '/containerType/' + containerType;
+            }
+
+            var elementType = '<?php echo $this->elementType; ?>';
+            var content     = $(e.target).val();
+            if(elementType == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
+                content = '';
+                $('input[type=checkbox].<?php echo $this->prepopName; ?>:checked').each(function() {
+                    content += '~' + $(this).val();
+                });
+            }
+
+            <?php if(isset($this->limit) && $this->limit): ?>
+                var limit = '<?php echo $this->limit; ?>';
+                if(content.length > limit) {
+                    alert('Hey, not so fast! It\'s to mcuch text here. Please remove some to fit ' + limit + ' characters limit');
+                    return false;
+                }
+            <?php endif; ?>
+
+            $.post(url, {
+                containerType : containerType,
+                containerId   : containerId,
+                content       : content,
+                pageId        : pageId,
+                containerName : containerName,
+                published     : 1
+            }, function(response) {
+
+            }, 'json');
+        })
+    })
+</script>

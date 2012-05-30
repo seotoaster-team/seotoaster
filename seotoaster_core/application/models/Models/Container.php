@@ -17,6 +17,10 @@ class Application_Model_Models_Container extends Application_Model_Models_Abstra
 
 	const TYPE_CODE           = 5;
 
+    const TYPE_PREPOP         = 6;
+
+    const TYPE_PREPOPSTATIC   = 7;
+
 	protected $_containerType = self::TYPE_REGULARCONTENT;
 
 	protected $_pageId        = 0;

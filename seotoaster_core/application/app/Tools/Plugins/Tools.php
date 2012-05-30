@@ -2,7 +2,9 @@
 
 class Tools_Plugins_Tools {
 
-	const CONFIGINI_PATH = 'config/config.ini';
+	const CONFIGINI_PATH   = 'config/config.ini';
+
+    const LOADER_EXTENSION = 'IonCube Loader';
 
 	public static function fetchPluginsMenu($userRole = null) {
 		$additionalMenu = array();
@@ -250,10 +252,33 @@ class Tools_Plugins_Tools {
 		$cacheHelper->init();
 		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
 			$enabledPlugins = Application_Model_Mappers_PluginMapper::getInstance()->findEnabled();
+
+            // if we do not have the proper encoder loaded we have to exclude plugins that, requires that encoder, from enabled
+            if(!extension_loaded(self::LOADER_EXTENSION)) {
+                $pluginsData = self::_initValues();
+                foreach($enabledPlugins as $key => $plugin) {
+                    if(file_exists($pluginsData['pluginsDirPath'] . $plugin->getName() . '/.toasted')) {
+                        unset($enabledPlugins[$key]);
+                    }
+                }
+            }
+
+
 			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $enabledPlugins;
 	}
+
+    public static function loaderCanExec($name) {
+        if(!extension_loaded(self::LOADER_EXTENSION)) {
+            $pluginsData = self::_initValues();
+            if(file_exists($pluginsData['pluginsDirPath'] . $name . '/.toasted')) {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
 
     /**
      * Find plugins with specified tags
@@ -283,7 +308,8 @@ class Tools_Plugins_Tools {
 
 	private static function _initValues() {
 		$routesPath  = APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml';
-		if(file_exists($routesPath)) {
+		$routes      = array();
+        if(file_exists($routesPath)) {
 			$routes = new Zend_Config_Xml($routesPath);
 			$routes = $routes->toArray();
 		}

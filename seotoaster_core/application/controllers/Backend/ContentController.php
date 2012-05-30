@@ -94,7 +94,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 	private function _processContent() {
 		if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
-			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER) ? null : $containerData['pageId'];
+			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
 			$container     = new Application_Model_Models_Container();
 
@@ -196,6 +196,10 @@ class Backend_ContentController extends Zend_Controller_Action {
 			case Application_Model_Models_Container::TYPE_CODE:
 				$form = new Application_Form_Code();
 			break;
+            case Application_Model_Models_Container::TYPE_PREPOP:
+            case Application_Model_Models_Container::TYPE_PREPOPSTATIC:
+                $form = new Application_Form_Prepop();
+            break;
 		}
 		return $form;
 	}

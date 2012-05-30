@@ -11,7 +11,7 @@
 	    if($this->sambaOptimized):
 			$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized');
 		endif;
-		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck));
+		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck, 'helpSection' => $this->helpSection));
 	?>
 
 	<div id="templatelist" class="h580 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
@@ -57,7 +57,7 @@
 						?>
 					</div>
 					<div class="clear"></div>
-					<div class="grid_6 mt5px"><label><?php echo $this->translate('Is this page featured?'); ?></label></div>
+					<div class="grid_6 mt5px"><label><?php echo $this->translate('Is this page already tagged?'); ?></label></div>
 					<div class="grid_6 mt5px">
 						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
 					</div>

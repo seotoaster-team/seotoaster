@@ -1,13 +1,13 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
 <div class="seotoaster container_12 h360">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config')); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage config', 'helpSection' => $this->helpSection)); ?>
 
 	<form class="grid_12" action="<?php echo $this->configForm->getAction(); ?>" method="<?php echo $this->configForm->getMethod();?>">
 		<div id="tabs">
 			<ul>
 				<li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
 				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
-				<li><a href="#action-triggers"><?php echo $this->translate('Action emails'); ?></a></li>
+<!--				<li><a href="#action-triggers">--><?php //echo $this->translate('Action emails'); ?><!--</a></li>-->
 				<?php if ($this->isSuperAdmin): ?>
 					<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
 					<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
@@ -81,9 +81,9 @@
 				<?php echo $this->configForm->getElement('smtpPassword'); ?>
 			</div>
 
-			<div id="action-triggers" class="clearfix h200" style="overflow-x: hidden; overflow-y: scroll;">
-				<div><button class="blue-btn" id="new-trigger-action"><?php echo $this->translate('Add'); ?></button></div>
-			</div>
+<!--			<div id="action-triggers" class="clearfix h200" style="overflow-x: hidden; overflow-y: scroll;">-->
+<!--				<div><button class="blue-btn" id="new-trigger-action">--><?php //echo $this->translate('Add'); ?><!--</button></div>-->
+<!--			</div>-->
 			<?php if ($this->isSuperAdmin): ?>
 				<div id="security-config" class="clearfix">
 					<?php echo $this->configForm->getElement('suLogin'); ?>

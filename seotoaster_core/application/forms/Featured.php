@@ -18,7 +18,7 @@ class Application_Form_Featured extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'fa-name',
 			'name'       => 'name',
-			'label'      => 'Featured area name',
+			'label'      => 'Page tag name',
 			'value'      => $this->_name,
 			'validators' => array(
 				new Zend_Validate_Db_NoRecordExists(array(
@@ -33,9 +33,9 @@ class Application_Form_Featured extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'  => 'addFeaturedArea',
 			'id'    => 'add-featured-area',
-			'value' => 'Add featured area',
+			'value' => 'Add page tag',
 			'class' => 'blue-btn',
-			'label' => 'Add featured area'
+			'label' => 'Add page tag'
 		)));
 
 	}
