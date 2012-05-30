@@ -6,7 +6,7 @@
 			<a href="<?php echo $entry['link']; ?>" target="_blank" title="<?php echo $entry['title']; ?>" class="page-title"><?php echo $entry['title']; ?></a>
 			<span><?php echo date("d M Y", strtotime($entry['pubDate'])); ?></span>
 			<?php if($this->useImage && $entry['image']): ?>
-				<a href="<?php echo $entry['link']; ?>" target="_blank" title="<?php echo $entry['title']; ?>"><?php echo $entry['image']; ?></a>
+				<a title="<?php echo $product->getPage()->getH1(); ?>" href="<?php echo $entry['link']; ?>" target="_blank" title="<?php echo $entry['title']; ?>"><?php echo $entry['image']; ?></a>
 			<?php endif; ?>
 			<p><?php echo $entry['description']; ?></p>
 		</li>
