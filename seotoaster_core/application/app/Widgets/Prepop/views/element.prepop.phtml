@@ -45,6 +45,14 @@
                 });
             }
 
+            <?php if(isset($this->limit) && $this->limit): ?>
+                var limit = '<?php echo $this->limit; ?>';
+                if(content.length > limit) {
+                    alert('Hey, not so fast! It\'s to many text here. Please remove some to fit ' + limit + ' characters limit');
+                    return false;
+                }
+            <?php endif; ?>
+
             $.post(url, {
                 containerType : containerType,
                 containerId   : containerId,

@@ -64,7 +64,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 $translator           = $this->_translator;
                 $this->_prepopContent = implode('&nbsp;', array_map(function($option) use($translator) {
 
-                    return $translator->translate('Yes');
+                    return $translator->translate(ucfirst($option));
                 }, array_filter(explode('~', $this->_prepopContent))));
             }
             return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
@@ -87,6 +87,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         if(!$this->_prepopContent && isset($this->_options[0])) {
             $this->_view->prepopContent = $this->_options[0];
         }
+        $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
         return $this->_view->render('element.prepop.phtml');
     }
