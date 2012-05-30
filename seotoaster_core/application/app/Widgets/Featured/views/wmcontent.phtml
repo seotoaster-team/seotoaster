@@ -1,6 +1,6 @@
 <form action="javascript:;" method="post" data-name="featured" id="featured-widget-form" class="wmc-block">
 	<?php echo $this->formLabel('featured-item-type', $this->translate('Type'), array('class' => 'nopad grid_6')); ?>
-	<?php echo $this->formSelect('featuredItemType', Widgets_Featured_Featured::FEATURED_TYPE_AREA, array('id' => 'featured-item-type', 'class' => 'nopad grid_6'), array(Widgets_Featured_Featured::FEATURED_TYPE_AREA => Widgets_Featured_Featured::FEATURED_TYPE_AREA, Widgets_Featured_Featured::FEATURED_TYPE_PAGE => Widgets_Featured_Featured::FEATURED_TYPE_PAGE)); ?>
+	<?php echo $this->formSelect('featuredItemType', 'Group of pages', array('id' => 'featured-item-type', 'class' => 'nopad grid_6'), array(Widgets_Featured_Featured::FEATURED_TYPE_AREA => 'Group of pages', Widgets_Featured_Featured::FEATURED_TYPE_PAGE => 'List just one page')); ?>
 	<?php echo $this->formSelect('featuredAreaItem', null, array('id' => 'featured-area-item', 'class' => 'nopad grid_12 validate')); ?>
 	<?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'nopad grid_6 max-res-row')); ?>
 	<?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'nopad grid_6 max-res-row')); ?>
@@ -55,7 +55,7 @@
 	                if(self.type == self._TYPE_PAGE) {
 		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a page'); ?></option>')
 	                } else {
-		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a featured area'); ?></option>');
+		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a tag'); ?></option>');
 	                }
 	            })
 		    }

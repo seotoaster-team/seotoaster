@@ -85,7 +85,7 @@ class Backend_PageController extends Zend_Controller_Action {
 					'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 				)));
 
-				if($page->getId() && $page->getParentId() == 0 && $pageData['inMenu'] != Application_Model_Models_Page::IN_MAINMENU)  {
+				if($page->getId() && $page->getParentId() == 0 && ($pageData['inMenu'] != Application_Model_Models_Page::IN_MAINMENU || $pageData['pageCategory'] != 0))  {
 					if($this->_hasSubpages($page->getId())) {
 						$this->_helper->response->fail($this->_helper->language->translate('Cannot downgrade the category.<br />This page is a category page and has subpages. Please remove or move subpages to another category first'));
 						exit;
@@ -139,7 +139,11 @@ class Backend_PageController extends Zend_Controller_Action {
 		//page preview image
 		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
 		$this->view->sambaOptimized   = $page->getOptimized();
-		if($page->getOptimized()) {
+
+        // page help section
+        $this->view->helpSection = ($pageId) ? 'editpage' : 'addpage';
+
+        if($page->getOptimized()) {
 			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords'));
 		}
 		$this->view->pageForm = $pageForm;
@@ -246,9 +250,11 @@ class Backend_PageController extends Zend_Controller_Action {
 					'Seotoaster' => array(
 						Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
 						//Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
-					),
-					'Categories' => $categories
+					)
 				);
+                if(is_array($categories) && !empty($categories)) {
+                    $menuOptions['Categories'] = $categories;
+                }
 			break;
 			case Application_Model_Models_Page::IN_STATICMENU:
 				$menuOptions = array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');

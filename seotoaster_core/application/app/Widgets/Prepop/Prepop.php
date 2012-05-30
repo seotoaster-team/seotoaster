@@ -10,9 +10,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     const TYPE_TEXT     = 'text';
 
-    const TYPE_SELECT = 'select';
+    const TYPE_TEXTAREA = 'textarea';
 
-    const TYPE_RADIO  = 'radio';
+    const TYPE_CHECKBOX = 'checkbox';
+
+    const TYPE_SELECT   = 'select';
+
+    const TYPE_RADIO    = 'radio';
 
     protected $_prepopName        = '';
 
@@ -23,16 +27,24 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected $_cacheable         = false;
 
     protected function _init() {
+        if(end($this->_options) == 'static') {
+            $this->_type = Application_Model_Models_Container::TYPE_PREPOPSTATIC;
+            unset($this->_options[array_search(end($this->_options), $this->_options)]);
+        } else {
+            $this->_type = Application_Model_Models_Container::TYPE_PREPOP;
+        }
+
         parent::_init();
         $this->_prepopName          = array_shift($this->_options);
         $this->_view                = new Zend_View(array(
             'scriptPath' => __DIR__ . '/views'
         ));
         $this->_view->prepopName    = $this->_prepopName;
+        $this->_view->websiteUrl    = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
         $this->_view->commonOptions = array(
-            'pageId'        => $this->_toasterOptions['id'],
-            'containerType' => Application_Model_Models_Container::TYPE_PREPOP,
-            'containerName' => $this->_prepopName
+            'pageId'        => $this->_pageId,
+            'containerType' => $this->_type,
+            'containerName' => $this->_name
         );
     }
 
@@ -41,14 +53,20 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             throw new Exceptions_SeotoasterWidgetException('Not enough parameters for the widget <strong>prepop</strong>.');
         }
 
-        $prepop = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_prepopName, $this->_toasterOptions['id'], Application_Model_Models_Container::TYPE_PREPOP);
+        $prepop = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
         if($prepop) {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
         }
-
         // user role should be a member at least to be able to edit
-        if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+        if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+            if($this->_options[0] == self::TYPE_CHECKBOX) {
+                $translator           = $this->_translator;
+                $this->_prepopContent = implode('&nbsp;', array_map(function($option) use($translator) {
+
+                    return $translator->translate(ucfirst($option));
+                }, array_filter(explode('~', $this->_prepopContent))));
+            }
             return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
         }
 
@@ -61,8 +79,23 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         if(method_exists($this, $rendererName)) {
             return $this->$rendererName();
         }
-        throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong prepop type <strong>' . $prepopType . '</strong>'));
+        throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong prepop type'));
 
+    }
+
+    protected function _renderPrepopTextarea() {
+        if(!$this->_prepopContent && isset($this->_options[0])) {
+            $this->_view->prepopContent = $this->_options[0];
+        }
+        $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
+        $this->_view->onJsElementAction = 'blur';
+        return $this->_view->render('element.prepop.phtml');
+    }
+
+    protected function _renderPrepopCheckbox() {
+        $this->_view->onJsElementAction = 'click';
+        $this->_view->options           = $this->_generateSelectOptions();
+        return $this->_view->render('element.prepop.phtml');
     }
 
     protected function _renderPrepopSelect() {
@@ -78,6 +111,10 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     protected function _renderPrepopText() {
+        if(!$this->_prepopContent && isset($this->_options[0])) {
+            $this->_view->prepopContent = $this->_options[0];
+        }
+        $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
         return $this->_view->render('element.prepop.phtml');
     }
@@ -96,4 +133,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     }
 
+    public function  getResourceId() {
+        return Tools_Security_Acl::RESOURCE_CONTENT;
+    }
 }

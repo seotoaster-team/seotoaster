@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 w480 h550 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add a page to featured areas | Create a featured area')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add a page to a tags | Create a tag')); ?>
 	<form id="frm-featured-area" action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
 		<div class="grid_7">
 			<?php echo $this->faForm->getElement('name'); ?>
@@ -10,9 +10,9 @@
 	</form>
 	<div style="padding: 9px 0px 5px; font-size: 10pt; font-weight:bold;" class="header-titles grid_12">
 		<div class="grid_6 list-row-item">
-			<?php echo $this->translate('Featured area name'); ?>
+			<?php echo $this->translate('Page tag name'); ?>
 		</div>
-		<div class="grid_4 list-row-item"><?php echo $this->translate('Featured?'); ?></div>
+		<div class="grid_4 list-row-item"><?php echo $this->translate('Tagged?'); ?></div>
 		<div class="grid_2 list-row-item"><?php echo $this->translate('Actions'); ?></div>
 	</div>
 	<div id="fa-list" class="grid_12 items-list h380"></div>

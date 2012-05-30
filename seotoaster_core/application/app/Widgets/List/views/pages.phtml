@@ -3,7 +3,7 @@
 		<?php foreach ($this->pagesList as $page):  ?>
 			<li>
 				<?php if($this->useImage): ?>
-					<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>">
+					<a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>">
 						<img src="<?php echo Tools_Page_Tools::getPreviewPath($page->getid(), true, $this->crop); ?>" alt="<?php echo $page->getH1(); ?>"/>
 					</a>
 				<?php endif; ?>

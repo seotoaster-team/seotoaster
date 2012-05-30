@@ -95,7 +95,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$data = array(
-			'title'   => $translator->translate('Featured'),
+			'title'   => $translator->translate('List pages by tags'),
 			'icons'   => array(
 				$websiteHelper->getUrl() . 'system/images/widgets/featured.png',
 			),

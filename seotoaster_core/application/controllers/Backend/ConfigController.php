@@ -12,9 +12,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
-		$this->view->websiteUrl = $this->_helper->website->getUrl();
-
-		$this->_websiteConfig	= Zend_Registry::get('website');
+		$this->view->websiteUrl  = $this->_helper->website->getUrl();
+		$this->_websiteConfig	 = Zend_Registry::get('website');
+        $this->view->helpSection = 'config';
 
 		$this->_translator = Zend_Registry::get('Zend_Translate');
 
@@ -192,7 +192,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $this->view->recipients     = array_combine($recipients, $recipients);
         $this->view->mailTemplates  = Tools_Mail_Tools::getMailTemplatesHash();
         $this->view->pluginTriggers = $pluginsTriggers;
-        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select an action')), array_combine(array_keys($pluginsTriggers), array_map(function($pluginTrigger) {
+        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($pluginsTriggers), array_map(function($pluginTrigger) {
             return ucfirst($pluginTrigger);
         }, array_keys($pluginsTriggers))));
         $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
