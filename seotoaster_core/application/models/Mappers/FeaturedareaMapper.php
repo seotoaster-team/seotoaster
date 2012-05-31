@@ -116,6 +116,10 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		$rowsPageFeaturedarea = $faRow->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
 		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
 			$order           = array_key_exists($rowPageFa->order, $faPages) ? (array_search(end($faPages), $faPages)) + 1 : $rowPageFa->order;
+            $page            = Application_Model_Mappers_PageMapper::getInstance()->find($rowPageFa->page_id);
+            if($page->getSystem()) {
+                continue;
+            }
 			$faPages[$order] = Application_Model_Mappers_PageMapper::getInstance()->find($rowPageFa->page_id);
 		}
 		return $faPages;
