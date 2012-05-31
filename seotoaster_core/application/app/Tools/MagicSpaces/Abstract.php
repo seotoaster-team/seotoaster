@@ -58,6 +58,13 @@ abstract class Tools_MagicSpaces_Abstract {
 
 	protected function _replace($spaceContent) {
 		$space = strtolower($this->_name);
-		return preg_replace('~{' . $space . '}.*{/' . $space . '}~siuU', $spaceContent, $this->_content, 1);
+		return preg_replace('~{' . $space . '}.*?{/' . $space . '}~sui', $this->_escapeChars($spaceContent), $this->_content, 1);
 	}
+
+    private function _escapeChars($content) {
+        $chars = array(
+            '$' => '\$'
+        );
+        return str_replace(array_keys($chars), array_values($chars), $content);
+    }
 }
