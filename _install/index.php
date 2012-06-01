@@ -3,7 +3,7 @@
  * SEOTOASTER 2.0 installer
  */
 if (version_compare(PHP_VERSION, '5.3.2', '<')){
-	die('Sorry you need PHP 5.3.2 version or greater. Your version is: ' . PHP_VERSION . '.');
+	die('Sorry you need PHP 5.3.3 version or greater. Your version is: ' . PHP_VERSION . '.');
 }
 define('INSTALL_PATH', realpath(__DIR__.'/../'));
 define('INSTALLER_PATH', realpath(__DIR__));
