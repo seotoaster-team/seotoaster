@@ -33,7 +33,28 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	protected function _initDatabase() {
 		$config   = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'database');
-		$database = Zend_Db::factory($config->database);
+		$dbConfig = $config->database->toArray();
+		$adapter = strtolower($dbConfig['adapter']);
+		if (!in_array($adapter, array('pdo_mysql', 'mysqli'))){
+			if (extension_loaded('pdo_mysql')) {
+				$adapter = 'pdo_mysql';
+			} elseif (extension_loaded('mysqli')) {
+				$adapter = 'mysqli';
+			} else {
+
+			}
+		}
+		if ($adapter === 'pdo_mysql'){
+			$dbConfig['params']['driver_options'] = array(
+				PDO::MYSQL_ATTR_INIT_COMMAND        => 'SET NAMES UTF8;',
+				PDO::MYSQL_ATTR_USE_BUFFERED_QUERY  => true
+			);
+		}
+		$database = Zend_Db::factory($adapter, $dbConfig['params']);
+		if ($adapter === 'mysqli'){
+			$database->quote('SET NAMES UTF8');
+			$database->query('SET CHARACTER SET utf8');
+		}
 		Zend_Db_Table_Abstract::setDefaultAdapter($database);
 		Zend_Registry::set('dbAdapter', $database);
 	}
