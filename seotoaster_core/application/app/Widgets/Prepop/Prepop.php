@@ -94,13 +94,18 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     protected function _renderPrepopCheckbox() {
         $this->_view->onJsElementAction = 'click';
-        $this->_view->options           = $this->_generateSelectOptions();
+        $options = $this->_generateSelectOptions();
+        $values  = array_values($options);
+        if(sizeof($values) == 1 && !(boolean)$values[0]) {
+            $options = array('yes' => '');
+        }
+        $this->_view->options = $options;
         return $this->_view->render('element.prepop.phtml');
     }
 
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
-        $this->_view->options           = $this->_generateSelectOptions();
+        $this->_view->options           = array_merge(array('0' => '-- ' . $this->_translator->translate('select one') . ' --'), $this->_generateSelectOptions());
         return $this->_view->render('element.prepop.phtml');
     }
 
