@@ -107,7 +107,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $this->_view->onJsElementAction = 'change';
         $options              = $this->_generateSelectOptions();
         $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
-        sort($options);
+        asort($options);
         $this->_view->options = $options;
         return $this->_view->render('element.prepop.phtml');
     }
