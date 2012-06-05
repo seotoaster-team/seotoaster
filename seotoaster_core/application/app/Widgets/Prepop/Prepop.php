@@ -105,7 +105,10 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
-        $this->_view->options           = array_merge(array('0' => '-- ' . $this->_translator->translate('select one') . ' --'), $this->_generateSelectOptions());
+        $options              = $this->_generateSelectOptions();
+        $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
+        ksort($options);
+        $this->_view->options = $options;
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -130,7 +133,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }, array_values($this->_options));
 
         return array_combine($arrayValues, array_map(function($option) {
-            return ucfirst($option);
+            return !intval($option) ? ucfirst($option) : $option;
         }, $arrayValues));
     }
 

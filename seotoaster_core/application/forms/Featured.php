@@ -27,6 +27,7 @@ class Application_Form_Featured extends Zend_Form {
 				))
 			),
 			'required'   => true,
+            'style'      => 'width: 305px;',
 			'filters'    => array('StringTrim')
 		)));
 
