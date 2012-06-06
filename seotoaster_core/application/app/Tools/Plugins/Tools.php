@@ -84,6 +84,7 @@ class Tools_Plugins_Tools {
 						}
 					}
 					array_push($additionalMenu[$title]['items'], $item);
+					unset($item);
 				}
 			}
 			catch (Zend_Config_Exception $zce) {
