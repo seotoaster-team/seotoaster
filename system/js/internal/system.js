@@ -201,7 +201,7 @@ $(function() {
                         }
                     }, 'json');
                 });
-            $(editContainer).prepend(btnSave, btnCancel);
+            $(editContainer).prepend($('<div class="clearfix"></div>').append(btnSave, btnCancel));
         });
     });
 });
