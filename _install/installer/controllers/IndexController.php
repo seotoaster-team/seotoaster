@@ -136,6 +136,10 @@ class IndexController extends Zend_Controller_Action {
 		$isCoreReady = false;
 		
 		// populating data from sessions if exists
+
+        //default values
+        $this->_session->coreinfo = array( 'corepath' => INSTALL_PATH . '/seotoaster_core/', 'sitename' => '' );
+
 		if (isset($this->_session->coreinfo)) {
 			$configForm->populate($this->_session->coreinfo);
 		} else {

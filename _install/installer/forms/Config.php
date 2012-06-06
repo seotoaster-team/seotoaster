@@ -74,7 +74,7 @@ class Installer_Form_Config extends Zend_Form {
 			'title'     => ($translator ? $translator->translate('Name of the database to use') : 'Name of the database to use')
 		));
 	
-		$this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo', array('legend' => 'Core location settings'));
+		$this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo', array('legend' => 'Advanced settings'));
 		$this->addDisplayGroup(array('host', 'username', 'password', 'dbname'), 'dbinfo', array('legend' =>'Database connection settings'));
 		$this->setDisplayGroupDecorators(array(
 			'FormElements',
