@@ -302,7 +302,7 @@ class IndexController extends Zend_Controller_Action {
         if(isset($_SERVER['SERVER_SOFTWARE'])) {
             if(strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
                 //if apache - try to rewrite the .htaccess
-                $htaccess = INSTALLER_PATH . DIRECTORY_SEPARATOR . '.htaccess';
+                $htaccess = INSTALL_PATH . DIRECTORY_SEPARATOR . '.htaccess';
                 if(!file_exists($htaccess)) {
                     $this->view->serverConfigGenerated = false;
                     $this->view->htaccessExists        = false ;
@@ -311,7 +311,7 @@ class IndexController extends Zend_Controller_Action {
                     $this->view->serverConfigGenerated = false;
                     $this->view->htaccessWritable      = false;
                 }
-                if(false !== file_put_contents($htaccess, $this->_generateHtaccessContent())) {
+                if(false !== @file_put_contents($htaccess, $this->_generateHtaccessContent())) {
                     $this->view->serverConfigGenerated = true;
                 }
             }
