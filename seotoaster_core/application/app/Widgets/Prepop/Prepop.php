@@ -95,7 +95,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected function _renderPrepopCheckbox() {
         $this->_view->onJsElementAction = 'click';
         $options = $this->_generateSelectOptions();
-        $values  = array_values($options);
+        $values  = (is_array($options)) ? array_values($options) : array(' ');
         if(sizeof($values) == 1 && !(boolean)$values[0]) {
             $options = array('yes' => '');
         }
