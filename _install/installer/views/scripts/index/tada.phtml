@@ -15,7 +15,8 @@
 			<a href="<?php echo $this->protocol . '://' .$this->websiteUrl.'go'; ?>"><?php echo $this->protocol . '://' .$this->websiteUrl.'go'; ?></a>
 			</p>
 		</div>
-
-		<?php echo $this->partial('_server.phtml'); ?>
+        <?php if(!$this->serverConfigGenerated): ?>
+		    <?php echo $this->partial('_server.phtml'); ?>
+        <?php endif?>
 	</div>
 </div>

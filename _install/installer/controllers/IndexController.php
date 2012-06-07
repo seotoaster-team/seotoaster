@@ -292,8 +292,30 @@ class IndexController extends Zend_Controller_Action {
 	}
 	
 	public function tadaAction(){
-		$this->view->websiteUrl = $this->_session->websiteUrl;
-		$this->view->protocol = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_SCHEME);
+		$this->view->websiteUrl            = $this->_session->websiteUrl;
+		$this->view->protocol              = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_SCHEME);
+        $this->view->htaccessWritable      = false;
+        $this->view->htaccessExists        = false ;
+        $this->view->serverConfigGenerated = false;
+
+        //detecting server software
+        if(isset($_SERVER['SERVER_SOFTWARE'])) {
+            if(strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
+                //if apache - try to rewrite the .htaccess
+                $htaccess = INSTALLER_PATH . DIRECTORY_SEPARATOR . '.htaccess';
+                if(!file_exists($htaccess)) {
+                    $this->view->serverConfigGenerated = false;
+                    $this->view->htaccessExists        = false ;
+                }
+                if(!is_writable($htaccess)) {
+                    $this->view->serverConfigGenerated = false;
+                    $this->view->htaccessWritable      = false;
+                }
+                if(false !== file_put_contents($htaccess, $this->_generateHtaccessContent())) {
+                    $this->view->serverConfigGenerated = true;
+                }
+            }
+        }
 	}
 
 	public function preDispatch() {
@@ -303,6 +325,28 @@ class IndexController extends Zend_Controller_Action {
 		}
 		return parent::preDispatch();
 	}
+
+    private function _generateHtaccessContent() {
+        $content   = array();
+        $content[] = 'RewriteEngine On';
+
+        //generate RewriteBase
+        if(isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']) {
+            $rewriteBase = explode(DIRECTORY_SEPARATOR, $_SERVER['REQUEST_URI']);
+            array_splice($rewriteBase, -2, 2);
+            $rewriteBase = implode(DIRECTORY_SEPARATOR, $rewriteBase);
+            if($rewriteBase) {
+                $content[] = $rewriteBase . DIRECTORY_SEPARATOR;
+            }
+        }
+        //other part of .htaccess
+        $content[] = 'RewriteCond %{REQUEST_FILENAME} -s [OR]';
+        $content[] = 'RewriteCond %{REQUEST_FILENAME} -l [OR]';
+        $content[] = 'RewriteCond %{REQUEST_FILENAME} -d';
+        $content[] = 'RewriteRule ^.*$ - [NC,L]';
+        $content[] = 'RewriteRule ^.*$ index.php [NC,L]';
+        return implode(PHP_EOL, $content);
+    }
 
 	/**
 	 * Create super user for fresh toaster
