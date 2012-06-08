@@ -63,7 +63,7 @@
 			<ul>
 			<?php foreach ($this->permissions['dir'] as $dirname => $status): ?>
 				<?php if ($status !== true ): ?>
-				<li style="padding: 5px; border: none; background: none;" class="ui-state-error">
+				<li style="padding: 3px 5px; border: none; background: none;" class="ui-state-error">
 					<span class="ui-icon ui-icon-alert" style="display: inline-block;float: left;margin-right: 3px;"></span>
                     <?php echo 'Folder <strong>'.$dirname.'</strong>' . ' - ' . $status ; ?>
 				</li>
@@ -73,7 +73,7 @@
 			<ul>
 			<?php foreach ($this->permissions['file'] as $filename => $status): ?>
 				<?php if ($status !== true ): ?>
-				<li style="padding: 5px; border: none; background: none;" class="ui-state-error">
+				<li style="padding: 3px 5px; border: none; background: none;" class="ui-state-error">
 					<span class="err ui-icon ui-icon-alert" style="display: inline-block;float: left;margin-right: 3px;"></span>
                     <?php echo 'File <b>'.$filename.'</b>' . ' - ' . $status ; ?>
 				</li>

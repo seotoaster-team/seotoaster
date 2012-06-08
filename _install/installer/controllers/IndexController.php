@@ -157,8 +157,7 @@ class IndexController extends Zend_Controller_Action {
 			
 			$this->_session->nextStep = 2;
 
-			
-				if ($configForm->isValid($params)){
+				if (true === ($formValid = $configForm->isValid($params))){
 					$formValues = $configForm->getValues();
 					
 					if (isset($params['corepath']) && isset($params['sitename'])) {
@@ -216,7 +215,7 @@ class IndexController extends Zend_Controller_Action {
                     }
 				}
 			//checking if it is possible to write config files into given core folder
-			if (isset($this->_session->coreinfo)){
+			if ($formValid && isset($this->_session->coreinfo)){
 								
 				if ($this->_session->coreinfo['corepath'] === ''){
 					$configsDir = realpath(INSTALL_PATH.'/seotoaster_core/').DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['configdir'];
@@ -226,13 +225,25 @@ class IndexController extends Zend_Controller_Action {
 
 				if (is_dir($configsDir)){
 					if (!is_writable($configsDir)){
-						$this->view->messages['core'] = 'Configs dir must be writable: '.$configsDir;
-					} elseif ($this->_session->coreinfo['sitename'] === '' && !is_writable($configsDir . $this->_requirements['corePermissions']['appini'])) {
-						$this->view->messages['core'] = 'This files in <b>core</b> folder must be writable: <br />'.$this->_requirements['corePermissions']['configdir']. $this->_requirements['corePermissions']['appini'];
+						$coreErrorMessages[] = 'Configs dir must be writable: '.$configsDir;
 					}
-                    if (empty($this->view->messages['core'])) {
+					$isCoreReady = false;
+					$appini = $configsDir . ($this->_session->coreinfo['sitename'] === '' ? $this->_requirements['corePermissions']['appini'] : $this->_session->coreinfo['sitename'].'.ini');
+					if (!file_exists($appini)){
+						if (!touch($appini)){
+							$coreErrorMessages[] = 'File not exists:<br/>'.$appini;
+						}
+					} else {
+						if (!is_writable($appini)){
+							$coreErrorMessages[] = 'This file must be writable:<br/>'.$appini;
+						}
+					}
+
+                    if (!isset($coreErrorMessages) || empty($coreErrorMessages)) {
 						$isCoreReady = true;
-					}
+					} else {
+	                    $this->view->messages['core'] = implode('<br />', $coreErrorMessages);
+                    }
 				} 
 			}
 			
@@ -240,13 +251,13 @@ class IndexController extends Zend_Controller_Action {
 
 		if ($isCoreReady) {
 			foreach ($configForm->getDisplayGroup('coreinfo')->getElements() as $element){
-				$element->setAttrib('disabled', 'disabled');
+				$element->setAttrib('readonly', 'readonly');
 			}
 		}
-		
+
 		if ($isDbReady) {
 			foreach ($configForm->getDisplayGroup('dbinfo')->getElements() as $element){
-				$element->setAttrib('disabled', 'disabled');
+				$element->setAttrib('readonly', 'readonly');
 			}
 		}
 		
@@ -254,8 +265,7 @@ class IndexController extends Zend_Controller_Action {
 			$configForm->removeElement('submit');
 			
 			$this->view->gotoNext = true;
-			$this->_session->nextStep = 3;			
-			
+			$this->_session->nextStep = 3;
 		}
 		
 		$this->view->configform = $configForm;
@@ -265,9 +275,10 @@ class IndexController extends Zend_Controller_Action {
 		$settingsForm = new Installer_Form_Settings();
 		
 		if (!isset($this->_session->configsSaved) || $this->_session->configsSaved !== true) {
-			$url = parse_url($_SERVER['HTTP_REFERER']);
-			$instFolderName = preg_replace('~^.*/([^/]*)$~', '$1', INSTALLER_PATH);
-			$this->_session->websiteUrl = $url['host'] .  preg_replace('~^(.*/)'.$instFolderName.'/?(index.php)?$~i', '$1', $url['path']);
+			$uri = explode('/', $_SERVER['REQUEST_URI']);
+            array_splice($uri, -2, 2);
+			$uri = implode('/', $uri);
+			$this->_session->websiteUrl = $_SERVER['HTTP_HOST'].$uri.'/';
 			$this->_session->configsSaved = $this->_saveConfigToFs();
 		}
 		
@@ -336,7 +347,7 @@ class IndexController extends Zend_Controller_Action {
             array_splice($rewriteBase, -2, 2);
             $rewriteBase = implode(DIRECTORY_SEPARATOR, $rewriteBase);
             if($rewriteBase) {
-                $content[] = $rewriteBase . DIRECTORY_SEPARATOR;
+                $content[] = 'RewriteBase ' . $rewriteBase . DIRECTORY_SEPARATOR;
             }
         }
         //other part of .htaccess
@@ -394,7 +405,7 @@ class IndexController extends Zend_Controller_Action {
 	}
 	
 	public function _saveConfigToFs() {
-		if ($this->_session->coreinfo['corepath'] === ''){
+		if (empty($this->_session->coreinfo['corepath'])){
 			$corepath = realpath(INSTALL_PATH .DIRECTORY_SEPARATOR. 'seotoaster_core');
 			$configPath = realpath($corepath . DIRECTORY_SEPARATOR . $this->_requirements['corePermissions']['configdir']);
 		} else {
@@ -415,7 +426,7 @@ class IndexController extends Zend_Controller_Action {
 			error_log($e->getTraceAsString());
 		}
 		
-		$iniPath = ($this->_session->coreinfo['sitename'] === ''
+		$iniPath = (empty($this->_session->coreinfo['sitename'])
                 ? $configPath . DIRECTORY_SEPARATOR . 'application'
                 : $configPath . DIRECTORY_SEPARATOR . $this->_session->coreinfo['sitename'] ) . '.ini';
 
