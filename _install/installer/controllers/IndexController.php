@@ -157,8 +157,7 @@ class IndexController extends Zend_Controller_Action {
 			
 			$this->_session->nextStep = 2;
 
-			
-				if ($configForm->isValid($params)){
+				if (true === ($formValid = $configForm->isValid($params))){
 					$formValues = $configForm->getValues();
 					
 					if (isset($params['corepath']) && isset($params['sitename'])) {
@@ -226,13 +225,25 @@ class IndexController extends Zend_Controller_Action {
 
 				if (is_dir($configsDir)){
 					if (!is_writable($configsDir)){
-						$this->view->messages['core'] = 'Configs dir must be writable: '.$configsDir;
-					} elseif ($this->_session->coreinfo['sitename'] === '' && !is_writable($configsDir . $this->_requirements['corePermissions']['appini'])) {
-						$this->view->messages['core'] = 'This files in <b>core</b> folder must be writable: <br />'.$this->_requirements['corePermissions']['configdir']. $this->_requirements['corePermissions']['appini'];
+						$coreErrorMessages[] = 'Configs dir must be writable: '.$configsDir;
 					}
-                    if (empty($this->view->messages['core'])) {
+					$isCoreReady = false;
+					$appini = $configsDir . ($this->_session->coreinfo['sitename'] === '' ? $this->_requirements['corePermissions']['appini'] : $this->_session->coreinfo['sitename'].'.ini');
+					if (!file_exists($appini)){
+						if (!touch($appini)){
+							$coreErrorMessages[] = 'File not exists:<br/>'.$appini;
+						}
+					} else {
+						if (!is_writable($appini)){
+							$coreErrorMessages[] = 'This file must be writable:<br/>'.$appini;
+						}
+					}
+
+                    if (!isset($coreErrorMessages) || empty($coreErrorMessages)) {
 						$isCoreReady = true;
-					}
+					} else {
+	                    $this->view->messages['core'] = implode('<br />', $coreErrorMessages);
+                    }
 				} 
 			}
 			
@@ -240,13 +251,13 @@ class IndexController extends Zend_Controller_Action {
 
 		if ($isCoreReady) {
 			foreach ($configForm->getDisplayGroup('coreinfo')->getElements() as $element){
-				$element->setAttrib('disabled', 'disabled');
+				$element->setAttrib('readonly', 'readonly');
 			}
 		}
-		
+
 		if ($isDbReady) {
 			foreach ($configForm->getDisplayGroup('dbinfo')->getElements() as $element){
-				$element->setAttrib('disabled', 'disabled');
+				$element->setAttrib('readonly', 'readonly');
 			}
 		}
 		
@@ -254,8 +265,7 @@ class IndexController extends Zend_Controller_Action {
 			$configForm->removeElement('submit');
 			
 			$this->view->gotoNext = true;
-			$this->_session->nextStep = 3;			
-			
+			$this->_session->nextStep = 3;
 		}
 		
 		$this->view->configform = $configForm;

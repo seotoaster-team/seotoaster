@@ -76,7 +76,7 @@ class Installer_Form_Config extends Zend_Form {
         ));
 
         $this->addDisplayGroup(array('host', 'username', 'password', 'dbname'), 'dbinfo', array('legend' =>'Database connection settings'));
-        $this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo', array('legend' => 'Advanced settings'));
+        $this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo', array('legend' => 'Advanced settings', 'class' => 'ui-helper-hidden'));
         $this->setDisplayGroupDecorators(array(
             'FormElements',
             'Fieldset'//,
