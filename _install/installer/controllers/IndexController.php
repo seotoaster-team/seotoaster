@@ -215,7 +215,7 @@ class IndexController extends Zend_Controller_Action {
                     }
 				}
 			//checking if it is possible to write config files into given core folder
-			if (isset($this->_session->coreinfo)){
+			if ($formValid && isset($this->_session->coreinfo)){
 								
 				if ($this->_session->coreinfo['corepath'] === ''){
 					$configsDir = realpath(INSTALL_PATH.'/seotoaster_core/').DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['configdir'];
