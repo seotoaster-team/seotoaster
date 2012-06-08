@@ -50,7 +50,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				}
 			}
 		}
-		$this->view->form = $robotsForm;
+        $this->view->helpSection = 'robots';
+		$this->view->form        = $robotsForm;
 	}
 
 	public function redirectsAction() {
@@ -104,6 +105,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
+        $this->view->helpSection = '301s';
 		$this->view->form = $redirectForm;
 	}
 
@@ -170,7 +172,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 		else {
 
 		}
-		$this->view->form = $deeplinksForm;
+        $this->view->helpSection = 'deeplinks';
+		$this->view->form        = $deeplinksForm;
 	}
 
 	public function removedeeplinkAction() {
@@ -218,7 +221,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($siloForm->getMessages(), get_class($siloForm)));
 			}
 		}
-		$this->view->siloForm = $siloForm;
+        $this->view->helpSection = 'sculpting';
+		$this->view->siloForm    = $siloForm;
 	}
 
 	public function loadsculptingdataAction() {

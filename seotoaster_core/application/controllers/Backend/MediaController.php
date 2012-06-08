@@ -37,6 +37,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 		if(($folder = $this->getRequest()->getParam('folder')) != '') {
 			$this->view->currFolder = $folder;
 		}
+        $this->view->helpSection = 'uploadthings';
 	}
 
 	/**
@@ -47,7 +48,8 @@ class Backend_MediaController extends Zend_Controller_Action {
 		if (!empty ($listFolders)){
 			$listFolders = array_combine($listFolders, $listFolders);
 		}
-		$this->view->listFolders = array_merge(array($this->_translator->translate('select folder')), $listFolders);
+        $this->view->helpSection = 'removethings';
+        $this->view->listFolders = array_merge(array($this->_translator->translate('select folder')), $listFolders);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 h350 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Edit robots.txt')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Edit robots.txt', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12">
 		<?php
 			$this->form->setAction($this->url());

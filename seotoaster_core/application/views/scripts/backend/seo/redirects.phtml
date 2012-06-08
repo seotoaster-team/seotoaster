@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 h570 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12 mb10px">
 		<form id="frm-redirects" style="overflow: hidden;" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="reloadRedirectsList">
 			<div class="grid_5 alpha">

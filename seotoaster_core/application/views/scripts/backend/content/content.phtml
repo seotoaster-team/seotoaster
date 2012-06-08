@@ -17,12 +17,12 @@
 			<!-- $pluginEditorLink -->
 			<?php if(isset($this->pluginsEditorLinks) && is_array($this->pluginsEditorLinks) && !empty ($this->pluginsEditorLinks)): ?>
 				<?php foreach($this->pluginsEditorLinks as $pluginEditorLink): ?>
-					| <?php echo $pluginEditorLink['link']; ?>
-					<?php if(isset($pluginEditorLink['script'])): ?>
-						<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); ?>
-					<?php endif; ?>
+                    | <?php echo $pluginEditorLink['link']; ?>
+                    <?php if(isset($pluginEditorLink['script'])): ?>
+                        <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); ?>
+                    <?php endif; ?>
 				<?php endforeach; ?>
-			<?php endif; ?>
+            <?php endif; ?>
 			| <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No editor'); ?></a>
 		</div>
 		<?php
