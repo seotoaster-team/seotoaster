@@ -336,7 +336,7 @@ class IndexController extends Zend_Controller_Action {
             array_splice($rewriteBase, -2, 2);
             $rewriteBase = implode(DIRECTORY_SEPARATOR, $rewriteBase);
             if($rewriteBase) {
-                $content[] = $rewriteBase . DIRECTORY_SEPARATOR;
+                $content[] = 'RewriteBase ' . $rewriteBase . DIRECTORY_SEPARATOR;
             }
         }
         //other part of .htaccess
