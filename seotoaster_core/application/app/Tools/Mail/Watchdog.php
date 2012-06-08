@@ -9,24 +9,6 @@ class Tools_Mail_Watchdog implements Interfaces_Observer {
 
 	const OBSERVER_LIST_PROP = 'emailTriggers';
 
-	/**
-	 * Signup trigger, launches sending of the sign-up emails
-	 * @deprecated
-	 */
-	const TRIGGER_SIGNUP = 'signup';
-
-	/**
-	 * Notify trigger. Launches sending of the general notification mails
-	 * @deprecated
-	 */
-    const TRIGGER_NOTIFY = 'notify';
-
-	/**
-	 * Form sent Nnotification trigger. Launches sending of the form sent notification mails
-	 * @deprecated
-	 */
-	const TRIGGER_FORMSENT_NOTIFY = 'formsent';
-
 	private $_options = array();
 
 	/**
@@ -62,29 +44,6 @@ class Tools_Mail_Watchdog implements Interfaces_Observer {
 			}
 		}
 	}
-
-	/**
-	 * @deprecated
-	 */
-	private function _sendSignupMails() {
-		Tools_Mail_Tools::sendSignupEmail();
-		Tools_Mail_Tools::sendMailToSiteOwner(self::TRIGGER_SIGNUP);
-	}
-
-	/**
-	 * @deprecated
-	 */
-    private function _sendNotificationMails() {
-		Tools_Mail_Tools::sendMailToSiteOwner(self::TRIGGER_NOTIFY);
-    }
-
-	/**
-	 * @deprecated
-	 */
-	private function _sendFormsentNotificationMails() {
-		Tools_Mail_Tools::sendMailToSiteOwner(self::TRIGGER_FORMSENT_NOTIFY);
-    }
-
 
 	private function _initTriggers($force = false) {
 		if (null === ($triggers = $this->_cacheHelper->load(__CLASS__)) || $force) {

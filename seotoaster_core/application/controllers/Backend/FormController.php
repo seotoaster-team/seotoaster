@@ -80,11 +80,12 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 // get the form details
 				$form   = Application_Model_Mappers_FormMapper::getInstance()->findByName($formParams['formName']);
-				$mailer = Tools_Mail_Tools::initMailer();
+				//$mailer = Tools_Mail_Tools::initMailer();
 
 				// sending mails
-                $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
-                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT
+                $sysMailWatchdog = new Tools_Mail_Watchdog(array(
+                    'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
+                    'data'     => $formParams
                 ));
                 $resutl = $sysMailWatchdog->notify($form);
 
