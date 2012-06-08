@@ -275,9 +275,10 @@ class IndexController extends Zend_Controller_Action {
 		$settingsForm = new Installer_Form_Settings();
 		
 		if (!isset($this->_session->configsSaved) || $this->_session->configsSaved !== true) {
-			$url = parse_url($_SERVER['HTTP_REFERER']);
-			$instFolderName = preg_replace('~^.*/([^/]*)$~', '$1', INSTALLER_PATH);
-			$this->_session->websiteUrl = $url['host'] .  preg_replace('~^(.*/)'.$instFolderName.'/?(index.php)?$~i', '$1', $url['path']);
+			$uri = explode('/', $_SERVER['REQUEST_URI']);
+            array_splice($uri, -2, 2);
+			$uri = implode('/', $uri);
+			$this->_session->websiteUrl = $_SERVER['HTTP_HOST'].$uri.'/';
 			$this->_session->configsSaved = $this->_saveConfigToFs();
 		}
 		
@@ -404,7 +405,7 @@ class IndexController extends Zend_Controller_Action {
 	}
 	
 	public function _saveConfigToFs() {
-		if ($this->_session->coreinfo['corepath'] === ''){
+		if (empty($this->_session->coreinfo['corepath'])){
 			$corepath = realpath(INSTALL_PATH .DIRECTORY_SEPARATOR. 'seotoaster_core');
 			$configPath = realpath($corepath . DIRECTORY_SEPARATOR . $this->_requirements['corePermissions']['configdir']);
 		} else {
@@ -425,7 +426,7 @@ class IndexController extends Zend_Controller_Action {
 			error_log($e->getTraceAsString());
 		}
 		
-		$iniPath = ($this->_session->coreinfo['sitename'] === ''
+		$iniPath = (empty($this->_session->coreinfo['sitename'])
                 ? $configPath . DIRECTORY_SEPARATOR . 'application'
                 : $configPath . DIRECTORY_SEPARATOR . $this->_session->coreinfo['sitename'] ) . '.ini';
 
