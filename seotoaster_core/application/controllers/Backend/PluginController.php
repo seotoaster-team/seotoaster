@@ -24,7 +24,8 @@ class Backend_PluginController extends Zend_Controller_Action {
 
 
 	public function pluginAction() {
-		$this->view->plugins = $this->_getPreparedPlugins();
+		$this->view->plugins     = $this->_getPreparedPlugins();
+        $this->view->helpSection = 'plugins';
 	}
 
 	public function listAction() {

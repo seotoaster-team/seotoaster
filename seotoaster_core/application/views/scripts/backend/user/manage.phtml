@@ -1,7 +1,8 @@
 <div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 		'headerText'      => $this->translate('Manage users'),
-		'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><img src="' . $this->websiteUrl . 'system/images/csv.png" alt="export users" /><a href="javascript:;" id="export-users">'. $this->translate('export as csv file') . '</a></form>'
+		'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><img src="' . $this->websiteUrl . 'system/images/csv.png" alt="export users" /><a href="javascript:;" id="export-users">'. $this->translate('export as csv file') . '</a></form>',
+        'helpSection'     => $this->helpSection
 	)); ?>
 	<div id="add-user" style="position: relative; overflow: hidden;">
 		<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="userCallback">

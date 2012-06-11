@@ -35,7 +35,8 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 		}
-		$this->view->userForm = $userForm;
+        $this->view->helpSection = 'users';
+		$this->view->userForm    = $userForm;
 	}
 
 	public function listAction() {

@@ -34,6 +34,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 		$this->view->websiteUrl   = $this->_helper->website->getUrl();
 		$this->view->currentTheme = $this->_helper->config->getConfig('currentTheme');
 
+        // content help section
+        $this->view->helpSection  = 'content';
+
 		$this->_helper->AjaxContext()->addActionContext('loadfiles', 'json')->initContext('json');
 		$this->_helper->AjaxContext()->addActionContext('refreshfolders', 'json')->initContext('json');
 	}

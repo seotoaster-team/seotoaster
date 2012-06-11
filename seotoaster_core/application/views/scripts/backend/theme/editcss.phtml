@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 h570 rounded3px refreshOnClose">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css')); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css', 'helpSection' => $this->helpSection)); ?>
 
 	<?php
 		$this->editcssForm->setAction($this->url());

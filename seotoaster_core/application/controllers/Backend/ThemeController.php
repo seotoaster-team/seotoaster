@@ -131,6 +131,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$this->_helper->response->response($errorMessages, true);
 			}
 		}
+        $this->view->helpSection  = 'addtemplate';
 		$this->view->templateForm = $templateForm;
 	}
 
@@ -187,7 +188,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				$this->view->errorMessage = $e->getMessage();
 			}
 		}
-
+        $this->view->helpSection = 'editcss';
 		$this->view->editcssForm = $editcssForm;
 	}
 
@@ -345,8 +346,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				'isCurrent' => ($this->_helper->config->getConfig('currentTheme') == $themeName)
 			));
 		}
-
-		$this->view->themesList = $themesList;
+        $this->view->helpSection = 'themes';
+		$this->view->themesList  = $themesList;
 	}
 
 	public function applythemeAction(){

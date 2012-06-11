@@ -16,7 +16,7 @@ $('#things-new-folder')
 </script>
 
 <div class="seotoaster container_12 h500 rounded3px">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things')); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload things', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12">
 		<h1 class="ui-helper-reset mb10px" style="text-align:center;">
 			<?php echo $this->translate('Upload your files and images');?>
