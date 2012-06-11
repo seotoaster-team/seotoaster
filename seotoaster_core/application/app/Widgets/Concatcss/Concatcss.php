@@ -37,6 +37,9 @@ class Widgets_Concatcss_Concatcss extends Widgets_Abstract {
 		}
 		if(isset($this->_options) && !empty($this->_options)) {
 			$this->_refresh = isset($this->_options['refresh']) ? $this->_options['refresh']  : false ;
+			if ($this->_refresh) {
+				$this->_cacheable = false;
+			}
 		}
 	}
 
