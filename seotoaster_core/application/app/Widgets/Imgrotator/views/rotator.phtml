@@ -7,15 +7,22 @@
 
 	<?php endif; ?>
 </div>
-<?php echo $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle.js'); ?>
 
 <script type="text/javascript">
 	$(function() {
-		$('#<?php echo $this->uniq; ?>').cycle({
-			fx    : '<?php echo $this->effect; ?>',
-			speed : <?php echo $this->swapTime * 1000; ?>
-		});
-	})
+		var timeout = 100;
+		if (!$.fn.cycle){
+			timeout = 2000;
+			$.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle.js'; ?>');
+		}
+		setTimeout(function(){
+			$('#<?php echo $this->uniq; ?>').cycle({
+				fx    : '<?php echo $this->effect; ?>',
+				speed : <?php echo $this->swapTime * 1000; ?>
+			});
+		}, timeout);
+
+	});
 </script>
 
 <style type="text/css">
