@@ -50,7 +50,7 @@
 		<?php echo $this->head; ?>
 		<!-- end from theme -->
 	</head>
-	<?php echo $this->bodyTag; ?>
+	<?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
 		<?php echo $this->layout()->content; ?>
 		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
 		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
