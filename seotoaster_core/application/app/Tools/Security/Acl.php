@@ -10,7 +10,7 @@ class Tools_Security_Acl {
 	// roles
 	const ROLE_GUEST      = 'guest';
 	const ROLE_MEMBER     = 'member';
-	const ROLE_USER       = 'user';
+	const ROLE_USER       = 'copywriter';
 	const ROLE_ADMIN      = 'admin';
 	const ROLE_SUPERADMIN = 'superadmin';
 	const ROLE_SYSTEM     = 'system';

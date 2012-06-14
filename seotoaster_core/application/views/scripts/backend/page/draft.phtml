@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 h570 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage drafts (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage drafts (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', 'helpSection' => $this->helpSection)); ?>
 	<?php if($this->draftPages && is_array($this->draftPages)): ?>
 		<ol class="grid_12 items-list h520">
 			<?php foreach($this->draftPages as $number => $draftPage): ?>

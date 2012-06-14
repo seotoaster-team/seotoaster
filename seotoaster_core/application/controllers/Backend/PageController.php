@@ -278,7 +278,8 @@ class Backend_PageController extends Zend_Controller_Action {
 	}
 
 	public function draftAction() {
-		$this->view->draftPages = Tools_Page_Tools::getDraftPages();
+        $this->view->helpSection = 'draft';
+		$this->view->draftPages  = Tools_Page_Tools::getDraftPages();
 	}
 
 	public function organizeAction() {
@@ -333,8 +334,9 @@ class Backend_PageController extends Zend_Controller_Action {
 			}
 			$this->view->tree = $tree;
 		}
-		$this->view->staticMenu = $pageMapper->fetchAllStaticMenuPages();
-		$this->view->noMenu     = $pageMapper->fetchAllNomenuPages();
+        $this->view->helpSection = 'organize';
+		$this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
+		$this->view->noMenu      = $pageMapper->fetchAllNomenuPages();
 	}
 
 	private function _processPagePreviewImage($pageUrl, $tmpPreviewFile = null){

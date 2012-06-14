@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 h570 rounded3px refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit deeplink')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit deeplink', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12">
 		<form id="frm-deeplinks" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="loadDeeplinksList">
 			<div class="grid_5 alpha">

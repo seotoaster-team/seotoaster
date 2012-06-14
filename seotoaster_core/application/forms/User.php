@@ -66,8 +66,9 @@ class Application_Form_User extends Zend_Form {
 
 		$acl = Zend_Registry::get('acl');
 		$roles = array_filter($acl->getRoles(), function($role){
-			return $role !== Tools_Security_Acl::ROLE_SUPERADMIN;
+			return (($role !== Tools_Security_Acl::ROLE_SUPERADMIN) && $role !== Tools_Security_Acl::ROLE_GUEST);
 		});
+
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'roleId',
 			'id'           => 'role-id',

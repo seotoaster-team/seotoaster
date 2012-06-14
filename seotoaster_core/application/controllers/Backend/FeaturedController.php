@@ -46,7 +46,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function loadfalistAction() {
 		$render        = $this->getRequest()->getParam('render', true);
 		$namesOnly     = $this->getRequest()->getParam('namesonly', false);
-		$featuredAreas = Application_Model_Mappers_FeaturedareaMapper::getInstance()->fetchAll(null, 'name DESC');
+		$featuredAreas = Application_Model_Mappers_FeaturedareaMapper::getInstance()->fetchAll(null, 'name ASC');
 
 		if($namesOnly) {
 			$names = array();
@@ -58,7 +58,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$this->view->responseData = $names;
 		}
-
+        asort($featuredAreas);
 		$this->view->faeaturedAreas = $featuredAreas;
 		$pageId                     = $this->getRequest()->getParam('pid');
 		if($pageId) {

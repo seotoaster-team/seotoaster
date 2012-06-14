@@ -1,6 +1,6 @@
 <div class="grid_12">
 	<div class="header ui-corner-all">
-		<h1><?php echo $this->translate("Welcome to %1\$s - STEP %2\$s", 'SEOTOASTER 2.0', 2);?></h1>
+		<h1><?php echo $this->translate("%1\$s - STEP %2\$s", 'SEOTOASTER 2.0', 2);?></h1>
 	</div>
 	<div class="content ui-helper-clearfix">
 		
@@ -27,12 +27,12 @@
 		<div class="ui-helper-clearfix form-holder">
 		<?php echo $this->configform; ?>
 		</div>
-	
+        <a href="#" id="as-toggle" onclick="$('#fieldset-coreinfo').fadeToggle(); return false;" style="overflow:hidden;"><img src="images/advanced.png" style="float:left; margin-right:5px;"/><?php echo $this->translate('Advanced settings'); ?></a>
 	<form action="" method="post">
 		<?php if ($this->gotoNext === true): ?>
 		<input type="submit" value="<?php echo $this->translate('Go forward!');?>" name="submit" />
 		<?php endif; ?>
 	</form>
-	
 	</div>
 </div>
+

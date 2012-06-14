@@ -95,8 +95,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected function _renderPrepopCheckbox() {
         $this->_view->onJsElementAction = 'click';
         $options = $this->_generateSelectOptions();
-        $values  = array_values($options);
-        if(sizeof($values) == 1 && !(boolean)$values[0]) {
+        $values  = (is_array($options)) ? array_values($options) : array();
+        if(empty($values) || sizeof($values) == 1 && !(boolean)$values[0]) {
             $options = array('yes' => '');
         }
         $this->_view->options = $options;
@@ -105,7 +105,10 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
-        $this->_view->options           = array_merge(array('0' => '-- ' . $this->_translator->translate('select one') . ' --'), $this->_generateSelectOptions());
+        $options              = $this->_generateSelectOptions();
+        $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
+        asort($options);
+        $this->_view->options = $options;
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -125,12 +128,14 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     private function _generateSelectOptions() {
-        $arrayValues = array_map(function($value) {
+        $arrayValues = (!is_array($this->_options)) ? array() : array_map(function($value) {
             return trim($value);
         }, array_values($this->_options));
-
+        if(empty($arrayValues)) {
+            return $arrayValues;
+        }
         return array_combine($arrayValues, array_map(function($option) {
-            return ucfirst($option);
+            return !intval($option) ? ucfirst($option) : $option;
         }, $arrayValues));
     }
 
