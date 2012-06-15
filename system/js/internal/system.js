@@ -159,51 +159,6 @@ $(function() {
 	}
 	//publishPages();
 
-    $(document).on('dblclick', '.container-wrapper', function(e){
-        if (!e.ctrlKey) return false;
-
-        var self = this,
-            url = $(this).find('.tpopup.generator-links').data('url'),
-            editContainer = $('<div class="inline-editor"></div>');
-        $(editContainer).insertBefore(this);
-        $.getJSON(url, function(response){
-            var editor = $('<textarea>');
-//            editor.data('container', response);
-            $(editContainer).append(editor);
-            editor.val(response.content)
-                  .height($(self).height())
-                  .width($(self).width());
-            $(editor).redactor({
-                lang: 'en',
-                toolbar: false,
-                autoformat: false
-            });
-            $(self).hide();
-
-            var btnCancel = $('<input type="button" class="btn" value="Cancel" />');
-                btnCancel.on('click', function(){ $(editor).destroyEditor(); $(editContainer).remove(); $(self).show(); });
-
-            var btnSave = $('<input type="button" class="btn" value="Save" />');
-                btnSave.on('click', function(){
-                    var data = {
-                        content: $(editor).getCode(),
-                        containerType : response.containerType,
-                        containerName : response.name,
-                        pageId        : response.pageId,
-                        containerId   : response.id,
-                        published     : (response.published ? 1 : 0),
-                        publishOn     : response.publishingDate
-                    };
-
-                    $.post(url, data, function(resp){
-                        if (resp.hasOwnProperty('error') && !!resp.error === false) {
-                            window.location.reload();
-                        }
-                    }, 'json');
-                });
-            $(editContainer).prepend($('<div class="clearfix"></div>').append(btnSave, btnCancel));
-        });
-    });
 });
 
 

@@ -27,11 +27,7 @@
 				->prependStylesheet($this->websiteUrl . 'system/css/reset.css')
 				->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css');
 		?>
-		<?php
-		if((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')) {
-			$this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/redactor/css/redactor.css');
-		}
-		?>
+
 		<?php endif; ?>
 
 		<?php
@@ -52,13 +48,7 @@
 		?>
 		<?php $this->headScript()->setAllowArbitraryAttributes(true)
 			->prependFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
-		<?php
-		if( (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId))
-			&& (bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')
-		  ){
-			$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/redactor/redactor.min.js');
-		}
-		?>
+
 		<?php
         echo $this->jQuery();
 //		if (APPLICATION_ENV === 'production') {
