@@ -129,8 +129,15 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
 
-    protected function _sendTmembersignupMail() {
+    protected function _sendTmembersignupMail(Application_Model_Models_User $user) {
+        switch ($this->_options['recipient']) {
+            case self::RECIPIENT_MEMBER:
 
+            break;
+            case self::RECIPIENT_SUPERADMIN:
+
+            break;
+        }
     }
 
     protected function _sendTpasswordresetMail() {
