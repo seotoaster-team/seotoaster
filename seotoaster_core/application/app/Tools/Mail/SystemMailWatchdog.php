@@ -41,18 +41,21 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     const RECIPIENT_SUPERADMIN      = 'superadmin';
 
-	private $_options      = array();
+	private $_options       = array();
 
-	private $_object       = null;
+	private $_object        = null;
 
-	private $_entityParser = null;
+	private $_entityParser  = null;
 
-    private $_mailer       = null;
+    private $_mailer        = null;
+
+    private $_websiteHelper = null;
 
 	public function __construct($options = array()) {
-		$this->_entityParser = new Tools_Content_EntityParser();
-        $this->_mailer       = Tools_Mail_Tools::initMailer();
-		$this->_options      = $options;
+		$this->_entityParser  = new Tools_Content_EntityParser();
+        $this->_mailer        = Tools_Mail_Tools::initMailer();
+		$this->_options       = $options;
+        $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 	}
 
     public function notify($object) {
@@ -68,13 +71,61 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
 	protected function _sendTfeedbackformMail(Application_Model_Models_Form $form) {
-
+        $formDetails = $this->_options['data'];
         switch ($this->_options['recipient']) {
             case self::RECIPIENT_GUEST:
-                $this->_mailer->setMailToLabel('')
-                    ->setMailTo('');
+                $this->_mailer->setMailToLabel($formDetails['name'])
+                    ->setMailTo($formDetails['email']);
+
+                if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
+                    $this->_options['template'] = $replyTemplate;
+                }
+
+                if(($mailBody = $this->_prepareEmailBody()) !== false) {
+                    $this->_entityParser->setDictionary(array(
+                        'user:name'    => $formDetails['name'],
+                        'user:email'   => $formDetails['email'],
+                        'user:message' => (isset($formDetails['message']) ? $formDetails['message'] : '')
+                    ));
+                    $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+                } else {
+                    $this->_mailer->setBody('Thank you for your feedback');
+                }
+
+                $this->_mailer->setSubject($form->getReplySubject())
+                    ->setMailFromLabel($form->getReplyFromName())
+                    ->setMailFrom($form->getReplyFrom());
+                $result = $this->_mailer->send();
+            break;
+            case self::RECIPIENT_SUPERADMIN:
+            case self::RECIPIENT_ADMIN:
+                $roleId  = ($this->_options['recipient'] == Tools_Security_Acl::ROLE_SUPERADMIN) ? Tools_Security_Acl::ROLE_SUPERADMIN : Tools_Security_Acl::ROLE_ADMIN;
+                $where   = Application_Model_Mappers_UserMapper::getInstance()->getDbTable()->getAdapter()->quoteInto('role_id = ?', $roleId);
+                $admins  = Application_Model_Mappers_UserMapper::getInstance()->fetchAll($where, array(), true);
+                if(is_array($admins)) {
+                    foreach($admins as $admin) {
+                        $this->_mailer->setMailToLabel($admin->getFullName())
+                            ->setMailTo($admin->getEmail());
+                        if(($mailBody = $this->_prepareEmailBody()) !== false) {
+                            $this->_entityParser->setDictionary(array(
+                                'user:name'    => $formDetails['name'],
+                                'user:email'   => $formDetails['email'],
+                                'user:message' => (isset($formDetails['message']) ? $formDetails['message'] : '')
+                            ));
+                            $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+                        } else {
+                            $this->_mailer->setBody($this->_options['message']);
+                        }
+                        $this->_mailer->setSubject($this->_options['subject'])
+                            ->setMailFromLabel($this->_options['from'])
+                            ->setMailFrom($form->getReplyFrom());
+                        $this->_mailer->send();
+                    }
+                    $result = true;
+                }
             break;
         }
+        return $result;
     }
 
 
@@ -94,7 +145,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     }
 
-    protected function _prepareEmailBody($object) {
+    protected function _prepareEmailBody() {
         $tmplMessage  = $this->_options['message'];
         $mailTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_options['template']);
         if (!empty($mailTemplate)){
@@ -104,7 +155,18 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             //pushing message template to email template and cleaning dictionary
             $mailTemplate = $this->_entityParser->parse($mailTemplate->getContent());
             $this->_entityParser->setDictionary(array());
-            return $this->_entityParser->parse($mailTemplate);
+            $mailTemplate = $this->_entityParser->parse($mailTemplate);
+
+            $themeData = Zend_Registry::get('theme');
+            $extConfig = Zend_Registry::get('extConfig');
+            $parserOptions = array(
+                'websiteUrl'   => $this->_websiteHelper->getUrl(),
+                'websitePath'  => $this->_websiteHelper->getPath(),
+                'currentTheme' => $extConfig['currentTheme'],
+                'themePath'    => $themeData['path'],
+            );
+            $parser = new Tools_Content_Parser($mailTemplate, null, $parserOptions);
+            return $parser->parseSimple();
         }
         return false;
     }

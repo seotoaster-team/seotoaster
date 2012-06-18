@@ -34,8 +34,10 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 		}
 	}
 
-	public function fetchAll($where = null, $order = array()) {
-		$where .= (($where) ? ' AND role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"' : 'role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
+	public function fetchAll($where = null, $order = array(), $withSuperAdmin = false) {
+        if(!$withSuperAdmin) {
+		    $where .= (($where) ? ' AND role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"' : 'role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
+        }
 
 		return parent::fetchAll($where, 'id ASC');
 	}

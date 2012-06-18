@@ -71,7 +71,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 				foreach ($listImages as $image) {
 					array_push($this->view->imageList, array(
 						'name' => $image,
-						'src' => $this->_helper->website->getUrl().$this->_websiteConfig['media'].$folderName.DIRECTORY_SEPARATOR.'product'.DIRECTORY_SEPARATOR.$image
+						'src' => Tools_Content_Tools::applyMediaServers($this->_helper->website->getUrl().$this->_websiteConfig['media'].$folderName.DIRECTORY_SEPARATOR.'product'.DIRECTORY_SEPARATOR.$image)
 					));
 				}
 			}

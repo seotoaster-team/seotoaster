@@ -19,18 +19,20 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>
 
 <script type="text/javascript">
-window.onload = function() {
+$(function() {
     if (!$.browser.msie) {
-        var editor  = ace.edit("editor");
-        var CSSMode = require("ace/mode/css").Mode;
-        
-    	editor.setTheme("ace/theme/crimson_editor");
+	    var textarea = $('#csscontent').detach();
+	    textarea.insertBefore('#editor');
+	    var editor  = ace.edit("editor");
+	    editor.setTheme("ace/theme/crimson_editor");
+	    var CSSMode = require("ace/mode/css").Mode;
         editor.getSession().setMode(new CSSMode());
-        editor.getSession().getValue();
+        editor.getSession().setValue(textarea.hide().val());
         editor.getSession().setUseWrapMode(true);
-        $('#csslist').focus();
+
     }
-    $('#editcssform').submit(function(){
+	$('#csslist').focus();
+	$('#editcssform').on('submit', function(){
 		if (!$.browser.msie){
             var cssContent = editor.getSession().getValue();
         }
@@ -55,7 +57,7 @@ window.onload = function() {
 		return false;
 	});
     
-    $('#csslist').bind('change',function(){
+    $('#csslist').on('change',function(){
 		$.ajax({
 			url: '<?php echo $this->websiteUrl; ?>backend/backend_theme/editcss/',
 			type: 'POST',
@@ -77,12 +79,12 @@ window.onload = function() {
 		});
 	});
     
-	$('textarea').keydown(function(e) {
+	$('textarea').on('keydown', function(e) {
 		if(e.ctrlKey && e.keyCode == 83) {
 			e.preventDefault();
 			$('#editcssform').submit();
 		}
-	})
-};
+	});
+});
 </script>
 

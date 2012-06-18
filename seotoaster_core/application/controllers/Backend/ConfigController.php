@@ -67,7 +67,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 						}
 					}
 					if ($adminDataModified === true) {
-						$userMapper->save($loggedUser);
+						if (!$userMapper->save($loggedUser)){
+							unset($newLogin);
+						}
 					}
 				}
 
@@ -75,6 +77,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 				//proccessing form to db
 				$config = $configForm->getValues();
+				if (isset($newLogin)){
+					$config['adminEmail'] = $newLogin;
+				}
 				if ($config['smtpPassword'] === null && null === $this->getRequest()->getParam('smtpPassword', null)){
 					unset($config['smtpPassword']);
 				}

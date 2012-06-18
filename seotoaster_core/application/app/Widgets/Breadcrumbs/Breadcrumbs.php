@@ -8,7 +8,7 @@
 class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 
 	protected function _load() {
-		$separator     = (isset($this->_options[0]) ? trim($this->_options[0]) : '>>');
+		$separator     = (isset($this->_options[0]) ? trim($this->_options[0]) : '&raquo;');
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$pageMapper    = Application_Model_Mappers_PageMapper::getInstance();
 		$page          = $pageMapper->find($this->_toasterOptions['id']);

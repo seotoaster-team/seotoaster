@@ -1,57 +1,72 @@
 <?php echo $this->doctype(); ?>
 <html lang="en">
 	<head>
-		<!-- added by Seotoaster layout -->
-		<?php if(!preg_match('/<meta charset="utf-8">/is', $this->head)): ?>
-			<?php echo $this->headMeta()->setCharset('utf-8'); ?>
-		<?php endif; ?>
+		<?php echo $this->headTitle();?>
+
+		<?php if($this->doctype()->isHtml5()) $this->headMeta()->setCharset('utf-8'); ?>
+		<?php echo $this->headMeta(); ?>
 
 		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
-			<link rel="canonical" href="<?php echo $this->websiteUrl . (($this->pageData['url'] != $this->websiteMainPage) ? $this->pageData['url'] : ''); ?>" />
+		<link rel="canonical" href="<?php echo $this->websiteUrl . (($this->pageData['url'] != $this->websiteMainPage) ? $this->pageData['url'] : ''); ?>" />
 		<?php endif; ?>
 
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
 
-		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css'); ?>
-		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/js/external/smoke/smoke.css'); ?>
+		<?php
+		$this->headLink()
+			->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
+			->prependStylesheet($this->websiteUrl . 'system/js/external/smoke/smoke.css');
+		?>
 
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
-		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
-		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/grid.css'); ?>
-		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
-		<?php $this->headLink()->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css'); ?>
-			<?php if((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')):?>
-			<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/redactor/css/redactor.css'); ?>
-			<?php endif; ?>
+		<?php
+			$this->headLink()
+				->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
+				->prependStylesheet($this->websiteUrl . 'system/css/grid.css')
+				->prependStylesheet($this->websiteUrl . 'system/css/reset.css')
+				->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css');
+		?>
+
 		<?php endif; ?>
 
-		<?php echo $this->headLink(); ?>
-
-		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js'); ?>
-		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js'); ?>
-		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
-		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js'); ?>
-
-		<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
-
 		<?php
-		if( (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId))
-			&& (bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')
-		  ){
-			$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/redactor/redactor.min.js');
+//		if (APPLICATION_ENV === 'production') {
+		if (isset($this->minify) && $this->minify === true) {
+			echo Tools_System_Minify::minify($this->headLink(), false);
+		} else {
+			echo $this->headLink();
 		}
 		?>
 
-		<?php echo $this->jQuery(); ?>
+		<?php
+		$this->jQuery()
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js')
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js');
+		?>
+		<?php $this->headScript()->setAllowArbitraryAttributes(true)
+			->prependFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
 
-		<!-- end of Seotoaster layout -->
-		<!-- from theme -->
-		<?php echo $this->head; ?>
-		<!-- end from theme -->
+		<?php
+        echo $this->jQuery();
+//		if (APPLICATION_ENV === 'production') {
+		if (isset($this->minify) && $this->minify === true)  {
+			echo Tools_System_Minify::minify($this->headScript());
+		} else {
+			echo $this->headScript();
+		}
+		?>
+		<?php
+		echo $this->placeholder('misc');
+		echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
+		?>
 	</head>
-	<?php echo $this->bodyTag; ?>
+	<?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
+		<?php echo isset($this->placeholder('seo')->seoTop) ? $this->placeholder('seo')->seoTop: ''; ?>
 		<?php echo $this->layout()->content; ?>
+		<?php echo isset($this->placeholder('seo')->seoBottom) ? $this->placeholder('seo')->seoBottom: ''; ?>
 		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
 		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
 		<?php if(isset($this->sculptingReplacement)): ?>
