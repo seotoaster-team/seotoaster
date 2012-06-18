@@ -117,6 +117,10 @@ switch ($this->caller){
 			$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check ui-corner-all"></span>');
 		}
 		<?php if ($this->caller == 'themes') : ?>
+		if (response.error !== false){
+			$('#'+file.id).parent().remove();
+			showMessage(response.error, true);
+		}
 		$('#themes-list').trigger('updateContent');
 		<?php elseif ($this->caller == 'templatePreview'): ?>
 		if (response.error == false && response.hasOwnProperty('thumb')){

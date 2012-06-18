@@ -130,7 +130,7 @@ class Backend_UploadController extends Zend_Controller_Action {
             return 'Your theme directory is empty.';
         }
 
-        if (!preg_match("/^[a-zA-Z-0-9]{1,255}$/", $themename)) {
+	    if (!preg_match("/^[\w-]{1,255}$/ui", $themename)) {
             return 'Theme name is invalid. Only letters, digits and dashes allowed.';
         }
 
