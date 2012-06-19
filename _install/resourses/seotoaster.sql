@@ -38,7 +38,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('mediaServers', '0'),
 ('smtpSsl', '0'),
 ('codeEnabled', '0'),
-('inlineEditor', '0'),
+('inlineEditor', '0');
 
 -- --------------------------------------------------------
 
