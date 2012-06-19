@@ -91,6 +91,7 @@ $(function() {
 		];
 		var ajaxMessage = $('#ajax_msg');
 		var form        = $(this);
+        var callback    = $(form).data('callback');
 		ajaxMessage.text('');
 		$.ajax({
 			url        : form.attr('action'),
@@ -111,7 +112,6 @@ $(function() {
 						return;
 					}
 					//processing callback
-					var callback = $(form).data('callback');
 					if(typeof callback != 'undefined' && callback != null) {
 						eval(callback + '()');
 					}
@@ -123,7 +123,11 @@ $(function() {
 						$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
 					}
 					hideSpinner();
-					smoke.alert(response.responseText, {classname:"errors"});
+					smoke.alert(response.responseText, {classname:"errors"}, function() {
+                        if(typeof callback != 'undefined' && callback != null) {
+                            eval(callback + '()');
+                        }
+                    });
 				}
 			},
 			error: function(err) {

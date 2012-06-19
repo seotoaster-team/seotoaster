@@ -21,7 +21,7 @@
 	}
 </style>
 <?php if($this->form): ?>
-	<form class="_fajax" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
+	<form class="_fajax" data-callback="formCallback" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
 

@@ -73,8 +73,8 @@ class Backend_FormController extends Zend_Controller_Action {
 
 				//validating captcha
                 if(isset($formParams['captcha'])) {
-					if(!$this->_validateCaptcha($formParams['captcha'], $formParams['captchaId'])) {
-						$this->_helper->response->fail($this->_helper->language->translate('Captcha is not valid.'));
+					if(!$this->_validateCaptcha(strtolower($formParams['captcha']), $formParams['captchaId'])) {
+                        $this->_helper->response->fail($this->_helper->language->translate('Captcha is not valid.'));
 					}
 				}
 
@@ -87,11 +87,11 @@ class Backend_FormController extends Zend_Controller_Action {
                     'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
                     'data'     => $formParams
                 ));
-                $result = $sysMailWatchdog->notify($form);
-                if($result) {
+                $sysMailWatchdog->notify($form);
+                //if($result) {
                     $this->_helper->response->success($form->getMessageSuccess());
-                }
-                $this->_helper->response->fail($form->getMessageError());
+                //}
+                //$this->_helper->response->fail($form->getMessageError());
 			}
         }
     }
