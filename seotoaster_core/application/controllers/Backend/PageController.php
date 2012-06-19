@@ -342,15 +342,16 @@ class Backend_PageController extends Zend_Controller_Action {
 	private function _processPagePreviewImage($pageUrl, $tmpPreviewFile = null){
 		$websiteConfig      = Zend_Registry::get('website');
 		$pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $this->_helper->page->clean($pageUrl));
-		$previewPath        = $websiteConfig['path'] .$websiteConfig['preview'];
+		$previewPath        = $this->_helper->website->getPath() . $this->_helper->website->getPreview();
+
 		$filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
 		$currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/i', $filelist);
 
 		if ($tmpPreviewFile) {
-			$tmpPreviewFile = $websiteConfig['path'] . str_replace($this->_helper->website->getUrl(), '', $tmpPreviewFile);
+			$tmpPreviewFile = $this->_helper->website->getPath() . str_replace($this->_helper->website->getUrl(), '', $tmpPreviewFile);
 			if (is_file($tmpPreviewFile) && is_readable($tmpPreviewFile)){
 				preg_match('/\.[\w\d]{2,6}$/', $tmpPreviewFile, $extension);
-				$newPreviewImageFile = $websiteConfig['path'].$websiteConfig['preview'].$pageUrl.$extension[0];
+				$newPreviewImageFile = $previewPath . $pageUrl . $extension[0];
 
 				//cleaning form existing page previews
 				if(!empty($currentPreviewList)) {
@@ -374,17 +375,23 @@ class Backend_PageController extends Zend_Controller_Action {
 
 				$miscConfig = Zend_Registry::get('misc');
 
-				// unlink old croped page previews
-				if(!empty($currentPreviewList)) {
-					foreach($currentPreviewList as $fileToUnlink) {
-						$unlinkPath = $this->_helper->website->getPreviewCrop() . $fileToUnlink;
-						if(file_exists($unlinkPath)) {
-							unlink($unlinkPath);
-						}
-					}
-				}
 
-				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $this->_helper->website->getPreviewCrop(), true);
+                //check for the previews crop folder and try to create it if not exists
+                $cropPreviewDirPath = $this->_helper->website->getPath() . $this->_helper->website->getPreviewCrop();
+                if(!is_dir($cropPreviewDirPath)) {
+                    @mkdir($cropPreviewDirPath);
+                } else {
+                    // unlink old croped page previews
+                    if(!empty($currentPreviewList)) {
+                        foreach($currentPreviewList as $fileToUnlink) {
+                            $unlinkPath = $cropPreviewDirPath . $fileToUnlink;
+                            if(file_exists($unlinkPath)) {
+                                unlink($unlinkPath);
+                            }
+                        }
+                    }
+                }
+				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $cropPreviewDirPath, true);
 				unset($miscConfig);
 
 				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];

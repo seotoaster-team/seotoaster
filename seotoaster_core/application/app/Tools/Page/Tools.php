@@ -9,12 +9,19 @@ class Tools_Page_Tools {
 
 	public static function getPreviewPath($pageId, $capIfNoPreview = false, $croped = false) {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+		$configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
-		$previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . (($croped) ? $websiteHelper->getPreviewCrop() :$websiteHelper->getPreview()), 'jpg|png|jpeg|gif', true, true, false);
+        $websiteUrl    = ($configHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+		try {
+            $previews      = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . (($croped) ? $websiteHelper->getPreviewCrop() :$websiteHelper->getPreview()), 'jpg|png|jpeg|gif', true, true, false);
+        } catch (Exceptions_SeotoasterException $se) {
+            if(APPLICATION_ENV == 'development') {
+                error_log("(Cant find preview thumbnail because: " . $se->getMessage() . "\n" . $se->getTraceAsString());
+            }
+            return $websiteUrl . 'system/images/noimage.png';
+        }
 
-		$page          = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
-		$websiteUrl    = ($configHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+		$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
 		if($page instanceof Application_Model_Models_Page) {
 			$cleanUrl = $pageHelper->clean($page->getUrl());
 			unset($page);
