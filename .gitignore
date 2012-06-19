@@ -5,6 +5,8 @@ cache/*
 media/*
 !media/.gitignore
 previews/*
+!previews/crop/
+previews/crop/*
 !previews/crop/.gitignore
 seotoaster_core/application/configs/**/*
 !*/index.html
