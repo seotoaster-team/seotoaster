@@ -159,7 +159,11 @@ $(function() {
 	});
 	//seotoaster gallery links
 	if(jQuery.fancybox) {
-		$('a._lbox').fancybox();
+		$('a._lbox').fancybox({
+            'transitionIn'		: 'none',
+            'transitionOut'		: 'none',
+            'titlePosition' 	: 'over'
+        });
 	}
 	//publishPages();
 
