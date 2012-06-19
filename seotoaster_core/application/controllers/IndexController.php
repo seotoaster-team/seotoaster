@@ -178,7 +178,7 @@ class IndexController extends Zend_Controller_Action {
 							} elseif ($this->view->doctype()->isHtml5() && isset($attributes['charset'])){
 								$this->view->headMeta()->setCharset($attributes['charset']);
 							} else {
-								$this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveHTML($node));
+								$this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveXML($node));
 							}
 						}
 						unset($attributes);
@@ -202,7 +202,7 @@ class IndexController extends Zend_Controller_Action {
 							$this->view->headScript()->appendFile($node->getAttribute('src'), $type, $attributes);
 						} else {
 							if ($type !== 'text/javascript'){
-								$this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveHTML($node));
+								$this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveXML($node));
 							} else {
 								$this->view->headScript()->appendScript($node->nodeValue, $type, $attributes);
 							}
@@ -217,7 +217,7 @@ class IndexController extends Zend_Controller_Action {
 							break;
 						}
 					default:
-						$this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveHTML($node));
+						$this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveXML($node));
 						break;
 				}
 			}
