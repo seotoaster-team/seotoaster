@@ -24,7 +24,7 @@ class SignupController extends Zend_Controller_Action {
 				$user = new Application_Model_Models_User($signupForm->getValues());
 
 				$user->registerObserver(new Tools_Mail_Watchdog(array(
-					'trigger' => Tools_Mail_Watchdog::TRIGGER_SIGNUP
+					'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_SIGNUP
 				)));
 
 				$user->setRoleId(Tools_Security_Acl::ROLE_MEMBER);
