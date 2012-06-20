@@ -121,6 +121,9 @@ switch ($this->caller){
 			$('#'+file.id).parent().remove();
 			showMessage(response.error, true);
 		}
+
+        $('#'+file.id).parent().fadeOut(1000);
+
 		$('#themes-list').trigger('updateContent');
 		<?php elseif ($this->caller == 'templatePreview'): ?>
 		if (response.error == false && response.hasOwnProperty('thumb')){
