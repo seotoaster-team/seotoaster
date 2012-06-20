@@ -31,6 +31,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
 				Application_Model_Mappers_FormMapper::getInstance()->save($form);
+                $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
 			}
 			else {
