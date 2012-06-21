@@ -1,3 +1,25 @@
+<style type="text/css">
+    .ctrls, a.curr-check, .theme-delete {
+        position: absolute;
+        background: white;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        padding: 5px
+    }
+    .ctrls {left: 0;}
+    a.curr-check, .theme-delete {right: 0;}
+    .theme-preview-img {
+        overflow: hidden;
+        height: 135px;
+        margin: 4px
+    }
+    p.theme-name {
+        padding: 7px;
+        overflow: hidden;
+        max-width: 170px;
+    }
+</style>
 <div class="seotoaster container_12 h570 rounded3px">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
 
@@ -18,26 +40,29 @@
 		<fieldset><legend>Themes list</legend>
 			<div id="themes-list" class="h380">
 			<?php foreach ($this->themesList as $theme) :?>
-				<div class="themebox" style="position: relative;">
-					<span class="label" style="position:relative"><?php echo $theme['name']; ?><div class="cat-tools">
-						<?php if ($theme['isCurrent']): ?>
-						<a href="javascript:;" title="this is the current theme"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
-						<?php else : ?>
-						<a href="javascript:;" class="theme-delete" title="<?php echo $this->translate('trash this theme');?>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
-						<?php endif; ?>
-						</div>
-					</span>
-					<img src="<?php echo $theme['preview'];  ?>" class="preview" alt="<?php echo $theme['name']; ?>" />
-					<label>
-						<?php if ($theme['isCurrent']): ?>
-							<span style="display: block; padding: 0px 5px;"><?php echo $this->translate('Current theme'); ?></span>
-						<?php else: ?>
-							<input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;<?php echo $this->translate('Select theme'); ?>
-						<?php endif; ?>
-					</label>
-					<input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
-					<a class="lnk-download" style="position: absolute; left: 149px; top: 170px;" href="javascript:;" title="<?php echo ($this->translate('Download') . ' ' . $theme['name'] . ' ' . $this->translate('theme')); ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
-				</div>
+
+
+                <div class="themebox" style="position: relative;">
+                    <a style="display: none;"   class="lnk-download ctrls" href="javascript:;" title="<?php echo ($this->translate('Download') . ' ' . $theme['name'] . ' ' . $this->translate('theme')); ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
+
+                    <?php if ($theme['isCurrent']): ?>
+                        <a href="javascript:;" class="curr-check" title="this is the current theme"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
+                    <?php else : ?>
+                        <a style="display: none;" href="javascript:;" class="theme-delete" title="<?php echo $this->translate('trash this theme');?>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
+                    <?php endif; ?>
+                    <div class="theme-preview-img">
+                        <img src="<?php echo $theme['preview'];  ?>" class="preview" alt="<?php echo $theme['name']; ?>" />
+                    </div>
+
+                    <p class="theme-name">
+                        <?php if (!$theme['isCurrent']): ?>
+                            <input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;
+                        <?php endif; ?>
+                        <?php echo $theme['name']; ?>
+                    </p>
+                    <input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
+                </div>
+
 			<?php endforeach; ?>
 			</div>
 		</fieldset>
@@ -94,5 +119,11 @@ $(function(){
 		var url       = '<?php echo $this->websiteUrl;?>backend/backend_theme/downloadtheme/name/' + themeName;
 		document.location.href = url;
 	});
+
+    $(document).on('mouseenter', '.themebox', function() {
+        $(this).find('.ctrls, .theme-delete').fadeIn(100);
+    }).on('mouseleave', '.themebox', function() {
+        $(this).find('.ctrls, .theme-delete').hide();
+    });
 });
 </script>

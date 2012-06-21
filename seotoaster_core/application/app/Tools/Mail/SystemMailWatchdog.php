@@ -172,7 +172,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 'currentTheme' => $extConfig['currentTheme'],
                 'themePath'    => $themeData['path'],
             );
-            $parser = new Tools_Content_Parser($mailTemplate, null, $parserOptions);
+            $parser = new Tools_Content_Parser($mailTemplate, array(), $parserOptions);
             return $parser->parseSimple();
         }
         return false;
