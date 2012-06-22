@@ -5,7 +5,7 @@
  */
 class Zend_View_Helper_Toasterframe extends Zend_View_Helper_Abstract {
 
-    const REMOTE_URL = 'https://www.seotoaster.com/';
+    const REMOTE_URL = 'http://www.seotoaster.com/';
 
     public function toasterFrame($pageUrl = 'index.html', $params = array()) {
         //defaults
