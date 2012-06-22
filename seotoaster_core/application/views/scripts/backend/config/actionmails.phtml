@@ -77,7 +77,7 @@
     $(function() {
         $('#save-actions').hide();
         var triggersTabsTmpl  = $('#triggersTabs').template();
-        var actionTriggers    = <?php echo json_encode($this->pluginTriggers); ?>;
+        var actionTriggers    = <?php echo json_encode($this->triggers); ?>;
         var actions           = <?php echo json_encode($this->actions);?>;
         var lastId            = 0;
 

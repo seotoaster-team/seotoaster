@@ -18,6 +18,8 @@ class Application_Form_Form extends Zend_Form {
 
 	protected $_replyMailTemplate = '';
 
+    protected $_replyText         = '';
+
 	protected $_name              = '';
 
 	protected $_id                = null;
@@ -112,6 +114,16 @@ class Application_Form_Form extends Zend_Form {
 			'rows'     => '5',
 			'filters'  => array('StringTrim')
 		)));
+
+        $this->addElement(new Zend_Form_Element_Textarea(array(
+            'id'       => 'reply-text',
+            'name'     => 'replyText',
+            'label'    => 'Reply text',
+            'value'    => $this->_replyText,
+            'cols'     => '45',
+            'rows'     => '5',
+            'filters'  => array('StringTrim')
+        )));
 
         $this->addElement(new Zend_Form_Element_Hidden(array(
 			'id'    => 'form-name',

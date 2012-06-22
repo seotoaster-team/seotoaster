@@ -71,3 +71,40 @@ misc.templatePreviewWidth  = 180
 misc.templatePreviewHeight = 220
 misc.pageTeaserSize        = 200
 misc.pageTeaserCropSize    = 200
+
+[actiontriggers]
+actiontriggers.seotoaster.trigger.t_feedbackform.title    = "feedback form sent"
+actiontriggers.seotoaster.trigger.t_feedbackform.sendto   = "guest"
+actiontriggers.seotoaster.trigger.t_feedbackform.message  = ""
+actiontriggers.seotoaster.trigger.t_feedbackform.from     = ""
+actiontriggers.seotoaster.trigger.t_feedbackform.subject  = "Thank you for submiting"
+actiontriggers.seotoaster.trigger.t_feedbackform.observer = "Tools_Mail_SystemMailWatchdog"
+
+actiontriggers.seotoaster.trigger.t_membersignup.title    = "New member registered"
+actiontriggers.seotoaster.trigger.t_membersignup.sendto   = "member"
+actiontriggers.seotoaster.trigger.t_membersignup.message  = ""
+actiontriggers.seotoaster.trigger.t_membersignup.from     = ""
+actiontriggers.seotoaster.trigger.t_membersignup.subject  = "Thank you for sugning up"
+actiontriggers.seotoaster.trigger.t_membersignup.observer = "Tools_Mail_SystemMailWatchdog"
+
+actiontriggers.seotoaster.trigger.t_passwordreset.title    = "password reset request"
+actiontriggers.seotoaster.trigger.t_passwordreset.sendto   = "member"
+actiontriggers.seotoaster.trigger.t_passwordreset.message  = ""
+actiontriggers.seotoaster.trigger.t_passwordreset.from     = ""
+actiontriggers.seotoaster.trigger.t_passwordreset.subject  = "Password reminder"
+actiontriggers.seotoaster.trigger.t_passwordreset.observer = "Tools_Mail_SystemMailWatchdog"
+
+actiontriggers.seotoaster.trigger.t_passwordchange.title    = "pasword changed"
+actiontriggers.seotoaster.trigger.t_passwordchange.sendto   = "member"
+actiontriggers.seotoaster.trigger.t_passwordchange.message  = ""
+actiontriggers.seotoaster.trigger.t_passwordchange.from     = ""
+actiontriggers.seotoaster.trigger.t_passwordchange.subject  = "Password was changed"
+actiontriggers.seotoaster.trigger.t_passwordchange.observer = "Tools_Mail_SystemMailWatchdog"
+
+actiontriggers.seotoaster.trigger.t_systemnotification.title    = "system notification"
+actiontriggers.seotoaster.trigger.t_systemnotification.sendto   = "superadmin"
+actiontriggers.seotoaster.trigger.t_systemnotification.message  = ""
+actiontriggers.seotoaster.trigger.t_systemnotification.from     = ""
+actiontriggers.seotoaster.trigger.t_systemnotification.subject  = "System notification"
+actiontriggers.seotoaster.trigger.t_systemnotification.observer = "Tools_Mail_SystemMailWatchdog"
+
