@@ -169,10 +169,10 @@ class Tools_Filesystem_Tools {
 			return false;
 		}
 
-		preg_match('~[^'.DIRECTORY_SEPARATOR.']+$~i', $filepath, $match);
+		$parts = explode(DIRECTORY_SEPARATOR, $filepath);
 
-		if ($match) {
-			return $match[0];
+		if ($parts) {
+			return end($parts);
 		}
 
 		return false;
