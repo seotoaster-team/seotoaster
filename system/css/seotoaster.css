@@ -1202,7 +1202,7 @@ list-style: square;
 	-moz-box-shadow:0 0 4px #ccc;
 	-webkit-box-shadow:0 0 3px #ccc;
 	width: 170px;
-	height: 193px;
+	height: 178px;
 	float: left;
     text-align: center;
 	margin: 0 5px 10px;
@@ -1238,9 +1238,6 @@ list-style: square;
 	right: 0;
 }
 
-.seotoaster .themebox .theme-delete img, .seotoaster .themebox .cat-tools img {
-	margin: 4px 6px;
-}
 
 .seotaster input#update-robots {
   margin-top: 7px;

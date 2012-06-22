@@ -1,4 +1,4 @@
-<div class="seotoaster container_12 w450 h620 rounded3px">
+<div class="seotoaster container_12 w450 h650 rounded3px">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties')); ?>
     <form class="_fajax _reload" data-norefresh="1" id="formWidget" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
 			<div class="grid_6">
@@ -19,6 +19,8 @@
 			<div class="grid_12"><?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?></div>
 			<div class="grid_12" style="position: relative;"><?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?></div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?></div>
+            <div class="grid_12"><?php echo $this->formForm->getElement('replyText')->renderLabel(); ?></div>
+            <div class="grid_12"><?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?></div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('messageSuccess')->renderLabel(); ?></div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('messageSuccess')->renderViewHelper(); ?></div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('messageError')->renderLabel(); ?></div>

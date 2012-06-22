@@ -48,7 +48,7 @@ class Application_Form_Template extends Zend_Form {
 			'id'           => 'template-type',
 			'label'        => 'Used for',
 			'multiOptions' => Application_Model_Mappers_TemplateMapper::getInstance()->fetchAllTypes(),
-			'value'        => $this->_type
+			'value'        => ($this->_type) ? $this->_type : Application_Model_Models_Template::TYPE_REGULAR
 		)));
 
 		$this->addElement('hidden', 'id', array(

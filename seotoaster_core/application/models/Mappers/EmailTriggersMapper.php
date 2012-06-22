@@ -90,6 +90,21 @@ class Application_Model_Mappers_EmailTriggersMapper extends Application_Model_Ma
 		return $this;
 	}
 
+    public function registerTrigger($triggerName) {
+        $triggersTable = new Zend_Db_Table('email_triggers');
+        $triggersTable->getAdapter()->beginTransaction();
+        $trigger['enabled']         = self::TRIGGER_STATUS_ENABLED;
+        $trigger['trigger_name']    = $triggerName;
+        $triggersTable->insert($trigger);
+        try{
+            $triggersTable->getAdapter()->commit();
+        } catch (Exception $e) {
+            $triggersTable->getAdapter()->rollBack();
+            error_log($e->getMessage());
+            error_log($e->getTraceAsString());
+        }
+    }
+
 	/**
 	 * Unregisters (removes) plugin triggers with their observers
 	 * @param $pluginName string Name of plugin

@@ -72,8 +72,18 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
 	protected function _sendTfeedbackformMail(Application_Model_Models_Form $form) {
         $formDetails = $this->_options['data'];
+        unset($formDetails['controller']);
+        unset($formDetails['action']);
+        unset($formDetails['module']);
+        unset($formDetails['formName']);
+
         switch ($this->_options['recipient']) {
             case self::RECIPIENT_GUEST:
+                $formReplyMessage = $form->getReplyText();
+                if($formReplyMessage) {
+                    $this->_options['message'] = $formReplyMessage;
+                }
+
                 $this->_mailer->setMailToLabel($formDetails['name'])
                     ->setMailTo($formDetails['email']);
 
@@ -82,11 +92,6 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 }
 
                 if(($mailBody = $this->_prepareEmailBody()) !== false) {
-                    $this->_entityParser->setDictionary(array(
-                        'user:name'    => $formDetails['name'],
-                        'user:email'   => $formDetails['email'],
-                        'user:message' => (isset($formDetails['message']) ? $formDetails['message'] : '')
-                    ));
                     $this->_mailer->setBody($this->_entityParser->parse($mailBody));
                 } else {
                     $this->_mailer->setBody('Thank you for your feedback');
@@ -107,10 +112,13 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                         $this->_mailer->setMailToLabel($admin->getFullName())
                             ->setMailTo($admin->getEmail());
                         if(($mailBody = $this->_prepareEmailBody()) !== false) {
+
+                            $formDetailsHtml = '';
+                            foreach($formDetails as $name => $value) {
+                                $formDetailsHtml .= $name . ': ' . $value . '<br />';
+                            }
                             $this->_entityParser->setDictionary(array(
-                                'user:name'    => $formDetails['name'],
-                                'user:email'   => $formDetails['email'],
-                                'user:message' => (isset($formDetails['message']) ? $formDetails['message'] : '')
+                                'form:details' => $formDetailsHtml
                             ));
                             $this->_mailer->setBody($this->_entityParser->parse($mailBody));
                         } else {
@@ -172,7 +180,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 'currentTheme' => $extConfig['currentTheme'],
                 'themePath'    => $themeData['path'],
             );
-            $parser = new Tools_Content_Parser($mailTemplate, null, $parserOptions);
+            $parser = new Tools_Content_Parser($mailTemplate, array(), $parserOptions);
             return $parser->parseSimple();
         }
         return false;

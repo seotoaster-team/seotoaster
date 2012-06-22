@@ -2,7 +2,9 @@
 
 class Widgets_Form_Form extends Widgets_Abstract {
 
-	private $_websiteHelper  = null;
+    const WFORM_CACHE_TAG = 'formWidget';
+
+	private $_websiteHelper   = null;
 
 	protected function _init() {
 		parent::_init();
@@ -15,6 +17,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		if (is_array($this->_options) && isset($this->_options[1]) && $this->_options[1] === 'captcha') {
 			$this->_cacheable = false;
 		}
+        $this->_cacheTags = array(self::WFORM_CACHE_TAG);
     }
     protected function _load() {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
