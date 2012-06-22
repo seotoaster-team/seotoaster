@@ -33,7 +33,7 @@ class Application_Form_Form extends Zend_Form {
 			'label'    => 'Form code*',
 			'value'    => $this->_code,
             'cols'     => '45',
-			'rows'     => '5',
+			'rows'     => '4',
 			'required' => true,
 			'filters'  => array('StringTrim')
 		)));
@@ -111,7 +111,7 @@ class Application_Form_Form extends Zend_Form {
 			'label'    => 'Conversion tracking code',
 			'value'    => $this->_trackingCode,
             'cols'     => '45',
-			'rows'     => '5',
+			'rows'     => '4',
 			'filters'  => array('StringTrim')
 		)));
 
@@ -121,7 +121,7 @@ class Application_Form_Form extends Zend_Form {
             'label'    => 'Reply text',
             'value'    => $this->_replyText,
             'cols'     => '45',
-            'rows'     => '5',
+            'rows'     => '2',
             'filters'  => array('StringTrim')
         )));
 
