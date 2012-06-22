@@ -57,8 +57,8 @@ class Tools_Security_Acl {
 			$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
 			$role          = $sessionHelper->getCurrentUser()->getRoleId();
 		}
-		$acl = Zend_Registry::get('acl');
-		return $acl->has($resource) ? $acl->isAllowed($role, $resource) : true ;
+	    $acl = Zend_Registry::get('acl');	    /** @var $acl Zend_Acl */
+	    return $acl->has($resource) && $acl->hasRole($role) ? $acl->isAllowed($role, $resource) : true ;
 	}
 
 	/**
