@@ -39,8 +39,8 @@
 			</fieldset>
 			<fieldset>
 				<legend><?php echo $this->translate('Settings'); ?></legend>
-					<div class="grid_6"><label><?php echo $this->translate('Current template'); ?>:</label></div>
-					<div class="grid_6">
+					<div class="grid_7"><label><?php echo $this->translate('Current template'); ?>:</label></div>
+					<div class="grid_5">
 						<?php
 							echo $this->ajaxLink(
 								$this->translate(!($this->pageForm->getElement('templateId')->getValue()) ? 'Select template' : $this->pageForm->getElement('templateId')->getValue()),
@@ -57,8 +57,8 @@
 						?>
 					</div>
 					<div class="clear"></div>
-					<div class="grid_6 mt5px"><label><?php echo $this->translate('Is this page already tagged?'); ?></label></div>
-					<div class="grid_6 mt5px">
+					<div class="grid_7 mt5px"><label><?php echo $this->translate('Is this page already tagged?'); ?></label></div>
+					<div class="grid_5 mt5px">
 						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
 					</div>
 					<div class="grid_12 mt5px">
