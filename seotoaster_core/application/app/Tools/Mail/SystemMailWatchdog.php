@@ -81,12 +81,10 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
 
     protected function _sendTfeedbackformMailReply(Application_Model_Models_Form $form) {
-        $this->_mailer    = Tools_Mail_Tools::initMailer();
-        $formDetails      = $this->_options['data'];
-        $formReplyMessage = $form->getReplyText();
-        if($formReplyMessage) {
-            $this->_options['message'] = $formReplyMessage;
-        }
+        $this->_mailer             = Tools_Mail_Tools::initMailer();
+        $formDetails               = $this->_options['data'];
+        $formReplyMessage          = $form->getReplyText();
+        $this->_options['message'] = ($formReplyMessage) ? $formReplyMessage : $this->_translator->translate('Thank you for your submission');
         $this->_mailer->setMailToLabel($formDetails['name'])
             ->setMailTo($formDetails['email']);
         if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
@@ -114,7 +112,10 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $mailBody = '{form:details}';
         $formDetailsHtml = '';
         foreach($formDetails as $name => $value) {
-            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode('<br />', $value) : $value) . '<br />';
+            if(!$value) {
+                continue;
+            }
+            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
         }
         $this->_entityParser->setDictionary(array(
             'form:details' => $formDetailsHtml
