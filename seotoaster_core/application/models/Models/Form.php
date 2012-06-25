@@ -25,6 +25,8 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 
     protected $_replyMailTemplate   = '';
 
+    protected $_replyText           = '';
+
 	protected $_trackingCode        = '';
 
     public function getId() {
@@ -125,4 +127,13 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 		$this->_trackingCode = $trackingCode;
 		return $this;
 	}
+
+    public function setReplyText($replyText) {
+        $this->_replyText = $replyText;
+        return $this;
+    }
+
+    public function getReplyText() {
+        return $this->_replyText;
+    }
 }

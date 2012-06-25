@@ -178,11 +178,16 @@ class Backend_ConfigController extends Zend_Controller_Action {
             if($actions !== false) {
                 $removeActions =  array();
                 foreach($actions as $action) {
-                    //@todo add triggers automaticaly?
                     if (isset($action['delete']) && $action['delete'] === "true"){
                         array_push($removeActions, $action['id']);
                         continue;
                     }
+
+                    //add trigger automatically if not exists
+                    //if(($exists = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($action['trigger'])->current()) === null) {
+                    //    Application_Model_Mappers_EmailTriggersMapper::getInstance()->registerTrigger($action['trigger']);
+                    // }
+
                     Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($action);
                 }
                 if (!empty($removeActions)) {
@@ -192,14 +197,18 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 return true;
             }
         }
-        $pluginsTriggers            = Tools_Plugins_Tools::fetchPluginsTriggers();
+
+        $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
+        $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
+        $triggers        = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
+
         $recipients                 = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
         $this->view->recipients     = array_combine($recipients, $recipients);
         $this->view->mailTemplates  = Tools_Mail_Tools::getMailTemplatesHash();
-        $this->view->pluginTriggers = $pluginsTriggers;
-        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($pluginsTriggers), array_map(function($pluginTrigger) {
-            return ucfirst($pluginTrigger);
-        }, array_keys($pluginsTriggers))));
+        $this->view->triggers       = $triggers;
+        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
+            return ucfirst($trigger);
+        }, array_keys($triggers))));
         $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
     }
 }

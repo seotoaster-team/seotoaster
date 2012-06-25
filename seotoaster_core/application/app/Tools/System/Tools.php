@@ -166,5 +166,14 @@ class Tools_System_Tools {
 			echo '<a href="tmp/'.$reportName.'" target="_blank">view sql profile</a>';
 		}
 	}
+
+    public function fetchSystemtriggers() {
+        $triggers      = array();
+        $config        = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
+        if($config) {
+            $triggers = $config->actiontriggers->toArray();
+        }
+        return $triggers;
+    }
 }
 

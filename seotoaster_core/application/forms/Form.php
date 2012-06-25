@@ -18,6 +18,8 @@ class Application_Form_Form extends Zend_Form {
 
 	protected $_replyMailTemplate = '';
 
+    protected $_replyText         = '';
+
 	protected $_name              = '';
 
 	protected $_id                = null;
@@ -31,7 +33,7 @@ class Application_Form_Form extends Zend_Form {
 			'label'    => 'Form code*',
 			'value'    => $this->_code,
             'cols'     => '45',
-			'rows'     => '5',
+			'rows'     => '4',
 			'required' => true,
 			'filters'  => array('StringTrim')
 		)));
@@ -109,9 +111,19 @@ class Application_Form_Form extends Zend_Form {
 			'label'    => 'Conversion tracking code',
 			'value'    => $this->_trackingCode,
             'cols'     => '45',
-			'rows'     => '5',
+			'rows'     => '4',
 			'filters'  => array('StringTrim')
 		)));
+
+        $this->addElement(new Zend_Form_Element_Textarea(array(
+            'id'       => 'reply-text',
+            'name'     => 'replyText',
+            'label'    => 'Reply text',
+            'value'    => $this->_replyText,
+            'cols'     => '45',
+            'rows'     => '2',
+            'filters'  => array('StringTrim')
+        )));
 
         $this->addElement(new Zend_Form_Element_Hidden(array(
 			'id'    => 'form-name',

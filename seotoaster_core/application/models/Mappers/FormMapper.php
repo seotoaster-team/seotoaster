@@ -25,6 +25,7 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
             'reply_from_name'     => $form->getReplyFromName(),
             'reply_subject'       => $form->getReplySubject(),
 			'reply_mail_template' => $form->getReplyMailTemplate(),
+            'reply_text'          => $form->getReplyText(),
 			'tracking_code'       => $form->getTrackingCode()
 		);
 

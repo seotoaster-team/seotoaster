@@ -16,6 +16,13 @@ class Backend_UploadController extends Zend_Controller_Action {
 	private $_websiteConfig;
 	private $_themeConfig;
 
+    /**
+     * @var bool Flag to check mime or extension of uploaded file
+     */
+    private $_checkMime = true;
+
+
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_MEDIA)) {
@@ -26,8 +33,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$this->_caller = $this->getRequest()->getParam('caller');
 		$this->_uploadHandler = new Zend_File_Transfer_Adapter_Http();
-		$this->_uploadHandler->setDestination(realpath($this->_websiteConfig['path'] . $this->_websiteConfig['tmp']));
-
+//		$this->_uploadHandler->setDestination(realpath($this->_websiteConfig['path'] . $this->_websiteConfig['tmp']));
+        if (!extension_loaded('fileinfo')){
+            $this->_checkMime = false;
+        }
 	}
 
 	public function uploadAction() {
@@ -68,8 +77,11 @@ class Backend_UploadController extends Zend_Controller_Action {
 	}
 
 	private function _uploadThemes(){
-		$this->_uploadHandler->addValidator('Extension', false, 'zip')
-			->addValidator(new Validators_MimeType(array('application/zip')), false);
+		$this->_uploadHandler->addValidator('Extension', false, 'zip');
+
+		if ($this->_checkMime){
+			$this->_uploadHandler->addValidator(new Validators_MimeType(array('application/zip')), false);
+		}
 
 		$themeArchive = $this->_uploadHandler->getFileInfo();
 
@@ -174,9 +186,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 		}
 
 		$this->_uploadHandler->clearValidators()
-			->addValidator('Extension', false,  array('jpg', 'png', 'gif'))
-			->addValidator(new Validators_MimeType(array('image/gif','image/jpeg','image/jpg','image/png')), false)
+			->addValidator('Extension', false,  array('jpeg', 'jpg', 'png', 'gif'))
 			->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['imgMaxWidth'], 'maxheight' => $miscConfig['imgMaxWidth']));
+
+        if ($this->_checkMime) {
+            $this->_uploadHandler->addValidator(new Validators_MimeType(array('image/gif','image/jpeg','image/jpg','image/png')), false);
+        }
 
 		$receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
 
@@ -233,15 +248,13 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$fileInfo = $this->_uploadHandler->getFileInfo();
 		$file     = reset($fileInfo);
-		$fileName = $this->_uploadHandler->getFileName();
-		preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $fileName, $match);
+		preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $file['name'], $match);
 		if (!$match) {
 			return array('result' => 'Corrupted filename' , 'error' => true);
 		}
-		$fileName = $match[0];
 
 		$this->_uploadHandler->addFilter('Rename', array(
-            'target' => $savePath.DIRECTORY_SEPARATOR.$fileName,
+            'target' => $savePath.DIRECTORY_SEPARATOR.$file['name'],
             'overwrite' => true
 			));
 
@@ -268,21 +281,17 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$savePath = $this->_getSavePath();
 
-		$fileInfo = $this->_uploadHandler->getFileInfo();
-		$file     = reset($fileInfo);
-
-		switch ($file['type']) {
-			case 'image/png':
-			case 'image/jpg':
-			case 'image/jpeg':
-			case 'image/gif':
-				$result = $this->_uploadImages($savePath);
-				break;
-			default:
-				$result = $this->_uploadFiles($savePath);
-				break;
-}
-
+        switch ($this->_getMimeType()) {
+            case 'image/png':
+            case 'image/jpg':
+            case 'image/jpeg':
+            case 'image/gif':
+                $result = $this->_uploadImages($savePath);
+                break;
+            default:
+                $result = $this->_uploadFiles($savePath);
+                break;
+        }
 		return $result;
 	}
 
@@ -322,7 +331,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$name = trim($this->getRequest()->getParam('templateName'));
 
-		$fileMime = $this->_uploadHandler->getMimeType();
+		$fileMime = $this->_getMimeType();
 
 		switch ($fileMime){
 			case 'image/png':
@@ -347,10 +356,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		//checking for existing images with same name ...
 		if (!is_dir($savePath)){
-			Tools_Filesystem_Tools::mkDir($savePath);
+			if (!Tools_Filesystem_Tools::mkDir($savePath)){
+				return false;
+			}
 		}
-//		$existingImages = Tools_Filesystem_Tools::scanDirectory($savePath, false, false);
-//		$existingImages = preg_grep('~^'.$name.'\.(png|jpg|gif)$~i', $existingImages);
 		$existingImages = glob($savePath.$name.'.{png,jpeg,jpg,gif}', GLOB_BRACE);
 		// ...and removing them
 		foreach ($existingImages as $img){
@@ -376,7 +385,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 		$savePath = $this->_websiteConfig['path'].$this->_websiteConfig['tmp'];
 
-		$fileMime = $this->_uploadHandler->getMimeType();
+		$fileMime = $this->_getMimeType();
 		switch ($fileMime){
 			case 'image/png':
 				$newName = '.png';
@@ -411,8 +420,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 
 	private function _uploadPlugin() {
-		$this->_uploadHandler->addValidator('Extension', false, 'zip')
-			->addValidator(new Validators_MimeType(array('application/zip')), false);
+		$this->_uploadHandler->addValidator('Extension', false, 'zip');
+        if ($this->_checkMime){
+            $this->_uploadHandler->addValidator(new Validators_MimeType(array('application/zip')), false);
+        }
 		$pluginArchive = $this->_uploadHandler->getFileInfo();
 
 		if (!$this->_uploadHandler->isValid()){
@@ -493,4 +504,21 @@ class Backend_UploadController extends Zend_Controller_Action {
 
 	}
 
+    protected function _getMimeType(){
+        if (extension_loaded('fileinfo')){
+            return $this->_uploadHandler->getMimeType();
+        }
+        $files = $this->_uploadHandler->getFileInfo();
+        if (empty($files)){
+            return false;
+        }
+        $file = reset($files);
+        unset($files);
+        if (function_exists('getimagesize')){
+            $info = getimagesize($file['tmp_name']);
+            return $info !== false ? $info['mime'] : false;
+        }
+
+        return false;
+    }
 }
