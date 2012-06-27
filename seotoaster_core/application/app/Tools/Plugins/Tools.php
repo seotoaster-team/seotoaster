@@ -38,8 +38,14 @@ class Tools_Plugins_Tools {
 					continue;
 				}
 
-				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : $plugin->getName());
-				if (!isset($additionalMenu[$title])){
+				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : '');
+				if(!$title) {
+                    if(isset($configIni->$userRole) && isset($configIni->$userRole->title)) {
+                        $title = $configIni->$userRole->title;
+                    }
+                }
+
+                if (!isset($additionalMenu[$title])){
 					$additionalMenu[$title] = array(
 						'title' => $title,
 						'items' => array()

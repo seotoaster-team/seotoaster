@@ -3,7 +3,7 @@
  * Toaster frame helper. Create iframe to the main seotoaster website
  *
  */
-class Zend_View_Helper_Toasterframe extends Zend_View_Helper_Abstract {
+class Zend_View_Helper_ToasterFrame extends Zend_View_Helper_Abstract {
 
     const REMOTE_URL = 'http://www.seotoaster.com/';
 

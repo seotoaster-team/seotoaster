@@ -7,6 +7,8 @@
  */
 class Tools_System_Tools {
 
+    const REMOTE_TOASTER_URL = 'http://www.seotoaster.com/';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/') : 'index.html';

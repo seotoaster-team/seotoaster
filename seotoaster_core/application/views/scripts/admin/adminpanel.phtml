@@ -72,7 +72,7 @@
 				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Edit this template'), array('id'=>$this->pageData['templateId'], 'pid'=>$this->pageData['id']), false, array('width' => '954', 'height' => '574')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS'), false, false, array('width' => '634', 'height' => '574')); ?></li>
 				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes'), false, false, array('width' => '954', 'height' => '574')); ?></li>
-				<li><a href="javascript:;" onclick="" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Tokens'); ?></a></li>
+				<li><a href="javascript:;" data-external-url="<?php echo Tools_System_Tools::REMOTE_TOASTER_URL; ?>" id="widgets-shortcodes" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Shortcodes'); ?></a></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT']) && isset($this->additionalMenu['LAYOUT']['items'])): ?>
 			<?php foreach($this->additionalMenu['LAYOUT']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
@@ -104,6 +104,7 @@
 		<!-- output plugins additional menus -->
 		<?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
 			<?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
+                <?php if(!$pluginAdditionalMenu['title']) {continue;} ?>
 				<li>
 					<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
 					<?php if(isset($pluginAdditionalMenu['items'])): ?>

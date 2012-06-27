@@ -1,5 +1,10 @@
 $(function() {
 
+    $(document).on('click', '#widgets-shortcodes', function(e) {
+        window.open($(e.target).data('externalUrl') + 'cheat-sheet.html', '_blank');
+    });
+
+
 	if($.cookie('hideAdminPanel') == null) {
 		$.cookie('hideAdminPanel', 0);
 	}
