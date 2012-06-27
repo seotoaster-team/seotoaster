@@ -43,19 +43,23 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
 	private $_options       = array();
 
-	private $_object        = null;
-
 	private $_entityParser  = null;
 
     private $_mailer        = null;
 
     private $_websiteHelper = null;
 
+    private $_translator    = null;
+
+    private $_configHelper  = null;
+
 	public function __construct($options = array()) {
 		$this->_entityParser  = new Tools_Content_EntityParser();
         $this->_mailer        = Tools_Mail_Tools::initMailer();
 		$this->_options       = $options;
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $this->_translator    = Zend_Controller_Action_HelperBroker::getStaticHelper('language');
+        $this->_configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 	}
 
     public function notify($object) {
@@ -71,71 +75,57 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
 	protected function _sendTfeedbackformMail(Application_Model_Models_Form $form) {
+        $this->_sendTfeedbackformMailContact($form);
+        $this->_sendTfeedbackformMailReply($form);
+    }
+
+
+    protected function _sendTfeedbackformMailReply(Application_Model_Models_Form $form) {
+        $this->_mailer             = Tools_Mail_Tools::initMailer();
+        $formDetails               = $this->_options['data'];
+        $formReplyMessage          = $form->getReplyText();
+        $this->_options['message'] = ($formReplyMessage) ? $formReplyMessage : $this->_translator->translate('Thank you for your submission');
+        $this->_mailer->setMailToLabel($formDetails['name'])
+            ->setMailTo($formDetails['email']);
+        if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
+            $this->_options['template'] = $replyTemplate;
+        }
+        if(($mailBody = $this->_prepareEmailBody()) !== false) {
+            $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+        } else {
+            $this->_mailer->setBody($this->_translator->translate('Thank you for your feedback'));
+        }
+        $this->_mailer->setSubject($form->getReplySubject())
+            ->setMailFromLabel($form->getReplyFromName())
+            ->setMailFrom($form->getReplyFrom());
+        return $this->_mailer->send();
+    }
+
+    protected function _sendTfeedbackformMailContact(Application_Model_Models_Form $form) {
         $formDetails = $this->_options['data'];
         unset($formDetails['controller']);
         unset($formDetails['action']);
         unset($formDetails['module']);
         unset($formDetails['formName']);
-
-        switch ($this->_options['recipient']) {
-            case self::RECIPIENT_GUEST:
-                $formReplyMessage = $form->getReplyText();
-                if($formReplyMessage) {
-                    $this->_options['message'] = $formReplyMessage;
-                }
-
-                $this->_mailer->setMailToLabel($formDetails['name'])
-                    ->setMailTo($formDetails['email']);
-
-                if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
-                    $this->_options['template'] = $replyTemplate;
-                }
-
-                if(($mailBody = $this->_prepareEmailBody()) !== false) {
-                    $this->_mailer->setBody($this->_entityParser->parse($mailBody));
-                } else {
-                    $this->_mailer->setBody('Thank you for your feedback');
-                }
-
-                $this->_mailer->setSubject($form->getReplySubject())
-                    ->setMailFromLabel($form->getReplyFromName())
-                    ->setMailFrom($form->getReplyFrom());
-                $result = $this->_mailer->send();
-            break;
-            case self::RECIPIENT_SUPERADMIN:
-            case self::RECIPIENT_ADMIN:
-                $roleId  = ($this->_options['recipient'] == Tools_Security_Acl::ROLE_SUPERADMIN) ? Tools_Security_Acl::ROLE_SUPERADMIN : Tools_Security_Acl::ROLE_ADMIN;
-                $where   = Application_Model_Mappers_UserMapper::getInstance()->getDbTable()->getAdapter()->quoteInto('role_id = ?', $roleId);
-                $admins  = Application_Model_Mappers_UserMapper::getInstance()->fetchAll($where, array(), true);
-                if(is_array($admins)) {
-                    foreach($admins as $admin) {
-                        $this->_mailer->setMailToLabel($admin->getFullName())
-                            ->setMailTo($admin->getEmail());
-                        if(($mailBody = $this->_prepareEmailBody()) !== false) {
-
-                            $formDetailsHtml = '';
-                            foreach($formDetails as $name => $value) {
-                                $formDetailsHtml .= $name . ': ' . $value . '<br />';
-                            }
-                            $this->_entityParser->setDictionary(array(
-                                'form:details' => $formDetailsHtml
-                            ));
-                            $this->_mailer->setBody($this->_entityParser->parse($mailBody));
-                        } else {
-                            $this->_mailer->setBody($this->_options['message']);
-                        }
-                        $this->_mailer->setSubject($this->_options['subject'])
-                            ->setMailFromLabel($this->_options['from'])
-                            ->setMailFrom($form->getReplyFrom());
-                        $this->_mailer->send();
-                    }
-                    $result = true;
-                }
-            break;
+        $this->_mailer->setMailToLabel($form->getContactEmail())
+            ->setMailTo($form->getContactEmail());
+        $mailBody = '{form:details}';
+        $formDetailsHtml = '';
+        foreach($formDetails as $name => $value) {
+            if(!$value) {
+                continue;
+            }
+            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
         }
-        return $result;
+        $this->_entityParser->setDictionary(array(
+            'form:details' => $formDetailsHtml
+        ));
+        $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+        $this->_mailer->setSubject($this->_translator->translate('New form submited'))
+            ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
+            ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
+        return $this->_mailer->send();
     }
-
 
     protected function _sendTmembersignupMail(Application_Model_Models_User $user) {
         switch ($this->_options['recipient']) {
