@@ -28,6 +28,16 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 
 	public function postDispatch(Zend_Controller_Request_Abstract $request) {
 		$this->_triggerToasterPlugins(self::POSTDISPATCH_METHOD);
+		//replace http with https for internal links if requested via https
+		if ($request->isSecure()){
+			$websiteConfig = Zend_Registry::get('website');
+			$body = strtr($this->_response->getBody(),
+				array(
+					Zend_Controller_Request_Http::SCHEME_HTTP.'://'.$websiteConfig['url'] => Zend_Controller_Request_Http::SCHEME_HTTPS.'://'.$websiteConfig['url']
+				)
+			) ;
+			$this->_response->setBody($body);
+		}
 	}
 
 	private function _triggerToasterPlugins($method) {
