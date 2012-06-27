@@ -30,10 +30,10 @@ class Application_Form_User extends Zend_Form {
 			'value'      => $this->_email,
 			'validators' => array(
 				new Zend_Validate_EmailAddress(),
-//				new Zend_Validate_Db_NoRecordExists(array(
-//					'table' => 'user',
-//					'field' => 'email'
-//				))
+				new Zend_Validate_Db_NoRecordExists(array(
+					'table' => 'user',
+					'field' => 'email'
+				))
 			),
 			'required'   => true,
 			'filters'    => array('StringTrim')
