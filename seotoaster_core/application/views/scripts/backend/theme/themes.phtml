@@ -114,8 +114,8 @@ $(function(){
 		}
 	});
 
-	$('#themes-list').on('click', '.lnk-download', function() {
-		var themeName = $(this).prev().val();
+	$('#themes-list').on('click', '.lnk-download', function(e) {
+		var themeName = $(e.target).parents('.themebox').find('input.theme-name').val(); //$(this).prev().val();
 		var url       = '<?php echo $this->websiteUrl;?>backend/backend_theme/downloadtheme/name/' + themeName;
 		document.location.href = url;
 	});

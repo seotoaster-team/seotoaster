@@ -375,10 +375,18 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$pathToTheme  = $this->_helper->website->getPath() . $themeData['path'] . $themeName ;
 		$themeArchive = Tools_System_Tools::zip($pathToTheme);
 		$this->getResponse()->setHeader('Content-Disposition', 'attachment; filename=' . Tools_Filesystem_Tools::basename($themeArchive))
-			->setHeader('Content-type', 'application/force-download');
-		readfile($themeArchive);
-		$this->getResponse()->sendResponse();
-		exit;
+            ->setHeader('Content-Description','File Transfer', true)
+            ->setHeader('Content-Type','application/octet-stream', true)
+            ->setHeader('Content-Type', 'application/force-download', true)
+            ->setHeader('Content-Transfer-Encoding','binary', true)
+            ->setHeader('Expires','0', true)
+            ->setHeader('Cache-Control','must-revalidate, post-check=0, pre-check=0', true)
+            ->setHeader('Pragma','public', true)
+            ->setHeader('Content-Length: ' , filesize($themeArchive), true)
+            ->setBody(file_get_contents($themeArchive))
+            ->sendResponse();
+        exit;
+        //return true;
 	}
 
 	public function deletethemeAction(){
