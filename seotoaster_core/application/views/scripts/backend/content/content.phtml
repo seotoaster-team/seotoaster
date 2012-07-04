@@ -37,10 +37,8 @@
 			<?php echo $this->contentForm->getElement('containerId'); ?>
 		</form>
 	</div>
-
 	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
-	<?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets'), 'contentUrl' => $this->websiteUrl . 'backend/backend_content/loadwidgetmaker'));?>
-	<?php //$this->tabPane('tabs', 'Products', array('title' => $this->translate('Products')));?>
+	<?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets')));?>
 
 	<?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
 
@@ -60,7 +58,13 @@
 
 <script type="text/javascript">
 	$(function() {
-		$('#tabs ul').removeClass('ui-corner-all').addClass('ui-corner-top')
+		$('#tabs ul').removeClass('ui-corner-all').addClass('ui-corner-top');
+
+        $('a[href="#tabs-frag-2"]').one('click', function() {
+            $('#tabs-frag-2').empty().load('<?php echo $this->websiteUrl . 'backend/backend_content/loadwidgetmaker/'; ?>');
+        });
+
+
 		$('#btn-submit').click(function(){
 			$('#frm_content').submit();
 		});
