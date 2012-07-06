@@ -102,6 +102,7 @@
 							<ul>
 								<?php
 								$host = parse_url($this->websiteUrl, PHP_URL_HOST);
+								$host = str_replace('www.', '', $host);
 								$medias = Zend_Registry::get('website');
 								?>
 								<?php foreach($medias['mediaServers'] as $media):?>
