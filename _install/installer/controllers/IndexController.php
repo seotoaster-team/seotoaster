@@ -199,6 +199,7 @@ class IndexController extends Zend_Controller_Action {
 						unset($this->_session->dbinfo);
 						$dbStatus = $this->_setupDatabase($dbinfo);
 						if ($dbStatus === true) {
+							$this->_saveThemeToDb();
 							$isDbReady = true;
 							$this->_session->dbinfo = $dbinfo;
 							$this->view->messages['db'] = true;
@@ -431,7 +432,7 @@ class IndexController extends Zend_Controller_Action {
                 : $configPath . DIRECTORY_SEPARATOR . $this->_session->coreinfo['sitename'] ) . '.ini';
 
 		//initializing template of application.ini 
-		$appIni = file_get_contents(INSTALLER_PATH.'/resourses/application.ini.default');
+		$appIni = file_get_contents(APPLICATION_PATH.'/resourses/application.ini.default');
 		
 		foreach ($this->_session->dbinfo['params'] as $name => $value) {
 			$appIni = str_replace('{'.$name.'}', $value, $appIni);
@@ -466,7 +467,12 @@ class IndexController extends Zend_Controller_Action {
 		
 		try {
 			$db = Zend_Db::factory($adapter);
-			$file = file_get_contents(INSTALLER_PATH.'/resourses/seotoaster.sql');
+			Zend_Db_Table::setDefaultAdapter($db);
+
+			$file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
+			if ($file === false){
+				return false;
+			}
 			$queries = SqlSplitter::split($file);
 
 			$db->beginTransaction();
@@ -506,5 +512,22 @@ class IndexController extends Zend_Controller_Action {
 		}
 
 		return $availLanguages;
+	}
+
+	private function _saveThemeToDb() {
+		$templates = glob(INSTALL_PATH.DIRECTORY_SEPARATOR.'themes/default/*.html');
+		if (empty($templates)) {
+			return false;
+		}
+		$templateTable = new Zend_Db_Table('template');
+		foreach ($templates as $template) {
+			$templateTable->insert(array(
+				'name' => str_replace('.html', '', end(explode(DIRECTORY_SEPARATOR, $template))),
+				'content' => file_get_contents($template),
+				'type'  => 'typeregular'
+			));
+		}
+
+		return true;
 	}
 }

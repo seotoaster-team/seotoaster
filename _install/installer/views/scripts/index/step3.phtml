@@ -4,18 +4,18 @@
 	</div>
 	<div class="content ui-helper-clearfix">
 		<?php if ($this->configsSaved === false): ?>
-		<p class="state-error">Something went wrong during saving configuration files.</p>
+		<p class="state-error"><?php echo $this->translate('Something went wrong during saving configuration files.');?></p>
 		<?php else :?>
-		<p class="state-success">You're one step away from wondering why you did not give SEOTOASTER a try earlier?</p>
+		<p class="state-success"><?php echo $this->translate("You're one step away from wondering why you did not give SEOTOASTER a try earlier?");?></p>
 		<?php endif; ?>
 		<div class="header">
-			Please specify an email and password to create an account.
+			<?php echo $this->translate('Please specify an email and password to create an account.');?>
 		</div>
 		<div class="ui-helper-clearfix">
 			<?php echo $this->settingsForm; ?>
 		</div>
 		<div class="header">
-			You'll use these credentials to log into your seotoaster control panel found at 
+			<?php echo $this->translate("You'll use these credentials to log into your seotoaster control panel found at"); ?>
 			<strong>http://<?php echo $this->websiteUrl;?>go</strong>
 		</div>
 	</div>
