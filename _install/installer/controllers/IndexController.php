@@ -188,8 +188,7 @@ class IndexController extends Zend_Controller_Action {
 					}
 					
 					if (!$isDbReady) {
-						$dbinfo = Zend_Registry::get('database');
-						$dbinfo['params'] = array(
+						$dbinfo = array(
 							'host'		=> $formValues['host'],
 							'username'	=> $formValues['username'],
 							'password'	=> $formValues['password'],
@@ -434,7 +433,7 @@ class IndexController extends Zend_Controller_Action {
 		//initializing template of application.ini 
 		$appIni = file_get_contents(APPLICATION_PATH.'/resourses/application.ini.default');
 		
-		foreach ($this->_session->dbinfo['params'] as $name => $value) {
+		foreach ($this->_session->dbinfo as $name => $value) {
 			$appIni = str_replace('{'.$name.'}', $value, $appIni);
 		}
 		$appIni = str_replace(
@@ -463,10 +462,23 @@ class IndexController extends Zend_Controller_Action {
 	 */
 	private function _setupDatabase($dbinfo){
 		
-		$adapter = new Zend_Config($dbinfo);
-		
+		if (!extension_loaded('pdo_mysql')) {
+			$adapter = 'pdo_mysql';
+			$dbinfo['driver_options'] = array(
+				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
+			);
+		} elseif (extension_loaded('mysqli')) {
+			$adapter = 'mysqli';
+			$dbinfo['driver_options'] = array(
+				MYSQLI_INIT_COMMAND => 'SET NAMES UTF8;'
+			);
+		} else {
+			return "You should have pdo_mysql extension installed";
+		}
+
 		try {
-			$db = Zend_Db::factory($adapter);
+
+			$db = Zend_Db::factory($adapter, $dbinfo);
 			Zend_Db_Table::setDefaultAdapter($db);
 
 			$file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
@@ -515,7 +527,7 @@ class IndexController extends Zend_Controller_Action {
 	}
 
 	private function _saveThemeToDb() {
-		$templates = glob(INSTALL_PATH.DIRECTORY_SEPARATOR.'themes/default/*.html');
+		$templates = glob(INSTALL_PATH.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'*.html');
 		if (empty($templates)) {
 			return false;
 		}
