@@ -188,19 +188,18 @@ class IndexController extends Zend_Controller_Action {
 					}
 					
 					if (!$isDbReady) {
-						$dbinfo = array(
+						unset($this->_session->dbinfo);
+						$dbParams = array(
 							'host'		=> $formValues['host'],
 							'username'	=> $formValues['username'],
 							'password'	=> $formValues['password'],
 							'dbname'	=> $formValues['dbname']
 						);
 
-						unset($this->_session->dbinfo);
-						$dbStatus = $this->_setupDatabase($dbinfo);
+						$dbStatus = $this->_setupDatabase($dbParams);
 						if ($dbStatus === true) {
 							$this->_saveThemeToDb();
 							$isDbReady = true;
-							$this->_session->dbinfo = $dbinfo;
 							$this->view->messages['db'] = true;
 						} else {
 							$this->view->messages['db'] = $dbStatus;
@@ -364,8 +363,7 @@ class IndexController extends Zend_Controller_Action {
 	 * @param array $settings 
 	 */
 	private function _createSuperUser($settings){		
-		$adapter = new Zend_Config($this->_session->dbinfo);
-		$db = Zend_Db::factory($adapter);
+		$db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
 		Zend_Db_Table_Abstract::setDefaultAdapter($db);
 		
 		$user = array(
@@ -433,7 +431,8 @@ class IndexController extends Zend_Controller_Action {
 		//initializing template of application.ini 
 		$appIni = file_get_contents(APPLICATION_PATH.'/resourses/application.ini.default');
 		
-		foreach ($this->_session->dbinfo as $name => $value) {
+		foreach ($this->_session->dbinfo['params'] as $name => $value) {
+			if (is_array($value)) continue;
 			$appIni = str_replace('{'.$name.'}', $value, $appIni);
 		}
 		$appIni = str_replace(
@@ -461,15 +460,15 @@ class IndexController extends Zend_Controller_Action {
 	 * @return mixed true on success, error message on fault
 	 */
 	private function _setupDatabase($dbinfo){
-		
-		if (!extension_loaded('pdo_mysql')) {
-			$adapter = 'pdo_mysql';
-			$dbinfo['driver_options'] = array(
+		$adapter = array('params' => $dbinfo);
+		if (extension_loaded('pdo_mysql')) {
+			$adapter['adapter'] = 'pdo_mysql';
+			$adapter['params']['driver_options'] = array(
 				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
 			);
 		} elseif (extension_loaded('mysqli')) {
-			$adapter = 'mysqli';
-			$dbinfo['driver_options'] = array(
+			$adapter['adapter'] = 'mysqli';
+			$adapter['params']['driver_options'] = array(
 				MYSQLI_INIT_COMMAND => 'SET NAMES UTF8;'
 			);
 		} else {
@@ -477,8 +476,8 @@ class IndexController extends Zend_Controller_Action {
 		}
 
 		try {
-
-			$db = Zend_Db::factory($adapter, $dbinfo);
+			$db = Zend_Db::factory(new Zend_Config($adapter));
+			$this->_session->dbinfo = $adapter;
 			Zend_Db_Table::setDefaultAdapter($db);
 
 			$file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
@@ -497,6 +496,7 @@ class IndexController extends Zend_Controller_Action {
 				$db->commit();
 				return true;
 			} catch (Exception $ex) {
+				unset($this->_session->dbinfo);
 				$db->rollBack();
 				return $ex->getMessage();
 			}
