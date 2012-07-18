@@ -101,6 +101,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				} catch (Exceptions_SeotoasterException $e) {
 					error_log($e->getMessage());
 				}
+                $this->_helper->cache->clean(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS);
 
 				$this->_helper->response->response($status, false);
 
@@ -127,7 +128,6 @@ class Backend_ThemeController extends Zend_Controller_Action {
 						}
 					}
 				}
-
 				$this->_helper->response->response($errorMessages, true);
 			}
 		}
