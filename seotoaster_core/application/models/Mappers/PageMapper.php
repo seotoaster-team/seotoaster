@@ -221,12 +221,25 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function find($id, $originalsOnly = false) {
-    	$row = $this->getDbTable()->findPage($id);
-		if(null == $row) {
-			return null;
-		}
-		return $this->_toModel($row, $originalsOnly);
+        if(!is_array($id)) {
+            return $this->_findPage($id, $originalsOnly);
+        }
+        $pages = array();
+        foreach($id as $pageId) {
+            if(null !== ($page = $this->_findPage($pageId, $originalsOnly))) {
+                $pages[] = $page;
+            }
+        }
+        return $pages;
 	}
+
+    protected function _findPage($id, $originalsOnly) {
+        $row = $this->getDbTable()->findPage(intval($id));
+        if(null == $row) {
+            return null;
+        }
+        return $this->_toModel($row, $originalsOnly);
+    }
 
 	protected function _toModel($row, $originalsOnly = false) {
 		if($row instanceof Zend_Db_Table_Row) {
