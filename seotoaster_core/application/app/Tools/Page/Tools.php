@@ -23,7 +23,7 @@ class Tools_Page_Tools {
 
 		$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
 		if($page instanceof Application_Model_Models_Page) {
-			$cleanUrl = $pageHelper->clean($page->getUrl());
+			$cleanUrl = $pageHelper->clean(preg_replace('~/+~', '-', $page->getUrl()));
 			unset($page);
 			$path = (array_key_exists($cleanUrl, $previews)) ? str_replace($websiteHelper->getPath(), $websiteUrl, $previews[$cleanUrl]) : '';
 			if(!$path && $capIfNoPreview) {
