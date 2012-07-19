@@ -101,7 +101,6 @@ class Backend_FormController extends Zend_Controller_Action {
     public function refreshcaptchaAction() {
         if($this->getRequest()->isPost()) {
             $this->_helper->json(Tools_System_Tools::generateCaptcha());
-
         }
     }
 

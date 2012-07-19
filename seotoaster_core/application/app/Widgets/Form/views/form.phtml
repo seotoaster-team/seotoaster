@@ -59,6 +59,7 @@
                     if(response.error) {
                         $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
                             $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
+                            $('.captcha-id').val(response);
                         }, 'json');
                     } else {
                         $(form).find(':input').each(function() {
