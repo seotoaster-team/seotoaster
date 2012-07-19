@@ -55,7 +55,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 					$newLogin	= $configForm->getElement('suLogin')->getValue();
 					$adminDataModified = false;
 					if (!empty($newPass) && md5($newPass) !== $loggedUser->getPassword() ){
-						$loggedUser->setPassword( md5($newPass) );
+						$loggedUser->setPassword($newPass);
 						$adminDataModified = true;
 					}
 
