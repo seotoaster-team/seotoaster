@@ -69,14 +69,15 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if (isset($this->_options['trigger'])){
             $methodName = '_send'. str_replace(array(' ', '_'), '', ucwords($this->_options['trigger'])) . 'Mail';
             if (method_exists($this, $methodName)) {
-                $this->$methodName($object);
+                return $this->$methodName($object);
             }
         }
     }
 
 	protected function _sendTfeedbackformMail(Application_Model_Models_Form $form) {
-        $this->_sendTfeedbackformMailContact($form);
-        $this->_sendTfeedbackformMailReply($form);
+        $contactMailSent = $this->_sendTfeedbackformMailContact($form);
+        $replyMailSent   = $this->_sendTfeedbackformMailReply($form);
+        return ($contactMailSent && $replyMailSent);
     }
 
 
