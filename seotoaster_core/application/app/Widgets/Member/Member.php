@@ -2,7 +2,13 @@
 
 class Widgets_Member_Member extends Widgets_Abstract {
 
-	private $_session;
+	private $_session        = null;
+
+    private $_website        = null;
+
+    private $_flashMessanger = null;
+
+    protected $_cacheable    = false;
 
 	protected function  _init() {
 		parent::_init();
@@ -12,6 +18,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		$this->_website          = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_website->getUrl();
 		$this->_session          = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $this->_flashMessanger   = Zend_Controller_Action_HelperBroker::getStaticHelper('flashMessenger');
 	}
 
 	protected function  _load() {
@@ -26,7 +33,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	private function _renderMemberLogin() {
 		$this->_view->userRole  = $this->_session->getCurrentUser()->getRoleId();
 		$this->_view->loginForm = $this->_reInitDecorators(new Application_Form_Login());
-		$this->_view->messages  = (isset($this->_session->errMemeberLogin)) ? $this->_session->errMemeberLogin : array();
+		$this->_view->messages  = $this->_flashMessanger->getMessages();
 		unset($this->_session->errMemeberLogin);
 		if(isset($this->_options[0])) {
 			$this->_session->redirectUserTo = $this->_options[0];

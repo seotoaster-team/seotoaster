@@ -102,7 +102,6 @@ class LoginController extends Zend_Controller_Action {
 			$this->_helper->flashMessenger->addMessage($message);
 		}
 		if(isset($_SERVER['HTTP_REFERER'])) {
-			$this->_helper->session->errMemeberLogin = $this->_helper->flashMessenger->getMessages();
 			$this->_helper->redirector->gotoUrl($_SERVER['HTTP_REFERER'], array('exit' => true));
 		}
 		if(!$url) {

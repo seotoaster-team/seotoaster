@@ -9,6 +9,7 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 
 	const PREDISPATCH_METHOD  = 'beforeController';
 	const POSTDISPATCH_METHOD = 'afterController';
+    const BOFOREROUTER_METHOD = 'beforeRouter';
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request) {
 		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
@@ -20,6 +21,9 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 			$sessionHelper->pluginRoutesFetched = true;
 		}
 		Tools_Plugins_Tools::registerPluginsIncludePath();
+
+        //trigger plugins before router starts
+        $this->_triggerToasterPlugins(self::BOFOREROUTER_METHOD);
     }
 
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
