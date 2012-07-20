@@ -80,7 +80,7 @@ class IndexController extends Zend_Controller_Action {
 			if (!is_dir($dirpath)){
 				try {
 					if (@mkdir($dirpath)){
-						$permissions['dir'][$dirname] = true;
+						$permissions['dir'][$dirname] = 'writable';
 					} else {
 						$permissions['dir'][$dirname] = 'doesn\'t exist';
 						$permissionsFail = true;
@@ -90,7 +90,7 @@ class IndexController extends Zend_Controller_Action {
 				}
 			} else {
 				if (is_writable($dirpath)){
-					$permissions['dir'][$dirname] = true;
+					$permissions['dir'][$dirname] = 'writable';
 				} else {
 					$permissions['dir'][$dirname] = 'not writable';
 					$permissionsFail = true;
@@ -110,7 +110,7 @@ class IndexController extends Zend_Controller_Action {
 				$permissions['file'][$filename] = 'not writable';
 				$permissionsFail = true;
 			} else {
-				$permissions['file'][$filename] = true;
+				$permissions['file'][$filename] = 'writable';
 			}
 		}
 		
@@ -130,25 +130,22 @@ class IndexController extends Zend_Controller_Action {
 		$configForm = new Installer_Form_Config();
 				
 		$this->view->gotoNext = false;
-		$this->view->messages = array('core' => '', 'db' => null);
-		
+		$this->view->messages = array();
+
 		$isDbReady	 = false;
 		$isCoreReady = false;
 		
-		// populating data from sessions if exists
-
         //default values
-        $this->_session->coreinfo = array( 'corepath' => INSTALL_PATH . '/seotoaster_core/', 'sitename' => '' );
 
-		if (isset($this->_session->coreinfo)) {
-			$configForm->populate($this->_session->coreinfo);
-		} else {
-			$this->_session->coreinfo = array( 'corepath' => '', 'sitename' => '' );
+
+		if (!isset($this->_session->coreinfo)) {
+			$this->_session->coreinfo = array( 'corepath' => INSTALL_PATH . '/seotoaster_core/', 'sitename' => '' );
 		}
+		$configForm->populate($this->_session->coreinfo);
+
 		if (isset($this->_session->dbinfo) && !empty($this->_session->dbinfo['params'])) {
 			$configForm->populate($this->_session->dbinfo['params']);
 			$isDbReady = true;
-			$this->view->messages['db'] = true;
 		}
 		
 		$params = $this->getRequest()->getParams();
@@ -178,7 +175,7 @@ class IndexController extends Zend_Controller_Action {
 							if ( !$corepath || !is_dir($corepath) 
 								 || !is_dir($corepath.'/application')
 								 || !is_dir($corepath.'/library') ) {
-								$this->view->messages['core'] = 'SEOTOASTER Core not found in <code>'.$coreinfo['corepath'].'</code>';
+								$this->view->messages[] = 'SEOTOASTER Core not found in <code>'.$coreinfo['corepath'].'</code>';
 							} else {
 								$this->_session->coreinfo = $coreinfo;
 							}
@@ -200,17 +197,18 @@ class IndexController extends Zend_Controller_Action {
 						if ($dbStatus === true) {
 							$this->_saveThemeToDb();
 							$isDbReady = true;
-							$this->view->messages['db'] = true;
 						} else {
-							$this->view->messages['db'] = $dbStatus;
+							unset($this->_session->dbinfo);
+							$this->view->messages[] = 'Arrrh! Can\'t install database.<br /><code>'.$dbStatus.'</code>';
 						}
 					} else {
 						$configForm->populate($this->_session->dbinfo['params']);
 					}
 					
 				} else {
-                    if (!$configForm->getElement('sitename')->isValid($params['sitename'])){
-                        $this->view->messages['core'] = 'Site name should not contain spaces or special characters';
+					$this->view->messages[] = 'Please, fill all required fields';
+                    if (!$configForm->getElement('sitename')->hasErrors()){
+                        $this->view->messages[] = 'Site name should not contain spaces or special characters';
                     }
 				}
 			//checking if it is possible to write config files into given core folder
@@ -223,27 +221,18 @@ class IndexController extends Zend_Controller_Action {
 				}
 
 				if (is_dir($configsDir)){
-					if (!is_writable($configsDir)){
-						$coreErrorMessages[] = 'Configs dir must be writable: '.$configsDir;
-					}
 					$isCoreReady = false;
 					$appini = $configsDir . ($this->_session->coreinfo['sitename'] === '' ? $this->_requirements['corePermissions']['appini'] : $this->_session->coreinfo['sitename'].'.ini');
-					if (!file_exists($appini)){
-						if (!touch($appini)){
-							$coreErrorMessages[] = 'File not exists:<br/>'.$appini;
-						}
+					if (!is_writable($configsDir)){
+						$this->view->messages[] = 'Configs dir must be writable: '.$configsDir;
+					} elseif (!file_exists($appini) && !touch($appini)){
+						$this->view->messages[] = 'File not exists:<br/>'.$appini;
+					} elseif (!is_writable($appini)){
+						$this->view->messages[] = 'This file must be writable:<br/>'.$appini;
 					} else {
-						if (!is_writable($appini)){
-							$coreErrorMessages[] = 'This file must be writable:<br/>'.$appini;
-						}
-					}
-
-                    if (!isset($coreErrorMessages) || empty($coreErrorMessages)) {
 						$isCoreReady = true;
-					} else {
-	                    $this->view->messages['core'] = implode('<br />', $coreErrorMessages);
-                    }
-				} 
+					}
+				}
 			}
 			
 		}
@@ -261,8 +250,6 @@ class IndexController extends Zend_Controller_Action {
 		}
 		
 		if ($isDbReady && $isCoreReady)	{
-			$configForm->removeElement('submit');
-			
 			$this->view->gotoNext = true;
 			$this->_session->nextStep = 3;
 		}
@@ -272,29 +259,32 @@ class IndexController extends Zend_Controller_Action {
 	
 	public function step3Action() { 
 		$settingsForm = new Installer_Form_Settings();
-		
-		if (!isset($this->_session->configsSaved) || $this->_session->configsSaved !== true) {
-			$uri = explode('/', $_SERVER['REQUEST_URI']);
-            array_splice($uri, -2, 2);
-			$uri = implode('/', $uri);
-			$this->_session->websiteUrl = $_SERVER['HTTP_HOST'].$uri.'/';
-			$this->_session->configsSaved = $this->_saveConfigToFs();
-		}
-		
-		$params = $this->getRequest()->getParams();
-		
-		if (isset($params['check']) && $params['check'] === 'settings' && $settingsForm->isValid($params)){
-			$suReady		= $this->_createSuperUser($settingsForm->getValues());
-						
-			if ($suReady && $this->_session->configsSaved === true) {
-				$this->getRequest()->clearParams();
-				$this->_forward('tada');
+
+		if ($this->getRequest()->isPost()){
+			if (!isset($this->_session->configsSaved) || $this->_session->configsSaved !== true) {
+				$uri = explode('/', $_SERVER['REQUEST_URI']);
+	            array_splice($uri, -2, 2);
+				$uri = implode('/', $uri);
+				$this->_session->websiteUrl = $_SERVER['HTTP_HOST'].$uri.'/';
+				$this->_session->configsSaved = $this->_saveConfigToFs();
 			}
-			
-		} else {
-			$settingsForm->processErrors();
+
+
+			$params = $this->getRequest()->getParams();
+
+			if (isset($params['check']) && $params['check'] === 'settings'){
+				if ($settingsForm->isValid($params)){
+					$suReady		= $this->_createSuperUser($settingsForm->getValues());
+
+					if ($suReady && $this->_session->configsSaved === true) {
+						$this->getRequest()->clearParams();
+						$this->_forward('tada');
+					}
+				} else {
+					$this->view->messages = $settingsForm->getMessages();
+				}
+			}
 		}
-		
 		$this->view->configsSaved = $this->_session->configsSaved;
 		$this->view->websiteUrl = $this->_session->websiteUrl;
 		
@@ -360,17 +350,17 @@ class IndexController extends Zend_Controller_Action {
 
 	/**
 	 * Create super user for fresh toaster
-	 * @param array $settings 
+	 * @param array $data
 	 */
-	private function _createSuperUser($settings){		
+	private function _createSuperUser($data){
 		$db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
 		Zend_Db_Table_Abstract::setDefaultAdapter($db);
 		
 		$user = array(
-			'email'		=> $settings['adminEmail'],
-			'password'	=> md5($settings['adminPassword']),
+			'email'		=> $data['adminEmail'],
+			'password'	=> md5($data['adminPassword']),
 			'role_id'	=> 'superadmin',
-			'full_name'	=> 'Administrator',
+			'full_name'	=> $data['adminName'],
 			'reg_date'  => date('Y-m-d h:i:s')
 		);
 		
@@ -384,19 +374,22 @@ class IndexController extends Zend_Controller_Action {
 			//saving superadmin email to 'config' table
 			$settingsTable = new Zend_Db_Table('config');
 			$rowset = $settingsTable->find('adminEmail');
-			if ($email = $rowset->current()){
-				$email->value = $user['email'];
-			} else {
+			if (null === ($email = $rowset->current())){
 				$email = $settingsTable->createRow();
 				$email->name	= 'adminEmail';
-				$email->value = $user['email'];
 			}
+			$email->value = $user['email'];
 
 			if (!$email->save()){
-				$noErrors = false;
-				error_log($email->toArray());
+				error_log('Cannot save adminEmail to config table.');
 			}
-			
+
+			if (isset($data['sambaToken']) && !empty($data['sambaToken'])){
+				$settingsTable->insert(array(
+					'name'  => 'sambaToken',
+					'value' => $data['sambaToken']
+				));
+			}
 		}
 		
 		return true;
@@ -496,7 +489,6 @@ class IndexController extends Zend_Controller_Action {
 				$db->commit();
 				return true;
 			} catch (Exception $ex) {
-				unset($this->_session->dbinfo);
 				$db->rollBack();
 				return $ex->getMessage();
 			}

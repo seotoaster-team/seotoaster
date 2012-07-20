@@ -1,230 +1,209 @@
-/* 
- * installer styles
- */
-@import url('http://fonts.googleapis.com/css?family=Play|PT+Sans&subset=latin,cyrillic');
-html > * {
-	font-family: 'PT Sans';
+.container_12{
+	width:960px;
+	margin:0 auto;
 }
-code {
-	font-family: monospace;
-}
-a, a:visited, a:active {
-	color: #3875d7;
-}
-a:hover {
-	color: blue;
-}
-footer {
-	padding-top: 10px;
-	text-align: center;
-}
-footer a{
-	color: #999 !important;
-	font-size: 10px;
-	-webkit-transition: all 0.5s ease-in;
-	-moz-transition: all 0.5s ease-in;
-	-o-transition: all 0.5s ease-in;
-	transition: all 0.5s ease-in;
-	-ms-transition: all 0.5s ease-in;
-}
-footer:hover a{
-	color: #3875d7 !important;
-	font-size: 12px;
-}
-
-ul.marked li {
-	list-style-position: inside;
-	list-style-type: square;
-}
-#container { 
-	margin: 2% auto 0;
-	width: 920px;
-}
-#container #language span.ui-button-text{
-	padding: 4px 10px;
-}
-#container #language label.ui-state-hover {
-	background: #3399ff;
-}
-#container #language label.ui-state-active { 
-	background: #b3c7e1;
-}
-.installer .header {
-	margin: 5px 0;
-	padding: 5px;
-	        border-radius: 8px;
-	background-color: #777; background-clip: padding-box;
-	-webkit-box-shadow: 0 1px 0 #333;
-	-moz-box-shadow: 0 1px 0 #333;
-	box-shadow: 0 1px 0 #333;
-	color: #eee;
-	text-align: center;
-	text-shadow: 1px 1px 0 #333;
-	font-weight: bold;
-	font-family: 'Play';
-	   -moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-moz-background-clip: padding; -webkit-background-clip: padding-box;
-}
-.installer .content {
-	position: relative;
-	padding: 10px;
-	padding-left: 400px;
-	height: 500px;
-	border-radius: 8px;
-	background: url('toaster.png') #b3c7e1 no-repeat center left; background-clip: padding-box;
-	   -moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-moz-background-clip: padding; -webkit-background-clip: padding-box;
-}
-.installer .content strong {
-	font-weight: bold;
-}
-.installer h1 {
-	padding: 10px;
-	text-transform: uppercase;
-	font-size: 200%;
-}
-.installer .content .form-holder {
-/* position: relative; */
-}
-.installer .content form fieldset > div {
-	margin-bottom: 5px;
-	line-height: 28px;
-}
-
-.installer .content form fieldset legend {
-	padding: 5px;
-	width: 100%;
-	border-radius: 8px;
-	background-color: #777; background-clip: padding-box;
-	-webkit-box-shadow: 0 1px 0 #333;
-	   -moz-box-shadow: 0 1px 0 #333;
-	        box-shadow: 0 1px 0 #333;
-	color: #eee;
-	text-align: center;
-	text-shadow: 1px 1px 0 #333;
-	font-weight: bold;
-	font-family: 'Play';
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	-moz-background-clip: padding; -webkit-background-clip: padding-box;
-}
-.installer .content .state-success,
-.installer .content .state-error {
-	margin: 4px 0;
-	padding: 4px 6px;
-	border: 1px solid black;
-	border-radius: 4px;
-	background-color: #ddd; background-clip: padding-box;
-	text-align: justify;
-	font-weight: bold;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	-moz-background-clip: padding; -webkit-background-clip: padding-box;
-}
-.installer .content .form-holder .state-success,
-.installer .content .form-holder .state-error {
-	text-align: center;
-}
-.installer .content .state-success {
-	border-color: green;
-	color: green;
-}
-.installer .content .state-error {
-	border-color: red;
-	color: red;
-}
-
-.installer input {
-	padding: 4px 8px;
-	border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	-moz-background-clip: padding; -webkit-background-clip: padding-box;
-}
-.installer input.error {
-	border-color: red;
-}
-
-.installer .content form label::after {
-	content: ':';
-}
-.installer .content form label.required::after {
-	content: ': *';
-}
-.installer .content form div > input {
-	float: right;
-}
-.installer .content form input[type=submit] {
-	position: absolute;
-	right: 0;
-	bottom: 50px;
-	margin: 10px;
-}
-.installer input[type=submit] {
-    background: #939393;
-    background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
-    background: -webkit-linear-gradient(top, #939393 0%,#777777 100%);
-    background: -o-linear-gradient(top, #939393 0%,#777777 100%);
-    background: -ms-linear-gradient(top, #939393 0%,#777777 100%);
-    background: linear-gradient(top, #939393 0%,#777777 100%);
-    border-color: #777777 #777777 #6d6d6d;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 1px 0 0 #9f9f9f inset;
-    -moz-box-shadow: 0 1px 0 0 #9f9f9f inset;
-    -webkit-box-shadow: 0 1px 0 0 #9f9f9f inset;
-    text-shadow: 0 -1px 0 #636363;
-    color: #FFFFFF;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius:3px;
-	cursor:pointer;
-	font-size:13pt;
-	font-weight:bold;
-	/*font-family:Arial, Helvetica, sans-serif;*/
-	padding:3px 16px 4px;
-	margin-right:5px;
-    min-width: 140px;
-    overflow: visible;
-}
-.installer input[type=submit]:hover {
-    background: #888888;
-    background: -moz-linear-gradient(top, #888888 0%, #727272 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#888888), color-stop(100%,#727272));
-    background: -webkit-linear-gradient(top, #888888 0%,#727272 100%);
-    background: -o-linear-gradient(top, #888888 0%,#727272 100%);
-    background: -ms-linear-gradient(top, #888888 0%,#727272 100%);
-    background: linear-gradient(top, #888888 0%,#727272 100%);
-    box-shadow: 0 1px 0 0 #969696 inset;
-    -moz-box-shadow: 0 1px 0 0 #969696 inset;
-    -webkit-box-shadow: 0 1px 0 0 #969696 inset;
-}
-.tooltip {
-	display:none;
-	padding:10px 15px;
-	min-width:100px;
-	border:1px solid #777;
-	background-color:#ff9;
-	-webkit-box-shadow:0 0 10px #000;
-	-moz-box-shadow:0 0 10px #000;
-	box-shadow:0 0 10px #000;
+body{
 	color:#333;
-	text-align:left;
-	font-size:12px;
+	font:14px/1.3 Arial, Helvetica, sans-serif;
+}
+a{
+	text-decoration:none;
+}
+header img.logo{
+	float:left;
+	width:150px;
+	height:auto;
+	margin-left:80px;
+}
+header h1{
+	font-size:50px;
+	text-transform:lowercase;
+	text-align:center;
+}
+header h1.bravo {
+    font-size: 40px;
+    margin-left: 50px;
+    margin-top: 80px;
+    text-align: left;
+}
+header h2.step{
+	font-size:28px;
+	text-align:center;
+}
+header #language{
+	margin-top:25px;
+	margin-left:70px;
+}
+header #language label{
+    background: none;
+    border: medium none;
+    border-radius: 0;
+		-o-border-radius: 0;
+		-ms-border-radius: 0;
+		-moz-border-radius: 0;
+		-webkit-border-radius: 0;
+    box-shadow: none;
+		-o-box-shadow: none;
+		-ms-box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+    margin: 0 4px 0 0;
+    min-width: 0;
+    width: auto;
+
+    -webkit-transition: all 0.3s ease-out;
+       -moz-transition: all 0.3s ease-out;
+         -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+
+}
+header #language label:hover{
+	background: #999;
+
+}
+header #language span{
+    font-size: 0;
+    padding: 6px 5px;
+}
+.title-step{
+	font-size:20px;
+	font-weight:bold;
+}
+.description-step{
+	color:#666;
+}
+#step-content{
+	clear:both;
+	overflow:hidden;
+}
+ol{
+}
+ol li{
+	font-size:18px;
+}
+#step-content ul{
+	margin-top:15px;
+}
+#step-content ul li {
+    background: url("ok.jpg") no-repeat 5px 0;
+    list-style: none;
+    padding: 0 0 10px 50px;
+}
+#step-content ul li.error {
+    background: url("error.jpg") no-repeat 5px 0;
+}
+#step-content ul li.important {
+	background:none;
+}
+#left, #dbinfo, #userinfo{
+	padding: 10px 18px 10px 0;
+}
+#right, #coreinfo, #sambainfo{
+	padding: 10px 0 10px 18px;
+}
+.opacity{
+	opacity:0.4;
+}
+.opacity:hover{
+	opacity:1;
+}
+.bravo {
+    background: url("check.jpg") no-repeat;
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 35px 0 10px 60px;
+}
+.green{
+	color:#5EB825;
+}
+label.green{
+	font-size:18px;
+}
+.red{
+	color:#900;
+	font-weight:bold;
+}
+.box-error {
+    background: url("error-big.png") no-repeat scroll 10px center #FFF2F0;
+    border: 1px solid #CC3300;
+    color: #666666;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+    padding: 15px 5px 15px 65px;
+    text-align: center;
+		text-indent:40px;
+}
+.textright{
+	text-align:right;
+}
+form {
+}
+form label{
+	display:block;
+	font-size:23px;
+	color:#666;
+	font-weight:bold;
+}
+form input {
+    border: 1px solid #666666;
+    color: #666;
+    font-size: 18px;
+    padding: 5px;
+    width: 390px;
+}
+form input.error {
+    color: indianRed;
+    border-color: indianRed;
+    background: url("error.jpg") no-repeat right center;
+    padding-right: 30px;
+    width: 365px;
 }
 
-#loading {
-	position: absolute;
-	top: 0;
-	z-index: 9999;
-	display: none;
-	margin-left: -10px;
-	width: 520px;
-	height: 100%;
-/* border-radius: 20px; */
-	background: url('../../system/images/loading.gif') #fff no-repeat center center;
-	opacity: 0.75;
+form input#api_key{
+	background:url("seosamba-icon.png") no-repeat right bottom;
+	padding-right:35px;
+	width:350px;
+}
+form input[type="checkbox"]{
+	float:left;
+	width:auto;
+	margin-right:15px;
+}
+form input[type="checkbox"]+label{
+	overflow:hidden;
+	font-size:18px;
+}
+form#gotonext {
+    margin-top: 35px;
+    text-align: center;
+}
+form#gotonext input, form input[type="submit"]{
+	background:#666;
+	color:#eee;
+	font-size:28px;
+	font-weight:bold;
+	min-width:240px;
+    width: auto;
+	padding: 10px 20px;
+	border:none;
+    border-radius: 4px;
+		-o-border-radius: 4px;
+		-ms-border-radius: 4px;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+}
+form#gotonext input:hover, form input[type="submit"]:hover{
+	background:#444;
+	cursor:pointer;
+}
+footer{
+	margin-top:20px;
+	border-top:2px dashed #ccc;
+	text-align:center;
+	padding:10px 15px 0;
+}
+#finish-content ol li {
+    list-style-type: decimal;
 }

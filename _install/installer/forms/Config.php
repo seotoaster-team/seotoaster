@@ -21,7 +21,7 @@ class Installer_Form_Config extends Zend_Form {
             ->setElementDecorators(array(
             'ViewHelper',
             'Label',
-            new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12','mt5px') ))
+            new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('mt10px') ))
         ));
 
         $this->addElement('text', 'corepath', array(
@@ -49,7 +49,8 @@ class Installer_Form_Config extends Zend_Form {
         $this->addElement('text', 'host', array(
             'value'		=> 'localhost',
             'label'		=> 'Host',
-            'title'		=> ($translator ? $translator->translate('Database server address') : 'Database server address'),
+	        'required'  => true,
+            'placeholder'		=> 'Database server address',
             'validators'=> array(
                 new Zend_Validate_Hostname(array(
                     'allow' => Zend_Validate_Hostname::ALLOW_DNS | Zend_Validate_Hostname::ALLOW_IP | Zend_Validate_Hostname::ALLOW_LOCAL,
@@ -61,26 +62,27 @@ class Installer_Form_Config extends Zend_Form {
 
         $this->addElement('text', 'username', array(
             'label'		=> 'User',
-            'title'		=> ($translator ? $translator->translate('User allowed to connect to database server') : 'User allowed to connect to database server')
+            'required'  => true,
+            'placeholder' => 'User allowed to connect to database server'
         ));
 
         $this->addElement('password', 'password', array(
             'label'		=> 'Password',
-            'title'     => ($translator ? $translator->translate('Password for database') : 'Password for database'),
+            'placeholder'     => 'Password for database',
             'renderPassword' => true
         ));
 
         $this->addElement('text', 'dbname', array(
             'label'		=> 'Database name',
-            'title'     => ($translator ? $translator->translate('Name of the database to use') : 'Name of the database to use')
+            'required'  => true,
+            'placeholder'     => 'Name of the database to use'
         ));
 
-        $this->addDisplayGroup(array('host', 'username', 'password', 'dbname'), 'dbinfo', array('legend' =>'Database connection settings'));
-        $this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo', array('legend' => 'Advanced settings', 'class' => 'ui-helper-hidden'));
+        $this->addDisplayGroup(array('host', 'username', 'password', 'dbname'), 'dbinfo');
+        $this->addDisplayGroup(array('corepath', 'sitename'), 'coreinfo');
         $this->setDisplayGroupDecorators(array(
             'FormElements',
-            'Fieldset'//,
-//			'Legend'
+            'Fieldset'
         ));
 
         $this->addElement('hidden', 'check', array(
@@ -90,13 +92,30 @@ class Installer_Form_Config extends Zend_Form {
 
         $this->addElement('submit', 'submit', array(
             'label'		=> 'Go ahead!',
+	        'ignore'    => true,
             'decorators'=> array(
-                'ViewHelper',
-                new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12','mt5px') ))
+                'ViewHelper'
             )
         ));
 
         $this->setElementFilters(array(new Zend_Filter_StringTrim(), new Zend_Filter_StripTags()));
     }
+
+	public function isValid($data){
+		$valid = parent::isValid($data);
+
+		foreach ($this->getElements() as $element) {
+			if ($element->hasErrors()){
+				$currentClass = $element->getAttrib('class');
+				if (!empty($currentClass)){
+					$element->setAttrib('class', $currentClass.' error');
+				} else {
+					$element->setAttrib('class', 'error');
+				}
+			}
+		}
+
+		return $valid;
+	}
 
 }

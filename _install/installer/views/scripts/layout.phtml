@@ -15,7 +15,6 @@
 		
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
-		<?php $this->jQuery()->addJavascriptFile('http://cdn.jquerytools.org/1.2.5/tiny/jquery.tools.min.js'); ?>
 
 		<script>
         <?php $this->jQuery()->onLoadCaptureStart();?>
@@ -35,10 +34,6 @@
                 },
                 success: function(response){
                     $('#container').html(response);
-                    $('#container form :input[title]').tooltip({
-                           position: "top center",
-                           opacity: 0.8
-                    });
                     $('#container .content').prepend($('<div></div>', {id: 'loading'}));
                     $('#loading').fadeOut();
                 },
@@ -49,23 +44,29 @@
 
           e.preventDefault();
           return false;
-       });
-
-//       $('#content form input.livecheck').live('change', function(){
-//            $(this).closest('form').trigger('submit');
-//       });
+		}).on('change', 'div.opacity :input', function(){
+			$(this).closest('div.opacity').removeClass('opacity');
+        });
         <?php $this->jQuery()->onLoadCaptureEnd();?>
 		</script>
 
 		<?php echo $this->jQuery(); ?>
 	</head>
 	<body>
-		<div id="container" class="installer seotoaster container_12 ui-helper-clearfix">
-			<?php echo $this->layout()->content; ?>
+		<div class="seotoaster container_12">
+
+			<div id="container">
+				<?php echo $this->layout()->content; ?>
+			</div>
+
+			<footer class="grid_10 prefix_1">
+				<p>
+					Sometimes web hosting providers do not offer a suitable environment to the latest technology platforms like seotoaster.<br />
+					If you run into difficulties, please visit <a href="http://www.seotoaster.com" title="SEOTOASTER open source CMS">seotoaster.com</a> for solutions.
+				</p>
+			</footer>
+
 		</div>
-		<footer>
-			<a href="http://www.seotoaster.com/" target="_blank" title="Visit our site for better experience"><span>www.seotoaster.com</span></a>
-		</footer>
 	</body>
 </html>
 

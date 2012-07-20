@@ -1,24 +1,55 @@
-<div class="grid_12">
-	<div class="header">
-		<h1><?php echo $this->translate("%1\$s - STEP %2\$s", 'SEOTOASTER 2.0', 3);?></h1>
-	</div>
-	<div class="content ui-helper-clearfix">
-		<?php if ($this->configsSaved === false): ?>
-		<p class="state-error"><?php echo $this->translate('Something went wrong during saving configuration files.');?></p>
-		<?php else :?>
-		<p class="state-success"><?php echo $this->translate("You're one step away from wondering why you did not give SEOTOASTER a try earlier?");?></p>
-		<?php endif; ?>
-		<div class="header">
-			<?php echo $this->translate('Please specify an email and password to create an account.');?>
-		</div>
-		<div class="ui-helper-clearfix">
-			<?php echo $this->settingsForm; ?>
-		</div>
-		<div class="header">
-			<?php echo $this->translate("You'll use these credentials to log into your seotoaster control panel found at"); ?>
-			<strong>http://<?php echo $this->websiteUrl;?>go</strong>
-		</div>
-	</div>
-	
-	
+<header class="grid_12">
+	<img class="logo" src="assets/logo.jpg" width="215" height="275" alt="Seotoaster install">
+	<h1 class="grid_7" style="margin-top: 48px"><?php echo $this->translate('Seotoaster install');?></h1>
+	<h2 class="step grid_7"><?php echo $this->translate('Step 3: Database setup');?></h2>
+</header>
+
+<div id="step-content">
+	<form method="post" action="" enctype="application/x-www-form-urlencoded" name="<?php echo $this->settingsForm->getName();?>" >
+		<fieldset id="userinfo" class="grid_6 alpha omega">
+			<h3 class="title-step">You are one step away from toasting.</h3>
+			<span class="description-step">You will use these credentials to log into your toaster.</span>
+			<?php echo $this->settingsForm->getElement('adminName');?>
+			<?php foreach ($this->settingsForm->getElement('adminName')->getErrors() as $error):?>
+				<span class="red"><?php echo implode('<br />',$this->settingsForm->getElement('adminName')->getMessages($error));?></span>
+			<?php endforeach;?>
+
+			<?php echo $this->settingsForm->getElement('adminEmail');?>
+			<?php foreach ($this->settingsForm->getElement('adminEmail')->getErrors() as $error):?>
+				<span class="red"><?php echo implode('<br />',$this->settingsForm->getElement('adminEmail')->getMessages($error));?></span>
+			<?php endforeach;?>
+
+			<?php echo $this->settingsForm->getElement('adminPassword');?>
+			<?php foreach ($this->settingsForm->getElement('adminPassword')->getErrors() as $error):?>
+				<span class="red"><?php echo implode('<br />',$this->settingsForm->getElement('adminPassword')->getMessages($error));?></span>
+			<?php endforeach;?>
+
+			<?php echo $this->settingsForm->getElement('rePassword');?>
+			<?php foreach ($this->settingsForm->getElement('rePassword')->getErrors() as $error):?>
+				<span class="red"><?php echo implode('<br />',$this->settingsForm->getElement('rePassword')->getMessages($error));?></span>
+			<?php endforeach;?>
+		</fieldset>
+		<fieldset id="sambainfo" class="grid_6 alpha omega" style="border-left:2px dashed #ccc;margin-left:-2px;">
+			<div class="opacity">
+				<img src="assets/last-visits.png" alt="SeoSamba logo" width="130px" style="float:right;margin-left: 15px;"/>
+				<img src="assets/visitor-count.png" alt="SeoSamba logo" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
+				<img src="assets/list-keywords.png" alt="SeoSamba logo" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
+				<h3 class="title-step">Note from seosamba <img src="assets/seosamba-icon.png" alt="SeoSamba logo"/></h3>
+				<span class="description-step">Did you know? You can unleash the real power of the toaster by making it a scalable online marketing machine once it is hooked up on the the SEO automated platform seosamba. seosamba allows you to mass optimize your websites, download free and paid plugins. Statistics for your sites are always free. <a href="#" title="Check some more here">Check some more here</a></span>
+				<div class="mt30px">
+					<?php echo $this->settingsForm->getElement('createAccount')->renderViewHelper(); ?>
+					<?php echo $this->settingsForm->getElement('createAccount')->renderLabel(); ?>
+				</div>
+				<div class="mt30px">
+					<?php echo $this->settingsForm->getElement('sambaToken'); ?>
+				</div>
+			</div>
+
+			<?php echo $this->settingsForm->getElement('check'); ?>
+
+			<div class="mt30px textcentered">
+				<?php echo $this->settingsForm->getElement('submit'); ?>
+			</div>
+		</fieldset>
+	</form>
 </div>

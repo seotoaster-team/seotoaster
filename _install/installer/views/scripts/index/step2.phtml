@@ -1,38 +1,50 @@
-<div class="grid_12">
-	<div class="header ui-corner-all">
-		<h1><?php echo $this->translate("%1\$s - STEP %2\$s", 'SEOTOASTER 2.0', 2);?></h1>
-	</div>
-	<div class="content ui-helper-clearfix">
-		
-		<div class="ui-helper-clearfix">
-			
-		<?php if (!empty($this->messages['core'])): ?>
-		<p class="state-error"><?php echo $this->messages['core']; ?></p>
+<header class="grid_12">
+	<img class="logo" src="assets/logo.jpg" width="215" height="275" alt="Seotoaster install">
+	<h1 class="grid_7" style="margin-top: 48px"><?php echo $this->translate('Seotoaster install');?></h1>
+	<h2 class="step grid_7"><?php echo $this->translate('Step 2: Database setup'); ?></h2>
+</header>
+<!-- STEP 2 -->
+<div id="step-content">
+	<form method="post" action="" enctype="application/x-www-form-urlencoded" id="installer_form_config">
+		<fieldset id="dbinfo" class="grid_6 alpha omega" style="border-right:2px dashed #ccc;margin-right:-2px;">
+			<h3 class="title-step">Setting up the Database.</h3>
+			<span class="description-step">Your server needs to meet the minimum requirements configuration in order to run the toaster.</span>
+			<?php echo $this->configform->getElement('host'); ?>
+			<?php echo $this->configform->getElement('username'); ?>
+			<?php echo $this->configform->getElement('password'); ?>
+			<?php echo $this->configform->getElement('dbname'); ?>
+		</fieldset>
+
+		<fieldset id="coreinfo" class="grid_6 alpha omega" >
+			<div class="opacity">
+				<h3 class="title-step">Advanced settings (Optional)</h3>
+				<span class="description-step"><img src="assets/toasters.jpg" alt="Multi-toasters setup" style="float:right;"/>Multi-toasters setup:<br/>
+		Did you know? You can set one toaster as the core for your seo network. Just enter the path of the master toaster and a unique name you want to use for this install.</span>
+				<?php echo $this->configform->getElement('corepath'); ?>
+				<?php echo $this->configform->getElement('sitename'); ?>
+			</div>
+
+
+
+		</fieldset>
+
+		<?php if (!empty($this->messages)): ?>
+		<div class="grid_10 prefix_1 suffix_1 textcentered">
+			<?php foreach ($this->messages as $msg) :?>
+			<div class="box-error mt10px">
+				<?php echo $msg; ?>
+			</div>
+			<?php endforeach; ?>
+		</div>
 		<?php endif;?>
-		
-		<?php if ($this->messages['db'] !== null): ?>
-			<?php if ($this->messages['db'] === true):?>
-				<p class="state-success"><?php echo $this->translate('Database installed successfully'); ?></p>
-			<?php else :?>
-				<p class="state-error">
-					<span style="font-weight: normal; color: black;">
-                        <?php echo $this->translate("Can't install database. Server sent following error:"); ?>
-                    </span>
-					<code><?php echo $this->messages['db']; ?></code>
-				</p>
+
+		<div class="grid_6 prefix_6 textcentered">
+			<?php if ($this->gotoNext === true): ?>
+			<div class="bravo green">Bravo, All good to go!</div>
+			<?php else: ?>
+			<?php echo $this->configform->getElement('check'); ?>
 			<?php endif; ?>
-		<?php endif;?>
+			<?php echo $this->configform->getElement('submit'); ?>
 		</div>
-
-		<div class="ui-helper-clearfix form-holder">
-		<?php echo $this->configform; ?>
-		</div>
-        <a href="#" id="as-toggle" onclick="$('#fieldset-coreinfo').fadeToggle(); return false;" style="overflow:hidden;"><img src="assets/advanced.png" style="float:left; margin-right:5px;"/><?php echo $this->translate('Advanced settings'); ?></a>
-	<form action="" method="post">
-		<?php if ($this->gotoNext === true): ?>
-		<input type="submit" value="<?php echo $this->translate('Go forward!');?>" name="submit" />
-		<?php endif; ?>
 	</form>
-	</div>
 </div>
-
