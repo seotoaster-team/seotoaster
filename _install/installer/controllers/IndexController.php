@@ -121,6 +121,7 @@ class IndexController extends Zend_Controller_Action {
 		if (!in_array(false, $phpRequirements) && !$permissionsFail) {
 			$this->_session->nextStep = 2;
 			$this->view->gotoNext = true;
+//			$this->getRequest()->isPost() && $this->_forward('step2');
 		} else {
 			$this->view->gotoNext = false;
 		}
@@ -130,6 +131,8 @@ class IndexController extends Zend_Controller_Action {
 	}
 	
 	public function step2Action(){
+		$this->_session->nextStep = 2;
+
 		$configForm = new Installer_Form_Config();
 				
 		$this->view->gotoNext = false;
@@ -153,29 +156,16 @@ class IndexController extends Zend_Controller_Action {
 		
 		if ($this->getRequest()->isPost() && isset($params['check']) && $params['check'] === 'config'){
 			
-			$this->_session->nextStep = 2;
-
-//				if (empty($params['corepath'])) $params['corepath'] = $this->_session->coreinfo['corepath']);
-
 				if (true === ($formValid = $configForm->isValid($params))){
 					$formValues = $configForm->getValues();
 					$coreinfo = array(
-						'corepath'	=> realpath($configForm->getValue('corepath')),
+						'corepath'	=> $configForm->getValue('corepath'),
 						'sitename'	=> $configForm->getValue('sitename')
 					);
 
+					$isCoreValid = true;
 					if ($this->_session->coreinfo !== $coreinfo){
-						$configsDir = realpath($coreinfo['corepath']).DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['configdir'];
-						if (is_dir($configsDir)){
-							if (!is_writable($configsDir)){
-								$this->_view->messages[] = 'Configs dir must be writable: '.$configsDir;
-							} else {
-								$isCoreValid = true;
-								$this->_session->coreinfo = $coreinfo;
-							}
-						} else {
-							$this->_view->messages[] = 'Configs dir not found: '.$configsDir;
-						}
+						$this->_session->coreinfo = $coreinfo;
 					}
 
 					if (!$isDbReady) {
@@ -201,8 +191,11 @@ class IndexController extends Zend_Controller_Action {
 					
 				} else {
 					$this->view->messages[] = 'Please, fill all required fields';
-                    if ($configForm->getElement('sitename')->hasErrors()){
-                        $this->view->messages[] = 'Site name should not contain spaces or special characters';
+					if ($configForm->getElement('corepath')->hasErrors()){
+						$this->view->messages[] = implode('<br />', $configForm->getMessages('corepath'));
+					}
+					if ($configForm->getElement('sitename')->hasErrors()){
+	                    $this->view->messages[] = 'Site name should not contain spaces or special characters';
                     }
 				}
 		}
@@ -227,7 +220,9 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->configform = $configForm;
 	}
 	
-	public function step3Action() { 
+	public function step3Action() {
+		$this->_session->nextStep = 3;
+
 		$settingsForm = new Installer_Form_Settings();
 
 		if ($this->getRequest()->isPost()){
@@ -248,7 +243,7 @@ class IndexController extends Zend_Controller_Action {
 
 					if ($suReady && $this->_session->configsSaved === true) {
 						$this->getRequest()->clearParams();
-						$this->_forward('tada');
+						return $this->_forward('tada');
 					}
 				} else {
 					$this->view->messages = $settingsForm->getMessages();
@@ -368,13 +363,16 @@ class IndexController extends Zend_Controller_Action {
 	public function _saveConfigToFs() {
 		if (empty($this->_session->coreinfo['corepath'])){
 			$corepath = realpath(INSTALL_PATH .DIRECTORY_SEPARATOR. 'seotoaster_core');
-			$configPath = realpath($corepath . DIRECTORY_SEPARATOR . $this->_requirements['corePermissions']['configdir']);
 		} else {
 			$corepath = realpath($this->_session->coreinfo['corepath']);
-			$configPath = realpath($this->_session->coreinfo['corepath'] . DIRECTORY_SEPARATOR . $this->_requirements['corePermissions']['configdir']);
 		}
+		$configPath = realpath($corepath . DIRECTORY_SEPARATOR . $this->_requirements['corePermissions']['configdir']);
 
         $sitename = !empty ($this->_session->coreinfo['sitename']) ? $this->_session->coreinfo['sitename'] : 'application';
+
+		if (is_file($configPath.DIRECTORY_SEPARATOR.$sitename.'.ini')){
+			$sitename = $sitename.'_'.date('Ymdhi');
+		}
 		//saving coreinfo.php
 		try {
 			$data = "<?php" . PHP_EOL .
@@ -388,25 +386,25 @@ class IndexController extends Zend_Controller_Action {
 		}
 
 		$routesxml = !empty ($this->_session->coreinfo['sitename']) ? $this->_session->coreinfo['sitename'].'.xml' : 'routes.xml';
-		copy(APPLICATION_PATH.'/resourses/routes.xml.default', $configPath.DIRECTORY_SEPARATOR.$sitename.'xml' );
+		copy(APPLICATION_PATH.'/resourses/routes.xml.default', $configPath.DIRECTORY_SEPARATOR.$sitename.'.routes.xml' );
 
 		$iniPath = $configPath . DIRECTORY_SEPARATOR . $sitename . '.ini';
 
 		//initializing template of application.ini 
 		$appIni = file_get_contents(APPLICATION_PATH.'/resourses/application.ini.default');
-		
-		foreach ($this->_session->dbinfo['params'] as $name => $value) {
-			if (is_array($value)) continue;
-			$appIni = str_replace('{'.$name.'}', $value, $appIni);
-		}
-		$appIni = str_replace(
-			array('{websiteurl}' , '{websitepath}'),
-			array(
-				$this->_session->websiteUrl,
-				INSTALL_PATH.DIRECTORY_SEPARATOR
-				),
-			$appIni);
-		
+
+		$replacements = array(
+			'{websiteurl}'      => $this->_session->websiteUrl,
+			'{websitepath}'     => INSTALL_PATH.DIRECTORY_SEPARATOR,
+			'{adapter}'         => $this->_session->dbinfo['adapter'],
+			'{host}'            => $this->_session->dbinfo['params']['host'],
+			'{username}'        => $this->_session->dbinfo['params']['username'],
+			'{password}'        => $this->_session->dbinfo['params']['password'],
+			'{dbname}'          => $this->_session->dbinfo['params']['dbname']
+		);
+
+		$appIni = strtr($appIni, $replacements);
+
 		//saving application.ini
 		try {
 			return (bool) file_put_contents($iniPath, $appIni);

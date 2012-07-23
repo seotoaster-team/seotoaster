@@ -42,11 +42,7 @@
 		<?php endif;?>
 
 		<div class="grid_6 prefix_6 textcentered">
-			<?php if ($this->gotoNext === true): ?>
-			<div class="bravo green"><?php echo $this->translate('Bravo, All good to go!');?></div>
-			<?php else: ?>
 			<?php echo $this->configform->getElement('check'); ?>
-			<?php endif; ?>
 			<?php echo $this->configform->getElement('submit'); ?>
 		</div>
 	</form>

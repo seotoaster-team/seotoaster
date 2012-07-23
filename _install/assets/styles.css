@@ -93,7 +93,10 @@ ol li{
     background: url("error.jpg") no-repeat 5px 0;
 }
 #step-content ul li.important {
-	background:none;
+	/*background:none;*/
+}
+#step-content ul li.important strong:first-child {
+    color:#CE553F;
 }
 #left, #dbinfo, #userinfo{
 	padding: 10px 18px 10px 0;

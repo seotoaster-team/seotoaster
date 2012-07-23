@@ -30,15 +30,7 @@ class Installer_Form_Config extends Zend_Form {
             'placeholder'	=> 'input toaster core location',
 	        'validators'    => array(
 		        array('Callback', true, array(
-		            'callback' => function($corepath){
-			            $corepath = realpath($corepath);
-				        if ( !$corepath || !is_dir($corepath)
-				            || !is_dir($corepath.'/application')
-	                        || !is_dir($corepath.'/library') ) {
-					        return false;
-			            }
-				        return true;
-			        },
+		            'callback' => array($this, 'validateCorePath'),
 			        'messages' => array(
 				        Zend_Validate_Callback::INVALID_VALUE => 'Toaster core is not found in given location',
 			        )
@@ -130,6 +122,29 @@ class Installer_Form_Config extends Zend_Form {
 		}
 
 		return $valid;
+	}
+
+	public function validateCorePath($corepath){
+		$corepath = realpath($corepath);
+
+        if ( !$corepath || !is_dir($corepath)
+            || !is_dir($corepath.'/application')
+            || !is_dir($corepath.'/library') ) {
+	        return false;
+        }
+		$element = $this->getElement('corepath');
+
+		$requirements = Zend_Registry::get('requirements');
+		if (is_dir(realpath($configsDir = $corepath.DIRECTORY_SEPARATOR.$requirements['corePermissions']['configdir']))) {
+			if (!is_writable($configsDir)) {
+				$element->addError('Config directory must be writable: '.$configsDir);
+			}
+		} else {
+			$element->addError('Config directory doesn\'t exists: '.$corepath.DIRECTORY_SEPARATOR.$requirements['corePermissions']['configdir']);
+		}
+
+		$element->setValue($corepath);
+        return true;
 	}
 
 }
