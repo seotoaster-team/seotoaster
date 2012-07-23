@@ -56,7 +56,7 @@ class Installer_Form_Settings extends Zend_Form {
 		));
 
 		$this->addElement('checkbox', 'createAccount', array(
-			'label'         => 'Yes, I want the free seosamba account and the statistics and the plugins. Send me the API key.',
+			'label'         => 'Yes, I want the free seosamba account and the statistics and the plugins. Send me the token.',
 			'decorators'    => array(
 				'Label',
 				'ViewHelper'
@@ -64,7 +64,7 @@ class Installer_Form_Settings extends Zend_Form {
 		));
 
 		$this->addElement('text', 'sambaToken', array(
-			'label'      => 'I already have my API key, here it is.',
+			'label'      => 'I already have my token, here it is.',
 			'decorators' => array(
 				array('Label', array('class' => 'green')),
 				'ViewHelper'

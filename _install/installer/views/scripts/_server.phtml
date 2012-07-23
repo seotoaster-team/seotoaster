@@ -1,6 +1,6 @@
 <?php if (isset($_SERVER['SERVER_SOFTWARE'])): ?>
 	<?php if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false):?>
-We've detected that you're running Apache server. Put following code to <code>.htaccess</code> file in seotoaster folder:
+<?php echo $this->translate("We've detected that you're running Apache server. Put following code to <code>.htaccess</code> file in seotoaster folder:");?>
 <div class="grid_10 prefix_1 suffix_1">
 <pre class="rounded8px" style="margin: 10px; padding: 10px; border: 1px solid #bbb; background-color: #d3d3d3;">
 RewriteEngine On

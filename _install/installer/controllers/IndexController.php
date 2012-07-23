@@ -67,6 +67,9 @@ class IndexController extends Zend_Controller_Action {
 			
 		//check for PHP version
 		$phpRequirements['php'] = version_compare(PHP_VERSION, $this->_requirements['minPHPVersion'], '>=');
+
+		//check for disabled magic quotes
+		$phpRequirements['magicquotes'] = !get_magic_quotes_gpc();
 		
 		//checking if required libraries are installed
 		foreach ($this->_requirements['phpExtensions'] as $name) {
@@ -133,13 +136,11 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->messages = array();
 
 		$isDbReady	 = false;
-		$isCoreReady = false;
+		$isCoreValid = false;
 		
         //default values
-
-
 		if (!isset($this->_session->coreinfo)) {
-			$this->_session->coreinfo = array( 'corepath' => INSTALL_PATH . '/seotoaster_core/', 'sitename' => '' );
+			$this->_session->coreinfo = array( 'corepath' => realpath(INSTALL_PATH . '/seotoaster_core'), 'sitename' => '' );
 		}
 		$configForm->populate($this->_session->coreinfo);
 
@@ -150,40 +151,33 @@ class IndexController extends Zend_Controller_Action {
 		
 		$params = $this->getRequest()->getParams();
 		
-		if (isset($params['check']) && $params['check'] === 'config'){
+		if ($this->getRequest()->isPost() && isset($params['check']) && $params['check'] === 'config'){
 			
 			$this->_session->nextStep = 2;
 
+//				if (empty($params['corepath'])) $params['corepath'] = $this->_session->coreinfo['corepath']);
+
 				if (true === ($formValid = $configForm->isValid($params))){
 					$formValues = $configForm->getValues();
-					
-					if (isset($params['corepath']) && isset($params['sitename'])) {
-						$coreinfo = array(
-							'corepath'	=> $formValues['corepath'],
-							'sitename'	=> $formValues['sitename']
-							);
+					$coreinfo = array(
+						'corepath'	=> realpath($configForm->getValue('corepath')),
+						'sitename'	=> $configForm->getValue('sitename')
+					);
 
-						if ($this->_session->coreinfo !== $coreinfo){
-							unset($this->_session->coreinfo);
-							//checking for core in given path
-							if ($coreinfo['corepath'] === ''){
-								$corepath = realpath(INSTALL_PATH.'/seotoaster_core/');
+					if ($this->_session->coreinfo !== $coreinfo){
+						$configsDir = realpath($coreinfo['corepath']).DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['configdir'];
+						if (is_dir($configsDir)){
+							if (!is_writable($configsDir)){
+								$this->_view->messages[] = 'Configs dir must be writable: '.$configsDir;
 							} else {
-								$corepath = realpath($coreinfo['corepath']);
-							}
-
-							if ( !$corepath || !is_dir($corepath) 
-								 || !is_dir($corepath.'/application')
-								 || !is_dir($corepath.'/library') ) {
-								$this->view->messages[] = 'SEOTOASTER Core not found in <code>'.$coreinfo['corepath'].'</code>';
-							} else {
+								$isCoreValid = true;
 								$this->_session->coreinfo = $coreinfo;
 							}
+						} else {
+							$this->_view->messages[] = 'Configs dir not found: '.$configsDir;
 						}
-					} else {
-						$configForm->populate($this->_session->coreinfo);
 					}
-					
+
 					if (!$isDbReady) {
 						unset($this->_session->dbinfo);
 						$dbParams = array(
@@ -207,37 +201,18 @@ class IndexController extends Zend_Controller_Action {
 					
 				} else {
 					$this->view->messages[] = 'Please, fill all required fields';
-                    if (!$configForm->getElement('sitename')->hasErrors()){
+                    if ($configForm->getElement('sitename')->hasErrors()){
                         $this->view->messages[] = 'Site name should not contain spaces or special characters';
                     }
 				}
-			//checking if it is possible to write config files into given core folder
-			if ($formValid && isset($this->_session->coreinfo)){
-								
-				if ($this->_session->coreinfo['corepath'] === ''){
-					$configsDir = realpath(INSTALL_PATH.'/seotoaster_core/').DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['configdir'];
-				} else {
-					$configsDir = realpath($this->_session->coreinfo['corepath']).DIRECTORY_SEPARATOR.$this->_requirements['corePermissions']['configdir'];				
-				}
-
-				if (is_dir($configsDir)){
-					$isCoreReady = false;
-					$appini = $configsDir . ($this->_session->coreinfo['sitename'] === '' ? $this->_requirements['corePermissions']['appini'] : $this->_session->coreinfo['sitename'].'.ini');
-					if (!is_writable($configsDir)){
-						$this->view->messages[] = 'Configs dir must be writable: '.$configsDir;
-					} elseif (!file_exists($appini) && !touch($appini)){
-						$this->view->messages[] = 'File not exists:<br/>'.$appini;
-					} elseif (!is_writable($appini)){
-						$this->view->messages[] = 'This file must be writable:<br/>'.$appini;
-					} else {
-						$isCoreReady = true;
-					}
-				}
-			}
-			
 		}
 
-		if ($isCoreReady) {
+		if ($isDbReady && $isCoreValid)	{
+			$this->_session->nextStep = 3;
+			return $this->_forward('step3');
+		}
+
+		if ($isCoreValid) {
 			foreach ($configForm->getDisplayGroup('coreinfo')->getElements() as $element){
 				$element->setAttrib('readonly', 'readonly');
 			}
@@ -248,12 +223,7 @@ class IndexController extends Zend_Controller_Action {
 				$element->setAttrib('readonly', 'readonly');
 			}
 		}
-		
-		if ($isDbReady && $isCoreReady)	{
-			$this->view->gotoNext = true;
-			$this->_session->nextStep = 3;
-		}
-		
+
 		$this->view->configform = $configForm;
 	}
 	
@@ -416,10 +386,11 @@ class IndexController extends Zend_Controller_Action {
 			error_log($e->getMessage());
 			error_log($e->getTraceAsString());
 		}
-		
-		$iniPath = (empty($this->_session->coreinfo['sitename'])
-                ? $configPath . DIRECTORY_SEPARATOR . 'application'
-                : $configPath . DIRECTORY_SEPARATOR . $this->_session->coreinfo['sitename'] ) . '.ini';
+
+		$routesxml = !empty ($this->_session->coreinfo['sitename']) ? $this->_session->coreinfo['sitename'].'.xml' : 'routes.xml';
+		copy(APPLICATION_PATH.'/resourses/routes.xml.default', $configPath.DIRECTORY_SEPARATOR.$sitename.'xml' );
+
+		$iniPath = $configPath . DIRECTORY_SEPARATOR . $sitename . '.ini';
 
 		//initializing template of application.ini 
 		$appIni = file_get_contents(APPLICATION_PATH.'/resourses/application.ini.default');

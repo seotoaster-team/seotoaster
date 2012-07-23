@@ -7,8 +7,8 @@
 <div id="step-content">
 	<form method="post" action="" enctype="application/x-www-form-urlencoded" id="installer_form_config">
 		<fieldset id="dbinfo" class="grid_6 alpha omega" style="border-right:2px dashed #ccc;margin-right:-2px;">
-			<h3 class="title-step">Setting up the Database.</h3>
-			<span class="description-step">Your server needs to meet the minimum requirements configuration in order to run the toaster.</span>
+			<h3 class="title-step"><?php echo $this->translate('Setting up the Database.');?></h3>
+			<span class="description-step"><?php echo $this->translate('Your server needs to meet the minimum requirements configuration in order to run the toaster.');?></span>
 			<?php echo $this->configform->getElement('host'); ?>
 			<?php echo $this->configform->getElement('username'); ?>
 			<?php echo $this->configform->getElement('password'); ?>
@@ -17,9 +17,12 @@
 
 		<fieldset id="coreinfo" class="grid_6 alpha omega" >
 			<div class="opacity">
-				<h3 class="title-step">Advanced settings (Optional)</h3>
-				<span class="description-step"><img src="assets/toasters.jpg" alt="Multi-toasters setup" style="float:right;"/>Multi-toasters setup:<br/>
-		Did you know? You can set one toaster as the core for your seo network. Just enter the path of the master toaster and a unique name you want to use for this install.</span>
+				<h3 class="title-step"><?php echo $this->translate('Advanced settings (Optional)');?></h3>
+				<span class="description-step">
+					<img src="assets/toasters.jpg" alt="Multi-toasters setup" style="float:right;"/><?php echo $this->translate('Multi-toasters setup:');?><br/>
+<?php echo $this->translate('Did you know? You can set one toaster as the core for your seo network. Just enter the path of the master toaster and a unique name you want to use for this install.');?>
+				</span>
+				<div class="mt20px"></div>
 				<?php echo $this->configform->getElement('corepath'); ?>
 				<?php echo $this->configform->getElement('sitename'); ?>
 			</div>
@@ -40,7 +43,7 @@
 
 		<div class="grid_6 prefix_6 textcentered">
 			<?php if ($this->gotoNext === true): ?>
-			<div class="bravo green">Bravo, All good to go!</div>
+			<div class="bravo green"><?php echo $this->translate('Bravo, All good to go!');?></div>
 			<?php else: ?>
 			<?php echo $this->configform->getElement('check'); ?>
 			<?php endif; ?>

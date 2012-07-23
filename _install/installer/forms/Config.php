@@ -25,20 +25,34 @@ class Installer_Form_Config extends Zend_Form {
         ));
 
         $this->addElement('text', 'corepath', array(
-            'value'		=> $this->_corepath,
-            'label'		=> 'Path to core',
-//			'class'		=> 'livecheck'
-            'title'		=> ($translator ? $translator->translate('Input path to core') : 'Input path to core')
+            'value'		    => $this->_corepath,
+            'label'		    => 'Path to core',
+            'placeholder'	=> 'input toaster core location',
+	        'validators'    => array(
+		        array('Callback', true, array(
+		            'callback' => function($corepath){
+			            $corepath = realpath($corepath);
+				        if ( !$corepath || !is_dir($corepath)
+				            || !is_dir($corepath.'/application')
+	                        || !is_dir($corepath.'/library') ) {
+					        return false;
+			            }
+				        return true;
+			        },
+			        'messages' => array(
+				        Zend_Validate_Callback::INVALID_VALUE => 'Toaster core is not found in given location',
+			        )
+		        ))
+	        )
         ));
 
         $this->addElement('text', 'sitename', array(
             'value'		=> $this->_sitename,
             'label'		=> 'Site name',
-//			'class'		=> 'livecheck',
             'placeholder' => 'you can leave this field empty',
             'title'		=> ($translator ? $translator->translate('Give a name for your site') : 'Give a name for your site'),
             'validators'=> array(
-                new Zend_Validate_Hostname(array(
+                array('Hostname', true, array(
                     'allow' => Zend_Validate_Hostname::ALLOW_DNS | Zend_Validate_Hostname::ALLOW_IP | Zend_Validate_Hostname::ALLOW_LOCAL,
                     'idn'   => false,
                     'tld'   => false

@@ -24,18 +24,18 @@
 		<h3 class="title-step"><?php echo $this->translate("Checking Server Requirements"); ?></h3>
 		<span class="description-step"><?php echo $this->translate('Your server needs to meet the minimum requirements configuration in order to run the toaster.');?></span>
 		<ul>
-			<li><strong>Web server:</strong> Apache2, Light-Httpd, Nginx. Any web server that can do re-writes and support php should work too (not tested).</li>
+			<li><strong><?php echo $this->translate('Web server');?>:</strong>&nbsp;<?php echo $this->translate('Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).');?></li>
 			<?php if (false !== strpos(strtolower($_SERVER["SERVER_SOFTWARE"]), 'apache')) :?>
-			<li <?php if(!in_array('mod_rewrite', apache_get_modules())) echo 'class="error"'; ?>><strong>mod_rewrite module:</strong> For Apache 2 only</li>
+			<li <?php if(!in_array('mod_rewrite', apache_get_modules())) echo 'class="error"'; ?>><strong>mod_rewrite <?php echo $this->translate('module');?>:</strong>&nbsp;<?php echo $this->translate('For Apache 2 only');?></li>
 			<?php endif; ?>
-			<li <?php if (!$this->checks['php']) echo 'class="error"'; ?>><strong>PHP 5.3.3</strong> or higher</li>
-			<li <?php if (!$this->checks['pdo']) echo 'class="error"'; ?>><strong>PDO extension</strong> for PHP</li>
-			<li <?php if (!$this->checks['mbstring']) echo 'class="error"'; ?>><strong>MBString:</strong> Works with any language</li>
-			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?>><strong>GD Libaries 2.0</strong> or newer: Works with images</li>
-			<li <?php if (!$this->checks['zip']) echo 'class="error"'; ?>><strong>Zip extension for PHP:</strong> Permit themes management through the interface</li>
-			<li <?php if (!$this->checks['curl']) echo 'class="error"'; ?>><strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.</li>
-			<?php if (get_magic_quotes_gpc()) : ?>
-			<li class="important"><strong style="color:#CE553F;">Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the packege or in your PHP.ini (Otherwise you will get a bunch of'\' in the templates when loading themes).</li>
+			<li <?php if (!$this->checks['php']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PHP 5.3.3</strong> or higher'); ?></li>
+			<li <?php if (!$this->checks['pdo']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PDO</strong> extension for PHP'); ?></li>
+			<li <?php if (!$this->checks['mbstring']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>MBString:</strong> Works with any language');?></li>
+			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GD Libaries 2.0</strong> or newer: Works with images');?></li>
+			<li <?php if (!$this->checks['zip']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Zip extension for PHP:</strong> Permit themes management through the interface'); ?></li>
+			<li <?php if (!$this->checks['curl']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.'); ?></li>
+			<?php if ($this->checks['magicquotes'] !== true) : ?>
+			<li class="error important"><?php echo $this->translate("<strong>Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the package or in your PHP.ini (Otherwise you will get a bunch of'\' in the templates when loading themes)."); ?></li>
 			<?php endif;?>
 		</ul>
 	</div>
