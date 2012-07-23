@@ -18,9 +18,15 @@
 
 		<script>
         <?php $this->jQuery()->onLoadCaptureStart();?>
+        $('#loading').ajaxStart(function(){
+	        $(this).fadeIn();
+        }).ajaxStop(function(){
+			$(this).fadeOut();
+        });
+
         $('#container').on('submit', 'form', function(e){
             // display loading message
-            $('#loading').fadeIn();
+
 
             if( !$(e.target).attr('action'))
                 e.target = $(e.target).closest('form');
@@ -35,10 +41,6 @@
                 success: function(response){
                     $('#container').html(response);
                     $('#container .content').prepend($('<div></div>', {id: 'loading'}));
-                    $('#loading').fadeOut();
-                },
-                error: function() {
-                    $('#loading').fadeOut();
                 }
             });
 
@@ -53,6 +55,7 @@
 		<?php echo $this->jQuery(); ?>
 	</head>
 	<body>
+		<div id="loading">LOADING</div>
 		<div class="seotoaster container_12">
 
 			<div id="container">
