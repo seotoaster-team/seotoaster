@@ -81,20 +81,24 @@ class Tools_System_Tools {
 		return $destinationFile;
 	}
 
-	public static function generateCaptcha() {
+    /**
+     * Generate new captcha session occurrence and image
+     *
+     * @static
+     * @return string new captcha id
+     */
+    public static function generateCaptcha() {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-
-		$captcha = new Zend_Captcha_Image();
-		$captcha->setTimeout('300')
-			->setWordLen('5')
+		$captcha       = new Zend_Captcha_Image();
+		return $captcha->setTimeout('300')
+            ->setWordLen('5')
 			->setHeight(45)
 			->setFont($websiteHelper->getPath() . 'system/fonts/Alcohole.ttf')
 			->setImgDir($websiteHelper->getPath() . $websiteHelper->getTmp())
-			->setFontSize(20);
-		$captcha->setDotNoiseLevel(0);
-		$captcha->setLineNoiseLevel(0);
-		$captcha->generate();    //command to generate session + create image
-		return $captcha->getId();   //returns the ID given to session image
+			->setFontSize(20)
+		    ->setDotNoiseLevel(0)
+		    ->setLineNoiseLevel(0)
+		    ->generate();
 	}
 
 	public static function arrayToCsv($data, $headers = array()) {

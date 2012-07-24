@@ -8,15 +8,17 @@
  */
 class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
-    const TYPE_TEXT     = 'text';
+    const TYPE_TEXT         = 'text';
 
-    const TYPE_TEXTAREA = 'textarea';
+    const TYPE_TEXTAREA     = 'textarea';
 
-    const TYPE_CHECKBOX = 'checkbox';
+    const TYPE_CHECKBOX     = 'checkbox';
 
-    const TYPE_SELECT   = 'select';
+    const TYPE_SELECT       = 'select';
 
-    const TYPE_RADIO    = 'radio';
+    const TYPE_RADIO        = 'radio';
+
+    const OPTIONS_SEPARATOR = '|';
 
     protected $_prepopName        = '';
 
@@ -128,9 +130,10 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     private function _generateSelectOptions() {
-        $arrayValues = (!is_array($this->_options)) ? array() : array_map(function($value) {
+        $selectOptions = explode(self::OPTIONS_SEPARATOR, array_shift($this->_options));
+        $arrayValues   = (!is_array($selectOptions)) ? array() : array_map(function($value) {
             return trim($value);
-        }, array_values($this->_options));
+        }, array_values($selectOptions));
         if(empty($arrayValues)) {
             return $arrayValues;
         }

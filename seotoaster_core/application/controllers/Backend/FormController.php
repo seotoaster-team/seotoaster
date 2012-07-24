@@ -7,7 +7,8 @@
 class Backend_FormController extends Zend_Controller_Action {
 
 	public static $_allowedActions = array(
-		'receiveform'
+		'receiveform',
+        'refreshcaptcha'
 	);
 
     public function init() {
@@ -84,26 +85,29 @@ class Backend_FormController extends Zend_Controller_Action {
 				//$mailer = Tools_Mail_Tools::initMailer();
 
 				// sending mails
-                $sysMailWatchdog = new Tools_Mail_Watchdog(array(
+                $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
                     'data'     => $formParams
                 ));
-                $sysMailWatchdog->notify($form);
-                //if($result) {
+                $mailsSent = $sysMailWatchdog->notify($form);
+                if($mailsSent) {
                     $this->_helper->response->success($form->getMessageSuccess());
-                //}
-                //$this->_helper->response->fail($form->getMessageError());
+                }
+                $this->_helper->response->fail($form->getMessageError());
 			}
         }
     }
 
+    public function refreshcaptchaAction() {
+        if($this->getRequest()->isPost()) {
+            $this->_helper->json(Tools_System_Tools::generateCaptcha());
+        }
+    }
+
 	private function _validateCaptcha($captchaInput, $captchaId) {
-		$captcha     = new Zend_Session_Namespace('Zend_Form_Captcha_' . $captchaId);
+        $captcha     = new Zend_Session_Namespace('Zend_Form_Captcha_' . $captchaId);
 		$captchaData = $captcha->getIterator();
-		if(isset($captchaData['word'])) {
-			return ($captchaInput == $captchaData['word']);
-		}
-		return false;
+		return ($captchaData['word'] == $captchaInput);
 	}
 
 

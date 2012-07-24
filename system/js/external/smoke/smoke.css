@@ -82,7 +82,8 @@
 }
 
 .smoke-base .dialog {
-    top: 34px;
+    /*top: 34px;*/
+    top: 2px;
     left: 2px;
     right: 2px;
     width: auto;
@@ -138,4 +139,9 @@ button.cancel {
 	width:300px;
 	text-align:center;
 	background-color:#ccc;
+}
+
+/* From seotoaster css */
+.errors {
+    background-color: indianred !important;
 }

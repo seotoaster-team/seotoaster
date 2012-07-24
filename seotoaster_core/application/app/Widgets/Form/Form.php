@@ -32,6 +32,10 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);
 		$this->_view->allowMidification = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL);
 		$this->_view->formName          = $this->_options[0];
+
+        $filter                         = new Zend_Filter_Alnum();
+        $this->_view->formId            = $filter->filter($this->_options[0]);
+
 		$this->_view->websiteTmp        = $this->_websiteHelper->getTmp();
 		return $this->_view->render('form.phtml');
 	}
