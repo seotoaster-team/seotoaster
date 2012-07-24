@@ -83,6 +83,7 @@
 
 .smoke-base .dialog {
     /*top: 34px;*/
+    top: 2px;
     left: 2px;
     right: 2px;
     width: auto;
