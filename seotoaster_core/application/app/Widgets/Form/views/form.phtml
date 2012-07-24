@@ -45,7 +45,7 @@
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
-        $(document).on('submit', $('#<?php echo $this->formId; ?>'), function(e) {
+        $(document).on('submit', '#<?php echo $this->formId; ?>', function(e) {
             e.preventDefault();
             $.ajax({
                 url      : form.attr('action'),
