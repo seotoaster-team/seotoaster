@@ -45,7 +45,7 @@
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
-        $(document).on('submit', form, function(e) {
+        $(document).on('submit', $('#<?php echo $this->formId; ?>'), function(e) {
             e.preventDefault();
             $.ajax({
                 url      : form.attr('action'),
@@ -85,11 +85,4 @@
         });
 
     });
-
-	function formCallback() {
-		//window.location.reload();
-        //console.log();
-        var url = '<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha';
-
-    }
 </script>
