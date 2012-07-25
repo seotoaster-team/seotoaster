@@ -38,6 +38,32 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return $this->_toasterOptions['url'];
 	}
 
+    private function _generateCategoryOption() {
+        if(isset($this->_options[1])) {
+            $content = '';
+            switch($this->_options[1]) {
+                case 'name':
+                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                    $page       = $pageMapper->find($this->_toasterOptions['id']);
+                    if(!$page instanceof Application_Model_Models_Page) {
+                        throw new Exceptions_SeotoasterWidgetException('Cant load page!');
+                    }
+                    if($page->getParentId() < 0) {
+                        $content = '';
+                    } else if($page->getParentId() > 0) {
+                        $page = $pageMapper->find($page->getParentId());
+                    }
+                    $content = $page->getNavName();
+                break;
+                default:
+                break;
+            }
+            return $content;
+        }
+        return '';
+
+    }
+
 	private function _generatePreviewOption() {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
