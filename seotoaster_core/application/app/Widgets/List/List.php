@@ -53,11 +53,15 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	private function _findPagesListByCategoryName($categoryName) {
-		$category   = Application_Model_Mappers_PageMapper::getInstance()->findByNavName($categoryName);
-		if(!$category instanceof Application_Model_Models_Page) {
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+		$page       = $pageMapper->findByNavName($categoryName);
+		if(!$page instanceof Application_Model_Models_Page) {
 			throw new Exceptions_SeotoasterWidgetException('There is no category with such name: ' . $categoryName);
 		}
-		return Application_Model_Mappers_PageMapper::getInstance()->findByParentId($category->getId());
+//        if($page->getParentId() > 0) {
+//            $page = $pageMapper->find($page->getParentId());
+//        }
+		return Application_Model_Mappers_PageMapper::getInstance()->findByParentId(($page->getParentId() > 0) ? $page->getParentId() : $page->getId());
 	}
 
 	public static function getAllowedOptions() {
