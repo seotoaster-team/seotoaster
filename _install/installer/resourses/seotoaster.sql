@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `plugin` (
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` enum('enabled','disabled') COLLATE utf8_unicode_ci DEFAULT 'disabled',
   `tags` text COLLATE utf8_unicode_ci COMMENT 'Comma separated words',
-  `license` blob NOT NULL,
+  `license` blob,
   PRIMARY KEY (`id`),
   KEY `indName` (`name`),
   KEY `indStatus` (`status`)

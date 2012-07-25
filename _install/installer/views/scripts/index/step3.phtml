@@ -35,13 +35,15 @@
 				<img src="assets/visitor-count.png" alt="SeoSamba logo" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
 				<img src="assets/list-keywords.png" alt="SeoSamba logo" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
 				<h3 class="title-step"><?php echo $this->translate('Note from seosamba');?> <img src="assets/seosamba-icon.png" alt="SeoSamba logo"/></h3>
-				<span class="description-step"><?php echo $this->translate('Did you know? You can unleash the real power of the toaster by making it a scalable online marketing machine once it is hooked up on the the SEO automated platform seosamba. seosamba allows you to mass optimize your websites, download free and paid plugins. Statistics for your sites are always free. <a href="#" title="Check some more here">Check some more here</a>');?></span>
+				<span class="description-step"><?php echo $this->translate('Did you know? You can unleash the real power of the toaster by making it a scalable online marketing machine once it is hooked up to the SEO automated platform: <a href="http://www.seosamba.com/" title="SEOSAMBA">seosamba</a>. seosamba allows you to mass optimize your websites, download free and paid plugins. Statistics for your sites are always free. <a href="#" title="More information about seosamba here">More information about seosamba here</a>');?></span>
 				<div class="mt30px">
 					<?php echo $this->settingsForm->getElement('createAccount')->renderViewHelper(); ?>
 					<?php echo $this->settingsForm->getElement('createAccount')->renderLabel(); ?>
 				</div>
-				<div class="mt30px">
-					<?php echo $this->settingsForm->getElement('sambaToken'); ?>
+				<div class="clearfix"></div>
+				<div class="mt20px">
+					<input type="checkbox" id="sambaToken" value="" /><?php echo $this->settingsForm->getElement('sambaToken')->renderLabel(); ?>
+					<?php echo $this->settingsForm->getElement('sambaToken')->renderViewHelper(); ?>
 				</div>
 			</div>
 

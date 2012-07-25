@@ -35,7 +35,7 @@ header #language{
 	margin-left:70px;
 }
 header #language label{
-    background: none;
+    background: #aaa;
     border: medium none;
     border-radius: 0;
 		-o-border-radius: 0;
@@ -209,6 +209,9 @@ footer{
 }
 #finish-content ol li {
     list-style-type: decimal;
+}
+#finish-content h3.title-step {
+    font-size: 24px;
 }
 #loading {
     display: none;

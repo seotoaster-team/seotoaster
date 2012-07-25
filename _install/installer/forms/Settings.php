@@ -31,7 +31,10 @@ class Installer_Form_Settings extends Zend_Form {
 			'label'		=> 'Admin email',
 			'required'	=> true,
 			'allowEmpty'=> false,
-			'validators'=> array(new Zend_Validate_EmailAddress())
+			'validators'=> array(new Zend_Validate_EmailAddress(array(
+				'domain'    => false,
+				'allow'     => Zend_Validate_Hostname::ALLOW_DNS || Zend_Validate_Hostname::ALLOW_LOCAL
+			)))
 		));
 		
 		$this->addElement('password', 'adminPassword', array(

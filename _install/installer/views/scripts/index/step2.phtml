@@ -8,7 +8,7 @@
 	<form method="post" action="" enctype="application/x-www-form-urlencoded" id="installer_form_config">
 		<fieldset id="dbinfo" class="grid_6 alpha omega" style="border-right:2px dashed #ccc;margin-right:-2px;">
 			<h3 class="title-step"><?php echo $this->translate('Setting up the Database.');?></h3>
-			<span class="description-step"><?php echo $this->translate('Your server needs to meet the minimum requirements configuration in order to run the toaster.');?></span>
+			<span class="description-step"><?php echo $this->translate('Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)');?></span>
 			<?php echo $this->configform->getElement('host'); ?>
 			<?php echo $this->configform->getElement('username'); ?>
 			<?php echo $this->configform->getElement('password'); ?>
