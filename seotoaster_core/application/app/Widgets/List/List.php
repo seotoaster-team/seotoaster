@@ -61,9 +61,6 @@ class Widgets_List_List extends Widgets_Abstract {
 		if(!$page instanceof Application_Model_Models_Page) {
 			throw new Exceptions_SeotoasterWidgetException('There is no category with such name: ' . $categoryName);
 		}
-//        if($page->getParentId() > 0) {
-//            $page = $pageMapper->find($page->getParentId());
-//        }
 		return Application_Model_Mappers_PageMapper::getInstance()->findByParentId(($page->getParentId() > 0) ? $page->getParentId() : $page->getId());
 	}
 
