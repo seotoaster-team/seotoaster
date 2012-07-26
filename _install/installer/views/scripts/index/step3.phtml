@@ -1,7 +1,7 @@
 <header class="grid_12">
 	<img class="logo" src="assets/logo.jpg" width="215" height="275" alt="Seotoaster install">
 	<h1 class="grid_7" style="margin-top: 48px"><?php echo $this->translate('Seotoaster install');?></h1>
-	<h2 class="step grid_7"><?php echo $this->translate('Step 3: Create the main admin account');?></h2>
+	<h2 class="step grid_7"><?php echo $this->translate('Step 3: Create your super admin account');?></h2>
 </header>
 
 <div id="step-content">
@@ -31,18 +31,18 @@
 		</fieldset>
 		<fieldset id="sambainfo" class="grid_6 alpha omega" style="border-left:2px dashed #ccc;margin-left:-2px;">
 			<div class="opacity">
-				<img src="assets/last-visits.png" alt="SeoSamba logo" width="130px" style="float:right;margin-left: 15px;"/>
-				<img src="assets/visitor-count.png" alt="SeoSamba logo" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
-				<img src="assets/list-keywords.png" alt="SeoSamba logo" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
-				<h3 class="title-step"><?php echo $this->translate('Note from seosamba');?> <img src="assets/seosamba-icon.png" alt="SeoSamba logo"/></h3>
-				<span class="description-step"><?php echo $this->translate('Did you know? You can unleash the real power of the toaster by making it a scalable online marketing machine once it is hooked up to the SEO automated platform: <a href="http://www.seosamba.com/" title="SEOSAMBA">seosamba</a>. seosamba allows you to mass optimize your websites, download free and paid plugins. Statistics for your sites are always free. <a href="#" title="More information about seosamba here">More information about seosamba here</a>');?></span>
+				<img src="assets/last-visits.png" alt="SEO Samba last visitors" width="130px" style="float:right;margin-left: 15px;"/>
+				<img src="assets/visitor-count.png" alt="SEO Samba visitors count" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
+				<img src="assets/list-keywords.png" alt="SEO Samba list keywords" width="130px" style="float:right; clear:both;margin-left: 15px;"/>
+				<h3 class="title-step"><?php echo $this->translate('Note from SEO&nbsp;Samba');?> <img src="assets/seosamba-icon.png" alt="SEO Samba logo"/></h3>
+				<span class="description-step"><?php echo $this->translate('Did you know? You can turn seotoaster into a mean and scalable online marketing machine once hooked up to the marketing automation platform <a href="http://www.seosamba.com/" title="SEO Samba">SEO Samba</a>.<br />SEO Samba mass optimize your websites for great search engine performances, enables you to run free and paid plug-ins, access networked content, as well as free statistics for your site. <a href="#" title="More information about seosamba here">Check some other features here.</a>');?></span>
 				<div class="mt30px">
 					<?php echo $this->settingsForm->getElement('createAccount')->renderViewHelper(); ?>
 					<?php echo $this->settingsForm->getElement('createAccount')->renderLabel(); ?>
 				</div>
 				<div class="clearfix"></div>
 				<div class="mt20px">
-					<input type="checkbox" id="sambaToken" value="" /><?php echo $this->settingsForm->getElement('sambaToken')->renderLabel(); ?>
+					<input type="checkbox" name="sambaToken" value="" /><?php echo $this->settingsForm->getElement('sambaToken')->renderLabel(); ?>
 					<?php echo $this->settingsForm->getElement('sambaToken')->renderViewHelper(); ?>
 				</div>
 			</div>
@@ -55,3 +55,15 @@
 		</fieldset>
 	</form>
 </div>
+<script>
+$('#sambaToken').off().on('change', function(){
+	var chkBox = $(this).parent().find('input:checkbox[name="sambaToken"]');
+	if (!!$(this).val()){
+		chkBox.attr('checked','checked');
+		$('#createAccount').removeAttr('checked');
+	} else {
+		chkBox.removeAttr('checked');
+	}
+});
+$('#sambaToken').trigger('change');
+</script>

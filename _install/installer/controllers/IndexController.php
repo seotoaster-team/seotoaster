@@ -241,6 +241,10 @@ class IndexController extends Zend_Controller_Action {
 				if ($settingsForm->isValid($params)){
 					$suReady		= $this->_createSuperUser($settingsForm->getValues());
 
+					if (!$settingsForm->getValue('sambaToken') && (bool)$settingsForm->getValue('createAccount')){
+						$this->_createSambaAccount($settingsForm->getValues());
+					}
+
 					if ($suReady && $this->_session->configsSaved === true) {
 						$this->getRequest()->clearParams();
 						return $this->_forward('tada');
@@ -502,5 +506,31 @@ class IndexController extends Zend_Controller_Action {
 		}
 
 		return true;
+	}
+
+	private function _createSambaAccount($userdata){
+		if (!isset($userdata['adminName']) || !isset($userdata['adminEmail'])){
+			return false;
+		}
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "https://mojo.seosamba.com/backend/sambasignup/index/");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POST, true);
+
+		$data = array(
+			'email'     => $userdata['adminEmail'],
+			'fullName'  => $userdata['adminName'],
+			'password'  => substr(md5(uniqid(rand(), true)).sha1(strrev($userdata['adminPassword'])), 4, 10),
+			'language' => 'us'
+		);
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+		$result = curl_exec($ch);
+//		$info = curl_getinfo($ch);
+		curl_close($ch);
+
+		return $result;
 	}
 }
