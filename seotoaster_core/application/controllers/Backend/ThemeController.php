@@ -410,23 +410,15 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	private function _saveThemeInDatabase($themeName){
 		$errors = array();
 		$themePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName;
-		$themeFiles = Tools_Filesystem_Tools::scanDirectory($themePath, true);
-		$htmlFiles = array();
-		$previewFiles = array();
+		$themeFiles = Tools_Filesystem_Tools::findFilesByExtension($themePath, '(html|htm)', true, true);
 
-		foreach ($themeFiles as $file) {
-			if (preg_match('/^(.*)\.(html|htm)$/', $file)) {
-                $htmlFiles[] = $file;
+        foreach($this->_protectedTemplates as $name){
+            if (!array_key_exists($name, $themeFiles)){
+                array_push($errors, $this->_translator->translate('Theme missing %s\$1 template', $name));
             }
-		}
-		if (is_dir($themePath.'/images/templatepreview/')){
-			$previewFiles = Tools_Filesystem_Tools::scanDirectory($themePath.'/images/templatepreview/');
-		}
+        }
 
-		$necessaryTmpls =	preg_grep('/('.implode('|',$this->_protectedTemplates).')\.(html|htm)$/', $htmlFiles);
-		if ( empty($htmlFiles) || sizeof($necessaryTmpls) < 4 ) {
-			return array($this->_translator->translate('Can\'t apply this theme: some files are missing'));
-		}
+		if (!empty($errors)) return $errors;
 
 		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
 		$removedTemplatesCount = $mapper->clearTemplates(); // this will remove all templates except system required. @see $_protectedTemplates
@@ -435,10 +427,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		$nameValidator->addValidator(new Zend_Validate_Alnum(true))
 					  ->addValidator(new Zend_Validate_StringLength(array(3,45)));
 
-		foreach ($htmlFiles as $file) {
-			preg_match_all('/^(.*)\/(.*)\.(html|htm)$/', $file, $matches);
-			$tmplName = $matches[2][0];
-
+		foreach ($themeFiles as $tmplName => $file) {
 			if (!$nameValidator->isValid($tmplName)){
 				array_push($errors, 'Not valid name for template: '.$tmplName);
 				continue;
