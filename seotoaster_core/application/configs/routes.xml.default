@@ -11,6 +11,7 @@
       <map>
         <page>1</page>
       </map>
+      <reverse>%s</reverse>
     </default>
     <shortlogin>
       <type>Zend_Controller_Router_Route_Static</type>
