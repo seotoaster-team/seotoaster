@@ -417,6 +417,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 array_push($errors, $this->_translator->translate('Theme missing %s\$1 template', $name));
             }
         }
+		unset($name);
 
 		if (!empty($errors)) return $errors;
 
