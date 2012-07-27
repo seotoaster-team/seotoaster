@@ -76,13 +76,12 @@
 
 
 	/* Инсталлятор */
-	"%1\$s - STEP %2\$s" => "%1\$s - ШАГ %2\$s",
 	/* шаг 1 */
-	'Thanks for choosing SEOTOASTER!' => 'Добро пожаловать в мастер установки SEOTOASTER!',
-	"Let's proceed and setup your new SEOTOASTER powered website." => 'Этот мастер поможет настроить Ваш новый веб-сайт.',
-	"We've just checked your PHP configuration." => "Мы проверили конфигурацию PHP на Вашем сервере",
-	'We found some missing requirements' => 'Мы нашли некоторые неудовлетворенные зависимости',
-	'All required PHP extensions seem to be installed.' => 'Похоже, что все необходимые PHP-модули установлены.',
+	'Checking Server Requirements' => 'Проверяем требования к серверу',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Чтобы использовать тостер Ваш сервер долже отвечать минимальным требованиям.',
+	'Checking file system permissions' => 'Проверяем права доступа к файловой системе',
+	'Some folders need to be writable to allow the toaster to function properly.' => 'Для корректной работы тостера некоторые каталоги и файлы должны быть доступны для записи',
+	"Folder %1\$s is %2\$s " => "Folder %1\$s is %2\$s ",
 	'All directories and files seem to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
 	'Next'		   => 'Вперёд',
 	'Check again'  => 'Проверить еще раз',

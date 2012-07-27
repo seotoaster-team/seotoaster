@@ -22,26 +22,26 @@ phpSettings.display_errors                         = 1
 resources.frontController.params.displayExceptions = 1
 
 [database]
-database.adapter         = "pdo_mysql"
+database.adapter         = "{adapter}"
 database.params.host     = "{host}"
 database.params.username = "{username}"
 database.params.password = "{password}"
 database.params.dbname   = "{dbname}"
 
 [website]
-website.url         = "{websiteurl}"
-website.path        = "{websitepath}"
-website.defaultpage = "index.html"
-website.tmp         = "tmp/"
-website.preview     = "previews/"
-website.previewCrop = "previews/crop/"
-website.media		= "media/"
-website.lang		= "system/languages/"
-website.mediaServers[] = "media1"
-website.mediaServers[] = "media2"
-website.mediaServers[] = "media3"
-website.mediaServers[] = "media4"
-website.mediaServers[] = "media5"
+website.url             = "{websiteurl}"
+website.path            = "{websitepath}"
+website.defaultpage     = "index.html"
+website.tmp             = "tmp/"
+website.preview         = "previews/"
+website.previewCrop     = "previews/crop/"
+website.media           = "media/"
+website.lang            = "system/languages/"
+website.mediaServers[]  = "media1"
+website.mediaServers[]  = "media2"
+website.mediaServers[]  = "media3"
+website.mediaServers[]  = "media4"
+website.mediaServers[]  = "media5"
 
 [theme]
 theme.path            = "themes/"

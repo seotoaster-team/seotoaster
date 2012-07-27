@@ -17,12 +17,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$autoloader->setFallbackAutoloader(true);
 	}
 
-	protected function _initRoutes()  {
-//		$routest = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml');
-//		$router  = Zend_Controller_Front::getInstance()->getRouter();
-//		$router->addConfig($routest, 'routes');
-	}
-
 	protected function _initSession() {
 		$session = new Zend_Session_Namespace('ToasterInstaller');
 		Zend_Registry::set('session', $session);

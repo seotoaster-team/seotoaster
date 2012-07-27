@@ -1,107 +1,69 @@
-<div class="grid_12">
-	<div class="ui-corner-all header">
-		<h1><?php echo $this->translate("%1\$s - STEP %2\$s", 'SEOTOASTER 2.0', 1);?></h1>
-	</div>
-	<div class="content ui-corner-all">
-		<div id="loading"></div>
-
-		<h2><?php echo $this->translate('Thanks for choosing SEOTOASTER!');?></h2>
-		<p><?php echo $this->translate('Let\'s proceed and setup your new SEOTOASTER powered website.');?></p>
-		<hr />
-		<div>
-		<p><?php echo $this->translate("We've just checked your PHP configuration.");?></p>
-         <?php if(!extension_loaded('IonCube Loader')): ?>
-            <p style="color:#cd5c5c;"><span class="ui-icon ui-icon-close" style="float: left;"></span><?php echo $this->translate("We've detected that %s is not installed currently on your web server. You can still proceed with the install, but you will be missing out on some cool features and plugins and recommend to %s. It's quick and easy. Alternatively, you can ask your web hosting company's tech support  to do it for you.", '<a href="http://www.ioncube.com/loaders.php">IonCube&trade;</a>', '<a href="http://www.ioncube.com/loaders.php">install it</a>');?></p>
-         <?php endif; ?>
-		<?php if (get_magic_quotes_gpc()) : ?>
-		<p class="state-success">The "magic_quotes" are <span style="color:red;">ON</span>. We recommend you to switch them off.</p>
-		<?php endif;?>
-		<?php if (in_array(false, $this->checks)): ?>
-		<p><?php echo $this->translate('Ooops…We found some errors.');?>:</p>
-		<ul style="height: 280px; overflow-x: hidden; overflow-y: auto;">
-			<li class="<?php echo $this->checks['php'] ? 'state-success' : 'state-error' ;?>">
-				PHP &gt; 5.3.2
-				<span class="ui-icon <?php echo $this->checks['php'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
-			<li class="<?php echo $this->checks['pdo'] ? 'state-success' : 'state-error' ;?>">
-				Mysql 5.X (Create One empty MySQL database.. example: seotoaster) and make it UTF8 Unicode if you want to use languages.
-				<br />
-				PDO extension for PHP								
-				<span class="ui-icon <?php echo $this->checks['pdo'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
-
-			<li class="<?php echo $this->checks['mbstring'] ? 'state-success' : 'state-error' ;?>">
-				MBString or newer (Allows system to work with any language)
-				<span class="ui-icon <?php echo $this->checks['mbstring'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
-			<li class="<?php echo $this->checks['gd'] ? 'state-success' : 'state-error' ;?>">
-				GD Libaries 2.0 or newer (Allows system to work with images)				
-				<span class="ui-icon <?php echo $this->checks['gd'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
-			<li class="<?php echo $this->checks['zlib'] ? 'state-success' : 'state-error' ;?>">
-				Zlib extension for PHP (Allows the system to work with ziped themes)
-				<span class="ui-icon <?php echo $this->checks['zlib'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
-			<li class="<?php echo $this->checks['zip'] ? 'state-success' : 'state-error' ;?>">
-				Zip extension for PHP (Allows themes management through the interface)
-				<span class="ui-icon <?php echo $this->checks['zip'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
-			<li class="<?php echo $this->checks['curl'] ? 'state-success' : 'state-error' ;?>">
-				Curl extension for PHP (Allows the system to be in touch with 3rd party services: Google, Yahoo, PayPal, etc.)
-				<span class="ui-icon <?php echo $this->checks['curl'] ? 'ui-icon-check' : 'ui-icon-close' ;?>">
-			</li>
+<header class="grid_12">
+	<img class="logo" src="assets/logo.jpg" width="215" height="275" alt="Seotoaster install">
+	<form action="" method="post" id="language" class="grid_7">
+		<?php foreach($this->langs as $locale => $flag): ?>
+		<input type="radio" name="lang" value="<?php echo $locale;?>" id="lang-<?php echo $locale;?>"
+			   <?php echo $this->translate()->getLocale() === $locale ? 'checked="checked"' : '' ; ?>
+			   />
+		<label for="lang-<?php echo $locale;?>">
+			<img src="../<?php echo $flag;?>" alt="<?php echo Zend_Locale::getTranslation($locale, 'language');?>" />
+		</label>
+		<?php endforeach; ?>
+	</form>
+	<script>
+		$('#language').delegate('input[type="radio"]','change', function(){
+			$(this).closest('form').submit();
+		}).buttonset();
+	</script>
+	<h1 class="grid_7"><?php echo $this->translate('Seotoaster install');?></h1>
+	<h2 class="step grid_7"><?php echo $this->translate('Step 1: System setup');?></h2>
+</header>
+<!-- STEP 1 -->
+<div id="step-content">
+	<div id="left" class="grid_6 alpha omega" style="border-right:2px dashed #ccc;">
+		<h3 class="title-step"><?php echo $this->translate("Checking Server Requirements"); ?></h3>
+		<span class="description-step"><?php echo $this->translate('Your server needs to meet the minimum requirements configuration in order to run the toaster.');?></span>
+		<ul>
+			<li><strong><?php echo $this->translate('Web server');?>:</strong>&nbsp;<?php echo $this->translate('Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).');?></li>
+			<?php if (false !== strpos(strtolower($_SERVER["SERVER_SOFTWARE"]), 'apache')) :?>
+			<li <?php if(!in_array('mod_rewrite', apache_get_modules())) echo 'class="error"'; ?>><strong>mod_rewrite <?php echo $this->translate('module');?>:</strong>&nbsp;<?php echo $this->translate('For Apache 2 only');?></li>
+			<?php endif; ?>
+			<li <?php if (!$this->checks['php']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PHP 5.3.3</strong> or higher'); ?></li>
+			<li <?php if (!$this->checks['pdo']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PDO</strong> extension for PHP'); ?></li>
+			<li <?php if (!$this->checks['mbstring']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>MBString:</strong> Works with any language');?></li>
+			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GD Libaries 2.0</strong> or newer: Works with images');?></li>
+			<li <?php if (!$this->checks['zip']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Zip extension for PHP:</strong> Permit themes management through the interface'); ?></li>
+			<li <?php if (!$this->checks['curl']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.'); ?></li>
+			<?php if ($this->checks['magicquotes'] !== true) : ?>
+			<li class="error important"><?php echo $this->translate("<strong>Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the package or in your PHP.ini (Otherwise you will get a bunch of'\' in the templates when loading themes)."); ?></li>
+			<?php endif;?>
 		</ul>
-		<?php else: ?>
-		<p><span class="ui-icon ui-icon-check" style="display: inline-block"></span>
-			<?php echo $this->translate('All required PHP extensions seem to be installed.');?></p>
-		<?php endif; ?>
-		</div>
-		
-		<?php if ($this->failedPermissions) : ?>
-		<div>
-			<p><?php echo $this->translate('Please check below the list of files and folders which seem to have some permissions errors:');?></p>
-			<ul>
+	</div>
+
+	<div id="right" class="grid_6 alpha omega">
+		<h3 class="title-step"><?php echo $this->translate('Checking file system permissions');?></h3>
+		<span class="description-step"><?php echo $this->translate('Some folders need to be writable to allow the toaster to function properly.');?></span>
+		<ul>
 			<?php foreach ($this->permissions['dir'] as $dirname => $status): ?>
-				<?php if ($status !== true ): ?>
-				<li style="padding: 3px 5px; border: none; background: none;" class="ui-state-error">
-					<span class="ui-icon ui-icon-alert" style="display: inline-block;float: left;margin-right: 3px;"></span>
-                    <?php echo 'Folder <strong>'.$dirname.'</strong>' . ' - ' . $status ; ?>
+				<li class="<?php if ($status !== 'writable' ) echo "error red";  ?>">
+					<?php echo $this->translate("Folder %1\$s is %2\$s ", $dirname,  $status); ?>
 				</li>
-				<?php endif; ?>
 			<?php endforeach; ?>
-			</ul>
-			<ul>
 			<?php foreach ($this->permissions['file'] as $filename => $status): ?>
-				<?php if ($status !== true ): ?>
-				<li style="padding: 3px 5px; border: none; background: none;" class="ui-state-error">
-					<span class="err ui-icon ui-icon-alert" style="display: inline-block;float: left;margin-right: 3px;"></span>
-                    <?php echo 'File <b>'.$filename.'</b>' . ' - ' . $status ; ?>
+				<li class="<?php if ($status !== 'writable' ) echo "error red";  ?>">
+                    <?php echo $this->translate("File %1\$s is %2\$s", $filename, $status); ?>
 				</li>
-				<?php endif; ?>
 			<?php endforeach; ?>
-			</ul>
-		</div>
-		<?php else: ?>
-		<div>
-			<p><span class="ui-icon ui-icon-check" style="display: inline-block"></span>
-			<?php echo $this->translate('All directories and files seem to have right permissions.');?></p>
-		</div>
+		</ul>
+		<?php if ($this->gotoNext === true): ?>
+		<div class="bravo green"><?php echo $this->translate('Bravo, All good to go!');?></div>
 		<?php endif; ?>
-		
-		<form id="gotonext" action="" method="post">
+		<form method="post" action="" id="gotonext">
 			<?php if ($this->gotoNext === true): ?>
 			<input type="submit" value="<?php echo $this->translate('Next');?>" name="submit" />
 			<?php else: ?>
 			<input type="submit" value="<?php echo $this->translate('Check again');?>" name="check" />
 			<?php endif; ?>
 		</form>
-
-		<div style="position: absolute; bottom: 5px; right: 5px; width: 500px; text-align: justify; font-size: 12px; border-top: 4px double #666; padding-top: 4px;">
-			<span style="color:red">*</span> Sometimes web hosting providers do not offer a suitable environment to the latest technology platforms like seotoaster.
-		If you run into difficulties, please visit
-		<a href="http://www.seotoaster.com/ecommerce-website-hosting-and-design.html" target="_blank" >http://www.seotoaster.com/</a>
-		for solutions.
-		</div>
 	</div>
 </div>
-<?php echo $this->partial('_langs.phtml', array('langs' => $this->langs));?>

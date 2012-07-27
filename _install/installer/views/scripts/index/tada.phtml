@@ -1,23 +1,19 @@
-<div class="grid_12">
-	<div class="header">
-		<h1>SEOTOASTER 2.0 - <?php echo $this->translate('Our congratulations!'); ?></h1>
-	</div>
-	<div class="content ui-helper-clearfix">
-		
-		<div class="ui-helper-clearfix">
-			<p class="header">New seotoaster has been installed for you!</p>
-			
-			<p>Now you need to remove or rename folder <strong>"install"</strong> in <code><?php echo INSTALL_PATH; ?></code> before going live.</p>
-			
-			<p>Then click on the following link and login with your e-mail and password.</p>
-		
-			<p>Your login url:
-			<a href="<?php echo $this->protocol . '://' .$this->websiteUrl.'go'; ?>"><?php echo $this->protocol . '://' .$this->websiteUrl.'go'; ?></a>
-			</p>
-		</div>
-        <?php if(!$this->serverConfigGenerated): ?>
+<?php $loginUrl = $this->protocol . '://' .$this->websiteUrl.'go'; ?>
+<header class="grid_12">
+	<img class="logo" src="https://www.seotoaster.com/downloads/logo.php" width="215" height="275" alt="Seotoaster install">
+	<h1 class="grid_7 bravo green" style="margin-top: 48px"><?php echo $this->translate('Seotoaster installed');?></h1>
+</header>
+
+<div id="finish-content" class="grid_10 prefix_1 mt30px mb20px">
+	<h3 class="title-step"><?php echo $this->translate('Get ready to toast:');?></h3>
+	<ol>
+		<li><?php echo $this->translate('You must remove the <b>&#147;install&#148;</b> folder in order to access your software.');?></li>
+		<li><?php echo $this->translate('Log into your toaster here');?>: <a href="<?php echo $loginUrl; ?>"><?php echo $loginUrl; ?></a></li>
+		<li><?php echo $this->translate('Enter all the right information to prepare your website for search engines indexing.'); ?></li>
+		<?php if(!$this->serverConfigGenerated): ?>
+			<li>
 		    <?php echo $this->partial('_server.phtml'); ?>
+			</li>
         <?php endif?>
-	</div>
-    <img border="0" height="1" width="1" src="https://www.seotoaster.com/beacon.png.php?url=<?php echo $this->websiteUrl; ?>" />
+	</ol>
 </div>
