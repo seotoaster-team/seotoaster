@@ -498,11 +498,13 @@ class IndexController extends Zend_Controller_Action {
 		}
 		$templateTable = new Zend_Db_Table('template');
 		foreach ($templates as $template) {
+			$name = explode(DIRECTORY_SEPARATOR, $template);
 			$templateTable->insert(array(
-				'name' => str_replace('.html', '', end(explode(DIRECTORY_SEPARATOR, $template))),
+				'name' => str_replace('.html', '', end($name)),
 				'content' => file_get_contents($template),
 				'type'  => 'typeregular'
 			));
+            unset($name);
 		}
 
 		return true;
