@@ -60,17 +60,18 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'optimizedHeaderTitle'       => 'header_title',
                 'optimizedNavName'           => 'nav_name',
                 'optimizedTargetedKeyPhrase' => 'targeted_key_phrase',
-                'optimizedMetaDescription'   => 'meta_keywords',
+                'optimizedMetaDescription'   => 'meta_description',
                 'optimizedMetaKeywords'      => 'meta_keywords'
             ))
             ->where($where);
         $data = $this->getAdapter()->fetchRow($select);
+
         if(!$data) {
             return null;
         }
         return new Zend_Db_Table_Row(array(
             'table' => $this,
-            'data'  => $data
+            'data'  => array_merge($data, array('extraOptions' => $this->_fetchPageOptions($id)))
         ));
     }
 
@@ -83,7 +84,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'optimizedHeaderTitle'       => 'header_title',
                 'optimizedNavName'           => 'nav_name',
                 'optimizedTargetedKeyPhrase' => 'targeted_key_phrase',
-                'optimizedMetaDescription'   => 'meta_keywords',
+                'optimizedMetaDescription'   => 'meta_description',
                 'optimizedMetaKeywords'      => 'meta_keywords'
             ))
             ->where($where)
@@ -93,10 +94,33 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             return null;
         }
         return new Zend_Db_Table_Rowset(array(
-            'table' => $this,
+            'table'    => $this,
             'rowClass' => $this->getRowClass(),
-            'data'  => $this->getAdapter()->fetchAll($select)
+            'data'     => $this->getAdapter()->fetchAll($select)
         ));
+    }
+
+    public function fetchPageOptions($id, $idsOnly = true) {
+        return $this->_fetchPageOptions($id, $idsOnly);
+    }
+
+    protected function _fetchPageOptions($id, $idsOnly = true) {
+        $entries = array();
+        $row     =  new Zend_Db_Table_Row(array(
+            'table' => $this,
+            'data'  => array('id' => $id)
+        ));
+        $optionsData = $row->findManyToManyRowset('Application_Model_DbTable_PageOption', 'Application_Model_DbTable_PageHasOption')->toArray();
+        if($idsOnly) {
+            if(empty($optionsData)) {
+               return $optionsData;
+            }
+            foreach($optionsData as $optionData) {
+                $entries[] = $optionData['id'];
+            }
+            return $entries;
+        }
+        return $optionsData;
     }
 }
 
