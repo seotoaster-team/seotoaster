@@ -105,7 +105,7 @@
 		<?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
 			<?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
                 <?php if(!$pluginAdditionalMenu['title']) {continue;} ?>
-				<li>
+				<li class="plugin-cpanel-menu plugin-<?php echo strtolower($pluginAdditionalMenu['title']);?>">
 					<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
 					<?php if(isset($pluginAdditionalMenu['items'])): ?>
 					<ul>
