@@ -9,9 +9,9 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
 			<ul>
-				<?php if($this->newsPage !== true): ?>
-					<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
-					<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '954', 'height' => '574')); ?></li>
+				<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '954', 'height' => '574')); ?></li>
+                <?php if($this->newsPage !== true): ?>
 					<?php if($this->websiteMainPage != $this->pageData['url']): ?>
 						<li><a href="javascript:;" data-cid="<?php echo $this->pageData['parentId']; ?>" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
 						<input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />

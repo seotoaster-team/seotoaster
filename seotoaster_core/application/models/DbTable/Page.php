@@ -17,8 +17,8 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
 	protected $_dependentTables = array(
 		'Application_Model_DbTable_PageFeaturedarea',
-		'Application_Model_DbTable_News',
-		'Application_Model_DbTable_Optimized'
+		'Application_Model_DbTable_Optimized',
+        'Application_Model_DbTable_PageHasOption'
 	);
 
     public function fetchAllMenu($menuType, $fetchSysPages = false) {
@@ -31,7 +31,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'navName' => 'nav_name',
                 'h1',
                 'url',
-                'protected',
+                //'protected',
                 'parentId' => 'parent_id'
             )
         )->joinLeft('optimized', 'page_id = id', array(
@@ -41,7 +41,15 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         ))
         ->where($where)
         ->order(array('order'));
-        return $this->getAdapter()->fetchAll($select);
+
+        $pages = $this->getAdapter()->fetchAll($select);
+
+        if(is_array($pages) && !empty($pages)) {
+            foreach($pages as $key => $pageData) {
+                $pages[$key]['extraOptions'] = $this->_fetchPageOptions($pageData['id']);
+            }
+        }
+        return $pages;
     }
 
     /**

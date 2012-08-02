@@ -62,11 +62,12 @@ class Tools_Page_Tools {
 		return $landingPage;
 	}
 
-	public static function getCheckoutPage() {
-		return Application_Model_Mappers_PageMapper::getInstance()->findCheckout();
-	}
-
-	public static function getProductCategoryPage() {
+    /**
+     * @todo Should me moved to the shopping plugin
+     * @static
+     * @return null
+     */
+    public static function getProductCategoryPage() {
 		// We need to know product category page url
 		// This url specified in the bundle plugin "Shopping"
 		// But this plugin may not be present in the system (not recommended)
@@ -82,5 +83,20 @@ class Tools_Page_Tools {
 		$pageDbTable   = new Application_Model_DbTable_Page();
 		return $pageDbTable->getAdapter()->query($pageDbTable->select()->where('template_id="' . $templateName . '"'))->rowCount();
 	}
+
+    public static function getPageOptions($activeOnly = false) {
+        $prepared = array();
+        $options  = Application_Model_Mappers_PageOptionMapper::getInstance()->fetchOptions($activeOnly);
+        if(!empty($options)) {
+            foreach($options as $option) {
+                if(isset($option['context']) && $option['context']) {
+                    $prepared[$option['context']][$option['id']] = $option['title'];
+                } else {
+                    $prepared['Common'][$option['id']] = $option['title'];
+                }
+            }
+        }
+        return $prepared;
+    }
 }
 

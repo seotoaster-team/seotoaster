@@ -43,6 +43,10 @@ class Backend_PageController extends Zend_Controller_Action {
 				$pageForm->getElement('pageId')->setValue($page->getId());
 				$pageForm->getElement('draft')->setValue($page->getDraft());
 
+                //will be like this for now until page will support multiple options set (from the interface)
+                $pageOptions = $page->getExtraOptions();
+                $pageForm->getElement('extraOptions')->setValue(isset($pageOptions[0]) ? $pageOptions[0] : 0);
+
 				$defaultPageUrl = $this->_helper->website->getDefaultpage();
 				if($pageForm->getElement('url')->getValue() == $this->_helper->page->clean($defaultPageUrl)) {
 					$pageForm->getElement('url')->setAttribs(array(
@@ -92,11 +96,7 @@ class Backend_PageController extends Zend_Controller_Action {
 					}
 				}
 
-
-				$page = $this->_setAdditionalOptions($page, $pageData['pageOption']);
-				unset($pageData['protected']);
-				unset($pageData['is404page']);
-				$page->setOptions($pageData);
+                $page->setOptions($pageData);
 
 				//prevent renaming of the index page
 				if ($page->getUrl() != $this->_helper->website->getDefaultpage() ) {
@@ -107,13 +107,10 @@ class Backend_PageController extends Zend_Controller_Action {
 				$page->setShowInMenu($pageData['inMenu']);
 
 
-				$saveUpdateResult = $mapper->save($page);
-				if($page->getId() == null) {
-					$page->setId($saveUpdateResult);
-				}
+				$page = $mapper->save($page);
 
 				if($checkFaPull) {
-					$this->_processFaPull($saveUpdateResult);
+					$this->_processFaPull($page->getId());
 				}
 
 				// saving new page preview image is recieved it in request
@@ -147,36 +144,6 @@ class Backend_PageController extends Zend_Controller_Action {
 			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords'));
 		}
 		$this->view->pageForm = $pageForm;
-	}
-
-	private function _setAdditionalOptions(Application_Model_Models_Page $page, $option) {
-		$page->setIs404page(0)
-			->setProtected(0)
-			->setMemLanding(0)
-			->setErrLoginLanding(0)
-			->setCheckout(0)
-			->setSignupLanding(0);
-		switch ($option) {
-			case Application_Model_Models_Page::OPT_404PAGE:
-				$page->setIs404page(1);
-			break;
-			case Application_Model_Models_Page::OPT_PROTECTED:
-				$page->setProtected(1);
-			break;
-			case Application_Model_Models_Page::OPT_ERRLAND:
-				$page->setErrLoginLanding(1);
-			break;
-			case Application_Model_Models_Page::OPT_MEMLAND:
-				$page->setMemLanding(1);
-			break;
-			case Application_Model_Models_Page::OPT_SIGNUPLAND:
-				$page->setSignupLanding(1);
-			break;
-			case Application_Model_Models_Page::OPT_CHECKOUT:
-				$page->setCheckout(1) ;
-			break;
-		}
-		return $page;
 	}
 
 	private function _processFaPull($pageId) {
@@ -240,7 +207,6 @@ class Backend_PageController extends Zend_Controller_Action {
 		$menuType    = $this->getRequest()->getParam('mtype');
 		$pageId      = $this->getRequest()->getParam('pId');
 		$menuOptions = array();
-		$menuHtml    = '';
 		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 		switch ($menuType) {
 			case Application_Model_Models_Page::IN_MAINMENU:

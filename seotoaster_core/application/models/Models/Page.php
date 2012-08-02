@@ -179,50 +179,49 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	}
 
 	public function getIs404page() {
-		return $this->_is404page;
+		return $this->_getExtraOption(self::OPT_404PAGE);
 	}
 
 	public function setIs404page($is404page) {
-		$this->_is404page = $is404page;
-		$this->_system    = $this->_is404page;
+        $is404page = (boolean) $is404page;
+		($is404page) ? $this->_setExtraOption(self::OPT_404PAGE) : $this->_unsetExtraOption(self::OPT_404PAGE);
+		$this->_system = $is404page;
 		return $this;
 	}
 
 	public function getProtected() {
-		return $this->_protected;
+        return $this->_getExtraOption(self::OPT_PROTECTED);
 	}
 
 	public function setProtected($protected) {
-		$this->_protected = $protected;
+		($protected) ? $this->_setExtraOption(self::OPT_PROTECTED) : $this->_unsetExtraOption(self::OPT_PROTECTED);
 		return $this;
 	}
 
 	public function getMemLanding() {
-		return $this->_memLanding;
+		return $this->_getExtraOption(self::OPT_MEMLAND);
 	}
 
 	public function setMemLanding($memLanding) {
-		$this->_memLanding = $memLanding;
+		($memLanding) ? $this->_setExtraOption(self::OPT_MEMLAND) : $this->_unsetExtraOption(self::OPT_MEMLAND);
 		return $this;
 	}
 
-
-
 	public function getErrLoginLanding() {
-		return $this->_errLoginLanding;
+		return $this->_getExtraOption(self::OPT_ERRLAND);
 	}
 
 	public function setErrLoginLanding($errLoginLanding) {
-		$this->_errLoginLanding = $errLoginLanding;
+		($errLoginLanding) ? $this->_setExtraOption(self::OPT_ERRLAND) : $this->_unsetExtraOption(self::OPT_ERRLAND);
 		return $this;
 	}
 
 	public function getSignupLanding() {
-		return $this->_signupLanding;
+		return $this->_getExtraOption(self::OPT_SIGNUPLAND);
 	}
 
 	public function setSignupLanding($signupLanding) {
-		$this->_signupLanding = $signupLanding;
+        ($signupLanding) ? $this->_setExtraOption(self::OPT_SIGNUPLAND) : $this->_unsetExtraOption(self::OPT_SIGNUPLAND);
 		return $this;
 	}
 
@@ -232,15 +231,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setOrder($order) {
 		$this->_order = $order;
-		return $this;
-	}
-
-	public function getTargetedKey() {
-		return $this->_targetedKey;
-	}
-
-	public function setTargetedKey($targetedKey) {
-		$this->_targetedKey = $targetedKey;
 		return $this;
 	}
 
@@ -263,7 +253,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	}
 
 	public function getResourceId() {
-		return ($this->_protected) ? Tools_Security_Acl::RESOURCE_PAGE_PROTECTED : Tools_Security_Acl::RESOURCE_PAGE_PUBLIC;
+		return (in_array(self::OPT_PROTECTED, $this->_extraOptions)) ? Tools_Security_Acl::RESOURCE_PAGE_PROTECTED : Tools_Security_Acl::RESOURCE_PAGE_PUBLIC;
 	}
 
 	public function getSystem() {
