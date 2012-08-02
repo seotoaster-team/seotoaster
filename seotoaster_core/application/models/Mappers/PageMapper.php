@@ -42,7 +42,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'show_in_menu'        => $page->getShowInMenu(),
 			'order'               => $page->getOrder(),
 			'silo_id'             => $page->getSiloId(),
-			'targeted_key_phrase' => $page->getTargetedKey(),
+			'targeted_key_phrase' => $page->getTargetedKeyPhrase(),
 			'system'              => intval($page->getSystem()),
 			'draft'               => intval($page->getDraft()),
 			'news'                => intval($page->getNews()),
