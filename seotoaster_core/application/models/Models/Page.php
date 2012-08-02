@@ -16,71 +16,59 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const PROTECTED_SIGN       = '*';
 
-	const OPT_PROTECTED        = 'protected';
+	const OPT_PROTECTED        = 'option_protected';
 
-	const OPT_404PAGE          = 'is_404page';
+	const OPT_404PAGE          = 'option_404page';
 
-	const OPT_ERRLAND          = 'errland';
+	const OPT_ERRLAND          = 'option_member_loginerror';
 
-	const OPT_MEMLAND          = 'mamland';
+	const OPT_MEMLAND          = 'option_member_landing';
 
-	const OPT_SIGNUPLAND       = 'signupland';
-
-	const OPT_CHECKOUT         = 'checkout';
+	const OPT_SIGNUPLAND       = 'option_member_signuplanding';
 
 	const CONTEXT_NEWS         = 'news';
 
-	protected $_templateId       = '';
+	protected $_templateId        = '';
 
-	protected $_parentId         = 0;
+	protected $_parentId          = 0;
 
-	protected $_showInMenu       = self::IN_NOMENU;
+	protected $_showInMenu        = self::IN_NOMENU;
 
-	protected $_navName          = '';
+	protected $_navName           = '';
 
-	protected $_metaDescription  = '';
+	protected $_metaDescription   = '';
 
-    protected $_metaKeywords     = '';
+    protected $_metaKeywords      = '';
 
-    protected $_headerTitle      = '';
+    protected $_headerTitle       = '';
 
-    protected $_url              = '';
+    protected $_url               = '';
 
-    protected $_h1               = '';
+    protected $_h1                = '';
 
-    protected $_teaserText       = '';
+    protected $_teaserText        = '';
 
-	protected $_lastUpdate       = '';
+	protected $_lastUpdate        = '';
 
-	protected $_is404page        = false;
+	protected $_order             = 0;
 
-	protected $_protected        = false;
+	protected $_targetedKeyPhrase = '';
 
-	protected $_memLanding        = false;
+	protected $_siloId            = 0;
 
-	protected $_errLoginLanding  = false;
+	protected $_content           = '';
 
-	protected $_signupLanding    = false;
+	protected $_system            = false;
 
-	protected $_checkout         = false;
+	protected $_draft             = false;
 
-	protected $_order            = 0;
+	protected $_news              = false;
 
-	protected $_targetedKey      = '';
+	protected $_publishAt         = '';
 
-	protected $_siloId           = 0;
+	protected $_optimized         = false;
 
-	protected $_content          = '';
-
-	protected $_system           = false;
-
-	protected $_draft            = false;
-
-	protected $_news             = false;
-
-	protected $_publishAt        = '';
-
-	protected $_optimized        = false;
+    protected $_extraOptions      = array();
 
 	public function getContent() {
 		return $this->_content;
@@ -90,7 +78,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		$this->_content = $content;
 		return $this;
 	}
-
 
 	public function getTemplateId() {
 		return $this->_templateId;
@@ -321,15 +308,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 		return $this;
 	}
 
-	public function setCheckout($checkout) {
-		$this->_checkout = $checkout;
-		return $this;
-	}
-
-	public function getCheckout() {
-		return $this->_checkout;
-	}
-
 	public function setOptimized($optimized) {
 		$this->_optimized = $optimized;
 		return $this;
@@ -338,5 +316,61 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	public function getOptimized() {
 		return $this->_optimized;
 	}
+
+    /**
+     * Set an extra options for the page
+     *
+     * Pass array as extra options and false for the $force param and new options will be merged with the current ones
+     * Pass array as extra options and true for the $force param and current extra options will be replaced with the new ones
+     * Pass false as extra options and extra options for the current page will be removed
+     *
+     * @param array|string|boolean $extraOptions
+     * @param bool $force Replace or not current extra options
+     * @return Application_Model_Models_Page
+     */
+    public function setExtraOptions($extraOptions, $force = false) {
+        if(is_array($extraOptions)) {
+            $this->_extraOptions = (!$force) ? array_merge($extraOptions, $this->_extraOptions) : $extraOptions;
+        } else if ((boolean)$extraOptions === false) {
+            $this->_extraOptions = array();
+        } else {
+            if(!in_array($extraOptions, $this->_extraOptions)) {
+                array_push($this->_extraOptions, $extraOptions);
+            }
+        }
+        return $this;
+    }
+
+    public function getExtraOptions() {
+        return $this->_extraOptions;
+    }
+
+    public function getExtraOption($option) {
+        return $this->_getExtraOption($option);
+    }
+
+    protected function _getExtraOption($option) {
+        return in_array($option, $this->_extraOptions);
+    }
+
+    protected function _setExtraOption($option) {
+        if(!in_array($option, $this->_extraOptions)) {
+            array_push($this->_extraOptions, $option);
+        }
+    }
+
+    protected function _unsetExtraOption($option) {
+        unset($this->_extraOptions[array_search($option, $this->_extraOptions)]);
+    }
+
+    public function setTargetedKeyPhrase($targetedKeyPhrase) {
+        $this->_targetedKeyPhrase = $targetedKeyPhrase;
+        return $this;
+    }
+
+    public function getTargetedKeyPhrase() {
+        return $this->_targetedKeyPhrase;
+    }
+
 }
 
