@@ -21,6 +21,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$autoloader->registerNamespace('Exceptions_');
 		$autoloader->registerNamespace('Tools_');
 		$autoloader->registerNamespace('Plugins_');
+		$autoloader->registerNamespace('Api_');
 		$autoloader->setFallbackAutoloader(true);
 	}
 

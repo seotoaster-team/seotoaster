@@ -68,5 +68,14 @@
             <action>passwordretrieve</action>
         </defaults>
     </retrievepassword>
+    <apiroute>
+      <route>/api/:plugin/:service/*</route>
+      <type>Zend_Controller_Router_Route</type>
+      <defaults>
+        <plugin>toaster</plugin>
+        <controller>backend_api</controller>
+        <action>index</action>
+      </defaults>
+    </apiroute>
   </routes>
 </zend-config>
