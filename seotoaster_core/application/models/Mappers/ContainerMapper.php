@@ -81,5 +81,54 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		}
 		return $row;
 	}
- }
+    
+    public function findByConteinerName($name){
+        $where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
+        return $this->fetchAll($where);
+    }
+    
+    public function findByConteinerNameWithContent($containerContentArray){
+        $pageId = array();
+        $pageIdArray = array();
+        $summaryArray = array();
+        $start = 0;
+        foreach($containerContentArray as $container=>$content){
+            if($content != 'select'){
+                $where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $container);
+                $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto("content LIKE ?", '%'.$content.'%');
+                $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
+                $result = $this->fetchAll($where);
+                if(!empty($result)){
+                   $summaryArray = array();
+                   foreach($result as $page){
+                       if($start == 0){
+                           $pageId[$page->getPageId()] = $page->getPageId();
+                       }
+                       if(in_array($page->getPageId() ,$pageId) && $start != 0){
+                           $pageIdArray[$page->getPageId()] = $page->getPageId();
+                           $summaryArray[$page->getPageId()] = $page->getPageId();
+                       }
+                    }
+                    if($start != 0 && empty($summaryArray)){
+                        return array();
+                    }
+                    if($start != 0 && !empty($summaryArray)){
+                        $pageId = $summaryArray;
+                    }
+                    $start++;
 
+                }else{
+                    return array();
+                }
+
+            }
+            
+        }
+        if($start == 1){
+           return $pageId;
+        }
+        return $pageIdArray;
+    }
+        
+}
