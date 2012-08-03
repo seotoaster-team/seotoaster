@@ -102,7 +102,7 @@ class Backend_PageController extends Zend_Controller_Action {
 				if ($page->getUrl() != $this->_helper->website->getDefaultpage() ) {
 					$page->setUrl($pageData['url']);
 				}
-				$page->setTargetedKey($page->getH1());
+				$page->setTargetedKeyPhrase($page->getH1());
 				$page->setParentId($pageData['pageCategory']);
 				$page->setShowInMenu($pageData['inMenu']);
 
