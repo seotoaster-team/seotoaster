@@ -127,43 +127,18 @@ class Application_Form_Page extends Zend_Form {
 			'multiOptions' => array(
 				'Seotoaster' => array(
 					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category'
-					//Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
 				)
 			),
 			'registerInArrayValidator' => false
 		)));
 
 		$this->addElement(new Zend_Form_Element_Select(array(
-			'name'         => 'pageOption',
+			'name'         => 'extraOptions',
 			'id'           => 'page-options',
 			'label'        => 'This page is',
-			'multiOptions' => array(
-				'0'                                           => 'Select an option',
-				Application_Model_Models_Page::OPT_404PAGE    => 'our error 404 "Not found" page',
-				Application_Model_Models_Page::OPT_PROTECTED  => 'accessible only to logged-in members',
-				Application_Model_Models_Page::OPT_ERRLAND    => 'our membership login error page',
-				Application_Model_Models_Page::OPT_MEMLAND    => 'where members land after logging-in',
-				Application_Model_Models_Page::OPT_SIGNUPLAND => 'where members land after signed-up',
-				Application_Model_Models_Page::OPT_CHECKOUT   => 'the cart checkout page'
-			),
+			'multiOptions' => array_merge(array('0' => 'Select an option'), Tools_Page_Tools::getPageOptions(true)),
 			'registerInArrayValidator' => false,
 			'value' => $this->_pageOption
-		)));
-
-		$this->addElement(new Zend_Form_Element_Checkbox(array(
-			'name'    => 'is404page',
-			'id'      => '404-page',
-			'label'   => 'Not found 404 page',
-			'value'   => $this->_is404page,
-			'checked' => ($this->_is404page) ? 'checked' : ''
-		)));
-
-		$this->addElement(new Zend_Form_Element_Checkbox(array(
-			'name'    => 'protected',
-			'id'      => 'protected-page',
-			'label'   => 'Member only area',
-			'value'   => $this->_protected,
-			'checked' => ($this->_protected) ? 'checked' : ''
 		)));
 
 		$this->addElement(new Zend_Form_Element_Hidden(array(
@@ -288,64 +263,6 @@ class Application_Form_Page extends Zend_Form {
 		return $this->_inMenu;
 	}
 
-	public function getIs404page() {
-		return $this->_is404page;
-	}
-
-	public function setIs404page($is404page) {
-		$this->_is404page  = $is404page; // deprecated
-		if($is404page) {
-			$this->_pageOption = Application_Model_Models_Page::OPT_404PAGE;
-			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_404PAGE);
-		}
-		return $this;
-	}
-
-	public function getProtected() {
-		return $this->_protected;
-	}
-
-	public function setProtected($protected) {
-		$this->_protected = $protected; // deprecated
-		if($protected) {
-			$this->_pageOption = Application_Model_Models_Page::OPT_PROTECTED;
-			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_PROTECTED);
-		}
-		return $this;
-	}
-
-	public function setMemLanding($memLanding) {
-		if($memLanding) {
-			$this->_pageOption = Application_Model_Models_Page::OPT_MEMLAND;
-			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_MEMLAND);
-		}
-		return $this;
-	}
-
-	public function setCheckout($checkout) {
-		if($checkout) {
-			$this->_pageOption = Application_Model_Models_Page::OPT_CHECKOUT;
-			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_CHECKOUT);
-		}
-		return $this;
-	}
-
-	public function setErrLoginLanding($errLanding) {
-		if($errLanding) {
-			$this->_pageOption = Application_Model_Models_Page::OPT_ERRLAND;
-			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_ERRLAND);
-		}
-		return $this;
-	}
-
-	public function setSignupLanding($signupLanding) {
-		if($signupLanding) {
-			$this->_pageOption = Application_Model_Models_Page::OPT_SIGNUPLAND;
-			$this->getElement('pageOption')->setValue(Application_Model_Models_Page::OPT_SIGNUPLAND);
-		}
-		return $this;
-	}
-
 	public function getParentId() {
 		return $this->_parentId;
 	}
@@ -401,7 +318,7 @@ class Application_Form_Page extends Zend_Form {
 	}
 
 	public function lockField($fieldName) {
-		$field = $this->getElement($fieldName)
+		$this->getElement($fieldName)
 			->setAttribs(array(
 				'disabled' => true,
 				'readonly' => true,

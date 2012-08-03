@@ -25,10 +25,15 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Not enough parameters'));
 		}
+        $optionsArray = $this->_options;
 		$rendererName = '_renderSearch' . ucfirst(array_shift($this->_options));
 		if(method_exists($this, $rendererName)) {
 			return $this->$rendererName($this->_options);
 		}
+        if($rendererName == '_renderSearchButton'){
+            return $this->_renderSearchButton($optionsArray);
+        }
+        return $this->_renderComplexSearch($optionsArray);
 	}
 
 	private function _renderSearchForm() {
@@ -81,5 +86,26 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		}
 		return false;
 	}
+    
+    private function _renderComplexSearch($optionsArray){
+        if(isset($optionsArray[0])){
+            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($optionsArray[0]);
+            if($prepopWithNameList){
+                $this->_view->prepopWithName = $prepopWithNameList;
+                foreach($prepopWithNameList as $prepopData){
+                    $contentArray[] = $prepopData->getContent();
+                }
+                $this->_view->prepopWithNameList = array_unique($contentArray);
+                return $this->_view->render('searchForm.phtml');
+            }            
+        }
+    }
+    
+    private function _renderSearchButton($optionsArray) {
+        if(isset($optionsArray[0])){
+            $this->_view->pageResultsPage = $optionsArray[0];
+            return $this->_view->render('searchButton.phtml');
+        }
+        
+    }
 }
-
