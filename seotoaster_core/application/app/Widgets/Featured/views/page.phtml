@@ -7,5 +7,7 @@
     <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>" class="page-title">
 		<?php echo $this->page->getNavName(); ?>
 	</a>
+	<?php if ($this->descLength): ?>
 	<p><?php echo Tools_Text_Tools::cutText($this->page->getTeaserText(), $this->descLength); ?></p>
+	<?php endif; ?>
 </div>

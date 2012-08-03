@@ -62,7 +62,7 @@
 						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
 					</div>
 					<div class="grid_12 mt5px">
-						<?php echo $this->pageForm->getElement('pageOption'); ?>
+						<?php echo $this->pageForm->getElement('extraOptions'); ?>
 					</div>
 			</fieldset>
 			<fieldset>

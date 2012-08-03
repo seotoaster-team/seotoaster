@@ -38,11 +38,37 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return $this->_toasterOptions['url'];
 	}
 
+    private function _generateCategoryOption() {
+        if(isset($this->_options[1])) {
+            $content = '';
+            switch($this->_options[1]) {
+                case 'name':
+                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                    $page       = $pageMapper->find($this->_toasterOptions['id']);
+                    if(!$page instanceof Application_Model_Models_Page) {
+                        throw new Exceptions_SeotoasterWidgetException('Cant load page!');
+                    }
+                    if($page->getParentId() < 0) {
+                        $content = '';
+                    } else if($page->getParentId() > 0) {
+                        $page = $pageMapper->find($page->getParentId());
+                    }
+                    $content = $page->getNavName();
+                break;
+                default:
+                break;
+            }
+            return $content;
+        }
+        return '';
+
+    }
+
 	private function _generatePreviewOption() {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
  		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
-		$pagePreviews  = array_values(preg_grep('/^' . $pageHelper->clean($this->_toasterOptions['url']) . '\.(png|jpg|gif|jpeg)$/', $files));
+		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg)$~', $files));
 
 		if(!empty ($pagePreviews)) {
 			//return '<a href="' . $websiteHelper->getUrl() . $this->_toasterOptions['url'] . '" title="' . $this->_toasterOptions['h1'] . '"><img src="' . $websiteHelper->getUrl() . $websiteHelper->getPreview() . $pagePreviews[0] . '" alt="'  . $pageHelper->clean($this->_toasterOptions['url']) . '" /></a>';

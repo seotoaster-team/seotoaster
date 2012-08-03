@@ -9,6 +9,7 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 
 	const PREDISPATCH_METHOD  = 'beforeController';
 	const POSTDISPATCH_METHOD = 'afterController';
+    const BOFOREROUTER_METHOD = 'beforeRouter';
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request) {
 		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
@@ -20,6 +21,9 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 			$sessionHelper->pluginRoutesFetched = true;
 		}
 		Tools_Plugins_Tools::registerPluginsIncludePath();
+
+        //trigger plugins before router starts
+        $this->_triggerToasterPlugins(self::BOFOREROUTER_METHOD);
     }
 
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
@@ -28,6 +32,16 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 
 	public function postDispatch(Zend_Controller_Request_Abstract $request) {
 		$this->_triggerToasterPlugins(self::POSTDISPATCH_METHOD);
+		//replace http with https for internal links if requested via https
+		if ($request->isSecure()){
+			$websiteConfig = Zend_Registry::get('website');
+			$body = strtr($this->_response->getBody(),
+				array(
+					Zend_Controller_Request_Http::SCHEME_HTTP.'://'.$websiteConfig['url'] => Zend_Controller_Request_Http::SCHEME_HTTPS.'://'.$websiteConfig['url']
+				)
+			) ;
+			$this->_response->setBody($body);
+		}
 	}
 
 	private function _triggerToasterPlugins($method) {

@@ -68,5 +68,33 @@ class SearchController extends Zend_Controller_Action {
 			}
 		}
 	}
+    
+    public function complexsearchAction() {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $containersNames = $this->_request->getParam('containerNames');
+        $searchValues = $this->_request->getParam('searchValues');
+        $resultsPageId  = filter_var($this->getRequest()->getParam('resultsPageId'), FILTER_VALIDATE_INT);
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+        $pageToRedirect = $pageMapper->find($resultsPageId);
+        $containerContentArray = array_combine($containersNames, $searchValues);
+        $containerData = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNameWithContent($containerContentArray, array('6'));
+        $findUrlList = array();
+        if(!empty($containerData)){
+            $pageList = $pageMapper->find($containerData);
+            foreach($pageList as $page){
+                  $resultsHits[] = array(
+						'pageId'     => $page->getId(),
+						'url'        => $page->getUrl(),
+						'h1'         => $page->getH1(),
+						'pageTeaser' => $page->getTeaserText(),
+						'navName'    => $page->getNavName()
+					);
+            }
+            $this->_helper->session->searchHits = $resultsHits;
+        }else {
+            $this->_helper->session->searchHits = $this->_helper->language->translate('Nothing found');
+        }
+        echo json_encode(array('redirect'=>$this->_helper->website->getUrl() . $pageToRedirect->getUrl()));
+    }
 }
-

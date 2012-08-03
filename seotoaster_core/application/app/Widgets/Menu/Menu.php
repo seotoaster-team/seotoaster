@@ -34,12 +34,12 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
         $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
         foreach($pages as $key => $page) {
             if($page['parentId'] == 0) {
-                if($page['protected'] && !$isAllowed && !$showMemberPages) {
+                if($this->_isPageProtected($page) && !$isAllowed && !$showMemberPages) {
                     continue;
                 }
                 $pagesList[$key]['category'] = $page;
                 foreach($pages as $subPage) {
-                    if($subPage['protected'] && !$isAllowed && !$showMemberPages) {
+                    if($this->_isPageProtected($subPage) && !$isAllowed && !$showMemberPages) {
                         continue;
                     }
                     if($subPage['parentId'] == $page['id']) {
@@ -74,6 +74,10 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 			)
 		);
 	}
+
+    private function _isPageProtected($page) {
+        return (is_array($page['extraOptions']) && in_array(Application_Model_Models_Page::OPT_PROTECTED, $page['extraOptions'])) ? true : false;
+    }
 
 }
 

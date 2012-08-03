@@ -40,7 +40,7 @@
 	'OTHER'                => 'ДРУГОЕ',
 	'Manage config'        => 'Настройки',
 	'Manage users'         => 'Пользователи',
-	'Plugins'              => 'Планины',
+	'Plugins'              => 'Плагины',
 	'LOGOUT'               => 'ВЫЙТИ',
 
 	/* Управление пользователями */
@@ -77,13 +77,14 @@
 
 	/* Инсталлятор */
 	/* шаг 1 */
-	'Thanks for choosing SEOTOASTER!' => 'Добро пожаловать в мастер установки SEOTOASTER!',
-	"Let's proceed and setup your new SEOTOASTER powered website." => 'Этот мастер поможет настроить Ваш новый веб-сайт.',
-	"We've just checked your PHP configuration." => "Мы проверили конфигурацию PHP на Вашем сервере",
-	'We found some missing requirements' => 'Мы нашли некоторые неудовлетворенные зависимости',
-	'All required PHP extensions seem to be installed.' => 'Похоже, что все необходимые PHP-модули установлены.',
+	'Checking Server Requirements' => 'Проверяем требования к серверу',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Чтобы использовать тостер Ваш сервер долже отвечать минимальным требованиям.',
+	'Checking file system permissions' => 'Проверяем права доступа к файловой системе',
+	'Some folders need to be writable to allow the toaster to function properly.' => 'Для корректной работы тостера некоторые каталоги и файлы должны быть доступны для записи',
+	"Folder %1\$s is %2\$s " => "Folder %1\$s is %2\$s ",
 	'All directories and files seem to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
-	'Go forward!'		   => 'Вперёд',
+	'Next'		   => 'Вперёд',
+	'Check again'  => 'Проверить еще раз',
 
 	/* шаг 2 */
 	'Core location settings' => 'Расположение ядра',
@@ -95,7 +96,15 @@
 	'User' => 'Пользователь',
 	'Passowrd' => 'Пароль',
 	'Database name' => 'Имя базы данных',
-	'Go ahead!' => 'Вперёд',
-	"Welcome to %1\$s - STEP %2\$s" => "Добро пожаловать в %1\$s - шаг %2\$s"
+	'Go forward!' => 'Вперёд',
+	'Database installed successfully' => 'База данных успешно создана',
+	"Can't install database. Server sent following error:" => 'Невозможно создать базу данных. Получена ошибка от сервера:',
+	'Advanced settings' => 'Расширенные настройки',
+
+	/* шаг 3 */
+	"You're one step away from wondering why you did not give SEOTOASTER a try earlier?" => 'Вы в одном шаге от удивления, почему Вы не попробовали SEOTOASTER ранее?',
+	'Something went wrong during saving configuration files.' => 'Произошла ошибка при сохранение конфигурационных файлов.',
+	'Please specify an email and password to create an account.' => 'Укажите свой email и придумайте пароль.',
+	"You'll use these credentials to log into your seotoaster control panel found at" => 'Вы будете использовать эти данные для входа в панель управления через',
 );
 ?>

@@ -9,14 +9,16 @@
     <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
         <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="650" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order'); ?></a>
     <?php endif; ?>
-    <ul id="<?php echo $this->faName; ?>" class="featureditem">
+    <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem">
         <?php foreach($this->faPages as $page): ?>
             <li>
                 <?php if($this->useImage): ?>
                 <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>"><img alt="<?php echo $page->getH1();?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($page->getId(), true, (($this->useImage == 'img') ? false : true))); ?>" /></a>
                 <?php endif; ?>
                 <a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
+	            <?php if($this->faPageDescriptionLength): ?>
                 <span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
+                <?php endif;?>
             </li>
         <?php endforeach; ?>
     </ul>

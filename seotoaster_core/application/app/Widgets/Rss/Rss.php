@@ -33,7 +33,7 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 			$this->_options[0] = ltrim($this->_options[0], '/');
 		}
 
-		$feedUrl   = $scheme . '://' . html_entity_decode($this->_options[0]);
+		$feedUrl   = $scheme . '://' . str_replace(' ', '+', html_entity_decode($this->_options[0]));
 		$maxResult = isset($this->_options[1]) ? $this->_options[1] : self::RSS_RESULT_COUNT;
 
 		Zend_Uri::setConfig(array('allow_unwise' => true));

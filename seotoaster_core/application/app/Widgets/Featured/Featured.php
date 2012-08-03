@@ -46,7 +46,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 
 		$areaName             = $params[0];
 		$pagesCount           = (isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT;
-		$maxDescriptionLength = (isset($params[2]) && intval($params[2])) ? intval($params[2]) : self::AREA_DESC_LENGTH;
+		$maxDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2]) : self::AREA_DESC_LENGTH;
 		$random               = (intval(end($params)) === 1) ? true : false;
 
 		$featuredArea         = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($areaName);
@@ -81,7 +81,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Page with such id is not found'));
 		}
 		$this->_view->useImage         = (isset($params[2]) && ($params[2] == 'img' || $params[2] == 'imgc')) ? $params[2] : false;
-		$this->_view->descLength       = (isset($params[1]) && intval($params[1])) ? intval($params[1]) : self::AREA_DESC_LENGTH;
+		$this->_view->descLength       = (isset($params[1]) && is_numeric($params[1])) ? intval($params[1]) : self::AREA_DESC_LENGTH;
 		$this->_view->page             = $page;
 		array_push($this->_cacheTags, 'pageid_'.$page->getId());
 		return $this->_view->render('page.phtml');

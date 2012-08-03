@@ -20,7 +20,12 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		'targeted_key_phrase'
 	);
 
-	public function save($page) {
+    /**
+     * @param Application_Model_Models_Page $page
+     * @return mixed
+     * @throws Exceptions_SeotoasterException
+     */
+    public function save($page) {
 		if(!$page instanceof Application_Model_Models_Page) {
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Page instance');
 		}
@@ -35,27 +40,41 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			'meta_keywords'       => $page->getMetaKeywords(),
 			'teaser_text'         => $page->getTeaserText(),
 			'show_in_menu'        => $page->getShowInMenu(),
-			'is_404page'          => $page->getIs404page(),
-			'protected'           => $page->getProtected(),
-			'mem_landing'         => $page->getMemLanding(),
-			'signup_landing'      => $page->getSignupLanding(),
-			'checkout'            => $page->getCheckout(),
-			'err_login_landing'   => $page->getErrLoginLanding(),
 			'order'               => $page->getOrder(),
 			'silo_id'             => $page->getSiloId(),
-			'targeted_key_phrase' => $page->getTargetedKey(),
+			'targeted_key_phrase' => $page->getTargetedKeyPhrase(),
 			'system'              => intval($page->getSystem()),
 			'draft'               => intval($page->getDraft()),
 			'news'                => intval($page->getNews()),
 			'publish_at'          => (!$page->getPublishAt()) ? null : date('Y-m-d', strtotime($page->getPublishAt()))
 		);
-		if(null === ($id = $page->getId())) {
-			unset($data['id']);
-			return $this->getDbTable()->insert($data);
-		}
-		else {
-			return $this->getDbTable()->update($data, array('id = ?' => $id));
-		}
+
+
+        if($page->getId()) {
+            $this->getDbTable()->update($data, array('id = ?' => $page->getId()));
+        } else {
+            $pageId = $this->getDbTable()->insert($data);
+            $page->setId($pageId);
+        }
+
+        //save page options
+        $options = $page->getExtraOptions();
+        $pageHasOptionTable = new Application_Model_DbTable_PageHasOption();
+        if(!empty($options)) {
+            $pageHasOptionTable->getAdapter()->beginTransaction();
+            $pageHasOptionTable->delete($pageHasOptionTable->getAdapter()->quoteInto('page_id = ?', $page->getId()));
+            foreach ($options as $option) {
+                $pageHasOptionTable->insert(array(
+                    'page_id'    => $page->getId(),
+                    'option_id'  => $option
+                ));
+            }
+            $pageHasOptionTable->getAdapter()->commit();
+        } else {
+            $pageHasOptionTable->delete($pageHasOptionTable->getAdapter()->quoteInto('page_id = ?', $page->getId()));
+        }
+
+        return $page;
 	}
 
     public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false) {
@@ -74,20 +93,44 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             return null;
         }
         foreach($resultSet as $row) {
+            $row       = array_merge(array('extraOptions' => $this->getDbTable()->fetchPageOptions($row->id)), $row->toArray());
             $entries[] = $this->_toModel($row, $originalsOnly);
         }
 		return $entries;
 	}
 
+    /**
+     * Fetch pages by given option
+     *
+     * @param string $option
+     * @param bool $firstOccurrenceOnly If true returns only first element of the result array
+     * @return array|null
+     */
+    public function fetchByOption($option, $firstOccurrenceOnly = false) {
+        $entries      = array();
+        $optionTable  = new Application_Model_DbTable_PageOption();
+        $optionRowset = $optionTable->find($option);
+        if(!$optionRowset) {
+            return null;
+        }
+        $optionRow = $optionRowset->current();
+        if(!$optionRow) {
+            return null;
+        }
+        $pagesRowset = $optionRow->findManyToManyRowset('Application_Model_DbTable_Page', 'Application_Model_DbTable_PageHasOption');
+        foreach($pagesRowset as $pageRow) {
+            $templateRow       = $pageRow->findParentRow('Application_Model_DbTable_Template');
+            $pageRow           = $pageRow->toArray();
+            $pageRow['content']= ($templateRow !== null) ? $templateRow->content : '';
+            $entries[]         = $this->_toModel($pageRow);
+        }
+        return ($firstOccurrenceOnly && isset($entries[0])) ? $entries[0] : $entries;
+    }
 
 	public function fetchAllUrls() {
-		$urls  = array();
-		$urls = array_map(array($this, '_callbackfetchAllUrls'), $this->fetchAll());
-		return $urls;
-	}
-
-	private function _callbackfetchAllUrls($page) {
-		return $page->getUrl();
+		return array_map(function($page) {
+            return $page->getUrl();
+        }, $this->fetchAll());
 	}
 
 	public function fetchAllStaticMenuPages() {
@@ -116,19 +159,15 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function findErrorLoginLanding() {
-		return $this->_findWhere("err_login_landing = '1'");
+        return $this->fetchByOption(Application_Model_Models_Page::OPT_ERRLAND, true);
 	}
 
 	public function findMemberLanding() {
-		return $this->_findWhere("mem_landing = '1'");
+        return $this->fetchByOption(Application_Model_Models_Page::OPT_MEMLAND, true);
 	}
 
 	public function findSignupLandign() {
-		return $this->_findWhere("signup_landing = '1'");
-	}
-
-	public function findCheckout() {
-		return $this->_findWhere("checkout = '1'");
+        return $this->fetchByOption(Application_Model_Models_Page::OPT_SIGNUPLAND, true);
 	}
 
 	public function findByNavName($navName) {
@@ -155,8 +194,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function find404Page() {
-		$where  = $this->getDbTable()->getAdapter()->quoteInto('is_404page = ?', '1');
-		return $this->_findWhere($where, true);
+        return $this->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, true);
 	}
 
 	public function delete(Application_Model_Models_Page $page) {
@@ -196,10 +234,14 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			}
 			$row = $optimizedRowset->current()->findParentRow('Application_Model_DbTable_Page');
 		}
-		$row         = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset : null));
-		$rowTemplate = $row->findParentRow('Application_Model_DbTable_Template');
-		$row         = $row->toArray();
-		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
+		$row                 = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset : null));
+		$rowTemplate         = $row->findParentRow('Application_Model_DbTable_Template');
+		$row                 = $row->toArray();
+		$row['content']      = ($rowTemplate !== null) ? $rowTemplate->content : '';
+
+        //set an extra options for the page
+        $row['extraOptions'] = $this->getDbTable()->fetchPageOptions($row['id']);
+
 		unset($rowTemplate);
 		return $this->_toModel($row);
 	}
@@ -221,12 +263,25 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function find($id, $originalsOnly = false) {
-    	$row = $this->getDbTable()->findPage($id);
-		if(null == $row) {
-			return null;
-		}
-		return $this->_toModel($row, $originalsOnly);
+        if(!is_array($id)) {
+            return $this->_findPage($id, $originalsOnly);
+        }
+        $pages = array();
+        foreach($id as $pageId) {
+            if(null !== ($page = $this->_findPage($pageId, $originalsOnly))) {
+                $pages[] = $page;
+            }
+        }
+        return $pages;
 	}
+
+    protected function _findPage($id, $originalsOnly) {
+        $row = $this->getDbTable()->findPage(intval($id));
+        if(null == $row) {
+            return null;
+        }
+        return $this->_toModel($row, $originalsOnly);
+    }
 
 	protected function _toModel($row, $originalsOnly = false) {
 		if($row instanceof Zend_Db_Table_Row) {

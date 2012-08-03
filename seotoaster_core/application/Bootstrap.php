@@ -21,6 +21,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$autoloader->registerNamespace('Exceptions_');
 		$autoloader->registerNamespace('Tools_');
 		$autoloader->registerNamespace('Plugins_');
+		$autoloader->registerNamespace('Api_');
 		$autoloader->setFallbackAutoloader(true);
 	}
 
@@ -95,9 +96,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	protected function _initPlugins() {
-		$front = Zend_Controller_Front::getInstance();
-		$front->registerPlugin(new Plugins_News());
-		$front->registerPlugin(new Plugins_Plugin());
+        Zend_Controller_Front::getInstance()
+            ->registerPlugin(new Plugins_Plugin());
 	}
 
 	protected function _initAcl() {

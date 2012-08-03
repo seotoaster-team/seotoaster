@@ -29,6 +29,7 @@ class Widgets_List_List extends Widgets_Abstract {
 		$this->_view->categoriesList = Application_Model_Mappers_PageMapper::getInstance()->findByParentId(0);
 		$this->_view->useImage       = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
 		$this->_view->crop           = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
+		$this->_addCacheTags($this->_view->categoriesList);
 		return $this->_view->render('categories.phtml');
 	}
 
@@ -41,6 +42,7 @@ class Widgets_List_List extends Widgets_Abstract {
 		$this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
 		$this->_view->useImage  = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
 		$this->_view->crop      = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
+		$this->_addCacheTags($this->_view->pagesList);
 		return $this->_view->render('pages.phtml');
 	}
 
@@ -49,15 +51,25 @@ class Widgets_List_List extends Widgets_Abstract {
 		$this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
 		$this->_view->useImage  = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
 		$this->_view->crop      = (isset($this->_options[3]) && $this->_options[3]) ? true : false;
+		$this->_addCacheTags($this->_view->pagesList);
 		return $this->_view->render('pages.phtml');
 	}
 
 	private function _findPagesListByCategoryName($categoryName) {
-		$category   = Application_Model_Mappers_PageMapper::getInstance()->findByNavName($categoryName);
-		if(!$category instanceof Application_Model_Models_Page) {
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+		$page       = $pageMapper->findByNavName($categoryName);
+		if(!$page instanceof Application_Model_Models_Page) {
 			throw new Exceptions_SeotoasterWidgetException('There is no category with such name: ' . $categoryName);
 		}
-		return Application_Model_Mappers_PageMapper::getInstance()->findByParentId($category->getId());
+		return Application_Model_Mappers_PageMapper::getInstance()->findByParentId(($page->getParentId() > 0) ? $page->getParentId() : $page->getId());
+	}
+
+	private function _addCacheTags($pagesList){
+		if (is_array($pagesList) && !empty($pagesList)){
+			foreach ($pagesList as $page) {
+				array_push($this->_cacheTags, 'pageid_'.$page->getId());
+			}
+		}
 	}
 
 	public static function getAllowedOptions() {

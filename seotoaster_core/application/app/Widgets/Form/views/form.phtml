@@ -21,19 +21,17 @@
 	}
 </style>
 <?php if($this->form): ?>
-	<form class="_fajax" data-callback="formCallback" name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getName(); ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
+	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
-
 		<?php if($this->useCaptcha): ?>
 			<div class="captcha">
                 <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
                 <label><?php echo $this->translate('Please enter this code in the box below'); ?></label>
                 <input type="text" name="captcha" value="" />
-                <input type="hidden" name="captchaId" value="<?php echo $this->captchaId; ?>" />
+                <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
             </div>
 		<?php endif; ?>
-
 		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>
@@ -45,7 +43,46 @@
 	<?php endif; ?>
 <?php endif; ?>
 <script type="text/javascript">
-	function formCallback() {
-		window.location.reload();
-	}
+    $(function() {
+        var form = $('#<?php echo $this->formId; ?>');
+        $(document).on('submit', '#<?php echo $this->formId; ?>', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url      : form.attr('action'),
+                type     : 'post',
+                data     : form.serialize(),
+                beforeSend: showSpinner,
+                dataType :'json',
+                success  : function(response) {
+                    //console.log(response);
+                    hideSpinner();
+                    if(response.error) {
+                        $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
+                            $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
+                            $('.captcha-id').val(response);
+                        }, 'json');
+                    } else {
+                        $(form).find(':input').each(function() {
+                            switch(this.type) {
+                                case 'password':
+                                case 'select-multiple':
+                                case 'select-one':
+                                case 'text':
+                                case 'textarea':
+                                    $(this).val('');
+                                break;
+                                case 'checkbox':
+                                case 'radio':
+                                    this.checked = false;
+                                break;
+                            }
+                        });
+
+                    }
+                    showMessage(response.responseText, response.error);
+                }
+            })
+        });
+
+    });
 </script>

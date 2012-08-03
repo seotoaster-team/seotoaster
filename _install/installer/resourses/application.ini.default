@@ -22,26 +22,26 @@ phpSettings.display_errors                         = 1
 resources.frontController.params.displayExceptions = 1
 
 [database]
-database.adapter         = "pdo_mysql"
-database.params.host     = "localhost"
-database.params.username = ""
-database.params.password = ""
-database.params.dbname   = ""
+database.adapter         = "{adapter}"
+database.params.host     = "{host}"
+database.params.username = "{username}"
+database.params.password = "{password}"
+database.params.dbname   = "{dbname}"
 
 [website]
-website.url            = ""
-website.path           = ""
-website.defaultpage    = "index.html"
-website.tmp            = "tmp/"
-website.preview        = "previews/"
-website.previewCrop    = "previews/crop/"
-website.media		   = "media/"
-website.lang		   = "system/languages/"
-website.mediaServers[] = "media1"
-website.mediaServers[] = "media2"
-website.mediaServers[] = "media3"
-website.mediaServers[] = "media4"
-website.mediaServers[] = "media5"
+website.url             = "{websiteurl}"
+website.path            = "{websitepath}"
+website.defaultpage     = "index.html"
+website.tmp             = "tmp/"
+website.preview         = "previews/"
+website.previewCrop     = "previews/crop/"
+website.media           = "media/"
+website.lang            = "system/languages/"
+website.mediaServers[]  = "media1"
+website.mediaServers[]  = "media2"
+website.mediaServers[]  = "media3"
+website.mediaServers[]  = "media4"
+website.mediaServers[]  = "media5"
 
 [theme]
 theme.path            = "themes/"
@@ -62,7 +62,7 @@ cache.backend.cache_dir                = "cache/"
 misc.jquery                = "cdn"
 misc.jqversion             = "1.7.1"
 misc.jqueryui              = "cdn"
-misc.jquversion            = "1.8.18"
+misc.jquversion            = "1.8.21"
 misc.pluginsPath           = "plugins/"
 misc.imgProduct	           = 80
 misc.imgQuality	           = 90
@@ -107,4 +107,3 @@ actiontriggers.seotoaster.trigger.t_systemnotification.message  = ""
 actiontriggers.seotoaster.trigger.t_systemnotification.from     = ""
 actiontriggers.seotoaster.trigger.t_systemnotification.subject  = "System notification"
 actiontriggers.seotoaster.trigger.t_systemnotification.observer = "Tools_Mail_SystemMailWatchdog"
-

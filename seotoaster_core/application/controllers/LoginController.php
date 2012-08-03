@@ -102,7 +102,6 @@ class LoginController extends Zend_Controller_Action {
 			$this->_helper->flashMessenger->addMessage($message);
 		}
 		if(isset($_SERVER['HTTP_REFERER'])) {
-			$this->_helper->session->errMemeberLogin = $this->_helper->flashMessenger->getMessages();
 			$this->_helper->redirector->gotoUrl($_SERVER['HTTP_REFERER'], array('exit' => true));
 		}
 		if(!$url) {
@@ -126,7 +125,7 @@ class LoginController extends Zend_Controller_Action {
 					'userId'     => $user->getId()
 				));
 				$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
-                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRETRIEVE
+                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRESET
 				)));
 				$resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
 				if($resetTokenId) {
