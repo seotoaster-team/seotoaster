@@ -31,6 +31,15 @@ abstract class Api_Service_Abstract {
 
 	protected $_acl;
 
+    protected $_methodList = array('get', 'post', 'put', 'delete');
+
+    /**
+     * Override this property in descendant service to set up custom access list
+     *
+     * @var array Array with a following structure array('acl_role' => array('allow' => array('get', 'post'), 'deny' => array('put', 'delete')))
+     */
+    protected $_accessList = array();
+
 	public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response){
 		$this->setRequest($request)->setResponse($response);
 
@@ -42,16 +51,16 @@ abstract class Api_Service_Abstract {
 
 	protected function _initAcl(){
 		$acl = $this->getAcl();
-
-		$methodList = array('get', 'post', 'put', 'delete');
-
-		foreach ($methodList as $method) {
+		foreach ($this->_methodList as $method) {
 			$resourseName = strtolower(get_called_class().'_'.$method);
 			$acl->has($resourseName) || $acl->addResource($resourseName);
 			$acl->deny(null, $resourseName);
 		}
 
-		Zend_Registry::set('acl', $acl);
+        // Applying custom access control list
+        $this->_applyAccessList($acl);
+
+        Zend_Registry::set('acl', $acl);
 	}
 
 	public function init() {
@@ -149,4 +158,28 @@ abstract class Api_Service_Abstract {
 		return $this->_acl instanceof Zend_Acl ? $this->_acl : Zend_Registry::get('acl');
 	}
 
+
+    /**
+     * Apply custom access list for the api service
+     *
+     * @param Zend_Acl $acl
+     */
+    protected function _applyAccessList($acl = null) {
+        if(!empty($this->_accessList)) {
+            $acl = ($acl === null)  ? $this->getAcl() : $acl;
+            foreach($this->_accessList as $role => $accessControls) {
+                foreach($accessControls as $permission => $resources) {
+                    if(!empty($resources)) {
+                        foreach($resources as $resource) {
+                            $resource = strtolower(get_called_class().'_'.$resource);
+                            if($acl->has($resource)) {
+                                $acl->$permission($role, $resource);
+                            }
+                        }
+                    }
+                }
+            }
+            Zend_Registry::set('acl', $acl);
+        }
+    }
 }
