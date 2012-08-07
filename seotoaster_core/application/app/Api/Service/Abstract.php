@@ -168,12 +168,12 @@ abstract class Api_Service_Abstract {
         if(!empty($this->_accessList)) {
             $acl = ($acl === null)  ? $this->getAcl() : $acl;
             foreach($this->_accessList as $role => $accessControls) {
-                foreach($accessControls as $permission => $resources) {
+                foreach($accessControls as $action => $resources) {
                     if(!empty($resources)) {
                         foreach($resources as $resource) {
                             $resource = strtolower(get_called_class().'_'.$resource);
                             if($acl->has($resource)) {
-                                $acl->$permission($role, $resource);
+                                $acl->$action($role, $resource);
                             }
                         }
                     }
