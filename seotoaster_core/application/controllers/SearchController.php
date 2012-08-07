@@ -27,12 +27,23 @@ class SearchController extends Zend_Controller_Action {
 			$pageToRedirect = Application_Model_Mappers_PageMapper::getInstance()->find($resultsPageId);
 
             $searchIndexDirPath = $this->_helper->website->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
+
+            //attempt to create search index folder if not exists
+            if(!is_dir($searchIndexDirPath)) {
+                if(!Tools_Filesystem_Tools::mkDir($searchIndexDirPath)) {
+                    $this->_helper->session->searchHits = 'System is unable to create search index directory. Please create it manually. The path is: ' . $searchIndexDirPath;
+                    $this->_redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
+                }
+            }
+
             $searchIndexFiles   = Tools_Filesystem_Tools::scanDirectory($searchIndexDirPath);
             if(empty($searchIndexFiles)) {
                 Tools_Search_Tools::renewIndex(true);
             }
-			$toasterSearchIndex = Zend_Search_Lucene::open($this->_helper->website->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER);
-			$searchHits         = $toasterSearchIndex->find($searchTerm);
+
+			$toasterSearchIndex = Zend_Search_Lucene::open($searchIndexDirPath);
+
+            $searchHits         = $toasterSearchIndex->find($searchTerm);
 			if(is_array($searchHits) && !empty($searchHits)) {
 				foreach ($searchHits as $hit) {
 					$resultsHits[] = array(
