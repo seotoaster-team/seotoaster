@@ -23,21 +23,23 @@ class Application_Form_User extends Zend_Form {
 //			 ->setAttrib('data-callback', 'userCallback')
 //			 ->setAttrib('id', 'frm-user');
 
-		$this->addElement(new Zend_Form_Element_Text(array(
-			'id'         => 'e-mail',
-			'name'       => 'email',
-			'label'      => 'E-mail',
-			'value'      => $this->_email,
-			'validators' => array(
-				new Zend_Validate_EmailAddress(),
-				new Zend_Validate_Db_NoRecordExists(array(
-					'table' => 'user',
-					'field' => 'email'
-				))
-			),
-			'required'   => true,
-			'filters'    => array('StringTrim')
-		)));
+        $email = new Zend_Form_Element_Text(array(
+            'id'         => 'e-mail',
+            'name'       => 'email',
+            'label'      => 'E-mail',
+            'value'      => $this->_email,
+            'validators' => array(
+                new Zend_Validate_EmailAddress(),
+                new Zend_Validate_Db_NoRecordExists(array(
+                    'table' => 'user',
+                    'field' => 'email'
+                ))
+            ),
+            'required'   => true,
+            'filters'    => array('StringTrim')
+        ));
+
+        $this->addElement($email);
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'name'       => 'fullName',
@@ -146,6 +148,7 @@ class Application_Form_User extends Zend_Form {
 	public function setId($id) {
 		$this->_id = $id;
 		$this->getElement('id')->setValue($id);
+        $this->getElement('email')->removeValidator('Zend_Validate_Db_NoRecordExists');
 		return $this;
 	}
 }

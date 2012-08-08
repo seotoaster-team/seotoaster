@@ -9,6 +9,12 @@ class Application_Form_Signup extends Application_Form_User {
 
 	public function init() {
 		parent::init();
+
+        $this->addAttribs(array(
+           'class' => 'seotoaster-signup',
+           'id'    => 'seotoaster-signup-form'
+        ));
+
 		$this->removeElement('roleId');
 		$saveButton = $this->getElement('saveUser');
 		$this->removeElement('saveUser');
