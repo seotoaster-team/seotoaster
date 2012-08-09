@@ -20,6 +20,11 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 	 */
 	const OPTION_MAKER_PREFIX   = '_makeOption';
 
+    /**
+     * Name of the placeholder in toaster layout where plugins can inject own content
+     */
+    const INJECT_PLACEHOLDER    = 'plugins';
+
 	/**
 	 * Options for plugin
 	 *
@@ -230,6 +235,15 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 			}
 		}
 	}
+
+    /**
+     * Inject plugin's content into the toaster layout
+     *
+     * @param string $content
+     */
+    protected function _injectContent($content) {
+        Zend_Layout::getMvcInstance()->getView()->placeholder(self::INJECT_PLACEHOLDER)->append($content);
+    }
 
 	private function _dispatch($params) {
 		$action = (isset($params['run'])) ? $params['run'] . self::ACTION_POSTFIX : null;

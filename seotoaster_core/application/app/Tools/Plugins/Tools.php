@@ -186,6 +186,12 @@ class Tools_Plugins_Tools {
 		return self::_getData('getEditorTop');
 	}
 
+    /**
+     * @todo Should be moved to the e-commerce plugin
+     *
+     * @static
+     * @return array
+     */
     public static function getEcommerceConfigTabs() {
         return self::_getData('getEcommerceConfigTab', array('ecommerce'));
     }

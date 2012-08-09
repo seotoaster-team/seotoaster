@@ -14,8 +14,6 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	protected $_status  = '';
 
-	protected $_cache   = false;
-
 	protected $_tags    = array();
 
 	protected $_preview = '';
@@ -41,15 +39,6 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	public function setStatus($status) {
 		$this->_status = $status;
-		return $this;
-	}
-
-	public function getCache() {
-		return $this->_cache;
-	}
-
-	public function setCache($cache) {
-		$this->_cache = $cache;
 		return $this;
 	}
 
