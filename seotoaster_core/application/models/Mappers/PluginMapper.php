@@ -26,7 +26,13 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 		return  $status;
 	}
 
-	public function findByName($name) {
+    /**
+     * Find plugin by name
+     *
+     * @param string $name
+     * @return Application_Model_Models_Plugin|null
+     */
+    public function findByName($name) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
 		$row   = $this->getDbTable()->fetchAll($where)->current();
 		if(null == $row) {

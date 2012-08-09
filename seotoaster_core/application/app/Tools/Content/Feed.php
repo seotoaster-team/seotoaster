@@ -45,7 +45,7 @@ class Tools_Content_Feed {
 		}
 
 		$sitemapFeed .= '</urlset>';
-		return utf8_encode($sitemapFeed);
+		return $sitemapFeed;
 	}
 
 }

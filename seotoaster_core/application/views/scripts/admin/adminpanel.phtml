@@ -2,7 +2,9 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js'); ?>
 <div id="seotoaster-cpanel" class="seotoaster w200">
 	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
-	<div id="seotoaster-logowrap"><img width="170" height="180" src="<?php echo $this->websiteUrl; ?>system/images/cpanel-img.jpg" /></div>
+	<div id="seotoaster-logowrap">
+            <img width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
+    </div>
 	<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	<ul id="cpanelul">
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)): ?>
@@ -108,11 +110,11 @@
 				<li class="plugin-cpanel-menu plugin-<?php echo strtolower($pluginAdditionalMenu['title']);?>">
 					<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
 					<?php if(isset($pluginAdditionalMenu['items'])): ?>
-					<ul>
-					<?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
-					<?php echo $this->toasterAdminpanelItem($menuItem); ?>
-					<?php endforeach; ?>
-					</ul>
+					    <ul>
+					        <?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
+					            <?php echo $this->toasterAdminpanelItem($menuItem); ?>
+					        <?php endforeach; ?>
+					    </ul>
 					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>

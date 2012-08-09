@@ -23,11 +23,16 @@ class Backend_UserController extends Zend_Controller_Action {
 	public function manageAction() {
 		$userForm = new Application_Form_User();
 		if($this->getRequest()->isPost()) {
+            //if we are updating
+            $userId = $this->getRequest()->getParam('id');
+            if($userId) {
+                $userForm->setId($userId);
+            }
 			if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
 				$user       = new Application_Model_Models_User($data);
 				Application_Model_Mappers_UserMapper::getInstance()->save($user);
-				$this->_helper->response->success('Added');
+				$this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
 			}
 			else {
