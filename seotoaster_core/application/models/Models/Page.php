@@ -26,7 +26,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_SIGNUPLAND       = 'option_member_signuplanding';
 
-	const CONTEXT_NEWS         = 'news';
+	//const CONTEXT_NEWS         = 'news';
 
 	protected $_templateId        = '';
 

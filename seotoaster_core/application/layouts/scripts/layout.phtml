@@ -7,7 +7,7 @@
 		<?php echo $this->headMeta(); ?>
 
 		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
-		<link rel="canonical" href="<?php echo $this->websiteUrl . (($this->pageData['url'] != $this->websiteMainPage) ? $this->pageData['url'] : ''); ?>" />
+		    <link rel="canonical" href="<?php echo $this->websiteUrl . (($this->pageData['url'] != $this->websiteMainPage) ? $this->pageData['url'] : ''); ?>" />
 		<?php endif; ?>
 
 		<?php $this->jQuery()->enable(); ?>
@@ -74,6 +74,13 @@
 			<script type="text/javascript" charset="utf-8">$(function() {var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;$.each(sculptingReplacement, function() {$('span.' + this.id).replaceWith(this.repl);})});</script>
 			<!-- /PRSCULPTING -->
 		<?php endif; ?>
+
+        <?php
+            /**
+             * Plugins additional content
+             */
+            echo $this->placeholder('plugins');
+        ?>
 	</body>
 </html>
 
