@@ -234,7 +234,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			}
 			$row = $optimizedRowset->current()->findParentRow('Application_Model_DbTable_Page');
 		}
-		$row                 = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset : null));
+		$row                 = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset->current() : null));
 		$rowTemplate         = $row->findParentRow('Application_Model_DbTable_Template');
 		$row                 = $row->toArray();
 		$row['content']      = ($rowTemplate !== null) ? $rowTemplate->content : '';
