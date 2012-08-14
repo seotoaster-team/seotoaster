@@ -162,7 +162,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
         //we will fire the action in the case when plugin is enabled
         $toasterPlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName($pluginName);
-        if($toasterPlugin->getStatus() == Application_Model_Models_Plugin::ENABLED) {
+        if(($toasterPlugin instanceof Application_Model_Models_Plugin) && ($toasterPlugin->getStatus() == Application_Model_Models_Plugin::ENABLED)) {
             $pageData   = array('websiteUrl' => $this->_helper->website->getUrl());
             try {
                 $plugin = Tools_Factory_PluginFactory::createPlugin($pluginName, array(), $pageData);

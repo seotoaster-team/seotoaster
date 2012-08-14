@@ -48,12 +48,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
                     if(!$page instanceof Application_Model_Models_Page) {
                         throw new Exceptions_SeotoasterWidgetException('Cant load page!');
                     }
-                    if($page->getParentId() < 0) {
-                        $content = '';
-                    } else if($page->getParentId() > 0) {
+                    if($page->getParentId() > 0) {
                         $page = $pageMapper->find($page->getParentId());
+                        $content = $page->getNavName();
                     }
-                    $content = $page->getNavName();
                 break;
                 default:
                 break;
