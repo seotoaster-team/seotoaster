@@ -31,8 +31,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	protected function _initTranslator() {
 
 		$session = Zend_Registry::get('session');
-		
-		$locale  = (isset($session->locale)) ? $session->locale : new Zend_Locale();
+
+		Zend_Locale::setDefault('en');
+		$locale  = (isset($session->locale)) ? $session->locale : new Zend_Locale(Zend_Locale::ZFDEFAULT);
 		Zend_Registry::set('Zend_Locale', $locale);
 		$session->locale = $locale;
 
