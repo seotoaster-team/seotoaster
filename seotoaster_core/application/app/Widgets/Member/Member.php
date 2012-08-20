@@ -57,10 +57,6 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		return $this->_view->render('signup.phtml');
 	}
 
-	private function _renderMemberDetails() {
-
-	}
-
 	public static function getAllowedOptions() {
 		$translator = Zend_Registry::get('Zend_Translate');
 		return array(
@@ -79,7 +75,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		);
 	}
 
-	private function _reInitDecorators($loginForm) {
+	protected function _reInitDecorators($loginForm) {
 	   	$loginForm->setDecorators(array(
    			'FormElements',
    			'Form'
