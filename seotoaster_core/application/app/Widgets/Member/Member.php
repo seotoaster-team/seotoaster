@@ -30,7 +30,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong member type'));
 	}
 
-	private function _renderMemberLogin() {
+	protected function _renderMemberLogin() {
 		$this->_view->userRole  = $this->_session->getCurrentUser()->getRoleId();
 		$this->_view->loginForm = $this->_reInitDecorators(new Application_Form_Login());
 		$this->_view->messages  = $this->_flashMessanger->getMessages();
@@ -41,14 +41,14 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		return $this->_view->render('login.phtml');
 	}
 
-	private function _renderMemberLogout() {
+    protected function _renderMemberLogout() {
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
 			return '';
 		}
 		return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">Logout</a>';
 	}
 
-	private function _renderMemberSignup() {
+    protected function _renderMemberSignup() {
 		$this->_view->signupForm       = new Application_Form_Signup();
 		$flashMessanger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
 		$errorMessages                 = $flashMessanger->getMessages();
