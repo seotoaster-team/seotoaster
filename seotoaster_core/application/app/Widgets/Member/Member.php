@@ -2,13 +2,13 @@
 
 class Widgets_Member_Member extends Widgets_Abstract {
 
-	private $_session        = null;
+	protected $_session        = null;
 
-    private $_website        = null;
+    protected $_website        = null;
 
-    private $_flashMessanger = null;
+    protected $_flashMessanger = null;
 
-    protected $_cacheable    = false;
+    protected $_cacheable      = false;
 
 	protected function  _init() {
 		parent::_init();
