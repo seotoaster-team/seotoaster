@@ -10,6 +10,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 
 	/**
 	 * Generates a link wrapped in <a /> tag according to a given controller/action that will be opened in popup
+     *
 	 * @param $controller Controller name
 	 * @param $action Action name
 	 * @param $linkText Link message. Will be passed to translator
@@ -18,9 +19,9 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 	 * @param string $winSizeType
 	 * @return string
 	 */
-	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE) {
-		$linkText      = htmlspecialchars($this->view->translate($linkText));
-		$winsize       = $this->_getValidWinSize($winSizeType);
+	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE, $translate = true) {
+		$linkText = htmlspecialchars(($translate) ? $this->view->translate($linkText) : $linkText);
+		$winsize  = $this->_getValidWinSize($winSizeType);
 
 		switch ($controller){
 			case (strpos($controller, 'backend') === 0):

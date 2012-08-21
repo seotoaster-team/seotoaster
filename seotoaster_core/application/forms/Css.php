@@ -16,6 +16,7 @@ class Application_Form_Css extends Zend_Form {
 			'required'	=> true,
 			'id'		=> 'csslist'
 		));
+        $this->getElement('cssname')->setDisableTranslator(true);
 
 		$this->addElement('textarea', 'content', array(
 			'id'		 => 'csscontent',
