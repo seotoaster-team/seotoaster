@@ -60,6 +60,7 @@ class Application_Form_Deeplink extends Zend_Form {
 			),
 			'registerInArrayValidator' => false
 		)));
+        $this->getElement('url')->setDisableTranslator(true);
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
 			'name'    => 'nofollow',
