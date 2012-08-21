@@ -8,7 +8,7 @@
 						<div class="move"></div>
 						<a href="javascript:;" class="check-all" title="Check all"><!-- img src="/system/images/check-all.gif" width="15"  / --></a>&nbsp;
 	<!--					<a href="javascript:;" title="<?php echo $treeData['category']->getH1(); ?>"><?php echo $treeData['category']->getNavName(); ?></a>-->
-						<?php echo $this->toasterLink('backend_page', 'page', $this->translate($treeData['category']->getNavName()), 'id/' . $treeData['category']->getId(), false, array('width' => '954', 'height' => '574')); ?>
+						<?php echo $this->toasterLink('backend_page', 'page', $treeData['category']->getNavName(), 'id/' . $treeData['category']->getId(), false, array('width' => '954', 'height' => '574')); ?>
 						<div class="cat-tools">
 							<span class="ranking">#<?php echo ++$key; ?></span>
 							<a href="javascript:;" class="collapse-all" title="collapse all">-</a>
@@ -20,7 +20,7 @@
 								<li id="<?php echo $page->getId(); ?>">
 									<div class="move"></div>
 									<input type="checkbox" name="remove[]" class="page-remove" />
-									<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
+									<?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
 								</li>
 							<?php endforeach; ?>
 						<?php endif; ?>
@@ -45,7 +45,7 @@
 						<li id="<?php echo $page->getId(); ?>">
 							<div class="move"></div>
 							<input type="checkbox" name="remove[]" class="page-remove" />
-							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
+							<?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
 						</li>
 					<?php endforeach; ?>
 				<?php endif; ?>
@@ -70,7 +70,7 @@
 						<li id="<?php echo $page->getId(); ?>">
 							<div class="move"></div>
 							<input type="checkbox" name="remove[]" class="page-remove" />
-							<?php echo $this->toasterLink('backend_page', 'page', $this->translate($page->getNavName()), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
+							<?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574')); ?>
 						</li>
 					<?php endforeach; ?>
 				<?php endif; ?>
@@ -87,5 +87,4 @@
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</div>
 </div>
-<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/multisortable/multisortable.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/organize.js'); ?>
