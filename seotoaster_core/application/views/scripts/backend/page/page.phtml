@@ -43,7 +43,7 @@
 					<div class="grid_5">
 						<?php
 							echo $this->ajaxLink(
-								!($this->pageForm->getElement('templateId')->getValue() ? $this->translate('Select template') : $this->pageForm->getElement('templateId')->getValue()),
+								!($this->pageForm->getElement('templateId')->getValue()) ? $this->translate('Select template') : $this->pageForm->getElement('templateId')->getValue(),
 								$this->websiteUrl . 'backend/backend_theme/gettemplate/pageId/' . $this->pageForm->getElement('pageId')->getValue(),
 								array(
 									'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');",
