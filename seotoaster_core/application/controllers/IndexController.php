@@ -18,9 +18,6 @@ class IndexController extends Zend_Controller_Action {
 		    $this->_helper->session->setCurrentUser($currentUser);
 		    $this->_helper->session->refererUrl = $refererUrl;
 	    }
-		// If page was queried as news page (in news context)
-		//$newsContext = $this->getRequest()->getParam('context', null);
-		//$newsContext = ($newsContext && $newsContext == Application_Model_Models_Page::CONTEXT_NEWS) ? true : false;
 
 		// Geting requested url
 		$pageUrl     = $this->getRequest()->getParam('page');
