@@ -45,7 +45,7 @@
 				    self.itemsHolder.find('option').remove().end();
 	                $.each(response.responseData, function() {
 	                    var optVal  = (self.type == self._TYPE_PAGE) ? this.id : this.name;
-	                    var optText = (self.type == self._TYPE_PAGE) ? this.h1 : this.name;
+	                    var optText = (self.type == self._TYPE_PAGE) ? this.navName : this.name;
 		                self.itemsHolder
 	                        .append($('<option></option>').attr({
 	                            value: optVal
