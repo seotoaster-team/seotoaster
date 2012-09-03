@@ -34,13 +34,14 @@
 	</div>
     <div class="grid_12">
         <?php
-            $this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 425)), array(
-                'title' => $this->translate('Available plugins')
-            ));
-
+            
             $this->tabPane('plugintab', '<div class="plugins-list"></div>', array(
                 'title'      => $this->translate('Installed plugins'),
                 'contentUrl' => $this->websiteUrl . 'backend/backend_plugin/list/',
+            ));
+            
+            $this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 425)), array(
+                'title' => $this->translate('Available plugins')
             ));
 
             echo $this->tabContainer('plugintab', array(), array('class' => 'plugintabs'));
