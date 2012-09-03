@@ -128,9 +128,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     }
 
 	public function fetchAllUrls() {
-		return array_map(function($page) {
-            return $page->getUrl();
-        }, $this->fetchAll());
+		$select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
+				->from($this->getDbTable()->info('name'), array('url'));
+		return $this->getDbTable()->getAdapter()->fetchCol($select);
 	}
 
 	public function fetchAllStaticMenuPages() {
@@ -205,16 +205,11 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchIdUrlPairs() {
-		$pairs = array();
-		$pages = $this->fetchAll();
-		if(empty($pages)) {
-			return null;
-		}
-		foreach ($pages as $page) {
-			$pairs[$page->getId()] = $page->getUrl();
-		}
-		asort($pairs);
-		return $pairs;
+		$select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
+				->from($this->getDbTable()->info('name'), array('id', 'url'))
+				->order('url');
+
+		return $this->getDbTable()->getAdapter()->fetchPairs($select);
 	}
 
 	protected function  _findWhere($where, $fetchSysPages = false) {
