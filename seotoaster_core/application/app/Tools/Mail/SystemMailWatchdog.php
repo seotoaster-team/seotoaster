@@ -127,12 +127,27 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     protected function _sendTmembersignupMail(Application_Model_Models_User $user) {
         switch ($this->_options['recipient']) {
             case self::RECIPIENT_MEMBER:
-
+                $this->_mailer->setMailToLabel($user->getFullName())
+                    ->setMailTo($user->getEmail())
+                    ->setSubject(isset($this->_options['subject']) ? $this->_options['subject'] : $this->_translator->translate('Welcome!'));
             break;
             case self::RECIPIENT_SUPERADMIN:
-
+                $superAdmin = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN);
+                $this->_mailer->setMailToLabel($superAdmin->getFullName())
+                    ->setMailTo($superAdmin->getEmail())
+                    ->setSubject(isset($this->_options['subject']) ? $this->_options['subject'] : $this->_translator->translate('New user is registered!'));
             break;
         }
+        $this->_entityParser->objectToDictionary($user);
+        if(($mailBody = $this->_prepareEmailBody()) == false) {
+            $mailBody = $this->_options['message'];
+        }
+        if(!isset($this->_options['from'])) {
+            $this->_options['from'] = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN)->getEmail();
+        }
+        return $this->_mailer->setMailFrom($this->_options['from'])
+            ->setBody($this->_entityParser->parse($mailBody))
+            ->send();
     }
 
     protected function _sendTpasswordresetMail() {
