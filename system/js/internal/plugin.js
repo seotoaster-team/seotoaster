@@ -21,8 +21,8 @@ $(function() {
 				readmeDialog.dialog({
 		            modal: true,
 		            title: pluginName,
-					width: 600,
-					height: 250,
+					width: 800,
+					height: 500,
 					resizable: false,
 		            show: 'clip',
 		            hide: 'clip',
