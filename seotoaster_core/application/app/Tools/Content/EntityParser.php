@@ -42,10 +42,11 @@ class Tools_Content_EntityParser {
 	 * Method scan given object for properties which has public getters
 	 * and generate array of entities-replacements pairs from this method
 	 * @param $object Object
+	 * @param $namespace Custom namespace for replacements
 	 * @return Tools_Content_EntityParser Return self for chaining
 	 * @throws Exceptions_SeotoasterException
 	 */
-	public function objectToDictionary($object) {
+	public function objectToDictionary($object, $namespace = null) {
 		if (!is_object($object)) {
 			throw new Exceptions_SeotoasterException('Given variable must be an object');
 		}
@@ -56,7 +57,7 @@ class Tools_Content_EntityParser {
 			$getter = 'get' . join('', array_map('ucfirst', explode('_',$prop->getName())));
 			if ($reflection->hasMethod($getter)){
 				$replacement = $object->$getter();
-				$className = preg_replace('/.*_([\w\d]*)$/','$1', $reflection->getName());
+				$className = empty($namespace) ? preg_replace('/.*_([\w\d]*)$/','$1', $reflection->getName()) : $namespace;
 				$entityName = strtolower($className.':'.$normalizedPropName);
 				if (!is_array($replacement) && !is_object($replacement)){
 					$dictionary[$entityName] = $replacement;
