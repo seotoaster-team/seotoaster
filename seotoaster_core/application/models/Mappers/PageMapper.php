@@ -124,7 +124,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             $pageRow['content']= ($templateRow !== null) ? $templateRow->content : '';
             $entries[]         = $this->_toModel($pageRow);
         }
-        return ($firstOccurrenceOnly && isset($entries[0])) ? $entries[0] : $entries;
+        if($firstOccurrenceOnly) {
+            return (isset($entries[0])) ? $entries[0] : null;
+        }
+        return $entries;
     }
 
 	public function fetchAllUrls() {
