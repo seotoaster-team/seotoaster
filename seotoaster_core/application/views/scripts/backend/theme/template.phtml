@@ -47,7 +47,7 @@
 			</div>
 			<div style="text-align: center;" class="mt30px">
 				<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-					<a class="tpopup listpages" href="javascript:;" data-pwidth="480" data-pheight="574" data-url="<?php echo $this->websiteUrl; ?>backend/backend_page/listpages/template/<?php echo $this->templateForm->getElement('name')->getValue(); ?>">[<?php echo $this->translate('Used in ' . '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' . ' pages'); ?>]</a>
+					<a class="tpopup listpages" href="javascript:;" data-pwidth="480" data-pheight="574" data-url="<?php echo $this->websiteUrl; ?>backend/backend_page/listpages/template/<?php echo $this->templateForm->getElement('name')->getValue(); ?>">[<?php echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?>]</a>
 
 					<?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 574)); ?>
 				<?php endif; ?>

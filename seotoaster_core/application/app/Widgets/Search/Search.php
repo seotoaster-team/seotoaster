@@ -95,6 +95,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
                 foreach($prepopWithNameList as $prepopData){
                     $contentArray[] = $prepopData->getContent();
                 }
+                asort($contentArray);
                 $this->_view->prepopWithNameList = array_unique($contentArray);
                 return $this->_view->render('searchForm.phtml');
             }            

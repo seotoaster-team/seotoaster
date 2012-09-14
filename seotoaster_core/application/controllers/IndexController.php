@@ -18,9 +18,6 @@ class IndexController extends Zend_Controller_Action {
 		    $this->_helper->session->setCurrentUser($currentUser);
 		    $this->_helper->session->refererUrl = $refererUrl;
 	    }
-		// If page was queried as news page (in news context)
-		//$newsContext = $this->getRequest()->getParam('context', null);
-		//$newsContext = ($newsContext && $newsContext == Application_Model_Models_Page::CONTEXT_NEWS) ? true : false;
 
 		// Geting requested url
 		$pageUrl     = $this->getRequest()->getParam('page');
@@ -133,8 +130,14 @@ class IndexController extends Zend_Controller_Action {
 
 		$this->view->placeholder('seo')->exchangeArray($seoData);
 		$this->view->websiteUrl      = $this->_helper->website->getUrl();
-		$this->view->websiteMainPage = $this->_helper->website->getDefaultPage();
 		$this->view->currentTheme    = $this->_helper->config->getConfig('currentTheme');
+
+		// building canonical url
+		if ('' === ($canonicalScheme = $this->_helper->config->getConfig('canonicalScheme'))){
+			$canonicalScheme = $this->getRequest()->getScheme();
+		}
+		$this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST).'/'.($pageData['url'] !== $this->_helper->website->getDefaultPage() ? $pageData['url'] : '' );
+
 		//$this->view->newsPage        = $newsPage;
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);

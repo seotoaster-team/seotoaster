@@ -10,8 +10,6 @@
         $('select.searchParams').each(function () {
              containerNames.push($(this).attr('name'));
         });
-        console.log(searchValues);
-        console.log(containerNames);
         $.ajax({
             type: "POST",
             url: urlAction,

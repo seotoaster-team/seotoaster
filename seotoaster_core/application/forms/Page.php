@@ -132,6 +132,9 @@ class Application_Form_Page extends Zend_Form {
 			'registerInArrayValidator' => false
 		)));
 
+        // Disabling translator for the list of categories
+        $this->getElement('pageCategory')->setDisableTranslator(true);
+
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'extraOptions',
 			'id'           => 'page-options',

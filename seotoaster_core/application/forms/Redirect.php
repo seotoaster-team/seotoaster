@@ -59,6 +59,7 @@ class Application_Form_Redirect extends Zend_Form {
 			),
 			'registerInArrayValidator' => false
 		)));
+        $this->getElement('toUrl')->setDisableTranslator(true);
 
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'  => 'addRedirect',

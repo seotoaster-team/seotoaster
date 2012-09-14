@@ -25,6 +25,7 @@ class Application_Form_Config extends Zend_Form {
 	protected $_suPassword;
 	protected $_mediaServers;
 	protected $_inlineEditor;
+	protected $_canonicalScheme;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -314,6 +315,15 @@ class Application_Form_Config extends Zend_Form {
 			'value' => $this->_inlineEditor,
 			'label' => 'Enable edit zones highlighting?'
 		));
+
+		$this->addElement('select', 'canonicalScheme', array(
+			'value' => $this->_canonicalScheme,
+			'label' => 'Set canonicalization tag to',
+			'multiOptions' => array(
+				Zend_Controller_Request_Http::SCHEME_HTTP => 'http',
+				Zend_Controller_Request_Http::SCHEME_HTTPS => 'https'
+			)
+		));
 	}
 
 	public function proccessErrors() {
@@ -337,6 +347,15 @@ class Application_Form_Config extends Zend_Form {
 
 	public function getInlineEditor() {
 		return $this->_inlineEditor;
+	}
+
+	public function setCanonicalScheme($canonicalScheme) {
+		$this->_canonicalScheme = $canonicalScheme;
+		return $this;
+	}
+
+	public function getCanonicalScheme() {
+		return $this->_canonicalScheme;
 	}
 
 }
