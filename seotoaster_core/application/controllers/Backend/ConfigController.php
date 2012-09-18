@@ -162,7 +162,6 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $trigger = reset(Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray());
         if($this->getRequest()->isPost()) {
             $trigger = new Application_Model_Models_TriggerAction($trigger);
-            $m = $this->getRequest()->getParam('msg');
             $trigger->setMessage($this->getRequest()->getParam('msg'));
             Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($trigger);
             $this->_helper->response->success();

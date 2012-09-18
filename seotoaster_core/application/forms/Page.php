@@ -129,7 +129,8 @@ class Application_Form_Page extends Zend_Form {
 					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category'
 				)
 			),
-			'registerInArrayValidator' => false
+			'registerInArrayValidator' => false,
+            'required' => true
 		)));
 
         // Disabling translator for the list of categories
@@ -334,5 +335,19 @@ class Application_Form_Page extends Zend_Form {
 			$this->lockField($fieldName);
 		}
 	}
+
+    /**
+     * Page form validation.
+     *
+     * Along with the standart validation user selection will be validated too
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function isValid($data) {
+        return (($data['pageCategory'] != -4) && parent::isValid($data));
+    }
+
+
 }
 

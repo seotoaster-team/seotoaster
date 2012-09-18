@@ -29,26 +29,16 @@ class LoginController extends Zend_Controller_Action {
 				if($authResult->isValid()) {
 					$authUserData = $authAdapter->getResultRowObject(null, 'password');
 					if(null !== $authUserData) {
-						$user = new Application_Model_Models_User();
-						$user->setId($authUserData->id);
-						$user->setEmail($authUserData->email);
-						//$user->setPassword($authUserData->password);
-						$user->setRoleId($authUserData->role_id);
-						$user->setFullName($authUserData->full_name);
-						$user->setLastLogin(date('Y-m-d H:i:s', time()));
-						$user->setRegDate($authUserData->reg_date);
+						$user = new Application_Model_Models_User((array)$authUserData);
+						$user->setLastLogin(date(DATE_ATOM));
 						$user->setIpaddress($_SERVER['REMOTE_ADDR']);
 						$this->_helper->session->setCurrentUser($user);
-
 						Application_Model_Mappers_UserMapper::getInstance()->save($user);
-
 						unset($user);
 						$this->_helper->cache->clean();
-
 						if($authUserData->role_id == Tools_Security_Acl::ROLE_MEMBER) {
 							$this->_memberRedirect();
 						}
-
 						if(isset($this->_helper->session->redirectUserTo)) {
 							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
 						}
@@ -70,13 +60,10 @@ class LoginController extends Zend_Controller_Action {
 		else {
 			//getting available system translations
             $this->view->languages = $this->_helper->language->getLanguages();
-
 			//getting messages
 			$this->view->messages   = $this->_helper->flashMessenger->getMessages();
-
 			//unset url redirect set from any login widget
 			unset($this->_helper->session->redirectUserTo);
-
 			$this->view->loginForm  = $loginForm;
 		}
 	}
@@ -105,11 +92,12 @@ class LoginController extends Zend_Controller_Action {
 			$this->_helper->redirector->gotoUrl($_SERVER['HTTP_REFERER'], array('exit' => true));
 		}
 		if(!$url) {
-			$this->_helper->redirector->gotoRoute(array(
+			$this->_helper->redirector->gotoRouteAndExit(array(
 				'controller' => 'login',
 				'action'     =>'index'
 			));
 		}
+        $this->_helper->redirector->gotoUrlAndExit($url);
 	}
 
 	public function passwordretrieveAction() {
