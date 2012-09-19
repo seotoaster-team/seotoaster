@@ -129,6 +129,12 @@ class Backend_MediaController extends Zend_Controller_Action {
 							if ($result !== true){
 								array_push($errorList, array('name' => $imageName, 'errors' => $result));
 							} else {
+
+                                //cleaning out the images related widgets
+                                $this->_helper->cache->clean(null, null, array(
+                                    'Widgets_Gal_Gal'
+                                ));
+
 								array_push($deleted, $imageName);
 							}
 						} catch (Exceptions_SeotoasterException $e) {
