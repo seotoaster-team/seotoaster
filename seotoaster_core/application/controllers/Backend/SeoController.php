@@ -419,8 +419,6 @@ class Backend_SeoController extends Zend_Controller_Action {
                 }
             }
 
-
-
             $this->view->sitemaps = $sitemaps;
         }
         $template = 'sitemap' . $sitemapType . '.xml.phtml';
