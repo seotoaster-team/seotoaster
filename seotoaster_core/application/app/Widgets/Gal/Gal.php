@@ -13,6 +13,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 		));
 		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
+        array_push($this->_cacheTags, __CLASS__);
 	}
 
 	protected function  _load() {

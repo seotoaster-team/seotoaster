@@ -271,9 +271,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	public function setDraft($draft) {
 		$this->_draft  = $draft;
-		if($draft) {
-			$this->_system = $draft;
-		}
+		$this->_system = $draft;
 		return $this;
 	}
 

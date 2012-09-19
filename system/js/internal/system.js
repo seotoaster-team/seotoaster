@@ -89,10 +89,8 @@ $(function() {
 			'#meta-keywords',
 			'#teaser-text'
 		];
-		var ajaxMessage = $('#ajax_msg');
 		var form        = $(this);
         var callback    = $(form).data('callback');
-		ajaxMessage.text('');
 		$.ajax({
 			url        : form.attr('action'),
 			type       : 'post',
