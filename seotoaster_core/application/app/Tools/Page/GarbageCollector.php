@@ -103,7 +103,8 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 			'Widgets_Menu_Menu',
 			'Widgets_Related_Related',
             'pageTags',
-            'Widgets_List_List'
+            'Widgets_List_List',
+            'sitemaps'
 		);
 		$cacheHelper->clean(false, false, $tags);
 	}
