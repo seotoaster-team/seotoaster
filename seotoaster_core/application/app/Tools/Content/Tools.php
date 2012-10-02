@@ -72,8 +72,8 @@ class Tools_Content_Tools {
 					'unwatch' => '_updateDeeplinks'
 				)));
 
-				$gc = new Tools_Content_GarbageCollector();
-				$gc->setObject($container)->updateContentLinksRelatios();
+				$gc = new Tools_Content_GarbageCollector(array('model' => $container));
+				$gc->updateContentLinksRelatios();
 				
 				if($initialContentLength != strlen($container->getContent())) {
 					$containerMapper->save($container);

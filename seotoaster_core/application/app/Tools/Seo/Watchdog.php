@@ -43,7 +43,7 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 	private function _pageUpdateChain() {
 		$this->_updateContainersUrls();
 		$this->_update301Redirects();
-		$this->_updateSitemap();
+		//$this->_updateSitemap();
 		$this->_updateDeeplinkUrl();
 	}
 
