@@ -10,7 +10,8 @@ class Tools_Image_Tools {
 		'medium',
 		'large',
 		'product',
-		'crop'
+		'crop',
+        'thumbnails'
 	);
 
 	public function init() {

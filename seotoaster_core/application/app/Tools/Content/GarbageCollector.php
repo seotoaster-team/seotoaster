@@ -72,9 +72,12 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	}
 
 	private function _cleanCachedContent(){
-		$cacheTag = $this->_object->getName() .'_'. $this->_object->getContainerType() .'_pid_'. intval($this->_object->getPageId());
+        $cacheTags = array(
+            $this->_object->getName() .'_'. $this->_object->getContainerType() .'_pid_'. intval($this->_object->getPageId()),
+            //'Widgets_Gal_Gal'
+        );
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
-		$cacheHelper->clean(false, false, array($cacheTag));
+		$cacheHelper->clean(false, false, $cacheTags);
 	}
 
 }

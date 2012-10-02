@@ -66,7 +66,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		// adding cache tag for this fa
 		array_push($this->_cacheTags, 'fa_'.$areaName);
         array_push($this->_cacheTags, 'pageTags');
-		foreach ($featuredArea->getPages() as $page){
+        $areaPages = $featuredArea->getPages();
+		foreach ($areaPages as $page){
 			array_push($this->_cacheTags, 'pageid_'.$page->getId());
 		}
 		return $this->_view->render('area.phtml');

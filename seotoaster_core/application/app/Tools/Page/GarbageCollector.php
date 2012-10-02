@@ -25,7 +25,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 
 	protected function _runOnDelete() {
 		$this->_removePageUrlFromContent();
-		Tools_Filesystem_Tools::saveFile('sitemap.xml', Tools_Content_Feed::generateSitemapFeed());
+		//Tools_Filesystem_Tools::saveFile('sitemap.xml', Tools_Content_Feed::generateSitemapFeed());
 		Tools_Search_Tools::removeFromIndex($this->_object->getId());
 		$this->_cleanCachedPageData();
 		$this->_resetSearchIndexRenewFlag();
@@ -102,7 +102,9 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 			'pageid_'. $this->_object->getId(),
 			'Widgets_Menu_Menu',
 			'Widgets_Related_Related',
-            'pageTags'
+            'pageTags',
+            'Widgets_List_List',
+            'sitemaps'
 		);
 		$cacheHelper->clean(false, false, $tags);
 	}

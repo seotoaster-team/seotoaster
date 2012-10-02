@@ -12,11 +12,18 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	private $_translator = null;
 
+    public static $_allowedActions = array(
+        'sitemap'
+    );
+
 	public function init() {
 		parent::init();
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)) {
-			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
-		}
+        if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PUBLIC)) {
+            $this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+        }
+        if(!Tools_Security_Acl::isActionAllowed()) {
+            $this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+        }
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'loaddeeplinkslist'	=> 'json',
 			'loadredirectslist' => 'json',
@@ -28,6 +35,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 			'unsilocat'         => 'json',
 			'managesilos'       => 'json'
 			))->initContext('json');
+
+        $this->_helper->contextSwitch()
+            ->addActionContext('sitemap', 'xml')
+            ->initContext();
+
 		$this->_translator      = Zend_Registry::get('Zend_Translate');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 	}
@@ -365,5 +377,61 @@ class Backend_SeoController extends Zend_Controller_Action {
 			}
 		}
 	}
+
+    /**
+     * Serve sitemaps
+     *
+     */
+    public function sitemapAction() {
+        //disable renderer
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        //get sitemap type from the params
+        if(($sitemapType = $this->getRequest()->getParam('type', '')) == Tools_Content_Feed::SMFEED_TYPE_REGULAR) {
+            //regular sitemap.xml requested
+            if(null === ($this->view->pages = $this->_helper->cache->load('sitemappages', 'sitemaps_'))) {
+                $this->view->pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+                $this->_helper->cache->save('sitemappages', $this->view->pages, 'sitemaps_', array('sitemaps'));
+            }
+
+        } else if($sitemapType == Tools_Content_Feed::SMFEED_TYPE_INDEX) {
+            //default sitemaps
+            $sitemaps = array(
+                'sitemap' => array(
+                    'extension' => 'xml',
+                    'lastmod'   => date(DATE_ATOM)
+                )
+            );
+
+            //real sitemaps (in the toaster root)
+            $sitemapFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_helper->website->getPath(), 'xml', false, false, false);
+            if(is_array($sitemapFiles) && !empty($sitemapFiles)) {
+                foreach($sitemapFiles as $sitemapFile) {
+                    if(preg_match('~sitemap.*\.xml.*~', $sitemapFile)) {
+                        $fileInfo = pathinfo($this->_helper->website->getPath() . $sitemapFile);
+                        if(is_array($fileInfo)) {
+                            $sitemaps[$fileInfo['filename']] = array(
+                                'extension' => $fileInfo['extension'],
+                                'lastmod'   => date(DATE_ATOM, fileatime($this->_helper->website->getPath() . $sitemapFile))
+                            );
+                        }
+                    }
+                }
+            }
+
+            $this->view->sitemaps = $sitemaps;
+        }
+        $template = 'sitemap' . $sitemapType . '.xml.phtml';
+        try {
+            if(null === ($sitemapContent = $this->_helper->cache->load('sitemapcontent' . $sitemapType, 'sitemaps_'))) {
+                $sitemapContent = $this->view->render('backend/seo/' . $template);
+                $this->_helper->cache->save('sitemapcontent' . $sitemapType, $sitemapContent, 'sitemaps_', array('sitemaps'));
+            }
+            echo $sitemapContent;
+        } catch (Zend_View_Exception $zve) {
+            $this->getResponse()->setHeader('Content-Type', 'text/html', true);
+            $this->_forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
+        }
+   }
 }
 

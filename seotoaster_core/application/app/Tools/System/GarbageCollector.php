@@ -19,6 +19,11 @@ abstract class Tools_System_GarbageCollector implements Interfaces_GarbageCollec
 
 	public function __construct($params = array()) {
 		$this->_params = $params;
+
+        //Object can be set by passing the 'model' in the params. But this will be reset in notify
+        if(isset($params['model'])) {
+            $this->_object = $params['model'];
+        }
 	}
 
 	abstract protected function _runOnDefault();
@@ -40,18 +45,10 @@ abstract class Tools_System_GarbageCollector implements Interfaces_GarbageCollec
 					$this->_runOnDefault();
 				break;
 			}
-		}
+		} else {
+            $this->_runOnDefault();
+        }
 	}
-
-	public function getObject() {
-		return $this->_object;
-	}
-
-	public function setObject($object) {
-		$this->_object = $object;
-		return $this;
-	}
-
 
 	public function clean() {}
 

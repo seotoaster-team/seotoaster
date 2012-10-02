@@ -41,7 +41,10 @@ class Tools_Security_Acl {
 		),
 		'Plugin' => array(
 			'fireaction'
-		)
+		),
+        'Seo' => array(
+            'sitemap'
+        )
 	);
 
 	/**

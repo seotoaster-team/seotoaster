@@ -19,10 +19,16 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 				return $toasterPlugin->run();
 			}
 			catch (Exceptions_SeotoasterPluginException $spe) {
-				return $spe->getMessage();
+                if(APPLICATION_ENV == 'development') {
+                    error_log($spe->getMessage() . "\n" . $spe->getTraceAsString());
+                }
+				//return $spe->getMessage();
 			}
 			catch (Exception $e) {
-				return $e->getMessage();
+                if(APPLICATION_ENV == 'development') {
+                    error_log($e->getMessage() . "\n" . $e->getTraceAsString());
+                }
+				//return $e->getMessage();
 			}
 		}
 		return $this->_translator->translate('Plugin is not installed.');

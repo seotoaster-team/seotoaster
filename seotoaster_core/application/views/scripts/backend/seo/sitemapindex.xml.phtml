@@ -1,0 +1,13 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<?php if(is_array($this->sitemaps) && !empty($this->sitemaps)): ?>
+    <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <?php foreach($this->sitemaps as $sitemapName => $sitemapData): ?>
+            <sitemap>
+                <loc><?php echo $this->websiteUrl . $sitemapName . '.' . $sitemapData['extension'];?></loc>
+                <?php if(isset($sitemapData['lastmod']) && $sitemapData['lastmod']): ?>
+                    <lastmod><?php echo $sitemapData['lastmod']; ?></lastmod>
+                <?php endif; ?>
+            </sitemap>
+        <?php endforeach; ?>
+    </sitemapindex>
+<?php endif; ?>

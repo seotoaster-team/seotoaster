@@ -31,7 +31,7 @@ class Application_Model_Models_Featuredarea extends Application_Model_Models_Abs
 		if($this->_random) {
 			shuffle($this->_pages);
 		}
-		return ($this->_limit) ? array_slice($this->_pages, 0, $this->_limit) : $this->_pages;
+		return ($this->_limit && ($this->_limit < sizeof($this->_pages))) ? array_slice($this->_pages, 0, $this->_limit) : $this->_pages;
 	}
 
 	public function setPages($pages) {
