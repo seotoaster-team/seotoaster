@@ -1210,10 +1210,11 @@ list-style: square;
 }
 
 .seotoaster .themebox img.preview {
-	width:auto;
-	height:145px;
-    max-width: 170px;
+    height: 145px;
+    max-width: 162px;
+    width: auto;
 }
+
 .seotoaster div.themebox span.label {
 
  overflow: hidden;
