@@ -140,7 +140,6 @@ class Tools_Plugins_Tools {
             if(!isset($configIni->actiontriggers)) {
                 continue;
             }
-
             $triggers = array_merge($triggers, $configIni->actiontriggers->toArray());
         }
         return $triggers;

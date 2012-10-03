@@ -62,7 +62,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	protected function _initSession() {
 		$config  = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'website');
-		$session = new Zend_Session_Namespace($config->website->url, true);
+		$session = new Zend_Session_Namespace('toaster_' . $config->website->url, true);
 		Zend_Registry::set('session', $session);
 	}
 
