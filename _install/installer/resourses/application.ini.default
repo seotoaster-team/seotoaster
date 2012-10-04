@@ -94,7 +94,7 @@ actiontriggers.seotoaster.trigger.t_passwordreset.from     = ""
 actiontriggers.seotoaster.trigger.t_passwordreset.subject  = "Password reminder"
 actiontriggers.seotoaster.trigger.t_passwordreset.observer = "Tools_Mail_SystemMailWatchdog"
 
-actiontriggers.seotoaster.trigger.t_passwordchange.title    = "pasword changed"
+actiontriggers.seotoaster.trigger.t_passwordchange.title    = "password changed"
 actiontriggers.seotoaster.trigger.t_passwordchange.sendto   = "member"
 actiontriggers.seotoaster.trigger.t_passwordchange.message  = ""
 actiontriggers.seotoaster.trigger.t_passwordchange.from     = ""

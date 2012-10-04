@@ -206,7 +206,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $this->view->mailTemplates  = Tools_Mail_Tools::getMailTemplatesHash();
         $this->view->triggers       = $triggers;
         $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
-            return ucfirst($trigger);
+            return str_replace('-', ' ', ucfirst($trigger));
         }, array_keys($triggers))));
         $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
     }
