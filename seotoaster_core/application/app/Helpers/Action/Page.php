@@ -49,7 +49,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 	public function doCanonicalRedirect($pageUrl) {
 		$this->_redirector->setCode(301);
               	
-        if($_SERVER['HTTP_HOST'] != Tools_System_Tools::getUrlHost($this->_website->getUrl())) {
+        if(Tools_System_Tools::getUrlHost($_SERVER['HTTP_HOST']) != Tools_System_Tools::getUrlHost($this->_website->getUrl())) {
 			$this->_redirector->gotoUrl($this->_website->getUrl() . $pageUrl);
 		}
 
