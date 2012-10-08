@@ -79,7 +79,7 @@ class IndexController extends Zend_Controller_Action {
 		//checking if folders has good permissions
 		foreach ($this->_requirements['permissions']['dir'] as $dirname) {
 			$dirpath = INSTALL_PATH . DIRECTORY_SEPARATOR . $dirname;
-			
+
 			if (!is_dir($dirpath)){
 				try {
 					if (@mkdir($dirpath)){
@@ -399,7 +399,9 @@ class IndexController extends Zend_Controller_Action {
 
 		$replacements = array(
 			'{websiteurl}'      => $this->_session->websiteUrl,
-			'{websitepath}'     => INSTALL_PATH.DIRECTORY_SEPARATOR,
+			//'{websitepath}'     => INSTALL_PATH . DIRECTORY_SEPARATOR,
+            //force change directory separator in the config (to avoid problems on windows)
+            '{websitepath}'     => str_replace('\\', '/', INSTALL_PATH) . '/',
 			'{adapter}'         => $this->_session->dbinfo['adapter'],
 			'{host}'            => $this->_session->dbinfo['params']['host'],
 			'{username}'        => $this->_session->dbinfo['params']['username'],

@@ -30,7 +30,7 @@ class LoginController extends Zend_Controller_Action {
 					$authUserData = $authAdapter->getResultRowObject(null, 'password');
 					if(null !== $authUserData) {
 						$user = new Application_Model_Models_User((array)$authUserData);
-						$user->setLastLogin(date(DATE_ATOM));
+						$user->setLastLogin(date(Tools_System_Tools::DATE_MYSQL));
 						$user->setIpaddress($_SERVER['REMOTE_ADDR']);
 						$this->_helper->session->setCurrentUser($user);
 						Application_Model_Mappers_UserMapper::getInstance()->save($user);
@@ -109,7 +109,7 @@ class LoginController extends Zend_Controller_Action {
 				//create new reset token and send e-mail to the user
 				$resetToken = new Application_Model_Models_PasswordRecoveryToken(array(
 					'saltString' => $retrieveData['email'],
-					'expiredAt'  => date(DATE_ATOM, strtotime('+1 day', time())),
+					'expiredAt'  => date(Tools_System_Tools::DATE_MYSQL, strtotime('+1 day', time())),
 					'userId'     => $user->getId()
 				));
 				$resetToken->registerObserver(new Tools_Mail_Watchdog(array(

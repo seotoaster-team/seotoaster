@@ -31,7 +31,7 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 				//return $e->getMessage();
 			}
 		}
-        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL) && Tools_System_Tools::debugMode()) {
             return $this->_translator->translate('Cannot load ' . $pluginName . ' plugin');
         }
 		return '';
