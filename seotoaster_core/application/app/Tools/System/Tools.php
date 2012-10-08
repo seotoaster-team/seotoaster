@@ -173,13 +173,21 @@ class Tools_System_Tools {
 		}
 	}
 
-    public function fetchSystemtriggers() {
+    public static function fetchSystemtriggers() {
         $triggers      = array();
         $config        = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
         if($config) {
             $triggers = $config->actiontriggers->toArray();
         }
         return $triggers;
+    }
+
+    public static function debugMode() {
+        $misc = Zend_Registry::get('misc');
+        if(APPLICATION_ENV == 'development' && isset($misc['debug']) && (boolean)$misc['debug'] == true) {
+            return true;
+        }
+        return false;
     }
 }
 

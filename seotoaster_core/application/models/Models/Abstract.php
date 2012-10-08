@@ -100,7 +100,13 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
         }
         if (!empty($checked[$modelClassName])){
             foreach ($checked[$modelClassName] as $observer) {
-                $this->registerObserver(new $observer());
+                if(Zend_Loader_Autoloader::getInstance()->suppressNotFoundWarnings(true)->autoload($observer)) {
+                    $this->registerObserver(new $observer());
+                } else {
+                    if(Tools_System_Tools::debugMode()) {
+                        error_log('Unable to load an observer from the queue: ' . $observer);
+                    }
+                }
             }
         }
         Zend_Registry::set('observers_queue', $checked);
