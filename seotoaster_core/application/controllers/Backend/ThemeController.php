@@ -199,7 +199,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	 */
 	private function _buildCssFileList() {
 		$currentThemeName	= $this->_helper->config->getConfig('currentTheme');
-		$currentThemePath	= realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName);
+		$currentThemePath	= Tools_System_Tools::normalizePath(realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName));
 
 		$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'css', true);
 
@@ -209,7 +209,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			if (strtolower(basename($file)) == Widgets_Concatcss_Concatcss::FILENAME) {
 				continue;
 			}
-			preg_match_all('~^'.$currentThemePath.'/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', $file, $sequences);
+			preg_match_all('~^'.$currentThemePath.'/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', Tools_System_Tools::normalizePath($file), $sequences);
 			$subfolders = $currentThemeName.'/'.$sequences[1][0];
 			$files = array();
 			foreach ($sequences[2] as $key => $value) {
@@ -352,16 +352,16 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
 	public function applythemeAction(){
 		if ($this->getRequest()->isPost()){
-			$selectedTheme = trim($this->getRequest()->getParam('themename'));
+            $selectedTheme = trim($this->getRequest()->getParam('themename'));
 			if (is_dir($this->_websiteConfig['path'].$this->_themeConfig['path'].$selectedTheme)) {
 				$errors = $this->_saveThemeInDatabase($selectedTheme);
 				if (empty ($errors)){
 					$status = sprintf($this->_translator->translate('The theme "%s" applied!'), $selectedTheme);
-					$this->_helper->cache->clean(false, false);
 					$this->_helper->response->response($status, false);
 				} else {
-					$this->_helper->response->response($errors, true);
-				}
+                    $this->_helper->response->fail(is_array($errors) ? join('<br/>', $errors) : $errors);
+                }
+                $this->_helper->cache->clean(false, false);
 			}
 		}
 		$this->_redirect($this->_helper->website->getUrl());

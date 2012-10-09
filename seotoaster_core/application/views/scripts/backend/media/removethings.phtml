@@ -150,8 +150,9 @@
 				$('#deleteBtn').show();
 			},
 			success: function(response){
-				window.console && console.log(response);
+				//window.console && console.log(response.errors);
 				proccessError(response);
+                //showMessage();
 
 				if (response.hasOwnProperty('deleted') && response.deleted.length > 0 ){
 					var removedFiles = [];
@@ -220,28 +221,26 @@
 	 * function proccessing errors coming in ajax response to dialog box
 	 */
 	function proccessError(ajaxResponse){
-		var dialogHolder = $('#ajax_msg');
-		var openFlag = false;
-
-		dialogHolder.html('');
+		//var dialogHolder = $('#ajax_msg');
+		var openFlag   = false;
+        var errorsHtml = '';
+		//dialogHolder.html('');
 
 		if (ajaxResponse.hasOwnProperty('errorMsg')){
-			dialogHolder.html($('#errorMsgTemplate').tmpl(ajaxResponse));
+			errorsHtml = $('#errorMsgTemplate').tmpl(ajaxResponse);
 			openFlag = true;
 		}
 
 		if (ajaxResponse.hasOwnProperty('errors')){
 			if (ajaxResponse.errors !== false) {
 				openFlag = true;
-				dialogHolder.html($('#fileErrorTemplate').tmpl(ajaxResponse.errors));
+				errorsHtml = $('#fileErrorTemplate').tmpl(ajaxResponse.errors);
 			}
 		}
 
-		if (!dialogHolder.dialog('isOpen') && openFlag){
-			dialogHolder.dialog('option', 'title', 'Hey!! Not so fast buddy!').dialog('open');
+		if (openFlag){
+            showMessage($('<div></div>').html(errorsHtml).html(), true);
 		}
-		dialogHolder.css({background : '#eee'}).addClass('ui-corner-all');
-		return dialogHolder;
 	}
 <?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>

@@ -64,7 +64,7 @@ class Tools_System_Tools {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$zipArch       = new ZipArchive();
 		$files         = array($pathToFile);
-		$exploded      = explode(DIRECTORY_SEPARATOR, $pathToFile);
+		$exploded      = explode('/', $pathToFile);
 		$localName     = preg_replace('~\.[\w]+$~', '', end($exploded));
 		$destinationFile = $websiteHelper->getPath() . 'tmp/' . (($name) ? $name : $localName) . '.zip';
 		if(file_exists($destinationFile)) {
@@ -190,6 +190,10 @@ class Tools_System_Tools {
             return true;
         }
         return false;
+    }
+
+    public static function normalizePath($path) {
+        return str_replace('\\', '/', $path);
     }
 }
 
