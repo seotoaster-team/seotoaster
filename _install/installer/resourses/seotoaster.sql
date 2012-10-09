@@ -63,6 +63,13 @@ CREATE TABLE IF NOT EXISTS `email_triggers` (
   KEY `enabled` (`enabled`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUES
+(1, '1', 't_feedbackform', 'Tools_Mail_SystemMailWatchdog'),
+(2, '1', 't_passwordreset', 'Tools_Mail_SystemMailWatchdog'),
+(3, '1', 't_passwordchange', 'Tools_Mail_SystemMailWatchdog'),
+(4, '1', 't_membersignup', 'Tools_Mail_SystemMailWatchdog'),
+(5, '1', 't_systemnotification', 'Tools_Mail_SystemMailWatchdog');
+
 CREATE TABLE IF NOT EXISTS `email_triggers_actions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `trigger` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -84,6 +91,13 @@ CREATE TABLE IF NOT EXISTS `email_triggers_recipient` (
   KEY `recipient` (`recipient`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+INSERT INTO `email_triggers_recipient` (`id`, `recipient`) VALUES
+(4, 'admin'),
+(3, 'copywriter'),
+(1, 'guest'),
+(2, 'member'),
+(5, 'superadmin');
+
 CREATE TABLE IF NOT EXISTS `featured_area` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(164) COLLATE utf8_unicode_ci NOT NULL,
@@ -101,10 +115,11 @@ CREATE TABLE IF NOT EXISTS `form` (
   `reply_subject` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `reply_mail_template` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `reply_from` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `tracking_code` text COLLATE utf8_unicode_ci NOT NULL,
   `reply_from_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tracking_code` text COLLATE utf8_unicode_ci NOT NULL,
+  `reply_text` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `link_container` (
   `id_container` int(10) unsigned NOT NULL,
@@ -233,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `plugin` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` enum('enabled','disabled') COLLATE utf8_unicode_ci DEFAULT 'disabled',
-  `tags` text COLLATE utf8_unicode_ci COMMENT 'Comma separated words',
+  `tags` text COLLATE utf8_unicode_ci COMMENT 'comma separated words',
   `license` blob,
   PRIMARY KEY (`id`),
   KEY `indName` (`name`),
@@ -303,6 +318,34 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `page_has_option` (
+  `page_id` int(10) unsigned NOT NULL,
+  `option_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`page_id`,`option_id`),
+  KEY `option_id` (`option_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `page_option` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  `context` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'In which context this option is used. E.g. option_newsindex used in News system context',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `active` (`active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_option` (`id`, `title`, `context`, `active`) VALUES
+('option_404page', 'Our error 404 "Not found" page', 'Seotoaster pages', 1),
+('option_checkout', 'The cart checkout page', 'Cart and checkout', 1),
+('option_member_landing', 'Where members land after logging-in', 'Seotoaster membership', 1),
+('option_member_loginerror', 'Our membership login error page', 'Seotoaster membership', 1),
+('option_member_signuplanding', 'Where members land after signed-up', 'Seotoaster membership', 1),
+('option_protected', 'Accessible only to logged-in members', 'Seotoaster pages', 1);
+
+ALTER TABLE `page_has_option`
+  ADD CONSTRAINT `page_has_option_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `page_has_option_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `page_option` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `container`
   ADD CONSTRAINT `container_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

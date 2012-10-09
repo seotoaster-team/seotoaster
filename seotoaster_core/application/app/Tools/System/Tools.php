@@ -9,6 +9,8 @@ class Tools_System_Tools {
 
     const REMOTE_TOASTER_URL = 'http://www.seotoaster.com/';
 
+    const DATE_MYSQL         = 'Y-m-d H:i:s';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/') : 'index.html';
@@ -173,13 +175,21 @@ class Tools_System_Tools {
 		}
 	}
 
-    public function fetchSystemtriggers() {
+    public static function fetchSystemtriggers() {
         $triggers      = array();
         $config        = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
         if($config) {
             $triggers = $config->actiontriggers->toArray();
         }
         return $triggers;
+    }
+
+    public static function debugMode() {
+        $misc = Zend_Registry::get('misc');
+        if(APPLICATION_ENV == 'development' && isset($misc['debug']) && (boolean)$misc['debug'] == true) {
+            return true;
+        }
+        return false;
     }
 }
 

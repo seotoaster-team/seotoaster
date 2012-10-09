@@ -19,19 +19,22 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 				return $toasterPlugin->run();
 			}
 			catch (Exceptions_SeotoasterPluginException $spe) {
-                if(APPLICATION_ENV == 'development') {
+                if(Tools_System_Tools::debugMode()) {
                     error_log($spe->getMessage() . "\n" . $spe->getTraceAsString());
                 }
 				//return $spe->getMessage();
 			}
 			catch (Exception $e) {
-                if(APPLICATION_ENV == 'development') {
+                if(Tools_System_Tools::debugMode()) {
                     error_log($e->getMessage() . "\n" . $e->getTraceAsString());
                 }
 				//return $e->getMessage();
 			}
 		}
-		return $this->_translator->translate('Plugin is not installed.');
+        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL) && Tools_System_Tools::debugMode()) {
+            return $this->_translator->translate('Cannot load ' . $pluginName . ' plugin');
+        }
+		return '';
 	}
 }
 

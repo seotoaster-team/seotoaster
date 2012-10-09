@@ -41,7 +41,7 @@ class Tools_Plugins_Tools {
 				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : '');
 				if(!$title) {
                     if(isset($configIni->$userRole) && isset($configIni->$userRole->title)) {
-                        $title = $configIni->$userRole->title;
+                        $title = strtoupper($configIni->$userRole->title);
                     }
                 }
 

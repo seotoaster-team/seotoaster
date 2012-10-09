@@ -186,7 +186,7 @@ class Tools_Plugins_Abstract implements Interfaces_Plugin {
 			        'clear'   => true
 				));
 			} catch (Exception $e) {
-				if(APPLICATION_ENV == 'development') {
+				if(Tools_System_Tools::debugMode()) {
 					error_log("(plugin: " . strtolower(get_called_class()) . ") " . $e->getMessage() . "\n" . $e->getTraceAsString());
 				}
 			}

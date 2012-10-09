@@ -59,6 +59,7 @@ cache.frontend.ignore_user_abort       = 1
 cache.backend.cache_dir                = "cache/"
 
 [misc]
+misc.debug                 = 0
 misc.jquery                = "cdn"
 misc.jqversion             = "1.7.1"
 misc.jqueryui              = "cdn"
