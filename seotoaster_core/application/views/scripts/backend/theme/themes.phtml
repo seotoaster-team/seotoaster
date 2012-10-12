@@ -103,14 +103,9 @@ $(function(){
 			$.post('<?php echo $this->url(array('action'=>'applytheme')); ?>',
 			{'themename' : themeName},
 			function(response){
-				if (response.error == false) {
-					smoke.signal(response.responseText);
-					$('.smoke-base').fadeOut();
-				}
-				$('#themes-list').trigger('updateContent');
-			},
-			'json'
-			);
+				showMessage(response.responseText, response.error);
+                $('#themes-list').trigger('updateContent');
+			}, 'json');
 		}
 	});
 
