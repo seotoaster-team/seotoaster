@@ -44,6 +44,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
     const SECTION_PLUGINS      = 'plugins';
 
     const SECTION_FA           = 'fa';
+    
+    const SECTION_ACTIONEMAILS = 'actionemails';
 
     private $_helpHashMap  = array(
         self::SECTION_ADDPAGE      => 'how-to-create-and-edit-a-page.html',
@@ -63,7 +65,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
         self::SECTION_CONFIG       => 'manage-config.html',
         self::SECTION_USERS        => 'manage-users.html',
         self::SECTION_PLUGINS      => 'how-to-add-a-plugin.html',
-        self::SECTION_FA           => 'how-to-add-and-edit-a-featured-area.html'
+        self::SECTION_FA           => 'how-to-add-and-edit-a-featured-area.html',
+        self::SECTION_ACTIONEMAILS => 'action-emails-cheat-sheet.html'    
     );
 
     public function toasterHelp($section) {
