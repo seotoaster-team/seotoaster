@@ -138,10 +138,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                     ->setSubject(isset($this->_options['subject']) ? $this->_options['subject'] : $this->_translator->translate('New user is registered!'));
             break;
         }
-        $this->_entityParser->objectToDictionary($user);
+        
         if(($mailBody = $this->_prepareEmailBody()) == false) {
             $mailBody = $this->_options['message'];
         }
+        $this->_entityParser->objectToDictionary($user);
         if(!isset($this->_options['from'])) {
             $this->_options['from'] = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN)->getEmail();
         }
