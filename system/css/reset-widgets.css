@@ -1,3 +1,8 @@
+{
+	color:#666;
+	font:12px 'Open Sans', Arial, Helvetica, 'Droid Sans', sans-serif;
+}
+
 /*==== Links ========*/
 a{
 	text-decoration:none;
@@ -20,6 +25,7 @@ table.widget a {
 table.widget a:hover {
 	text-decoration:none;
 }
+table ul, table ul li{ margin:0; padding:0; list-style:none; }
 
 /*========= Formats ===========*/
 .fs12 {font-size:12px;}
@@ -74,16 +80,20 @@ table.widget.table-zebra{ background:#fcfcfc; }
 table.widget tr.search-line th{
 	border-bottom: medium none;
 	text-align: left;
+	text-shadow:none;
+}
+table.widget tr.search-line th.text-right{
+	text-align: right;
 }
 table.widget tr.search-line label{
 	margin-left: 10px;
 	margin-right: 10px;
 	width: auto;
-    display: inline;
+	float:left;
 }
 table.widget tr.search-line input{
 	margin: 0;
-	width: 300px;
+	width: 250px;
 }
 table.widget tr.row-red{ background:#F2DEDE; }
 table.widget tr.row-green{ background:#DFF0D8; }
@@ -206,7 +216,7 @@ div.ui-tabs > .ui-tabs-panel{
 	background:#fff;
 	overflow:hidden;
 	border:1px solid #c4c4c4;
-	padding: 0;
+	padding:10px;
 	border-radius:0;
 	-ms-border-radius:0;
 	-moz-border-radius:0;
