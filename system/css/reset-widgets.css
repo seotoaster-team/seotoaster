@@ -53,7 +53,7 @@ table ul, table ul li{ margin:0; padding:0; list-style:none; }
 
 .fl-left{ float:left; }
 .fl-right{ float:right; }
-.fl--none{ float:none; }
+.fl-none{ float:none; }
 
 /*========= paginator ===========*/
 .paginator div:first-child, .pager div:first-child{ margin-bottom:5px; }
