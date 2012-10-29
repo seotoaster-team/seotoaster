@@ -32,7 +32,7 @@ class Application_Model_Mappers_DeeplinkMapper extends Application_Model_Mappers
 		}
 	}
 
-	public function delete(Application_Model_Models_Deeplink $deeplink) {
+    public function delete(Application_Model_Models_Deeplink $deeplink) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $deeplink->getId());
 		$deleteResult = $this->getDbTable()->delete($where);
 		$deeplink->notifyObservers();

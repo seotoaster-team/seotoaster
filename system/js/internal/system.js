@@ -230,7 +230,7 @@ function closePopup() {
 
 function generateStorageKey() {
 	if($('#frm_content').length) {
-		var actionUrlComponents = $('#frm_content').attr('action').split('/');
+		var actionUrlComponents = $('#frm_content').prop('action').split('/');
 		return actionUrlComponents[5] + actionUrlComponents[7] + (typeof actionUrlComponents[9] == 'undefined' ? $('#page_id').val() : actionUrlComponents[9]);
 	}
 	return null;

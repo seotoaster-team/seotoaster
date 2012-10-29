@@ -69,9 +69,15 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		}
 	}
 
-	private function _updateSitemap() {
-		$sitemapFeed = Tools_Content_Feed::generateSitemapFeed();
-		return Tools_Filesystem_Tools::saveFile('sitemap.xml', $sitemapFeed);
+    /**
+     * @todo remove in 2.0.6
+     * @deprecated
+     * @return bool
+     */
+    private function _updateSitemap() {
+		//$sitemapFeed = Tools_Content_Feed::generateSitemapFeed();
+		//return Tools_Filesystem_Tools::saveFile('sitemap.xml', $sitemapFeed);
+        return false;
 	}
 
 	private function _updateContainersUrls() {
@@ -184,7 +190,7 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 	}
 
 	private function _massDeeplinkApply() {
-		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+		$pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllByContent($this->_object->getName());
 		if(!empty ($pages)) {
 			foreach ($pages as $page) {
 				Tools_Content_Tools::applyDeeplinkPerPage($this->_object, $page);
