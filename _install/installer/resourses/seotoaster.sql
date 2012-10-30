@@ -337,7 +337,6 @@ CREATE TABLE IF NOT EXISTS `page_option` (
 
 INSERT INTO `page_option` (`id`, `title`, `context`, `active`) VALUES
 ('option_404page', 'Our error 404 "Not found" page', 'Seotoaster pages', 1),
-('option_checkout', 'The cart checkout page', 'Cart and checkout', 1),
 ('option_member_landing', 'Where members land after logging-in', 'Seotoaster membership', 1),
 ('option_member_loginerror', 'Our membership login error page', 'Seotoaster membership', 1),
 ('option_member_signuplanding', 'Where members land after signed-up', 'Seotoaster membership', 1),
