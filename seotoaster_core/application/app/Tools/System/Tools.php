@@ -195,5 +195,10 @@ class Tools_System_Tools {
     public static function normalizePath($path) {
         return str_replace('\\', '/', $path);
     }
+    
+    public static function getSystemVersion(){
+        $versionTxtContent = Tools_Filesystem_Tools::getFile('version.txt');
+        return $versionTxtContent;
+    }
 }
 

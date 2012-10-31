@@ -50,10 +50,14 @@ class Backend_FormController extends Zend_Controller_Action {
 		$this->view->formForm = $formForm;
 	}
 
-    public function deleteAction(){
-       $id         = $this->getRequest()->getParam('id');
-       $formMapper = Application_Model_Mappers_FormMapper::getInstance();
-       return $formMapper->delete($formMapper->find($id));
+    public function deleteAction() {
+        $id         = $this->getRequest()->getParam('id');
+        $formMapper = Application_Model_Mappers_FormMapper::getInstance();
+
+        //needs to go to the garbage collector in future
+        $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
+
+        return $formMapper->delete($formMapper->find($id));
     }
 
 	public function loadformsAction() {

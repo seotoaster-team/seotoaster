@@ -42,10 +42,10 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	}
 
     protected function _renderMemberLogout() {
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-			return '';
-		}
-		return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">Logout</a>';
+        if($this->_session->getCurrentUser()->getRoleId() == Tools_Security_Acl::ROLE_GUEST){
+            return '';
+        }
+        return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">Logout</a>';
 	}
 
     protected function _renderMemberSignup() {

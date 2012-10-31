@@ -273,6 +273,16 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $pages;
 	}
 
+    public function fetchAllByContent($content, $originalsOnly = false) {
+        $pages = $this->getDbTable()->fetchAllByContent($content, $originalsOnly);
+        if(!$pages || empty($pages)) {
+            return null;
+        }
+        return array_map(function($pageData) {
+            return new Application_Model_Models_Page($pageData);
+        }, $pages);
+    }
+
     protected function _findPage($id, $originalsOnly) {
         $row = $this->getDbTable()->findPage(intval($id));
         if(null == $row) {

@@ -108,6 +108,17 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         ));
     }
 
+    public function fetchAllByContent($content, $originalsOnly) {
+        $where  = $this->getAdapter()->quoteInto('content LIKE ?', '%' . $content . '%');
+        if($originalsOnly) {
+            $select = $this->getAdapter()->select()->from('page');
+        } else {
+            $select = $this->_getOptimizedSelect();
+        }
+        $select->join('container', 'container.page_id=page.id', array())->where($where);
+        return $this->getAdapter()->fetchAll($select);
+    }
+
     public function fetchPageOptions($id, $idsOnly = true) {
         return $this->_fetchPageOptions($id, $idsOnly);
     }
@@ -129,6 +140,20 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             return $entries;
         }
         return $optionsData;
+    }
+
+    private function _getOptimizedSelect() {
+        return $this->getAdapter()->select()
+            ->from('page')
+            ->joinLeft('optimized', 'page_id=id', array(
+            'optimizedUrl'               => 'url',
+            'optimizedH1'                => 'h1',
+            'optimizedHeaderTitle'       => 'header_title',
+            'optimizedNavName'           => 'nav_name',
+            'optimizedTargetedKeyPhrase' => 'targeted_key_phrase',
+            'optimizedMetaDescription'   => 'meta_description',
+            'optimizedMetaKeywords'      => 'meta_keywords'
+        ));
     }
 }
 
