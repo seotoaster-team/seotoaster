@@ -1,4 +1,5 @@
 <?php
+
 abstract class Tools_MagicSpaces_Abstract {
 
 	protected $_name         = '';
@@ -34,7 +35,7 @@ abstract class Tools_MagicSpaces_Abstract {
 
 	/**
 	 * This method should be overloaded in the descendant classes
-	 * If this method return's any con
+	 * If this method return's any content it will be place instead of the original magigspace content
 	 * @abstract
 	 *
 	 */

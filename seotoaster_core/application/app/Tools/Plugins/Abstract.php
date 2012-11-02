@@ -8,7 +8,7 @@
  * @property $emailRecipients array|null List of plugin specific email recivers
  */
 
-class Tools_Plugins_Abstract implements Interfaces_Plugin {
+abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
 	/**
 	 * @const   ACTION_POSTFIX  Method which name ends with this postfix will be dispatched as action
