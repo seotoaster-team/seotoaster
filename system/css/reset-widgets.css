@@ -1,4 +1,6 @@
-{
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic);
+
+* {
 	color:#666;
 	font:12px 'Open Sans', Arial, Helvetica, 'Droid Sans', sans-serif;
 }
@@ -526,6 +528,11 @@ div.ui-tabs.tabs-white > .ui-tabs-panel .tabs{
 .gray-bg, table.widget tr>.gray-bg{background:#eee; color:#000;}
 .dark-gray-bg, table.widget tr>.dark-gray-bg{background:#aaa; color:#000;}
 .white-bg, table.widget tr>.white-bg{background:#fff; color:#000;}
+
+/*Pattern for background*/
+.bg-content { background: url(/system/images/bg/5.png) white; }
+.bg-header { background: url(/system/images/bg/3.png) white; }
+.bg-body { background: url(/system/images/bg/2.png) white; }
 
 /*Color for fonts*/
 .orange, table.widget tr>.orange{color:#f89406;}
