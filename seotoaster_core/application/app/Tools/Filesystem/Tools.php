@@ -112,7 +112,7 @@ class Tools_Filesystem_Tools {
 
 	public static function getFile($filename){
 		if (!file_exists($filename)) {
-			throw new Exceptions_SeotoasterException('File doesn\'t exists');
+			throw new Exceptions_SeotoasterException('File '. $filename . ' doesn\'t exists ');
 		}
 		return file_get_contents($filename);
 	}

@@ -390,7 +390,18 @@ class Backend_SeoController extends Zend_Controller_Action {
         if(($sitemapType = $this->getRequest()->getParam('type', '')) == Tools_Content_Feed::SMFEED_TYPE_REGULAR) {
             //regular sitemap.xml requested
             if(null === ($this->view->pages = $this->_helper->cache->load('sitemappages', 'sitemaps_'))) {
-                $this->view->pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+                $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+                if(is_array($pages) && !empty($pages)) {
+                    foreach($pages as $key => $page) {
+                        if(!$page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED)) {
+                            continue;
+                        }
+                        unset($pages[$key]);
+                    }
+                } else {
+                    $pages = array();
+                }
+                $this->view->pages = $pages;
                 $this->_helper->cache->save('sitemappages', $this->view->pages, 'sitemaps_', array('sitemaps'));
             }
 
