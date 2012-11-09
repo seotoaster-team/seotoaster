@@ -72,7 +72,10 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
         self::SECTION_EDITCONTENT  => 'add-and-edit-content.html'
     );
 
-    public function toasterHelp($section) {
+    public function toasterHelp($section, $hashMap = null) {
+        if(is_array($hashMap)){
+            $this->_helpHashMap = array_merge($this->_helpHashMap, $hashMap);
+        }
         if(array_key_exists($section, $this->_helpHashMap)) {
             return '<a href="' . self::REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank">' . $this->view->translate('Help') . '</a>';
         }
