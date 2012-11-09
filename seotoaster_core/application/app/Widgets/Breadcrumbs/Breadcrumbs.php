@@ -32,17 +32,22 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
         $crumbs = array_merge($crumbs, $breadCrumbList);
         if(isset($sessionHelper->previousPageId) && $sessionHelper->previousPageId != $this->_toasterOptions['id'] && $breadCrumbsQuantity != 2){
             $breadCrumbList[] = $breadcrumb;
-        }elseif($breadCrumbsQuantity == 2){
+        }elseif($breadCrumbsQuantity == 2 && end($breadCrumbList) != $breadcrumb){
             array_shift($breadCrumbList);
             $breadCrumbList[] = $breadcrumb;
-        }elseif($breadCrumbsQuantity != 2){
+        }elseif($breadCrumbsQuantity != 2 && end($breadCrumbList) != $breadcrumb){
             $breadCrumbList[] = $breadcrumb;
         }
         
         $sessionHelper->previousPageId = $this->_toasterOptions['id'];
         $sessionHelper->breadCrumbList = $breadCrumbList;
         
-		$crumbs[] = $page->getNavName();
+        if(end($crumbs) != $breadcrumb){
+            $crumbs[] = $page->getNavName();
+        }else{
+            array_pop($crumbs);
+            $crumbs[] = $page->getNavName();
+        }
 		return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
 	}
 

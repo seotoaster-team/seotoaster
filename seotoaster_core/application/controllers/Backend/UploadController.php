@@ -219,11 +219,14 @@ class Backend_UploadController extends Zend_Controller_Action {
 					));
 				}
 			}
-			$this->_uploadHandler->receive();
-			$file = $this->_uploadHandler->getFileName();
+			if ($this->_uploadHandler->receive()){
+				$fileInfo = current($this->_uploadHandler->getFileInfo());
+			} else {
+				return array('error' => true, 'result' => $this->_uploadHandler->getMessages());
+			}
 
 			if ($resize){
-				$status = Tools_Image_Tools::batchResize($file, $savePath);
+				$status = Tools_Image_Tools::batchResize($fileInfo['tmp_name'], $savePath);
 			} else {
 				$status = true;
 			}
