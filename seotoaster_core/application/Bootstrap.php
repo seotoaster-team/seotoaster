@@ -143,6 +143,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_CONTENT);
         $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_MEDIA);
         $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_PAGES);
+        $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_THEMES);
 
 		$acl->allow(Tools_Security_Acl::ROLE_ADMIN);
 		$acl->deny(Tools_Security_Acl::ROLE_ADMIN, Tools_Security_Acl::RESOURCE_USERS);
