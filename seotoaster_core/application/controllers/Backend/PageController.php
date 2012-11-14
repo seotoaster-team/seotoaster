@@ -33,7 +33,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$pageId      = $this->getRequest()->getParam('id');
 		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
-		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName()));
+		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName(true)));
 
 		$page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
 
