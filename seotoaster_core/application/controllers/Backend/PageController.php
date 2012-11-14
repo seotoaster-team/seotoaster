@@ -210,7 +210,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 		switch ($menuType) {
 			case Application_Model_Models_Page::IN_MAINMENU:
-				$categories = $mapper->selectCategoriesIdName();
+				$categories = $mapper->selectCategoriesIdName(true);
 				$menuOptions = array(
 					'-4'         => 'Make your selection',
 					'Seotoaster' => array(
