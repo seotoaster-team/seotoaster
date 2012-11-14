@@ -183,14 +183,18 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $this->fetchAll($where);
 	}
 
-	public function selectCategoriesIdName() {
+	public function selectCategoriesIdName($useNavName = false) {
 		$result     = array();
 		$categories = $this->findByParentId(0);
         if(empty($categories)) {
             return array();
         }
 		foreach ($categories as $key => $category) {
-			$categoryName = ($category->getProtected()) ? ($category->getH1() . '*') : $category->getH1();
+			if($useNavName){
+                $categoryName = ($category->getProtected()) ? ($category->getNavName() . '*') : $category->getNavName();
+            }else{
+                $categoryName = ($category->getProtected()) ? ($category->getH1() . '*') : $category->getH1();
+            }
 			$result[$category->getId()] = $categoryName;
 		}
 		return $result;
