@@ -501,11 +501,23 @@ class IndexController extends Zend_Controller_Action {
 		$templateTable = new Zend_Db_Table('template');
 		foreach ($templates as $template) {
 			$name = explode(DIRECTORY_SEPARATOR, $template);
-			$templateTable->insert(array(
-				'name' => str_replace('.html', '', end($name)),
-				'content' => file_get_contents($template),
-				'type'  => 'typeregular'
+			$name = str_replace('.html', '', end($name));
+			$validator = new Zend_Validate_Db_NoRecordExists(array(
+				'table' => 'template',
+				'field' => 'name'
 			));
+			$tmplRow = $templateTable->find($name);
+			if ($tmplRow->count()){
+				$tmplRow = $tmplRow->current();
+				$tmplRow->content = file_get_contents($template);
+				$tmplRow->save();
+			} else {
+				$templateTable->insert(array(
+					'name' => $name,
+					'content' => file_get_contents($template),
+					'type'  => 'typeregular'
+				));
+			}
             unset($name);
 		}
 
