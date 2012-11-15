@@ -9,7 +9,8 @@
 
 		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 			'innerHeaderHtml' => $draftOrLive,
-			'pluginsSpace'    => $this->pluginsEditorTop
+			'pluginsSpace'    => $this->pluginsEditorTop,
+            'helpSection'     => $this->helpSection
 		));
 	?>
 	<div class="grid_8 above-editor-links">

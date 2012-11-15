@@ -33,7 +33,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$pageId      = $this->getRequest()->getParam('id');
 		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
-		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName()));
+		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName(true)));
 
 		$page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
 
@@ -210,7 +210,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$mapper      = Application_Model_Mappers_PageMapper::getInstance();
 		switch ($menuType) {
 			case Application_Model_Models_Page::IN_MAINMENU:
-				$categories = $mapper->selectCategoriesIdName();
+				$categories = $mapper->selectCategoriesIdName(true);
 				$menuOptions = array(
 					'-4'         => 'Make your selection',
 					'Seotoaster' => array(

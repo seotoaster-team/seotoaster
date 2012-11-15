@@ -9,8 +9,8 @@
 			<div style="color: #cecece; padding: 10px 0px;">Sorry, but the page you were looking for can't be found.</div>
 			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL, $this->role)): ?>
 				<span style="color: #cecece;">
-					<br/>You can costumize this page - just create a page and assign it as 404 error page
-					<br/>Use the checkbox on the create/update page screen.
+					<br/>You can customize this page - just create a page and assign it as 404 error page
+					<br/>Select "Our error 404 &ldquo;Not found&rdquo; page" from dropdown "This page is ..." on the create/update page screen.
 				</span><br/><br/>
 			<?php endif; ?>
 			<a href="<?php echo $this->websiteUrl; ?>" style="color: #7c7c7c;">back to home page</a>

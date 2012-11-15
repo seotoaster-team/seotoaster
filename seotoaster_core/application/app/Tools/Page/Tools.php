@@ -29,7 +29,7 @@ class Tools_Page_Tools {
 			if(!$path && $capIfNoPreview) {
 				return $websiteUrl . 'system/images/noimage.png';
 			}
-			return $path;
+			return str_replace(DIRECTORY_SEPARATOR, '/', $path);
 		}
 		return $websiteUrl . 'system/images/noimage.png';
 	}

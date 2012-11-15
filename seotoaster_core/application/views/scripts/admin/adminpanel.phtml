@@ -3,7 +3,7 @@
 <div id="seotoaster-cpanel" class="seotoaster w200">
 	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
 	<div id="seotoaster-logowrap">
-        <div id="system-version" style="font-family: tahoma, geneva, verdana, sans-serif !important; font-size: 7px !important; text-align: right; padding-right: 5px;"><?php echo $this->translate('Version'); ?> <?php echo Tools_System_Tools::getSystemVersion();?></div>    
+        <div id="system-version" style="font-family: tahoma, geneva, verdana, sans-serif !important; font-size: 7px !important; text-align: right; padding-right: 5px;"><?php echo $this->translate('CMS version'); ?> <?php echo Tools_System_Tools::getSystemVersion();?></div>    
         <img width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
     </div>
 	<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
@@ -104,23 +104,25 @@
 			</ul>
 		</li>
 		<?php endif;?>
-		<!-- output plugins additional menus -->
-		<?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
-			<?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
-                <?php if(!$pluginAdditionalMenu['title']) {continue;} ?>
-				<li class="plugin-cpanel-menu plugin-<?php echo strtolower($pluginAdditionalMenu['title']);?>">
-					<a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
-					<?php if(isset($pluginAdditionalMenu['items'])): ?>
-					    <ul>
-					        <?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
-					            <?php echo $this->toasterAdminpanelItem($menuItem); ?>
-					        <?php endforeach; ?>
-					    </ul>
-					<?php endif; ?>
-				</li>
-			<?php endforeach; ?>
-		<?php endif; ?>
-		<!-- /output plugins additional menus -->
+        <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS_MENU)): ?>
+            <!-- output plugins additional menus -->
+            <?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
+                <?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
+                    <?php if(!$pluginAdditionalMenu['title']) {continue;} ?>
+                    <li class="plugin-cpanel-menu plugin-<?php echo strtolower($pluginAdditionalMenu['title']);?>">
+                        <a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
+                        <?php if(isset($pluginAdditionalMenu['items'])): ?>
+                            <ul>
+                                <?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
+                                    <?php echo $this->toasterAdminpanelItem($menuItem); ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <!-- /output plugins additional menus -->
+        <?php endif; ?>
 
 	</ul>
 	<?php endif; ?>
