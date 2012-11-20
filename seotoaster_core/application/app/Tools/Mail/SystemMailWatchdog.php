@@ -75,11 +75,57 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
 	protected function _sendTfeedbackformMail(Application_Model_Models_Form $form) {
-        $contactMailSent = $this->_sendTfeedbackformMailContact($form);
-        $replyMailSent   = $this->_sendTfeedbackformMailReply($form);
+        if(!isset($this->_options['recipient'])){
+            $contactMailSent = $this->_sendTfeedbackformMailContact($form);
+            $replyMailSent   = $this->_sendTfeedbackformMailReply($form);
+        }else{
+            $this->_sendTfeedbackformMailAdditionalContact($form);
+        }
         return ($contactMailSent && $replyMailSent);
     }
 
+    protected function _sendTfeedbackformMailAdditionalContact(Application_Model_Models_Form $form){
+        $this->_mailer = Tools_Mail_Tools::initMailer();
+        $formDetails = $this->_cleanFormData($this->_options['data']);
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $where = $userMapper->getDbTable()->getAdapter()->quoteInto("role_id = ?", Tools_Security_Acl::ROLE_ADMIN);
+        $admins = $userMapper->fetchAll($where);
+        switch ($this->_options['recipient']) {
+            case self::RECIPIENT_ADMIN:
+                if(!empty($admins)){
+                    foreach($admins as $key=>$admin){
+                        if($key == 0){
+                            $this->_mailer->setMailToLabel($admin->getFullName())
+                                ->setMailTo($admin->getEmail());
+                        }else{
+                            $this->_mailer->setMailBcc($admin->getEmail());
+                        }
+                    }
+                }else{
+                    return;
+                }
+            break;
+            default: 
+                return;
+            break;
+        }
+        $mailBody = '{form:details}';
+        $formDetailsHtml = '';
+        foreach($formDetails as $name => $value) {
+            if(!$value) {
+                continue;
+            }
+            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
+        }
+        $this->_entityParser->setDictionary(array(
+            'form:details' => $formDetailsHtml
+        ));
+        $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+        $this->_mailer->setSubject($this->_translator->translate('New form submited'))
+            ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
+            ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
+        return $this->_mailer->send();
+    }
 
     protected function _sendTfeedbackformMailReply(Application_Model_Models_Form $form) {
         $this->_mailer             = Tools_Mail_Tools::initMailer();
