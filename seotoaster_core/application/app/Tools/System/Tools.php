@@ -192,13 +192,34 @@ class Tools_System_Tools {
         return false;
     }
 
+    /**
+     * Change any OS directory separator to the "/".
+     *
+     * @param $path string
+     * @return string Normalized path
+     */
     public static function normalizePath($path) {
-        return str_replace('\\', '/', $path);
+        return str_replace(DIRECTORY_SEPARATOR, '/', $path);
     }
     
     public static function getSystemVersion(){
-        $versionTxtContent = Tools_Filesystem_Tools::getFile('version.txt');
-        return $versionTxtContent;
+        try {
+            return Tools_Filesystem_Tools::getFile('version.txt');
+        } catch (Exceptions_SeotoasterException $se) {
+            if(self::debugMode()) {
+                error_log($se->getMessage());
+            }
+        }
+        return '';
+    }
+
+    public static function getAllowedUploadData() {
+        $uploadFileSize = intval(ini_get('upload_max_filesize'));
+        $postSize       = intval(ini_get('post_max_size'));
+        return array(
+            'fileSize'    => ($uploadFileSize > $postSize) ? $postSize : $uploadFileSize,
+            'fileUploads' => intval(ini_get('max_file_uploads'))
+        );
     }
 }
 
