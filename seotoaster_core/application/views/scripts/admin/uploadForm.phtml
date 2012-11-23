@@ -27,8 +27,8 @@ switch ($this->caller){
 		browse_button : '<?php echo $this->formId; ?>-pickfiles',
 		rename: true,
 		unique_names: false,
-		max_file_size : '10mb',
-		max_file_count: 10,
+		max_file_size : '<?php echo $this->allowedUploadData['fileSize']; ?>mb',
+		max_file_count: <?php echo $this->allowedUploadData['fileUploads']; ?>,
 		url : $('#<?php echo $this->formId; ?>-pickfiles').data('url'),
 		<?php if (!$this->disableResize): ?>
 		resize : {width : <?php echo $maxWidth; ?>, height : <?php echo $maxHeight; ?>, quality : <?php echo $this->config['imgQuality']; ?>},

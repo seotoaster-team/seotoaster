@@ -64,7 +64,10 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 
 		$this->view->caller = isset($this->_uploadActionUrl['caller']) ? $this->_uploadActionUrl['caller'] : false;
 
-		return $this->view->render('admin'.DIRECTORY_SEPARATOR.'uploadForm.phtml');
+		// max upload file size and files count
+        $this->view->allowedUploadData = Tools_System_Tools::getAllowedUploadData();
+
+        return $this->view->render('admin'.DIRECTORY_SEPARATOR.'uploadForm.phtml');
 	}
 
 }
