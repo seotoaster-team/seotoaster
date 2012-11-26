@@ -217,7 +217,7 @@ class Tools_Plugins_Tools {
 		$routes         = array();
 		$enabledPlugins = self::getEnabledPlugins();
 		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
-			$routesPath  = APPLICATION_PATH . '/configs/routes.xml';
+			$routesPath  = is_file(APPLICATION_PATH . '/configs/'.SITE_NAME.'.routes.xml') ? APPLICATION_PATH . '/configs/'.SITE_NAME.'.routes.xml' : APPLICATION_PATH . '/configs/routes.xml' ;
 			if(file_exists($routesPath)) {
 				$routes = new Zend_Config_Xml($routesPath);
 				$routes = $routes->toArray();

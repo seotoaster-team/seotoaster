@@ -93,6 +93,11 @@ class Backend_FormController extends Zend_Controller_Action {
                     'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
                     'data'     => $formParams
                 ));
+                $mailWatchdog = new Tools_Mail_Watchdog(array(
+                    'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
+                    'data'     => $formParams
+                ));
+                $mailWatchdog->notify($form);
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
                     $this->_helper->response->success($form->getMessageSuccess());

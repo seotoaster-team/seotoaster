@@ -112,7 +112,7 @@
 .toaster-widget table.widget.table-border th, .toaster-widget table.widget.table-border td{ border-right:1px solid #ccc; }
 .toaster-widget table.widget th{
 	color:#555;
-	/*white-space: nowrap;*/
+	white-space: normal;
 	border-top:1px solid #ccc;
 	text-shadow: 1px 1px 0 #FFFFFF;
 	background: #fff;
@@ -224,7 +224,7 @@
 	-moz-border-radius:0;
 	-webkit-border-radius:0;
 }
-
+#profile-orders-list{ padding:0; }
 /****** Tabs reset *******/
 .toaster-widget div.ui-tabs.gradient > ul.ui-tabs-nav > li{ border-width:0 1px; }
 .toaster-widget div.ui-tabs.gradient > ul.ui-tabs-nav > li.ui-tabs-selected:first-child{ border-left:none; }
