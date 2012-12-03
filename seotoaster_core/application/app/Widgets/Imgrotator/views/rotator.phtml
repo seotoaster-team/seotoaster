@@ -8,22 +8,24 @@
 	<?php endif; ?>
 </div>
 
-<script type="text/javascript">
-	$(function() {
-		var timeout = 100;
-		if (!$.fn.cycle){
-			timeout = 2000;
-			$.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle.js'; ?>');
-		}
-		setTimeout(function(){
-			$('#<?php echo $this->uniq; ?>').cycle({
-				fx    : '<?php echo $this->effect; ?>',
-				speed : <?php echo $this->swapTime * 1000; ?>
-			});
-		}, timeout);
+<?php if($this->slideShow): ?>
+    <script type="text/javascript">
+        $(function() {
+            var timeout = 100;
+            if (!$.fn.cycle){
+                timeout = 2000;
+                $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle.js'; ?>');
+            }
+            setTimeout(function(){
+                $('#<?php echo $this->uniq; ?>').cycle({
+                    fx    : '<?php echo $this->effect; ?>',
+                    speed : <?php echo $this->swapTime * 1000; ?>
+                });
+            }, timeout);
 
-	});
-</script>
+        });
+    </script>
+<?php endif; ?>
 
 <style type="text/css">
 	div#<?php echo $this->uniq; ?>.rotator {

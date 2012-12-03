@@ -21,6 +21,8 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 
 	const DEFAULT_PICS_FOLDER      = 'original';
 
+    protected $_cacheable          = false;
+
 	public static $_defaultEffects = array(
 		'blindX'      => 'blindX',
 		'blindY'      => 'blindY',
@@ -85,11 +87,18 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 
 		$this->_view->mediaServersAllowed = $configHelper->getConfig('mediaServers');
 		$this->_view->uniq         = uniqid('rotator-');
-		$this->_view->files        = Tools_Filesystem_Tools::scanDirectory($fullPathToPics, false, false);
 		$this->_view->sliderWidth  = (isset($this->_options[3]) && $this->_options[3]) ? $this->_options[3] : self::DEFAULT_SLIDER_WIDTH;
 		$this->_view->sliderHeight = (isset($this->_options[4]) && $this->_options[4]) ? $this->_options[4] : self::DEFAULT_SLIDER_HEIGHT;
 		$this->_view->swapTime     = (isset($this->_options[2]) && $this->_options[2]) ? $this->_options[2] : self::DEFAULT_SWAP_TIME;;
 		$this->_view->slideShow    = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
+
+        $files = Tools_Filesystem_Tools::scanDirectory($fullPathToPics, false, false);
+        if($this->_view->slideShow) {
+            $this->_view->files = $files;
+        } else {
+            $this->_view->files = (array)$files[array_rand($files)];
+        }
+        //$this->_view->files        = ($this->_view->slideShow) ? $files : $files[0];
 		$this->_view->folder       = $this->_options[0] . '/'. $imageFolder . '/';
 		$this->_view->effect       = (isset($this->_options[5]) && $this->_options[5]) ? $this->_options[5] : self::DEFAULT_SWAP_EFFECT;
 		return $this->_view->render('rotator.phtml');
