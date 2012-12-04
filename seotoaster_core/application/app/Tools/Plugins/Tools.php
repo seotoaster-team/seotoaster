@@ -185,6 +185,7 @@ class Tools_Plugins_Tools {
 		return self::_getData('getEditorTop');
 	}
 
+
     /**
      * @todo Should be moved to the e-commerce plugin
      *
@@ -201,17 +202,26 @@ class Tools_Plugins_Tools {
 		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
 			foreach ($enabledPlugins as $plugin) {
                 $pluginClassName = ucfirst($plugin->getName());
-                $pluginPath = 'plugins/' . $plugin->getName() . '/' . $pluginClassName . '.php';
-                if(file_exists($pluginPath)) {
-                    require_once $pluginPath;
-                    if(method_exists($pluginClassName, $method)) {
-                        $pluginsData[] = $pluginClassName::$method();
-                    }
+                $reflection      = new Zend_Reflection_Class($pluginClassName);
+                if($reflection->hasMethod($method)) {
+                    $pluginsData[] = $pluginClassName::$method();
                 }
 			}
 		}
 		return $pluginsData;
 	}
+
+    public static function runStatic($plugin, $method) {
+        $enabledPlugins  = self::getEnabledPlugins(true);
+        $pluginClassName = ucfirst($plugin);
+        if(in_array($plugin, $enabledPlugins)) {
+            $reflection = new Zend_Reflection_Class($pluginClassName);
+            if($reflection->hasMethod($method)) {
+                return $pluginClassName::$method();
+            }
+        }
+        throw new Exceptions_SeotoasterPluginException('Plugin doesn\'t exists or not enabled');
+    }
 
 	public static function fetchPluginsRoutes() {
 		$routes         = array();
@@ -259,7 +269,7 @@ class Tools_Plugins_Tools {
 		}
 	}
 
-	public static function getEnabledPlugins() {
+	public static function getEnabledPlugins($namesOnly = false) {
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
 		$cacheHelper->init();
 		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
@@ -275,6 +285,9 @@ class Tools_Plugins_Tools {
                 }
             }
 
+            if($namesOnly) {
+                $enabledPlugins = array_map(function($plugin) { return $plugin->getName(); }, $enabledPlugins);
+            }
 
 			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
 		}

@@ -24,6 +24,7 @@ $(function() {
 					width: 800,
 					height: 500,
 					resizable: false,
+                    draggable : false,
 		            show: 'clip',
 		            hide: 'clip',
 		            buttons: [

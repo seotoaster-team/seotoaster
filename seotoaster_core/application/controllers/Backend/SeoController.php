@@ -440,8 +440,14 @@ class Backend_SeoController extends Zend_Controller_Action {
             }
             echo $sitemapContent;
         } catch (Zend_View_Exception $zve) {
-            $this->getResponse()->setHeader('Content-Type', 'text/html', true);
-            $this->_forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
+
+            // Try to find plugin's sitemap
+            try {
+                echo Tools_Plugins_Tools::runStatic($sitemapType, 'getSitemap');
+            } catch (Exceptions_SeotoasterPluginException $spe) {
+                $this->getResponse()->setHeader('Content-Type', 'text/html', true);
+                $this->_forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
+            }
         }
    }
 }
