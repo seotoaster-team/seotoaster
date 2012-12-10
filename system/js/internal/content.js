@@ -2,7 +2,7 @@ $(function() {
 	$('#tabs').tabs();
 
 	$('#frm_content').submit(function() {
-		elements = {
+		var elements = {
 			content       : $(this).find('#content').val(),
 			containerType : $(this).find('#container_type').val(),
 			containerName : $(this).find('#container_name').val(),
