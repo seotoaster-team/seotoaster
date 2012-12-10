@@ -330,137 +330,36 @@ class Backend_ThemeController extends Zend_Controller_Action {
 		}
 	}
 
-	public function themesAction(){
-
-//		$themePath  = $this->_websiteConfig['path'] . $this->_themeConfig['path'];
-//		$themeDirs  = Tools_Filesystem_Tools::scanDirectoryForDirs($themePath);
-//		$themesList = array();
-//		foreach ($themeDirs as $themeName) {
-//			$files = Tools_Filesystem_Tools::scanDirectory($themePath.$themeName);
-//			//check for necessary html files
-//			$requiredFiles = preg_grep('/^(' . implode('|', $this->_protectedTemplates) . ')\.html$/i', $files);
-//			if (sizeof($requiredFiles) != sizeof($this->_protectedTemplates)){
-//				continue;
-//			}
-//			$previews = preg_grep('/^preview\.(png|jpg|gif)$/i', $files);
-//			array_push($themesList, array(
-//				'name'      => $themeName,
-//				'preview'   => !empty ($previews) ? $this->_helper->website->getUrl().$this->_themeConfig['path'].$themeName.'/'.reset($previews) : $this->_helper->website->getUrl().'system/images/noimage.png',
-//				'isCurrent' => ($this->_helper->config->getConfig('currentTheme') == $themeName)
-//			));
-//		}
+	public function themesAction() {
         $this->view->helpSectcion = 'themes';
-//		$this->view->themesList  = $themesList;
 	}
 
-	public function applythemeAction(){
-		if ($this->getRequest()->isPost()){
-            $selectedTheme = trim($this->getRequest()->getParam('themename'));
-			if (is_dir($this->_websiteConfig['path'].$this->_themeConfig['path'].$selectedTheme)) {
-				$errors = $this->_saveThemeInDatabase($selectedTheme);
-				if (empty ($errors)){
-					$status = sprintf($this->_translator->translate('The theme "%s" applied!'), $selectedTheme);
-					$this->_helper->response->response($status, false);
-				} else {
-                    $this->_helper->response->fail(is_array($errors) ? join('<br/>', $errors) : $errors);
-                }
-                $this->_helper->cache->clean(false, false);
-			}
-		}
-		$this->_redirect($this->_helper->website->getUrl());
-	}
+    /**
+     * @deprecated Use put action of the themes rest-service. Will be removed in 2.0.7
+     *
+     */
+    public function applythemeAction() {}
 
-	public function downloadthemeAction() {
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
-		$themeName    = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
-		$themeData    = Zend_Registry::get('theme');
-		$pathToTheme  = $this->_helper->website->getPath() . $themeData['path'] . $themeName ;
-		$themeArchive = Tools_System_Tools::zip($pathToTheme);
-		$this->getResponse()->clearAllHeaders()->clearBody();
-		$this->getResponse()->setHeader('Content-Disposition', 'attachment; filename=' . Tools_Filesystem_Tools::basename($themeArchive))
-            ->setHeader('Content-Type', 'application/force-download', true)
-            ->setHeader('Content-Transfer-Encoding','binary', true)
-            ->setHeader('Expires', date(DATE_RFC1123), true)
-            ->setHeader('Cache-Control','must-revalidate, post-check=0, pre-check=0', true)
-            ->setHeader('Pragma','public', true)
-            ->setHeader('Content-Length' , filesize($themeArchive), true)
-            ->setBody(file_get_contents($themeArchive))
-            ->sendResponse();
-        exit;
-	}
+    /**
+     * @deprecated Use get action of the themes rest-service. Will be removed in 2.0.7
+     *
+     */
+	public function downloadthemeAction() {}
 
-	public function deletethemeAction(){
-		if ($this->getRequest()->isPost()) {
-
-			$themeName = $this->getRequest()->getParam('name');
-			if ($this->_helper->config->getConfig('currentTheme') == $themeName) {
-//				echo json_encode(array('done'=>false, 'status'=>'trying to remove current theme'));
-				$this->_helper->response->response($this->_translator->translate('trying to remove current theme'), true);
-			}
-			$status = Tools_Filesystem_Tools::deleteDir($this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName);
-
-//			echo json_encode(array('done'=>true,'status'=>$status));
-//			exit;
-			$this->_helper->response->response($status, false);
-		}
-		$this->_redirect($this->_helper->website->getUrl());
-	}
+    /**
+     * @deprecated Use delete action of the themes rest-service. Will be removed in 2.0.7
+     *
+     */
+    public function deletethemeAction() {}
 
 	/**
 	 * Method saves theme in database
+     *
+     * @deprecated  Will be removed in 2.0.7
 	 */
-	private function _saveThemeInDatabase($themeName){
-		$errors = array();
-		$themePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName;
-		$themeFiles = Tools_Filesystem_Tools::findFilesByExtension($themePath, '(html|htm)', true, true);
-
-        foreach($this->_protectedTemplates as $name){
-            if (!array_key_exists($name, $themeFiles)){
-                array_push($errors, $this->_translator->translate('Theme missing %s\$1 template', $name));
-            }
-        }
-		unset($name);
-
-		if (!empty($errors)) return $errors;
-
-		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
-		$removedTemplatesCount = $mapper->clearTemplates(); // this will remove all templates except system required. @see $_protectedTemplates
-
-		$nameValidator = new Zend_Validate();
-		$nameValidator->addValidator(new Zend_Validate_Alnum(true))
-					  ->addValidator(new Zend_Validate_StringLength(array(3,45)));
-
-		foreach ($themeFiles as $tmplName => $file) {
-			if (!$nameValidator->isValid($tmplName)){
-				array_push($errors, 'Not valid name for template: '.$tmplName);
-				continue;
-			}
-
-			$template = $mapper->find($tmplName);
-			if (! $template instanceof Application_Model_Models_Template) {
-				$template = new Application_Model_Models_Template();
-				$template->setName($tmplName);
-			}
-
-			// getting template content
-			try{
-				$content = Tools_Filesystem_Tools::getFile($file);
-				$template->setContent($content);
-			} catch (Exceptions_SeotoasterException $e){
-				array_push($errors, 'Can\'t read template file: '.$tmplName);
-			}
-
-			// saving template to db
-			$mapper->save($template);
-			unset($template);
-		}
-
-		//updating config table
-		Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
-
-		return $errors;
-	}
+	private function _saveThemeInDatabase($themeName) {
+        return false;
+    }
 
 	/**
 	 * Returns amount of pages using specific template
