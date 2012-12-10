@@ -87,11 +87,13 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         return $themesList;
     }
 
+    public function postAction() {}
+
     /*
      * Apply theme
      *
      */
-    public function postAction() {
+    public function putAction() {
         $themeName      = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
         $themePath      = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
         $themeMediaPath = $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR;
@@ -99,7 +101,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             //save templates in the database with proper type from theme.ini + proccess theme.sql + import media folder
             $this->_applyTemplates($themeName);
             if(file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE)) {
-               $this->_applySql($themeName);
+                $this->_applySql($themeName);
             }
             if(is_dir($themeMediaPath)) {
                 try {
@@ -111,8 +113,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             $this->_cacheHelper->clean(false, false);
         }
     }
-
-    public function putAction() {}
 
     public function deleteAction() {
         $themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
