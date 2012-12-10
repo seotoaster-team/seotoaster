@@ -1,18 +1,20 @@
 <?php
 /**
  * Controller for all stuff that belongs to theme, template, css.
+ *
  */
 
 class Backend_ThemeController extends Zend_Controller_Action {
 
-	const DEFAULT_CSS_NAME = 'style.css';
+	const DEFAULT_CSS_NAME       = 'style.css';
 
-	private $_protectedTemplates = array('index', 'default', 'category', 'news');
+	private $_protectedTemplates = array('index', 'default', 'category');
 
-	private $_websiteConfig = null;
-	private $_themeConfig = null;
+	private $_websiteConfig      = null;
 
-	public function  init() {
+	private $_themeConfig        = null;
+
+	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_THEMES)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
@@ -329,25 +331,26 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	}
 
 	public function themesAction(){
-		$themePath = $this->_websiteConfig['path'] . $this->_themeConfig['path'];
-		$themeDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($themePath);
-		$themesList = array();
-		foreach ($themeDirs as $themeName) {
-			$files = Tools_Filesystem_Tools::scanDirectory($themePath.$themeName);
-			//check for necessary html files
-			$requiredFiles = preg_grep('/^('.implode('|', $this->_protectedTemplates).')\.html$/i', $files);
-			if (sizeof($requiredFiles) != 4){
-				continue;
-			}
-			$previews = preg_grep('/^preview\.(png|jpg|gif)$/i', $files);
-			array_push($themesList, array(
-				'name'      => $themeName,
-				'preview'   => !empty ($previews) ? $this->_helper->website->getUrl().$this->_themeConfig['path'].$themeName.'/'.reset($previews) : $this->_helper->website->getUrl().'system/images/noimage.png',
-				'isCurrent' => ($this->_helper->config->getConfig('currentTheme') == $themeName)
-			));
-		}
-        $this->view->helpSection = 'themes';
-		$this->view->themesList  = $themesList;
+
+//		$themePath  = $this->_websiteConfig['path'] . $this->_themeConfig['path'];
+//		$themeDirs  = Tools_Filesystem_Tools::scanDirectoryForDirs($themePath);
+//		$themesList = array();
+//		foreach ($themeDirs as $themeName) {
+//			$files = Tools_Filesystem_Tools::scanDirectory($themePath.$themeName);
+//			//check for necessary html files
+//			$requiredFiles = preg_grep('/^(' . implode('|', $this->_protectedTemplates) . ')\.html$/i', $files);
+//			if (sizeof($requiredFiles) != sizeof($this->_protectedTemplates)){
+//				continue;
+//			}
+//			$previews = preg_grep('/^preview\.(png|jpg|gif)$/i', $files);
+//			array_push($themesList, array(
+//				'name'      => $themeName,
+//				'preview'   => !empty ($previews) ? $this->_helper->website->getUrl().$this->_themeConfig['path'].$themeName.'/'.reset($previews) : $this->_helper->website->getUrl().'system/images/noimage.png',
+//				'isCurrent' => ($this->_helper->config->getConfig('currentTheme') == $themeName)
+//			));
+//		}
+        $this->view->helpSectcion = 'themes';
+//		$this->view->themesList  = $themesList;
 	}
 
 	public function applythemeAction(){

@@ -163,6 +163,29 @@ class Tools_Filesystem_Tools {
 		}
 	}
 
+    public static function copy($source, $dest, $exclude = array()) {
+        $source = rtrim($source, DIRECTORY_SEPARATOR);
+        $dest   = rtrim($dest, DIRECTORY_SEPARATOR);
+        if(!file_exists($source)) {
+            throw new Exceptions_SeotoasterException('Source file ' . $source . ' doesn\'t exists.');
+        }
+        if(is_dir($source)) {
+            if(!file_exists($dest)) {
+                mkdir($dest);
+            }
+            $files = self::scanDirectory($source, false, false);
+            if(is_array($files) && !empty($files)) {
+                foreach($files as $file) {
+                    self::copy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file, $exclude);
+                }
+            }
+
+        } else {
+            copy($source, $dest);
+        }
+        return true;
+    }
+
 	public static function basename($filepath) {
 		$filepath = (string) trim($filepath);
 		if (!$filepath){
