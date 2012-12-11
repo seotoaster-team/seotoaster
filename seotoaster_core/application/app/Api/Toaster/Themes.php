@@ -29,6 +29,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
     protected $_accessList         = array(
         Tools_Security_Acl::ROLE_SUPERADMIN => array(
             'allow' => array('get', 'post', 'put', 'delete')
+        ),
+        Tools_Security_Acl::ROLE_USER => array(
+            'allow' => array('get', 'put')
         )
     );
 
@@ -87,8 +90,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         return $themesList;
     }
 
-    public function postAction() {}
-
     /*
      * Apply theme
      *
@@ -119,7 +120,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         if($this->_configHelper->getConfig('currentTheme') == $themeName) {
             $this->_error('Current theme cannot be removed!', self::REST_STATUS_FORBIDDEN);
         }
-        $status = Tools_Filesystem_Tools::deleteDir($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName);
+        return Tools_Filesystem_Tools::deleteDir($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName);
     }
 
 
@@ -195,7 +196,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         if(!is_array($queries) || empty($queries)) {
             return false;
         }
-
         $dbAdapter = Zend_Registry::get('dbAdapter');
         try {
             array_walk($queries, function($query) use ($dbAdapter) {
@@ -209,4 +209,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             return false;
         }
     }
+
+    public function postAction() {}
 }
