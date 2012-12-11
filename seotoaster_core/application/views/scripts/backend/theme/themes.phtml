@@ -1,15 +1,12 @@
 <!-- theme box template -->
 <script id="theme-box" type="text/template">
-
     <!-- download link -->
     <a class="lnk-download" href="<?php echo $this->websiteUrl; ?>api/toaster/themes/name/<%= name %>" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
-
     <% if(isCurrent) { %>
         <a href="javascript:;" class="lnk-current"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
     <% } else { %>
         <a style="display: none;" href="javascript:;" class="lnk-delete" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
     <% } %>
-
     <div class="theme-preview-img">
         <img src="<%= preview %>" class="preview" alt="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" title="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" />
     </div>
@@ -47,7 +44,7 @@
     <div class="grid_12">
         <fieldset>
             <legend><?php echo $this->translate('Themes list'); ?></legend>
-            <div id="themes-list" class="h420"><img src="<?php echo $this->websiteUrl; ?>system/images/loading.gif" alt="loading themes..." /></div>
+            <div id="themes-list" class="h410 paddtop5"><img src="<?php echo $this->websiteUrl; ?>system/images/loading.gif" alt="loading themes..." /></div>
         </fieldset>
     </div>
 </div>
@@ -59,13 +56,15 @@
 ?>
 
 <style type="text/css">
+    .paddtop5 {padding: 5px 0;}
     div.themebox {position: relative;}
-    div.theme-preview-img {
-        padding: 5px 0;
+    div.hovered {
+        box-shadow: 0 0 15px indianRed !important;
+        -moz-box-shadow: 0 0 15px indianRed !important;
+        -webkit-box-shadow: 0 0 15px indianRed !important;
     }
-    a.apply-theme {
-        text-decoration: dashed;
-    }
+    div.theme-preview-img {padding: 5px 0;}
+    a.apply-theme {text-decoration: dashed;}
     a.lnk-download, a.lnk-delete, a.lnk-current {
         display: none;
         position: absolute;

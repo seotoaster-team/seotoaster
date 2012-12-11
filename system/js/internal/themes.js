@@ -1,4 +1,3 @@
-
 require.config({
     deps: ['modules/themes/index'],
     paths: {

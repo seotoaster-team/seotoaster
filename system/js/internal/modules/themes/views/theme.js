@@ -10,14 +10,15 @@ define([
         events     : {
             'mouseenter': 'toggleControlls',
             'mouseleave': 'toggleControlls',
-            //'click': 'applyThemeAction',
-            'click a.apply-theme': 'applyThemeAction',
+            'click': 'applyThemeAction',
+            //'click a.apply-theme': 'applyThemeAction',
             'click a.lnk-delete': 'deleteThemeAction'
         },
         initialize : function() {
             this.model.view = this;
         },
         toggleControlls: function() {
+            this.$el.toggleClass('hovered');
             this.$('.lnk-download').fadeToggle();
             this.$('.lnk-delete').fadeToggle();
         },
