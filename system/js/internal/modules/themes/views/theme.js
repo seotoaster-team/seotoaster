@@ -10,8 +10,8 @@ define([
         events     : {
             'mouseenter': 'toggleControlls',
             'mouseleave': 'toggleControlls',
-            //'click': 'applyThemeAction',
-            'click a.apply-theme': 'applyThemeAction',
+            'click button.apply-button': 'applyThemeAction',
+            //'click a.apply-theme': 'applyThemeAction',
             'click a.lnk-delete': 'deleteThemeAction'
         },
         initialize : function() {
@@ -21,6 +21,7 @@ define([
             this.$el.toggleClass('hovered');
             this.$('.lnk-download').fadeToggle();
             this.$('.lnk-delete').fadeToggle();
+            this.$('.apply-button').fadeToggle();
         },
         applyThemeAction: function() {
             var self = this;
