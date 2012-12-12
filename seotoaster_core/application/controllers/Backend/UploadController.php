@@ -109,7 +109,9 @@ class Backend_UploadController extends Zend_Controller_Action {
 			$zip->extractTo($destinationDir);
 			$zip->close();
 			Tools_Filesystem_Tools::deleteDir($tmpFolder.'/'.$themeName);
-            Tools_Filesystem_Tools::deleteFile($tmpFolder . '/' . $themeName . '.zip');
+            if(file_exists($tmpFolder . '/' . $themeName . '.zip')) {
+                Tools_Filesystem_Tools::deleteFile($tmpFolder . '/' . $themeName . '.zip');
+            }
 		} else {
 			$zip->close();
 			return array('name'=>$themeArchive['file']['name'], 'error' => $isValid);
