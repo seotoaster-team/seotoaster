@@ -10,8 +10,8 @@ define([
         events     : {
             'mouseenter': 'toggleControlls',
             'mouseleave': 'toggleControlls',
-            'click': 'applyThemeAction',
-            //'click a.apply-theme': 'applyThemeAction',
+            //'click': 'applyThemeAction',
+            'click a.apply-theme': 'applyThemeAction',
             'click a.lnk-delete': 'deleteThemeAction'
         },
         initialize : function() {

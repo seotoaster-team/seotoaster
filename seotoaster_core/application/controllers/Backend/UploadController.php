@@ -91,7 +91,8 @@ class Backend_UploadController extends Zend_Controller_Action {
 		if (!extension_loaded('zip')){
 			throw new Exceptions_SeotoasterException('No zip extension loaded');
 		}
-		$tmpFolder = $this->_uploadHandler->getDestination();
+		//$tmpFolder = $this->_uploadHandler->getDestination();
+        $tmpFolder = $this->_websiteConfig['path'] . $this->_websiteConfig['tmp'];
 		$zip       = new ZipArchive();
 		$zip->open($themeArchive['file']['tmp_name']);
 		$unzipped = $zip->extractTo($tmpFolder);
@@ -108,6 +109,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 			$zip->extractTo($destinationDir);
 			$zip->close();
 			Tools_Filesystem_Tools::deleteDir($tmpFolder.'/'.$themeName);
+            Tools_Filesystem_Tools::deleteFile($tmpFolder . '/' . $themeName . '.zip');
 		} else {
 			$zip->close();
 			return array('name'=>$themeArchive['file']['name'], 'error' => $isValid);
@@ -128,7 +130,8 @@ class Backend_UploadController extends Zend_Controller_Action {
      */
     private function _validateTheme($themename)
     {
-		$tmpPath = $this->_uploadHandler->getDestination();
+		//$tmpPath = $this->_uploadHandler->getDestination();
+        $tmpPath = $this->_websiteConfig['path'] . $this->_websiteConfig['tmp'];
 		$themeFolder = realpath($tmpPath.'/'.$themename);
 		if ($themeFolder === false) {
 			return 'Theme directory don\'t match the archive name.';
