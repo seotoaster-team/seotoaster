@@ -10,6 +10,9 @@
     <div class="theme-preview-img">
         <img src="<%= preview %>" class="preview" alt="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" title="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" />
     </div>
+    <% if(!isCurrent) { %>
+        <button class="apply-button formsubmit"><?php echo $this->translate('Apply');?></button>
+    <% } %>
     <p class="theme-name" title="<% if((isCurrent)) { %>Your current theme: <%= name %> <% } else { %>Click to apply <%= name %> theme <% } %>">
         <% if(isCurrent) { %>
             <%= name.substr(0, 18) %>
@@ -65,6 +68,17 @@
     }
     div.theme-preview-img {padding: 5px 0;}
     a.apply-theme {text-decoration: dashed;}
+    button.apply-button {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 40px;
+        padding: 5px 25px;
+        border-radius: 20px;
+        font-size: 16px;
+        background: #EEE;
+        border: 1px solid #CCC;
+    }
     a.lnk-download, a.lnk-delete, a.lnk-current {
         display: none;
         position: absolute;
