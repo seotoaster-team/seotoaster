@@ -5,7 +5,9 @@ define([
 ], function(_, Backbone, ThemeModel){
     var themesCollection = Backbone.Collection.extend({
         model : ThemeModel,
-        url   : $('#website_url').val() + 'api/toaster/themes/'
+        url   : function() {
+            return $('#website_url').val() + 'api/toaster/themes/';
+        }
     });
     return themesCollection;
 });
