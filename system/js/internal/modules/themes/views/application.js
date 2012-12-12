@@ -15,6 +15,7 @@ define([
         },
 
         initialize: function() {
+            showSpinner();
             var self = this;
 
             this.themes = new ThemesCollection();
@@ -52,6 +53,7 @@ define([
         },
         render: function() {
             this.renderThemes();
+            hideSpinner();
             return this;
         }
     });
