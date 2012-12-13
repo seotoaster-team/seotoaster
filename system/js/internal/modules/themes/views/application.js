@@ -28,7 +28,7 @@ define([
             $(document).on('updateContent', function() {
                 self.themes.fetch({
                     success: function() {
-                        showMessage('Theme successfully uploaded.');
+                        showMessage('Congratulations, your new theme has been installed. Select a theme by clicking apply button then close this window to view your new theme.');
                     },
                     error: function(collection, xhr, options) {
                         showMessage(xhr.responseText, true);
