@@ -34,6 +34,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return $this->_toasterOptions['teaserText'];
 	}
 
+    private function _generateNavnameOption() {
+        return $this->_toasterOptions['navName'];
+    }
+
 	private function _generateUrlOption() {
 		return $this->_toasterOptions['url'];
 	}
@@ -101,7 +105,11 @@ class Widgets_Page_Page extends Widgets_Abstract {
 			array(
 				'alias'   => $translator->translate('Current page teaser text'),
 				'option' => 'page:teaser'
-			)
+			),
+            array(
+                'alias'   => $translator->translate('Current page navigation name'),
+                'option' => 'page:navname'
+            )
 		);
 	}
 
