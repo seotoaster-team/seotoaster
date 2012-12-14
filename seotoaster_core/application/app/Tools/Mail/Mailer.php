@@ -101,6 +101,12 @@ class Tools_Mail_Mailer {
 		else {
 			$this->_mailer->addTo($this->_mailTo[0], $this->_mailToLabel);
 		}
+        
+        if(is_array($this->_mailBcc) && count($this->_mailBcc) > 0) {
+			foreach($this->_mailBcc as $email) {
+				$this->_mailer->addBcc($email);
+			}
+		}
 
 		//setting from field and subject
 		$this->_mailer->setFrom($this->_mailFrom, $this->_mailFromLabel)

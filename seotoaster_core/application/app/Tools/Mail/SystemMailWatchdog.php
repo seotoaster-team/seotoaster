@@ -90,6 +90,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $userMapper = Application_Model_Mappers_UserMapper::getInstance();
         $where = $userMapper->getDbTable()->getAdapter()->quoteInto("role_id = ?", Tools_Security_Acl::ROLE_ADMIN);
         $admins = $userMapper->fetchAll($where);
+        $adminBccArray = array();
         switch ($this->_options['recipient']) {
             case self::RECIPIENT_ADMIN:
                 if(!empty($admins)){
@@ -98,8 +99,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                             $this->_mailer->setMailToLabel($admin->getFullName())
                                 ->setMailTo($admin->getEmail());
                         }else{
-                            $this->_mailer->setMailBcc($admin->getEmail());
+                            array_push($adminBccArray, $admin->getEmail());
                         }
+                    }
+                    if(!empty($adminBccArray)){
+                        $this->_mailer->setMailBcc($adminBccArray);
                     }
                 }else{
                     return;
