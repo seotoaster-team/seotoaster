@@ -22,7 +22,13 @@ define([
             this.themes.on('reset', this.render, this);
             this.themes.on('destroy', this.render, this);
 
-            this.themes.fetch();
+            this.themes.fetch({
+                error: function(model, xhr) {
+                    hideSpinner();
+                    showMessage(xhr.responseText, true);
+                    this.$('#themes-list').find('div').text(xhr.responseText);
+                }
+            });
 
             // this trigger is acting when new theme was uploaded
             $(document).on('updateContent', function() {

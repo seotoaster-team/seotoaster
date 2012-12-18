@@ -86,6 +86,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         // themes list request
         $themesList = array();
         $themesDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($themesPath);
+        if(empty($themesDirs)) {
+            $this->_error('Aw! No themes found!', self::REST_STATUS_NOT_FOUND);
+        }
         foreach ($themesDirs as $themeName) {
             $files         = Tools_Filesystem_Tools::scanDirectory($themesPath . $themeName);
             $requiredFiles = preg_grep('/^(' . implode('|', $this->_protectedTemplates) . ')\.html$/i', $files);
