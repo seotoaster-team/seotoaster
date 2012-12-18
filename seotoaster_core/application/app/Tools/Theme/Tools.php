@@ -20,11 +20,11 @@ class Tools_Theme_Tools {
                         return '`' . $key . '`';
                     }, array_keys($data))) . ') VALUES ';
                 }
-                $sqlDump .= '(' . join(', ', array_map(function($value) {
+                $sqlDump .= '(' . join(', ', array_map(function($value) use($dbAdapter) {
                     if(!$value) {
                         return 'NULL';
                     }
-                    return is_string($value) ? "'" . preg_quote($value) . "'" : $value;
+                    return is_string($value) ? "'" . $dbAdapter->quote($value) . "'" : $value;
                 }, array_values($data))) . (($key == ($length-1)) ? (');' . PHP_EOL) : '),');
             }
         }
