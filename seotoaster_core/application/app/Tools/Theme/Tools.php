@@ -25,7 +25,7 @@ class Tools_Theme_Tools {
                         return 'NULL';
                     }
                     return is_string($value) ? "'" . $value . "'" : $value;
-                }, array_values($data))) . (($key == ($length-1)) ? ');' : '),') . PHP_EOL;
+                }, array_values($data))) . (($key == ($length-1)) ? (');' . PHP_EOL) : '),');
             }
         }
         return $sqlDump;
