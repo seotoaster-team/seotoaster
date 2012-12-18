@@ -12,7 +12,9 @@ define([
             'mouseleave': 'toggleControlls',
             'click button.apply-button': 'applyThemeAction',
             //'click a.apply-theme': 'applyThemeAction',
-            'click a.lnk-delete': 'deleteThemeAction'
+            'click a.lnk-delete': 'deleteThemeAction',
+            'mouseenter a.lnk-download': 'downloadThemeAction',
+            'mouseleave .download-options': function(e) {this.$(e.currentTarget).hide(); }
         },
         initialize : function() {
             this.model.view = this;
@@ -38,7 +40,7 @@ define([
                             return theme;
                         });
                         window.themesModule.render();
-                        showMessage('Theme "' + model.get('name') + '" applied successfully! Click close or simply reload a page for the changes to take affect');
+                        showMessage('Theme "' + model.get('name') + '" applied successfully! Click close or simply reload a page for the changes to take affect', false, 3000);
                     },
                     error: function(model, xhr, options) {
                         hideSpinner();
@@ -47,6 +49,9 @@ define([
                     }
                 });
             });
+        },
+        downloadThemeAction: function(e) {
+            this.$(e.currentTarget).next('.download-options').show();
         },
         deleteThemeAction: function(e) {
             var self = this;

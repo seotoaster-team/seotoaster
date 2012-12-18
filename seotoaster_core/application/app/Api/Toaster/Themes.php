@@ -8,11 +8,13 @@
  */
 class Api_Toaster_Themes extends Api_Service_Abstract {
 
-    const THEME_CONFIGURATION_FILE = 'theme.ini';
-
     const THEME_SQL_FILE           = 'theme.sql';
 
     const THEME_MEDIA_DIR          = 'media';
+
+    const THEME_KIND_LIGHT         = 'light';
+
+    const THEME_KIND_FULL          = 'full';
 
     protected $_websiteHelper      = null;
 
@@ -25,6 +27,13 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
     protected $_protectedTemplates = array('index', 'default', 'category');
 
     protected $_translator         = null;
+
+    protected $_fullThemesSqlMap   = array(
+        'page'          => 'SELECT * FROM `page`;',
+        'container'     => 'SELECT * FROM `container`;',
+        'featured_area' => 'SELECT * FROM `featured_area`;',
+        'page_fa'       => 'SELECT * FROM `page_fa`;'
+    );
 
     protected $_accessList         = array(
         Tools_Security_Acl::ROLE_SUPERADMIN => array(
@@ -55,6 +64,12 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         if($this->_request->has('name')) {
             $themeName    = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
             $themePath    = $themesPath . $themeName;
+
+            if($this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL) {
+                //exporting sql for the full theme
+                $this->_exportSql($themeName);
+            }
+
             $themeArchive = Tools_System_Tools::zip($themePath, $themeName);
             $this->_response->clearAllHeaders()->clearBody();
             $this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
@@ -143,7 +158,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
         //trying to get theme.ini file with templates presets
         try {
-            $themeConfig = parse_ini_string(Tools_Filesystem_Tools::getFile($themePath . '/' . self::THEME_CONFIGURATION_FILE));
+            $themeConfig = parse_ini_string(Tools_Filesystem_Tools::getFile($themePath . '/' . Tools_Template_Tools::THEME_CONFIGURATION_FILE));
         } catch (Exception $e) {
             $themeConfig = false;
         }
@@ -211,4 +226,17 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
     }
 
     public function postAction() {}
+
+    protected function _exportSql($themeName) {
+        $themePath   = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
+        $sql         = '';
+        foreach($this->_fullThemesSqlMap as $table => $query) {
+            $sql .= Tools_Theme_Tools::dump($table, $query);
+        }
+        try {
+            Tools_Filesystem_Tools::saveFile($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE, $sql);
+        } catch (Exceptions_SeotoasterException $se) {
+            error_log($se->getMessage());
+        }
+    }
 }
