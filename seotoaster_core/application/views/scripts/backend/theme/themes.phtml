@@ -1,7 +1,16 @@
 <!-- theme box template -->
 <script id="theme-box" type="text/template">
+
     <!-- download link -->
-    <a class="lnk-download" href="<?php echo $this->websiteUrl; ?>api/toaster/themes/name/<%= name %>" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
+    <a class="lnk-download" href="javascript:;" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
+    <div class="download-options">
+        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme">Light</a>
+        <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
+        <br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>">Full</a>
+        <?php endif; ?>
+    </div>
+
+
     <% if(isCurrent) { %>
         <a href="javascript:;" class="lnk-current"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
     <% } else { %>
@@ -23,8 +32,7 @@
 </script>
 
 <div class="seotoaster container_12 h570 rounded3px refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
-
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
     <!-- uploader -->
     <div  class="grid_12 mb10px">
         <fieldset>
@@ -112,5 +120,17 @@
     a.lnk-download {left: 0;}
     a.lnk-current {display: inline;}
     a.lnk-current, a.lnk-delete {right: 0;}
+    div.download-options {
+        display: none;
+        position: absolute;
+        color: #468847;
+        background-color: #DFF0D8;
+        border: 1px solid #D6E9C6;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        padding: 10px;
+        border-radius: 4px;
+        text-align: left;
+        z-index: 100;
+    }
 </style>
 
