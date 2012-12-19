@@ -12,7 +12,7 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 		$plugin       = Application_Model_Mappers_PluginMapper::getInstance()->findByName($pluginName);
 		if($plugin !== null) {
 			if($plugin->getStatus() != Application_Model_Models_Plugin::ENABLED) {
-				return $this->_translator->translate('Plugin ') . $plugin->getName() . $this->_translator->translate(' is not installed.');
+				return $this->_translator->translate('You need install the ') . $plugin->getName() . $this->_translator->translate(' plug-in to view and use this great feature. <a href="http://www.seotoaster.com/website-plugins-marketplace.html" target="_blank">Download plug-ins here</a> and watch a short video to learn how to install plug-ins on your website <a href="http://www.seotoaster.com/how-to-add-a-plugin.html" target="_blank">here</a>.');
 			}
 			try {
 				$toasterPlugin = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), $this->_options, $this->_toasterOptions);
@@ -31,8 +31,8 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
 				//return $e->getMessage();
 			}
 		}
-        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL) && Tools_System_Tools::debugMode()) {
-            return $this->_translator->translate('Cannot load ' . $pluginName . ' plugin');
+        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+            return $this->_translator->translate('You need the ' . $pluginName . ' plug-in to view and use this great feature. <a href="http://www.seotoaster.com/website-plugins-marketplace.html" target="_blank">Download plug-ins here</a> and watch a short video to learn how to install plug-ins on your website <a href="http://www.seotoaster.com/how-to-add-a-plugin.html" target="_blank">here</a>.');
         }
 		return '';
 	}
