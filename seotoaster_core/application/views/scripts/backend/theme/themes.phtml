@@ -4,9 +4,9 @@
     <!-- download link -->
     <a class="lnk-download" href="javascript:;" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
     <div class="download-options">
-        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme">Light</a>
+        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Light</a>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
-        <br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>">Full</a>
+        <br/><br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Full</a>
         <?php endif; ?>
     </div>
 
@@ -124,11 +124,13 @@
         display: none;
         position: absolute;
         color: #468847;
-        background-color: #DFF0D8;
-        border: 1px solid #D6E9C6;
+        /*background-color: #DFF0D8;*/
+        background: #fafafa;
+        /*border: 1px solid #D6E9C6;*/
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
         padding: 10px;
-        border-radius: 4px;
+        /*border-radius: 4px;*/
+        box-shadow: 0 0 5px #ccc;
         text-align: left;
         z-index: 100;
     }

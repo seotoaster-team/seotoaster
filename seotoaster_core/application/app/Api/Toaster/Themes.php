@@ -205,6 +205,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         try {
             $themeSql = Tools_Filesystem_Tools::getFile($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . '/' . self::THEME_SQL_FILE);
         } catch(Exception $e) {
+            error_log($e->getMessage());
             return false;
         }
         if(!strlen($themeSql)) {
@@ -216,11 +217,22 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         }
         $dbAdapter = Zend_Registry::get('dbAdapter');
         try {
+
+            $dbAdapter->query('SET foreign_key_checks = 0;');
+
+            //@todo clean db before insertion
+            $dbAdapter->query('DELETE FROM `page_fa`;');
+            $dbAdapter->query('DELETE FROM `featured_area`;');
+            $dbAdapter->query('DELETE FROM `container`;');
+            $dbAdapter->query('DELETE FROM `page`;');
+
             array_walk($queries, function($query) use ($dbAdapter) {
                 if(strlen(trim($query))) {
                     $dbAdapter->query($query);
                 }
             });
+
+            $dbAdapter->query('SET foreign_key_checks = 1;');
         }
         catch (Exception $e) {
             error_log($e->getMessage());
