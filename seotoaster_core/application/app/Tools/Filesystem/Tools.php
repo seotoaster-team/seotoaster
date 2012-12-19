@@ -176,6 +176,9 @@ class Tools_Filesystem_Tools {
             $files = self::scanDirectory($source, false, false);
             if(is_array($files) && !empty($files)) {
                 foreach($files as $file) {
+                    if(in_array($file, $exclude)) {
+                        continue;
+                    }
                     self::copy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file, $exclude);
                 }
             }
