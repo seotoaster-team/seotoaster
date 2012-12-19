@@ -21,7 +21,7 @@ class Tools_Theme_Tools {
                     }, array_keys($data))) . ') VALUES ';
                 }
                 $sqlDump .= '(' . join(', ', array_map(function($value) use($dbAdapter) {
-                    return (!$value) ? 'NULL' : $dbAdapter->quote($value);
+                    return $dbAdapter->quote($value);
                 }, array_values($data))) . (($key == ($length-1)) ? (');' . PHP_EOL) : '),');
             }
         }
