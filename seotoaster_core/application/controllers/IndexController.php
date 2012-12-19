@@ -148,7 +148,11 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->pageData = $pageData;
 		$this->view->bodyTag  = $body[1];
 		$this->view->content  = $body[2];
-		$this->view->minify   = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('enableMinify')
+
+        $locale               = Zend_Locale::getLocaleToTerritory(Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('language'));
+        $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
+
+        $this->view->minify   = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('enableMinify')
 					&& !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
 	}
 
