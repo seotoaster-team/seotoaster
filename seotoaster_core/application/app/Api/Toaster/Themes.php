@@ -12,6 +12,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     const THEME_MEDIA_DIR          = 'media';
 
+    const THEME_PAGE_TEASERS_DIR   = 'previews';
+
     const THEME_KIND_LIGHT         = 'light';
 
     const THEME_KIND_FULL          = 'full';
@@ -66,8 +68,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             $themePath    = $themesPath . $themeName;
 
             if($this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL) {
-                //exporting sql for the full theme
-                $this->_exportSql($themeName);
+                $this->_saveFullThemeData($themeName);
             }
 
             $themeArchive = Tools_System_Tools::zip($themePath, $themeName);
@@ -90,7 +91,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             $this->_error('Aw! No themes found!', self::REST_STATUS_NOT_FOUND);
         }
         foreach ($themesDirs as $themeName) {
-            $files         = Tools_Filesystem_Tools::scanDirectory($themesPath . $themeName);
+            $files         = Tools_Filesystem_Tools::scanDirectory($themesPath . $themeName, false, false);
             $requiredFiles = preg_grep('/^(' . implode('|', $this->_protectedTemplates) . ')\.html$/i', $files);
             if(sizeof($requiredFiles) != sizeof($this->_protectedTemplates)) {
                 continue;
@@ -113,22 +114,25 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
      *
      */
     public function putAction() {
-        $themeName      = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
-        $themePath      = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
-        $themeMediaPath = $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR;
+        //backup current theme
+        $this->_saveFullThemeData();
+
+        $themeName        = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
+        $themePath        = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
         if(is_dir($themePath)) {
             //save templates in the database with proper type from theme.ini + proccess theme.sql + import media folder
             $this->_applyTemplates($themeName);
             if(file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE)) {
                 $this->_applySql($themeName);
             }
-            if(is_dir($themeMediaPath)) {
-                try {
-                    Tools_Filesystem_Tools::copy($themeMediaPath, $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia());
-                } catch (Exceptions_SeotoasterException $se) {
-                    return $this->_error($se->getMessage());
-                }
-            }
+
+            //applying media content
+            $themeMediaPath       = $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR;
+            $themePageTeasersPath = $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR;
+            $this->_applyMedia(array(
+                $themeMediaPath       => $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia(),
+                $themePageTeasersPath => $this->_websiteHelper->getPath() . $this->_websiteHelper->getPreview()
+            ));
             $this->_cacheHelper->clean(false, false);
         }
     }
@@ -144,7 +148,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     private function _applyTemplates($themeName) {
         $themePath   = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
-        $themeFiles  = Tools_Filesystem_Tools::findFilesByExtension($themePath, '(html|htm)', true, true);
+        $themeFiles  = Tools_Filesystem_Tools::findFilesByExtension($themePath, '(html|htm)', true, true, false);
         $themeConfig = false;
         $errors      = array();
 
@@ -156,7 +160,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         }
 
         if(!empty($errors)) {
-            $this->_error(join('<br />', $errors, self::REST_STATUS_BAD_REQUEST));
+            $this->_error(join('<br />', $errors), self::REST_STATUS_BAD_REQUEST);
         }
 
         //trying to get theme.ini file with templates presets
@@ -220,11 +224,19 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
             $dbAdapter->query('SET foreign_key_checks = 0;');
 
-            //@todo clean db before insertion
-            $dbAdapter->query('DELETE FROM `page_fa`;');
+            // cleaning needed tables before apply a full theme
+            array_walk(array_keys($this->_fullThemesSqlMap), function($table) use($dbAdapter) {
+                $dbAdapter->query('DELETE FROM `' .$table. '`;');
+            });
+
+            //clean optimize table
+            $dbAdapter->query('DELETE FROM `optimized`;');
+
+
+           /* $dbAdapter->query('DELETE FROM `page_fa`;');
             $dbAdapter->query('DELETE FROM `featured_area`;');
             $dbAdapter->query('DELETE FROM `container`;');
-            $dbAdapter->query('DELETE FROM `page`;');
+            $dbAdapter->query('DELETE FROM `page`;');*/
 
             array_walk($queries, function($query) use ($dbAdapter) {
                 if(strlen(trim($query))) {
@@ -253,5 +265,41 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         } catch (Exceptions_SeotoasterException $se) {
             error_log($se->getMessage());
         }
+    }
+
+    protected function _applyMedia($pathesMap, $createSource = false) {
+        if(!is_array($pathesMap) || empty($pathesMap)) {
+            return;
+        }
+        $errors = array();
+        foreach($pathesMap as $themeMediaDir => $toasterMediaDir) {
+            if(!is_dir($themeMediaDir)) {
+                if($createSource) {
+                    Tools_Filesystem_Tools::mkDir($$themeMediaDir);
+                }
+                continue;
+            }
+            try {
+                Tools_Filesystem_Tools::copy($themeMediaDir, $toasterMediaDir, array('.git', '.gitignore'));
+            } catch (Exceptions_SeotoasterException $se) {
+                $errors[] = $se->getMessage();
+            }
+        }
+        return (!empty($errors)) ? $errors : true;
+    }
+
+    protected function _saveFullThemeData($themeName = '') {
+        if(!$themeName) {
+            $themeName = $this->_configHelper->getConfig('currentTheme');
+        }
+        $themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
+
+        $this->_applyMedia(array(
+            $this->_websiteHelper->getPath() . $this->_websiteHelper->getPreview() => $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR,
+            $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia()   => $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR
+        ), true);
+
+        //exporting sql for the full theme
+        $this->_exportSql($themeName);
     }
 }
