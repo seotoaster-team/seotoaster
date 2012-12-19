@@ -13,13 +13,13 @@ define([
             'click button.apply-button': 'applyThemeAction',
             //'click a.apply-theme': 'applyThemeAction',
             'click a.lnk-delete': 'deleteThemeAction',
-            'mouseenter a.lnk-download': 'downloadThemeAction',
+            'mouseenter a.lnk-download': function(e) {this.$(e.currentTarget).next('.download-options').show();},
             'mouseleave .download-options': function(e) {this.$(e.currentTarget).hide(); }
         },
         initialize : function() {
             this.model.view = this;
         },
-        toggleControlls: function() {
+        toggleControlls: function(e) {
             this.$el.toggleClass('hovered');
             this.$('.lnk-download').fadeToggle();
             this.$('.lnk-delete').fadeToggle();
@@ -49,9 +49,6 @@ define([
                     }
                 });
             });
-        },
-        downloadThemeAction: function(e) {
-            this.$(e.currentTarget).next('.download-options').show();
         },
         deleteThemeAction: function(e) {
             var self = this;
