@@ -7,9 +7,11 @@
  */
 class Tools_System_Tools {
 
-    const REMOTE_TOASTER_URL = 'http://www.seotoaster.com/';
+    const REMOTE_TOASTER_URL        = 'http://www.seotoaster.com/';
 
-    const DATE_MYSQL         = 'Y-m-d H:i:s';
+    const DATE_MYSQL                = 'Y-m-d H:i:s';
+
+    const DEFAULT_UPLOAD_FILESCOUNT = 5;
 
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
@@ -216,9 +218,10 @@ class Tools_System_Tools {
     public static function getAllowedUploadData() {
         $uploadFileSize = intval(ini_get('upload_max_filesize'));
         $postSize       = intval(ini_get('post_max_size'));
+        $filesCount     = intval(ini_get('max_file_uploads'));
         return array(
             'fileSize'    => ($uploadFileSize > $postSize) ? $postSize : $uploadFileSize,
-            'fileUploads' => intval(ini_get('max_file_uploads'))
+            'fileUploads' => ($filesCount) ? $filesCount : self::DEFAULT_UPLOAD_FILESCOUNT
         );
     }
 }
