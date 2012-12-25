@@ -40,7 +40,7 @@ define([
                             return theme;
                         });
                         window.themesModule.render();
-                        showMessage('Theme "' + model.get('name') + '" applied successfully! Click close or simply reload a page for the changes to take affect', false, 3000);
+                        showMessage('Theme "' + model.get('name') + '" applied successfully! Click close or simply reload a page for the changes to take affect', false, 5000);
                     },
                     error: function(model, xhr, options) {
                         hideSpinner();

@@ -34,7 +34,7 @@ define([
             $(document).on('updateContent', function() {
                 self.themes.fetch({
                     success: function() {
-                        showMessage('Congratulations, your new theme has been installed. Select a theme by clicking apply button then close this window to view your new theme.', false, 3000);
+                        showMessage('Congratulations, your new theme has been installed. Select a theme by clicking apply button then close this window to view your new theme.', false, 5000);
                     },
                     error: function(collection, xhr, options) {
                         showMessage(xhr.responseText, true);
