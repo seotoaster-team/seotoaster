@@ -28,12 +28,12 @@ class Tools_System_Minify {
 			if (preg_match('/^https?:\/\//',$css->href) != false && strpos($css->href, $websiteHelper->getUrl()) !== 0) {
 				continue;
 			}
-			$path   = str_replace($websiteHelper->getUrl(), '', $css->href);
-//			if (!$concat && strpos($path, 'system') !== 0){
-//				continue;
-//			}
-			$hash   = sha1_file($websiteHelper->getPath().$path);
-			$name   = Tools_Filesystem_Tools::basename($path);
+			$path = str_replace($websiteHelper->getUrl(), '', $css->href);
+            if(!file_exists($websiteHelper->getPath() . $path)) {
+                continue;
+            }
+			$hash = sha1_file($websiteHelper->getPath() . $path);
+			$name = Tools_Filesystem_Tools::basename($path);
 
 			if (!$hash){
 				continue;
@@ -91,6 +91,9 @@ class Tools_System_Minify {
 				}
 
 				$path   = str_replace($websiteHelper->getUrl(), '', $js->attributes['src']);
+                if(!file_exists($websiteHelper->getPath() . $path))  {
+                    continue;
+                }
 				$hash   = sha1_file($websiteHelper->getPath().$path);
 				if (!isset($hashStack[$path]) || $hashStack[$path]['hash'] !== $hash){
 					$hashStack[$path] = array(
