@@ -15,7 +15,7 @@ class Tools_System_Tools {
 
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
-		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/') : 'index.html';
+		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : 'index.html';
 	}
 
 	public static function getUrlScheme($url) {
