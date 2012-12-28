@@ -4,7 +4,7 @@
 			<?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
 			<li class="gallery_image">
 				<a class="gall" href="<?php echo $this->original . $image['name']; ?>" rel="<?php echo $this->folder; ?>" title="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>">
-					<img src="<?php echo $image['path']; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>" style="width:<?php echo $size[0]; ?>px;height:<?php echo $size[1]; ?>px;" />
+					<img src="<?php echo $image['path']; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>" width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>" />
 				</a>
 				<?php if($this->useCaption): ?>
 					<p class="image_caption"><?php echo Tools_System_Tools::cutExtension($image['name']); ?></p>
