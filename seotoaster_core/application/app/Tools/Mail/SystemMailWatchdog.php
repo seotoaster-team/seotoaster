@@ -153,9 +153,14 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
     protected function _sendTfeedbackformMailContact(Application_Model_Models_Form $form) {
+        $emails = $this->_prepareEmail($form->getContactEmail());
         $formDetails = $this->_cleanFormData($this->_options['data']);
-        $this->_mailer->setMailToLabel($form->getContactEmail())
-            ->setMailTo($form->getContactEmail());
+        $this->_mailer->setMailToLabel($emails[0])
+            ->setMailTo($emails[0]);
+        if(count($emails) > 1){
+            array_shift($emails);
+            $this->_mailer->setMailBcc($emails);
+        }
         $mailBody = '{form:details}';
         $formDetailsHtml = '';
         foreach($formDetails as $name => $value) {
@@ -248,4 +253,19 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         unset($data['captchaId']);
         return $data;
     }
+    
+    private function _prepareEmail($emails){
+        if(preg_match('~,~', $emails)){
+            $mailArray = array();
+            $contanctEmails = explode(',',$emails);
+            foreach($contanctEmails as $email){
+               $email = str_replace(" ",'',$email);
+               array_push($mailArray, $email);
+            }
+            return $mailArray;
+        }
+        return array($emails);
+        
+    }
+    
 }

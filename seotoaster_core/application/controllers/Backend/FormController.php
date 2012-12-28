@@ -31,7 +31,12 @@ class Backend_FormController extends Zend_Controller_Action {
 			if($formForm->isValid($this->getRequest()->getParams())) {
 
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
-				Application_Model_Mappers_FormMapper::getInstance()->save($form);
+                $contactEmail = $form->getContactEmail();
+                $validEmail = $this->validateEmail($contactEmail);
+                if(isset($validEmail['error'])){
+                    $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml(array('contactEmail'=>$validEmail['error']), get_class($formForm)));
+                }
+                Application_Model_Mappers_FormMapper::getInstance()->save($form);
                 $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
 			}
@@ -50,6 +55,20 @@ class Backend_FormController extends Zend_Controller_Action {
 		$this->view->formForm = $formForm;
 	}
 
+    public function validateEmail($emails){
+        $emailValidation = new Zend_Validate_EmailAddress();
+        if(is_string($emails) && preg_match('~,~', $emails)){
+            $contanctEmails = explode(',',$emails);
+            foreach($contanctEmails as $email){
+                if(!$emailValidation->isValid(str_replace(" ",'',$email))){
+                    return array('error'=>$emailValidation->getErrors());       
+                }
+            }
+        }elseif(is_string($emails) && !$emailValidation->isValid($emails)){
+            return array('error'=>$emailValidation->getErrors());
+        }
+    }
+    
     public function deleteAction() {
         $id         = $this->getRequest()->getParam('id');
         $formMapper = Application_Model_Mappers_FormMapper::getInstance();
