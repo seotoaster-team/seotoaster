@@ -188,7 +188,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $mailBody = $this->_entityParser->parse($mailBody);
 
         if($formUrl) {
-            $mailBody .= '<div style="background:#eee;padding:10px;">Form was submited form: <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
+            $mailBody .= '<div style="background:#eee;padding:10px;">This form was submited from: <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
         }
 
         $this->_mailer->setBody($mailBody);
