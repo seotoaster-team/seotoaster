@@ -24,6 +24,7 @@
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
+        <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
 		<?php if($this->useCaptcha): ?>
 			<div class="captcha">
                 <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />

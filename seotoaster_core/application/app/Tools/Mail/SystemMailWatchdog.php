@@ -115,6 +115,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         }
         $mailBody = '{form:details}';
         $formDetailsHtml = '';
+
         foreach($formDetails as $name => $value) {
             if(!$value) {
                 continue;
@@ -124,7 +125,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $this->_entityParser->setDictionary(array(
             'form:details' => $formDetailsHtml
         ));
-        $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+
+        $mailBody = $this->_entityParser->parse($mailBody);
+
+
+        $this->_mailer->setBody($mailBody);
         $this->_mailer->setSubject($this->_translator->translate('New form submited'))
             ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
             ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
@@ -163,6 +168,13 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         }
         $mailBody = '{form:details}';
         $formDetailsHtml = '';
+
+        $formUrl = '';
+        if(isset($formDetails['formUrl'])) {
+            $formUrl = $formDetails['formUrl'];
+            unset($formDetails['formUrl']);
+        }
+
         foreach($formDetails as $name => $value) {
             if(!$value) {
                 continue;
@@ -172,7 +184,14 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $this->_entityParser->setDictionary(array(
             'form:details' => $formDetailsHtml
         ));
-        $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+
+        $mailBody = $this->_entityParser->parse($mailBody);
+
+        if($formUrl) {
+            $mailBody .= '<div style="background:#eee;padding:10px;">Form was submited form: <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
+        }
+
+        $this->_mailer->setBody($mailBody);
         $this->_mailer->setSubject($this->_translator->translate('New form submited'))
             ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
             ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
