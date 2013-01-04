@@ -46,14 +46,18 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 	private function _addPages($faId, $pages) {
 		if(!empty($pages)) {
 			$faPageDbTable = new Application_Model_DbTable_PageFeaturedarea();
-			foreach ($pages as $page) {
+            $pagesWithFarea = $faPageDbTable->fetchAll($this->getDbTable()->getAdapter()->quoteInto("fa_id=?", $faId), 'order DESC');
+            $pagesOrderForFarea = $pagesWithFarea->toArray();
+            $order = empty($pagesOrderForFarea) ? 0 : $pagesOrderForFarea[0]['order'] + 1;
+            foreach ($pages as $page) {
 				$row = $faPageDbTable->createRow();
 				$row->setFromArray(array(
 					'page_id' => $page->getId(),
 					'fa_id'   => $faId,
-					'order'   => 0
+					'order'   => $order
 				));
 				$result = $row->save();
+                $order = $order + 1; 
 			}
 			unset($faPageDbTable);
 		}
