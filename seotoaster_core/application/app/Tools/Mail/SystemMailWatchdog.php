@@ -78,7 +78,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if(!isset($this->_options['recipient'])){
             $contactMailSent = $this->_sendTfeedbackformMailContact($form);
             $replyMailSent   = $this->_sendTfeedbackformMailReply($form);
-        }else{
+        } else {
             $this->_sendTfeedbackformMailAdditionalContact($form);
         }
         return ($contactMailSent && $replyMailSent);
