@@ -22,47 +22,82 @@
             $this->options);
         break;
     }
-
 ?>
-<script type="text/javascript">
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+
+    var prepop = {
+        webisteUrl: '<?php echo $this->websiteUrl; ?>',
+        name: null,
+        type: null,
+        content: null,
+        container: {
+            name: null,
+            type: null,
+            id:   null,
+            published: true
+        },
+        options: {},
+        url: function() {
+            var self = this;
+            if(!isNaN(parseInt(self.container.id))) {
+                return self.webisteUrl + 'backend/backend_content/edit/id/' + self.container.id + '/containerType/' + self.container.type;
+            }
+            return self.webisteUrl + 'backend/backend_content/add/containerType/' + self.container.type + '/containerName/' + self.container.name + '/pageId/' + self.pageId;
+        },
+        exec: function() {
+            var self    = this;
+            var isValid = self._validate()
+            if(isValid !== true) {
+                showMessage(isValid.error, true);
+                return false;
+            }
+
+            $.post(self.url(), {
+                containerType : self.container.type,
+                containerId   : self.container.id,
+                content       : self.content,
+                pageId        : self.pageId,
+                containerName : self.container.name,
+                published     : self.container.published
+            }, 'json');
+
+        },
+        _validate: function() {
+            var self     = this;
+            self.content = self.content.replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
+            if(self.options.hasOwnProperty('limit') && (self.content.length > self.options.limit)) {
+                return {'error': 'Hey, not so fast! It is to mcuch text here. Please remove some to fit ' + self.options.limit + ' characters limit'};
+            }
+            return true;
+        }
+    };
+
+<?php $this->jQuery()->onLoadCaptureEnd() ?>
+<?php $this->jQuery()->onLoadCaptureStart() ?>
     $(function() {
         $(document).on('<?php echo $this->onJsElementAction; ?>', '.<?php echo $this->prepopName; ?>.prepop-<?php echo $this->elementType; ?>', function(e) {
-            var pageId        = '<?php echo $this->commonOptions['pageId']; ?>';
-            var containerType = '<?php echo $this->commonOptions['containerType']; ?>';
-            var containerName = '<?php echo $this->commonOptions['containerName']; ?>';
-            var containerId   = '<?php echo $this->prepopConainerId; ?>';
-            var url           = '<?php echo $this->websiteUrl; ?>backend/backend_content/add/containerType/' + containerType + '/containerName/' + containerName + '/pageId/' + pageId;
-            if(!isNaN(parseInt(containerId))) {
-                url = '<?php echo $this->websiteUrl; ?>backend/backend_content/edit/id/' + containerId + '/containerType/' + containerType;
-            }
-
-            var elementType = '<?php echo $this->elementType; ?>';
-            var content     = $(e.target).val().replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
-            if(elementType == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
-                content = '';
-                $('input[type=checkbox].<?php echo $this->prepopName; ?>:checked').each(function() {
-                    content += '~' + $(this).val();
+            //init prepop specific fields
+            prepop.pageId         = '<?php echo $this->commonOptions['pageId']; ?>';
+            prepop.container.type = '<?php echo $this->commonOptions['containerType']; ?>';
+            prepop.container.name = '<?php echo $this->commonOptions['containerName']; ?>';
+            prepop.container.id   = '<?php echo $this->prepopConainerId; ?>';
+            prepop.type           = '<?php echo $this->elementType; ?>';
+            prepop.name           = '<?php echo $this->prepopName; ?>';
+            //setting the content
+            prepop.content = $(e.currentTarget).val();
+            if(prepop.type == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
+                prepop.content = '';
+                $('input[type=checkbox].' + prepop.name + ':checked').each(function() {
+                    prepop.content += '~' + $(this).val();
                 });
             }
-
+            //setting up an additional options
             <?php if(isset($this->limit) && $this->limit): ?>
-                var limit = '<?php echo $this->limit; ?>';
-                if(content.length > limit) {
-                    alert('Hey, not so fast! It\'s to mcuch text here. Please remove some to fit ' + limit + ' characters limit');
-                    return false;
-                }
+                prepop.options.limit = '<?php echo $this->limit; ?>';
             <?php endif; ?>
-
-            $.post(url, {
-                containerType : containerType,
-                containerId   : containerId,
-                content       : content,
-                pageId        : pageId,
-                containerName : containerName,
-                published     : 1
-            }, function(response) {
-
-            }, 'json');
+            //executing the prepop
+            prepop.exec();
         })
     })
-</script>
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

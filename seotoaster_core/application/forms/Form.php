@@ -54,9 +54,10 @@ class Application_Form_Form extends Zend_Form {
 			'label'      => 'Auto reply from name',
 			'value'      => $this->_replyFromName,
 			'required'   => false,
-			'filters'    => array('StringTrim'),
-            'validators' => array(new Zend_Validate_Alnum(array('allowWhiteSpace' => true)))
+			'filters'    => array('StringTrim', new Zend_Filter_StripTags())
 		)));
+
+        //new Zend_Validate_Alnum(array('allowWhiteSpace' => true))
         
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'reply-from',
