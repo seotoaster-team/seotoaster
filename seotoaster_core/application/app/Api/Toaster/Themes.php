@@ -30,8 +30,14 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     protected $_translator         = null;
 
+    protected $_allowedCategories  = array(
+        Application_Model_Models_Page::IDCATEGORY_CATEGORY,
+        Application_Model_Models_Page::IDCATEGORY_DEFAULT,
+        Application_Model_Models_Page::IDCATEGORY_DRAFT
+    );
+
     protected $_fullThemesSqlMap   = array(
-        'page'          => 'SELECT * FROM `page`;',
+        'page'          => 'SELECT * FROM `page` WHERE `parent_id` IN (%allowedCategories%);',
         'container'     => 'SELECT * FROM `container`;',
         'featured_area' => 'SELECT * FROM `featured_area`;',
         'page_fa'       => 'SELECT * FROM `page_fa`;'
@@ -232,12 +238,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             //clean optimize table
             $dbAdapter->query('DELETE FROM `optimized`;');
 
-
-           /* $dbAdapter->query('DELETE FROM `page_fa`;');
-            $dbAdapter->query('DELETE FROM `featured_area`;');
-            $dbAdapter->query('DELETE FROM `container`;');
-            $dbAdapter->query('DELETE FROM `page`;');*/
-
             array_walk($queries, function($query) use ($dbAdapter) {
                 if(strlen(trim($query))) {
                     $dbAdapter->query($query);
@@ -258,6 +258,12 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         $themePath   = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
         $sql         = '';
         foreach($this->_fullThemesSqlMap as $table => $query) {
+
+            //little update to pages query to get only cms related pages
+            if($table == 'page') {
+                $query = str_replace('%allowedCategories%', implode(',', $this->_allowedCategories), $query);
+            }
+
             $sql .= Tools_Theme_Tools::dump($table, $query);
         }
         try {
