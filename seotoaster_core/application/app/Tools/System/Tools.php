@@ -63,6 +63,11 @@ class Tools_System_Tools {
 	}
 
 	public static function zip($pathToFile, $name = '') {
+
+        //extent script execution time limit
+        $execTime = ini_get('max_execution_time');
+        set_time_limit('120');
+
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$zipArch       = new ZipArchive();
 		$files         = array($pathToFile);
@@ -82,6 +87,10 @@ class Tools_System_Tools {
 			}
 		}
 		$zipArch->close();
+
+        //set back default execution time limit
+        set_time_limit($execTime);
+
 		return $destinationFile;
 	}
 
