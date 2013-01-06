@@ -64,7 +64,7 @@ class Tools_System_Tools {
 
 	public static function zip($pathToFile, $name = '') {
 
-        //extent script execution time limit
+        //extend script execution time limit
         $execTime = ini_get('max_execution_time');
         set_time_limit('120');
 
