@@ -30,14 +30,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     protected $_translator         = null;
 
-    protected $_allowedCategories  = array(
-        Application_Model_Models_Page::IDCATEGORY_CATEGORY,
-        Application_Model_Models_Page::IDCATEGORY_DEFAULT,
-        Application_Model_Models_Page::IDCATEGORY_DRAFT
-    );
-
     protected $_fullThemesSqlMap   = array(
-        'page'          => 'SELECT * FROM `page` WHERE `parent_id` IN (%allowedCategories%);',
+        'page'          => 'SELECT * FROM `page`;',
         'container'     => 'SELECT * FROM `container`;',
         'featured_area' => 'SELECT * FROM `featured_area`;',
         'page_fa'       => 'SELECT * FROM `page_fa`;'
@@ -257,15 +251,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
     protected function _exportSql($themeName) {
         $themePath   = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
         $sql         = '';
-        foreach($this->_fullThemesSqlMap as $table => $query) {
-
-            //little update to pages query to get only cms related pages
-            if($table == 'page') {
-                $query = str_replace('%allowedCategories%', implode(',', $this->_allowedCategories), $query);
-            }
-
+        array_walk($this->_fullThemesSqlMap, function($query, $table) use(&$sql) {
             $sql .= Tools_Theme_Tools::dump($table, $query);
-        }
+        });
         try {
             Tools_Filesystem_Tools::saveFile($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE, $sql);
         } catch (Exceptions_SeotoasterException $se) {
