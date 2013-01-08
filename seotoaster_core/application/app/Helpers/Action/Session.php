@@ -6,6 +6,7 @@ class Helpers_Action_Session extends Zend_Controller_Action_Helper_Abstract {
 
 	public function init() {
 		$this->_session = Zend_Registry::get('session');
+        return $this;
 	}
 
 	public function getCurrentUser() {

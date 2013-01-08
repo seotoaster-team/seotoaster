@@ -121,10 +121,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			}
 		}
 
-
+        
 		if ($isSuperAdminLogged) {
-			$configForm->getElement('suLogin')->setValue($loggedUser->getEmail());
-			$configForm->getElement('suPassword')->setValue($loggedUser->getPassword());
+			$suadmin = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN);
+            $suadminEmail = $suadmin->getEmail();
+            $suPassword = $suadmin->getPassword();
+            $configForm->getElement('suLogin')->setValue($suadminEmail);
+			$configForm->getElement('suPassword')->setValue($suPassword);
 		}
 
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();

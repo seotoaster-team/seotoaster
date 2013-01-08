@@ -1,124 +1,138 @@
+<!-- theme box template -->
+<script id="theme-box" type="text/template">
+
+    <!-- download link -->
+    <a class="lnk-download" href="javascript:;" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
+    <div class="download-options">
+        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Light</a>
+        <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
+        <br/><br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Full</a>
+        <?php endif; ?>
+    </div>
+
+
+    <% if(isCurrent) { %>
+        <a href="javascript:;" class="lnk-current"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
+    <% } else { %>
+        <a style="display: none;" href="javascript:;" class="lnk-delete" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
+    <% } %>
+    <div class="theme-preview-img">
+        <img src="<%= preview %>" class="preview" alt="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" title="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" />
+    </div>
+    <% if(!isCurrent) { %>
+        <button class="apply-button formsubmit"><?php echo $this->translate('Apply');?></button>
+    <% } %>
+    <p class="theme-name" title="<% if((isCurrent)) { %>Your current theme: <%= name %> <% } else { %>Click to apply <%= name %> theme <% } %>">
+        <% if(isCurrent) { %>
+            <%= name.substr(0, 18) %>
+        <% } else { %>
+            <a href="javascript:;" class="apply-theme" data-name="<%= name %>"><%= name.substr(0, 18) %></a>
+        <% } %>
+    </p>
+</script>
+
+<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
+    <!-- uploader -->
+    <div  class="grid_12 mb10px">
+        <fieldset>
+            <div class="grid_5">
+                <?php echo $this->toasterUploader(array(
+                        'id'      => 'themes-uploader',
+                        'filters' => array('zip'),
+                        'caption' => $this->translate('Upload a new theme'),
+                        'caller'  => 'themes'
+                    ));
+                ?>
+            </div>
+            <div class="grid_7">
+                <div id="themes-uploader-filelist"></div>
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- main part -->
+    <div class="grid_12">
+        <fieldset>
+            <legend><?php echo $this->translate('Themes list'); ?></legend>
+            <div id="themes-list" class="h410 paddtop5"><div style="text-align: center;"><?php echo $this->translate('Loading themes list...'); ?></div></div>
+        </fieldset>
+    </div>
+</div>
+
+<?php
+    $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/require/require.min.js', null, array(
+        'data-main' => $this->websiteUrl . 'system/js/internal/themes.js'
+    ));
+?>
+
 <style type="text/css">
-    .ctrls, a.curr-check, .theme-delete {
+    .paddtop5 {padding: 5px 0;}
+    div.themebox {position: relative;}
+    div.hovered {
+        box-shadow: 0 0 15px indianRed !important;
+        -moz-box-shadow: 0 0 15px indianRed !important;
+        -webkit-box-shadow: 0 0 15px indianRed !important;
+    }
+    div.theme-preview-img {padding: 5px 0;}
+    a.apply-theme {text-decoration: dashed;}
+    button.apply-button {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 40px;
+        background: #939393;
+        background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
+        background: -webkit-linear-gradient(top, #939393 0%,#777777 100%);
+        background: -o-linear-gradient(top, #939393 0%,#777777 100%);
+        background: -ms-linear-gradient(top, #939393 0%,#777777 100%);
+        background: linear-gradient(top, #939393 0%,#777777 100%);
+        border-color: #777777 #777777 #6d6d6d;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 1px 0 0 #9f9f9f inset;
+        -moz-box-shadow: 0 1px 0 0 #9f9f9f inset;
+        -webkit-box-shadow: 0 1px 0 0 #9f9f9f inset;
+        text-shadow: 0 -1px 0 #636363;
+        text-align: center;
+        color: #FFFFFF;
+        -moz-border-radius:15px;
+        -webkit-border-radius:15px;
+        border-radius:15px;
+        cursor:pointer;
+        font-size:13pt;
+        font-weight:bold;
+        font-family:Arial, Helvetica, sans-serif;
+        padding: 5px 20px;
+        overflow: visible;
+    }
+    a.lnk-download, a.lnk-delete, a.lnk-current {
+        display: none;
         position: absolute;
         background: white;
         border-radius: 3px;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
-        padding: 5px
+        padding: 5px;
+        z-index: 99;
     }
-    .ctrls {left: 0;}
-    a.curr-check, .theme-delete {right: 0;}
-    .theme-preview-img {
-        overflow: hidden;
-        height: 135px;
-        margin: 4px
-    }
-    p.theme-name {
-        padding: 7px;
-        overflow: hidden;
-        max-width: 170px;
+    a.lnk-download {left: 0;}
+    a.lnk-current {display: inline;}
+    a.lnk-current, a.lnk-delete {right: 0;}
+    div.download-options {
+        display: none;
+        position: absolute;
+        color: #468847;
+        /*background-color: #DFF0D8;*/
+        background: #fafafa;
+        /*border: 1px solid #D6E9C6;*/
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        padding: 10px;
+        /*border-radius: 4px;*/
+        box-shadow: 0 0 5px #ccc;
+        text-align: left;
+        z-index: 100;
     }
 </style>
-<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
 
-	<div  class="grid_12 mb10px">
-		<fieldset>
-		<div class="grid_5"><?php echo $this->toasterUploader(array(
-						'id'=>'themes-uploader',
-						'filters' => array('zip'),
-						'caption' => $this->translate('Upload a new theme'),
-						'caller' => 'themes'
-						)); ?></div>
-		<div class="grid_7">
-			<div id="themes-uploader-filelist"></div>
-		</div>
-		</fieldset>
-	</div>
-	<div class="grid_12">
-		<fieldset><legend>Themes list</legend>
-			<div id="themes-list" class="h380">
-			<?php foreach ($this->themesList as $theme) :?>
-
-
-                <div class="themebox" style="position: relative;">
-                    <a style="display: none;"   class="lnk-download ctrls" href="javascript:;" title="<?php echo ($this->translate('Download') . ' ' . $theme['name'] . ' ' . $this->translate('theme')); ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
-
-                    <?php if ($theme['isCurrent']): ?>
-                        <a href="javascript:;" class="curr-check" title="this is the current theme"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
-                    <?php else : ?>
-                        <a style="display: none;" href="javascript:;" class="theme-delete" title="<?php echo $this->translate('trash this theme');?>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
-                    <?php endif; ?>
-                    <div class="theme-preview-img">
-                        <img src="<?php echo $theme['preview'];  ?>" class="preview" alt="<?php echo $theme['name']; ?>" />
-                    </div>
-
-                    <p class="theme-name">
-                        <?php if (!$theme['isCurrent']): ?>
-                            <input type="radio" name="select-theme" value="<?php echo $theme['name']; ?>"/>&nbsp;
-                        <?php endif; ?>
-                        <?php echo $theme['name']; ?>
-                    </p>
-                    <input type="hidden" class="theme-name" value="<?php echo $theme['name']; ?>"/>
-                </div>
-
-			<?php endforeach; ?>
-			</div>
-		</fieldset>
-	</div>
-	<div class="grid_12">
-		<?php echo $this->formSubmit('done', $this->translate('Done')); ?>
-	</div>
-	<div class="clear"></div>
-</div>
-
-<script type="text/javascript">
-$(function(){
-	$('#themes-list').on('updateContent', function(){
-		$(this).load('<?php echo $this->websiteUrl;?>backend/backend_theme/themes/ .themebox');
-	});
-
-	$('#themes-list').on('click', '.theme-delete', function(){
-		var themeName = $(this).closest('div.themebox').find('input.theme-name').val();
-		showConfirm('You are about to remove theme. Are you sure?', function() {
-			$.ajax({
-		        url: '<?php echo $this->url(array('action'=>'deletetheme')); ?>',
-		        type: 'post',
-			    beforeSend: function() {showSpinner();},
-			    data: {name: themeName},
-		        success: function(response) {
-			        hideSpinner();
-			        $('#themes-list').trigger('updateContent');
-		        },
-		        dataType: 'json'
-		    });
-		});
-		return false;
-	});
-
-	$('#done').on('click', function(){
-		if ($('input[name="select-theme"]:checked').size()){
-			var themeName = $('input[name="select-theme"]:checked').val();
-			$.post('<?php echo $this->url(array('action'=>'applytheme')); ?>',
-			{'themename' : themeName},
-			function(response){
-				showMessage(response.responseText, response.error);
-                $('#themes-list').trigger('updateContent');
-			}, 'json');
-		}
-	});
-
-	$('#themes-list').on('click', '.lnk-download', function(e) {
-		var themeName = $(e.target).parents('.themebox').find('input.theme-name').val(); //$(this).prev().val();
-		var url       = '<?php echo $this->websiteUrl;?>backend/backend_theme/downloadtheme/name/' + themeName;
-		document.location.href = url;
-	});
-
-    $(document).on('mouseenter', '.themebox', function() {
-        $(this).find('.ctrls, .theme-delete').fadeIn(100);
-    }).on('mouseleave', '.themebox', function() {
-        $(this).find('.ctrls, .theme-delete').hide();
-    });
-});
-</script>

@@ -27,3 +27,4 @@ robots.txt
 tmp/*
 !tmp/.gitignore
 .idea/*
+products.xml

@@ -38,9 +38,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
         parent::_init();
         $this->_prepopName          = array_shift($this->_options);
-        $this->_view                = new Zend_View(array(
-            'scriptPath' => __DIR__ . '/views'
-        ));
+        $this->_view                = new Zend_View(array('scriptPath' => __DIR__ . '/views'));
+
+        $this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
+        $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+
         $this->_view->prepopName    = $this->_prepopName;
         $this->_view->websiteUrl    = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
         $this->_view->commonOptions = array(

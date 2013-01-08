@@ -1,5 +1,4 @@
 $(function() {
-	//pluginCallback();
 	$(document).on('click', '.plugin-control', function() {
 		triggerPlugin('install', $(this));
 	}).on('click', '.plugin-endis', function() {
@@ -48,7 +47,7 @@ function pluginCallback() {
 }
 
 function triggerPlugin(type, element) {
-	url = $('#website_url').val() + ((type == 'install') ? 'backend/backend_plugin/triggerinstall/' : 'backend/backend_plugin/trigger/');
+	var url = $('#website_url').val() + ((type == 'install') ? 'backend/backend_plugin/triggerinstall/' : 'backend/backend_plugin/trigger/');
 	$.ajax({
 		url : url,
 		type       : 'post',

@@ -78,7 +78,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if(!isset($this->_options['recipient'])){
             $contactMailSent = $this->_sendTfeedbackformMailContact($form);
             $replyMailSent   = $this->_sendTfeedbackformMailReply($form);
-        }else{
+        } else {
             $this->_sendTfeedbackformMailAdditionalContact($form);
         }
         return ($contactMailSent && $replyMailSent);
@@ -90,6 +90,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $userMapper = Application_Model_Mappers_UserMapper::getInstance();
         $where = $userMapper->getDbTable()->getAdapter()->quoteInto("role_id = ?", Tools_Security_Acl::ROLE_ADMIN);
         $admins = $userMapper->fetchAll($where);
+        $adminBccArray = array();
         switch ($this->_options['recipient']) {
             case self::RECIPIENT_ADMIN:
                 if(!empty($admins)){
@@ -98,8 +99,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                             $this->_mailer->setMailToLabel($admin->getFullName())
                                 ->setMailTo($admin->getEmail());
                         }else{
-                            $this->_mailer->setMailBcc($admin->getEmail());
+                            array_push($adminBccArray, $admin->getEmail());
                         }
+                    }
+                    if(!empty($adminBccArray)){
+                        $this->_mailer->setMailBcc($adminBccArray);
                     }
                 }else{
                     return;
@@ -111,6 +115,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         }
         $mailBody = '{form:details}';
         $formDetailsHtml = '';
+
         foreach($formDetails as $name => $value) {
             if(!$value) {
                 continue;
@@ -120,7 +125,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $this->_entityParser->setDictionary(array(
             'form:details' => $formDetailsHtml
         ));
-        $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+
+        $mailBody = $this->_entityParser->parse($mailBody);
+
+
+        $this->_mailer->setBody($mailBody);
         $this->_mailer->setSubject($this->_translator->translate('New form submited'))
             ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
             ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
@@ -149,11 +158,23 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
     protected function _sendTfeedbackformMailContact(Application_Model_Models_Form $form) {
+        $emails = $this->_prepareEmail($form->getContactEmail());
         $formDetails = $this->_cleanFormData($this->_options['data']);
-        $this->_mailer->setMailToLabel($form->getContactEmail())
-            ->setMailTo($form->getContactEmail());
+        $this->_mailer->setMailToLabel($emails[0])
+            ->setMailTo($emails[0]);
+        if(count($emails) > 1){
+            array_shift($emails);
+            $this->_mailer->setMailBcc($emails);
+        }
         $mailBody = '{form:details}';
         $formDetailsHtml = '';
+
+        $formUrl = '';
+        if(isset($formDetails['formUrl'])) {
+            $formUrl = $formDetails['formUrl'];
+            unset($formDetails['formUrl']);
+        }
+
         foreach($formDetails as $name => $value) {
             if(!$value) {
                 continue;
@@ -163,7 +184,14 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $this->_entityParser->setDictionary(array(
             'form:details' => $formDetailsHtml
         ));
-        $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+
+        $mailBody = $this->_entityParser->parse($mailBody);
+
+        if($formUrl) {
+            $mailBody .= '<div style="background:#eee;padding:10px;">This form was submited from: <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
+        }
+
+        $this->_mailer->setBody($mailBody);
         $this->_mailer->setSubject($this->_translator->translate('New form submited'))
             ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
             ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
@@ -244,4 +272,19 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         unset($data['captchaId']);
         return $data;
     }
+    
+    private function _prepareEmail($emails){
+        if(preg_match('~,~', $emails)){
+            $mailArray = array();
+            $contanctEmails = explode(',',$emails);
+            foreach($contanctEmails as $email){
+               $email = str_replace(" ",'',$email);
+               array_push($mailArray, $email);
+            }
+            return $mailArray;
+        }
+        return array($emails);
+        
+    }
+    
 }

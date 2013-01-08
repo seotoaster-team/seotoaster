@@ -23,6 +23,10 @@ class SearchController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()) {
 			$resultsHits    = array();
 			$searchTerm     = filter_var($this->getRequest()->getParam('search'), FILTER_SANITIZE_STRING);
+
+            //preparing searchTerm to fit multiple charachters wildcard
+            $searchTerm = trim($searchTerm, '*') . '*';
+
 			$resultsPageId  = filter_var($this->getRequest()->getParam('resultsPageId'), FILTER_VALIDATE_INT);
 			$pageToRedirect = Application_Model_Mappers_PageMapper::getInstance()->find($resultsPageId);
 

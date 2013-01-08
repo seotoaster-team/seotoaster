@@ -7,13 +7,15 @@
  */
 class Tools_System_Tools {
 
-    const REMOTE_TOASTER_URL = 'http://www.seotoaster.com/';
+    const REMOTE_TOASTER_URL        = 'http://www.seotoaster.com/';
 
-    const DATE_MYSQL         = 'Y-m-d H:i:s';
+    const DATE_MYSQL                = 'Y-m-d H:i:s';
+
+    const DEFAULT_UPLOAD_FILESCOUNT = 5;
 
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
-		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/') : 'index.html';
+		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : 'index.html';
 	}
 
 	public static function getUrlScheme($url) {
@@ -61,6 +63,11 @@ class Tools_System_Tools {
 	}
 
 	public static function zip($pathToFile, $name = '') {
+
+        //extend script execution time limit
+        $execTime = ini_get('max_execution_time');
+        set_time_limit('120');
+
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$zipArch       = new ZipArchive();
 		$files         = array($pathToFile);
@@ -80,6 +87,10 @@ class Tools_System_Tools {
 			}
 		}
 		$zipArch->close();
+
+        //set back default execution time limit
+        set_time_limit($execTime);
+
 		return $destinationFile;
 	}
 
@@ -216,9 +227,10 @@ class Tools_System_Tools {
     public static function getAllowedUploadData() {
         $uploadFileSize = intval(ini_get('upload_max_filesize'));
         $postSize       = intval(ini_get('post_max_size'));
+        $filesCount     = intval(ini_get('max_file_uploads'));
         return array(
             'fileSize'    => ($uploadFileSize > $postSize) ? $postSize : $uploadFileSize,
-            'fileUploads' => intval(ini_get('max_file_uploads'))
+            'fileUploads' => ($filesCount) ? $filesCount : self::DEFAULT_UPLOAD_FILESCOUNT
         );
     }
 }

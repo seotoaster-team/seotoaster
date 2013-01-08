@@ -142,15 +142,39 @@ class Backend_PluginController extends Zend_Controller_Action {
 	public function deleteAction() {
 		if($this->getRequest()->isPost()) {
 			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('id'));
-			$delete       = Tools_Filesystem_Tools::deleteDir($this->_helper->website->getPath() . 'plugins/' . $plugin->getName());
 			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
 			)));
-			Application_Model_Mappers_PluginMapper::getInstance()->delete($plugin);
+            $miscData     = Zend_Registry::get('misc');
+            $sqlFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] . $plugin->getName() . '/system/' .
+						   (Application_Model_Models_Plugin::UNINSTALL_FILE_NAME);
+            if(file_exists($sqlFilePath)) {
+				$sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
+				if(strlen($sqlFileContent)) {
+                    $queries = Tools_System_SqlSplitter::split($sqlFileContent);
+                }
+            }
+            $delete = Tools_Filesystem_Tools::deleteDir($this->_helper->website->getPath() . 'plugins/' . $plugin->getName());
 			if(!$delete) {
 				$this->_helper->response->fail('Can\'t remove plugin\'s directory (not enough permissions). Plugin was uninstalled.');
 				exit;
 			}
+            if(is_array($queries) && !empty ($queries)) {
+                $dbAdapter = Zend_Registry::get('dbAdapter');
+				try {
+					array_walk($queries, function($query, $key, $adapter) {
+                        if(strlen(trim($query))) {
+                            $adapter->query($query);
+                        }
+                    }, $dbAdapter);
+                    Application_Model_Mappers_PluginMapper::getInstance()->delete($plugin);
+				}
+				catch (Exception $e) {
+                    error_log($e->getMessage());
+					$this->_helper->response->fail($e->getMessage());
+				}
+			}
+            
 			$this->_helper->cache->clean(null, null, array('plugins'));
 			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 			$this->_helper->response->success('Removed');

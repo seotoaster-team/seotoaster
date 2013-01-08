@@ -33,7 +33,7 @@ class IndexController extends Zend_Controller_Action {
 
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
-		$pageCacheKey = $pageUrl;
+		$pageCacheKey = md5($pageUrl);
 		if(null === ($page = $this->_helper->cache->load($pageCacheKey, 'pagedata_'))) {
 			// Depends on what kind page it is (news or regular) get a needed mapper
 			$mapper = Application_Model_Mappers_PageMapper::getInstance();
@@ -148,7 +148,11 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->pageData = $pageData;
 		$this->view->bodyTag  = $body[1];
 		$this->view->content  = $body[2];
-		$this->view->minify   = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('enableMinify')
+
+        $locale               = Zend_Locale::getLocaleToTerritory(Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('language'));
+        $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
+
+        $this->view->minify   = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('enableMinify')
 					&& !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
 	}
 

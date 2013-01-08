@@ -178,13 +178,14 @@ function loginCheck() {
 	return true;
 }
 
-function showMessage(msg, err) {
+function showMessage(msg, err, delay) {
 	if(err) {
 		smoke.alert(msg, {classname:"errors"});
 		return;
 	}
 	smoke.signal(msg);
-	$('.smoke-base').delay(1300).slideUp();
+    delay = (typeof(delay) == 'undefined') ? 1300 : delay;
+	$('.smoke-base').delay(delay).slideUp();
 }
 
 function showConfirm(msg, yesCallback, noCallback) {

@@ -37,6 +37,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $this->_view->formId            = $filter->filter($this->_options[0]);
 
 		$this->_view->websiteTmp        = $this->_websiteHelper->getTmp();
+        $this->_view->formUrl           = $this->_toasterOptions['url'];
 		return $this->_view->render('form.phtml');
 	}
 
