@@ -239,30 +239,33 @@ class Tools_Image_Tools {
 			}
 			$filename = $folderPath.DIRECTORY_SEPARATOR.$subfolder.DIRECTORY_SEPARATOR.$imageName;
 			//checking if enough permission to remove file
-			if (is_file($filename) && is_writable($filename)) {
+			if (is_file($filename)) {
 				array_push($removable, $filename);
-			}
+            }
 		}
 
 		/**
 		 * checking if we can remove all files at once
 		 * if not - returning with error
 		 */
-		if (sizeof($removable) === sizeof($subFoldersList)){
-			foreach ($removable as $file) {
-				try {
-					Tools_Filesystem_Tools::deleteFile($file);
-				} catch (Exceptions_SeotoasterException $e) {
-					$errorCount++;
-					error_log($file.': '. $e->getMessage() );
-				}
+        
+        foreach ($removable as $file) {
+            if(!is_writable($file)){
+                return 'Permission denied';
+            }
+        }
+		
+		foreach ($removable as $file) {
+            try {
+                Tools_Filesystem_Tools::deleteFile($file);
+			} catch (Exceptions_SeotoasterException $e) {
+				$errorCount++;
+				error_log($file.': '. $e->getMessage() );
 			}
-			if ($errorCount){
-				return false;
-			}
-			return true;
 		}
-
-		return 'Permission denied';
+		if ($errorCount){
+			return false;
+		}
+		return true;
 	}
 }

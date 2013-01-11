@@ -5,7 +5,7 @@
         var searchValues = [];
         var containerNames = [];
         $('select.searchParams option:selected').each(function () {
-             searchValues.push($(this).text());
+             searchValues.push($(this).val());
         });
         $('select.searchParams').each(function () {
              containerNames.push($(this).attr('name'));
