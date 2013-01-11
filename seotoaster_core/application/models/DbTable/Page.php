@@ -69,7 +69,8 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'optimizedNavName'           => 'nav_name',
                 'optimizedTargetedKeyPhrase' => 'targeted_key_phrase',
                 'optimizedMetaDescription'   => 'meta_description',
-                'optimizedMetaKeywords'      => 'meta_keywords'
+                'optimizedMetaKeywords'      => 'meta_keywords',
+				'optimizedTeaserText'        => 'teaser_text'
             ))
             ->where($where);
         $data = $this->getAdapter()->fetchRow($select);

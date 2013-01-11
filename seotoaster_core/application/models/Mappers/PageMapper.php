@@ -17,7 +17,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		'nav_name',
 		'meta_description',
 		'meta_keywords',
-		'targeted_key_phrase'
+		'targeted_key_phrase',
+		'teaser_text'
 	);
 
     /**
@@ -309,6 +310,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             $row['targeted_key_phrase'] = isset($row['optimizedTargetedKeyPhrase']) ? $row['optimizedTargetedKeyPhrase'] : $row['targeted_key_phrase'];
             $row['meta_description']    = isset($row['optimizedMetaDescription']) ? $row['optimizedMetaDescription'] : $row['meta_description'];
             $row['meta_keywords']       = isset($row['optimizedMetaKeywords']) ? $row['optimizedMetaKeywords'] : $row['meta_keywords'];
+			$row['teaser_text']         = isset($row['optimizedTeaserText']) ? $row['optimizedTeaserText'] : $row['teaser_text'];
 		}
 		return new $this->_model($row);
 	}

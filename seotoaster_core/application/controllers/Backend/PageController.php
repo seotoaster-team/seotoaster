@@ -36,7 +36,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName(true)));
 
 		$page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
-
+		
 		if(!$this->getRequest()->isPost()) {
 			if($page instanceof Application_Model_Models_Page) {
 				$pageForm->setOptions($page->toArray());
@@ -141,7 +141,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->view->helpSection = ($pageId) ? 'editpage' : 'addpage';
 
         if($page->getOptimized()) {
-			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords'));
+			$pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords', 'teaserText'));
 		}
 		$this->view->pageForm = $pageForm;
 	}
