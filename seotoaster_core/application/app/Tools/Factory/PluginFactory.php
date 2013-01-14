@@ -7,7 +7,7 @@ class Tools_Factory_PluginFactory {
 	public static function createPlugin($name, $options = array(), $toasterOptions = array()) {
 		$pluginClassName = ucfirst($name);
         if(!Tools_Plugins_Tools::loaderCanExec($name)) {
-            throw new Exceptions_SeotoasterPluginException('Can not create ' . $pluginClassName . ' plugin. You have to install the proper loader');
+            throw new Exceptions_SeotoasterPluginException('Sorry, ' . $pluginClassName . ' plug-in requires Ioncube. Please install the proper Ioncube loader on your web server at <a href="http://www.ioncube.com/loaders.php" target="_blank">www.ioncube.com/loaders.php</a> or request your web host to do it for you.');
         }
 		self::_validate($pluginClassName);
 		return new $pluginClassName($options, $toasterOptions);
