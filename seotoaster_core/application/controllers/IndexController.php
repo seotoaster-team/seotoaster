@@ -137,8 +137,8 @@ class IndexController extends Zend_Controller_Action {
 		if ('' === ($canonicalScheme = $this->_helper->config->getConfig('canonicalScheme'))){
 			$canonicalScheme = $this->getRequest()->getScheme();
 		}
-		$this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST).'/'.($pageData['url'] !== $this->_helper->website->getDefaultPage() ? $pageData['url'] : '' );
-
+        $this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST).parse_url($parserOptions['websiteUrl'], PHP_URL_PATH).($pageData['url'] !== $this->_helper->website->getDefaultPage() ? $pageData['url'] : '' );
+       
 		//$this->view->newsPage        = $newsPage;
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
