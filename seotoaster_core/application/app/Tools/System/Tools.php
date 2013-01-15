@@ -13,6 +13,8 @@ class Tools_System_Tools {
 
     const DEFAULT_UPLOAD_FILESCOUNT = 5;
 
+    const EXECUTION_TIME_LIMIT      = 0;
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : 'index.html';
@@ -66,7 +68,7 @@ class Tools_System_Tools {
 
         //extend script execution time limit
         $execTime = ini_get('max_execution_time');
-        set_time_limit('120');
+        set_time_limit(self::EXECUTION_TIME_LIMIT);
 
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$zipArch       = new ZipArchive();
