@@ -247,5 +247,12 @@ class Tools_System_Tools {
             'fileUploads' => ($filesCount) ? $filesCount : self::DEFAULT_UPLOAD_FILESCOUNT
         );
     }
+
+    public static function getMime($file) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime  = finfo_file($finfo, $file);
+        finfo_close($finfo);
+        return $mime;
+    }
 }
 
