@@ -67,11 +67,19 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             $themeName    = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
             $themePath    = $themesPath . $themeName;
 
-            if($this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL) {
+            $isFull       = $this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL;
+            if($isFull) {
                 $this->_saveFullThemeData($themeName);
             }
 
-            $themeArchive = Tools_System_Tools::zip($themePath, $themeName);
+            $themeArchive = Tools_System_Tools::zip($themePath, $themeName, ((!$isFull) ? array(
+                $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR,
+                $themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE,
+                $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR
+            ) : array(
+                $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR
+            )));
+
             $this->_response->clearAllHeaders()->clearBody();
             $this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
                 ->setHeader('Content-Type', 'application/zip', true)
