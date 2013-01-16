@@ -72,6 +72,7 @@ misc.templatePreviewWidth  = 180
 misc.templatePreviewHeight = 220
 misc.pageTeaserSize        = 200
 misc.pageTeaserCropSize    = 200
+misc.feedsPath             = "feeds/"
 
 [actiontriggers]
 actiontriggers.seotoaster.trigger.t_feedbackform.title    = "feedback form sent"
