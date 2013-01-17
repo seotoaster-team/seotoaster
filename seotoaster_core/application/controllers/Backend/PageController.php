@@ -115,10 +115,10 @@ class Backend_PageController extends Zend_Controller_Action {
 
 				// saving new page preview image is recieved it in request
 				if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
-					$this->_processPagePreviewImage($page->getUrl(), $params['pagePreviewImage']);
+					Tools_Page_Tools::processPagePreviewImage($page->getUrl(), $params['pagePreviewImage']);
 				} // else updating existing
 				elseif ($this->_helper->session->oldPageUrl != $page->getUrl()) {
-					$this->_processPagePreviewImage($page->getUrl(), $this->_processPagePreviewImage($this->_helper->session->oldPageUrl));
+                    Tools_Page_Tools::processPagePreviewImage($page->getUrl(), Tools_Page_Tools::processPagePreviewImage($this->_helper->session->oldPageUrl));
 				}
 
 				$page->notifyObservers();
@@ -134,7 +134,7 @@ class Backend_PageController extends Zend_Controller_Action {
 		$this->view->faCount = ($page->getId()) ? sizeof(Application_Model_Mappers_FeaturedareaMapper::getInstance()->findAreasByPageId($page->getId())) : 0;
 
 		//page preview image
-		$this->view->pagePreviewImage = $this->_processPagePreviewImage($page->getUrl());
+		$this->view->pagePreviewImage = Tools_Page_Tools::processPagePreviewImage($page->getUrl());
 		$this->view->sambaOptimized   = $page->getOptimized();
 
         // page help section
@@ -303,74 +303,6 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->view->helpSection = 'organize';
 		$this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
 		$this->view->noMenu      = $pageMapper->fetchAllNomenuPages();
-	}
-
-	private function _processPagePreviewImage($pageUrl, $tmpPreviewFile = null){
-		$websiteConfig      = Zend_Registry::get('website');
-		$pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $this->_helper->page->clean($pageUrl));
-		$previewPath        = $this->_helper->website->getPath() . $this->_helper->website->getPreview();
-
-		$filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
-		$currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/i', $filelist);
-
-		if ($tmpPreviewFile) {
-			$tmpPreviewFile = $this->_helper->website->getPath() . str_replace($this->_helper->website->getUrl(), '', $tmpPreviewFile);
-			if (is_file($tmpPreviewFile) && is_readable($tmpPreviewFile)){
-				preg_match('/\.[\w\d]{2,6}$/', $tmpPreviewFile, $extension);
-				$newPreviewImageFile = $previewPath . $pageUrl . $extension[0];
-
-				//cleaning form existing page previews
-				if(!empty($currentPreviewList)) {
-					foreach ($currentPreviewList as $key => $file) {
-						if(file_exists($previewPath . $file)) {
-							if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
-								unset($currentPreviewList[0]);
-							}
-						}
-					}
-				}
-
-				if (is_writable($newPreviewImageFile)){
-					$status = @rename($tmpPreviewFile, $newPreviewImageFile);
-				} else {
-					$status = @copy($tmpPreviewFile, $newPreviewImageFile);
-				}
-				if ($status && file_exists($tmpPreviewFile)) {
-					Tools_Filesystem_Tools::deleteFile($tmpPreviewFile);
-				}
-
-				$miscConfig = Zend_Registry::get('misc');
-
-
-                //check for the previews crop folder and try to create it if not exists
-                $cropPreviewDirPath = $this->_helper->website->getPath() . $this->_helper->website->getPreviewCrop();
-                if(!is_dir($cropPreviewDirPath)) {
-                    @mkdir($cropPreviewDirPath);
-                } else {
-                    // unlink old croped page previews
-                    if(!empty($currentPreviewList)) {
-                        foreach($currentPreviewList as $fileToUnlink) {
-                            $unlinkPath = $cropPreviewDirPath . $fileToUnlink;
-                            if(file_exists($unlinkPath)) {
-                                unlink($unlinkPath);
-                            }
-                        }
-                    }
-                }
-				Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $cropPreviewDirPath, true);
-				unset($miscConfig);
-
-				return $this->_helper->website->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
-			}
-		}
-
-		if (sizeof($currentPreviewList) == 0){
-			return false;
-		} else {
-			$pagePreviewImage = $this->_helper->website->getUrl() . $websiteConfig['preview'] . reset($currentPreviewList);
-		}
-
-		return $pagePreviewImage;
 	}
 
 	public function listpagesAction() {
