@@ -64,23 +64,35 @@ class Tools_System_Tools {
 		return implode('', $exploded);
 	}
 
-	public static function zip($pathToFile, $name = '') {
+	public static function zip($pathToFile, $name = '', $excludeFiles = array()) {
 
         //extend script execution time limit
         $execTime = ini_get('max_execution_time');
         set_time_limit(self::EXECUTION_TIME_LIMIT);
 
-		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$zipArch       = new ZipArchive();
-		$files         = array($pathToFile);
-		$exploded      = explode('/', $pathToFile);
-		$localName     = preg_replace('~\.[\w]+$~', '', end($exploded));
+		$websiteHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$zipArch        = new ZipArchive();
+		$files          = array($pathToFile);
+		$exploded       = explode('/', $pathToFile);
+		$localName      = preg_replace('~\.[\w]+$~', '', end($exploded));
 		$destinationFile = $websiteHelper->getPath() . 'tmp/' . (($name) ? $name : $localName) . '.zip';
 		if(file_exists($destinationFile)) {
 			@unlink($destinationFile);
 		}
 		if(is_dir($pathToFile)) {
-			$files = Tools_Filesystem_Tools::scanDirectory($pathToFile, true, true);
+			$files   = Tools_Filesystem_Tools::scanDirectory($pathToFile, true, true);
+            $exclude = array();
+
+            foreach($excludeFiles as $excludePath) {
+                if(is_dir($excludePath)) {
+                    $exclude = array_merge(Tools_Filesystem_Tools::scanDirectory($excludePath, true, true), $exclude);
+                } else {
+                    array_push($exclude, $excludePath);
+                }
+
+            }
+            $files = array_diff($files, $exclude);
+
 		}
 		$zipArch->open($destinationFile, ZipArchive::OVERWRITE);
 		if(!empty ($files)) {
@@ -234,6 +246,13 @@ class Tools_System_Tools {
             'fileSize'    => ($uploadFileSize > $postSize) ? $postSize : $uploadFileSize,
             'fileUploads' => ($filesCount) ? $filesCount : self::DEFAULT_UPLOAD_FILESCOUNT
         );
+    }
+
+    public static function getMime($file) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime  = finfo_file($finfo, $file);
+        finfo_close($finfo);
+        return $mime;
     }
 }
 
