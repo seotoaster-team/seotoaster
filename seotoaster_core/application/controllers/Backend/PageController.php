@@ -57,11 +57,12 @@ class Backend_PageController extends Zend_Controller_Action {
             }
         }
         else {
-            $params   = $this->getRequest()->getParams();
-            $messages = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
+            $params    = $this->getRequest()->getParams();
+            $messages  = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
+            $optimized = (isset($params['optimized']) && $params['optimized']);
 
             //if page is optiized by samba unset optimized values from update
-            if(isset($params['optimized']) && $params['optimized']) {
+            if($optimized) {
                 $params = $this->_restoreOriginalValues($params);
             }
 
@@ -83,7 +84,10 @@ class Backend_PageController extends Zend_Controller_Action {
                 $this->_helper->session->oldPageH1    = $page->getH1();
                 $this->_helper->session->oldPageDraft = $page->getDraft();
 
-                $page->registerObserver(new Tools_Seo_Watchdog());
+                if(!$optimized) {
+                    $page->registerObserver(new Tools_Seo_Watchdog());
+                }
+
                 $page->registerObserver(new Tools_Search_Watchdog());
                 $page->registerObserver(new Tools_Page_GarbageCollector(array(
                     'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
@@ -115,10 +119,9 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 // saving new page preview image is recieved it in request
                 if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
-                    Tools_Page_Tools::processPagePreviewImage($page->getUrl(), $params['pagePreviewImage']);
+                    Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, $params['pagePreviewImage']);
                 } // else updating existing
                 elseif ($this->_helper->session->oldPageUrl != $page->getUrl()) {
-                    $optimized = (isset($params['optimized']) && $params['optimized']);
                     Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, Tools_Page_Tools::processPagePreviewImage($this->_helper->session->oldPageUrl));
                 }
 
