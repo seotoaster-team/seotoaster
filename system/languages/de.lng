@@ -1,0 +1,250 @@
+<?php
+return array(
+/*********************************************************************************************
+ *** Seotoaster Übersetzung von Ronny Kumke, ronny@lxcars.de *********************************
+ *** Version 1.0, Search Error to find any Problems ******************************************
+ *********************************************************************************************/
+
+/*** Installation ***************************************************************************/
+	'Seotoaster install'            				   => 'Seotoaster installation',
+	'Step 1: System setup'                             => 'Schritt 1: System Konfiguration',
+	'Checking Server Requirements'  				   => 'Server Voraussetzungen prüfen',
+	'Checking file system permissions' 				   => 'Datei Schreibrechte prüfen',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster.' =>
+	'Der Server benötigt diese minimalen Systemanforderungen.',
+	'Some folders need to be writable to allow the toaster to function properly.'                   =>
+	'Für die einwandfreie Funktion müssen für einige Ordner Schreibrechte vorhanden sein.',
+	'Bravo, All good to go!'                           => 'Alle Voraussetzungen erfüllt.',
+	'Check again'                                      => 'Nochmals Prüfen',
+	'Next'                                             => 'Weiter',
+	'Step 2: Database setup'                           => 'Schritt 2: Datenbank Konfiguration',
+	'Setting up the Database.'                         => 'Konfiguriere die Datenbankverbindung.',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' =>
+	'Das Seotaster funktioniert werden mindesten die angezeigten Einstellungen benötigt. (MySQL 5.x muss laufen) Tip: Datenbank kann zB. mit phpmyadmin angelegt werden',
+	'Host'                                             => 'Datenbank Server',
+	'Database name'                                    => 'Datenbankname',
+	'Advanced settings (Optional)'                     => 'Erweiterte Einstellungen (optional)',
+	'Multi-toasters setup:'                            => 'Einstellungen für Mehrfachbenutzung:',
+	"Did you know? You can share seotoaster's core files to run multiple websites from the same server. This is great to expedite upgrades for your  toaster. Simply enter the path for your master seotoaster core files and an unique name you wish to use for this website install." =>
+	'Mehrfachbenutzung: Der Kern von Seotoaster kann für mehere Internetseiten verwendet werden. Dies ist besonders bei Upgrades sehr vorteilhaft. Trage den Pfad zu den Hauptkern-Dateien und einen unterschiedlichen Namen für jede Internetseite ein.',
+	'Path to core'                                     => 'Pfad zum Seotoaster-Kern',
+	'Site name'                                        => 'Name der Seite',
+	'Go ahead!'                                        => 'Weiter',
+	'Step 3: Create your super admin account'          => 'Schritt 3: Administrator anlegen',
+	'You are one step away from toasting.'             => 'Letzter Schritt vor der Fertigstellung',
+	'<h2 class="mt40px mb50px xlarge">Congratulations,<br />you have succesfully installed<br /><strong>SEOTOASTER V2 !</strong></h2>' =>
+	'<h2 class="mt40px mb50px xlarge">Gratulation,<br /><strong>SEOTOASTER V2 !</strong>wurde erfolgreich installiert<br /></h2>',
+	'Toast It!'                                       => 'Fertig',
+
+/*** Login *************************************************************************************/
+	'Login'        				=> 'Einloggen',
+	'Welcome Back' 				=> 'Willkommen zurück',
+	'Password'     				=> 'Passwort',
+	'Let me in'    				=> 'Eintreten',
+	'Forgot password?' 			=> 'Passwort vergessen?',
+	'Retrieve password' 		=> 'Passwort zurücksetzen',
+	'I remembered my password'  => 'Passwort eingefallen',
+	'Retrieve'					=> 'Zurücksetzen',
+	'We\'ve sent an email to '  => 'Wir haben das Passwort an ',
+
+/*** Hauptmenü **********************************************************************************/
+	'Collapse menu'        => 'Menü einklappen',
+	'Expand menu'          => 'Menu ausklappen',
+	'PAGES'                => 'SEITEN',
+	'This page'            => 'Diese Seite',
+	'Edit page properties' => 'Eigenschaften',
+	'Other pages'          => 'Andere Seiten',
+	'Create a page'        => 'Neue Seite erstellen',
+	'Organize pages'       => 'Seiten organisieren',
+	'Edit 404 page'        => '404-Seite bearbeiten',
+	'Draft'                => 'Entwürfe',
+	'MEDIA'                => 'MEDIA',
+	'Upload things'        => 'Hochladen',
+	'Remove things'        => 'Löschen',
+	'SEO'                  => 'SEO',
+	'Edit robots.txt'      => 'robots.txt bearbeiten',
+	'Add / Edit 301'       => 'Weiterleitung (301)',
+	'Link strategy'        => 'Link Strategie',
+	'Deeplinks'            => 'Links zu Unterseiten',
+	'Sculpting'            => 'Linkstrukturen Silo',
+	'LAYOUT'               => 'LAYOUT',
+	'Add template'         => 'Neues Template',
+	'Edit this template'   => 'Template bearbeiten',
+	'Edit CSS'             => 'CSS bearbeiten',
+	'Themes'               => 'Themen',
+	'Widgets & Tokens'     => 'Widget & Tokens',
+	'OTHER'                => 'SONSTIGES',
+	'Manage config'        => 'Konfiguration',
+	'Action e-mails'	   => 'Emailverwaltung',
+	'Manage users'         => 'Benutzerverwaltung',
+	'Plugins'              => 'Plugins',
+	'LOGOUT'               => 'AUSLOGGEN',
+
+
+/*** Benutzerverwaltung ****************************************************************************/
+	'Full name'    => 'Name',
+	'Role'         => 'Rolle',
+	'Save changes' => 'Einstellungen sichern',
+	'Member'       => 'Mitglied',
+	'User'         => 'Benutzer',
+	'Admin'        => 'Administrator',
+	'Manage users' => 'Benutzerverwaltung',
+	'Last login'   => 'Letzter Login',
+	'Ip address'   => 'IP Adresse',
+	'Actions'      => 'Aktion',
+	'Save user'    => 'Benutzer speichern',
+	'Search:'      => 'Suchen:',
+	'export usersexport as csv file' => 'Benutzer als CSV exportieren',
+
+/*** Seitenverwaltung *******************************************************************************/
+	'Published'                   => 'Veröffentlicht',
+	'Manage pages'                => 'Seitenverwaltung',
+	'Page Information'            => 'SEITEN INFORMATIOn',
+	'Page header H1 tag'          => 'Seitenüberschrift H1',
+	'Display in browser title as' => 'Im Browser anzeigen als',
+	'Page URL in address bar'     => 'URL der Seite',
+	'Display in navigation as'    => 'In der Navigation anzeigen als',
+	'Meta description'            => 'Мeta Tag (Kurzbeschreibung 150-160 Zeichen)',
+	'Meta keywords'               => 'Meta Keywords (durch Kommata getrennt)	',
+
+	'Navigation'                  => 'NAVIGATION',
+	'Main Menu'                   => 'Hauptmenü',
+	'Flat Menu'                   => 'Nebenmenü',
+	'No Menu'                     => 'Kein Menü',
+	'This page is a category'     => 'Diese Seite ist eine Kategorie',
+	'Make your selection'         => 'Treffe eine Auswahl',
+	'Categories'                  => 'Кaterogie',
+	'Settings'			          => 'Einstellungen',
+	'Current template'            => 'Aktuelles Template',
+	'Select template'	          => 'Wähle Template',
+	'Not yet'					  => 'Noch nicht',
+	'This page is'                => 'Diese Seite ist eine',
+	'our error 404 "Not found" page' => '404 Nicht gefunden Seite',
+	'the cart checkout page'         => 'nach Checkout Seite',
+	'Select an option'               => 'Treffe eine Auswahl',
+
+	'Is this page already tagged?'=> 'Wurde diese Seite bereits getagged?',
+	'Save page'                   => 'Seite speichern',
+
+/*** Seiten organisieren ******************************************************************************/
+	'Help'                        => 'Hilfe',
+	'collapse all'                => 'alle einklappen',
+	'expand all'                  => 'alle ausklappen',
+	'Delete selected'             => 'Auswahl löschen',
+	'Save and close'              => 'Speichern & Schließen',
+	'Manage drafts'               => 'Entwürfe verwalten',
+	'You are about to remove one or many pages. Are you sure?' => 	'Sollen die ausgewählten Seiten wirklich unwiederruflich gelöscht werden?',
+	'Yes'                         => 'Ja',
+	'No'                          => 'Nein',
+
+/*** Media *******************************************************************************************/
+	'Upload your files and images'        => 'Dateien und Bilder hochladen',
+	'Upload'                              => 'Hochladen',
+	'OR'                                  => 'ODER',
+	'Choose and upload file(s)'           => 'Dateie(n) auswählen und hochladen',
+	'select folder'                       => 'Ordner wählen',
+	'create new folder'                   => 'Ordner erstellen',
+	'SEO tip: Have you thought about meaningfully naming your images files after your keywords?' => 'SEO Tip: Wähle für Dateien und Bilder sprechend Namem anhand der Keyworter der Seite',
+	'Images'                              => 'Bilder',
+	'Files'                               => 'Dateien',
+	'Check all?'                          => 'Alles auswählen',
+	'Delete Selected'                     => 'Auswahl löschen',
+
+/*** SEO **********************************************************************************************/
+	'Save robots.txt'                    => 'Robots.txt Speichern',
+
+
+/*** Templates ****************************************************************************************/
+	'Template name'					     => 'Template Name',
+	'Used for'                           => 'Benutzt für',
+	'Regular page'                       => 'Reguläre Seite',
+	'Checkout page'                      => 'Checkout Seite',
+	'E-mail sending'                     => 'Email senden',
+	'Product listing'                    => 'Produkt Auflistung',
+	'Product page'                       => 'Produkt Seite',
+	'Paste your HTML code here:'         => 'HTML Quellcode hier einfügen:',
+	'Upload image'                       => 'Bild hochladen',
+	'Edit other templates'               => 'Anderes Template bearbeiten',
+	'Templates list'                     => 'Templateliste',
+	'Edit template'                      => 'Template bearbeite',
+	'All'                                => 'Alle',
+
+/*** CSS *********************************************************************************************/
+	'Edit css'                           => 'CSS bearbeiten',
+	'Save CSS'                           => 'CSS speichern',
+
+//Themen
+	'Manage themes'                      => 'Themen verwalten',
+	'Themes list'                        => 'Themenliste',
+	'Upload a new theme'                 => 'Neues Thema hochladen',
+	'Done'                               => 'Fertig',
+
+//SONTIGES
+	'General'                            => 'Allgemein',
+	'Email settings' 	 				 => 'Einstellungen Email',
+	'Admin access'                       => 'Administrator',
+	'Advanced'                           => 'Erweitert',
+	'E-mail'                             => 'Email',
+	'Website Language'                   => 'Sprache der Seite',
+	'Small Image Size'                   => 'Abmaße - kleines Bild',
+	'Medium Image Size'                  => 'Abmaße - mittleres Bild',
+	'Large Image Size'                   => 'Abmaße - großes Bild',
+	'Page Teaser Image Size'             => 'Bildgröße Teaser',
+	'Member pages in menu?'              => 'Mitglied Seite im Menü?',
+	'Use SMTP?'                          => 'SMTP benutzen?',
+	'SMTP Hostname'                      => 'SMTP Rechnername',
+	'SMTP Password'                      => 'SMTP Passwort',
+	'Use mediaServers?'                  => 'Mediaserver benutzen?',
+
+//Emailverwaltung
+	'Manage action e-mails'               => 'Emailaktionen verwalten',
+	'Select event area'                   => 'Ereignesbereich auswählen',
+	'feedback form send'                  => 'Feedback Formular gesendet',  //funzt nicht weil in Ajax Error
+	'New member registered'               => 'Neues Mitglied registriert',
+	'password reset request'              => 'Neues Passwort angefordert',
+	'password changed'                    => 'Passwort geändert',
+	'system notification'                 => 'Systemmitteileung',
+	'Add recipient'                       => 'Empfänger hinzufügen',
+	'Save changes'                        => 'Speichern',
+	'When'                                => 'Wenn',
+	'send an e-mail to'                   => 'Email senden zu',
+	'use template'                        => 'Template benutzen',
+	'with message'                        => 'Nachricht',
+	'from'                                => 'von',
+	'with subject'                        => 'Betreff',
+
+
+//Inhalt
+	'Save content'                        => 'Inhalt sichern',
+	'Content'                             => 'Inhalt',
+	'Click to edit content'				  => 'Inhalt bearbeiten',
+	'Delete this form'					  => 'Formular löschen',
+	'Click to edit header'                => 'Header bearbeiten',
+
+
+//Formulare
+	'Edit this form'               			=> 'Formular bearbeiten',
+	'Get form code'                      	=> 'Formularcode erstellen',
+	'Form properties'						=> 'Eigenschaften Formular',
+	'Form code*'                   	    	=> 'Code fürs Formular*',
+	'Conversion tracking code'           	=> 'Verfolgungscode',
+	'Contact mail*'                      	=> 'Empfängeremail',
+	'Auto reply from name'					=> 'Antwort Name',
+	'Auto reply from email*'             	=> 'Antwort Email',
+	'Auto reply subject*' 					=> 'Anwort Betreff',
+	'Auto reply mail template'         		=> 'Antwort Template',
+	'Reply text'							=> 'Antworttext',
+	'Success Message*'						=> 'Nachricht Erfolg',
+	'Error Message'							=> 'Fehlermeldung',
+	'Save'									=> 'Speichern',
+	'New form submited'                     => 'Neues Formular gesendet!',
+	'Notifications @ '        				=> 'Mitteilung von ',
+
+//Entwürfe
+	'Manage drafts ('						=> 'Entwürfe verwalten (',
+
+/* Frontend */
+
+	'Search'    => 'Suchen',
+	'Send'      => 'Senden',
+);

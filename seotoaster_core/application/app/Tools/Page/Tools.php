@@ -98,5 +98,76 @@ class Tools_Page_Tools {
         }
         return $prepared;
     }
+
+    public static function processPagePreviewImage($pageUrl, $tmpPreviewFile = null){
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
+        $websiteConfig      = Zend_Registry::get('website');
+        $pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $pageHelper->clean($pageUrl));
+        $previewPath        = $websiteHelper->getPath() . $websiteHelper->getPreview();
+
+        $filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
+        $currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/i', $filelist);
+
+        if ($tmpPreviewFile) {
+            $tmpPreviewFile = $websiteHelper->getPath() . str_replace($websiteHelper->getUrl(), '', $tmpPreviewFile);
+            if (is_file($tmpPreviewFile) && is_readable($tmpPreviewFile)){
+                preg_match('/\.[\w\d]{2,6}$/', $tmpPreviewFile, $extension);
+                $newPreviewImageFile = $previewPath . $pageUrl . $extension[0];
+
+                //cleaning form existing page previews
+                if(!empty($currentPreviewList)) {
+                    foreach ($currentPreviewList as $key => $file) {
+                        if(file_exists($previewPath . $file)) {
+                            if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
+                                unset($currentPreviewList[0]);
+                            }
+                        }
+                    }
+                }
+
+                if (is_writable($newPreviewImageFile)){
+                    $status = @rename($tmpPreviewFile, $newPreviewImageFile);
+                } else {
+                    $status = @copy($tmpPreviewFile, $newPreviewImageFile);
+                }
+                if ($status && file_exists($tmpPreviewFile)) {
+                    Tools_Filesystem_Tools::deleteFile($tmpPreviewFile);
+                }
+
+                $miscConfig = Zend_Registry::get('misc');
+
+
+                //check for the previews crop folder and try to create it if not exists
+                $cropPreviewDirPath = $websiteHelper->getPath() . $websiteHelper->getPreviewCrop();
+                if(!is_dir($cropPreviewDirPath)) {
+                    @mkdir($cropPreviewDirPath);
+                } else {
+                    // unlink old croped page previews
+                    if(!empty($currentPreviewList)) {
+                        foreach($currentPreviewList as $fileToUnlink) {
+                            $unlinkPath = $cropPreviewDirPath . $fileToUnlink;
+                            if(file_exists($unlinkPath)) {
+                                unlink($unlinkPath);
+                            }
+                        }
+                    }
+                }
+                Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $cropPreviewDirPath, true);
+                unset($miscConfig);
+
+                return $websiteHelper->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
+            }
+        }
+
+        if (sizeof($currentPreviewList) == 0){
+            return false;
+        } else {
+            $pagePreviewImage = $websiteHelper->getUrl() . $websiteConfig['preview'] . reset($currentPreviewList);
+        }
+
+        return $pagePreviewImage;
+    }
+
 }
 
