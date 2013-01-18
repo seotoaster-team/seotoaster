@@ -176,7 +176,6 @@ CREATE TABLE IF NOT EXISTS `optimized` (
   `url_rule_id` int(10) DEFAULT NULL,
   UNIQUE KEY `page_id` (`page_id`),
   KEY `h1` (`h1`),
-  KEY `modified` (`modified`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
