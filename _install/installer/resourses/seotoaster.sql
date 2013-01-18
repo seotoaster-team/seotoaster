@@ -171,7 +171,6 @@ CREATE TABLE IF NOT EXISTS `optimized` (
   `meta_description` text COLLATE utf8_unicode_ci,
   `meta_keywords` text COLLATE utf8_unicode_ci,
   `teaser_text` text COLLATE utf8_unicode_ci,
-  `modified` bit(1) NOT NULL DEFAULT b'0',
   `status` enum('tweaked','on') COLLATE utf8_unicode_ci DEFAULT NULL,
   `seo_rule_id` int(10) DEFAULT NULL,
   `url_rule_id` int(10) DEFAULT NULL,
