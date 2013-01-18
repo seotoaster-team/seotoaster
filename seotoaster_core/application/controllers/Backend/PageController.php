@@ -118,7 +118,8 @@ class Backend_PageController extends Zend_Controller_Action {
 					$this->_processPagePreviewImage($page->getUrl(), $params['pagePreviewImage']);
 				} // else updating existing
 				elseif ($this->_helper->session->oldPageUrl != $page->getUrl()) {
-					$this->_processPagePreviewImage($page->getUrl(), $this->_processPagePreviewImage($this->_helper->session->oldPageUrl));
+                    $optimized = (isset($params['optimized']) && $params['optimized']);
+                    $this->_processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, $this->_processPagePreviewImage($this->_helper->session->oldPageUrl));
 				}
 
 				$page->notifyObservers();
