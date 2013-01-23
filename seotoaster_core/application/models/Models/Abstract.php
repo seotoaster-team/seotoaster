@@ -77,29 +77,18 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 
     /**
      * Checking the observer queue. If any, register those observers
-	 * 
+	 *
      */
     protected function _readObserversQueue() {
         if (Zend_Registry::isRegistered('observers_queue')) {
-            $checked = Zend_Registry::get('observers_queue');
+            $observerQueue = Zend_Registry::get('observers_queue');
         } else {
-            $checked = array();
+            $observerQueue = array();
         }
 
 		$modelClassName = get_called_class();
-        if(!array_key_exists($modelClassName, $checked)) {
-			$dbTable   = new Application_Model_DbTable_ObserversQueue();
-	        $resultSet = $dbTable->fetchAll($dbTable->select()->where('observable = ?', $modelClassName));
-            $checked[$modelClassName] = array();
-            if($resultSet->count()) {
-                foreach($resultSet as $resultRow) {
-                    $rowArray  = $resultRow->toArray();
-                    array_push($checked[$modelClassName], $rowArray['observer']);
-                }
-            }
-        }
-        if (!empty($checked[$modelClassName])){
-            foreach ($checked[$modelClassName] as $observer) {
+        if (array_key_exists($modelClassName, $observerQueue) && !empty($observerQueue[$modelClassName])){
+            foreach ($observerQueue[$modelClassName] as $observer) {
                 if(Zend_Loader_Autoloader::getInstance()->suppressNotFoundWarnings(true)->autoload($observer)) {
                     $this->registerObserver(new $observer());
                 } else {
@@ -109,7 +98,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
                 }
             }
         }
-        Zend_Registry::set('observers_queue', $checked);
+
     }
 
 }

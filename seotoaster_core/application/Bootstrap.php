@@ -220,6 +220,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
 	}
 
+	protected function _initObserversQueue() {
+		$observerQueue = array();
+		$observersDbTable   = new Application_Model_DbTable_ObserversQueue();
+		$data = $observersDbTable->fetchAll()->toArray();
+		if (sizeof($data)){
+			foreach($data as $row){
+				$observable = $row['observable'];
+				$observer   = $row['observer'];
+
+				if (!array_key_exists($observable, $observerQueue)){
+					$observerQueue[$observable] = array();
+				}
+
+				array_push($observerQueue[$observable], $observer);
+				unset($observable, $observer);
+			}
+		}
+
+		Zend_Registry::set('observers_queue', $observerQueue);
+	}
+
 	protected function _initDbProfiler() {
 		if (APPLICATION_ENV === 'development') {
 			if (isset($_GET['_profileSql'])){
