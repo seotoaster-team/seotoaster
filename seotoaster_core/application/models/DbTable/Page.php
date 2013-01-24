@@ -24,7 +24,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
     public function fetchAllMenu($menuType, $fetchSysPages = false) {
         $where     = $this->getAdapter()->quoteInto("show_in_menu = '?'", $menuType);
         $sysWhere  = $this->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
-        $where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
+
         $select = $this->getAdapter()->select()
             ->from('page', array(
                 'id',
@@ -39,8 +39,18 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             'optimizedH1'  => 'h1',
             'optimizedNavName'    => 'nav_name'
         ))
+        ->where($sysWhere)
         ->where($where)
         ->order(array('order'));
+
+	    if ($menuType === Application_Model_Models_Page::IN_MAINMENU){
+            $subSelect = $this->getAdapter()->select()
+                ->distinct()->from('page', 'id')
+                ->where("parent_id = '?'", Application_Model_Models_Page::IDCATEGORY_CATEGORY)
+                ->where($sysWhere)
+                ->where($where)->__toString();
+            $select->where("parent_id = '?' OR parent_id IN (".$subSelect.")", Application_Model_Models_Page::IDCATEGORY_CATEGORY);
+        }
 
         $pages = $this->getAdapter()->fetchAll($select);
 
