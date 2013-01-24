@@ -32,22 +32,26 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
         $configHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $showMemberPages = (boolean) $configHelper->getConfig('memPagesInMenu');
         $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
-        foreach($pages as $key => $page) {
-            if($page['parentId'] == 0) {
-                if($this->_isPageProtected($page) && !$isAllowed && !$showMemberPages) {
-                    continue;
-                }
-                $pagesList[$key]['category'] = $page;
-                foreach($pages as $subPage) {
-                    if($this->_isPageProtected($subPage) && !$isAllowed && !$showMemberPages) {
-                        continue;
-                    }
-                    if($subPage['parentId'] == $page['id']) {
-                        $pagesList[$key]['subPages'][] = $subPage;
-                    }
-                }
-            }
-        }
+
+		$isPageProtected = function($page) use ($isAllowed, $showMemberPages){
+			if (is_array($page['extraOptions']) && in_array(Application_Model_Models_Page::OPT_PROTECTED, $page['extraOptions'])
+					&& !$isAllowed && !$showMemberPages) {
+				return true;
+			}
+			return false;
+		};
+
+		$pagesList = array_filter($pages, function($page) use ($isPageProtected){
+			return (!$isPageProtected($page) && $page['parentId'] == Application_Model_Models_Page::IDCATEGORY_CATEGORY);
+		});
+
+		foreach ($pagesList as &$catPage) {
+			$catId = $catPage['id'];
+			$catPage['subPages'] = array_filter($pages, function($page) use ($isPageProtected, $catId) {
+				return ($page['parentId'] == $catId && !$isPageProtected($page));
+			});
+		}
+
         $this->_view->pages = $pagesList;
         return $this->_view->render('mainmenu.phtml');
 	}
@@ -75,7 +79,10 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 		);
 	}
 
-    private function _isPageProtected($page) {
+	/**
+	 * @deprecated
+	 */
+	private function _isPageProtected($page) {
         return (is_array($page['extraOptions']) && in_array(Application_Model_Models_Page::OPT_PROTECTED, $page['extraOptions'])) ? true : false;
     }
 
