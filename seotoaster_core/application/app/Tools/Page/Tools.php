@@ -7,7 +7,34 @@
  */
 class Tools_Page_Tools {
 
+	const PLACEHOLDER_NOIMAGE = 'system/images/noimage.png';
+
+    public static function getPreview($page, $crop = false) {
+	    $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+	    $websiteUrl    = ($configHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+	    $path          = (bool)$crop ? $websiteHelper->getPreviewCrop() : $websiteHelper->getPreview() ;
+
+	    if (is_numeric($page)){
+			$page = Application_Model_Mappers_PageMapper::getInstance()->find(intval($page));
+        }
+
+        if ($page instanceof Application_Model_Models_Page){
+	        $preview = $page->getPreviewImage();
+	        $previewPath = $websiteHelper->getPath().$path.$preview;
+	        if (!is_null($preview)) {
+		        if (is_file($previewPath)) return $websiteUrl . $path . $preview;
+	        }
+        }
+
+	    return $websiteUrl . self::PLACEHOLDER_NOIMAGE;
+    }
+
+	/**
+	 * @deprecated Use Tools_Page_Tools::getPreview() instead
+	 */
 	public static function getPreviewPath($pageId, $capIfNoPreview = false, $croped = false) {
+		Tools_System_Tools::debugMode() && error_log('Called deprecated Tools_Page_Tools::getPreviewPath(). Use Tools_Page_Tools::getPreview() instead');
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
@@ -22,7 +49,7 @@ class Tools_Page_Tools {
         }
 
 		$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
-		if($page instanceof Application_Model_Models_Page) {
+		if ($page instanceof Application_Model_Models_Page) {
 			$cleanUrl = $pageHelper->clean(preg_replace('~/+~', '-', $page->getUrl()));
 			unset($page);
 			$path = (array_key_exists($cleanUrl, $previews)) ? str_replace($websiteHelper->getPath(), $websiteUrl, $previews[$cleanUrl]) : '';
@@ -100,27 +127,27 @@ class Tools_Page_Tools {
     }
 
     public static function processPagePreviewImage($pageUrl, $tmpPreviewFile = null){
-        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-        $pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
+        $websiteHelper      = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $pageHelper         = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
         $websiteConfig      = Zend_Registry::get('website');
         $pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $pageHelper->clean($pageUrl));
         $previewPath        = $websiteHelper->getPath() . $websiteHelper->getPreview();
 
-        $filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
-        $currentPreviewList = preg_grep('/^'.$pageUrl.'\.(png|jpg|gif)$/i', $filelist);
+//        $filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
+        $currentPreviewList = glob($previewPath.$pageUrl.'.{jpg,jpeg,png,gif}', GLOB_BRACE);
 
         if ($tmpPreviewFile) {
-            $tmpPreviewFile = $websiteHelper->getPath() . str_replace($websiteHelper->getUrl(), '', $tmpPreviewFile);
+            $tmpPreviewFile = str_replace($websiteHelper->getUrl(), $websiteHelper->getPath(), $tmpPreviewFile);
             if (is_file($tmpPreviewFile) && is_readable($tmpPreviewFile)){
-                preg_match('/\.[\w\d]{2,6}$/', $tmpPreviewFile, $extension);
+                preg_match('/\.[\w]{2,6}$/', $tmpPreviewFile, $extension);
                 $newPreviewImageFile = $previewPath . $pageUrl . $extension[0];
 
                 //cleaning form existing page previews
                 if(!empty($currentPreviewList)) {
                     foreach ($currentPreviewList as $key => $file) {
-                        if(file_exists($previewPath . $file)) {
-                            if (Tools_Filesystem_Tools::deleteFile($previewPath.$file)){
-                                unset($currentPreviewList[0]);
+                        if(file_exists($file)) {
+                            if (Tools_Filesystem_Tools::deleteFile($file)){
+//                                unset($currentPreviewList[$key]);
                             }
                         }
                     }
@@ -137,7 +164,6 @@ class Tools_Page_Tools {
 
                 $miscConfig = Zend_Registry::get('misc');
 
-
                 //check for the previews crop folder and try to create it if not exists
                 $cropPreviewDirPath = $websiteHelper->getPath() . $websiteHelper->getPreviewCrop();
                 if(!is_dir($cropPreviewDirPath)) {
@@ -146,7 +172,8 @@ class Tools_Page_Tools {
                     // unlink old croped page previews
                     if(!empty($currentPreviewList)) {
                         foreach($currentPreviewList as $fileToUnlink) {
-                            $unlinkPath = $cropPreviewDirPath . $fileToUnlink;
+                            $unlinkPath = str_replace($previewPath, $cropPreviewDirPath, $fileToUnlink);
+
                             if(file_exists($unlinkPath)) {
                                 unlink($unlinkPath);
                             }
@@ -156,14 +183,15 @@ class Tools_Page_Tools {
                 Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $cropPreviewDirPath, true);
                 unset($miscConfig);
 
-                return $websiteHelper->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
+                return $pageUrl . $extension[0];
+//                return $websiteHelper->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
             }
         }
 
-        if (sizeof($currentPreviewList) == 0){
+        if (sizeof($currentPreviewList) == 0) {
             return false;
         } else {
-            $pagePreviewImage = $websiteHelper->getUrl() . $websiteConfig['preview'] . reset($currentPreviewList);
+            $pagePreviewImage = str_replace($websiteHelper->getPath(), $websiteHelper->getUrl(), reset($currentPreviewList));
         }
 
         return $pagePreviewImage;
