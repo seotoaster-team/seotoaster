@@ -4,7 +4,7 @@
 			<li>
 				<?php if($this->useImage): ?>
 					<a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>">
-						<img src="<?php echo Tools_Page_Tools::getPreviewPath($page->getid(), true, $this->crop); ?>" alt="<?php echo $page->getH1(); ?>"/>
+						<img src="<?php echo Tools_Page_Tools::getPreview($page, $this->crop); ?>" alt="<?php echo $page->getH1(); ?>"/>
 					</a>
 				<?php endif; ?>
 				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>

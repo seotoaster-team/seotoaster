@@ -110,6 +110,15 @@ class Backend_PageController extends Zend_Controller_Action {
                 $page->setParentId($pageData['pageCategory']);
                 $page->setShowInMenu($pageData['inMenu']);
 
+	             // saving new page preview image is recieved it in request
+                if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
+                    $previewImageName = Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, $params['pagePreviewImage']);
+                } // else updating existing
+                elseif ($this->_helper->session->oldPageUrl != $page->getUrl()) {
+	                $previewImageName = Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, Tools_Page_Tools::processPagePreviewImage($this->_helper->session->oldPageUrl));
+                }
+
+	            $page->setPreviewImage($previewImageName);
 
                 $page = $mapper->save($page);
 
@@ -117,13 +126,7 @@ class Backend_PageController extends Zend_Controller_Action {
                     $this->_processFaPull($page->getId());
                 }
 
-                // saving new page preview image is recieved it in request
-                if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
-                    Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, $params['pagePreviewImage']);
-                } // else updating existing
-                elseif ($this->_helper->session->oldPageUrl != $page->getUrl()) {
-                    Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, Tools_Page_Tools::processPagePreviewImage($this->_helper->session->oldPageUrl));
-                }
+
 
                 $page->notifyObservers();
 

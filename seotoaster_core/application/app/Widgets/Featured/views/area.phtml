@@ -13,7 +13,7 @@
         <?php foreach($this->faPages as $page): ?>
             <li>
                 <?php if($this->useImage): ?>
-                <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  strip_tags($page->getH1()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreviewPath($page->getId(), true, (($this->useImage == 'img') ? false : true))); ?>" /></a>
+                <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  strip_tags($page->getH1()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreview($page, (($this->useImage == 'img') ? false : true))); ?>" /></a>
                 <?php endif; ?>
                 <a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  strip_tags($page->getH1()); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
 	            <?php if($this->faPageDescriptionLength): ?>

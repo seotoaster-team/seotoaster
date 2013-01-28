@@ -70,6 +70,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_extraOptions      = array();
 
+	protected $_previewImage      = null;
+
 	public function getContent() {
 		return $this->_content;
 	}
@@ -359,6 +361,15 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
     public function getTargetedKeyPhrase() {
         return $this->_targetedKeyPhrase;
     }
+
+	public function setPreviewImage($previewImage) {
+		$this->_previewImage = $previewImage;
+		return $this;
+	}
+
+	public function getPreviewImage() {
+		return $this->_previewImage;
+	}
 
 }
 
