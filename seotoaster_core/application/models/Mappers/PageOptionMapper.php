@@ -21,7 +21,7 @@ class Application_Model_Mappers_PageOptionMapper extends Application_Model_Mappe
         return $this->fetchAll($where);
     }
 
-    public function fetchAll($where = '') {
+    public function fetchAll($where = '', $order = array()) {
         $select = $this->getDbTable()->select();
         if($where) {
             $select->where($where);
@@ -29,5 +29,4 @@ class Application_Model_Mappers_PageOptionMapper extends Application_Model_Mappe
         $optionsRowset = $this->getDbTable()->fetchAll($select);
         return $optionsRowset->toArray();
     }
-
 }

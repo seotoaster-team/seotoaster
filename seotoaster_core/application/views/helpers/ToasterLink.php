@@ -50,7 +50,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		}
 		$scheme = Zend_Controller_Front::getInstance()->getRequest()->getScheme();
 		$host = Zend_Controller_Front::getInstance()->getRequest()->getHttpHost();
-		$href = $scheme.'://'.$host. $this->view->url($routeParams, $routeName) .(is_string($params)?'/'.$params:null);
+		$href = $scheme.'://'.$host. $this->view->url($routeParams, $routeName) .(is_string($params)?'/'.$params:null) . '/';
 		$link = '<a class="tpopup ' . strtolower($action) . '" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
 		if($hrefOnly) {
 			return $href;
