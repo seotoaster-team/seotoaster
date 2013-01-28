@@ -214,6 +214,9 @@ class Tools_Plugins_Tools {
     public static function runStatic($plugin, $method) {
         $enabledPlugins  = self::getEnabledPlugins(true);
         $pluginClassName = ucfirst($plugin);
+
+
+
         if(in_array($plugin, $enabledPlugins)) {
             $reflection = new Zend_Reflection_Class($pluginClassName);
             if($reflection->hasMethod($method)) {
@@ -272,7 +275,8 @@ class Tools_Plugins_Tools {
 	public static function getEnabledPlugins($namesOnly = false) {
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
 		$cacheHelper->init();
-		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins', 'plugins_'))) {
+        $cacheKeyPostfix = ($namesOnly) ? 'Names' : '';
+		if(null === ($enabledPlugins = $cacheHelper->load('enabledPlugins' . $cacheKeyPostfix, 'plugins_'))) {
 			$enabledPlugins = Application_Model_Mappers_PluginMapper::getInstance()->findEnabled();
 
             // if we do not have the proper encoder loaded we have to exclude plugins that, requires that encoder, from enabled
@@ -289,7 +293,7 @@ class Tools_Plugins_Tools {
                 $enabledPlugins = array_map(function($plugin) { return $plugin->getName(); }, $enabledPlugins);
             }
 
-			$cacheHelper->save('enabledPlugins', $enabledPlugins, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
+			$cacheHelper->save('enabledPlugins' . $cacheKeyPostfix, $enabledPlugins, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $enabledPlugins;
 	}
