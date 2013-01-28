@@ -211,19 +211,30 @@ class Tools_Plugins_Tools {
 		return $pluginsData;
 	}
 
-    public static function runStatic($plugin, $method) {
-        $enabledPlugins  = self::getEnabledPlugins(true);
-        $pluginClassName = ucfirst($plugin);
-
-
-
-        if(in_array($plugin, $enabledPlugins)) {
-            $reflection = new Zend_Reflection_Class($pluginClassName);
-            if($reflection->hasMethod($method)) {
-                return $pluginClassName::$method();
+    public static function runStatic($method, $plugin = null) {
+        $enabledPlugins = self::getEnabledPlugins(true);
+        if(!$plugin) {
+            foreach($enabledPlugins as $enabledPlugin) {
+                $result = self::_runStatic($enabledPlugin, $method);
+                if($result) {
+                    return $result;
+                }
             }
+        } else {
+            if(in_array($plugin, $enabledPlugins)) {
+                return self::_runStatic($plugin, $method);
+            }
+            return false;
         }
-        throw new Exceptions_SeotoasterPluginException('Plugin doesn\'t exists or not enabled');
+
+    }
+
+    private static function _runStatic($pluginClass, $method) {
+        $reflection = new Zend_Reflection_Class(ucfirst($pluginClass));
+        if($reflection->hasMethod($method)) {
+            return $pluginClass::$method();
+        }
+        return false;
     }
 
 	public static function fetchPluginsRoutes() {

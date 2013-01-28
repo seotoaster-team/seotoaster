@@ -443,7 +443,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 
             // Try to find plugin's sitemap
             try {
-                echo Tools_Plugins_Tools::runStatic($sitemapType, 'getSitemap');
+                $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap', $sitemapType);
+                if(!$sitemapContent) {
+                    $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap' . ucfirst($sitemapType));
+                }
+                echo $sitemapContent;
             } catch (Exceptions_SeotoasterPluginException $spe) {
                 $this->getResponse()->setHeader('Content-Type', 'text/html', true);
                 $this->_forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
