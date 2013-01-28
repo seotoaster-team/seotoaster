@@ -411,6 +411,10 @@ class Backend_SeoController extends Zend_Controller_Action {
                 'sitemap' => array(
                     'extension' => 'xml',
                     'lastmod'   => date(DATE_ATOM)
+                ),
+                'sitemapnews' => array(
+                    'extension' => 'xml',
+                    'lastmod'   => date(DATE_ATOM)
                 )
             );
 
