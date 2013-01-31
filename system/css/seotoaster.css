@@ -645,6 +645,12 @@ a.generator-links.plugin {
 }
 #seotoaster-logowrap img { max-width:200px; }
 
+#seotoaster-logowrap #system-version {
+    font-family: tahoma, geneva, verdana, sans-serif !important;
+    font-size: 7px !important;
+    text-align: right;
+    padding-right: 5px;
+}
 
 
 /*========= EDIT CONTENT ===========*/

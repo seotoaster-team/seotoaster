@@ -3,7 +3,8 @@
 <div id="seotoaster-cpanel" class="seotoaster w200">
 	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
 	<div id="seotoaster-logowrap">
-        <div id="system-version" style="font-family: tahoma, geneva, verdana, sans-serif !important; font-size: 7px !important; text-align: right; padding-right: 5px;"><?php echo $this->translate('CMS version'); ?> <?php echo Tools_System_Tools::getSystemVersion();?></div>    
+		<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?>
+		<div id="system-version"><?php echo $this->placeholder('systemVersionPlaceholder'); ?></div>
         <img width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
     </div>
 	<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
