@@ -58,7 +58,7 @@ switch ($this->caller){
 		});
 		<?php if ($this->caller == 'media'): ?>
 		$('#things-select-folder,#things-new-folder').attr('disabled', 'disabled');
-
+        
 		var newfolder = $('#things-new-folder').val();
 		if ( newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' ) {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': newfolder};
@@ -77,6 +77,13 @@ switch ($this->caller){
    		$('#things-select-folder,#things-new-folder').removeAttr('disabled');
 		<?php endif; ?>
 		up.refresh();
+        
+        if($('.change-image-quality').length>0 && newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' || $('.change-image-quality').length>0 && $('#things-select-folder').val() != '0'){
+            if($('.change-image-quality').is(":checked")){
+               <?php echo $jsValName; ?>.settings.multipart_params.quality = 75;
+            }
+        }
+        
 		<?php echo $jsValName; ?>.start();
 	});
 

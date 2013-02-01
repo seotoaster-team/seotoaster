@@ -33,6 +33,10 @@ class Tools_Image_Tools {
 		$iniConfig = Zend_Registry::get('misc');
 		//setting quality
 		$quality = isset($iniConfig['imgQuality']) ? $iniConfig['imgQuality'] : 90;
+        $sessionHelper = Zend_Registry::get('session');
+        if(isset($sessionHelper->imageQuality)){
+            $quality = $sessionHelper->imageQuality;
+        }
         $pngQuality = floor((100-$quality)/10);
 
 		$fileInfo	= getimagesize($imageFile);
@@ -142,25 +146,73 @@ class Tools_Image_Tools {
 			$imageFile = $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($imageFile);
 		}
 
-		switch ($mimeType) {
-			case 'image/gif':
-				imagegif($newImage, $imageFile);
-				break;
-			case 'image/jpeg':
-				imagejpeg($newImage, $imageFile, $quality);
-				break;
-			case 'image/png':
-				imagepng($newImage, $imageFile, $pngQuality);
-				break;
-			default:
-				return 'Unknow MIME type';
-				break;
-		}
+        if(!isset($sessionHelper->imageQuality)){
+            switch ($mimeType) {
+                case 'image/gif':
+                    imagegif($newImage, $imageFile);
+                    break;
+                case 'image/jpeg':
+                    imagejpeg($newImage, $imageFile, $quality);
+                    break;
+                case 'image/png':
+                    imagepng($newImage, $imageFile, $pngQuality);
+                    break;
+                default:
+                    return 'Unknow MIME type';
+                    break;
+            }
+        }else{
+            $optimizedImageName = preg_replace('~\.[a-zA-Z]{3,4}~iu', '.jpg',Tools_Filesystem_Tools::basename($imageFile));      
+			imagejpeg($newImage,$destination.DIRECTORY_SEPARATOR.$optimizedImageName, $quality);
+        }
 		imagedestroy($newImage);
 		imagedestroy($image);
 
 		return true;
 	}
+
+    /*
+     * optimize original image
+     * @param string original file
+	 * @param string desination of resized files
+     * @param string desination of resized files
+     */
+    public static function optimizeOriginalImage($imageFile, $savePath, $quality){
+        $fileInfo	= getimagesize($imageFile);
+        $mimeType	= $fileInfo['mime'];
+        $destination = $savePath.DIRECTORY_SEPARATOR.'original'.DIRECTORY_SEPARATOR;
+        $optimizedImageName = preg_replace('~\.[a-zA-Z]{3,4}~iu', '.jpg',Tools_Filesystem_Tools::basename($imageFile));    
+        switch ($mimeType) {
+                case 'image/gif':
+                    $image = imagecreatefromgif($imageFile);
+                    imagejpeg($image, $destination.$optimizedImageName, $quality);
+                    imagedestroy($image);
+                    Tools_Filesystem_Tools::deleteFile($imageFile);
+                    break;
+                case 'image/jpg':
+                case 'image/jpeg':
+                    $image = imagecreatefromjpeg($imageFile);
+                    Tools_Filesystem_Tools::deleteFile($imageFile);
+                    imagejpeg($image, $destination.$optimizedImageName, $quality);
+                    imagedestroy($image);
+                    break;
+                case 'image/png':
+                    $image = imagecreatefrompng($imageFile);
+                    $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+                    imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+                    imagealphablending($bg, true);
+                    imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+                    imagedestroy($image);
+                    imagejpeg($bg, $destination.$optimizedImageName, 90);
+                    imageDestroy($bg);
+                    Tools_Filesystem_Tools::deleteFile($imageFile);
+                    break;
+                default:
+                    return 'Unknow MIME type';
+                    break;
+        }
+            
+    }
 
 	/**
 	 * Batch resize for image upload proccess

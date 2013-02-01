@@ -235,6 +235,9 @@ class Backend_UploadController extends Zend_Controller_Action {
 			} else {
 				$status = true;
 			}
+            if(isset($this->_helper->session->imageQuality)){
+                Tools_Image_Tools::optimizeOriginalImage($fileInfo['tmp_name'], $savePath,  $this->_helper->session->imageQuality);
+            }
 
 			return array('error' => ($status !== true), 'result' => $status);
 		}
@@ -286,7 +289,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$this->_uploadHandler->clearValidators();
 		$this->_uploadHandler->clearFilters();
 		$miscConfig = Zend_Registry::get('misc');
-
+        
+        $imageQuality = $this->getRequest()->getParam('quality');
+        if(isset($imageQuality)){
+            $this->_helper->session->imageQuality = $imageQuality;
+        }
+               
 		$savePath = $this->_getSavePath();
 
         switch ($this->_getMimeType()) {
@@ -299,6 +307,9 @@ class Backend_UploadController extends Zend_Controller_Action {
             default:
                 $result = $this->_uploadFiles($savePath);
                 break;
+        }
+        if(isset($this->_helper->session->imageQuality)){
+            unset($this->_helper->session->imageQuality);
         }
 		return $result;
 	}

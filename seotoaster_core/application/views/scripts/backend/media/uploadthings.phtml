@@ -31,18 +31,22 @@ $('#things-new-folder')
 		<div class="grid_5">
 			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
 		</div>
-
-		<div class="grid_12 textcentered mt10px mb10px">
-			<?php
-				$thingsUploader = $this->toasterUploader(
-					array(
-						'id'      => 'media-toaster-uploader',
-						'caption' => $this->translate('Choose and upload file(s)'),
-						'caller'  => 'media'
-					));
-				echo $thingsUploader;
-			?>
-		</div>
+        <div class="grid_12 mt10px mb10px">
+            <div class="grid_5">
+                <label for="change-image-quality" class="mt8px" style="padding:4px 0 4px 2px;"><input type="checkbox" name="change-image-quality" class="change-image-quality" style="margin-right: 5px;" value="0"/><?php echo $this->translate('Optimize image size?');?></label>
+            </div>
+            <div class="grid_7" style="text-align: right;">
+                <?php
+                    $thingsUploader = $this->toasterUploader(
+                        array(
+                            'id'      => 'media-toaster-uploader',
+                            'caption' => $this->translate('Choose and upload file(s)'),
+                            'caller'  => 'media'
+                        ));
+                    echo $thingsUploader;
+                ?>
+            </div>
+        </div>
 		<div class="grid_11 seo-tip">
 			<span><?php echo $this->translate('SEO tip'); ?></span>: <?php echo $this->translate('Have you thought about  meaningfully naming your images files after your keywords');?>?
 		</div>
