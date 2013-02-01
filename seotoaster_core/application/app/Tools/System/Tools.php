@@ -15,6 +15,8 @@ class Tools_System_Tools {
 
     const EXECUTION_TIME_LIMIT      = 0;
 
+	const PLACEHOLDER_SYSTEM_VERSION    = 'sysverHolder';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : 'index.html';
