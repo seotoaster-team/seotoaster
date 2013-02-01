@@ -21,7 +21,7 @@ class Backend_UploadController extends Zend_Controller_Action {
      */
     private $_checkMime = true;
 
-    const PREVIEW_IMAGE_OPTIMIZE = '75';
+    const PREVIEW_IMAGE_OPTIMIZE = '85';
     
 
 	public function init() {
