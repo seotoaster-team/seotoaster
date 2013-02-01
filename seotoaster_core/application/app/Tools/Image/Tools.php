@@ -171,6 +171,21 @@ class Tools_Image_Tools {
 		return true;
 	}
 
+    public static function optimizeImage($imageFile, $quality){
+        $fileInfo	= getimagesize($imageFile);
+        $mimeType	= $fileInfo['mime'];
+        switch ($mimeType) {
+            case 'image/jpg':
+                case 'image/jpeg':
+                    $image = imagecreatefromjpeg($imageFile);
+                    imagejpeg($image, $imageFile, $quality);
+                    imagedestroy($image);
+                break;
+                default:
+                    return 'Unknow MIME type';
+                    break;
+        }
+    }
     /*
      * optimize original image
      * @param string original file

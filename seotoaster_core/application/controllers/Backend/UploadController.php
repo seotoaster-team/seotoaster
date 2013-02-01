@@ -21,7 +21,8 @@ class Backend_UploadController extends Zend_Controller_Action {
      */
     private $_checkMime = true;
 
-
+    const PREVIEW_IMAGE_OPTIMIZE = '75';
+    
 
 	public function init() {
 		parent::init();
@@ -235,6 +236,10 @@ class Backend_UploadController extends Zend_Controller_Action {
 			} else {
 				$status = true;
 			}
+            if(isset($this->_helper->session->imageQualityPreview)){
+                unset($this->_helper->session->imageQualityPreview);
+                Tools_Image_Tools::optimizeImage($fileInfo['tmp_name'], self::PREVIEW_IMAGE_OPTIMIZE);
+            }
             if(isset($this->_helper->session->imageQuality)){
                 Tools_Image_Tools::optimizeOriginalImage($fileInfo['tmp_name'], $savePath,  $this->_helper->session->imageQuality);
             }
@@ -412,6 +417,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 			case 'image/jpg':
 			case 'image/jpeg':
 				$newName = '.jpg';
+                $this->_helper->session->imageQualityPreview= self::PREVIEW_IMAGE_OPTIMIZE;
 				break;
 			case 'image/gif':
 				$newName = '.gif';
