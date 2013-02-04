@@ -46,8 +46,13 @@ class SearchController extends Zend_Controller_Action {
             }
 
 			$toasterSearchIndex = Zend_Search_Lucene::open($searchIndexDirPath);
-
-            $searchHits         = $toasterSearchIndex->find($searchTerm);
+           
+            try{
+                $searchHits         = $toasterSearchIndex->find($searchTerm);
+            }catch(Exception $e){
+                $this->_helper->session->searchHits = $this->_helper->language->translate('Nothing found. You need at least 3 characters to start search.');
+                $this->_redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
+            }
 			if(is_array($searchHits) && !empty($searchHits)) {
 				foreach ($searchHits as $hit) {
 					$resultsHits[] = array(
@@ -112,4 +117,4 @@ class SearchController extends Zend_Controller_Action {
         }
         echo json_encode(array('redirect'=>$this->_helper->website->getUrl() . $pageToRedirect->getUrl()));
     }
-}
+    }
