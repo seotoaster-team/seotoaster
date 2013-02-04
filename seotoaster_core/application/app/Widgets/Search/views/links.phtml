@@ -1,0 +1,13 @@
+<?php if(isset($this->linksPrepop) && !empty($this->linksPrepop)):?>
+    <?php foreach($this->linksPrepop as $link):?>
+        <ul class="prepoplinks"> 
+            <li>
+                <a href="<?php echo $this->pageUrlId[$link->getPageId()] ?>" title="<?php echo $link->getContent();?>">
+                    <?php echo $link->getContent();?>       
+                </a>
+            </li>
+        </ul>
+    <?php endforeach;?>
+    
+<?php endif; ?>
+

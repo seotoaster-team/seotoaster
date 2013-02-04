@@ -33,6 +33,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
         if($rendererName == '_renderSearchButton'){
             return $this->_renderSearchButton($optionsArray);
         }
+        if($rendererName == '_renderSearchLinks'){
+            return $this->_renderLinks($optionsArray);
+        }
         return $this->_renderComplexSearch($optionsArray);
 	}
 
@@ -52,8 +55,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
 	private function _renderSearchResults() {
 		$sessionHelper             = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
 		$this->_view->useImage     = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
-		$this->_view->hits         = $sessionHelper->searchHits;
-		$sessionHelper->searchHits = null;
+        $this->_view->hits         = $sessionHelper->searchHits;
+        $sessionHelper->searchHits = null;
 		return $this->_view->render('results.phtml');
 	}
 
@@ -108,5 +111,17 @@ class Widgets_Search_Search extends Widgets_Abstract {
             return $this->_view->render('searchButton.phtml');
         }
         
+    }
+    
+    private function _renderLinks($optionsArray){
+        if(isset($optionsArray[0]) && isset($optionsArray[1])){
+            $prepopAllLinks = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($optionsArray[1]);
+            $pageIdUrl      = Application_Model_Mappers_PageMapper::getInstance()->fetchIdUrlPairs();
+            if(!empty($prepopAllLinks) && !empty($pageIdUrl)){
+                $this->_view->pageUrlId = $pageIdUrl;
+                $this->_view->linksPrepop = $prepopAllLinks;
+                return $this->_view->render('links.phtml');
+            }
+        }
     }
 }
