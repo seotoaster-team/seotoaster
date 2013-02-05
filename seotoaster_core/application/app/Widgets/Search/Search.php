@@ -41,11 +41,18 @@ class Widgets_Search_Search extends Widgets_Abstract {
 	}
 
 	private function _renderSearchForm() {
-		if(!isset($this->_options[0]) || !intval($this->_options[0])) {
-			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Not enough parameters'));
-		}
+		if(isset($this->_options[0]) && intval($this->_options[0])) {
+            $seacrhResultPageId = $this->_options[0];
+        }
+        $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
+        if(!empty($searhResultPage)){
+            $seacrhResultPageId = $searhResultPage[0]->getId();
+        }
+        if(!isset($seacrhResultPageId)){
+            throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Search results page is not selected'));
+        }
 		$searchForm = new Application_Form_Search();
-		$searchForm->setResultsPageId($this->_options[0])
+		$searchForm->setResultsPageId($seacrhResultPageId)
 			->setAction($this->_websiteHelper->getUrl() . 'backend/search/search/');
 
 		$this->_view->searchForm = $searchForm;
@@ -93,7 +100,12 @@ class Widgets_Search_Search extends Widgets_Abstract {
     
     private function _renderComplexSearch($optionsArray){
         if(isset($optionsArray[0])){
-            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($optionsArray[0]);
+            if($optionsArray[0] == 'select' && isset($optionsArray[1])){
+                $prepopSearchName =  $optionsArray[1];
+            }else{
+                $prepopSearchName = $optionsArray[0];
+            }
+            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($prepopSearchName);
             if($prepopWithNameList){
                 $this->_view->prepopWithName = $prepopWithNameList;
                 foreach($prepopWithNameList as $prepopData){
@@ -102,7 +114,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
                 asort($contentArray);
                 $this->_view->prepopWithNameList = array_unique($contentArray);
                 return $this->_view->render('searchForm.phtml');
-            }            
+            }       
+            
         }
     }
     
@@ -122,17 +135,48 @@ class Widgets_Search_Search extends Widgets_Abstract {
     
     private function _renderLinks($optionsArray){
         if(isset($optionsArray[0]) && isset($optionsArray[1])){
-            $prepopAllLinks = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($optionsArray[1]);
-            if(!empty($prepopAllLinks)){
-                foreach($prepopAllLinks as $prepopData){
-                    $contentArray[] = $prepopData->getContent();
+            $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
+            $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+            if(strtolower($optionsArray[1]) != 'thispage'){
+                $prepopAllLinks = $containerMapper->findByConteinerName($optionsArray[1]);
+                if(!empty($prepopAllLinks)){
+                    foreach($prepopAllLinks as $prepopData){
+                        $contentArray[] = $prepopData->getContent();
+                    }
+                    asort($contentArray);
+                    $this->_view->prepopName = $optionsArray[1];
+                    $this->_view->prepopLinks = array_unique($contentArray);
+                    return $this->_view->render('links.phtml');
                 }
-                asort($contentArray);
-                $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
-                $this->_view->prepopName = $optionsArray[1];
-                $this->_view->prepopLinks = array_unique($contentArray);
-                return $this->_view->render('links.phtml');
+            }else{
+                $prepopPageLinks = $containerMapper->findPreposByPageId($this->_toasterOptions['id']);
+                if(!empty($prepopPageLinks)){
+                    $this->_view->prepopPageLinks = $prepopPageLinks;
+                    return $this->_view->render('prepopPageLinks.phtml');
+                }
             }
         }
+    }
+    
+    public static function getAllowedOptions() {
+		$translator = Zend_Registry::get('Zend_Translate');
+		return array(
+			array(
+				'alias'  => $translator->translate('Search with prepops as links'),
+				'option' => 'search:links:change_to_the_your_prepop_name'
+			),
+            array(
+				'alias'  => $translator->translate('Search with prepops as select'),
+				'option' => 'search:select:change_to_the_your_prepop_name'
+			),
+			array(
+				'alias'  => $translator->translate('Prepop seacrh button'),
+				'option' => 'search:button'
+			),
+            array(
+				'alias'  => $translator->translate('Search form'),
+				'option' => 'search:form'
+			)
+        );
     }
 }

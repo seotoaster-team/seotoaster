@@ -82,6 +82,10 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             }
         }
 
+        if(array_search(self::OPTION_LINKS, $this->_options)){
+            $optionKey = array_search(self::OPTION_LINKS, $this->_options);
+            $this->_options[$optionKey] = '';
+        }
         //assign common view vars for the prepop
         $this->_view->prepopContent    = $this->_prepopContent;
         $this->_view->prepopConainerId = $this->_prepopContainerId;

@@ -56,6 +56,12 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type != ?', Application_Model_Models_Container::TYPE_CODE);
 		return $this->fetchAll($where);
 	}
+    
+    public function findPreposByPageId($pageId) {
+		$where  = $this->getDbTable()->getAdapter()->quoteInto("page_id = ?", $pageId);
+		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
+		return $this->fetchAll($where);
+	}
 
 	public function deleteByPageId($pageId) {
 

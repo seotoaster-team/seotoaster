@@ -1,0 +1,43 @@
+<?php if(isset($this->prepopPageLinks) && !empty($this->prepopPageLinks)):?>
+    <?php foreach($this->prepopPageLinks as $pageLink):?>
+        <ul class="prepopPageLinks"> 
+            <li>
+                <a href="javascript:;" class="prepop-page-link" id="prepop-page-link-<?php echo $pageLink->getName();?>" title="<?php echo $pageLink->getContent();?>">
+                    <?php echo $pageLink->getContent();?>       
+                </a>
+            </li>
+        </ul>
+    <?php endforeach;?>
+    
+<?php endif; ?>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+    $(function() {
+        $(document).on('click', 'a.prepop-page-link', function(e) {
+            e.preventDefault();
+            var urlAction = "<?php echo $this->websiteUrl;?>backend/search/complexsearch/";
+            var searchValues = [];
+            var containerNames = [];
+            var prepopName = $(this).attr('id');
+            var prepopValue = $(this).attr('title');
+            containerNames.push(prepopName.replace('prepop-page-link-', ''));
+            searchValues.push(prepopValue);
+            $.ajax({
+                type: "POST",
+                url: urlAction,
+                dataType: "json",
+                data: {
+                    searchValues: searchValues,
+                    containerNames:containerNames
+                },
+            success: function(responce){
+                  var url = responce.redirect;
+                  window.location = url;
+            }
+          
+         });
+            return false;
+            
+        });
+    });
+<?php $this->jQuery()->onLoadCaptureEnd() ?>
