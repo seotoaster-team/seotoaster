@@ -19,6 +19,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     const TYPE_RADIO        = 'radio';
 
     const OPTIONS_SEPARATOR = '|';
+    
+    const OPTION_LINKS      = 'links';
 
     protected $_prepopName        = '';
 
@@ -71,7 +73,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                     return $translator->translate(ucfirst($option));
                 }, array_filter(explode('~', $this->_prepopContent))));
             }
-            return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
+            if(array_search(self::OPTION_LINKS, $this->_options)){
+                $this->_view->prepopName    = $this->_prepopName;
+                $this->_view->prepopContent = $this->_prepopContent;
+                return $this->_view->render('prepopLink.phtml');
+            }else{
+                return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
+            }
         }
 
         //assign common view vars for the prepop

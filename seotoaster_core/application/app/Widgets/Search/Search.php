@@ -116,10 +116,14 @@ class Widgets_Search_Search extends Widgets_Abstract {
     private function _renderLinks($optionsArray){
         if(isset($optionsArray[0]) && isset($optionsArray[1])){
             $prepopAllLinks = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($optionsArray[1]);
-            $pageIdUrl      = Application_Model_Mappers_PageMapper::getInstance()->fetchIdUrlPairs();
-            if(!empty($prepopAllLinks) && !empty($pageIdUrl)){
-                $this->_view->pageUrlId = $pageIdUrl;
-                $this->_view->linksPrepop = $prepopAllLinks;
+            if(!empty($prepopAllLinks)){
+                foreach($prepopAllLinks as $prepopData){
+                    $contentArray[] = $prepopData->getContent();
+                }
+                asort($contentArray);
+                $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+                $this->_view->prepopName = $optionsArray[1];
+                $this->_view->prepopLinks = array_unique($contentArray);
                 return $this->_view->render('links.phtml');
             }
         }

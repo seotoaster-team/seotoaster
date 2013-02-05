@@ -1,26 +1,16 @@
-<?php if(isset($this->prepopLinks) && !empty($this->prepopLinks)):?>
-    <?php foreach($this->prepopLinks as $link):?>
-        <ul class="prepoplinks"> 
-            <li>
-                <a href="javascript:;" class="prepop-link" id="prepop-link-<?php echo $this->prepopName;?>" title="<?php echo $link;?>">
-                    <?php echo $link;?>       
-                </a>
-            </li>
-        </ul>
-    <?php endforeach;?>
-    
-<?php endif; ?>
+
+<a class="prepop-content" href="javascript:;" title="<?php echo $this->prepopContent;?>" id="prepop-<?php echo $this->prepopName;?>"><?php echo $this->prepopContent;?></a>
 
 <?php $this->jQuery()->onLoadCaptureStart() ?>
     $(function() {
-        $(document).on('click', 'a.prepop-link', function(e) {
+        $(document).on('click', 'a.prepop-content', function(e) {
             e.preventDefault();
             var urlAction = "<?php echo $this->websiteUrl;?>backend/search/complexsearch/";
             var searchValues = [];
             var containerNames = [];
             var prepopName = $(this).attr('id');
             var prepopValue = $(this).attr('title');
-            containerNames.push(prepopName.replace('prepop-link-', ''));
+            containerNames.push(prepopName.replace('prepop-', ''));
             searchValues.push(prepopValue);
             $.ajax({
                 type: "POST",
