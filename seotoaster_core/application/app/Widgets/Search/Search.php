@@ -7,7 +7,8 @@
  */
 class Widgets_Search_Search extends Widgets_Abstract {
 
-	const INDEX_FOLDER      = 'search';
+	const INDEX_FOLDER       = 'search';
+    const PAGE_OPTION_SEARCH = 'option_search';
 
 	private $_websiteHelper = null;
 
@@ -106,12 +107,18 @@ class Widgets_Search_Search extends Widgets_Abstract {
     }
     
     private function _renderSearchButton($optionsArray) {
+        $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
+        if(!empty($searhResultPage)){
+            $seacrhResultPageId = $searhResultPage[0]->getId();
+        }
         if(isset($optionsArray[0])){
-            $this->_view->pageResultsPage = $optionsArray[0];
+            $seacrhResultPageId = $optionsArray[0];
+        }
+        if(isset($seacrhResultPageId)){
+            $this->_view->pageResultsPage = $seacrhResultPageId;
             return $this->_view->render('searchButton.phtml');
         }
-        
-    }
+    }   
     
     private function _renderLinks($optionsArray){
         if(isset($optionsArray[0]) && isset($optionsArray[1])){

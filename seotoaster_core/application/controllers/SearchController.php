@@ -114,12 +114,17 @@ class SearchController extends Zend_Controller_Action {
         if(!empty($containerData)){
             $pageList = $pageMapper->find($containerData);
             foreach($pageList as $page){
-                  $resultsHits[] = array(
+                    $previewImage = '';  
+                    if(!$page->getPreviewImage() !== null && $page->getPreviewImage() != ''){
+                      $previewImage = $this->_helper->website->getUrl().$this->_helper->website->getPreview().$page->getPreviewImage();
+                    }
+                    $resultsHits[] = array(
 						'pageId'     => $page->getId(),
 						'url'        => $page->getUrl(),
 						'h1'         => $page->getH1(),
 						'pageTeaser' => $page->getTeaserText(),
-						'navName'    => $page->getNavName()
+						'navName'    => $page->getNavName(),
+                        'preview'    => $previewImage
 					);
             }
             $this->_helper->session->searchHits = $resultsHits;
