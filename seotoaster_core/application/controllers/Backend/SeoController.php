@@ -10,8 +10,6 @@ class Backend_SeoController extends Zend_Controller_Action {
 	const SILOCAT_ADD    = 'add';
 	const SILOCAT_REMOVE = 'remove';
 
-	const CACHE_PREFIX_SITEMAPS = 'sitemaps_';
-
 	private $_translator = null;
 
     public static $_allowedActions = array(
@@ -439,7 +437,7 @@ class Backend_SeoController extends Zend_Controller_Action {
             $this->view->sitemaps = $sitemaps;
         }
         $template = 'sitemap' . $sitemapType . '.xml.phtml';
-	    if (null === ($sitemapContent = $this->_helper->cache->load($sitemapType, self::CACHE_PREFIX_SITEMAPS))) {
+	    if (null === ($sitemapContent = $this->_helper->cache->load($sitemapType, Helpers_Action_Cache::PREFIX_SITEMAPS))) {
             try {
                 $sitemapContent = $this->view->render('backend/seo/' . $template);
             } catch (Zend_View_Exception $zve) {
@@ -459,7 +457,7 @@ class Backend_SeoController extends Zend_Controller_Action {
                     return $this->forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
 	            }
 		    }
-		    $this->_helper->cache->save($sitemapType, $sitemapContent, self::CACHE_PREFIX_SITEMAPS, array('sitemaps'), Helpers_Action_Cache::CACHE_WEEK);
+		    $this->_helper->cache->save($sitemapType, $sitemapContent, Helpers_Action_Cache::PREFIX_SITEMAPS, array('sitemaps'), Helpers_Action_Cache::CACHE_WEEK);
 	    }
 	    echo $sitemapContent;
    }
