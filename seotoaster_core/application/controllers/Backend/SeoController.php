@@ -10,6 +10,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 	const SILOCAT_ADD    = 'add';
 	const SILOCAT_REMOVE = 'remove';
 
+	const CACHE_PREFIX_SITEMAPS = 'sitemaps_';
+
 	private $_translator = null;
 
     public static $_allowedActions = array(
@@ -437,26 +439,29 @@ class Backend_SeoController extends Zend_Controller_Action {
             $this->view->sitemaps = $sitemaps;
         }
         $template = 'sitemap' . $sitemapType . '.xml.phtml';
-        try {
-            if(null === ($sitemapContent = $this->_helper->cache->load('sitemapcontent' . $sitemapType, 'sitemaps_'))) {
-                $sitemapContent = $this->view->render('backend/seo/' . $template);
-                $this->_helper->cache->save('sitemapcontent' . $sitemapType, $sitemapContent, 'sitemaps_', array('sitemaps'));
-            }
-            echo $sitemapContent;
-        } catch (Zend_View_Exception $zve) {
-
-            // Try to find plugin's sitemap
+	    if (null === ($sitemapContent = $this->_helper->cache->load($sitemapType, self::CACHE_PREFIX_SITEMAPS))) {
             try {
-                $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap', $sitemapType);
-                if(!$sitemapContent) {
-                    $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap' . ucfirst($sitemapType));
-                }
-                echo $sitemapContent;
-            } catch (Exceptions_SeotoasterPluginException $spe) {
-                $this->getResponse()->setHeader('Content-Type', 'text/html', true);
-                $this->_forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
-            }
-        }
+                $sitemapContent = $this->view->render('backend/seo/' . $template);
+            } catch (Zend_View_Exception $zve) {
+		        // Try to find plugin's sitemap
+		        try {
+		            $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap', $sitemapType);
+		            if(!$sitemapContent) {
+		                $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap' . ucfirst($sitemapType));
+		            }
+		        } catch (Exception $e) {
+			        Tools_System_Tools::debugMode() && error_log($e->getMessage());
+			        $sitemapContent = false;
+		        }
+
+	            if ($sitemapContent === false){
+		            $this->getResponse()->setHeader('Content-Type', 'text/html', true);
+                    return $this->forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
+	            }
+		    }
+		    $this->_helper->cache->save($sitemapType, $sitemapContent, self::CACHE_PREFIX_SITEMAPS, array('sitemaps'), Helpers_Action_Cache::CACHE_WEEK);
+	    }
+	    echo $sitemapContent;
    }
 }
 

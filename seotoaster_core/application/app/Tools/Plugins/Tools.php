@@ -220,6 +220,7 @@ class Tools_Plugins_Tools {
                     return $result;
                 }
             }
+	        return false;
         } else {
             if(in_array($plugin, $enabledPlugins)) {
                 return self::_runStatic($plugin, $method);
