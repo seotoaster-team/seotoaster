@@ -37,6 +37,8 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 
 	const CACHE_LONG                = '86400';
 
+	const CACHE_WEEK                = '604800';
+
 	protected $_cache               = null;
 
 	public function  init() {
