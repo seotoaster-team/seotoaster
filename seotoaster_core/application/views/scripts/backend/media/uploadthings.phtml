@@ -1,5 +1,6 @@
 <script>
 <?php $this->jQuery()->onLoadCaptureStart();?>
+$('.change-image-quality').attr('checked', true);
 $('#things-new-folder')
 	.focus(function(){
 		if ( $(this).val() == $(this).attr('data-defaultlabel') ){
@@ -33,7 +34,7 @@ $('#things-new-folder')
 		</div>
         <div class="grid_12 mt10px mb10px">
             <div class="grid_5">
-                <label for="change-image-quality" class="mt8px" style="padding:4px 0 4px 2px;"><input type="checkbox" name="change-image-quality" class="change-image-quality" style="margin-right: 5px;" value="0"/><?php echo $this->translate('Optimize image size?');?></label>
+                <label for="change-image-quality" class="mt8px" style="padding:4px 0 4px 2px;"><input type="checkbox" name="change-image-quality" class="change-image-quality" style="margin-right: 5px;" value="0"/><?php echo $this->translate('Optimize image size.');?></label>
             </div>
             <div class="grid_7" style="text-align: right;">
                 <?php
