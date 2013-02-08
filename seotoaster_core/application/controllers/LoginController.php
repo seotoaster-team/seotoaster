@@ -135,7 +135,7 @@ class LoginController extends Zend_Controller_Action {
 						$flashMessanger->addMessage($messageData);
 					}
 				}
-				return $this->_redirect($this->_helper->website->getUrl() . 'login/retrieve/');
+				return $this->redirect($this->_helper->website->getUrl() . 'login/retrieve/');
 			}
 		}
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
@@ -161,11 +161,14 @@ class LoginController extends Zend_Controller_Action {
 		if($error) {
 			$error = false;
 			$this->_helper->flashMessenger->addMessage('Token is incorrect. Please, enter your e-mail one more time.');
-			return $this->_redirect($this->_helper->website->getUrl() . 'login/retrieve/');
+			return $this->redirect($this->_helper->website->getUrl() . 'login/retrieve/');
 		}
 
 		if($this->getRequest()->isPost()) {
 			if($form->isValid($this->getRequest()->getParams())) {
+				$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
+                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDCHANGE
+				)));
 				$resetData = $form->getValues();
 				$mapper    = Application_Model_Mappers_UserMapper::getInstance();
 				$user      = $mapper->find($resetToken->getUserId());
@@ -174,10 +177,10 @@ class LoginController extends Zend_Controller_Action {
 				$resetToken->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_USED);
 				Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
 				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
-				return $this->_redirect($this->_helper->website->getUrl() . 'go');
+				return $this->redirect($this->_helper->website->getUrl() . 'go');
 			} else {
 				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Passwords should match'));
-				return $this->_redirect($resetToken->getResetUrl());
+				return $this->redirect($resetToken->getResetUrl());
 			}
 		}
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();

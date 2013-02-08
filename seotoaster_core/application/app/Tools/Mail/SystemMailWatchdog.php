@@ -225,12 +225,35 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             ->send();
     }
 
-    protected function _sendTpasswordresetMail() {
+    protected function _sendTpasswordresetMail(Application_Model_Models_PasswordRecoveryToken $token) {
+	    $mailBody = $this->_prepareEmailBody();
 
+	    $this->_entityParser->setDictionary(
+		    array(
+			    'reset:link' => '<a href="' . $token->getResetUrl() . '">' . $token->getResetUrl() . '</a>',
+			    'reset:url'  => $token->getResetUrl(),
+		    )
+	    );
+
+	    $mailer   = Tools_Mail_Tools::initMailer();
+	    $mailer->setMailFrom($this->_options['from']);
+        $mailer->setMailFromLabel($this->_websiteHelper->getUrl() . ' password recovery system');
+        $mailer->setMailTo($token->getUserEmail());
+        $mailer->setBody($this->_entityParser->parse($mailBody));
+        $mailer->setSubject('[Seotoaster] Please reset your password');
+	    $status = $mailer->send();
+        return $status;
     }
 
-    protected function _sendTpasswordchangeMail() {
+    protected function _sendTpasswordchangeMail(Application_Model_Models_PasswordRecoveryToken $token) {
+	    $mailBody = $this->_prepareEmailBody();
 
+        $this->_mailer->setMailFrom($this->_options['from'])
+		       ->setMailFromLabel($this->_websiteHelper->getUrl() . ' password recovery system')
+               ->setMailTo($token->getUserEmail())
+		       ->setBody($this->_prepareEmailBody())
+	           ->setSubject('[Seotoaster] Your password successfully changed');
+        return $this->_mailer->send();
     }
 
     protected function _sendTsystemnotificationMail() {
