@@ -22,8 +22,18 @@ class Widgets_Plugin_Plugin extends Widgets_Abstract {
                 if(Tools_System_Tools::debugMode()) {
                     error_log($spe->getMessage() . "\n" . $spe->getTraceAsString());
                 }
-				//return $spe->getMessage();
+                if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+				    return $spe->getMessage();
+                }
 			}
+            catch(Exceptions_SeotoasterException $se) {
+                if(Tools_System_Tools::debugMode()) {
+                    error_log($se->getMessage() . "\n" . $se->getTraceAsString());
+                }
+                if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+                    return $se->getMessage();
+                }
+            }
 			catch (Exception $e) {
                 if(Tools_System_Tools::debugMode()) {
                     error_log($e->getMessage() . "\n" . $e->getTraceAsString());
