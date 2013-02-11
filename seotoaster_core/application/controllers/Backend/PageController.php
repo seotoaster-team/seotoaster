@@ -118,7 +118,9 @@ class Backend_PageController extends Zend_Controller_Action {
 	                $previewImageName = Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, Tools_Page_Tools::processPagePreviewImage($this->_helper->session->oldPageUrl));
                 }
 
-	            $page->setPreviewImage($previewImageName);
+	            if(isset($previewImageName)) {
+                    $page->setPreviewImage($previewImageName);
+                }
 
                 $page = $mapper->save($page);
 

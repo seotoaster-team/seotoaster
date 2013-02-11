@@ -162,7 +162,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
         if(!$triggerName) {
             throw new Exceptions_SeotoasterException('Not enough parameter passed!');
         }
-        $trigger = reset(Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray());
+        $trigger = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray();
+        $trigger = reset($trigger);
         if($this->getRequest()->isPost()) {
             $trigger = new Application_Model_Models_TriggerAction($trigger);
             $trigger->setMessage($this->getRequest()->getParam('msg'));
