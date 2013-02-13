@@ -62,7 +62,7 @@ abstract class Tools_MagicSpaces_Abstract {
 		}
 		$space = strtolower($this->_name);
         //put parameter back into a string for valid parsing
-        $params = is_array($this->_params) ? (':' . implode(':', $this->_params)) : '';
+        $params = (is_array($this->_params) && !empty($this->_params)) ? (':' . implode(':', $this->_params)) : '';
  		preg_match('~{' . $space . $params . '}(.*){/' . $space . '}~suiU', $this->_content, $found);
 		return (is_array($found) && !empty($found) && isset($found[1])) ? $found[1] : '';
 	}
@@ -70,7 +70,7 @@ abstract class Tools_MagicSpaces_Abstract {
 	protected function _replace($spaceContent) {
 		$space  = strtolower($this->_name);
         //put parameter back for replacement
-        $params = is_array($this->_params) ? (':' . implode(':', $this->_params)) : '';
+        $params = (is_array($this->_params) && !empty($this->_params)) ? (':' . implode(':', $this->_params)) : '';
 		return preg_replace('~{' . $space . $params . '}.*?{/' . $space . '}~sui', $this->_escapeChars($spaceContent), $this->_content, 1);
 	}
 
