@@ -11,11 +11,11 @@ class Tools_Factory_MagicSpaceFactory {
 
 	private function  __construct() {}
 
-	public static function createMagicSpace($name, $content, $toasterData) {
+	public static function createMagicSpace($name, $content, $toasterData, $params = array()) {
 		$name = ucfirst(strtolower($name));
 		if(self::_validate($name)) {
 			$magicSpaceClassName = 'MagicSpaces_' . $name . '_' . $name;
-			return new $magicSpaceClassName($name, $content, $toasterData);
+			return new $magicSpaceClassName($name, $content, $toasterData, $params);
 		}
 		throw new Exceptions_SeotoasterException('Cannot run the magic space: ' . $name);
 	}
