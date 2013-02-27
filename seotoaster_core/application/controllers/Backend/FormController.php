@@ -119,6 +119,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 $mailWatchdog->notify($form);
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
+                    $form->notifyObservers();
                     $this->_helper->response->success($form->getMessageSuccess());
                 }
                 $this->_helper->response->fail($form->getMessageError());
