@@ -92,14 +92,14 @@ class Tools_Mail_Mailer {
 		}
 
 		// setting mail to field (support multiple mail to)
-		$this->_mailTo = explode(',', $this->_mailTo);
-		if(is_array($this->_mailTo) && sizeof($this->_mailTo) > 1) {
-			foreach($this->_mailTo as $email => $label) {
-				$this->_mailer->addTo($email, $label);
+		//$this->_mailTo = explode(',', $this->_mailTo);
+		if(is_array($this->_mailTo)) {
+			foreach($this->_mailTo as $label => $email) {
+			    $this->_mailer->addTo($email, $label);
 			}
 		}
 		else {
-			$this->_mailer->addTo($this->_mailTo[0], $this->_mailToLabel);
+			$this->_mailer->addTo($this->_mailTo, $this->_mailToLabel);
 		}
         
         if(is_array($this->_mailBcc) && count($this->_mailBcc) > 0) {
