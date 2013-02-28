@@ -2,7 +2,7 @@
 <div class="advancedPrepopSearch">
     <?php if(isset($this->prepopNameValues) && !empty($this->prepopNameValues)):?>
         <?php foreach($this->prepopNameValues as $prepopName => $prepopNameValue):?>
-                <select class="searchAdvancedPrepop" name="<?php echo $prepopName?>">
+                <select class="searchAdvancedPrepop searchParams" name="<?php echo $prepopName?>">
                     <option value="select">select</option>
                     <?php asort($prepopNameValue);?>
                     <?php foreach($prepopNameValue as $value):?>
