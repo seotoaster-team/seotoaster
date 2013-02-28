@@ -22,27 +22,36 @@
             var prepopSelectedValue = $("option:selected", this).val();
             var prepopSelectedIds = '';
             var prepopSelectNames = $(this).closest('.advancedPrepopSearch').find('select');
+            var resultSelectedId = [];
                                     
             if(prepopSelectedValue != 'select'){     
                 $.each(prepopSelectNames, function () {
                     if($(this).attr('name') != prepopName){
-                        //$(this).html('<option value="select">select<option>');
-                        //$(":last", this).remove();
                         $("option", this).attr("disabled","disabled");
-                    }else{
-                        $("option", this).attr("disabled",false);
+                        $("option[value='select']", this).attr("disabled",false);
+                    }
+                    if($("option:selected", this).val() != 'select'){
+                        var diffPrepop = $(this).attr('name');
+                        var diffPrepopSelectedValue = $("option:selected", this).val();
+                        $.each(prepopNamePageIds, function (name, ids) {
+                            if(name == diffPrepop){
+                                prepopSelectedIds = ids[diffPrepopSelectedValue];
+                                if(_.isEmpty(resultSelectedId)){
+                                    resultSelectedId = prepopSelectedIds;
+                                }else{
+                                    resultSelectedId = _.filter(prepopSelectedIds, function(num, key){ 
+                                        return _.include(resultSelectedId, key);
+                                    });
+                                }
+                               
+                            }
+                        });
                     }
                     
                 });
                 
-                $.each(prepopNamePageIds, function (name, ids) {
-                    if(name == prepopName){
-                       prepopSelectedIds = ids[prepopSelectedValue];
-                    }
-                });
-
                 var filtredValues = _.filter(searchArray, function(num, key){ 
-                    return _.has(prepopSelectedIds, key);
+                    return _.include(resultSelectedId, key);
                 });
             
                 _.each(filtredValues, function(id, value){ 
