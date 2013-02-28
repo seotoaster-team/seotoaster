@@ -15,8 +15,8 @@
 
 <script>
     $(function() {
-        var searchArray = jQuery.parseJSON('<?php echo $this->searchArray;?>');
-        var prepopNamePageIds = jQuery.parseJSON('<?php echo $this->prepopNamePageIds;?>');
+        var searchArray = <?php echo $this->searchArray;?>;
+        var prepopNamePageIds = <?php echo $this->prepopNamePageIds;?>;
         $(document).on('change', '.searchAdvancedPrepop', function(e) {
             var prepopName = $(this).attr('name');
             var prepopSelectedValue = $("option:selected", this).val();
