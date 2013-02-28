@@ -94,6 +94,21 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
         return $this->fetchAll($where);
     }
     
+    public function findByConteinerNames($prepopNames = array()){
+        if(!empty($prepopNames)){
+            $where = '';
+            foreach($prepopNames as $key =>$prepopName){
+                $where .= $this->getDbTable()->getAdapter()->quoteInto('name = ?', $prepopName);
+                if(count($prepopNames) != $key+1){
+                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP).' OR ';
+                }else{
+                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
+                }
+            }
+            return $this->fetchAll($where);
+        }
+    }
+    
     public function findByConteinerNameWithContent($containerContentArray){
         $pageId = array();
         $pageIdArray = array();

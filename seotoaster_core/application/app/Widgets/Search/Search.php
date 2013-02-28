@@ -37,6 +37,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
         if($rendererName == '_renderSearchLinks'){
             return $this->_renderLinks($optionsArray);
         }
+        if($rendererName == '_renderSearchAdvancedprepopsearch'){
+            return $this->_renderAdvancedPrepopSearch($optionsArray);
+        }
         return $this->_renderComplexSearch($optionsArray);
 	}
 
@@ -155,6 +158,27 @@ class Widgets_Search_Search extends Widgets_Abstract {
                     return $this->_view->render('prepopPageLinks.phtml');
                 }
             }
+        }
+    }
+    
+    private function _renderAdvancedPrepopSearch($optionsArray){
+        if(isset($optionsArray[1]) && preg_match('~\|~', $optionsArray[1])){
+            $prepopNames = explode('|', $optionsArray[1]);
+            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNames($prepopNames);
+            if(!empty($prepopWithNameList)){
+                foreach($prepopWithNameList as $prepopWithName){
+                    $searchArray[$prepopWithName->getPageId()][$prepopWithName->getName()] = $prepopWithName->getContent();
+                    $prepopNamePageIds[$prepopWithName->getName()][$prepopWithName->getContent()][$prepopWithName->getPageId()] = $prepopWithName->getPageId();
+                    $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()] = $prepopWithName->getContent();
+                   
+                }
+            }        
+            $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+            $this->_view->websiteUrl = $this->_toasterOptions['websiteUrl'];
+            $this->_view->searchArray = json_encode($searchArray);
+            $this->_view->prepopNamePageIds = json_encode($prepopNamePageIds);
+            $this->_view->prepopNameValues = $prepopNameValues;
+            return $this->_view->render('advancedPrepopSearch.phtml');
         }
     }
     

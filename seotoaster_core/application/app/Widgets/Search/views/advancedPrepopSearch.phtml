@@ -1,0 +1,66 @@
+<?php $this->headScript()->appendFile($this->websiteUrl.'system/js/external/underscore/underscore.min.js');?>
+<div class="advancedPrepopSearch">
+    <?php if(isset($this->prepopNameValues) && !empty($this->prepopNameValues)):?>
+        <?php foreach($this->prepopNameValues as $prepopName => $prepopNameValue):?>
+                <select class="searchAdvancedPrepop" name="<?php echo $prepopName?>">
+                    <option value="select">select</option>
+                    <?php asort($prepopNameValue);?>
+                    <?php foreach($prepopNameValue as $value):?>
+                        <option value="<?php echo $value?>"><?php echo $value?></option>
+                    <?php endforeach;?>
+                </select>
+        <?php endforeach;?>
+    <?php endif;?>
+</div>
+
+<script>
+    $(function() {
+        var searchArray = jQuery.parseJSON('<?php echo $this->searchArray;?>');
+        var prepopNamePageIds = jQuery.parseJSON('<?php echo $this->prepopNamePageIds;?>');
+        $(document).on('change', '.searchAdvancedPrepop', function(e) {
+            var prepopName = $(this).attr('name');
+            var prepopSelectedValue = $("option:selected", this).val();
+            var prepopSelectedIds = '';
+            var prepopSelectNames = $(this).closest('.advancedPrepopSearch').find('select');
+                                    
+            if(prepopSelectedValue != 'select'){     
+                $.each(prepopSelectNames, function () {
+                    if($(this).attr('name') != prepopName){
+                        //$(this).html('<option value="select">select<option>');
+                        //$(":last", this).remove();
+                        $("option", this).attr("disabled","disabled");
+                    }else{
+                        $("option", this).attr("disabled",false);
+                    }
+                    
+                });
+                
+                $.each(prepopNamePageIds, function (name, ids) {
+                    if(name == prepopName){
+                       prepopSelectedIds = ids[prepopSelectedValue];
+                    }
+                });
+
+                var filtredValues = _.filter(searchArray, function(num, key){ 
+                    return _.has(prepopSelectedIds, key);
+                });
+            
+                _.each(filtredValues, function(id, value){ 
+                     _.each(id, function(pValue, pName){
+                         if($('select[name="'+pName+'"] [value="'+pValue+'"]').length == 0){
+                            $('select[name="'+pName+'"]').append('<option value="'+pValue+'">'+pValue+'</option>');
+                         }
+                         $('select[name="'+pName+'"] [value="'+pValue+'"]').attr("disabled",false);
+                     });
+                                        
+                });
+                $('[value="'+prepopSelectedValue+'"]',this).attr("selected", "selected");
+       
+            }
+            
+        });
+    });
+</script>
+
+
+
