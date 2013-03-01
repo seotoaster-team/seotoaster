@@ -37,7 +37,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
         if($rendererName == '_renderSearchLinks'){
             return $this->_renderLinks($optionsArray);
         }
-        if($rendererName == '_renderSearchAdvancedprepopsearch'){
+        if($rendererName == '_renderSearchAdvanced'){
             return $this->_renderAdvancedPrepopSearch($optionsArray);
         }
         return $this->_renderComplexSearch($optionsArray);
@@ -162,23 +162,41 @@ class Widgets_Search_Search extends Widgets_Abstract {
     }
     
     private function _renderAdvancedPrepopSearch($optionsArray){
-        if(isset($optionsArray[1]) && preg_match('~\|~', $optionsArray[1])){
+        if(isset($optionsArray[1]) && preg_match('~\|~', $optionsArray[1]) && isset($optionsArray[2])){
+            $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+            $prepopWithQuantity = array();
             $prepopNames = explode('|', $optionsArray[1]);
-            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNames($prepopNames);
-            if(!empty($prepopWithNameList)){
-                foreach($prepopWithNameList as $prepopWithName){
-                    $searchArray[$prepopWithName->getPageId()][$prepopWithName->getName()] = $prepopWithName->getContent();
-                    $prepopNamePageIds[$prepopWithName->getName()][$prepopWithName->getContent()][$prepopWithName->getPageId()] = $prepopWithName->getPageId();
-                    $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()] = $prepopWithName->getContent();
-                   
+            foreach($prepopNames as $key => $prepopName){
+                if(preg_match('(#)', $prepopName)){
+                    $prepopWithQuantity[] = str_replace('(#)','',$prepopName);
+                    $prepopNames[$key] = str_replace('(#)','',$prepopName);
                 }
-            }        
-            $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
-            $this->_view->websiteUrl = $this->_toasterOptions['websiteUrl'];
-            $this->_view->searchArray = json_encode($searchArray);
-            $this->_view->prepopNamePageIds = json_encode($prepopNamePageIds);
-            $this->_view->prepopNameValues = $prepopNameValues;
-            return $this->_view->render('advancedPrepopSearch.phtml');
+            }
+            if($optionsArray[2] == 'select'){
+                $cacheKey = str_replace('(#)','_',$optionsArray[1]);
+                if (null === ($prepopSearchData = $cacheHelper->load('search_prepop_'.$cacheKey, 'search_prepop'))){
+                    $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNames($prepopNames);
+                    if(!empty($prepopWithNameList)){
+                        foreach($prepopWithNameList as $prepopWithName){
+                            $searchArray[$prepopWithName->getPageId()][$prepopWithName->getName()] = $prepopWithName->getContent();
+                            $prepopNamePageIds[$prepopWithName->getName()][$prepopWithName->getContent()][$prepopWithName->getPageId()] = $prepopWithName->getPageId();
+                            $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['content'] = $prepopWithName->getContent();
+                            if(isset($prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['content']) && $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['content'] == $prepopWithName->getContent()){
+                                $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['quantity'] = $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['quantity'] + 1;
+                            }
+                        }
+                    }
+                    $prepopSearchData = array('searchArray'=>$searchArray, 'prepopNamePageIds'=>$prepopNamePageIds, 'prepopNameValues'=>$prepopNameValues);
+                    $cacheHelper->save('search_prepop_'.$cacheKey, $prepopSearchData, 'search_prepop', array(), Helpers_Action_Cache::CACHE_SHORT);
+                }
+                $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+                $this->_view->websiteUrl = $this->_toasterOptions['websiteUrl'];
+                $this->_view->searchArray = json_encode($prepopSearchData['searchArray']);
+                $this->_view->prepopNamePageIds = json_encode($prepopSearchData['prepopNamePageIds']);
+                $this->_view->prepopWithQuantity = $prepopWithQuantity;
+                $this->_view->prepopNameValues = array_reverse($prepopSearchData['prepopNameValues']);
+                return $this->_view->render('advancedPrepopSearch.phtml');
+            }
         }
     }
     

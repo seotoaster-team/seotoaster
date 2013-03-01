@@ -6,15 +6,19 @@
                     <option value="select">select</option>
                     <?php asort($prepopNameValue);?>
                     <?php foreach($prepopNameValue as $value):?>
-                        <option value="<?php echo $value?>"><?php echo $value?></option>
-                    <?php endforeach;?>
+                        <?php if(in_array($prepopName,$this->prepopWithQuantity)):?>
+                            <option value="<?php echo $value['content']?>"><?php echo $value['content']?><?php echo ' ('.$value['quantity'].')'?></option>
+                        <?php else:?>
+                            <option value="<?php echo $value['content']?>"><?php echo $value['content']?></option>
+                        <?php endif;?>                
+                   <?php endforeach;?>
                 </select>
         <?php endforeach;?>
     <?php endif;?>
 </div>
-
-<script>
-    $(function() {
+ 
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+     $(function() {
         var searchArray = <?php echo $this->searchArray;?>;
         var prepopNamePageIds = <?php echo $this->prepopNamePageIds;?>;
         $(document).on('change', '.searchAdvancedPrepop', function(e) {
@@ -25,6 +29,7 @@
             var resultSelectedId = [];
             var selectsQuantity = 0;
             var selectsInSearch = 0;
+            var diffPrepop = '';
                                     
             $.each(prepopSelectNames, function () {
                 if($(this).attr('name') != prepopName){
@@ -33,7 +38,7 @@
                 }
                 selectsInSearch = selectsInSearch + 1;
                 if($("option:selected", this).val() != 'select'){
-                    var diffPrepop = $(this).attr('name');
+                    diffPrepop = $(this).attr('name');
                     var diffPrepopSelectedValue = $("option:selected", this).val();
                     $.each(prepopNamePageIds, function (name, ids) {
                         if(name == diffPrepop){
@@ -64,15 +69,16 @@
             
             _.each(filtredValues, function(id, value){ 
                 _.each(id, function(pValue, pName){
-//                    if($('select[name="'+pName+'"] [value="'+pValue+'"]').length == 0){
-//                        $('select[name="'+pName+'"]').append('<option value="'+pValue+'">'+pValue+'</option>');
-//                    }
                     $('select[name="'+pName+'"] [value="'+pValue+'"]').attr("disabled",false);
                 });
             });
+            
+            if(selectsQuantity == selectsInSearch - 1){
+                $('select[name="'+diffPrepop+'"] option').attr("disabled",false);
+            }
         });
     });
-</script>
+<?php $this->jQuery()->onLoadCaptureEnd() ?>
 
 
 
