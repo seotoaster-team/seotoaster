@@ -23,50 +23,53 @@
             var prepopSelectedIds = '';
             var prepopSelectNames = $(this).closest('.advancedPrepopSearch').find('select');
             var resultSelectedId = [];
+            var selectsQuantity = 0;
+            var selectsInSearch = 0;
                                     
-            if(prepopSelectedValue != 'select'){     
-                $.each(prepopSelectNames, function () {
-                    if($(this).attr('name') != prepopName){
-                        $("option", this).attr("disabled","disabled");
-                        $("option[value='select']", this).attr("disabled",false);
-                    }
-                    if($("option:selected", this).val() != 'select'){
-                        var diffPrepop = $(this).attr('name');
-                        var diffPrepopSelectedValue = $("option:selected", this).val();
-                        $.each(prepopNamePageIds, function (name, ids) {
-                            if(name == diffPrepop){
-                                prepopSelectedIds = ids[diffPrepopSelectedValue];
-                                if(_.isEmpty(resultSelectedId)){
-                                    resultSelectedId = prepopSelectedIds;
-                                }else{
-                                    resultSelectedId = _.filter(prepopSelectedIds, function(num, key){ 
-                                        return _.include(resultSelectedId, key);
-                                    });
-                                }
-                               
+            $.each(prepopSelectNames, function () {
+                if($(this).attr('name') != prepopName){
+                    $("option", this).attr("disabled","disabled");
+                    $("option[value='select']", this).attr("disabled",false);
+                }
+                selectsInSearch = selectsInSearch + 1;
+                if($("option:selected", this).val() != 'select'){
+                    var diffPrepop = $(this).attr('name');
+                    var diffPrepopSelectedValue = $("option:selected", this).val();
+                    $.each(prepopNamePageIds, function (name, ids) {
+                        if(name == diffPrepop){
+                            prepopSelectedIds = ids[diffPrepopSelectedValue];
+                            if(_.isEmpty(resultSelectedId)){
+                                resultSelectedId = prepopSelectedIds;
+                            }else{
+                                resultSelectedId = _.filter(prepopSelectedIds, function(num, key){ 
+                                    return _.include(resultSelectedId, key);
+                                });
                             }
-                        });
-                    }
-                    
-                });
-                
-                var filtredValues = _.filter(searchArray, function(num, key){ 
-                    return _.include(resultSelectedId, key);
-                });
-            
-                _.each(filtredValues, function(id, value){ 
-                     _.each(id, function(pValue, pName){
-                         if($('select[name="'+pName+'"] [value="'+pValue+'"]').length == 0){
-                            $('select[name="'+pName+'"]').append('<option value="'+pValue+'">'+pValue+'</option>');
+
                          }
-                         $('select[name="'+pName+'"] [value="'+pValue+'"]').attr("disabled",false);
-                     });
-                                        
-                });
-                $('[value="'+prepopSelectedValue+'"]',this).attr("selected", "selected");
-       
+                    });
+                }
+                if($("option:selected", this).val() == 'select'){
+                   selectsQuantity = selectsQuantity +1;
+                }
+                    
+            });
+            if(selectsQuantity == selectsInSearch){
+                resultSelectedId = _.keys(searchArray);
             }
+                      
+            var filtredValues = _.filter(searchArray, function(num, key){ 
+                return _.include(resultSelectedId, key);
+            });
             
+            _.each(filtredValues, function(id, value){ 
+                _.each(id, function(pValue, pName){
+//                    if($('select[name="'+pName+'"] [value="'+pValue+'"]').length == 0){
+//                        $('select[name="'+pName+'"]').append('<option value="'+pValue+'">'+pValue+'</option>');
+//                    }
+                    $('select[name="'+pName+'"] [value="'+pValue+'"]').attr("disabled",false);
+                });
+            });
         });
     });
 </script>
