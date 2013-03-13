@@ -250,7 +250,7 @@ function showMailMessageEdit(trigger, callback) {
         $('#trigger-msg').val(response.responseText);
         msgEditScreen.dialog({
             modal: true,
-            title: 'Edit message',
+            title: 'Edit mail message before sending',
             width: 600,
             height: 300,
             resizable: false,
