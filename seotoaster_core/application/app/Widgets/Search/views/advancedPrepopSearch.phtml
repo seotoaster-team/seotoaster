@@ -2,6 +2,12 @@
 <div class="advancedPrepopSearch">
     <?php if(isset($this->prepopNameValues) && !empty($this->prepopNameValues)):?>
         <?php foreach($this->prepopNameValues as $prepopName => $prepopNameValue):?>
+                <?php if(!empty($this->prepopLabels) && isset($this->prepopLabels[$prepopName])):?>
+                     <label class="advancedSearchLabel"><?php echo $this->prepopLabels[$prepopName];?></label>
+                <?php else:?>
+                     <label class="advancedSearchLabel"><?php echo $prepopName;?></label>
+                <?php endif;?>
+                
                 <select class="searchAdvancedPrepop searchParams" name="<?php echo $prepopName?>">
                     <option value="select">select</option>
                     <?php asort($prepopNameValue);?>
@@ -33,8 +39,8 @@
                                     
             $.each(prepopSelectNames, function () {
                 if($(this).attr('name') != prepopName){
-                    $("option", this).attr("disabled","disabled");
-                    $("option[value='select']", this).attr("disabled",false);
+                    $("option", this).hide();
+                    $("option[value='select']", this).show();
                 }
                 selectsInSearch = selectsInSearch + 1;
                 if($("option:selected", this).val() != 'select'){
@@ -69,12 +75,12 @@
             
             _.each(filtredValues, function(id, value){ 
                 _.each(id, function(pValue, pName){
-                    $('select[name="'+pName+'"] [value="'+pValue+'"]').attr("disabled",false);
+                    $('select[name="'+pName+'"] [value="'+pValue+'"]').show();
                 });
             });
             
             if(selectsQuantity == selectsInSearch - 1){
-                $('select[name="'+diffPrepop+'"] option').attr("disabled",false);
+                $('select[name="'+diffPrepop+'"] option').show();
             }
         });
     });

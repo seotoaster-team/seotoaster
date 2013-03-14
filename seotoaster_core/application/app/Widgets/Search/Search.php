@@ -165,6 +165,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
         if(isset($optionsArray[1]) && preg_match('~\|~', $optionsArray[1]) && isset($optionsArray[2])){
             $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
             $prepopWithQuantity = array();
+            $prepopLabels = array();
             $prepopNames = explode('|', $optionsArray[1]);
             foreach($prepopNames as $key => $prepopName){
                 if(preg_match('(#)', $prepopName)){
@@ -172,7 +173,14 @@ class Widgets_Search_Search extends Widgets_Abstract {
                     $prepopNames[$key] = str_replace('(#)','',$prepopName);
                 }
             }
-            if($optionsArray[2] == 'select'){
+            if(isset($optionsArray[2]) && preg_match('~\|~', $optionsArray[2])){
+                $prepopLabels =  explode('|', $optionsArray[2]);
+            }
+            if(count($prepopNames) == count($prepopLabels)){
+                $prepopLabels = array_combine($prepopNames, $prepopLabels);
+            }
+                
+            if(end($optionsArray) == 'select'){
                 $cacheKey = str_replace('(#)','_',$optionsArray[1]);
                 if (null === ($prepopSearchData = $cacheHelper->load('search_prepop_'.$cacheKey, 'search_prepop'))){
                     $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNames($prepopNames);
@@ -190,6 +198,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
                     $cacheHelper->save('search_prepop_'.$cacheKey, $prepopSearchData, 'search_prepop', array(), Helpers_Action_Cache::CACHE_SHORT);
                 }
                 $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+                $this->_view->prepopLabels = $prepopLabels;
                 $this->_view->websiteUrl = $this->_toasterOptions['websiteUrl'];
                 $this->_view->searchArray = json_encode($prepopSearchData['searchArray']);
                 $this->_view->prepopNamePageIds = json_encode($prepopSearchData['prepopNamePageIds']);
