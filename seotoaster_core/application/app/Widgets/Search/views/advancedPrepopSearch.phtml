@@ -26,6 +26,7 @@
      $(function() {
         var searchArray = <?php echo $this->searchArray;?>;
         var prepopNamePageIds = <?php echo $this->prepopNamePageIds;?>;
+        var prepopSelectNamesClone = $('.advancedPrepopSearch').clone(true, true);
         $(document).on('change', '.searchAdvancedPrepop', function(e) {
             var prepopName = $(this).attr('name');
             var prepopSelectedValue = $("option:selected", this).val();
@@ -37,9 +38,14 @@
             var diffPrepop = '';
                                     
             $.each(prepopSelectNames, function () {
+                var previousSelectedValue  = $("option:selected", this).val();
                 if($(this).attr('name') != prepopName){
-                    $("option", this).hide();
-                    $("option[value='select']", this).show();
+                    $('select[name="'+$(this).attr('name')+'"]').empty();
+                    $('select[name="'+$(this).attr('name')+'"]').append('<option value="select">select</option>');
+                    if(previousSelectedValue != 'select'){
+                        $('select[name="'+$(this).attr('name')+'"]').append($('select[name="'+$(this).attr('name')+'"] [value="'+previousSelectedValue+'"]', prepopSelectNamesClone).clone(true,true));
+                    }
+                    $('select[name="'+$(this).attr('name')+'"] [value="'+previousSelectedValue+'"]').attr("selected", "selected");
                 }
                 selectsInSearch = selectsInSearch + 1;
                 if($("option:selected", this).val() != 'select'){
@@ -66,7 +72,8 @@
             });
             if(selectsQuantity == selectsInSearch){
                 $.each(prepopNamePageIds, function (name, ids) {
-                    $('select[name="'+name+'"] option').show();
+                    $('select[name="'+name+'"]').empty();
+                    $('select[name="'+name+'"]').append($('select[name="'+name+'"] option', prepopSelectNamesClone).clone(true,true));
                 });
                 return false;
             }
@@ -77,16 +84,22 @@
             
             _.each(filtredValues, function(id, value){ 
                 _.each(id, function(pValue, pName){
-                    $('select[name="'+pName+'"] [value="'+pValue+'"]').show();
+                    if($('select[name="'+pName+'"] [value="'+pValue+'"]').length < 1){
+                        $('select[name="'+pName+'"]').append($('select[name="'+pName+'"] [value="'+pValue+'"]', prepopSelectNamesClone).clone(true,true));
+                    }
                 });
             });
             
             if(selectsQuantity == selectsInSearch - 1){
-                $('select[name="'+diffPrepop+'"] option').show();
+                var previousSelectedDiff = $('select[name="'+diffPrepop+'"] option:selected').val();
+                $('select[name="'+diffPrepop+'"]').empty();
+                $.each(prepopSelectNames, function () {
+                    $('select[name="'+$(this).attr('name')+'"] [value="'+$("option:selected", this).val()+'"]').attr("selected", "selected");
+                });
+                $('select[name="'+diffPrepop+'"]').append($('select[name="'+diffPrepop+'"] option', prepopSelectNamesClone).clone(true,true));
+                $('select[name="'+diffPrepop+'"] [value="'+previousSelectedDiff+'"]').attr("selected", "selected");
             }
         });
     });
 <?php $this->jQuery()->onLoadCaptureEnd() ?>
-
-
 

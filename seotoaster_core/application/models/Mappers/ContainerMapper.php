@@ -117,7 +117,7 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
         foreach($containerContentArray as $container=>$content){
             if($content != 'select'){
                 $where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $container);
-                $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto("content LIKE ?", '%'.$content.'%');
+                $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto("content = ?", $content);
                 $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
                 $result = $this->fetchAll($where);
                 if(!empty($result)){
