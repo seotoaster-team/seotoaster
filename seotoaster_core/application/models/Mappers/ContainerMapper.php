@@ -149,7 +149,7 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
         if($start == 1){
            return $pageId;
         }
-        return $pageIdArray;
+        return $summaryArray;
     }
         
 }
