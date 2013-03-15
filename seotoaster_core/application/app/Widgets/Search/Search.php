@@ -198,6 +198,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
                     $cacheHelper->save('search_prepop_'.$cacheKey, $prepopSearchData, 'search_prepop', array(), Helpers_Action_Cache::CACHE_SHORT);
                 }
                 $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+                $this->_view->prepopNames = $prepopNames;
                 $this->_view->prepopLabels = $prepopLabels;
                 $this->_view->websiteUrl = $this->_toasterOptions['websiteUrl'];
                 $this->_view->searchArray = json_encode($prepopSearchData['searchArray']);

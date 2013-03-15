@@ -1,17 +1,16 @@
 <?php $this->headScript()->appendFile($this->websiteUrl.'system/js/external/underscore/underscore.min.js');?>
 <div class="advancedPrepopSearch">
     <?php if(isset($this->prepopNameValues) && !empty($this->prepopNameValues)):?>
-        <?php foreach($this->prepopNameValues as $prepopName => $prepopNameValue):?>
+        <?php foreach($this->prepopNames as $prepopName):?>
                 <?php if(!empty($this->prepopLabels) && isset($this->prepopLabels[$prepopName])):?>
                      <label class="advancedSearchLabel"><?php echo $this->prepopLabels[$prepopName];?></label>
                 <?php else:?>
                      <label class="advancedSearchLabel"><?php echo $prepopName;?></label>
                 <?php endif;?>
-                
                 <select class="searchAdvancedPrepop searchParams" name="<?php echo $prepopName?>">
                     <option value="select">select</option>
-                    <?php asort($prepopNameValue);?>
-                    <?php foreach($prepopNameValue as $value):?>
+                    <?php asort($this->prepopNameValues[$prepopName]);?>
+                    <?php foreach($this->prepopNameValues[$prepopName] as $value):?>
                         <?php if(in_array($prepopName,$this->prepopWithQuantity)):?>
                             <option value="<?php echo $value['content']?>"><?php echo $value['content']?><?php echo ' ('.$value['quantity'].')'?></option>
                         <?php else:?>
