@@ -53,7 +53,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		}
 		$database = Zend_Db::factory($adapter, $dbConfig['params']);
 		if ($adapter === 'mysqli'){
-			$database->quote('SET NAMES UTF8');
+			$database->query('SET NAMES UTF8');
 			$database->query('SET CHARACTER SET utf8');
 		}
 		Zend_Db_Table_Abstract::setDefaultAdapter($database);
