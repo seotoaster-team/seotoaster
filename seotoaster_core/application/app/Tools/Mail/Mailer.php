@@ -277,5 +277,14 @@ class Tools_Mail_Mailer {
 	public function addAttachment(Zend_Mime_Part $attachment) {
 		$this->_mailer->addAttachment($attachment);
 	}
+    
+    public function getBodyType() {
+		return $this->_bodyType;
+	}
+
+	public function setBodyType($bodyType) {
+		$this->_bodyType = $bodyType;
+		return $this;
+	}
 }
 
