@@ -28,6 +28,8 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
     protected $_replyText           = '';
 
 	protected $_trackingCode        = '';
+    
+    protected $_captcha             = 0;
 
     public function getId() {
 		return $this->_id;
@@ -135,5 +137,14 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 
     public function getReplyText() {
         return $this->_replyText;
+    }
+    
+    public function setCaptcha($captcha) {
+        $this->_captcha = $captcha;
+        return $this;
+    }
+
+    public function getCaptcha() {
+        return $this->_captcha;
     }
 }

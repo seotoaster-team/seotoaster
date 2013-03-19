@@ -129,6 +129,22 @@ class Tools_System_Tools {
 		    ->setLineNoiseLevel(0)
 		    ->generate();
 	}
+    
+     /**
+     * Generate new recaptcha 
+     *
+     * @static
+     * @return recaptcha code
+     */
+    
+    public static function generateRecaptcha() {
+        $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+        if(!empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != ''){
+            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
+            return $recaptcha;
+        }
+        return false;
+    }
 
 	public static function arrayToCsv($data, $headers = array()) {
 		if(!empty($data)) {

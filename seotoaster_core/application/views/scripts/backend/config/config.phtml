@@ -11,6 +11,7 @@
 				<?php if ($this->isSuperAdmin): ?>
 					<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
 					<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
+                    <li><a href="#securityForm-config"><?php echo $this->translate('Security'); ?></a></li>
 				<?php endif; ?>
 			</ul>
 			<div id="general-config">
@@ -131,6 +132,19 @@
 					</div>
 
 	            </div>
+                <div id="securityForm-config" class="clearfix">
+                    <div class="grid_12 mt5px">
+                        <?php echo $this->configForm->getElement('recapthaPublicKey')->renderLabel(); ?>
+                        <?php echo $this->configForm->getElement('recapthaPublicKey')->renderViewHelper(); ?>
+                        <?php echo $this->configForm->getElement('recapthaPrivateKey')->renderLabel(); ?>
+                        <?php echo $this->configForm->getElement('recapthaPrivateKey')->renderViewHelper(); ?>
+                    </div>
+                    <div class="grid_12 mt15px">
+                        <a target="_blank" href="https://www.google.com/recaptcha/admin/create">
+                                <?php echo $this->translate('Get your own reCAPTCHA key here now.');?>
+                        </a>
+                    </div>
+				</div>
 			<?php endif; ?>
 		</div>
 

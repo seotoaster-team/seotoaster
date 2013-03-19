@@ -1445,7 +1445,7 @@ list-style: square;
 /*============Manage config=================*/
 .seotoaster #general-config, .seotoaster #email-config,
 .seotoaster #security-config, .seotoaster #advaced-config,
-.seotoaster #action-triggers {
+.seotoaster #action-triggers, .seotoaster #securityForm-config {
     overflow: hidden;
     margin-bottom: 7px;
     min-height: 228px;

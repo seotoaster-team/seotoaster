@@ -25,14 +25,9 @@
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
-		<?php if($this->useCaptcha): ?>
-			<div class="captcha">
-                <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
-                <label><?php echo $this->translate('Please enter this code in the box below'); ?></label>
-                <input type="text" name="captcha" value="" />
-                <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
-            </div>
-		<?php endif; ?>
+		<?php if($this->useCaptcha && $this->recapthaCode): ?>
+            <?php echo $this->recapthaCode;?>
+     	<?php endif; ?>
 		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>
@@ -57,13 +52,9 @@
                 beforeSend: showSpinner,
                 dataType :'json',
                 success  : function(response) {
-                    //console.log(response);
                     hideSpinner();
                     if(response.error) {
-                        $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
-                            $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
-                            $('.captcha-id').val(response);
-                        }, 'json');
+
                     } else {
                         $(form).find(':input').each(function() {
                             switch(this.type) {
@@ -82,6 +73,7 @@
                         });
 
                     }
+                    Recaptcha.reload();
                     showMessage(response.responseText, response.error);
                 }
             })

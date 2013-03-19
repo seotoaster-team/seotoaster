@@ -23,10 +23,17 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should provide a form name.'));
 		}
-
+        
 		$useCaptcha = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
+        $formMapper = Application_Model_Mappers_FormMapper::getInstance();
+        $form       = $formMapper->findByName($this->_options[0]);
+                
 		if($useCaptcha) {
-			$this->_view->captchaId  = Tools_System_Tools::generateCaptcha();
+			if($form != null){
+                $form->setCaptcha(1);
+                $formMapper->save($form);
+            }
+            $this->_view->recapthaCode = Tools_System_Tools::generateRecaptcha();
 		}
 		$this->_view->useCaptcha        = $useCaptcha;
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);

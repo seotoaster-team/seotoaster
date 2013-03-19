@@ -26,6 +26,8 @@ class Application_Form_Config extends Zend_Form {
 	protected $_mediaServers;
 	protected $_inlineEditor;
 	protected $_canonicalScheme;
+    protected $_recapthaPublicKey;
+    protected $_recapthaPrivateKey;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -189,6 +191,26 @@ class Application_Form_Config extends Zend_Form {
 	public function getSmtpSsl() {
 		return $this->_smtpSsl;
 	}
+    
+    public function setRecapthaPublicKey($recapthaPublicKey) {
+		$this->_recapthaPublicKey = $recapthaPublicKey;
+		$this->getElement('recapthaPublicKey')->setValue($recapthaPublicKey);
+		return $this;
+	}
+
+	public function getRecapthaPublicKey() {
+		return $this->_recapthaPublicKey;
+	}
+    
+    public function setRecapthaPrivateKey($recapthaPrivateKey) {
+		$this->_recapthaPrivateKey = $recapthaPrivateKey;
+		$this->getElement('recapthaPrivateKey')->setValue($recapthaPrivateKey);
+		return $this;
+	}
+
+	public function getRecapthaPrivateKey() {
+		return $this->_recapthaPrivateKey;
+	}
 
 	public function init() {
 		$this->setName($this->_name)
@@ -215,6 +237,16 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Admin Email',
 			'validators' => array(new Zend_Validate_EmailAddress())
 		));*/
+        
+        $this->addElement('text', 'recapthaPublicKey', array(
+			'value' => $this->_recapthaPublicKey,
+			'label' => 'reCAPTCHA public key'
+		));
+        
+        $this->addElement('text', 'recapthaPrivateKey', array(
+			'value' => $this->_recapthaPrivateKey,
+			'label' => 'reCAPTCHA private Key'
+		));
 
 		$this->addElement('text', 'imgSmall', array(
 			'value' => $this->_imgSmall,

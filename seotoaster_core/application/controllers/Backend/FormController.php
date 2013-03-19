@@ -95,16 +95,29 @@ class Backend_FormController extends Zend_Controller_Action {
         if($this->getRequest()->isPost()) {
             $formParams    = $this->getRequest()->getParams();
 			if(!empty ($formParams)) {
-
-				//validating captcha
-                if(isset($formParams['captcha'])) {
-					if(!$this->_validateCaptcha(strtolower($formParams['captcha']), $formParams['captchaId'])) {
-                        $this->_helper->response->fail($this->_helper->language->translate('Captcha is not valid.'));
-					}
-				}
-
+                $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+                $formMapper = Application_Model_Mappers_FormMapper::getInstance();
                 // get the form details
-				$form   = Application_Model_Mappers_FormMapper::getInstance()->findByName($formParams['formName']);
+				$form   = $formMapper->findByName($formParams['formName']);
+                $useCaptcha = $form->getCaptcha();
+                
+                //validating recaptcha
+                if($useCaptcha == 1 && !empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != ''){
+                    if(isset($formParams['recaptcha_challenge_field']) && isset($formParams['recaptcha_response_field'])) {
+                        if($formParams['recaptcha_response_field'] == ''){
+                            $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                        }
+                        $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
+                        $result = $recaptcha->verify($formParams['recaptcha_challenge_field'], $formParams['recaptcha_response_field']);
+                        if(!$result->isValid()){
+                            $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                        }
+                        unset($formParams['recaptcha_challenge_field']);
+                        unset($formParams['recaptcha_response_field']);
+                    }
+                }
+				               
+                
 				//$mailer = Tools_Mail_Tools::initMailer();
 
 				// sending mails
