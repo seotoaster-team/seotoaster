@@ -14,7 +14,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
-		if (is_array($this->_options) && isset($this->_options[1]) && $this->_options[1] === 'captcha') {
+		if (is_array($this->_options) && isset($this->_options[1]) && $this->_options[1] === 'recaptcha') {
 			$this->_cacheable = false;
 		}
         $this->_cacheTags = array(self::WFORM_CACHE_TAG);
@@ -24,7 +24,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should provide a form name.'));
 		}
         
-		$useCaptcha = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
+		$useCaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
         $formMapper = Application_Model_Mappers_FormMapper::getInstance();
         $form       = $formMapper->findByName($this->_options[0]);
                 
@@ -33,7 +33,14 @@ class Widgets_Form_Form extends Widgets_Abstract {
                 $form->setCaptcha(1);
                 $formMapper->save($form);
             }
-            $this->_view->recapthaCode = Tools_System_Tools::generateRecaptcha();
+            $recaptchaTheme = 'red';
+            if(isset($this->_options[2])){
+                $recaptchaTheme = $this->_options[2];
+                if($this->_options[2] == 'custom'){
+                    $this->_view->customRecaptcha = true;
+                }
+            }
+            $this->_view->recapthaCode = Tools_System_Tools::generateRecaptcha($recaptchaTheme);
 		}
 		$this->_view->useCaptcha        = $useCaptcha;
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);

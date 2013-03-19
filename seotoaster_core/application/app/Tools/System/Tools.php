@@ -137,11 +137,12 @@ class Tools_System_Tools {
      * @return recaptcha code
      */
     
-    public static function generateRecaptcha() {
+    public static function generateRecaptcha($captchaTheme = 'red') {
         $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
         if(!empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != ''){
-            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
-            return $recaptcha;
+            $options = array('theme' => $captchaTheme);
+            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey'], null, $options);
+            return $recaptcha->getHTML();
         }
         return false;
     }

@@ -25,9 +25,25 @@
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
-		<?php if($this->useCaptcha && $this->recapthaCode): ?>
+		<?php if($this->useCaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
+           <div id="recaptcha_widget">
+               <div id="recaptcha_image"></div>
+               <div class="recaptcha_only_if_incorrect_sol" style="color:red"><?php echo $this->translate('Incorrect please try again');?></div>
+               <label class="recaptcha_only_if_image"><?php echo $this->translate('Enter the words above');?>:</label>
+               <label class="recaptcha_only_if_audio"><?php echo $this->translate('Enter the numbers you hear');?>:</label>
+               <input type="text" id="recaptcha_response_field" name="recaptcha_response_field" />
+               <div class="recaptcha_links">
+                   <a href="javascript:Recaptcha.reload()"><?php echo $this->translate('Get another CAPTCHA');?></a>
+                   <a class="recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><?php echo $this->translate('Get an audio CAPTCHA');?></a>
+                   <a class="recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><?php echo $this->translate('Get an image CAPTCHA');?></a>
+                   <a class="recaptcha_help" href="javascript:Recaptcha.showhelp()"><?php echo $this->translate('Help');?></a>
+              </div>
+            </div>
             <?php echo $this->recapthaCode;?>
-     	<?php endif; ?>
+        <?php endif; ?>
+        <?php if($this->useCaptcha && $this->recapthaCode && !$this->customRecaptcha): ?>
+            <?php echo $this->recapthaCode;?>
+        <?php endif;?>
 		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>
