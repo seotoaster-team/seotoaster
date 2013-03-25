@@ -14,7 +14,10 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
-		if (is_array($this->_options) && isset($this->_options[1]) && $this->_options[1] === 'recaptcha') {
+		if (is_array($this->_options) && isset($this->_options[1]) && $this->_options[1] === 'recaptcha' || $this->_options[1] === 'captcha') {
+			$this->_cacheable = false;
+		}
+        if (is_array($this->_options) && isset($this->_options[0]) && strtolower($this->_options[0]) === 'conversioncode') {
 			$this->_cacheable = false;
 		}
         $this->_cacheTags = array(self::WFORM_CACHE_TAG);
@@ -24,37 +27,67 @@ class Widgets_Form_Form extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should provide a form name.'));
 		}
         
-		$useCaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
-        $formMapper = Application_Model_Mappers_FormMapper::getInstance();
-        $form       = $formMapper->findByName($this->_options[0]);
+        if(strtolower($this->_options[0]) == 'conversioncode'){
+            return $this->_conversionCode($this->_options);
+        }
+                 
+		$useCaptcha   = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
+        $useRecaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
+        $formMapper   = Application_Model_Mappers_FormMapper::getInstance();
+        $form         = $formMapper->findByName($this->_options[0]);
                 
-		if($useCaptcha) {
+		if($useCaptcha || $useRecaptcha) {
 			if($form != null){
                 $form->setCaptcha(1);
                 $formMapper->save($form);
             }
-            $recaptchaTheme = 'red';
-            if(isset($this->_options[2])){
-                $recaptchaTheme = $this->_options[2];
-                if($this->_options[2] == 'custom'){
-                    $this->_view->customRecaptcha = true;
+            if($useRecaptcha){
+                $recaptchaTheme = 'red';
+                if(isset($this->_options[2])){
+                    $recaptchaTheme = $this->_options[2];
+                    if($this->_options[2] == 'custom'){
+                        $this->_view->customRecaptcha = true;
+                    }
                 }
+                $this->_view->recapthaCode = Tools_System_Tools::generateRecaptcha($recaptchaTheme);
             }
-            $this->_view->recapthaCode = Tools_System_Tools::generateRecaptcha($recaptchaTheme);
+            if($useCaptcha){
+                $this->_view->captchaId = Tools_System_Tools::generateCaptcha();
+            }
 		}
-		$this->_view->useCaptcha        = $useCaptcha;
+        $this->_view->trackingConversionUrl = 'form-'.$this->_options[0].'-thank-you-page.html';
+		$this->_view->useRecaptcha      = $useRecaptcha;
+        $this->_view->useCaptcha        = $useCaptcha;
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);
 		$this->_view->allowMidification = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL);
 		$this->_view->formName          = $this->_options[0];
 
         $filter                         = new Zend_Filter_Alnum();
         $this->_view->formId            = $filter->filter($this->_options[0]);
-
+        $this->_view->pageId            = $this->_toasterOptions['id'];
 		$this->_view->websiteTmp        = $this->_websiteHelper->getTmp();
         $this->_view->formUrl           = $this->_toasterOptions['url'];
 		return $this->_view->render('form.phtml');
 	}
 
+    private function _conversionCode($options){
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
+        $trackingCode = '';
+        if(isset($sessionHelper->formName) && isset($sessionHelper->formPageId)){
+            $formName   = $sessionHelper->formName;
+            $formPageId = $sessionHelper->formPageId;
+            $conversionCode = Application_Model_Mappers_FormPageConversionMapper::getInstance()->getConversionCode($formName, $formPageId);
+            if(!empty($conversionCode)){
+                $trackingCode = $conversionCode[0]->getConversionCode();
+            }
+            unset($sessionHelper->formName);
+            unset($sessionHelper->formPageId);
+            
+        }
+        return $trackingCode;
+        
+    }
+    
 	public static function getWidgetMakerContent() {
 		$translator = Zend_Registry::get('Zend_Translate');
 		$view       = new Zend_View(array(

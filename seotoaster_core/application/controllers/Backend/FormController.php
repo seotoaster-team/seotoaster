@@ -27,15 +27,23 @@ class Backend_FormController extends Zend_Controller_Action {
 
     public function manageformAction() {
 		$formForm = new Application_Form_Form();
+        $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
 		if($this->getRequest()->isPost()) {
 			if($formForm->isValid($this->getRequest()->getParams())) {
-
+                $formPageConversionModel = new Application_Model_Models_FormPageConversion();
+                $formData = $this->getRequest()->getParams();
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
                 $contactEmail = $form->getContactEmail();
                 $validEmail = $this->validateEmail($contactEmail);
                 if(isset($validEmail['error'])){
                     $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml(array('contactEmail'=>$validEmail['error']), get_class($formForm)));
                 }
+                $trackingPageUrl = $this->_createTrackingPage($formData['name']);
+                $this->_addConversionCode($trackingPageUrl);
+                $formPageConversionModel->setFormName($formData['name']);
+                $formPageConversionModel->setPageId($formData['pageId']);
+                $formPageConversionModel->setConversionCode($formData['trackingCode']);
+                $formPageConversionMapper->save($formPageConversionModel);
                 Application_Model_Mappers_FormMapper::getInstance()->save($form);
                 $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
@@ -45,13 +53,21 @@ class Backend_FormController extends Zend_Controller_Action {
 			}
 		}
 		$formName      = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
+        $pageId          = $this->getRequest()->getParam('pageId');
+        $trackingPageUrl = $this->_createTrackingPage($formName);
 		$form          = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
 		$mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
+        $conversionCode = $formPageConversionMapper->getConversionCode($formName, $pageId);
+        if(!empty($conversionCode)){
+            $formForm->getElement('trackingCode')->setValue($conversionCode[0]->getConversionCode());
+        }
 		$formForm->getElement('name')->setValue($formName);
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		if($form !== null) {
 			$formForm->populate($form->toArray());
 		}
+        $this->view->trackingPageUrl = $trackingPageUrl;
+        $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
 	}
 
@@ -94,6 +110,7 @@ class Backend_FormController extends Zend_Controller_Action {
     public function receiveformAction(){
         if($this->getRequest()->isPost()) {
             $formParams    = $this->getRequest()->getParams();
+            $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
 			if(!empty ($formParams)) {
                 $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
                 $formMapper = Application_Model_Mappers_FormMapper::getInstance();
@@ -102,23 +119,38 @@ class Backend_FormController extends Zend_Controller_Action {
                 $useCaptcha = $form->getCaptcha();
                 
                 //validating recaptcha
-                if($useCaptcha == 1 && !empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != ''){
-                    if(isset($formParams['recaptcha_challenge_field']) && isset($formParams['recaptcha_response_field'])) {
-                        if($formParams['recaptcha_response_field'] == ''){
-                            $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                if($useCaptcha == 1){
+                    if(!empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' 
+                            && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != '' 
+                            && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha'])){
+                        
+                        if(isset($formParams['recaptcha_challenge_field']) && isset($formParams['recaptcha_response_field'])) {
+                            if($formParams['recaptcha_response_field'] == ''){
+                                $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                            }
+                            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
+                            $result = $recaptcha->verify($formParams['recaptcha_challenge_field'], $formParams['recaptcha_response_field']);
+                            if(!$result->isValid()){
+                                $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                            }
+                            unset($formParams['recaptcha_challenge_field']);
+                            unset($formParams['recaptcha_response_field']);
+                        }else{
+                            //validating captcha
+                            if(!$this->_validateCaptcha(strtolower($formParams['captcha']), $formParams['captchaId'])) {
+                                $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                            }
                         }
-                        $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
-                        $result = $recaptcha->verify($formParams['recaptcha_challenge_field'], $formParams['recaptcha_response_field']);
-                        if(!$result->isValid()){
-                            $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
-                        }
-                        unset($formParams['recaptcha_challenge_field']);
-                        unset($formParams['recaptcha_response_field']);
+                    }else{
+                        $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
                     }
+                                   
                 }
-				               
                 
-				//$mailer = Tools_Mail_Tools::initMailer();
+                $sessionHelper->formName   = $formParams['formName'];
+                $sessionHelper->formPageId = $formParams['formPageId'];
+				unset($formParams['formPageId']);               
+                //$mailer = Tools_Mail_Tools::initMailer();
 
 				// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
@@ -151,6 +183,45 @@ class Backend_FormController extends Zend_Controller_Action {
 		$captchaData = $captcha->getIterator();
 		return ($captchaData['word'] == $captchaInput);
 	}
-
+    
+    private function _createTrackingPage($formName = 'seotoaster'){
+        $trackingPageName   = 'form-'.$formName.'-thank-you-page';
+        $pageMapper         = Application_Model_Mappers_PageMapper::getInstance();
+        $pageModel          = new Application_Model_Models_Page();
+        $trackingPageExcist = $pageMapper->findByUrl($trackingPageName.'.html');
+        if(empty($trackingPageExcist)){
+            $pageModel->setParentId(-1);
+            $pageModel->setDraft(0);
+            $pageModel->setTemplateId('default');
+            $pageModel->setH1($trackingPageName);
+            $pageModel->setHeaderTitle($trackingPageName);
+            $pageModel->setMetaDescription($trackingPageName);
+            $pageModel->setNavName($trackingPageName);
+            $pageModel->setUrl($trackingPageName.'.html');
+            $pageModel->setSystem(1);
+            $pageMapper->save($pageModel);
+        }
+        return $trackingPageName.'.html';
+    }
+    
+    private function _addConversionCode($trackingPageUrl){
+        $pageMapper    = Application_Model_Mappers_PageMapper::getInstance();
+        $seoDataMapper = Application_Model_Mappers_SeodataMapper::getInstance();
+        $seoDataModel  = new Application_Model_Models_Seodata();
+        $trackingPageExcist = $pageMapper->findByUrl($trackingPageUrl);
+        $seoData = $seoDataMapper->fetchAll();
+        if(empty($seoData)){
+            $seoDataModel->setSeoTop('{$form:conversioncode}');
+            $seoDataMapper->save($seoDataModel);
+        }else{
+            $seoTopData = $seoData[0]->getSeoTop();
+            $id         = $seoData[0]->getId();
+            if(!preg_match('~\{\$form\:conversioncode\}~',$seoTopData)){
+                $seoDataModel->setId($id);
+                $seoDataModel->setSeoTop($seoTopData.' {$form:conversioncode}');
+                $seoDataMapper->save($seoDataModel);
+            }
+        }
+    }
 
 }

@@ -20,12 +20,13 @@
 		background: indianred;
 	}
 </style>
+<iframe frameborder="0" id="trackingPageIfrmame<?php echo $this->formId; ?>" name="trackingPageIfrmame<?php echo $this->formId;?>" src="" style="border:none;width:1px;height:1px;" marginheight="0" marginwidth="0"></iframe>
 <?php if($this->form): ?>
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
-		<?php if($this->useCaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
+		<?php if($this->useRecaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
            <div id="recaptcha_widget">
                <div id="recaptcha_image"></div>
                <div class="recaptcha_only_if_incorrect_sol" style="color:red"><?php echo $this->translate('Incorrect please try again');?></div>
@@ -41,15 +42,25 @@
             </div>
             <?php echo $this->recapthaCode;?>
         <?php endif; ?>
-        <?php if($this->useCaptcha && $this->recapthaCode && !$this->customRecaptcha): ?>
+        <?php if($this->useRecaptcha && $this->recapthaCode && !$this->customRecaptcha): ?>
             <?php echo $this->recapthaCode;?>
         <?php endif;?>
+        <?php if($this->useCaptcha):?>
+            <div class="captcha">
+                <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
+                <label><?php echo $this->translate('Please enter this code in the box below'); ?></label>
+                <input type="text" name="captcha" value="" />
+                <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
+           </div>
+        <?php endif; ?>
+        
+                <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
 		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
 <p class="form-controls">
-	<a class="tpopup" href="javascript:;" data-pwidth="454" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
+	<a class="tpopup" href="javascript:;" data-pwidth="454" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
 	<a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Get form code'); ?></a> |
 	<?php if($this->form): ?>
 		<a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
@@ -70,8 +81,9 @@
                 success  : function(response) {
                     hideSpinner();
                     if(response.error) {
-
+             
                     } else {
+                        $('#trackingPageIfrmame<?php echo $this->formId;?>').attr('src', '<?php echo $this->websiteUrl . $this->trackingConversionUrl;?>');
                         $(form).find(':input').each(function() {
                             switch(this.type) {
                                 case 'password':
@@ -87,9 +99,17 @@
                                 break;
                             }
                         });
-
+                        
                     }
-                    Recaptcha.reload();
+                    <?php if($this->useCaptcha):?>
+                            $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
+                                $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
+                                $('.captcha-id').val(response);
+                            }, 'json');
+                    <?php endif;?> 
+                    <?php if($this->useRecaptcha):?>
+                        Recaptcha.reload();
+                    <?php endif;?>
                     showMessage(response.responseText, response.error);
                 }
             })

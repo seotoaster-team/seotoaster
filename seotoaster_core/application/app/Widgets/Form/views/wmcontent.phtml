@@ -3,7 +3,7 @@
 	<?php echo $this->formText('formsNewname', '', array('id' => 'forms-newname', 'class' => 'nopad grid_6')); ?>
 	<?php echo $this->formLabel('forms-existing', $this->translate('Select a form'), array('class' => 'nopad grid_6')); ?>
 	<?php echo $this->formSelect('formsExisting', null, array('id' => 'forms-existing', 'class' => 'nopad grid_6')); ?>
-	<?php echo $this->formLabel('forms-captcha', $this->translate('Use captcha'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('forms-captcha', $this->translate('Use recaptcha'), array('class' => 'nopad grid_6')); ?>
 	<div class="nopad grid_6">
 		<?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
 	</div>
@@ -36,7 +36,7 @@
 				widgetHtml = '';
 			}
 			if(widgetHtml != '') {
-				widgetHtml += ($('#forms-captcha').prop('checked') ? ':captcha}' : '}');
+				widgetHtml += ($('#forms-captcha').prop('checked') ? ':recaptcha}' : '}');
 				$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, widgetHtml);
 			}
 		});

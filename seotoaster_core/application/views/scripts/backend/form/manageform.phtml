@@ -9,6 +9,9 @@
 				<?php echo $this->formForm->getElement('trackingCode')->renderLabel(); ?>
 				<?php echo $this->formForm->getElement('trackingCode')->renderViewHelper(); ?>
 			</div>
+            <div class="grid_12 alpha">
+                <span style="font-size: 11px; float:right;"><?php echo $this->websiteUrl.$this->trackingPageUrl;?></span>
+            </div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?></div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?></div>
             <div class="grid_12"><?php echo $this->formForm->getElement('replyFromName')->renderLabel(); ?></div>
@@ -33,7 +36,7 @@
                 <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
 			    <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
             </div>
-
+            <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />
 		<div class="grid_12 mt5px"><?php echo $this->formForm->getElement('submit')->renderViewHelper();?></div>
 		<?php echo $this->formForm->getElement('name')->renderViewHelper(); ?>
 		<?php echo $this->formForm->getElement('id')->renderViewHelper(); ?>

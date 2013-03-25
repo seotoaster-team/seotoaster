@@ -27,8 +27,6 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 
     protected $_replyText           = '';
 
-	protected $_trackingCode        = '';
-    
     protected $_captcha             = 0;
 
     public function getId() {
@@ -121,16 +119,7 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract {
 		return $this;
 	}
 
-	public function getTrackingCode() {
-		return $this->_trackingCode;
-	}
-
-	public function setTrackingCode($trackingCode) {
-		$this->_trackingCode = $trackingCode;
-		return $this;
-	}
-
-    public function setReplyText($replyText) {
+	public function setReplyText($replyText) {
         $this->_replyText = $replyText;
         return $this;
     }
