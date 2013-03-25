@@ -11,12 +11,13 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_User instance');
 		}
 		$data = array(
-			'role_id'    => $user->getRoleId(),
-			'password'   => md5($user->getPassword()),
-			'email'      => $user->getEmail(),
-			'full_name'  => $user->getFullName(),
-			'last_login' => $user->getLastLogin(),
-			'ipaddress'  => $user->getIpaddress()
+			'role_id'       => $user->getRoleId(),
+			'password'      => md5($user->getPassword()),
+			'email'         => $user->getEmail(),
+			'full_name'     => $user->getFullName(),
+			'last_login'    => $user->getLastLogin(),
+			'ipaddress'     => $user->getIpaddress(),
+            'gplus_profile' => $user->getGplusProfile()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);

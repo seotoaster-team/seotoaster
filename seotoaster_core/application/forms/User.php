@@ -18,10 +18,6 @@ class Application_Form_User extends Zend_Form {
 	protected $_id       = '';
 
 	public function init() {
-//		$this->setMethod(Zend_Form::METHOD_POST)
-//			 ->setAttrib('class', '_fajax')
-//			 ->setAttrib('data-callback', 'userCallback')
-//			 ->setAttrib('id', 'frm-user');
 
         $email = new Zend_Form_Element_Text(array(
             'id'         => 'e-mail',
@@ -76,14 +72,24 @@ class Application_Form_User extends Zend_Form {
 			'id'           => 'role-id',
 			'label'        => 'Role',
 			'value'        => $this->_roleId,
-//			'multiOptions' => array(
-//				Tools_Security_Acl::ROLE_MEMBER => ucfirst(Tools_Security_Acl::ROLE_MEMBER),
-//				Tools_Security_Acl::ROLE_USER   => ucfirst(Tools_Security_Acl::ROLE_USER),
-//				Tools_Security_Acl::ROLE_ADMIN  => ucfirst(Tools_Security_Acl::ROLE_ADMIN)
-//			),
 			'multiOptions' => array_combine($roles, array_map('ucfirst', $roles)),
-			'required' => true
+			'required'     => true
 		)));
+
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'name'  => 'gplusProfile',
+            'id'    => 'gplus-profile',
+            'label' => 'Google+ profile'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'roleId',
+            'id'           => 'role-id',
+            'label'        => 'Role',
+            'value'        => $this->_roleId,
+            'multiOptions' => array_combine($roles, array_map('ucfirst', $roles)),
+            'required'     => true
+        )));
 
 		$this->addElement(new Zend_Form_Element_Hidden(array(
 			'id'    => 'user-id',

@@ -2,21 +2,32 @@
 
 class Application_Model_Models_User extends Application_Model_Models_Abstract implements Zend_Acl_Role_Interface {
 
-	protected $_email     = '';
+    protected $_email        = '';
 
-	protected $_password  = '';
+	protected $_password     = '';
 
-	protected $_roleId    = '';
+	protected $_roleId       = '';
 
-	protected $_fullName  = '';
+	protected $_fullName     = '';
 
-	protected $_lastLogin  = null;
+	protected $_lastLogin    = null;
 
-	protected $_regDate   = '';
+	protected $_regDate      = '';
 
-	protected $_ipaddress = '';
+	protected $_ipaddress    = '';
 
-	protected $_referer;
+	protected $_referer      = '';
+
+    protected $_gplusProfile = '';
+
+    public function setGplusProfile($gplusProfile) {
+        $this->_gplusProfile = $gplusProfile;
+        return $this;
+    }
+
+    public function getGplusProfile() {
+        return $this->_gplusProfile;
+    }
 
 	public function getRoleId() {
 		return ($this->_roleId) ? $this->_roleId : Tools_Security_Acl::ROLE_GUEST;

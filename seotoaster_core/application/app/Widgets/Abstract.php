@@ -7,7 +7,12 @@
  */
 abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 
-	protected $_view           = null;
+    /**
+     * Instance of Zend_View
+     *
+     * @var Zend_View
+     */
+    protected $_view           = null;
 
 	protected $_options        = null;
 
@@ -23,7 +28,12 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 
 	protected $_cacheTags      = array();
 
-	protected $_translator     = null;
+    /**
+     * Instance of the Zend_Translate
+     *
+     * @var mixed|Zend_Translate
+     */
+    protected $_translator     = null;
 
 	public function  __construct($options = null, $toasterOptions = array()) {
 		$this->_options        = $options;

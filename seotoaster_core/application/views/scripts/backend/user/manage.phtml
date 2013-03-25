@@ -13,10 +13,15 @@
 				<?php echo $this->userForm->getElement('fullName'); ?>
 			</div>
 			<div class="grid_6">
-				<?php echo $this->userForm->getElement('password'); ?>
+                <div class="grid_6">
+				    <?php echo $this->userForm->getElement('password'); ?>
+                </div>
+                <div class="grid_6">
+                    <?php echo $this->userForm->getElement('roleId'); ?>
+                </div>
 			</div>
 			<div class="grid_6">
-				<?php echo $this->userForm->getElement('roleId'); ?>
+                <?php echo $this->userForm->getElement('gplusProfile'); ?>
 			</div>
 			<?php echo $this->userForm->getElement('saveUser'); ?>
 			<?php echo $this->userForm->getElement('id'); ?>
