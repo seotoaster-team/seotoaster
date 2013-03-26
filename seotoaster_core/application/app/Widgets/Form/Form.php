@@ -34,7 +34,10 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$useCaptcha   = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
         $useRecaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
         $formMapper   = Application_Model_Mappers_FormMapper::getInstance();
+        $pageMapper   = Application_Model_Mappers_PageMapper::getInstance(); 
         $form         = $formMapper->findByName($this->_options[0]);
+        $pageHelper = new Helpers_Action_Page();
+        $pageHelper->init();
                 
 		if($useCaptcha || $useRecaptcha) {
 			if($form != null){
@@ -55,8 +58,13 @@ class Widgets_Form_Form extends Widgets_Abstract {
                 $this->_view->captchaId = Tools_System_Tools::generateCaptcha();
             }
 		}
-        $this->_view->trackingConversionUrl = 'form-'.$this->_options[0].'-thank-you-page.html';
-		$this->_view->useRecaptcha      = $useRecaptcha;
+        $trackingConversionUrl = 'form-'.$this->_options[0].'-thank-you';
+        $trackingConversionUrl = $pageHelper->filterUrl($trackingConversionUrl);
+        $trackingPageExist = $pageMapper->findByUrl($trackingConversionUrl);
+        if($trackingPageExist instanceof Application_Model_Models_Page){
+            $this->_view->trackingConversionUrl = $trackingConversionUrl;
+        }
+     	$this->_view->useRecaptcha      = $useRecaptcha;
         $this->_view->useCaptcha        = $useCaptcha;
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);
 		$this->_view->allowMidification = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL);

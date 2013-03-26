@@ -1,4 +1,4 @@
-<div class="seotoaster container_12 w450 h570 rounded3px">
+<div class="seotoaster container_12 w450 h590 rounded3px">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties')); ?>
     <form class="_fajax _reload" data-norefresh="1" id="formWidget" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
 			<div class="grid_6">
@@ -10,7 +10,21 @@
 				<?php echo $this->formForm->getElement('trackingCode')->renderViewHelper(); ?>
 			</div>
             <div class="grid_12 alpha">
-                <span style="font-size: 11px; float:right;"><?php echo $this->websiteUrl.$this->trackingPageUrl;?></span>
+                <?php if(isset($this->trackingPageUrl)):?>
+                    <a style="font-size: 11px; float:right;" target="_blank" href="<?php echo $this->websiteUrl.$this->trackingPageUrl;?>"><?php echo $this->websiteUrl.$this->trackingPageUrl;?></a>
+                <?php else:?>
+                    <div class="grid_4">
+                        <span style="font-size: 11px; float:right; color:#cd5c5c; margin-top: 10px;">[<?php echo $this->translate('Create a success page');?>]</span>
+                    </div>
+                    <div class="grid_8">
+                        <select name="thankyouTemplate">
+                            <option value="select"><?php echo $this->translate('select template');?></option>
+                            <?php foreach($this->regularTemplates as $regularTemplate):?>
+                                <option value="<?php echo $regularTemplate->getName();?>"><?php echo $regularTemplate->getName();?></option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>    
+                <?php endif;?>
             </div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?></div>
 			<div class="grid_12"><?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?></div>

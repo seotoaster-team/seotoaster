@@ -6,6 +6,8 @@
  */
 class Backend_FormController extends Zend_Controller_Action {
 
+    const FORM_THANKYOU_PAGE = 'option_formthankyoupage';
+    
 	public static $_allowedActions = array(
 		'receiveform',
         'refreshcaptcha'
@@ -28,6 +30,7 @@ class Backend_FormController extends Zend_Controller_Action {
     public function manageformAction() {
 		$formForm = new Application_Form_Form();
         $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
 		if($this->getRequest()->isPost()) {
 			if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
@@ -38,8 +41,10 @@ class Backend_FormController extends Zend_Controller_Action {
                 if(isset($validEmail['error'])){
                     $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml(array('contactEmail'=>$validEmail['error']), get_class($formForm)));
                 }
-                $trackingPageUrl = $this->_createTrackingPage($formData['name']);
-                $this->_addConversionCode($trackingPageUrl);
+                if(isset($formData['thankyouTemplate']) && $formData['thankyouTemplate'] != 'select'){
+                    $trackingPageUrl = $this->_createTrackingPage($formData['name'], $formData['thankyouTemplate']);
+                }
+                $this->_addConversionCode();
                 $formPageConversionModel->setFormName($formData['name']);
                 $formPageConversionModel->setPageId($formData['pageId']);
                 $formPageConversionModel->setConversionCode($formData['trackingCode']);
@@ -52,11 +57,17 @@ class Backend_FormController extends Zend_Controller_Action {
 				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($formForm->getMessages(), get_class($formForm)));
 			}
 		}
-		$formName      = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
-        $pageId          = $this->getRequest()->getParam('pageId');
-        $trackingPageUrl = $this->_createTrackingPage($formName);
+		$formName           = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
+        $pageId             = $this->getRequest()->getParam('pageId');
+        $trackingPageName   = 'form-'.$formName.'-thank-you';
+        $trackingPageUrl    = $this->_helper->page->filterUrl($trackingPageName);
+        $trackingPageExist  = $pageMapper->findByUrl($trackingPageUrl);
+        if(!empty($trackingPageExist)){
+            $trackingPageResultUrl = $trackingPageUrl;
+        }
 		$form          = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
 		$mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
+        $regularPageTemplates = Application_Model_Mappers_TemplateMapper::getInstance()->findByType(Application_Model_Models_Template::TYPE_REGULAR);
         $conversionCode = $formPageConversionMapper->getConversionCode($formName, $pageId);
         if(!empty($conversionCode)){
             $formForm->getElement('trackingCode')->setValue($conversionCode[0]->getConversionCode());
@@ -66,7 +77,8 @@ class Backend_FormController extends Zend_Controller_Action {
 		if($form !== null) {
 			$formForm->populate($form->toArray());
 		}
-        $this->view->trackingPageUrl = $trackingPageUrl;
+        $this->view->trackingPageUrl = $trackingPageResultUrl;
+        $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
 	}
@@ -184,31 +196,31 @@ class Backend_FormController extends Zend_Controller_Action {
 		return ($captchaData['word'] == $captchaInput);
 	}
     
-    private function _createTrackingPage($formName = 'seotoaster'){
-        $trackingPageName   = 'form-'.$formName.'-thank-you-page';
+    private function _createTrackingPage($formName, $templateName){
+        $trackingPageName   = 'form-'.$formName.'-thank-you';
+        $trackingPageUrl   = $this->_helper->page->filterUrl($trackingPageName);
         $pageMapper         = Application_Model_Mappers_PageMapper::getInstance();
         $pageModel          = new Application_Model_Models_Page();
-        $trackingPageExcist = $pageMapper->findByUrl($trackingPageName.'.html');
-        if(empty($trackingPageExcist)){
+        $trackingPageExist = $pageMapper->findByUrl($trackingPageUrl);
+        if(empty($trackingPageExist)){
             $pageModel->setParentId(-1);
             $pageModel->setDraft(0);
-            $pageModel->setTemplateId('default');
+            $pageModel->setTemplateId($templateName);
             $pageModel->setH1($trackingPageName);
             $pageModel->setHeaderTitle($trackingPageName);
             $pageModel->setMetaDescription($trackingPageName);
             $pageModel->setNavName($trackingPageName);
-            $pageModel->setUrl($trackingPageName.'.html');
-            $pageModel->setSystem(1);
+            $pageModel->setUrl($trackingPageUrl);
+            $pageModel->setSystem(0);
             $pageMapper->save($pageModel);
         }
-        return $trackingPageName.'.html';
+        return $trackingPageUrl;
     }
     
-    private function _addConversionCode($trackingPageUrl){
+    private function _addConversionCode(){
         $pageMapper    = Application_Model_Mappers_PageMapper::getInstance();
         $seoDataMapper = Application_Model_Mappers_SeodataMapper::getInstance();
         $seoDataModel  = new Application_Model_Models_Seodata();
-        $trackingPageExcist = $pageMapper->findByUrl($trackingPageUrl);
         $seoData = $seoDataMapper->fetchAll();
         if(empty($seoData)){
             $seoDataModel->setSeoTop('{$form:conversioncode}');
