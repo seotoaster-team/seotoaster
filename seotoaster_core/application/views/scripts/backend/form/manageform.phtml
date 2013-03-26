@@ -13,10 +13,10 @@
                 <?php if(isset($this->trackingPageUrl)):?>
                     <a style="font-size: 11px; float:right;" target="_blank" href="<?php echo $this->websiteUrl.$this->trackingPageUrl;?>"><?php echo $this->websiteUrl.$this->trackingPageUrl;?></a>
                 <?php else:?>
-                    <div class="grid_4">
+                    <div class="grid_5">
                         <span style="font-size: 11px; float:right; color:#cd5c5c; margin-top: 10px;">[<?php echo $this->translate('Create a success page');?>]</span>
                     </div>
-                    <div class="grid_8">
+                    <div class="grid_7">
                         <select name="thankyouTemplate">
                             <option value="select"><?php echo $this->translate('select template');?></option>
                             <?php foreach($this->regularTemplates as $regularTemplate):?>
