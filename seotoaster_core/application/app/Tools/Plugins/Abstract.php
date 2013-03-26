@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 /**
  * Abstract plugin class. Contains all init parameters,
@@ -205,8 +205,8 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
                         $resource = new Zend_Acl_Resource(get_called_class().'-'.$action);
                         if (! $acl->has($resource)){
                             $acl->addResource($resource);
-                            $acl->allow($role, $resource);
                         }
+                        $acl->allow($role, $resource);
                     }
                 }
             }
