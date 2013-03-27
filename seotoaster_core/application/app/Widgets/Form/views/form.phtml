@@ -85,6 +85,7 @@
                     } else {
                         <?php if($this->trackingConversionUrl):?>
                             location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
+                            return false;
                         <?php endif;?>
                         $(form).find(':input').each(function() {
                             switch(this.type) {
