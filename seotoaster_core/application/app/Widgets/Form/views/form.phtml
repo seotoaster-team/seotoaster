@@ -20,7 +20,7 @@
 		background: indianred;
 	}
 </style>
-<iframe frameborder="0" id="trackingPageIfrmame<?php echo $this->formId; ?>" name="trackingPageIfrmame<?php echo $this->formId;?>" src="" style="border:none;width:1px;height:1px;" marginheight="0" marginwidth="0"></iframe>
+
 <?php if($this->form): ?>
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
@@ -60,7 +60,7 @@
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
 <p class="form-controls">
-	<a class="tpopup" href="javascript:;" data-pwidth="454" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
+	<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="594" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
 	<a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Get form code'); ?></a> |
 	<?php if($this->form): ?>
 		<a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
@@ -83,7 +83,10 @@
                     if(response.error) {
              
                     } else {
-                        $('#trackingPageIfrmame<?php echo $this->formId;?>').attr('src', '<?php echo $this->websiteUrl . $this->trackingConversionUrl;?>');
+                        <?php if($this->trackingConversionUrl):?>
+                            location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
+                            return false;
+                        <?php endif;?>
                         $(form).find(':input').each(function() {
                             switch(this.type) {
                                 case 'password':

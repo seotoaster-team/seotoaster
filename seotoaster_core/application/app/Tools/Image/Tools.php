@@ -55,7 +55,35 @@ class Tools_Image_Tools {
 			// if the original size less then it needs to resized at
 			// copying original file to destination and exiting
 			if ($destination){
-				copy($imageFile, $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($imageFile));
+				if(isset($sessionHelper->imageQuality)){
+                    $optimizedImageName = preg_replace('~\.[a-zA-Z]{3,4}~iu', '.jpg',Tools_Filesystem_Tools::basename($imageFile));
+                    switch ($mimeType) {
+                        case 'image/gif':
+                            $image = imagecreatefromgif($imageFile);
+                            imagejpeg($image, $destination.DIRECTORY_SEPARATOR.$optimizedImageName, $quality);
+                            imagedestroy($image);
+                            break;
+                        case 'image/jpg':
+                        case 'image/jpeg':
+                            $image = imagecreatefromjpeg($imageFile);
+                            imagejpeg($image, $destination.DIRECTORY_SEPARATOR.$optimizedImageName, $quality);
+                            imagedestroy($image);
+                            break;
+                        case 'image/png':
+                            $image = imagecreatefrompng($imageFile);
+                            $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+                            imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+                            imagealphablending($bg, true);
+                            imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+                            imagedestroy($image);
+                            imagejpeg($bg, $destination.DIRECTORY_SEPARATOR.$optimizedImageName, 90);
+                            imageDestroy($bg);
+                            break;
+                    }
+                }else{
+                    copy($imageFile, $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($imageFile));
+                }
+                //
 			}
 			return true;
 		}
