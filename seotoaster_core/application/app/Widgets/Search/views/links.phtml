@@ -1,13 +1,13 @@
 <?php if(isset($this->prepopLinks) && !empty($this->prepopLinks)):?>
-    <?php foreach($this->prepopLinks as $link):?>
-        <ul class="prepoplinks"> 
+    <ul class="prepoplinks"> 
+        <?php foreach($this->prepopLinks as $link):?>
             <li>
                 <a href="javascript:;" class="prepop-link" id="prepop-link-<?php echo $this->prepopName;?>" title="<?php echo $link;?>">
                     <?php echo $link;?>       
                 </a>
             </li>
-        </ul>
-    <?php endforeach;?>
+        <?php endforeach;?>
+    </ul>
     
 <?php endif; ?>
 
