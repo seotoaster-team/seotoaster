@@ -11,6 +11,7 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 		$this->_type    = Application_Model_Models_Container::TYPE_CODE;
 		parent::_init();
 		$this->_cacheId = $this->_name . $this->_pageId;
+        $this->_cacheable = false;
 	}
 
 	protected function _load() {
