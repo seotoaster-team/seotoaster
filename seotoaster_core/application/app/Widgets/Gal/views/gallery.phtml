@@ -2,7 +2,7 @@
 	<ul class="img_gallery">
 		<?php foreach ($this->images as $image): ?>
 			<?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
-			<li class="gallery_image">
+			<li class="gallery_image" style="width: <?php echo $size[0]; ?>">
 				<a class="gall" href="<?php echo $this->original . $image['name']; ?>" rel="<?php echo $this->folder; ?>" title="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>">
 					<img src="<?php echo $image['path']; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>" width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>" />
 				</a>
