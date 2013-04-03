@@ -226,11 +226,15 @@ class Backend_FormController extends Zend_Controller_Action {
             $seoDataModel->setSeoTop('{$form:conversioncode}');
             $seoDataMapper->save($seoDataModel);
         }else{
-            $seoTopData = $seoData[0]->getSeoTop();
-            $id         = $seoData[0]->getId();
+            $seoTopData    = $seoData[0]->getSeoTop();
+            $seoHeadData   = $seoData[0]->getSeoHead();
+            $seoBottomData = $seoData[0]->getSeoBottom();
+            $id          = $seoData[0]->getId();
             if(!preg_match('~\{\$form\:conversioncode\}~',$seoTopData)){
                 $seoDataModel->setId($id);
                 $seoDataModel->setSeoTop($seoTopData.' {$form:conversioncode}');
+                $seoDataModel->setSeoHead($seoHeadData);
+                $seoDataModel->setSeoBottom($seoBottomData);
                 $seoDataMapper->save($seoDataModel);
             }
         }
