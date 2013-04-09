@@ -14,6 +14,38 @@
 			</li>
 		<?php endforeach; ?>
 	</ul>
+    <?php if ($this->totalResults >= $this->limit): ?>
+        <input type="hidden" name="searchLimit" id="searchLimit" value="<?php echo $this->limit;?>"/>
+        <input type="hidden" name="searchUseImage" id="searchUseImage" value="<?php echo $this->useImage;?>"/>
+        <a href="javascript:;" class="search-show-more"><?php echo $this->translate('show more'); ?></a>
+    <?php endif; ?>
 <?php else: ?>
 	<?php echo $this->hits; ?>
 <?php endif; ?>
+
+<script>
+    $('.search-show-more').on('click', function(e){
+        e.preventDefault();
+        showSpinner();
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->websiteUrl;?>backend/search/showmoreresults/',
+            dataType: "json",
+            data: {
+                searchLimit:$('#searchLimit').val(),
+                searchUseImage:$('#searchUseImage').val()
+            },
+            success: function(response){
+                hideSpinner();
+                if(response.error == 0){
+                   $('.search-results').append(response.responseText.searchResultsData);
+                   if(response.responseText.moreResults == 0){
+                       $('.search-show-more').replaceWith('<span><?php echo $this->translate('No more results found'); ?></span>');
+                   }
+                }else{
+                   $('.search-show-more').replaceWith('<span><?php echo $this->translate('No more results found'); ?></span>');
+                }
+            }
+        });
+    });
+</script>

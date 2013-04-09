@@ -133,4 +133,30 @@ class SearchController extends Zend_Controller_Action {
         }
         echo json_encode(array('redirect'=>$this->_helper->website->getUrl() . $redirectPage));
     }
+
+    public function showmoreresultsAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $searchLimit      = $this->_request->getParam('searchLimit');
+        $searchUseImage   = $this->_request->getParam('searchUseImage');
+        if(isset($this->_helper->session->totalHitsData)){
+            $totalHits = $this->_helper->session->totalHitsData;
+            $moreResults = 0;
+            if(count($totalHits) >= $searchLimit){
+                $hitsData = array_splice($totalHits, $searchLimit);
+                $this->_helper->session->totalHitsData = $hitsData;
+                $moreResults = 1;
+            }else{
+                unset($this->_helper->session->totalHitsData);
+            }
+            $this->view->useImage = $searchUseImage;
+            $this->view->hits = $totalHits;
+            $view = $this->view->render('backend/search/results.phtml');
+            $this->_helper->response->success(array('searchResultsData'=>$view, 'moreResults'=>$moreResults));
+        }else{
+            $this->_helper->response->fail();
+        }
     }
+
+
+}
