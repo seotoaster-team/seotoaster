@@ -1,0 +1,15 @@
+<?php if(is_array($this->hits) && !empty($this->hits)): ?>
+	<?php foreach($this->hits as $hit): ?>
+		<li class="search-result-row">
+			<?php if($this->useImage): ?>
+				<a class="page-teaser-image" href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>">
+					<img src="<?php echo $this->escape(!empty($hit['preview']) ? $hit['preview'] : Tools_Page_Tools::getPreview($hit)); ?>" alt="<?php echo $hit['h1']; ?>" />
+				</a>
+			<?php endif; ?>
+			<a href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>" class="page-title"><?php echo $hit['navName']; ?></a>
+			<span>
+				<?php echo $hit['pageTeaser']; ?>
+			</span>
+		</li>
+	<?php endforeach; ?>
+<?php endif; ?>

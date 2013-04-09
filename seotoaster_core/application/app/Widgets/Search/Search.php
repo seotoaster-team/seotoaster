@@ -7,8 +7,9 @@
  */
 class Widgets_Search_Search extends Widgets_Abstract {
 
-	const INDEX_FOLDER       = 'search';
-    const PAGE_OPTION_SEARCH = 'option_search';
+	const INDEX_FOLDER        = 'search';
+    const PAGE_OPTION_SEARCH  = 'option_search';
+    const SEARCH_LIMIT_RESULT = 20;
 
 	private $_websiteHelper = null;
 
@@ -64,9 +65,17 @@ class Widgets_Search_Search extends Widgets_Abstract {
 	}
 
 	private function _renderSearchResults() {
-		$sessionHelper             = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-		$this->_view->useImage     = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
-        $this->_view->hits         = $sessionHelper->searchHits;
+		$sessionHelper                = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+		$totalHits                    = $sessionHelper->searchHits;
+        $limit                        = isset($this->_options[1]) ? $this->_options[1] : self::SEARCH_LIMIT_RESULT;
+        if(is_array($totalHits) && count($totalHits) > $limit){
+            $hitsData = array_splice($totalHits, $limit);
+            $sessionHelper->totalHitsData = $hitsData;
+        }
+        $this->_view->useImage        = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
+        $this->_view->totalResults    = count($totalHits);
+        $this->_view->hits            = $totalHits;
+        $this->_view->limit           = $limit;
         $sessionHelper->searchHits = null;
 		return $this->_view->render('results.phtml');
 	}

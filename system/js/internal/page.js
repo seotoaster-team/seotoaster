@@ -53,7 +53,7 @@ $(function() {
         var optCheck  = $(this);
         var optimized = optCheck.attr('checked') ? 1 : 0;
         if(!optimized) {
-            showConfirm('Are you sure? After you save the page all optimization will be lost!', function() {
+            showConfirm('Are you sure? You will lose experts optimization once you save your changes !', function() {
                 toggleOptimized(optimized);
             }, function() {
                 optCheck.attr('checked', true);
