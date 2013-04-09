@@ -129,31 +129,6 @@ CREATE TABLE IF NOT EXISTS `link_container` (
   KEY `indLink` (`link`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `news` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `text` text COLLATE utf8_unicode_ci NOT NULL,
-  `archived` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
-  `featured` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
-  `page_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `indFeatured` (`featured`),
-  KEY `page_id` (`page_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `news_category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `indName` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `news_rel_category` (
-  `news_id` int(10) unsigned NOT NULL,
-  `category_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`news_id`,`category_id`),
-  KEY `category_id` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `observers_queue` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `observable` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Observable Class Name',

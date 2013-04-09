@@ -1,6 +1,6 @@
 <?php
 /**
- * Themes.php
+ * Seotoaster themes API
  *
  * @author Eugene I. Nezhuta <theneiam@gmail.com>
  * Date: 12/4/12
@@ -30,20 +30,32 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     protected $_translator         = null;
 
+    /**
+     * Queries to execute during the full theme download.
+     *
+     * Data will be dumped for the 'page', 'container', 'featured_area', 'page_option', 'page_fa', 'page_has_option' tables
+     * @var array
+     */
     protected $_fullThemesSqlMap   = array(
-        'page'          => 'SELECT * FROM `page`;',
-        'container'     => 'SELECT * FROM `container`;',
-        'featured_area' => 'SELECT * FROM `featured_area`;',
-        'page_fa'       => 'SELECT * FROM `page_fa`;'
+        'page'            => 'SELECT * FROM `page`;',
+        'container'       => 'SELECT * FROM `container`;',
+        'featured_area'   => 'SELECT * FROM `featured_area`;',
+        'page_fa'         => 'SELECT * FROM `page_fa`;',
+        'page_option'     => 'SELECT * FROM `page_option`;',
+        'page_has_option' => 'SELECT * FROM `page_has_option`;'
     );
 
+    /**
+     * API access list.
+     *
+     * Allows full access for the superadmin and admin
+     * Allows download and upload for the user role
+     * @var array
+     */
     protected $_accessList         = array(
-        Tools_Security_Acl::ROLE_SUPERADMIN => array(
-            'allow' => array('get', 'post', 'put', 'delete')
-        ),
-        Tools_Security_Acl::ROLE_USER => array(
-            'allow' => array('get', 'put')
-        )
+        Tools_Security_Acl::ROLE_SUPERADMIN => array('allow' => array('get', 'post', 'put', 'delete')),
+        Tools_Security_Acl::ROLE_ADMIN      => array('allow' => array('get', 'post', 'put', 'delete')),
+        Tools_Security_Acl::ROLE_USER       => array('allow' => array('get', 'put'))
     );
 
     public function init() {
@@ -57,6 +69,19 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
     /**
      * Get a list of themes or start theme download
      *
+     * Supported params:
+     * 1. name - Theme name. Tells API that this is an attempt to download a theme
+     *     E.g. http://seotoaster.dev/api/toaster/themes/name/ecommerce
+     * 2. kind [full|light] - Type of theme to download. Requires name param
+     *     E.g. http://seotoaster.dev/api/toaster/themes/name/ecommerce/kind/full
+     * 3. sql [1|0] - Tells API to include or not sql dump to the full theme. Requires name and kind=full
+     *     E.g. http://seotoaster.dev/api/toaster/themes/name/ecommerce/kind/full/sql/0
+     * 4. media [1|0] - Tells API to include or not media directory to the full theme. Requires name and kind=full
+     *     E.g. http://seotoaster.dev/api/toaster/themes/name/ecommerce/kind/full/media/0
+     * 5. teasers [1|0] - Tells API to include or not previews directory to the full theme. Requires name and kind=full
+     *     E.g. http://seotoaster.dev/api/toaster/themes/name/ecommerce/kind/full/teasers/0
+     * Full example
+     *     http://seotoaster.dev/api/toaster/themes/name/ecommerce/kind/full/sql/0/media/1/teasers/1
      * @return array
      */
     public function getAction() {
@@ -64,14 +89,16 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
         // if parameter 'name' specified in the query, we assume user is trying to download a theme
         if($this->_request->has('name')) {
-            $themeName    = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
-            $themePath    = $themesPath . $themeName;
+            $themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
+            $themePath = $themesPath . $themeName;
 
-            $isFull       = $this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL;
+            // check if full theme requested - perform necessary actions
+            $isFull    = $this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL;
             if($isFull) {
                 $this->_saveFullThemeData($themeName);
             }
 
+            // create a proper archive
             $themeArchive = Tools_System_Tools::zip($themePath, $themeName, ((!$isFull) ? array(
                 $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR,
                 $themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE,
@@ -80,6 +107,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
                 $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR
             )));
 
+            // sending file for the download
             $this->_response->clearAllHeaders()->clearBody();
             $this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
                 ->setHeader('Content-Type', 'application/zip', true)
@@ -95,8 +123,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         // themes list request
         $themesList = array();
         $themesDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($themesPath);
+
+        // there are no themes in the theme directory
         if(empty($themesDirs)) {
-            $this->_error('Aw! No themes found!', self::REST_STATUS_NOT_FOUND);
+            $this->_error($this->_translator->translate('Aw! No themes found!'), self::REST_STATUS_NOT_FOUND);
         }
         foreach ($themesDirs as $themeName) {
             $files         = Tools_Filesystem_Tools::scanDirectory($themesPath . $themeName, false, false);
@@ -112,7 +142,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             ));
         }
         if(empty($themesList)) {
-            $this->_error('Aw! No themes found!', self::REST_STATUS_NOT_FOUND);
+            $this->_error($this->_translator->translate('Aw! Looks like none of your themes are valid!'), self::REST_STATUS_NOT_FOUND);
         }
         return $themesList;
     }
@@ -290,6 +320,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         return (!empty($errors)) ? $errors : true;
     }
 
+    /**
+     *
+     * @param string $themeName
+     */
     protected function _saveFullThemeData($themeName = '') {
         if(!$themeName) {
             $themeName = $this->_configHelper->getConfig('currentTheme');
