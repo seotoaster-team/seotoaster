@@ -334,13 +334,6 @@ ALTER TABLE `email_triggers_actions`
 ALTER TABLE `link_container`
   ADD CONSTRAINT `FK_link_container` FOREIGN KEY (`id_container`) REFERENCES `container` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `news`
-  ADD CONSTRAINT `news_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `news_rel_category`
-  ADD CONSTRAINT `news_rel_category_ibfk_1` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `news_rel_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `news_category` (`id`);
-
 ALTER TABLE `optimized`
   ADD CONSTRAINT `optimized_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE;
 
