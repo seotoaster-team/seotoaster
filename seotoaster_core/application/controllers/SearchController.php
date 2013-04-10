@@ -48,7 +48,8 @@ class SearchController extends Zend_Controller_Action {
             }
 
 			$toasterSearchIndex = Zend_Search_Lucene::open($searchIndexDirPath);
-           
+            $toasterSearchIndex->setResultSetLimit(256);
+
             try{
                 $searchHits         = $toasterSearchIndex->find($searchTerm);
             }catch(Exception $e){
