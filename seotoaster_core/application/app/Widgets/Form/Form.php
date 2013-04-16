@@ -30,7 +30,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if(strtolower($this->_options[0]) == 'conversioncode'){
             return $this->_conversionCode($this->_options);
         }
-                 
+
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
+
 		$useCaptcha   = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
         $useRecaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
         $formMapper   = Application_Model_Mappers_FormMapper::getInstance();
@@ -38,7 +40,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $form         = $formMapper->findByName($this->_options[0]);
         $pageHelper = new Helpers_Action_Page();
         $pageHelper->init();
-                
+
 		if($useCaptcha || $useRecaptcha) {
 			if($form != null){
                 $form->setCaptcha(1);
@@ -58,6 +60,14 @@ class Widgets_Form_Form extends Widgets_Abstract {
                 $this->_view->captchaId = Tools_System_Tools::generateCaptcha();
             }
 		}
+        if(isset($sessionHelper->toasterFormError)){
+            $this->_view->toasterFormError = $sessionHelper->toasterFormError;
+            unset($sessionHelper->toasterFormError);
+        }
+        if(isset($sessionHelper->toasterFormSuccess)){
+            $this->_view->toasterFormSuccess = $sessionHelper->toasterFormSuccess;
+            unset($sessionHelper->toasterFormSuccess);
+        }
         $trackingConversionUrl = 'form-'.$this->_options[0].'-thank-you';
         $trackingConversionUrl = $pageHelper->filterUrl($trackingConversionUrl);
         $trackingPageExist = $pageMapper->findByUrl($trackingConversionUrl);

@@ -274,9 +274,17 @@ class Tools_Mail_Mailer {
 		//@TODO finish this method
 	}
 
-	public function addAttachment(Zend_Mime_Part $attachment) {
-		$this->_mailer->addAttachment($attachment);
-	}
+	public function addAttachment($attachment) {
+        if(($attachment instanceof Zend_Mime_Part)){
+            $this->_mailer->addAttachment($attachment);
+        }elseif(is_array($attachment) && !empty($attachment)){
+            foreach($attachment as $attach){
+                if(($attach instanceof Zend_Mime_Part)){
+                    $this->_mailer->addAttachment($attach);
+                }
+            }
+        }
+    }
     
     public function getBodyType() {
 		return $this->_bodyType;

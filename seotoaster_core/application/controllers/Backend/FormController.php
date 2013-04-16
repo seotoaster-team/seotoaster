@@ -7,7 +7,8 @@
 class Backend_FormController extends Zend_Controller_Action {
 
     const FORM_THANKYOU_PAGE = 'option_formthankyoupage';
-    
+    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt';
+
 	public static $_allowedActions = array(
 		'receiveform',
         'refreshcaptcha'
@@ -121,6 +122,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
     public function receiveformAction(){
         if($this->getRequest()->isPost()) {
+            $xmlHttpRequest = $this->_request->isXmlHttpRequest();
             $formParams    = $this->getRequest()->getParams();
             $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
 			if(!empty ($formParams)) {
@@ -138,48 +140,128 @@ class Backend_FormController extends Zend_Controller_Action {
                         
                         if(isset($formParams['recaptcha_challenge_field']) && isset($formParams['recaptcha_response_field'])) {
                             if($formParams['recaptcha_response_field'] == ''){
-                                $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                                if($xmlHttpRequest){
+                                    $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                                }
+                                $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
+                                $this->_redirect($formParams['formUrl']);
                             }
                             $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
                             $result = $recaptcha->verify($formParams['recaptcha_challenge_field'], $formParams['recaptcha_response_field']);
                             if(!$result->isValid()){
-                                $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                                if($xmlHttpRequest){
+                                    $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                                }
+                                $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
+                                $this->_redirect($formParams['formUrl']);
                             }
                             unset($formParams['recaptcha_challenge_field']);
                             unset($formParams['recaptcha_response_field']);
                         }else{
                             //validating captcha
                             if(!$this->_validateCaptcha(strtolower($formParams['captcha']), $formParams['captchaId'])) {
-                                $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                                if($xmlHttpRequest){
+                                    $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                                }
+                                $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
+                                $this->_redirect($formParams['formUrl']);
                             }
                         }
                     }else{
-                        $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                        if($xmlHttpRequest){
+                            $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
+                        }
+                        $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
+                        $this->_redirect($formParams['formUrl']);
                     }
                                    
                 }
-                
                 $sessionHelper->formName   = $formParams['formName'];
                 $sessionHelper->formPageId = $formParams['formPageId'];
-				unset($formParams['formPageId']);               
-                //$mailer = Tools_Mail_Tools::initMailer();
+				unset($formParams['formPageId']);
+                unset($formParams['submit']);
+                if(isset($formParams['conversionPageUrl'])){
+                    $conversionPageUrl = $formParams['conversionPageUrl'];
+                    unset($formParams['conversionPageUrl']);
+                }
 
-				// sending mails
+                $attachment = array();
+                if(!$xmlHttpRequest){
+                    //Adding attachments to email
+                    $websitePathTemp = $this->_helper->website->getPath().$this->_helper->website->getTmp();
+                    $uploader = new Zend_File_Transfer_Adapter_Http();
+                    $uploader->setDestination($websitePathTemp);
+                    $uploader->addValidator('Extension', false, self::ATTACHMENTS_FILE_TYPES);
+                    //Adding Size limitation
+                    $uploader->addValidator('Size', false, 10485760); //limit to 10MB
+                    //Adding mime types validation
+                    $uploader->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
+                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel'));
+                    $files = $uploader->getFileInfo();
+                    foreach($files as $file => $fileInfo) {
+                        if($fileInfo['name'] != ''){
+                            if($uploader->isValid($file)) {
+                                $uploader->receive($file);
+                                $at              = new Zend_Mime_Part(file_get_contents($uploader->getFileName($file)));
+                                $at->type        = $uploader->getMimeType($file);
+                                $at->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
+                                $at->encoding    = Zend_Mime::ENCODING_BASE64;
+                                $at->filename    = $fileInfo['name'];
+                                $attachment[]    = $at;
+                                unset($at);
+                                Tools_Filesystem_Tools::deleteFile($this->_helper->website->getPath().$this->_helper->website->getTmp().$fileInfo['name']);
+                            }else{
+                                $validationErrors = $uploader->getErrors();
+                                $errorMessage = '';
+                                foreach($validationErrors as $errorType){
+                                    if($errorType == 'fileMimeTypeFalse'){
+                                        $errorMessage .= 'Invalid file format type. ';
+                                    }
+                                    if($errorType == 'fileSizeTooBig'){
+                                        $errorMessage .= 'Maximum size upload 10mb. ';
+                                    }
+                                    if($errorType == 'fileExtensionFalse'){
+                                        $errorMessage .= 'File extension not valid. ';
+                                    }
+                                }
+                                $sessionHelper->toasterFormError = $this->_helper->language->translate($errorMessage);
+                                $this->_redirect($formParams['formUrl']);
+                            }
+                        }
+                    }
+
+                }
+
+               	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
-                    'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
-                    'data'     => $formParams
+                    'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
+                    'data'       => $formParams,
+                    'attachment' => $attachment
                 ));
                 $mailWatchdog = new Tools_Mail_Watchdog(array(
                     'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
-                    'data'     => $formParams
+                    'data'     => $formParams,
+                    'attachment' => $attachment
                 ));
                 $mailWatchdog->notify($form);
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
                     $form->notifyObservers();
-                    $this->_helper->response->success($form->getMessageSuccess());
+                    if($xmlHttpRequest){
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+                    //redirect to conversion page
+                    if($conversionPageUrl){
+                        $this->_redirect($conversionPageUrl);
+                    }
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->_redirect($formParams['formUrl']);
                 }
-                $this->_helper->response->fail($form->getMessageError());
+                if($xmlHttpRequest){
+                    $this->_helper->response->fail($form->getMessageError());
+                }
+                $sessionHelper->toasterFormError = $form->getMessageError();
+                $this->_redirect($formParams['formUrl']);
 			}
         }
     }
@@ -198,6 +280,7 @@ class Backend_FormController extends Zend_Controller_Action {
     
     private function _createTrackingPage($formName, $templateName){
         $trackingPageName   = 'form-'.$formName.'-thank-you';
+        $trackingName = 'Form '.$formName.' Thank you';
         $trackingPageUrl   = $this->_helper->page->filterUrl($trackingPageName);
         $pageMapper         = Application_Model_Mappers_PageMapper::getInstance();
         $pageModel          = new Application_Model_Models_Page();
@@ -206,10 +289,10 @@ class Backend_FormController extends Zend_Controller_Action {
             $pageModel->setParentId(-1);
             $pageModel->setDraft(0);
             $pageModel->setTemplateId($templateName);
-            $pageModel->setH1($trackingPageName);
-            $pageModel->setHeaderTitle($trackingPageName);
-            $pageModel->setMetaDescription($trackingPageName);
-            $pageModel->setNavName($trackingPageName);
+            $pageModel->setH1($trackingName);
+            $pageModel->setHeaderTitle($trackingName);
+            $pageModel->setMetaDescription($trackingName);
+            $pageModel->setNavName($trackingName);
             $pageModel->setUrl($trackingPageUrl);
             $pageModel->setSystem(0);
             $pageMapper->save($pageModel);

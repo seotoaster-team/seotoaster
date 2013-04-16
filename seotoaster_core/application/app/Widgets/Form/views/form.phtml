@@ -1,3 +1,4 @@
+<?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
 <style>
 	.success, .error {
 		cursor: pointer;
@@ -55,7 +56,10 @@
         <?php endif; ?>
         
                 <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
-		<input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+                <?php if($this->trackingConversionUrl):?>
+                    <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
+                <?php endif;?>
+		        <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
 	</form>
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
@@ -67,55 +71,71 @@
 	<?php endif; ?>
 </p>
 <?php endif; ?>
+
+
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
+        if($(form).find('input[type="file"]').length>0){
+            $('#<?php echo $this->formId; ?>').sisyphus( {timeout: 1, excludeFields: $('#<?php echo $this->formId; ?> input[type="hidden"], #recaptcha_response_field')});
+        }
+        <?php if(isset($this->toasterFormSuccess)):?>
+            showMessage('<?php echo addslashes($this->toasterFormSuccess);?>');
+            form[0].reset();
+        <?php endif;?>
+        <?php if(isset($this->toasterFormError)):?>
+            showMessage('<?php echo addslashes($this->toasterFormError);?>', true);
+        <?php endif;?>
         $(document).on('submit', '#<?php echo $this->formId; ?>', function(e) {
-            e.preventDefault();
-            $.ajax({
-                url      : form.attr('action'),
-                type     : 'post',
-                data     : form.serialize(),
-                beforeSend: showSpinner,
-                dataType :'json',
-                success  : function(response) {
-                    hideSpinner();
-                    if(response.error) {
-             
-                    } else {
-                        <?php if($this->trackingConversionUrl):?>
-                            location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
-                            return false;
+            if($(form).find('input[type="file"]').length>0){
+                return true;
+            }else{
+                e.preventDefault();
+                $.ajax({
+                    url      : form.attr('action'),
+                    type     : 'post',
+                    data     : form.serialize(),
+                    beforeSend: showSpinner,
+                    dataType :'json',
+                    success  : function(response) {
+                        hideSpinner();
+                        if(response.error) {
+
+                        } else {
+                            <?php if($this->trackingConversionUrl):?>
+                                location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
+                                return false;
+                            <?php endif;?>
+                            $(form).find(':input').each(function() {
+                                switch(this.type) {
+                                    case 'password':
+                                    case 'select-multiple':
+                                    case 'select-one':
+                                    case 'text':
+                                    case 'textarea':
+                                        $(this).val('');
+                                    break;
+                                    case 'checkbox':
+                                    case 'radio':
+                                        this.checked = false;
+                                    break;
+                                }
+                            });
+
+                        }
+                        <?php if($this->useCaptcha):?>
+                                $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
+                                    $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
+                                    $('.captcha-id').val(response);
+                                }, 'json');
                         <?php endif;?>
-                        $(form).find(':input').each(function() {
-                            switch(this.type) {
-                                case 'password':
-                                case 'select-multiple':
-                                case 'select-one':
-                                case 'text':
-                                case 'textarea':
-                                    $(this).val('');
-                                break;
-                                case 'checkbox':
-                                case 'radio':
-                                    this.checked = false;
-                                break;
-                            }
-                        });
-                        
+                        <?php if($this->useRecaptcha):?>
+                            Recaptcha.reload();
+                        <?php endif;?>
+                        showMessage(response.responseText, response.error);
                     }
-                    <?php if($this->useCaptcha):?>
-                            $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
-                                $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
-                                $('.captcha-id').val(response);
-                            }, 'json');
-                    <?php endif;?> 
-                    <?php if($this->useRecaptcha):?>
-                        Recaptcha.reload();
-                    <?php endif;?>
-                    showMessage(response.responseText, response.error);
-                }
-            })
+                })
+            }
         });
 
     });
