@@ -24,7 +24,7 @@ $(document).ready(function(){
         entity_encoding : "raw",
 		paste_auto_cleanup_on_paste : true,
 		paste_remove_styles: true,
-		content_css: websiteUrl + '/themes/' + $('#current_theme').val() + '/content.css',
+		content_css: websiteUrl + 'themes/' + $('#current_theme').val() + '/content.css',
 		disk_cache : true,
 		debug : false,
 		external_link_list_url: websiteUrl + 'backend/backend_page/linkslist/',

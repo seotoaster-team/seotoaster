@@ -25,9 +25,9 @@ $(function() {
 				top.location.reload();
 			},
 			error: function(response) {
-				showMessage(response.responseText(), true);
+				showMessage(response.responseText, true);
 			}
-		})
+		});
 		return false;
 	});
 
