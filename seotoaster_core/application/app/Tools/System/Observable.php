@@ -10,7 +10,13 @@ abstract class Tools_System_Observable implements Interfaces_Observable {
 	}
 
 	public function removeObserver($observer) {
-		unset($this->_observers[array_search($observer, $this->_observers)]);
+        if(!is_array($this->_observers) || empty($this->_observers)) {
+            return $this;
+        }
+        $this->_observers = array_filter($this->_observers, function($currentObserver) use($observer) {
+            return !$currentObserver instanceof $observer;
+        });
+
 		return $this;
 	}
 
