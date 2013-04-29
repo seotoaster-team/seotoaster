@@ -11,7 +11,7 @@ previews/crop/*
 seotoaster_core/application/configs/**/*
 !*/index.html
 themes/**/*
-seotoaster_core/application/configs/application.ini
+seotoaster_core/application/configs/application.*
 seotoaster_core/application/configs/routes.xml
 .htaccess
 error.log
@@ -28,3 +28,4 @@ tmp/*
 !tmp/.gitignore
 .idea/*
 products.xml
+feeds/*
