@@ -36,13 +36,11 @@ class Tools_Filesystem_Tools {
 				if($recursively) {
 					if(is_dir($path . $file)) {
 						unset($foundFiles[array_search($file, $foundFiles)]);
-						//$foundFiles = array_merge($foundFiles, self::scanDirectory($path . '/' . $file, $incFilePath));
 						$files = array_merge($files, self::scanDirectory($path . $file, $incFilePath));
 						continue;
 					}
 				}
 				if($incFilePath) {
-					//$foundFiles[$key] = $path . '/' . $file;
 					array_push($files, $path . $file);
 				} else {
 					array_push($files, $file);
