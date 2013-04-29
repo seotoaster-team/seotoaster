@@ -4,17 +4,19 @@
     <!-- download link -->
     <a class="lnk-download" href="javascript:;" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
     <div class="download-options">
-        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Light</a>
+        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Get theme</a>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
-        <br/><br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Full</a>
-        <?php endif; ?>
+	    <% if(isCurrent) { %>
+	    <br/><br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Get website</a>
+	    <% } %>
+	    <?php endif; ?>
     </div>
 
 
     <% if(isCurrent) { %>
         <a href="javascript:;" class="lnk-current"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
     <% } else { %>
-        <a style="display: none;" href="javascript:;" class="lnk-delete" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
+        <a href="javascript:;" class="lnk-delete" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
     <% } %>
     <div class="theme-preview-img">
         <img src="<%= preview %>" class="preview" alt="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" title="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" />
@@ -68,17 +70,22 @@
 
 <style type="text/css">
     .paddtop5 {padding: 5px 0;}
-    div.themebox {position: relative;}
-    div.hovered {
+    div.themebox {
+	    position: relative;
+	    -webkit-transition: all 400ms ease;
+        -moz-transition: all 400ms ease;
+        -ms-transition: all 400ms ease;
+        -o-transition: all 400ms ease;
+        transition: all 400ms ease;
+    }
+    div.themebox:hover {
         box-shadow: 0 0 15px indianRed !important;
         -moz-box-shadow: 0 0 15px indianRed !important;
         -webkit-box-shadow: 0 0 15px indianRed !important;
     }
-    div.theme-preview-img {padding: 5px 0;}
-    a.apply-theme {text-decoration: dashed;}
-    button.apply-button {
-        display: none;
-        position: absolute;
+
+    div.themebox div.theme-preview-img {padding: 5px 0;}
+    div.themebox button.apply-button {
         top: 75px;
         left: 40px;
         background: #939393;
@@ -107,9 +114,22 @@
         padding: 5px 20px;
         overflow: visible;
     }
-    a.lnk-download, a.lnk-delete, a.lnk-current {
-        display: none;
+    div.themebox a.lnk-download,
+    div.themebox a.lnk-delete,
+    div.themebox a.lnk-current,
+    div.themebox button.apply-button {
         position: absolute;
+        display: block;
+        opacity: 0;
+        -webkit-transition: opacity 400ms ease;
+        -moz-transition: opacity 400ms ease;
+        -ms-transition: opacity 400ms ease;
+        -o-transition: opacity 400ms ease;
+        transition: opacity 400ms ease;
+    }
+    div.themebox a.lnk-download,
+    div.themebox a.lnk-delete,
+    div.themebox a.lnk-current {
         background: white;
         border-radius: 3px;
         -webkit-border-radius: 3px;
@@ -117,22 +137,36 @@
         padding: 5px;
         z-index: 99;
     }
-    a.lnk-download {left: 0;}
-    a.lnk-current {display: inline;}
-    a.lnk-current, a.lnk-delete {right: 0;}
-    div.download-options {
+    div.themebox:hover a.lnk-download,
+    div.themebox:hover a.lnk-delete,
+    div.themebox:hover .apply-button {
+	    opacity: 1;
+    }
+    div.themebox a.lnk-download {
+	    left: 0;
+    }
+    div.themebox a.lnk-current {
+	    display: inline;
+	    opacity: 1;
+    }
+    div.themebox a.lnk-current,
+    div.themebox a.lnk-delete {
+	    right: 0;
+    }
+    div.themebox div.download-options {
         display: none;
         position: absolute;
         color: #468847;
-        /*background-color: #DFF0D8;*/
         background: #fafafa;
-        /*border: 1px solid #D6E9C6;*/
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-        padding: 10px;
-        /*border-radius: 4px;*/
+        padding: 5px;
         box-shadow: 0 0 5px #ccc;
         text-align: left;
         z-index: 100;
+    }
+    div.themebox div.download-options:hover,
+    div.themebox a.lnk-download:hover + div.download-options {
+	    display: block;
     }
 </style>
 

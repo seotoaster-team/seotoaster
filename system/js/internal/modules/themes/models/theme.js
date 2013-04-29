@@ -7,9 +7,10 @@ define([
         urlRoot: function() {
             return $('#website_url').val() + 'api/toaster/themes/name/'
         },
-        initialize: function() {
-            this.set({id: this.get('name')});
-        }
+//        initialize: function() {
+//            this.set({id: this.get('name')});
+//        }
+        idAttribute: "name"
     });
 
     return ThemeModel;

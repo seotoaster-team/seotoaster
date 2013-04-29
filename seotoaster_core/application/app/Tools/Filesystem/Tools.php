@@ -163,7 +163,7 @@ class Tools_Filesystem_Tools {
 		}
 	}
 
-    public static function copy($source, $dest, $exclude = array()) {
+    public static function copy($source, $dest, $exclude = array(), $move = false) {
         $source = rtrim($source, DIRECTORY_SEPARATOR);
         $dest   = rtrim($dest, DIRECTORY_SEPARATOR);
         if(!file_exists($source)) {
@@ -179,12 +179,12 @@ class Tools_Filesystem_Tools {
                     if(in_array($file, $exclude)) {
                         continue;
                     }
-                    self::copy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file, $exclude);
+                    self::copy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file, $exclude, $move);
                 }
             }
 
         } else {
-            copy($source, $dest);
+	        return $move ? rename($source, $dest) : copy($source, $dest);
         }
         return true;
     }

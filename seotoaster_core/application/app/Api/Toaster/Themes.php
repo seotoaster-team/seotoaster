@@ -10,6 +10,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     const THEME_SQL_FILE           = 'theme.sql';
 
+	const THEME_DATA_FILE          = 'theme.json';
+
     const THEME_MEDIA_DIR          = 'media';
 
     const THEME_PAGE_TEASERS_DIR   = 'previews';
@@ -18,7 +20,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     const THEME_KIND_FULL          = 'full';
 
-    protected $_websiteHelper      = null;
+    const THEME_FULL_MAX_PAGES     = 10;
+
+	protected $_websiteHelper      = null;
 
     protected $_themesConfig       = array();
 
@@ -37,12 +41,12 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
      * @var array
      */
     protected $_fullThemesSqlMap   = array(
-        'page'            => 'SELECT * FROM `page`;',
-        'container'       => 'SELECT * FROM `container`;',
+//        'page'            => 'SELECT * FROM `page`',
+        'container'       => 'SELECT * FROM `container` WHERE page_id IN (?) ;',
         'featured_area'   => 'SELECT * FROM `featured_area`;',
-        'page_fa'         => 'SELECT * FROM `page_fa`;',
+        'page_fa'         => 'SELECT * FROM `page_fa` WHERE page_id IN (?) ;',
         'page_option'     => 'SELECT * FROM `page_option`;',
-        'page_has_option' => 'SELECT * FROM `page_has_option`;'
+        'page_has_option' => 'SELECT * FROM `page_has_option` WHERE page_id IN (?) ;'
     );
 
     /**
@@ -94,31 +98,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
             // check if full theme requested - perform necessary actions
             $isFull    = $this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL;
-            if($isFull) {
-                $this->_saveFullThemeData($themeName);
-            }
 
-            // create a proper archive
-            $themeArchive = Tools_System_Tools::zip($themePath, $themeName, ((!$isFull) ? array(
-                $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR,
-                $themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE,
-                $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR
-            ) : array(
-                $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR
-            )));
-
-            // sending file for the download
-            $this->_response->clearAllHeaders()->clearBody();
-            $this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
-                ->setHeader('Content-Type', 'application/zip', true)
-                ->setHeader('Content-Transfer-Encoding', 'binary', true)
-                ->setHeader('Expires', date(DATE_RFC1123), true)
-                ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-                ->setHeader('Pragma', 'public', true)
-                ->setHeader('Content-Length', filesize($themeArchive), true)
-                ->setBody(file_get_contents($themeArchive))
-                ->sendResponse();
-            exit;
+	        // exporting theme
+	        $this->_exportTheme($themeName, $isFull);
         }
         // themes list request
         $themesList = array();
@@ -135,10 +117,14 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
                 continue;
             }
             $previews = preg_grep('/^preview\.(png|jpg|gif)$/i', $files);
+	        $hasData = file_exists($themesPath.$themeName.DIRECTORY_SEPARATOR.self::THEME_DATA_FILE) ||
+			        is_dir($themesPath.$themeName.DIRECTORY_SEPARATOR.'media/') ||
+			        is_dir($themesPath.$themeName.DIRECTORY_SEPARATOR.'previews/');
             array_push($themesList, array(
                 'name'      => $themeName,
                 'preview'   => !empty ($previews) ? $this->_websiteHelper->getUrl() . $this->_themesConfig['path'] . $themeName . '/' . reset($previews) : $this->_websiteHelper->getUrl() . 'system/images/noimage.png',
-                'isCurrent' => ($this->_configHelper->getConfig('currentTheme') == $themeName)
+                'isCurrent' => ($this->_configHelper->getConfig('currentTheme') == $themeName),
+	            'hasData'   => $hasData
             ));
         }
         if(empty($themesList)) {
@@ -152,30 +138,47 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
      *
      */
     public function putAction() {
-        //backup current theme
-        $this->_saveFullThemeData();
+        //backup current theme TURNED OFF FOR NOW
+//        $this->_exportTheme();
 
         $themeName        = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
+	    $data             = Zend_Json::decode($this->_request->getRawBody());
         $themePath        = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
-        if(is_dir($themePath)) {
-            //save templates in the database with proper type from theme.ini + proccess theme.sql + import media folder
+        if (is_dir($themePath)) {
+            // save templates in the database with proper type from theme.ini
             $this->_applyTemplates($themeName);
-            if(file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE)) {
-                $this->_applySql($themeName);
+
+	        // proccess theme.sql + import media folder
+            if(isset($data['applyData']) && $data['applyData'] === true){
+	            // @todo backup current theme
+
+	            if (file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_DATA_FILE)) {
+                    $this->_applySql($themeName);
+	            }
+
+                //applying media content
+	            $themeMediaPath       = $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR;
+	            $themePageTeasersPath = $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR;
+
+	            if (is_dir($themeMediaPath)){
+		            Tools_Filesystem_Tools::copy($themeMediaPath, $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia());
+		            //@todo Process images with Tools_Image_Tools::batchResize
+	            }
+	            if (is_dir($themePageTeasersPath)){
+		            //processing preview images if any
+		            Tools_Filesystem_Tools::copy($themePageTeasersPath, $this->_websiteHelper->getPath() . $this->_websiteHelper->getPreview());
+	            }
             }
 
-            //applying media content
-            $themeMediaPath       = $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR;
-            $themePageTeasersPath = $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR;
-            $this->_applyMedia(array(
-                $themeMediaPath       => $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia(),
-                $themePageTeasersPath => $this->_websiteHelper->getPath() . $this->_websiteHelper->getPreview()
-            ));
             $this->_cacheHelper->clean(false, false);
         }
     }
 
-    public function deleteAction() {
+	/**
+	 * Delete theme
+	 * @return bool
+	 */
+	public function deleteAction() {
         $themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
         if($this->_configHelper->getConfig('currentTheme') == $themeName) {
             $this->_error('Current theme cannot be removed!', self::REST_STATUS_FORBIDDEN);
@@ -184,7 +187,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
     }
 
 
-    private function _applyTemplates($themeName) {
+    private function _applyTemplates($themeName, $remove = false) {
         $themePath   = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
         $themeFiles  = Tools_Filesystem_Tools::findFilesByExtension($themePath, '(html|htm)', true, true, false);
         $themeConfig = false;
@@ -245,38 +248,54 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     private function _applySql($themeName) {
         try {
-            $themeSql = Tools_Filesystem_Tools::getFile($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . '/' . self::THEME_SQL_FILE);
+//            $themeSql = Tools_Filesystem_Tools::getFile($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . '/' . self::THEME_SQL_FILE);
+	        $dataJson = new Zend_Config_Json($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . '/' . self::THEME_DATA_FILE);
         } catch(Exception $e) {
             error_log($e->getMessage());
             return false;
         }
-        if(!strlen($themeSql)) {
-            return false;
-        }
-        $queries = Tools_System_SqlSplitter::split($themeSql);
-        if(!is_array($queries) || empty($queries)) {
-            return false;
-        }
-        $dbAdapter = Zend_Registry::get('dbAdapter');
-        try {
+//        if(!strlen($themeSql)) {
+//            return false;
+//        }
+//        $queries = Tools_System_SqlSplitter::split($themeSql);
+//        if(!is_array($queries) || empty($queries)) {
+//            return false;
+//        }
 
+	    try {
+		    /**
+		     * @var $dbAdapter Zend_Db_Adapter_Abstract
+		     */
+		    $dbAdapter = Zend_Registry::get('dbAdapter');
+	        $dbAdapter->beginTransaction();
             $dbAdapter->query('SET foreign_key_checks = 0;');
 
             // cleaning needed tables before apply a full theme
-            array_walk(array_keys($this->_fullThemesSqlMap), function($table) use($dbAdapter) {
-                $dbAdapter->query('DELETE FROM `' .$table. '`;');
-            });
+//            array_walk(array_keys($this->_fullThemesSqlMap), function($table) use($dbAdapter) {
+//                $dbAdapter->query('DELETE FROM `' .$table. '`;');
+//            });
 
+	        $themeData = $dataJson->toArray();
             //clean optimize table
-            $dbAdapter->query('DELETE FROM `optimized`;');
+	        if (array_key_exists('page', $themeData)){
+                $dbAdapter->query('DELETE FROM `optimized`;');
+	        }
 
-            array_walk($queries, function($query) use ($dbAdapter) {
-                if(strlen(trim($query))) {
-                    $dbAdapter->query($query);
-                }
-            });
+	        if (!empty($themeData)) {
+		        foreach ($themeData as $table => $data) {
+			        if (empty($data)){
+				        continue;
+			        } else {
+				        $dbAdapter->delete($table);
+			        }
+			        foreach ($data as $row){
+				        $dbAdapter->insert($table, $row);
+			        }
+		        }
+	        }
 
             $dbAdapter->query('SET foreign_key_checks = 1;');
+		    $dbAdapter->commit();
         }
         catch (Exception $e) {
             error_log($e->getMessage());
@@ -286,20 +305,59 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     public function postAction() {}
 
-    protected function _exportSql($themeName) {
+    protected function _exportData($themeName) {
         $themePath   = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
-        $sql         = '';
-        array_walk($this->_fullThemesSqlMap, function($query, $table) use(&$sql) {
-            $sql .= Tools_Theme_Tools::dump($table, $query);
-        });
-        try {
-            Tools_Filesystem_Tools::saveFile($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE, $sql);
-        } catch (Exceptions_SeotoasterException $se) {
-            error_log($se->getMessage());
-        }
+
+        // init empty array for export data
+	    $data         = array();
+
+	    /**
+	     * @var $dbAdapter Zend_Db_Adapter_Abstract
+	     */
+	    $dbAdapter = Zend_Registry::get('dbAdapter');
+
+	    // fetching index page and main menu pages
+	    $pagesSqlWhere = "SELECT * FROM `page` WHERE system = '0' AND draft = '0' AND (
+		url = 'index.html'
+		OR (parent_id = '0' AND show_in_menu = '1') OR (parent_id = '-1' AND show_in_menu = '2')
+	    OR (parent_id = '0' OR parent_id IN (SELECT DISTINCT `page`.`id` FROM `page` WHERE (parent_id = '0') AND (system = '0') AND (show_in_menu = '1')) )
+	    OR id IN ( SELECT DISTINCT `page`.`id` FROM `page_has_option` )
+	    )
+	    ORDER BY `order` ASC";
+
+	    $pages  = $dbAdapter->fetchAll($pagesSqlWhere);
+	    // @todo: inject from plugins here ???
+
+	    // getting list of pages ids for export
+	    $pagesIDs = array_map(function($page){
+		    return $page['id'];
+	    }, $pages);
+
+	    // dumping pages first
+	    $data['page'] = $pages;
+
+	    foreach ($this->_fullThemesSqlMap as $table => $query){
+		    $data[$table] = $dbAdapter->fetchAll($dbAdapter->quoteInto($query, $pagesIDs));
+	    }
+
+	    // @todo: add plugin hooks to export content
+
+//	    $sql = array();
+//	    array_walk($data, function($data, $table) use (&$sql) {
+//		    $sql[] = Tools_Theme_Tools::dump($table, $data);
+//	    });
+//	    $sql = implode(PHP_EOL, array_filter($sql));
+
+	    try {
+//		    Tools_Filesystem_Tools::saveFile($themePath . DIRECTORY_SEPARATOR . self::THEME_SQL_FILE, $sql);
+	    } catch (Exceptions_SeotoasterException $se) {
+		    error_log($se->getMessage());
+	    }
+
+	    return $data;
     }
 
-    protected function _applyMedia($pathesMap, $createSource = false) {
+    protected function _applyMedia($pathesMap, $createSource = false, $move = false) {
         if(!is_array($pathesMap) || empty($pathesMap)) {
             return;
         }
@@ -320,22 +378,103 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         return (!empty($errors)) ? $errors : true;
     }
 
-    /**
-     *
-     * @param string $themeName
-     */
-    protected function _saveFullThemeData($themeName = '') {
+	/**
+	 * Method exports zipped theme
+	 * @param string $themeName Theme name
+	 * @param bool   $full      Set true to dump data and media files
+	 */
+	protected function _exportTheme($themeName = '', $full = false) {
         if(!$themeName) {
             $themeName = $this->_configHelper->getConfig('currentTheme');
         }
-        $themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
+        $themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName .DIRECTORY_SEPARATOR;
 
-        $this->_applyMedia(array(
-            $this->_websiteHelper->getPath() . $this->_websiteHelper->getPreview() => $themePath . DIRECTORY_SEPARATOR . self::THEME_PAGE_TEASERS_DIR,
-            $this->_websiteHelper->getPath() . $this->_websiteHelper->getMedia()   => $themePath . DIRECTORY_SEPARATOR . self::THEME_MEDIA_DIR
-        ), true);
+		if ($full) {
+	        //exporting sql for the full theme
+			$data = $this->_exportData($themeName);
 
-        //exporting sql for the full theme
-        $this->_exportSql($themeName);
+			if (!empty($data)){
+				$exportData = new Zend_Config($data);
+				$themeDataFile = new Zend_Config_Writer_Json(array(
+					'config'    => $exportData,
+					'filename'  => $themePath . self::THEME_DATA_FILE
+				));
+				$themeDataFile->write();
+			}
+
+			// exporting media files
+			$mediaFiles = $this->_exportMedia($data['page'], $data['container']);
+		}
+
+		if ($themeName === $this->_configHelper->getConfig('currentTheme')) {
+			// saving template types into theme.ini. @see Tools_Template_Tools::THEME_CONFIGURATION_FILE
+			$themeIniConfig = new Zend_Config(array(), true);
+			foreach (Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll() as $template) {
+				$themeIniConfig->{$template->getName()} = $template->getType();
+			}
+			if (!empty($themeIniConfig)){
+				try {
+					$iniWriter = new Zend_Config_Writer_Ini(array(
+						'config' => $themeIniConfig,
+						'filename'   => $themePath . Tools_Template_Tools::THEME_CONFIGURATION_FILE
+					));
+					$iniWriter->write();
+				} catch (Exception $e) {
+					error_log($e->getMessage());
+				}
+			}
+			unset($themeIniConfig, $iniWriter);
+		}
+
+		$excludeFiles = array();
+		if (!$full) {
+			array_push($excludeFiles, 'theme.sql');
+			array_push($excludeFiles, self::THEME_DATA_FILE);
+		}
+
+		$themeArchive = Tools_Theme_Tools::zip($themeName, (isset($mediaFiles) ? $mediaFiles : false), $excludeFiles);
+
+//		$body = file_get_contents($themeArchive);
+
+//		if ($body){
+//			Tools_Filesystem_Tools::deleteFile($themeArchive);
+//		}
+
+		$this->_response->clearAllHeaders();//->clearBody();
+        $this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
+            ->setHeader('Content-Type', 'application/zip', true)
+            ->setHeader('Content-Transfer-Encoding', 'binary', true)
+            ->setHeader('Expires', date(DATE_RFC1123), true)
+            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+            ->setHeader('Pragma', 'public', true)
+            ->setBody(file_get_contents($themeArchive))
+            ->sendResponse();
+        exit;
     }
+
+	protected function _exportMedia($pages, $containers = false) {
+		if (empty($pages)){
+			throw new Exceptions_SeotoasterException('Given empty pages to export media procedure');
+		}
+		$media = array();
+
+		$previewFolder = $this->_websiteHelper->getPreview();
+
+		$pagePreviews = array_filter(array_map(function($page) use ($previewFolder) {
+			return !empty($page['preview_image']) ? $previewFolder . $page['preview_image'] : false ;
+		}, $pages));
+
+		$contentImages = array();
+		if ($containers) {
+			foreach ($containers as $container) {
+				preg_match_all('~src="(media[^">]+)"~iu', $container['content'], $matches);
+				if (!empty($matches[1])){
+					$contentImages = array_merge($contentImages, $matches[1]);
+				}
+				unset($matches, $container);
+			}
+		}
+
+		return array_merge($pagePreviews, $contentImages);
+	}
 }

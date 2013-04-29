@@ -148,7 +148,7 @@ class Tools_Content_Parser {
 					$this->_content = $magicSpace->run();
 				}
 				catch (Exception $e) {
-					error_log($e->getMessage());
+					Tools_System_Tools::debugMode() && error_log($e->getMessage());
 					continue;
 				}
 			}

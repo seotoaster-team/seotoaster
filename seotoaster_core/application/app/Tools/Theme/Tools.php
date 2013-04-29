@@ -8,9 +8,17 @@
  */
 class Tools_Theme_Tools {
 
+	public static $requiredFiles = array(
+		'index.html',
+		'default.html',
+		'category.html',
+		'style.css',
+		'content.css'
+	);
+
     public static function dump($table, $query) {
         $dbAdapter = Zend_Registry::get('dbAdapter');
-        $result    = $dbAdapter->fetchAll($query);
+        $result    = is_string($query) ? $dbAdapter->fetchAll($query) : $query;
         $sqlDump   = '';
         if(is_array($result)) {
             $length = sizeof($result);
@@ -28,4 +36,65 @@ class Tools_Theme_Tools {
         return $sqlDump;
     }
 
+	public static function zip($themeName, $addFiles = false, $exclude = null) {
+		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+		$themesConfig = Zend_Registry::get('theme');
+		$useMBStrings = extension_loaded('mbstring');
+		if ($useMBStrings){
+			mb_internal_encoding('UTF-8');
+		}
+
+		$zip = new ZipArchive();
+		$destinationFile = $websiteHelper->getPath() . $websiteHelper->getTmp() . $themeName . '.zip';
+
+		$themePath = $websiteHelper->getPath() . $themesConfig['path'] .$themeName;
+
+		if (true === ($zip->open($destinationFile, ZIPARCHIVE::CREATE))) {
+			$themeFiles = Tools_Filesystem_Tools::scanDirectory($themePath, true, true);
+
+			foreach($themeFiles as $file){
+				if (is_array($exclude) && in_array(Tools_Filesystem_Tools::basename($file), $exclude)){
+					continue;
+				}
+				if ($useMBStrings){
+					$localName = mb_substr($file, mb_strpos($file, $themeName)+mb_strlen($themeName));
+				} else {
+					$localName = substr($file, strpos($file, $themeName)+strlen($themeName));
+				}
+				$localName = trim($localName, DIRECTORY_SEPARATOR);
+				$zip->addFile($file, $localName);
+				unset($localName);
+			}
+
+			if (!empty($addFiles)){
+				foreach ($addFiles as $file) {
+					$file = urldecode($file);
+					$filePath = $websiteHelper->getPath() . $file;
+					if (!file_exists($filePath)) {
+						continue;
+					} elseif (is_array($exclude) && in_array(Tools_Filesystem_Tools::basename($file), $exclude)){
+						continue;
+					}
+					$isMedia = ($useMBStrings ? mb_strpos($file,  'media/') : strpos($file, 'media/')) === 0;
+					if ($isMedia){
+						$file = explode(DIRECTORY_SEPARATOR, $file);
+						$file[2] = 'original';
+						$file = implode(DIRECTORY_SEPARATOR, $file);
+						$zip->addFile($websiteHelper->getPath().$file, $file);
+					} else {
+						// assume that this is a preview file
+						$zip->addFile($filePath, $file);
+					}
+
+					unset($filePath);
+				}
+			}
+
+			$zip->close();
+			return $destinationFile;
+		} else {
+			throw new Exceptions_SeotoasterException('Unable to write '.$destinationFile);
+		}
+	}
 }

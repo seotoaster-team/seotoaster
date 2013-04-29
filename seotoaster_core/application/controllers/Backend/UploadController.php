@@ -21,6 +21,11 @@ class Backend_UploadController extends Zend_Controller_Action {
 	 */
 	private $_checkMime = true;
 
+	/**
+	 * @var Zend_Translate
+	 */
+	protected $_translator;
+
 	const PREVIEW_IMAGE_OPTIMIZE = '85';
 
 
@@ -31,6 +36,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		}
 		$this->_websiteConfig = Zend_Registry::get('website');
 		$this->_themeConfig = Zend_Registry::get('theme');
+		$this->_translator      = Zend_Registry::get('Zend_Translate');
 
 		$this->_caller = $this->getRequest()->getParam('caller');
 		$this->_uploadHandler = new Zend_File_Transfer_Adapter_Http();
@@ -87,7 +93,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		$themeArchive = $this->_uploadHandler->getFileInfo();
 
 		if (!$this->_uploadHandler->isValid()) {
-			return 'error';
+			return array('name' => $themeArchive['file']['name'], 'error' => 'Uploaded file is not a valid zip archive');
 		}
 		if (!extension_loaded('zip')) {
 			throw new Exceptions_SeotoasterException('No zip extension loaded');
@@ -99,28 +105,40 @@ class Backend_UploadController extends Zend_Controller_Action {
 		if ($res !== true) {
 			return array('name' => $themeArchive['file']['name'], 'error' => 'Can\'t open zip file');
 		}
-		$unzipped = $zip->extractTo($tmpFolder);
-		if ($unzipped !== true) {
-			return array('name' => $themeArchive['file']['name'], 'error' => 'Can\'t extract zip file to tmp directory');
+		$zipStat = array();
+		for ($i = 0; $i < $zip->numFiles; $i++){
+			$zipStat[] = $zip->statIndex($i);
 		}
+
+		$zipContent = array_map(function($file){ return $file['name']; }, $zipStat);
+		unset($zipStat);
+
 		$themeName = str_replace('.zip', '', $themeArchive['file']['name']);
-		$isValid = $this->_validateTheme($themeName);
-		if (true === $isValid) {
-			$destinationDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'];
-			if (is_dir($destinationDir . $themeName)) {
-				Tools_Filesystem_Tools::deleteDir($destinationDir . $themeName);
-			}
-			$zip->extractTo($destinationDir);
-			$zip->close();
-			Tools_Filesystem_Tools::deleteDir($tmpFolder . '/' . $themeName);
-			if (file_exists($tmpFolder . '/' . $themeName . '.zip')) {
-				Tools_Filesystem_Tools::deleteFile($tmpFolder . '/' . $themeName . '.zip');
+		$destinationDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'].$themeName;
+
+		$isValid = $this->_validateTheme($zipContent);
+		if (empty($isValid)){
+			try {
+				if (is_dir($destinationDir)) {
+					Tools_Filesystem_Tools::deleteDir($destinationDir);
+				}
+				$unzipped = $zip->extractTo($destinationDir);
+				if ($unzipped !== true) {
+					$status = array('name' => $themeArchive['file']['name'], 'error' => 'Can\'t extract zip file to tmp directory');
+				}
+			} catch (Exception $e){
+				error_log($e->getMessage());
 			}
 		} else {
-			$zip->close();
-			return array('name' => $themeArchive['file']['name'], 'error' => $isValid);
+			$status = array('name' => $themeArchive['file']['name'], 'error' => $isValid);
 		}
-		return array(
+
+		$zip->close();
+		if (file_exists($tmpFolder . '/' . $themeName . '.zip')) {
+			Tools_Filesystem_Tools::deleteFile($tmpFolder . '/' . $themeName . '.zip');
+		}
+
+		return isset($status) ? $status : array(
 			'error'     => false,
 			'name'      => $themeArchive['file']['name'],
 			'type'      => $themeArchive['file']['type'],
@@ -134,51 +152,20 @@ class Backend_UploadController extends Zend_Controller_Action {
 	 * @param type $themeFolder
 	 * @return mixed true if valid array with error description if not valid
 	 */
-	private function _validateTheme($themename) {
-		//$tmpPath = $this->_uploadHandler->getDestination();
-		$tmpPath = $this->_websiteConfig['path'] . $this->_websiteConfig['tmp'];
-		$themeFolder = realpath($tmpPath . '/' . $themename);
-		if ($themeFolder === false) {
-			return 'Theme directory don\'t match the archive name.';
-		}
-		if (!is_dir($themeFolder)) {
-			return 'Can not create folder for unpack zip file. 0peration not permitted.';
+	private function _validateTheme($themeContent) {
+		$errors = array();
+
+		if (!is_array($themeContent) || empty($themeContent)) {
+			array_push($errors, $this->view->translate('Your theme directory is empty.'));
 		}
 
-		$listFiles = Tools_Filesystem_Tools::scanDirectory($themeFolder);
-		if (empty($listFiles)) {
-			return 'Your theme directory is empty.';
+		foreach (Tools_Theme_Tools::$requiredFiles as $file) {
+			if (!in_array($file, $themeContent)){
+				array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
+			}
 		}
 
-		if (!preg_match("/^[\w-]{1,255}$/ui", $themename)) {
-			return 'Theme name is invalid. Only letters, digits and dashes allowed.';
-		}
-
-		if (!in_array('style.css', $listFiles)) {
-			return 'File "style.css" doesn\'t exists.';
-		}
-
-		if (!file_exists($themeFolder . '/index.html')) {
-			return 'File "index.html" doesn\'t exists.';
-		}
-
-		if (!file_exists($themeFolder . '/category.html')) {
-			return 'File "category.html" doesn\'t exists.';
-		}
-
-		if (!file_exists($themeFolder . '/default.html')) {
-			return 'File "default.html" doesn\'t exists.';
-		}
-
-		if (!file_exists($themeFolder . '/news.html')) {
-			return 'File "news.html" doesn\'t exists.';
-		}
-
-		if (!is_dir($themeFolder . '/images/')) {
-			return 'Directory "images" doesn\'t exists.';
-		}
-
-		return true;
+		return $errors;
 	}
 
 	/**
