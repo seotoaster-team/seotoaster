@@ -227,6 +227,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             if(is_array($themeConfig) && !empty($themeConfig)) {
                 if(array_key_exists($templateName, $themeConfig)) {
                     $template->setType($themeConfig[$templateName]);
+                } elseif (preg_match('~^mobile'.DIRECTORY_SEPARATOR.'~', $templateFile)){
+	                $template->setType(Application_Model_Models_Template::TYPE_MOBILE);
                 }
             }
 
@@ -239,7 +241,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
             // saving template to db
             $mapper->save($template);
-            unset($template);
+            unset($template, $templateName);
         }
 
         //updating config table

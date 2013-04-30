@@ -28,7 +28,7 @@ class Application_Form_Template extends Zend_Form {
 			'filters'  => array('StringTrim'),
 			'class'	   => array('templatename'),
 			'decorators' => array('ViewHelper', 'Label'),
-			'validators' => array(array('stringLength', false, array(3, 45)), new Zend_Validate_Alnum(true))
+			'validators' => array(array('stringLength', false, array(3, 45)), new Zend_Validate_Regex(array('pattern' => '/^[\s\w-_]*$/u')))
 		));
 
 		$this->addElement('textarea', 'content', array(

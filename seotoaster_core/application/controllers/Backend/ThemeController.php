@@ -95,7 +95,17 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				}
 				// saving to file in theme folder
 				$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
-				$filepath = $currentThemePath.'/'.$templateData['name'].'.html';
+				$filepath = $currentThemePath.DIRECTORY_SEPARATOR;
+				if ($template->getType() === 'typemobile' && preg_match('~^mobile_~', $template->getName())){
+					if (!is_dir($filepath.DIRECTORY_SEPARATOR.'mobile')){
+						Tools_Filesystem_Tools::mkDir($filepath.DIRECTORY_SEPARATOR.'mobile');
+					}
+					$filepath .= preg_replace('~^mobile_~','mobile'.DIRECTORY_SEPARATOR, $template->getName());
+				} else {
+					$filepath .= $templateData['name'].'.html';
+				}
+				$filepath .= '.html';
+
 				try {
 					if ($filepath) {
 						Tools_Filesystem_Tools::saveFile($filepath, $templateData['content']);
