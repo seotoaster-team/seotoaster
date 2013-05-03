@@ -49,7 +49,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 */
 	protected $_fullThemesSqlMap = array(
 //        'page'            => 'SELECT * FROM `page`',
-		'container'       => 'SELECT * FROM `container` WHERE page_id IN (0, ?) ;',
+		'container'       => 'SELECT * FROM `container` WHERE page_id IS NULL OR page_id IN (?) ;',
 		'featured_area'   => 'SELECT * FROM `featured_area`;',
 		'page_fa'         => 'SELECT * FROM `page_fa` WHERE page_id IN (?) ;',
 		'page_option'     => 'SELECT * FROM `page_option`;',
