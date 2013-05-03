@@ -197,7 +197,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $this->_mailer->addAttachment($this->_options['attachment']);
         }
         $this->_mailer->setBody($mailBody);
-        $this->_mailer->setSubject($this->_translator->translate('New form submited'))
+        $this->_mailer->setSubject($this->_translator->translate('New ' . $form->getName() . ' form submited'))
             ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
             ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
         return $this->_mailer->send();
