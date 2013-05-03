@@ -322,11 +322,23 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
 		$pages = $dbAdapter->fetchAll($pagesSqlWhere);
 
-		// @todo: inject from plugins here
-		$pluginsData = array();
+		$queryList = array();
+
 		$enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
 		foreach ($enabledPlugins as $plugin) {
-			array_push($enabledPlugins, Tools_Plugins_Tools::runStatic(self::PLUGIN_EXPORT_METHOD, $plugin));
+			$pluginsData = Tools_Plugins_Tools::runStatic(self::PLUGIN_EXPORT_METHOD, $plugin);
+			if (isset($pluginsData['pages']) && is_array($pluginsData['pages']) && !empty($pluginsData['pages'])) {
+				$pages = array_merge($pages, $pluginsData['pages']);
+			}
+			if (isset($pluginsData['tables']) && is_array($pluginsData['tables']) && !empty($pluginsData['tables'])) {
+				foreach ($pluginsData['tables'] as $table => $query) {
+					if (array_key_exists($table, $this->_fullThemesSqlMap)) {
+						continue;
+					}
+					$queryList[$table] = $query;
+					unset($table, $query);
+				}
+			}
 		}
 
 		// getting list of pages ids for export
@@ -337,11 +349,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		// dumping pages first
 		$data['page'] = $pages;
 
-		foreach ($this->_fullThemesSqlMap as $table => $query) {
+		$queryList = array_merge($this->_fullThemesSqlMap, $queryList);
+		foreach ($queryList as $table => $query) {
 			$data[$table] = $dbAdapter->fetchAll($dbAdapter->quoteInto($query, $pagesIDs));
 		}
-
-		// @todo: add plugin hooks to export content
 
 		return $data;
 	}
