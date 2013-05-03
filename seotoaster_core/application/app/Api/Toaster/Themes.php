@@ -284,7 +284,12 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 						$dbAdapter->delete($table);
 					}
 					foreach ($data as $row) {
-						$dbAdapter->insert($table, $row);
+						try {
+							$dbAdapter->insert($table, $row);
+						} catch (Exception $exc) {
+							Tools_System_Tools::debugMode() && error_log($exc->getMessage());
+							continue;
+						}
 					}
 				}
 			}
@@ -292,7 +297,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			$dbAdapter->query('SET foreign_key_checks = 1;');
 			$dbAdapter->commit();
 		} catch (Exception $e) {
-			error_log($e->getMessage());
+			Tools_System_Tools::debugMode() && error_log($e->getMessage());
+			$dbAdapter->rollBack();
 			return false;
 		}
 	}
@@ -312,12 +318,12 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		$dbAdapter = Zend_Registry::get('dbAdapter');
 
 		// fetching index page and main menu pages
-		$pagesSqlWhere = "SELECT * FROM `page` WHERE system = '0' AND draft = '0' AND (
+		$pagesSqlWhere = "SELECT * FROM `page` WHERE (system = '0' AND draft = '0' AND (
 		url = 'index.html'
 		OR (parent_id = '0' AND show_in_menu = '1') OR (parent_id = '-1' AND show_in_menu = '2')
 	    OR (parent_id = '0' OR parent_id IN (SELECT DISTINCT `page`.`id` FROM `page` WHERE (parent_id = '0') AND (system = '0') AND (show_in_menu = '1')) )
 	    OR id IN ( SELECT DISTINCT `page`.`id` FROM `page_has_option` )
-	    )
+	    )) OR page_id = '0'
 	    ORDER BY `order` ASC";
 
 		$pages = $dbAdapter->fetchAll($pagesSqlWhere);
@@ -480,7 +486,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 						continue;
 					}
 					$path = explode(DIRECTORY_SEPARATOR, $file);
-					if (!is_array($path)) {
+					if (!is_array($path) || empty($path)) {
 						continue;
 					}
 					switch ($path[0]) {
