@@ -4,6 +4,14 @@ $(function() {
 	_FADE_FAST   = 700;
 	_FADE_FLASH  = 300;
 
+    var currentUrl = decodeURI(window.location.href);
+    if (currentUrl && typeof currentUrl != 'undefined') {
+        $("a[href='" + currentUrl + "']").addClass('current');
+        if (currentUrl == $('#website_url').val()){
+            $("a[href='" +  $('#website_url').val() + "index.html']").addClass('current');
+        }
+    }
+
 	/**
 	 * Seotoaster popup dialog
 	 */
