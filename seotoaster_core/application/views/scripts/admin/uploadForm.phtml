@@ -126,12 +126,12 @@ switch ($this->caller){
 		<?php if ($this->caller == 'themes') : ?>
 		if (response.error !== false){
 			$('#'+file.id).parent().remove();
-			showMessage(response.error, true);
+			showMessage(response.error.join('<br>'), true);
+		} else {
+			$('#themes-list').trigger('updateContent');
 		}
 
         $('#'+file.id).parent().fadeOut(1000);
-
-		$('#themes-list').trigger('updateContent');
 		<?php elseif ($this->caller == 'templatePreview'): ?>
 		if (response.error == false && response.hasOwnProperty('thumb')){
 			$('#template_preview').attr('src', response.thumb);

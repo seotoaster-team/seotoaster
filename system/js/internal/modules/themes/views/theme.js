@@ -8,28 +8,26 @@ define([
         tagName    : 'div',
         template   : _.template($('#theme-box').text()),
         events     : {
-            'mouseenter': 'toggleControlls',
-            'mouseleave': 'toggleControlls',
+//            'mouseenter': 'toggleControlls',
+//            'mouseleave': 'toggleControlls',
             'click button.apply-button': 'applyThemeAction',
-            //'click a.apply-theme': 'applyThemeAction',
-            'click a.lnk-delete': 'deleteThemeAction',
-            'mouseenter a.lnk-download': function(e) {this.$(e.currentTarget).next('.download-options').show();},
-            'mouseleave .download-options': function(e) {this.$(e.currentTarget).hide(); }
+            'click a.lnk-delete': 'deleteThemeAction'//,
+//            'mouseenter a.lnk-download': function(e) {this.$(e.currentTarget).next('.download-options').show();},
+//            'mouseleave .download-options': function(e) {this.$(e.currentTarget).hide(); }
         },
         initialize : function() {
             this.model.view = this;
         },
         toggleControlls: function(e) {
-            this.$el.toggleClass('hovered');
-            this.$('.lnk-download').fadeToggle();
-            this.$('.lnk-delete').fadeToggle();
-            this.$('.apply-button').fadeToggle();
+//            this.$el.stop().toggleClass('hovered');
+//            this.$('.lnk-download,.lnk-delete,.apply-button').toggle();
+//            this.$('.lnk-delete').fadeToggle();
+//            this.$('.apply-button').fadeToggle();
         },
         applyThemeAction: function() {
-            var self = this;
-            showConfirm('Are you sure you want to apply "' + self.model.get('name') + '" theme?', function() {
-                showSpinner();
-                self.model.save(null, {
+            var self = this,
+                attrs = {},
+                callbacks = {
                     success: function(model) {
                         hideSpinner();
                         window.themesModule.themes.map(function(theme) {
@@ -47,7 +45,22 @@ define([
                         var errorMessage = (xhr.responseText.length) ? xhr.responseText : 'Can not apply theme "' + self.model.get('name') + '"! Something went wrong...';
                         showMessage(errorMessage, true);
                     }
-                });
+                },
+                save = function(){
+                    showSpinner();
+                    self.model.save(attrs, callbacks);
+                };
+
+            showConfirm('Are you sure you want to apply "' + self.model.get('name') + '" theme?', function() {
+                if (self.model.has('hasData') && self.model.get('hasData')){
+                    showConfirm('<p>This theme contains demo data. Do you want to install it?</p><p>All current website content will be removed</p>',
+                    function(){
+                        attrs = {applyData: true};
+                        save()
+                    }, save);
+                } else {
+                    save()
+                }
             });
         },
         deleteThemeAction: function(e) {

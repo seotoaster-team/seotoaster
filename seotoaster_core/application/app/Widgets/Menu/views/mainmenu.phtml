@@ -13,12 +13,4 @@
     </li>
     <?php endforeach; ?>
 </ul>
-<script type="text/javascript" charset="utf-8">
-    $(function() {
-        var currentUrl = decodeURI(window.location.href);
-        if(currentUrl && typeof currentUrl != 'undefined') {
-            $("a[href='" + currentUrl + "']").addClass('current');
-        }
-    });
-</script>
 <?php endif; ?>
