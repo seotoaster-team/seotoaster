@@ -27,19 +27,28 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function validate($pageUrl) {
-		$pageUrl = (!$pageUrl) ? $this->_website->getDefaultPage() : preg_replace('/\.htm$/', '.html', $pageUrl);
+		$pageUrl = (!$pageUrl) ? $this->_website->getDefaultPage() : preg_replace('/\.htm$/ui', '.html', $pageUrl);
 		return $pageUrl;
 	}
 
-	public function filterUrl($pageUrl) {
-		if(extension_loaded('mbstring')) {
-			$pageUrl = mb_eregi_replace('[^\w\d\s_.\-\/]+', '', $this->validate($pageUrl));
-			$pageUrl = mb_strtolower($pageUrl, mb_detect_encoding($pageUrl));
-		}
-		else {
-			$pageUrl = preg_replace('~[^\w\d\s_.\-\/]+~ui', '', $pageUrl);
-		}
-		$pageUrl = trim(preg_replace('~[\s-]+~', '-', $pageUrl), '-');
+    /**
+     * Filter url given to the toaster
+     *
+     * @param string $pageUrl
+     * @return mixed|string
+     */
+    public function filterUrl($pageUrl) {
+        $filterChain = new Zend_Filter();
+
+        $filterChain->addFilter(new Zend_Filter_Alnum(true))
+            ->addFilter(new Zend_Filter_StringTrim())
+            ->addFilter(new Zend_Filter_StringToLower('UTF-8'))
+            ->addFilter(new Zend_Filter_PregReplace(array('match' => '/\s+/', 'replace' => '-')));
+
+        // filtering the page url
+        $pageUrl = $filterChain->filter($pageUrl);
+
+        // add .html if needed
 		if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
