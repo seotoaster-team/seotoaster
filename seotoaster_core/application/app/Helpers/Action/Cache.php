@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Description of TCache
+ * Cache helper allows to save, load and clean cached data
  *
  * @author iamne
  */
@@ -52,14 +51,29 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 		return $cachePrefix . preg_replace('/[^_A-Za-z0-9]/', '', $string);
 	}
 
+	/**
+	 * Load data from cache
+	 * @param        $cacheKey  Unique cache id
+	 * @param string $cachePrefix   Cache prefix
+	 * @return null Returns null if nothing found
+	 */
 	public function load($cacheKey, $cachePrefix = '') {
-		$cahcheId = $this->_makeCacheId($cacheKey, $cachePrefix);
-		if(!$this->_cache->test($cahcheId)) {
+		$cacheId = $this->_makeCacheId($cacheKey, $cachePrefix);
+		if(!$this->_cache->test($cacheId)) {
 			return null;
 		}
-		return $this->_cache->load($cahcheId);
+		return $this->_cache->load($cacheId);
 	}
 
+	/**
+	 * Save data to cache
+	 * @param        $cacheId       Unique cache identifier
+	 * @param        $data          Content to be cached
+	 * @param string $cachePrefix   Prefix for cache id
+	 * @param array  $tags          Cache tags
+	 * @param string $lifeTime      Lifetime for cache record
+	 * @return boolean  True if no problem
+	 */
 	public function save($cacheId, $data, $cachePrefix = '', $tags = array(), $lifeTime = self::CACHE_FLASH) {
 		$cacheId = $this->_makeCacheId($cacheId, $cachePrefix);
 		return $this->_cache->save($data, $cacheId, $this->_sanitizeTags($tags), $lifeTime);
