@@ -512,6 +512,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			//create theme zip archive
 			$themeArchive = Tools_Theme_Tools::zip($themeName, (isset($mediaFiles) ? $mediaFiles : false), $excludeFiles);
 		}
+		// @todo remove theme zip before output
 
 		//outputting theme zip
 		$this->_response->clearAllHeaders()->clearBody();

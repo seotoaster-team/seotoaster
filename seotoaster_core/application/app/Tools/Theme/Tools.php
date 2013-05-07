@@ -70,24 +70,23 @@ class Tools_Theme_Tools {
 			if (!empty($addFiles)){
 				foreach ($addFiles as $file) {
 					$file = urldecode($file);
-					$filePath = $websiteHelper->getPath() . $file;
-					if (!file_exists($filePath)) {
+					$realPath = $websiteHelper->getPath() . $file;
+					if (!file_exists($realPath)) {
 						continue;
 					} elseif (is_array($exclude) && in_array(Tools_Filesystem_Tools::basename($file), $exclude)){
 						continue;
 					}
-					$isMedia = ($useMBStrings ? mb_strpos($file,  'media/') : strpos($file, 'media/')) === 0;
-					if ($isMedia){
-						$file = explode(DIRECTORY_SEPARATOR, $file);
-						$file[2] = 'original';
-						$file = implode(DIRECTORY_SEPARATOR, $file);
-						$zip->addFile($websiteHelper->getPath().$file, $file);
+					$pathParts = explode(DIRECTORY_SEPARATOR, $file);
+					if ($pathParts[0] === 'media' && size($pathParts) === 4 ){
+						// removing original folder level from zip
+						unset ($pathParts[2]);
+						$zip->addFile($websiteHelper->getPath().$file, implode(DIRECTORY_SEPARATOR, $pathParts));
 					} else {
 						// assume that this is a preview file
-						$zip->addFile($filePath, $file);
+						$zip->addFile($realPath, $file);
 					}
 
-					unset($filePath);
+					unset($realPath, $pathParts);
 				}
 			}
 
