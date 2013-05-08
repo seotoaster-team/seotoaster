@@ -117,7 +117,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
             }else{
                 $prepopSearchName = $optionsArray[0];
             }
-            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerName($prepopSearchName);
+            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerName($prepopSearchName);
             if($prepopWithNameList){
                 $this->_view->prepopWithName = $prepopWithNameList;
                 foreach($prepopWithNameList as $prepopData){
@@ -150,7 +150,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
             $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
             $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
             if(strtolower($optionsArray[1]) != 'thispage'){
-                $prepopAllLinks = $containerMapper->findByConteinerName($optionsArray[1]);
+                $prepopAllLinks = $containerMapper->findByContainerName($optionsArray[1]);
                 if(!empty($prepopAllLinks)){
                     foreach($prepopAllLinks as $prepopData){
                         $contentArray[] = $prepopData->getContent();
@@ -192,7 +192,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
             if(end($optionsArray) == 'select'){
                 $cacheKey = str_replace('(#)','_',$optionsArray[1]);
                 if (null === ($prepopSearchData = $cacheHelper->load('search_prepop_'.$cacheKey, 'search_prepop'))){
-                    $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNames($prepopNames);
+                    $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerNames($prepopNames);
                     if(!empty($prepopWithNameList)){
                         foreach($prepopWithNameList as $prepopWithName){
                             $searchArray[$prepopWithName->getPageId()][$prepopWithName->getName()] = $prepopWithName->getContent();
