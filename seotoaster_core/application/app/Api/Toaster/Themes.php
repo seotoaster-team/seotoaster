@@ -386,6 +386,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			$pagesSqlWhere = "SELECT * FROM `page` WHERE system = '0' AND draft = '0' AND (
 			url = 'index.html' OR (parent_id = '0' AND show_in_menu = '1') OR (parent_id = '-1' AND show_in_menu = '2')
 		    OR (parent_id = '0' OR parent_id IN (SELECT DISTINCT `page`.`id` FROM `page` WHERE (parent_id = '0') AND (system = '0') AND (show_in_menu = '1')) )
+		    OR id IN ( SELECT DISTINCT `page_id` FROM `page_fa` )
 		    OR id IN ( SELECT DISTINCT `page_id` FROM `page_has_option` )
 		    ) ORDER BY `order` ASC";
 
