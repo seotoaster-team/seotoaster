@@ -277,25 +277,24 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 				$template = new Application_Model_Models_Template();
 				$template->setName($templateName);
 			}
-			//no matter add or edit -> we are setting the type if we can
-			if (is_array($themeConfig) && !empty($themeConfig)) {
-				if (array_key_exists($templateName, $themeConfig)) {
-					$templateType = $templateTypeTable->find($themeConfig[$templateName]);
-					if (!$templateType->count()) {
-						$templateType = $templateTypeTable->createRow(array(
-							'id'    => $themeConfig[$templateName],
-							'title' => ucfirst(preg_replace('/^type/ui', '', $themeConfig[$templateName])) . ' Template'
-						));
-						$templateType->save();
-					} else {
-						$templateType = $templateType->current();
-					}
-					$template->setType($templateType->id);
-					unset($templateType);
-				} elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
-					$template->setType(Application_Model_Models_Template::TYPE_MOBILE);
-				}
+			// checking if we have template type in theme.ini or page meet mobile template naming convention
+			if (is_array($themeConfig) && !empty($themeConfig) && array_key_exists($templateName, $themeConfig)) {
+				$templateType = $themeConfig[$templateName];
+			} elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
+				$templateType = Application_Model_Models_Template::TYPE_MOBILE;
 			}
+			// checking if we have this type in db or adding it
+			$checkTypeExists = $templateTypeTable->find($templateType);
+			if (!$checkTypeExists->count()) {
+				$checkTypeExists = $templateTypeTable->createRow(array(
+					'id'    => $themeConfig[$templateName],
+					'title' => ucfirst(preg_replace('/^type/ui', '', $themeConfig[$templateName])) . ' Template'
+				));
+				$checkTypeExists->save();
+			}
+			unset($checkTypeExists);
+
+			$template->setType($templateType);
 
 			// getting template content
 			try {
