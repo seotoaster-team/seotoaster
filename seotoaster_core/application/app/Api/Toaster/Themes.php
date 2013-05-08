@@ -287,8 +287,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			$checkTypeExists = $templateTypeTable->find($templateType);
 			if (!$checkTypeExists->count()) {
 				$checkTypeExists = $templateTypeTable->createRow(array(
-					'id'    => $themeConfig[$templateName],
-					'title' => ucfirst(preg_replace('/^type/ui', '', $themeConfig[$templateName])) . ' Template'
+					'id'    => $templateType,
+					'title' => ucfirst(preg_replace('/^type/ui', '', $templateType)) . ' Template'
 				));
 				$checkTypeExists->save();
 			}
