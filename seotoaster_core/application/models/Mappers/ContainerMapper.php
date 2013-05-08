@@ -88,13 +88,13 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		return $row;
 	}
     
-    public function findByConteinerName($name){
+    public function findByContainerName($name){
         $where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
         $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
         return $this->fetchAll($where);
     }
     
-    public function findByConteinerNames($prepopNames = array()){
+    public function findByContainerNames($prepopNames = array()){
         if(!empty($prepopNames)){
             $where = '';
             foreach($prepopNames as $key =>$prepopName){
@@ -109,7 +109,7 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
         }
     }
     
-    public function findByConteinerNameWithContent($containerContentArray){
+    public function findByContainerNameWithContent($containerContentArray){
         $pageId = array();
         $pageIdArray = array();
         $summaryArray = array();

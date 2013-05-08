@@ -110,7 +110,7 @@ class SearchController extends Zend_Controller_Action {
             }
         }
         $containerContentArray = array_combine($containersNames, $searchValues);
-        $containerData = Application_Model_Mappers_ContainerMapper::getInstance()->findByConteinerNameWithContent($containerContentArray, array('6'));
+        $containerData = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerNameWithContent($containerContentArray);
         $findUrlList = array();
         if(!empty($containerData)){
             $pageList = $pageMapper->find($containerData);
