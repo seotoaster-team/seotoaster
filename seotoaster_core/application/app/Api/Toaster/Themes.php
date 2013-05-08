@@ -54,7 +54,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		'page_fa'         => 'SELECT * FROM `page_fa` WHERE page_id IN (?) ;',
 		'page_option'     => 'SELECT * FROM `page_option`;',
 		'page_has_option' => 'SELECT * FROM `page_has_option` WHERE page_id IN (?) ;',
-		'form'            => 'SELECT * FROM `form`;'
+		'form'            => 'SELECT * FROM `form`;',
+		'template_type'   => 'SELECT * FROM `template_type`;'
 	);
 
 	/**
@@ -268,6 +269,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
 		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
 		$mapper->clearTemplates(); // this will remove all templates except system required. @see $_protectedTemplates
+		$templateTypeTable = new Application_Model_DbTable_TemplateType();
 		foreach ($themeFiles as $templateFile) {
 			$templateName = preg_replace(array('~' . DIRECTORY_SEPARATOR . '~', '~\.html$~'), array('_', ''), $templateFile);
 			$template = $mapper->find($templateName);
@@ -278,7 +280,18 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			//no matter add or edit -> we are setting the type if we can
 			if (is_array($themeConfig) && !empty($themeConfig)) {
 				if (array_key_exists($templateName, $themeConfig)) {
-					$template->setType($themeConfig[$templateName]);
+					$templateType = $templateTypeTable->find($themeConfig[$templateName]);
+					if (!$templateType->count()) {
+						$templateType = $templateTypeTable->createRow(array(
+							'id'    => $themeConfig[$templateName],
+							'title' => ucfirst(preg_replace('/^type/ui', '', $themeConfig[$templateName])) . ' Template'
+						));
+						$templateType->save();
+					} else {
+						$templateType = $templateType->current();
+					}
+					$template->setType($templateType->id);
+					unset($templateType);
 				} elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
 					$template->setType(Application_Model_Models_Template::TYPE_MOBILE);
 				}
@@ -295,6 +308,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			$mapper->save($template);
 			unset($template, $templateName);
 		}
+		unset($templateTypeTable);
 
 		//updating config table
 		Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
