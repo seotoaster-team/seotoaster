@@ -52,7 +52,7 @@ class Application_Form_User extends Zend_Form {
 			'name'       => 'password',
 			'id'         => 'password',
 			'label'      => 'Password',
-			'required'   => false,
+			'required'   => true,
 			'validators' => array(
 				new Zend_Validate_StringLength(array(
 					'encoding' => 'UTF-8',
