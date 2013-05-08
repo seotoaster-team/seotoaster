@@ -69,6 +69,17 @@ class IndexController extends Zend_Controller_Action {
 //			if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE, $currentUser)) {
 //				$pageContent = $this->_helper->cache->load($pageUrl, 'page_');
 //			}
+			// mobile detect
+			if (false !== Zend_Loader_Autoloader::autoload('MobileDetect')){
+				$mobileDetect = new MobileDetect();
+				if ($mobileDetect->isMobile()){
+					if (null !== ($mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId()))){
+						$page->setTemplateId($mobileTemplate->getName())
+							->setContent($mobileTemplate->getContent());
+					}
+					unset($mobileTemplate);
+				}
+			}
 
 			//Parsing page content and saving it to the cache
 			if(null === $pageContent) {
@@ -97,7 +108,7 @@ class IndexController extends Zend_Controller_Action {
 			$pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
 		//}
 
-		// Finilize page generation routine
+		// Finalize page generation routine
 		$this->_complete($pageContent, $page->toArray());
 	}
 
