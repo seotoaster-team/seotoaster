@@ -175,6 +175,55 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		}
 	}
 
+	protected function _applyMedia($themeName = false) {
+		if (!$themeName) {
+			$themeName = $this->_configHelper->getConfig('currentTheme');
+		}
+
+		$toasterRoot = $this->_websiteHelper->getPath();
+		$themePath = $toasterRoot . $this->_themesConfig['path'] . $themeName;
+
+		$themeMediaPath = $themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getMedia();
+		$themePageTeasersPath = $themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getPreview();
+
+		//processing images from media folder
+		if (is_dir($themeMediaPath)) {
+			$mediaFiles = glob($themeMediaPath . join(DIRECTORY_SEPARATOR, array('*', '*.{jpeg,jpg,png,gif}')), GLOB_BRACE);
+			$toasterMedia = $toasterRoot . $this->_websiteHelper->getMedia();
+			foreach ($mediaFiles as $originalFile) {
+				$filepath = str_replace($themeMediaPath, '', $originalFile);
+				$filepath = explode(DIRECTORY_SEPARATOR, $filepath);
+				if (!is_array($filepath)) {
+					continue;
+				}
+				list($folderName, $fileName) = $filepath;
+				$destFolderPath = $toasterMedia . $folderName;
+				if (!is_dir($destFolderPath)) {
+					if (Tools_Filesystem_Tools::mkDir($destFolderPath)) {
+						Tools_Filesystem_Tools::mkDir($destFolderPath . DIRECTORY_SEPARATOR . 'original');
+					}
+				}
+
+				$destImgPath = $destFolderPath . DIRECTORY_SEPARATOR . 'original' . DIRECTORY_SEPARATOR . $fileName;
+				if (Tools_Filesystem_Tools::copy($originalFile, $destImgPath, true)) {
+					Tools_Image_Tools::batchResize($destImgPath, $destFolderPath);
+				}
+
+				unset($filepath, $destFolderPath, $folderName, $fileName);
+			}
+		}
+
+		//processing page preview images
+		if (is_dir($themePageTeasersPath)) {
+			$destinationPreview = $toasterRoot . $this->_websiteHelper->getPreview();
+			if (!is_dir($destinationPreview)) {
+				Tools_Filesystem_Tools::mkDir($destinationPreview);
+			}
+			Tools_Filesystem_Tools::copy($themePageTeasersPath, $destinationPreview, true);
+		}
+
+	}
+
 	/**
 	 * Delete theme
 	 * @return bool
@@ -511,20 +560,31 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		} else {
 			//create theme zip archive
 			$themeArchive = Tools_Theme_Tools::zip($themeName, (isset($mediaFiles) ? $mediaFiles : false), $excludeFiles);
-		}
-		// @todo remove theme zip before output
 
-		//outputting theme zip
-		$this->_response->clearAllHeaders()->clearBody();
-		$this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
-				->setHeader('Content-Type', 'application/zip', true)
-				->setHeader('Content-Transfer-Encoding', 'binary', true)
-				->setHeader('Expires', date(DATE_RFC1123), true)
-				->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-				->setHeader('Pragma', 'public', true)
-				->setBody(file_get_contents($themeArchive))
-				->sendResponse();
-		exit;
+			if ($themeArchive) {
+				$body = file_get_contents($themeArchive);
+				if (false !== $body) {
+					Tools_Filesystem_Tools::deleteFile($themeArchive);
+				} else {
+					$this->_error('Unable to read website archive file');
+				}
+			} else {
+				$this->_error('Can\'t create website archive');
+			}
+
+
+			//outputting theme zip
+			$this->_response->clearAllHeaders()->clearBody();
+			$this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $themeName . '.zip')
+					->setHeader('Content-Type', 'application/zip', true)
+					->setHeader('Content-Transfer-Encoding', 'binary', true)
+					->setHeader('Expires', date(DATE_RFC1123), true)
+					->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+					->setHeader('Pragma', 'public', true)
+					->setBody($body)
+					->sendResponse();
+			exit;
+		}
 	}
 
 	protected function _exportMedia($pages, $containers = false) {
