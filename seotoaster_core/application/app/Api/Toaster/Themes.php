@@ -283,18 +283,21 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			} elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
 				$templateType = Application_Model_Models_Template::TYPE_MOBILE;
 			}
-			// checking if we have this type in db or adding it
-			$checkTypeExists = $templateTypeTable->find($templateType);
-			if (!$checkTypeExists->count()) {
-				$checkTypeExists = $templateTypeTable->createRow(array(
-					'id'    => $templateType,
-					'title' => ucfirst(preg_replace('/^type/ui', '', $templateType)) . ' Template'
-				));
-				$checkTypeExists->save();
-			}
-			unset($checkTypeExists);
 
-			$template->setType($templateType);
+            if(isset($templateType)) {
+                // checking if we have this type in db or adding it
+                $checkTypeExists = $templateTypeTable->find($templateType);
+                if (!$checkTypeExists->count()) {
+                    $checkTypeExists = $templateTypeTable->createRow(array(
+                        'id'    => $templateType,
+                        'title' => ucfirst(preg_replace('/^type/ui', '', $templateType)) . ' Template'
+                    ));
+                    $checkTypeExists->save();
+                }
+                unset($checkTypeExists);
+
+			    $template->setType($templateType);
+            }
 
 			// getting template content
 			try {
