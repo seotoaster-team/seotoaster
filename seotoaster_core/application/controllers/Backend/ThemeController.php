@@ -96,13 +96,14 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				// saving to file in theme folder
 				$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
 				$filepath = $currentThemePath.DIRECTORY_SEPARATOR;
-				if ($template->getType() === 'typemobile' && preg_match('~^mobile_~', $template->getName())){
+				$isMobileTemplate = ($template->getType() === 'typemobile' && preg_match('~^mobile_~', $template->getName()));
+				if ($isMobileTemplate){
 					if (!is_dir($filepath.DIRECTORY_SEPARATOR.'mobile')){
 						Tools_Filesystem_Tools::mkDir($filepath.DIRECTORY_SEPARATOR.'mobile');
 					}
 					$filepath .= preg_replace('~^mobile_~','mobile'.DIRECTORY_SEPARATOR, $template->getName());
 				} else {
-					$filepath .= $templateData['name'].'.html';
+					$filepath .= $templateData['name'];
 				}
 				$filepath .= '.html';
 
@@ -110,8 +111,23 @@ class Backend_ThemeController extends Zend_Controller_Action {
 					if ($filepath) {
 						Tools_Filesystem_Tools::saveFile($filepath, $templateData['content']);
 					}
+					if ($status === 'update' && ($template->getOldName() !== $template->getName())){
+						$oldFilename = $currentThemePath.DIRECTORY_SEPARATOR;
+						if ($isMobileTemplate){
+							$oldFilename .= preg_replace('~^mobile_~','mobile'.DIRECTORY_SEPARATOR, $template->getOldName());
+						} else {
+							$oldFilename .= $template->getOldName();
+						}
+						$oldFilename .= '.html';
+						if (is_file($oldFilename)){
+							if (false ===  Tools_Filesystem_Tools::deleteFile($oldFilename)){
+
+							}
+						}
+						unset($oldFilename);
+					}
 				} catch (Exceptions_SeotoasterException $e) {
-					error_log($e->getMessage());
+					Tools_System_Tools::debugMode() && error_log($e->getMessage());
 				}
                 $this->_helper->cache->clean(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS);
 
