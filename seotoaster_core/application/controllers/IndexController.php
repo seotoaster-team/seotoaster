@@ -69,10 +69,10 @@ class IndexController extends Zend_Controller_Action {
 //			if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE, $currentUser)) {
 //				$pageContent = $this->_helper->cache->load($pageUrl, 'page_');
 //			}
+
 			// mobile detect
-			if (false !== Zend_Loader_Autoloader::autoload('MobileDetect')){
-				$mobileDetect = new MobileDetect();
-				if ($mobileDetect->isMobile()){
+			if ((bool) $this->_helper->config->getConfig('enableMobileTemplates')){
+				if ($this->_helper->mobile->isMobile()){
 					if (null !== ($mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId()))){
 						$page->setTemplateId($mobileTemplate->getName())
 							->setContent($mobileTemplate->getContent());

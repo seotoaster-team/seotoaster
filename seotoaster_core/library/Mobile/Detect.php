@@ -32,7 +32,7 @@
  * @version     2.6.0
  */
 
-class MobileDetect {
+class Mobile_Detect {
 
     protected $scriptVersion = '2.6.0';
 

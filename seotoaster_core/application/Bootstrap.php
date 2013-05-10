@@ -93,6 +93,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Website());
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Response());
 		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Language());
+		Zend_Controller_Action_HelperBroker::addHelper(new Helpers_Action_Mobile());
 	}
 
 	protected function _initPlugins() {
