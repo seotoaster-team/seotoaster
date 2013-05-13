@@ -45,7 +45,7 @@ class Tools_Image_Tools {
 		$fileType	= $fileInfo[2];
 		$mimeType	= $fileInfo['mime'];
 
-		if ($imgWidth > $newWidth){
+		if ($imgWidth >= $newWidth){
 			if ($saveProportion) {
 				$newHeight = $imgHeight * $newWidth / $imgWidth;
 			} else {
