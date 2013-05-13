@@ -100,7 +100,7 @@ function checkMenu(currentMenuItem) {
 		break;
 		case _MAIN_MENU_ID:
             if(!$('#pageId').val()) {
-                selector.val(-4);
+                selector.val(-4).attr({selected:'selected'});
             }
             selector.show();
 		break;

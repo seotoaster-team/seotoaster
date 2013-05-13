@@ -35,11 +35,10 @@ class Backend_PageController extends Zend_Controller_Action {
 
         $page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
 
-        //array('Categories' => $mapper->selectCategoriesIdName(true))
-        $pageForm->getElement('pageCategory')->addMultiOptions($this->_getMenuOptions($page));
-        $pageForm->getElement('pageCategory')->setValue($page->getParentId());
-
         if(!$this->getRequest()->isPost()) {
+            $pageForm->getElement('pageCategory')->addMultiOptions($this->_getMenuOptions($page));
+            $pageForm->getElement('pageCategory')->setValue($page->getParentId());
+
             if($page instanceof Application_Model_Models_Page) {
                 $pageForm->setOptions($page->toArray());
                 $pageForm->getElement('pageId')->setValue($page->getId());
