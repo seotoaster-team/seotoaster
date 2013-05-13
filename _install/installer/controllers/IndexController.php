@@ -20,7 +20,7 @@ class IndexController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		if ($this->getRequest()->getParam('garbage')){
-			$this->_redirect('');
+			$this->redirect('');
 		}
 		$translator = Zend_Registry::get('Zend_Translate');
 		
@@ -45,11 +45,11 @@ class IndexController extends Zend_Controller_Action {
 				$this->_session->nextStep = 1;
 			}
 			if ($this->_session->nextStep !== null) {
-			    return $this->_forward('step'.$this->_session->nextStep);
+			    return $this->forward('step'.$this->_session->nextStep);
 			}
 		}
 		
-		$this->_forward('step1');
+		$this->forward('step1');
 	}
 	
 	public function step1Action() {
@@ -202,7 +202,7 @@ class IndexController extends Zend_Controller_Action {
 
 		if ($isDbReady && $isCoreValid)	{
 			$this->_session->nextStep = 3;
-			return $this->_forward('step3');
+			return $this->forward('step3');
 		}
 
 		if ($isCoreValid) {
@@ -247,7 +247,7 @@ class IndexController extends Zend_Controller_Action {
 
 					if ($suReady && $this->_session->configsSaved === true) {
 						$this->getRequest()->clearParams();
-						return $this->_forward('tada');
+						return $this->forward('tada');
 					}
 				} else {
 					$this->view->messages = $settingsForm->getMessages();
@@ -433,11 +433,6 @@ class IndexController extends Zend_Controller_Action {
 			$adapter['adapter'] = 'pdo_mysql';
 			$adapter['params']['driver_options'] = array(
 				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
-			);
-		} elseif (extension_loaded('mysqli')) {
-			$adapter['adapter'] = 'mysqli';
-			$adapter['params']['driver_options'] = array(
-				MYSQLI_INIT_COMMAND => 'SET NAMES UTF8;'
 			);
 		} else {
 			return "You should have pdo_mysql extension installed";
