@@ -40,7 +40,8 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
     public function filterUrl($pageUrl) {
         $filterChain = new Zend_Filter();
 
-        $filterChain->addFilter(new Zend_Filter_Alnum(true))
+        $filterChain->addFilter(new Zend_Filter_PregReplace(array('match' => '/-/', 'replace' => ' ')))
+            ->addFilter(new Zend_Filter_Alnum(true))
             ->addFilter(new Zend_Filter_StringTrim())
             ->addFilter(new Zend_Filter_StringToLower('UTF-8'))
             ->addFilter(new Zend_Filter_PregReplace(array('match' => '/\s+/', 'replace' => '-')));
