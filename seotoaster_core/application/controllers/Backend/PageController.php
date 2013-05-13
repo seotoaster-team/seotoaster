@@ -33,9 +33,11 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageId      = $this->getRequest()->getParam('id');
         $mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
-        $pageForm->getElement('pageCategory')->addMultiOptions(array('Categories' => $mapper->selectCategoriesIdName(true)));
-
         $page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
+
+        //array('Categories' => $mapper->selectCategoriesIdName(true))
+        $pageForm->getElement('pageCategory')->addMultiOptions($this->_getMenuOptions($page));
+        $pageForm->getElement('pageCategory')->setValue($page->getParentId());
 
         if(!$this->getRequest()->isPost()) {
             if($page instanceof Application_Model_Models_Page) {
@@ -128,8 +130,6 @@ class Backend_PageController extends Zend_Controller_Action {
                     $this->_processFaPull($page->getId());
                 }
 
-
-
                 $page->notifyObservers();
 
                 $this->_helper->response->success(array('redirectTo' => $page->getUrl()));
@@ -209,42 +209,18 @@ class Backend_PageController extends Zend_Controller_Action {
         }
     }
 
-    /**
-     * @todo Optimize this!
-     */
-    public function rendermenuAction() {
-        $menuType    = $this->getRequest()->getParam('mtype');
-        $pageId      = $this->getRequest()->getParam('pId');
-        $menuOptions = array();
-        $mapper      = Application_Model_Mappers_PageMapper::getInstance();
-        switch ($menuType) {
-            case Application_Model_Models_Page::IN_MAINMENU:
-                $categories = $mapper->selectCategoriesIdName(true);
-                $menuOptions = array(
-                    '-4'         => 'Make your selection',
-                    'Seotoaster' => array(
-                        Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
-                        //Application_Model_Models_Page::IDCATEGORY_PRODUCT  => 'Product pages'
-                    )
-                );
-                if(is_array($categories) && !empty($categories)) {
-                    $menuOptions['Categories'] = $categories;
-                }
-                break;
-            case Application_Model_Models_Page::IN_STATICMENU:
-                $menuOptions = array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');
-                break;
-            case Application_Model_Models_Page::IN_NOMENU:
-                $menuOptions = array(Application_Model_Models_Page::IDCATEGORY_DEFAULT => 'Make your selection');
-                break;
+    protected function _getMenuOptions($page = null) {
+        $categories = Application_Model_Mappers_PageMapper::getInstance()->selectCategoriesIdName(true);
+        if($page instanceof Application_Model_Models_Page && $page->getParentId() == 0) {
+            unset($categories[$page->getId()]);
         }
-        $selectHelper = $this->view->getHelper('formSelect');
-
-        if($pageId) {
-            $currPage = $mapper->find($pageId);
-        }
-
-        $this->view->select = $selectHelper->formSelect('pageCategory', (isset($currPage) ? $currPage->getParentId() : ''), null, $menuOptions);
+        return array(
+            '-4'         => 'Make your selection',
+            'Seotoaster' => array(
+                Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category',
+            ),
+            'Categories' => $categories
+        );
     }
 
     public function edit404pageAction() {
