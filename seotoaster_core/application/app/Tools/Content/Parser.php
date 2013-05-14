@@ -104,7 +104,7 @@ class Tools_Content_Parser {
 
 	private function _changeMedia() {
 		$webPathToTheme = $this->_options['websiteUrl'] . $this->_options['themePath'] . $this->_options['currentTheme'];
-		$this->_content = preg_replace('~["\']+/*images/(.*)["\']~Usui', $webPathToTheme . '/images/$1', $this->_content);
+		$this->_content = preg_replace('~["\']+/*(mobile/)?images/(.*)["\']~Usui', $webPathToTheme . '/$1images/$2', $this->_content);
 		$this->_content = preg_replace('~(<link.*?href=")(\/{0,1}[A-Za-z0-9.\/_\-]+\.css[a-z0-9=\?]*)(".*?>)~Uu','$1' . $webPathToTheme . '/$2' . '$3' , $this->_content);
 		$this->_content = preg_replace('~(<script.*?src=")(\/{0,1}[A-Za-z0-9-\/_.\-]+\.js)(".*?>)~ui', '$1' . $webPathToTheme . '/$2' . '$3' , $this->_content);
 
