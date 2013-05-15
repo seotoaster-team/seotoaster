@@ -82,15 +82,19 @@ function saveTemplate() {
 
         beforeSend : function() {showSpinner();},
         success : function(response) {
+            hideSpinner();
             if (!response.error) {
-                hideSpinner();
                 showMessage('Template saved');
                 if (response.responseText == 'new') {
                     $('#title').val('');
                     editor.getSession().setValue('');
                 }
             } else {
-                showMessage(response.responseText.join('. '), true);
+                if (typeof response.responseText === 'string'){
+                    showMessage(response.responseText, true);
+                } else {
+                    showMessage(response.responseText.join('. '), true);
+                }
             }
         },
         error: function(xhr, errorStatus) {

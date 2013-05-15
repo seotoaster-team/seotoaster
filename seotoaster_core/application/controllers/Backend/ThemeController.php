@@ -64,30 +64,43 @@ class Backend_ThemeController extends Zend_Controller_Action {
 			if ($templateForm->isValid($this->getRequest()->getPost())) {
 				$templateData = $templateForm->getValues();
 				$originalName = $templateData['id'];
-				if (!empty($originalName) && null !== ($mapper->find($originalName))) {
+
+				if ($templateData['templateType'] === Application_Model_Models_Template::TYPE_MOBILE ||
+					preg_match('~^mobile_~', $templateData['name'])) {
+					$isMobileTemplate = true;
+					$templateData['name'] = 'mobile_'.preg_replace('~^mobile_~', '', $templateData['name']);
+					$templateData['templateType'] = Application_Model_Models_Template::TYPE_MOBILE;
+				} else {
+					$isMobileTemplate = false;
+				}
+
+				//check if we received 'id' in request and try to find existing template with this id
+				/**
+				 * @var $template Application_Model_Models_Template
+				 */
+				if (!empty($originalName) && null !== ($template = $mapper->find($originalName))) {
 					$status = 'update';
-					//find template by original name
-					$template = $mapper->find($originalName);
-					if (null === $template) {
-						$this->_helper->response->response($this->_translator->translate('Can\'t create template'), true);
-					}
 					// avoid renaming of system protected templates
 					if (!in_array($template->getName(), $this->_protectedTemplates)) {
 						$template->setOldName($originalName);
 						$template->setName($templateData['name']);
+					} else {
+						// TODO throw error if trying to rename protected template
 					}
 					$template->setContent($templateData['content']);
+
 				} else {
 					$status = 'new';
 					//if ID missing and name is not exists and name is not system protected - creating new template
-					if ((null !== $mapper->find($templateData['name'])) || in_array($templateData['name'], $this->_protectedTemplates)) {
-						$this->_helper->response->response($this->_translator->translate('Template exists'), true);
+					if (in_array($templateData['name'], $this->_protectedTemplates) ||
+							null !== $mapper->find($templateData['name']) ) {
+						$this->_helper->response->response($this->_translator->translate('Template with such name already exists'), true);
 					}
 					$template = new Application_Model_Models_Template($templateData);
 				}
+				$template->setType($templateData['templateType']);
 
 				// saving/updating template in db
-				$template->setType($templateData['templateType']);
 				$result = $mapper->save($template);
 				if ($result) {
 					$this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
@@ -95,11 +108,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				// saving to file in theme folder
 				$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
 				$filepath = $currentThemePath . DIRECTORY_SEPARATOR;
-				$isMobileTemplate = ($template->getType() === Application_Model_Models_Template::TYPE_MOBILE
-						&& preg_match('~^mobile_~', $template->getName()));
+
 				if ($isMobileTemplate) {
-					if (!is_dir($filepath . DIRECTORY_SEPARATOR . 'mobile')) {
-						Tools_Filesystem_Tools::mkDir($filepath . DIRECTORY_SEPARATOR . 'mobile');
+					if (!is_dir($filepath . 'mobile')) {
+						Tools_Filesystem_Tools::mkDir($filepath . 'mobile');
 					}
 					$filepath .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getName());
 				} else {
