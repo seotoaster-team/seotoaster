@@ -1,3 +1,5 @@
+SET foreign_key_checks = 0;
+
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -384,3 +386,5 @@ ALTER TABLE `redirect`
 
 ALTER TABLE `template`
   ADD CONSTRAINT `template_ibfk_1` FOREIGN KEY (`type`) REFERENCES `template_type` (`id`) ON DELETE CASCADE;
+
+SET foreign_key_checks = 1;
