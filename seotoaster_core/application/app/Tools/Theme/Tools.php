@@ -25,12 +25,12 @@ class Tools_Theme_Tools {
 			foreach ($result as $key => $data) {
 				if (!$sqlDump) {
 					$sqlDump .= 'INSERT INTO `' . $table . '` (' . join(', ', array_map(function ($key) {
-						return '`' . $key . '`';
-					}, array_keys($data))) . ') VALUES ';
+								return '`' . $key . '`';
+							}, array_keys($data))) . ') VALUES ';
 				}
 				$sqlDump .= '(' . join(', ', array_map(function ($value) use ($dbAdapter) {
-					return $dbAdapter->quote($value);
-				}, array_values($data))) . (($key == ($length - 1)) ? (');' . PHP_EOL) : '),');
+							return $dbAdapter->quote($value);
+						}, array_values($data))) . (($key == ($length - 1)) ? (');' . PHP_EOL) : '),');
 			}
 		}
 		return $sqlDump;
@@ -40,10 +40,6 @@ class Tools_Theme_Tools {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 		$themesConfig = Zend_Registry::get('theme');
-		$useMBStrings = extension_loaded('mbstring');
-		if ($useMBStrings) {
-			mb_internal_encoding('UTF-8');
-		}
 
 		$zip = new ZipArchive();
 		$destinationFile = $websiteHelper->getPath() . $websiteHelper->getTmp() . $themeName . '.zip';
@@ -57,11 +53,7 @@ class Tools_Theme_Tools {
 				if (is_array($exclude) && in_array(Tools_Filesystem_Tools::basename($file), $exclude)) {
 					continue;
 				}
-				if ($useMBStrings) {
-					$localName = mb_substr($file, mb_strpos($file, $themeName) + mb_strlen($themeName));
-				} else {
-					$localName = substr($file, strpos($file, $themeName) + strlen($themeName));
-				}
+				$localName = str_replace($themePath, '', $file);
 				$localName = trim($localName, DIRECTORY_SEPARATOR);
 				$zip->addFile($file, $localName);
 				unset($localName);
