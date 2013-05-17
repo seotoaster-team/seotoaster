@@ -25,11 +25,11 @@
         });
 
         $('#container').on('submit', 'form', function(e){
-            // display loading message
+	        e.preventDefault();
 
-
-            if( !$(e.target).attr('action'))
-                e.target = $(e.target).closest('form');
+            if( !$(e.target).attr('action')) {
+	            e.target = $(e.target).closest('form');
+            }
 
             $.ajax({
                 type: "POST",
@@ -44,8 +44,7 @@
                 }
             });
 
-          e.preventDefault();
-          return false;
+			return false;
 		}).on('change', 'div.opacity :input', function(){
 			$(this).closest('div.opacity').removeClass('opacity');
         });
@@ -65,7 +64,7 @@
 			<footer class="grid_10 prefix_1">
 				<p>
                     <?php echo $this->translate('Sometimes web hosting providers do not offer a suitable environment to the latest technology platforms like Seotoaster.');?><br />
-					If you run into difficulties, please visit <a href="http://www.seotoaster.com" title="SEOTOASTER open source CMS">seotoaster.com</a> for solutions.
+					If you run into difficulties, please visit <a href="http://www.seotoaster.com/" target="_blank" title="SEOTOASTER open source CMS">seotoaster.com</a> for solutions.
 				</p>
 			</footer>
 
