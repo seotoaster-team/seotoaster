@@ -18,10 +18,10 @@
 
 		<script>
         <?php $this->jQuery()->onLoadCaptureStart();?>
-        $('#loading').ajaxStart(function(){
-	        $(this).fadeIn();
+        $(document).ajaxStart(function(){
+	        $('#loading').fadeIn();
         }).ajaxStop(function(){
-			$(this).fadeOut();
+	        $('#loading').fadeOut();
         });
 
         $('#container').on('submit', 'form', function(e){
@@ -55,7 +55,7 @@
 		<?php echo $this->jQuery(); ?>
 	</head>
 	<body>
-		<div id="loading"><?php echo $this->translate('LOADING');?></div>
+		<div id="loading"><p style="color:#20b2aa;"><?php echo $this->translate('LOADING');?></p><img src="../system/images/loading.gif" alt="<?php echo $this->translate('LOADING');?>"/></div>
 		<div class="seotoaster container_12">
 
 			<div id="container">

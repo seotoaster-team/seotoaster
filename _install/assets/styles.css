@@ -21,7 +21,7 @@ header h1{
 	text-align:center;
 }
 header h1.bravo {
-    font-size: 40px;
+    font-size: 50px;
     margin-left: 50px;
     margin-top: 80px;
     text-align: left;
@@ -111,7 +111,7 @@ ol li{
 	opacity:1;
 }
 .bravo {
-    background: url("check.png") no-repeat;
+    background: url("check.png") no-repeat 0 50%;
     font-size: 26px;
     /*font-weight: bold;*/
     margin-top: 15px;
