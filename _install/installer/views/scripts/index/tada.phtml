@@ -11,9 +11,13 @@
 		<li><?php echo $this->translate('Log into your toaster here');?>: <a href="<?php echo $loginUrl; ?>"><?php echo $loginUrl; ?></a></li>
 		<li><?php echo $this->translate('Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.'); ?></li>
 		<?php if(!$this->serverConfigGenerated): ?>
-			<li>
-		    <?php echo $this->partial('_server.phtml'); ?>
-			</li>
+            <?php if (isset($_SERVER['SERVER_SOFTWARE'])): ?>
+                <?php if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false):?>
+                    <li>
+                        <?php echo $this->partial('_server.phtml'); ?>
+                    </li>
+                <?php endif?>
+            <?php endif?>
         <?php endif?>
 	</ol>
 </div>
