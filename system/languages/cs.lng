@@ -1,5 +1,47 @@
 <?php
-return array('select template' => 'vybrat šablonu',
+return array(
+	/*** Installation ***************************************************************************/
+	'Seotoaster install'            				   => 'seotoaster instalace',
+	'Step 1: System setup'                             => 'Krok 1: Nastavení systému',
+	'Checking Server Requirements'  				   => 'Kontrola Požadavky na server',
+	'Checking file system permissions' 				   => 'Kontrola oprávnění systému souborů',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster.' =>
+	'Váš server musí splňovat minimální požadavky na konfiguraci, aby bylo možné spustit toaster.',
+	'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' =>
+	'Apache2, Nginx. Každý webový server, který může dělat přepisuje a podpora php by fungovat i (netestováno).',
+	'For Apache 2 only' => 'Pouze pro Apache 2',
+	'<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> nebo vyšší',
+	'<strong>PDO</strong> extension for PHP' => '<strong> PDO </strong> rozšíření PHP',
+	'<strong>MBString:</strong> Works with any language' => '<strong>MBString:</strong> Pracuje s jakýmkoliv jazykem',
+	'<strong>GD Libaries 2.0</strong> or newer: Works with images' => '<strong>GD libaries 2.0</strong> nebo novější: Práce s obrázky',
+	'<strong>Zip extension for PHP:</strong> Permit themes management through the interface' => '<strong>Zip rozšíření PHP:</strong> Povolení motivů řízení přes rozhraní',
+	'<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.' => '<strong>Curl rozšíření PHP:</strong> externí služby připojení: Google, Yahoo, PayPal, atd.',
+	'Some folders need to be writable to allow the toaster to function properly.'                   =>
+	'Některé složky musí být zapisovatelný, aby topinkovač, aby správně fungovaly.',
+	"Folder %1\$s is %2\$s " => "Folder %1\$s is %2\$s ",
+	'Bravo, All good to go!'                           => 'Bravo, to je v pořádku pokračovat.',
+	'Check again'                                      => 'Check again',
+	'Next'                                             => 'Dále',
+	'Step 2: Database setup'                           => 'Krok 2: Nastavení databáze',
+	'Setting up the Database.'                         => 'Nastavení Databáze.',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' =>
+	'Váš server musí splňovat minimální požadavky na konfiguraci, aby bylo možné spustit toaster. (Musíte serveru MySQL 5.x chod)',
+	'Host'                                             => 'Databázový Server',
+	'Database name'                                    => 'Název databáze',
+	'Advanced settings (Optional)'                     => 'Pokročilá nastavení (volitelné)',
+	'Multi-toasters setup:'                            => 'Multi-toasters nastavení',
+	"Did you know? You can share seotoaster's core files to run multiple websites from the same server. This is great to expedite upgrades for your  toaster. Simply enter the path for your master seotoaster core files and an unique name you wish to use for this website install." =>
+	'',
+	'Path to core'                                     => 'Cesta k jádru',
+	'Site name'                                        => 'Název webu',
+	'Go ahead!'                                        => 'Do toho!',
+	'Step 3: Create your super admin account'          => 'Krok 3: Vytvořte si Super Admin účet',
+	'You are one step away from toasting.'             => 'Posledním krokem před dokončením',
+	'<h2 class="mt40px mb50px xlarge">Congratulations,<br />you have succesfully installed<br /><strong>SEOTOASTER V2 !</strong></h2>' =>
+	'<h2 class="mt40px mb50px xlarge">Gratulujeme,<br />jste úspěšně nainstalován<br /><strong>SEOTOASTER V2 !</strong></h2>',
+	'Toast It!'                                       => 'Hotový!',
+
+	'select template' => 'vybrat šablonu',
 	'Email template' => 'Emailová šablona',
 	'Testmail' => 'Testovací mail',
 	'Help' => 'Nápověda',

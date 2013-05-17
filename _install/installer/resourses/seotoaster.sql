@@ -369,10 +369,6 @@ ALTER TABLE `link_container`
 ALTER TABLE `optimized`
   ADD CONSTRAINT `optimized_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `page_has_option`
-  ADD CONSTRAINT `page_has_option_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_has_option_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `page_option` (`id`) ON DELETE CASCADE;
-
 ALTER TABLE `page_fa`
   ADD CONSTRAINT `FK_page_fa` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `page_fa_ibfk_1` FOREIGN KEY (`fa_id`) REFERENCES `featured_area` (`id`) ON DELETE CASCADE;
