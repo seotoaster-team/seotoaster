@@ -9,16 +9,13 @@
  */
 class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
-	private $_cache              = null;
+	private $_cache      = null;
 
-	private $_redirector         = null;
+	private $_redirector = null;
 
-	private $_website            = null;
+	private $_website    = null;
 
-	private $_canonicMap         = array(
-		'index.html',
-		'index.htm'
-	);
+	private $_canonicMap = array('index.html', 'index.htm');
 
 	public function init() {
 		$this->_cache      = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
@@ -87,7 +84,8 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function clean($pageUrl) {
-		return preg_replace('/\.html$/', '', $pageUrl);
+        $filter = new Zend_Filter_PregReplace(array('match' => '/\.html$/', 'replace' => ''));
+		return $filter->filter($pageUrl);
 	}
 
 	public function getCanonicMap() {

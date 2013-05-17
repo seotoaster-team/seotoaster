@@ -85,12 +85,12 @@ ol li{
 	margin-top:15px;
 }
 #step-content ul li {
-    background: url("ok.jpg") no-repeat 5px 0;
+    background: url("ok.png") no-repeat 5px 0;
     list-style: none;
-    padding: 0 0 10px 50px;
+    padding: 5px 0 10px 50px;
 }
 #step-content ul li.error {
-    background: url("error.jpg") no-repeat 5px 0;
+    background: url("error.png") no-repeat 10px 0;
 }
 #step-content ul li.important {
 	/*background:none;*/
@@ -111,14 +111,14 @@ ol li{
 	opacity:1;
 }
 .bravo {
-    background: url("check.jpg") no-repeat;
+    background: url("check.png") no-repeat;
     font-size: 26px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     margin-top: 15px;
-    padding: 35px 0 10px 60px;
+    padding: 5px 0 10px 60px;
 }
 .green{
-	color:#5EB825;
+	color:#5eb884;
 }
 label.green{
 	font-size:18px;
@@ -159,7 +159,7 @@ form input {
 form input.error {
     color: indianRed;
     border-color: indianRed;
-    background: url("error.jpg") no-repeat right center;
+    background: url("error.png") no-repeat right center;
     padding-right: 30px;
     width: 365px;
 }
@@ -179,7 +179,7 @@ form input[type="checkbox"]+label{
 	font-size:18px;
 }
 form#gotonext {
-    margin-top: 35px;
+    margin-top: 20px;
     text-align: center;
 }
 form#gotonext input, form input[type="submit"]{
@@ -191,11 +191,11 @@ form#gotonext input, form input[type="submit"]{
     width: auto;
 	padding: 10px 20px;
 	border:none;
-    border-radius: 4px;
-		-o-border-radius: 4px;
-		-ms-border-radius: 4px;
-		-moz-border-radius: 4px;
-		-webkit-border-radius: 4px;
+    /*border-radius: 4px;*/
+		/*-o-border-radius: 4px;*/
+		/*-ms-border-radius: 4px;*/
+		/*-moz-border-radius: 4px;*/
+		/*-webkit-border-radius: 4px;*/
 }
 form#gotonext input:hover, form input[type="submit"]:hover{
 	background:#444;

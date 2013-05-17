@@ -80,7 +80,7 @@ class LoginController extends Zend_Controller_Action {
 	private function _memberRedirect($success = true) {
 		$landingPage = ($success) ? Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_MEMLAND) : Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_ERRLAND);
 		if($landingPage instanceof Application_Model_Models_Page) {
-			$this->_redirect($this->_helper->website->getUrl() . $landingPage->getUrl(), array('exit' => true));
+			$this->redirect($this->_helper->website->getUrl() . $landingPage->getUrl(), array('exit' => true));
 		}
 	}
 

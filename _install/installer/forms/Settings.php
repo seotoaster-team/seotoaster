@@ -8,6 +8,8 @@
 class Installer_Form_Settings extends Zend_Form {
 
 	public function init() {
+        $translator = $this->getTranslator();
+
 		$this->setName(strtolower(__CLASS__))
 			 ->setAction('')
 			 ->setMethod(Zend_Form::METHOD_POST)

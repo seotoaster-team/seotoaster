@@ -27,7 +27,7 @@ class Installer_Form_Config extends Zend_Form {
         $this->addElement('text', 'corepath', array(
             'value'		    => $this->_corepath,
             'label'		    => 'Path to core',
-            'placeholder'	=> 'input toaster core location',
+            'placeholder'	=> $translator->translate('input toaster core location'),
 	        'validators'    => array(
 		        array('Callback', true, array(
 		            'callback' => array($this, 'validateCorePath'),
@@ -41,7 +41,7 @@ class Installer_Form_Config extends Zend_Form {
         $this->addElement('text', 'sitename', array(
             'value'		=> $this->_sitename,
             'label'		=> 'Site name',
-            'placeholder' => 'you can leave this field empty',
+            'placeholder' => $translator->translate('you can leave this field empty'),
             'title'		=> ($translator ? $translator->translate('Give a name for your site') : 'Give a name for your site'),
             'validators'=> array(
                 array('Hostname', true, array(
@@ -56,7 +56,7 @@ class Installer_Form_Config extends Zend_Form {
             'value'		=> 'localhost',
             'label'		=> 'Host',
 	        'required'  => true,
-            'placeholder'		=> 'Database server address',
+            'placeholder'		=> $translator->translate('Database server address'),
             'validators'=> array(
                 new Zend_Validate_Hostname(array(
                     'allow' => Zend_Validate_Hostname::ALLOW_DNS | Zend_Validate_Hostname::ALLOW_IP | Zend_Validate_Hostname::ALLOW_LOCAL,
@@ -69,19 +69,19 @@ class Installer_Form_Config extends Zend_Form {
         $this->addElement('text', 'username', array(
             'label'		=> 'User',
             'required'  => true,
-            'placeholder' => 'User allowed to connect to database server'
+            'placeholder' => $translator->translate('User allowed to connect to database server')
         ));
 
         $this->addElement('password', 'password', array(
             'label'		=> 'Password',
-            'placeholder'     => 'Password for database',
+            'placeholder'     => $translator->translate('Password for database'),
             'renderPassword' => true
         ));
 
         $this->addElement('text', 'dbname', array(
             'label'		=> 'Database name',
             'required'  => true,
-            'placeholder'     => 'Name of the database to use'
+            'placeholder'     => $translator->translate('Name of the database to use')
         ));
 
         $this->addDisplayGroup(array('host', 'username', 'password', 'dbname'), 'dbinfo');

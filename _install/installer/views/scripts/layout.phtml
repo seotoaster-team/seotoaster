@@ -55,7 +55,7 @@
 		<?php echo $this->jQuery(); ?>
 	</head>
 	<body>
-		<div id="loading">LOADING</div>
+		<div id="loading"><?php echo $this->translate('LOADING');?></div>
 		<div class="seotoaster container_12">
 
 			<div id="container">
@@ -64,7 +64,7 @@
 
 			<footer class="grid_10 prefix_1">
 				<p>
-					Sometimes web hosting providers do not offer a suitable environment to the latest technology platforms like seotoaster.<br />
+                    <?php echo $this->translate('Sometimes web hosting providers do not offer a suitable environment to the latest technology platforms like Seotoaster.');?><br />
 					If you run into difficulties, please visit <a href="http://www.seotoaster.com" title="SEOTOASTER open source CMS">seotoaster.com</a> for solutions.
 				</p>
 			</footer>
