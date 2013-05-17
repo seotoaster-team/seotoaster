@@ -147,12 +147,12 @@
 	'Advanced settings' => 'Расширенные настройки',
 
 	/* шаг 3 */
-	'Step 3: Create your super admin account' => 'Шаг 3: Создание аккаунта супер-пользлвателя',
+	'Step 3: Create your super admin account' => 'Шаг 3: Создание аккаунта супер-пользователя',
 	'You are one step away from toasting.' => 'Вы в одном шаге от того, чтобы начать пользоваться Seotoaster',
 	'You will use these credentials to log into your toaster.' => 'В дальнейшем вы будете использовать e-mail и пароль, чтобы администрировать сайт',
 
-	'Admin name' => 'Имя супер-пользлвателя',
-	'Admin email' => 'E-mail супер-пользлвателя',
+	'Admin name' => 'Имя супер-пользователя',
+	'Admin email' => 'E-mail супер-пользователя',
 	'Verify password' => 'Пароль еще раз',
 
 	'Note from SEO&nbsp;Samb' => 'Примечание от SEO Samba',
