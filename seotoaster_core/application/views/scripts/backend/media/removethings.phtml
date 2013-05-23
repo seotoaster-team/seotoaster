@@ -17,12 +17,8 @@
 						<li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
 						<li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
 					</ul>
-					<div id="filebrowser-images" class="filebrowser-zone">
-
-					</div>
-					<div id="filebrowser-files" class="filebrowser-zone">
-
-					</div>
+					<div id="filebrowser-images" class="filebrowser-zone"></div>
+					<div id="filebrowser-files" class="filebrowser-zone"></div>
 				</div>
 			</div>
 		</form>
@@ -175,7 +171,7 @@
 		});
 	});
 
-	$('.file-container').live('toggleActive', function(){
+	$('.file-container').on('toggleActive', function(){
 		var $flag = $(this).children('input.toremove');
 		var $parent = $(this).parent('.filebrowser-zone');
 		if ($flag.attr('checked')){
@@ -192,10 +188,10 @@
 			}
 		}
 		$('#check-all').button('refresh');
-	}).live('click', function(){
+	}).on('click', function(){
 		$(this).trigger('toggleActive');
 	});
-	$('.file-container > input.toremove').live('click', function(event){
+	$('.file-container > input.toremove').on('click', function(event){
 		$(this).parent('.file-container').trigger('toggleActive');
 	});
 

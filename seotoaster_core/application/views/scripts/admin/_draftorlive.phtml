@@ -16,8 +16,8 @@
 <script type="text/javascript">
 	$(function() {
 		pubunpub();
-		$('#published').live('click', pubunpub);
-	})
+		$(document).on('click', '#published', pubunpub);
+	});
 	function pubunpub() {
 		$('#publish-later').css({display : (($('#published').prop('checked')) ? 'none' : 'inline')});
 	}

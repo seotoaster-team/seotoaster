@@ -8,21 +8,20 @@
 class Backend_SeoController extends Zend_Controller_Action {
 
 	const SILOCAT_ADD    = 'add';
-	const SILOCAT_REMOVE = 'remove';
 
-	private $_translator = null;
+    const SILOCAT_REMOVE = 'remove';
 
-    public static $_allowedActions = array(
-        'sitemap'
-    );
+	private $_translator           = null;
+
+    public static $_allowedActions = array('sitemap');
 
 	public function init() {
 		parent::init();
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PUBLIC)) {
-            $this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+            $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
         }
         if(!Tools_Security_Acl::isActionAllowed()) {
-            $this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+            $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
         }
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'loaddeeplinkslist'	=> 'json',
@@ -34,7 +33,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 			'silocat'           => 'json',
 			'unsilocat'         => 'json',
 			'managesilos'       => 'json'
-			))->initContext('json');
+		))->initContext('json');
 
         $this->_helper->contextSwitch()
             ->addActionContext('sitemap', 'xml')

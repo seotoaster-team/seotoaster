@@ -24,7 +24,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 		parent::init();
 		$this->_websiteData = Zend_Registry::get('website');
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
-			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+			$this->redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 
 		$this->_helper->viewRenderer->setNoRender(true);

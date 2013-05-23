@@ -6,16 +6,16 @@
  */
 class Backend_PageController extends Zend_Controller_Action {
 
-    public static $_allowedActions = array(
-        'publishpages'
-    );
+    public static $_allowedActions = array('publishpages');
+
+    protected $_mapper             = null;
 
     public function init() {
-        parent::init();
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed()) {
-            $this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+            $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
         }
         $this->view->websiteUrl = $this->_helper->website->getUrl();
+
         $this->_helper->AjaxContext()->addActionContexts(array(
             'edit404page'      => 'json',
             'rendermenu'       => 'json',

@@ -1,4 +1,3 @@
-<!--$this->render('backend/content/top.phtml')-->
 <div class="seotoaster container_12 h590 rounded3px">
 	<?php
 		$draftOrLive = $this->toasterDraftorlive(array(
@@ -26,10 +25,7 @@
             <?php endif; ?>
 			| <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('No editor'); ?></a>
 		</div>
-		<?php
-			/*$this->contentForm->setAction($this->url());
-			echo $this->contentForm;*/
-		?>
+
 		<form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 			<?php echo $this->contentForm->getElement('content'); ?>
 			<?php echo $this->contentForm->getElement('containerType'); ?>
@@ -38,36 +34,23 @@
 			<?php echo $this->contentForm->getElement('containerId'); ?>
 		</form>
 	</div>
-	<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => 'Content'));?>
-	<?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets')));?>
 
-	<?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
+    <?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => $this->translate('Content')));?>
+    <?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets')));?>
 
-		<?php foreach($this->pluginsTabs as $tabData): ?>
-			<?php $this->tabPane('tabs', $tabData['content'], array('title' => $tabData['title']));?>
-		<?php endforeach; ?>
+    <?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
+        <?php foreach($this->pluginsTabs as $tabData): ?>
+            <?php $this->tabPane('tabs', $tabData['content'], array('title' => $this->translate($tabData['title'])));?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
-	<?php endif; ?>
+    <?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 tabs'));?>
 
-	<?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 tabs'));?>
 	<?php echo $this->contentForm->getElement('submit'); ?>
 </div>
 
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.js'); ?>
-
-<script type="text/javascript">
-	$(function() {
-		$('#tabs ul').removeClass('ui-corner-all').addClass('ui-corner-top');
-
-        $('a[href="#tabs-frag-2"]').one('click', function() {
-            $('#tabs-frag-2').empty().load('<?php echo $this->websiteUrl . 'backend/backend_content/loadwidgetmaker/'; ?>');
-        });
-
-
-		$('#btn-submit').click(function(){
-			$('#frm_content').submit();
-		});
-	})
-</script>
+<?php
+    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js');
+    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js');
+    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.js');
+?>
