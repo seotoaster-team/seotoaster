@@ -29,9 +29,8 @@
 					</table></td>
 				</tr>
 				<tr>
-					<!-- used a little hack with set title function -->
 					<td><label for="link_list">{#advanced_dlg.link_list}</label></td>
-					<td><select id="link_list" name="link_list" onchange="document.getElementById('href').value=this.options[this.selectedIndex].value;setTitle(this.options[this.selectedIndex].text)"></select></td>
+					<td><select id="link_list" name="link_list" onchange="document.getElementById('href').value=this.options[this.selectedIndex].value;"></select></td>
 				</tr>
 				<tr>
 					<td><label id="targetlistlabel" for="targetlist">{#advanced_dlg.link_target}</label></td>
@@ -54,11 +53,5 @@
 		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>
 </form>
-<!-- it's a little hack -->
-<script type="text/javascript" charset="utf-8">
-	function setTitle(title) {
-		document.getElementById('linktitle').value = title;
-	}
-</script>
 </body>
 </html>
