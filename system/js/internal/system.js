@@ -19,7 +19,7 @@ $(function() {
 		var link    = $(this);
 		var pwidth  = link.data('pwidth') || 960;
 		var pheight = link.data('pheight') || 580;
-		var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'topastePopup'}).addClass('__tpopup rounded3px');
+		var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup rounded3px');
 		popup.parent().css({background: 'none'});
 
 		popup.dialog({
@@ -29,6 +29,19 @@ $(function() {
 			draggable : true,
 			modal: true,
 			open: function() {
+                this.onload = function(){
+                    $(this).contents().find('.close, .save-and-close').on('click', function(){
+                        var restored = localStorage.getItem(generateStorageKey());
+                        if(restored !== null) {
+                            showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function() {
+                                localStorage.removeItem(generateStorageKey());
+                                closePopup(popup);
+                            });
+                        } else {
+                            closePopup(popup);
+                        }
+                    });
+                }
 				$(this).attr('src', link.data('url')).css({
 						width    : pwidth + 'px',
 						height   : pheight + 'px',
@@ -66,19 +79,6 @@ $(function() {
 				$('.smoke-base').remove();
 			}
 		}, {classname:"errors", 'ok':'Yes', 'cancel':'No'});
-	});
-
-	//seotoaster close popup window button
-	$(document).on('click', '.close, .save-and-close', function() {
-		var restored = localStorage.getItem(generateStorageKey());
-		if(restored !== null) {
-			showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function() {
-				localStorage.removeItem(generateStorageKey());
-				closePopup();
-			});
-		} else {
-			closePopup();
-		}
 	});
 
 	//seotoaster ajax form submiting
@@ -220,9 +220,7 @@ function publishPages() {
 	}
 }
 
-function closePopup() {
-    var frame = window.parent.$('iframe.__tpopup');
-
+function closePopup(frame) {
     if(frame.contents().find('div.seotoaster').hasClass('refreshOnClose')) {
 		window.parent.location.reload();
 	}
