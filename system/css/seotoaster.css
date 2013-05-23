@@ -17,7 +17,6 @@ body, body.seotoaster {
 	border: 2px solid #fff;
     font-size:11pt;
 	background: #dae8ed /*#BDE6F1*/;
-
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
@@ -1746,4 +1745,8 @@ input[type=checkbox].cropped {
 }
 .unpublished {
     outline: 1px dashed #ff0000;
+}
+/*ui dialog z-index fix*/
+.ui-dialog {
+    z-index: 999;
 }
