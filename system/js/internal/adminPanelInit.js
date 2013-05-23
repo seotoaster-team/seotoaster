@@ -12,21 +12,18 @@ $(function() {
 	//seotoaster admin panel cookie
 	if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') == 1) {
 		$('#cpanelul').hide();
-		$('#logoutul').hide()
-		$('#seotoaster-logowrap').hide()
+		$('#logoutul').hide();
+		$('#seotoaster-logowrap').hide();
 		$('#showhide > a').text('Expand menu'); //.addClass('rounded-bottom');
 	}
 
 
 	$('#cpanelul').accordion({
-		autoHeight: false,
-		navigation: false,
-		clearStyle: true,
-		icons: false
+        heightStyle: 'content'
 	});
 
 	if($.cookie('currSectionOpen')) {
-		$('#cpanelul').accordion('activate', parseInt($.cookie('currSectionOpen')));
+		$('#cpanelul').accordion({active: parseInt($.cookie('currSectionOpen'))});
 	}
 
 	$(document).on('click', '#cpanelul li', function() {

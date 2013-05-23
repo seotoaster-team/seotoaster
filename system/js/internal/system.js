@@ -1,8 +1,4 @@
 $(function() {
-	_FADE_SLOW   = 5000;
-	_FADE_NORMAL = 1500;
-	_FADE_FAST   = 700;
-	_FADE_FLASH  = 300;
 
     var currentUrl = decodeURI(window.location.href);
     if (currentUrl && typeof currentUrl != 'undefined') {
@@ -225,13 +221,14 @@ function publishPages() {
 }
 
 function closePopup() {
-	if(window.parent.jQuery('.__tpopup').contents().find('div.seotoaster').hasClass('refreshOnClose')) {
+    var frame = window.parent.$('iframe.__tpopup');
+
+    if(frame.contents().find('div.seotoaster').hasClass('refreshOnClose')) {
 		window.parent.location.reload();
-		window.parent.jQuery('.__tpopup').dialog('close');
 	}
-	//parent.$('iframe').dialog('close');
-	if(typeof window.parent.$('iframe').dialog != 'undefined') {
-		window.parent.$('iframe').dialog('close');
+
+    if(typeof frame.dialog != 'undefined') {
+        frame.dialog('close');
 	} else {
 		console.log('Alarm! Something went wrong!');
 	}

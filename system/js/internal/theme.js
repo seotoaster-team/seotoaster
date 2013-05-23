@@ -1,5 +1,5 @@
 $(function() {
-    if (!$.browser.msie) {
+    //if (!$.browser.msie) {
         var textarea = $('#template-content').hide().detach();
         textarea.insertBefore('#editor');
         window.editor = ace.edit("edittemplate");
@@ -9,7 +9,7 @@ $(function() {
         editor.getSession().setValue(textarea.val());
         editor.getSession().setUseWrapMode(true);
         editor.setShowPrintMargin(false);
-    }
+    //}
 
     $('#title').focus();
     $('#frm_template').on('submit', saveTemplate);
@@ -65,14 +65,14 @@ $(function() {
 });
 
 function saveTemplate() {
-    if (!$.browser.msie){
+    //if (!$.browser.msie){
         var templateContent = editor.getSession().getValue();
-    }
+    //}
     $.ajax({
         url        : $(this).attr('action'),
         type       : 'post',
         dataType   : 'json',
-        data: $.browser.msie ? $(this).serialize() : {
+        data: {
             content : templateContent,
             pageId : $('#pageId').val(),
             templateType : $('#template-type').val(),

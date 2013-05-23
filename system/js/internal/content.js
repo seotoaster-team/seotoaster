@@ -1,5 +1,14 @@
 $(function() {
 	$('#tabs').tabs();
+    $('#tabs ul').removeClass('ui-corner-all').addClass('ui-corner-top');
+
+    $(document).one('click', 'a[href="#tabs-frag-2"]', function() {
+        $('#tabs-frag-2').empty().load($('#website_url').val() + 'backend/backend_content/loadwidgetmaker/');
+    });
+
+    $('#btn-submit').click(function(){
+        $('#frm_content').submit();
+    });
 
 	$('#frm_content').submit(function() {
 		var elements = {
@@ -16,12 +25,9 @@ $(function() {
 			type       : 'post',
 			dataType   : 'json',
 			data       : elements,
-			beforeSend : function() {
-				showSpinner();
-			},
+			beforeSend : showSpinner,
 			success : function() {
 				localStorage.removeItem(generateStorageKey());
-
 				top.location.reload();
 			},
 			error: function(response) {
