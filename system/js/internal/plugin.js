@@ -3,12 +3,9 @@ $(function() {
     $('#plugintab').tabs({
         active     : 0,
         beforeLoad : function( event, ui ) {
-            //$('#ui-tabs-1').addClass('plugins-list h425');
             ui.panel.addClass('plugins-list h425');
-            showSpinner();
             ui.ajaxSettings.dataFilter = function(data) {
                 ui.panel.html($.parseJSON(data).pluginsList);
-                hideSpinner();
                 $('.plugin-item a.plugin-control, .plugin-item a.plugin-endis').button();
             };
             ui.jqXHR.done(function(){});
