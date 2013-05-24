@@ -76,10 +76,13 @@
 <script type="text/javascript">
     $(function() {
         $('#save-actions').hide();
-        var triggersTabsTmpl  = $('#triggersTabs').template();
-        var actionTriggers    = <?php echo json_encode($this->triggers); ?>;
-        var actions           = <?php echo json_encode($this->actions);?>;
-        var lastId            = 0;
+
+        var triggersTabsTmpl  = $('#triggersTabs').template(),
+            actionTriggers    = <?php echo json_encode($this->triggers); ?>,
+            actions           = <?php echo json_encode($this->actions);?>,
+            lastId            = 0,
+            atholder          = $('#action-triggers');
+
 
         $(document).on('change', '#actions', function() {
             if($(this).val() != 0) {
@@ -88,24 +91,32 @@
                 //$('#save-actions').hide()
                 return false;
             }
-            $('#action-triggers').tabs('destroy');
-            $('#action-triggers').empty().append($.tmpl(triggersTabsTmpl, {triggers: actionTriggers, currentTrigger: $(this).val()}));
-            $('#action-triggers').tabs({
-                create: function(event, ui) {
-                    $.each(actions, function(index, item) {
-                        var triggerHolderId = $('#actions').val() + '-triegger-' + item.trigger;
-                        var triggerHolder   = $(event.target).find('#' + triggerHolderId);
-                        var action          = $.tmpl($('#triggerActionTemplate').template(), {triggers: actionTriggers, triggerName: item.trigger, index: item.id, triggerId: item.id});
-                        $('select[name*=trigger]', action).val(item.trigger);
-                        $('select[name*=recipient]', action).val(item.recipient);
-                        $('select[name*=template]', action).val(item.template);
-                        $('textarea[name*=message]', action).val(item.message);
-                        $('input[name*=from]', action).val(item.from);
-                        $('input[name*=subject]', action).val(item.subject);
-                        $(triggerHolder).prepend(action);
-                    });
-                }
-            });
+
+            //check if tabs already initialized then destroy
+            if(atholder.data('ui-tabs')) {
+                atholder.tabs('destroy');
+            }
+
+            atholder
+                .empty()
+                .append($.tmpl(triggersTabsTmpl, {triggers: actionTriggers, currentTrigger: $(this).val()}))
+                .tabs({
+                    create: function(event, ui) {
+                        $.each(actions, function(index, item) {
+                            var triggerHolderId = $('#actions').val() + '-triegger-' + item.trigger;
+                            var triggerHolder   = $(event.target).find('#' + triggerHolderId);
+                            var action          = $.tmpl($('#triggerActionTemplate').template(), {triggers: actionTriggers, triggerName: item.trigger, index: item.id, triggerId: item.id});
+                            $('select[name*=trigger]', action).val(item.trigger);
+                            $('select[name*=recipient]', action).val(item.recipient);
+                            $('select[name*=template]', action).val(item.template);
+                            $('textarea[name*=message]', action).val(item.message);
+                            $('input[name*=from]', action).val(item.from);
+                            $('input[name*=subject]', action).val(item.subject);
+                            $(triggerHolder).prepend(action);
+                        });
+                    }
+                });
+
         }).on('click', '.new-trigger-action', function(e) {
             e.preventDefault();
             var triggerName       = $(e.target).data('triggerName');

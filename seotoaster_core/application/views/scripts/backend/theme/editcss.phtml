@@ -20,26 +20,22 @@
 
 <script type="text/javascript">
 $(function() {
-    if (!$.browser.msie) {
-	    var textarea = $('#csscontent').detach();
-	    textarea.insertBefore('#editor');
-	    var editor  = ace.edit("editor");
-	    editor.setTheme("ace/theme/crimson_editor");
-	    var CSSMode = require("ace/mode/css").Mode;
-        editor.getSession().setMode(new CSSMode());
-        editor.getSession().setValue(textarea.hide().val());
-        editor.getSession().setUseWrapMode(true);
+    var textarea = $('#csscontent').detach();
+    textarea.insertBefore('#editor');
+    var editor  = ace.edit("editor");
+    editor.setTheme("ace/theme/crimson_editor");
+    var CSSMode = require("ace/mode/css").Mode;
+    editor.getSession().setMode(new CSSMode());
+    editor.getSession().setValue(textarea.hide().val());
+    editor.getSession().setUseWrapMode(true);
 
-    }
 	$('#csslist').focus();
 	$('#editcssform').on('submit', function(){
-		if (!$.browser.msie){
-            var cssContent = editor.getSession().getValue();
-        }
+        var cssContent = editor.getSession().getValue();
 		$.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
-			data: $.browser.msie ? $(this).serialize() : {cssname : $("#csslist").val(), content : cssContent},
+			data: {cssname : $("#csslist").val(), content : cssContent},
 			dataType: 'json',
 			success: function(response){
 				hideSpinner();
@@ -66,7 +62,7 @@ $(function() {
 			success: function(response){
 				if (!response.error){
 					hideSpinner();
-					$.browser.msie ? $('#csscontent').val(response.responseText).focus() : editor.getSession().setValue(response.responseText);
+					editor.getSession().setValue(response.responseText);
 				}
 			},
 			beforeSend: function(){

@@ -1,8 +1,8 @@
 <?php if(!empty($this->plugins)): ?>
 	<?php foreach($this->plugins as $plugin): ?>
 		<div class="plugin-item">
-			<a style="display: none;" href="javascript:;" class="readme-plugin" data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/readme.png" alt="readme"/></a>
-			<a data-url="<?php echo $this->toasterLink('backend_plugin', 'delete', '', null, true); ?>" data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" class="del-plugin _tdelete" style="display: none;" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+			<a href="javascript:;" class="readme-plugin" data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/readme.png" alt="readme"/></a>
+			<a data-url="<?php echo $this->toasterLink('backend_plugin', 'delete', '', null, true); ?>" data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" class="del-plugin _tdelete" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
 			<div class="plugin-image">
 				<img src="<?php echo $plugin->getPreview(); ?>" alt="<?php echo $plugin->getName(); ?> preview" />
 			</div>

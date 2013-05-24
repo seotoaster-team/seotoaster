@@ -9,7 +9,7 @@ $(function() {
 	$('#urlType-1').click(function(){
 		$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
 	});
-	$('.redirect-massdel').live('click', function() {
+	$('.redirect-massdel').on('click', function() {
 		if(!$('.redirect-massdel').not(':checked').length) {
 			$('#massdell-main').attr('checked', true);
 		}

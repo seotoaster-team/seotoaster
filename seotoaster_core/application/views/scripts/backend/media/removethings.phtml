@@ -68,9 +68,13 @@
 
 <script type="text/javascript">
 <?php $this->jQuery()->onLoadCaptureStart();?>
-	$('#deleteBtn').button();
-	$('#check-all').button();
-	$('#ajax_msg').unbind('click').removeAttr('style').removeClass().html('').dialog({
+    var btnCheckAll = $('#check-all'),
+        btnDelete   = $('#deleteBtn');
+
+        btnCheckAll.button();
+        btnDelete.button();
+
+    $('#ajax_msg').unbind('click').removeAttr('style').removeClass().html('').dialog({
 		maxHeight: 500,
 		width: 400,
 		resizable: false,
@@ -83,13 +87,13 @@
 			var total = $(ui.panel).find('input.toremove').size();
 			var checked = $(ui.panel).find('input.toremove:checked').size();
 			if (total > 0 && total === checked) {
-				$('#check-all').attr('checked', 'checked');
+				btnCheckAll.attr('checked', 'checked');
 			} else {
-				$('#check-all').removeAttr('checked');
+				btnCheckAll.removeAttr('checked');
 			}
-			$('#check-all').button('refresh');
+			btnCheckAll.button('refresh');
 		}
-	})
+	});
 
 	$('.ui-tabs-nav').removeClass('ui-corner-all').addClass('ui-corner-top');
 
@@ -171,10 +175,11 @@
 		});
 	});
 
-	$('.file-container').on('toggleActive', function(){
-		var $flag = $(this).children('input.toremove');
+	$(document).on('toggleActive', '.file-container', function(){
+		var $flag   = $(this).children('input.toremove');
 		var $parent = $(this).parent('.filebrowser-zone');
-		if ($flag.attr('checked')){
+
+        if ($flag.attr('checked')){
 			$flag.removeAttr('checked');
 			$(this).removeClass('active');
 			if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
@@ -184,22 +189,21 @@
 			$(this).addClass('active');
 			$flag.attr('checked', 'checked');
 			if ($parent.find('.file-container:not(.active)').size() === 0){
-				$('#check-all').attr('checked', 'checked');
+				btnCheckAll.attr('checked', 'checked');
 			}
 		}
-		$('#check-all').button('refresh');
-	}).on('click', function(){
+		btnCheckAll.button('refresh');
+	}).on('click', '.file-container', function(){
 		$(this).trigger('toggleActive');
-	});
-	$('.file-container > input.toremove').on('click', function(event){
-		$(this).parent('.file-container').trigger('toggleActive');
-	});
+	}).on('click', '.file-container > input.toremove', function(event){
+        $(this).parent('.file-container').trigger('toggleActive');
+    });
 
 	/**
 	 * handling "check all" checkbox
 	 */
-	$('#check-all').change(function(){
-		var selectedIndex = $( "#filebrowser" ).tabs( "option", "selected" );
+	$(document).on('change', '#check-all', function() {
+		var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
 		if (this.checked === true) {
 			var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container:not(.active)')
 		} else {

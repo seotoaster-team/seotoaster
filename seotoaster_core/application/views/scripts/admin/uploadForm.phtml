@@ -146,7 +146,7 @@ switch ($this->caller){
 			}
 		}
 		<?php elseif($this->caller == 'plugin'): ?>
-			$('#plugin-uploader-filelist').fadeOut(_FADE_SLOW);
+			$('#plugin-uploader-filelist').fadeOut();
 			pluginCallback();
 		<?php endif; ?>
     });
