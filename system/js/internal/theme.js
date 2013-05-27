@@ -23,7 +23,7 @@ $(function() {
             function(response){
                 if (response.error != false){
                     $('#frm_template').find('#title').val(response.responseText.name);
-                    $.browser.msie ? $('#frm_template').find('#template-content').val(response.responseText.content) : editor.getSession().setValue(response.responseText.content);
+                    editor.getSession().setValue(response.responseText.content);
                     $('#frm_template').find('#template_id').val(response.responseText.name);
                     $('#frm_template').find('#template-type').val(response.responseText.type);
                     $('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);

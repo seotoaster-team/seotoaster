@@ -1750,3 +1750,7 @@ input[type=checkbox].cropped {
 .ui-dialog {
     z-index: 999;
 }
+/**/
+.ui-widget-header {
+    border-bottom: none;
+}

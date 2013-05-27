@@ -17,7 +17,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	public function init() {
 		parent::init();
 		if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_THEMES)) {
-			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+			$this->redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
 		$this->_websiteConfig = Zend_Registry::get('website');
@@ -377,7 +377,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 	}
 
 	public function themesAction() {
-		$this->view->helpSectcion = 'themes';
+		$this->view->helpSection = 'themes';
 	}
 
 	/**

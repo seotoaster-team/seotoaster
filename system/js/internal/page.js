@@ -5,6 +5,7 @@ $(function() {
     var _elements    = [$('#header-title'), $('#url'), $('#nav-name')];
     var menuSelector = $('input.menu-selector');
     var isNewPage    = !$('#pageId').val();
+    var selectedOpt  = $('#pageCategory').val();
 
     $('#optimized').val($('#toggle-optimized').attr('checked') ? 1 : 0);
 
@@ -18,7 +19,7 @@ $(function() {
 		deleteTemplate($(this).closest('div.template_item'));
 		return false;
 	}).on('click', 'input.menu-selector', function(e) { // main menu radio click
-        checkMenu($(e.currentTarget).attr('id'));
+        checkMenu($(e.currentTarget).attr('id'), selectedOpt);
     }).on('click', '#toggle-optimized', function() { // optimized checkbox click
         var optCheck  = $(this);
         var optimized = optCheck.attr('checked') ? 1 : 0;
@@ -75,7 +76,7 @@ function datepickerCallback() {
 	$('#publish-at').val($(this).val());
 }
 
-function checkMenu(currentMenuItem) {
+function checkMenu(currentMenuItem, selectedOption) {
     var _MAIN_MENU_ID   = 'inMenu-1';
     var _STATIC_MENU_ID = 'inMenu-2';
     var _NO_MENU_ID     = 'inMenu-0';
@@ -87,20 +88,23 @@ function checkMenu(currentMenuItem) {
 		currentMenuItem = $('.menu-selector:checked').attr('id');
 	}
 
-	switch(currentMenuItem) {
+    switch(currentMenuItem) {
 		case _STATIC_MENU_ID:
         case _NO_MENU_ID:
-            var option = selector.find('option[value^="-"]');
-            if(option.length) {
-                option.val(-1).attr({selected:'selected'});
-            } else {
-                selector.prepend($('<option />').val('-1').text('Make your selection').attr({selected: 'selected'}));
+            if(!selector.find('option[value="-1"]').length) {
+                selector.prepend($('<option />').val('-1').text('No category'));
             }
+            selector.val(-1);
             selector.hide();
 		break;
 		case _MAIN_MENU_ID:
-            if(!$('#pageId').val()) {
-                selector.val(-4).attr({selected:'selected'});
+            selector.find('option[value="-1"]').remove();
+            if(!pageId) {
+                selector.val(-4);
+            } else {
+                if(typeof selectedOption != 'undefined') {
+                    selector.val(selectedOption);
+                }
             }
             selector.show();
 		break;

@@ -103,11 +103,11 @@ $(function() {
 	$('#toogletinymce').click(function() {
 		var editorId = 'content';
 		if(!tinyMCE.getInstanceById(editorId)) {
-			$(this).text('NO EDITOR');
+			$(this).text('SHOW HTML');
 			tinyMCE.execCommand('mceAddControl', false, editorId);
 		}
 		else {
-			$(this).text('WITH EDITOR');
+			$(this).text('SHOW EDITOR');
 			tinyMCE.execCommand('mceRemoveControl', false, editorId);
 		}
 	});
