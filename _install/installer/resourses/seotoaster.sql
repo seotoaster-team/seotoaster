@@ -382,5 +382,3 @@ ALTER TABLE `redirect`
 
 ALTER TABLE `template`
   ADD CONSTRAINT `template_ibfk_1` FOREIGN KEY (`type`) REFERENCES `template_type` (`id`) ON DELETE CASCADE;
-
-SET foreign_key_checks = 1;
