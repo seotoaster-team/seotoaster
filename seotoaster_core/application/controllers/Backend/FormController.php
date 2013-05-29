@@ -82,6 +82,7 @@ class Backend_FormController extends Zend_Controller_Action {
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
+	    $this->view->helpSection = 'editform';
 	}
 
     public function validateEmail($emails){

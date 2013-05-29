@@ -667,7 +667,7 @@ a.generator-links.plugin {
 	width: 100%;
 }
 #menu_content_content_widgets_menu_co {
-	width: 305px !important;
+	width: auto !important;
 	background-color: #fff;
 	-moz-border-radius:0 0 6px 6px;
 	-webkit-border-radius:0 0 6px 6px;
