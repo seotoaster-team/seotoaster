@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 w480 h550 rounded3px">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add a page to a tags | Create a tag')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add a page to a tags | Create a tag',  'helpSection' => 'fa')); ?>
 	<form id="frm-featured-area" action="<?php echo $this->url(); ?>" method="post" data-callback="loadFaList" class="_fajax">
 		<div class="grid_7">
 			<?php echo $this->faForm->getElement('name'); ?>

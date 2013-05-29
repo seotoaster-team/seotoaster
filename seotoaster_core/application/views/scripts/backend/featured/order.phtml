@@ -1,5 +1,5 @@
 <div class="seotoaster container_12 rounded8px refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Order featured area pages')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Order featured area pages', 'helpSection' => 'fa')); ?>
 	<?php if(isset($this->faPages) && is_array($this->faPages) && !empty($this->faPages)): ?>
 		<ul id="fa-pages-list">
 			<?php foreach($this->faPages as $key => $page): ?>
