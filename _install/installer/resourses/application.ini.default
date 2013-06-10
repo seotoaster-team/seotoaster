@@ -61,7 +61,7 @@ cache.backend.cache_dir                = "cache/"
 [misc]
 misc.debug                 = 0
 misc.jquery                = "cdn"
-misc.jqversion             = "2.0.0"
+misc.jqversion             = "1.10.1"
 misc.jqueryui              = "cdn"
 misc.jquversion            = "1.10.3"
 misc.pluginsPath           = "plugins/"
