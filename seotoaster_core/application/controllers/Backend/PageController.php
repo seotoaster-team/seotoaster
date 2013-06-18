@@ -142,7 +142,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->view->faCount = ($page->getId()) ? sizeof(Application_Model_Mappers_FeaturedareaMapper::getInstance()->findAreasByPageId($page->getId())) : 0;
 
         //page preview image
-        $this->view->pagePreviewImage = Tools_Page_Tools::processPagePreviewImage($page->getUrl());
+        $this->view->pagePreviewImage = Tools_Page_Tools::getPreview($page);//Tools_Page_Tools::processPagePreviewImage($page->getUrl());
         $this->view->sambaOptimized   = $page->getOptimized();
 
         // page help section
