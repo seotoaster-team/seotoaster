@@ -52,10 +52,15 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 		parent::_init();
 		$this->_name    = $this->_options[0];
 		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICCONTENT || $this->_type == Application_Model_Models_Container::TYPE_STATICHEADER || $this->_type == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? 0 : $this->_toasterOptions['id'];
-        $contentId = $this->_name .'_'. $this->_type .'_pid_'. $this->_pageId ;
+        $contentId = $this->_name .'_'. $this->_type .'_pid_'. $this->_pageId;
+
+        $separator = '_';
+        if (in_array('readonly', $this->_options)) {
+            $separator = '_readonly_';
+        }
 
 		array_push($this->_cacheTags, preg_replace('/[^\w\d_]/', '', $contentId));
-		$this->_cacheId = $contentId .'_'. Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+		$this->_cacheId = $contentId .$separator. Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
 	}
 }
 
