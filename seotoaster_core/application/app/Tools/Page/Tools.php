@@ -12,7 +12,6 @@ class Tools_Page_Tools {
     public static function getPreview($page, $crop = false) {
 	    $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
-	    $websiteUrl    = ($configHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
 	    $path          = (bool)$crop ? $websiteHelper->getPreviewCrop() : $websiteHelper->getPreview() ;
 
 	    if (is_numeric($page)){
@@ -20,18 +19,27 @@ class Tools_Page_Tools {
         }
 
         if ($page instanceof Application_Model_Models_Page){
+	        $validator = new Zend_Validate_Regex('~^https?://.*~');
 	        $preview = $page->getPreviewImage();
-	        $previewPath = $websiteHelper->getPath().$path.$preview;
 	        if (!is_null($preview)) {
-		        if (is_file($previewPath)) return $websiteUrl . $path . $preview;
+		        if ($validator->isValid($preview)){
+			        return $preview;
+		        } else {
+			        $websiteUrl = ($configHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+			        $previewPath = $websiteHelper->getPath().$path.$preview;
+
+			        if (is_file($previewPath)) {
+				        return $websiteUrl . $path . $preview;
+			        }
+		        }
 	        }
         }
 
-	    return $websiteUrl . self::PLACEHOLDER_NOIMAGE;
+	    return $websiteHelper->getUrl() . self::PLACEHOLDER_NOIMAGE;
     }
 
 	/**
-	 * @deprecated Use Tools_Page_Tools::getPreview() instead
+	 * @deprecated Use Tools_Page_Tools::getPreview() instead. Will be removed in 2.2
 	 */
 	public static function getPreviewPath($pageId, $capIfNoPreview = false, $croped = false) {
 		Tools_System_Tools::debugMode() && error_log('Called deprecated Tools_Page_Tools::getPreviewPath(). Use Tools_Page_Tools::getPreview() instead');
