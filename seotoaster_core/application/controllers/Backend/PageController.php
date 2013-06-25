@@ -277,6 +277,10 @@ class Backend_PageController extends Zend_Controller_Action {
         $categories = $pageMapper->findByParentId(0);
         if(is_array($categories) && !empty ($categories)) {
             foreach ($categories as $category) {
+	            // TODO: remove next check and code something smart
+	            if ($category->getDraft()){
+		            continue;
+	            }
                 $tree[] = array(
                     'category' => $category,
                     'pages'    => $pageMapper->findByParentId($category->getId())
