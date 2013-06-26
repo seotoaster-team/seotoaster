@@ -47,7 +47,8 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
         $pageUrl = $filterChain->filter($pageUrl);
 
         // add .html if needed
-		if(!preg_match('/\.html$/', $pageUrl)) {
+		// TODO: in fact it always needed because of Zend_Filter_Alnum in $filterChain
+	    if(!preg_match('/\.html$/', $pageUrl)) {
 			$pageUrl .= '.html';
 		}
 		return $pageUrl;

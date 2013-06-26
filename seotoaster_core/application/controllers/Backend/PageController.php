@@ -62,7 +62,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $messages  = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
             $optimized = (isset($params['optimized']) && $params['optimized']);
 
-            //if page is optiized by samba unset optimized values from update
+            //if page is optimized by samba unset optimized values from update
             if($optimized) {
                 $params = $this->_restoreOriginalValues($params);
             }
@@ -387,7 +387,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageData['h1']              = $page->getH1();
         $pageData['headerTitle']     = $page->getHeaderTitle();
         $pageData['navName']         = $page->getNavName();
-        $pageData['url']             = $page->getUrl();
+        $pageData['url']             = $this->_helper->page->clean($page->getUrl());  // TODO: review this part
         $pageData['metaKeywords']    = $page->getMetaKeywords();
         $pageData['metaDescription'] = $page->getMetaDescription();
         unset($page);
