@@ -96,7 +96,7 @@ class Tools_Search_Tools {
 		$document->addField(Zend_Search_Lucene_Field::text('navName', $page->getNavName(), 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::text('h1', $page->getH1(), 'UTF-8'));
 
-		$document->addField(Zend_Search_Lucene_Field::binary('pageImage', base64_encode(Tools_Page_Tools::getPreviewPath($page->getId()))));
+		$document->addField(Zend_Search_Lucene_Field::binary('pageImage', base64_encode(Tools_Page_Tools::getPreview($page->getId()))));
 		$toasterSearchIndex->addDocument($document);
 	}
 
