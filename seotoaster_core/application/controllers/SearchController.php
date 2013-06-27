@@ -116,8 +116,8 @@ class SearchController extends Zend_Controller_Action {
             $pageList = $pageMapper->find($containerData);
             foreach($pageList as $page){
                     $previewImage = '';  
-                    if(!$page->getPreviewImage() !== null && $page->getPreviewImage() != ''){
-                      $previewImage = $this->_helper->website->getUrl().$this->_helper->website->getPreview().$page->getPreviewImage();
+                    if((bool)$page->getPreviewImage()){
+                      $previewImage = Tools_Page_Tools::getPreview($page);
                     }
                     $resultsHits[] = array(
 						'pageId'     => $page->getId(),
