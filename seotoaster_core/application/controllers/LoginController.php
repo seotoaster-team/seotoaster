@@ -187,6 +187,10 @@ class LoginController extends Zend_Controller_Action {
 				$resetToken->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_USED);
 				Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
 				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
+                $roleId = $user->getRoleId();
+                if($roleId != Tools_Security_Acl::ROLE_ADMIN && $roleId != Tools_Security_Acl::ROLE_SUPERADMIN){
+                    return $this->redirect($this->_helper->website->getUrl());
+                }
 				return $this->redirect($this->_helper->website->getUrl() . 'go');
 			} else {
 				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Passwords should match'));
