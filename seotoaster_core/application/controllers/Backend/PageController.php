@@ -115,7 +115,8 @@ class Backend_PageController extends Zend_Controller_Action {
                 if (isset($params['pagePreviewImage']) && !empty ($params['pagePreviewImage'])) {
                     $previewImageName = Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, $params['pagePreviewImage']);
                 } // else updating existing
-                elseif ($this->_helper->session->oldPageUrl != $page->getUrl()) {
+                elseif (!$optimized && $this->_helper->session->oldPageUrl !== $page->getUrl()) {
+                    // TODO: Refactor this part
 	                $previewImageName = Tools_Page_Tools::processPagePreviewImage((!$optimized) ? $page->getUrl() : $this->_helper->session->oldPageUrl, Tools_Page_Tools::processPagePreviewImage($this->_helper->session->oldPageUrl));
                 }
 
