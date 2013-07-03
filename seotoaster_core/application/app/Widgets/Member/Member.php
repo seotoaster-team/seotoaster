@@ -34,7 +34,12 @@ class Widgets_Member_Member extends Widgets_Abstract {
 		$this->_view->userRole  = $this->_session->getCurrentUser()->getRoleId();
 		$this->_view->loginForm = $this->_reInitDecorators(new Application_Form_Login());
 		$this->_view->messages  = $this->_flashMessanger->getMessages();
-		unset($this->_session->errMemeberLogin);
+        $passwordRetrieveFrom = new Application_Form_PasswordRetrieve();
+        $passwordRetrieveFrom->setAction($this->_website->getUrl().'login/retrieve');
+        $this->_view->retrieveForm = $passwordRetrieveFrom;
+        $this->_session->retrieveRedirect = $this->_toasterOptions['url'];
+
+        unset($this->_session->errMemeberLogin);
 		if(isset($this->_options[0])) {
 			$this->_session->redirectUserTo = $this->_options[0];
 		}

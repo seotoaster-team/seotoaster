@@ -10,4 +10,24 @@
 		$this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');
 		echo $this->loginForm;
 	?>
+    <a href="javascript:;" title="<?php echo $this->translate('Forgot password?'); ?>" class="forgot-password"> <?php echo $this->translate('Forgot password?'); ?></a>
+    <div class="retrieveFormBlock" style="display: none">
+        <?php echo $this->retrieveForm;?>
+        <a href="javascript:;" title="<?php echo $this->translate('I remembered my password'); ?>" id="remember-password"> <?php echo $this->translate('I remembered my password'); ?></a>
+    </div>
 <?php endif; ?>
+<script type="text/javascript">
+    $(function() {
+        $(document).on('click', '#remember-password', function() {
+            $('.retrieveFormBlock').hide();
+            $('#login-form').show();
+            $('.forgot-password').show();
+        });
+
+        $(document).on('click', '.forgot-password', function() {
+            $('.retrieveFormBlock').show();
+            $('#login-form').hide();
+            $('.forgot-password').hide();
+        });
+    });
+</script>
