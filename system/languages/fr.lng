@@ -483,8 +483,6 @@
         'Summary' => 'Résumé',
         'Checkout' => 'Payer',
         'OR' => 'OU',
-        'I\'m a new customer' => 'Je suis un nouveau client',
-        'I am returning customer' => 'Je reviens client',
         'Let me in' => 'Valider',
         'Next' => 'Suivant',
         'from the cart' => 'du panier',
