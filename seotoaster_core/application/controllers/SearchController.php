@@ -130,7 +130,7 @@ class SearchController extends Zend_Controller_Action {
             }
             $this->_helper->session->searchHits = $resultsHits;
         }else {
-            $this->_helper->session->searchHits = $this->_helper->language->translate('Nothing found');
+            $this->_helper->session->searchHits = '{$content:nothingfound}';
         }
         echo json_encode(array('redirect'=>$this->_helper->website->getUrl() . $redirectPage));
     }
