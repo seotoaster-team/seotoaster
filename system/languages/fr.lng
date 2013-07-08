@@ -455,7 +455,7 @@
     'Add new selection '=>'Ajouter une nouvelle sélection',
     'Edit '=>'Modifier',
     'Preview'=>'Apercu',
-    'back'=>'Retour',
+    'Back'=>'Retour',
     'Nothing Found'=>'Recherche infructueuse',
     'select image for product'=>'sélectionner l&rsquo;image pour le produit',
     'Close'=>'Fermer',
