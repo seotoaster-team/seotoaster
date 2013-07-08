@@ -809,5 +809,6 @@
     'Phone'     => 'Téléphone',
     'Delivery Comments' => 'Consignes de livraison',
     'Address 1' => 'Adresse 1',
-    'Address 2' => 'Adresse 2'
+    'Address 2' => 'Adresse 2',
+    'Retrieve' => 'Récupérer'
 );?>
