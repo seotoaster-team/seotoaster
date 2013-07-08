@@ -352,7 +352,6 @@
         'Unit Price' => 'Prix Unité',
         'There are no items in your cart' => 'Votre caddie est vide',
         'Thanks to our state of the art shopping cart, your credit card information is safe. Our system never gain access to your credit card information. Instead, when you click  to finalize your purchase, we send your information securely from your computer directly to our payment processing gateway.' => 'Grace à notre panier électronique d&#039;exception, vos informations de carte de crédit sont en sureté. Notre système n&#039;a jamais accès à vos informations de carte de crédit. Au lieu de cela, lorsque vous cliquez pour finaliser votre achat, nous envoyons vos informations en toute sécurité de votre ordinateur directement à notre passerelle de traitement des paiements.',
-        'Enter your shipping address' => 'Votre adresse de livraison',
         'First Name' => 'Prénom',
         'Last Name' => 'Nom',
         'E-mail' => 'E-mail',
