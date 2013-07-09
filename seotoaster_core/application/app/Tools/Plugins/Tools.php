@@ -135,7 +135,7 @@ class Tools_Plugins_Tools {
                 if(APPLICATION_ENV == 'development') {
                     Zend_Debug::dump($zce->getMessage() . '<br />' . $zce->getTraceAsString());
                 }
-                error_log("(plugin: " . strtolower(get_called_class()) . ") " . $se->getMessage() . "\n" . $se->getTraceAsString());
+                error_log("(plugin: " . strtolower(get_called_class()) . ") " . $zce->getMessage() . "\n" . $zce->getTraceAsString());
             }
             if(!isset($configIni->actiontriggers)) {
                 continue;
