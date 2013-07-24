@@ -41,9 +41,6 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		if(!is_array($params) || empty($params) || !isset($params[0]) || !$params[0] || preg_match('~^\s*$~', $params[0])) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Featured area name required.'));
 		}
-
-		//Zend_Debug::dump($params); die();
-
 		$areaName             = $params[0];
 		$pagesCount           = (isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT;
 		$maxDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2]) : self::AREA_DESC_LENGTH;
@@ -52,6 +49,9 @@ class Widgets_Featured_Featured extends Widgets_Abstract {
 		$featuredArea         = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($areaName);
 
 		if($featuredArea === null) {
+            if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+                return '';
+            }
 			return $this->_translator->translate('Featured area ') . $areaName . $this->_translator->translate(' does not exist');
 		}
 
