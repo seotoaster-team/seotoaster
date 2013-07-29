@@ -79,20 +79,26 @@ class Backend_PluginController extends Zend_Controller_Action {
 				try {
 					$sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
 					if(strlen($sqlFileContent)) {
-						//@todo change unsafe explode in next line
 						$queries = Tools_System_SqlSplitter::split($sqlFileContent);
 						if(is_array($queries) && !empty ($queries)) {
+							/**
+							 * @var $dbAdapter Zend_Db_Adapter_Abstract
+							 */
 							$dbAdapter = Zend_Registry::get('dbAdapter');
 							try {
+								$dbAdapter->beginTransaction();
 								array_walk($queries, function($query, $key, $adapter) {
 									if(strlen(trim($query))) {
 										$adapter->query($query);
 									}
 								}, $dbAdapter);
+								$dbAdapter->commit();
 							}
 							catch (Exception $e) {
-								error_log($e->getMessage());
-								$this->_helper->response->fail($e->getMessage());
+								$dbAdapter->rollBack();
+								$eMsg = $e->getMessage();
+								Tools_System_Tools::debugMode() && error_log($eMsg);
+								$this->_helper->response->fail($eMsg);
 							}
 						}
 					}
