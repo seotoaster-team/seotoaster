@@ -824,5 +824,30 @@
     'You sell items and collect payments online?' => 'Vous vendez des articles et recevez des paiements en ligne?',
 
     //Quote
-    'Use same data for shipping?' => 'Utiliser la meme info pour l’adresse de livraison?'
+    'Use same data for shipping?' => 'Utiliser la meme info pour l’adresse de livraison?',
+
+
+    //needed verification
+    'new' => 'nouveau',
+    'all' => 'tous',
+    'to' => 'à',
+    'completed' => 'terminé',
+    'pending' => 'attente',
+    'shipped' => 'envoyé',
+    'delivered' => 'livré',
+    'Edit Account' => 'Modifier le compte',
+    'Date range' => 'Dates',
+    'Current email' => 'E-mail actuel',
+    'New email' => 'nouvel e-mail',
+    'Confirm new email' => 'Confirmez nouvel e-mail',
+    'Current Password' => 'Mot de passe actuel',
+    'New password' => 'Nouveau mot de passe',
+    'Confirm new password' => 'Confirmer le nouveau mot de passe',
+    'Save changes' => 'Enregistrer les modifications',
+    'Order date' => 'Commande Date',
+    'Details' => 'Détails',
+    'No matching records found' => 'Aucun enregistrement correspondant n\'a été trouvé',
+    'You do not have any orders' => 'Vous n\'avez pas de commandes',
+    'Logout' => 'Déconnexion'
+
 );?>
