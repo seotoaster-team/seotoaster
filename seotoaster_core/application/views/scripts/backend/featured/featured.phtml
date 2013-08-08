@@ -19,4 +19,4 @@
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml', array('extraClasses' => 'mt8px')); ?>
 	<input type="hidden" value="<?php echo $this->pageId; ?>" id="pid" />
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>
+<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>
