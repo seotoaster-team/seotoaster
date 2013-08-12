@@ -10,7 +10,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
 	private $_protectedTemplates = array('index', 'default', 'category');
 
-	private $_websiteConfig = null;
+    private $_websiteConfig = null;
 
 	private $_themeConfig = null;
 
@@ -205,16 +205,11 @@ class Backend_ThemeController extends Zend_Controller_Action {
 				if ($editcssForm->isValid($postParams)) {
 					$cssName = $postParams['cssname'];
 					try {
-						Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName, $postParams['content']);
-						$params = array(
-							'websiteUrl'   => $this->_helper->website->getUrl(),
-							'themePath'    => $this->_websiteConfig['path'] . $this->_themeConfig['path'],
-							'currentTheme' => $this->_helper->config->getConfig('currentTheme')
-						);
-						$concatCss = Tools_Factory_WidgetFactory::createWidget('Concatcss', array('refresh' => true), $params);
-						$concatCss->render();
+                        Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName, $postParams['content']);
+                        $this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', basename($cssName))));
 						$this->_helper->response->response($this->_translator->translate('CSS saved'), false);
-					} catch (Exceptions_SeotoasterException $e) {
+					}
+                    catch (Exceptions_SeotoasterException $e) {
 						$this->_helper->response->response($e->getMessage(), true);
 					}
 				}
@@ -245,8 +240,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
 		$cssTree = array();
 		foreach ($cssFiles as $file) {
-			// don't show concat.css for editing
-			if (strtolower(basename($file)) == Widgets_Concatcss_Concatcss::FILENAME) {
+			// don't show concat css for editing
+			if (preg_match('/'.MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX.'[a-zA-Z0-9]+\.css/i', strtolower(basename($file)))) {
 				continue;
 			}
 			preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', Tools_System_Tools::normalizePath($file), $sequences);
