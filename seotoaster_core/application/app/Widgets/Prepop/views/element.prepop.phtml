@@ -76,7 +76,7 @@
 <?php $this->jQuery()->onLoadCaptureEnd() ?>
 <?php $this->jQuery()->onLoadCaptureStart() ?>
     $(function() {
-        $(document).on('<?php echo $this->onJsElementAction; ?>', '.<?php echo $this->prepopName; ?>.prepop-<?php echo $this->elementType; ?>', function(e) {
+        $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo (($this->prepopName) ? ('.' . $this->prepopName) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function(e) {
             //init prepop specific fields
             prepop.pageId         = '<?php echo $this->commonOptions['pageId']; ?>';
             prepop.container.type = '<?php echo $this->commonOptions['containerType']; ?>';
