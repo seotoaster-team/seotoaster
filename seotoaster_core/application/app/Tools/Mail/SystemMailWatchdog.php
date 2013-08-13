@@ -241,11 +241,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	    );
 
 	    $mailer   = Tools_Mail_Tools::initMailer();
+        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() . ' Please reset your password':$this->_options['subject'];
 	    $mailer->setMailFrom($this->_options['from']);
         $mailer->setMailFromLabel($this->_websiteHelper->getUrl() . ' password recovery system');
         $mailer->setMailTo($token->getUserEmail());
         $mailer->setBody($this->_entityParser->parse($mailBody));
-        $mailer->setSubject('[Seotoaster] Please reset your password');
+        $mailer->setSubject($subject);
 	    $status = $mailer->send();
         return $status;
     }
@@ -253,11 +254,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     protected function _sendTpasswordchangeMail(Application_Model_Models_PasswordRecoveryToken $token) {
 	    $mailBody = $this->_prepareEmailBody();
 
+        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' Your password successfully changed':$this->_options['subject'];
         $this->_mailer->setMailFrom($this->_options['from'])
 		       ->setMailFromLabel($this->_websiteHelper->getUrl() . ' password recovery system')
                ->setMailTo($token->getUserEmail())
 		       ->setBody($this->_prepareEmailBody())
-	           ->setSubject('[Seotoaster] Your password successfully changed');
+	           ->setSubject($subject);
         return $this->_mailer->send();
     }
 
