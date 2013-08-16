@@ -864,8 +864,8 @@
     'cs_delivered'	=> 'Livraison effectuée',
     'cs_canceled'	=> 'Commande annulée',
     'cs_error'      => 'erreur',
-    'cs_customer_charged' => 'Client chargé',
-    'cs_customer_not_charged' => 'Client non chargé',
+    'cs_new_quote' => 'Nouveau devis',
+    'cs_quote_sent' => 'Devis envoyé',
     'cs_lost_opportunity' => 'Opportunité perdu',
     'shipping country' => 'Pays de destination',
     'shipping state' => 'Etat de destination',
@@ -919,7 +919,24 @@
     'Add Country'  => 'Ajouter Pays',
     'Add State' => 'Ajoutez État',
     'clear' => 'effacer',
-    'select folder'=>'sélectionnez le dossier'
+    'select folder'=>'sélectionnez le dossier',
+    'Manage store config' => 'Gérer la config magasin',
+    'Store front name' => 'Enseigne',
+    'Store front e-mail' => 'E-mail de l’enseigne',
+    'State/Province/Region' => 'Etat/Province/Region',
+    'Zip/Postal Code' => 'Code Postal',
+    'Weight unit' => 'Unité de poids',
+    'Force use HTTPS for checkout page' => 'Forcer l’utilisation de HTTPS pour le passage en caisse',
+    'Currency' => 'Monnaie',
+    'Insert list of zip/postal codes: one per line' => 'Insérer des codes postaux : un par ligne',
+    'Click preview to get to product landing page' => 'Cliquer l’aperçu pour accéder a la page produit',
+    'Missing mandatory code parameter' => 'Parametre de code obligatoire manquant',
+    'Coupon start date should be specified' => 'Date de début de validité du coupon doit être spécifiée',
+    'Coupon end date should be specified' => 'Date de fin de validité du coupon doit être spécifiée',
+    'Coupon with such code already exists' => 'Veuillez spécifier un nom de groupe',
+    'Group Name Can\'t be empty' => 'Le prix doit être une valeur numérique',
+    'Price Value must be numeric' => 'Veuillez spécifier un prix',
+    'Price Value Can\'t be empty' => 'Veuillez spécifier un prix'
 
 
 );?>
