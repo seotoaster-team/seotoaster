@@ -937,7 +937,12 @@
     'Group Name Can\'t be empty' => 'Le prix doit être une valeur numérique',
     'Price Value must be numeric' => 'Veuillez spécifier un prix',
     'Price Value Can\'t be empty' => 'Veuillez spécifier un prix',
-    'Enter pick up information' => 'Vos informations'
+    'Enter pick up information' => 'Vos informations',
+    'Please choose cart status' => 'Choisir un statut pour le panier',
+    'Please add products' => 'Ajouter des produits',
+    'Period of hours Can\'t be empty' => 'En heures Ne peut etre vide',
+    'Please add products' => 'Ajouter des produits',
+    'This cart status already exist' => 'Ce statut de panier existe déjà'
 
 
 );?>
