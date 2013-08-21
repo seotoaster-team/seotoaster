@@ -360,13 +360,13 @@
     'Save options'=>'Enregistrer les options',
     'Close'=>'Fermer',
     'Store Quote Form - Generates instantly a quote request form'=>'Magasin formulaire de devis - Génère instantanément un formulaire de demande de devis',
-    'search quote by title) '=>'rechercher devis par titre)',
+    'search quote by title'=>'rechercher devis par titre',
     'Add new quote'=>'Ajouter un devis',
     'Search<'=>'Recherche <',
     'search quote by title) ?>'=>'rechercher devis par titre)?>',
     'Id'=>'Id',
     'Title'=>'Titre',
-    'Date'=>'Date d&rsquo;',
+    'Date'=>'Date',
     'Status'=>'Statut',
     'Preview'=>'Apercu',
     'Remove'=>'Supprimer',
@@ -942,7 +942,11 @@
     'Please add products' => 'Ajouter des produits',
     'Period of hours Can\'t be empty' => 'En heures Ne peut etre vide',
     'Please add products' => 'Ajouter des produits',
-    'This cart status already exist' => 'Ce statut de panier existe déjà'
+    'This cart status already exist' => 'Ce statut de panier existe déjà',
+    'Quote New' => 'Nouveau devis',
+    'Quote Sent' => 'Devis envoyé',
+    'Payment received' => 'Paiement reçu',
+    'Lost opportunity' => 'Opportunité perdu'
 
 
 );?>
