@@ -946,7 +946,8 @@
     'Quote New' => 'Nouveau devis',
     'Quote Sent' => 'Devis envoyé',
     'Payment received' => 'Paiement reçu',
-    'Lost opportunity' => 'Opportunité perdu'
+    'Lost opportunity' => 'Opportunité perdu',
+    'quotes found' => 'devis trouvée'
 
 
 );?>
