@@ -135,11 +135,14 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 //hidden input validation
                 $formName = $form->getName();
-                if(!isset($formParams[md5($formName)]) || $formParams[md5($formName)] != ''){
-                    $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
-                    return;
+                $formId   = $form->getId();
+                if(!isset($formParams[md5($formName.$formId)]) || $formParams[md5($formName.$formId)] != ''){
+                    if($xmlHttpRequest){
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+                    $this->_redirect($formParams['formUrl']);
                 }
-                unset($formParams[md5($formName)]);
+                unset($formParams[md5($formName.$formId)]);
 
                 //validating recaptcha
                 if($useCaptcha == 1){
