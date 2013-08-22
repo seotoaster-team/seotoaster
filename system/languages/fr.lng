@@ -299,7 +299,7 @@
     'Your store dashboard url (bookmark it): '=>'URL de votre tableau de bord boutique:',
     'Store dashboard'=>'Dashboard boutique',
     'Invoice'=>'Facture',
-    'Choose invoice template<'=>'Choisir modèle de facture <',
+    'Choose invoice template'=>'Choisir modèle de facture',
     'Save'=>'Sauvegarder',
     'Please create at least one Invoice template'=>'S&rsquo;il vous plaît créer au moins un modèle de facture',
     'Saved'=>'Sauvegardé',
@@ -462,8 +462,8 @@
     'select image for product'=>'sélectionner l&rsquo;image pour le produit',
     'Close'=>'Fermer',
     'Main'=>'Principal',
-    'Product tags'=>'Tags produit',
-    'Product options'=>'Options du produit',
+    'Product tags'=>'Tags',
+    'Product options'=>'Options',
     'Cross selling'=>'Connexes',
     'Coupons'=>'Coupons',
     'Group price'=>'Prix par groupe',
@@ -947,7 +947,15 @@
     'Quote Sent' => 'Devis envoyé',
     'Payment received' => 'Paiement reçu',
     'Lost opportunity' => 'Opportunité perdu',
-    'quotes found' => 'devis trouvée'
+    'quotes found' => 'devis trouvée',
+    'assign new password' => 'attribuer nouveau mot de passe',
+    'Total Spend (orders)' => 'Total achat (commandes)',
+    'Select 1 or more products&nbsp|&nbsp;Search' => 'Sélectionnez 1 ou plusieurs produits&nbsp|&nbsp; Rechercher',
+    'search products' => 'rechercher des produits',
+    'Start typing id, name or e-mail to search among addresses' => 'Écris id, nom ou par e-mail à chercher parmi les adresses',
+    'delivery to' => 'livraison gratuite',
+    'Both' => 'A tous',
+    'Please select Invoice template' => 'S&rsquo;il vous modèle de facture'
 
 
 );?>
