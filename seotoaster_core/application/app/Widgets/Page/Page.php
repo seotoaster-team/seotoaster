@@ -8,7 +8,8 @@ class Widgets_Page_Page extends Widgets_Abstract {
 
     private $_aliases = array(
         'title' => 'headerTitle',
-        'teaser' => 'teaserText'
+        'teaser' => 'teaserText',
+        'navname' => 'navName'
     );
 
 	protected function _init() {
