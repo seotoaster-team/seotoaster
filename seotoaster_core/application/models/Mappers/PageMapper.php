@@ -168,6 +168,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function findByUrl($pageUrl) {
+        if(!$pageUrl) {
+            $pageUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getDefaultPage();
+        }
 		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
 		$page  = $this->_findWhere($where);
 		return ($page !== null) ? $page : $this->_findWhere($where, true);
@@ -248,9 +251,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             $row = $row->current();
         }
 
-		$rowTemplate         = $row->findParentRow('Application_Model_DbTable_Template');
-		$row                 = $row->toArray();
-		$row['content']      = ($rowTemplate !== null) ? $rowTemplate->content : '';
+		$rowTemplate    = $row->findParentRow('Application_Model_DbTable_Template');
+		$row            = $row->toArray();
+		$row['content'] = ($rowTemplate !== null) ? $rowTemplate->content : '';
 
         //set an extra options for the page
         $row['extraOptions'] = $this->getDbTable()->fetchPageOptions($row['id']);
