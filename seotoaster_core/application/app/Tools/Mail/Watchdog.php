@@ -48,7 +48,7 @@ class Tools_Mail_Watchdog implements Interfaces_Observer {
 	private function _initTriggers($force = false) {
 		if (null === ($triggers = $this->_cacheHelper->load(__CLASS__)) || $force) {
 			$triggers = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getTriggers();
-			$this->_cacheHelper->save(__CLASS__, $triggers, array('plugins'));
+			$this->_cacheHelper->save(__CLASS__, $triggers, '', array('plugins'));
 		}
 		$this->_triggers = $triggers;
 	}

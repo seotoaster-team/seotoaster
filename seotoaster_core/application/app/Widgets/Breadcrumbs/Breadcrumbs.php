@@ -27,12 +27,13 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 		$separator     = (isset($this->_options[0]) ? trim($this->_options[0]) : '&raquo;');
 		$pageMapper    = Application_Model_Mappers_PageMapper::getInstance();
 		$page          = $pageMapper->find($this->_toasterOptions['id']);
+        $homePage      = $pageMapper->findByUrl($this->_websiteHelper->getDefaultPage());
 
         $breadCrumbList = array();
 		if($page->getIs404page()) {
 			return;
 		}
-        $crumbs[] = '<a href="' . $this->_websiteHelper->getUrl() . '" title="' . $this->_translator->translate('Home') . '">' . $this->_translator->translate('Home') . '</a>';
+        $crumbs[] = '<a href="' . $this->_websiteHelper->getUrl() . '" title="' . $homePage->getH1() . '">' . $homePage->getNavName() . '</a>';
         if($page->getUrl() == 'index.html'){
             $this->_sessionHelper->breadCrumbList = $breadCrumbList;
 			return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
