@@ -4,6 +4,10 @@
  * FeaturedareaMapper
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
+*
+ * Class Application_Model_Mappers_FeaturedareaMapper
+ * @method Application_Model_Mappers_FeaturedareaMapper getInstance() getInstance()  Returns an instance of itself
+ * @method Application_Model_DbTable_Featuredarea getDbTable() getDbTable() Returns an instance of corresponding DbTable
  */
 class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Mappers_Abstract {
 
@@ -93,29 +97,50 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		return $featuredArea;
 	}
 
-	public function fetchAll($where = null, $order = array()) {
-		$entries = array();
-		$resultSet = $this->getDbTable()->fetchAll($where, $order);
-		if(null === $resultSet) {
-			return null;
-		}
-		foreach ($resultSet as $row) {
-			$pages = array();
-			$pagesRowset = $row->findManyToManyRowset('Application_Model_DbTable_Page', 'Application_Model_DbTable_PageFeaturedarea')->toArray();
-			if(!empty ($pagesRowset)) {
-				foreach($pagesRowset as $pageRow) {
-					$pages[] = new Application_Model_Models_Page($pageRow);
-				}
-			}
-			$data          = $row->toArray();
-			$data['pages'] = $pages;
-			$entries[] = new $this->_model($data);
+    public function fetchAll($where = null, $order = array()) {
+        $entries = array();
+        $resultSet = $this->getDbTable()->fetchAll($where, $order);
+        if(null === $resultSet) {
+            return null;
+        }
+        foreach ($resultSet as $row) {
+            $query =  $this->_dbTable->getAdapter()->select()
+                ->from(array('p' => 'page'))
+                ->joinleft(array('pf' => 'page_fa'), 'p.id = pf.page_id')
+                ->where('fa_id=?', $row['id']);
+            $pagesRowset   = $this->_dbTable->getAdapter()->fetchAll($query);
+            if(!empty ($pagesRowset)) {
+                $pages = array_map( function($page) { return new Application_Model_Models_Page($page); }, $pagesRowset);
+            $data          = $row->toArray();
+            $data['pages'] = $pages;
+            $entries[]     = new $this->_model($data);
+            }
+        }
+        return $entries;
+    }
 
-		}
-		return $entries;
-	}
+    public function fetchFaList() {
+        $entries = array();
+        $resultSet = $this->getDbTable()->fetchAll();
+        if(null === $resultSet) {
+            return null;
+        }
+        foreach ($resultSet as $row) {
+            $query =  $this->_dbTable->getAdapter()->select()
+                ->from(array('p' => 'page'), array('id' => 'p.id'))
+                ->joinleft(array('pf' => 'page_fa'), 'p.id = pf.page_id', array())
+                ->where('fa_id=?', $row['id']);
+            $pagesRowset   = $this->_dbTable->getAdapter()->fetchAll($query);
+            if(!empty ($pagesRowset)) {
+                $data          = $row->toArray();
+                $data['pages'] = $pagesRowset;
+                $entries[]     = new $this->_model($data);
+            }
+        }
+        return $entries;
+    }
 
-	private function _findFarowPages($faRow) {
+    private function _findFarowPages($faRow) {
 		$faPages = array();
 		$rowsPageFeaturedarea = $faRow->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
 		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
