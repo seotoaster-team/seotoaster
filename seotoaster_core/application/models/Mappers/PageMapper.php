@@ -80,24 +80,35 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
     public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false) {
+        $dbTable = $this->getDbTable();
+
 		//exclude system pages from select
-		$sysWhere  = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+		$sysWhere  = $dbTable->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
 		$where    .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
 		$order[]   = 'order';
 		$entries   = array();
-		$resultSet = $this->getDbTable()->fetchAllPages($where, $order);
+		$resultSet = $dbTable->fetchAllPages($where, $order, $originalsOnly);
 
         if(null === $resultSet) {
 			return null;
 		}
+
 	    $this->_originalsOnly = $originalsOnly;
         if(!$resultSet || empty($resultSet)) {
             return null;
         }
-        foreach($resultSet as $row) {
+
+        /*foreach($resultSet as $row) {
             $row       = array_merge(array('extraOptions' => $this->getDbTable()->fetchPageOptions($row->id)), $row->toArray());
             $entries[] = $this->_toModel($row, $originalsOnly);
-        }
+        }*/
+
+        $model   = $this->_model;
+        $entries = array_map(function($row) use(&$dbTable, $model, &$originalsOnly) {
+            $row = array_merge(array('extraOptions' => $dbTable->fetchPageOptions($row['id'])), $row);
+            return new $model($row);
+        }, $resultSet->toArray());
+
 		return $entries;
 	}
 
@@ -148,8 +159,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllDraftPages() {
-		$where = $this->getDbTable()->getAdapter()->quoteInto("draft = ?", '1');
-		return $this->fetchAll($where, array(), true);
+		return $this->fetchAll('draft = 1', array(), true);
 	}
 
 	public function fetchAllNomenuPages() {
@@ -222,23 +232,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	protected function  _findWhere($where, $fetchSysPages = false) {
+        $whereExploded = explode('=', $where);
+        $spot          = strpos($whereExploded[0], '.');
+        if($spot === false) {
+            $whereExploded[0] = str_replace(substr($whereExploded[0], 0, $spot), '', $whereExploded[0]);
+        }
+        $where = implode('=', $whereExploded);
+        $where = '(page.' . $where . ' OR optimized.' . $where . ')';
+
 		$sysWhere = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
 		$where   .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
-		$row      = $this->getDbTable()->fetchAll($where)->current();
-		if(null === $row) {
-			//try to find row in the optimized table
-			$optimizedDbTable = new Application_Model_DbTable_Optimized();
-			try {
-				$optimizedRowset  = $optimizedDbTable->fetchAll(str_replace(' AND ' . $sysWhere, '', $where));
-			} catch(Exception $e) {
-				return null;
-			}
-			if($optimizedRowset->current() === null) {
-				return null;
-			}
-			$row = $optimizedRowset->current()->findParentRow('Application_Model_DbTable_Page');
-		}
-		$row                 = $this->_optimizedRowWalk($row, (isset($optimizedRowset) ? $optimizedRowset->current() : null));
+
+        $row = $this->getDbTable()->fetchAllPages($where);
+        if($row instanceof Zend_Db_Table_Rowset) {
+            $row = $row->current();
+        }
+
 		$rowTemplate         = $row->findParentRow('Application_Model_DbTable_Template');
 		$row                 = $row->toArray();
 		$row['content']      = ($rowTemplate !== null) ? $rowTemplate->content : '';
@@ -250,7 +259,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		return $this->_toModel($row);
 	}
 
-	protected function _optimizedRowWalk($row, $optimizedRowset = null) {
+	/*protected function _optimizedRowWalk($row, $optimizedRowset = null) {
 		if(!$optimizedRowset) {
 			$optimizedRowset = $row->findDependentRowset('Application_Model_DbTable_Optimized')->current();
 		}
@@ -264,7 +273,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 			}
 		}
         return $row;
-	}
+	}*/
 
 	public function find($id, $originalsOnly = false) {
         if(!is_array($id)) {

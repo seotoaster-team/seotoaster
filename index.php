@@ -49,6 +49,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+// header to prevent security issues in iframes (to avoid clickjacking attacks)
+header('X-Frame-Options: SAMEORIGIN');
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 
