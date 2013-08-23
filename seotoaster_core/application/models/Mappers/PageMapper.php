@@ -247,6 +247,11 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		$where   .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
 
         $row = $this->getDbTable()->fetchAllPages($where);
+
+        if(!$row) {
+            return null;
+        }
+
         if($row instanceof Zend_Db_Table_Rowset) {
             $row = $row->current();
         }
@@ -261,22 +266,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		unset($rowTemplate);
 		return $this->_toModel($row);
 	}
-
-	/*protected function _optimizedRowWalk($row, $optimizedRowset = null) {
-		if(!$optimizedRowset) {
-			$optimizedRowset = $row->findDependentRowset('Application_Model_DbTable_Optimized')->current();
-		}
-		if($optimizedRowset === null) {
-			return $row;
-		}
-		$this->_optimized = true;
-		foreach($optimizedRowset as $propertyName => $propertyValue) {
-			if($propertyValue && isset($row->$propertyName)) {
-				$row->$propertyName = $propertyValue;
-			}
-		}
-        return $row;
-	}*/
 
 	public function find($id, $originalsOnly = false) {
         if(!is_array($id)) {
