@@ -4,14 +4,14 @@
     'cs_completed'  => 'Payment Received',
     'cs_shipped'    => 'Items Shipped',
     'cs_refunded'   => 'Refunded purchase',
-    'cs_processing' => 'Technical processing',
+    'cs_processing' => 'Technical processing  - Customer not charged',
     'cs_delivered'  => 'Items Delivered',
-    'cs_pending'  	=> 'Merchant action required',
+    'cs_pending'  	=> 'Merchant action required -  Customer charged',
     'cs_canceled'	=> 'Canceled',
     'cs_error'      => 'Error',
     'cs_total'      => 'total',
-    'cs_customer_charged'     => 'Customer charged',
-    'cs_customer_not_charged' => 'Customer not charged',
+    'cs_quote_sent' => 'Quote Sent',
+    'cs_new_quote'  => 'Quote new',
     'cs_lost_opportunity' => 'Lost opportunity'
 );
 ?>
