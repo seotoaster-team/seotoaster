@@ -220,7 +220,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			if (!is_dir($destinationPreview)) {
 				Tools_Filesystem_Tools::mkDir($destinationPreview);
 			}
-			Tools_Filesystem_Tools::copy($themePageTeasersPath, $destinationPreview, true);
+			Tools_Filesystem_Tools::copy($themePageTeasersPath, $destinationPreview, array(), true);
 		}
 
 	}
@@ -369,8 +369,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		}
 	}
 
-	public function postAction() {
-	}
+	public function postAction() {}
 
 	/**
 	 * Method exports zipped theme

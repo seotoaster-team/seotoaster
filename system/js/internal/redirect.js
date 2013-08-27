@@ -18,7 +18,7 @@ $(function() {
 		}
 	});
 	$('#massdell-main').click(function() {
-		$('.redirect-massdel').attr('checked', ($(this).attr('checked')) ? true : false);
+		$('.redirect-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
 	});
 	$('#massdel-run').click(function() {
 		var ids = [];

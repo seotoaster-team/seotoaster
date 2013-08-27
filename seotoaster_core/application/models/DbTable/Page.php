@@ -159,7 +159,8 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'targeted_key_phrase' => new Zend_Db_Expr('COALESCE(optimized.targeted_key_phrase, page.targeted_key_phrase)'),
                 'meta_description'    => new Zend_Db_Expr('COALESCE(optimized.meta_description, page.meta_description)'),
                 'meta_keywords'       => new Zend_Db_Expr('COALESCE(optimized.meta_keywords, page.meta_keywords)'),
-                'teaser_text'         => new Zend_Db_Expr('COALESCE(optimized.teaser_text, page.teaser_text)')
+                'teaser_text'         => new Zend_Db_Expr('COALESCE(optimized.teaser_text, page.teaser_text)'),
+                'optimized'         => new Zend_Db_Expr('COALESCE(optimized.url, optimized.h1, optimized.header_title, optimized.nav_name, optimized.targeted_key_phrase, optimized.meta_description, optimized.meta_keywords, optimized.teaser_text, NULL)')
             ));
     }
 }

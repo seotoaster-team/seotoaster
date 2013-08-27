@@ -302,18 +302,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 		if($row instanceof Zend_Db_Table_Row) {
 			$row = $row->toArray();
 		}
-		if(!$originalsOnly && $this->_isOptimized($row)) {
-            $this->_optimized           = false;
-			$row['optimized']           = true;
-            $row['h1']                  = isset($row['optimizedH1']) ? $row['optimizedH1'] : $row['h1'];
-            $row['url']                 = isset($row['optimizedUrl']) ? $row['optimizedUrl'] : $row['url'];
-            $row['header_title']        = isset($row['optimizedHeaderTitle']) ? $row['optimizedHeaderTitle'] : $row['header_title'];
-            $row['nav_name']            = isset($row['optimizedNavName']) ? $row['optimizedNavName'] : $row['nav_name'];
-            $row['targeted_key_phrase'] = isset($row['optimizedTargetedKeyPhrase']) ? $row['optimizedTargetedKeyPhrase'] : $row['targeted_key_phrase'];
-            $row['meta_description']    = isset($row['optimizedMetaDescription']) ? $row['optimizedMetaDescription'] : $row['meta_description'];
-            $row['meta_keywords']       = isset($row['optimizedMetaKeywords']) ? $row['optimizedMetaKeywords'] : $row['meta_keywords'];
-			$row['teaser_text']         = isset($row['optimizedTeaserText']) ? $row['optimizedTeaserText'] : $row['teaser_text'];
-		}
 		return new $this->_model($row);
 	}
 
