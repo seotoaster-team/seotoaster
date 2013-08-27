@@ -131,11 +131,9 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
                 ->joinleft(array('pf' => 'page_fa'), 'p.id = pf.page_id', array())
                 ->where('fa_id=?', $row['id']);
             $pagesRowset   = $this->_dbTable->getAdapter()->fetchAll($query);
-            if(!empty ($pagesRowset)) {
                 $data          = $row->toArray();
                 $data['pages'] = $pagesRowset;
                 $entries[]     = new $this->_model($data);
-            }
         }
         return $entries;
     }
