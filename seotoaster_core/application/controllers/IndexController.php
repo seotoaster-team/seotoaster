@@ -146,15 +146,14 @@ class IndexController extends Zend_Controller_Action {
 			$canonicalScheme = $this->getRequest()->getScheme();
 		}
         $this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST).parse_url($parserOptions['websiteUrl'], PHP_URL_PATH).($pageData['url'] !== Helpers_Action_Website::DEFAULT_PAGE ? $pageData['url'] : '');
-       
-		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+
+        $this->view->pageData = $pageData;
+        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
 			$body[1] .= $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId());
 		}
-		$this->view->pageData = $pageData;
 		$this->view->bodyTag  = $body[1];
 		$this->view->content  = $body[2];
-
         $locale               = Zend_Locale::getLocaleToTerritory($this->_config['language']);
         $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
         $this->view->minify   = $this->_config['enableMinify'] && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
