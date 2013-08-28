@@ -4,7 +4,7 @@
 			<div class="grid_1"><input id="<?php echo $silo->getId(); ?>" type="checkbox" name="remSilo[]" class="rem-silos" /></div>
 			<div class="grid_10"><?php echo $silo->getName(); ?></div>
 			<div class="grid_1">
-				<a href="javascript:;" class="_tdelete" data-callback="siloslist" data-eid="<?php echo $silo->getId(); ?>" data-url="<?php echo $this->toasterLink('seo', 'managesilos', '', array('act', 'remove'), true)?>"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+				<a href="javascript:;" class="_tdelete" data-callback="siloslist" data-eid="<?php echo $silo->getId(); ?>" data-url="<?php echo $this->toasterLink('seo', 'managesilos', '', array('act' => 'remove'), true)?>"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
 			</div>
 		</div>
 	<?php endforeach; ?>
