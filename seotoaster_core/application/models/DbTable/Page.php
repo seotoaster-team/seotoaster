@@ -98,10 +98,9 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
     }
 
     public function findByUrl($pageUrl = Helpers_Action_Website::DEFAULT_PAGE) {
-        $where  = $this->getAdapter()->quoteInto('page.url = ?', $pageUrl);
-        $select = $this->_getOptimizedSelect(false, array('id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news'));
+        $where      = $this->getAdapter()->quoteInto('page.url = ?', $pageUrl);
+        $select     = $this->_getOptimizedSelect(false, array('id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news'));
 
-        // add template content
         $select->join('template', 'page.template_id=template.name', null)
             ->columns(array(
                 'content' => 'template.content'
@@ -111,10 +110,27 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'containers' => new Zend_Db_Expr("GROUP_CONCAT(`container`.`name`,'CONTAINER_VAL_SEP',`container`.`content`,'CONTAINER_VAL_SEP',`container`.`id`,'CONTAINER_VAL_SEP',`container`.`published`, 'CONTAINER_VAL_SEP',`container`.`publishing_date` SEPARATOR 'CONTAINER_SEP')")
             ))
             ->where($where);
+
         $row = $this->getAdapter()->fetchRow($select);
+
         if(!$row || !is_array($row) || !isset($row['id']) || ($row['id'] === null)) {
             return null;
         }
+
+        // select containers for the current page (including static)
+        /*$select = $this->getAdapter()->select()->from('container', array(
+            'name',
+            'page_id',
+            'container_type',
+            'content',
+            'published',
+            'publishing_date'
+        ))
+        ->where('page_id=' . $row['id'])
+        ->orWhere('page_id IS NULL');
+
+        $row['containers'] = $this->getAdapter()->fetchAll($select);*/
+
         return $row;
     }
 

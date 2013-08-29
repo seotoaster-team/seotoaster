@@ -177,19 +177,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             return null;
         }
 
-        $containers = array();
-
-        array_walk(explode('CONTAINER_SEP', $entry['containers']), function($containerData) use(&$containers) {
-            $exploded = explode('CONTAINER_VAL_SEP', $containerData);
-            $containers[array_shift($exploded)] = array(
-                'content'         => array_shift($exploded),
-                'id'              => array_shift($exploded),
-                'published'       => array_shift($exploded),
-                'publishing_date' => array_shift($exploded)
-            );
-        });
-
-        $entry['containers'] = $containers;
         return new $this->_model($entry);
 	}
 
