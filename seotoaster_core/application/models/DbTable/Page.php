@@ -111,8 +111,11 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'containers' => new Zend_Db_Expr("GROUP_CONCAT(`container`.`name`,'CONTAINER_VAL_SEP',`container`.`content`,'CONTAINER_VAL_SEP',`container`.`id`,'CONTAINER_VAL_SEP',`container`.`published`, 'CONTAINER_VAL_SEP',`container`.`publishing_date` SEPARATOR 'CONTAINER_SEP')")
             ))
             ->where($where);
-
-        return $select->getAdapter()->fetchRow($select);
+        $row = $this->getAdapter()->fetchRow($select);
+        if(!$row || !is_array($row) || !isset($row['id']) || ($row['id'] === null)) {
+            return null;
+        }
+        return $row;
     }
 
     public function fetchAllByContent($content, $originalsOnly) {
