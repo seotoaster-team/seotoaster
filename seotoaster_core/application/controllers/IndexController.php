@@ -31,7 +31,7 @@ class IndexController extends Zend_Controller_Action {
 		$pageUrl = $this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE);
 
 		// Trying to do canonic redirects
-//		$this->_helper->page->doCanonicalRedirect($pageUrl);
+		$this->_helper->page->doCanonicalRedirect($pageUrl);
 
 
 		//Check if 301 redirect is present for requested page then do it
@@ -46,7 +46,7 @@ class IndexController extends Zend_Controller_Action {
 
 			if($page !== null) {
 				$cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
-				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_'.$page->getId()));
+				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));
 			}
 		}
 
