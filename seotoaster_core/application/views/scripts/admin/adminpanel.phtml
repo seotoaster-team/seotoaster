@@ -110,10 +110,14 @@
                 <?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
                     <?php if(!$pluginAdditionalMenu['title'] || !isset($pluginAdditionalMenu['items']) || !sizeof($pluginAdditionalMenu['items'])) {continue;} ?>
                     <li class="plugin-cpanel-menu plugin-<?php echo strtolower($pluginAdditionalMenu['title']);?>">
-                        <a href="javascript:;"><span><?php echo $pluginAdditionalMenu['title']; ?></span></a>
+                        <a href="javascript:;"><span><?php echo $this->translate($pluginAdditionalMenu['title']); ?></span></a>
                         <ul>
                             <?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
-                                <?php echo $this->toasterAdminpanelItem($menuItem); ?>
+                                <?php if(isset($pluginAdditionalMenu['values'][$title])):?>
+                                    <?php echo $this->toasterAdminpanelItem(str_replace('{value}', $this->translate($pluginAdditionalMenu['values'][$title]), $menuItem)); ?>
+                                <?php else:?>
+                                    <?php echo $this->toasterAdminpanelItem($menuItem); ?>
+                                <?php endif;?>
                             <?php endforeach; ?>
                         </ul>
                     </li>

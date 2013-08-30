@@ -159,7 +159,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 	}
 
 	public function fetchAllDraftPages() {
-		return $this->fetchAll('draft = 1', array(), true);
+        return $this->fetchAll("draft = '1'", array(), true);
 	}
 
 	public function fetchAllNomenuPages() {
