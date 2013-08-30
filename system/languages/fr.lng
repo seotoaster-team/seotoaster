@@ -406,7 +406,7 @@
     'Price'=>'Prix',
     'Brand'=>'Marque',
     'Create an automated product listing'=>'Créer une liste de produits automatisés',
-    'Manage taxes'=>'Gérer taxes',
+    'Manage taxes'=>'Configuration des taxes',
     'Select zone'=>'Sélectionnez la zone',
     'Show product price with tax included.'=>'Afficher le prix du produit avec taxes incluses.',
     'Default'=>'Par défaut',
@@ -554,7 +554,7 @@
     'delete'=>'supprimer',
     'previous'=>'précédent',
     'next'=>'Suivant',
-    'Manage brand logos'=>'Gérer les logos des marques',
+    'Manage brand logos'=>'Logos des marques',
     'Upload brand logos'=>'Télécharger logos de marque',
     'Uploading'=>'Téléchargement',
     'Regular price'=>'Prix ​​régulier',
@@ -916,7 +916,7 @@
     'Add State' => 'Ajoutez État',
     'clear' => 'effacer',
     'select folder'=>'sélectionnez le dossier',
-    'Manage store config' => 'Gérer la config magasin',
+    'Manage store config' => 'Configuration boutique',
     'Store front name' => 'Enseigne',
     'Store front e-mail' => 'E-mail de l’enseigne',
     'State/Province/Region' => 'Etat/Province/Region',
@@ -994,7 +994,8 @@
     'Select a search results page' => 'Sélectionnez une page de résultats de recherche',
     'Choose packing slip template' => 'Choisir modèle du bon de livraison',
     'Invoice & packing slip' => 'Facture et bon de livraison',
-    'Add/edit product' => 'Ajouter / modifier des produits'
+    'Add/edit product' => 'Ajouter/modifier produits',
+    'Go to Dashboard' => 'Tableau de bord'
 
 
 );?>
