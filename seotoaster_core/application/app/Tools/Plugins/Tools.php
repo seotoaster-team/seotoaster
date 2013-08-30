@@ -33,6 +33,7 @@ class Tools_Plugins_Tools {
 			try {
 				$configIni = new Zend_Config_Ini($pluginConfigPath);
 				$items     = array();
+                $values    = array();
 
 				if(!isset($configIni->cpanel)) {
 					continue;
@@ -48,18 +49,30 @@ class Tools_Plugins_Tools {
                 if (!isset($additionalMenu[$title])){
 					$additionalMenu[$title] = array(
 						'title' => $title,
-						'items' => array()
+						'items' => array(),
+                        'values' => array()
 					);
 				}
 
 				if(isset($configIni->cpanel->items)) {
 					$items = array_values($configIni->cpanel->items->toArray());
 				}
+                if(isset($configIni->cpanel->values)) {
+                    $values = array_values($configIni->cpanel->values->toArray());
+                }
 				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
 					$items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
 				}
+                if(isset($configIni->$userRole) && isset($configIni->$userRole->values)) {
+                    $values = array_merge($values, array_values($configIni->$userRole->values->toArray()));
+                }
 
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+                foreach ($values as $value) {
+                    array_push($additionalMenu[$title]['values'], $value);
+                    unset($value);
+                }
+
 				foreach ($items as $item) {
 					if (is_string($item)){
 						$item = strtr($item, array(
