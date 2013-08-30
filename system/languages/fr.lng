@@ -40,7 +40,7 @@
     'LAYOUT' => 'MISE EN PAGE',
     'OTHER' => 'AUTRES',
     'LOGOUT' => 'DECONNECTER',
-    'Manage config' => 'Configuration',
+    'Manage config' => 'Configuration boutique',
     'Manage users' => 'Utilisateurs',
     'Plugins' => 'Plugins',
     'SERVICES' => 'SERVICES',
@@ -989,13 +989,14 @@
     'Max. width' => 'Max. largeur',
     'Max. height' => 'Max. hauteur',
     'Effect' => 'Effet',
-    'Tax configuration' => 'Configuration de l\'impôt',
+    'Tax configuration' => 'Configuration des taxes',
     'Search engine' => 'Moteur de recherche',
     'Select a search results page' => 'Sélectionnez une page de résultats de recherche',
     'Choose packing slip template' => 'Choisir modèle du bon de livraison',
     'Invoice & packing slip' => 'Facture et bon de livraison',
     'Add/edit product' => 'Ajouter/modifier produits',
-    'Go to Dashboard' => 'Tableau de bord'
+    'Go to Dashboard' => 'Tableau de bord',
+    'Configuration' => 'Configuration boutique'
 
 
 );?>
