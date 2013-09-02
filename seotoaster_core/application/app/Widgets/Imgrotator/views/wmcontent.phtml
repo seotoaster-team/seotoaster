@@ -14,7 +14,7 @@
 	<?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'nopad grid_6')); ?>
 	<?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'nopad grid_6'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
 	<div class="grid_12 nopad">
-		<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget')); ?>
 	</div>
 </form>
 <script type="text/javascript">
