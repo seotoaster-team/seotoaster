@@ -1000,7 +1000,9 @@
     'Published' => 'Publié',
     'Website URL' => 'URL du site web',
     'Full name'=>'Nom et prénom',
-    'Google+ profile'=>'Google+ par défaut'
+    'Google+ profile'=>'Google+ par défaut',
+    'The requested product is out of stock' => 'Ce produit est momentanément indisponible',
+    'The requested quantity is not available' => 'Notre stock n\'est pas suffisant pour honorer cette commande. Veuillez selectionner une quantité moindre du produit.'
 
 
 );?>
