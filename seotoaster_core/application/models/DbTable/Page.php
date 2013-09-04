@@ -119,6 +119,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
         // select containers for the current page (including static)
         $select = $this->getAdapter()->select()->from('container', array(
+            'id',
             'name',
             'page_id',
             'container_type',

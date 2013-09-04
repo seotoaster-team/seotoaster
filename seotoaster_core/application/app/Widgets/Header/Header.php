@@ -12,7 +12,6 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 	}
 
 	protected function  _load() {
-		//$header        = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
         $header        = $this->_find();
 		$headerContent = (null === $header) ? '' : $header->getContent();
 		if(Tools_Security_Acl::isAllowed($this)) {
