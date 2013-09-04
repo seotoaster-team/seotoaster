@@ -124,7 +124,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 				$container->setPublishingDate('');
 			}
 
-			$this->_helper->cache->clean($container->getName() . $pageId, 'widget_');
+            $cacheTag = preg_replace('/[^\w\d_]/', '', $container->getName() . '_' . $container->getContainerType() . '_pid_' . $container->getPageId());
+			$this->_helper->cache->clean(null, null, array($cacheTag));
 			$saveResult = Application_Model_Mappers_ContainerMapper::getInstance()->save($container);
 
 			if(!$container->getId()) {

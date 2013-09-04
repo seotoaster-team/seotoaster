@@ -40,15 +40,17 @@ class IndexController extends Zend_Controller_Action {
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
 		$pageCacheKey = md5($pageUrl);
+        if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
+            $page = $this->_helper->cache->load($pageCacheKey, 'pagedata_');
+        } else {
+            $page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+        }
 
-		if(($page = $this->_helper->cache->load($pageCacheKey, 'pagedata_')) === null) {
-			$page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+        if($page !== null) {
+            $cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
+            $this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));
+        }
 
-			if($page !== null) {
-				$cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
-				$this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));
-			}
-		}
 
 		// If page doesn't exists in the system - show 404 page
 		if(null === $page) {
