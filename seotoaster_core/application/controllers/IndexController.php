@@ -42,18 +42,21 @@ class IndexController extends Zend_Controller_Action {
 		$pageCacheKey = md5($pageUrl);
         if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
             $page = $this->_helper->cache->load($pageCacheKey, 'pagedata_');
-        } else {
+        }
+
+        // page is not in cache
+        if($page === null) {
             $page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
         }
 
-        if($page !== null) {
+        // page found
+        if($page instanceof Application_Model_Models_Page) {
             $cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
             $this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));
         }
 
-
 		// If page doesn't exists in the system - show 404 page
-		if(null === $page) {
+		if($page === null) {
 			//@todo move to separate method
 			//show 404 page and exit
 
