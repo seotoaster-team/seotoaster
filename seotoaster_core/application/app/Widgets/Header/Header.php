@@ -12,7 +12,8 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 	}
 
 	protected function  _load() {
-		$header      = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
+		//$header        = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
+        $header        = $this->_find();
 		$headerContent = (null === $header) ? '' : $header->getContent();
 		if(Tools_Security_Acl::isAllowed($this)) {
 			$headerContent .= $this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 604, 130);

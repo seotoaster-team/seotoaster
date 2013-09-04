@@ -7,7 +7,53 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
         parent::_init();
     }
 
-    protected function  _load() {
+    protected function _load() {
+        $this->_container = $this->_find();
+        $content          = ($this->_container === null) ? '' : $this->_container->getContent();
+
+        if(Tools_Security_Acl::isAllowed($this)) {
+
+            $content .= $this->_addAdminLink($this->_type, ($this->_container === null) ? null : $this->_container->getId(), 'Click to edit content', 964, 594);
+            if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor')){
+                $content = '<div class="container-wrapper '. ($this->_checkPublished() ? '' : 'unpublished') .'">' . $content . '</div>';
+            } elseif(!$this->_checkPublished()) {
+                $content = '<div class="unpublished">' . $content . '</div>';
+            }
+
+        }
+
+        return $content;
+    }
+
+    /**
+     * Checks if content published
+     *
+     * @return bool true if published
+     */
+    private function _checkPublished() {
+        if($this->_container === null) {
+            return true;
+        }
+
+        if(!$this->_container->getPublished()) {
+            if($this->_container->getPublishingDate()) {
+
+                $zDate  = new Zend_Date();
+                $result = $zDate->compare(strtotime($this->_container->getPublishingDate()));
+
+                if($result == 0 || $result == 1) {
+                    $this->_container->setPublishingDate('')
+                        ->setPublished(true);
+                    Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_container);
+                }
+            }
+        }
+
+        return $this->_container->getPublished();
+    }
+
+
+    /*protected function  _load() {
         $this->_content  = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
         $contentContent  = (null === $this->_content) ? '' : $this->_content->getContent();
         if(Tools_Security_Acl::isAllowed($this)) {
@@ -23,29 +69,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             $contentContent = ($this->_checkPublished()) ? $contentContent : '';
         }
         return $contentContent;
-    }
-
-    /**
-     * Checks if content published
-     * @return bool true if published
-     */
-    private function _checkPublished() {
-        if($this->_content !== null) {
-            if(!$this->_content->getPublished()) {
-                if($this->_content->getPublishingDate()) {
-                    $zDate = new Zend_Date();
-                    $result = $zDate->compare(strtotime($this->_content->getPublishingDate()));
-                    if($result == 0 || $result == 1) {
-                        $this->_content->setPublishingDate('');
-                        $this->_content->setPublished(true);
-                        Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_content);
-                    }
-                }
-            }
-            return $this->_content->getPublished();
-        }
-        return true;
-    }
+    }*/
 
     /**
      * Overrides abstract class method

@@ -118,7 +118,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         }
 
         // select containers for the current page (including static)
-        /*$select = $this->getAdapter()->select()->from('container', array(
+        $select = $this->getAdapter()->select()->from('container', array(
             'name',
             'page_id',
             'container_type',
@@ -128,9 +128,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         ))
         ->where('page_id=' . $row['id'])
         ->orWhere('page_id IS NULL');
-
-        $row['containers'] = $this->getAdapter()->fetchAll($select);*/
-
+        $row['containers'] = $this->getAdapter()->fetchAll($select);
         return $row;
     }
 

@@ -177,6 +177,14 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             return null;
         }
 
+        if(isset($entry['containers'])) {
+            foreach($entry['containers'] as $key => $containerData) {
+                $containerKey = md5(implode('-', array($containerData['name'], ($containerData['page_id'] === null) ? 0 : $containerData['page_id'], $containerData['container_type'])));
+                $entry['containers'][$containerKey] = $containerData;
+                unset($entry['containers'][$key]);
+            }
+        }
+
         return new $this->_model($entry);
 	}
 

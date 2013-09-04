@@ -1,15 +1,17 @@
 <?php
 abstract class Widgets_AbstractContent extends Widgets_Abstract {
 
-	protected $_acl     = null;
+	protected $_acl         = null;
 
-	protected $_type    = null;
+	protected $_type        = null;
 
-	protected $_pageId  = null;
+	protected $_pageId      = null;
 
-	protected $_name    = null;
+	protected $_name        = null;
 
-	protected $_content = null;
+	protected $_content     = null;
+
+    protected $_container   = null;
 
 	protected $_cachePrefix = 'content_';
 
@@ -62,5 +64,28 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 		array_push($this->_cacheTags, preg_replace('/[^\w\d_]/', '', $contentId));
 		$this->_cacheId = $contentId .$separator. Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
 	}
+
+    protected function _find() {
+        if(!isset($this->_toasterOptions['containers'])) {
+            return null;
+        }
+
+        $containers   = $this->_toasterOptions['containers'];
+        $containerKey = md5(implode('-', array($this->_name, ($this->_pageId === null) ? 0 : $this->_pageId, $this->_type)));
+
+        if(!array_key_exists($containerKey, $containers)) {
+            return null;
+        }
+
+        $container = $containers[$containerKey];
+
+        if((($container['page_id'] == $this->_pageId) || ($container['page_id'] === null)) && $container['container_type'] == $this->_type) {
+            $widget      = new Application_Model_Models_Container();
+            $widget->setName($this->_name)
+                ->setOptions($container);
+            return $widget;
+        }
+        return null;
+    }
 }
 
