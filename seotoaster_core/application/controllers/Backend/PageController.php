@@ -301,6 +301,9 @@ class Backend_PageController extends Zend_Controller_Action {
             $this->view->templateName = $templateName;
             $where                    = 'template_id="' . $templateName . '"';
         }
+        if($this->getRequest()->getParam('pageId', false)) {
+            $where .= ' AND parent_id ="' .$this->getRequest()->getParam('pageId') . '"';
+        }
         $pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
         $sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
         $pages    = array_merge((array)$pages, (array)$sysPages);
