@@ -78,10 +78,15 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract {
 		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
 			array_walk($enabledPlugins, function($plugin, $key, $data) {
 				try {
-					$pluginInstance = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), array(), array('websiteUrl' => $data['websiteUrl']));
-					if(method_exists($pluginInstance, $data['method'])) {
-						$pluginInstance->$data['method']();
-					}
+                    $name = ucfirst($plugin->getName());
+                    Tools_Factory_PluginFactory::validate($name);
+                    $reflection = new Zend_Reflection_Class($name);
+
+                    if($reflection->hasMethod($data['method'])) {
+                        $pluginInstance = Tools_Factory_PluginFactory::createPlugin($plugin->getName(), array(), array('websiteUrl' => $data['websiteUrl']));
+                        $pluginInstance->$data['method']();
+                    }
+
 				}
 				catch (Exceptions_SeotoasterException $se) {
 					error_log($se->getMessage());
