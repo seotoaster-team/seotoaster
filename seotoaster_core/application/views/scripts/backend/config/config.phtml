@@ -104,7 +104,7 @@
 							<?php echo $this->configForm->getElement('mediaServers')->renderViewHelper(); ?>
 						</div>
 						<div class="grid_12 mt10px">
-							Speed up your site. Insert the following CNAME records into your DNS server:
+                            <?php echo $this->translate('Speed up your site. Insert the following CNAME records into your DNS server');?>:
 							<ul>
 								<?php
 								$host = parse_url($this->websiteUrl, PHP_URL_HOST);
