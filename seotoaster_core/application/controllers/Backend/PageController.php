@@ -6,11 +6,14 @@
  */
 class Backend_PageController extends Zend_Controller_Action {
 
-    public static $_allowedActions = array('publishpages');
+    public static $_allowedActions = array('publishpages', 'listpages');
 
     protected $_mapper             = null;
 
     public function init() {
+        $acl = Zend_Registry::get('acl');
+        //$acl->addResource(new Zend_Acl_Resource($this->getRequest()->getControllerName()));
+        $acl->allow(Tools_Security_Acl::ROLE_GUEST, Tools_Security_Acl::RESOURCE_PAGES, $this->getRequest()->getActionName());
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed()) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
         }
@@ -302,7 +305,12 @@ class Backend_PageController extends Zend_Controller_Action {
             $where                    = 'template_id="' . $templateName . '"';
         }
         if($this->getRequest()->getParam('pageId', false)) {
-            $where .= ' AND parent_id ="' .$this->getRequest()->getParam('pageId') . '"';
+            if($where == null) {
+                $where .= ' parent_id ="' .$this->getRequest()->getParam('pageId') . '"';
+            }
+            else {
+                $where .= ' AND parent_id ="' .$this->getRequest()->getParam('pageId') . '"';
+            }
         }
         $pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
         $sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
