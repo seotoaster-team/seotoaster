@@ -5,13 +5,24 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 	protected function  _init() {
 		$this->_type    = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;
 		parent::_init();
+        $this->_view = new Zend_View(array(
+            'scriptPath' => dirname(__FILE__) . '/views'
+        ));
+        $website = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $this->_view->websiteUrl = $website->getUrl();
 //		$this->_name    = $this->_options[0];
 //		$this->_pageId  = ($this->_type == Application_Model_Models_Container::TYPE_STATICCONTENT) ? 0 : $this->_toasterOptions['id'];
-//		$this->_cacheId = $this->_name . $this->_pageId . $this->_type;
-//		$this->_cacheId .= Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        $contentId = implode('_', $this->_options) . '_pid_'. $this->_pageId; // $this->_name . $this->_pageId . $this->_type;
+		$this->_cacheId = $contentId . Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
 	}
 
 	protected function  _load() {
+        if(end($this->_options) == 'ajax') {
+            $this->_view->type = $this->_type;
+            $this->_view->name = $this->_options[0];
+            $this->_view->pageId = $this->_pageId;
+            return $this->_view->render('ajax.phtml');
+        }
 		$this->_content  = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
 		$contentContent  = (null === $this->_content) ? '' : $this->_content->getContent();
 		if(Tools_Security_Acl::isAllowed($this)) {

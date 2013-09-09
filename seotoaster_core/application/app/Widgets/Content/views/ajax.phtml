@@ -1,0 +1,12 @@
+<?php
+    $widget = ($this->type == Application_Model_Models_Container::TYPE_STATICCONTENT) ? 'content:' . $this->name . ':static' : 'content:' . $this->name;
+?>
+<script type="text/javascript">
+    $(function() {
+        $.get('<?php echo $this->websiteUrl?>backend/backend_content/ajaxcontent', {'pageId': '<?php echo $this->pageId;?>', 'widget': '<?php echo $widget;?>'}, function(resp) {
+            var content = $('div.<?php echo md5($this->name . $this->type); ?>');
+            $(content).empty().html(resp.responseText);
+        }, 'json');
+    });
+</script>
+<div class="ajax-content <?php echo md5($this->name . $this->type); ?>">Please waist...</div>

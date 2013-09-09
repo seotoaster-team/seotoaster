@@ -6,7 +6,6 @@
         <script type="text/javascript">
             $(function() {
                 $.get('<?php echo $this->websiteUrl?>backend/backend_page/listpages', {'pageId': '<?php echo $this->pageId;?>'}, function(resp) {
-                    console.log(resp);
                     var currentList = $('ul.<?php echo md5($this->categoryName); ?>');
                     $(currentList).empty();
                     for(var i = 0; i < resp.responseData.length; i++) {
