@@ -1077,7 +1077,12 @@
     'Prepop seacrh button' => 'Bouton de recherche avec suggestion',
     'Search form' => 'Formulaire de recherche',
     'Site map' => 'Carte du site',
-    'Page Teaser Image Size' => 'Page Teaser Taille de l\'image'
-
+    'Page Teaser Image Size' => 'Page Teaser Taille de l\'image',
+    'Store ClientLogin' => 'Magasin : Connexion Client',
+    'Store Clients'     => 'Magasin : Clients',
+    'Store Orders'      => 'Magasin : Commandes',
+    'Store PostPurchaseReport' => 'Magasin : Rapport',
+    'Store Products'    => 'Magasin : Produits',
+    'Store Profile'     => 'Magasin : Profil'
 
 );?>
