@@ -11,9 +11,6 @@ class Backend_PageController extends Zend_Controller_Action {
     protected $_mapper             = null;
 
     public function init() {
-        $acl = Zend_Registry::get('acl');
-        //$acl->addResource(new Zend_Acl_Resource($this->getRequest()->getControllerName()));
-        $acl->allow(Tools_Security_Acl::ROLE_GUEST, Tools_Security_Acl::RESOURCE_PAGES, $this->getRequest()->getActionName());
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed()) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
         }
