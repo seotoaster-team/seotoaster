@@ -5,7 +5,7 @@
         </ul>
         <script type="text/javascript">
             $(function() {
-                $.get('<?php echo $this->websiteUrl?>backend/backend_page/listpages', {'pageId': '<?php echo $this->pageId;?>'}, function(resp) {
+                $.get('<?php echo $this->websiteUrl?>backend/backend_page/listpages', {'pageId': '<?php echo $this->pageId;?>'<?php if(isset($this->categoryName)): ?>, 'categoryName': '<?php echo $this->categoryName;?>'<?php endif;?>}, function(resp) {
                     var currentList = $('ul.<?php echo md5($this->categoryName); ?>');
                     $(currentList).empty();
                     for(var i = 0; i < resp.responseData.length; i++) {
