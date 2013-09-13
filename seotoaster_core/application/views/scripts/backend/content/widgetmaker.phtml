@@ -5,7 +5,7 @@
 </style>
 <?php foreach ($this->widgetsData as $key => $widgetData): ?>
 	<?php $this->accordionPane('widgets_maker', $widgetData['content'], array(
-		'title' => (isset($widgetData['title']) ? ((isset($widgetData['icons']) ? '<img src="' . $widgetData['icons'][0] . '" />' : '') . $widgetData['title']) : 'NOTITLE'),
+		'title' => (isset($widgetData['title']) ? ((isset($widgetData['icons']) ? '<img src="' . $widgetData['icons'][0] . '" />' : '') . $this->translate($widgetData['title'])) : 'NOTITLE'),
 	)); ?>
 <?php endforeach; ?>
 <?php echo $this->accordionContainer('widgets_maker'); ?>

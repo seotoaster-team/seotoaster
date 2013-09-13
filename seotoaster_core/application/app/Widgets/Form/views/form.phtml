@@ -27,7 +27,7 @@
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
-        <input style="display: none;" type="text" id="<?php echo md5($this->form->getName()); ?>" name="<?php echo md5($this->form->getName()); ?>" value=""/>
+        <input style="display: none;" type="text" id="<?php echo md5($this->form->getName().$this->form->getId()); ?>" name="<?php echo md5($this->form->getName().$this->form->getId()); ?>" value=""/>
 		<?php if($this->useRecaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
            <div id="recaptcha_widget">
                <div id="recaptcha_image"></div>
@@ -41,7 +41,7 @@
                    <a class="recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><?php echo $this->translate('Get an image CAPTCHA');?></a>
                    <a class="recaptcha_help" href="javascript:Recaptcha.showhelp()"><?php echo $this->translate('Help');?></a>
               </div>
-            </div>
+           </div>
             <?php echo $this->recapthaCode;?>
         <?php endif; ?>
         <?php if($this->useRecaptcha && $this->recapthaCode && !$this->customRecaptcha): ?>
@@ -55,22 +55,21 @@
                 <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
            </div>
         <?php endif; ?>
-        
-                <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
-                <?php if($this->trackingConversionUrl):?>
-                    <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
-                <?php endif;?>
-		        <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
-	</form>
+        <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
+        <?php if($this->trackingConversionUrl):?>
+            <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
+        <?php endif;?>
+        <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+    </form>
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
-<p class="form-controls">
-	<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="594" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
-	<a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Build your form now'); ?></a> |
-	<?php if($this->form): ?>
-		<a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
-	<?php endif; ?>
-</p>
+    <p class="form-controls">
+        <a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="594" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
+        <a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Build your form now'); ?></a> |
+        <?php if($this->form): ?>
+            <a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+        <?php endif; ?>
+    </p>
 <?php endif; ?>
 
 

@@ -2,7 +2,7 @@
 	<?php if (count($this->messages)) : ?>
 		<ul id="messages" class="ui-state-error w350">
 			<?php foreach ($this->messages as $message) : ?>
-				<li><?php echo $this->escape($message); ?></li>
+				<li><?php echo $this->translate($this->escape($message)); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>

@@ -6,40 +6,47 @@
  */
 class Widgets_Page_Page extends Widgets_Abstract {
 
+    private $_aliases = array(
+        'title' => 'headerTitle',
+        'teaser' => 'teaserText',
+        'navname' => 'navName'
+    );
+
 	protected function _init() {
 		array_push($this->_cacheTags , 'pageid_'.$this->_toasterOptions['id']);
 	}
 
 	protected function  _load() {
-		$optionMakerName = '_generate' . ucfirst($this->_options[0]) . 'Option';
-		if(method_exists($this, $optionMakerName)) {
-			return $this->$optionMakerName();
-		}
+        $option = $this->_validateOption($this->_options[0]);
+	    if(isset($this->_toasterOptions[$option])) {
+            $original = (isset($this->_options[1]) && $this->_options[1] == 'original');
+            if($original) {
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_toasterOptions['id'], $original);
+                $optionMakerName = 'get' . ucfirst($option);
+                return $page->$optionMakerName();
+            }
+            return $this->_toasterOptions[$option];
+        } else {
+            $optionMakerName = '_generate' . ucfirst($this->_options[0]) . 'Option';
+            if(method_exists($this, $optionMakerName)) {
+                return $this->$optionMakerName();
+            }
+        }
 		return 'Wrong widget option: <strong>' . $this->_options[0] . '</strong>';
 	}
+
+    private function _validateOption($option) {
+        return array_key_exists($option, $this->_aliases) ? $this->_aliases[$option] : $option;
+    }
+
 
 	private function _generateIdOption() {
 		return $this->_toasterOptions['id'];
 	}
 
-	private function _generateH1Option() {
-		return $this->_toasterOptions['h1'];
-	}
-
-	private function _generateTitleOption() {
-		return $this->_toasterOptions['headerTitle'];
-	}
 
 	private function _generateTeaserOption() {
 		return $this->_toasterOptions['teaserText'];
-	}
-
-    private function _generateNavnameOption() {
-        return $this->_toasterOptions['navName'];
-    }
-
-	private function _generateUrlOption() {
-		return $this->_toasterOptions['url'];
 	}
 
     private function _generateCategoryOption() {

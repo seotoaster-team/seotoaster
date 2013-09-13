@@ -46,7 +46,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function loadfalistAction() {
 		$render        = $this->getRequest()->getParam('render', true);
 		$namesOnly     = $this->getRequest()->getParam('namesonly', false);
-		$featuredAreas = Application_Model_Mappers_FeaturedareaMapper::getInstance()->fetchAll(null, 'name ASC');
+		$featuredAreas = Application_Model_Mappers_FeaturedareaMapper::getInstance()->fetchFaList();
 
 		if($namesOnly) {
 			$names = array();

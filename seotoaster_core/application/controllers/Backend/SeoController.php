@@ -391,12 +391,11 @@ class Backend_SeoController extends Zend_Controller_Action {
             if(null === ($this->view->pages = $this->_helper->cache->load('sitemappages', 'sitemaps_'))) {
                 $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
                 if(is_array($pages) && !empty($pages)) {
-                    foreach($pages as $key => $page) {
-                        if(!$page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED)) {
-                            continue;
+                    array_walk($pages, function($page, $key) use(&$pages) {
+                        if($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED)) {
+                            unset($pages[$key]);
                         }
-                        unset($pages[$key]);
-                    }
+                    });
                 } else {
                     $pages = array();
                 }

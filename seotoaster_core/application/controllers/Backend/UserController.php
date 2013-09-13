@@ -22,6 +22,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
 	public function manageAction() {
 		$userForm = new Application_Form_User();
+        $userForm->getElement('password')->setRequired(false);
 		if($this->getRequest()->isPost()) {
             //if we are updating
             $userId = $this->getRequest()->getParam('id');

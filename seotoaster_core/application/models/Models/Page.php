@@ -299,7 +299,7 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	}
 
 	public function setOptimized($optimized) {
-		$this->_optimized = $optimized;
+		$this->_optimized = (boolean)$optimized;
 		return $this;
 	}
 

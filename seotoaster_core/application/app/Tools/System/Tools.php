@@ -164,9 +164,17 @@ class Tools_System_Tools {
 		return false;
 	}
 
-	public static function getRequestUri() {
-		$front = Zend_Controller_Front::getInstance();
-		return $front->getRequest()->getParam('page', false);
+    /**
+     * Get requested uri
+     *
+     * @return string
+     */
+    public static function getRequestUri() {
+		$request = Zend_Controller_Front::getInstance()->getRequest();
+        if(($uri = $request->getParam('page', false)) === false) {
+            return $request->getRequestUri();
+        }
+        return $uri;
 	}
 
 	public static function getTemplatesHash($type = 'all') {
