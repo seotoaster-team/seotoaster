@@ -7,15 +7,16 @@
  */
 class Application_Form_Search extends Zend_Form {
 
-	protected $_resultsPageId = 0;
+//	protected $_resultsPageId = 0;
 
-	protected $_search        = '';
+    /**
+     * @var string Search term
+     */
+    protected $_search        = '';
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST);
-		$this->setAttribs(array(
-			'id'     => 'search-form',
-		));
+        $this->setMethod(Zend_Form::METHOD_GET)
+            ->setAttrib('id', 'search-form');
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'search',
@@ -24,20 +25,20 @@ class Application_Form_Search extends Zend_Form {
 			'value'    => $this->_search,
 			'required' => true,
 			'filters'  => array('StringTrim')
-		)));
+        )));
 
-		$this->addElement(new Zend_Form_Element_Hidden(array(
-			'id'       => 'results-page-id',
-			'name'     => 'resultsPageId',
-			'value'    => $this->_resultsPageId
-		)));
+//		$this->addElement(new Zend_Form_Element_Hidden(array(
+//			'id'       => 'results-page-id',
+//			'name'     => 'resultsPageId',
+//			'value'    => $this->_resultsPageId
+//		)));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
-			'name'  => 'doSearch',
-			'id'    => 'do-search',
-			'value' => 'doSearch',
-			'label' => 'Search'
-		)));
+//		$this->addElement('submit', 'doSearch', array(
+//			'name'  => null,
+//            'id'    => 'do-search',
+//            'value' => 'doSearch',
+//            'label' => 'Search'
+//		));
 
 		$this->_initDecorators();
 	}
@@ -59,19 +60,19 @@ class Application_Form_Search extends Zend_Form {
 			array('HtmlTag', array('tag' => 'p'))
 		));
 		// remove Label decorator from submit button
-		$this->getElement('doSearch')->removeDecorator('Label');
-		$this->getElement('resultsPageId')->removeDecorator('HtmlTag');
+//		$this->getElement('doSearch')->removeDecorator('Label');
+//		$this->getElement('resultsPageId')->removeDecorator('HtmlTag');
 	}
 
-	public function getResultsPageId() {
-		return $this->_resultsPageId;
-	}
-
-	public function setResultsPageId($resultsPageId) {
-		$this->_resultsPageId = $resultsPageId;
-		$this->getElement('resultsPageId')->setValue($resultsPageId);
-		return $this;
-	}
+//	public function getResultsPageId() {
+//		return $this->_resultsPageId;
+//	}
+//
+//	public function setResultsPageId($resultsPageId) {
+//		$this->_resultsPageId = $resultsPageId;
+//		$this->getElement('resultsPageId')->setValue($resultsPageId);
+//		return $this;
+//	}
 
 	public function getSearch() {
 		return $this->_search;
