@@ -11,6 +11,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
     const PAGE_OPTION_SEARCH  = 'option_search';
     const SEARCH_LIMIT_RESULT = 20;
 
+    const INDEX_LOCK_CACHE_ID  = 'buildingindex';
+    const INDEX_CACHE_PREFIX   = 'search_index';
+
 	private $_websiteHelper = null;
 
 	protected function _init() {
@@ -27,56 +30,105 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Not enough parameters'));
 		}
-        $optionsArray = $this->_options;
+//        $optionsArray = $this->_options;
 		$rendererName = '_renderSearch' . ucfirst(array_shift($this->_options));
 		if(method_exists($this, $rendererName)) {
 			return $this->$rendererName($this->_options);
 		}
-        if($rendererName == '_renderSearchButton'){
-            return $this->_renderSearchButton($optionsArray);
-        }
-        if($rendererName == '_renderSearchLinks'){
-            return $this->_renderLinks($optionsArray);
-        }
-        if($rendererName == '_renderSearchAdvanced'){
-            return $this->_renderAdvancedPrepopSearch($optionsArray);
-        }
-        return $this->_renderComplexSearch($optionsArray);
 	}
 
-	private function _renderSearchForm() {
-		if(isset($this->_options[0]) && intval($this->_options[0])) {
-            $seacrhResultPageId = $this->_options[0];
-        }
-        $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
-        if(!empty($searhResultPage)){
-            $seacrhResultPageId = $searhResultPage[0]->getId();
-        }
-        if(!isset($seacrhResultPageId)){
-            throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Search results page is not selected'));
-        }
-		$searchForm = new Application_Form_Search();
-		$searchForm->setResultsPageId($seacrhResultPageId)
-			->setAction($this->_websiteHelper->getUrl() . 'backend/search/search/');
+    /**
+     * Renders search form widget
+     * @return string   Widget html code
+     * @throws Exceptions_SeotoasterWidgetException If search results page not provided or doesn't exists
+     */
+    private function _renderSearchForm() {
+        $searchResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH, true);
 
+        if (!$searchResultPage instanceof Application_Model_Models_Page) {
+            if (isset($this->_options[0]) && intval($this->_options[0])) {
+                $searchResultPage = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->_options[0]));
+                if (!$searchResultPage instanceof Application_Model_Models_Page) {
+                    throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Search results page not found'));
+                }
+            } else {
+                throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Search results page is not selected'));
+            }
+        }
+
+		$searchForm = new Application_Form_Search();
+		$searchForm->setAction($this->_websiteHelper->getUrl() . $searchResultPage->getUrl());
 		$this->_view->searchForm = $searchForm;
-		$this->_view->renewIndex = $this->_isIndexRenewNeeded();
+
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            if (Tools_Search_Tools::isEmpty() && null === ($indexLock = $this->_cache->load(self::INDEX_LOCK_CACHE_ID,self::INDEX_CACHE_PREFIX))) {
+                $indexLock = array(
+                    'limit' => self::SEARCH_LIMIT_RESULT,
+                    'offset' => 0
+                );
+                $this->_cache->save(self::INDEX_LOCK_CACHE_ID, $indexLock, self::INDEX_CACHE_PREFIX);
+            }
+            $this->_view->runIndexing = true;
+        }
+
 		return $this->_view->render('form.phtml');
 	}
 
 	private function _renderSearchResults() {
-		$sessionHelper                = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-		$totalHits                    = $sessionHelper->searchHits;
+//		$sessionHelper                = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+//		$totalHits                    = $sessionHelper->searchHits;
         $limit                        = isset($this->_options[1]) ? $this->_options[1] : self::SEARCH_LIMIT_RESULT;
-        if(is_array($totalHits) && count($totalHits) > $limit){
-            $hitsData = array_splice($totalHits, $limit);
-            $sessionHelper->totalHitsData = $hitsData;
+
+        $searchForm = new Application_Form_Search();
+
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+
+        if (!$request->has('search')){
+            return '';
         }
-        $this->_view->useImage        = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
-        $this->_view->totalResults    = count($totalHits);
-        $this->_view->hits            = $totalHits;
-        $this->_view->limit           = $limit;
-        $sessionHelper->searchHits = null;
+
+        $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
+
+        if (!empty($searchTerm) && $searchForm->getElement('search')->isValid($searchTerm)){
+            $searchTerm = trim($searchTerm, '*') . '*';
+            if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
+                $toasterSearchIndex = Tools_Search_Tools::initIndex();
+                $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
+                $hits = $toasterSearchIndex->find($searchTerm);
+                $searchResults = array_map(function($hit){
+                        return array(
+                            'pageId' => $hit->pageId,
+                            'url' => $hit->url,
+                            'h1'  => $hit->h1,
+                            'navName' => $hit->navName,
+                            'pageTeaser' => $hit->pageTeaser,
+                            'pagePreview' => $hit->pagePreview
+                        );
+                    }, $hits);
+
+                $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), array('search'), Helpers_Action_Cache::CACHE_LONG);
+            }
+            if (empty($searchResults)) {
+                $this->_view->hits = '{$content:nothingfound}';
+            } else {
+                $totalHits = count($searchResults);
+                if ($totalHits > $limit){
+                    $this->_view->totalHits = $totalHits;
+                    $this->_view->limit = $limit;
+                    $searchResults = array_slice($searchResults, 0, $limit);
+                }
+                $this->_view->hits = $searchResults;
+            }
+        } else {
+            // TODO $searchTerm validation error
+            $this->_view->hits = $this->_translator->translate(
+                'Nothing found. You need at least 3 characters to start search.'
+            );
+        }
+
+
+        $this->_view->useImage = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
+
 		return $this->_view->render('results.phtml');
 	}
 
@@ -98,19 +150,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		return $data;
 	}
 
-	private function _isIndexRenewNeeded() {
-		//if role of the current user < member - we do not re-build index
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-			return false;
-		}
-		if(($renewed = $this->_cache->load('indexRenewed', 'widget_search_index')) === null) {
-			$this->_cache->save('indexRenewed', true, 'widget_search_index', array('search_index_renew'), (Helpers_Action_Cache::CACHE_LONG * 30));
-			return true;
-		}
-		return false;
-	}
-    
-    private function _renderComplexSearch($optionsArray){
+    private function _renderSearchComplex($optionsArray){
         if(isset($optionsArray[0])){
             if($optionsArray[0] == 'select' && isset($optionsArray[1])){
                 $prepopSearchName =  $optionsArray[1];
@@ -126,26 +166,26 @@ class Widgets_Search_Search extends Widgets_Abstract {
                 asort($contentArray);
                 $this->_view->prepopWithNameList = array_unique($contentArray);
                 return $this->_view->render('searchForm.phtml');
-            }       
-            
+            }
+
         }
     }
-    
-    private function _renderSearchButton($optionsArray) {
+
+    private function _renderSearchButton($options) {
         $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
         if(!empty($searhResultPage)){
             $seacrhResultPageId = $searhResultPage[0]->getId();
         }
-        if(isset($optionsArray[0])){
-            $seacrhResultPageId = $optionsArray[0];
+        if(isset($options[0])){
+            $seacrhResultPageId = $options[0];
         }
         if(isset($seacrhResultPageId)){
             $this->_view->pageResultsPage = $seacrhResultPageId;
             return $this->_view->render('searchButton.phtml');
         }
-    }   
-    
-    private function _renderLinks($optionsArray){
+    }
+
+    private function _renderSearchLinks($optionsArray){
         if(isset($optionsArray[0]) && isset($optionsArray[1])){
             $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
             $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
@@ -169,8 +209,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
             }
         }
     }
-    
-    private function _renderAdvancedPrepopSearch($optionsArray){
+
+    private function _renderSearchAdvanced($optionsArray){
         if(isset($optionsArray[1]) && preg_match('~\|~', $optionsArray[1]) && isset($optionsArray[2])){
             $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
             $prepopWithQuantity = array();
@@ -188,7 +228,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
             if(count($prepopNames) == count($prepopLabels)){
                 $prepopLabels = array_combine($prepopNames, $prepopLabels);
             }
-                
+
             if(end($optionsArray) == 'select'){
                 $cacheKey = str_replace('(#)','_',$optionsArray[1]);
                 if (null === ($prepopSearchData = $cacheHelper->load('search_prepop_'.$cacheKey, 'search_prepop'))){
@@ -218,7 +258,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
             }
         }
     }
-    
+
     public static function getAllowedOptions() {
 		$translator = Zend_Registry::get('Zend_Translate');
 		return array(

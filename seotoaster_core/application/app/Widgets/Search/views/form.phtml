@@ -1,11 +1,31 @@
-<?php echo $this->searchForm; ?>
-<?php //if($this->renewIndex): ?>
-<!--    <script type="text/javascript">-->
-<!--        $('#logoutul li a').one('click', function(e) {-->
-<!--            e.preventDefault();-->
-<!--            $.post('--><?php //echo $this->_websiteUrl;?><!--backend/search/managesearchindex/', {doaction: 'renew'}, function() {-->
-<!--                window.location.href = --><?php //echo $this->_websiteUrl;?><!--'backend/login/logout/';-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
-<?php //endif; ?>
+<form id="<?php echo $this->searchForm->getAttrib('id'); ?>" action="<?php echo $this->searchForm->getAction(); ?>"
+      method="<?php echo $this->searchForm->getMethod(); ?>">
+    <?php echo $this->searchForm->getElement('search'); ?>
+    <p><input type="submit" value="<?php echo $this->translate('Search'); ?>"/></p>
+</form>
+<?php if(isset($this->runIndexing)): ?>
+<script type="text/javascript">
+	if (!window.Toastr){
+	    window.Toastr = {};
+	}
+
+	if (!$('#toasterSearchIndex').size()){
+		$('#logoutul').before('<div id="toasterSearchIndex">' +
+				'<span></span>&nbsp;<img src="/system/images/ajax-loader-small.gif" alt=""/></div>');
+	}
+
+	Toastr.renewIndex = function(params){
+		$('#toasterSearchIndex span').html('<?php echo $this->translate('Building search index'); ?>');
+		$.post($('#website_url').val() + 'backend/search/reindex/', params).done(function(data, status, xhr){
+			console.log(data);
+			if (status === "success" && data) {
+				Toastr.renewIndex(data);
+			} else {
+				$('#toasterSearchIndex').slideDown().delay(1000).remove();
+			}
+		});
+	}
+
+//	$(function(){ window.Toastr && Toastr.renewIndex(); });
+</script>
+<?php endif; ?>
