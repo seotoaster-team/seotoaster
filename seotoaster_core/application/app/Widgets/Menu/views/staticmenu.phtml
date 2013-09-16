@@ -1,5 +1,5 @@
 <ul class="static_menu">
 	<?php foreach ($this->staticPages as $staticPage): ?>
-		<li><a href="<?php echo $this->websiteUrl . $staticPage->getUrl(); ?>" title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a></li>
+		<li><a href="<?php echo $this->websiteUrl . str_replace('index.html', '', $staticPage->getUrl()); ?>" title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a></li>
 	<?php endforeach; ?>
 </ul>

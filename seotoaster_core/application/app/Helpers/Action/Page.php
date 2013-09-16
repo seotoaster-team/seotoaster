@@ -66,22 +66,26 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 		}
 	}
 
-	public function do301Redirect($pageUrl) {
+    /**
+     * Do a 301 redirect
+     *
+     * @param $pageUrl string
+     */
+    public function do301Redirect($pageUrl) {
 		$redirectMap = array();
 		$this->_redirector->setCode(301);
 
-		if(!$redirectMap = $this->_cache->load('toaster_301redirects', '301redirects')) {
+		if(($redirectMap = $this->_cache->load('toaster_301redirects', '301redirects')) === null) {
 			$redirectMap = Application_Model_Mappers_RedirectMapper::getInstance()->fetchRedirectMap();
-			if(!empty ($redirectMap)) {
-				$this->_cache->save('toaster_301redirects', $redirectMap, '301redirects', array(), Helpers_Action_Cache::CACHE_LONG);
-			}
+    		$this->_cache->save('toaster_301redirects', $redirectMap, '301redirects', array(), Helpers_Action_Cache::CACHE_LONG);
 		}
 
-		$pageUrl = $this->_website->getUrl() . $pageUrl;
-
-		if(isset($redirectMap[$pageUrl]) && $redirectMap[$pageUrl]) {
-			$this->_redirector->gotoUrl($redirectMap[$pageUrl]);
-		}
+        if(!empty($redirectMap)) {
+		    $pageUrl = $this->_website->getUrl() . $pageUrl;
+            if(isset($redirectMap[$pageUrl]) && $redirectMap[$pageUrl]) {
+                $this->_redirector->gotoUrl($redirectMap[$pageUrl]);
+    		}
+        }
 	}
 
 	public function clean($pageUrl) {
