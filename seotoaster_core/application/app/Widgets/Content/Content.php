@@ -13,7 +13,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
     protected function _load() {
         if(end($this->_options) == 'ajax') {
-            $this->_view = new Zend_View(array('scriptPath' => dirname(__FILE__) . '/views'));
+            $this->_view             = new Zend_View(array('scriptPath' => dirname(__FILE__) . '/views'));
             $this->_view->websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
             $this->_view->type       = $this->_type;
             $this->_view->name       = $this->_name;
