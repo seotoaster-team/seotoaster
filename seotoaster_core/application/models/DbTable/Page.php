@@ -97,6 +97,42 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         ));
     }
 
+    public function findByUrl($pageUrl = Helpers_Action_Website::DEFAULT_PAGE) {
+        $where      = $this->getAdapter()->quoteInto('page.url = ?', $pageUrl);
+        $select     = $this->_getOptimizedSelect(false, array('id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news'));
+
+        $select->join('template', 'page.template_id=template.name', null)
+            ->columns(array(
+                'content' => 'template.content'
+            ))
+            ->joinLeft('container', 'page.id=container.page_id', null)
+            ->columns(array(
+                'containers' => new Zend_Db_Expr("GROUP_CONCAT(`container`.`name`,'CONTAINER_VAL_SEP',`container`.`content`,'CONTAINER_VAL_SEP',`container`.`id`,'CONTAINER_VAL_SEP',`container`.`published`, 'CONTAINER_VAL_SEP',`container`.`publishing_date` SEPARATOR 'CONTAINER_SEP')")
+            ))
+            ->where($where);
+
+        $row = $this->getAdapter()->fetchRow($select);
+
+        if(!$row || !is_array($row) || !isset($row['id']) || ($row['id'] === null)) {
+            return null;
+        }
+
+        // select containers for the current page (including static)
+        $select = $this->getAdapter()->select()->from('container', array(
+            'id',
+            'name',
+            'page_id',
+            'container_type',
+            'content',
+            'published',
+            'publishing_date'
+        ))
+        ->where('page_id=' . $row['id'])
+        ->orWhere('page_id IS NULL');
+        $row['containers'] = $this->getAdapter()->fetchAll($select);
+        return $row;
+    }
+
     public function fetchAllByContent($content, $originalsOnly) {
         $where  = $this->getAdapter()->quoteInto('content LIKE ?', '%' . $content . '%');
         $select = $this->_getOptimizedSelect($originalsOnly);
@@ -127,29 +163,13 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         return $optionsData;
     }
 
-    private function _getOptimizedSelect($originalsOnly) {
+    private function _getOptimizedSelect($originalsOnly, $pageFields = array()) {
+        if(empty($pageFields)) {
+            $pageFields = array('id', 'template_id', 'parent_id', 'last_update', 'is_404page', 'show_in_menu', 'order', 'weight', 'silo_id', 'protected', 'system', 'draft', 'publish_at', 'news', 'err_login_landing', 'mem_landing', 'signup_landing', 'preview_image');
+        }
         $select = $this->getAdapter()->select();
         return ($originalsOnly) ? $select : $select
-            ->from('page', array(
-                'id',
-                'template_id',
-                'parent_id',
-                'last_update',
-                'is_404page',
-                'show_in_menu',
-                'order',
-                'weight',
-                'silo_id',
-                'protected',
-                'system',
-                'draft',
-                'publish_at',
-                'news',
-                'err_login_landing',
-                'mem_landing',
-                'signup_landing',
-                'preview_image'
-            ))
+            ->from('page', $pageFields)
             ->joinLeft('optimized', 'page_id=id', null)
             ->columns(array(
                 'url'                 => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),

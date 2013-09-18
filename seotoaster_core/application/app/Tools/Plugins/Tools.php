@@ -526,7 +526,7 @@ class Tools_Plugins_Tools {
     }
 
 	public static function registerPluginsIncludePath($force = false){
-		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
 
 		if ($force) {
 			$cacheHelper->clean(null, null, array('plugins'));

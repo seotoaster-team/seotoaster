@@ -32,8 +32,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     protected function _run() {
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) { //ADMINPANEL
+            return $this->_spaceContent;   
+        }
+        
         $content = null;
-
         if ($this->_cacheable === true) {
             $cacheHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
             $cacheKey    = $this->_cacheKey();
@@ -123,11 +126,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             return '';
         }
 
-        if (is_dir($this->_themeFullPath .'/css/')) {
-            $filePath = $this->_themeFullPath .'/css/';
+        if (is_dir($this->_themeFullPath.'/css/')) {
+            $filePath = $this->_themeFullPath.'/css/';
         }
         else {
-            $filePath = $this->_themeFullPath .'/';
+            $filePath = $this->_themeFullPath.'/';
         }
 
         $concatCssToTemplate = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';

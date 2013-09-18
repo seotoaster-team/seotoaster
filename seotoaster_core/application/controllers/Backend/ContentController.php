@@ -6,6 +6,8 @@
  */
 class Backend_ContentController extends Zend_Controller_Action {
 
+    public static $_allowedActions = array('ajaxcontent');
+
 	const IMG_CONTENTTYPE_SMALL    = 'small';
 
 	const IMG_CONTENTTYPE_MEDIUM   = 'medium';
@@ -23,7 +25,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 	public function init() {
 		parent::init();
 		$this->_websiteData = Zend_Registry::get('website');
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed()) {
 			$this->redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 
@@ -86,6 +88,13 @@ class Backend_ContentController extends Zend_Controller_Action {
 		echo $this->_renderCorrectView();
 	}
 
+    public function ajaxcontentAction() {
+        $currentPage =  Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pageId'));
+        $currentPage = ($currentPage == null) ? array() : $currentPage->toArray();
+        $parseContent = new Tools_Content_Parser('{$' . $this->getRequest()->getParam('widget') . '}', $currentPage, array('websiteUrl'   => $this->_helper->website->getUrl()));
+        $this->_helper->response->success($parseContent->parseSimple());
+    }
+
 	private function _loadPluginsTabs() {
 		if(!($pluginsTabsData = $this->_helper->cache->load(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS))) {
 			$pluginsTabsData  = Tools_Plugins_Tools::getPluginTabContent();
@@ -124,7 +133,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 				$container->setPublishingDate('');
 			}
 
-			$this->_helper->cache->clean($container->getName() . $pageId, 'widget_');
+            $cacheTag = preg_replace('/[^\w\d_]/', '', $container->getName() . '_' . $container->getContainerType() . '_pid_' . $container->getPageId());
+			$this->_helper->cache->clean(null, null, array($cacheTag));
 			$saveResult = Application_Model_Mappers_ContainerMapper::getInstance()->save($container);
 
 			if(!$container->getId()) {
