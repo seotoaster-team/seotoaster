@@ -13,7 +13,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         'product.css'
     );
 
-    private $_FullPath = '';
+    private $_themeFullPath = '';
 
     protected $_cache       = null;
 
