@@ -169,11 +169,23 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
 	public function findByUrl($pageUrl) {
         if(!$pageUrl) {
-            $pageUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getDefaultPage();
+            $pageUrl = Helpers_Action_Website::DEFAULT_PAGE;
         }
-		$where = $this->getDbTable()->getAdapter()->quoteInto('url = ?', $pageUrl);
-		$page  = $this->_findWhere($where);
-		return ($page !== null) ? $page : $this->_findWhere($where, true);
+		$entry = $this->getDbTable()->findByUrl($pageUrl);
+
+        if(!$entry) {
+            return null;
+        }
+
+        if(isset($entry['containers'])) {
+            foreach($entry['containers'] as $key => $containerData) {
+                $containerKey = md5(implode('-', array($containerData['name'], ($containerData['page_id'] === null) ? 0 : $containerData['page_id'], $containerData['container_type'])));
+                $entry['containers'][$containerKey] = $containerData;
+                unset($entry['containers'][$key]);
+            }
+        }
+
+        return new $this->_model($entry);
 	}
 
 	public function findErrorLoginLanding() {

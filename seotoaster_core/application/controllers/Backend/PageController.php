@@ -6,7 +6,7 @@
  */
 class Backend_PageController extends Zend_Controller_Action {
 
-    public static $_allowedActions = array('publishpages');
+    public static $_allowedActions = array('publishpages', 'listpages');
 
     protected $_mapper             = null;
 
@@ -300,6 +300,19 @@ class Backend_PageController extends Zend_Controller_Action {
         if($templateName) {
             $this->view->templateName = $templateName;
             $where                    = 'template_id="' . $templateName . '"';
+        }
+        if($this->getRequest()->getParam('categoryName', false)) {
+            $page = Application_Model_Mappers_PageMapper::getInstance()->findByNavName($this->getRequest()->getParam('categoryName'));
+            $pageId = $page->getId();
+        }
+        elseif($this->getRequest()->getParam('pageId', false)) {
+            $pageId = $this->getRequest()->getParam('pageId');
+        }
+        if($where == null) {
+            $where .= ' parent_id ="' . $pageId . '"';
+        }
+        else {
+            $where .= ' AND parent_id ="' . $pageId . '"';
         }
         $pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
         $sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);

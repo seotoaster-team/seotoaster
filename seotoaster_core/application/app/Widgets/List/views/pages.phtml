@@ -1,4 +1,28 @@
 <?php if(isset($this->pagesList)): ?>
+    <?php if($this->ajax) :?>
+        <ul class="listpages <?php echo md5($this->categoryName); ?>">
+            <li>Please wait...</li>
+        </ul>
+        <script type="text/javascript">
+            $(function() {
+                $.get('<?php echo $this->websiteUrl?>backend/backend_page/listpages', {'pageId': '<?php echo $this->pageId;?>'<?php if(isset($this->categoryName)): ?>, 'categoryName': '<?php echo $this->categoryName;?>'<?php endif;?>}, function(resp) {
+                    var currentList = $('ul.<?php echo md5($this->categoryName); ?>');
+                    $(currentList).empty();
+                    for(var i = 0; i < resp.responseData.length; i++) {
+                        $(currentList).append($('<li>')
+                            <?php if($this->useImage): ?>
+                                .append($('<a>').addClass('page-teaser-image').attr({'href': resp.responseData[i].url, 'title': resp.responseData[i].h1})
+                                .append($('<img>').attr({'src': (resp.responseData[i].previewImage == '') ? $('#website_url').val() + 'system/images/noimage.png' : $('#website_url').val() + 'previews/' + resp.responseData[i].previewImage}))
+                                )
+                            <?php endif;?>
+                            .append($('<a>').addClass('page-teaser-image').attr({'href': resp.responseData[i].url, 'title': resp.responseData[i].h1}).text(resp.responseData[i].navName))
+                            .append($('<span>').text(resp.responseData[i].teaserText))
+                        );
+                    }
+                }, 'json');
+            });
+        </script>
+    <?php else: ?>
 	<ul class="listpages">
 		<?php foreach ($this->pagesList as $page):  ?>
 			<li>
@@ -12,6 +36,7 @@
 			 </li>
 		<?php endforeach; ?>
 	</ul>
+    <?php endif; ?>
 <?php else: ?>
 	<!-- NO PAGES TO LIST -->
 <?php endif; ?>

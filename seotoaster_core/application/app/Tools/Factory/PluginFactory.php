@@ -35,5 +35,9 @@ class Tools_Factory_PluginFactory {
 		require_once $pluginClassPath;
 	}
 
+    public static function validate($name) {
+        self::_validate($name);
+    }
+
 }
 

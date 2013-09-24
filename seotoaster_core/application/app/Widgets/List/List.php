@@ -35,14 +35,18 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	private function _renderPagesList() {
-		return (isset($this->_options[1]) && $this->_options[1] !== 'img') ? $this->_renderPagesListByCategoryName() : $this->_renderCurrentCategoryPagesList();
+		return (isset($this->_options[1]) && $this->_options[1] !== 'img' && $this->_options[1] !== 'ajax') ? $this->_renderPagesListByCategoryName() : $this->_renderCurrentCategoryPagesList();
 	}
 
 	private function _renderCurrentCategoryPagesList() {
 		$categoryName = $this->_toasterOptions['navName'];
 		$this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
-		$this->_view->useImage  = (isset($this->_options[1]) && $this->_options[1]) ? true : false;
-		$this->_view->crop      = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
+		$this->_view->useImage  = (isset($this->_options[1]) && $this->_options[1] === 'img') ? true : false;
+		$this->_view->crop      = (isset($this->_options[2]) && $this->_options[2] === 'crop') ? true : false;
+        if(end($this->_options) == 'ajax') {
+            $this->_view->ajax = true;
+        } else {$this->_view->ajax = false;}
+        $this->_view->pageId = $this->_toasterOptions['id'];
 		$this->_addCacheTags($this->_view->pagesList);
 		return $this->_view->render('pages.phtml');
 	}
@@ -50,8 +54,13 @@ class Widgets_List_List extends Widgets_Abstract {
 	private function _renderPagesListByCategoryName() {
 		$categoryName = $this->_options[1];
 		$this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
-		$this->_view->useImage  = (isset($this->_options[2]) && $this->_options[2]) ? true : false;
-		$this->_view->crop      = (isset($this->_options[3]) && $this->_options[3]) ? true : false;
+		$this->_view->useImage  = (isset($this->_options[2]) && $this->_options[2] === 'img') ? true : false;
+		$this->_view->crop      = (isset($this->_options[3]) && $this->_options[3] === 'crop') ? true : false;
+        if(end($this->_options) == 'ajax') {
+            $this->_view->ajax = true;
+            $this->_view->categoryName = $categoryName;
+        } else {$this->_view->ajax = false;}
+        $this->_view->pageId = $this->_toasterOptions['id'];
 		$this->_addCacheTags($this->_view->pagesList);
 		return $this->_view->render('pages.phtml');
 	}
