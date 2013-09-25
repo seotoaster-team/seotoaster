@@ -1,0 +1,217 @@
+// Base styles
+// --------------------------------------------------
+
+// Core styles
+.btn, .button, button, [type="submit"], [type="button"], .ui-button,
+.ui-button-icon-only{
+	display        : inline-block;
+	*display       : inline;
+	margin-bottom  : 0; // For input.btn
+	padding        : @padding-base-vertical + @input-border-width  @padding-base-horizontal;
+	//font-size      : @font-size-base;
+	font-weight    : 600;
+	line-height    : normal;
+	text-indent    : 0;
+	text-align     : center;
+	vertical-align : middle;
+	cursor         : pointer;
+	border-width   : @btn-border-width;
+	border-style   : solid;
+	white-space    : nowrap;
+	position       : relative;
+	.transition(background-color, 0.3s);
+	.border-radius(@btn-border-radius);
+	.btn-states(@btn-default-color, @btn-default-bg, @btn-default-border);
+    }
+
+// Button with icon
+// --------------------------------------------------
+.ui-button-icon-only, .btn-icon{
+	padding   : @padding-base-vertical;
+	.box-sizing(content-box);
+	.icon-size(1em);
+
+	&.btn-large{
+		padding : @padding-large-vertical;
+		.icon-size(@font-size-larger);
+	}
+
+	&.btn-small{
+		padding : @padding-small-vertical;
+		.icon-size(@font-size-small);
+	}
+}
+
+// Button with icon
+// --------------------------------------------------
+.btn-link{
+	font-weight : normal;
+	padding     : 0;
+	.btn-states(@link-color, transparent, transparent);
+
+	&:hover, &:focus{
+		color           : @link-color-hover;
+		//text-decoration : underline;
+		text-decoration : none;
+	}
+
+	// Alternate buttons
+	// --------------------------------------------------
+	&.btn-primary, &.primary{
+		.btn-states(@brand-primary, transparent, transparent);
+	}
+	// Warning appears as orange
+	&.btn-warning, &.warning{
+		.btn-states(@brand-warning, transparent, transparent);
+	}
+	// Danger and error appear as red
+	&.btn-error, &.error{
+		.btn-states(@brand-error, transparent, transparent);
+	}
+	// Success appears as green
+	&.btn-success, &.success{
+		.btn-states(@brand-success, transparent, transparent);
+	}
+	// Info appears as blue
+	&.btn-info, &.info{
+		.btn-states(@brand-info, transparent, transparent);
+	}
+}
+
+// Button sets
+// --------------------------------------------------
+.ui-buttonset, .btn-set{
+	font-size    : 0;
+	display      : inline-block;
+	border-width : @btn-border-width;
+	border-style : solid;
+	border-color : @btn-default-border;
+	width        : auto;
+	float        : none;
+
+	.ui-button, .btn{
+		font-size   : @font-size-base;
+		margin-left : 1px;
+
+		&:first-child{
+			margin-left : 0;
+		}
+
+		&:hover{
+		}
+
+		&:active{
+		}
+
+		&.ui-state-active, .active{
+		}
+
+		[class^="icon-"], [class*=" icon-"]{
+		}
+	}
+
+	[type="radio"], [type="checkbox"]{
+
+		&+.ui-button, &+.btn{
+
+			&:first-child{
+			}
+
+			[class^="icon-"], [class*=" icon-"]{
+			}
+		}
+	}
+
+	[type="radio"]:checked, [type="checkbox"]:checked{
+		&+.ui-button, &+.btn{
+
+			&:first-child{
+			}
+
+			[class^="icon-"], [class*=" icon-"]{
+			}
+		}
+
+	}
+}
+
+// Alternate buttons
+// --------------------------------------------------
+.btn-primary{
+	.btn-states(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+}
+// Warning appears as orange
+.btn-warning{
+	.btn-states(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+}
+// Danger and error appear as red
+.btn-error{
+	.btn-states(@btn-error-color, @btn-error-bg, @btn-error-border);
+}
+// Success appears as green
+.btn-success{
+	.btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
+}
+// Info appears as blue
+.btn-info{
+	.btn-states(@btn-info-color, @btn-info-bg, @btn-info-border);
+}
+
+// Button appears as transparent
+.btn-transparent{
+	.btn-states(@text-color, transparent, transparent);
+}
+
+.btn-footer{
+	position : absolute;
+	bottom   : 15px;
+	margin   : 0;
+	right    : @grid-margin-width / 2;
+}
+
+// Button Sizes
+// --------------------------------------------------
+.btn-large{
+	padding   : @padding-large-vertical @padding-large-horizontal;
+	font-size : @font-size-large;
+	.border-radius(@btn-large-border-radius);
+}
+.btn-small{
+	padding     : @padding-small-vertical @padding-small-horizontal;
+	font-size   : @font-size-small;
+	line-height : 1.5; // ensure proper height of button next to small input
+	.border-radius(@btn-small-border-radius);
+}
+
+// Block button
+// --------------------------------------------------
+.btn-block{
+	display       : block;
+	width         : 100%;
+	padding-left  : 0;
+	padding-right : 0;
+}
+// Vertically space out multiple block buttons
+.btn-block + .btn-block{
+	margin-top : 5px;
+
+	[class^="grid_"]&, [class*=" grid_"]&{
+		margin-top : 0;
+	}
+}
+// Specificity overrides
+input[type="submit"], input[type="reset"], input[type="button"]{
+	&.btn-block{
+		width : 100%;
+	}
+}
+
+//	User button
+// --------------------------------------------------
+[type="submit"], .save-and-close{
+	float : right;
+
+	.content-footer.grid_12+footer &, .content-medium-footer.grid_12+footer &, .content-small-footer.grid_12+footer &{
+		margin-right : @grid-margin-width / 2;
+	}
+}

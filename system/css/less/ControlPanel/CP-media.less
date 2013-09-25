@@ -1,0 +1,115 @@
+// Upload things
+//=========================================
+#media-toaster-uploader-dragdrop{
+	border     : 3px dashed @gray-light;
+	text-align : center;
+	color      : @gray-light;
+	font-size  : @font-size-larger;
+	cursor     : pointer;
+	padding    : @padding-large-horizontal;
+}
+#media-toaster-uploader-filelist{
+}
+
+// Remove things
+//=========================================
+#removeForm{
+	#filebrowser{
+
+		.filebrowser-zone{
+			height   : 350px;
+			overflow : auto;
+			padding  : @padding-large-vertical;
+			.box-sizing();
+
+			&#filebrowser-images{
+				.file-container{
+					width       : 18%;
+					overflow    : hidden;
+					height      : 18%;
+					line-height : 18%;
+					text-align  : center;
+					margin      : 1%;
+					cursor      : pointer;
+					.thumbnail-state(0);
+
+					img{
+						height : 100%;
+					}
+
+					&.active{
+						border : 1px solid @brand-error;
+
+						img{
+							opacity : 0.5;
+						}
+
+						&:hover{
+							.box-shadow(0 0 3px @brand-error);
+						}
+					}
+				}
+			}
+
+			&#filebrowser-files{
+				.file-container{
+					border        : 1px solid transparent;
+					margin-bottom : 3px;
+
+					&.active{
+						.alert-state(@state-error-text, @state-error-bg, @state-error-border);
+					}
+
+					label{
+						cursor : pointer;
+						margin : 0;
+						.text-overflow;
+
+						&[data-type]::before{
+							content             : '';
+							width               : 16px;
+							height              : 16px;
+							float               : left;
+							margin              : 3px 10px 3px 3px;
+							background          : url(/system/images/filetypes.png) no-repeat 0 50%;
+							background-position : 0 -34px;
+						}
+						&[data-type$='.doc']::before{
+							background-position : 0 0;
+						}
+						&[data-type$='.exe']::before{
+							background-position : 0 -17px;
+						}
+						&[data-type$='.mov']::before{
+							background-position : 0 -51px;
+						}
+						&[data-type$='.mp3']::before{
+							background-position : 0 -68px;
+						}
+						&[data-type$='.pdf']::before{
+							background-position : 0 -85px;
+						}
+						&[data-type$='.psd']::before{
+							background-position : 0 -102px;
+						}
+						&[data-type$='.swf']::before{
+							background-position : 0 -119px;
+						}
+						&[data-type$='.txt']::before{
+							background-position : 0 -136px;
+						}
+						&[data-type$='.wmv']::before{
+							background-position : 0 -153px;
+						}
+						&[data-type$='.xls']::before{
+							background-position : 0 -170px;
+						}
+						&[data-type$='.zip']::before{
+							background-position : 0 -187px;
+						}
+					}
+				}
+			}
+		}
+	}
+}

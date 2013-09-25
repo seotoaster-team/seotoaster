@@ -1,0 +1,135 @@
+// Table of Content
+//==================================================
+//	Links
+//	Heading
+//	Blockquotes
+//  Toaster icon
+//  Custom classes
+//==================================================
+
+// Links
+//==================================================
+a{
+	color           : @link-color;
+	text-decoration : none;
+}
+p a, p a:visited{
+	line-height : inherit;
+}
+a:visited{
+	color : @link-color-visited;
+}
+a:hover{
+	color : @link-color-hover
+}
+a:active{
+	color : @link-color-active;
+}
+
+// Heading
+//==================================================
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6{
+	color         : @heading-color;
+	font-family   : @font-famaly-headings;
+	font-weight   : bold;
+	margin-top    : 1.5em;
+	margin-bottom : 0.5em;
+
+	&:first-child{
+		margin-top : 0;
+	}
+	a{
+		font-weight : inherit;
+	}
+	.slide .description &{
+		color : inherit;
+	}
+}
+h1, .h1{
+	font-size : 2em;
+}
+h2, .h2{
+	font-size : 1.5em;
+}
+h3, .h3{
+	font-size : 1.25em;
+}
+h4, .h4{
+	font-size : 1em;
+}
+h5, .h5{
+	font-size : 0.875em;
+}
+h6, .h6{
+	font-size : 0.75em;
+}
+.subheader{
+	font-size : @font-size-small;
+	color     : @subheading-color;
+}
+
+p{
+	margin-bottom : 1.5em;
+	img{
+		margin : 0;
+	}
+}
+hr{
+	border       : 1px solid #CCC;
+	border-width : 1px 0 0;
+	clear        : both;
+	margin       : 10px 0 30px;
+	height       : 0;
+}
+
+//	Blockquotes
+//==================================================
+blockquote, .blockquote, .seo-tip{
+	font-size     : @font-size-base;
+	color         : @gray;
+	font-style    : italic;
+	background    : @gray-lighter;
+	margin-bottom : 1.5em;
+	padding       : 0.75em 1.5em;
+	border-left   : 3px solid @gray;
+
+    p, ul, ol{
+        margin : 0;
+
+        &+p, &+ul, &+ol{
+            margin-top : 0.5em;
+        }
+    }
+    li{
+        margin-left: 1em;
+        margin-bottom: 0;
+
+        &+li{
+            margin-top: 0.5em;
+        }
+    }
+
+    // Alternate styles
+    // -------------------------
+    &.success{
+        .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+    }
+    &.warning{
+        .alert-state(@state-warning-text, @state-warning-bg, @state-warning-border);
+    }
+    &.error{
+        .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+    }
+    &.info{
+        .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+    }
+}
+
+//  Toaster ICON
+//==================================================
+@import "toaster-icon";
+
+//  Custom Classes
+//==================================================
+@import "custom-classes";

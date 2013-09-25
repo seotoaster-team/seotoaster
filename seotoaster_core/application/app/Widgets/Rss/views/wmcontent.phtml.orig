@@ -1,0 +1,36 @@
+<form action="javascript:;" method="post" data-name="rss" id="rss-widget-form" class="wmc-block">
+    <div>
+        <?php echo $this->formLabel('feed-url', $this->translate('Feed url')); ?>
+        <?php echo $this->formText('feedUrl', '', array('id' => 'feed-url', 'class' => 'validate')); ?>
+    </div>
+    <div class="mt5px">
+        <?php echo $this->formLabel('feed-maxres', $this->translate('Max. results'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formText('feedMaxres', Widgets_Rss_Rss::RSS_RESULT_COUNT, array('id' => 'feed-maxres', 'class' => 'grid_7 alpha omega')); ?>
+    </div>
+    <div class="mt5px">
+        <?php echo $this->formLabel('feed-maxch', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formText('feedMaxch', Widgets_Rss_Rss::RSS_DESC_LENGTH, array('id' => 'feed-maxch', 'class' => 'grid_7 alpha omega')); ?>
+    </div>
+    <label class="mt10px">
+	    <span class="grid_5 alpha omega"><?php echo $this->translate('Use image'); ?></span>
+		<?php echo $this->formCheckbox('useImage', 'img', array('id' => 'feed-item-img')); ?>
+<<<<<<< Updated upstream
+	</div>
+
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget')); ?>
+	</div>
+=======
+	</label>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+>>>>>>> Stashed changes
+</form>
+<script type="text/javascript">
+	$(function() {
+		$(document).on('focus', '#feed-url', function() {
+			if($(this).hasClass('red-border')) {
+				$(this).removeClass('red-border');
+			}
+		})
+	})
+</script>

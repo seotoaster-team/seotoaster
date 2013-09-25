@@ -1,0 +1,365 @@
+// Table of Content
+//==================================================
+//	Fonts
+//  Grid System
+//	Grays
+//	Brand Color
+//	Scaffolding
+//	Links
+//	Heading
+//	Components
+//	Form states and alerts
+//	Tables
+//	Buttons
+//	Form
+//  Highlight
+//  Slide Show
+//  Thumbnails
+//  Breadcrumbs
+//  Carousel
+//	JQuery UI Style
+//--------------------------
+	// Accordion
+	// Tabs
+	// Dialog
+	// Datepicker
+	// Modals
+	// Tooltip
+	// Slider
+	// Progressbar
+	// Mixin
+//==================================================
+
+// Size toaster popup
+//==================================================
+@tpopup-base-width    : 960px;
+@tpopup-base-height   : 560px;
+@tpopup-medium-width  : 600px;
+@tpopup-medium-height : 480px;
+@tpopup-small-width   : 480px;
+@tpopup-small-height  : 350px;
+
+// Fonts
+//==================================================
+@font-famaly-text     : 'Open Sans', sans-serif;
+@font-famaly-headings : @font-famaly-text;
+
+@font-size-base       : 14px;
+@font-size-larger     : 1.5em;
+@font-size-large      : 1.25em;
+@font-size-small      : 0.85em;
+@font-size-mini       : 0.75em;
+
+// Grid System
+//==================================================
+@grid-container-width : 100%;//Width for container
+@grid-columns         : 12;// Number of columns in the grid system
+@grid-margin-width    : 4%;// Margin, to be divided by two and applied to the left and right of all columns
+
+//Grays
+//==================================================
+@gray-darker  : #111;
+@gray-dark    : #333;
+@gray         : #666;
+@gray-light   : #eaeaea;
+@gray-lighter : #fafafa;
+
+// Brand Color
+//==================================================
+@brand-primary : #428bca;
+@brand-success : #5fb784;
+@brand-warning : #f0ad4e;
+@brand-error   : #d9534f;
+@brand-info    : #5bc0de;
+
+// Scaffolding
+//==================================================
+@body-bg                 : #fff;
+@text-color              : @gray-dark;
+
+@header-bg               : @gray-light;
+@header-color            : @gray;
+@header-height           : 40px;
+
+@footer-height           : 45px;
+
+@header-inner-bg         : #aaa;
+@header-inner-color      : #fff;
+
+@site-color              : @gray-light;
+@site-text-color         : @gray;
+
+@site-color-hover        : @gray-lighter;
+@site-text-color-hover   : @gray;
+
+@site-color-active       : #fff;
+@site-text-color-active  : @gray;
+
+@site-color-disable      : @gray-lighter;
+@site-text-color-disable : @gray-light;
+
+@text-select-bg          : @brand-info;
+@text-select-color       : #fff;
+
+// Links
+//==================================================
+@link-color         : #59a5c3;
+@link-color-hover   : darken(@link-color, 15%);
+@link-color-active  : @link-color-hover;
+@link-color-visited : @link-color;
+
+// Heading
+//==================================================
+@heading-color    : #4c4c4c;
+@subheading-color : @gray;
+
+// Components
+//==================================================
+@padding-base-vertical    : 6px;
+@padding-base-horizontal  : 12px;
+
+@padding-large-vertical   : 10px;
+@padding-large-horizontal : 20px;
+
+@padding-small-vertical   : 3px;
+@padding-small-horizontal : 8px;
+
+@border-radius-base       : 4px;
+@border-radius-large      : 6px;
+@border-radius-small      : 3px;
+
+// Form states and alerts
+//==================================================
+@state-border-radius  : @border-radius-base;
+
+@state-primary-text   : @brand-primary;
+@state-primary-bg     : lighten(@state-primary-text, 35%);
+@state-primary-border : darken(@state-primary-bg, 5%);
+
+@state-warning-text   : @brand-warning;
+@state-warning-bg     : lighten(@state-warning-text, 35%);
+@state-warning-border : darken(@state-warning-bg, 5%);
+
+@state-error-text     : @brand-error;
+@state-error-bg       : lighten(@state-error-text, 35%);
+@state-error-border   : darken(@state-error-bg, 5%);
+
+@state-success-text   : @brand-success;
+@state-success-bg     : lighten(@state-success-text, 35%);
+@state-success-border : darken(@state-success-bg, 5%);
+
+@state-info-text      : @brand-info;
+@state-info-bg        : lighten(@state-info-text, 35%);
+@state-info-border    : darken(@state-info-bg, 5%);
+
+// Tables
+//==================================================
+@table-bg           : transparent;// overall background-color
+@table-row-bg       : @gray-lighter;// for striping
+@table-row-bg-hover : @table-row-bg;// for hover
+@table-border-color : darken(@gray-light, 5%);// table and cell border
+
+// Buttons
+//==================================================
+@btn-border-width          : 0px;
+
+@btn-border-radius         : 0px;
+@btn-large-border-radius   : @btn-border-radius;
+@btn-small-border-radius   : @btn-border-radius;
+
+@btn-default-color         : #fff;
+@btn-default-bg            : @brand-info;
+@btn-default-border        : darken(@btn-default-bg, 10%);
+
+@btn-primary-color         : #fff;
+@btn-primary-bg            : @brand-primary;
+@btn-primary-border        : darken(@btn-primary-bg, 10%);
+
+@btn-success-color         : #fff;
+@btn-success-bg            : @brand-success;
+@btn-success-border        : darken(@btn-success-bg, 10%);
+
+@btn-warning-color         : #fff;
+@btn-warning-bg            : @brand-warning;
+@btn-warning-border        : darken(@btn-warning-bg, 10%);
+
+@btn-error-color           : #fff;
+@btn-error-bg              : @brand-error;
+@btn-error-border          : darken(@btn-error-bg, 10%);
+
+@btn-info-color            : #fff;
+@btn-info-bg               : @brand-info;
+@btn-info-border           : darken(@btn-info-bg, 10%);
+
+// Forms
+//==================================================
+@label-color              : #757575;
+
+@input-bg                 : #fff;
+@input-bg-disabled        : @site-color-disable;
+
+@input-border-width       : 1px;
+@input-border-color       : #ccc;
+@input-border-color-focus : @brand-info;
+@input-border-radius      : 0;
+
+@input-color-placeholder  : #ccc;
+
+// Highlight
+//==================================================
+@highlight-color         : #fff;
+
+@highlight-primary-bg    : @brand-primary;
+@highlight-primary-color : @highlight-color;
+
+@highlight-success-bg    : @brand-success;
+@highlight-success-color : @highlight-color;
+
+@highlight-info-bg       : @brand-info;
+@highlight-info-color    : @highlight-color;
+
+@highlight-warning-bg    : @brand-warning;
+@highlight-warning-color : @highlight-color;
+
+@highlight-error-bg      : @brand-error;
+@highlight-error-color   : @highlight-color;
+
+// Slide Show
+//==================================================
+@slider-bg           : #fff;
+@slider-height       : 300px;
+@slider-button-bg    : @site-color;
+@slider-button-color : #fff;
+@slider-button-size  : 24px;
+
+// Thumbnails
+//==================================================
+@thumbnail-bg            : @body-bg;
+@thumbnail-border-color  : #ddd;
+@thumbnail-border-radius : @border-radius-base;
+@thumbnail-caption-bg    : fade(@site-color, 80%);
+@thumbnail-caption-color : @site-text-color;
+@thumbnail-box-shadow    : 0 0px 3px @site-color;
+
+// Breadcrumbs
+//==================================================
+@breadcrumbs-color            : @text-color;
+@breadcrumbs-link-color       : @link-color;
+@breadcrumbs-link-color-hover : @link-color-hover;
+
+// JQuery UI Style
+//==================================================
+// Accordion       http://jqueryui.com/accordion/
+// Tabs            http://jqueryui.com/tabs/
+// Dialog          http://jqueryui.com/dialog/
+// Datepicker      http://jqueryui.com/datepicker/
+// Autocomplete    http://jqueryui.com/autocomplete/
+// Tooltip         http://jqueryui.com/tooltip/
+// Slider (range)  http://jqueryui.com/slider/
+// Progressbar     http://jqueryui.com/progressbar/
+//==================================================
+
+// JQuery UI Accordion = http://jqueryui.com/accordion/
+//=============================================================
+@accordion-header-bg            : @site-color;
+@accordion-header-color         : @site-text-color;
+
+@accordion-header-bg-hover      : @site-color-hover;
+@accordion-header-color-hover   : @site-text-color-hover;
+
+@accordion-header-bg-active     : darken(@site-color, 13.3%);
+@accordion-header-color-active  : @site-text-color-active;
+
+@accordion-content-bg           : #fff;
+@accordion-content-border-width : 1px;
+@accordion-content-border-color : darken(@site-color, 5%);
+
+// CPanel Accordion
+//==================================================
+@cpanel-header-bg           : @gray;
+@cpanel-header-color        : #fff;
+
+@cpanel-header-bg-hover     : darken(@cpanel-header-bg, 5%);
+@cpanel-header-color-hover  : @cpanel-header-color;
+
+@cpanel-header-bg-active    : darken(@cpanel-header-bg, 5%);
+@cpanel-header-color-active : @cpanel-header-color;
+
+@cpanel-subtitle-bg         : #eee;
+@cpanel-content-bg          : #fff;
+
+// JQuery UI Tabs = http://jqueryui.com/tabs/
+//=============================================================
+@tabs-nav-bg              : @site-color;
+@tabs-nav-li-bg           : transparent;
+@tabs-nav-li-color        : @site-text-color;
+
+@tabs-nav-li-bg-hover     : @site-color-hover;
+@tabs-nav-li-color-hover  : @site-text-color-hover;
+
+@tabs-nav-li-bg-active    : @site-color-active;
+@tabs-nav-li-color-active : @site-text-color-active;
+
+@tabs-container-bg        : transparent;
+
+// JQuery UI Datepicker
+//==================================================
+@datepicker-width             : 210px;
+@datepicker-bg                : #fff;
+@datepicker-border-color      : #ddd;
+
+@datepicker-header-bg         : @site-color;
+@datepicker-header-color      : @site-text-color;
+@datepicker-header-size       : 16px;
+@datepicker-header-height     : 30px;
+
+@datepicker-arrow-bg          : @datepicker-header-bg;
+@datepicker-arrow-color       : @datepicker-header-color;
+@datepicker-arrow-size        : 14px;
+
+@datepicker-week-bg           : @header-bg;
+@datepicker-week-color        : @header-color;
+@datepicker-week-end-color    : lighten(@site-text-color, 30%);
+@datepicker-week-box-size     : 30px;
+@datepicker-week-font-size    : 10px;
+
+@datepicker-day-bg            : #fff;
+@datepicker-day-color         : @site-text-color;
+@datepicker-day-box-size      : 30px;
+@datepicker-day-font-size     : @font-size-mini;
+
+@datepicker-today-bg          : @site-color;
+@datepicker-today-color       : #fff;
+@datepicker-current-day-bg    : @gray-lighter;
+@datepicker-current-day-color : @datepicker-week-color;
+
+// JQuery UI Autocomplete = http://jqueryui.com/autocomplete/
+//=============================================================
+@autocomplete-bg            : @input-bg;
+@autocomplete-color         : @text-color;
+@autocomplete-item-bg-hover : @site-color;
+
+// JQuery UI Tooltip = http://jqueryui.com/tooltip/
+//=============================================================
+@tooltip-bg    : #fff;
+@tooltip-color : @text-color;
+@tooltip-width : 300px;
+
+// JQuery UI Slider (range) = http://jqueryui.com/slider/
+//=============================================================
+@range-size         : 16px;
+@range-bg           : #fff;
+@range-border-color : @input-border-color;
+@range-range-bg     : @gray-light;
+@range-handle-bg    : @gray;
+
+// JQuery UI Progressbar = http://jqueryui.com/progressbar/
+//=============================================================
+@progressbar-size         : 18px;
+@progressbar-bg           : #fff;
+@progressbar-border-color : darken(@brand-info, 15%);
+@progressbar-range-bg     : @brand-info;
+
+// Mixin
+//==================================================
+@import "mixins";

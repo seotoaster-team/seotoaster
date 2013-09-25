@@ -1,0 +1,62 @@
+<form action="javascript:;" method="post" data-name="search" id="search-widget-form" class="wmc-block">
+<<<<<<< Updated upstream
+	<?php echo $this->formLabel('search-results', $this->translate('Select a search results page'), array('class' => 'nopad grid_12')); ?>
+	<?php echo $this->formSelect('searchResults', null, array('id' => 'search-results', 'class' => 'nopad grid_12 validate')); ?>
+	<?php echo $this->formLabel('search-item-img', $this->translate('Use image'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('useImage', 'img', array('id' => 'search-item-img')); ?>
+		<?php echo $this->formLabel('search-image-cropped', $this->translate('Cropped'), array('style' => 'display:none;', 'class' => 'cropped-img')); ?>
+		<?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'search-image-cropped', 'style' => 'display:none;', 'class' => 'cropped-img')); ?>
+	</div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget-search')); ?>
+=======
+    <div>
+        <?php echo $this->formLabel('search-results', $this->translate('Select a search results page')); ?>
+        <?php echo $this->formSelect('searchResults', null, array('id' => 'search-results', 'class' => 'validate')); ?>
+    </div>
+    <div class="mt10px">
+	    <label class="grid_6 alpha omega">
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Use image'); ?></span>
+            <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'search-item-img')); ?>
+        </label>
+	    <label class="cropped-img hidden grid_6 omega">
+            <?php echo $this->translate('Cropped'); ?>
+            <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'search-image-croppedd')); ?>
+        </label>
+>>>>>>> Stashed changes
+	</div>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-search')); ?>
+</form>
+<script type="text/javascript">
+	$(function() {
+		if($('#search-results').length) {
+			$.getJSON($('#website_url').val() + 'backend/backend_page/listpages/', function(response) {
+				$.each(response.responseData, function() {
+					var optVal  = this.id;
+					var optText = this.h1;
+					$('#search-results')
+						.append($('<option></option>').attr({
+							value: optVal
+						})
+						.text(optText));
+				})
+			})
+		}
+		$(document).on('click', '.apply-widget-search', function() {
+			var imgType = '';
+			if($('#search-item-img').prop('checked') && $('#search-image-cropped').prop('checked')) {
+				imgType = ':imgc';
+			}
+			else if($('#search-item-img').prop('checked') && !$('#search-image-cropped').prop('checked')) {
+				imgType = ':img';
+			}
+			var searchWidget = '{$search:form:' + $('#search-results').val() + '}<br /><br />======== <strong>CODE TO INSERT IN "'
+				+ $('#search-results option:selected').text() + '" page ONLY(remove from here)</strong>  ========  <br/>'
+				+ '{$search:results' + (imgType) + '}';
+			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, searchWidget);
+		}).on('click', '#search-item-img', function() {
+		    $('.cropped-img').fadeToggle();
+	    });
+	});
+</script>

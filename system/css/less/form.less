@@ -1,0 +1,398 @@
+// Table of Content
+//==================================================
+//	Custom style
+//	Search form
+//==================================================
+
+//	Custom style
+//==================================================
+form, .form{
+    &:after{
+        content : '';
+        display : block;
+        clear   : both;
+    }
+
+    p{
+        margin : 0
+    }
+
+    &>p, &>div, fieldset>p, fieldset>div{
+        &:not([class*="mt"]){
+            margin-top : 0.75em;
+        }
+        &:not([class*="mb"]){
+            margin-bottom : 0;
+        }
+        .box-sizing();
+
+        &:first-child:not([class*="mt"]){
+            margin-top : 0;
+        }
+
+        &:after{
+            content : '';
+            display : block;
+            clear   : both;
+        }
+    }
+
+    fieldset{
+        border  : none;
+        margin  : 0;
+        padding : 0;
+        legend{
+            margin : 0;
+        }
+
+        // -- Buttons
+        &+[type="submit"], &+[type="button"]{
+            margin-top : 0;
+        }
+    }
+
+    label{
+        color         : @label-color;
+        display       : block;
+        margin-bottom : 0.15em;
+        &:first-child{
+            //font-weight : bold;
+        }
+    }
+
+    // -- Buttons
+    [type="submit"], [type="button"]{
+        height     : auto;
+        margin-top : 10px;
+        float      : right;
+
+        &:hover{
+        }
+    }
+
+    &.form-inline{
+        &>p, &>div, fieldset>p, fieldset>div{
+            margin-top : 0;
+        }
+
+        // -- Buttons
+        &>[type="submit"], &>[type="button"]{
+            margin-top : 21px;
+        }
+    }
+
+    &.form-grid{
+        label:first-child{
+            float        : left;
+            margin-right : @grid-margin-width / 2;
+            width        : percentage((6 / @grid-columns)) - @grid-margin-width / 2;
+        }
+        select, textarea, input{
+            float       : left;
+            margin-left : @grid-margin-width / 2;
+            width       : percentage((6 / @grid-columns)) - @grid-margin-width / 2;
+        }
+    }
+}
+
+select, textarea, input{
+    padding          : @padding-base-vertical;
+    background-color : @input-bg;
+    color            : lighten(@text-color, 10%);
+    vertical-align   : middle;
+    border-style     : solid;
+    border-width     : @input-border-width;
+    border-color     : @input-border-color;
+    .border-radius(@input-border-radius);
+    .transition(all, 0.3s);
+
+    &:focus{
+        border-color : @input-border-color-focus;
+        .box-shadow(0 0 3px @input-border-color-focus);
+    }
+
+    &.primary{
+        border-color : @brand-primary;
+        color        : @brand-primary;
+        &:focus{
+            .box-shadow(0 0 3px @brand-primary);
+        }
+    }
+
+    &.success{
+        border-color : @brand-success;
+        color        : @brand-success;
+        &:focus{
+            .box-shadow(0 0 3px @brand-success);
+        }
+    }
+
+    &.warning{
+        border-color : @brand-warning;
+        color        : @brand-warning;
+        &:focus{
+            .box-shadow(0 0 3px @brand-warning);
+        }
+    }
+
+    &.error{
+        border-color : @brand-error;
+        color        : @brand-error;
+        &:focus{
+            .box-shadow(0 0 3px @brand-error);
+        }
+    }
+
+    &.info{
+        border-color : @brand-info;
+        color        : @brand-info;
+        &:focus{
+            .box-shadow(0 0 2px @brand-info);
+        }
+    }
+
+    &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit{
+        background   : @input-bg-disabled;
+        border-color : darken(@input-bg-disabled, 10%);
+        color        : darken(@input-bg-disabled, 30%);
+        .box-shadow(none);
+    }
+
+    &.small{
+        padding : @padding-small-vertical;
+    }
+
+    &.large{
+        padding : @padding-large-vertical;
+    }
+}
+
+select{
+    padding : @padding-base-vertical - 1 @padding-base-vertical;
+
+    &.small{
+        padding : @padding-small-vertical - 1 @padding-small-vertical;
+    }
+
+    &.large{
+        padding : @padding-large-vertical - 1 @padding-large-vertical;
+    }
+}
+
+textarea{
+}
+
+.labeled{
+    position : relative;
+
+    i{
+        position : absolute;
+        margin   : auto;
+        left     : 5px;
+        top      : 0;
+        bottom   : 0;
+        z-index  : 2;
+        color    : @input-color-placeholder;
+        .icon-size(1em);
+
+        &+select, &+textarea, &+input{
+            padding-left : @padding-base-vertical * 4;
+        }
+    }
+    label{
+        margin-top    : 0;
+        margin-bottom : 0;
+        line-height   : normal;
+        background    : @input-border-color;
+        padding       : (@padding-base-vertical + @input-border-width) 0;
+        text-align    : center;
+        color         : #fff;
+    }
+}
+
+// -- Checkbox & Radio field style
+.checkbox_radio{
+    display        : inline-block;
+    *display       : inline;
+    vertical-align : middle;
+}
+input[type="checkbox"], input[type="radio"]{
+    -webkit-appearance : none;
+    -moz-appearance    : none;
+    appearance         : none;
+    display            : none;
+    line-height        : 0;
+    width              : 0;
+    height             : 0;
+
+    .ie8 &{
+        display : inline;
+    }
+
+    &:not(.icon)+span{
+        .inline-block;
+        .icon-size(@font-size-base);
+        line-height      : 0;
+        margin-right     : 3px;
+        background-color : @input-bg;
+        border-style     : solid;
+        border-width     : @input-border-width;
+        border-color     : @input-border-color;
+        cursor           : pointer;
+
+        &+span{
+            vertical-align : middle;
+        }
+
+        &:after{
+            content : '';
+            .inline-block;
+        }
+    }
+
+    &:disabled{
+        &+span{
+            background   : @input-bg-disabled;
+            border-color : darken(@input-bg-disabled, 10%);
+            color        : darken(@input-bg-disabled, 30%) !important;
+        }
+    }
+}
+input[type="radio"]{
+    &+span{
+        border-color : darken(@input-border-color, 7%);
+        .border-radius(@font-size-base * 2);
+
+        &:after{
+            width  : 10px;
+            height : 10px;
+            margin : 2px;
+            .border-radius(@font-size-base * 2);
+        }
+    }
+
+    &:checked{
+        &+span{
+            border-color : @brand-primary;
+
+            &:after{
+                background : @brand-primary;
+            }
+        }
+    }
+}
+input[type="checkbox"]:not(.icon){
+    &+span{
+        color : transparent;
+    }
+
+    &:checked{
+        &+span{
+            color : @brand-primary;
+        }
+    }
+
+    &.switcher{
+        &+span{
+            color          : @gray-light;
+            vertical-align : middle;
+            width          : 60px;
+            height         : 20px;
+            .border-radius(@input-border-radius);
+
+            &:after{
+                margin      : 1px;
+                font-size   : 10px;
+                line-height : 18px;
+                width       : 28px;
+                content     : "OFF";
+                background  : @gray-light;
+                color       : @gray;
+                text-align  : center;
+                .border-radius(@input-border-radius);
+            }
+        }
+
+        &:checked{
+            &+span{
+                &:after{
+                    color      : #FFF;
+                    content    : "ON";
+                    background : @brand-primary;
+                    left       : 50%;
+                }
+            }
+        }
+    }
+}
+
+// Search form
+//==================================================
+#search-form{
+    margin-top : 30px;
+
+    p{
+        float  : left;
+        width  : 25%;
+        margin : 0;
+
+        &:first-child{
+            width : 75%;
+        }
+
+    }
+
+    input{
+
+        &[type="text"]{
+            .border-radius(@input-border-radius 0 0 @input-border-radius);
+        }
+
+        &[type="submit"]{
+            width         : 100%;
+            padding-left  : 0;
+            padding-right : 0;
+            margin        : 0;
+            .border-radius(0 @input-border-radius @input-border-radius 0);
+        }
+    }
+}
+
+// Social button with checkbox
+//==================================================
+input[type="checkbox"].icon{
+
+    &+[class*="icon-"]{
+        color  : @gray-light;
+        cursor : pointer;
+        .icon-size(42px);
+    }
+
+    &:checked+.icon-facebook{
+        color : #214284;
+    }
+
+    &:checked+.icon-twitter{
+        color : #2cc9fe;
+    }
+
+    &:checked+.icon-linkedin{
+        color : #026699;
+    }
+
+    &:checked+.icon-feed{
+        color : #f05a28;
+    }
+
+    &:checked+.icon-gplus{
+        color : #c7432f;
+    }
+
+    &:checked+.icon-youtube{
+        color : #c7453f;
+    }
+
+    &:checked+.icon-pinterest{
+        color : #bd3137;
+    }
+}

@@ -1,0 +1,54 @@
+<form action="javascript:;" method="post" data-name="imgrotator" id="imgrotator-widget-form" class="wmc-block">
+<<<<<<< Updated upstream
+	<?php echo $this->formLabel('rotator-folders', $this->translate('Select a folder'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formSelect('rotatorFolders', null, array('id' => 'rotator-folders', 'class' => 'nopad grid_6 folders')); ?>
+	<?php echo $this->formLabel('rotator-slideshow', $this->translate('Slide show'), array('class' => 'nopad grid_6')); ?>
+	<div class="nopad grid_6">
+		<?php echo $this->formCheckbox('rotatorSlideshow', null, array('id' => 'rotator-slideshow', 'class' => 'wmc-input w100 allowzero')); ?>
+	</div>
+	<?php echo $this->formLabel('rotator-interval', $this->translate('Rotate time'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('rotatorInterval', Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME, array('id' => 'rotator-interval', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. width'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('rotatorThumbWidth', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH, array('id' => 'rotator-thumb-width', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('rotator-thumb-height', $this->translate('Max. height'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formText('rotatorThumbHeight', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT, array('id' => 'rotator-thumb-height', 'class' => 'nopad grid_6')); ?>
+	<?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'nopad grid_6')); ?>
+	<?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'nopad grid_6'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget')); ?>
+	</div>
+=======
+    <div>
+        <?php echo $this->formLabel('rotator-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formSelect('rotatorFolders', null, array('id' => 'rotator-folders', 'class' => 'grid_7 alpha omega folders')); ?>
+    </div>
+	<label class="mt10px">
+	    <span class="grid_5 alpha"><?php echo $this->translate('Slide show'); ?></span>
+		<?php echo $this->formCheckbox('rotatorSlideshow', null, array('id' => 'rotator-slideshow', 'class' => 'wmc-input allowzero')); ?>
+	</label>
+    <div class="mt5px">
+        <?php echo $this->formLabel('rotator-interval', $this->translate('Rotate time'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formText('rotatorInterval', Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME, array('id' => 'rotator-interval', 'class' => 'grid_7 alpha omega')); ?>
+    </div>
+    <div class="mt5px">
+        <?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. width'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formText('rotatorThumbWidth', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH, array('id' => 'rotator-thumb-width', 'class' => 'grid_7 alpha omega')); ?>
+    </div>
+    <div class="mt5px">
+        <?php echo $this->formLabel('rotator-thumb-height', $this->translate('Max. height'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formText('rotatorThumbHeight', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT, array('id' => 'rotator-thumb-height', 'class' => 'grid_7 alpha omega')); ?>
+    </div>
+    <div class="mt5px">
+        <?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'grid_7 alpha omega'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
+    </div>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+>>>>>>> Stashed changes
+</form>
+<script type="text/javascript">
+	$(function() {
+		$(document).on('blur', '#rotator-thumb-width', function() {
+			$('#rotator-thumb-height').val($(this).val());
+		});
+	});
+</script>

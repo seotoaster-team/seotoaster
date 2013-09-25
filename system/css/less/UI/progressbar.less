@@ -1,0 +1,109 @@
+.ui-progressbar{
+    position   : relative;
+    text-align : left;
+    height     : @progressbar-size;
+    background : @progressbar-bg;
+    border     : 1px solid @progressbar-border-color;
+    .box-sizing(border-box);
+
+    .ui-progressbar-value{
+        position   : absolute;
+        top        : 0;
+        left       : 0;
+        bottom     : 0;
+        z-index    : 0;
+        height     : 100%;
+        background : @progressbar-range-bg;
+    }
+
+    .label{
+        position  : absolute;
+        top       : 0;
+        left      : 0.5em;
+        bottom    : 0;
+        font-size : @font-size-small;
+        color     : rgba(0, 0, 0, 0.7);
+    }
+}
+
+.ui-progressbar.primary{
+    background   : @state-primary-bg;
+    border-color : @state-primary-border;
+
+    .ui-progressbar-value{
+        background : @state-primary-text;
+    }
+}
+
+.ui-progressbar.warning{
+    background   : @state-warning-bg;
+    border-color : @state-warning-border;
+
+    .ui-progressbar-value{
+        background : @state-warning-text;
+    }
+}
+
+.ui-progressbar.error{
+    background   : @state-error-bg;
+    border-color : @state-error-border;
+
+    .ui-progressbar-value{
+        background : @state-error-text;
+    }
+}
+
+.ui-progressbar.success{
+    background   : @state-success-bg;
+    border-color : @state-success-border;
+
+    .ui-progressbar-value{
+        background : @state-success-text;
+    }
+}
+
+.ui-progressbar.info{
+    background   : @state-info-bg;
+    border-color : @state-info-border;
+
+    .ui-progressbar-value{
+        background : @state-info-text;
+    }
+}
+[id*="uploader-filelist"]{
+    .ui-widget{
+        .ui-state-highlight, .ui-state-error{
+            overflow      : hidden;
+            margin-bottom : 0.2em;
+            font-size     : @font-size-small;
+            padding       : 0 @padding-small-vertical;
+            height        : @progressbar-size;
+            line-height   : @progressbar-size;
+
+            p{
+                margin    : 0;
+                position  : relative;
+                z-index   : 5;
+                .inline-block;
+                max-width : 93%;
+                color     : rgba(0, 0, 0, 0.7);
+                .text-overflow;
+
+                &+.ui-progressbar{
+                    margin : -@progressbar-size -@padding-small-vertical 0;
+                }
+            }
+
+            .ui-icon{
+                .icon-size(@font-size-base);
+                float      : right;
+                margin-top : 2px;
+                color      : @brand-info;
+            }
+
+            .ui-icon-alert{
+                color : @brand-error;
+            }
+        }
+    }
+}

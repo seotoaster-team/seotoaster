@@ -1,0 +1,118 @@
+.ui-tabs{
+	position : relative; /*position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+
+	&.ui-widget-content{
+		border : none;
+	}
+
+	&.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a{
+		cursor : pointer;
+	}
+
+	.ui-tabs-nav{
+		background : @tabs-nav-bg;
+		margin     : 0;
+		padding    : 0 @grid-margin-width / 2;
+
+		.tab-gray&{
+			background : transparent;
+			padding    : 0;
+		}
+
+		&:after{
+			content : '';
+			display : block;
+			clear   : both;
+		}
+
+		.ui-tabs-vertical &{
+			float : left;
+			width : 12em;
+		}
+
+		li{
+			float       : left;
+			margin      : 0;
+			padding     : 0;
+			background  : @tabs-nav-li-bg;
+			white-space : nowrap;
+			list-style  : none;
+
+			a.ui-tabs-anchor{
+				display         : block;
+				padding         : @padding-base-vertical @padding-base-horizontal;
+				text-decoration : none;
+				color           : @tabs-nav-li-color;
+
+				.header&{
+					padding : 0 @padding-base-horizontal;
+				}
+			}
+
+			&:hover{
+				background : @tabs-nav-li-bg-hover;
+				a{
+					color : @tabs-nav-li-color-hover;
+				}
+			}
+
+			.tab-gray&{
+				padding : @padding-small-vertical @padding-base-horizontal;
+
+				a{
+					color : @link-color;
+				}
+
+				&:hover{
+					background : transparent;
+					a{
+						color : @link-color-hover;
+					}
+				}
+			}
+
+			&.ui-tabs-active, &.ui-tabs-loading, &.ui-state-disabled{
+				background : @tabs-nav-li-bg-active;
+				a{
+					font-weight : bold;
+					cursor      : text;
+					color       : @tabs-nav-li-color-active;
+				}
+
+				.tab-gray&{
+					.background;
+					border   : none;
+					padding  : @padding-small-vertical @padding-base-horizontal;
+					position : relative;
+					z-index  : 1;
+
+					a{
+						font-weight : normal;
+						color       : @gray-dark;
+					}
+				}
+			}
+		}
+	}
+
+	.ui-tabs-panel{
+		display    : block;
+		border     : none;
+		background : @tabs-container-bg;
+		padding    : @padding-base-vertical @padding-base-horizontal;
+
+		.tab-gray&{
+			.background;
+			position : relative;
+			z-index  : 1;
+		}
+	}
+}
+
+.header.ui-tabs-nav li a.ui-tabs-anchor{
+	padding-top    : 0;
+	padding-bottom : 0;
+}
+
+// JQuery UI Tabs
+//==================================================

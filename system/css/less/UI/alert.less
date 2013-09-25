@@ -1,0 +1,134 @@
+.alert-state(@color, @background, @border) {
+    background-color : @background;
+    border-color     : @border;
+    color            : @color;
+
+    hr{
+        border-top-color : darken(@border, 5%);
+    }
+
+    a{
+        color : darken(@color, 10%);
+    }
+}
+
+.smoke-base .smokebg{
+    background      : rgba(255, 255, 255, 0.5);
+    -pie-background : rgba(255, 255, 255, 0.5);
+    position        : absolute;
+    left            : 0;
+    right           : 0;
+    top             : 0;
+    bottom          : 0;
+    z-index         : 100;
+}
+
+.alert,
+.message,
+.smoke-base .dialog,
+[class^="alert-"], [class*=" alert-"]{
+    padding       : @padding-base-vertical @padding-base-horizontal;
+    border        : 1px solid;
+    border-radius : @state-border-radius;
+    .alert-state(@site-text-color, @site-color, darken(@site-color, 5%));
+
+    .close{
+        position : relative;
+        top      : -2px;
+        right    : -21px;
+        color    : inherit;
+    }
+
+    p, ul, ol{
+        margin : 0;
+
+        &+p, &+ul, &+ol{
+            margin-top : 5px;
+        }
+    }
+
+    li{
+        list-style : none;
+        margin     : 0;
+
+        &+li{
+            margin-top : 0.5em;
+        }
+    }
+
+    .dialog-inner{
+
+        .dialog-buttons{
+            margin-top : 10px;
+
+            button{
+                float  : none;
+                margin : 0 @padding-small-horizontal;
+                .btn-success;
+
+                &.cancel{
+                    .btn-error;
+                }
+            }
+        }
+    }
+
+    // Alternate styles
+    // -------------------------
+    &.alert-success, &.success{
+        .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+    }
+    &.alert-warning, &.warning{
+        .alert-state(@state-warning-text, @state-warning-bg, @state-warning-border);
+    }
+    &.alert-error, &.error{
+        .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+    }
+    &.alert-info, &.info{
+        .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+    }
+
+    // Block alerts
+    // -------------------------
+    &.alert-block{
+        padding-top    : 15px;
+        padding-bottom : 15px;
+    }
+}
+
+.ui-state-error{
+    .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+}
+.ui-state-highlight{
+    .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+}
+
+.alert,
+.smoke-base .dialog,
+[class^="alert-"], [class*=" alert-"]{
+    position      : absolute;
+    top           : 40%;
+    left          : 0;
+    right         : 0;
+    z-index       : 101;
+    margin        : 0 auto;
+    max-width     : 50%;
+    font-size     : @font-size-large;
+    text-align    : center;
+    .box-shadow(0 0 100px desaturate(darken(@site-color, 5%), 10%));
+
+    // Alternate styles
+    // -------------------------
+    &.alert-success{
+        .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
+    }
+    &.alert-warning{
+        .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
+    }
+    &.alert-error{
+        .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
+    }
+    &.alert-info{
+        .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
+    }
+}

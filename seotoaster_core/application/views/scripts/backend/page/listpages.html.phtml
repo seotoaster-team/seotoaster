@@ -1,0 +1,22 @@
+<div class="header">
+    <?php echo $this->translate('List pages using <strong>' . $this->templateName . '</strong> template'); ?>
+    <div class="closebutton">
+        <a class="hide icon-chevron-right btn-icon" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
+    </div>
+</div>
+<div class="content">
+	<?php if($this->responseData && is_array($this->responseData)): ?>
+		<ol class="grid_12 items-list">
+			<?php foreach($this->responseData as $number => $page): ?>
+				<li class="list-row">
+					<span class="list-row-count grid_1 alpha omega">#<?php echo ++$number; ?></span>
+					<a class="list-row-item grid_11" href="<?php echo $this->websiteUrl . $page['url']; ?>"  target="_blank" title="<?php echo 'Go to page: ', $page['h1']; ?>"><?php echo $page['navName']; ?></a>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+	<?php else: ?>
+		<ol class="grid_12 items-list">
+			<li style="text-align: center;"><?php echo $this->translate('There are no pages with this template!'); ?></li>
+		</ol>
+	<?php endif; ?>
+</div>

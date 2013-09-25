@@ -1,0 +1,38 @@
+// GRID CSS
+//==================================================
+.container{
+	width: @grid-container-width;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+}
+
+//.grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16{
+[class^="grid_"], [class*=" grid_"]{
+	//display: inline;
+	float: left;
+	position: relative;
+	margin-left: (@grid-margin-width / 2);
+	margin-right: (@grid-margin-width / 2);
+	.box-sizing();
+}
+
+.alpha{ margin-left: 0; }
+.omega{ margin-right: 0; }
+
+html body{
+	.grid(@grid-columns);
+	.prefix(@grid-columns - 1);
+	.suffix(@grid-columns - 1);
+	.push(@grid-columns - 1);
+	.pull(@grid-columns - 1);
+}
+
+.clear{
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}

@@ -1,0 +1,26 @@
+<form action="javascript:;" method="post" data-name="gal" id="gal-widget-form" class="wmc-block">
+    <div>
+        <?php echo $this->formLabel('gal-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt5px')); ?>
+        <?php echo $this->formSelect('galFolders', null, array('id' => 'gal-folders', 'class' => 'grid_7 alpha omega folders')); ?>
+    </div>
+    <div class="mt5px">
+	    <?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'grid_5 alpha mt5px')); ?>
+	    <?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'grid_7 alpha omega')); ?>
+    </div>
+	<label class="mt10px">
+        <span class="grid_5 alpha"><?php echo $this->translate('Crop image'); ?></span>
+		<?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop')); ?>
+	</label>
+	<label class="mt10px">
+	    <span class="grid_5 alpha"><?php echo $this->translate('Caption'); ?></span>
+		<?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption')); ?>
+<<<<<<< Updated upstream
+	</div>
+	<div class="grid_12 nopad">
+		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget')); ?>
+	</div>
+=======
+	</label>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+>>>>>>> Stashed changes
+</form>
