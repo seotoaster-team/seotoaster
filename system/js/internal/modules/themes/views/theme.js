@@ -47,7 +47,7 @@ define([
                     }
                 },
                 save = function(){
-                    showSpinner();
+                    showSpinner('#themes-list');
                     self.model.save(attrs, callbacks);
                 };
 
@@ -67,7 +67,7 @@ define([
             var self = this;
             var name = $(e.currentTarget).data('name');
             showConfirm('Are you sure you want to remove "' + this.model.get('name') + '" theme?', function() {
-                showSpinner();
+                showSpinner('#themes-list');
                 var theme = _.first(window.themesModule.themes.where({name: name}));
                 //console.log(theme.isNew());
                 theme.destroy({

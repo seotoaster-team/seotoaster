@@ -4,9 +4,9 @@ $(document).ready(function(){
         // general settings
         script_url             : websiteUrl + 'system/js/external/tinymce/tiny_mce_gzip.php',
         theme                  : 'advanced',
-        width                  : 620,
-        height                 : 510,
-        plugins                : 'preview,fullscreen,media,paste,stw',
+        width                  : '100%',
+        height                 : 420,
+        plugins                : 'preview,spellchecker,fullscreen,media,paste,stw',
         convert_urls           : false,
         relative_urls          : false,
         entity_encoding        : 'raw',
@@ -16,8 +16,8 @@ $(document).ready(function(){
         valid_elements         : '*[*]',
 
         // buttons
-        theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,|,link,unlink,anchor,hr',
-		theme_advanced_buttons2 : 'image,|,widgets,|,pastetext,removeformat,charmap',
+        theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,link,unlink,hr',
+		theme_advanced_buttons2 : 'image,|,widgets,|,spellchecker,|,pastetext,removeformat,charmap',
 
         // theme advanced related settings
         theme_advanced_blockformats       : 'div,blockquote,p,address,pre,h2,h3,h4,h5,h6',

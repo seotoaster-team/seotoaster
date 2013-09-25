@@ -19,11 +19,15 @@ $(function() {
 
 
 	$('#cpanelul').accordion({
-        heightStyle: 'content'
+        heightStyle: 'content',
+		icons: null
 	});
 
 	if($.cookie('currSectionOpen')) {
-		$('#cpanelul').accordion({active: parseInt($.cookie('currSectionOpen'))});
+		$('#cpanelul').accordion({
+			active: parseInt($.cookie('currSectionOpen')),
+			icons: null
+		});
 	}
 
 	$(document).on('click', '#cpanelul li', function() {

@@ -1,14 +1,16 @@
 <?php if(!empty($this->plugins)): ?>
 	<?php foreach($this->plugins as $plugin): ?>
 		<div class="plugin-item">
-			<a href="javascript:;" class="readme-plugin" data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/readme.png" alt="readme"/></a>
-			<a data-url="<?php echo $this->toasterLink('backend_plugin', 'delete', '', null, true); ?>" data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" class="del-plugin _tdelete" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+			<p class="plugin-name">
+				<span class="grid_8 alpha omega"><?php echo ucfirst($plugin->getName()); ?></span>
+				<a class="readme-plugin grid_2 alpha omega btn btn-link btn-icon" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"><span class="icon-book"></span></a>
+				<a class="del-plugin _tdelete grid_2 alpha omega btn btn-link btn-icon btn-error" data-url="<?php echo $this->toasterLink('backend_plugin', 'delete', '', null, true); ?>" data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" href="javascript:;"><span class="icon-remove icon16"></span></a>
+			</p>
 			<div class="plugin-image">
 				<img src="<?php echo $plugin->getPreview(); ?>" alt="<?php echo $plugin->getName(); ?> preview" />
 			</div>
-			<p class="plugin-name"><?php echo ucfirst($plugin->getName()); ?></p>
-			<a class="plugin-control" id="<?php echo $plugin->getName(); ?>" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install') ; ?></a>
-			<a class="plugin-endis" style="<?php echo ($plugin->getId()) ? '' : 'display:none' ;?>" id="endis-<?php echo $plugin->getName(); ?>" data-name="<?php echo $plugin->getName(); ?>" href="javascript:;"><?php echo ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? $this->translate('Disable') : $this->translate('Enable'); ?></a>
+			<a class="plugin-control btn-small <?php echo ($plugin->getId()) ? 'grid_6 alpha omega' : 'btn-block' ; ?>" id="<?php echo $plugin->getName(); ?>" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>" title="<?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install') ; ?>"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install'); ?></a>
+			<a class="plugin-endis btn-small grid_6 alpha omega <?php echo (($plugin->getId()) ? (($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? '' : 'btn-disable') : 'hidden'); ?>" id="endis-<?php echo $plugin->getName(); ?>" data-name="<?php echo $plugin->getName(); ?>" href="javascript:;"><?php echo ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? $this->translate('Disable') : $this->translate('Enable'); ?></a>
 		</div>
 	<?php endforeach; ?>
 <?php endif; ?>

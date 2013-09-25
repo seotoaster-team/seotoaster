@@ -4,7 +4,7 @@ $(function() {
 	$(document).on('change', '.silo-select', function() {
 		var pid = $(this).attr('id');
 		var sid = $(this).val();
-		showSpinner();
+		showSpinner(this);
 		$.post($('#website_url').val() + 'backend/backend_seo/addsilotopage/', {
 			pid : pid,
 			sid : sid
@@ -17,7 +17,7 @@ $(function() {
 	$(document).on('click', '.silo-this-cat', function() {
 		var cid    = $(this).val();
 		var actUrl = '';
-		showSpinner();
+		showSpinner(this);
 		if($(this).prop('checked')) {
 			actUrl = $('#website_url').val() + 'backend/backend_seo/silocat/act/add/';
 		}
@@ -40,7 +40,7 @@ sculptingCallback = function() {
 
 loadSculptingData = function() {
 	//$('#sculpting-list').addClass('ajaxspineer');
-	showSpinner();
+	showSpinner('#sculpting-list');
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadsculptingdata', function(response) {
 		hideSpinner();
 		$('#sculpting-list').html(response.sculptingList);

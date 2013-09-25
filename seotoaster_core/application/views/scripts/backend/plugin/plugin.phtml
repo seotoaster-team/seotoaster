@@ -1,10 +1,10 @@
-<div class="seotoaster container_12 h570 rounded3px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage plugins', 'helpSection' => $this->helpSection)); ?>
 
-    <!--  Plugin upload box  -->
-	<div id="upload-plugin" class="grid_12">
-		<fieldset>
-			<div class="grid_5"><?php if(extension_loaded('zip')): ?>
+	<div class="content">
+		<!--  Plugin upload box  -->
+		<div id="upload-plugin" class="grid_12">
+			<div class="grid_5 alpha"><?php if(extension_loaded('zip')): ?>
 				<?php
 					$uploader = $this->toasterUploader(array(
 						'id'            => 'plugin-uploader',
@@ -17,46 +17,31 @@
 
 				<?php endif; ?>
 			</div>
-			<div class="grid_7">
+			<div class="grid_7 omega">
 				<div id="plugin-uploader-filelist"></div>
 			</div>
-            <?php if(!extension_loaded(Tools_Plugins_Tools::LOADER_EXTENSION)): ?>
-                <div class="ui-state-error ui-corner-all" style="width: 500px; float: right; padding: 2px 10px;">
-                    <?php echo $this->translate('We\'ve detected that you don\'t have the "%s&trade;" extension installed. Some plugins might not be able to function properly.', '<a href="http://www.ioncube.com/loaders.php">' . Tools_Plugins_Tools::LOADER_EXTENSION . '</a>'); ?>
-                </div>
-            <?php endif; ?>
-		</fieldset>
-	</div>
-    <!--  /Plugin upload box  -->
+		<?php if(!extension_loaded(Tools_Plugins_Tools::LOADER_EXTENSION)): ?>
+			<div class="ui-state-error ui-corner-all" style="width: 500px; float: right; padding: 2px 10px;">
+				<?php echo $this->translate('We\'ve detected that you don\'t have the "%s&trade;" extension installed. Some plugins might not be able to function properly.', '<a href="http://www.ioncube.com/loaders.php">' . Tools_Plugins_Tools::LOADER_EXTENSION . '</a>'); ?>
+			</div>
+		<?php endif; ?>
+		</div>
+		<!--  /Plugin upload box  -->
 
-    <!--  Plugins tabs  -->
-    <div class="grid_12">
-        <?php
-            $this->tabPane('plugintab', '<div class="plugins-list"></div>', array(
-                'title'      => $this->translate('Installed plugins'),
-                'contentUrl' => $this->websiteUrl . 'backend/backend_plugin/list/',
-            ));
-            $this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 425)), array(
-                'title' => $this->translate('Available plugins')
-            ));
-            echo $this->tabContainer('plugintab', array(), array('class' => 'plugintabs'));
-        ?>
-    </div>
-    <!-- /Plugins tabs  -->
+		<!--  Plugins tabs  -->
+		<div class="grid_12 mt15px">
+			<?php
+				$this->tabPane('plugintab', '<div class="plugins-list"></div>', array(
+					'title'      => $this->translate('Installed plugins'),
+					'contentUrl' => $this->websiteUrl . 'backend/backend_plugin/list/',
+				));
+				$this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 425)), array(
+					'title' => $this->translate('Available plugins')
+				));
+				echo $this->tabContainer('plugintab', array(), array('class' => 'plugintabs'));
+			?>
+		</div>
+		<!-- /Plugins tabs  -->
+	</div>
 </div>
-<style type="text/css">
-    .ui-tabs .ui-tabs-panel {padding: 5px}
-    div.plugin-item a.readme-plugin,
-    div.plugin-item a.del-plugin {
-        display: block;
-        opacity: 0;
-        -webkit-transition: opacity 400ms ease;
-        -moz-transition: opacity 400ms ease;
-        -ms-transition: opacity 400ms ease;
-        -o-transition: opacity 400ms ease;
-        transition: opacity 400ms ease
-    }
-    div.plugin-item:hover a.readme-plugin,
-    div.plugin-item:hover a.del-plugin {opacity: 1;}
-</style>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.js'); ?>

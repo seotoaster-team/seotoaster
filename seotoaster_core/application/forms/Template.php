@@ -39,7 +39,6 @@ class Application_Form_Template extends Zend_Form {
 			'value'    => $this->_content,
 			'required' => true,
 			'filters'  => array('StringTrim'),
-			'class'	   => array('h400'),
 			'decorators' => array('ViewHelper', 'Label')
 		));
 
@@ -61,13 +60,17 @@ class Application_Form_Template extends Zend_Form {
 			'name'  => 'pageId',
 		)));
 
-		$this->addElement('submit', 'submit', array(
-			'label'  => 'Save changes',
-			'class'  => array('formsubmit', 'grid_3'),
-			'style'  => 'margin-right:1%;',
-			'ignore' => true
-		));
+		$this->addElement(new Zend_Form_Element_Button(array(
+			'name'   => 'submit',
+			'type'   => 'submit',
+			'label'  => '<span class="icon-save"></span> Save changes',
+			'class'  => array('formsubmit', 'mt15px'),
+			'ignore' => true,
+			'escape' => false
+		)));
 
+		$this->setElementDecorators(array('ViewHelper', 'Label'));
+		$this->getElement('submit')->removeDecorator('Label');
 		$this->removeDecorator('DtDdWrapper');
 		$this->removeDecorator('DlWrapper');
 	}

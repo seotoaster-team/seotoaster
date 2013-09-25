@@ -2,64 +2,66 @@
 <script id="theme-box" type="text/template">
 
     <!-- download link -->
-    <a class="lnk-download" href="javascript:;" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /></a>
+    <a class="lnk-download btn btn-link" href="javascript:;" data-name="<%= name %>"><span class="icon-box-add icon16"></span></a>
     <div class="download-options">
-        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Get theme</a>
+        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme">Get theme</a>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	    <% if(isCurrent) { %>
-	    <br/><br/><a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>"><img src="<?php echo $this->websiteUrl;?>system/images/download.png" /> Get website</a>
+	    <a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>">Get website</a>
 	    <% } %>
 	    <?php endif; ?>
     </div>
 
+	<% if(isCurrent) { %>
+		<span class="lnk-current btn btn-link" title="<?php echo $this->translate('Current');?>"><span class="icon-ok icon18 success"></span></span>
+	<% } else { %>
+		<a class="lnk-delete btn btn-link error" title="<?php echo $this->translate('Delete');?>" data-name="<%= name %>"><span class="icon-remove-2 icon16"></span></a>
+	<% } %>
 
-    <% if(isCurrent) { %>
-        <a href="javascript:;" class="lnk-current"><img src="<?php echo $this->websiteUrl;?>system/images/current-theme.png"></a>
-    <% } else { %>
-        <a href="javascript:;" class="lnk-delete" data-name="<%= name %>"><img src="<?php echo $this->websiteUrl;?>system/images/delete.png"></a>
-    <% } %>
     <div class="theme-preview-img">
         <img src="<%= preview %>" class="preview" alt="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" title="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" />
     </div>
-    <% if(!isCurrent) { %>
-        <button class="apply-button formsubmit"><?php echo $this->translate('Apply');?></button>
-    <% } %>
-    <p class="theme-name" title="<% if((isCurrent)) { %>Your current theme: <%= name %> <% } else { %>Click to apply <%= name %> theme <% } %>">
+
+	<% if(!isCurrent) { %>
+		<button class="apply-button formsubmit btn-small grid_8"><?php echo $this->translate('Apply');?></button>
+	<% } %>
+
+    <p class="theme-name text-center mb0px">
         <% if(isCurrent) { %>
-            <%= name.substr(0, 18) %>
+		<span class="current-theme success"><%= name.substr(0, 18) %></span>
         <% } else { %>
-            <a href="javascript:;" class="apply-theme" data-name="<%= name %>"><%= name.substr(0, 18) %></a>
-        <% } %>
+            <span class="apply-theme" data-name="<%= name %>" title="<% if((isCurrent)) { %>Your current theme: <%= name %> <% } else { %>Click to apply <%= name %> theme <% } %>"><%= name.substr(0, 18) %></span>
+		<% } %>
     </p>
 </script>
 
-<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
+<div class="seotoaster container refreshOnClose">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
-    <!-- uploader -->
-    <div  class="grid_12 mb10px">
-        <fieldset>
-            <div class="grid_5">
-                <?php echo $this->toasterUploader(array(
-                        'id'      => 'themes-uploader',
-                        'filters' => array('zip'),
-                        'caption' => $this->translate('Upload a new theme'),
-                        'caller'  => 'themes'
-                    ));
-                ?>
-            </div>
-            <div class="grid_7">
-                <div id="themes-uploader-filelist"></div>
-            </div>
-        </fieldset>
-    </div>
+	<div class="content">
+		<!-- uploader -->
+		<div  class="grid_12">
+			<div class="grid_5 alpha">
+				<?php echo $this->toasterUploader(array(
+						'id'      => 'themes-uploader',
+						'filters' => array('zip'),
+						'caption' => $this->translate('Upload a new theme'),
+						'caller'  => 'themes'
+					));
+				?>
+			</div>
+			<div class="grid_7 omega">
+				<div id="themes-uploader-filelist"></div>
+			</div>
+		</div>
 
-    <!-- main part -->
-    <div class="grid_12">
-        <fieldset>
-            <legend><?php echo $this->translate('Themes list'); ?></legend>
-            <div id="themes-list" class="h410 paddtop5"><div style="text-align: center;"><?php echo $this->translate('Loading themes list...'); ?></div></div>
-        </fieldset>
-    </div>
+		<!-- main part -->
+		<div class="grid_12">
+<!--			<h2>--><?php //echo $this->translate('Themes list'); ?><!--</h2>-->
+			<div id="themes-list">
+				<div class="text-center spinner"><?php echo $this->translate('Loading themes list...'); ?></div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <?php
@@ -67,102 +69,4 @@
         'data-main' => $this->websiteUrl . 'system/js/internal/themes.js'
     ));
 ?>
-
-<style type="text/css">
-    .paddtop5 {padding: 5px 0;}
-    div.themebox {
-	    position: relative;
-	    -webkit-transition: all 400ms ease;
-        -moz-transition: all 400ms ease;
-        -ms-transition: all 400ms ease;
-        -o-transition: all 400ms ease;
-        transition: all 400ms ease;
-    }
-    div.themebox:hover {
-        box-shadow: 0 0 15px indianRed !important;
-        -moz-box-shadow: 0 0 15px indianRed !important;
-        -webkit-box-shadow: 0 0 15px indianRed !important;
-    }
-
-    div.themebox div.theme-preview-img {padding: 5px 0;}
-    div.themebox button.apply-button {
-        top: 75px;
-        left: 40px;
-        background: #939393;
-        background: -moz-linear-gradient(top, #939393 0%, #777777 100%);
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#939393), color-stop(100%,#777777));
-        background: -webkit-linear-gradient(top, #939393 0%,#777777 100%);
-        background: -o-linear-gradient(top, #939393 0%,#777777 100%);
-        background: -ms-linear-gradient(top, #939393 0%,#777777 100%);
-        background: linear-gradient(top, #939393 0%,#777777 100%);
-        border-color: #777777 #777777 #6d6d6d;
-        border-style: solid;
-        border-width: 1px;
-        box-shadow: 0 1px 0 0 #9f9f9f inset;
-        -moz-box-shadow: 0 1px 0 0 #9f9f9f inset;
-        -webkit-box-shadow: 0 1px 0 0 #9f9f9f inset;
-        text-shadow: 0 -1px 0 #636363;
-        text-align: center;
-        color: #FFFFFF;
-        -moz-border-radius:15px;
-        -webkit-border-radius:15px;
-        border-radius:15px;
-        cursor:pointer;
-        font-size:13pt;
-        font-weight:bold;
-        font-family:Arial, Helvetica, sans-serif;
-        padding: 5px 20px;
-        overflow: visible;
-    }
-    div.themebox a.lnk-download,
-    div.themebox a.lnk-delete,
-    div.themebox a.lnk-current,
-    div.themebox button.apply-button {
-        position: absolute;
-        display: block;
-        opacity: 0;
-        -webkit-transition: opacity 400ms ease;
-        -moz-transition: opacity 400ms ease;
-        -ms-transition: opacity 400ms ease;
-        -o-transition: opacity 400ms ease;
-        transition: opacity 400ms ease;
-    }
-    div.themebox a.lnk-download,
-    div.themebox a.lnk-delete,
-    div.themebox a.lnk-current {
-        background: white;
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        padding: 5px;
-        z-index: 99;
-    }
-    div.themebox:hover a.lnk-download,
-    div.themebox:hover a.lnk-delete,
-    div.themebox:hover .apply-button {
-	    opacity: 1;
-    }
-    div.themebox a.lnk-download {
-	    left: 0;
-    }
-    div.themebox a.lnk-current {
-	    display: inline;
-	    opacity: 1;
-    }
-    div.themebox a.lnk-current,
-    div.themebox a.lnk-delete {right: 0}
-    div.themebox div.download-options {
-        display: none;
-        position: absolute;
-        color: #468847;
-        background: #fafafa;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-        padding: 5px;
-        box-shadow: 0 0 5px #ccc;
-        text-align: left;
-        z-index: 100
-    }
-    div.themebox div.download-options:hover,
-    div.themebox a.lnk-download:hover + div.download-options {display: block}
-</style>
 

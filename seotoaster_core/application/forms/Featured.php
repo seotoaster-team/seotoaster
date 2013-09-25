@@ -26,18 +26,22 @@ class Application_Form_Featured extends Zend_Form {
 					'field' => 'name'
 				))
 			),
+			'decorators' => array('ViewHelper', 'Label'),
 			'required'   => true,
-            'style'      => 'width: 305px;',
 			'filters'    => array('StringTrim')
 		)));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addFeaturedArea',
 			'id'    => 'add-featured-area',
 			'value' => 'Add page tag',
-			'class' => 'blue-btn',
-			'label' => 'Add page tag'
+			'type'  => 'submit',
+			'class' => 'btn-block btn-transparent mt10px',
+			'label' => '<span class="icon-plus icon18"></span>',
+			'escape'=> false
 		)));
+
+		$this->getElement('addFeaturedArea')->removeDecorator('DtDdWrapper');
 
 	}
 

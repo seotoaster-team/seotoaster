@@ -1,32 +1,33 @@
-<div class="seotoaster container_12 h640 rounded8px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage silos')); ?>
-	<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax" data-callback="siloslist">
-		<div class="grid_9">
-			<?php echo $this->siloForm->getElement('name'); ?>
-		</div>
-		<div class="grid_3">
+	<div class="content-footer grid_12">
+		<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12 mb15px form-inline" data-callback="siloslist">
+			<div class="grid_9 alpha">
+				<?php echo $this->siloForm->getElement('name'); ?>
+			</div>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
-		</div>
-	</form>
-	<div class="grid_12">
-	     <div class="silo-row grid_12" style="font-size:10pt;font-weight: bold;padding: 9px 0 5px;">
+		</form>
+		<div class="grid_12 list-title">
 			<div class="grid_1"><input type="checkbox" name="chckAllSilos" class="check-all-silos" /></div>
 			<div class="grid_9"><?php echo $this->translate('Name'); ?></div>
 			<div class="grid_2" style="text-align:right;"><?php echo $this->translate('Action'); ?></div>
 		</div>
+		<div id="silos-list" class="grid_12 items-list"></div>
 	</div>
-	<div id="silos-list" class="grid_12 h450"></div>
-
-	<div class="grid_12" style="text-align: right;">
+	<div class="grid_12 footer">
 <!--		<button id="mass-del">Delete selected</button>-->
-		<a href="javascript:;" class="delete-selected" id="mass-del">[ <?php echo $this->translate('Delete selected');?> ]</a>
-	</div>
+		<a href="javascript:;" class="delete-selected btn btn-link btn-error" id="mass-del">[ <?php echo $this->translate('Delete selected');?> ]</a>
+	</dv>
 </div>
 
 <script type="text/javascript" charset="utf-8">
 	$(function() {
 		$('#addSilo-label').hide();
 		siloslist();
+
+		$('.check-all-silos').click(function() {
+			$('.rem-silos').prop('checked', ($(this).prop('checked')) ? true : false);
+		})
 
 		$('#mass-del').click(function() {
 			var silosIds= [];
@@ -61,12 +62,13 @@
 
 	function siloslist() {
 		$('#silo-name').val('').focus();
-		showSpinner();
+		showSpinner('#silos-list');
 		$.post($('#website_url').val() + 'backend/backend_seo/managesilos', {
 			act: 'loadlist'
 		}, function(response) {
 			hideSpinner();
 			$('#silos-list').html(response.responseText);
+			checkboxRadio();
 		})
 	}
 </script>

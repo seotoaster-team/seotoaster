@@ -1,10 +1,10 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/adminPanelInit.js'); ?>
-<div id="seotoaster-cpanel" class="seotoaster w200">
+<div id="seotoaster-cpanel" class="seotoaster">
 	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
 	<div id="seotoaster-logowrap">
 		<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?>
 		<div id="system-version"><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?></div>
-        <img width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
+        <img class="reset-element" width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
     </div>
 	<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	<ul id="cpanelul">
@@ -13,7 +13,7 @@
 			<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
 			<ul>
 				<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '960', 'height' => '560')); ?></li>
                 <?php if($this->newsPage !== true): ?>
 					<?php if($this->websiteMainPage != $this->pageData['url']): ?>
 						<li><a href="javascript:;" data-cid="<?php echo $this->pageData['parentId']; ?>" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
@@ -21,10 +21,10 @@
 					<?php endif; ?>
 				<?php endif; ?>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Other pages'); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), false, false, array('width' => '954', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, array('width' => 480, 'height' => 574)); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, array('width' => 480, 'height' => 560)); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['PAGES']) && isset($this->additionalMenu['PAGES']['items'])): ?>
 			<?php foreach($this->additionalMenu['PAGES']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
@@ -38,8 +38,8 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('MEDIA'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, array('width' => '480', 'height' => '504')); ?></li>
-				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '480', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_media', 'uploadthings', $this->translate('Upload things'), false, false, array('width' => '480', 'height' => '560')); ?></li>
+				<li><?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '480', 'height' => '560')); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA']) && isset($this->additionalMenu['MEDIA']['items'])): ?>
 			<?php foreach($this->additionalMenu['MEDIA']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
@@ -53,11 +53,11 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('SEO'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, Zend_View_Helper_ToasterLink::WSIZE_SMALL); ?></li>
-				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, array('width' => '350', 'height' => '350')); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Link strategy'); ?></li>
-				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '954', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, Zend_View_Helper_ToasterLink::WSIZE_MEDIUM); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, array('width' => '480', 'height' => '560')); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['SEO']) && isset($this->additionalMenu['SEO']['items'])): ?>
 			<?php foreach($this->additionalMenu['SEO']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
@@ -71,10 +71,10 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('LAYOUT'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template'), array('pid' => $this->pageData['id']), false, array('width' => '954', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Edit this template'), array('id'=>$this->pageData['templateId'], 'pid'=>$this->pageData['id']), false, array('width' => '954', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS'), false, false, array('width' => '634', 'height' => '574')); ?></li>
-				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Add template'), array('pid' => $this->pageData['id']), false, array('width' => '960', 'height' => '560')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'template', $this->translate('Edit this template'), array('id'=>$this->pageData['templateId'], 'pid'=>$this->pageData['id']), false, array('width' => '960', 'height' => '560')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS'), false, false, array('width' => '480', 'height' => '560')); ?></li>
+				<li><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Themes'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<li><a href="javascript:;" data-external-url="<?php echo Tools_System_Tools::REMOTE_TOASTER_URL; ?>" id="widgets-shortcodes" title="Widgets & Tokens"><?php echo $this->translate('Widgets & Shortcodes'); ?></a></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT']) && isset($this->additionalMenu['LAYOUT']['items'])): ?>
 			<?php foreach($this->additionalMenu['LAYOUT']['items'] as $item):?>
@@ -89,12 +89,12 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '600', 'height' => '364')); ?></li>
-                <li><?php echo $this->toasterLink('backend_config', 'actionmails', $this->translate('Action e-mails'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '600', 'height' => '350')); ?></li>
+                <li><?php echo $this->toasterLink('backend_config', 'actionmails', $this->translate('Action e-mails'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
-					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<?php endif; ?>
-				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['OTHER']) && isset($this->additionalMenu['OTHER']['items'])): ?>
 			<?php foreach($this->additionalMenu['OTHER']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
@@ -130,7 +130,7 @@
 	<?php endif; ?>
     <ul id="logoutul"> 
         <li>
-			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout" style="margin-bottom:0;border-bottom:none; padding: 6px 5px;"><?php echo $this->translate('LOGOUT'); ?></a>
+			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout"><?php echo $this->translate('LOGOUT'); ?></a>
          </li>
     </ul>
 </div>

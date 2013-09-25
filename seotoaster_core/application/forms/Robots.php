@@ -6,16 +6,15 @@ class Application_Form_Robots extends Zend_Form {
 
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST)
-			 ->setAttrib('class', '_fajax')
+			 ->setAttrib('class', '_fajax grid_12')
 			 ->setAttrib('id', 'frm-robots');
 
 		$this->addElement(new Zend_Form_Element_Textarea(array(
 			'name'     => 'content',
 			'id'       => 'robots-content',
 			'cols'     => '45',
-			'rows'     => '7',
-			'label'    => 'Robots txt',
-			'class'    => 'h220',
+			'rows'     => '14',
+			'class'    => 'h250px',
 			'value'    => $this->_content,
 			'filters'  => array('StringTrim')
 		)));
@@ -24,7 +23,7 @@ class Application_Form_Robots extends Zend_Form {
 			'name'  => 'updateRobots',
 			'id'    => 'update-robots',
 			'label'  => 'Save robots.txt',
-			'class'  => 'formsubmit mt5px',
+			'class'  => 'formsubmit',
 		)));
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));

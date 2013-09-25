@@ -18,8 +18,8 @@ $(function() {
 		e.preventDefault();
 		var link    = $(this);
 		var pwidth  = link.data('pwidth') || 960;
-		var pheight = link.data('pheight') || 580;
-		var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup rounded3px');
+		var pheight = link.data('pheight') || 560;
+		var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup');
 		popup.parent().css({background: 'none'});
 
 		popup.dialog({
@@ -43,8 +43,8 @@ $(function() {
                     });
                 }
 				$(this).attr('src', link.data('url')).css({
-						width    : pwidth + 'px',
-						height   : pheight + 'px',
+						width    : '100%',
+						height   : '100%',
 						padding  : '0px',
 						margin   : '0px',
 						overflow : 'hidden'
@@ -54,7 +54,7 @@ $(function() {
 			close: function() {
 				$(this).remove();
 			}
-		});
+		}).parent().css({height : pheight + 'px'});
 	});
 
 
@@ -78,7 +78,7 @@ $(function() {
 			} else {
 				$('.smoke-base').remove();
 			}
-		}, {classname:"errors", 'ok':'Yes', 'cancel':'No'});
+		}, {classname:"alert-error", 'ok':'Yes', 'cancel':'No'});
 	});
 
 	//seotoaster ajax form submiting
@@ -101,7 +101,7 @@ $(function() {
 			dataType   : 'json',
 			data       : form.serialize(),
 			beforeSend : function() {
-				showSpinner();
+				showSpinner(form);
 			},
 			success : function(response) {
 				if(!response.error) {
@@ -117,19 +117,19 @@ $(function() {
 					if(typeof callback != 'undefined' && callback != null) {
 						eval(callback + '()');
 					}
-					hideSpinner();
+					hideSpinner(form);
 					showMessage(response.responseText);
 				}
 				else {
 					if(!$(form).data('norefresh')) {
 						$(form).find('input:text').not(donotCleanInputs.join(',')).val('');
 					}
-					hideSpinner();
-					smoke.alert(response.responseText, {classname:"errors"}, function() {
+					hideSpinner(form);
+					smoke.alert(response.responseText, function() {
                         if(typeof callback != 'undefined' && callback != null) {
                             eval(callback + '()');
                         }
-                    });
+                    }, {classname:"alert-error"});
 				}
 			},
 			error: function(err) {
@@ -148,7 +148,6 @@ $(function() {
 		}
 		var eid = $(this).data('eid');
 		$.post(handleUrl, {id: eid}, function(response) {
-			//console.log(response.responseText.data);
 			var formToLoad = $('#' + response.responseText.formId);
 			for(var i in response.responseText.data) {
 				$('[name=' + i + ']').val(response.responseText.data[i]);
@@ -159,6 +158,7 @@ $(function() {
 		})
 
 	});
+
 	//seotoaster gallery links
 	if(jQuery.fancybox) {
 		$('a._lbox').fancybox({
@@ -168,8 +168,28 @@ $(function() {
         });
 	}
 	//publishPages();
+	checkboxRadio();
+
+	$(document).on('click', '.closebutton .hide', function() {
+		$('.show-left.show, .show-right.show').removeClass('show');
+		return false;
+	});
 
 });
+
+///////// checkbox & radio button //////////////
+function checkboxRadio(){
+	$(':checkbox, :radio').not('.processed, .icon').each(function(){
+		if(!$(this).closest('.btn-set').length){
+			if($(this).parent('label').length){
+				$(this).after('<span></span>');
+			}else{
+				$(this).wrap('<label class="checkbox_radio"></label>').after('<span></span>');
+			}
+		}
+		$(this).addClass('processed');
+	});
+}
 
 
 function loginCheck() {
@@ -182,14 +202,15 @@ function loginCheck() {
 	return true;
 }
 
-function showMessage(msg, err, delay) {
+function showMessage(msg, err, delay){
 	if(err) {
-		smoke.alert(msg, {classname:"errors"});
+		smoke.alert(msg,  function(e){}, {classname:"alert-error"});
 		return;
 	}
 	smoke.signal(msg);
     delay = (typeof(delay) == 'undefined') ? 1300 : delay;
 	$('.smoke-base').delay(delay).slideUp();
+
 }
 
 function showConfirm(msg, yesCallback, noCallback) {
@@ -203,15 +224,15 @@ function showConfirm(msg, yesCallback, noCallback) {
 			    noCallback();
 		    }
 		}
-	}, {classname : 'errors', ok : 'Yes', cancel : 'No'});
+	}, {classname : 'alert-error', ok : 'Yes', cancel : 'No'});
 }
 
-function showSpinner() {
-	smoke.signal('<img src="' + $('#website_url').val() + 'system/images/loading.gif" alt="working..." />', 30000);
+function showSpinner(e) {
+	$(e).closest('[class*="content"]').append('<div class="spinner"></div>');
 }
 
-function hideSpinner() {
-	$('.smoke-base').hide();
+function hideSpinner(e) {
+	$('.spinner').remove();
 }
 
 function publishPages() {

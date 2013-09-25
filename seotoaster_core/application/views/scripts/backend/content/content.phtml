@@ -1,4 +1,4 @@
-<div class="seotoaster container_12 h590 rounded3px">
+<div id="edit-content" class="seotoaster container">
 	<?php
 		$draftOrLive = $this->toasterDraftorlive(array(
 			'published'        => $this->contentForm->getPublished(),
@@ -12,41 +12,45 @@
             'helpSection'     => $this->helpSection
 		));
 	?>
-	<div class="grid_8 above-editor-links">
-		<div id="links">
-			<!-- $pluginEditorLink -->
-			<?php if(isset($this->pluginsEditorLinks) && is_array($this->pluginsEditorLinks) && !empty ($this->pluginsEditorLinks)): ?>
-				<?php foreach($this->pluginsEditorLinks as $pluginEditorLink): ?>
-                    | <?php echo $pluginEditorLink['link']; ?>
-                    <?php if(isset($pluginEditorLink['script'])): ?>
-                        <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); ?>
-                    <?php endif; ?>
-				<?php endforeach; ?>
-            <?php endif; ?>
-			| <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('SHOW HTML'); ?></a>
+	<div class="content-footer">
+		<div class="grid_8 above-editor-links">
+			<div id="links">
+				<!-- $pluginEditorLink -->
+				<?php if(isset($this->pluginsEditorLinks) && is_array($this->pluginsEditorLinks) && !empty ($this->pluginsEditorLinks)): ?>
+					<?php foreach($this->pluginsEditorLinks as $pluginEditorLink): ?>
+						<?php echo $pluginEditorLink['link']; ?>
+						<?php if(isset($pluginEditorLink['script'])): ?>
+							<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); ?>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
+				<a id="toogletinymce" href="javascript:;"><?php echo $this->translate('SHOW HTML'); ?></a>
+			</div>
+
+			<form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
+				<?php echo $this->contentForm->getElement('content'); ?>
+				<?php echo $this->contentForm->getElement('containerType'); ?>
+				<?php echo $this->contentForm->getElement('containerName'); ?>
+				<?php echo $this->contentForm->getElement('pageId'); ?>
+				<?php echo $this->contentForm->getElement('containerId'); ?>
+			</form>
 		</div>
 
-		<form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
-			<?php echo $this->contentForm->getElement('content'); ?>
-			<?php echo $this->contentForm->getElement('containerType'); ?>
-			<?php echo $this->contentForm->getElement('containerName'); ?>
-			<?php echo $this->contentForm->getElement('pageId'); ?>
-			<?php echo $this->contentForm->getElement('containerId'); ?>
-		</form>
+		<?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => $this->translate('Content')));?>
+		<?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets')));?>
+
+		<?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
+			<?php foreach($this->pluginsTabs as $tabData): ?>
+				<?php $this->tabPane('tabs', $tabData['content'], array('title' => $this->translate($tabData['title'])));?>
+			<?php endforeach; ?>
+		<?php endif; ?>
+
+		<?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 alpha tabs'));?>
 	</div>
 
-    <?php $this->tabPane('tabs', $this->render('backend/content/righttoolbar.phtml'), array('title' => $this->translate('Content')));?>
-    <?php $this->tabPane('tabs', '', array('title' => $this->translate('Widgets')));?>
-
-    <?php if(isset($this->pluginsTabs) && is_array($this->pluginsTabs)): ?>
-        <?php foreach($this->pluginsTabs as $tabData): ?>
-            <?php $this->tabPane('tabs', $tabData['content'], array('title' => $this->translate($tabData['title'])));?>
-        <?php endforeach; ?>
-    <?php endif; ?>
-
-    <?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 tabs'));?>
-
-	<?php echo $this->contentForm->getElement('submit'); ?>
+	<div class="footer grid_12">
+		<?php echo $this->contentForm->getElement('submit'); ?>
+	</div>
 </div>
 
 <?php

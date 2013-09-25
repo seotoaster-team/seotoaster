@@ -222,7 +222,7 @@ class Application_Form_Config extends Zend_Form {
 			->setElementDecorators(array(
 				'ViewHelper',
 				'Label',
-				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12','mt5px') ))
+				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12', 'mt10px') ))
 				))
 			->setElementFilters(array('StringTrim', 'StripTags'));
 
@@ -334,9 +334,11 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Member pages in menu?',
 		)));
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Done'
-		));
+		$this->addElement(new Zend_Form_Element_Button(array(
+			'name'  => 'submit',
+			'label' => '<span class="icon-save"></span> Save',
+			'escape'=> false
+		)));
 
 		$this->addElement('checkbox', 'mediaServers', array(
 			'value' => $this->_mediaServers,

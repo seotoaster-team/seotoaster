@@ -1,33 +1,35 @@
-<div class="seotoaster container_12 rounded8px refreshOnClose">
+<div class="seotoaster container refreshOnClose">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Order featured area pages', 'helpSection' => 'fa')); ?>
-	<?php if(isset($this->faPages) && is_array($this->faPages) && !empty($this->faPages)): ?>
-		<ul id="fa-pages-list">
-			<?php foreach($this->faPages as $key => $page): ?>
-				<li id="<?php echo $page->getId(); ?>">
-					<div class="grid_1"><?php echo ++$key; ?></div>
-					<div class="grid_11"><?php echo $page->getNavName(); ?></div>
+	<?php if (isset($this->faPages) && is_array($this->faPages) && !empty($this->faPages)): ?>
+		<ol id="fa-pages-list" class="grid_12 items-list content">
+			<?php foreach ($this->faPages as $key => $page): ?>
+				<li id="<?php echo $page->getId(); ?>" class="list-row move">
+					<div class="list-row-count grid_1 alpha omega"><?php echo ++$key; ?></div>
+					<div class="grid_10"><?php echo $page->getNavName(); ?></div>
+					<div class="grid_1 icon-move icon16"></div>
 				</li>
 			<?php endforeach; ?>
-		</ul>
+		</ol>
 	<?php endif; ?>
 </div>
 <script type="text/javascript" charset="utf-8">
-	$(function() {
+	$(function () {
 		$('#fa-pages-list').sortable({
-			helper  : 'clone',
-			stop    : function() {
+			helper: 'clone',
+			axis: 'y',
+			stop: function () {
 				var ordered = [];
-				var number  = 0;
-				var els     = $('#fa-pages-list').find('li');
-				$.each(els, function() {
+				var number = 0;
+				var els = $('#fa-pages-list').find('li');
+				$.each(els, function () {
 					ordered.push($(this).attr('id'));
 					$(this).find('div:first').text((++number));
 				});
 				showSpinner();
 				$.post($('#website_url').val() + 'backend/backend_featured/order/', {
-					ordered : ordered,
-					id      : <?php echo $this->faId; ?>
-				}, function() {
+					ordered: ordered,
+					id: <?php echo $this->faId; ?>
+				}, function () {
 					//$('#ajax_msg').text('Saved').fadeOut();
 					hideSpinner();
 				});

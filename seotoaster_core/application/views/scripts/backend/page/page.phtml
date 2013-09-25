@@ -1,101 +1,126 @@
-<div class="seotoaster container_12 h570 rounded3px" id="addedit-page">
+<div class="seotoaster container" id="addedit-page" xmlns="http://www.w3.org/1999/html">
 	<?php // echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/page/top.phtml'))); ?>
 
 	<?php
-		$draftOrLive = $this->toasterDraftorlive(array(
-			'published'        => !$this->pageForm->getDraft(),
-			'publishAt'        => $this->pageForm->getPublishAt(),
-			'onselectCallback' => 'datepickerCallback'
-		));
-		$optimizedCheck = '';
-	    if($this->sambaOptimized):
-			$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized');
-		endif;
-		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck, 'helpSection' => $this->helpSection));
+	$draftOrLive = $this->toasterDraftorlive(array(
+		'published'        => !$this->pageForm->getDraft(),
+		'publishAt'        => $this->pageForm->getPublishAt(),
+		'onselectCallback' => 'datepickerCallback'
+	));
+
+	$optimizedCheck = '';
+	if($this->sambaOptimized):
+		$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized');
+	endif;
+	echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck, 'helpSection' => $this->helpSection));
 	?>
 
-	<div id="templatelist" class="h580 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
-	<div id="falist" class="h570 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
-	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
-		<div class="grid_6">
-			<fieldset>
-				<legend><?php echo $this->translate('Page Information'); ?></legend>
-				<?php echo $this->pageForm->getElement('h1'); ?>
-				<?php echo $this->pageForm->getElement('headerTitle'); ?>
-				<?php echo $this->pageForm->getElement('url'); ?>
-				<?php echo $this->pageForm->getElement('navName'); ?>
-				<?php echo $this->pageForm->getElement('metaDescription'); ?>
-				<?php echo $this->pageForm->getElement('metaKeywords'); ?>
-			</fieldset>
+	<div id="templatelist" class="show-right">
+		<div class="spinner"></div>
+	</div>
+	<div id="falist" class="show-right">
+		<div class="header">
+			<div class="closebutton">
+				<?php echo $this->toasterHelp('fa'); ?>
+				<a class="hide icon-chevron-right btn-icon" href="javascript:;" title="Close"></a>
+			</div>
+			<?php echo $this->translate('Add a page to tags | Create a tag'); ?>
 		</div>
-		<div class="grid_6">
-			<fieldset>
-				<legend><?php echo $this->translate('Navigation'); ?></legend>
+		<div class="content grid_12">
+			<form id="frm-featured-area" action="<?php echo $this->websiteUrl . '/backend/backend_featured/featured/id/' . $this->pageForm->getElement('pageId')->getValue() . '/pid/' . $this->pageForm->getElement('pageId')->getValue() ?>" method="post" data-callback="loadFaList" class="_fajax grid_12 form-inline">
+				<div class="grid_11 alpha omega">
+					<label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
+					<input type="text" name="name" id="fa-name" value="">
+				</div>
+				<button type="submit" name="addFeaturedArea" id="add-featured-area" value="<?php echo $this->translate('Add page tag'); ?>" class="btn-block grid_1 alpha omega cl-none mt0px"><span class="icon-plus"></span></button>
+			</form>
+			<div class="header-inner grid_12 mt15px">
+				<div class="grid_12 list-row-item">
+					<?php echo $this->translate('Page tag name'); ?>
+				</div>
+			</div>
+			<div id="fa-list" class="grid_12 items-list"></div>
+		</div>
+	</div>
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content">
+		<fieldset class="grid_6 mb0px">
+			<legend class="h2 mb0px"><?php echo $this->translate('Page Information'); ?></legend>
+			<p><?php echo $this->pageForm->getElement('h1'); ?></p>
+			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
+			<p><?php echo $this->pageForm->getElement('url'); ?></p>
+			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
+			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
+			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
+		</fieldset>
+		<fieldset class="grid_6 navigation mb30px">
+			<legend class="h2"><?php echo $this->translate('Navigation'); ?></legend>
+			<div class="btn-set mb0px">
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
-				<div class="clear"></div>
-				<div class="grid_12 mt5px">
-					<?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
+			</div>
+			<div class="grid_12 alpha omega cl-both background mt0px">
+				<?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
+				<div class="menu-info mt5px">Please select menu for this page</div>
+			</div>
+		</fieldset>
+		<fieldset class="grid_6 settings mb30px">
+			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
+			<div class="grid_8 alpha omega text-right featured-link mt0px">
+				<span class="icon-tags icon14"></span>
+				<?php
+					echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Add a page to a tags') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
+				?>
+			</div>
+			<div class="cl-both background mt5px">
+				<label class="grid_4 alpha omega"><?php echo $this->translate('Current template'); ?>:</label>
+				<div class="grid_8 alpha omega mb10px">
+					<a id="curr-template" href="#"><?php echo $this->translate('Select template');?></a>
 				</div>
-			</fieldset>
-			<fieldset>
-				<legend><?php echo $this->translate('Settings'); ?></legend>
-					<div class="grid_7"><label><?php echo $this->translate('Current template'); ?>:</label></div>
-					<div class="grid_5">
-						<?php
-							echo $this->ajaxLink(
-								!($this->pageForm->getElement('templateId')->getValue()) ? $this->translate('Select template') : $this->pageForm->getElement('templateId')->getValue(),
-								$this->websiteUrl . 'backend/backend_theme/gettemplate/pageId/' . $this->pageForm->getElement('pageId')->getValue(),
-								array(
-									'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');",
-									'attribs'  => array(
-										'id' => 'curr-template'
-									)
-
-								),
-								array('listtemplates' => 'all')
-							);
-						?>
-					</div>
-					<div class="clear"></div>
-					<div class="grid_7 mt5px"><label><?php echo $this->translate('Is this page already tagged?'); ?></label></div>
-					<div class="grid_5 mt5px">
-						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
-					</div>
-					<div class="grid_12 mt5px">
-						<?php echo $this->pageForm->getElement('extraOptions'); ?>
-					</div>
-			</fieldset>
-			<fieldset>
-				<legend><?php echo $this->translate('Page Teasers'); ?></legend>
-				<div  class="grid_4">
-					<img id="page-preview-image" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
-					<?php
-						$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload image')));
-						echo $uploader;
-					?>
-				</div>
-				<div  class="grid_8">
-					<?php echo $this->pageForm->getElement('teaserText'); ?>
-
-				</div>
-				<div class="clear"></div>
-			</fieldset>
-			<?php echo $this->pageForm->getElement('templateId'); ?>
-			<?php echo $this->pageForm->getElement('pageId'); ?>
-			<?php echo $this->pageForm->getElement('draft'); ?>
-			<?php echo $this->pageForm->getElement('optimized'); ?>
-			<?php echo $this->pageForm->getElement('publishAt'); ?>
-			<?php echo $this->pageForm->getElement('pageType'); ?>
-			<?php echo $this->pageForm->getElement('updatePage'); ?>
-		</div>
+				<label class="grid_3 alpha omega mt5px"> <?php echo $this->translate('This page is'); ?></label>
+				<?php echo $this->pageForm->getElement('extraOptions'); ?>
+			</div>
+		</fieldset>
+		<fieldset class="grid_6 mb5px">
+			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
+			<div id="page-preview" class="grid_4 alpha background page-preview">
+				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
+				<span class="icon-folder-upload hidden"><?php echo $this->translate('Choose you image');?></span>
+				<?php
+					$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
+					echo $uploader;
+				?>
+			</div>
+			<div  class="grid_8 alpha omega">
+				<?php echo $this->pageForm->getElement('teaserText'); ?>
+			</div>
+		</fieldset>
+		<?php echo $this->pageForm->getElement('templateId'); ?>
+		<?php echo $this->pageForm->getElement('pageId'); ?>
+		<?php echo $this->pageForm->getElement('draft'); ?>
+		<?php echo $this->pageForm->getElement('optimized'); ?>
+		<?php echo $this->pageForm->getElement('publishAt'); ?>
+		<?php echo $this->pageForm->getElement('pageType'); ?>
+		<?php echo $this->pageForm->getElement('updatePage'); ?>
 	</form>
-	<div class="clear"></div>
 </div>
 <script type="text/javascript">
-$(function() {
-	$('#h1').focus();
-})
+	$(function() {
+		$('#h1').focus();
+		$('#templateId').val() ? $('#curr-template').text($('#templateId').val()) :'';
+		$(document).on('click', '#curr-template', function(){
+			$('#templatelist').addClass('show');
+			if(!$('#templatelist').find('.content').length){
+				showTemplatesList();
+			}
+		}).on('click', '.featured', function(){
+				$('#falist').addClass('show');
+			}).on('click', '.show~#frm-page', function(e) {
+				$('#templatelist, #falist').removeClass('show');
+				return false;
+			});
+	})
 </script>
 
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
+<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
 <?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>
+<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
+<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

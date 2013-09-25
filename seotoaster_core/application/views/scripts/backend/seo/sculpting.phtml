@@ -1,16 +1,16 @@
-<div class="seotoaster container_12 h640 rounded8px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage Page Rank Sculpting', 'helpSection' => $this->helpSection)); ?>
-	<form id="frm-sculpting" method="post" action="<?php echo $this->url(); ?>" class="_fajax" data-callback="sculptingCallback">
-		<div class="grid_9">
-			<?php echo $this->siloForm->getElement('name'); ?>
-		</div>
-		<div class="grid_3">
+	<div class="content-footer grid_12">
+		<form id="frm-sculpting" method="post" action="<?php echo $this->url(); ?>" class="_fajax grid_12 mb15px form-inline" data-callback="sculptingCallback">
+			<div class="grid_9 alpha">
+				<?php echo $this->siloForm->getElement('name'); ?>
+			</div>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
-		</div>
-	</form>
-	<div id="sculpting-list" class="grid_12 h480"></div>
-	<div class="grid_12" id="button-wrapper">
-		<a class="tpopup" data-pwidth="480" data-pheight="650" href="javascript:;" data-url="<?php echo $this->websiteUrl;?>backend/backend_seo/managesilos/" id="manage-silos">[ <?php echo $this->translate('Manage silos'); ?> ]</a>
+		</form>
+		<div id="sculpting-list" class="grid_12"></div>
+	</div>
+	<div class="grid_12 footer" id="button-wrapper">
+		<a class="tpopup btn btn-link info" data-pwidth="480" data-pheight="650" href="javascript:;" data-url="<?php echo $this->websiteUrl;?>backend/backend_seo/managesilos/" id="manage-silos">[ <?php echo $this->translate('Manage silos'); ?> ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</div>
 </div>

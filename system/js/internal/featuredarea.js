@@ -4,16 +4,16 @@ $(function() {
 	loadFaList();
 	$(document).on('click', '.add-page', function() {
 
-		var chckbx = $('[type=checkbox]:checked');
+		var chckbx = $('#fa-list [type=checkbox]:checked');
 
-		window.parent.jQuery('a.featured').text((chckbx.length) ? 'Yes, ' + chckbx.length + ' times' : 'Not yet');
+		$('.featured-link').html((chckbx.length) ? '<span class="icon-tags icon14"></span> Page was added ' + chckbx.length + ' times in <a class="featured" href="javascript:;" title="tags">tags</a>' : '<span class="icon-tags icon14"></span> <a class="featured" href="javascript:;" title="tags">Add a page to a tags</a>');
 
-		var pageId     = $('#pid').val();
+		var pageId     = $('#pageId').val();
 		var faId       = $(this).attr('id');
 		var pcountEl   = $('.pcount-' + faId);
 		var handlerUrl = ($(this).prop('checked')) ? 'addpagetofa/' : 'rempagefromfa/'
 		var el         = $(this);
-		showSpinner();
+		showSpinner(this);
 		$.post(
 			$('#website_url').val() + 'backend/backend_featured/' + handlerUrl, {
 			pid  : pageId,
@@ -30,7 +30,9 @@ $(function() {
 });
 
 function loadFaList() {
-	$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/pid/' + $('#pid').val() , function(response) {
+	$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/pid/' + $('#pageId').val() , function(response) {
 		$('#fa-list').html(response.faList);
+		$('#fa-name').val('');
+		checkboxRadio();
 	})
 }

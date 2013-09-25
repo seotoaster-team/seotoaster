@@ -1,5 +1,8 @@
 <?php echo $this->doctype(); ?>
-<html lang="<?php echo $this->htmlLang; ?>">
+<!--[if IE 7 ]><html class="ie ie7" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if !(IE)]><html lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 	<head>
 		<?php echo $this->headTitle();?>
 
@@ -7,59 +10,60 @@
 		<?php echo $this->headMeta(); ?>
 
 		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
-		    <link rel="canonical" href="<?php echo $this->canonicalUrl; ?>" >
+		<link rel="canonical" href="<?php echo $this->canonicalUrl; ?>" >
 		<?php endif; ?>
 
 		<?php $this->jQuery()->enable(); ?>
 		<?php $this->jQuery()->uiEnable(); ?>
 
 		<?php
-		    $this->headLink()
-			    ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
-			    ->prependStylesheet($this->websiteUrl . 'system/js/external/smoke/smoke.css');
+		$this->headLink()
+			->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css');
 		?>
 
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
-            <?php
-                $this->headLink()
-                    ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
-                    ->prependStylesheet($this->websiteUrl . 'system/css/grid.css')
-                    ->prependStylesheet($this->websiteUrl . 'system/css/reset.css')
-                    ->prependStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css');
-            ?>
+		<?php
+			$this->headLink()
+				->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
+				->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
+		?>
+
 		<?php endif; ?>
 
 		<?php
-            if (isset($this->minify) && $this->minify === true) {
-                echo Tools_System_Minify::minify($this->headLink(), false);
-            } else {
-                echo $this->headLink();
-            }
+//		if (APPLICATION_ENV === 'production') {
+		if (isset($this->minify) && $this->minify === true) {
+			echo Tools_System_Minify::minify($this->headLink(), false);
+		} else {
+			echo $this->headLink();
+		}
 		?>
 
 		<?php
 		$this->jQuery()
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js')
-			//->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js');
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js')
+			->addJavascriptFile($this->websiteUrl . 'system/js/ie/selectivizr-min.js')
+			->addJavascriptFile($this->websiteUrl . 'system/js/ie/jquery.columnizer.min.js');
 		?>
+
 		<?php $this->headScript()->setAllowArbitraryAttributes(true)
-			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js'); ?>
+			->prependFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
+
 		<?php
-
-            echo $this->jQuery();
-
-            if (isset($this->minify) && $this->minify === true)  {
-                echo Tools_System_Minify::minify($this->headScript());
-            } else {
-                echo $this->headScript();
-            }
+        echo $this->jQuery();
+//		if (APPLICATION_ENV === 'production') {
+		if (isset($this->minify) && $this->minify === true)  {
+			echo Tools_System_Minify::minify($this->headScript());
+		} else {
+			echo $this->headScript();
+		}
 		?>
-
 		<?php
-		    echo $this->placeholder('misc');
-		    echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
+		echo $this->placeholder('misc');
+		echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
 		?>
 	</head>
 	<?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
@@ -74,7 +78,12 @@
 			<!-- /PRSCULPTING -->
 		<?php endif; ?>
 
-        <?php echo $this->placeholder('plugins'); ?>
+        <?php
+            /**
+             * Plugins additional content
+             */
+            echo $this->placeholder('plugins');
+        ?>
 	</body>
 </html>
 

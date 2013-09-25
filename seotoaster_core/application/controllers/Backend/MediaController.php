@@ -49,7 +49,7 @@ class Backend_MediaController extends Zend_Controller_Action {
 			$listFolders = array_combine($listFolders, $listFolders);
 		}
         $this->view->helpSection = 'removethings';
-        $this->view->listFolders = array_merge(array($this->_translator->translate('select folder')), $listFolders);
+        $this->view->listFolders = array('selectFolder' => $this->_translator->translate('select folder')) + $listFolders;
 	}
 
 	/**
