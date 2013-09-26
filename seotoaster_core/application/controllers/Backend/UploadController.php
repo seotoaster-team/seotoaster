@@ -160,9 +160,16 @@ class Backend_UploadController extends Zend_Controller_Action {
 		}
 
 		foreach (Tools_Theme_Tools::$requiredFiles as $file) {
-			if (!in_array($file, $themeContent)){
-				array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
-			}
+           if ('css' == pathinfo($file, PATHINFO_EXTENSION)) {
+               if (!in_array($file, $themeContent)) {
+                   if (!in_array(MagicSpaces_Concatcss_Concatcss::FOLDER_CSS.$file, $themeContent)) {
+                        array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
+                   }
+               }
+           }
+           elseif (!in_array($file, $themeContent)) {
+                array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
+           }
 		}
 
 		return $errors;
