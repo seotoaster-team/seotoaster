@@ -32,7 +32,7 @@ class Api_Toaster_Containers extends Api_Service_Abstract {
 
         $type      = $this->_request->getParam('type', Application_Model_Models_Container::TYPE_REGULARCONTENT);
         $pageId    = $this->_request->getParam('pid', null);
-        $container = is_integer($containerId)  ? $mapper->find($containerId) : $mapper->findByName($containerId, $pageId, $type);
+        $container = is_integer($containerId) ? $mapper->find($containerId) : $mapper->findByName($containerId, $pageId, $type);
 
         if(!$container instanceof Application_Model_Models_Container) {
             $this->_error('404 Container not found', self::REST_STATUS_NOT_FOUND);
