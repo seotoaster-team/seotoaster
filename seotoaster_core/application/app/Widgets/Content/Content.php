@@ -20,7 +20,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             $this->_view->type       = $this->_type;
             $this->_view->name       = $this->_name;
             $this->_view->pageId     = $this->_pageId;
-            $this->_view->controls   = Tools_Security_Acl::isActionAllowed($this) ? $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT): '';
+            $this->_view->controls   = Tools_Security_Acl::isAllowed($this) ? $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT): '';
             return $this->_view->render('ajax.phtml');
         }
 
