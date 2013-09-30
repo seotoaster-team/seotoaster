@@ -1,5 +1,5 @@
 seotoaster_core/library/**/*
--plugins/*
+plugins/*
 cache/*
 !cache/.gitignore
 media/*
