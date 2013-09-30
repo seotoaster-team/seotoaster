@@ -63,8 +63,8 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		switch ($winSizeType) {
 			case self::WSIZE_LARGE:
 				$params = array(
-					'width'  => 964,
-					'height' => 644
+					'width'  => 960,
+					'height' => 560
 				);
 			break;
 			default:
@@ -76,14 +76,14 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 				}
 			case self::WSIZE_MEDIUM:
 				$params = array(
-					'width'  => 480,
-					'height' => 649
+					'width'  => 600,
+					'height' => 480
 				);
 			break;
 			case self::WSIZE_SMALL:
 				$params = array(
-					'width'  => 350,
-					'height' => 354
+					'width'  => 480,
+					'height' => 350
 				);
 			break;
 		}

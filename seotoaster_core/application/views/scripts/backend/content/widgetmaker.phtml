@@ -1,8 +1,3 @@
-<style type="text/css">
-	.red-border{
-        border-color : #ff0000 !important;
-    }
-</style>
 <?php foreach($this->widgetsData as $key => $widgetData): ?>
     <?php $this->accordionPane('widgets_maker', $widgetData['content'], array(
         'title' => (isset($widgetData['title']) ? ((isset($widgetData['icons']) ? '<img src="' . $widgetData['icons'][0] . '" />' : '') . $widgetData['title']) : 'NOTITLE'),
@@ -22,7 +17,7 @@
             var error = false;
             var widgetForm = $(this).closest('form');
             var widgetHtml = '{$' + widgetForm.data('name');
-            widgetForm.find(':input:visible').not('[type=hidden], [type=submit]').each(function () {
+            widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).attr('type') == 'checkbox' && !$(this).prop('checked')) {
                     if ($(this).hasClass('allowzero')) {
                         widgetHtml += ':0';
@@ -31,7 +26,7 @@
                 }
                 if ($(this).hasClass('validate')) {
                     if (!$(this).val() || $(this).val() == 0) {
-                        $(this).addClass('red-border');
+                        $(this).addClass('error');
                         error = true;
                     }
                 }
@@ -47,7 +42,9 @@
                 widgetHtml += '}';
                 $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widgetHtml);
             }
-        })
+        }).on('click', '[name="useImage"]', function() {
+            $(this).closest('form').find('.cropped-img').fadeToggle();
+        });
 
         //loading forlders list
         $.getJSON($('#website_url').val() + 'backend/backend_media/loadfolders/img/1', function (response) {

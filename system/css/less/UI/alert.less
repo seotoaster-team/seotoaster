@@ -60,6 +60,7 @@
 
         .dialog-buttons{
             margin-top : 10px;
+            font-size  : @font-size-base;
 
             button{
                 float  : none;
@@ -106,15 +107,15 @@
 .alert,
 .smoke-base .dialog,
 [class^="alert-"], [class*=" alert-"]{
-    position      : absolute;
-    top           : 40%;
-    left          : 0;
-    right         : 0;
-    z-index       : 101;
-    margin        : 0 auto;
-    max-width     : 50%;
-    font-size     : @font-size-large;
-    text-align    : center;
+    position   : absolute;
+    top        : 40%;
+    left       : 0;
+    right      : 0;
+    z-index    : 101;
+    margin     : 0 auto;
+    max-width  : 50%;
+    font-size  : @font-size-large;
+    text-align : center;
     .box-shadow(0 0 100px desaturate(darken(@site-color, 5%), 10%));
 
     // Alternate styles

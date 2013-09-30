@@ -19,6 +19,7 @@ class IndexController extends Zend_Controller_Action {
 
         // @todo move it to separate method?
         $currentUser = $this->_helper->session->getCurrentUser();
+
 	    // tracking referer
 	    if (!isset($this->_helper->session->refererUrl)){
 		    $refererUrl = $this->getRequest()->getHeader('referer');
@@ -32,7 +33,6 @@ class IndexController extends Zend_Controller_Action {
 
 		// Trying to do canonic redirects
 		$this->_helper->page->doCanonicalRedirect($pageUrl);
-
 
 		//Check if 301 redirect is present for requested page then do it
 		$this->_helper->page->do301Redirect($pageUrl);

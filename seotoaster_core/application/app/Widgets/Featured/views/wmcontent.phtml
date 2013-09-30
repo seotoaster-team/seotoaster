@@ -74,9 +74,7 @@
 		    featured.setType($(this).val()).load();
 		    $('.max-res-row').fadeToggle();
         }).on('change', '#featured-area-item', function() {
-		    featured.itemsHolder.removeClass('red-border');
-	    }).on('click', '#use-image', function() {
-		    $('.cropped-img').fadeToggle();
+		    featured.itemsHolder.removeClass('error');
 	    });
 	    featured.setType(featured._TYPE_AREA).load();
     });

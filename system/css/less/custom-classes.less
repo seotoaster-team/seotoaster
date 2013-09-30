@@ -225,6 +225,12 @@ html body{
     &.icon-move, & .icon-move{
         color : darken(@gray-lighter, 15%);
     }
+
+    &:hover{
+        &.icon-move, & .icon-move{
+            color : darken(@gray-light, 30%);
+        }
+    }
 }
 
 .spinner{
@@ -267,7 +273,7 @@ html body{
 
 .show-right, .show-left{
     background : @body-bg;
-    position   : absolute;
+    position   : fixed;
     top        : 0;
     bottom     : 0;
     width      : 350px;
@@ -342,5 +348,57 @@ html body{
         width      : 1em;
         background : #CCC;
         margin     : 0 5px;
+    }
+}
+
+.screen-size{
+    background : #fff;
+    color      : @gray;
+    cursor     : pointer;
+    display    : block;
+    z-index    : 100;
+    .opacity;
+    .transition();
+    .icon-size(14px);
+
+    &:hover{
+        .opacity(1);
+    }
+
+    .show_div &{
+        .opacity(1);
+        position : absolute;
+        left     : 0;
+        top      : 0;
+        padding  : 5px;
+    }
+
+    &.error{
+        background : transparent;
+        position   : fixed;
+        right      : 2%;
+        top        : @header-height / 2 - 8px;
+        left       : auto;
+        padding    : 0;
+        .icon-size(16px);
+        .opacity(1) !important;
+    }
+}
+
+.full-screen{
+    position   : fixed !important;
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    z-index    : 100 !important;
+    max-height : none !important;
+    max-width  : none !important;
+    width      : auto !important;
+    height     : auto !important;
+    background : @body-bg;
+
+    .header~&, .header~* &{
+        top : 50px;
     }
 }

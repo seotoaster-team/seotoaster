@@ -3,193 +3,195 @@
 
 // Overlays
 .ui-widget-overlay{
-	position        : fixed;
-	left            : 0;
-	right           : 0;
-	top             : 0;
-	bottom          : 0;
-	z-index         : 1000;
-	background      : rgba(0, 0, 0, 0.5);
-	-pie-background : rgba(0, 0, 0, 0.5);
+    position        : fixed;
+    left            : 0;
+    right           : 0;
+    top             : 0;
+    bottom          : 0;
+    z-index         : 1000;
+    background      : rgba(0, 0, 0, 0.5);
+    -pie-background : rgba(0, 0, 0, 0.5);
 
-	&~.ui-widget-overlay{
-		display : none;
-	}
+    &~.ui-widget-overlay{
+        display : none;
+    }
 
-	&+[style*="height: 560px; width: 960px;"]{
-		&~.ui-dialog{
-			z-index : 1002;
-		}
+    &+[style*="height: 560px; width: 960px;"]{
+        &~.ui-dialog{
+            z-index : 1002;
+        }
 
-		&~.ui-widget-overlay{
-			display : block;
-			margin  : auto;
-			height  : 560px;
-			width   : 960px;
-			z-index : 1001;
-		}
-	}
+        &~.ui-widget-overlay{
+            display : block;
+            margin  : auto;
+            height  : 560px;
+            width   : 960px;
+            z-index : 1001;
+        }
+    }
 
-	&+[style*="height: 560px; width: 480px;"]{
-		&~.ui-dialog{
-			z-index : 1003;
-		}
+    &+[style*="height: 560px; width: 480px;"]{
+        &~.ui-dialog{
+            z-index : 1003;
+        }
 
-		&~.ui-widget-overlay{
-			display : block;
-			margin  : auto;
-			height  : 560px;
-			width   : 480px;
-			z-index : 1002;
-		}
-	}
+        &~.ui-widget-overlay{
+            display : block;
+            margin  : auto;
+            height  : 560px;
+            width   : 480px;
+            z-index : 1002;
+        }
+    }
 }
 
 body{
-	background  : @body-bg;
-	font-family : @font-famaly-text;
-	line-height : 1.4;
-	color       : @text-color;
+    background  : @body-bg;
+    font-family : @font-famaly-text;
+    line-height : 1.4;
+    color       : @text-color;
 }
 
 .seotoaster{
-	background : @body-bg;
-	color      : @text-color;
-	font-size  : @font-size-base;
-	max-width  : 960px;
-	position   : relative;
+    background : @body-bg;
+    color      : @text-color;
+    font-size  : @font-size-base;
+    max-width  : 960px;
+    position   : relative;
 
-	&.go-form{
-		margin-top : 15%;
-		padding    : 2px;
-		width      : 400px;
-		.box-shadow(0 5px 15px #777)
-	}
+    &.go-form{
+        margin-top : 15%;
+        padding    : 2px;
+        width      : 400px;
+        .box-shadow(0 5px 15px #777)
+    }
 }
 
 .header{
-	background  : @header-bg;
-	color       : @header-color;
-	overflow    : hidden;
-	line-height : @header-height;
-	height      : @header-height;
-	padding     : 0 @grid-margin-width/2;
-	font-size   : @font-size-large;
+    background  : @header-bg;
+    color       : @header-color;
+    overflow    : hidden;
+    line-height : @header-height;
+    height      : @header-height;
+    padding     : 0 @grid-margin-width/2;
+    font-size   : @font-size-large;
 
-	&>*{
-		font-size : @font-size-base;
-	}
+    &>*{
+        font-size : @font-size-base;
+    }
 
-	.ui-tabs &.ui-tabs-nav{
-		padding-right : 9%;
-	}
+    .ui-tabs &.ui-tabs-nav{
+        padding-right : 9%;
+    }
 
-	a{
-		text-decoration : none;
-	}
+    a{
+        text-decoration : none;
+    }
 }
 
 .header-inner{
-	background : @header-inner-bg;
-	color      : @header-inner-color;
-	overflow   : hidden;
-	padding    : @padding-base-vertical 0;
+    background : @header-inner-bg;
+    color      : @header-inner-color;
+    overflow   : hidden;
+    padding    : @padding-base-vertical 0;
 
-	a{
-		color : @header-inner-color;
-	}
+    a{
+        color : @header-inner-color;
+    }
 }
 
 .pluginspace{
-	float        : right;
-	margin-right : @grid-margin-width;
+    float        : right;
+    margin-right : @grid-margin-width;
 }
 
 .closebutton{
-	position    : absolute;
-	top         : 0;
-	right       : 2%;
-	z-index     : 100;
-	line-height : 40px;
+    position    : absolute;
+    top         : 0;
+    right       : 2%;
+    z-index     : 100;
+    line-height : 40px;
 
-	.header>&{
-		float       : right;
-		margin-left : 0;
-		position    : static;
+    .header>&{
+        float       : right;
+        margin-left : 0;
+        position    : static;
 
-		.show-left &{
-			float : left;
-		}
-	}
+        .show-left &{
+            float : left;
+        }
+    }
 
-	a{
-		.btn-transparent;
-	}
+    a{
+        .btn-transparent;
+    }
 
-	.help{
+    .help{
         .icon-size(14px);
-		&:hover{
-			color : @brand-info;
-		}
-	}
+        margin-right : 5px;
 
-	.close, .hide{
-		.icon-size(16px);
+        &:hover{
+            color : @brand-info;
+        }
+    }
 
-		&:hover{
-			color : @brand-error;
-		}
-	}
+    .close, .hide{
+        .icon-size(15px);
+
+        &:hover{
+            color : @brand-error;
+        }
+    }
 }
 .content, .content-footer,
 .content-medium, .content-medium-footer,
 .content-small, .content-small-footer{
-	position      : static;
-	background    : @body-bg;
-	margin-top    : 10px !important;
-	margin-bottom : 10px !important;
-	overflow      : auto;
-	.box-sizing(border-box);
+    position      : static;
+    background    : @body-bg;
+    margin-top    : 10px !important;
+    margin-bottom : 10px !important;
+    overflow      : auto;
+    .box-sizing(border-box);
 
-	&.wrap{
-		overflow : hidden;
-	}
+    &.wrap{
+        overflow : hidden;
+    }
 
-	.ui-tabs &.ui-tabs-panel{
-		padding : 0 @grid-margin-width / 2;
-	}
+    .ui-tabs &.ui-tabs-panel{
+        padding : 0 @grid-margin-width / 2;
+    }
 
-	&.grid_12, .ui-tabs &.ui-tabs-panel{
-		&+.footer{
-			margin-top : 0;
-			//padding    : 0 @grid-margin-width / 2;
+    &.grid_12, .ui-tabs &.ui-tabs-panel{
+        &+.footer{
+            margin-top : 0;
+            //padding    : 0 @grid-margin-width / 2;
 
-			[type="submit"], [type="button"]{
-				margin-top : 0;
-			}
-		}
-	}
+            [type="submit"], [type="button"]{
+                margin-top : 0;
+            }
+        }
+    }
 }
 .content{
-	height : @tpopup-base-height - @header-height  - 10px * 2; //10px - margin top and bottom for content
+    height : @tpopup-base-height - @header-height  - 10px * 2; //10px - margin top and bottom for content
 }
 .content-footer{
-	margin-bottom : 15px !important;
-	height        : @tpopup-base-height - @header-height  - 10px - 15px - @footer-height; //10px - margin top and 15px - margin bottom for content
+    margin-bottom : 15px !important;
+    height        : @tpopup-base-height - @header-height  - 10px - 15px - @footer-height; //10px - margin top and 15px - margin bottom for content
 }
 .content-medium{
-	height : @tpopup-medium-height - @header-height  - 10px * 2; //10px - margin top and bottom for content
+    height : @tpopup-medium-height - @header-height  - 10px * 2; //10px - margin top and bottom for content
 }
 .content-medium-footer{
-	margin-bottom : 15px !important;
-	height        : @tpopup-base-height - @header-height  - 10px - 15px - @footer-height; //10px - margin top and 15px - margin bottom for content
+    margin-bottom : 15px !important;
+    height        : @tpopup-medium-height - @header-height  - 10px - 15px - @footer-height; //10px - margin top and 15px - margin bottom for content
 }
 .content-small{
-	height : @tpopup-small-height - @header-height  - 10px * 2; //10px - margin top and bottom for content
+    height : @tpopup-small-height - @header-height  - 10px * 2; //10px - margin top and bottom for content
 }
 .content-small-footer{
-	margin-bottom : 15px !important;
-	height        : @tpopup-small-height - @header-height - 10px - 15px - @footer-height; //10px - margin top and 15px - margin bottom for content
+    margin-bottom : 15px !important;
+    height        : @tpopup-small-height - @header-height - 10px - 15px - @footer-height; //10px - margin top and 15px - margin bottom for content
 }
 
 .footer{

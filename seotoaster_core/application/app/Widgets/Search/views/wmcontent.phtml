@@ -42,8 +42,6 @@
 				+ $('#search-results option:selected').text() + '" page ONLY(remove from here)</strong>  ========  <br/>'
 				+ '{$search:results' + (imgType) + '}';
 			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, searchWidget);
-		}).on('click', '#search-item-img', function() {
-		    $('.cropped-img').fadeToggle();
-	    });
+		});
 	});
 </script>

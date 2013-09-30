@@ -18,13 +18,15 @@ form, .form{
     }
 
     &>p, &>div, fieldset>p, fieldset>div{
+        .box-sizing();
+
         &:not([class*="mt"]){
-            margin-top : 0.75em;
+            margin-top : 0.75em
+        ;
         }
         &:not([class*="mb"]){
             margin-bottom : 0;
         }
-        .box-sizing();
 
         &:first-child:not([class*="mt"]){
             margin-top : 0;
@@ -34,6 +36,18 @@ form, .form{
             content : '';
             display : block;
             clear   : both;
+        }
+    }
+
+    &.condensed{
+        &>p, &>div, fieldset>p, fieldset>div{
+            &:not([class*="mt"]){
+                margin-top : 0.5em;
+            }
+
+            &:first-child:not([class*="mt"]){
+                margin-top : 0;
+            }
         }
     }
 
@@ -176,6 +190,10 @@ select{
 
     &.large{
         padding : @padding-large-vertical - 1 @padding-large-vertical;
+    }
+
+    option{
+        color : @text-color;
     }
 }
 

@@ -16,8 +16,8 @@ $(document).ready(function(){
         valid_elements         : '*[*]',
 
         // buttons
-        theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,link,unlink,hr',
-		theme_advanced_buttons2 : 'image,|,widgets,|,spellchecker,|,pastetext,removeformat,charmap',
+        theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,backcolor,link,unlink',
+		theme_advanced_buttons2 : 'image,|,widgets,|,pastetext,removeformat,charmap,hr',
 
         // theme advanced related settings
         theme_advanced_blockformats       : 'div,blockquote,p,address,pre,h2,h3,h4,h5,h6',

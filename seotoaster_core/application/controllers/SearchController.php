@@ -158,6 +158,4 @@ class SearchController extends Zend_Controller_Action {
             $this->_helper->response->fail();
         }
     }
-
-
 }

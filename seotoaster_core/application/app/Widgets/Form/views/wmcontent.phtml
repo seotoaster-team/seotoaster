@@ -33,8 +33,8 @@
 			} else if($('#forms-existing').val() != 0) {
 				widgetHtml += ':' + $('#forms-existing').val();
 			} else {
-				$('#forms-existing').addClass('red-border');
-				$('#forms-newname').addClass('red-border');
+                $('#forms-existing').addClass('error');
+                $('#forms-newname').addClass('error');
 				widgetHtml = '';
 			}
 			if(widgetHtml != '') {

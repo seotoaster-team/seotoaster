@@ -261,7 +261,11 @@ button a,
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  overflow: hidden;
+}
+.container:after {
+  content: "";
+  display: block;
+  clear: both;
 }
 [class^="grid_"],
 [class*=" grid_"] {

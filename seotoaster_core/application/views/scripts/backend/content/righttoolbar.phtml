@@ -11,22 +11,22 @@
 		<div id="borderfortoolbar">
 			<div id="adminthingsviewer">
 				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span></div>
-				<div id="images_small" class="show_div"><h3><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="images_small" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
 				<div id="medium"><?php echo $this->translate('Medium'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['medium']; ?>px)</span></div>
-				<div id="images_medium" class="show_div"><h3><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="images_medium" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
 				<div id="large"><?php echo $this->translate('Large'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['large']; ?>px)</span></div>
-				<div id="images_large" class="show_div"><h3><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="images_large" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
 				<div id="original"><?php echo $this->translate('Original'); ?></div>
-				<div id="images_original" class="show_div"><h3><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="images_original" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
 				<div id="files"><?php echo $this->translate('Files'); ?></div>
 				<div id="list_files" class="show_div"></div>
 
 				<div id="upload_things_button">
-					<a title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="504" data-pwidth="480" href="javascript:;" class="tpopup"><?php echo $this->translate('Upload Things'); ?></a>
+					<a title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="504" data-pwidth="480" href="javascript:;" class="tpopup"><span class="icon-folder-upload icon16"></span> <?php echo $this->translate('Upload Things'); ?></a>
 				</div>
 			</div>
 		</div>
@@ -52,6 +52,8 @@
 				    });
 			    }
 		    });
+		}).on('click', '.full-screen a', function(e) {
+            $('.show_div').toggleClass('full-screen');
 		});
 	})
 </script>

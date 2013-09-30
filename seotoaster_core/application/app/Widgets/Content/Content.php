@@ -2,9 +2,9 @@
 
 class Widgets_Content_Content extends Widgets_AbstractContent {
 
-    const POPUP_WIDTH  = 964;
+    const POPUP_WIDTH  = 960;
 
-    const POPUP_HEIGHT = 594;
+    const POPUP_HEIGHT = 560;
 
     protected function  _init() {
         $this->_type = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;
@@ -25,7 +25,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
         $content          = ($this->_container === null) ? '' : $this->_container->getContent();
 
         if(Tools_Security_Acl::isAllowed($this)) {
-            $content .= $this->_generateAdminControl(964, 594);
+            $content .= $this->_generateAdminControl(960, 560);
             if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor')){
                 $content = '<div class="container-wrapper '. ($this->_checkPublished() ? '' : 'unpublished') .'">' . $content . '</div>';
             } elseif(!$this->_checkPublished()) {

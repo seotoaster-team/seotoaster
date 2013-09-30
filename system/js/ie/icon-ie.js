@@ -51,7 +51,9 @@ window.onload = function() {
 		'icon-feed' : '&#xe015;',
 		'icon-linkedin' : '&#xe016;',
 		'icon-youtube' : '&#xe017;',
-		'icon-pinterest' : '&#xe018;'
+		'icon-pinterest' : '&#xe018;',
+        'icon-expand' : '&#xe019;',
+        'icon-contract' : '&#xe01a;'
 	};
 	var els = $('[class^="icon-"], [class*=" icon-"]')
 	/*$('[class^="icon-"], [class*=" icon-"]').each(function() {

@@ -18,11 +18,13 @@ class Application_Form_Container extends Zend_Form {
 		$this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttrib('id', 'frm_content');
 
-		$this->addElement('submit', 'submit', array(
+		$this->addElement('button', 'submit', array(
 			'id'     => 'btn-submit',
-			'label'  => 'Save content',
+            'label' => '<span class="icon-save"></span> Save content',
+            'type'  => 'submit',
 			'class'  => 'formsubmit',
-			'ignore' => true
+			'ignore' => true,
+            'escape'=> false
 		));
 
 		$this->addElement('hidden', 'containerType', array(

@@ -16,7 +16,7 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 		$headerContent    = (null === $this->_container) ? '' : $this->_container->getContent();
 
         if(Tools_Security_Acl::isAllowed($this)) {
-			$headerContent .= $this->_generateAdminControl(604, 130); //$this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 604, 130);
+			$headerContent .= $this->_generateAdminControl(600, 140); //$this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 604, 130);
 			if ((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor')){
 				$headerContent = '<div class="container-wrapper">'.$headerContent.'</div>';
 			}
