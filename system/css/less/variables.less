@@ -66,11 +66,21 @@
 
 // Brand Color
 //==================================================
-@brand-primary : #428bca;
-@brand-success : #5fb784;
-@brand-warning : #f0ad4e;
-@brand-error   : #d9534f;
-@brand-info    : #5bc0de;
+@brand-success : #2ECC71;
+@brand-warning : #E67E22;
+@brand-error   : #E74C3C;
+@brand-info    : #3498DB;
+
+//main color website
+@site-color              : #5BC0DE;
+@site-color-hover        : darken(@site-color, 10%);
+@site-color-active       : @site-color;
+@site-color-disable      : desaturate(@site-color, 15%);
+//the color of the text relative to the main site colors
+@site-text-color         : #fff;
+@site-text-color-hover   : darken(@site-text-color, 5%);
+@site-text-color-active  : @site-text-color;
+@site-text-color-disable : desaturate(@site-text-color, 15%);
 
 // Scaffolding
 //==================================================
@@ -86,20 +96,8 @@
 @header-inner-bg         : #aaa;
 @header-inner-color      : #fff;
 
-@site-color              : @gray-light;
-@site-text-color         : @gray;
-
-@site-color-hover        : @gray-lighter;
-@site-text-color-hover   : @gray;
-
-@site-color-active       : #fff;
-@site-text-color-active  : @gray;
-
-@site-color-disable      : @gray-lighter;
-@site-text-color-disable : darken(@gray-light, 10%);
-
-@text-select-bg          : @brand-info;
-@text-select-color       : #fff;
+@text-select-bg          : @site-color;
+@text-select-color       : @site-text-color;
 
 // Links
 //==================================================
@@ -132,25 +130,21 @@
 //==================================================
 @state-border-radius  : @border-radius-base;
 
-@state-primary-text   : @brand-primary;
-@state-primary-bg     : lighten(@state-primary-text, 35%);
-@state-primary-border : darken(@state-primary-bg, 5%);
-
 @state-warning-text   : @brand-warning;
 @state-warning-bg     : lighten(@state-warning-text, 35%);
-@state-warning-border : darken(@state-warning-bg, 5%);
+@state-warning-border : darken(@state-warning-bg, 10%);
 
 @state-error-text     : @brand-error;
 @state-error-bg       : lighten(@state-error-text, 35%);
-@state-error-border   : darken(@state-error-bg, 5%);
+@state-error-border   : darken(@state-error-bg, 10%);
 
 @state-success-text   : @brand-success;
 @state-success-bg     : lighten(@state-success-text, 35%);
-@state-success-border : darken(@state-success-bg, 5%);
+@state-success-border : darken(@state-success-bg, 10%);
 
 @state-info-text      : @brand-info;
 @state-info-bg        : lighten(@state-info-text, 35%);
-@state-info-border    : darken(@state-info-bg, 5%);
+@state-info-border    : darken(@state-info-bg, 10%);
 
 // Tables
 //==================================================
@@ -167,13 +161,9 @@
 @btn-large-border-radius   : @btn-border-radius;
 @btn-small-border-radius   : @btn-border-radius;
 
-@btn-default-color         : #fff;
-@btn-default-bg            : @brand-info;
+@btn-default-color         : @site-text-color;
+@btn-default-bg            : @site-color;
 @btn-default-border        : darken(@btn-default-bg, 10%);
-
-@btn-primary-color         : #fff;
-@btn-primary-bg            : @brand-primary;
-@btn-primary-border        : darken(@btn-primary-bg, 10%);
 
 @btn-success-color         : #fff;
 @btn-success-bg            : @brand-success;
@@ -195,38 +185,24 @@
 //==================================================
 @label-color              : #757575;
 
-@input-bg                 : #fff;
-@input-bg-disabled        : @site-color-disable;
+@input-bg                 : @body-bg;
+@input-bg-disabled        : @gray-light;
 
 @input-border-width       : 1px;
 @input-border-color       : #ccc;
-@input-border-color-focus : @brand-info;
+@input-border-color-focus : @site-color;
 @input-border-radius      : 0;
 
 @input-color-placeholder  : #ccc;
-
-// Slide Show
-//==================================================
-@slider-bg           : #fff;
-@slider-height       : 300px;
-@slider-button-bg    : @site-color;
-@slider-button-color : #fff;
-@slider-button-size  : 24px;
 
 // Thumbnails
 //==================================================
 @thumbnail-bg            : @body-bg;
 @thumbnail-border-color  : #ddd;
 @thumbnail-border-radius : @border-radius-base;
-@thumbnail-caption-bg    : fade(@site-color, 80%);
+@thumbnail-caption-bg    : fade(#000, 80%);
 @thumbnail-caption-color : @site-text-color;
 @thumbnail-box-shadow    : 0 0px 3px @site-color;
-
-// Breadcrumbs
-//==================================================
-@breadcrumbs-color            : @text-color;
-@breadcrumbs-link-color       : @link-color;
-@breadcrumbs-link-color-hover : @link-color-hover;
 
 // JQuery UI Style
 //==================================================
@@ -242,18 +218,18 @@
 
 // JQuery UI Accordion = http://jqueryui.com/accordion/
 //=============================================================
-@accordion-header-bg            : @site-color;
-@accordion-header-color         : @site-text-color;
+@accordion-header-bg            : @gray-light;
+@accordion-header-color         : @gray;
 
-@accordion-header-bg-hover      : @site-color-hover;
-@accordion-header-color-hover   : @site-text-color-hover;
+@accordion-header-bg-hover      : darken(@accordion-header-bg, 10%);
+@accordion-header-color-hover   : darken(@accordion-header-color, 10%);
 
-@accordion-header-bg-active     : darken(@site-color, 13.3%);
-@accordion-header-color-active  : @site-text-color-active;
+@accordion-header-bg-active     : darken(@accordion-header-bg, 10%);
+@accordion-header-color-active  : darken(@accordion-header-color, 10%);
 
-@accordion-content-bg           : #fff;
+@accordion-content-bg           : @body-bg;
 @accordion-content-border-width : 1px;
-@accordion-content-border-color : darken(@site-color, 5%);
+@accordion-content-border-color : @accordion-header-bg-active;
 
 // CPanel Accordion
 //==================================================
@@ -271,26 +247,26 @@
 
 // JQuery UI Tabs = http://jqueryui.com/tabs/
 //=============================================================
-@tabs-nav-bg              : @site-color;
+@tabs-nav-bg              : @gray-light;
 @tabs-nav-li-bg           : transparent;
-@tabs-nav-li-color        : @site-text-color;
+@tabs-nav-li-color        : @gray;
 
-@tabs-nav-li-bg-hover     : @site-color-hover;
-@tabs-nav-li-color-hover  : @site-text-color-hover;
+@tabs-nav-li-bg-hover     : darken(@tabs-nav-bg, 5%);
+@tabs-nav-li-color-hover  : darken(@tabs-nav-li-color, 5%);
 
-@tabs-nav-li-bg-active    : @site-color-active;
-@tabs-nav-li-color-active : @site-text-color-active;
+@tabs-nav-li-bg-active    : @body-bg;
+@tabs-nav-li-color-active : @tabs-nav-li-color;
 
-@tabs-container-bg        : transparent;
+@tabs-container-bg        : @body-bg;
 
 // JQuery UI Datepicker
 //==================================================
 @datepicker-width             : 210px;
-@datepicker-bg                : #fff;
+@datepicker-bg                : @body-bg;
 @datepicker-border-color      : #ddd;
 
-@datepicker-header-bg         : @site-color;
-@datepicker-header-color      : @site-text-color;
+@datepicker-header-bg         : @header-bg;
+@datepicker-header-color      : @header-color;
 @datepicker-header-size       : 16px;
 @datepicker-header-height     : 30px;
 
@@ -298,20 +274,20 @@
 @datepicker-arrow-color       : @datepicker-header-color;
 @datepicker-arrow-size        : 14px;
 
-@datepicker-week-bg           : @header-bg;
-@datepicker-week-color        : @header-color;
-@datepicker-week-end-color    : lighten(@site-text-color, 30%);
+@datepicker-week-bg           : @datepicker-header-bg;
+@datepicker-week-color        : @datepicker-header-color;
+@datepicker-week-end-color    : desaturate(@brand-error, 20%);
 @datepicker-week-box-size     : 30px;
 @datepicker-week-font-size    : 10px;
 
-@datepicker-day-bg            : #fff;
-@datepicker-day-color         : @site-text-color;
+@datepicker-day-bg            : transparent;
+@datepicker-day-color         : @datepicker-header-color;
 @datepicker-day-box-size      : 30px;
 @datepicker-day-font-size     : @font-size-mini;
 
-@datepicker-today-bg          : @site-color;
-@datepicker-today-color       : #fff;
-@datepicker-current-day-bg    : @gray-lighter;
+@datepicker-today-bg          : lighten(@site-color, 25%);
+@datepicker-today-color       : @datepicker-header-color;
+@datepicker-current-day-bg    : lighten(@datepicker-header-bg, 5%);
 @datepicker-current-day-color : @datepicker-week-color;
 
 // JQuery UI Autocomplete = http://jqueryui.com/autocomplete/
@@ -322,14 +298,14 @@
 
 // JQuery UI Tooltip = http://jqueryui.com/tooltip/
 //=============================================================
-@tooltip-bg    : #fff;
+@tooltip-bg    : @body-bg;
 @tooltip-color : @text-color;
 @tooltip-width : 300px;
 
 // JQuery UI Slider (range) = http://jqueryui.com/slider/
 //=============================================================
 @range-size         : 16px;
-@range-bg           : #fff;
+@range-bg           : @body-bg;
 @range-border-color : @input-border-color;
 @range-range-bg     : @gray-light;
 @range-handle-bg    : @gray;
@@ -337,9 +313,9 @@
 // JQuery UI Progressbar = http://jqueryui.com/progressbar/
 //=============================================================
 @progressbar-size         : 18px;
-@progressbar-bg           : #fff;
-@progressbar-border-color : darken(@brand-info, 15%);
-@progressbar-range-bg     : @brand-info;
+@progressbar-bg           : @body-bg;
+@progressbar-border-color : darken(@site-color, 15%);
+@progressbar-range-bg     : @site-color;
 
 // Mixin
 //==================================================

@@ -125,14 +125,6 @@ select, textarea, input{
         .box-shadow(0 0 3px @input-border-color-focus);
     }
 
-    &.primary{
-        border-color : @brand-primary;
-        color        : @brand-primary;
-        &:focus{
-            .box-shadow(0 0 3px @brand-primary);
-        }
-    }
-
     &.success{
         border-color : @brand-success;
         color        : @brand-success;
@@ -291,10 +283,10 @@ input[type="radio"]{
 
     &:checked{
         &+span{
-            border-color : @brand-primary;
+            border-color : @site-color;
 
             &:after{
-                background : @brand-primary;
+                background : @site-color;
             }
         }
     }
@@ -306,7 +298,7 @@ input[type="checkbox"]:not(.icon){
 
     &:checked{
         &+span{
-            color : @brand-primary;
+            color : @site-color;
         }
     }
 
@@ -336,7 +328,7 @@ input[type="checkbox"]:not(.icon){
                 &:after{
                     color      : #FFF;
                     content    : "ON";
-                    background : @brand-primary;
+                    background : @site-color;
                     left       : 50%;
                 }
             }

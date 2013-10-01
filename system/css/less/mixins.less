@@ -465,3 +465,19 @@
         }
     }
 }
+
+// Alert states
+//==================================================
+.alert-state(@color, @background, @border) {
+    background-color : @background;
+    border-color     : @border;
+    color            : @color;
+
+    hr{
+        border-top-color : darken(@border, 5%);
+    }
+
+    a{
+        color : darken(@color, 10%);
+    }
+}

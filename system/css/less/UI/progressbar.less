@@ -4,14 +4,9 @@
     height     : @progressbar-size;
     background : @progressbar-bg;
     border     : 1px solid @progressbar-border-color;
-    .box-sizing(border-box);
+    .box-sizing();
 
     .ui-progressbar-value{
-        position   : absolute;
-        top        : 0;
-        left       : 0;
-        bottom     : 0;
-        z-index    : 0;
         height     : 100%;
         background : @progressbar-range-bg;
     }
@@ -21,58 +16,58 @@
         top            : 0;
         left           : 0.5em;
         bottom         : 0;
-        z-index        : 1;
+        z-index        : 5;
         text-transform : uppercase;
         font-size      : @font-size-small;
         color          : rgba(0, 0, 0, 0.7);
         font-weight    : bold;
+
+        b{
+            &:after{
+                content:'%';
+            }
+        }
+    }
+
+    // Alternate progressbar
+    // --------------------------------------------------
+    &.warning{
+        background   : @state-warning-bg;
+        border-color : @state-warning-border;
+
+        .ui-progressbar-value{
+            background : @state-warning-text;
+        }
+    }
+
+    &.error{
+        background   : @state-error-bg;
+        border-color : @state-error-border;
+
+        .ui-progressbar-value{
+            background : @state-error-text;
+        }
+    }
+
+    &.success{
+        background   : @state-success-bg;
+        border-color : @state-success-border;
+
+        .ui-progressbar-value{
+            background : @state-success-text;
+        }
+    }
+
+    &.info{
+        background   : @state-info-bg;
+        border-color : @state-info-border;
+
+        .ui-progressbar-value{
+            background : @state-info-text;
+        }
     }
 }
 
-.ui-progressbar.primary{
-    background   : @state-primary-bg;
-    border-color : @state-primary-border;
-
-    .ui-progressbar-value{
-        background : @state-primary-text;
-    }
-}
-
-.ui-progressbar.warning{
-    background   : @state-warning-bg;
-    border-color : @state-warning-border;
-
-    .ui-progressbar-value{
-        background : @state-warning-text;
-    }
-}
-
-.ui-progressbar.error{
-    background   : @state-error-bg;
-    border-color : @state-error-border;
-
-    .ui-progressbar-value{
-        background : @state-error-text;
-    }
-}
-
-.ui-progressbar.success{
-    background   : @state-success-bg;
-    border-color : @state-success-border;
-
-    .ui-progressbar-value{
-        background : @state-success-text;
-    }
-}
-
-.ui-progressbar.info{
-    background   : @state-info-bg;
-    border-color : @state-info-border;
-
-    .ui-progressbar-value{
-        background : @state-info-text;
-    }
-}
 [id*="-filelist"]{
     .ui-widget{
         .ui-state-highlight, .ui-state-error{
@@ -87,12 +82,12 @@
                 margin      : 0;
                 position    : relative;
                 z-index     : 5;
-                .inline-block;
                 max-width   : 93%;
                 color       : rgba(0, 0, 0, 0.7);
-                .text-overflow;
                 height      : @progressbar-size - 2;
                 line-height : @progressbar-size - 2;
+                .inline-block;
+                .text-overflow;
 
                 &+.ui-progressbar{
                     margin : -@progressbar-size -@padding-small-vertical 0;

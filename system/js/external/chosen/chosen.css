@@ -181,8 +181,8 @@
   color: #999;
 }
 .chzn-container-multi .chzn-choices .search-choice {
-  background-color: #eaeaea;
-  color: #666666;
+  background-color: #5bc0de;
+  color: #ffffff;
   font-size: 0.85em;
   padding: 3px 5px;
   margin: 2px;
@@ -193,12 +193,12 @@
   white-space: nowrap;
 }
 .chzn-container-multi .chzn-choices .search-choice.search-choice-disabled {
-  background-color: #fafafa;
-  color: #d1d1d1;
+  background-color: #6ab8cf;
+  color: #ffffff;
 }
 .chzn-container-multi .chzn-choices .search-choice.search-choice-disabled .search-choice-close,
 .chzn-container-multi .chzn-choices .search-choice.search-choice-disabled .search-choice-close:hover {
-  color: #d1d1d1;
+  color: #ffffff;
 }
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close {
   color: #666666;
@@ -213,7 +213,7 @@
   font-size: 14px;
 }
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close:hover {
-  color: #d9534f;
+  color: #e74c3c;
 }
 .chzn-container-multi .chzn-choices .search-choice + .search-field input {
   padding: 4px;
@@ -251,8 +251,8 @@
   display: list-item;
 }
 .chzn-container .chzn-results .highlighted {
-  background-color: #eaeaea;
-  color: #666666;
+  background-color: #5bc0de;
+  color: #ffffff;
 }
 .chzn-container .chzn-results .highlighted em {
   background: transparent;

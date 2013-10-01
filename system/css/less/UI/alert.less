@@ -1,17 +1,3 @@
-.alert-state(@color, @background, @border) {
-    background-color : @background;
-    border-color     : @border;
-    color            : @color;
-
-    hr{
-        border-top-color : darken(@border, 5%);
-    }
-
-    a{
-        color : darken(@color, 10%);
-    }
-}
-
 .smoke-base .smokebg{
     background      : rgba(255, 255, 255, 0.5);
     -pie-background : rgba(255, 255, 255, 0.5);
@@ -28,7 +14,7 @@
 .smoke-base .dialog,
 [class^="alert-"], [class*=" alert-"]{
     padding       : @padding-base-vertical @padding-base-horizontal;
-    border        : 1px solid;
+    border        : 2px solid;
     border-radius : @state-border-radius;
     .alert-state(@state-success-text, @state-success-bg, @state-success-border);
 
@@ -65,10 +51,10 @@
             button{
                 float  : none;
                 margin : 0 @padding-small-horizontal;
-                .btn-success;
+                .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
 
                 &.cancel{
-                    .btn-error;
+                    .btn-states(@btn-error-color, @btn-error-bg, @btn-error-border);
                 }
             }
         }
@@ -107,29 +93,29 @@
 .alert,
 .smoke-base .dialog,
 [class^="alert-"], [class*=" alert-"]{
-    position   : absolute;
+    position   : fixed;
     top        : 40%;
     left       : 0;
     right      : 0;
     z-index    : 101;
     margin     : 0 auto;
-    max-width  : 50%;
-    font-size  : @font-size-large;
+    width      : 400px;
+    font-size  : @font-size-larger;
     text-align : center;
-    .box-shadow(0 0 100px desaturate(darken(@site-color, 5%), 10%));
+    .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
 
     // Alternate styles
     // -------------------------
-    &.alert-success{
+    &.alert-success, &.success{
         .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
     }
-    &.alert-warning{
+    &.alert-warning, &.warning{
         .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
     }
-    &.alert-error{
+    &.alert-error, &.error{
         .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
     }
-    &.alert-info{
+    &.alert-info, &.info{
         .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
     }
 }
