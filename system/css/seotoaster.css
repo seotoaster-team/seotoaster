@@ -649,7 +649,8 @@ html body .wrap {
 html body .block {
   display: block;
 }
-html body .hidden {
+html body .hidden,
+html body .ui-helper-hidden {
   display: none;
 }
 html body .pointer {
@@ -733,26 +734,6 @@ html body .error-bg {
   background: #d9534f;
 }
 html body .info-bg {
-  background: #5bc0de;
-}
-html body .highlight-primary {
-  color: #ffffff;
-  background: #428bca;
-}
-html body .highlight-success {
-  color: #ffffff;
-  background: #5fb784;
-}
-html body .highlight-warning {
-  color: #ffffff;
-  background: #f0ad4e;
-}
-html body .highlight-error {
-  color: #ffffff;
-  background: #d9534f;
-}
-html body .highlight-info {
-  color: #ffffff;
   background: #5bc0de;
 }
 html body .t20px {
@@ -1613,7 +1594,7 @@ body {
   overflow: hidden;
   line-height: 40px;
   height: 40px;
-  padding: 0 2%;
+  padding: 0 15px;
   font-size: 1.25em;
 }
 .header > * {
@@ -3724,16 +3705,17 @@ table tr.info > td {
     -moz-transform: rotate(0);
   }
 }
-@-o-keyframes rotate {
-  0% {
-    -o-transform-origin: center center;
-    -o-transform: rotate(-360deg);
-  }
-  100% {
-    -o-transform-origin: center center;
-    -o-transform: rotate(0);
-  }
-}
+/*@-o-keyframes rotate{
+	0%{
+		-o-transform-origin : center center;
+		-o-transform        : rotate(-360deg);
+	}
+
+	100%{
+		-o-transform-origin : center center;
+		-o-transform        : rotate(0);
+	}
+}*/
 @keyframes rotate {
   0% {
     transform-origin: center center;
@@ -3910,23 +3892,23 @@ table tr.info > td {
   padding: 6px 12px;
   border: 1px solid;
   border-radius: 4px;
-  background-color: #eaeaea;
-  border-color: #dddddd;
-  color: #666666;
+  background-color: #daeee3;
+  border-color: #c9e6d5;
+  color: #5fb784;
 }
 .alert hr,
 .message hr,
 .smoke-base .dialog hr,
 [class^="alert-"] hr,
 [class*=" alert-"] hr {
-  border-top-color: #d0d0d0;
+  border-top-color: #b7dfc8;
 }
 .alert a,
 .message a,
 .smoke-base .dialog a,
 [class^="alert-"] a,
 [class*=" alert-"] a {
-  color: #4d4d4d;
+  color: #469d6b;
 }
 .alert .close,
 .message .close,
@@ -5087,8 +5069,11 @@ fieldset[disabled] .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.acti
   top: 0;
   left: 0.5em;
   bottom: 0;
+  z-index: 1;
+  text-transform: uppercase;
   font-size: 0.85em;
   color: rgba(0, 0, 0, 0.7);
+  font-weight: bold;
 }
 .ui-progressbar.primary {
   background: #cde1f1;
@@ -5125,8 +5110,8 @@ fieldset[disabled] .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.acti
 .ui-progressbar.info .ui-progressbar-value {
   background: #5bc0de;
 }
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight,
-[id*="uploader-filelist"] .ui-widget .ui-state-error {
+[id*="-filelist"] .ui-widget .ui-state-highlight,
+[id*="-filelist"] .ui-widget .ui-state-error {
   overflow: hidden;
   margin-bottom: 0.2em;
   font-size: 0.85em;
@@ -5134,8 +5119,8 @@ fieldset[disabled] .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.acti
   height: 18px;
   line-height: 18px;
 }
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight p,
-[id*="uploader-filelist"] .ui-widget .ui-state-error p {
+[id*="-filelist"] .ui-widget .ui-state-highlight p,
+[id*="-filelist"] .ui-widget .ui-state-error p {
   margin: 0;
   position: relative;
   z-index: 5;
@@ -5150,14 +5135,15 @@ fieldset[disabled] .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.acti
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  height: 17px;
+  height: 16px;
+  line-height: 16px;
 }
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight p + .ui-progressbar,
-[id*="uploader-filelist"] .ui-widget .ui-state-error p + .ui-progressbar {
+[id*="-filelist"] .ui-widget .ui-state-highlight p + .ui-progressbar,
+[id*="-filelist"] .ui-widget .ui-state-error p + .ui-progressbar {
   margin: -18px -3px 0;
 }
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight .ui-icon,
-[id*="uploader-filelist"] .ui-widget .ui-state-error .ui-icon {
+[id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon,
+[id*="-filelist"] .ui-widget .ui-state-error .ui-icon {
   width: 14px;
   height: 14px;
   line-height: 14px;
@@ -5165,16 +5151,16 @@ fieldset[disabled] .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.acti
   margin-top: 2px;
   color: #5bc0de;
 }
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight .ui-icon:before,
-[id*="uploader-filelist"] .ui-widget .ui-state-error .ui-icon:before,
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight .ui-icon [class^="icon-"]:before,
-[id*="uploader-filelist"] .ui-widget .ui-state-error .ui-icon [class^="icon-"]:before,
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight .ui-icon [class*=" icon-"]:before,
-[id*="uploader-filelist"] .ui-widget .ui-state-error .ui-icon [class*=" icon-"]:before {
+[id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon:before,
+[id*="-filelist"] .ui-widget .ui-state-error .ui-icon:before,
+[id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon [class^="icon-"]:before,
+[id*="-filelist"] .ui-widget .ui-state-error .ui-icon [class^="icon-"]:before,
+[id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon [class*=" icon-"]:before,
+[id*="-filelist"] .ui-widget .ui-state-error .ui-icon [class*=" icon-"]:before {
   font-size: 14px;
 }
-[id*="uploader-filelist"] .ui-widget .ui-state-highlight .ui-icon-alert,
-[id*="uploader-filelist"] .ui-widget .ui-state-error .ui-icon-alert {
+[id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon-alert,
+[id*="-filelist"] .ui-widget .ui-state-error .ui-icon-alert {
   color: #d9534f;
 }
 .ui-datepicker {
@@ -5993,9 +5979,6 @@ fieldset[disabled] #sortable-main .category-data .catmove .collapse-all.active {
   position: relative !important;
   width: 100%;
 }
-.ace_editor .ace_gutter {
-  width: 40px !important;
-}
 .ace_editor .ace_scroller {
   background: #FDFDFD;
   overflow: hidden;
@@ -6585,6 +6568,9 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable.active {
   border-color: #eaeaea;
   text-decoration: none;
 }
+.readme-content {
+  height: 450px !important;
+}
 #new-post #newslog-frm-newpost #teaser-text {
   height: 85px;
 }
@@ -6831,6 +6817,9 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable.active {
 #formWidget #reply-text {
   height: 35px;
 }
+#webbuilder-image-only-inner #webbuilder-form-image-data {
+  height: 106px;
+}
 #webbuilder-image-only-inner #images-list {
   height: 460px;
   overflow: auto;
@@ -6864,8 +6853,8 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable.active {
   box-shadow: 0 0px 3px #eaeaea;
 }
 #webbuilder-image-only-inner #webbuilder-main-image {
-  height: 334px;
-  line-height: 334px;
+  height: 298px;
+  line-height: 298px;
 }
 #webbuilder-image-only-inner #webbuilder-main-image img {
   max-height: 100%;

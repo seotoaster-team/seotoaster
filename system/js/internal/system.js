@@ -187,7 +187,7 @@ doc.on('click', '.screen-size', function (e) {
 });
 
 ///////// Show/Hide 'cropped' options //////////////
-doc.on('click', '[name="useImage"]', function() {
+doc.on('click', '[name="useImage"]', function () {
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
 

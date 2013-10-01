@@ -22,7 +22,7 @@ $(function() {
             }, function(response) {
                 if(!response.error) {
                     var readmeText = (typeof response.responseText == 'undefined' || response.responseText == 'success') ? 'No readme for this plugin provided' : response.responseText;
-                    var readmeDialog = $('<div class="content-footer" id="' + pluginName + '-readme">' + readmeText + '</div>');
+                    var readmeDialog = $('<div class="readme-content content-footer" id="' + pluginName + '-readme">' + readmeText + '</div>');
                     readmeDialog.dialog({
                         modal: true,
                         title: pluginName,

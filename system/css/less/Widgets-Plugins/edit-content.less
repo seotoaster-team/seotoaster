@@ -1,0 +1,181 @@
+#links{
+    text-align     : right;
+    text-transform : uppercase;
+    font-size      : @font-size-mini;
+    vertical-align : middle;
+    margin-bottom  : 0.5em;
+
+    a{
+        border-left : 1px solid @gray;
+        padding     : 0 @padding-small-horizontal / 2;
+
+        &:first-child{
+            border : none;
+        }
+    }
+}
+
+#edit-content{
+
+    .above-editor-links, #tabs{
+        .transition();
+    }
+
+    #tabs{
+        background : @body-bg;
+        padding    : 0;
+        height     : 450px;
+
+        .ui-tabs-panel{
+            padding : 5px;
+
+            .ui-accordion-header{
+                font-size : @font-size-base;
+            }
+
+            .ui-accordion-content{
+                padding    : 5px;
+                max-height : 160px;
+            }
+
+        }
+    }
+
+    #adminthingsviewer{
+        #upload_things_button.ui-accordion-header{
+            font-weight : bold;
+            text-align  : center;
+
+            a{
+                display : block;
+
+                [class*="icon-"]{
+                    margin-top : -3px;
+                }
+            }
+
+            &:hover{
+                background : darken(@gray-light, 10%);
+            }
+
+            .ui-accordion-header-icon{
+                display : none;
+            }
+        }
+
+        .ui-accordion-content{
+            position : relative;
+
+            p{
+                margin : 0;
+            }
+
+            &.show_div{
+
+                .list-images{
+                    margin   : -5px;
+                    height   : 170px;
+                    overflow : auto;
+
+                    a{
+                        .inline-block(top);
+                        .box-sizing();
+                        text-align : center;
+                        width      : 31%;
+                        margin     : 1%;
+                        .thumbnail-state(0);
+
+                        img{ }
+                    }
+                }
+
+                &.full-screen{
+
+                    .list-images{
+                        height  : @tpopup-base-height - @header-height - 10px *2;
+                    }
+
+                    a{
+                        width  : 9.5%;
+                        margin : 0.25%;
+                    }
+                }
+            }
+        }
+    }
+
+    #widgets_maker{
+        .ui-accordion-header{
+            img{
+                margin-top   : -7px;
+                margin-right : 10px;
+            }
+        }
+    }
+
+    #frm_content{
+        #content{
+            height : 430px;
+        }
+    }
+}
+
+#product-products{
+    background : @body-bg;
+    padding    : @padding-base-vertical;
+    overflow   : auto;
+    height     : 282px;
+
+    .productlisting{
+        position   : relative;
+        float      : left;
+        width      : 15%;
+        margin     : 0 0 2% 2%;
+        text-align : center;
+        overflow   : hidden;
+        background : @gray-lighter;
+        .transition;
+        .box-shadow(0 1px 1px #BBB);
+
+        &:nth-child(6n+1){
+            margin-left : 0;
+        }
+
+        &:hover{
+            background : @gray-light;
+        }
+
+        span{
+            display   : block;
+            font-size : @font-size-small;
+            .text-overflow;
+        }
+
+        .brand{
+            color       : @gray;
+            background  : @gray-light;
+            padding     : @padding-small-vertical 0;
+            font-weight : bold;
+        }
+
+        .image{
+            height      : 75px;
+            line-height : 75px;
+
+            img{
+                width : 100%;
+            }
+        }
+
+        .name{
+            padding : @padding-small-vertical;
+        }
+
+        .sku{
+            color      : @gray;
+            text-align : right;
+            padding    : @padding-small-vertical @padding-small-horizontal;
+            background : @gray-light;
+        }
+    }
+}

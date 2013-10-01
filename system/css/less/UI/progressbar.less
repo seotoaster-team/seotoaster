@@ -17,12 +17,15 @@
     }
 
     .label{
-        position  : absolute;
-        top       : 0;
-        left      : 0.5em;
-        bottom    : 0;
-        font-size : @font-size-small;
-        color     : rgba(0, 0, 0, 0.7);
+        position       : absolute;
+        top            : 0;
+        left           : 0.5em;
+        bottom         : 0;
+        z-index        : 1;
+        text-transform : uppercase;
+        font-size      : @font-size-small;
+        color          : rgba(0, 0, 0, 0.7);
+        font-weight    : bold;
     }
 }
 
@@ -70,7 +73,7 @@
         background : @state-info-text;
     }
 }
-[id*="uploader-filelist"]{
+[id*="-filelist"]{
     .ui-widget{
         .ui-state-highlight, .ui-state-error{
             overflow      : hidden;
@@ -81,14 +84,15 @@
             line-height   : @progressbar-size;
 
             p{
-                margin    : 0;
-                position  : relative;
-                z-index   : 5;
+                margin      : 0;
+                position    : relative;
+                z-index     : 5;
                 .inline-block;
-                max-width : 93%;
-                color     : rgba(0, 0, 0, 0.7);
+                max-width   : 93%;
+                color       : rgba(0, 0, 0, 0.7);
                 .text-overflow;
-                height: @progressbar-size - 1;
+                height      : @progressbar-size - 2;
+                line-height : @progressbar-size - 2;
 
                 &+.ui-progressbar{
                     margin : -@progressbar-size -@padding-small-vertical 0;

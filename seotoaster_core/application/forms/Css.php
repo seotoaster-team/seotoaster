@@ -27,6 +27,7 @@ class Application_Form_Css extends Zend_Form {
 		));
 
 		$this->addElement(new Zend_Form_Element_Button(array(
+			'type'   => 'submit',
 			'name'   => 'submit',
 			'label'  => '<span class="icon-save"></span> Save CSS',
 			'class'  => array('formsubmit'),
