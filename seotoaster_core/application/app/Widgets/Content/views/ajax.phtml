@@ -1,6 +1,5 @@
 <script type="text/javascript">
     $(function() {
-        //api/toaster/containers/id/220/pid/1/
         $.get('<?php echo $this->websiteUrl?>api/toaster/containers/', {
                 pid  : '<?php echo $this->pageId;?>',
                 name : '<?php echo $this->name;?>',
@@ -9,8 +8,8 @@
             },
             function(resp) {
                 var content = $('div.<?php echo md5($this->name . $this->type); ?>');
-                $(content).empty().html(resp + '<?php echo $this->controls; ?>');
+                $(content).empty().html(resp['<?php echo $this->name; ?>'] + '<?php echo $this->controls; ?>');
         }, 'json');
     });
 </script>
-<div class="ajax-content <?php echo md5($this->name . $this->type); ?>">Please wait...</div>
+<div class="ajax-content <?php echo md5($this->name . $this->type); ?>"><?php echo $this->translate('Please wait'); ?>...</div>
