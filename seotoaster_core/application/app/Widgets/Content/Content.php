@@ -12,20 +12,23 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
     }
 
     protected function _load() {
+        $this->_container = $this->_find();
+
         if(end($this->_options) == 'ajax') {
             $this->_view             = new Zend_View(array('scriptPath' => dirname(__FILE__) . '/views'));
             $this->_view->websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
             $this->_view->type       = $this->_type;
             $this->_view->name       = $this->_name;
             $this->_view->pageId     = $this->_pageId;
+            $this->_view->controls   = Tools_Security_Acl::isAllowed($this) ? $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT): '';
             return $this->_view->render('ajax.phtml');
         }
 
-        $this->_container = $this->_find();
+        //$this->_container = $this->_find();
         $content          = ($this->_container === null) ? '' : $this->_container->getContent();
 
         if(Tools_Security_Acl::isAllowed($this)) {
-            $content .= $this->_generateAdminControl(964, 594);
+            $content .= $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT);
             if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor')){
                 $content = '<div class="container-wrapper '. ($this->_checkPublished() ? '' : 'unpublished') .'">' . $content . '</div>';
             } elseif(!$this->_checkPublished()) {
