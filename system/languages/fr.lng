@@ -1085,6 +1085,7 @@
     'Store Products'    => 'Magasin : Produits',
     'Store Profile'     => 'Magasin : Profil',
     'Enter the words above' => 'Entrez les mots ci-dessus',
-    'Please enter this code in the box below' => 'Entrez le code dans le cadre ci-dessous SVP'
+    'Please enter this code in the box below' => 'Entrez le code dans le cadre ci-dessous SVP',
+    'Send me a quote' => 'devis gratuit'
 
 );?>
