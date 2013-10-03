@@ -49,15 +49,19 @@ class Api_Toaster_Containers extends Api_Service_Abstract {
         $container = is_integer($containerId) ? $mapper->find($containerId) : $mapper->findByName($containerId, $pageId, $type);
 
         if(!$container instanceof Application_Model_Models_Container) {
-            $this->_error('404 Container not found', self::REST_STATUS_NOT_FOUND);
+            $container = new Application_Model_Models_Container(array(
+                'containerType' => $type,
+                'name'          => $containerId
+            ));
+        } else {
+            if(!$pageId) {
+                $pageId = $container->getPageId();
+            }
+            $page = ($pageId) ? Application_Model_Mappers_PageMapper::getInstance()->find($container->getPageId()) : null;
+            $parser->setPageData(($page instanceof Application_Model_Models_Page) ? $page->toArray() : array())
+                ->setContent($container->getContent());
+            $container->setContent($parser->parseSimple());
         }
-
-        $page = ($pageId) ? Application_Model_Mappers_PageMapper::getInstance()->find($container->getPageId()) : null;
-
-        $parser->setPageData(($page instanceof Application_Model_Models_Page) ? $page->toArray() : array())
-            ->setContent($container->getContent());
-
-        $container->setContent($parser->parseSimple());
         return ($contentOnly) ? array($container->getName() => $container->getContent()) : $container->toArray();
     }
 
