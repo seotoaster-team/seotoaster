@@ -1,0 +1,204 @@
+ul, ol{
+    margin-left   : 2.5em;
+    margin-bottom : 1.5em;
+
+    ol, ul{
+        margin    : 0.3em 0 1em 2.5em;
+        font-size : 0.9em;
+    }
+
+    li{
+        margin-bottom : 0.3em;
+
+        li{ }
+    }
+
+    &.list-unstyled{
+        list-style-type : none;
+        margin-left     : 0.5em;
+    }
+
+    &.list-inline{
+        margin-left     : 0;
+        list-style-type : none;
+
+        &>li{
+            margin : 0 0.5em;
+            .inline-block(top);
+        }
+    }
+
+    &.list-tags{
+
+        &>li{
+            margin     : 2px 0 0;
+            padding    : @padding-mini-vertical @padding-mini-horizontal;
+            background : @gray-lighter;
+            cursor     : pointer;
+            .text-overflow;
+            .box-sizing();
+
+            &:first-child{
+                margin-top : 0;
+            }
+
+            &:hover, &.active{
+                background : @gray-light;
+            }
+
+            &.disabled{
+                cursor     : default;
+                background : @gray-lighter;
+                color      : @gray-light;
+            }
+
+            &.active{
+            }
+
+            [class*="icon-"]{
+                margin-top : 2px;
+            }
+        }
+
+        &.list-inline>li{
+            margin : 0 2px 2px 0;
+        }
+    }
+}
+
+ul{
+    list-style-type : disc;
+
+    ul{
+        list-style-type : circle;
+    }
+}
+
+ol{
+    list-style-type : decimal;
+
+    ol{
+        list-style-type : lower-latin;
+    }
+}
+
+dl{
+    dt{
+        font-weight : bold;
+    }
+
+    dd{
+        margin-bottom : 0.75em;
+
+        &+dd{
+            margin-top : -0.5em;
+        }
+    }
+
+    &.dl-horizontal{
+        dt{
+            float : left;
+            width : 35%;
+            clear : left;
+        }
+
+        dd{
+            margin-left : 35%;
+        }
+    }
+}
+
+.list-title{
+    background : @header-inner-bg;
+    color      : @header-inner-color;
+    overflow   : hidden;
+    padding    : @padding-base-vertical 0;
+}
+.items-list{
+
+    .list-row{
+        background    : @gray-lighter;
+        padding       : @padding-small-vertical 0;
+        margin-top    : 2px;
+        margin-bottom : 0;
+        overflow      : hidden;
+        list-style    : none;
+        max-width     : 100%;
+
+        .list-row-item{
+            color : @link-color;
+            .text-overflow;
+        }
+
+        .list-row-count{
+            text-align : center;
+            font-size  : 12px;
+            background : @gray-light;
+            padding    : (@padding-small-vertical + (@font-size-base - 12px) / 2) 0;
+        }
+    }
+
+    ol& .list-row{
+        padding : 0;
+
+        &>*{
+            padding : @padding-small-vertical @padding-small-horizontal;
+        }
+    }
+}
+// Paginator
+//======================================================
+.paginator, .dataTables_paginate{
+    text-align : right;
+    color      : @gray-light;
+    font-size  : @font-size-small;
+    cursor     : default;
+
+    *{
+        .inline-block;
+        border  : 1px solid @gray-light;
+        padding : @padding-small-vertical @padding-small-horizontal;
+        margin  : 0 0.1em;
+
+        &.page{
+            cursor       : pointer;
+            border-color : @site-color;
+
+            &:hover{
+                background : @site-color-hover;
+                color      : @site-text-color-hover;
+            }
+
+            &.selected{
+                background : @site-color;
+                color      : @site-text-color;
+            }
+        }
+    }
+
+    :first-child, :last-child{
+        font-weight : bold;
+    }
+}
+
+// Social Links
+//==================================================
+.social-links{
+    a{
+        .inline-block;
+        .icon-size(18px);
+        color      : #fff;
+        padding    : @padding-base-vertical;
+        background : @gray-light;
+
+        &:hover{
+            &.facebook{ background : #3b5a99; }
+            &.twitter{ background : #1aa8e0; }
+            &.gplus{ background : #ca3e2d; }
+            &.rss{ background : #FE9900; }
+            &.linkedin{ background : #4875b5; }
+            &.youtube{ background : #c7453f; }
+            &.pinterest{ background : #bd3137; }
+        }
+    }
+}

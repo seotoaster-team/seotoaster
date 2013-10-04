@@ -39,6 +39,7 @@ $(function() {
                     $.getJSON($('#website_url').val()+'backend/backend_theme/pagesviatemplate/', {
                         template: response.responseText.name
                     }, function(response) {
+                        consolelog(response.responseText.name)
                         $('#pcount').text(response.pagesUsingTemplate);
                     })
 					showTemplateList();

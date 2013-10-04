@@ -1,0 +1,247 @@
+// Table of Content
+//==================================================
+//	Manage config
+//  Action e-mails
+//  Manage users
+//  Plugins
+//==================================================
+
+// Manage config
+//========================================
+
+// Action e-mails
+//========================================
+#actions{
+    .inline-block;
+}
+
+#ations-triggers-frm{
+
+    #action-triggers{
+        &>p{
+            margin-top : 15px;
+            text-align : center;
+            width      : 60%;
+            padding    : 0 20%;
+            position   : relative;
+            font-size  : 1.2em;
+
+            &:before, &:after{
+                content       : '';
+                position      : absolute;
+                width         : 18%;
+                top           : 50%;
+                border-bottom : 1px solid #ccc;
+            }
+
+            &:before{
+                left : 0;
+            }
+
+            &:after{
+                right : 0;
+            }
+        }
+
+        .actions-list{
+            margin : 40px 0 0;
+
+            li{
+                text-align    : center;
+                float         : left;
+                width         : 20.5%;
+                margin-left   : 6%;
+                margin-bottom : 3%;
+                border        : 1px solid darken(@gray-light, 10%);
+                cursor        : pointer;
+                .box-sizing;
+
+                &:nth-of-type(4n+1){
+                    margin-left : 0;
+                }
+
+                span{
+                    display : block;
+                    .transition;
+
+                    &.action-preview{
+                        height      : 110px;
+                        line-height : 110px;
+                        font-size   : 78px;
+                        color       : darken(@gray-light, 20%);
+
+                        &.icon-remarketing{
+                            font-size : 100px;
+                        }
+                    }
+                    &.action-name{
+                        padding        : @padding-base-vertical @padding-base-horizontal;
+                        background     : @site-color;
+                        color          : @site-text-color;
+                        text-transform : uppercase;
+                    }
+                }
+
+                &:hover{
+                    border-color : @gray-light;
+
+                    .action-preview{
+                        color : @gray;
+                    }
+                    .action-name{
+                        background : @site-color-hover;
+                        color      : @site-text-color-hover;
+                    }
+                }
+            }
+        }
+    }
+
+    .tabs-contents{
+        font-size : 0;
+
+        fieldset{
+            .inline-block;
+            position  : relative;
+            font-size : @font-size-base;
+            width     : 48%;
+            margin    : 2% 1% 0;
+
+            .icon-close{
+                position : absolute;
+                top      : 5px;
+                right    : 5px;
+            }
+        }
+
+        .new-trigger-action{
+            cursor     : pointer;
+            font-size  : 75px;
+            width      : 48%;
+            margin     : 2% 1% 0;
+            padding    : 0.8em 0;
+            background : transparent;
+            border     : 3px dashed @gray-light;
+            color      : @gray-light;
+            .inline-block;
+            .box-sizing;
+            .transition;
+
+            &:hover{
+                border-color : darken(@gray-light, 20%);
+                color        : darken(@gray-light, 20%);
+            }
+        }
+    }
+}
+
+// Manage users
+//========================================
+#add-user{
+}
+
+#users-list_wrapper{
+    margin-top : -30px;
+}
+
+#users-list{
+    th{
+        width : percentage(2 / @grid-columns) !important;
+        float : left;
+        .box-sizing;
+
+        &:first-child{
+            width : percentage(3 / @grid-columns) !important;
+        }
+
+        &:last-child{
+            width : percentage(1 / @grid-columns) !important;
+        }
+    }
+}
+
+// Plugins
+//==================================================
+#plugin-uploader{
+}
+#plugin-uploader-filelist{
+}
+#plugin-uploader, #plugin-uploader-filelist{
+    overflow    : hidden;
+    max-height  : 40px;
+    line-height : 40px;
+}
+.plugins-list{
+    .scroll;
+    height : 392px;
+
+    .plugin-item{
+        position : relative;
+        float    : left;
+        width    : 18%;
+        margin   : 1%;
+        padding  : 0;
+        overflow : hidden;
+        .box-shadow(4px 4px 3px #bbb);
+
+        &:hover{
+            .readme-plugin, .del-plugin{
+                .opacity(1);
+            }
+
+            .plugin-name{
+                //background : rgba(255, 255, 255, 0.9);
+                //color      : @text-color;
+            }
+        }
+
+        .readme-plugin, .del-plugin{
+            z-index    : 7;
+            text-align : center;
+            .opacity(0);
+        }
+
+        .readme-plugin{
+            color : #fff;
+        }
+
+        .del-plugin{
+            color : #f44645;
+        }
+
+        .plugin-name{
+            position   : relative;
+            z-index    : 5;
+            background : #2d82a3;
+            margin     : 0;
+            color      : #fff;
+            padding    : @padding-small-vertical 0 @padding-small-vertical @padding-small-horizontal;
+            .transition;
+            .text-overflow;
+            .box-shadow(0 1px 10px #206887);
+        }
+        .plugin-image{
+            height   : 129px;
+            overflow : hidden;
+            position : relative;
+        }
+        .plugin-control{
+            .btn-states(@btn-error-color, desaturate(@btn-error-bg, 25%), desaturate(@btn-error-border, 25%));
+
+            &.btn-block{
+                .btn-success;
+            }
+        }
+        .plugin-endis{
+            .btn-states(#fff, #2d81a2, #2d81a2);
+
+            &.btn-disable{
+                .btn-states(darken(@gray-light, 40%), darken(@gray-light, 10%), @gray-light);
+            }
+        }
+    }
+}
+
+.readme-content{
+    height: 450px !important;
+}

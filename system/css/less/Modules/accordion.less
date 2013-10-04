@@ -1,0 +1,157 @@
+// JQuery UI Accordion
+//==================================================
+.ui-accordion{
+    .ui-accordion-header{
+        display       : block;
+        position      : relative;
+        cursor        : pointer;
+        margin-top    : 2px;
+        margin-bottom : 0;
+        color         : @accordion-header-color;
+        font-weight   : normal;
+        background    : @accordion-header-bg;
+        padding       : @padding-base-vertical @padding-base-horizontal;
+        min-height    : 0; // support: IE7
+
+        a{
+            color : inherit;
+        }
+
+        &:hover{
+            color      : @accordion-header-color-hover;
+            background : @accordion-header-bg-hover;
+        }
+
+        &.ui-accordion-header-active{
+            color      : @accordion-header-color-active;
+            background : @accordion-header-bg-active;
+        }
+
+        &.ui-accordion-icons{
+            .ui-accordion-header-icon{
+                display      : inline-block;
+                *display     : inline;
+                margin-left  : -@padding-base-horizontal / 2;
+                margin-right : @padding-base-horizontal / 2;
+                .icon-size(14px);
+            }
+        }
+
+        &.ui-accordion-noicons{
+        }
+    }
+    .ui-accordion-content{
+        background    : @accordion-content-bg;
+        border        : @accordion-content-border-width solid @accordion-content-border-color;
+        border-top    : none;
+        margin-top    : 0;
+        margin-bottom : 0;
+        padding       : @padding-base-vertical @padding-base-horizontal;
+        overflow      : auto;
+    }
+}
+
+// Control Panel
+//==================================================
+#seotoaster-cpanel{
+    width    : 200px;
+    position : absolute;
+    right    : 5px;
+    top      : 0;
+    z-index  : 1100;
+    .box-shadow(0 0 10px @gray-dark);
+
+    #showhide a{
+        text-decoration : none;
+        background      : @cpanel-header-bg;
+        color           : @cpanel-header-color;
+        font-size       : 11pt;
+        padding         : @padding-base-vertical @padding-base-horizontal;
+        font-weight     : bold;
+        text-align      : center;
+        display         : block;
+    }
+
+    #seotoaster-logowrap{
+        background : #fff;
+        text-align : center;
+
+        img{ max-width : 200px; }
+
+        #system-version{
+            font-family   : tahoma, geneva, verdana, sans-serif !important;
+            font-size     : 7px !important;
+            text-align    : right;
+            padding-right : 5px;
+        }
+    }
+
+    #cpanelul{
+        margin : 0;
+        li{
+            list-style : none;
+            margin     : 0;
+            a{
+                display         : block;
+                text-decoration : none;
+                text-decoration : none;
+                font-size       : 16px;
+                padding         : 5px 10px;
+            }
+            .ui-accordion-header{
+                background  : @cpanel-header-bg;
+                margin      : 0 0 1px;
+                font-weight : bold;
+                color       : @cpanel-header-color;
+
+                &:hover{
+                    background : @cpanel-header-bg-hover;
+                    color      : @cpanel-header-color-hover;
+                }
+
+                &.ui-accordion-header-active{
+                    background : @cpanel-header-bg-active;
+                    color      : @cpanel-header-color-active;
+                }
+            }
+            .ui-accordion-content{
+                margin  : 0;
+                padding : 0;
+                border  : none;
+                a{
+                    background : none;
+                    color      : @link-color;
+
+                    &:hover{
+                        color : @link-color-hover;
+                    }
+                }
+
+                .cpanelsubtitle{
+                    padding    : @padding-base-vertical @padding-base-horizontal;
+                    background : @cpanel-subtitle-bg;
+                }
+            }
+        }
+    }
+
+    #logoutul{
+        margin : 0;
+        li{
+            list-style : none;
+            margin     : 0;
+            a{
+                display         : block;
+                font-weight     : bold;
+                text-decoration : none;
+                font-size       : 16px;
+                color           : @gray-light;
+                background      : @cpanel-header-bg;
+                padding         : @padding-base-vertical @padding-base-horizontal;
+                &:hover{
+                    background : desaturate(@brand-error, 20%);
+                }
+            }
+        }
+    }
+}

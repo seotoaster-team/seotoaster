@@ -278,10 +278,10 @@ button a,
   -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
-.alpha {
+html body .alpha {
   margin-left: 0;
 }
-.omega {
+html body .omega {
   margin-right: 0;
 }
 html body .grid_12 {

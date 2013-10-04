@@ -174,7 +174,7 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'updatePage',
 			'id'    => 'update-page',
-			'class' => 'mr-grid',
+			'form'  => 'frm-page',
 			'type'  => 'submit',
 			'value' => 'Save page',
 			'label' => '<span class="icon-save"></span> Save page',

@@ -16,6 +16,7 @@ $(function () {
         if (!loginCheck()) {
             return;
         }
+        $('.__tpopup').dialog( "close" );
         e.preventDefault();
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
@@ -79,7 +80,7 @@ $(function () {
             } else {
                 $('.smoke-base').remove();
             }
-        }, {classname: "alert-error", 'ok': 'Yes', 'cancel': 'No'});
+        }, {classname: "error", 'ok': 'Yes', 'cancel': 'No'});
     });
 
     //seotoaster ajax form submiting
@@ -130,7 +131,7 @@ $(function () {
                         if (typeof callback != 'undefined' && callback != null) {
                             eval(callback + '()');
                         }
-                    }, {classname: "alert-error"});
+                    }, {classname: "error"});
                 }
             },
             error: function (err) {
@@ -219,7 +220,7 @@ function loginCheck() {
 function showMessage(msg, err, delay) {
     if (err) {
         smoke.alert(msg, function (e) {
-        }, {classname: "alert-error"});
+        }, {classname: "error"});
         return;
     }
     smoke.signal(msg);
@@ -239,7 +240,7 @@ function showConfirm(msg, yesCallback, noCallback) {
                 noCallback();
             }
         }
-    }, {classname: 'alert-error', ok: 'Yes', cancel: 'No'});
+    }, {classname: 'error', ok: 'Yes', cancel: 'No'});
 }
 
 function showSpinner(e) {

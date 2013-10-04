@@ -1,4 +1,4 @@
-<div class="seotoaster container" id="addedit-page" xmlns="http://www.w3.org/1999/html">
+<div class="seotoaster container" id="addedit-page">
 	<?php // echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/page/top.phtml'))); ?>
 
 	<?php
@@ -42,7 +42,7 @@
 			<div id="fa-list" class="grid_12 items-list"></div>
 		</div>
 	</div>
-	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content">
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content-footer">
 		<fieldset class="grid_6 mb0px">
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Information'); ?></legend>
 			<p><?php echo $this->pageForm->getElement('h1'); ?></p>
@@ -52,7 +52,7 @@
 			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
 		</fieldset>
-		<fieldset class="grid_6 navigation mb30px">
+		<fieldset class="grid_6 navigation mb25px">
 			<legend class="h2"><?php echo $this->translate('Navigation'); ?></legend>
 			<div class="btn-set mb0px">
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
@@ -62,7 +62,7 @@
 				<div class="menu-info mt5px">Please select menu for this page</div>
 			</div>
 		</fieldset>
-		<fieldset class="grid_6 settings mb30px">
+		<fieldset class="grid_6 settings mb25px">
 			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
 			<div class="grid_8 alpha omega text-right featured-link mt0px">
 				<span class="icon-tags icon14"></span>
@@ -79,9 +79,9 @@
 				<?php echo $this->pageForm->getElement('extraOptions'); ?>
 			</div>
 		</fieldset>
-		<fieldset class="grid_6 mb5px">
+		<fieldset class="grid_6">
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
-			<div id="page-preview" class="grid_4 alpha background page-preview">
+			<div id="page-preview" class="grid_4 ml0 mr4 background page-preview">
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
 				<span class="icon-folder-upload hidden"><?php echo $this->translate('Choose you image');?></span>
 				<?php
@@ -99,8 +99,11 @@
 		<?php echo $this->pageForm->getElement('optimized'); ?>
 		<?php echo $this->pageForm->getElement('publishAt'); ?>
 		<?php echo $this->pageForm->getElement('pageType'); ?>
-		<?php echo $this->pageForm->getElement('updatePage'); ?>
 	</form>
+
+    <div class="footer grid_12">
+        <?php echo $this->pageForm->getElement('updatePage'); ?>
+    </div>
 </div>
 <script type="text/javascript">
 	$(function() {

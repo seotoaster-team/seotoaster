@@ -65,7 +65,7 @@ $(function() {
 		if(isCategory) {
 			$.getJSON(websiteUrl + 'backend/backend_page/checkforsubpages/pid/' + pageId, function(response) {
 				if(response.responseText.subpages) {
-					smoke.alert(response.responseText.message, {'classname':'errors'});
+					smoke.alert(response.responseText.message, {'classname':'error'});
 					return false;
 				} else {
 					showDelConfirm();
@@ -98,11 +98,11 @@ function showDelConfirm() {
 						top.location.href = websiteUrl;
 					}
 					else {
-						smoke.alert(response.responseText.body, {'classname':'errors'});
+						smoke.alert(response.responseText.body, {'classname':'error'});
 					}
 
 				}
 			})
 		}
-	}, {'classname':'errors', 'ok':'Yes', 'cancel':'No'});
+	}, {'classname':'error', 'ok':'Yes', 'cancel':'No'});
 }

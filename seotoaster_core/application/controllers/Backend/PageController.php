@@ -330,8 +330,6 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     public function linkslistAction() {
-        //external_link_list_url
-
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 

@@ -137,7 +137,7 @@ function deleteTemplate(templateContainer) {
 			});
 		} else {
 		}
-	}, {classname: 'alert-error', ok: 'Yes', cancel: 'No', value: "existential dread"});
+	}, {classname: 'error', ok: 'Yes', cancel: 'No', value: "existential dread"});
 }
 
 

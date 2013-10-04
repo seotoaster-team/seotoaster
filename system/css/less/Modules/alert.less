@@ -1,0 +1,132 @@
+.smoke-base .smokebg{
+    background      : rgba(255, 255, 255, 0.5);
+    -pie-background : rgba(255, 255, 255, 0.5);
+    position        : absolute;
+    left            : 0;
+    right           : 0;
+    top             : 0;
+    bottom          : 0;
+    z-index         : 100;
+}
+
+.alert,
+.message,
+.smoke-base .dialog,
+[class^="alert-"], [class*=" alert-"]{
+    padding : @padding-base-vertical @padding-base-horizontal;
+    .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+
+    .close{
+        position : relative;
+        top      : -2px;
+        right    : -21px;
+        color    : inherit;
+    }
+
+    p, ul, ol{
+        margin : 0;
+
+        &+p, &+ul, &+ol{
+            margin-top : 5px;
+        }
+    }
+
+    li{
+        list-style : none;
+        margin     : 0;
+
+        &+li{
+            margin-top : 0.5em;
+        }
+    }
+    a{
+        text-decoration : underline;
+
+        &:hover{
+            text-decoration : none;
+        }
+    }
+
+    .dialog-inner{
+
+        .dialog-buttons{
+            margin-top : 10px;
+            font-size  : @font-size-base;
+
+            button{
+                float  : none;
+                margin : 0 @padding-small-horizontal;
+                .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
+
+                &.cancel{
+                    .btn-states(@btn-error-color, @btn-error-bg, @btn-error-border);
+                }
+            }
+        }
+    }
+
+    // Alternate styles
+    // -------------------------
+    &.alert-success, &.success{
+        .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+    }
+    &.alert-warning, &.warning{
+        .alert-state(@state-warning-text, @state-warning-bg, @state-warning-border);
+    }
+    &.alert-error, &.error{
+        .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+    }
+    &.alert-info, &.info{
+        .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+    }
+
+    // Block alerts
+    // -------------------------
+    &.alert-block{
+        padding-top    : 15px;
+        padding-bottom : 15px;
+    }
+}
+
+.ui-state-error{
+    .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+}
+.ui-state-highlight{
+    .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+}
+
+.alert,
+.smoke-base .dialog,
+[class^="alert-"], [class*=" alert-"]{
+    position      : fixed;
+    top           : 40%;
+    left          : 0;
+    right         : 0;
+    z-index       : 101;
+    margin        : 0 auto;
+    width         : 400px;
+    font-size     : @font-size-larger;
+    text-align    : center;
+    border        : 2px solid;
+    border-radius : @state-border-radius;
+    .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
+
+    // Alternate styles
+    // -------------------------
+    &.alert-success, &.success{
+        .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
+    }
+    &.alert-warning, &.warning{
+        .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
+    }
+    &.alert-error, &.error{
+        .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
+    }
+    &.alert-info, &.info{
+        .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
+    }
+}
+
+.message{
+    border-left : 3px solid;
+}
