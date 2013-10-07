@@ -69,21 +69,22 @@
 
 // Brand Color
 //==================================================
+@brand-primary : #5BC0DE;
 @brand-success : #5cb85c;
 @brand-info    : #5bc0de;
 @brand-warning : #f0ad4e;
 @brand-error   : #d9534f;
 
 //main color website
-@site-color              : #5BC0DE;
-@site-color-hover        : darken(@site-color, 10%);
-@site-color-active       : @site-color;
-@site-color-disable      : desaturate(@site-color, 15%);
+@primary-bg              : @brand-primary;
+@primary-bg-hover        : darken(@primary-bg, 10%);
+@primary-bg-active       : @primary-bg;
+@primary-bg-disable      : desaturate(@primary-bg, 15%);
 //the color of the text relative to the main site colors
-@site-text-color         : #fff;
-@site-text-color-hover   : darken(@site-text-color, 5%);
-@site-text-color-active  : @site-text-color;
-@site-text-color-disable : desaturate(@site-text-color, 15%);
+@primary-color         : #fff;
+@primary-color-hover   : darken(@primary-color, 5%);
+@primary-color-active  : @primary-color;
+@primary-color-disable : desaturate(@primary-color, 15%);
 
 // Scaffolding
 //==================================================
@@ -99,8 +100,8 @@
 @header-inner-bg         : #aaa;
 @header-inner-color      : #fff;
 
-@text-select-bg          : @site-color;
-@text-select-color       : @site-text-color;
+@text-select-bg          : @primary-bg;
+@text-select-color       : @primary-color;
 
 // Links
 //==================================================
@@ -136,21 +137,21 @@
 //==================================================
 @state-border-radius  : @border-radius-base;
 
-@state-success-text   : #468847;
-@state-success-bg     : #dff0d8;
-@state-success-border : darken(spin(@state-success-bg, -10), 5%);
+@state-success-text   : #79985B;
+@state-success-bg     : #D8EFC1;
+@state-success-border : #B4D892;
 
-@state-info-text      : #3a87ad;
-@state-info-bg        : #d9edf7;
-@state-info-border    : darken(spin(@state-info-bg, -10), 5%);
+@state-info-text      : #52889B;
+@state-info-bg        : #B8E1F1;
+@state-info-border    : #A1C7D5;
 
-@state-warning-text   : #c09853;
-@state-warning-bg     : #fcf8e3;
-@state-warning-border : darken(spin(@state-warning-bg, -10), 5%);
+@state-warning-text   : #B49133;
+@state-warning-bg     : #FEEBB7;
+@state-warning-border : #E7D195;
 
-@state-error-text     : #b94a48;
-@state-error-bg       : #f2dede;
-@state-error-border   : darken(spin(@state-error-bg, -10), 5%);
+@state-error-text     : #B76973;
+@state-error-bg       : #F9BCC3;
+@state-error-border   : #F09DA7;
 
 // Tables
 //==================================================
@@ -171,8 +172,8 @@
 @btn-large-border-radius   : @btn-border-radius;
 @btn-small-border-radius   : @btn-border-radius;
 
-@btn-default-color         : @site-text-color;
-@btn-default-bg            : @site-color;
+@btn-default-color         : @primary-color;
+@btn-default-bg            : @primary-bg;
 @btn-default-border        : darken(@btn-default-bg, 10%);
 
 @btn-success-color         : #fff;
@@ -200,7 +201,7 @@
 
 @input-border-width       : 1px;
 @input-border-color       : #ccc;
-@input-border-color-focus : @site-color;
+@input-border-color-focus : @primary-bg;
 @input-border-radius      : 0;
 
 @input-color-placeholder  : #ccc;
@@ -211,8 +212,8 @@
 @thumbnail-border-color  : #ddd;
 @thumbnail-border-radius : @border-radius-base;
 @thumbnail-caption-bg    : fade(#000, 80%);
-@thumbnail-caption-color : @site-text-color;
-@thumbnail-box-shadow    : 0 0px 3px @site-color;
+@thumbnail-caption-color : @primary-color;
+@thumbnail-box-shadow    : 0 0px 3px @primary-bg;
 
 // JQuery UI Style
 //==================================================
@@ -295,7 +296,7 @@
 @datepicker-day-box-size      : 30px;
 @datepicker-day-font-size     : @font-size-mini;
 
-@datepicker-today-bg          : lighten(@site-color, 25%);
+@datepicker-today-bg          : lighten(@primary-bg, 25%);
 @datepicker-today-color       : @datepicker-header-color;
 @datepicker-current-day-bg    : lighten(@datepicker-header-bg, 5%);
 @datepicker-current-day-color : @datepicker-week-color;
@@ -304,7 +305,7 @@
 //=============================================================
 @autocomplete-bg            : @input-bg;
 @autocomplete-color         : @text-color;
-@autocomplete-item-bg-hover : @site-color;
+@autocomplete-item-bg-hover : @primary-bg;
 
 // JQuery UI Tooltip = http://jqueryui.com/tooltip/
 //=============================================================
@@ -324,8 +325,8 @@
 //=============================================================
 @progressbar-size         : 18px;
 @progressbar-bg           : @body-bg;
-@progressbar-border-color : darken(@site-color, 15%);
-@progressbar-range-bg     : @site-color;
+@progressbar-border-color : darken(@primary-bg, 15%);
+@progressbar-range-bg     : @primary-bg;
 
 // ScrollBars = http://codemug.com/html/custom-scrollbars-using-css/
 //=============================================================

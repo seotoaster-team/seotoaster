@@ -10,6 +10,42 @@
 }
 
 .alert,
+.smoke-base .dialog,
+[class^="alert-"], [class*=" alert-"]{
+    position      : fixed;
+    top           : 40%;
+    left          : 0;
+    right         : 0;
+    z-index       : 101;
+    margin        : 0 auto;
+    width         : 400px;
+    font-size     : @font-size-larger;
+    text-align    : center;
+    border        : 2px solid;
+    border-radius : @state-border-radius;
+    .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
+
+    // Alternate styles
+    // -------------------------
+    &.alert-success, &.success{
+        .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
+    }
+    &.alert-warning, &.warning{
+        .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
+    }
+    &.alert-error, &.error{
+        .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
+    }
+    &.alert-info, &.info{
+        .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
+    }
+}
+
+.message{
+    border-left : 3px solid;
+}
+
+.alert,
 .message,
 .smoke-base .dialog,
 [class^="alert-"], [class*=" alert-"]{
@@ -93,40 +129,4 @@
 }
 .ui-state-highlight{
     .alert-state(@state-info-text, @state-info-bg, @state-info-border);
-}
-
-.alert,
-.smoke-base .dialog,
-[class^="alert-"], [class*=" alert-"]{
-    position      : fixed;
-    top           : 40%;
-    left          : 0;
-    right         : 0;
-    z-index       : 101;
-    margin        : 0 auto;
-    width         : 400px;
-    font-size     : @font-size-larger;
-    text-align    : center;
-    border        : 2px solid;
-    border-radius : @state-border-radius;
-    .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
-
-    // Alternate styles
-    // -------------------------
-    &.alert-success, &.success{
-        .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
-    }
-    &.alert-warning, &.warning{
-        .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
-    }
-    &.alert-error, &.error{
-        .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
-    }
-    &.alert-info, &.info{
-        .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
-    }
-}
-
-.message{
-    border-left : 3px solid;
 }
