@@ -1,21 +1,16 @@
 <?php
 class IndexController extends Zend_Controller_Action {
 
-    protected $_config = array();
+    protected $_config = null;
 
     public function init() {
 		$this->_helper->ajaxContext->addActionContext('language', 'json')->initContext('json');
+        $this->_config = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
     }
 
     public function indexAction() {
-
-        if(($this->_config = $this->_helper->cache->load('website_config')) === null) {
-            $this->_config = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig();
-            $this->_helper->cache->save('website_config', $this->_config, '', array('websiteConfig'));
-        }
-
-		$page        = null;
-		$pageContent = null;
+		$page          = null;
+		$pageContent   = null;
 
         // @todo move it to separate method?
         $currentUser = $this->_helper->session->getCurrentUser();
@@ -86,7 +81,7 @@ class IndexController extends Zend_Controller_Action {
         }*/
 
         // mobile detect
-        if ((bool) $this->_config['enableMobileTemplates']){
+        if ((bool) $this->_config->getConfig('enableMobileTemplates')){
             if ($this->_helper->mobile->isMobile()){
                 if (null !== ($mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId()))){
                     $page->setTemplateId($mobileTemplate->getName())
@@ -105,7 +100,7 @@ class IndexController extends Zend_Controller_Action {
             $parserOptions = array(
                 'websiteUrl'   => $this->_helper->website->getUrl(),
                 'websitePath'  => $this->_helper->website->getPath(),
-                'currentTheme' => $this->_config['currentTheme'],
+                'currentTheme' => $this->_config->getConfig('currentTheme'),
                 'themePath'    => $themeData['path'],
             );
             $parser      = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
@@ -147,7 +142,7 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->currentTheme    = $parserOptions['currentTheme'];
 
 		// building canonical url
-		if ('' === ($canonicalScheme = isset($this->_config['canonicalScheme']) ? $this->_config['canonicalScheme']: '')){
+		if ('' === ($canonicalScheme = $this->_config->getConfig('canonicalScheme'))){
 			$canonicalScheme = $this->getRequest()->getScheme();
 		}
         $this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST).parse_url($parserOptions['websiteUrl'], PHP_URL_PATH).($pageData['url'] !== Helpers_Action_Website::DEFAULT_PAGE ? $pageData['url'] : '');
@@ -159,9 +154,9 @@ class IndexController extends Zend_Controller_Action {
 		}
 		$this->view->bodyTag  = $body[1];
 		$this->view->content  = $body[2];
-        $locale               = Zend_Locale::getLocaleToTerritory($this->_config['language']);
+        $locale               = Zend_Locale::getLocaleToTerritory($this->_config->getConfig('language'));
         $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
-        $this->view->minify   = $this->_config['enableMinify'] && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
+        $this->view->minify   = $this->_config->getConfig('enableMinify') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
 	}
 
 	private function _extendHead($pageContent) {

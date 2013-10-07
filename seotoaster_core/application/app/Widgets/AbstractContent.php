@@ -1,7 +1,7 @@
 <?php
 abstract class Widgets_AbstractContent extends Widgets_Abstract {
 
-    const OPTION_READONLY   = 'c_option_readonly';
+    const OPTION_READONLY   = 'readonly';
 
 	protected $_acl         = null;
 

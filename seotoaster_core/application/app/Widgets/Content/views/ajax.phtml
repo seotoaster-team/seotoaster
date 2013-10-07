@@ -1,11 +1,15 @@
-<?php
-    $widget = ($this->type == Application_Model_Models_Container::TYPE_STATICCONTENT) ? 'content:' . $this->name . ':static' : 'content:' . $this->name;
-?>
 <script type="text/javascript">
     $(function() {
-        $.get('<?php echo $this->websiteUrl?>backend/backend_content/ajaxcontent', {'pageId': '<?php echo $this->pageId;?>', 'widget': '<?php echo $widget;?>'}, function(resp) {
-            var content = $('div.<?php echo md5($this->name . $this->type); ?>');
-            $(content).empty().html(resp.responseText);
+        //api/toaster/containers/id/220/pid/1/
+        $.get('<?php echo $this->websiteUrl?>api/toaster/containers/', {
+                pid  : '<?php echo $this->pageId;?>',
+                name : '<?php echo $this->name;?>',
+                type : '<?php echo $this->type;?>',
+                co   : 1
+            },
+            function(resp) {
+                var content = $('div.<?php echo md5($this->name . $this->type); ?>');
+                $(content).empty().html(resp + '<?php echo $this->controls; ?>');
         }, 'json');
     });
 </script>
