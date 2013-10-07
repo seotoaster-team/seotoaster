@@ -22,7 +22,9 @@
 		</form>
 	</div>
 	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions')); ?>
-	<button id="save-actions" class="fl-right mr-grid" name="saveActions" type="submit" value="Save changes"><span class="icon-save"></span> Save changes</button>
+    <div class="footer grid_12">
+        <button id="save-actions" name="saveActions" type="submit" value="Save changes"><span class="icon-save"></span> Save changes</button>
+    </div>
 
 <script id="triggerActionTemplate" type="text/x-jquery-tmpl">
     {{each(key, trigger) triggers}}

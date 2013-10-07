@@ -22,15 +22,13 @@
     .box-sizing();
 }
 
-html body{
-    .alpha{ margin-left : 0; }
-    .omega{ margin-right : 0; }
-    .grid(@grid-columns);
-    .prefix(@grid-columns - 1);
-    .suffix(@grid-columns - 1);
-    .push(@grid-columns - 1);
-    .pull(@grid-columns - 1);
-}
+.grid(@grid-columns);
+.alpha{ margin-left : 0; }
+.omega{ margin-right : 0; }
+.prefix(@grid-columns - 1);
+.suffix(@grid-columns - 1);
+.push(@grid-columns - 1);
+.pull(@grid-columns - 1);
 
 .clear{
     clear      : both;

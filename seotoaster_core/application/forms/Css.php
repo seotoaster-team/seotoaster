@@ -14,7 +14,8 @@ class Application_Form_Css extends Zend_Form {
 
 		$this->addElement('select', 'cssname', array(
 			'required'	=> true,
-			'id'		=> 'csslist'
+			'id'		=> 'csslist',
+			'class'		=> 'w70'
 		));
         $this->getElement('cssname')->setDisableTranslator(true);
 

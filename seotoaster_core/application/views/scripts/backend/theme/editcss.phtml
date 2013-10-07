@@ -1,5 +1,5 @@
 <div class="seotoaster container">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => '<div class="grid_10">' . $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper') . '</div>', 'helpSection' => $this->helpSection)); ?>
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'), 'helpSection' => $this->helpSection)); ?>
 
 	<div class="content grid_12">
 		<?php

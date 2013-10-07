@@ -7,7 +7,7 @@
 	display        : inline-block;
 	*display       : inline;
 	margin-bottom  : 0; // For input.btn
-	padding        : @padding-base-vertical + @input-border-width  @padding-base-horizontal;
+	padding        : (@padding-base-vertical - (@btn-border-width - @input-border-width))  @padding-base-horizontal;
 	font-weight    : 600;
 	line-height    : normal;
 	text-indent    : 0;
@@ -20,7 +20,7 @@
 	position       : relative;
 	.transition(background-color, 0.3s);
 	.border-radius(@btn-border-radius);
-	.btn-states(@btn-default-color, @btn-default-bg, @btn-default-border);
+    .btn-states(@primary-color, @primary-bg, @primary-bg);
     }
 
 // Button with icon
@@ -46,7 +46,7 @@
 .btn-link{
 	font-weight : normal;
 	padding     : 0;
-	.btn-states(@link-color, transparent, transparent);
+	.btn-states(@link-color);
 
 	&:hover, &:focus{
 		color           : @link-color-hover;
@@ -57,19 +57,19 @@
 	// --------------------------------------------------
 	// Warning appears as orange
 	&.btn-warning, &.warning{
-		.btn-states(@brand-warning, transparent, transparent);
+		.btn-states(@brand-warning);
 	}
 	// Danger and error appear as red
 	&.btn-error, &.error{
-		.btn-states(@brand-error, transparent, transparent);
+		.btn-states(@brand-error);
 	}
 	// Success appears as green
 	&.btn-success, &.success{
-		.btn-states(@brand-success, transparent, transparent);
+		.btn-states(@brand-success);
 	}
 	// Info appears as blue
 	&.btn-info, &.info{
-		.btn-states(@brand-info, transparent, transparent);
+		.btn-states(@brand-info);
 	}
 }
 
@@ -80,7 +80,7 @@
 	display      : inline-block;
 	border-width : @btn-border-width;
 	border-style : solid;
-	border-color : @btn-default-border;
+	border-color : @primary-bg;
 	width        : auto;
 	float        : none;
 
@@ -151,7 +151,7 @@
 
 // Button appears as transparent
 .btn-transparent{
-	.btn-states(@text-color, transparent, transparent);
+	.btn-states(@text-color);
 }
 
 .btn-footer{

@@ -354,12 +354,12 @@
 
 // Thumbnail state style
 //==================================================
-.thumbnail-state(@radius: @thumbnail-border-radius, @background: @thumbnail-bg, @border-color: @thumbnail-border-color, @padding:3px) {
+.thumbnail-state(@radius: @thumbnail-border-radius, @background: @thumbnail-bg, @border-color: @thumbnail-border-color, @padding:2px) {
     position   : relative;
     background : @background;
-    border     : @padding solid #fff;
+    border     : @padding solid @body-bg;
     .box-shadow(2px 2px 2px darken(@border-color, 20%));
-    .transition();
+    .transition(all, 0.3s);
     .border-radius(@radius);
 
     &>img{ }
@@ -373,13 +373,29 @@
 //==================================================
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
-.btn-states(@color:@btn-default-color, @background:@btn-default-bg, @border:@btn-default-border) when not (@background = transparent) and not (@border = transparent) {
-    &, &:visited{
-        color            : @color;
-        background-color : @background;
-        border-color     : @border;
-        text-decoration  : none;
+.btn-states( @color ) {
+    color : @color;
+    background-color : transparent !important;
+    border-color     : transparent !important;
+
+    &:hover, &:focus, &:active, &.active, &.ui-state-active{
+        color : darken(@color, 10%);
+        .box-shadow(none);
     }
+
+    &.disabled, &[disabled], fieldset[disabled] &{
+        &, &:hover, &:focus, &:active, &.active{
+            color           : desaturate(@color, 30%);
+            text-decoration : none;
+            .box-shadow(none);
+        }
+    }
+}
+
+.btn-states( @color, @background, @border){
+    color            : @color;
+    background-color : @background;
+    border-color     : @border;
 
     &:hover, &:focus, &:active, &.active, &.ui-state-active{
         color            : @color;
@@ -401,49 +417,12 @@
         }
     }
 }
-.btn-states(@color:@btn-default-color, @background:@btn-default-bg, @border:@btn-default-border) when (@background = transparent), (@border = transparent){
-    &, &:visited{
-        color            : @color;
-        background-color : @background;
-        border-color     : @border;
-        text-decoration  : none;
-    }
 
-    &:hover, &:focus, &:active, &.active, &.ui-state-active{
-        color            : darken(@color, 10%);
-        background-color : @background;
-        border-color     : @border;
-    }
-
-    &:active, &.active, &.ui-state-active{
-        .box-shadow(none);
-    }
-
-    &.disabled, &[disabled], fieldset[disabled] &{
-        &, &:hover, &:focus, &:active, &.active{
-            .box-shadow(none);
-            color            : desaturate(@color, 30%);
-            background-color : @background;
-            border-color     : @border;
-            text-decoration  : none;
-        }
-    }
-}
-.btn-states(
-    @color       : @text-color,
-    @color2      : @btn-default-color,
-    @background  : transparent,
-    @background2 : @btn-default-bg,
-    @border      : @btn-default-border,
-    @border2     : @btn-default-border,
-    @btn-style   : false
-) when (@btn-style = true){
-    &, &:visited{
-        color            : @color;
-        background-color : @background;
-        border-color     : @border;
-        text-decoration  : none;
-    }
+.btn-states( @color, @background, @border, @color2, @background2, @border2 ){
+    color            : @color;
+    background-color : @background;
+    border-color     : @border;
+    text-decoration  : none;
 
     &:hover, &:focus, &:active, &.active, &.ui-state-active{
         color            : @color2;

@@ -1,84 +1,83 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(/*'headerText' => 'Manage config',*/ 'helpSection' => $this->helpSection)); ?>
-
 	<form id="tabs" action="<?php echo $this->configForm->getAction(); ?>" method="<?php echo $this->configForm->getMethod();?>">
-			<ul class="header">
-				<li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
-				<li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
+        <ul class="header">
+            <li><a href="#general-config"><?php echo $this->translate('General');?></a></li>
+            <li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
 <!--				<li><a href="#action-triggers">--><?php //echo $this->translate('Action emails'); ?><!--</a></li>-->
-				<?php if ($this->isSuperAdmin): ?>
-					<li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
-					<li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
-                    <li><a href="#securityForm-config"><?php echo $this->translate('Security'); ?></a></li>
-				<?php endif; ?>
-			</ul>
-			<div id="general-config" class="content-small-footer">
-				<?php echo $this->configForm->getElement('currentTheme');?>
-				<div class="grid_6">
-				<?php echo $this->configForm->getElement('language')->renderLabel(); ?>
-				</div>
-				<div class="grid_6">
-				<?php echo $this->configForm->getElement('language')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('imgSmall')->renderLabel(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('imgSmall')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('imgMedium')->renderLabel(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('imgMedium')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('imgLarge')->renderLabel(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('teaserSize')->renderLabel(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-				<?php echo $this->configForm->getElement('teaserSize')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-					<?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-					<?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?>
-				</div>
+            <?php if ($this->isSuperAdmin): ?>
+                <li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
+                <li><a href="#advaced-config"><?php echo $this->translate('Advanced'); ?></a></li>
+                <li><a href="#securityForm-config"><?php echo $this->translate('Security'); ?></a></li>
+            <?php endif; ?>
+        </ul>
+        <div id="general-config" class="content-small-footer">
+            <?php echo $this->configForm->getElement('currentTheme');?>
+            <div class="grid_6">
+            <?php echo $this->configForm->getElement('language')->renderLabel(); ?>
+            </div>
+            <div class="grid_6">
+            <?php echo $this->configForm->getElement('language')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('imgSmall')->renderLabel(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('imgSmall')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('imgMedium')->renderLabel(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('imgMedium')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('imgLarge')->renderLabel(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('teaserSize')->renderLabel(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+            <?php echo $this->configForm->getElement('teaserSize')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+                <?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+                <?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?>
+            </div>
 
-				<?php echo $this->configForm->getElement('adminEmail');?>
-				<?php echo $this->configForm->getElement('superadminLogin');?>
-				<?php echo $this->configForm->getElement('superadminPassword');?>
+            <?php echo $this->configForm->getElement('adminEmail');?>
+            <?php echo $this->configForm->getElement('superadminLogin');?>
+            <?php echo $this->configForm->getElement('superadminPassword');?>
 
-			</div>
-			<div id="email-config" class="content-small-footer">
-				<div class="grid_3 mt10px">
-				<?php echo $this->configForm->getElement('useSmtp')->renderLabel(); ?>
-				</div>
-				<div class="grid_9 mt10px">
-				<?php echo $this->configForm->getElement('useSmtp')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_6 mt10px">
-					<?php echo $this->configForm->getElement('smtpHost')->renderLabel(); ?>
-					<?php echo $this->configForm->getElement('smtpHost')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_4 alpha mt10px">
-					<?php echo $this->configForm->getElement('smtpPort')->renderLabel(); ?>
-					<?php echo $this->configForm->getElement('smtpPort')->renderViewHelper(); ?>
-				</div>
-				<div class="grid_2 alpha mt10px">
-					<?php echo $this->configForm->getElement('smtpSsl')->renderLabel(); ?>
-					<?php echo $this->configForm->getElement('smtpSsl')->renderViewHelper(); ?>
-				</div>
-				<?php echo $this->configForm->getElement('smtpLogin'); ?>
-				<?php echo $this->configForm->getElement('smtpPassword'); ?>
-			</div>
+        </div>
+        <div id="email-config" class="content-small-footer">
+            <div class="grid_3 mt10px">
+            <?php echo $this->configForm->getElement('useSmtp')->renderLabel(); ?>
+            </div>
+            <div class="grid_9 mt10px">
+            <?php echo $this->configForm->getElement('useSmtp')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_6 mt10px">
+                <?php echo $this->configForm->getElement('smtpHost')->renderLabel(); ?>
+                <?php echo $this->configForm->getElement('smtpHost')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_4 alpha mt10px">
+                <?php echo $this->configForm->getElement('smtpPort')->renderLabel(); ?>
+                <?php echo $this->configForm->getElement('smtpPort')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_2 alpha mt10px">
+                <?php echo $this->configForm->getElement('smtpSsl')->renderLabel(); ?>
+                <?php echo $this->configForm->getElement('smtpSsl')->renderViewHelper(); ?>
+            </div>
+            <?php echo $this->configForm->getElement('smtpLogin'); ?>
+            <?php echo $this->configForm->getElement('smtpPassword'); ?>
+        </div>
 
 <!--			<div id="action-triggers" class="clearfix h200" style="overflow-x: hidden; overflow-y: scroll;">-->
 <!--				<div><button class="blue-btn" id="new-trigger-action">--><?php //echo $this->translate('Add'); ?><!--</button></div>-->
@@ -138,9 +137,8 @@
 				</div>
 			</div>
 		<?php endif; ?>
-
-		<div class="grid_12 footer"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>
 	</form>
+    <div class="grid_12 footer"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>
 </div>
 <script type="text/javascript">
 	$(function(){

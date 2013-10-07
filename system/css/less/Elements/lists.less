@@ -1,6 +1,6 @@
 ul, ol{
-    margin-left   : 2.5em;
     margin-bottom : 1.5em;
+    margin-left   : 2.5em;
 
     ol, ul{
         margin    : 0.3em 0 1em 2.5em;
@@ -15,12 +15,16 @@ ul, ol{
 
     &.list-unstyled{
         list-style-type : none;
-        margin-left     : 0.5em;
+        &:not([class*="ml"]):not([class*="alpha"]){
+         margin-left     : 0.5em;
+        }
     }
 
     &.list-inline{
-        margin-left     : 0;
         list-style-type : none;
+        &:not([class*="ml"]):not([class*="alpha"]){
+            margin-left     : 0;
+        }
 
         &>li{
             margin : 0 0.5em;
