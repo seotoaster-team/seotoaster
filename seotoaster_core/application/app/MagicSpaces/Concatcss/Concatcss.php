@@ -44,7 +44,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $cacheKey    = $this->_cacheKey();
 
             if (null === ($content = $cacheHelper->load($cacheKey, $this->_cachePrefix))) {
-                $this->_cacheTags   = array_merge($this->_cacheTags, $this->_templateFiles());
+                $cssTag = array();
+                foreach ($this->_templateFiles() as $file) {
+                    $cssTag[] = preg_replace('/[^\w\d_]/', '', basename($file));
+                }
+                $this->_cacheTags   = array_merge($this->_cacheTags, $cssTag);
                 $this->_cacheTags[] = $this->_toasterData['templateId'];
 
                 $content = $this->_generatorFiles();
@@ -71,7 +75,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         $this->_cacheId = strtolower(get_called_class());
 
         $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        $this->_cacheId .= '_' . $roleId . '_' . substr(md5($this->_toasterData['templateId']), 0, 10);
+        $this->_cacheId .= '_'.$roleId.'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
 
         return $this->_cacheId;
     }

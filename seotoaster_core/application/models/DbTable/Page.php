@@ -99,6 +99,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
     public function findByUrl($pageUrl = Helpers_Action_Website::DEFAULT_PAGE) {
         $where      = $this->getAdapter()->quoteInto('page.url = ?', $pageUrl);
+        $orWhere    = $this->getAdapter()->quoteInto('optimized.url = ?', $pageUrl);
         $select     = $this->_getOptimizedSelect(false, array('id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news'));
 
         $select->join('template', 'page.template_id=template.name', null)
@@ -109,7 +110,8 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             ->columns(array(
                 'containers' => new Zend_Db_Expr("GROUP_CONCAT(`container`.`name`,'CONTAINER_VAL_SEP',`container`.`content`,'CONTAINER_VAL_SEP',`container`.`id`,'CONTAINER_VAL_SEP',`container`.`published`, 'CONTAINER_VAL_SEP',`container`.`publishing_date` SEPARATOR 'CONTAINER_SEP')")
             ))
-            ->where($where);
+            ->where($where)
+            ->orWhere($orWhere);
 
         $row = $this->getAdapter()->fetchRow($select);
 

@@ -26,8 +26,22 @@ class Api_Toaster_Containers extends Api_Service_Abstract {
         // return only content for the containers
         $contentOnly = $this->_request->getParam('co', false);
         $mapper      = Application_Model_Mappers_ContainerMapper::getInstance();
+        $parser      = new Tools_Content_Parser(null, array(), array('websiteUrl' => Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl()));
+
+        // querying all containers
         if(!$containerId) {
-            // return all containers
+            $containers = $mapper->fetchAll();
+            if(empty($containers)) {
+                return $this->_error('404 Containers not found.', self::REST_STATUS_NOT_FOUND);
+            }
+            return array_map(function($container) use($contentOnly, $parser) {
+                $container = $container->toArray();
+                $page      = ($container['pageId']) ? Application_Model_Mappers_PageMapper::getInstance()->find($container['pageId']) : null;
+
+                $parser->setPageData(($page instanceof Application_Model_Models_Page) ? $page->toArray() : array());
+                $container['content'] = $parser->setContent($container['content'])->parseSimple();
+                return $contentOnly ? array($container['name'] => $container['content']) : $container;
+            }, $containers);
         }
 
         $type      = $this->_request->getParam('type', Application_Model_Models_Container::TYPE_REGULARCONTENT);
@@ -35,10 +49,20 @@ class Api_Toaster_Containers extends Api_Service_Abstract {
         $container = is_integer($containerId) ? $mapper->find($containerId) : $mapper->findByName($containerId, $pageId, $type);
 
         if(!$container instanceof Application_Model_Models_Container) {
-            $this->_error('404 Container not found', self::REST_STATUS_NOT_FOUND);
+            $container = new Application_Model_Models_Container(array(
+                'containerType' => $type,
+                'name'          => $containerId
+            ));
+        } else {
+            if(!$pageId) {
+                $pageId = $container->getPageId();
+            }
+            $page = ($pageId) ? Application_Model_Mappers_PageMapper::getInstance()->find($container->getPageId()) : null;
+            $parser->setPageData(($page instanceof Application_Model_Models_Page) ? $page->toArray() : array())
+                ->setContent($container->getContent());
+            $container->setContent($parser->parseSimple());
         }
-
-        return ($contentOnly) ? $container->getContent() : $container;
+        return ($contentOnly) ? array($container->getName() => $container->getContent()) : $container->toArray();
     }
 
     public function postAction() {}
