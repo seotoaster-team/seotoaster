@@ -1085,6 +1085,20 @@
     'Store Products'    => 'Magasin : Produits',
     'Store Profile'     => 'Magasin : Profil',
     'Enter the words above' => 'Entrez les mots ci-dessus',
-    'Please enter this code in the box below' => 'Entrez le code dans le cadre ci-dessous SVP'
-
+    'Please enter this code in the box below' => 'Entrez le code dans le cadre ci-dessous SVP',
+    'Send me a quote' => 'devis gratuit',
+    'add to email list' => 'ajouter emails a mes listes',
+    'Connect your CMS with 3rd party APPS' => 'Interconnecter votre CMS aux applications tierces',
+    'Thank you for your submission' => 'Merci pour votre message',
+    'Thank you for your feedback' => 'Merci de votre participation',
+    'This form was submitted from' => 'Ce formulaire vous a été envoyé a partir de',
+    'Notifications @ ' => 'Notifications @ ',
+    'Welcome!' => 'Bienvenue !',
+    'New user is registered!' => 'Un nouvel utilisateur s’est enregistré !',
+    'Please reset your password' => 'Veuillez  créer un nouveau mot de passe',
+    'password recovery system' => 'système de gestion des mots de passe',
+    'Your password successfully changed' => 'Votre mot de passe a été modifié avec succès',
+    'form submitted' => 'formulaire a été envoyé',
+    'New' => 'Nouveau',
+    'Billing info'=>'Infos facturation'
 );?>

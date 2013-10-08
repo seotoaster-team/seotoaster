@@ -8,8 +8,11 @@
             },
             function(resp) {
                 var content = $('div.<?php echo md5($this->name . $this->type); ?>');
-                $(content).empty().html(resp['<?php echo $this->name; ?>'] + '<?php echo $this->controls; ?>');
+                content.empty();
+                if(typeof resp !== 'undefined') {
+                    content.html(resp['<?php echo $this->name; ?>'] + '<?php echo $this->controls; ?>');
+                }
         }, 'json');
     });
 </script>
-<div class="ajax-content <?php echo md5($this->name . $this->type); ?>"><?php echo $this->translate('Please wait'); ?>...</div>
+<div class="ajax-content <?php echo md5($this->name . $this->type); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif"></div>
