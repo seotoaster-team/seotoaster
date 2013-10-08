@@ -31,11 +31,12 @@
 
 .toaster-icon,
 [class^="icon-"]:before, [class*=" icon-"]:before,[data-icon]:before,
-input[type="checkbox"]+span:before, .spinner:after,
+input[type="checkbox"]:not(.hidden)+span:before,
 [class^="ui-icon-"]:before, [class*=" ui-icon-"]:before,
 .sorting:after, .sorting_asc:after, .sorting_desc:after,
 .ui-datepicker-prev:before, .ui-datepicker-next:before, .ui-dialog:before, .ui-accordion-header-icon:before,
 .search-choice-close:before, .screen-size:before{
+    .inline-block;
 	font-family            : 'toaster-icons';
 	font-style             : normal;
 	speak                  : none;
@@ -43,14 +44,13 @@ input[type="checkbox"]+span:before, .spinner:after,
     text-transform          : none;
     -webkit-font-smoothing  : antialiased;
     -moz-osx-font-smoothing : grayscale;
-	display                : inline;
 	line-height            : 1;
 	position               : relative;
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before{
-    content                 : attr(data-icon);
+    content : attr(data-icon);
 }
 
 .icon-edit:before{
@@ -80,7 +80,7 @@ input[type="checkbox"]+span:before, .spinner:after,
 .icon-help:before{
 	content : "\e004";
 }
-.icon-ok:before, input[type="checkbox"]:not(.icon)+span:before, .ui-icon-check:before{
+.icon-ok:before, input[type="checkbox"]:not(.icon):not(.hidden)+span:before, .ui-icon-check:before{
 	content : "\f00c";
 }
 .icon-search:before{
@@ -156,7 +156,7 @@ input[type="checkbox"]+span:before, .spinner:after,
 .icon-copy-2:before{
 	content : "\e00d";
 }
-.icon-spinner:before, .spinner:after, .ui-dialog:before{
+.icon-spinner:before{
 	content : "\e00e";
 }
 .icon-box-add:before{

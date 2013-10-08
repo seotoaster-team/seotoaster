@@ -1,63 +1,66 @@
 #new-post{
-	#newslog-frm-newpost{
-		#teaser-text{
-			height : 85px;
-		}
-	}
+    #newslog-frm-newpost{
+        #teaser-text{
+            height : 85px;
+        }
+    }
 
-	#templatelist{
-		height   : 115px;
-		overflow : auto;
+    #templatelist{
+        height   : 115px;
+        overflow : auto;
 
-		.template_delete{
-			display : none;
-		}
-	}
+        .template_delete{
+            display : none;
+        }
+    }
 
-	#news-tags{
-		overflow : auto;
-		height   : 224px;
-		.tag-widget{
-			float      : left;
-			width      : 32%;
-			margin     : 0 0.5% 1%;
-			padding    : 2px 5px 0px;
-			background : @gray-light;
-			.box-sizing;
+    #news-tags{
+        overflow : auto;
+        height   : 224px;
 
-			label{
-				.text-overflow;
-				cursor : pointer;
+        .tag-widget{
+            float  : left;
+            width  : 32%;
+            margin : 0 0.666% 1%;
+            .box-sizing;
 
-				.tag-editable{
-				}
-			}
-		}
-	}
+            label{
+                cursor : pointer;
+                .tag-editable{
+                }
+            }
+        }
+    }
 
-	#manage-posts{
-		.news-item{
-			.background;
-			padding    : 5px;
-			margin-top : 4%;
+    #manage-posts{
+        .news-item{
+            .box-shadow(0 1px 1px #BBB);
+            background : @gray-lighter;
+            cursor     : pointer;
+            padding    : 5px;
+            margin-top : 4%;
 
-			&:first-child, &:first-child+.news-item, &:first-child+.news-item+.news-item{
-				margin-top : 0;
-			}
+            &:first-child, &:first-child+.news-item, &:first-child+.news-item+.news-item{
+                margin-top : 0;
+            }
 
-			.news-item-img{
-				img{ }
-			}
-			.news-item-title{
-				margin-top : 0.2em;
-				display    : block;
-				font-size  : 1.1em;
-				.text-overflow;
-			}
-			.news-item-additional{
-				font-size : @font-size-small;
-				color     : @gray;
-			}
-		}
-	}
+            &:hover{
+                background : @gray-light;
+            }
+
+            .news-item-img{
+                img{ }
+            }
+            .news-item-title{
+                margin-top : 0.2em;
+                display    : block;
+                font-size  : 1.1em;
+                .text-overflow;
+            }
+            .news-item-additional{
+                font-size : @font-size-small;
+                color     : @gray;
+            }
+        }
+    }
 }

@@ -135,7 +135,10 @@ img {
 ._lbox,
 .gall {
   display: inline-block;
+  *zoom: 1;
   *display: inline;
+  /* Fix for IE7 */
+
   vertical-align: middle;
 }
 a.generator-links img,
@@ -158,6 +161,7 @@ a.generator-links:hover img {
   border: 1px solid #cccccc;
   cursor: text;
   font-size: 0.85em;
+  padding: 2px 4px;
 }
 fieldset {
   border: 0;

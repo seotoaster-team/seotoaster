@@ -21,8 +21,7 @@ form, .form{
         .box-sizing();
 
         &:not([class*="mt"]){
-            margin-top : 0.75em
-        ;
+            margin-top : 0.75em;
         }
         &:not([class*="mb"]){
             margin-bottom : 0;
@@ -222,11 +221,10 @@ textarea{
 
 // -- Checkbox & Radio field style
 .checkbox_radio{
-    display        : inline-block;
-    *display       : inline;
-    vertical-align : middle;
+    .inline-block();
+    line-height : 0;
 }
-input[type="checkbox"], input[type="radio"]{
+input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
     -webkit-appearance : none;
     -moz-appearance    : none;
     appearance         : none;
@@ -268,7 +266,7 @@ input[type="checkbox"], input[type="radio"]{
         }
     }
 }
-input[type="radio"]{
+input[type="radio"]:not(.hidden){
     &+span{
         border-color : darken(@input-border-color, 7%);
         .border-radius(@font-size-base * 2);
@@ -291,7 +289,7 @@ input[type="radio"]{
         }
     }
 }
-input[type="checkbox"]:not(.icon){
+input[type="checkbox"]:not(.icon):not(.hidden){
     &+span{
         color : transparent;
     }
@@ -378,12 +376,12 @@ input.icon{
         .icon-size(42px);
 
         &:hover{
-            color: darken(@gray-light, 10%);
+            color : darken(@gray-light, 10%);
         }
     }
 
     &~input{
-        border-color: transparent;
+        border-color : transparent;
 
         &:empty~.icon-facebook{
         }

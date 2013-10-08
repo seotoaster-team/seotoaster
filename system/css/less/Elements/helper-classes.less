@@ -197,34 +197,9 @@
     right            : 0;
     z-index          : 100;
     background-color : rgba(255, 255, 255, 0.5);
-
-    &:after{
-        font-size : 100px;
-        position  : absolute !important;
-        top       : 0;
-        right     : 0;
-        bottom    : 0;
-        left      : 0;
-        z-index   : -1;
-        height    : 100px;
-        width     : 100px;
-        margin    : auto;
-        color     : #EEE;
-        .animated;
-        .rotate;
-        .repeat;
-    }
-
-    .ie &{
-        background-image    : url("../images/spinner.gif");
-        background-position : center center;
-        background-repeat   : no-repeat;
-
-        &:after{
-            content : '';
-            display : none;
-        }
-    }
+    background-image    : url("../images/spinner.GIF");
+    background-position : center center;
+    background-repeat   : no-repeat;
 }
 
 .show-right, .show-left{
@@ -283,8 +258,7 @@
 
     &:after, &:before{
         content        : '';
-        display        : inline-block;
-        vertical-align : middle;
+        .inline-block();
         height         : 1px;
         width          : 0.6em;
         background     : #CCC;
