@@ -175,7 +175,7 @@
 	'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Заполните данные о вашей коммерческой деятельности или, как нам нравится это называть, визитку веб-сайта, для того чтобы облегчить индексацию вашего сайта в поисковых системах.',
 
 	/* Widget mobile */
-	'Go to full site' => 'Полная версия сайта ',
+	'Go to full site' => 'Полная версия сайта',
 	'Go to mobile site' => 'Мобильная версия сайта',
 );
 ?>
