@@ -34,8 +34,8 @@
             }
 
             .ui-accordion-content{
-                padding    : 5px;
-                max-height : 160px;
+                padding : 5px;
+                max-height  : 167px;
             }
 
         }
@@ -78,12 +78,8 @@
                     overflow : auto;
 
                     a{
-                        .inline-block(top);
-                        .box-sizing();
-                        text-align : center;
                         width      : 31%;
                         margin     : 1%;
-                        .thumbnail-state(0);
 
                         img{ }
                     }
@@ -92,12 +88,12 @@
                 &.full-screen{
 
                     .list-images{
-                        height  : @tpopup-base-height - @header-height - 10px *2;
+                        height : @tpopup-base-height - @header-height - 10px *2;
                     }
 
                     a{
-                        width  : 9.5%;
-                        margin : 0.25%;
+                        width  : 9%;
+                        margin : 0.5%;
                     }
                 }
             }
@@ -117,6 +113,11 @@
         #content{
             height : 430px;
         }
+
+        #content_widgets_text{
+            padding : 0 @padding-small-horizontal;
+            width   : auto;
+        }
     }
 }
 
@@ -130,12 +131,16 @@
         position   : relative;
         float      : left;
         width      : 15%;
-        margin     : 0 0 2% 2%;
+        margin     : 2% 0 0 2%;
         text-align : center;
         overflow   : hidden;
         background : @gray-lighter;
         .transition;
         .box-shadow(0 1px 1px #BBB);
+
+        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6){
+            margin-top : 0;
+        }
 
         &:nth-child(6n+1){
             margin-left : 0;
@@ -154,13 +159,13 @@
         .brand{
             color       : @gray;
             background  : @gray-light;
-            padding     : @padding-small-vertical 0;
+            padding     : 1px 0;
             font-weight : bold;
         }
 
         .image{
-            height      : 75px;
-            line-height : 75px;
+            height      : 67px;
+            line-height : 67px;
 
             img{
                 width : 100%;
@@ -174,7 +179,7 @@
         .sku{
             color      : @gray;
             text-align : right;
-            padding    : @padding-small-vertical @padding-small-horizontal;
+            padding    : 2px 4px;
             background : @gray-light;
         }
     }

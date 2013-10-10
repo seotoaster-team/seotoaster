@@ -13,14 +13,14 @@
 						<li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
 						<li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
 					</ul>
-					<div id="filebrowser-images" class="filebrowser-zone"></div>
+					<div id="filebrowser-images" class="filebrowser-zone list-images"></div>
 					<div id="filebrowser-files" class="filebrowser-zone"></div>
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="grid_12 footer">
-		<button id="deleteBtn" class="btn-error grid_12"><?php echo $this->translate('Delete Selected');?></button>
+		<button id="deleteBtn" class="btn-block btn-error"><?php echo $this->translate('Delete Selected');?></button>
 	</div>
 </div>
 <script id="imageContainerTemplate" type="text/x-jquery-tmpl">
@@ -140,10 +140,10 @@
             data: fileForm.serialize(),
             dataType: 'json',
             beforeSend: function(){
-                $('#deleteBtn').hide();
+                showSpinner('#filebrowser')
             },
             complete: function(){
-                $('#deleteBtn').show();
+                hideSpinner()
             },
             success: function(response) {
                 proccessError(response);

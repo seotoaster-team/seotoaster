@@ -21,7 +21,7 @@
 				<div id="plugin-uploader-filelist"></div>
 			</div>
 		<?php if(!extension_loaded(Tools_Plugins_Tools::LOADER_EXTENSION)): ?>
-			<div class="ui-state-error ui-corner-all" style="width: 500px; float: right; padding: 2px 10px;">
+			<div class="alert error" style="width: 500px; float: right; padding: 2px 10px;">
 				<?php echo $this->translate('We\'ve detected that you don\'t have the "%s&trade;" extension installed. Some plugins might not be able to function properly.', '<a href="http://www.ioncube.com/loaders.php">' . Tools_Plugins_Tools::LOADER_EXTENSION . '</a>'); ?>
 			</div>
 		<?php endif; ?>
@@ -35,7 +35,7 @@
 					'title'      => $this->translate('Installed plugins'),
 					'contentUrl' => $this->websiteUrl . 'backend/backend_plugin/list/',
 				));
-				$this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 425)), array(
+				$this->tabPane('plugintab', $this->toasterFrame('plugins-for-cpanel.html', array('height' => 399)), array(
 					'title' => $this->translate('Available plugins')
 				));
 				echo $this->tabContainer('plugintab', array(), array('class' => 'plugintabs'));

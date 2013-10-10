@@ -42,8 +42,6 @@
                 widgetHtml += '}';
                 $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widgetHtml);
             }
-        }).on('click', '[name="useImage"]', function() {
-            $(this).closest('form').find('.cropped-img').fadeToggle();
         });
 
         //loading forlders list

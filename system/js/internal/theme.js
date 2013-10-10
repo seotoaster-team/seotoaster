@@ -19,10 +19,7 @@ $(function() {
     $('#templatelist').on('click', '.template_name', function(){
 		showSpinner('#frm_template');
 		$('.template_item').removeClass('curr-template').find('.template-check').remove();
-		var templateName = $(this).parent().find('input[name="template-id"]').val();
 		$(this).before('<span class="template-check icon-check"/></span>').parent().addClass('curr-template');
-        //var tplOldName   = $('#frm_template').find('#title').val();
-        var lnkListPages = $('#listpages-btn');
         $.post(
             $('#website_url').val()+'backend/backend_theme/gettemplate/',
             {'listtemplates': $(this).parent().find('input[name="template-id"]').val()},
@@ -32,16 +29,12 @@ $(function() {
                     editor.getSession().setValue(response.responseText.content);
                     $('#frm_template').find('#template_id').val(response.responseText.name);
                     $('#frm_template').find('#template-type').val(response.responseText.type);
-                    //$('#template_preview').attr('src', $('#website_url').val()+response.responseText.preview);
 
-                    var dataUrl = lnkListPages.data('url');
-                    //lnkListPages.data('url', dataUrl.replace(tplOldName, response.responseText.name));
                     $.getJSON($('#website_url').val()+'backend/backend_theme/pagesviatemplate/', {
                         template: response.responseText.name
                     }, function(response) {
-                        consolelog(response.responseText.name)
                         $('#pcount').text(response.pagesUsingTemplate);
-                    })
+                    });
 					showTemplateList();
 					showListPages();
 					hideSpinner();
@@ -166,7 +159,7 @@ function deleteTemplate(templateContainer) {
         $.ajax({
             url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
             type: 'post',
-            beforeSend: function() {showSpinner(templateContainer);},
+            beforeSend: function() {showSpinner('#templatelist');},
             data: {"id": templateContainer.find('input[name="template-id"]').val()},
             success: function(response) {
                 hideSpinner();

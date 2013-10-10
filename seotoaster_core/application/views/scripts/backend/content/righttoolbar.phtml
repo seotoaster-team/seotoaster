@@ -1,13 +1,13 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="tab_content">
+<div class="tab_content">
 	<select name="adminselectimgfolder" id="adminselectimgfolder">
-		<option value="0" selected="selected"><?php echo $this->translate('select folder'); ?></option>
+		<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>
 		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
 			<?php foreach ($this->imageFolders as $folder): ?>
 				<option value="<?php echo $folder; ?>"><?php echo $folder; ?></option>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</select>
-	<div id="selector">
+	<div id="selector" class="mt10px">
 		<div id="borderfortoolbar">
 			<div id="adminthingsviewer">
 				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span></div>
@@ -26,7 +26,7 @@
 				<div id="list_files" class="show_div"></div>
 
 				<div id="upload_things_button">
-					<a title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="504" data-pwidth="480" href="javascript:;" class="tpopup"><span class="icon-folder-upload icon16"></span> <?php echo $this->translate('Upload Things'); ?></a>
+					<a title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;" class="tpopup"><span class="icon-folder-upload icon16"></span> <?php echo $this->translate('Upload Things'); ?></a>
 				</div>
 			</div>
 		</div>
@@ -52,8 +52,10 @@
 				    });
 			    }
 		    });
-		}).on('click', '.full-screen a', function(e) {
-            $('.show_div').toggleClass('full-screen');
+		}).on('click', '.full-screen .list-images a', function(e) {
+            $('.closebutton').removeClass('hidden');
+            $('.screen-size').removeClass('error');
+            $('.show_div').removeClass('full-screen');
 		});
 	})
 </script>

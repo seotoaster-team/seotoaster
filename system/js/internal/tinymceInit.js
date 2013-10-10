@@ -5,7 +5,7 @@ $(document).ready(function(){
         script_url             : websiteUrl + 'system/js/external/tinymce/tiny_mce_gzip.php',
         theme                  : 'advanced',
         width                  : '100%',
-        height                 : 420,
+        height                 : 425,
         plugins                : 'preview,spellchecker,fullscreen,media,paste,stw',
         convert_urls           : false,
         relative_urls          : false,

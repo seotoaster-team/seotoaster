@@ -49,7 +49,14 @@
             }
 
             .news-item-img{
-                img{ }
+                overflow    : hidden;
+                height      : 90px;
+                line-height : 90px;
+
+                img{
+                    height : 100%;
+                    width  : 100%;
+                }
             }
             .news-item-title{
                 margin-top : 0.2em;
@@ -58,8 +65,9 @@
                 .text-overflow;
             }
             .news-item-additional{
-                font-size : @font-size-small;
-                color     : @gray;
+                font-weight : bold;
+                font-size   : @font-size-mini;
+                color       : @gray;
             }
         }
     }

@@ -100,12 +100,31 @@
     .tabs-contents{
         font-size : 0;
 
-        fieldset{
+        fieldset, .new-trigger-action{
             .inline-block;
+            width  : 49%;
+            margin : 2% 0 0 2%;
+
+            &:nth-child(2n + 1){
+                margin-left : 0;
+            }
+
+            &:nth-child(2), &:first-child{
+                margin-top : 1%;
+            }
+        }
+
+        fieldset{
             position  : relative;
             font-size : @font-size-base;
-            width     : 48%;
-            margin    : 2% 1% 0;
+
+            &:nth-child(2n + 1){
+                margin-left : 0;
+            }
+
+            &:nth-child(2), &:first-child{
+                margin-top : 1%;
+            }
 
             .icon-close{
                 position : absolute;
@@ -117,13 +136,10 @@
         .new-trigger-action{
             cursor     : pointer;
             font-size  : 75px;
-            width      : 48%;
-            margin     : 2% 1% 0;
-            padding    : 0.8em 0;
+            padding    : 0.82em 0;
             background : transparent;
             border     : 3px dashed @gray-light;
             color      : @gray-light;
-            .inline-block;
             .box-sizing;
             .transition;
 
@@ -172,17 +188,30 @@
     line-height : 40px;
 }
 .plugins-list{
-    .scroll;
-    height : 392px;
+    overflow : auto;
+    height   : 392px;
+
+    #pluginFilters~&{
+        .box-sizing;
+        height  : 370px;
+
+        .plugin-item{
+            margin   : 1%;
+        }
+    }
 
     .plugin-item{
         position : relative;
         float    : left;
         width    : 18%;
-        margin   : 1%;
+        margin   : 2% 1% 0;
         padding  : 0;
         overflow : hidden;
         .box-shadow(4px 4px 3px #bbb);
+
+        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5){
+            margin-top : 1%;
+        }
 
         &:hover{
             .readme-plugin, .del-plugin{
@@ -193,6 +222,10 @@
                 //background : rgba(255, 255, 255, 0.9);
                 //color      : @text-color;
             }
+        }
+
+        a{
+            color : inherit;
         }
 
         .readme-plugin, .del-plugin{
@@ -221,9 +254,13 @@
             .box-shadow(0 1px 10px #206887);
         }
         .plugin-image{
-            height   : 129px;
-            overflow : hidden;
-            position : relative;
+            height     : 129px;
+            overflow   : hidden;
+            position   : relative;
+
+            img{
+                width : 100%;
+            }
         }
         .plugin-control{
             .btn-states(@btn-error-color, desaturate(@btn-error-bg, 25%), desaturate(@btn-error-border, 25%));
@@ -243,5 +280,5 @@
 }
 
 .readme-content{
-    height: 450px !important;
+    height : 450px !important;
 }

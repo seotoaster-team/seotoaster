@@ -357,14 +357,17 @@
 .thumbnail-state(@radius: @thumbnail-border-radius, @background: @thumbnail-bg, @border-color: @thumbnail-border-color, @padding:2px) {
     position   : relative;
     background : @background;
-    border     : @padding solid @body-bg;
-    .box-shadow(2px 2px 2px darken(@border-color, 20%));
+    padding    : @padding;
+    border     : 1px solid @border-color;
+    //.box-shadow(0px 0px 1px darken(@border-color, 50%));
     .transition(all, 0.3s);
     .border-radius(@radius);
 
-    &>img{ }
+    &>img{
+    }
 
     &:hover{
+        border-color : @gray;
         .box-shadow(@thumbnail-box-shadow);
     }
 }
@@ -374,7 +377,7 @@
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 .link-states( @color ) {
-    color : @color;
+    color            : @color;
     background-color : transparent !important;
     border-color     : transparent !important;
 
@@ -392,7 +395,7 @@
     }
 }
 
-.btn-states( @color, @background, @border){
+.btn-states( @color, @background, @border) {
     color            : @color;
     background-color : @background;
     border-color     : @border;
@@ -418,7 +421,7 @@
     }
 }
 
-.btn-states( @color, @background, @border, @color2, @background2, @border2 ){
+.btn-states( @color, @background, @border, @color2, @background2, @border2 ) {
     color            : @color;
     background-color : @background;
     border-color     : @border;
@@ -458,6 +461,6 @@
 
     a{
         color : darken(@background, 25%);
-        color: inherit;
+        color : inherit;
     }
 }

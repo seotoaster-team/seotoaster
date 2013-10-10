@@ -17,7 +17,7 @@ $('#things-new-folder')
 
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload your files and images', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12 content pt15px">
+	<div class="grid_12 content">
 		<div class="grid_5">
 			<?php echo $this->formSelect('things-select-folder', (isset($this->currFolder) ? $this->currFolder : null), null, $this->listFolders); ?>
 		</div>

@@ -185,6 +185,10 @@
             border : 0;
         }
 
+        &:hover{
+            background : @gray-lighter;
+        }
+
         .template_delete, .template-check{
             float       : right;
             margin-top  : 7px;
@@ -227,6 +231,14 @@
                 cursor : default;
                 color  : @gray;
             }
+
+            .template_delete{
+                color : @brand-error;
+
+                &:hover{
+                    color : darken(@brand-error, 10%);
+                }
+            }
         }
     }
 }
@@ -254,13 +266,8 @@
         }
 
         .catmove{
-            color      : @gray-dark;
-            border-top : 4px solid @gray-light;
-            padding    : @padding-small-vertical @padding-small-horizontal;
-            font-size  : @font-size-large;
-            position   : relative;
-            z-index    : 1;
-            cursor     : url("../images/openhand.cur"), default;
+            font-size : @font-size-large;
+            cursor    : url("../images/openhand.cur"), default;
 
             .check-all{
             }

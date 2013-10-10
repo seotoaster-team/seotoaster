@@ -76,8 +76,11 @@ form, .form{
     // -- Buttons
     [type="submit"], [type="button"]{
         height     : auto;
-        margin-top : 10px;
         float      : right;
+
+        &:not([class*="mt"]){
+            margin-top : 10px;
+        }
 
         &:hover{
         }
@@ -119,7 +122,7 @@ select, textarea, input{
     .border-radius(@input-border-radius);
     .transition(all, 0.3s);
 
-    &:focus{
+    &:focus:not([type="submit"]):not([type="button"]){
         border-color : @input-border-color-focus;
         .box-shadow(0 0 3px @input-border-color-focus);
     }

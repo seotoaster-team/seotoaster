@@ -119,14 +119,14 @@ $(function () {
                     if (typeof callback != 'undefined' && callback != null) {
                         eval(callback + '()');
                     }
-                    hideSpinner(form);
+                    hideSpinner();
                     showMessage(response.responseText);
                 }
                 else {
                     if (!$(form).data('norefresh')) {
                         $(form).find('input:text').not(donotCleanInputs.join(',')).val('');
                     }
-                    hideSpinner(form);
+                    hideSpinner();
                     smoke.alert(response.responseText, function () {
                         if (typeof callback != 'undefined' && callback != null) {
                             eval(callback + '()');
@@ -244,7 +244,7 @@ function showConfirm(msg, yesCallback, noCallback) {
 }
 
 function showSpinner(e) {
-    $(e).closest('[class*="content"]').append('<div class="spinner"></div>');
+    $(e).append('<div class="spinner"></div>');
 }
 
 function hideSpinner(e) {
