@@ -40,7 +40,7 @@ sculptingCallback = function() {
 
 loadSculptingData = function() {
 	//$('#sculpting-list').addClass('ajaxspineer');
-	showSpinner('#sculpting-list');
+	showSpinner();
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadsculptingdata', function(response) {
 		hideSpinner();
 		$('#sculpting-list').html(response.sculptingList);

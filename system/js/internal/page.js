@@ -118,14 +118,18 @@ function checkMenu(currentMenuItem, selectedOption) {
 
 
 function showTemplatesList() {
-    $.post($('#website_url').val() + 'backend/backend_theme/gettemplate/pageId/' + $('#pageId').val(), {listtemplates: 'all'}, function (response) {
+    $.post($('#website_url').val() + 'backend/backend_theme/gettemplate/pageId/' + $('#pageId').val(), {
+        listtemplates: 'all',
+        beforeSend : showSpinner('#templatelist')
+    }, function (response) {
         $('#templatelist').html(response).find('.content').accordion({
             heightStyle: 'content',
             header: '.template_header',
             collapsible: true
         });
         $('#templatelist .template_group').css({
-            'max-height': $('#templatelist .content').height() - $('#templatelist .template_header').outerHeight(true) * $('#templatelist .template_header').length
+            'max-height': $('#templatelist .content').height() - ($('#templatelist .template_header').outerHeight(true) + 2) * $('#templatelist .template_header').length
         });
+        hideSpinner();
     });
 }

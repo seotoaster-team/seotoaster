@@ -62,6 +62,7 @@ $(function () {
 
     //seotoaster delete item link
     doc.on('click', 'a._tdelete', function () {
+        var el = this;
         var url = $(this).attr('href');
         var callback = $(this).data('callback');
         var elId = $(this).data('eid');
@@ -70,12 +71,17 @@ $(function () {
         }
         smoke.confirm('You are about to remove an item. Are you sure?', function (e) {
             if (e) {
-                $.post(url, {id: elId}, function (response) {
+                $.post(url, {
+                    id: elId,
+                    beforeSend: showSpinner(el)
+                }, function (response) {
                     var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
                     showMessage(responseText, (!(typeof response.error == 'undefined' || !response.error)));
                     if (typeof callback != 'undefined') {
                         eval(callback + '()');
+
                     }
+                    hideSpinner();
                 })
             } else {
                 $('.smoke-base').remove();
@@ -102,9 +108,7 @@ $(function () {
             type: 'post',
             dataType: 'json',
             data: form.serialize(),
-            beforeSend: function () {
-                showSpinner(form);
-            },
+            beforeSend: showSpinner(),
             success: function (response) {
                 if (!response.error) {
                     if (form.hasClass('_reload')) {
@@ -244,10 +248,11 @@ function showConfirm(msg, yesCallback, noCallback) {
 }
 
 function showSpinner(e) {
-    $(e).append('<div class="spinner"></div>');
+    var el = (typeof e !== 'undefined' ? e : event.target);
+    $(el).closest('.seotoaster').append('<div class="spinner"></div>');
 }
 
-function hideSpinner(e) {
+function hideSpinner() {
     $('.spinner').remove();
 }
 

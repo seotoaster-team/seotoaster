@@ -7,7 +7,7 @@
 				<?php echo $fa->getName(); ?>&nbsp;(<span class="pcount-<?php echo $fa->getId(); ?>"><?php echo sizeof($fa->getPages()); ?></span>)
 			</div>
 			<div class="grid_1 text-center list-row-item">
-				<a class="del-fa _tdelete error" data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"><span class="icon-remove-2"></span></a>
+				<a class="del-fa _tdelete icon-remove-2 error" data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"></a>
 			</div>
 		</div>
 	<?php endforeach; ?>

@@ -98,36 +98,36 @@ html body{
     .gray-lighter-bg{
         background : @gray-lighter;
     }
+}
 
-    .primary{
-        color : @primary-bg;
-        a&:hover, &.btn-link:hover{
-            color : darken(@primary-bg, 15%);
-        }
+.primary{
+    color : @primary-bg;
+    a&:hover, &.btn-link:hover{
+        color : darken(@primary-bg, 15%);
     }
-    .success{
-        color : @brand-success;
-        a&:hover, &.btn-link:hover{
-            color : darken(@brand-success, 15%);
-        }
+}
+.success{
+    color : @brand-success;
+    a&:hover, &.btn-link:hover{
+        color : darken(@brand-success, 15%);
     }
-    .warning{
-        color : @brand-warning;
-        a&:hover, &.btn-link:hover{
-            color : darken(@brand-warning, 15%);
-        }
+}
+.warning{
+    color : @brand-warning;
+    a&:hover, &.btn-link:hover{
+        color : darken(@brand-warning, 15%);
     }
-    .error{
-        color : @brand-error;
-        a&:hover, &.btn-link:hover{
-            color : darken(@brand-error, 15%);
-        }
+}
+.error{
+    color : @brand-error;
+    a&:hover, &.btn-link:hover{
+        color : darken(@brand-error, 15%);
     }
-    .info{
-        color : @brand-info;
-        a&:hover, &.btn-link:hover{
-            color : darken(@brand-info, 15%);
-        }
+}
+.info{
+    color : @brand-info;
+    a&:hover, &.btn-link:hover{
+        color : darken(@brand-info, 15%);
     }
 }
 
@@ -251,17 +251,17 @@ html body{
 }
 
 .or{
+    .inline-block;
     color          : #CCC;
     font-size      : @font-size-large;
     font-weight    : bold;
-    .inline-block;
     text-align     : center;
-    padding        : @padding-small-vertical 0;
+    padding        : 0;
     text-transform : uppercase;
 
     &:after, &:before{
-        content    : '';
         .inline-block();
+        content    : '';
         height     : 1px;
         width      : 0.6em;
         background : #CCC;

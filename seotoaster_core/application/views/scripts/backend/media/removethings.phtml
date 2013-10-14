@@ -96,7 +96,7 @@
 
     $('#folder').change(function(){
         $('.filebrowser-zone').html('');
-        showSpinner('.filebrowser-zone');
+        showSpinner();
         $('.counter').text('');
 
         if ($(this).val() == 0){
@@ -140,7 +140,7 @@
             data: fileForm.serialize(),
             dataType: 'json',
             beforeSend: function(){
-                showSpinner('#filebrowser')
+                showSpinner()
             },
             complete: function(){
                 hideSpinner()
@@ -152,9 +152,7 @@
                     var removedFiles = [];
                     for (var i in response.deleted) {
                         $('#filebrowser').queue(function(next){
-                            $('div.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').hide('explode', {}, 'slow', function(){
-                                $(this).remove();
-                            });
+                            $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').remove();
                             next();
                         });
                     }

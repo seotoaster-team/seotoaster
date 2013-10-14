@@ -3,7 +3,7 @@ $(function() {
 
 	loadFaList();
 	$(document).on('click', '.add-page', function() {
-
+        showSpinner();
 		var chckbx = $('#fa-list [type=checkbox]:checked');
 
 		$('.featured-link').html((chckbx.length) ? '<span class="icon-tags icon14"></span> Page was added ' + chckbx.length + ' times in <a class="featured" href="javascript:;" title="tags">tags</a>' : '<span class="icon-tags icon14"></span> <a class="featured" href="javascript:;" title="tags">Add a page to a tags</a>');
@@ -13,7 +13,6 @@ $(function() {
 		var pcountEl   = $('.pcount-' + faId);
 		var handlerUrl = ($(this).prop('checked')) ? 'addpagetofa/' : 'rempagefromfa/'
 		var el         = $(this);
-		showSpinner(this);
 		$.post(
 			$('#website_url').val() + 'backend/backend_featured/' + handlerUrl, {
 			pid  : pageId,

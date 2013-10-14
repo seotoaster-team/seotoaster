@@ -42,7 +42,7 @@ $(function() {
 				//$('.smoke-base').delay(1300).slideUp();
 			},
 			beforeSend: function(){
-				showSpinner('#editcssform');
+				showSpinner();
 			},
 			error: function(){
 				$('.smoke-base').remove();
@@ -65,7 +65,7 @@ $(function() {
 				}
 			},
 			beforeSend: function(){
-				showSpinner('#editcssform');
+				showSpinner();
 			},
 			error: function(){
 				$('.smoke-base').hide();

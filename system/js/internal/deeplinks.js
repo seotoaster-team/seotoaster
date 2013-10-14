@@ -30,6 +30,7 @@ $(function() {
 	 })
 
 	$('#deeplink-massdel-run').click(function() {
+        showSpinner();
 		var ids = [];
 		$('.deeplink-massdel:checked').each(function() {
 			ids.push($(this).attr('id'));
@@ -61,7 +62,7 @@ $(function() {
 });
 
 function loadDeeplinksList() {
-	showSpinner('#deeplinks-list');
+	showSpinner();
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loaddeeplinkslist/', function(response) {
 		$('#deeplinks-list').html(response.deeplinksList);
 		hideSpinner();

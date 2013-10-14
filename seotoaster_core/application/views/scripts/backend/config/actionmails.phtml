@@ -115,7 +115,7 @@
                 dataType: 'json',
                 data: $('#ations-triggers-frm').serialize(),
                 beforeSend: function() {
-                    showSpinner('#ations-triggers-frm');
+                    showSpinner();
                 },
                 success: function(response) {
                     hideSpinner();

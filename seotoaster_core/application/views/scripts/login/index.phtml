@@ -7,7 +7,8 @@
 </div>
 
 <?php if (count($this->messages)) : ?>
-	<ul id="messages" class="container alert error text-center w350px t20px">
+	<ul id="messages" class="container alert error text-center w350px" style="top: 5%">
+        <span class="icon-close close" onclick="$('#messages').remove()"></span>
 		<?php foreach ($this->messages as $message) : ?>
 			<li>
 				<span class="icon-exclamation-sign icon16" style="margin-top: -3px;"></span>
@@ -32,7 +33,7 @@
 	</div>
 
     <div class="grid_12">
-		<form class="grid_12 mt20px mb20px" action="<?php echo $this->url(); ?>" method="post" >
+		<form class="grid_12 mt15px mb15px" action="<?php echo $this->url(); ?>" method="post" >
 			<fieldset class="mb20px">
 				<dl class="Zend_Form">
 					<?php
@@ -55,7 +56,7 @@
 		$.post( $('#website_url').val() + 'language/', {lng: $(this).data('lng')}, function() {
 			window.location.reload();
 		})
-	})
+	});
 	//$('.textcentered').buttonset();
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>

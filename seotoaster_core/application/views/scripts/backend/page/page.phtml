@@ -15,10 +15,8 @@
 	echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck, 'helpSection' => $this->helpSection));
 	?>
 
-	<div id="templatelist" class="show-right">
-		<div class="spinner"></div>
-	</div>
-	<div id="falist" class="show-right">
+	<div id="templatelist" class="show-right seotoaster"></div>
+	<div id="falist" class="show-right seotoaster">
 		<div class="header">
 			<div class="closebutton">
 				<?php echo $this->toasterHelp('fa'); ?>
@@ -123,7 +121,5 @@
 	})
 </script>
 
-<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
-<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>
 <?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
 <?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

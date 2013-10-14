@@ -75,8 +75,8 @@ form, .form{
 
     // -- Buttons
     [type="submit"], [type="button"]{
-        height     : auto;
-        float      : right;
+        height : auto;
+        float  : right;
 
         &:not([class*="mt"]){
             margin-top : 10px;
@@ -295,6 +295,12 @@ input[type="radio"]:not(.hidden){
 input[type="checkbox"]:not(.icon):not(.hidden){
     &+span{
         color : transparent;
+
+        &:before{
+            top       : -5px;
+            left      : 2px;
+            font-size : @font-size-base * 1.25;
+        }
     }
 
     &:checked{

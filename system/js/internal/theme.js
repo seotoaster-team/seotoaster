@@ -17,7 +17,7 @@ $(function() {
 	showTemplateList();
 
     $('#templatelist').on('click', '.template_name', function(){
-		showSpinner('#frm_template');
+		showSpinner();
 		$('.template_item').removeClass('curr-template').find('.template-check').remove();
 		$(this).before('<span class="template-check icon-check"/></span>').parent().addClass('curr-template');
         $.post(
@@ -128,7 +128,7 @@ function saveTemplate() {
             id: $('#template_id').val()
         },
 
-        beforeSend : function() {showSpinner("#frm_template");},
+        beforeSend : function() {showSpinner();},
         success : function(response) {
             hideSpinner();
             if (!response.error) {
@@ -159,7 +159,7 @@ function deleteTemplate(templateContainer) {
         $.ajax({
             url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
             type: 'post',
-            beforeSend: function() {showSpinner('#templatelist');},
+            beforeSend: function() {showSpinner();},
             data: {"id": templateContainer.find('input[name="template-id"]').val()},
             success: function(response) {
                 hideSpinner();

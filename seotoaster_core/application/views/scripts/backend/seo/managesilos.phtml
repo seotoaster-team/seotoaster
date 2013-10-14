@@ -62,7 +62,7 @@
 
 	function siloslist() {
 		$('#silo-name').val('').focus();
-		showSpinner('#silos-list');
+		showSpinner();
 		$.post($('#website_url').val() + 'backend/backend_seo/managesilos', {
 			act: 'loadlist'
 		}, function(response) {

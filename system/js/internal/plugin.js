@@ -57,7 +57,7 @@ function triggerPlugin(type, element) {
 		type       : 'post',
 		dataType   : 'json',
 		data: {name : element.data('name')},
-		beforeSend : function() {showSpinner('.plugins-list');},
+		beforeSend : function() {showSpinner();},
 		success: function(response) {
 			hideSpinner();
 			if(!response.error) {
