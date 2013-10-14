@@ -190,14 +190,14 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $mailBody = $this->_entityParser->parse($mailBody);
 
         if($formUrl) {
-            $mailBody .= '<div style="background:#eee;padding:10px;">This form was submitted from: <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
+            $mailBody .= '<div style="background:#eee;padding:10px;">'.$this->_translator->translate('This form was submitted from').': <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
         }
 
         if(isset($this->_options['attachment']) && is_array($this->_options['attachment']) && !empty($this->_options['attachment'])){
             $this->_mailer->addAttachment($this->_options['attachment']);
         }
         $this->_mailer->setBody($mailBody);
-        $this->_mailer->setSubject($this->_translator->translate('New ' . $form->getName() . ' form submitted'))
+        $this->_mailer->setSubject($this->_translator->translate('New') .' '. $form->getName() . ' '.$this->_translator->translate('form submitted'))
             ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
             ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
         return $this->_mailer->send();
@@ -241,9 +241,9 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	    );
 
 	    $mailer   = Tools_Mail_Tools::initMailer();
-        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() . ' Please reset your password':$this->_options['subject'];
+        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() .' '.$this->_translator->translate('Please reset your password'):$this->_options['subject'];
 	    $mailer->setMailFrom($this->_options['from']);
-        $mailer->setMailFromLabel($this->_websiteHelper->getUrl() . ' password recovery system');
+        $mailer->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('password recovery system'));
         $mailer->setMailTo($token->getUserEmail());
         $mailer->setBody($this->_entityParser->parse($mailBody));
         $mailer->setSubject($subject);
@@ -254,9 +254,9 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     protected function _sendTpasswordchangeMail(Application_Model_Models_PasswordRecoveryToken $token) {
 	    $mailBody = $this->_prepareEmailBody();
 
-        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' Your password successfully changed':$this->_options['subject'];
+        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('Your password successfully changed'):$this->_options['subject'];
         $this->_mailer->setMailFrom($this->_options['from'])
-		       ->setMailFromLabel($this->_websiteHelper->getUrl() . ' password recovery system')
+		       ->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('password recovery system'))
                ->setMailTo($token->getUserEmail())
 		       ->setBody($this->_prepareEmailBody())
 	           ->setSubject($subject);
