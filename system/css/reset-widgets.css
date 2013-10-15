@@ -75,8 +75,8 @@
 .plugins-list .plugin-item .plugin-control.active,
 .plugins-list .plugin-item .plugin-control.ui-state-active {
   color: #ffffff;
-  background-color: #b84438;
-  border-color: #91362c;
+  background-color: #d8877e;
+  border-color: #cc6257;
 }
 .plugins-list .plugin-item .plugin-control:active,
 .plugins-list .plugin-item .plugin-control.active,
@@ -88,19 +88,14 @@
 }
 .plugins-list .plugin-item .plugin-control.disabled,
 .plugins-list .plugin-item .plugin-control[disabled],
-fieldset[disabled] .plugins-list .plugin-item .plugin-control,
 .plugins-list .plugin-item .plugin-control.disabled:hover,
 .plugins-list .plugin-item .plugin-control[disabled]:hover,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control:hover,
 .plugins-list .plugin-item .plugin-control.disabled:focus,
 .plugins-list .plugin-item .plugin-control[disabled]:focus,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control:focus,
 .plugins-list .plugin-item .plugin-control.disabled:active,
 .plugins-list .plugin-item .plugin-control[disabled]:active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control:active,
 .plugins-list .plugin-item .plugin-control.disabled.active,
-.plugins-list .plugin-item .plugin-control[disabled].active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control.active {
+.plugins-list .plugin-item .plugin-control[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -121,8 +116,8 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-control.active {
 .plugins-list .plugin-item .plugin-control.btn-block.active,
 .plugins-list .plugin-item .plugin-control.btn-block.ui-state-active {
   color: #ffffff;
-  background-color: #25a25a;
-  border-color: #1b7943;
+  background-color: #54d98c;
+  border-color: #2ecc71;
 }
 .plugins-list .plugin-item .plugin-control.btn-block:active,
 .plugins-list .plugin-item .plugin-control.btn-block.active,
@@ -134,19 +129,14 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-control.active {
 }
 .plugins-list .plugin-item .plugin-control.btn-block.disabled,
 .plugins-list .plugin-item .plugin-control.btn-block[disabled],
-fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block,
 .plugins-list .plugin-item .plugin-control.btn-block.disabled:hover,
 .plugins-list .plugin-item .plugin-control.btn-block[disabled]:hover,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block:hover,
 .plugins-list .plugin-item .plugin-control.btn-block.disabled:focus,
 .plugins-list .plugin-item .plugin-control.btn-block[disabled]:focus,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block:focus,
 .plugins-list .plugin-item .plugin-control.btn-block.disabled:active,
 .plugins-list .plugin-item .plugin-control.btn-block[disabled]:active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block:active,
 .plugins-list .plugin-item .plugin-control.btn-block.disabled.active,
-.plugins-list .plugin-item .plugin-control.btn-block[disabled].active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block.active {
+.plugins-list .plugin-item .plugin-control.btn-block[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -167,8 +157,8 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block.active {
 .plugins-list .plugin-item .plugin-endis.active,
 .plugins-list .plugin-item .plugin-endis.ui-state-active {
   color: #ffffff;
-  background-color: #22617a;
-  border-color: #22617a;
+  background-color: #3aa0c8;
+  border-color: #3aa0c8;
 }
 .plugins-list .plugin-item .plugin-endis:active,
 .plugins-list .plugin-item .plugin-endis.active,
@@ -180,19 +170,14 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-control.btn-block.active {
 }
 .plugins-list .plugin-item .plugin-endis.disabled,
 .plugins-list .plugin-item .plugin-endis[disabled],
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis,
 .plugins-list .plugin-item .plugin-endis.disabled:hover,
 .plugins-list .plugin-item .plugin-endis[disabled]:hover,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis:hover,
 .plugins-list .plugin-item .plugin-endis.disabled:focus,
 .plugins-list .plugin-item .plugin-endis[disabled]:focus,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis:focus,
 .plugins-list .plugin-item .plugin-endis.disabled:active,
 .plugins-list .plugin-item .plugin-endis[disabled]:active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis:active,
 .plugins-list .plugin-item .plugin-endis.disabled.active,
-.plugins-list .plugin-item .plugin-endis[disabled].active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis.active {
+.plugins-list .plugin-item .plugin-endis[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -213,8 +198,8 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-endis.active {
 .plugins-list .plugin-item .plugin-endis.btn-disable.active,
 .plugins-list .plugin-item .plugin-endis.btn-disable.ui-state-active {
   color: #848484;
-  background-color: #b7b7b7;
-  border-color: #d1d1d1;
+  background-color: #eaeaea;
+  border-color: #ffffff;
 }
 .plugins-list .plugin-item .plugin-endis.btn-disable:active,
 .plugins-list .plugin-item .plugin-endis.btn-disable.active,
@@ -226,19 +211,14 @@ fieldset[disabled] .plugins-list .plugin-item .plugin-endis.active {
 }
 .plugins-list .plugin-item .plugin-endis.btn-disable.disabled,
 .plugins-list .plugin-item .plugin-endis.btn-disable[disabled],
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable,
 .plugins-list .plugin-item .plugin-endis.btn-disable.disabled:hover,
 .plugins-list .plugin-item .plugin-endis.btn-disable[disabled]:hover,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable:hover,
 .plugins-list .plugin-item .plugin-endis.btn-disable.disabled:focus,
 .plugins-list .plugin-item .plugin-endis.btn-disable[disabled]:focus,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable:focus,
 .plugins-list .plugin-item .plugin-endis.btn-disable.disabled:active,
 .plugins-list .plugin-item .plugin-endis.btn-disable[disabled]:active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable:active,
 .plugins-list .plugin-item .plugin-endis.btn-disable.disabled.active,
-.plugins-list .plugin-item .plugin-endis.btn-disable[disabled].active,
-fieldset[disabled] .plugins-list .plugin-item .plugin-endis.btn-disable.active {
+.plugins-list .plugin-item .plugin-endis.btn-disable[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;

@@ -5,7 +5,7 @@
 			<div class="list-row-item grid_5 alpha omega ml-grid mr-grid" title="<?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?>"><?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?></div>
 			<div class="list-row-item grid_5 alpha omega ml-grid" title="<?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?>"><?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?></div>
 			<div class="grid_1 omega ml0 text-center">
-				<a class="remove-redirect _tdelete" data-callback="reloadRedirectsList" data-url="<?php echo $this->toasterLink('seo', 'removeredirect', '', '', true)?>" data-eid="<?php echo $redirect->getId(); ?>" href="javascript:;"><span class="icon-remove-2 btn-link error"></span></a>
+				<a class="remove-redirect _tdelete" data-callback="reloadRedirectsList" data-url="<?php echo $this->toasterLink('seo', 'removeredirect', '', '', true)?>" data-eid="<?php echo $redirect->getId(); ?>" href="javascript:;"><span class="icon-remove link error"></span></a>
 			</div>
 		</div>
 	<?php endforeach; ?>

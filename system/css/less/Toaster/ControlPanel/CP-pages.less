@@ -26,6 +26,10 @@
 // -- Page information
 #meta-description{
     height : 90px;
+
+    .ie &{
+        height : 87px;
+    }
 }
 
 // -- Navigation
@@ -284,9 +288,9 @@
         }
 
         .organise{
-            display : none;
-            margin  : 0;
-            .scroll;
+            display  : none;
+            margin   : 0;
+            overflow : auto;
 
             li{
                 background : @gray-lighter;

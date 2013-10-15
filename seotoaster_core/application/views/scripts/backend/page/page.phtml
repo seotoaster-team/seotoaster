@@ -20,17 +20,15 @@
 		<div class="header">
 			<div class="closebutton">
 				<?php echo $this->toasterHelp('fa'); ?>
-				<a class="hide icon-chevron-right btn-icon" href="javascript:;" title="Close"></a>
+				<a class="hide icon-chevron-right icon" href="javascript:;" title="Close"></a>
 			</div>
 			<?php echo $this->translate('Add a page to tags | Create a tag'); ?>
 		</div>
 		<div class="content grid_12">
 			<form id="frm-featured-area" action="<?php echo $this->websiteUrl . '/backend/backend_featured/featured/id/' . $this->pageForm->getElement('pageId')->getValue() . '/pid/' . $this->pageForm->getElement('pageId')->getValue() ?>" method="post" data-callback="loadFaList" class="_fajax grid_12 form-inline">
-				<div class="grid_11 alpha omega">
-					<label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
-					<input type="text" name="name" id="fa-name" value="">
-				</div>
-				<button type="submit" name="addFeaturedArea" id="add-featured-area" value="<?php echo $this->translate('Add page tag'); ?>" class="btn-block grid_1 alpha omega cl-none mt0px"><span class="icon-plus"></span></button>
+                <label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
+                <input id="fa-name" class="grid_11 alpha omega" type="text" name="name" value="">
+				<button id="add-featured-area" class="icon grid_1 alpha omega cl-none mt0px icon-plus" type="submit" name="addFeaturedArea" value="<?php echo $this->translate('Add page tag'); ?>"></button>
 			</form>
 			<div class="header-inner grid_12 mt15px">
 				<div class="grid_12 list-row-item">

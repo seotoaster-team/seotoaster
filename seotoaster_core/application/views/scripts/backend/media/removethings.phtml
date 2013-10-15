@@ -6,7 +6,7 @@
 			<div class="grid_9">
 			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>
 			</div>
-            <label id="check-all-label" class="btn btn-link grid_3 mt5px"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
+            <label id="check-all-label" class="btn link grid_3 mt5px"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
 			<div class="grid_12 mt20px">
 				<div id="filebrowser">
 					<ul>
@@ -20,7 +20,7 @@
 		</form>
 	</div>
 	<div class="grid_12 footer">
-		<button id="deleteBtn" class="btn-block btn-error"><?php echo $this->translate('Delete Selected');?></button>
+		<button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete Selected');?></button>
 	</div>
 </div>
 <script id="imageContainerTemplate" type="text/x-jquery-tmpl">

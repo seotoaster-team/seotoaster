@@ -2,7 +2,7 @@
 <!--[if IE 7 ]><html class="ie ie7" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
-<!--[if !(IE)]><html lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if !(IE)]><!--> <html lang="en"> <!--<![endif]-->
 	<head>
 		<?php echo $this->headTitle();?>
 
@@ -24,9 +24,12 @@
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
 		<?php
 			$this->headLink()
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-plugins.css', 'screen', 'IE')
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-lite.css', 'screen', 'IE')
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css', 'screen', 'IE')
 				->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
-				->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
-		?>
+                ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
+        ?>
 
 		<?php endif; ?>
 
@@ -45,7 +48,7 @@
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/ie/selectivizr-min.js');
+			->addJavascriptFile($this->websiteUrl . 'system/js/ie/ie-pack.js');
 		?>
 
 		<?php $this->headScript()->setAllowArbitraryAttributes(true)

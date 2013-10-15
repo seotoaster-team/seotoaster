@@ -43,6 +43,10 @@ ul, ol{
             .text-overflow;
             .box-sizing();
 
+            &>*{
+                .inline-block;
+            }
+
             &:hover, &.active, &.tag-current{
                 background : darken(@gray-light, 10%);
             }
@@ -56,8 +60,12 @@ ul, ol{
             &.active, &.tag-current{
             }
 
-            [class*="icon-"]{
+            [class*="icon-"].fl-right{
                 margin-top : 0.15em;
+            }
+
+            [class*="remove"], [class*="close"]{
+                font-size : 0.85em;
             }
         }
 

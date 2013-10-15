@@ -35,11 +35,11 @@
   box-shadow: none;
 }
 ::-moz-selection {
-  background: #5bc0de;
+  background: #31b0d5;
   color: #ffffff;
 }
 ::selection {
-  background: #5bc0de;
+  background: #31b0d5;
   color: #ffffff;
 }
 div:empty,
@@ -273,6 +273,7 @@ button a,
 }
 [class^="grid_"],
 [class*=" grid_"] {
+  display: inline;
   float: left;
   position: relative;
   margin-left: 2%;

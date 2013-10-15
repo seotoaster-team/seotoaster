@@ -2,80 +2,60 @@
 // --------------------------------------------------
 
 // Core styles
-.btn, .button, button, [type="submit"], [type="button"], .ui-button,
-.ui-button-icon-only{
-    .inline-block();
-    margin-bottom : 0; // For input.btn
-    padding       : (@padding-base-vertical - (@btn-border-width - @input-border-width))  @padding-base-horizontal;
-    font-weight   : 600;
-    line-height   : normal;
-    text-indent   : 0;
-    text-align    : center;
-    cursor        : pointer;
-    border-width  : @btn-border-width;
-    border-style  : solid;
-    white-space   : nowrap;
-    position      : relative;
-    .transition(background-color, 0.3s);
-    .border-radius(@btn-border-radius);
-    .btn-states(@primary-color, @primary-bg, @primary-bg);
+.btn, [type="submit"], button{
+    .button;
 
     // Alternate buttons
     // --------------------------------------------------
     // Inverse button appears as gray => primary
-    &.btn-inverse, &.inverse{
+    &.inverse{
         .btn-states(@gray, @gray-light, @gray-light, @primary-color, @primary-bg, @primary-bg);
     }
     // Warning appears as orange
-    &.btn-warning, &.warning{
+    &.warning{
         .btn-states(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
 
-        &.btn-inverse, &.inverse{
+        &.inverse{
             .btn-states(@gray, @gray-light, @gray-light, @btn-warning-color, @btn-warning-bg, @btn-warning-border);
         }
     }
     // Danger and error appear as red
-    &.btn-error, &.error{
+    &.error{
         .btn-states(@btn-error-color, @btn-error-bg, @btn-error-border);
 
-        &.btn-inverse, &.inverse{
+        &.inverse{
             .btn-states(@gray, @gray-light, @gray-light, @btn-error-color, @btn-error-bg, @btn-error-border);
         }
     }
     // Success appears as green
-    &.btn-success, &.success{
+    &.success{
         .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
 
-        &.btn-inverse, &.inverse{
+        &.inverse{
             .btn-states(@gray, @gray-light, @gray-light, @btn-success-color, @btn-success-bg, @btn-success-border);
         }
     }
     // Info appears as blue
-    &.btn-info, &.info{
+    &.info{
         .btn-states(@btn-info-color, @btn-info-bg, @btn-info-border);
 
-        &.btn-inverse, &.inverse{
+        &.inverse{
             .btn-states(@gray, @gray-light, @gray-light, @btn-info-color, @btn-info-bg, @btn-info-border);
         }
     }
 
     // Button Sizes
     // --------------------------------------------------
-    &.btn-large, &.large{
-        padding   : @padding-large-vertical @padding-large-horizontal;
-        font-size : ceil(@font-size-base * 1.15);
-        .border-radius(@btn-large-border-radius);
+    &.large{
+        .button-large;
     }
-    &.btn-small, &.small{
-        padding     : @padding-small-vertical @padding-small-horizontal;
-        font-size   : ceil(@font-size-base * 0.85);
-        line-height : 1.5; // ensure proper height of button next to small input
-        .border-radius(@btn-small-border-radius);
+    &.small{
+        .button-small;
     }
 
     // Block button
     // --------------------------------------------------
-    &.btn-block{
+    &.block{
         float         : none;
         display       : block;
         width         : 100%;
@@ -83,36 +63,34 @@
         padding-right : 0;
 
         // Vertically space out multiple block buttons
-        &+.btn-block, &+.block{
+        &+.block:not([class*="grid_"]):not([class*="mt"]){
             margin-top : 5px;
-
-            [class^="grid_"]&, [class*=" grid_"]&{
-                margin-top : 0;
-            }
         }
     }
 
     // Button with icon
     // --------------------------------------------------
-    &.ui-button-icon-only, &.btn-icon, &.icon{
-        padding : @padding-base-vertical;
+    &.ui-button-icon-only, &.icon{
+        padding : (@padding-base-vertical - (@btn-border-width - @input-border-width));
         .box-sizing(content-box);
-        .icon-size(1em);
 
-        &.btn-large{
-            padding : @padding-large-vertical;
-            .icon-size(@font-size-larger);
+        &.large{
+            padding : (@padding-large-vertical - (@btn-border-width - @input-border-width));
         }
 
-        &.btn-small{
-            padding : @padding-small-vertical;
-            .icon-size(@font-size-small);
+        &.small{
+            padding : (@padding-small-vertical - (@btn-border-width - @input-border-width));
+        }
+
+        &[class*="grid_"]{
+            padding-left  : 0;
+            padding-right : 0;
         }
     }
 
     // Button with icon
     // --------------------------------------------------
-    &.btn-link, &.link{
+    &.link{
         font-weight : normal;
         padding     : 0;
         .link-states(@link-color);
@@ -125,19 +103,19 @@
         // Alternate buttons
         // --------------------------------------------------
         // Warning appears as orange
-        &.btn-warning, &.warning{
+        &.warning{
             .link-states(@brand-warning);
         }
         // Danger and error appear as red
-        &.btn-error, &.error{
+        &.error{
             .link-states(@brand-error);
         }
         // Success appears as green
-        &.btn-success, &.success{
+        &.success{
             .link-states(@brand-success);
         }
         // Info appears as blue
-        &.btn-info, &.info{
+        &.info{
             .link-states(@brand-info);
         }
     }

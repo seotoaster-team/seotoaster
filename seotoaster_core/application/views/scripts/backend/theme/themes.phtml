@@ -2,7 +2,7 @@
 <script id="theme-box" type="text/template">
 
     <!-- download link -->
-    <a class="lnk-download btn btn-link" href="javascript:;" data-name="<%= name %>"><span class="icon-box-add icon16"></span></a>
+    <a class="lnk-download btn link" href="javascript:;" data-name="<%= name %>"><span class="icon-box-add icon16"></span></a>
     <div class="download-options">
         <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme">Get theme</a>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
@@ -13,9 +13,9 @@
     </div>
 
 	<% if(isCurrent) { %>
-		<span class="lnk-current btn btn-link" title="<?php echo $this->translate('Current');?>"><span class="icon-ok icon18 success"></span></span>
+		<span class="lnk-current btn link" title="<?php echo $this->translate('Current');?>"><span class="icon-ok icon18 success"></span></span>
 	<% } else { %>
-		<a class="lnk-delete btn btn-link error" title="<?php echo $this->translate('Delete');?>" data-name="<%= name %>"><span class="icon-remove-2 icon16"></span></a>
+		<a class="lnk-delete btn link error" title="<?php echo $this->translate('Delete');?>" data-name="<%= name %>"><span class="icon-remove icon16"></span></a>
 	<% } %>
 
     <div class="theme-preview-img">
@@ -23,7 +23,7 @@
     </div>
 
 	<% if(!isCurrent) { %>
-		<button class="apply-button formsubmit btn-small grid_8"><?php echo $this->translate('Apply');?></button>
+		<button class="apply-button formsubmit small grid_8"><?php echo $this->translate('Apply');?></button>
 	<% } %>
 
     <p class="theme-name text-center mb0px">

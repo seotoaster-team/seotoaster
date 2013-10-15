@@ -1,5 +1,11 @@
-<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css'); ?>
-<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css'); ?>
+<?php
+    $this->headLink()
+        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-plugins.css', 'screen', 'IE')
+        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-lite.css', 'screen', 'IE')
+        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css', 'screen', 'IE')
+        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
+        ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
+?>
 <?php echo $this->headLink(); ?>
 
 <div>
@@ -33,8 +39,8 @@
 	</div>
 
     <div class="grid_12">
-		<form class="grid_12 mt15px mb15px" action="<?php echo $this->url(); ?>" method="post" >
-			<fieldset class="mb20px">
+		<form class="grid_12 mt15px" action="<?php echo $this->url(); ?>" method="post" >
+			<fieldset>
 				<dl class="Zend_Form">
 					<?php
 						echo $this->loginForm->email;
@@ -42,8 +48,10 @@
 					?>
 				</dl>
 			</fieldset>
-			<?php echo $this->loginForm->submit; ?>
-			<a id="forgot-password" class="btn btn-link" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
+            <div class="footer">
+                <?php echo $this->loginForm->submit; ?>
+                <a id="forgot-password" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
+            </div>
 		</form>
 	</div>
 </div>

@@ -1,5 +1,4 @@
 var doc = $(document);
-
 $(function () {
     var currentUrl = decodeURI(window.location.href);
     if (currentUrl && typeof currentUrl != 'undefined') {
@@ -8,7 +7,6 @@ $(function () {
             $("a[href='" + $('#website_url').val() + "index.html']").addClass('current');
         }
     }
-
     /**
      * Seotoaster popup dialog
      */
@@ -16,21 +14,20 @@ $(function () {
         if (!loginCheck()) {
             return;
         }
-        $('.__tpopup').dialog( "close" );
+        $('.__tpopup').dialog("close");
         e.preventDefault();
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
         var pheight = link.data('pheight') || 560;
-        var popup = $(document.createElement('iframe')).attr({'scrolling': 'no', 'frameborder': 'no', 'allowTransparency': 'allowTransparency', 'id': 'toasterPopup'}).addClass('__tpopup');
-        popup.parent().css({background: 'none'});
-
+        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup');
+        popup.parent().css({background : 'none'});
         popup.dialog({
-            width: pwidth,
-            height: pheight,
-            resizable: false,
-            draggable: true,
-            modal: true,
-            open: function () {
+            width     : pwidth,
+            height    : pheight,
+            resizable : false,
+            draggable : true,
+            modal     : true,
+            open      : function () {
                 this.onload = function () {
                     $(this).contents().find('.close, .save-and-close').on('click', function () {
                         var restored = localStorage.getItem(generateStorageKey());
@@ -45,21 +42,19 @@ $(function () {
                     });
                 }
                 $(this).attr('src', link.data('url')).css({
-                    width: '100%',
-                    height: '100%',
-                    padding: '0px',
-                    margin: '0px',
-                    overflow: 'hidden'
+                    width    : '100%',
+                    height   : '100%',
+                    padding  : '0px',
+                    margin   : '0px',
+                    overflow : 'hidden'
                 });
                 $('.ui-dialog-titlebar').remove();
             },
-            close: function () {
+            close     : function () {
                 $(this).remove();
             }
-        }).parent().css({height: pheight + 'px'});
+        }).parent().css({height : pheight + 'px'});
     });
-
-
     //seotoaster delete item link
     doc.on('click', 'a._tdelete', function () {
         var el = this;
@@ -72,23 +67,21 @@ $(function () {
         smoke.confirm('You are about to remove an item. Are you sure?', function (e) {
             if (e) {
                 $.post(url, {
-                    id: elId,
-                    beforeSend: showSpinner(el)
+                    id         : elId,
+                    beforeSend : showSpinner(el)
                 }, function (response) {
                     var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
                     showMessage(responseText, (!(typeof response.error == 'undefined' || !response.error)));
                     if (typeof callback != 'undefined') {
                         eval(callback + '()');
-
                     }
                     hideSpinner();
                 })
             } else {
                 $('.smoke-base').remove();
             }
-        }, {classname: "error", 'ok': 'Yes', 'cancel': 'No'});
+        }, {classname : "error", 'ok' : 'Yes', 'cancel' : 'No'});
     });
-
     //seotoaster ajax form submiting
     doc.on('submit', 'form._fajax', function (e) {
         e.preventDefault();
@@ -104,12 +97,12 @@ $(function () {
         var form = $(this);
         var callback = $(form).data('callback');
         $.ajax({
-            url: form.attr('action'),
-            type: 'post',
-            dataType: 'json',
-            data: form.serialize(),
-            beforeSend: showSpinner(),
-            success: function (response) {
+            url        : form.attr('action'),
+            type       : 'post',
+            dataType   : 'json',
+            data       : form.serialize(),
+            beforeSend : showSpinner(),
+            success    : function (response) {
                 if (!response.error) {
                     if (form.hasClass('_reload')) {
                         if (typeof response.responseText.redirectTo != 'undefined') {
@@ -135,16 +128,15 @@ $(function () {
                         if (typeof callback != 'undefined' && callback != null) {
                             eval(callback + '()');
                         }
-                    }, {classname: "error"});
+                    }, {classname : "error"});
                 }
             },
-            error: function (err) {
+            error      : function (err) {
                 $('.smoke-base').remove();
                 showMessage('Oops! sorry but something fishy is going on - try again or call for support.', true);
             }
         })
     })
-
     //seotoaster edit item link
     doc.on('click', 'a._tedit', function (e) {
         e.preventDefault();
@@ -153,7 +145,7 @@ $(function () {
             handleUrl = $(this).attr('href');
         }
         var eid = $(this).data('eid');
-        $.post(handleUrl, {id: eid}, function (response) {
+        $.post(handleUrl, {id : eid}, function (response) {
             var formToLoad = $('#' + response.responseText.formId);
             for (var i in response.responseText.data) {
                 $('[name=' + i + ']').val(response.responseText.data[i]);
@@ -162,27 +154,22 @@ $(function () {
                 }
             }
         })
-
     });
-
     //seotoaster gallery links
     if (jQuery.fancybox) {
         $('a._lbox').fancybox({
-            'transitionIn': 'none',
-            'transitionOut': 'none',
-            'titlePosition': 'over'
+            'transitionIn'  : 'none',
+            'transitionOut' : 'none',
+            'titlePosition' : 'over'
         });
     }
     //publishPages();
     checkboxRadio();
-
     doc.on('click', '.closebutton .hide', function () {
         $('.show-left.show, .show-right.show').removeClass('show');
         return false;
     });
-
 });
-
 ///////// Full screen //////////////
 doc.on('click', '.screen-size', function (e) {
     var name = $(this).data('size');
@@ -190,12 +177,10 @@ doc.on('click', '.screen-size', function (e) {
     $(this).toggleClass('error');
     $('#' + name + ', .' + name).toggleClass('full-screen');
 });
-
 ///////// Show/Hide 'cropped' options //////////////
 doc.on('click', '[name="useImage"]', function () {
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
-
 ///////// checkbox & radio button //////////////
 function checkboxRadio() {
     $(':checkbox, :radio').not('.processed, .icon').each(function () {
@@ -209,8 +194,6 @@ function checkboxRadio() {
         $(this).addClass('processed');
     });
 }
-
-
 function loginCheck() {
     if ($.cookie('PHPSESSID') === null) {
         showModalMessage('Session expired', 'Your session is expired! Please, login again', function () {
@@ -220,19 +203,16 @@ function loginCheck() {
     }
     return true;
 }
-
 function showMessage(msg, err, delay) {
     if (err) {
         smoke.alert(msg, function (e) {
-        }, {classname: "error"});
+        }, {classname : "error"});
         return;
     }
     smoke.signal(msg);
     delay = (typeof(delay) == 'undefined') ? 1300 : delay;
     $('.smoke-base').delay(delay).slideUp();
-
 }
-
 function showConfirm(msg, yesCallback, noCallback) {
     smoke.confirm(msg, function (e) {
         if (e) {
@@ -244,36 +224,30 @@ function showConfirm(msg, yesCallback, noCallback) {
                 noCallback();
             }
         }
-    }, {classname: 'error', ok: 'Yes', cancel: 'No'});
+    }, {classname : 'error', ok : 'Yes', cancel : 'No'});
 }
-
 function showSpinner(e) {
     var el = (typeof e !== 'undefined' ? e : event.target);
-    $(el).closest('.seotoaster').append('<div class="spinner"></div>');
+    $(el).closest('.seotoaster').append('<span class="spinner"></span>');
 }
-
 function hideSpinner() {
     $('.spinner').remove();
 }
-
 function publishPages() {
     if (!top.$('#__tpopup').length) {
         $.get($('#website_url').val() + 'backend/backend_page/publishpages/');
     }
 }
-
 function closePopup(frame) {
     if (frame.contents().find('div.seotoaster').hasClass('refreshOnClose')) {
         window.parent.location.reload();
     }
-
     if (typeof frame.dialog != 'undefined') {
         frame.dialog('close');
     } else {
         console.log('Alarm! Something went wrong!');
     }
 }
-
 function generateStorageKey() {
     if ($('#frm_content').length) {
         var actionUrlComponents = $('#frm_content').prop('action').split('/');
@@ -281,38 +255,37 @@ function generateStorageKey() {
     }
     return null;
 }
-
 function showMailMessageEdit(trigger, callback) {
     $.getJSON($('#website_url').val() + 'backend/backend_config/mailmessage/', {
-        'trigger': trigger
+        'trigger' : trigger
     }, function (response) {
         $(msgEditScreen).remove();
         var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg"></textarea>').val(response.responseText).css({
-            width: '555px',
-            height: '155px',
-            resizable: "none"
+            width     : '555px',
+            height    : '155px',
+            resizable : "none"
         }));
         $('#trigger-msg').val(response.responseText);
         msgEditScreen.dialog({
-            modal: true,
-            title: 'Edit mail message before sending',
-            width: 600,
-            height: 300,
-            resizable: false,
-            show: 'clip',
-            hide: 'clip',
-            draggable: false,
-            buttons: [
+            modal     : true,
+            title     : 'Edit mail message before sending',
+            width     : 600,
+            height    : 300,
+            resizable : false,
+            show      : 'clip',
+            hide      : 'clip',
+            draggable : false,
+            buttons   : [
                 {
-                    text: "Okay",
-                    click: function (e) {
+                    text  : "Okay",
+                    click : function (e) {
                         msgEditScreen.dialog('close');
                         callback($('#trigger-msg').val());
                     }
                 }
             ]
         }).parent().css({
-                background: '#DAE8ED'
+                background : '#DAE8ED'
             });
     }, 'json');
 }

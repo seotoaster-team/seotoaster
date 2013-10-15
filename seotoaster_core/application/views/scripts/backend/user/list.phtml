@@ -7,8 +7,8 @@
 			<td class="user-row-item grid_2 alpha omega"><?php echo intval($user->getLastLogin()) ? date('Y-m-d', strtotime($user->getLastLogin())) : '-'; ?></td>
 			<td class="user-row-item grid_2 alpha omega"><?php echo ($user->getIpaddress()) ? $user->getIpaddress() : '-'; ?></td>
 			<td class="user-row-item grid_1 alpha omega text-center">
-				<a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" href="javascript:;" class="_tedit btn btn-icon btn-link icon-pencil"></a>
-				<a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" data-callback="userCallback" class="del-user _tdelete btn btn-icon btn-link btn-error icon-remove-2" href="javascript:;"></a>
+				<a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" href="javascript:;" class="_tedit btn icon link icon-pencil"></a>
+				<a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user->getId(); ?>" data-callback="userCallback" class="del-user _tdelete btn icon link error icon-remove" href="javascript:;"></a>
 			</td>
 		</tr>
 	<?php endforeach; ?>

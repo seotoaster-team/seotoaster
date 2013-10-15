@@ -177,7 +177,8 @@ class Application_Form_Page extends Zend_Form {
 			'form'  => 'frm-page',
 			'type'  => 'submit',
 			'value' => 'Save page',
-			'label' => '<span class="icon-save"></span> Save page',
+			'class' => 'icon-save',
+			'label' => 'Save page',
 			'escape'=> false
 		)));
 

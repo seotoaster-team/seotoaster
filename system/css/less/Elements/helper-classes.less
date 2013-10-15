@@ -134,35 +134,53 @@ html body{
 // Helper classes
 //==================================================
 //--- Position
-.position(none, top);
-.position(none, bottom);
-.position(none, right, 2);
-.position(none, left, 2);
+    .position(none, top)
+;
+    .position(none, bottom)
+;
+    .position(none, right, 2)
+;
+    .position(none, left, 2)
+;
 
 //--- Margin
-.margin(20px);
-.margin(50px, top);
-.margin(5em, top, 0.25);
-.margin(50px, bottom);
-.margin(5em, bottom, 0.25);
-.margin(10%, right, 1);
-.margin(10%, left, 1);
+    .margin(20px)
+;
+    .margin(50px, top)
+;
+    .margin(5em, top, 0.25)
+;
+    .margin(50px, bottom)
+;
+    .margin(5em, bottom, 0.25)
+;
+    .margin(10%, right, 1)
+;
+    .margin(10%, left, 1)
+;
 
 .ml-grid{ margin-left : @grid-margin-width / 2; }
 .mr-grid{ margin-right : @grid-margin-width / 2; }
 
 //--- Padding
-.padding(10px);
-.padding(50px, top);
-.padding(50px, bottom);
-.padding(10%, right, 2);
-.padding(10%, left, 2);
+    .padding(10px)
+;
+    .padding(50px, top)
+;
+    .padding(50px, bottom)
+;
+    .padding(10%, right, 2)
+;
+    .padding(10%, left, 2)
+;
 
 //--- Height
-.height(500px, 50);
+    .height(500px, 50)
+;
 
 //--- Width
-.width(100%, 5);
+    .width(100%, 5)
+;
 
 // User classes
 //==================================================
@@ -170,12 +188,7 @@ html body{
     overflow : auto;
 }
 .background{
-    overflow   : hidden;
-    background : @gray-lighter;
-    padding    : 10px;
-    border     : 1px solid transparent;
-    .box-shadow(0 1px 1px #BBB);
-    .box-sizing;
+    .background;
 }
 
 .move{
@@ -200,7 +213,7 @@ html body{
     right               : 0;
     z-index             : 100;
     background-color    : rgba(255, 255, 255, 0.5);
-    background-image    : url("../images/spinner.GIF");
+    background-image    : url("../images/spinner.gif");
     background-position : center center;
     background-repeat   : no-repeat;
 }
@@ -213,21 +226,21 @@ html body{
     width      : 350px;
     z-index    : 100;
     .transition;
-    .box-shadow(0px 0 25px @gray);
+    .box-shadow(0 0 25px @gray);
 
     &.show{
 
         //&~#frm-page, &~#frm_template, &~#users-list_wrapper, &~#newslog-frm-newpost{
         &:before{
-            content         : '';
-            position        : fixed;
-            top             : 0;
-            left            : 0;
-            right           : 0;
-            bottom          : 0;
-            z-index         : -1;
-            background      : rgba(255, 255, 255, 0.5);
-            -pie-background : rgba(255, 255, 255, 0.5);
+            content    : '';
+            position   : fixed;
+            top        : 0;
+            left       : 0;
+            right      : 0;
+            bottom     : 0;
+            z-index    : -1;
+            background : #fff;
+            .opacity();
         }
         //}
     }

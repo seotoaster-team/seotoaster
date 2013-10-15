@@ -259,7 +259,7 @@
 }
 
 // -- Box Shadow
-.box-shadow(@shadow) {
+.box-shadow(...) {
     -webkit-box-shadow : @arguments;
     -moz-box-shadow    : @arguments;
     -ms-box-shadow     : @arguments;
@@ -374,6 +374,38 @@
 
 // Button states
 //==================================================
+.button() {
+    .inline-block();
+    margin-bottom : 0; // For input.btn
+    padding       : (@padding-base-vertical - (@btn-border-width - @input-border-width))  @padding-base-horizontal;
+    font-weight   : 600;
+    line-height   : normal;
+    text-indent   : 0;
+    text-align    : center;
+    cursor        : pointer;
+    border-width  : @btn-border-width;
+    border-style  : solid;
+    white-space   : nowrap;
+    position      : relative;
+    .transition(background-color, 0.3s);
+    .border-radius(@btn-border-radius);
+    .btn-states(@primary-color, @primary-bg, @primary-bg);
+
+    &[class*="icon-"]:not(.icon):before{
+        margin-right : 5px;
+    }
+}
+.button-large() {
+    padding   : (@padding-large-vertical - (@btn-border-width - @input-border-width)) @padding-large-horizontal;
+    font-size : ceil(@font-size-base * 1.15);
+    .border-radius(@btn-large-border-radius);
+}
+.button-small() {
+    padding     : (@padding-small-vertical - (@btn-border-width - @input-border-width)) @padding-small-horizontal;
+    font-size   : ceil(@font-size-base * 0.85);
+    line-height : 1.5; // ensure proper height of button next to small input
+    .border-radius(@btn-small-border-radius);
+}
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 .link-states( @color ) {
@@ -386,7 +418,7 @@
         .box-shadow(none);
     }
 
-    &.disabled, &[disabled], fieldset[disabled] &{
+    &.disabled, &[disabled]{
         &, &:hover, &:focus, &:active, &.active{
             color           : desaturate(@color, 30%);
             text-decoration : none;
@@ -402,15 +434,15 @@
 
     &:hover, &:focus, &:active, &.active, &.ui-state-active{
         color            : @color;
-        background-color : darken(@background, 10%);
-        border-color     : darken(@border, 10%);
+        background-color : lighten(@background, 10%);
+        border-color     : lighten(@border, 10%);
     }
 
     &:active, &.active, &.ui-state-active{
         .box-shadow(0.2em 0.2em 0.4em darken(@background, 25%) inset);
     }
 
-    &.disabled, &[disabled], fieldset[disabled] &{
+    &.disabled, &[disabled]{
         &, &:hover, &:focus, &:active, &.active{
             .box-shadow(none);
             color            : desaturate(@color, 30%);
@@ -437,7 +469,7 @@
         .box-shadow(0.2em 0.2em 0.4em darken(@background2, 25%) inset);
     }
 
-    &.disabled, &[disabled], fieldset[disabled] &{
+    &.disabled, &[disabled]{
         &, &:hover, &:focus, &:active, &.active{
             .box-shadow(none);
             color            : desaturate(@color, 30%);
@@ -463,4 +495,15 @@
         color : darken(@background, 25%);
         color : inherit;
     }
+}
+
+// Customer mixins
+//===================================================
+.background(@padding: 10px, @border-width:1px) {
+    overflow   : hidden;
+    background : @gray-lighter;
+    padding    : @padding;
+    //border     : @border-width solid transparent;
+    .box-shadow(0 1px 1px #BBB);
+    .box-sizing;
 }

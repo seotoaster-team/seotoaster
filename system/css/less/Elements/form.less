@@ -20,15 +20,11 @@ form, .form{
     &>p, &>div, fieldset>p, fieldset>div{
         .box-sizing();
 
-        &:not([class*="mt"]){
+        &:not([class*="mt"]):not(:first-child){
             margin-top : 0.75em;
         }
         &:not([class*="mb"]){
             margin-bottom : 0;
-        }
-
-        &:first-child:not([class*="mt"]){
-            margin-top : 0;
         }
 
         &:after{
@@ -93,7 +89,7 @@ form, .form{
 
         // -- Buttons
         &>[type="submit"], &>[type="button"]{
-            margin-top : 21px;
+            //margin-top : 21px;
         }
     }
 
@@ -159,11 +155,11 @@ select, textarea, input{
         }
     }
 
-    &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit{
-        background   : @input-bg-disabled;
-        border-color : darken(@input-bg-disabled, 10%);
-        color        : darken(@input-bg-disabled, 30%);
-        .box-shadow(none);
+    &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit, &.noedit:focus{
+        background   : @input-bg-disabled !important;
+        border-color : darken(@input-bg-disabled, 10%) !important;
+        color        : darken(@input-bg-disabled, 30%) !important;
+        .box-shadow(none) !important;
     }
 
     &.small{
@@ -219,6 +215,15 @@ textarea{
         padding       : (@padding-base-vertical + @input-border-width) 0;
         text-align    : center;
         color         : #fff;
+        .transition(all, 0.3s);
+    }
+
+    input:focus{
+        .box-shadow(none) !important;
+
+        &+label{
+            background : @input-border-color-focus;
+        }
     }
 }
 
@@ -297,8 +302,8 @@ input[type="checkbox"]:not(.icon):not(.hidden){
         color : transparent;
 
         &:before{
-            top       : -5px;
-            left      : 2px;
+            top       : -4px;
+            left      : 1px;
             font-size : @font-size-base * 1.25;
         }
     }

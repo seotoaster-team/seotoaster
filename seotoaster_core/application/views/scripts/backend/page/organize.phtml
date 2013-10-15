@@ -1,5 +1,5 @@
 <div class="seotoaster container refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => '<a href="javascript:;" id="collapse-global">' . $this->translate("Collapse all") . ' <span class="icon-arrow-right btn-icon icon18"></span></a><a href="javascript:;" id="expand-global">' . $this->translate("Expand all") . ' <span class="icon-arrow-down btn-icon icon18"></span></a>', 'helpSection' => $this->helpSection)); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => '<a href="javascript:;" id="collapse-global">' . $this->translate("Collapse all") . ' <span class="icon-arrow-right icon icon18"></span></a><a href="javascript:;" id="expand-global">' . $this->translate("Expand all") . ' <span class="icon-arrow-down icon icon18"></span></a>', 'helpSection' => $this->helpSection)); ?>
 	<div id="sortable-main">
 		<div class="grid_12 content-footer">
 			<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
@@ -70,7 +70,7 @@
 	</div>
 	<div class="grid_12 footer">
 <!--		<button class="mdel-button" id="mass-del">Delete selected</button>-->
-		<a href="javascript:;" class="delete-selected btn btn-link btn-error" id="mass-del">[ <?php echo $this->translate('Delete selected');?> ]</a>
+		<a href="javascript:;" class="delete-selected btn link error" id="mass-del">[ <?php echo $this->translate('Delete selected');?> ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</dv>
 </div>

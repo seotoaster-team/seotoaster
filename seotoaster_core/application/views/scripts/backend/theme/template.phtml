@@ -4,7 +4,7 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>
 <div class="seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? '' : 'refreshOnClose'; ?>">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template', 'helpSection' => $this->helpSection)); ?>
-<!--	<a class="tpopup listpages btn btn-link" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="--><?php //echo $this->websiteUrl; ?><!--backend/backend_page/listpages/template/--><?php //echo $this->templateForm->getElement('name')->getValue(); ?><!--">[--><?php //echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?><!--]</a>-->
+<!--	<a class="tpopup listpages btn link" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="--><?php //echo $this->websiteUrl; ?><!--backend/backend_page/listpages/template/--><?php //echo $this->templateForm->getElement('name')->getValue(); ?><!--">[--><?php //echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?><!--]</a>-->
 	<div class="content">
 		<div id="templatelist" class="show-right"></div>
 		<div id="listpages" class="show-right"></div>
@@ -18,14 +18,14 @@
 			</div>
 			<div id="other-listpages" class="grid_2 alpha mt25px">
 			<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-				<a id="listpages-btn" class="btn btn-block btn-link" href="javascript:;" >[ <?php echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?> ]</a>
+				<a id="listpages-btn" class="btn block link" href="javascript:;" >[ <?php echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?> ]</a>
 
 				<?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 574)); ?>
 			<?php endif; ?>
 			</div>
 		<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
 			<div id="other-templates" class="grid_2 alpha omega mt25px">
-				<a id="listtemplates-btn" class="btn btn-block btn-link" href="javascript:;">[ <?php echo $this->translate('Edit other templates');?> ]</a>
+				<a id="listtemplates-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate('Edit other templates');?> ]</a>
 			</div>
 		<?php endif; ?>
 			<div class="grid_12 alpha omega">
