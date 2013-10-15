@@ -1102,5 +1102,7 @@
     'Create a news post' => 'Créer un billet',
     'Organize news' => 'Organiser les billets',
     'Inc. TVA' => 'Dont TVA',
-    'Total w/o tax' => 'Total HT'
+    'Total w/o tax' => 'Total HT',
+    'User with this email already exist' => 'Cet email est déjà utilisé',
+    'Email not valid' => 'Email invalide'
 );?>
