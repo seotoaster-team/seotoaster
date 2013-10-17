@@ -84,7 +84,7 @@ function showTemplateList(e){
 					collapsible: true
 				});
 				$('#templatelist .template_group').css({
-					'max-height' : $('#templatelist .content').height() - $('#templatelist .template_header').outerHeight(true) * $('#templatelist .template_header').length
+					'max-height' : $('#templatelist .content').height() - ($('#templatelist .template_header').outerHeight(true) + 2) * $('#templatelist .template_header').length
 				});
 				var templateName = $('#template_id').val();
 				$('.template_item').removeClass('curr-template').find('.template-check').remove();

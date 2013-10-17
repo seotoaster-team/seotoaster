@@ -356,19 +356,32 @@
 //==================================================
 .thumbnail-state(@radius: @thumbnail-border-radius, @background: @thumbnail-bg, @border-color: @thumbnail-border-color, @padding:2px) {
     position   : relative;
+    cursor     : pointer;
+    overflow   : hidden;
     background : @background;
     padding    : @padding;
     border     : 1px solid @border-color;
-    //.box-shadow(0px 0px 1px darken(@border-color, 50%));
+    text-align : center;
+    .box-sizing();
     .transition(all, 0.3s);
     .border-radius(@radius);
-
-    &>img{
-    }
 
     &:hover{
         border-color : @gray;
         .box-shadow(@thumbnail-box-shadow);
+    }
+
+    img{
+        width      : auto;
+        max-height : 100%;
+    }
+
+    .caption{
+        background  : @thumbnail-caption-bg;
+        color       : @thumbnail-caption-color;
+        font-size   : @font-size-base;
+        line-height : normal;
+        margin      : 0;
     }
 }
 
@@ -499,11 +512,10 @@
 
 // Customer mixins
 //===================================================
-.background(@padding: 10px, @border-width:1px) {
+.background(@padding: 10px) {
     overflow   : hidden;
     background : @gray-lighter;
     padding    : @padding;
-    //border     : @border-width solid transparent;
     .box-shadow(0 1px 1px #BBB);
     .box-sizing;
 }

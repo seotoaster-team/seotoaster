@@ -271,8 +271,7 @@ button a,
   display: block;
   clear: both;
 }
-[class^="grid_"],
-[class*=" grid_"] {
+[class*="grid_"] {
   display: inline;
   float: left;
   position: relative;

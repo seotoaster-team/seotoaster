@@ -1,9 +1,10 @@
 .ui-progressbar{
-    position   : relative;
-    text-align : left;
-    height     : @progressbar-size;
-    background : @progressbar-bg;
-    border     : 1px solid @progressbar-border-color;
+    position    : relative;
+    text-align  : left;
+    height      : @progressbar-size;
+    line-height : @progressbar-size;
+    background  : @progressbar-bg;
+    border      : 1px solid @progressbar-border-color;
     .box-sizing();
 
     .ui-progressbar-value{
@@ -24,7 +25,7 @@
 
         b{
             &:after{
-                content:'%';
+                content : '%';
             }
         }
     }

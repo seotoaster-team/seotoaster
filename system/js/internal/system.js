@@ -183,7 +183,7 @@ doc.on('click', '[name="useImage"]', function () {
 });
 ///////// checkbox & radio button //////////////
 function checkboxRadio() {
-    $(':checkbox, :radio').not('.processed, .icon').each(function () {
+    $(':checkbox, :radio').not('.processed, .icon, .hidden').each(function () {
         if (!$(this).closest('.btn-set').length) {
             if ($(this).parent('label').length) {
                 $(this).after('<span></span>');

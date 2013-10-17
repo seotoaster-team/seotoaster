@@ -1,57 +1,59 @@
-.smoke-base .smokebg{
-    background      : rgba(255, 255, 255, 0.5);
-    -pie-background : rgba(255, 255, 255, 0.5);
-    position        : absolute;
-    left            : 0;
-    right           : 0;
-    top             : 0;
-    bottom          : 0;
-    z-index         : 100;
-}
-
-.alert,
-.smoke-base .dialog,
-[class^="alert-"], [class*=" alert-"]{
-    position      : fixed;
-    top           : 40%;
-    left          : 0;
-    right         : 0;
-    z-index       : 101;
-    margin        : 0 auto;
-    width         : 400px;
-    max-width     : 75%;
-    font-size     : @font-size-larger;
-    text-align    : center;
-    border        : 2px solid;
-    border-radius : @state-border-radius;
-    .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
-
-    .close{
-        .icon-size(16px);
-        cursor   : pointer;
-        position : absolute;
-        top      : 0;
-        right    : 0;
-        color    : inherit;
-
-        &:hover{
-            color : @brand-error;
-        }
+.smoke-base{
+    .smokebg{
+        background      : rgba(255, 255, 255, 0.5);
+        -pie-background : rgba(255, 255, 255, 0.5);
+        position        : absolute;
+        left            : 0;
+        right           : 0;
+        top             : 0;
+        bottom          : 0;
+        z-index         : 100;
     }
 
-    // Alternate styles
-    // -------------------------
-    &.alert-success, &.success{
+    .dialog{
+        position      : fixed;
+        top           : 30%;
+        left          : 0;
+        right         : 0;
+        z-index       : 101;
+        margin        : 0 auto;
+        width         : 800px;
+        max-width     : 75%;
+        max-height    : 40%;
+        overflow      : auto;
+        font-size     : @font-size-larger;
+        text-align    : center;
+        border        : 2px solid;
+        border-radius : @state-border-radius;
         .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
-    }
-    &.alert-warning, &.warning{
-        .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
-    }
-    &.alert-error, &.error{
-        .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
-    }
-    &.alert-info, &.info{
-        .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
+
+        .close{
+            .icon-size(16px);
+            cursor   : pointer;
+            position : absolute;
+            top      : 0;
+            right    : 0;
+            color    : inherit;
+
+            &:hover{
+                color : @brand-error;
+            }
+        }
+
+        // Alternate styles
+        // -------------------------
+        &.alert-success, &.success{
+            .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
+        }
+        &.alert-warning, &.warning{
+            .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
+        }
+        &.alert-error, &.error{
+            .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
+        }
+        &.alert-info, &.info{
+            .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
+        }
     }
 }
 
@@ -59,10 +61,9 @@
     border-left : 3px solid;
 }
 
-.alert,
+//.alert, [class*="alert-"],
 .message,
-.smoke-base .dialog,
-[class^="alert-"], [class*=" alert-"]{
+.smoke-base .dialog{
     padding : @padding-base-vertical @padding-base-horizontal;
     .alert-state(@state-success-text, @state-success-bg, @state-success-border);
 

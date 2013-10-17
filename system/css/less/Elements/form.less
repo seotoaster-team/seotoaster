@@ -88,8 +88,8 @@ form, .form{
         }
 
         // -- Buttons
-        &>[type="submit"], &>[type="button"]{
-            //margin-top : 21px;
+        &>[type="submit"]:not([class*="mt"]), &>[type="button"]:not([class*="mt"]){
+            margin-top : 21px;
         }
     }
 
@@ -110,7 +110,7 @@ form, .form{
 select, textarea, input{
     padding          : @padding-base-vertical;
     background-color : @input-bg;
-    color            : lighten(@text-color, 10%);
+    color            : @input-color;
     vertical-align   : middle;
     border-style     : solid;
     border-width     : @input-border-width;

@@ -2074,7 +2074,7 @@ body {
   font-size: 14px;
 }
 .ui-tabs .header.ui-tabs-nav {
-  padding-right: 9%;
+  padding-right: 8%;
 }
 .header a {
   text-decoration: none;
@@ -2083,7 +2083,8 @@ body {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding: 6px 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 .header-inner a {
   color: inherit;
@@ -2325,17 +2326,25 @@ ul.list-unstyled,
 ol.list-unstyled {
   list-style-type: none;
 }
-ul.list-unstyled:not([class*="ml"]):not([class*="alpha"]),
-ol.list-unstyled:not([class*="ml"]):not([class*="alpha"]) {
+ul.list-unstyled:not([class*="ml"]):not([class*="grid_"]),
+ol.list-unstyled:not([class*="ml"]):not([class*="grid_"]) {
   margin-left: 0.5em;
+}
+ul.list-unstyled:not([class*="mb"]),
+ol.list-unstyled:not([class*="mb"]) {
+  margin-bottom: 0;
 }
 ul.list-inline,
 ol.list-inline {
   list-style-type: none;
 }
-ul.list-inline:not([class*="ml"]):not([class*="alpha"]),
-ol.list-inline:not([class*="ml"]):not([class*="alpha"]) {
+ul.list-inline:not([class*="ml"]):not([class*="grid_"]),
+ol.list-inline:not([class*="ml"]):not([class*="grid_"]) {
   margin-left: 0;
+}
+ul.list-inline:not([class*="mb"]),
+ol.list-inline:not([class*="mb"]) {
+  margin-bottom: 0;
 }
 ul.list-inline > li,
 ol.list-inline > li {
@@ -2347,9 +2356,35 @@ ol.list-inline > li {
 
   vertical-align: top;
 }
+ul.list-bordered,
+ol.list-bordered {
+  list-style-type: none;
+}
+ul.list-bordered:not([class*="ml"]):not([class*="grid_"]),
+ol.list-bordered:not([class*="ml"]):not([class*="grid_"]) {
+  margin-left: 0;
+}
+ul.list-bordered:not([class*="mb"]),
+ol.list-bordered:not([class*="mb"]) {
+  margin-bottom: 0;
+}
+ul.list-bordered > li,
+ol.list-bordered > li {
+  margin: 0;
+  padding: 6px 12px;
+  border-bottom: 1px dashed #eaeaea;
+}
 ul.list-tags,
 ol.list-tags {
   list-style-type: none;
+}
+ul.list-tags:not([class*="ml"]):not([class*="grid_"]),
+ol.list-tags:not([class*="ml"]):not([class*="grid_"]) {
+  margin-left: 0;
+}
+ul.list-tags:not([class*="mb"]),
+ol.list-tags:not([class*="mb"]) {
+  margin-bottom: 0;
 }
 ul.list-tags > li,
 ol.list-tags > li {
@@ -2445,6 +2480,12 @@ dl.dl-horizontal dd {
   overflow: hidden;
   padding: 6px 0;
 }
+.items-list:not([class*="ml"]):not([class*="grid_"]) {
+  margin-left: 0;
+}
+.items-list:not([class*="mb"]) {
+  margin-bottom: 0;
+}
 .items-list .list-row {
   background: #fafafa;
   padding: 4px 0;
@@ -2472,6 +2513,7 @@ ol.items-list .list-row > * {
   padding: 4px 8px;
 }
 .list-images {
+  margin: 0;
   font-size: 0;
   list-style-type: none;
 }
@@ -2483,21 +2525,21 @@ ol.items-list .list-row > * {
 
   vertical-align: top;
   position: relative;
+  cursor: pointer;
+  overflow: hidden;
   background: #ffffff;
   padding: 2px;
   border: 1px solid #dddddd;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: hidden;
-  cursor: pointer;
-  text-align: center;
   height: 80px;
   line-height: 74px;
 }
@@ -2511,6 +2553,17 @@ ol.items-list .list-row > * {
 .list-images > * img {
   width: auto;
   max-height: 100%;
+}
+.list-images > * .caption {
+  background: rgba(49, 176, 213, 0.8);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: normal;
+  margin: 0;
+}
+.list-images > *[class*="grid_"] {
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 .paginator,
 .dataTables_paginate {
@@ -2686,7 +2739,7 @@ form fieldset + [type="button"],
 }
 form label,
 .form label {
-  color: #757575;
+  color: #888888;
   display: block;
   margin-bottom: 0.15em;
 }
@@ -2713,6 +2766,12 @@ form.form-inline fieldset > div,
 .form.form-inline fieldset > div {
   margin-top: 0;
 }
+form.form-inline > [type="submit"]:not([class*="mt"]),
+.form.form-inline > [type="submit"]:not([class*="mt"]),
+form.form-inline > [type="button"]:not([class*="mt"]),
+.form.form-inline > [type="button"]:not([class*="mt"]) {
+  margin-top: 21px;
+}
 form.form-grid label:first-child,
 .form.form-grid label:first-child {
   float: left;
@@ -2734,7 +2793,7 @@ textarea,
 input {
   padding: 6px;
   background-color: #ffffff;
-  color: #4d4d4d;
+  color: #377d98;
   vertical-align: middle;
   border-style: solid;
   border-width: 1px;
@@ -4397,15 +4456,19 @@ input[type="button"].btn-block {
   width: 100%;
 }
 [type="submit"],
-.save-and-close {
+.save-and-close,
+#save-btn {
   float: right;
 }
 .content-footer.grid_12 + footer [type="submit"],
 .content-footer.grid_12 + footer .save-and-close,
+.content-footer.grid_12 + footer #save-btn,
 .content-medium-footer.grid_12 + footer [type="submit"],
 .content-medium-footer.grid_12 + footer .save-and-close,
+.content-medium-footer.grid_12 + footer #save-btn,
 .content-small-footer.grid_12 + footer [type="submit"],
-.content-small-footer.grid_12 + footer .save-and-close {
+.content-small-footer.grid_12 + footer .save-and-close,
+.content-small-footer.grid_12 + footer #save-btn {
   margin-right: 2%;
 }
 table {
@@ -4650,18 +4713,17 @@ table tr.info > td {
   bottom: 0;
   z-index: 100;
 }
-.alert,
-.smoke-base .dialog,
-[class^="alert-"],
-[class*=" alert-"] {
+.smoke-base .dialog {
   position: fixed;
-  top: 40%;
+  top: 30%;
   left: 0;
   right: 0;
   z-index: 101;
   margin: 0 auto;
-  width: 400px;
+  width: 800px;
   max-width: 75%;
+  max-height: 40%;
+  overflow: auto;
   font-size: 1.5em;
   text-align: center;
   border: 2px solid;
@@ -4671,10 +4733,7 @@ table tr.info > td {
   -ms-box-shadow: 0 0 100px #bbf4aa;
   box-shadow: 0 0 100px #bbf4aa;
 }
-.alert .close,
-.smoke-base .dialog .close,
-[class^="alert-"] .close,
-[class*=" alert-"] .close {
+.smoke-base .dialog .close {
   width: 16px;
   height: 16px;
   line-height: 16px;
@@ -4684,73 +4743,37 @@ table tr.info > td {
   right: 0;
   color: inherit;
 }
-.alert .close:before,
 .smoke-base .dialog .close:before,
-[class^="alert-"] .close:before,
-[class*=" alert-"] .close:before,
-.alert .close [class^="icon-"]:before,
 .smoke-base .dialog .close [class^="icon-"]:before,
-[class^="alert-"] .close [class^="icon-"]:before,
-[class*=" alert-"] .close [class^="icon-"]:before,
-.alert .close [class*=" icon-"]:before,
-.smoke-base .dialog .close [class*=" icon-"]:before,
-[class^="alert-"] .close [class*=" icon-"]:before,
-[class*=" alert-"] .close [class*=" icon-"]:before {
+.smoke-base .dialog .close [class*=" icon-"]:before {
   font-size: 16px;
 }
-.alert .close:hover,
-.smoke-base .dialog .close:hover,
-[class^="alert-"] .close:hover,
-[class*=" alert-"] .close:hover {
+.smoke-base .dialog .close:hover {
   color: #e74c3c;
 }
-.alert.alert-success,
 .smoke-base .dialog.alert-success,
-[class^="alert-"].alert-success,
-[class*=" alert-"].alert-success,
-.alert.success,
-.smoke-base .dialog.success,
-[class^="alert-"].success,
-[class*=" alert-"].success {
+.smoke-base .dialog.success {
   -webkit-box-shadow: 0 0 100px #bbf4aa;
   -moz-box-shadow: 0 0 100px #bbf4aa;
   -ms-box-shadow: 0 0 100px #bbf4aa;
   box-shadow: 0 0 100px #bbf4aa;
 }
-.alert.alert-warning,
 .smoke-base .dialog.alert-warning,
-[class^="alert-"].alert-warning,
-[class*=" alert-"].alert-warning,
-.alert.warning,
-.smoke-base .dialog.warning,
-[class^="alert-"].warning,
-[class*=" alert-"].warning {
+.smoke-base .dialog.warning {
   -webkit-box-shadow: 0 0 100px #e8e3b0;
   -moz-box-shadow: 0 0 100px #e8e3b0;
   -ms-box-shadow: 0 0 100px #e8e3b0;
   box-shadow: 0 0 100px #e8e3b0;
 }
-.alert.alert-error,
 .smoke-base .dialog.alert-error,
-[class^="alert-"].alert-error,
-[class*=" alert-"].alert-error,
-.alert.error,
-.smoke-base .dialog.error,
-[class^="alert-"].error,
-[class*=" alert-"].error {
+.smoke-base .dialog.error {
   -webkit-box-shadow: 0 0 100px #dfb6b6;
   -moz-box-shadow: 0 0 100px #dfb6b6;
   -ms-box-shadow: 0 0 100px #dfb6b6;
   box-shadow: 0 0 100px #dfb6b6;
 }
-.alert.alert-info,
 .smoke-base .dialog.alert-info,
-[class^="alert-"].alert-info,
-[class*=" alert-"].alert-info,
-.alert.info,
-.smoke-base .dialog.info,
-[class^="alert-"].info,
-[class*=" alert-"].info {
+.smoke-base .dialog.info {
   -webkit-box-shadow: 0 0 100px #c1e0eb;
   -moz-box-shadow: 0 0 100px #c1e0eb;
   -ms-box-shadow: 0 0 100px #c1e0eb;
@@ -4759,242 +4782,125 @@ table tr.info > td {
 .message {
   border-left: 3px solid;
 }
-.alert,
 .message,
-.smoke-base .dialog,
-[class^="alert-"],
-[class*=" alert-"] {
+.smoke-base .dialog {
   padding: 6px 12px;
   background-color: #defcd5;
   border-color: #b9f9a5;
   color: #52a954;
 }
-.alert hr,
 .message hr,
-.smoke-base .dialog hr,
-[class^="alert-"] hr,
-[class*=" alert-"] hr {
+.smoke-base .dialog hr {
   border-top-color: #a6f78e;
 }
-.alert a,
 .message a,
-.smoke-base .dialog a,
-[class^="alert-"] a,
-[class*=" alert-"] a {
+.smoke-base .dialog a {
   color: #81f45e;
   color: inherit;
 }
-.alert p,
 .message p,
 .smoke-base .dialog p,
-[class^="alert-"] p,
-[class*=" alert-"] p,
-.alert ul,
 .message ul,
 .smoke-base .dialog ul,
-[class^="alert-"] ul,
-[class*=" alert-"] ul,
-.alert ol,
 .message ol,
-.smoke-base .dialog ol,
-[class^="alert-"] ol,
-[class*=" alert-"] ol {
+.smoke-base .dialog ol {
   margin: 0;
 }
-.alert p + p,
 .message p + p,
 .smoke-base .dialog p + p,
-[class^="alert-"] p + p,
-[class*=" alert-"] p + p,
-.alert ul + p,
 .message ul + p,
 .smoke-base .dialog ul + p,
-[class^="alert-"] ul + p,
-[class*=" alert-"] ul + p,
-.alert ol + p,
 .message ol + p,
 .smoke-base .dialog ol + p,
-[class^="alert-"] ol + p,
-[class*=" alert-"] ol + p,
-.alert p + ul,
 .message p + ul,
 .smoke-base .dialog p + ul,
-[class^="alert-"] p + ul,
-[class*=" alert-"] p + ul,
-.alert ul + ul,
 .message ul + ul,
 .smoke-base .dialog ul + ul,
-[class^="alert-"] ul + ul,
-[class*=" alert-"] ul + ul,
-.alert ol + ul,
 .message ol + ul,
 .smoke-base .dialog ol + ul,
-[class^="alert-"] ol + ul,
-[class*=" alert-"] ol + ul,
-.alert p + ol,
 .message p + ol,
 .smoke-base .dialog p + ol,
-[class^="alert-"] p + ol,
-[class*=" alert-"] p + ol,
-.alert ul + ol,
 .message ul + ol,
 .smoke-base .dialog ul + ol,
-[class^="alert-"] ul + ol,
-[class*=" alert-"] ul + ol,
-.alert ol + ol,
 .message ol + ol,
-.smoke-base .dialog ol + ol,
-[class^="alert-"] ol + ol,
-[class*=" alert-"] ol + ol {
+.smoke-base .dialog ol + ol {
   margin-top: 5px;
 }
-.alert li,
 .message li,
-.smoke-base .dialog li,
-[class^="alert-"] li,
-[class*=" alert-"] li {
+.smoke-base .dialog li {
   list-style: none;
   margin: 0;
 }
-.alert li + li,
 .message li + li,
-.smoke-base .dialog li + li,
-[class^="alert-"] li + li,
-[class*=" alert-"] li + li {
+.smoke-base .dialog li + li {
   margin-top: 0.5em;
 }
-.alert a,
 .message a,
-.smoke-base .dialog a,
-[class^="alert-"] a,
-[class*=" alert-"] a {
+.smoke-base .dialog a {
   text-decoration: underline;
 }
-.alert a:hover,
 .message a:hover,
-.smoke-base .dialog a:hover,
-[class^="alert-"] a:hover,
-[class*=" alert-"] a:hover {
+.smoke-base .dialog a:hover {
   text-decoration: none;
 }
-.alert .dialog-inner .dialog-buttons,
 .message .dialog-inner .dialog-buttons,
-.smoke-base .dialog .dialog-inner .dialog-buttons,
-[class^="alert-"] .dialog-inner .dialog-buttons,
-[class*=" alert-"] .dialog-inner .dialog-buttons {
+.smoke-base .dialog .dialog-inner .dialog-buttons {
   margin-top: 10px;
   font-size: 14px;
 }
-.alert .dialog-inner .dialog-buttons button,
 .message .dialog-inner .dialog-buttons button,
-.smoke-base .dialog .dialog-inner .dialog-buttons button,
-[class^="alert-"] .dialog-inner .dialog-buttons button,
-[class*=" alert-"] .dialog-inner .dialog-buttons button {
+.smoke-base .dialog .dialog-inner .dialog-buttons button {
   float: none;
   margin: 0 8px;
   color: #ffffff;
   background-color: #2ecc71;
   border-color: #25a25a;
 }
-.alert .dialog-inner .dialog-buttons button:hover,
 .message .dialog-inner .dialog-buttons button:hover,
 .smoke-base .dialog .dialog-inner .dialog-buttons button:hover,
-[class^="alert-"] .dialog-inner .dialog-buttons button:hover,
-[class*=" alert-"] .dialog-inner .dialog-buttons button:hover,
-.alert .dialog-inner .dialog-buttons button:focus,
 .message .dialog-inner .dialog-buttons button:focus,
 .smoke-base .dialog .dialog-inner .dialog-buttons button:focus,
-[class^="alert-"] .dialog-inner .dialog-buttons button:focus,
-[class*=" alert-"] .dialog-inner .dialog-buttons button:focus,
-.alert .dialog-inner .dialog-buttons button:active,
 .message .dialog-inner .dialog-buttons button:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button:active,
-.alert .dialog-inner .dialog-buttons button.active,
 .message .dialog-inner .dialog-buttons button.active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.active,
-.alert .dialog-inner .dialog-buttons button.ui-state-active,
 .message .dialog-inner .dialog-buttons button.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.ui-state-active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.ui-state-active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.ui-state-active {
+.smoke-base .dialog .dialog-inner .dialog-buttons button.ui-state-active {
   color: #ffffff;
   background-color: #54d98c;
   border-color: #2ecc71;
 }
-.alert .dialog-inner .dialog-buttons button:active,
 .message .dialog-inner .dialog-buttons button:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button:active,
-.alert .dialog-inner .dialog-buttons button.active,
 .message .dialog-inner .dialog-buttons button.active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.active,
-.alert .dialog-inner .dialog-buttons button.ui-state-active,
 .message .dialog-inner .dialog-buttons button.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.ui-state-active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.ui-state-active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.ui-state-active {
+.smoke-base .dialog .dialog-inner .dialog-buttons button.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   box-shadow: 0.2em 0.2em 0.4em #176437 inset;
 }
-.alert .dialog-inner .dialog-buttons button.disabled,
 .message .dialog-inner .dialog-buttons button.disabled,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.disabled,
-[class^="alert-"] .dialog-inner .dialog-buttons button.disabled,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.disabled,
-.alert .dialog-inner .dialog-buttons button[disabled],
 .message .dialog-inner .dialog-buttons button[disabled],
 .smoke-base .dialog .dialog-inner .dialog-buttons button[disabled],
-[class^="alert-"] .dialog-inner .dialog-buttons button[disabled],
-[class*=" alert-"] .dialog-inner .dialog-buttons button[disabled],
-.alert .dialog-inner .dialog-buttons button.disabled:hover,
 .message .dialog-inner .dialog-buttons button.disabled:hover,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.disabled:hover,
-[class^="alert-"] .dialog-inner .dialog-buttons button.disabled:hover,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.disabled:hover,
-.alert .dialog-inner .dialog-buttons button[disabled]:hover,
 .message .dialog-inner .dialog-buttons button[disabled]:hover,
 .smoke-base .dialog .dialog-inner .dialog-buttons button[disabled]:hover,
-[class^="alert-"] .dialog-inner .dialog-buttons button[disabled]:hover,
-[class*=" alert-"] .dialog-inner .dialog-buttons button[disabled]:hover,
-.alert .dialog-inner .dialog-buttons button.disabled:focus,
 .message .dialog-inner .dialog-buttons button.disabled:focus,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.disabled:focus,
-[class^="alert-"] .dialog-inner .dialog-buttons button.disabled:focus,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.disabled:focus,
-.alert .dialog-inner .dialog-buttons button[disabled]:focus,
 .message .dialog-inner .dialog-buttons button[disabled]:focus,
 .smoke-base .dialog .dialog-inner .dialog-buttons button[disabled]:focus,
-[class^="alert-"] .dialog-inner .dialog-buttons button[disabled]:focus,
-[class*=" alert-"] .dialog-inner .dialog-buttons button[disabled]:focus,
-.alert .dialog-inner .dialog-buttons button.disabled:active,
 .message .dialog-inner .dialog-buttons button.disabled:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.disabled:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.disabled:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.disabled:active,
-.alert .dialog-inner .dialog-buttons button[disabled]:active,
 .message .dialog-inner .dialog-buttons button[disabled]:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button[disabled]:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button[disabled]:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button[disabled]:active,
-.alert .dialog-inner .dialog-buttons button.disabled.active,
 .message .dialog-inner .dialog-buttons button.disabled.active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.disabled.active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.disabled.active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.disabled.active,
-.alert .dialog-inner .dialog-buttons button[disabled].active,
 .message .dialog-inner .dialog-buttons button[disabled].active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button[disabled].active,
-[class^="alert-"] .dialog-inner .dialog-buttons button[disabled].active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button[disabled].active {
+.smoke-base .dialog .dialog-inner .dialog-buttons button[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -5004,114 +4910,57 @@ table tr.info > td {
   border-color: #42855e;
   text-decoration: none;
 }
-.alert .dialog-inner .dialog-buttons button.cancel,
 .message .dialog-inner .dialog-buttons button.cancel,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel {
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel {
   color: #ffffff;
   background-color: #e74c3c;
   border-color: #d62c1a;
 }
-.alert .dialog-inner .dialog-buttons button.cancel:hover,
 .message .dialog-inner .dialog-buttons button.cancel:hover,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:hover,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel:hover,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel:hover,
-.alert .dialog-inner .dialog-buttons button.cancel:focus,
 .message .dialog-inner .dialog-buttons button.cancel:focus,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:focus,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel:focus,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel:focus,
-.alert .dialog-inner .dialog-buttons button.cancel:active,
 .message .dialog-inner .dialog-buttons button.cancel:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel:active,
-.alert .dialog-inner .dialog-buttons button.cancel.active,
 .message .dialog-inner .dialog-buttons button.cancel.active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.active,
-.alert .dialog-inner .dialog-buttons button.cancel.ui-state-active,
 .message .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.ui-state-active {
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.ui-state-active {
   color: #ffffff;
   background-color: #ed7669;
   border-color: #e74c3c;
 }
-.alert .dialog-inner .dialog-buttons button.cancel:active,
 .message .dialog-inner .dialog-buttons button.cancel:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel:active,
-.alert .dialog-inner .dialog-buttons button.cancel.active,
 .message .dialog-inner .dialog-buttons button.cancel.active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.active,
-.alert .dialog-inner .dialog-buttons button.cancel.ui-state-active,
 .message .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.ui-state-active {
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
 }
-.alert .dialog-inner .dialog-buttons button.cancel.disabled,
 .message .dialog-inner .dialog-buttons button.cancel.disabled,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.disabled,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.disabled,
-.alert .dialog-inner .dialog-buttons button.cancel[disabled],
 .message .dialog-inner .dialog-buttons button.cancel[disabled],
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled],
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel[disabled],
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel[disabled],
-.alert .dialog-inner .dialog-buttons button.cancel.disabled:hover,
 .message .dialog-inner .dialog-buttons button.cancel.disabled:hover,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled:hover,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.disabled:hover,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.disabled:hover,
-.alert .dialog-inner .dialog-buttons button.cancel[disabled]:hover,
 .message .dialog-inner .dialog-buttons button.cancel[disabled]:hover,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled]:hover,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel[disabled]:hover,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel[disabled]:hover,
-.alert .dialog-inner .dialog-buttons button.cancel.disabled:focus,
 .message .dialog-inner .dialog-buttons button.cancel.disabled:focus,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled:focus,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.disabled:focus,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.disabled:focus,
-.alert .dialog-inner .dialog-buttons button.cancel[disabled]:focus,
 .message .dialog-inner .dialog-buttons button.cancel[disabled]:focus,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled]:focus,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel[disabled]:focus,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel[disabled]:focus,
-.alert .dialog-inner .dialog-buttons button.cancel.disabled:active,
 .message .dialog-inner .dialog-buttons button.cancel.disabled:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.disabled:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.disabled:active,
-.alert .dialog-inner .dialog-buttons button.cancel[disabled]:active,
 .message .dialog-inner .dialog-buttons button.cancel[disabled]:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled]:active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel[disabled]:active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel[disabled]:active,
-.alert .dialog-inner .dialog-buttons button.cancel.disabled.active,
 .message .dialog-inner .dialog-buttons button.cancel.disabled.active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled.active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel.disabled.active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel.disabled.active,
-.alert .dialog-inner .dialog-buttons button.cancel[disabled].active,
 .message .dialog-inner .dialog-buttons button.cancel[disabled].active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled].active,
-[class^="alert-"] .dialog-inner .dialog-buttons button.cancel[disabled].active,
-[class*=" alert-"] .dialog-inner .dialog-buttons button.cancel[disabled].active {
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -5121,167 +4970,92 @@ table tr.info > td {
   border-color: #b2493e;
   text-decoration: none;
 }
-.alert.alert-success,
 .message.alert-success,
 .smoke-base .dialog.alert-success,
-[class^="alert-"].alert-success,
-[class*=" alert-"].alert-success,
-.alert.success,
 .message.success,
-.smoke-base .dialog.success,
-[class^="alert-"].success,
-[class*=" alert-"].success {
+.smoke-base .dialog.success {
   background-color: #defcd5;
   border-color: #b9f9a5;
   color: #52a954;
 }
-.alert.alert-success hr,
 .message.alert-success hr,
 .smoke-base .dialog.alert-success hr,
-[class^="alert-"].alert-success hr,
-[class*=" alert-"].alert-success hr,
-.alert.success hr,
 .message.success hr,
-.smoke-base .dialog.success hr,
-[class^="alert-"].success hr,
-[class*=" alert-"].success hr {
+.smoke-base .dialog.success hr {
   border-top-color: #a6f78e;
 }
-.alert.alert-success a,
 .message.alert-success a,
 .smoke-base .dialog.alert-success a,
-[class^="alert-"].alert-success a,
-[class*=" alert-"].alert-success a,
-.alert.success a,
 .message.success a,
-.smoke-base .dialog.success a,
-[class^="alert-"].success a,
-[class*=" alert-"].success a {
+.smoke-base .dialog.success a {
   color: #81f45e;
   color: inherit;
 }
-.alert.alert-warning,
 .message.alert-warning,
 .smoke-base .dialog.alert-warning,
-[class^="alert-"].alert-warning,
-[class*=" alert-"].alert-warning,
-.alert.warning,
 .message.warning,
-.smoke-base .dialog.warning,
-[class^="alert-"].warning,
-[class*=" alert-"].warning {
+.smoke-base .dialog.warning {
   background-color: #f6f3d5;
   border-color: #ede7ab;
   color: #96904d;
 }
-.alert.alert-warning hr,
 .message.alert-warning hr,
 .smoke-base .dialog.alert-warning hr,
-[class^="alert-"].alert-warning hr,
-[class*=" alert-"].alert-warning hr,
-.alert.warning hr,
 .message.warning hr,
-.smoke-base .dialog.warning hr,
-[class^="alert-"].warning hr,
-[class*=" alert-"].warning hr {
+.smoke-base .dialog.warning hr {
   border-top-color: #e9e196;
 }
-.alert.alert-warning a,
 .message.alert-warning a,
 .smoke-base .dialog.alert-warning a,
-[class^="alert-"].alert-warning a,
-[class*=" alert-"].alert-warning a,
-.alert.warning a,
 .message.warning a,
-.smoke-base .dialog.warning a,
-[class^="alert-"].warning a,
-[class*=" alert-"].warning a {
+.smoke-base .dialog.warning a {
   color: #e0d56c;
   color: inherit;
 }
-.alert.alert-error,
 .message.alert-error,
 .smoke-base .dialog.alert-error,
-[class^="alert-"].alert-error,
-[class*=" alert-"].alert-error,
-.alert.error,
 .message.error,
-.smoke-base .dialog.error,
-[class^="alert-"].error,
-[class*=" alert-"].error {
+.smoke-base .dialog.error {
   background-color: #f1d7d7;
   border-color: #e4b1b1;
   color: #a95252;
 }
-.alert.alert-error hr,
 .message.alert-error hr,
 .smoke-base .dialog.alert-error hr,
-[class^="alert-"].alert-error hr,
-[class*=" alert-"].alert-error hr,
-.alert.error hr,
 .message.error hr,
-.smoke-base .dialog.error hr,
-[class^="alert-"].error hr,
-[class*=" alert-"].error hr {
+.smoke-base .dialog.error hr {
   border-top-color: #dd9e9e;
 }
-.alert.alert-error a,
 .message.alert-error a,
 .smoke-base .dialog.alert-error a,
-[class^="alert-"].alert-error a,
-[class*=" alert-"].alert-error a,
-.alert.error a,
 .message.error a,
-.smoke-base .dialog.error a,
-[class^="alert-"].error a,
-[class*=" alert-"].error a {
+.smoke-base .dialog.error a {
   color: #d07979;
   color: inherit;
 }
-.alert.alert-info,
 .message.alert-info,
 .smoke-base .dialog.alert-info,
-[class^="alert-"].alert-info,
-[class*=" alert-"].alert-info,
-.alert.info,
 .message.info,
-.smoke-base .dialog.info,
-[class^="alert-"].info,
-[class*=" alert-"].info {
+.smoke-base .dialog.info {
   background-color: #e6f4f9;
   border-color: #bde2ef;
   color: #4d8796;
 }
-.alert.alert-info hr,
 .message.alert-info hr,
 .smoke-base .dialog.alert-info hr,
-[class^="alert-"].alert-info hr,
-[class*=" alert-"].alert-info hr,
-.alert.info hr,
 .message.info hr,
-.smoke-base .dialog.info hr,
-[class^="alert-"].info hr,
-[class*=" alert-"].info hr {
+.smoke-base .dialog.info hr {
   border-top-color: #a8d9ea;
 }
-.alert.alert-info a,
 .message.alert-info a,
 .smoke-base .dialog.alert-info a,
-[class^="alert-"].alert-info a,
-[class*=" alert-"].alert-info a,
-.alert.info a,
 .message.info a,
-.smoke-base .dialog.info a,
-[class^="alert-"].info a,
-[class*=" alert-"].info a {
+.smoke-base .dialog.info a {
   color: #7fc7e0;
   color: inherit;
 }
-.alert.alert-block,
 .message.alert-block,
-.smoke-base .dialog.alert-block,
-[class^="alert-"].alert-block,
-[class*=" alert-"].alert-block {
+.smoke-base .dialog.alert-block {
   padding-top: 15px;
   padding-bottom: 15px;
 }
@@ -5310,24 +5084,25 @@ table tr.info > td {
   color: inherit;
 }
 .ui-dialog {
+  font-size: 14px;
   background-color: #ffffff;
   position: absolute;
-  top: 0 !important;
-  left: 0 !important;
-  bottom: 0 !important;
-  right: 0 !important;
-  margin: auto !important;
   padding: 0;
   z-index: 1001;
 }
 body > .ui-dialog[aria-describedby="toasterPopup"] {
   position: fixed;
   border: none;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: auto !important;
   line-height: 0;
-  -webkit-box-shadow: 3px 3px 10px #000000 3;
-  -moz-box-shadow: 3px 3px 10px #000000 3;
-  -ms-box-shadow: 3px 3px 10px #000000 3;
-  box-shadow: 3px 3px 10px #000000 3;
+  -webkit-box-shadow: 3px 3px 10px #000000;
+  -moz-box-shadow: 3px 3px 10px #000000;
+  -ms-box-shadow: 3px 3px 10px #000000;
+  box-shadow: 3px 3px 10px #000000;
 }
 body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background-image: url("../images/spinner.gif");
@@ -5385,26 +5160,29 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   float: left;
   max-width: 90%;
   text-transform: capitalize;
+  font-size: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
-  margin-top: -3px;
-  color: #666666;
+  vertical-align: middle;
+  color: #333333;
+  padding: 0;
+  background: none;
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:hover {
   color: #e74c3c;
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon-closethick {
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
+  width: 13px;
+  height: 13px;
+  line-height: 13px;
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon-closethick:before,
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon-closethick [class^="icon-"]:before,
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon-closethick [class*=" icon-"]:before {
-  font-size: 16px;
+  font-size: 13px;
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-button-text {
   display: none;
@@ -5674,6 +5452,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   position: relative;
   text-align: left;
   height: 18px;
+  line-height: 18px;
   background: #ffffff;
   border: 1px solid #1f7e9a;
   -webkit-box-sizing: border-box;
@@ -6127,6 +5906,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #templatelist .template_header {
   padding-top: 5px;
   padding-bottom: 5px;
+  font-weight: bold;
 }
 #templatelist .template_group {
   border: none;
@@ -6868,7 +6648,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item:nth-child(3),
 .plugins-list .plugin-item:nth-child(4),
 .plugins-list .plugin-item:nth-child(5) {
-  margin-top: 1%;
+  margin-top: 0.5%;
 }
 .plugins-list .plugin-item:hover .readme-plugin,
 .plugins-list .plugin-item:hover .del-plugin {
@@ -7342,15 +7122,17 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   width: 18%;
   margin: 1% 1.5% 1% 0.5%;
   vertical-align: top;
+  position: relative;
   cursor: pointer;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 2px;
+  border: 1px solid #dddddd;
+  text-align: center;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
-  position: relative;
-  background: #ffffff;
-  padding: 2px;
-  border: 1px solid #dddddd;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -7363,6 +7145,17 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   -moz-box-shadow: 3px 3px 3px #666666;
   -ms-box-shadow: 3px 3px 3px #666666;
   box-shadow: 3px 3px 3px #666666;
+}
+#webbuilder-image-only-inner #images-list img img {
+  width: auto;
+  max-height: 100%;
+}
+#webbuilder-image-only-inner #images-list img .caption {
+  background: rgba(49, 176, 213, 0.8);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: normal;
+  margin: 0;
 }
 #webbuilder-image-only-inner #webbuilder-main-image {
   height: 298px;

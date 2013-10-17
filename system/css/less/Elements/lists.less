@@ -15,15 +15,25 @@ ul, ol{
 
     &.list-unstyled{
         list-style-type : none;
-        &:not([class*="ml"]):not([class*="alpha"]){
+
+        &:not([class*="ml"]):not([class*="grid_"]){
             margin-left : 0.5em;
+        }
+
+        &:not([class*="mb"]){
+            margin-bottom : 0;
         }
     }
 
     &.list-inline{
         list-style-type : none;
-        &:not([class*="ml"]):not([class*="alpha"]){
+
+        &:not([class*="ml"]):not([class*="grid_"]){
             margin-left : 0;
+        }
+
+        &:not([class*="mb"]){
+            margin-bottom : 0;
         }
 
         &>li{
@@ -32,8 +42,34 @@ ul, ol{
         }
     }
 
+    &.list-bordered{
+        list-style-type : none;
+
+        &:not([class*="ml"]):not([class*="grid_"]){
+            margin-left : 0;
+        }
+
+        &:not([class*="mb"]){
+            margin-bottom : 0;
+        }
+
+        &>li{
+            margin        : 0;
+            padding       : @padding-base-vertical @padding-base-horizontal;
+            border-bottom : 1px dashed @gray-light;
+        }
+    }
+
     &.list-tags{
         list-style-type : none;
+
+        &:not([class*="ml"]):not([class*="grid_"]){
+            margin-left : 0;
+        }
+
+        &:not([class*="mb"]){
+            margin-bottom : 0;
+        }
 
         &>li{
             margin     : 2px 0 0;
@@ -137,6 +173,14 @@ dl{
 }
 .items-list{
 
+    &:not([class*="ml"]):not([class*="grid_"]){
+        margin-left : 0;
+    }
+
+    &:not([class*="mb"]){
+        margin-bottom : 0;
+    }
+
     .list-row{
         background    : @gray-lighter;
         padding       : @padding-small-vertical 0;
@@ -168,22 +212,22 @@ dl{
 }
 
 .list-images{
+    margin          : 0;
     font-size       : 0;
     list-style-type : none;
 
     &>*{
         .inline-block(top);
         .thumbnail-state(0);
-        .box-sizing();
-        overflow    : hidden;
-        cursor      : pointer;
-        text-align  : center;
         height      : 80px;
         line-height : 74px;
 
+        &[class*="grid_"]{
+            margin-top    : 1%;
+            margin-bottom : 1%;
+        }
+
         img{
-            width      : auto;
-            max-height : 100%;
         }
     }
 }

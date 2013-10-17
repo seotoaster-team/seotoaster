@@ -2074,7 +2074,7 @@ body {
   font-size: 14px;
 }
 .ui-tabs .header.ui-tabs-nav {
-  padding-right: 9%;
+  padding-right: 8%;
 }
 .header a {
   text-decoration: none;
@@ -2083,7 +2083,8 @@ body {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding: 6px 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 .header-inner a {
   color: inherit;
