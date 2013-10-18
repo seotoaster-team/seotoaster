@@ -250,7 +250,7 @@ blockquote.info a,
 @font-face {
   font-family: 'toaster-icons';
   src: url('../fonts/icons/toaster-icons.eot');
-  src: url('../fonts/icons/toaster-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/toaster-icons.svg#toaster-icon') format('svg'), url('../fonts/icons/toaster-icons.woff') format('woff'), url('../fonts/icons/toaster-icons.ttf') format('truetype');
+  src: url('../fonts/icons/toaster-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/toaster-icons.woff') format('woff'), url('../fonts/icons/toaster-icons.svg#toaster-icon') format('svg'), url('../fonts/icons/toaster-icons.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -2210,10 +2210,10 @@ body {
   height: 385px;
 }
 .content-small {
-  height: 310px;
+  height: 320px;
 }
 .content-small-footer {
-  height: 255px;
+  height: 265px;
 }
 .footer {
   -webkit-box-sizing: border-box;
@@ -2225,7 +2225,7 @@ body {
   height: 55px;
   line-height: 30px;
 }
-[class*="content"].grid_12 + .footer {
+[class*="content"].grid_12 + .footer:not([class*="grid_"]) {
   padding-left: 2%;
   padding-right: 2%;
 }

@@ -1,77 +1,75 @@
 <div class="seotoaster container refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => '<a href="javascript:;" id="collapse-global">' . $this->translate("Collapse all") . ' <span class="icon-arrow-right icon icon18"></span></a><a href="javascript:;" id="expand-global">' . $this->translate("Expand all") . ' <span class="icon-arrow-down icon icon18"></span></a>', 'helpSection' => $this->helpSection)); ?>
-	<div id="sortable-main">
-		<div class="grid_12 content-footer">
-			<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
-				<?php  foreach($this->tree as $key => $treeData): ?>
-					<div class="category-data background mb10px" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
-						<div class="catmove">
-							<input class="check-all" type="checkbox" title="Check all"/>
-							<?php echo $this->toasterLink('backend_page', 'page', $treeData['category']->getNavName(), 'id/' . $treeData['category']->getId(), false, array('width' => '954', 'height' => '574'), false); ?>
-							<a href="javascript:;" class="collapse-all icon-arrow-right" title="collapse all"></a>
-						</div>
-						<ul class="organise">
-							<?php if(isset($treeData['pages']) && is_array($treeData['pages'])): ?>
-								<?php foreach ($treeData['pages'] as $page): ?>
-									<li id="<?php echo $page->getId(); ?>" class="move">
-										<div class="icon-move icon16 fl-right"></div>
-										<input type="checkbox" name="remove[]" class="page-remove" />
-										<?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574'), false); ?>
-									</li>
-								<?php endforeach; ?>
-							<?php endif; ?>
-						</ul>
-					</div>
-				<?php endforeach; ?>
-			<?php endif; ?>
-
-			<!-- static menu -->
-			<div class="mb10px category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_STATICMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
-				<div class="background catmove">
-					<input class="check-all" type="checkbox" title="Check all"/>
-					<a href="javascript:;" title="static menu">Static menu</a>
-					<a href="javascript:;" class="collapse-all icon-arrow-right" title="collapse all"></a>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Organize pages', 'innerHeaderHtml' => '<div class="organize-links"><a id="collapse-global" class="icon-arrow-up" href="javascript:;">collapse all</a> | <a id="expand-global" class="icon-arrow-down" href="javascript:;">expand all</a></div>', 'helpSection' => $this->helpSection)); ?>
+    <div id="sortable-main" class="content-footer">
+		<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
+            <?php  foreach($this->tree as $key => $treeData): ?>
+                <div class="category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
+					<div class="catmove">
+                        <input class="check-all" type="checkbox" title="Check all"/>
+                        <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
+                        <?php echo $this->toasterLink('backend_page', 'page', $treeData['category']->getNavName(), 'id/' . $treeData['category']->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
+                    </div>
+					<ul class="organise list-bordered">
+						<?php if(isset($treeData['pages']) && is_array($treeData['pages'])): ?>
+                            <?php foreach ($treeData['pages'] as $page): ?>
+								<li id="<?php echo $page->getId(); ?>" class="move">
+                                    <i class="icon-move icon16 fl-right"></i>
+                                    <input type="checkbox" name="remove[]" class="page-remove" />
+                                    <?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
+								</li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+					</ul>
 				</div>
-				<ul class="organise">
-					<?php if(isset($this->staticMenu)): ?>
-						<?php foreach ($this->staticMenu as $page): ?>
-							<li id="<?php echo $page->getId(); ?>" class="move">
-								<div class="icon-move icon16 fl-right"></div>
-								<input type="checkbox" name="remove[]" class="page-remove" />
-								<?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574'), false); ?>
-							</li>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</ul>
-			</div>
-			<!-- end static menu -->
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-			<!-- no menu -->
-			<div class="mb10px category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_NOMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
-				<div class="background catmove">
-					<input class="check-all" type="checkbox" title="Check all"/>
-					<a href="javascript:;" title="static menu">No menu</a>
-					<a href="javascript:;" class="collapse-all icon-arrow-right" title="collapse all"></a>
-				</div>
-				<ul class="organise">
-					<?php if(isset($this->noMenu)): ?>
-						<?php foreach ($this->noMenu as $page): ?>
-							<li id="<?php echo $page->getId(); ?>" class="move">
-								<div class="icon-move icon16 fl-right"></div>
-								<input type="checkbox" name="remove[]" class="page-remove" />
-								<?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '954', 'height' => '574'), false); ?>
-							</li>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</ul>
-			</div>
-			<!-- end no menu -->
+        <!-- static menu -->
+
+		<div class="category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_STATICMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
+            <div class="catmove">
+                <input class="check-all" type="checkbox" title="Check all"/>
+                <a href="javascript:;" title="static menu">Static menu</a>
+                <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
+            </div>
+			<ul class="organise list-bordered">
+				<?php if(isset($this->staticMenu)): ?>
+                    <?php foreach ($this->staticMenu as $page): ?>
+                        <li id="<?php echo $page->getId(); ?>" class="move">
+                            <i class="icon-move icon16 fl-right"></i>
+							<input type="checkbox" name="remove[]" class="page-remove" />
+                            <?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
+						</li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+			</ul>
 		</div>
+		<!-- end static menu -->
+
+		<!-- no menu -->
+		<div class="category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_NOMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
+            <div class="catmove">
+                <input class="check-all" type="checkbox" title="Check all"/>
+                <a href="javascript:;" title="static menu">No menu</a>
+                <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
+            </div>
+			<ul class="organise list-bordered">
+				<?php if(isset($this->noMenu)): ?>
+                    <?php foreach ($this->noMenu as $page): ?>
+							<li id="<?php echo $page->getId(); ?>" class="move">
+								<div class="icon-move icon16 fl-right"></div>
+							<input type="checkbox" name="remove[]" class="page-remove" />
+                            <?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
+						</li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+			</ul>
+		</div>
+		<!-- end no menu -->
 	</div>
 	<div class="grid_12 footer">
-<!--		<button class="mdel-button" id="mass-del">Delete selected</button>-->
 		<a href="javascript:;" class="delete-selected btn link error" id="mass-del">[ <?php echo $this->translate('Delete selected');?> ]</a>
-		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
-	</dv>
+        <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/organize.js'); ?>

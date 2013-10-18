@@ -205,7 +205,7 @@ body{
     height      : @footer-height;
     line-height : @footer-height - 25px;
 
-    [class*="content"].grid_12+&{
+    [class*="content"].grid_12+&:not([class*="grid_"]){
         padding-left  : @grid-margin-width / 2;
         padding-right : @grid-margin-width / 2;
     }

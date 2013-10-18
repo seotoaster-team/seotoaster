@@ -512,9 +512,9 @@
 
 // Customer mixins
 //===================================================
-.background(@padding: 10px) {
+.background(@padding: 10px, @background: @gray-lighter) {
     overflow   : hidden;
-    background : @gray-lighter;
+    background : @background;
     padding    : @padding;
     .box-shadow(0 1px 1px #BBB);
     .box-sizing;

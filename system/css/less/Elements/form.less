@@ -207,7 +207,7 @@ textarea{
             padding-left : @padding-base-vertical * 4;
         }
     }
-    label{
+    label, .label{
         margin-top    : 0;
         margin-bottom : 0;
         line-height   : normal;
@@ -221,7 +221,7 @@ textarea{
     input:focus{
         .box-shadow(none) !important;
 
-        &+label{
+        &+label, &+.label{
             background : @input-border-color-focus;
         }
     }

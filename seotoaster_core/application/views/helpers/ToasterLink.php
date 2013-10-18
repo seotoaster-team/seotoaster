@@ -76,14 +76,14 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 				}
 			case self::WSIZE_MEDIUM:
 				$params = array(
-					'width'  => 600,
+					'width'  => 720,
 					'height' => 480
 				);
 			break;
 			case self::WSIZE_SMALL:
 				$params = array(
 					'width'  => 480,
-					'height' => 350
+					'height' => 360
 				);
 			break;
 		}

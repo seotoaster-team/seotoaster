@@ -606,7 +606,8 @@ button a,
 .pull_1 {
   left: -8.333333333333332%;
 }
-.clear {
+.clearfix:after {
+  content: '';
   clear: both;
   display: block;
   overflow: hidden;

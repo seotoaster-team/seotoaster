@@ -25,9 +25,14 @@
             clear   : both;
         }
 
-        .ui-tabs-vertical &{
-            float : left;
-            width : 12em;
+        .ui-tabs-vertical&{
+            float   : left;
+            padding : 0;
+
+            li{
+                float      : none;
+                text-align : inherit;
+            }
         }
 
         li{
@@ -39,8 +44,11 @@
             list-style  : none;
             text-align  : center;
 
-            a.ui-tabs-anchor{
-                display         : block;
+            &>*{
+                .inline-block();
+            }
+
+            .ui-tabs-anchor{
                 padding         : 0.55em 1.1em;
                 text-decoration : none;
                 color           : @tabs-nav-li-color;
@@ -74,8 +82,8 @@
             &.ui-tabs-active, &.ui-tabs-loading, &.ui-state-disabled{
                 background : @tabs-nav-li-bg-active;
                 a{
-                    cursor      : text;
-                    color       : @tabs-nav-li-color-active;
+                    cursor : text;
+                    color  : @tabs-nav-li-color-active;
                 }
 
                 .tabs-gray&{
