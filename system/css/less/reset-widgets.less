@@ -63,14 +63,14 @@
         .plugin-control{
             .btn-states(@btn-error-color, desaturate(@btn-error-bg, 25%), desaturate(@btn-error-border, 25%));
 
-            &.btn-block{
+            &.block{
                 .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
             }
         }
         .plugin-endis{
             .btn-states(#fff, #2d81a2, #2d81a2);
 
-            &.btn-disable{
+            &.disable{
                 .btn-states(darken(@gray-light, 40%), darken(@gray-light, 10%), @gray-light);
             }
         }

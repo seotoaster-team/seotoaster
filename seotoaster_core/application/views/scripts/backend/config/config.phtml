@@ -12,7 +12,7 @@
                 <li><a href="#securityForm-config"><?php echo $this->translate('Security'); ?></a></li>
             <?php endif; ?>
         </ul>
-        <div id="general-config" class="content-small-footer">
+        <div id="general-config" class="content-small-footer pr0 pl0">
             <?php echo $this->configForm->getElement('currentTheme');?>
             <div class="grid_6">
             <?php echo $this->configForm->getElement('language')->renderLabel(); ?>
@@ -56,7 +56,7 @@
             <?php echo $this->configForm->getElement('superadminPassword');?>
 
         </div>
-        <div id="email-config" class="content-small-footer">
+        <div id="email-config" class="content-small-footer pr0 pl0">
             <div class="grid_3 mt10px">
             <?php echo $this->configForm->getElement('useSmtp')->renderLabel(); ?>
             </div>
@@ -82,61 +82,61 @@
 <!--			<div id="action-triggers" class="clearfix h200" style="overflow-x: hidden; overflow-y: scroll;">-->
 <!--				<div><button class="blue-btn" id="new-trigger-action">--><?php //echo $this->translate('Add'); ?><!--</button></div>-->
 <!--			</div>-->
-		<?php if ($this->isSuperAdmin): ?>
-			<div id="security-config" class="content-small-footer">
-				<?php echo $this->configForm->getElement('suLogin'); ?>
-				<?php echo $this->configForm->getElement('suPassword'); ?>
-			</div>
-			<div id="advaced-config" class="content-small-footer">
-				<div class="grid_4 omega mt10px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
-				<div class="grid_2 mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
-				<label class="grid_6 alpha mt10px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></label>
-				<div class="cl-both grid_6 mt15px">
-					<div class="grid_7 alpha">
-						<?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>
-					</div>
-					<div class="grid_5 omega">
-						<?php echo $this->configForm->getElement('mediaServers')->renderViewHelper(); ?>
-					</div>
-					<div class="grid_12 mt10px alpha omega">
-						<em>Speed up your site. Insert the following CNAME records into your DNS server:</em>
-						<ul class="mt10px mb0px">
-							<?php
-							$host = parse_url($this->websiteUrl, PHP_URL_HOST);
-							$host = str_replace('www.', '', $host);
-							$medias = Zend_Registry::get('website');
-							?>
-							<?php foreach($medias['mediaServers'] as $media):?>
-							<li class="mb0px"><?php echo $media.'.'.$host;?></li>
-							<?php endforeach;?>
-						</ul>
-					</div>
-				</div>
-				<div class="grid_6 mt15px">
-					<div class="grid_10 alpha">
-						<?php echo $this->configForm->getElement('inlineEditor')->renderLabel(); ?>
-					</div>
-					<div class="grid_2 omega">
-						<?php echo $this->configForm->getElement('inlineEditor')->renderViewHelper(); ?>
-					</div>
-					<div class="grid_12 alpha omega mt15px h150px wrap">
-						<a href="<?php echo $this->websiteUrl;?>system/images/zonehighlighting.jpg" class="_lbox" style="cursor:help;">
-							<img src="<?php echo $this->websiteUrl;?>system/images/zonehighlighting.jpg" class="h150" />
-						</a>
-					</div>
-				</div>
+    <?php if ($this->isSuperAdmin): ?>
+        <div id="security-config" class="content-small-footer pr0 pl0">
+            <?php echo $this->configForm->getElement('suLogin'); ?>
+            <?php echo $this->configForm->getElement('suPassword'); ?>
+        </div>
+        <div id="advaced-config" class="content-small-footer pr0 pl0">
+            <div class="grid_4 omega mt10px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
+            <div class="grid_2 mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
+            <label class="grid_6 alpha mt10px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></label>
+            <div class="cl-both grid_6 mt15px">
+                <div class="grid_7 alpha">
+                    <?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>
+                </div>
+                <div class="grid_5 omega">
+                    <?php echo $this->configForm->getElement('mediaServers')->renderViewHelper(); ?>
+                </div>
+                <div class="grid_12 mt10px alpha omega">
+                    <em>Speed up your site. Insert the following CNAME records into your DNS server:</em>
+                    <ul class="mt10px mb0px">
+                        <?php
+                        $host = parse_url($this->websiteUrl, PHP_URL_HOST);
+                        $host = str_replace('www.', '', $host);
+                        $medias = Zend_Registry::get('website');
+                        ?>
+                        <?php foreach($medias['mediaServers'] as $media):?>
+                        <li class="mb0px"><?php echo $media.'.'.$host;?></li>
+                        <?php endforeach;?>
+                    </ul>
+                </div>
+            </div>
+            <div class="grid_6 mt15px">
+                <div class="grid_10 alpha">
+                    <?php echo $this->configForm->getElement('inlineEditor')->renderLabel(); ?>
+                </div>
+                <div class="grid_2 omega">
+                    <?php echo $this->configForm->getElement('inlineEditor')->renderViewHelper(); ?>
+                </div>
+                <div class="grid_12 alpha omega mt15px h150px wrap">
+                    <a href="<?php echo $this->websiteUrl;?>system/images/zonehighlighting.jpg" class="_lbox" style="cursor:help;">
+                        <img src="<?php echo $this->websiteUrl;?>system/images/zonehighlighting.jpg" class="h150" />
+                    </a>
+                </div>
+            </div>
 
-			</div>
-			<div id="securityForm-config" class="content-small-footer">
-				<?php echo $this->configForm->getElement('recapthaPublicKey'); ?>
-				<?php echo $this->configForm->getElement('recapthaPrivateKey'); ?>
-				<div class="grid_12 mt15px">
-					<a target="_blank" href="https://www.google.com/recaptcha/admin/create">
-							<?php echo $this->translate('Get your own reCAPTCHA key here now.');?>
-					</a>
-				</div>
-			</div>
-		<?php endif; ?>
+        </div>
+        <div id="securityForm-config" class="content-small-footer pr0 pl0">
+            <?php echo $this->configForm->getElement('recapthaPublicKey'); ?>
+            <?php echo $this->configForm->getElement('recapthaPrivateKey'); ?>
+            <div class="grid_12 mt15px">
+                <a target="_blank" href="https://www.google.com/recaptcha/admin/create">
+                        <?php echo $this->translate('Get your own reCAPTCHA key here now.');?>
+                </a>
+            </div>
+        </div>
+    <?php endif; ?>
 	</form>
     <div class="grid_12 footer"><?php echo $this->configForm->getElement('submit')->renderViewHelper();?></div>
 </div>

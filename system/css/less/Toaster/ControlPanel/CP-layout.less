@@ -61,18 +61,27 @@
 }
 #themes-list{
     overflow   : auto;
-    height     : 350px;
+    height     : 445px;
     margin-top : 10px;
 
     .themebox{
-        .background;
+        .background(0);
         position : relative;
         float    : left;
-        width    : 14.665%;
-        margin   : 1%;
-        padding  : 0;
+        width    : 14.97%;
+        margin   : 0 0 2% 2%;
+
+        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6){
+            margin-top : 0;
+        }
+
+        &:nth-child(6n+1){
+            margin-left : 0.1%;
+        }
 
         &:hover{
+            background : @gray-light;
+
             .lnk-download, .lnk-current, .lnk-delete, .apply-button{
                 .opacity(1);
             }
@@ -138,6 +147,9 @@
             .text-overflow;
         }
         .theme-preview-img{
+            height      : 138px;
+            line-height : 138px;
+            overflow    : hidden;
         }
         .apply-button{
             position : absolute;

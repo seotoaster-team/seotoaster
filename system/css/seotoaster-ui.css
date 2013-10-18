@@ -205,9 +205,14 @@ ol.items-list .list-row > * {
   padding: 4px 8px;
 }
 .list-images {
-  margin: 0;
   font-size: 0;
   list-style-type: none;
+}
+.list-images:not([class*="ml"]):not([class*="grid_"]) {
+  margin-left: 0;
+}
+.list-images:not([class*="mb"]) {
+  margin-bottom: 0;
 }
 .list-images > * {
   display: inline-block;
@@ -2144,9 +2149,9 @@ button.link.info[disabled].active {
 .btn-set .btn:first-child {
   margin-left: 0;
 }
-input[type="submit"].btn-block,
-input[type="reset"].btn-block,
-input[type="button"].btn-block {
+input[type="submit"].block,
+input[type="reset"].block,
+input[type="button"].block {
   width: 100%;
 }
 [type="submit"],
@@ -2321,9 +2326,6 @@ table tr.info > td {
 .dataTables_wrapper {
   float: left;
   width: 100%;
-}
-.dataTables_wrapper .dataTables_filter {
-  margin-bottom: 12px;
 }
 .dataTables_wrapper .dataTables_filter label {
   width: 30%;

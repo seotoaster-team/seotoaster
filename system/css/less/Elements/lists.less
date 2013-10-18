@@ -212,9 +212,16 @@ dl{
 }
 
 .list-images{
-    margin          : 0;
     font-size       : 0;
     list-style-type : none;
+
+    &:not([class*="ml"]):not([class*="grid_"]){
+        margin-left : 0;
+    }
+
+    &:not([class*="mb"]){
+        margin-bottom : 0;
+    }
 
     &>*{
         .inline-block(top);

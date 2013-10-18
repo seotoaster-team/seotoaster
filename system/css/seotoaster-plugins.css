@@ -1354,6 +1354,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #sortable-main {
   font-size: 0;
+  margin: 0 1%;
 }
 #sortable-main .category-data {
   overflow: hidden;
@@ -1699,13 +1700,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #themes-list {
   overflow: auto;
-  height: 350px;
+  height: 445px;
   margin-top: 10px;
 }
 #themes-list .themebox {
   overflow: hidden;
   background: #fafafa;
-  padding: 10px;
+  padding: 0;
   -webkit-box-shadow: 0 1px 1px #bbbbbb;
   -moz-box-shadow: 0 1px 1px #bbbbbb;
   -ms-box-shadow: 0 1px 1px #bbbbbb;
@@ -1716,9 +1717,22 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   box-sizing: border-box;
   position: relative;
   float: left;
-  width: 14.665%;
-  margin: 1%;
-  padding: 0;
+  width: 14.97%;
+  margin: 0 0 2% 2%;
+}
+#themes-list .themebox:nth-child(1),
+#themes-list .themebox:nth-child(2),
+#themes-list .themebox:nth-child(3),
+#themes-list .themebox:nth-child(4),
+#themes-list .themebox:nth-child(5),
+#themes-list .themebox:nth-child(6) {
+  margin-top: 0;
+}
+#themes-list .themebox:nth-child(6n+1) {
+  margin-left: 0.1%;
+}
+#themes-list .themebox:hover {
+  background: #eaeaea;
 }
 #themes-list .themebox:hover .lnk-download,
 #themes-list .themebox:hover .lnk-current,
@@ -1858,6 +1872,11 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+#themes-list .themebox .theme-preview-img {
+  height: 138px;
+  line-height: 138px;
+  overflow: hidden;
+}
 #themes-list .themebox .apply-button {
   position: absolute;
   top: 0;
@@ -1992,7 +2011,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #ations-triggers-frm .tabs-contents .new-trigger-action {
   cursor: pointer;
   font-size: 75px;
-  padding: 0.82em 0;
+  padding: 0.6em 0;
   background: transparent;
   border: 3px dashed #eaeaea;
   color: #eaeaea;
@@ -2009,6 +2028,16 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #ations-triggers-frm .tabs-contents .new-trigger-action:hover {
   border-color: #b7b7b7;
   color: #b7b7b7;
+}
+#expusrs {
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  /* Fix for IE7 */
+
+  vertical-align: middle;
+  float: right;
+  margin-right: 5%;
 }
 #users-list_wrapper {
   margin-top: -30px;
@@ -2156,38 +2185,38 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   border-color: #94615c;
   text-decoration: none;
 }
-.plugins-list .plugin-item .plugin-control.btn-block {
+.plugins-list .plugin-item .plugin-control.block {
   color: #ffffff;
   background-color: #2ecc71;
   border-color: #25a25a;
 }
-.plugins-list .plugin-item .plugin-control.btn-block:hover,
-.plugins-list .plugin-item .plugin-control.btn-block:focus,
-.plugins-list .plugin-item .plugin-control.btn-block:active,
-.plugins-list .plugin-item .plugin-control.btn-block.active,
-.plugins-list .plugin-item .plugin-control.btn-block.ui-state-active {
+.plugins-list .plugin-item .plugin-control.block:hover,
+.plugins-list .plugin-item .plugin-control.block:focus,
+.plugins-list .plugin-item .plugin-control.block:active,
+.plugins-list .plugin-item .plugin-control.block.active,
+.plugins-list .plugin-item .plugin-control.block.ui-state-active {
   color: #ffffff;
   background-color: #54d98c;
   border-color: #2ecc71;
 }
-.plugins-list .plugin-item .plugin-control.btn-block:active,
-.plugins-list .plugin-item .plugin-control.btn-block.active,
-.plugins-list .plugin-item .plugin-control.btn-block.ui-state-active {
+.plugins-list .plugin-item .plugin-control.block:active,
+.plugins-list .plugin-item .plugin-control.block.active,
+.plugins-list .plugin-item .plugin-control.block.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   box-shadow: 0.2em 0.2em 0.4em #176437 inset;
 }
-.plugins-list .plugin-item .plugin-control.btn-block.disabled,
-.plugins-list .plugin-item .plugin-control.btn-block[disabled],
-.plugins-list .plugin-item .plugin-control.btn-block.disabled:hover,
-.plugins-list .plugin-item .plugin-control.btn-block[disabled]:hover,
-.plugins-list .plugin-item .plugin-control.btn-block.disabled:focus,
-.plugins-list .plugin-item .plugin-control.btn-block[disabled]:focus,
-.plugins-list .plugin-item .plugin-control.btn-block.disabled:active,
-.plugins-list .plugin-item .plugin-control.btn-block[disabled]:active,
-.plugins-list .plugin-item .plugin-control.btn-block.disabled.active,
-.plugins-list .plugin-item .plugin-control.btn-block[disabled].active {
+.plugins-list .plugin-item .plugin-control.block.disabled,
+.plugins-list .plugin-item .plugin-control.block[disabled],
+.plugins-list .plugin-item .plugin-control.block.disabled:hover,
+.plugins-list .plugin-item .plugin-control.block[disabled]:hover,
+.plugins-list .plugin-item .plugin-control.block.disabled:focus,
+.plugins-list .plugin-item .plugin-control.block[disabled]:focus,
+.plugins-list .plugin-item .plugin-control.block.disabled:active,
+.plugins-list .plugin-item .plugin-control.block[disabled]:active,
+.plugins-list .plugin-item .plugin-control.block.disabled.active,
+.plugins-list .plugin-item .plugin-control.block[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -2238,38 +2267,38 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   border-color: #4c7383;
   text-decoration: none;
 }
-.plugins-list .plugin-item .plugin-endis.btn-disable {
+.plugins-list .plugin-item .plugin-endis.disable {
   color: #848484;
   background-color: #d1d1d1;
   border-color: #eaeaea;
 }
-.plugins-list .plugin-item .plugin-endis.btn-disable:hover,
-.plugins-list .plugin-item .plugin-endis.btn-disable:focus,
-.plugins-list .plugin-item .plugin-endis.btn-disable:active,
-.plugins-list .plugin-item .plugin-endis.btn-disable.active,
-.plugins-list .plugin-item .plugin-endis.btn-disable.ui-state-active {
+.plugins-list .plugin-item .plugin-endis.disable:hover,
+.plugins-list .plugin-item .plugin-endis.disable:focus,
+.plugins-list .plugin-item .plugin-endis.disable:active,
+.plugins-list .plugin-item .plugin-endis.disable.active,
+.plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
   color: #848484;
   background-color: #eaeaea;
   border-color: #ffffff;
 }
-.plugins-list .plugin-item .plugin-endis.btn-disable:active,
-.plugins-list .plugin-item .plugin-endis.btn-disable.active,
-.plugins-list .plugin-item .plugin-endis.btn-disable.ui-state-active {
+.plugins-list .plugin-item .plugin-endis.disable:active,
+.plugins-list .plugin-item .plugin-endis.disable.active,
+.plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   box-shadow: 0.2em 0.2em 0.4em #919191 inset;
 }
-.plugins-list .plugin-item .plugin-endis.btn-disable.disabled,
-.plugins-list .plugin-item .plugin-endis.btn-disable[disabled],
-.plugins-list .plugin-item .plugin-endis.btn-disable.disabled:hover,
-.plugins-list .plugin-item .plugin-endis.btn-disable[disabled]:hover,
-.plugins-list .plugin-item .plugin-endis.btn-disable.disabled:focus,
-.plugins-list .plugin-item .plugin-endis.btn-disable[disabled]:focus,
-.plugins-list .plugin-item .plugin-endis.btn-disable.disabled:active,
-.plugins-list .plugin-item .plugin-endis.btn-disable[disabled]:active,
-.plugins-list .plugin-item .plugin-endis.btn-disable.disabled.active,
-.plugins-list .plugin-item .plugin-endis.btn-disable[disabled].active {
+.plugins-list .plugin-item .plugin-endis.disable.disabled,
+.plugins-list .plugin-item .plugin-endis.disable[disabled],
+.plugins-list .plugin-item .plugin-endis.disable.disabled:hover,
+.plugins-list .plugin-item .plugin-endis.disable[disabled]:hover,
+.plugins-list .plugin-item .plugin-endis.disable.disabled:focus,
+.plugins-list .plugin-item .plugin-endis.disable[disabled]:focus,
+.plugins-list .plugin-item .plugin-endis.disable.disabled:active,
+.plugins-list .plugin-item .plugin-endis.disable[disabled]:active,
+.plugins-list .plugin-item .plugin-endis.disable.disabled.active,
+.plugins-list .plugin-item .plugin-endis.disable[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -2362,6 +2391,12 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #links a:first-child {
   border: none;
 }
+#frm_content {
+  background: #ffffff;
+}
+#edit-content {
+  background: #ffffff;
+}
 #edit-content .above-editor-links,
 #edit-content #tabs {
   -webkit-transition: all 0.5s ease;
@@ -2383,7 +2418,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #edit-content #tabs .ui-tabs-panel .ui-accordion-content {
   padding: 5px;
-  max-height: 167px;
+  max-height: 165px;
 }
 #edit-content #adminthingsviewer #upload_things_button.ui-accordion-header {
   font-weight: bold;
@@ -2527,6 +2562,12 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .directupload-wrapper .directupdelete {
   color: #e74c3c;
 }
+#farea-form {
+  background: #ffffff;
+}
+#gallery-form {
+  background: #ffffff;
+}
 #webbuilder-image-only-inner #webbuilder-form-image-data {
   height: 106px;
 }
@@ -2534,44 +2575,9 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   height: 460px;
   overflow: auto;
 }
-#webbuilder-image-only-inner #images-list img {
+#webbuilder-image-only-inner #images-list > * {
   width: 18%;
   margin: 1% 1.5% 1% 0.5%;
-  vertical-align: top;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  background: #ffffff;
-  padding: 2px;
-  border: 1px solid #dddddd;
-  text-align: center;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-#webbuilder-image-only-inner #images-list img:hover {
-  border-color: #666666;
-  -webkit-box-shadow: 3px 3px 3px #666666;
-  -moz-box-shadow: 3px 3px 3px #666666;
-  -ms-box-shadow: 3px 3px 3px #666666;
-  box-shadow: 3px 3px 3px #666666;
-}
-#webbuilder-image-only-inner #images-list img img {
-  width: auto;
-  max-height: 100%;
-}
-#webbuilder-image-only-inner #images-list img .caption {
-  background: rgba(49, 176, 213, 0.8);
-  color: #ffffff;
-  font-size: 14px;
-  line-height: normal;
-  margin: 0;
 }
 #webbuilder-image-only-inner #webbuilder-main-image {
   height: 298px;

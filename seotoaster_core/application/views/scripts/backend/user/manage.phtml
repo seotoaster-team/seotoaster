@@ -1,8 +1,10 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 		'headerText'      => $this->translate('Manage users'),
-        'helpSection'     => $this->helpSection
-	)); ?>
+        'helpSection'     => $this->helpSection,
+        'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'
+
+    )); ?>
 	<div class="content grid_12">
 		<div id="add-user" class="show-right">
 			<div class="header">
@@ -32,9 +34,9 @@
 			</form>
 		</div>
 
-		<?php echo '<a id="add-user-link" class="btn fl-right mt5px icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a><form id="expusrs" class="btn link fl-right mt10px mr-grid" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>' ?>
+		<?php echo '<a id="add-user-link" class="btn fl-right icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
 
-		<table class="sortable table-striped table-scroll block" id="users-list">
+		<table class="sortable table-striped table-scroll block mt10px" id="users-list">
 			<thead class="block">
 				<tr class="block wrap">
 					<th><?php echo $this->translate('E-mail'); ?></th>

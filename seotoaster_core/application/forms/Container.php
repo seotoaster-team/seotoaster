@@ -16,7 +16,7 @@ class Application_Form_Container extends Zend_Form {
 
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
-		$this->setAttrib('id', 'frm_content');
+		$this->setAttribs(array('id'=> 'frm_content', 'class' => 'grid_12 pt10px'));
 
 		$this->addElement('button', 'submit', array(
 			'id'     => 'btn-submit',

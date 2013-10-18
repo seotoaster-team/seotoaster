@@ -136,7 +136,7 @@
         .new-trigger-action{
             cursor     : pointer;
             font-size  : 75px;
-            padding    : 0.82em 0;
+            padding    : 0.6em 0;
             background : transparent;
             border     : 3px dashed @gray-light;
             color      : @gray-light;
@@ -154,6 +154,12 @@
 // Manage users
 //========================================
 #add-user{
+}
+
+#expusrs{
+    .inline-block();
+    float        : right;
+    margin-right : 5%;
 }
 
 #users-list_wrapper{
@@ -193,10 +199,10 @@
 
     #pluginFilters~&{
         .box-sizing;
-        height  : 370px;
+        height : 370px;
 
         .plugin-item{
-            margin   : 1%;
+            margin : 1%;
         }
     }
 
@@ -254,9 +260,9 @@
             .box-shadow(0 1px 10px #206887);
         }
         .plugin-image{
-            height     : 129px;
-            overflow   : hidden;
-            position   : relative;
+            height   : 129px;
+            overflow : hidden;
+            position : relative;
 
             img{
                 width : 100%;
@@ -265,14 +271,14 @@
         .plugin-control{
             .btn-states(@btn-error-color, desaturate(@btn-error-bg, 25%), desaturate(@btn-error-border, 25%));
 
-            &.btn-block{
+            &.block{
                 .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
             }
         }
         .plugin-endis{
             .btn-states(#fff, #2d81a2, #2d81a2);
 
-            &.btn-disable{
+            &.disable{
                 .btn-states(darken(@gray-light, 40%), darken(@gray-light, 10%), @gray-light);
             }
         }

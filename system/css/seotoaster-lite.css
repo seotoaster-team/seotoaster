@@ -902,14 +902,14 @@ input[type="checkbox"]:not(.icon):not(.hidden) + span:before,
   content: "\e09f";
 }
 .icon-cart:before,
-[data-action="store"]:before {
+.action-preview[data-action="store"]:before {
   content: "\e037";
 }
 .icon-basket-2:before {
   content: "\e0a0";
 }
 .icon-remarketing:before,
-[data-action="email-remarketing"]:before {
+.action-preview[data-action="email-remarketing"]:before {
   content: "\e038";
 }
 .icon-basket-3:before {
@@ -976,7 +976,7 @@ input[type="checkbox"]:not(.icon):not(.hidden) + span:before,
   content: "\e0b6";
 }
 .icon-quote-5:before,
-[data-action="sales-area"]:before {
+.action-preview[data-action="sales-area"]:before {
   content: "\e039";
 }
 .icon-open:before {
@@ -1049,11 +1049,11 @@ input[type="checkbox"]:not(.icon):not(.hidden) + span:before,
   content: "\e0ac";
 }
 .icon-toaster:before,
-[data-action="seotoaster"]:before {
+.action-preview[data-action="seotoaster"]:before {
   content: "\e054";
 }
 .icon-review:before,
-[data-action="pagerating"]:before {
+.action-preview[data-action="pagerating"]:before {
   content: "\e0c1";
 }
 .icon-action-emails:before {
@@ -1284,35 +1284,35 @@ html body .gray-lighter-bg {
   color: #31b0d5;
 }
 a.primary:hover,
-.primary.btn-link:hover {
+.primary.link:hover {
   color: #1f7e9a;
 }
 .success {
   color: #2ecc71;
 }
 a.success:hover,
-.success.btn-link:hover {
+.success.link:hover {
   color: #208e4e;
 }
 .warning {
   color: #e67e22;
 }
 a.warning:hover,
-.warning.btn-link:hover {
+.warning.link:hover {
   color: #a85913;
 }
 .error {
   color: #e74c3c;
 }
 a.error:hover,
-.error.btn-link:hover {
+.error.link:hover {
   color: #bf2718;
 }
 .info {
   color: #3498db;
 }
 a.info:hover,
-.info.btn-link:hover {
+.info.link:hover {
   color: #1d6fa5;
 }
 .m20px {
@@ -2225,7 +2225,7 @@ body {
   height: 55px;
   line-height: 30px;
 }
-[class*="content"].grid_12 + .footer:not([class*="grid_"]) {
+[class*="content"].grid_12 + .footer {
   padding-left: 2%;
   padding-right: 2%;
 }
