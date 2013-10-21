@@ -32,10 +32,11 @@ class Application_Form_Search extends Zend_Form {
 			'value'    => $this->_resultsPageId
 		)));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'doSearch',
 			'id'    => 'do-search',
 			'value' => 'doSearch',
+			'type'  => 'submit',
 			'label' => 'Search'
 		)));
 
@@ -55,8 +56,7 @@ class Application_Form_Search extends Zend_Form {
 		$this->setElementDecorators(array(
 			'ViewHelper',
 			'Errors',
-			'Label',
-			array('HtmlTag', array('tag' => 'p'))
+			'Label'
 		));
 		// remove Label decorator from submit button
 		$this->getElement('doSearch')->removeDecorator('Label');
