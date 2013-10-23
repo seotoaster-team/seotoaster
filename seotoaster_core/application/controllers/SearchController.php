@@ -26,54 +26,55 @@ class SearchController extends Zend_Controller_Action {
 			$resultsHits    = array();
 			$searchTerm     = filter_var($this->getRequest()->getParam('search'), FILTER_SANITIZE_STRING);
 
-            //preparing searchTerm to fit multiple charachters wildcard
+            //preparing searchTerm to fit multiple characters wildcard
             $searchTerm = trim($searchTerm, '*') . '*';
 
-			$resultsPageId  = filter_var($this->getRequest()->getParam('resultsPageId'), FILTER_VALIDATE_INT);
-			$pageToRedirect = Application_Model_Mappers_PageMapper::getInstance()->find($resultsPageId);
+            $resultsPageId = filter_var($this->getRequest()->getParam('resultsPageId'), FILTER_VALIDATE_INT);
+            $pageToRedirect = Application_Model_Mappers_PageMapper::getInstance()->find($resultsPageId);
 
-            $searchIndexDirPath = $this->_helper->website->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
+//            $searchIndexDirPath = $this->_helper->website->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
 
             //attempt to create search index folder if not exists
-            if(!is_dir($searchIndexDirPath)) {
-                if(!Tools_Filesystem_Tools::mkDir($searchIndexDirPath)) {
-                    $this->_helper->session->searchHits = 'System is unable to create search index directory. Please create it manually. The path is: ' . $searchIndexDirPath;
-                    $this->_redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
+//            if(!is_dir($searchIndexDirPath)) {
+//                if(!Tools_Filesystem_Tools::mkDir($searchIndexDirPath)) {
+//                    $this->_helper->session->searchHits = 'System is unable to create search index directory. Please create it manually. The path is: ' . $searchIndexDirPath;
+//                    $this->redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
+//                }
+//            }
+
+//            $searchIndexFiles   = Tools_Filesystem_Tools::scanDirectory($searchIndexDirPath);
+//            if(empty($searchIndexFiles)) {
+//                Tools_Search_Tools::renewIndex(true);
+//            }
+
+            $toasterSearchIndex = Tools_Search_Tools::initIndex();
+            $toasterSearchIndex->setResultSetLimit(Widgets_Search_Search::SEARCH_LIMIT_RESULT*10);
+
+            try {
+                $searchHits = $toasterSearchIndex->find($searchTerm);
+            } catch (Exception $e) {
+                $this->_helper->session->searchHits = $this->_helper->language->translate(
+                    'Nothing found. You need at least 3 characters to start search.'
+                );
+                $this->redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
+            }
+            if (is_array($searchHits) && !empty($searchHits)) {
+                foreach ($searchHits as $hit) {
+                    $resultsHits[] = array(
+                        'pageId'     => $hit->pageId,
+                        'url'        => $hit->url,
+                        'h1'         => $hit->h1,
+                        'pageTeaser' => $hit->pageTeaser,
+                        'navName'    => $hit->navName,
+                        'preview'    => base64_decode($hit->pageImage)
+                    );
                 }
+                $this->_helper->session->searchHits = $resultsHits;
+            } else {
+                $this->_helper->session->searchHits = '{$content:nothingfound}';
             }
 
-            $searchIndexFiles   = Tools_Filesystem_Tools::scanDirectory($searchIndexDirPath);
-            if(empty($searchIndexFiles)) {
-                Tools_Search_Tools::renewIndex(true);
-            }
-
-			$toasterSearchIndex = Zend_Search_Lucene::open($searchIndexDirPath);
-            $toasterSearchIndex->setResultSetLimit(256);
-
-            try{
-                $searchHits         = $toasterSearchIndex->find($searchTerm);
-            }catch(Exception $e){
-                $this->_helper->session->searchHits = $this->_helper->language->translate('Nothing found. You need at least 3 characters to start search.');
-                $this->_redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
-            }
-			if(is_array($searchHits) && !empty($searchHits)) {
-				foreach ($searchHits as $hit) {
-					$resultsHits[] = array(
-						'pageId'     => $hit->pageId,
-						'url'        => $hit->url,
-						'h1'         => $hit->h1,
-						'pageTeaser' => $hit->pageTeaser,
-						'navName'    => $hit->navName,
-						'preview'    => base64_decode($hit->pageImage)
-					);
-				}
-				$this->_helper->session->searchHits = $resultsHits;
-			}
-			else {
-				$this->_helper->session->searchHits = '{$content:nothingfound}';
-			}
-
-			$this->_redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
+            $this->redirect($this->_helper->website->getUrl() . $pageToRedirect->getUrl());
 		}
 	}
 
@@ -103,7 +104,7 @@ class SearchController extends Zend_Controller_Action {
         if(!$resultsPageId === false){
             $pageToRedirect = $pageMapper->find($resultsPageId);
             $redirectPage = $pageToRedirect->getUrl(); 
-        }else{
+        } else {
             $pageToRedirect = $pageMapper->fetchByOption(self::PAGE_OPTION_SEARCH);
             if(!empty($pageToRedirect)){
                 $redirectPage = $pageToRedirect[0]->getUrl();
@@ -114,21 +115,21 @@ class SearchController extends Zend_Controller_Action {
         $findUrlList = array();
         if(!empty($containerData)){
             $pageList = $pageMapper->find($containerData);
-            foreach($pageList as $page){
-                    $previewImage = '';
-                    if($page->getDraft() == 0){
-                        if((bool)$page->getPreviewImage()){
-                          $previewImage = Tools_Page_Tools::getPreview($page);
-                        }
-                        $resultsHits[] = array(
-                            'pageId'     => $page->getId(),
-                            'url'        => $page->getUrl(),
-                            'h1'         => $page->getH1(),
-                            'pageTeaser' => $page->getTeaserText(),
-                            'navName'    => $page->getNavName(),
-                            'preview'    => $previewImage
-                        );
+            foreach ($pageList as $page) {
+                $previewImage = '';
+                if ($page->getDraft() == 0) {
+                    if ((bool)$page->getPreviewImage()) {
+                        $previewImage = Tools_Page_Tools::getPreview($page);
                     }
+                    $resultsHits[] = array(
+                        'pageId'       => $page->getId(),
+                        'url'          => $page->getUrl(),
+                        'h1'           => $page->getH1(),
+                        'teaserText'   => $page->getTeaserText(),
+                        'navName'      => $page->getNavName(),
+                        'previewImage' => $previewImage
+                    );
+                }
             }
             $this->_helper->session->searchHits = $resultsHits;
         }else {
@@ -137,29 +138,6 @@ class SearchController extends Zend_Controller_Action {
         echo json_encode(array('redirect'=>$this->_helper->website->getUrl() . $redirectPage));
     }
 
-    public function showmoreresultsAction(){
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        $searchLimit      = $this->_request->getParam('searchLimit');
-        $searchUseImage   = $this->_request->getParam('searchUseImage');
-        if(isset($this->_helper->session->totalHitsData)){
-            $totalHits = $this->_helper->session->totalHitsData;
-            $moreResults = 0;
-            if(count($totalHits) >= $searchLimit){
-                $hitsData = array_splice($totalHits, $searchLimit);
-                $this->_helper->session->totalHitsData = $hitsData;
-                $moreResults = 1;
-            }else{
-                unset($this->_helper->session->totalHitsData);
-            }
-            $this->view->useImage = $searchUseImage;
-            $this->view->hits = $totalHits;
-            $view = $this->view->render('backend/search/results.phtml');
-            $this->_helper->response->success(array('searchResultsData'=>$view, 'moreResults'=>$moreResults));
-        }else{
-            $this->_helper->response->fail();
-        }
-    }
 
 
 }

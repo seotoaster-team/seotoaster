@@ -3,29 +3,3 @@
     <?php echo $this->searchForm->getElement('search'); ?>
     <p><input type="submit" value="<?php echo $this->translate('Search'); ?>"/></p>
 </form>
-<?php if(isset($this->runIndexing)): ?>
-<script type="text/javascript">
-	if (!window.Toastr){
-	    window.Toastr = {};
-	}
-
-	if (!$('#toasterSearchIndex').size()){
-		$('#logoutul').before('<div id="toasterSearchIndex">' +
-				'<span></span>&nbsp;<img src="/system/images/ajax-loader-small.gif" alt=""/></div>');
-	}
-
-	Toastr.renewIndex = function(params){
-		$('#toasterSearchIndex span').html('<?php echo $this->translate('Building search index'); ?>');
-		$.post($('#website_url').val() + 'backend/search/reindex/', params).done(function(data, status, xhr){
-			console.log(data);
-			if (status === "success" && data) {
-				Toastr.renewIndex(data);
-			} else {
-				$('#toasterSearchIndex').slideDown().delay(1000).remove();
-			}
-		});
-	}
-
-//	$(function(){ window.Toastr && Toastr.renewIndex(); });
-</script>
-<?php endif; ?>
