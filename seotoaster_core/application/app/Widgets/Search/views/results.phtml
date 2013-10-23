@@ -1,51 +1,21 @@
-<?php if(is_array($this->hits) && !empty($this->hits)): ?>
-	<ul class="search-results">
-        <?php foreach ($this->hits as $hit): ?>
-            <li class="search-result-row">
-                <?php if ($this->useImage): ?>
-                    <a class="page-teaser-image" href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>">
-                        <img src="<?php echo $this->escape(
-                            !empty($hit['pagePreview']) ? $hit['pagePreview'] : Tools_Page_Tools::getPreview($hit['pageId'])
-                        ); ?>" alt="<?php echo $hit['h1']; ?>" />
-                    </a>
-                <?php endif; ?>
-                <a href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>" class="page-title">
-                    <?php echo $hit['navName']; ?>
-                </a>
-				<span>
-					<?php echo $hit['pageTeaser']; ?>
-				</span>
-            </li>
-        <?php endforeach; ?>
-	</ul>
-    <?php if ($this->totalHits > $this->limit): ?>
-        <a href="javascript:;" class="search-show-more" data-limit="<?php echo $this->limit; ?>"
-           data-img="<?php echo $this->useImage; ?>">
-            <?php echo $this->translate('show more'); ?>
+<?php if (count($this->pager)): ?>
+<ul class="search-results">
+<?php foreach ($this->pager as $hit): ?>
+    <li class="search-result-row">
+        <?php if ($this->useImage): ?>
+            <a class="page-teaser-image" href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>">
+                <img src="<?php echo $this->escape(
+                    !empty($hit['previewImage']) ? $hit['previewImage'] : Tools_Page_Tools::getPreview($hit['pageId'])
+                ); ?>" alt="<?php echo $hit['h1']; ?>" />
+            </a>
+        <?php endif; ?>
+        <a href="<?php echo $hit['url']; ?>" title="<?php echo $hit['h1']; ?>" class="page-title">
+            <?php echo $hit['navName']; ?>
         </a>
-    <?php endif; ?>
-<?php else: ?>
-	<?php echo $this->hits; ?>
+        <span><?php echo $hit['teaserText']; ?></span>
+    </li>
+<?php endforeach; ?>
+</ul>
 <?php endif; ?>
 
-<script type="text/javascript">
-    $('.search-show-more').on('click', function(e){
-        var self = this;
-        e.preventDefault();
-        showSpinner();
-        $.ajax({
-            type: "POST",
-            url: '<?php echo $this->websiteUrl;?>backend/search/showmoreresults/',
-            dataType: "json",
-            data: $(self).data(),
-            success: function(response){
-                hideSpinner();
-                if (!response.error || !response.responseText.moreResults) {
-                    $(self).replaceWith('<span id="search-show-nomore"><?php echo $this->translate('No more results found'); ?></span>');
-                } else {
-                    $(self).prev('ul.search-results').append(response.responseText.searchResultsData);
-                }
-            }
-        });
-    });
-</script>
+<?php echo $this->paginationControl($this->pager, 'Elastic', 'pager.phtml', array('searchTerm' => $this->searchTerm)); ?>

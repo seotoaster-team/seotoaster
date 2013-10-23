@@ -201,4 +201,29 @@ class Tools_Filesystem_Tools {
 
 		return false;
 	}
+
+    /**
+     * Check if directory is not empty
+     * @param $dirname Directory to check
+     * @return bool true if directory empty
+     * @throws Exceptions_SeotoasterException
+     */
+    public static function isEmptyDir($dirname){
+        $dirname = trim($dirname);
+        if ($dirname == '' || !is_dir($dirname)) {
+            throw new Exceptions_SeotoasterException('Wrong directory given: ' . $dirname);
+        }
+        $handle = opendir($dirname);
+        if ($handle) {
+            while (false !== ($entry = readdir($handle))) {
+                if (!in_array($entry, array('.', '..'))) {
+                    closedir($handle);
+                    return false;
+                }
+            }
+        } else {
+            throw new Exceptions_SeotoasterException('Can not open directory: ' . $dirname);
+        }
+        return true;
+    }
 }

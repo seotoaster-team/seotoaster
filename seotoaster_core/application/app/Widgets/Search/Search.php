@@ -21,6 +21,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		$this->_view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
 		));
+        $this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
+
 		$this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 
 		$this->_cacheable = false;
@@ -57,39 +59,35 @@ class Widgets_Search_Search extends Widgets_Abstract {
         }
 
 		$searchForm = new Application_Form_Search();
-		$searchForm->setAction($this->_websiteHelper->getUrl() . $searchResultPage->getUrl());
+        $searchFormAction = $searchResultPage->getUrl();
+        if ($searchFormAction !== 'index.html'){
+            $searchForm->setAction($this->_websiteHelper->getUrl() . $searchFormAction);
+        } else {
+            $searchForm->setAction($this->_websiteHelper->getUrl());
+        }
 		$this->_view->searchForm = $searchForm;
 
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
-            if (Tools_Search_Tools::isEmpty() && null === ($indexLock = $this->_cache->load(self::INDEX_LOCK_CACHE_ID,self::INDEX_CACHE_PREFIX))) {
-                $indexLock = array(
-                    'limit' => self::SEARCH_LIMIT_RESULT,
-                    'offset' => 0
-                );
-                $this->_cache->save(self::INDEX_LOCK_CACHE_ID, $indexLock, self::INDEX_CACHE_PREFIX);
-            }
-            $this->_view->runIndexing = true;
-        }
+        $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS) && Tools_Search_Tools::isEmpty();
 
 		return $this->_view->render('form.phtml');
 	}
 
 	private function _renderSearchResults() {
-//		$sessionHelper                = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-//		$totalHits                    = $sessionHelper->searchHits;
-        $limit                        = isset($this->_options[1]) ? $this->_options[1] : self::SEARCH_LIMIT_RESULT;
-
-        $searchForm = new Application_Form_Search();
-
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
         if (!$request->has('search')){
             return '';
         }
 
+        $limit = is_numeric(end($this->_options)) ? filter_var(end($this->_options), FILTER_SANITIZE_NUMBER_INT) : self::SEARCH_LIMIT_RESULT;
+
+        $searchForm = new Application_Form_Search();
+
         $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
 
-        if (!empty($searchTerm) && $searchForm->getElement('search')->isValid($searchTerm)){
+        if ($searchForm->getElement('search')->isValid($searchTerm)){
+            $searchTerm = $searchForm->getElement('search')->getValue();
+            $this->_view->searchTerm = $searchTerm;
             $searchTerm = trim($searchTerm, '*') . '*';
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
@@ -101,31 +99,36 @@ class Widgets_Search_Search extends Widgets_Abstract {
                             'url' => $hit->url,
                             'h1'  => $hit->h1,
                             'navName' => $hit->navName,
-                            'pageTeaser' => $hit->pageTeaser,
-                            'pagePreview' => $hit->pagePreview
+                            'teaserText' => $hit->teaserText,
+                            'previewImage' => $hit->previewImage
                         );
                     }, $hits);
 
                 $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), array('search'), Helpers_Action_Cache::CACHE_LONG);
             }
             if (empty($searchResults)) {
-                $this->_view->hits = '{$content:nothingfound}';
+                return '{$content:nothingfound}';
             } else {
                 $totalHits = count($searchResults);
+                $pager = Zend_Paginator::factory($searchResults);
+                $pager->setDefaultItemCountPerPage($limit);
+                if ($request->has('showpage')){
+                    $pager->setCurrentPageNumber(filter_var($request->getParam('showpage'), FILTER_SANITIZE_NUMBER_INT));
+                }
                 if ($totalHits > $limit){
-                    $this->_view->totalHits = $totalHits;
+                    $this->_view->showMore = true;
                     $this->_view->limit = $limit;
                     $searchResults = array_slice($searchResults, 0, $limit);
                 }
                 $this->_view->hits = $searchResults;
+                $this->_view->pager = $pager;
             }
         } else {
             // TODO $searchTerm validation error
-            $this->_view->hits = $this->_translator->translate(
-                'Nothing found. You need at least 3 characters to start search.'
-            );
-        }
+            $msg = $searchForm->getElement('search')->getMessages();
 
+            return $this->_translator->translate('Search error. '. implode(PHP_EOL, $msg));
+        }
 
         $this->_view->useImage = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
 
