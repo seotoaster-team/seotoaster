@@ -88,10 +88,19 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 		return $row;
 	}
     
-    public function findByContainerName($name){
+    public function findByContainerName($name, $unique = false){
         $where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
         $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
-        return $this->fetchAll($where);
+        if($unique){
+            $select = $this->getDbTable()->getAdapter()
+                ->select()
+                ->from(array('container'))
+                ->where($where)
+                ->group(array('content'));
+            return $this->getDbTable()->getAdapter()->fetchAll($select);
+        }else{
+            return $this->fetchAll($where);
+        }
     }
     
     public function findByContainerNames($prepopNames = array()){
