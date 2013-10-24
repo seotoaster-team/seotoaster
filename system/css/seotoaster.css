@@ -20,12 +20,16 @@ body, body.seotoaster {
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
+/*
+
+We are not using this classes anymore
+
 .error,
 .errors {
 	background-color: indianred !important;
 }
 .success {
-	background-color: /*cadetBlue*/ #7097ae;
+	background-color: *//*cadetBlue*//* #7097ae;
 }
 
 .success, .error {
@@ -43,29 +47,30 @@ body, body.seotoaster {
     font-family:tahoma, geneva, verdana, sans-serif;
 	color: #fff;
 	opacity: 0.95;
-}
+}*/
+
 .seotoaster .success, .seotoaster .error {
    top:34px;
    border-left: 2px solid #fff;
    border-right: 2px solid #fff;
 }
-.success ul, .error ul{
+.seotoaster .success ul, .error ul{
     padding:20px 5%;
     font-weight:bold;
     list-style-type: square;
 }
-.success ul li, .error ul li{
+.seotoaster .success ul li, .error ul li{
 	border-bottom:1px dashed lavender;
 	margin-bottom:10px;
 }
 
-.success ul li ul, .error ul li ul{
+.seotoaster .success ul li ul, .error ul li ul{
 	padding:2px;
 	font-weight:normal;
 	list-style-type: none;
 
 }
-.success ul li ul li, .error ul li ul li{
+.seotoaster .success ul li ul li, .error ul li ul li{
     border:none;
     margin:0;
 }
