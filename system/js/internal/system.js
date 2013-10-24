@@ -49,7 +49,7 @@ $(function() {
 						margin   : '0px',
 						overflow : 'hidden'
 				});
-				$('.ui-dialog-titlebar').remove();
+				$('[aria-describedby="toasterPopup"] .ui-dialog-titlebar').remove();
 			},
 			close: function() {
 				$(this).remove();
