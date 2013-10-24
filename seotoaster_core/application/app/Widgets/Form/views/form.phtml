@@ -1,27 +1,4 @@
 <?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
-<style>
-	.success, .error {
-		cursor: pointer;
-		display: none;
-		position: absolute;
-		padding: 30px 10% 20px 10%;
-		z-index: 999;
-		text-align: left;
-		width: 80%;
-		margin: 0px auto;
-		font-size: 12pt;
-		color: lavender;
-		font-weight: bold;
-		min-height: 100px;
-		background: lightSeaGreen;
-		opacity: 0.9;
-	}
-
-	.error {
-		background: indianred;
-	}
-</style>
-
 <?php if($this->form): ?>
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>

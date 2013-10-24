@@ -308,12 +308,16 @@ class Backend_PageController extends Zend_Controller_Action {
         elseif($this->getRequest()->getParam('pageId', false)) {
             $pageId = $this->getRequest()->getParam('pageId');
         }
-        if($where == null) {
-            $where .= ' parent_id ="' . $pageId . '"';
+
+        if(isset($pageId) && $pageId) {
+            if($where == null) {
+                $where .= ' parent_id ="' . $pageId . '"';
+            }
+            else {
+                $where .= ' AND parent_id ="' . $pageId . '"';
+            }
         }
-        else {
-            $where .= ' AND parent_id ="' . $pageId . '"';
-        }
+
         $pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
         $sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
         $pages    = array_merge((array)$pages, (array)$sysPages);

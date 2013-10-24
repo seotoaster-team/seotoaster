@@ -3,6 +3,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     const FILE_NAME_PREFIX  = 'concat_';
 
+    const FOLDER_CSS        = 'css/';
+
     private $_cssOrder      = array(
         'reset.css',
         'style.css',
@@ -42,7 +44,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $cacheKey    = $this->_cacheKey();
 
             if (null === ($content = $cacheHelper->load($cacheKey, $this->_cachePrefix))) {
-                $this->_cacheTags   = array_merge($this->_cacheTags, $this->_templateFiles());
+                $cssTag = array();
+                foreach ($this->_templateFiles() as $file) {
+                    $cssTag[] = preg_replace('/[^\w\d_]/', '', basename($file));
+                }
+                $this->_cacheTags   = array_merge($this->_cacheTags, $cssTag);
                 $this->_cacheTags[] = $this->_toasterData['templateId'];
 
                 $content = $this->_generatorFiles();
@@ -53,7 +59,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
                     $content = $ste->getMessage();
                 }
             }
-            else if ($content === false) {
+            elseif ($content === false) {
                 $content = $this->_generatorFiles();
             }
         }
@@ -69,7 +75,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         $this->_cacheId = strtolower(get_called_class());
 
         $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        $this->_cacheId .= '_' . $roleId . '_' . substr(md5($this->_toasterData['templateId']), 0, 10);
+        $this->_cacheId .= '_'.$roleId.'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
 
         return $this->_cacheId;
     }
@@ -80,9 +86,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
         $files = array();
         foreach ($cssToTemplate[2] as $file) {
-            $file = explode($this->_toasterData['websiteUrl'].$this->_themeFullPath.'/', $file);
-            $file = end($file);
-            $files[] = $file;
+            $files[] = end(explode($this->_toasterData['websiteUrl'].$this->_themeFullPath.'/', $file));
         }
 
         return $files;
@@ -93,9 +97,19 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             return array();
         }
 
+        $cssOrder = array();
+        foreach ($this->_cssOrder as $key => $val) {
+           if (in_array(self::FOLDER_CSS.$val, $files)) {
+               $cssOrder[$key] = self::FOLDER_CSS.$val;
+           }
+           else {
+               $cssOrder[$key] = $val;
+           }
+        }
+
         $files = array_unique($files);
-        $othersThemeCss = array_diff($files, $this->_cssOrder);
-        $defaultThemeCss = array_intersect($this->_cssOrder, $files);
+        $othersThemeCss  = array_diff($files, $cssOrder);
+        $defaultThemeCss = array_intersect($cssOrder, $files);
         $files = array_merge($defaultThemeCss, $othersThemeCss);
 
         return $files;
@@ -126,8 +140,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             return '';
         }
 
-        if (is_dir($this->_themeFullPath.'/css/')) {
-            $filePath = $this->_themeFullPath.'/css/';
+        if (is_dir($this->_themeFullPath.'/'.self::FOLDER_CSS)) {
+            $filePath = $this->_themeFullPath.'/'.self::FOLDER_CSS;
         }
         else {
             $filePath = $this->_themeFullPath.'/';
