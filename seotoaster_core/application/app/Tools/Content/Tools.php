@@ -95,7 +95,12 @@ class Tools_Content_Tools {
 			}
 		}
 
-		$websiteHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+        $pattern = '~<a.*href="'.$websiteHelper->getUrl().$deeplink->getUrl().'".*>'.$deeplink->getName().'</a>~';
+		if (preg_match($pattern, $content)) {
+            return $content;
+        }
+
 		$linksMatches   = self::findLinksInContent($content, false, self::PATTERN_LINKSIMPLE);
 		$headersMatches = self::findHeadersInContent($content);
 		$widgetsMatches = self::findWidgetsInContent($content);
@@ -111,7 +116,7 @@ class Tools_Content_Tools {
 		}
 
 		$pattern = '~([\>]{1}|\s+|[\/\>]{1}|^)(' . $deeplink->getName() . ')([\<]{1}|\s+|[.,!\?]+|$)~uUi';
-		if(preg_match($pattern, $content, $matches)) {
+		if (preg_match($pattern, $content, $matches)) {
 			Zend_Registry::set('applied', true);
 			$url = '<a ' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_EXTERNAL) ? ('target="_blank" title="' . $deeplink->getUrl() . '" ') : '') . 'href="' . (($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $websiteHelper->getUrl() . $deeplink->getUrl() : $deeplink->getUrl()) . '">' . $matches[2] . '</a>';
 			$c = preg_replace('~' . $matches[2] . '~uU', $url, $content, 1);
