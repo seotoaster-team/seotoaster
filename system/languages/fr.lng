@@ -1105,5 +1105,6 @@
     'Inc. TVA' => 'Dont TVA',
     'Total w/o tax' => 'Total HT',
     'User with this email already exist' => 'Cet email est déjà utilisé',
-    'Email not valid' => 'Email invalide'
+    'Email not valid' => 'Email invalide',
+    'free' => 'gratuit'
 );?>

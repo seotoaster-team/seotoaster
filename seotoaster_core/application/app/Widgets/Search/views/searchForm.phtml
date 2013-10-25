@@ -1,5 +1,5 @@
 <select class="searchParams" name="<?php echo $this->prepopWithName[0]->getName();?>">
-<option value="select">select</option>
+<option value="select"><?php echo $this->translate('select');?></option>
 <?php foreach($this->prepopWithNameList as $prepopName):?>
     <option value="<?php echo $prepopName;?>"><?php echo $prepopName;?></option>
 <?php endforeach; ?>
