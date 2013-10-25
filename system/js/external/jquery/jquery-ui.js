@@ -5339,7 +5339,7 @@ $.widget( "ui.accordion", {
 
 		// clean up headers
 		this.headers
-			.removeClass( "ui-accordion-header ui-accordion-header-active ui-helper-reset ui-state-default ui-corner-all ui-state-active ui-state-disabled ui-corner-top" )
+			.removeClass( "ui-accordion-header ui-accordion-header-active ui-helper-reset ui-state-default ui-state-active ui-state-disabled ui-corner-top" )
 			.removeAttr( "role" )
 			.removeAttr( "aria-selected" )
 			.removeAttr( "aria-controls" )
@@ -5485,7 +5485,7 @@ $.widget( "ui.accordion", {
 
 	_processPanels: function() {
 		this.headers = this.element.find( this.options.header )
-			.addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" );
+			.addClass( "ui-accordion-header ui-helper-reset ui-state-default" );
 
 		this.headers.next()
 			.addClass( "ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" )
@@ -6406,7 +6406,7 @@ $.widget( "ui.autocomplete", $.ui.autocomplete, {
 (function( $, undefined ) {
 
 var lastActive, startXPos, startYPos, clickDragged,
-	baseClasses = "ui-button ui-widget ui-state-default ui-corner-all",
+	baseClasses = "ui-button ui-widget ui-state-default",
 	stateClasses = "ui-state-hover ui-state-active ",
 	typeClasses = "ui-button-icons-only ui-button-icon-only ui-button-text-icons ui-button-text-icon-primary ui-button-text-icon-secondary ui-button-text-only",
 	formResetHandler = function() {
@@ -6905,7 +6905,7 @@ function Datepicker() {
 		disabled: false // The initial disabled state
 	};
 	$.extend(this._defaults, this.regional[""]);
-	this.dpDiv = bindHover($("<div id='" + this._mainDivId + "' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>"));
+	this.dpDiv = bindHover($("<div id='" + this._mainDivId + "' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix'></div>"));
 }
 
 $.extend(Datepicker.prototype, {
@@ -6958,7 +6958,7 @@ $.extend(Datepicker.prototype, {
 			drawMonth: 0, drawYear: 0, // month being drawn
 			inline: inline, // is datepicker inline or not
 			dpDiv: (!inline ? this.dpDiv : // presentation div
-			bindHover($("<div class='" + this._inlineClass + " ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>")))};
+			bindHover($("<div class='" + this._inlineClass + " ui-datepicker ui-widget ui-widget-content ui-helper-clearfix'></div>")))};
 	},
 
 	/* Attach the date picker to an input field. */
@@ -8426,9 +8426,9 @@ $.extend(Datepicker.prototype, {
 			this._getFormatConfig(inst)));
 
 		prev = (this._canAdjustMonth(inst, -1, drawYear, drawMonth) ?
-			"<a class='ui-datepicker-prev ui-corner-all' data-handler='prev' data-event='click'" +
+			"<a class='ui-datepicker-prev' data-handler='prev' data-event='click'" +
 			" title='" + prevText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "e" : "w") + "'>" + prevText + "</span></a>" :
-			(hideIfNoPrevNext ? "" : "<a class='ui-datepicker-prev ui-corner-all ui-state-disabled' title='"+ prevText +"'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "e" : "w") + "'>" + prevText + "</span></a>"));
+			(hideIfNoPrevNext ? "" : "<a class='ui-datepicker-prev ui-state-disabled' title='"+ prevText +"'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "e" : "w") + "'>" + prevText + "</span></a>"));
 
 		nextText = this._get(inst, "nextText");
 		nextText = (!navigationAsDateFormat ? nextText : this.formatDate(nextText,
@@ -8436,20 +8436,20 @@ $.extend(Datepicker.prototype, {
 			this._getFormatConfig(inst)));
 
 		next = (this._canAdjustMonth(inst, +1, drawYear, drawMonth) ?
-			"<a class='ui-datepicker-next ui-corner-all' data-handler='next' data-event='click'" +
+			"<a class='ui-datepicker-next' data-handler='next' data-event='click'" +
 			" title='" + nextText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "w" : "e") + "'>" + nextText + "</span></a>" :
-			(hideIfNoPrevNext ? "" : "<a class='ui-datepicker-next ui-corner-all ui-state-disabled' title='"+ nextText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "w" : "e") + "'>" + nextText + "</span></a>"));
+			(hideIfNoPrevNext ? "" : "<a class='ui-datepicker-next ui-state-disabled' title='"+ nextText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "w" : "e") + "'>" + nextText + "</span></a>"));
 
 		currentText = this._get(inst, "currentText");
 		gotoDate = (this._get(inst, "gotoCurrent") && inst.currentDay ? currentDate : today);
 		currentText = (!navigationAsDateFormat ? currentText :
 			this.formatDate(currentText, gotoDate, this._getFormatConfig(inst)));
 
-		controls = (!inst.inline ? "<button type='button' class='ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all' data-handler='hide' data-event='click'>" +
+		controls = (!inst.inline ? "<button type='button' class='ui-datepicker-close ui-state-default ui-priority-primary' data-handler='hide' data-event='click'>" +
 			this._get(inst, "closeText") + "</button>" : "");
 
 		buttonPanel = (showButtonPanel) ? "<div class='ui-datepicker-buttonpane ui-widget-content'>" + (isRTL ? controls : "") +
-			(this._isInRange(inst, gotoDate) ? "<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all' data-handler='today' data-event='click'" +
+			(this._isInRange(inst, gotoDate) ? "<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary' data-handler='today' data-event='click'" +
 			">" + currentText + "</button>" : "") + (isRTL ? "" : controls) + "</div>" : "";
 
 		firstDay = parseInt(this._get(inst, "firstDay"),10);
@@ -8471,7 +8471,7 @@ $.extend(Datepicker.prototype, {
 			this.maxRows = 4;
 			for (col = 0; col < numMonths[1]; col++) {
 				selectedDate = this._daylightSavingAdjust(new Date(drawYear, drawMonth, inst.selectedDay));
-				cornerClass = " ui-corner-all";
+				cornerClass = "";
 				calender = "";
 				if (isMultiMonth) {
 					calender += "<div class='ui-datepicker-group";
@@ -9088,7 +9088,7 @@ $.widget( "ui.dialog", {
 
 	_createWrapper: function() {
 		this.uiDialog = $("<div>")
-			.addClass( "ui-dialog ui-widget ui-widget-content ui-corner-all ui-front " +
+			.addClass( "ui-dialog ui-widget ui-widget-content ui-front " +
 				this.options.dialogClass )
 			.hide()
 			.attr({
@@ -9144,7 +9144,7 @@ $.widget( "ui.dialog", {
 		var uiDialogTitle;
 
 		this.uiDialogTitlebar = $("<div>")
-			.addClass("ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix")
+			.addClass("ui-dialog-titlebar ui-widget-header ui-helper-clearfix")
 			.prependTo( this.uiDialog );
 		this._on( this.uiDialogTitlebar, {
 			mousedown: function( event ) {
@@ -9652,7 +9652,7 @@ $.widget( "ui.menu", {
 		this.mouseHandled = false;
 		this.element
 			.uniqueId()
-			.addClass( "ui-menu ui-widget ui-widget-content ui-corner-all" )
+			.addClass( "ui-menu ui-widget ui-widget-content" )
 			.toggleClass( "ui-menu-icons", !!this.element.find( ".ui-icon" ).length )
 			.attr({
 				role: this.options.role,
@@ -9750,7 +9750,7 @@ $.widget( "ui.menu", {
 		this.element
 			.removeAttr( "aria-activedescendant" )
 			.find( ".ui-menu" ).addBack()
-				.removeClass( "ui-menu ui-widget ui-widget-content ui-corner-all ui-menu-icons" )
+				.removeClass( "ui-menu ui-widget ui-widget-content ui-menu-icons" )
 				.removeAttr( "role" )
 				.removeAttr( "tabIndex" )
 				.removeAttr( "aria-labelledby" )
@@ -9894,7 +9894,7 @@ $.widget( "ui.menu", {
 
 		// Initialize nested menus
 		submenus.filter( ":not(.ui-menu)" )
-			.addClass( "ui-menu ui-widget ui-widget-content ui-corner-all" )
+			.addClass( "ui-menu ui-widget ui-widget-content" )
 			.hide()
 			.attr({
 				role: this.options.role,
@@ -10247,7 +10247,7 @@ $.widget( "ui.progressbar", {
 		this.oldValue = this.options.value = this._constrainedValue();
 
 		this.element
-			.addClass( "ui-progressbar ui-widget ui-widget-content ui-corner-all" )
+			.addClass( "ui-progressbar ui-widget ui-widget-content" )
 			.attr({
 				// Only set static values, aria-valuenow and aria-valuemax are
 				// set inside _refreshValue()
@@ -10263,7 +10263,7 @@ $.widget( "ui.progressbar", {
 
 	_destroy: function() {
 		this.element
-			.removeClass( "ui-progressbar ui-widget ui-widget-content ui-corner-all" )
+			.removeClass( "ui-progressbar ui-widget ui-widget-content" )
 			.removeAttr( "role" )
 			.removeAttr( "aria-valuemin" )
 			.removeAttr( "aria-valuemax" )
@@ -10400,7 +10400,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 				" ui-slider-" + this.orientation +
 				" ui-widget" +
 				" ui-widget-content" +
-				" ui-corner-all");
+				"");
 
 		this._refresh();
 		this._setOption( "disabled", this.options.disabled );
@@ -10418,8 +10418,8 @@ $.widget( "ui.slider", $.ui.mouse, {
 	_createHandles: function() {
 		var i, handleCount,
 			options = this.options,
-			existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-state-default ui-corner-all" ),
-			handle = "<a class='ui-slider-handle ui-state-default ui-corner-all' href='#'></a>",
+			existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-state-default" ),
+			handle = "<a class='ui-slider-handle ui-state-default' href='#'></a>",
 			handles = [];
 
 		handleCount = ( options.values && options.values.length ) || 1;
@@ -10464,7 +10464,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 				classes = "ui-slider-range" +
 				// note: this isn't the most fittingly semantic framework class for this element,
 				// but worked best visually with a variety of themes
-				" ui-widget-header ui-corner-all";
+				" ui-widget-header";
 			} else {
 				this.range.removeClass( "ui-slider-range-min ui-slider-range-max" )
 					// Handle range switching from true to min/max
@@ -10499,7 +10499,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 				" ui-slider-vertical" +
 				" ui-widget" +
 				" ui-widget-content" +
-				" ui-corner-all" );
+				"" );
 
 		this._mouseDestroy();
 	},
@@ -11243,7 +11243,7 @@ $.widget( "ui.spinner", {
 	},
 
 	_uiSpinnerHtml: function() {
-		return "<span class='ui-spinner ui-widget ui-widget-content ui-corner-all'></span>";
+		return "<span class='ui-spinner ui-widget ui-widget-content'></span>";
 	},
 
 	_buttonHtml: function() {
@@ -11534,7 +11534,7 @@ $.widget( "ui.tabs", {
 		this.running = false;
 
 		this.element
-			.addClass( "ui-tabs ui-widget ui-widget-content ui-corner-all" )
+			.addClass( "ui-tabs ui-widget ui-widget-content" )
 			.toggleClass( "ui-tabs-collapsible", options.collapsible )
 			// Prevent users from focusing disabled tabs via click
 			.delegate( ".ui-tabs-nav > li", "mousedown" + this.eventNamespace, function( event ) {
@@ -11857,7 +11857,7 @@ $.widget( "ui.tabs", {
 		var that = this;
 
 		this.tablist = this._getList()
-			.addClass( "ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" )
+			.addClass( "ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header" )
 			.attr( "role", "tablist" );
 
 		this.tabs = this.tablist.find( "> li:has(a[href])" )
@@ -12161,10 +12161,10 @@ $.widget( "ui.tabs", {
 			this.xhr.abort();
 		}
 
-		this.element.removeClass( "ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-collapsible" );
+		this.element.removeClass( "ui-tabs ui-widget ui-widget-content ui-tabs-collapsible" );
 
 		this.tablist
-			.removeClass( "ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" )
+			.removeClass( "ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header" )
 			.removeAttr( "role" );
 
 		this.anchors
@@ -12669,7 +12669,7 @@ $.widget( "ui.tooltip", {
 					id: id,
 					role: "tooltip"
 				})
-				.addClass( "ui-tooltip ui-widget ui-corner-all ui-widget-content " +
+				.addClass( "ui-tooltip ui-widget ui-widget-content " +
 					( this.options.tooltipClass || "" ) );
 		$( "<div>" )
 			.addClass( "ui-tooltip-content" )

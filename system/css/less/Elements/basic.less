@@ -15,39 +15,11 @@
     &~.ui-widget-overlay{
         display : none;
     }
-
-    &+[style*="height: 560px; width: 960px;"]{
-        &~.ui-dialog{
-            z-index : 1002;
-        }
-
-        &~.ui-widget-overlay{
-            display : block;
-            margin  : auto;
-            height  : 560px;
-            width   : 960px;
-            z-index : 1001;
-        }
-    }
-
-    &+[style*="height: 560px; width: 480px;"]{
-        &~.ui-dialog{
-            z-index : 1003;
-        }
-
-        &~.ui-widget-overlay{
-            display : block;
-            margin  : auto;
-            height  : 560px;
-            width   : 480px;
-            z-index : 1002;
-        }
-    }
 }
 
 body{
     //background  : @body-bg;
-    font-family : @font-famaly-text;
+    font-family : @font-family-text;
     line-height : 1.4;
     color       : @text-color;
 }
@@ -82,6 +54,11 @@ body{
 
     .ui-tabs &.ui-tabs-nav{
         padding-right : 8%;
+
+        .ui-tabs-anchor{
+            padding-top    : 0 !important;
+            padding-bottom : 0 !important;
+        }
     }
 
     a{

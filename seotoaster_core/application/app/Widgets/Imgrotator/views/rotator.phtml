@@ -1,25 +1,26 @@
 <div id="<?php echo $this->uniq; ?>" class="rotator">
-	<?php if(!empty($this->files)): ?>
-		<?php foreach($this->files as $image): ?>
-			<?php $size = getimagesize('media/' . $this->folder .  $image); ?>
-			<img src="<?php echo (($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder .  $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo (($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
-		<?php endforeach; ?>
+	<?php if (!empty($this->files)): ?>
+        <?php foreach ($this->files as $image): ?>
+            <?php $size = getimagesize('media/' . $this->folder . $image); ?>
+            <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
+        <?php endforeach; ?>
 
-	<?php endif; ?>
+    <?php endif; ?>
 </div>
 
-<?php if($this->slideShow): ?>
+<?php if ($this->slideShow): ?>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var timeout = 100;
-            if (!$.fn.cycle){
+            if (!$.fn.cycle) {
                 timeout = 2000;
-                $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle.js'; ?>');
+                $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle2.min.js'; ?>');
             }
-            setTimeout(function(){
+            setTimeout(function () {
                 $('#<?php echo $this->uniq; ?>').cycle({
-                    fx    : '<?php echo $this->effect; ?>',
-                    speed : <?php echo $this->swapTime * 1000; ?>
+                    fx: '<?php echo $this->effect; ?>',
+                    speed: <?php echo $this->swapTime * 1000; ?>,
+                    autoHeight: 0
                 });
             }, timeout);
 
@@ -28,13 +29,12 @@
 <?php endif; ?>
 
 <style type="text/css">
-	div#<?php echo $this->uniq; ?>.rotator {
-		height:  <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
-		width:   <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
-		padding: 0;
-		margin:  0;
-		z-index: 13;
-		overflow:hidden;
-	}
-
+	div#<?php echo $this->uniq; ?>.rotator{
+        max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
+        max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
+        padding    : 0;
+        margin     : 0;
+        z-index    : 13;
+        overflow   : hidden;
+    }
 </style>

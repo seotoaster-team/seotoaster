@@ -13,8 +13,8 @@ form, .form{
         clear   : both;
     }
 
-    p{
-        margin : 0
+    p:not([class*='mb']){
+        margin-bottom : 0
     }
 
     &>p, &>div, fieldset>p, fieldset>div{
@@ -316,32 +316,63 @@ input[type="checkbox"]:not(.icon):not(.hidden){
 
     &.switcher{
         &+span{
-            color          : @gray-light;
-            vertical-align : middle;
-            width          : 60px;
-            height         : 20px;
-            .border-radius(@input-border-radius);
+            overflow    : hidden;
+            font-size   : @font-size-base;
+            position    : relative;
+            width       : 3.75em;
+            height      : 1.25em;
+            line-height : 1.25em;
+            //border-color : @brand-error;
+
+            &:before, &:after{
+                .inline-block();
+                position    : static;
+                font-family : @font-family-text;
+                font-size   : @font-size-mini;
+                line-height : 1.75em;
+                font-weight : bold;
+            }
+
+            &:before{
+                float       : left;
+                content     : "ON";
+                margin-left : 0.45em;
+                color       : @brand-success;
+            }
 
             &:after{
-                margin      : 1px;
-                font-size   : 10px;
-                line-height : 18px;
-                width       : 28px;
-                content     : "OFF";
-                background  : @gray-light;
-                color       : @gray;
-                text-align  : center;
-                .border-radius(@input-border-radius);
+                float        : right;
+                content      : "OFF";
+                margin-right : 0.25em;
+                color        : @brand-error;
+            }
+
+            span{
+                .transition(all, 0.3s);
+                background : @brand-error;
+                background : @input-border-color;
+                position   : absolute;
+                z-index    : 5;
+                left       : 1px;
+                top        : 1px;
+                bottom     : 1px;
+                width      : 1.8em;
             }
         }
 
         &:checked{
             &+span{
+                //border-color : @brand-success;
+
+                &:before{
+                }
+
                 &:after{
-                    color      : #FFF;
-                    content    : "ON";
-                    background : @primary-bg;
-                    left       : 50%;
+                }
+
+                span{
+                    //background : @brand-success;
+                    left : 1.85em;
                 }
             }
         }
@@ -383,7 +414,6 @@ input[type="checkbox"]:not(.icon):not(.hidden){
 // Social button with checkbox
 //==================================================
 input.icon{
-
     &~[class*="icon-"]{
         color  : @gray-light;
         cursor : pointer;

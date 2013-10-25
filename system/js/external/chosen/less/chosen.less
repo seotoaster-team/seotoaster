@@ -138,6 +138,7 @@
         padding          : 0;
         cursor           : text;
         overflow         : hidden;
+        height           : 52px;
         .box-sizing;
 
         li{
@@ -168,22 +169,23 @@
         }
 
         .search-choice{
-            background-color : @primary-bg;
-            color            : @primary-color;
+            background-color : @gray-light;
+            color            : @gray;
             font-size        : @font-size-small;
             padding          : 3px 5px;
-            margin           : 2px;
+            margin           : 1%;
             position         : relative;
             cursor           : default;
             .text-overflow;
+            .box-sizing;
 
             &.search-choice-disabled{
-                background-color : @primary-bg-disable;
-                color            : @primary-color-disable;
+                background-color : @gray-lighter;
+                color            : darken(@gray-light, 10%);
 
                 .search-choice-close{
                     &, &:hover{
-                        color : @primary-color-disable;
+                        display : none;
                     }
                 }
             }
@@ -191,7 +193,7 @@
             .search-choice-close{
                 color       : @gray;
                 margin-left : 3px;
-                .icon-size(14px);
+                .icon-size(11px);
 
                 &:hover{
                     color : @brand-error;

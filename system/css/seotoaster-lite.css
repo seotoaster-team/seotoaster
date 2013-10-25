@@ -178,74 +178,70 @@ blockquote li + li,
 blockquote.success,
 .blockquote.success,
 .seo-tip.success {
-  background-color: #defcd5;
-  border-color: #b9f9a5;
-  color: #52a954;
+  background-color: #d8efc1;
+  border-color: #b4d892;
+  color: #79985b;
 }
 blockquote.success hr,
 .blockquote.success hr,
 .seo-tip.success hr {
-  border-top-color: #a6f78e;
+  border-top-color: #a7d17f;
 }
 blockquote.success a,
 .blockquote.success a,
 .seo-tip.success a {
-  color: #81f45e;
-  color: inherit;
+  color: #607848;
 }
 blockquote.warning,
 .blockquote.warning,
 .seo-tip.warning {
-  background-color: #f6f3d5;
-  border-color: #ede7ab;
-  color: #96904d;
+  background-color: #feebb7;
+  border-color: #e7d195;
+  color: #b49133;
 }
 blockquote.warning hr,
 .blockquote.warning hr,
 .seo-tip.warning hr {
-  border-top-color: #e9e196;
+  border-top-color: #e2c880;
 }
 blockquote.warning a,
 .blockquote.warning a,
 .seo-tip.warning a {
-  color: #e0d56c;
-  color: inherit;
+  color: #8c7128;
 }
 blockquote.error,
 .blockquote.error,
 .seo-tip.error {
-  background-color: #f1d7d7;
-  border-color: #e4b1b1;
-  color: #a95252;
+  background-color: #f9bcc3;
+  border-color: #f09da7;
+  color: #b76973;
 }
 blockquote.error hr,
 .blockquote.error hr,
 .seo-tip.error hr {
-  border-top-color: #dd9e9e;
+  border-top-color: #ed8793;
 }
 blockquote.error a,
 .blockquote.error a,
 .seo-tip.error a {
-  color: #d07979;
-  color: inherit;
+  color: #a04d58;
 }
 blockquote.info,
 .blockquote.info,
 .seo-tip.info {
-  background-color: #e6f4f9;
-  border-color: #bde2ef;
-  color: #4d8796;
+  background-color: #b8e1f1;
+  border-color: #a1c7d5;
+  color: #52889b;
 }
 blockquote.info hr,
 .blockquote.info hr,
 .seo-tip.info hr {
-  border-top-color: #a8d9ea;
+  border-top-color: #8fbdcd;
 }
 blockquote.info a,
 .blockquote.info a,
 .seo-tip.info a {
-  color: #7fc7e0;
-  color: inherit;
+  color: #406b7a;
 }
 @font-face {
   font-family: 'toaster-icons';
@@ -258,80 +254,72 @@ blockquote.info a,
   width: 12px !important;
   height: 12px !important;
   line-height: 12px !important;
+  font-size: 0 !important;
 }
-.icon12:before,
-.icon12 [class^="icon-"]:before,
-.icon12 [class*=" icon-"]:before {
+.icon12:before {
   font-size: 12px !important;
 }
 .icon14 {
   width: 14px !important;
   height: 14px !important;
   line-height: 14px !important;
+  font-size: 0 !important;
 }
-.icon14:before,
-.icon14 [class^="icon-"]:before,
-.icon14 [class*=" icon-"]:before {
+.icon14:before {
   font-size: 14px !important;
 }
 .icon16 {
   width: 16px !important;
   height: 16px !important;
   line-height: 16px !important;
+  font-size: 0 !important;
 }
-.icon16:before,
-.icon16 [class^="icon-"]:before,
-.icon16 [class*=" icon-"]:before {
+.icon16:before {
   font-size: 16px !important;
 }
 .icon18 {
   width: 18px !important;
   height: 18px !important;
   line-height: 18px !important;
+  font-size: 0 !important;
 }
-.icon18:before,
-.icon18 [class^="icon-"]:before,
-.icon18 [class*=" icon-"]:before {
+.icon18:before {
   font-size: 18px !important;
 }
 .icon24 {
   width: 24px !important;
   height: 24px !important;
   line-height: 24px !important;
+  font-size: 0 !important;
 }
-.icon24:before,
-.icon24 [class^="icon-"]:before,
-.icon24 [class*=" icon-"]:before {
+.icon24:before {
   font-size: 24px !important;
 }
 .icon32 {
   width: 32px !important;
   height: 32px !important;
   line-height: 32px !important;
+  font-size: 0 !important;
 }
-.icon32:before,
-.icon32 [class^="icon-"]:before,
-.icon32 [class*=" icon-"]:before {
+.icon32:before {
   font-size: 32px !important;
 }
 .icon48 {
   width: 48px !important;
   height: 48px !important;
   line-height: 48px !important;
+  font-size: 0 !important;
 }
-.icon48:before,
-.icon48 [class^="icon-"]:before,
-.icon48 [class*=" icon-"]:before {
+.icon48:before {
   font-size: 48px !important;
 }
 .icon64 {
   width: 64px !important;
   height: 64px !important;
   line-height: 64px !important;
+  font-size: 0 !important;
 }
-.icon64:before,
-.icon64 [class^="icon-"]:before,
-.icon64 [class*=" icon-"]:before {
+.icon64:before {
   font-size: 64px !important;
 }
 .fs12 {
@@ -1808,6 +1796,7 @@ a.info:hover,
   overflow: hidden;
   background: #fafafa;
   padding: 10px;
+  border-top: 1px solid #eee;
   -webkit-box-shadow: 0 1px 1px #bbbbbb;
   -moz-box-shadow: 0 1px 1px #bbbbbb;
   -ms-box-shadow: 0 1px 1px #bbbbbb;
@@ -1953,10 +1942,9 @@ a.info:hover,
   width: 14px;
   height: 14px;
   line-height: 14px;
+  font-size: 0;
 }
-.screen-size:before,
-.screen-size [class^="icon-"]:before,
-.screen-size [class*=" icon-"]:before {
+.screen-size:before {
   font-size: 14px;
 }
 .screen-size:hover {
@@ -1982,12 +1970,11 @@ a.info:hover,
   width: 16px;
   height: 16px;
   line-height: 16px;
+  font-size: 0;
   opacity: 1 !important;
   filter: alpha(opacity=100) !important;
 }
-.screen-size.error:before,
-.screen-size.error [class^="icon-"]:before,
-.screen-size.error [class*=" icon-"]:before {
+.screen-size.error:before {
   font-size: 16px;
 }
 .full-screen {
@@ -2020,26 +2007,6 @@ a.info:hover,
 }
 .ui-widget-overlay ~ .ui-widget-overlay {
   display: none;
-}
-.ui-widget-overlay + [style*="height: 560px; width: 960px;"] ~ .ui-dialog {
-  z-index: 1002;
-}
-.ui-widget-overlay + [style*="height: 560px; width: 960px;"] ~ .ui-widget-overlay {
-  display: block;
-  margin: auto;
-  height: 560px;
-  width: 960px;
-  z-index: 1001;
-}
-.ui-widget-overlay + [style*="height: 560px; width: 480px;"] ~ .ui-dialog {
-  z-index: 1003;
-}
-.ui-widget-overlay + [style*="height: 560px; width: 480px;"] ~ .ui-widget-overlay {
-  display: block;
-  margin: auto;
-  height: 560px;
-  width: 480px;
-  z-index: 1002;
 }
 body {
   font-family: 'Open Sans', sans-serif;
@@ -2076,6 +2043,10 @@ body {
 .ui-tabs .header.ui-tabs-nav {
   padding-right: 8%;
 }
+.ui-tabs .header.ui-tabs-nav .ui-tabs-anchor {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 .header a {
   text-decoration: none;
 }
@@ -2083,8 +2054,8 @@ body {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 .header-inner a {
   color: inherit;
@@ -2117,11 +2088,10 @@ body {
   width: 14px;
   height: 14px;
   line-height: 14px;
+  font-size: 0;
   margin-right: 5px;
 }
-.closebutton .help:before,
-.closebutton .help [class^="icon-"]:before,
-.closebutton .help [class*=" icon-"]:before {
+.closebutton .help:before {
   font-size: 14px;
 }
 .closebutton .help:hover {
@@ -2131,20 +2101,18 @@ body {
   width: 13px;
   height: 13px;
   line-height: 13px;
+  font-size: 0;
 }
-.closebutton .close:before,
-.closebutton .close [class^="icon-"]:before,
-.closebutton .close [class*=" icon-"]:before {
+.closebutton .close:before {
   font-size: 13px;
 }
 .closebutton .hide {
   width: 15px;
   height: 15px;
   line-height: 15px;
+  font-size: 0;
 }
-.closebutton .hide:before,
-.closebutton .hide [class^="icon-"]:before,
-.closebutton .hide [class*=" icon-"]:before {
+.closebutton .hide:before {
   font-size: 15px;
 }
 .closebutton .close:hover,

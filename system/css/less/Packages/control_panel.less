@@ -12,11 +12,12 @@
 // Control Panel
 //==================================================
 #seotoaster-cpanel{
-    width    : 200px;
-    position : absolute;
-    right    : 5px;
-    top      : 0;
-    z-index  : 1100;
+    width      : 200px;
+    position   : absolute;
+    right      : 5px;
+    top        : 0;
+    z-index    : 1100;
+    background : @body-bg;
     .box-shadow(0 0 10px @gray-dark);
 
     .ie8 &:after{
@@ -29,7 +30,7 @@
         left       : -3px;
         z-index    : 1;
         background : @gray-dark;
-        filter  : ~"alpha(opacity=50)";
+        filter     : ~"alpha(opacity=50)";
     }
 
     &>*{

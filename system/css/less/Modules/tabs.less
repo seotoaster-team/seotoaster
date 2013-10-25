@@ -9,7 +9,7 @@
         cursor : pointer;
     }
 
-    .ui-tabs-nav{
+    .ui-tabs-nav:not([class*="list-"]){
         background : @tabs-nav-bg;
         margin     : 0;
         padding    : 0 @grid-margin-width / 2;
@@ -32,6 +32,11 @@
             li{
                 float      : none;
                 text-align : inherit;
+                border-top : 2px solid @body-bg;
+
+                .ui-tabs-anchor{
+                    display : block;
+                }
             }
         }
 
@@ -40,6 +45,7 @@
             margin      : 0;
             padding     : 0;
             background  : @tabs-nav-li-bg;
+            color       : @tabs-nav-li-color;
             white-space : nowrap;
             list-style  : none;
             text-align  : center;
@@ -49,19 +55,16 @@
             }
 
             .ui-tabs-anchor{
-                padding         : 0.55em 1.1em;
+                .text-overflow;
+                padding         : @padding-base-vertical @padding-base-horizontal;
                 text-decoration : none;
-                color           : @tabs-nav-li-color;
-
-                .header&{
-                    padding : 0 @padding-base-horizontal;
-                }
+                color           : inherit;
             }
 
             &:hover{
                 background : @tabs-nav-li-bg-hover;
+                color      : @tabs-nav-li-color-hover;
                 a{
-                    color : @tabs-nav-li-color-hover;
                 }
             }
 
@@ -81,9 +84,9 @@
 
             &.ui-tabs-active, &.ui-tabs-loading, &.ui-state-disabled{
                 background : @tabs-nav-li-bg-active;
+                color      : @tabs-nav-li-color-active;
                 a{
                     cursor : text;
-                    color  : @tabs-nav-li-color-active;
                 }
 
                 .tabs-gray&{
@@ -112,9 +115,4 @@
             z-index  : 1;
         }
     }
-}
-
-.header.ui-tabs-nav li a.ui-tabs-anchor{
-    padding-top    : 0;
-    padding-bottom : 0;
 }

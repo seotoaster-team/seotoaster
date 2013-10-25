@@ -1,7 +1,7 @@
 // Table of Content
 //==================================================
 //	Fonts
-//  Grid System
+//  Grid Base
 //	Grays
 //	Brand Color
 //	Scaffolding
@@ -12,22 +12,24 @@
 //	Tables
 //	Buttons
 //	Form
+//  Paginator
 //  Highlight
 //  Slide Show
 //  Thumbnails
 //  Breadcrumbs
 //  Carousel
-//	JQuery UI Style
+//	JQuery Modules Style
 //--------------------------
-    // Accordion
-    // Tabs
-    // Dialog
-    // Datepicker
-    // Modals
-    // Tooltip
-    // Slider
-    // Progressbar
-    // Mixin
+//      Accordion
+//      Tabs
+//      Dialog
+//      Datepicker
+//      Modals
+//      Tooltip
+//      Slider (range)
+//      Progressbar
+//
+//  Mixin
 //==================================================
 
 // Size toaster popup
@@ -41,16 +43,16 @@
 
 // Fonts
 //==================================================
-@font-famaly-text     : 'Open Sans', sans-serif;
-@font-famaly-headings : @font-famaly-text;
+@font-family-text     : 'Open Sans', sans-serif;
+@font-family-headings : @font-family-text;
 
-@font-size-base       : 14px;
 @font-size-larger     : 1.5em;
 @font-size-large      : 1.25em;
+@font-size-base       : 14px;
 @font-size-small      : 0.85em;
 @font-size-mini       : 0.75em;
 
-// Grid System
+// Grid Base
 //==================================================
 @grid-container-width : 100%;
 //Width for container
@@ -61,11 +63,13 @@
 
 //Grays
 //==================================================
+@black        : #000;
 @gray-darker  : #111;
 @gray-dark    : #333;
 @gray         : #666;
 @gray-light   : #eaeaea;
 @gray-lighter : #fafafa;
+@white        : #fff;
 
 // Brand Color
 //==================================================
@@ -81,15 +85,18 @@
 @primary-bg-active       : @primary-bg;
 @primary-bg-disable      : desaturate(@primary-bg, 15%);
 //the color of the text relative to the main site colors
-@primary-color         : #fff;
-@primary-color-hover   : darken(@primary-color, 5%);
-@primary-color-active  : @primary-color;
-@primary-color-disable : desaturate(@primary-color, 15%);
+@primary-color           : @white;
+@primary-color-hover     : darken(@primary-color, 5%);
+@primary-color-active    : @primary-color;
+@primary-color-disable   : desaturate(@primary-color, 15%);
 
 // Scaffolding
 //==================================================
 @body-bg                 : #fff;
 @text-color              : @gray-dark;
+
+@text-select-bg          : @primary-bg;
+@text-select-color       : @primary-color;
 
 @header-bg               : @gray-light;
 @header-color            : @gray;
@@ -100,8 +107,6 @@
 @header-inner-bg         : #aaa;
 @header-inner-color      : #fff;
 
-@text-select-bg          : @primary-bg;
-@text-select-color       : @primary-color;
 
 // Links
 //==================================================
@@ -117,60 +122,66 @@
 
 // Components
 //==================================================
-@padding-base-vertical    : 6px;
-@padding-base-horizontal  : 12px;
+@padding-larger-vertical   : 16px;
+@padding-larger-horizontal : 24px;
 
-@padding-large-vertical   : 10px;
-@padding-large-horizontal : 20px;
+@padding-large-vertical    : 12px;
+@padding-large-horizontal  : 20px;
 
-@padding-small-vertical   : 4px;
-@padding-small-horizontal : 8px;
+@padding-base-vertical     : 8px;
+@padding-base-horizontal   : 16px;
 
-@padding-mini-vertical   : 2px;
-@padding-mini-horizontal : 4px;
+@padding-small-vertical    : 4px;
+@padding-small-horizontal  : 8px;
 
-@border-radius-base       : 4px;
-@border-radius-large      : 6px;
-@border-radius-small      : 3px;
+@padding-mini-vertical     : 2px;
+@padding-mini-horizontal   : 4px;
+
+@border-radius-base        : 5px;
+@border-radius-large       : 7px;
+@border-radius-small       : 3px;
+
+@hr-size                   : 2px;
+@hr-color                  : @gray-light;
 
 // Form states and alerts
 //==================================================
 @state-border-radius  : @border-radius-base;
 
-@state-success-text   : #52A954;
-@state-success-bg     : #DEFCD5;
-@state-success-border : darken(@state-success-bg, 10%);
+@state-primary-text   : @brand-primary;
+@state-primary-bg     : lighten(desaturate(@state-primary-text, 30%), 35%);
+@state-primary-border : darken(@state-primary-bg, 15%);
 
-@state-info-text      : #4D8796;
-@state-info-bg        : #E6F4F9;
-@state-info-border    : darken(@state-info-bg, 10%);
+@state-success-bg     : #D8EFC1;
+@state-success-text   : #79985B;
+@state-success-border : #B4D892;
 
-@state-warning-text   : #96904D;
-@state-warning-bg     : #F6F3D5;
-@state-warning-border : darken(@state-warning-bg, 10%);
+@state-info-bg        : #B8E1F1;
+@state-info-text      : #52889B;
+@state-info-border    : #A1C7D5;
 
-@state-error-text     : #A95252;
-@state-error-bg       : #F1D7D7;
-@state-error-border   : darken(@state-error-bg, 10%);
+@state-warning-bg     : #FEEBB7;
+@state-warning-text   : #B49133;
+@state-warning-border : #E7D195;
+
+@state-error-bg       : #F9BCC3;
+@state-error-text     : #B76973;
+@state-error-border   : #F09DA7;
 
 // Tables
 //==================================================
-@table-bg           : transparent;
-// overall background-color
-@table-row-bg       : @gray-lighter;
-// for striping
-@table-row-bg-hover : @table-row-bg;
-// for hover
-@table-border-color : darken(@gray-light, 5%);
-// table and cell border
+@table-bg           : transparent;// overall background-color
+@table-row-bg       : @gray-lighter;// for striping
+@table-row-bg-hover : @table-row-bg;// for hover
+@table-border-color : darken(@gray-light, 5%);// table and cell border
 
 // Buttons
 //==================================================
 @btn-border-width          : 0px;
 
 @btn-border-radius         : 0px;
-@btn-large-border-radius   : @btn-border-radius;
-@btn-small-border-radius   : @btn-border-radius;
+@btn-large-border-radius   : @btn-border-radius * 1.5;
+@btn-small-border-radius   : @btn-border-radius * .5;
 
 @btn-success-color         : #fff;
 @btn-success-bg            : @brand-success;
@@ -199,21 +210,35 @@
 
 @input-border-width       : 1px;
 @input-border-color       : #ccc;
-@input-border-color-focus : @primary-bg;
+@input-border-color-focus : @primary-bg;//border color and shadow in focus
 @input-border-radius      : 0;
 
+@input-shadow-focus       : false;
+
 @input-color-placeholder  : #ccc;
+
+// Slide Show
+//==================================================
+@slider-height         : 350px;
+@slider-button-size    : 18px;
 
 // Thumbnails
 //==================================================
 @thumbnail-bg            : @body-bg;
-@thumbnail-border-color  : #ddd;
-@thumbnail-border-radius : @border-radius-base;
+@thumbnail-border-width  : 2px;
+@thumbnail-border-color  : @gray-light;
+@thumbnail-border-radius : 0;
+@thumbnail-shadow        : false;
 @thumbnail-caption-bg    : fade(@primary-bg, 80%);
 @thumbnail-caption-color : @primary-color;
-@thumbnail-box-shadow    : 3px 3px 3px @gray;
 
-// JQuery UI Style
+// Breadcrumbs
+//==================================================
+@breadcrumbs-color            : @text-color;
+@breadcrumbs-link-color       : @link-color;
+@breadcrumbs-link-color-hover : @link-color-hover;
+
+// JQuery Modules Style
 //==================================================
 // Accordion       http://jqueryui.com/accordion/
 // Tabs            http://jqueryui.com/tabs/
@@ -225,7 +250,7 @@
 // Progressbar     http://jqueryui.com/progressbar/
 //==================================================
 
-// JQuery UI Accordion = http://jqueryui.com/accordion/
+// JQuery Modules Accordion = http://jqueryui.com/accordion/
 //=============================================================
 @accordion-header-bg            : @gray-light;
 @accordion-header-color         : @gray;
@@ -325,13 +350,6 @@
 @progressbar-bg           : @body-bg;
 @progressbar-border-color : darken(@primary-bg, 15%);
 @progressbar-range-bg     : @primary-bg;
-
-// ScrollBars = http://codemug.com/html/custom-scrollbars-using-css/
-//=============================================================
-@scrollbar-size             : 10px;
-@scrollbar-bg               : @gray-light;
-@scrollbar-slider-button-bg : darken(@scrollbar-bg, 10%);
-@scrollbar-resize-color     : darken(@scrollbar-bg, 10%);
 
 // Mixin
 //==================================================

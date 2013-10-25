@@ -72,7 +72,7 @@
 
 // Margin - Padding
 //==================================================
-.margin (@value, @position:all, @step:5) when (@value >= 0){
+.margin (@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
     @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
 
     .result(@v, @n, @p) when (@p = all){
@@ -96,7 +96,7 @@
     .margin(@value - @step, @position, @step);
 }
 
-.padding (@value, @position:all, @step:5) when (@value >= 0){
+.padding (@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
     @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
 
     .result(@v, @n, @p) when (@p = all){
@@ -120,7 +120,7 @@
     .padding(@value - @step, @position, @step);
 }
 
-.position (@value, @position, @step:5) when (@value >= 0){
+.position (@value, @position, @step:5) when (@value >= 0) and not (@value = none){
     @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
 
     .result(@v, @n, @p) when (@p = top){
@@ -143,7 +143,7 @@
 
 // Width - Height
 //==================================================
-.width (@width, @step:5) when (@width >= 0){
+.width (@width, @step:5) when (@width >= 0) and not (@width = none){
     @name : e(`(function(){ var a = "@{width}"; return a.replace('%', '')}())`);
 
     .result(@w, @n) {
@@ -153,7 +153,7 @@
 
     .width(@width - @step, @step);
 }
-.height (@height, @step:5) when (@height >= 0){
+.height (@height, @step:5) when (@height >= 0) and not (@height = none){
     @name : e(`(function(){ var a = "@{height}"; return a.replace('%', '')}())`);
 
     .result(@h, @n) {
@@ -244,14 +244,14 @@
 //==================================================
 .hide-text() {
     font        : 0/0 a;
-    color       : transparent;
+    //color       : transparent;
     text-shadow : none;
 }
 
 // CSS3
 //==================================================
 // -- Border Radius
-.border-radius(@radius) when (@radius > 0){
+.border-radius(@radius) {
     -webkit-border-radius : @radius;
     -moz-border-radius    : @radius;
     -ms-border-radius     : @radius;
@@ -259,11 +259,11 @@
 }
 
 // -- Box Shadow
-.box-shadow(...) {
-    -webkit-box-shadow : @arguments;
-    -moz-box-shadow    : @arguments;
-    -ms-box-shadow     : @arguments;
-    box-shadow         : @arguments;
+.box-shadow(@shadow, @shadow-switcher : true) when (@shadow-switcher = true){
+    -webkit-box-shadow : @shadow;
+    -moz-box-shadow    : @shadow;
+    -ms-box-shadow     : @shadow;
+    box-shadow         : @shadow;
 }
 
 // -- Box Sizing
@@ -284,6 +284,28 @@
     column-gap           : @column-gap;
 }
 
+.grid-elements (@num-column, @margin) when (@num-column > 0){
+    width        : (100% / @num-column) - @margin*2;
+    margin-left  : unit(@margin, ~"%");
+    margin-right : unit(@margin, ~"%");
+}
+.grid-elements (@num-column, @margin, @full) when (@num-column > 0){
+    &:not(.featureapage){
+        width       : (100% / @num-column) - @margin + (@margin / @num-column);
+        margin-left : unit(@margin, ~"%");
+
+        @num : ~'@{num-column}n + 1';
+        &:nth-child(@{num}){
+            margin-left : 0;
+        }
+
+        // Safari fix
+        ::made-up-pseudo-element, &{
+            width : (100% / @num-column) - @margin + (@margin / @num-column) - 0.3;
+        }
+    }
+}
+
 // -- Gradients
 .gradient(...) {
     @backgroundSVG    : e(`(function(){function G(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a)return a;do c=a.charCodeAt(k++),d=a.charCodeAt(k++),e=a.charCodeAt(k++),j=c<<16|d<<8|e,f=j>>18&63,g=j>>12&63,h=j>>6&63,i=j&63,n[l++]=b.charAt(f)+b.charAt(g)+b.charAt(h)+b.charAt(i);while(k<a.length);m=n.join("");var o=a.length%3;return(o?m.slice(0,o-3):m)+"===".slice(o||3)}var a="@{arguments}",b=null,c=!0,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,f=/top/,g=/right/,h=/bottom/,i=/left/,j=/to\s*top/,k=/to\s*right/,l=/to\s*bottom/,m=/to\s*left/,n=/45deg/,o=/-45deg/,p=/\d*deg/;for(var q=0;q<e;q++){if(/linear/.test(d[q])){d[q]=d[q].replace(/linear-gradient\s*\(/,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none">');if(f.test(d[q])&&!j.test(d[q])||l.test(d[q])||/180deg/.test(d[q])){var r=null;l.test(d[q])?r=l:/180deg/.test(d[q])?r=/180deg/:r=f,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%">')}else if(g.test(d[q])&&!k.test(d[q])||m.test(d[q])||/270deg/.test(d[q])){var r=null;m.test(d[q])?r=m:/270deg/.test(d[q])?r=/270deg/:r=g,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="100%" y1="0%" x2="0%" y2="0%">')}else if(h.test(d[q])&&!l.test(d[q])||j.test(d[q])||/[^\d]0deg/.test(d[q])){var r=null;j.test(d[q])?r=j:/0deg/.test(d[q])?r=/0deg/:r=h,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="0%" y2="0%">')}else if(i.test(d[q])&&!m.test(d[q])||k.test(d[q])||/90deg/.test(d[q])){var r=null;k.test(d[q])?r=k:/90deg/.test(d[q])?r=/90deg/:r=i,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">')}else n.test(d[q])&&!o.test(d[q])?d[q]=d[q].replace(n,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">'):o.test(d[q])?d[q]=d[q].replace(o,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">'):c=!1}try{"".trim(),b=!0}catch(s){b=!1}b&&(d[q]=d[q].trim());if(/linear/.test(d[q])||/radial/.test(d[q])){d[q]=d[q].slice(0,-1),d[q]="url(data:image/svg+xml;base64--"+d[q]+'</linearGradient><rect x="0" y="0" width="1" height="1" fill="url(***)" /></svg>)';var t=d.join("@@@"),u=t.match(/rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,v=t.match(/hsla?\(\d+,\s*\d+%,\s*\d+%,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,w=[],x=[];for(var y=0;y<u.length;y++)w[y]=u[y].replace(/,/g,"--");for(var z=0;z<v.length;z++)x[z]=v[z].replace(/,/g,"--");for(var A=0;A<u.length;A++)t=t.replace(u[A],w[A]);for(var B=0;B<v.length;B++)t=t.replace(v[B],x[B]);var C=t.split(",");for(var D=0;D<C.length;D++){C[D]=C[D].replace(/(#\w{3,6})\s*(\d*%*)/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/(rgba?\(\d+--\s*\d+--\s*\d+--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/rgba/g,"rgb").replace(/(hsla?\(\d+--\s*\d+%--\s*\d+%--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/hsla/g,"hsl").replace(/((?:aqua|black|blue|fuchsia|gray|grey|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow))\s*(\d*%)*/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/\*\*\*/,"#grad-ucgg-generated");try{"".trim(),b=!0}catch(s){b=!1}b&&(C[D]=C[D].trim())}C=C.toString().replace(/,/g,"").replace(/--/g,",").replace(/(rgb?\(\d+,\s*\d+,\s*\d+),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)").replace(/(hsl?\(\d+,\s*\d+%,\s*\d+%),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)")}}/radial/.test(C)&&(/((ellipse).*(center)|(circle).*(center))/g.test(C)?C=C.replace(/<\/linearGradient>/g,"</radialGradient>").replace(/radial-gradient[^<]+/g,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none"><radialGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="75%">').replace(/<rect x=\S+\d\S+ y=\S+\d\S+ width=\S+\d\S+ height=\S+\d\S+ fill=\S+\w\S+ \/>/g,'<rect x="-50" y="-50" width="101" height="101" fill="url(#grad-ucgg-generated)" />'):C=!1);var E=null;try{C=C.split("@@@");var F=0;for(F;F<C.length;F++)E=C[F].match(/<\?xml.*<\/svg>/),E=G(E.join("")),C[F]=C[F].replace(/(<\?xml.*<\/svg>)/,E)}catch(s){}return c?C:C=!1,C?C.toString().replace(/\[/g,"").replace(/\]/g,""):C}())`);
@@ -300,8 +322,8 @@
     background-image : @backgroundW3C;
 }
 .gradient-horizontal(...) {
-    @color-one     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.length, c = a.indexOf('0%') - 1; return a.replace(a.substring(c, b), '').replace('[', '');}())`);
-    @color-two     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.length, c = a.lastIndexOf(',') + 2; return a.substring(c, b).replace(' 100%]', '');}())`);
+    @color-one     : e(`(function(){var a, b; a = "@{arguments}", b = a.indexOf(' '); return a.substring(1, b);}())`);
+    @color-two     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.lastIndexOf(',') + 2, c = a.lastIndexOf(' '); return a.substring(b, c);}())`);
     @backgroundSVG : e(`(function(){function G(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a)return a;do c=a.charCodeAt(k++),d=a.charCodeAt(k++),e=a.charCodeAt(k++),j=c<<16|d<<8|e,f=j>>18&63,g=j>>12&63,h=j>>6&63,i=j&63,n[l++]=b.charAt(f)+b.charAt(g)+b.charAt(h)+b.charAt(i);while(k<a.length);m=n.join("");var o=a.length%3;return(o?m.slice(0,o-3):m)+"===".slice(o||3)}var a="linear-gradient(to right, @{arguments})",b=null,c=!0,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,f=/top/,g=/right/,h=/bottom/,i=/left/,j=/to\s*top/,k=/to\s*right/,l=/to\s*bottom/,m=/to\s*left/,n=/45deg/,o=/-45deg/,p=/\d*deg/;for(var q=0;q<e;q++){if(/linear/.test(d[q])){d[q]=d[q].replace(/linear-gradient\s*\(/,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none">');if(f.test(d[q])&&!j.test(d[q])||l.test(d[q])||/180deg/.test(d[q])){var r=null;l.test(d[q])?r=l:/180deg/.test(d[q])?r=/180deg/:r=f,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%">')}else if(g.test(d[q])&&!k.test(d[q])||m.test(d[q])||/270deg/.test(d[q])){var r=null;m.test(d[q])?r=m:/270deg/.test(d[q])?r=/270deg/:r=g,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="100%" y1="0%" x2="0%" y2="0%">')}else if(h.test(d[q])&&!l.test(d[q])||j.test(d[q])||/[^\d]0deg/.test(d[q])){var r=null;j.test(d[q])?r=j:/0deg/.test(d[q])?r=/0deg/:r=h,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="0%" y2="0%">')}else if(i.test(d[q])&&!m.test(d[q])||k.test(d[q])||/90deg/.test(d[q])){var r=null;k.test(d[q])?r=k:/90deg/.test(d[q])?r=/90deg/:r=i,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">')}else n.test(d[q])&&!o.test(d[q])?d[q]=d[q].replace(n,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">'):o.test(d[q])?d[q]=d[q].replace(o,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">'):c=!1}try{"".trim(),b=!0}catch(s){b=!1}b&&(d[q]=d[q].trim());if(/linear/.test(d[q])||/radial/.test(d[q])){d[q]=d[q].slice(0,-1),d[q]="url(data:image/svg+xml;base64--"+d[q]+'</linearGradient><rect x="0" y="0" width="1" height="1" fill="url(***)" /></svg>)';var t=d.join("@@@"),u=t.match(/rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,v=t.match(/hsla?\(\d+,\s*\d+%,\s*\d+%,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,w=[],x=[];for(var y=0;y<u.length;y++)w[y]=u[y].replace(/,/g,"--");for(var z=0;z<v.length;z++)x[z]=v[z].replace(/,/g,"--");for(var A=0;A<u.length;A++)t=t.replace(u[A],w[A]);for(var B=0;B<v.length;B++)t=t.replace(v[B],x[B]);var C=t.split(",");for(var D=0;D<C.length;D++){C[D]=C[D].replace(/(#\w{3,6})\s*(\d*%*)/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/(rgba?\(\d+--\s*\d+--\s*\d+--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/rgba/g,"rgb").replace(/(hsla?\(\d+--\s*\d+%--\s*\d+%--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/hsla/g,"hsl").replace(/((?:aqua|black|blue|fuchsia|gray|grey|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow))\s*(\d*%)*/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/\*\*\*/,"#grad-ucgg-generated");try{"".trim(),b=!0}catch(s){b=!1}b&&(C[D]=C[D].trim())}C=C.toString().replace(/,/g,"").replace(/--/g,",").replace(/(rgb?\(\d+,\s*\d+,\s*\d+),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)").replace(/(hsl?\(\d+,\s*\d+%,\s*\d+%),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)")}}/radial/.test(C)&&(/((ellipse).*(center)|(circle).*(center))/g.test(C)?C=C.replace(/<\/linearGradient>/g,"</radialGradient>").replace(/radial-gradient[^<]+/g,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none"><radialGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="75%">').replace(/<rect x=\S+\d\S+ y=\S+\d\S+ width=\S+\d\S+ height=\S+\d\S+ fill=\S+\w\S+ \/>/g,'<rect x="-50" y="-50" width="101" height="101" fill="url(#grad-ucgg-generated)" />'):C=!1);var E=null;try{C=C.split("@@@");var F=0;for(F;F<C.length;F++)E=C[F].match(/<\?xml.*<\/svg>/),E=G(E.join("")),C[F]=C[F].replace(/(<\?xml.*<\/svg>)/,E)}catch(s){}return c?C:C=!1,C?C.toString().replace(/\[/g,"").replace(/\]/g,""):C}())`);
     background-image : @backgroundSVG;
     background-image : -moz-linear-gradient(left, @arguments); // FF3.6+
@@ -314,8 +336,8 @@
 }
 
 .gradient-vertical(...) {
-    @color-one     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.length, c = a.indexOf('0%') - 1; return a.replace(a.substring(c, b), '').replace('[', '');}())`);
-    @color-two     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.length, c = a.lastIndexOf(',') + 2; return a.substring(c, b).replace(' 100%]', '');}())`);
+    @color-one     : e(`(function(){var a, b; a = "@{arguments}", b = a.indexOf(' '); return a.substring(1, b);}())`);
+    @color-two     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.lastIndexOf(',') + 2, c = a.lastIndexOf(' '); return a.substring(b, c);}())`);
     @backgroundSVG : e(`(function(){function G(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a)return a;do c=a.charCodeAt(k++),d=a.charCodeAt(k++),e=a.charCodeAt(k++),j=c<<16|d<<8|e,f=j>>18&63,g=j>>12&63,h=j>>6&63,i=j&63,n[l++]=b.charAt(f)+b.charAt(g)+b.charAt(h)+b.charAt(i);while(k<a.length);m=n.join("");var o=a.length%3;return(o?m.slice(0,o-3):m)+"===".slice(o||3)}var a="linear-gradient(top, @{arguments})",b=null,c=!0,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,f=/top/,g=/right/,h=/bottom/,i=/left/,j=/to\s*top/,k=/to\s*right/,l=/to\s*bottom/,m=/to\s*left/,n=/45deg/,o=/-45deg/,p=/\d*deg/;for(var q=0;q<e;q++){if(/linear/.test(d[q])){d[q]=d[q].replace(/linear-gradient\s*\(/,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none">');if(f.test(d[q])&&!j.test(d[q])||l.test(d[q])||/180deg/.test(d[q])){var r=null;l.test(d[q])?r=l:/180deg/.test(d[q])?r=/180deg/:r=f,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%">')}else if(g.test(d[q])&&!k.test(d[q])||m.test(d[q])||/270deg/.test(d[q])){var r=null;m.test(d[q])?r=m:/270deg/.test(d[q])?r=/270deg/:r=g,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="100%" y1="0%" x2="0%" y2="0%">')}else if(h.test(d[q])&&!l.test(d[q])||j.test(d[q])||/[^\d]0deg/.test(d[q])){var r=null;j.test(d[q])?r=j:/0deg/.test(d[q])?r=/0deg/:r=h,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="0%" y2="0%">')}else if(i.test(d[q])&&!m.test(d[q])||k.test(d[q])||/90deg/.test(d[q])){var r=null;k.test(d[q])?r=k:/90deg/.test(d[q])?r=/90deg/:r=i,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">')}else n.test(d[q])&&!o.test(d[q])?d[q]=d[q].replace(n,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">'):o.test(d[q])?d[q]=d[q].replace(o,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">'):c=!1}try{"".trim(),b=!0}catch(s){b=!1}b&&(d[q]=d[q].trim());if(/linear/.test(d[q])||/radial/.test(d[q])){d[q]=d[q].slice(0,-1),d[q]="url(data:image/svg+xml;base64--"+d[q]+'</linearGradient><rect x="0" y="0" width="1" height="1" fill="url(***)" /></svg>)';var t=d.join("@@@"),u=t.match(/rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,v=t.match(/hsla?\(\d+,\s*\d+%,\s*\d+%,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,w=[],x=[];for(var y=0;y<u.length;y++)w[y]=u[y].replace(/,/g,"--");for(var z=0;z<v.length;z++)x[z]=v[z].replace(/,/g,"--");for(var A=0;A<u.length;A++)t=t.replace(u[A],w[A]);for(var B=0;B<v.length;B++)t=t.replace(v[B],x[B]);var C=t.split(",");for(var D=0;D<C.length;D++){C[D]=C[D].replace(/(#\w{3,6})\s*(\d*%*)/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/(rgba?\(\d+--\s*\d+--\s*\d+--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/rgba/g,"rgb").replace(/(hsla?\(\d+--\s*\d+%--\s*\d+%--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/hsla/g,"hsl").replace(/((?:aqua|black|blue|fuchsia|gray|grey|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow))\s*(\d*%)*/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/\*\*\*/,"#grad-ucgg-generated");try{"".trim(),b=!0}catch(s){b=!1}b&&(C[D]=C[D].trim())}C=C.toString().replace(/,/g,"").replace(/--/g,",").replace(/(rgb?\(\d+,\s*\d+,\s*\d+),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)").replace(/(hsl?\(\d+,\s*\d+%,\s*\d+%),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)")}}/radial/.test(C)&&(/((ellipse).*(center)|(circle).*(center))/g.test(C)?C=C.replace(/<\/linearGradient>/g,"</radialGradient>").replace(/radial-gradient[^<]+/g,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none"><radialGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="75%">').replace(/<rect x=\S+\d\S+ y=\S+\d\S+ width=\S+\d\S+ height=\S+\d\S+ fill=\S+\w\S+ \/>/g,'<rect x="-50" y="-50" width="101" height="101" fill="url(#grad-ucgg-generated)" />'):C=!1);var E=null;try{C=C.split("@@@");var F=0;for(F;F<C.length;F++)E=C[F].match(/<\?xml.*<\/svg>/),E=G(E.join("")),C[F]=C[F].replace(/(<\?xml.*<\/svg>)/,E)}catch(s){}return c?C:C=!1,C?C.toString().replace(/\[/g,"").replace(/\]/g,""):C}())`);
     background-image : @backgroundSVG;
     background-image : -moz-linear-gradient(top, @arguments); // FF3.6+
@@ -346,42 +368,62 @@
     width       : @size;
     height      : @size;
     line-height : @size;
+    font-size   : 0;
 
-    &:before, [class^="icon-"]:before, [class*=" icon-"]:before{
+    &:before{
         font-size : @size;
     }
 }
 
 // Thumbnail state style
 //==================================================
-.thumbnail-state(@radius: @thumbnail-border-radius, @background: @thumbnail-bg, @border-color: @thumbnail-border-color, @padding:2px) {
+.thumbnail-state(@radius: @thumbnail-border-radius, @border-width: @thumbnail-border-width, @border-color: @thumbnail-border-color, @background: @thumbnail-bg) {
     position   : relative;
     cursor     : pointer;
     overflow   : hidden;
-    background : @background;
-    padding    : @padding;
-    border     : 1px solid @border-color;
     text-align : center;
-    .box-sizing();
+    background : @background;
+    border     : @border-width solid @border-color;
     .transition(all, 0.3s);
     .border-radius(@radius);
+    /*&:before{
+        content  : '';
+        position : absolute;
+        top      : 0;
+        left     : 0;
+        right    : 0;
+        bottom   : 0;
+        border   : 2px solid @background;
+    }*/
+
+    [class*="caption"]{
+        background  : @thumbnail-caption-bg;
+        color       : @thumbnail-caption-color;
+        font-size   : @font-size-small;
+        line-height : normal;
+        padding     : @padding-small-vertical;
+        text-align  : center;
+    }
 
     &:hover{
         border-color : @gray;
-        .box-shadow(@thumbnail-box-shadow);
+        .box-shadow(0 0px 3px @primary-bg, @thumbnail-shadow);
+    }
+}
+
+// Alert states
+//==================================================
+.alert-state(@color, @background, @border) {
+    background-color : @background;
+    border-color     : @border;
+    color            : @color;
+
+    hr{
+        border-top-color : darken(@border, 5%);
     }
 
-    img{
-        width      : auto;
-        max-height : 100%;
-    }
-
-    .caption{
-        background  : @thumbnail-caption-bg;
-        color       : @thumbnail-caption-color;
-        font-size   : @font-size-base;
-        line-height : normal;
-        margin      : 0;
+    a{
+        color : darken(@color, 10%);
     }
 }
 
@@ -427,7 +469,26 @@
     border-color     : transparent !important;
 
     &:hover, &:focus, &:active, &.active, &.ui-state-active{
-        color : darken(@color, 10%);
+        color : darken(@color, 30%);
+        .box-shadow(none);
+    }
+
+    &.disabled, &[disabled]{
+        &, &:hover, &:focus, &:active, &.active{
+            color           : desaturate(@color, 30%);
+            text-decoration : none;
+            .box-shadow(none);
+        }
+    }
+}
+
+.link-states( @color, @color-hover ) {
+    color            : @color;
+    background-color : transparent;
+    border-color     : transparent;
+
+    &:hover, &:focus, &:active, &.active, &.ui-state-active{
+        color : @color-hover;
         .box-shadow(none);
     }
 
@@ -493,29 +554,39 @@
     }
 }
 
-// Alert states
-//==================================================
-.alert-state(@color, @background, @border) {
-    background-color : @background;
-    border-color     : @border;
-    color            : @color;
-
-    hr{
-        border-top-color : darken(@border, 5%);
+// Customer mixins
+//===================================================
+.grayscale() {
+    img:not([src*="plugins"]):not([src*="system"]){
+        filter         : url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter     id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 3.5+ */
+        filter         : gray; /* IE6-9 */
+        -webkit-filter : grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+        .transition;
     }
 
-    a{
-        color : darken(@background, 25%);
-        color : inherit;
+    &:hover img:not([src*="plugins"]):not([src*="system"]){
+        filter         : none;
+        -webkit-filter : grayscale(0);
     }
 }
 
-// Customer mixins
-//===================================================
+.clearfix(){
+    &:after{
+        content    : "";
+        clear      : both;
+        display    : block;
+        overflow   : hidden;
+        visibility : hidden;
+        width      : 0;
+        height     : 0;
+    }
+}
+
 .background(@padding: 10px, @background: @gray-lighter) {
     overflow   : hidden;
     background : @background;
     padding    : @padding;
+    border-top : 1px solid #eee;
     .box-shadow(0 1px 1px #BBB);
     .box-sizing;
 }

@@ -61,7 +61,7 @@ $('#<?php echo $this->formId; ?>-filelist').html('');
 <?php echo $jsValName; ?>.bind('FilesAdded', function(up, files) {
 $.each(files, function(i, file) {
 $('#<?php echo $this->formId; ?>-filelist').prepend(
-'<div class="ui-widget"><div class="ui-state-highlight ui-corner-all" id="' + file.id + '"><p>' +
+'<div class="ui-widget"><div class="ui-state-highlight" id="' + file.id + '"><p>' +
                     file.name + ' (' + plupload.formatSize(file.size) + ')</p><div class="pbar"></div>' +
                     '</div></div>');
 $('#' + file.id + " .pbar").progressbar({value: 0})
@@ -109,7 +109,7 @@ $('#' + file.id + " .pbar").progressbar({value: file.percent});
 });
 
 <?php echo $jsValName; ?>.bind('Error', function(up, err) {
-$('#<?php echo $this->formId; ?>-filelist').prepend('<div class="ui-widget"><div class="ui-state-error ui-corner-all">'+
+$('#<?php echo $this->formId; ?>-filelist').prepend('<div class="ui-widget"><div class="ui-state-error">'+
             (err.file ? err.file.name : "") + ": " + err.message +
             '<span class="ui-icon ui-icon-alert"></span></div></div>'
 );
@@ -131,7 +131,7 @@ var errorMessage = '<ul>';
 $('#' + file.id).html('<p><strong>' +file.name+'</strong>'
                 + errorMessage.replace("'file'", file.name) + '<span class="ui-icon ui-icon-alert"></span></p>' );
 } else {
-$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check ui-corner-all"></span>');
+$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check"></span>');
 }
 <?php if ($this->caller == 'themes') : ?>
 	if (response.error !== false){
