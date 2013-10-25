@@ -21,8 +21,8 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify code container name.'));
 		}
-		$code        = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
-		$codeContent = (null === $code) ? '' : $code->getContent();
+		$this->_container = Application_Model_Mappers_ContainerMapper::getInstance()->findByName($this->_name, $this->_pageId, $this->_type);
+		$codeContent      = (null === $this->_container) ? '' : $this->_container->getContent();
 
 		if(!preg_match('~<script~', $codeContent)) {
 			ob_start();
