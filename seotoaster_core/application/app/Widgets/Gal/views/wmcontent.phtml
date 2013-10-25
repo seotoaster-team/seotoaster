@@ -8,6 +8,7 @@
 	    <?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'grid_5 alpha omega')); ?>
 	    <?php echo $this->formSelect('galThumbUnit', Widgets_Gal_Gal::DEFAULT_THUMB_UNIT, array('id' => 'gal-thumb-unit', 'class' => 'grid_2 alpha omega')); ?> // TODO add field to select unit
     </div>
+
 	<label class="mt10px">
         <span class="grid_5 alpha"><?php echo $this->translate('Crop image'); ?></span>
 		<?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop')); ?>
