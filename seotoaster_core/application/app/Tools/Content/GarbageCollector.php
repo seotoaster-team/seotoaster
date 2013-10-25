@@ -50,13 +50,19 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 		return $mapper->saveStructured($links);
 	}
 
-	private function _trimWidgets() {
-		$content = $this->_object->getContent();
+
+    /**
+     * @deprecated
+     * @todo verify it has no impact on the cms functionality and remove
+     *
+     */
+    private function _trimWidgets() {
+		/*$content = $this->_object->getContent();
 		if($content) {
 			$content = str_replace('<p>{', '{', $content);
 			$this->_object->setContent(str_replace('}</p>', '}', $content));
 			Application_Model_Mappers_ContainerMapper::getInstance()->save($this->_object);
-		}
+		}*/
 	}
 
 	public function _cleanEmptyContainer() {

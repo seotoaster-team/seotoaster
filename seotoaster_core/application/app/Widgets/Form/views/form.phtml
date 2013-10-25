@@ -1,5 +1,4 @@
 <?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
-
 <?php if($this->form): ?>
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>

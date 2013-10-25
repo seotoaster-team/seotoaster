@@ -31,10 +31,9 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 			ob_get_flush();
 			$codeContent .= $returned;
 		}
-
-		if(Tools_Security_Acl::isAllowed($this)) {
-			$codeContent .= $this->_addAdminLink($this->_type, (!$codeContent) ? null : $code->getId(), $this->_translator->translate('Click to edit header'), 480, 341);
-		}
+        if(Tools_Security_Acl::isAllowed($this)) {
+            $codeContent .= $this->_generateAdminControl(964, 594);
+        }
 
 		return $codeContent;
 	}
