@@ -17,14 +17,14 @@ $(function () {
         $('#templatelist').removeClass('show');
     }).on('click', 'input.menu-selector',function (e) { // main menu radio click
         checkMenu($(e.currentTarget).attr('id'), selectedOpt);
-    }).on('click', '#toggle-optimized',function () { // optimized checkbox click
-        var optCheck = $(this);
-        var optimized = optCheck.attr('checked') ? 1 : 0;
-        if (!optimized) {
-            showConfirm('Are you sure? You will lose experts optimization once you save your changes !', function () {
+    }).on('click', '#toggle-optimized', function() { // optimized checkbox click
+        var optCheck  = $(this);
+        var optimized = optCheck.is (':checked') ? 1 : 0;
+        if(!optimized) {
+            showConfirm('Are you sure? You will lose experts optimization once you save your changes !', function() {
                 toggleOptimized(optimized);
-            }, function () {
-                optCheck.attr('checked', true);
+            }, function() {
+                optCheck.prop('checked', true);
             });
         } else {
             toggleOptimized(optimized);
@@ -78,12 +78,12 @@ function datepickerCallback() {
 }
 
 function checkMenu(currentMenuItem, selectedOption) {
-    var _MAIN_MENU_ID = 'inMenu-1';
+    var _MAIN_MENU_ID   = 'inMenu-1';
     var _STATIC_MENU_ID = 'inMenu-2';
-    var _NO_MENU_ID = 'inMenu-0';
-    var pageId = $('#pageId').val();
-    var selector = $('#pageCategory');
-    var websiteUrl = $('#website_url').val();
+    var _NO_MENU_ID     = 'inMenu-0';
+    var pageId          = $('#pageId').val();
+    var selector        = $('#pageCategory');
+    var websiteUrl      = $('#website_url').val();
 
     if ((typeof currentMenuItem == 'undefined' ) || !currentMenuItem) {
         currentMenuItem = $('.menu-selector:checked').attr('id');

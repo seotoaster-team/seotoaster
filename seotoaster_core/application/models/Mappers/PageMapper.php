@@ -303,7 +303,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     }
 
     protected function _findPage($id, $originalsOnly) {
-        $row = $this->getDbTable()->findPage(intval($id));
+        $row = $this->getDbTable()->findPage(intval($id), $originalsOnly);
         if(null == $row) {
             return null;
         }
