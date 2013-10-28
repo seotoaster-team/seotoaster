@@ -39,6 +39,7 @@
 
         .ui-button, .btn{
             background  : @body-bg;
+            border-top  : 1px solid transparent;
             font-weight : normal;
             margin      : 0 1px 0 0;
             color       : @link-color;
@@ -77,6 +78,7 @@
             &+.ui-button, &+.btn{
                 background : @gray-lighter;
                 color      : @text-color;
+                border-top : 1px solid #eee;
                 .box-shadow(0 1px 1px #BBB);
 
                 &:first-child{
@@ -89,7 +91,8 @@
 
         }
         &+div{
-            height : 50px;
+            height     : 50px;
+            border-top : none;
 
             #pageCategory{
                 margin-bottom : 5px;
@@ -279,10 +282,10 @@
         .inline-block(top);
         font-size : @font-size-base;
         width     : 23%;
-        margin    : (@grid-margin-width / 2) (@grid-margin-width / 4) 0;
+        margin    : 0 (@grid-margin-width / 4) (@grid-margin-width / 2);
 
-        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4){
-            margin-top : 0;
+        &:nth-last-child(1), &:nth-last-child(2), &:nth-last-child(3), &:nth-last-child(4){
+            margin-bottom : 0;
         }
 
         .nosort{
@@ -314,7 +317,7 @@
         .organise{
             background : @body-bg;
             width      : 100%;
-            height     : 190px;
+            height     : 189px;
             margin     : 0;
             overflow   : auto;
             .box-sizing();
@@ -333,50 +336,6 @@
                 .page, a{
                     .text-overflow;
                 }
-            }
-        }
-    }
-
-    .drop-zone{
-        position : relative;
-        border   : 3px dashed @gray-light;
-        padding  : 10px;
-
-        .drop-list{
-            display  : none;
-            position : relative;
-            z-index  : 1;
-
-            .category-data{
-
-                .organise{
-                    display : none;
-                }
-            }
-        }
-
-        .drop-text{
-            position       : absolute;
-            z-index        : 0;
-            top            : 10px;
-            left           : 10px;
-            display        : table;
-            vertical-align : middle;
-            text-align     : center;
-            font-size      : 24px;
-            color          : #AAA;
-            height         : 100%;
-
-            &>div{
-                display        : table-cell;
-                vertical-align : middle;
-            }
-
-            [class^="icon-"], [class*=" icon-"]{
-                font-size     : 100px;
-                margin-bottom : 30px;
-                color         : #DDD;
-                text-shadow   : -1px -1px 1px #CCC;
             }
         }
     }

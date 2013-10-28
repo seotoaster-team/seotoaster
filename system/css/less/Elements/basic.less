@@ -100,19 +100,13 @@ body{
         }
     }
 
-    a{
-        vertical-align : middle;
-        color          : @gray-dark;
-        padding        : 0;
-    }
+    a{}
 
     .help{
         .icon-size(14px);
         margin-right : 5px;
 
-        &:hover{
-            color : @brand-info;
-        }
+        &:hover{}
     }
 
     .close{
@@ -124,9 +118,7 @@ body{
     }
 
     .close, .hide{
-        &:hover{
-            color : @brand-error;
-        }
+        &:hover{}
     }
 }
 .content, .content-footer,
@@ -139,6 +131,10 @@ body{
     padding-top   : 10px;
     overflow      : auto;
     .box-sizing;
+
+    &.screen-expand{
+        height: auto !important;
+    }
 
     &.wrap{
         overflow : hidden;

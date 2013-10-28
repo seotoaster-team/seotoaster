@@ -61,7 +61,7 @@
         padding-left  : 0;
         padding-right : 0;
 
-        &+.block:not([class*="grid_"]){
+        &:not([class*="grid_"]){
             width : 100%;
         }
 
@@ -74,15 +74,44 @@
     // Button with icon
     // --------------------------------------------------
     &.ui-button-icon-only, &.icon{
-        padding : (@padding-base-vertical - (@btn-border-width - @input-border-width));
+        padding : (@padding-base-vertical + @input-border-width - @btn-border-width + 1);
         .box-sizing(content-box);
+
+        // Inverse button appears as gray => primary
+        &.inverse{
+            .link-states(@gray-dark, @link-color);
+        }
+        // Warning appears as orange
+        &.warning{
+            &.inverse{
+                .link-states(@gray-dark, @brand-warning);
+            }
+        }
+        // Danger and error appear as red
+        &.error{
+            &.inverse{
+                .link-states(@gray-dark, @brand-error);
+            }
+        }
+        // Success appears as green
+        &.success{
+            &.inverse{
+                .link-states(@gray-dark, @brand-success);
+            }
+        }
+        // Info appears as blue
+        &.info{
+            &.inverse{
+                .link-states(@gray-dark, @brand-info);
+            }
+        }
 
         &.large{
             padding : (@padding-large-vertical - (@btn-border-width - @input-border-width));
         }
 
         &.small{
-            padding : (@padding-small-vertical - (@btn-border-width - @input-border-width));
+            padding : (@padding-small-vertical + (@input-border-width - @btn-border-width) + 2);
         }
 
         &[class*="grid_"]{

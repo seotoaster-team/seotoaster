@@ -2054,8 +2054,8 @@ body {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 .header-inner a {
   color: inherit;
@@ -2079,11 +2079,6 @@ body {
 .show-left .header > .closebutton {
   float: left;
 }
-.closebutton a {
-  vertical-align: middle;
-  color: #333333;
-  padding: 0;
-}
 .closebutton .help {
   width: 14px;
   height: 14px;
@@ -2093,9 +2088,6 @@ body {
 }
 .closebutton .help:before {
   font-size: 14px;
-}
-.closebutton .help:hover {
-  color: #3498db;
 }
 .closebutton .close {
   width: 13px;
@@ -2115,10 +2107,6 @@ body {
 .closebutton .hide:before {
   font-size: 15px;
 }
-.closebutton .close:hover,
-.closebutton .hide:hover {
-  color: #e74c3c;
-}
 .content,
 .content-footer,
 .content-medium,
@@ -2135,6 +2123,14 @@ body {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
+}
+.content.screen-expand,
+.content-footer.screen-expand,
+.content-medium.screen-expand,
+.content-medium-footer.screen-expand,
+.content-small.screen-expand,
+.content-small-footer.screen-expand {
+  height: auto !important;
 }
 .content.wrap,
 .content-footer.wrap,

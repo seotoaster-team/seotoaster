@@ -63,7 +63,7 @@ ol.list-bordered:not([class*="mb"]) {
 ul.list-bordered > li,
 ol.list-bordered > li {
   margin: 0;
-  padding: 7px 14px;
+  padding: 6px 12px;
   border-bottom: 1px dashed #eaeaea;
 }
 ul.list-tags,
@@ -170,7 +170,7 @@ dl.dl-horizontal dd {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding: 7px 0;
+  padding: 6px 0;
 }
 .items-list:not([class*="ml"]):not([class*="grid_"]) {
   margin-left: 0;
@@ -320,7 +320,7 @@ ol.items-list .list-row > * {
   line-height: 18px;
   font-size: 0;
   color: #fff;
-  padding: 7px;
+  padding: 6px;
   background: #eaeaea;
 }
 .social-links a:before {
@@ -492,7 +492,7 @@ form.form-grid input,
 select,
 textarea,
 input {
-  padding: 7px;
+  padding: 6px;
   background-color: #ffffff;
   color: #377d98;
   vertical-align: middle;
@@ -611,7 +611,7 @@ input.large {
   padding: 10px;
 }
 select {
-  padding: 6px 7px;
+  padding: 5px 6px;
 }
 select.small {
   padding: 3px 4px;
@@ -644,7 +644,7 @@ select option {
 .labeled i + select,
 .labeled i + textarea,
 .labeled i + input {
-  padding-left: 28px;
+  padding-left: 24px;
 }
 .labeled label,
 .labeled .label {
@@ -652,7 +652,7 @@ select option {
   margin-bottom: 0;
   line-height: normal;
   background: #cccccc;
-  padding: 8px 0;
+  padding: 7px 0;
   text-align: center;
   color: #fff;
   -webkit-transition: all 0.3s ease;
@@ -957,10 +957,10 @@ button {
 
   vertical-align: middle;
   margin-bottom: 0;
-  padding-top: 9px;
-  padding-bottom: 9px;
+  padding-top: 7px;
+  padding-bottom: 7px;
   font-weight: 600;
-  line-height: 1;
+  line-height: normal;
   text-indent: 0;
   text-align: center;
   cursor: pointer;
@@ -1058,12 +1058,12 @@ button[disabled].active {
 .btn:not([class*="pl"]),
 [type="submit"]:not([class*="pl"]),
 button:not([class*="pl"]) {
-  padding-left: 14px;
+  padding-left: 12px;
 }
 .btn:not([class*="pr"]),
 [type="submit"]:not([class*="pr"]),
 button:not([class*="pr"]) {
-  padding-right: 14px;
+  padding-right: 12px;
 }
 .btn[class*="icon-"]:not(.icon):before,
 [type="submit"][class*="icon-"]:not(.icon):before,
@@ -1789,8 +1789,9 @@ button.info.inverse[disabled].active {
 .btn.large,
 [type="submit"].large,
 button.large {
-  padding: 11px 18px;
+  padding: 10px 16px;
   font-size: 16px;
+  line-height: 18px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1799,8 +1800,9 @@ button.large {
 .btn.small,
 [type="submit"].small,
 button.small {
-  padding: 7px 8px;
+  padding: 6px 8px;
   font-size: 12px;
+  line-height: 14px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1814,9 +1816,9 @@ button.block {
   padding-left: 0;
   padding-right: 0;
 }
-.btn.block + .block:not([class*="grid_"]),
-[type="submit"].block + .block:not([class*="grid_"]),
-button.block + .block:not([class*="grid_"]) {
+.btn.block:not([class*="grid_"]),
+[type="submit"].block:not([class*="grid_"]),
+button.block:not([class*="grid_"]) {
   width: 100%;
 }
 .btn.block + .block:not([class*="grid_"]):not([class*="mt"]),
@@ -1836,6 +1838,571 @@ button.icon {
   -ms-box-sizing: content-box;
   box-sizing: content-box;
 }
+.btn.ui-button-icon-only.inverse,
+[type="submit"].ui-button-icon-only.inverse,
+button.ui-button-icon-only.inverse,
+.btn.icon.inverse,
+[type="submit"].icon.inverse,
+button.icon.inverse {
+  color: #333333;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.ui-button-icon-only.inverse:hover,
+[type="submit"].ui-button-icon-only.inverse:hover,
+button.ui-button-icon-only.inverse:hover,
+.btn.icon.inverse:hover,
+[type="submit"].icon.inverse:hover,
+button.icon.inverse:hover,
+.btn.ui-button-icon-only.inverse:focus,
+[type="submit"].ui-button-icon-only.inverse:focus,
+button.ui-button-icon-only.inverse:focus,
+.btn.icon.inverse:focus,
+[type="submit"].icon.inverse:focus,
+button.icon.inverse:focus,
+.btn.ui-button-icon-only.inverse:active,
+[type="submit"].ui-button-icon-only.inverse:active,
+button.ui-button-icon-only.inverse:active,
+.btn.icon.inverse:active,
+[type="submit"].icon.inverse:active,
+button.icon.inverse:active,
+.btn.ui-button-icon-only.inverse.active,
+[type="submit"].ui-button-icon-only.inverse.active,
+button.ui-button-icon-only.inverse.active,
+.btn.icon.inverse.active,
+[type="submit"].icon.inverse.active,
+button.icon.inverse.active,
+.btn.ui-button-icon-only.inverse.ui-state-active,
+[type="submit"].ui-button-icon-only.inverse.ui-state-active,
+button.ui-button-icon-only.inverse.ui-state-active,
+.btn.icon.inverse.ui-state-active,
+[type="submit"].icon.inverse.ui-state-active,
+button.icon.inverse.ui-state-active {
+  color: #59a5c3;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.inverse.disabled,
+[type="submit"].ui-button-icon-only.inverse.disabled,
+button.ui-button-icon-only.inverse.disabled,
+.btn.icon.inverse.disabled,
+[type="submit"].icon.inverse.disabled,
+button.icon.inverse.disabled,
+.btn.ui-button-icon-only.inverse[disabled],
+[type="submit"].ui-button-icon-only.inverse[disabled],
+button.ui-button-icon-only.inverse[disabled],
+.btn.icon.inverse[disabled],
+[type="submit"].icon.inverse[disabled],
+button.icon.inverse[disabled],
+.btn.ui-button-icon-only.inverse.disabled:hover,
+[type="submit"].ui-button-icon-only.inverse.disabled:hover,
+button.ui-button-icon-only.inverse.disabled:hover,
+.btn.icon.inverse.disabled:hover,
+[type="submit"].icon.inverse.disabled:hover,
+button.icon.inverse.disabled:hover,
+.btn.ui-button-icon-only.inverse[disabled]:hover,
+[type="submit"].ui-button-icon-only.inverse[disabled]:hover,
+button.ui-button-icon-only.inverse[disabled]:hover,
+.btn.icon.inverse[disabled]:hover,
+[type="submit"].icon.inverse[disabled]:hover,
+button.icon.inverse[disabled]:hover,
+.btn.ui-button-icon-only.inverse.disabled:focus,
+[type="submit"].ui-button-icon-only.inverse.disabled:focus,
+button.ui-button-icon-only.inverse.disabled:focus,
+.btn.icon.inverse.disabled:focus,
+[type="submit"].icon.inverse.disabled:focus,
+button.icon.inverse.disabled:focus,
+.btn.ui-button-icon-only.inverse[disabled]:focus,
+[type="submit"].ui-button-icon-only.inverse[disabled]:focus,
+button.ui-button-icon-only.inverse[disabled]:focus,
+.btn.icon.inverse[disabled]:focus,
+[type="submit"].icon.inverse[disabled]:focus,
+button.icon.inverse[disabled]:focus,
+.btn.ui-button-icon-only.inverse.disabled:active,
+[type="submit"].ui-button-icon-only.inverse.disabled:active,
+button.ui-button-icon-only.inverse.disabled:active,
+.btn.icon.inverse.disabled:active,
+[type="submit"].icon.inverse.disabled:active,
+button.icon.inverse.disabled:active,
+.btn.ui-button-icon-only.inverse[disabled]:active,
+[type="submit"].ui-button-icon-only.inverse[disabled]:active,
+button.ui-button-icon-only.inverse[disabled]:active,
+.btn.icon.inverse[disabled]:active,
+[type="submit"].icon.inverse[disabled]:active,
+button.icon.inverse[disabled]:active,
+.btn.ui-button-icon-only.inverse.disabled.active,
+[type="submit"].ui-button-icon-only.inverse.disabled.active,
+button.ui-button-icon-only.inverse.disabled.active,
+.btn.icon.inverse.disabled.active,
+[type="submit"].icon.inverse.disabled.active,
+button.icon.inverse.disabled.active,
+.btn.ui-button-icon-only.inverse[disabled].active,
+[type="submit"].ui-button-icon-only.inverse[disabled].active,
+button.ui-button-icon-only.inverse[disabled].active,
+.btn.icon.inverse[disabled].active,
+[type="submit"].icon.inverse[disabled].active,
+button.icon.inverse[disabled].active {
+  color: #333333;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.warning.inverse,
+[type="submit"].ui-button-icon-only.warning.inverse,
+button.ui-button-icon-only.warning.inverse,
+.btn.icon.warning.inverse,
+[type="submit"].icon.warning.inverse,
+button.icon.warning.inverse {
+  color: #333333;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.ui-button-icon-only.warning.inverse:hover,
+[type="submit"].ui-button-icon-only.warning.inverse:hover,
+button.ui-button-icon-only.warning.inverse:hover,
+.btn.icon.warning.inverse:hover,
+[type="submit"].icon.warning.inverse:hover,
+button.icon.warning.inverse:hover,
+.btn.ui-button-icon-only.warning.inverse:focus,
+[type="submit"].ui-button-icon-only.warning.inverse:focus,
+button.ui-button-icon-only.warning.inverse:focus,
+.btn.icon.warning.inverse:focus,
+[type="submit"].icon.warning.inverse:focus,
+button.icon.warning.inverse:focus,
+.btn.ui-button-icon-only.warning.inverse:active,
+[type="submit"].ui-button-icon-only.warning.inverse:active,
+button.ui-button-icon-only.warning.inverse:active,
+.btn.icon.warning.inverse:active,
+[type="submit"].icon.warning.inverse:active,
+button.icon.warning.inverse:active,
+.btn.ui-button-icon-only.warning.inverse.active,
+[type="submit"].ui-button-icon-only.warning.inverse.active,
+button.ui-button-icon-only.warning.inverse.active,
+.btn.icon.warning.inverse.active,
+[type="submit"].icon.warning.inverse.active,
+button.icon.warning.inverse.active,
+.btn.ui-button-icon-only.warning.inverse.ui-state-active,
+[type="submit"].ui-button-icon-only.warning.inverse.ui-state-active,
+button.ui-button-icon-only.warning.inverse.ui-state-active,
+.btn.icon.warning.inverse.ui-state-active,
+[type="submit"].icon.warning.inverse.ui-state-active,
+button.icon.warning.inverse.ui-state-active {
+  color: #e67e22;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.warning.inverse.disabled,
+[type="submit"].ui-button-icon-only.warning.inverse.disabled,
+button.ui-button-icon-only.warning.inverse.disabled,
+.btn.icon.warning.inverse.disabled,
+[type="submit"].icon.warning.inverse.disabled,
+button.icon.warning.inverse.disabled,
+.btn.ui-button-icon-only.warning.inverse[disabled],
+[type="submit"].ui-button-icon-only.warning.inverse[disabled],
+button.ui-button-icon-only.warning.inverse[disabled],
+.btn.icon.warning.inverse[disabled],
+[type="submit"].icon.warning.inverse[disabled],
+button.icon.warning.inverse[disabled],
+.btn.ui-button-icon-only.warning.inverse.disabled:hover,
+[type="submit"].ui-button-icon-only.warning.inverse.disabled:hover,
+button.ui-button-icon-only.warning.inverse.disabled:hover,
+.btn.icon.warning.inverse.disabled:hover,
+[type="submit"].icon.warning.inverse.disabled:hover,
+button.icon.warning.inverse.disabled:hover,
+.btn.ui-button-icon-only.warning.inverse[disabled]:hover,
+[type="submit"].ui-button-icon-only.warning.inverse[disabled]:hover,
+button.ui-button-icon-only.warning.inverse[disabled]:hover,
+.btn.icon.warning.inverse[disabled]:hover,
+[type="submit"].icon.warning.inverse[disabled]:hover,
+button.icon.warning.inverse[disabled]:hover,
+.btn.ui-button-icon-only.warning.inverse.disabled:focus,
+[type="submit"].ui-button-icon-only.warning.inverse.disabled:focus,
+button.ui-button-icon-only.warning.inverse.disabled:focus,
+.btn.icon.warning.inverse.disabled:focus,
+[type="submit"].icon.warning.inverse.disabled:focus,
+button.icon.warning.inverse.disabled:focus,
+.btn.ui-button-icon-only.warning.inverse[disabled]:focus,
+[type="submit"].ui-button-icon-only.warning.inverse[disabled]:focus,
+button.ui-button-icon-only.warning.inverse[disabled]:focus,
+.btn.icon.warning.inverse[disabled]:focus,
+[type="submit"].icon.warning.inverse[disabled]:focus,
+button.icon.warning.inverse[disabled]:focus,
+.btn.ui-button-icon-only.warning.inverse.disabled:active,
+[type="submit"].ui-button-icon-only.warning.inverse.disabled:active,
+button.ui-button-icon-only.warning.inverse.disabled:active,
+.btn.icon.warning.inverse.disabled:active,
+[type="submit"].icon.warning.inverse.disabled:active,
+button.icon.warning.inverse.disabled:active,
+.btn.ui-button-icon-only.warning.inverse[disabled]:active,
+[type="submit"].ui-button-icon-only.warning.inverse[disabled]:active,
+button.ui-button-icon-only.warning.inverse[disabled]:active,
+.btn.icon.warning.inverse[disabled]:active,
+[type="submit"].icon.warning.inverse[disabled]:active,
+button.icon.warning.inverse[disabled]:active,
+.btn.ui-button-icon-only.warning.inverse.disabled.active,
+[type="submit"].ui-button-icon-only.warning.inverse.disabled.active,
+button.ui-button-icon-only.warning.inverse.disabled.active,
+.btn.icon.warning.inverse.disabled.active,
+[type="submit"].icon.warning.inverse.disabled.active,
+button.icon.warning.inverse.disabled.active,
+.btn.ui-button-icon-only.warning.inverse[disabled].active,
+[type="submit"].ui-button-icon-only.warning.inverse[disabled].active,
+button.ui-button-icon-only.warning.inverse[disabled].active,
+.btn.icon.warning.inverse[disabled].active,
+[type="submit"].icon.warning.inverse[disabled].active,
+button.icon.warning.inverse[disabled].active {
+  color: #333333;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.error.inverse,
+[type="submit"].ui-button-icon-only.error.inverse,
+button.ui-button-icon-only.error.inverse,
+.btn.icon.error.inverse,
+[type="submit"].icon.error.inverse,
+button.icon.error.inverse {
+  color: #333333;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.ui-button-icon-only.error.inverse:hover,
+[type="submit"].ui-button-icon-only.error.inverse:hover,
+button.ui-button-icon-only.error.inverse:hover,
+.btn.icon.error.inverse:hover,
+[type="submit"].icon.error.inverse:hover,
+button.icon.error.inverse:hover,
+.btn.ui-button-icon-only.error.inverse:focus,
+[type="submit"].ui-button-icon-only.error.inverse:focus,
+button.ui-button-icon-only.error.inverse:focus,
+.btn.icon.error.inverse:focus,
+[type="submit"].icon.error.inverse:focus,
+button.icon.error.inverse:focus,
+.btn.ui-button-icon-only.error.inverse:active,
+[type="submit"].ui-button-icon-only.error.inverse:active,
+button.ui-button-icon-only.error.inverse:active,
+.btn.icon.error.inverse:active,
+[type="submit"].icon.error.inverse:active,
+button.icon.error.inverse:active,
+.btn.ui-button-icon-only.error.inverse.active,
+[type="submit"].ui-button-icon-only.error.inverse.active,
+button.ui-button-icon-only.error.inverse.active,
+.btn.icon.error.inverse.active,
+[type="submit"].icon.error.inverse.active,
+button.icon.error.inverse.active,
+.btn.ui-button-icon-only.error.inverse.ui-state-active,
+[type="submit"].ui-button-icon-only.error.inverse.ui-state-active,
+button.ui-button-icon-only.error.inverse.ui-state-active,
+.btn.icon.error.inverse.ui-state-active,
+[type="submit"].icon.error.inverse.ui-state-active,
+button.icon.error.inverse.ui-state-active {
+  color: #e74c3c;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.error.inverse.disabled,
+[type="submit"].ui-button-icon-only.error.inverse.disabled,
+button.ui-button-icon-only.error.inverse.disabled,
+.btn.icon.error.inverse.disabled,
+[type="submit"].icon.error.inverse.disabled,
+button.icon.error.inverse.disabled,
+.btn.ui-button-icon-only.error.inverse[disabled],
+[type="submit"].ui-button-icon-only.error.inverse[disabled],
+button.ui-button-icon-only.error.inverse[disabled],
+.btn.icon.error.inverse[disabled],
+[type="submit"].icon.error.inverse[disabled],
+button.icon.error.inverse[disabled],
+.btn.ui-button-icon-only.error.inverse.disabled:hover,
+[type="submit"].ui-button-icon-only.error.inverse.disabled:hover,
+button.ui-button-icon-only.error.inverse.disabled:hover,
+.btn.icon.error.inverse.disabled:hover,
+[type="submit"].icon.error.inverse.disabled:hover,
+button.icon.error.inverse.disabled:hover,
+.btn.ui-button-icon-only.error.inverse[disabled]:hover,
+[type="submit"].ui-button-icon-only.error.inverse[disabled]:hover,
+button.ui-button-icon-only.error.inverse[disabled]:hover,
+.btn.icon.error.inverse[disabled]:hover,
+[type="submit"].icon.error.inverse[disabled]:hover,
+button.icon.error.inverse[disabled]:hover,
+.btn.ui-button-icon-only.error.inverse.disabled:focus,
+[type="submit"].ui-button-icon-only.error.inverse.disabled:focus,
+button.ui-button-icon-only.error.inverse.disabled:focus,
+.btn.icon.error.inverse.disabled:focus,
+[type="submit"].icon.error.inverse.disabled:focus,
+button.icon.error.inverse.disabled:focus,
+.btn.ui-button-icon-only.error.inverse[disabled]:focus,
+[type="submit"].ui-button-icon-only.error.inverse[disabled]:focus,
+button.ui-button-icon-only.error.inverse[disabled]:focus,
+.btn.icon.error.inverse[disabled]:focus,
+[type="submit"].icon.error.inverse[disabled]:focus,
+button.icon.error.inverse[disabled]:focus,
+.btn.ui-button-icon-only.error.inverse.disabled:active,
+[type="submit"].ui-button-icon-only.error.inverse.disabled:active,
+button.ui-button-icon-only.error.inverse.disabled:active,
+.btn.icon.error.inverse.disabled:active,
+[type="submit"].icon.error.inverse.disabled:active,
+button.icon.error.inverse.disabled:active,
+.btn.ui-button-icon-only.error.inverse[disabled]:active,
+[type="submit"].ui-button-icon-only.error.inverse[disabled]:active,
+button.ui-button-icon-only.error.inverse[disabled]:active,
+.btn.icon.error.inverse[disabled]:active,
+[type="submit"].icon.error.inverse[disabled]:active,
+button.icon.error.inverse[disabled]:active,
+.btn.ui-button-icon-only.error.inverse.disabled.active,
+[type="submit"].ui-button-icon-only.error.inverse.disabled.active,
+button.ui-button-icon-only.error.inverse.disabled.active,
+.btn.icon.error.inverse.disabled.active,
+[type="submit"].icon.error.inverse.disabled.active,
+button.icon.error.inverse.disabled.active,
+.btn.ui-button-icon-only.error.inverse[disabled].active,
+[type="submit"].ui-button-icon-only.error.inverse[disabled].active,
+button.ui-button-icon-only.error.inverse[disabled].active,
+.btn.icon.error.inverse[disabled].active,
+[type="submit"].icon.error.inverse[disabled].active,
+button.icon.error.inverse[disabled].active {
+  color: #333333;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.success.inverse,
+[type="submit"].ui-button-icon-only.success.inverse,
+button.ui-button-icon-only.success.inverse,
+.btn.icon.success.inverse,
+[type="submit"].icon.success.inverse,
+button.icon.success.inverse {
+  color: #333333;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.ui-button-icon-only.success.inverse:hover,
+[type="submit"].ui-button-icon-only.success.inverse:hover,
+button.ui-button-icon-only.success.inverse:hover,
+.btn.icon.success.inverse:hover,
+[type="submit"].icon.success.inverse:hover,
+button.icon.success.inverse:hover,
+.btn.ui-button-icon-only.success.inverse:focus,
+[type="submit"].ui-button-icon-only.success.inverse:focus,
+button.ui-button-icon-only.success.inverse:focus,
+.btn.icon.success.inverse:focus,
+[type="submit"].icon.success.inverse:focus,
+button.icon.success.inverse:focus,
+.btn.ui-button-icon-only.success.inverse:active,
+[type="submit"].ui-button-icon-only.success.inverse:active,
+button.ui-button-icon-only.success.inverse:active,
+.btn.icon.success.inverse:active,
+[type="submit"].icon.success.inverse:active,
+button.icon.success.inverse:active,
+.btn.ui-button-icon-only.success.inverse.active,
+[type="submit"].ui-button-icon-only.success.inverse.active,
+button.ui-button-icon-only.success.inverse.active,
+.btn.icon.success.inverse.active,
+[type="submit"].icon.success.inverse.active,
+button.icon.success.inverse.active,
+.btn.ui-button-icon-only.success.inverse.ui-state-active,
+[type="submit"].ui-button-icon-only.success.inverse.ui-state-active,
+button.ui-button-icon-only.success.inverse.ui-state-active,
+.btn.icon.success.inverse.ui-state-active,
+[type="submit"].icon.success.inverse.ui-state-active,
+button.icon.success.inverse.ui-state-active {
+  color: #2ecc71;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.success.inverse.disabled,
+[type="submit"].ui-button-icon-only.success.inverse.disabled,
+button.ui-button-icon-only.success.inverse.disabled,
+.btn.icon.success.inverse.disabled,
+[type="submit"].icon.success.inverse.disabled,
+button.icon.success.inverse.disabled,
+.btn.ui-button-icon-only.success.inverse[disabled],
+[type="submit"].ui-button-icon-only.success.inverse[disabled],
+button.ui-button-icon-only.success.inverse[disabled],
+.btn.icon.success.inverse[disabled],
+[type="submit"].icon.success.inverse[disabled],
+button.icon.success.inverse[disabled],
+.btn.ui-button-icon-only.success.inverse.disabled:hover,
+[type="submit"].ui-button-icon-only.success.inverse.disabled:hover,
+button.ui-button-icon-only.success.inverse.disabled:hover,
+.btn.icon.success.inverse.disabled:hover,
+[type="submit"].icon.success.inverse.disabled:hover,
+button.icon.success.inverse.disabled:hover,
+.btn.ui-button-icon-only.success.inverse[disabled]:hover,
+[type="submit"].ui-button-icon-only.success.inverse[disabled]:hover,
+button.ui-button-icon-only.success.inverse[disabled]:hover,
+.btn.icon.success.inverse[disabled]:hover,
+[type="submit"].icon.success.inverse[disabled]:hover,
+button.icon.success.inverse[disabled]:hover,
+.btn.ui-button-icon-only.success.inverse.disabled:focus,
+[type="submit"].ui-button-icon-only.success.inverse.disabled:focus,
+button.ui-button-icon-only.success.inverse.disabled:focus,
+.btn.icon.success.inverse.disabled:focus,
+[type="submit"].icon.success.inverse.disabled:focus,
+button.icon.success.inverse.disabled:focus,
+.btn.ui-button-icon-only.success.inverse[disabled]:focus,
+[type="submit"].ui-button-icon-only.success.inverse[disabled]:focus,
+button.ui-button-icon-only.success.inverse[disabled]:focus,
+.btn.icon.success.inverse[disabled]:focus,
+[type="submit"].icon.success.inverse[disabled]:focus,
+button.icon.success.inverse[disabled]:focus,
+.btn.ui-button-icon-only.success.inverse.disabled:active,
+[type="submit"].ui-button-icon-only.success.inverse.disabled:active,
+button.ui-button-icon-only.success.inverse.disabled:active,
+.btn.icon.success.inverse.disabled:active,
+[type="submit"].icon.success.inverse.disabled:active,
+button.icon.success.inverse.disabled:active,
+.btn.ui-button-icon-only.success.inverse[disabled]:active,
+[type="submit"].ui-button-icon-only.success.inverse[disabled]:active,
+button.ui-button-icon-only.success.inverse[disabled]:active,
+.btn.icon.success.inverse[disabled]:active,
+[type="submit"].icon.success.inverse[disabled]:active,
+button.icon.success.inverse[disabled]:active,
+.btn.ui-button-icon-only.success.inverse.disabled.active,
+[type="submit"].ui-button-icon-only.success.inverse.disabled.active,
+button.ui-button-icon-only.success.inverse.disabled.active,
+.btn.icon.success.inverse.disabled.active,
+[type="submit"].icon.success.inverse.disabled.active,
+button.icon.success.inverse.disabled.active,
+.btn.ui-button-icon-only.success.inverse[disabled].active,
+[type="submit"].ui-button-icon-only.success.inverse[disabled].active,
+button.ui-button-icon-only.success.inverse[disabled].active,
+.btn.icon.success.inverse[disabled].active,
+[type="submit"].icon.success.inverse[disabled].active,
+button.icon.success.inverse[disabled].active {
+  color: #333333;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.info.inverse,
+[type="submit"].ui-button-icon-only.info.inverse,
+button.ui-button-icon-only.info.inverse,
+.btn.icon.info.inverse,
+[type="submit"].icon.info.inverse,
+button.icon.info.inverse {
+  color: #333333;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn.ui-button-icon-only.info.inverse:hover,
+[type="submit"].ui-button-icon-only.info.inverse:hover,
+button.ui-button-icon-only.info.inverse:hover,
+.btn.icon.info.inverse:hover,
+[type="submit"].icon.info.inverse:hover,
+button.icon.info.inverse:hover,
+.btn.ui-button-icon-only.info.inverse:focus,
+[type="submit"].ui-button-icon-only.info.inverse:focus,
+button.ui-button-icon-only.info.inverse:focus,
+.btn.icon.info.inverse:focus,
+[type="submit"].icon.info.inverse:focus,
+button.icon.info.inverse:focus,
+.btn.ui-button-icon-only.info.inverse:active,
+[type="submit"].ui-button-icon-only.info.inverse:active,
+button.ui-button-icon-only.info.inverse:active,
+.btn.icon.info.inverse:active,
+[type="submit"].icon.info.inverse:active,
+button.icon.info.inverse:active,
+.btn.ui-button-icon-only.info.inverse.active,
+[type="submit"].ui-button-icon-only.info.inverse.active,
+button.ui-button-icon-only.info.inverse.active,
+.btn.icon.info.inverse.active,
+[type="submit"].icon.info.inverse.active,
+button.icon.info.inverse.active,
+.btn.ui-button-icon-only.info.inverse.ui-state-active,
+[type="submit"].ui-button-icon-only.info.inverse.ui-state-active,
+button.ui-button-icon-only.info.inverse.ui-state-active,
+.btn.icon.info.inverse.ui-state-active,
+[type="submit"].icon.info.inverse.ui-state-active,
+button.icon.info.inverse.ui-state-active {
+  color: #3498db;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+.btn.ui-button-icon-only.info.inverse.disabled,
+[type="submit"].ui-button-icon-only.info.inverse.disabled,
+button.ui-button-icon-only.info.inverse.disabled,
+.btn.icon.info.inverse.disabled,
+[type="submit"].icon.info.inverse.disabled,
+button.icon.info.inverse.disabled,
+.btn.ui-button-icon-only.info.inverse[disabled],
+[type="submit"].ui-button-icon-only.info.inverse[disabled],
+button.ui-button-icon-only.info.inverse[disabled],
+.btn.icon.info.inverse[disabled],
+[type="submit"].icon.info.inverse[disabled],
+button.icon.info.inverse[disabled],
+.btn.ui-button-icon-only.info.inverse.disabled:hover,
+[type="submit"].ui-button-icon-only.info.inverse.disabled:hover,
+button.ui-button-icon-only.info.inverse.disabled:hover,
+.btn.icon.info.inverse.disabled:hover,
+[type="submit"].icon.info.inverse.disabled:hover,
+button.icon.info.inverse.disabled:hover,
+.btn.ui-button-icon-only.info.inverse[disabled]:hover,
+[type="submit"].ui-button-icon-only.info.inverse[disabled]:hover,
+button.ui-button-icon-only.info.inverse[disabled]:hover,
+.btn.icon.info.inverse[disabled]:hover,
+[type="submit"].icon.info.inverse[disabled]:hover,
+button.icon.info.inverse[disabled]:hover,
+.btn.ui-button-icon-only.info.inverse.disabled:focus,
+[type="submit"].ui-button-icon-only.info.inverse.disabled:focus,
+button.ui-button-icon-only.info.inverse.disabled:focus,
+.btn.icon.info.inverse.disabled:focus,
+[type="submit"].icon.info.inverse.disabled:focus,
+button.icon.info.inverse.disabled:focus,
+.btn.ui-button-icon-only.info.inverse[disabled]:focus,
+[type="submit"].ui-button-icon-only.info.inverse[disabled]:focus,
+button.ui-button-icon-only.info.inverse[disabled]:focus,
+.btn.icon.info.inverse[disabled]:focus,
+[type="submit"].icon.info.inverse[disabled]:focus,
+button.icon.info.inverse[disabled]:focus,
+.btn.ui-button-icon-only.info.inverse.disabled:active,
+[type="submit"].ui-button-icon-only.info.inverse.disabled:active,
+button.ui-button-icon-only.info.inverse.disabled:active,
+.btn.icon.info.inverse.disabled:active,
+[type="submit"].icon.info.inverse.disabled:active,
+button.icon.info.inverse.disabled:active,
+.btn.ui-button-icon-only.info.inverse[disabled]:active,
+[type="submit"].ui-button-icon-only.info.inverse[disabled]:active,
+button.ui-button-icon-only.info.inverse[disabled]:active,
+.btn.icon.info.inverse[disabled]:active,
+[type="submit"].icon.info.inverse[disabled]:active,
+button.icon.info.inverse[disabled]:active,
+.btn.ui-button-icon-only.info.inverse.disabled.active,
+[type="submit"].ui-button-icon-only.info.inverse.disabled.active,
+button.ui-button-icon-only.info.inverse.disabled.active,
+.btn.icon.info.inverse.disabled.active,
+[type="submit"].icon.info.inverse.disabled.active,
+button.icon.info.inverse.disabled.active,
+.btn.ui-button-icon-only.info.inverse[disabled].active,
+[type="submit"].ui-button-icon-only.info.inverse[disabled].active,
+button.ui-button-icon-only.info.inverse[disabled].active,
+.btn.icon.info.inverse[disabled].active,
+[type="submit"].icon.info.inverse[disabled].active,
+button.icon.info.inverse[disabled].active {
+  color: #333333;
+  text-decoration: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
 .btn.ui-button-icon-only.large,
 [type="submit"].ui-button-icon-only.large,
 button.ui-button-icon-only.large,
@@ -1850,7 +2417,7 @@ button.ui-button-icon-only.small,
 .btn.icon.small,
 [type="submit"].icon.small,
 button.icon.small {
-  padding: 5px;
+  padding: 7px;
 }
 .btn.ui-button-icon-only[class*="grid_"],
 [type="submit"].ui-button-icon-only[class*="grid_"],
@@ -2247,7 +2814,7 @@ table {
 }
 table th,
 table td {
-  padding: 7px;
+  padding: 6px;
   vertical-align: middle;
   border-top: 1px solid #dddddd;
 }

@@ -29,7 +29,7 @@ $(function() {
     });
 
     $('#sortable-main').sortable({
-        handle  : 'catmove',
+        handle  : '.catmove',
         cancel  : '.nosort',
         helper  : 'clone',
         stop    : saveCategoriesOrder

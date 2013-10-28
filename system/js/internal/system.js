@@ -177,6 +177,20 @@ doc.on('click', '.screen-size', function (e) {
     $(this).toggleClass('error');
     $('#' + name + ', .' + name).toggleClass('full-screen');
 });
+///////// Full screen //////////////
+doc.on('click', '#screen-expand', function (e) {
+    $(this).toggleClass('icon-expand icon-turn')
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
+    popup.toggleClass('screen-expand');
+    $('.content').toggleClass('screen-expand');
+    var popupH = popup.height();
+    if($('#edittemplate').length){
+        $('.ace_editor').height(popupH - (560 - 390))
+    }else{
+        $('.ace_editor').height(popupH - (560 - 450))
+    }
+    editor.resize()
+});
 ///////// Show/Hide 'cropped' options //////////////
 doc.on('click', '[name="useImage"]', function () {
     $(this).closest('form').find('.cropped-img').fadeToggle();
