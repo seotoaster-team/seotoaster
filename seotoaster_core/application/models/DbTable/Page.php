@@ -24,23 +24,18 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
     public function fetchAllMenu($menuType, $fetchSysPages = false) {
         $where    = $this->getAdapter()->quoteInto("show_in_menu = '?'", $menuType);
         $sysWhere = $this->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
-
-        $select = $this->getAdapter()->select()
-            ->from('page', array(
-                'id',
-                'navName' => 'nav_name',
-                'h1',
-                'url',
-                'parentId' => 'parent_id'
-            )
-        )->joinLeft('optimized', 'page_id = id', array(
-            'optimizedUrl' => 'url',
-            'optimizedH1'  => 'h1',
-            'optimizedNavName'    => 'nav_name'
-        ))
-        ->where($sysWhere)
-        ->where($where)
-        ->order(array('order'));
+        $select   = $this->getAdapter()->select()
+            ->from('page', array('id', 'parentId' => 'parent_id'))
+            ->joinLeft('optimized', 'page_id = id', null)
+            ->columns(array(
+                'url'          => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),
+                'h1'           => new Zend_Db_Expr('COALESCE(optimized.h1, page.h1)'),
+                'navName'      => new Zend_Db_Expr('COALESCE(optimized.nav_name, page.nav_name)'),
+                'optimized'    => new Zend_Db_Expr('COALESCE(optimized.url, optimized.h1, optimized.header_title, optimized.nav_name, optimized.targeted_key_phrase, optimized.meta_description, optimized.meta_keywords, optimized.teaser_text, NULL)')
+            ))
+            ->where($sysWhere)
+            ->where($where)
+            ->order(array('order'));
 
 	    if ($menuType === Application_Model_Models_Page::IN_MAINMENU){
             $subSelect = $this->getAdapter()->select()
