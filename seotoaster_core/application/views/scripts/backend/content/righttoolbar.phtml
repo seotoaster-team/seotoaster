@@ -1,5 +1,5 @@
 <div class="tab_content">
-	<select name="adminselectimgfolder" id="adminselectimgfolder">
+	<select id="adminselectimgfolder" class="grid_7 alpha omega" name="adminselectimgfolder">
 		<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>
 		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
 			<?php foreach ($this->imageFolders as $folder): ?>
@@ -7,7 +7,8 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</select>
-	<div id="selector" class="mt10px">
+    <a id="upload_things_button" class="grid_5 alpha omega tpopup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
+	<div id="selector" class="mt10px grid_12 alpha omega">
 		<div id="borderfortoolbar">
 			<div id="adminthingsviewer">
 				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span></div>
@@ -24,10 +25,6 @@
 
 				<div id="files"><?php echo $this->translate('Files'); ?></div>
 				<div id="list_files" class="show_div"></div>
-
-				<div id="upload_things_button">
-					<a title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;" class="tpopup"><span class="icon-folder-upload icon16"></span> <?php echo $this->translate('Upload Things'); ?></a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -37,7 +34,7 @@
 	$(function() {
 		$(document).on('change', '#adminselectimgfolder', function() {
 			if($(this).val() != 0) {
-				var el = $('#upload_things_button a');
+				var el = $('#upload_things_button');
 				var dataUrl = el.data('url').replace(/folder\/.*/, '') + 'folder/' + $(this).val() + '/';
 				el.data('url', dataUrl);
 			}

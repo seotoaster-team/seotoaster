@@ -293,7 +293,6 @@
     &:not(.featureapage){
         width       : (100% / @num-column) - @margin + (@margin / @num-column);
         margin-left : unit(@margin, ~"%");
-
         @num : ~'@{num-column}n + 1';
         &:nth-child(@{num}){
             margin-left : 0;
@@ -383,18 +382,11 @@
     overflow   : hidden;
     text-align : center;
     background : @background;
+    padding    : @thumbnail-padding;
     border     : @border-width solid @border-color;
+    .box-sizing();
     .transition(all, 0.3s);
     .border-radius(@radius);
-    /*&:before{
-        content  : '';
-        position : absolute;
-        top      : 0;
-        left     : 0;
-        right    : 0;
-        bottom   : 0;
-        border   : 2px solid @background;
-    }*/
 
     [class*="caption"]{
         background  : @thumbnail-caption-bg;
@@ -407,7 +399,7 @@
 
     &:hover{
         border-color : @gray;
-        .box-shadow(0 0px 3px @primary-bg, @thumbnail-shadow);
+        .box-shadow(3px 3px 3px @gray, @thumbnail-shadow);
     }
 }
 
@@ -431,20 +423,29 @@
 //==================================================
 .button() {
     .inline-block();
-    margin-bottom : 0; // For input.btn
-    padding       : (@padding-base-vertical - (@btn-border-width - @input-border-width))  @padding-base-horizontal;
-    font-weight   : 600;
-    line-height   : normal;
-    text-indent   : 0;
-    text-align    : center;
-    cursor        : pointer;
-    border-width  : @btn-border-width;
-    border-style  : solid;
-    white-space   : nowrap;
-    position      : relative;
+    margin-bottom  : 0; // For input.btn
+    padding-top    : (@padding-base-vertical + @input-border-width - @btn-border-width + 1);
+    padding-bottom : (@padding-base-vertical + @input-border-width - @btn-border-width + 1);
+    font-weight    : 600;
+    line-height    : 1;
+    text-indent    : 0;
+    text-align     : center;
+    cursor         : pointer;
+    border-width   : @btn-border-width;
+    border-style   : solid;
+    white-space    : nowrap;
+    position       : relative;
+    .text-overflow;
     .transition(background-color, 0.3s);
     .border-radius(@btn-border-radius);
     .btn-states(@primary-color, @primary-bg, @primary-bg);
+
+    &:not([class*="pl"]){
+        padding-left : @padding-base-horizontal;
+    }
+    &:not([class*="pr"]){
+        padding-right : @padding-base-horizontal;
+    }
 
     &[class*="icon-"]:not(.icon):before{
         margin-right : 5px;
@@ -452,13 +453,13 @@
 }
 .button-large() {
     padding   : (@padding-large-vertical - (@btn-border-width - @input-border-width)) @padding-large-horizontal;
-    font-size : ceil(@font-size-base * 1.15);
+    font-size : @font-size-base + 2;
     .border-radius(@btn-large-border-radius);
 }
 .button-small() {
-    padding     : (@padding-small-vertical - (@btn-border-width - @input-border-width)) @padding-small-horizontal;
-    font-size   : ceil(@font-size-base * 0.85);
-    line-height : 1.5; // ensure proper height of button next to small input
+    padding     : (@padding-small-vertical + (@input-border-width - @btn-border-width) + 2) @padding-small-horizontal;
+    font-size   : @font-size-base - 2;
+    //line-height : 1.5; // ensure proper height of button next to small input
     .border-radius(@btn-small-border-radius);
 }
 // Easily pump out default styles, as well as :hover, :focus, :active,
@@ -570,7 +571,7 @@
     }
 }
 
-.clearfix(){
+.clearfix() {
     &:after{
         content    : "";
         clear      : both;

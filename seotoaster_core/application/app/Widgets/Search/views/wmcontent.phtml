@@ -1,9 +1,9 @@
 <form action="javascript:;" method="post" data-name="search" id="search-widget-form" class="wmc-block">
     <div>
         <?php echo $this->formLabel('search-results', $this->translate('Select a search results page')); ?>
-        <?php echo $this->formSelect('searchResults', null, array('id' => 'search-results', 'class' => 'validate')); ?>
+        <?php echo $this->formSelect('searchResults', null, array('id' => 'search-results', 'class' => 'validate small')); ?>
     </div>
-    <div class="mt10px">
+    <div class="mt5px">
 	    <label class="grid_6 alpha omega">
             <span class="grid_10 alpha omega"><?php echo $this->translate('Use image'); ?></span>
             <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'search-item-img')); ?>
@@ -13,7 +13,7 @@
             <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'search-image-croppedd')); ?>
         </label>
 	</div>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-search')); ?>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-search small')); ?>
 </form>
 <script type="text/javascript">
 	$(function() {

@@ -7,7 +7,7 @@
   color: #666666;
   font-weight: normal;
   background: #eaeaea;
-  padding: 8px 16px;
+  padding: 7px 14px;
   min-height: 0;
 }
 .ui-accordion .ui-accordion-header:first-child {
@@ -31,8 +31,8 @@
   /* Fix for IE7 */
 
   vertical-align: middle;
-  margin-left: -8px;
-  margin-right: 8px;
+  margin-left: -7px;
+  margin-right: 7px;
   width: 14px;
   height: 14px;
   line-height: 14px;
@@ -47,7 +47,7 @@
   border-top: none;
   margin-top: 0;
   margin-bottom: 0;
-  padding: 8px 16px;
+  padding: 7px 14px;
   overflow: auto;
 }
 .smoke-base .smokebg {
@@ -131,7 +131,7 @@
 }
 .message,
 .smoke-base .dialog {
-  padding: 8px 16px;
+  padding: 7px 14px;
   background-color: #d8efc1;
   border-color: #b4d892;
   color: #79985b;
@@ -622,7 +622,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: 8px 16px;
+  padding: 7px 14px;
   text-decoration: none;
   color: inherit;
 }
@@ -678,7 +678,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   display: block;
   border: none;
   background: #ffffff;
-  padding: 8px 16px;
+  padding: 7px 14px;
 }
 .tabs-gray.ui-tabs .ui-tabs-panel {
   overflow: hidden;
@@ -693,6 +693,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
+  border-top: 0;
   position: relative;
   z-index: 1;
 }
@@ -1058,7 +1059,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background: #666666;
   color: #ffffff;
   font-size: 11pt;
-  padding: 8px 16px;
+  padding: 7px 14px;
   font-weight: bold;
   text-align: center;
   display: block;
@@ -1116,7 +1117,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   color: #377d98;
 }
 #seotoaster-cpanel #cpanelul li .ui-accordion-content .cpanelsubtitle {
-  padding: 8px 16px;
+  padding: 7px 14px;
   background: #eeeeee;
 }
 #seotoaster-cpanel #logoutul {
@@ -1133,7 +1134,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   font-size: 16px;
   color: #eaeaea;
   background: #666666;
-  padding: 8px 16px;
+  padding: 7px 14px;
 }
 #seotoaster-cpanel #logoutul li a:hover {
   background: #d15e52;
@@ -1240,7 +1241,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .header-titles {
   background: #aaaaaa;
   color: #ffffff;
-  padding: 8px 0;
+  padding: 7px 0;
 }
 #fa-list {
   height: 400px;
@@ -1268,7 +1269,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #templatelist .template_item {
   position: relative;
   border-top: 1px dashed #eaeaea;
-  padding: 8px 8px;
+  padding: 7px 8px;
   color: #59a5c3;
 }
 #templatelist .template_item:first-child {
@@ -1481,7 +1482,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   color: #eaeaea;
   font-size: 1.5em;
   cursor: pointer;
-  padding: 20px;
+  padding: 18px;
 }
 #media-toaster-uploader-dragdrop:hover {
   border-color: #666666;
@@ -1490,7 +1491,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #removeForm #filebrowser .filebrowser-zone {
   height: 350px;
   overflow: auto;
-  padding: 12px;
+  padding: 10px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -1644,7 +1645,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   overflow: hidden;
 }
 #sculpting-list .sculpting-row .sculpting-subrow > div:first-child {
-  padding-top: 8px;
+  padding-top: 7px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1673,7 +1674,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding: 8px 0;
+  padding: 7px 0;
 }
 #frm_template [for="template-content"] a {
   color: inherit;
@@ -1783,16 +1784,19 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 
   vertical-align: middle;
   margin-bottom: 0;
-  padding: 9px 16px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   font-weight: 600;
-  line-height: normal;
+  line-height: 1;
   text-indent: 0;
   text-align: center;
   cursor: pointer;
   border-width: 0px;
   border-style: solid;
-  white-space: nowrap;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   -webkit-transition: background-color 0.3s ease;
   -moz-transition: background-color 0.3s ease;
   -ms-transition: background-color 0.3s ease;
@@ -1801,9 +1805,8 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   color: #ffffff;
   background-color: #31b0d5;
   border-color: #31b0d5;
-  padding: 5px 8px;
+  padding: 7px 8px;
   font-size: 12px;
-  line-height: 1.5;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1851,6 +1854,12 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   border-color: #569cb0;
   text-decoration: none;
 }
+#themes-list .themebox .lnk-download + .download-options a:not([class*="pl"]) {
+  padding-left: 14px;
+}
+#themes-list .themebox .lnk-download + .download-options a:not([class*="pr"]) {
+  padding-right: 14px;
+}
 #themes-list .themebox .lnk-download + .download-options a[class*="icon-"]:not(.icon):before {
   margin-right: 5px;
 }
@@ -1865,7 +1874,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   cursor: default;
 }
 #themes-list .themebox .theme-name {
-  padding: 8px 8px;
+  padding: 7px 8px;
   font-size: 0.85em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1952,7 +1961,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   font-size: 100px;
 }
 #ations-triggers-frm #action-triggers .actions-list li span.action-name {
-  padding: 8px 16px;
+  padding: 7px 14px;
   background: #9e9e9e;
   color: #fafafa;
   text-transform: uppercase;
@@ -2417,23 +2426,12 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #edit-content #tabs .ui-tabs-panel .ui-accordion-content {
   padding: 5px;
-  max-height: 165px;
 }
-#edit-content #adminthingsviewer #upload_things_button.ui-accordion-header {
-  font-weight: bold;
-  text-align: center;
+#edit-content #tabs #tabs-frag-1 .ui-accordion-content {
+  max-height: 183px;
 }
-#edit-content #adminthingsviewer #upload_things_button.ui-accordion-header a {
-  display: block;
-}
-#edit-content #adminthingsviewer #upload_things_button.ui-accordion-header a [class*="icon-"] {
-  margin-top: -3px;
-}
-#edit-content #adminthingsviewer #upload_things_button.ui-accordion-header:hover {
-  background: #d1d1d1;
-}
-#edit-content #adminthingsviewer #upload_things_button.ui-accordion-header .ui-accordion-header-icon {
-  display: none;
+#edit-content #tabs #tabs-frag-2 .ui-accordion-content {
+  max-height: 190px;
 }
 #edit-content #adminthingsviewer .ui-accordion-content {
   position: relative;
@@ -2443,7 +2441,6 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #edit-content #adminthingsviewer .ui-accordion-content.show_div .list-images {
   margin: -5px;
-  height: 170px;
   overflow: auto;
 }
 #edit-content #adminthingsviewer .ui-accordion-content.show_div .list-images a {
@@ -2478,7 +2475,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #product-products {
   background: #ffffff;
-  padding: 8px;
+  padding: 7px;
   overflow: auto;
   height: 266px;
 }

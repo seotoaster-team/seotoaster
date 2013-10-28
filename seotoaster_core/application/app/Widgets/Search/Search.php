@@ -150,14 +150,14 @@ class Widgets_Search_Search extends Widgets_Abstract {
             $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
             $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
             if(strtolower($optionsArray[1]) != 'thispage'){
-                $prepopAllLinks = $containerMapper->findByContainerName($optionsArray[1], true);
+                $prepopAllLinks = $containerMapper->findByContainerName($optionsArray[1]);
                 if(!empty($prepopAllLinks)){
                     foreach($prepopAllLinks as $prepopData){
-                        $contentArray[] = $prepopData['content'];
+                        $contentArray[] = $prepopData->getContent();
                     }
                     asort($contentArray);
                     $this->_view->prepopName = $optionsArray[1];
-                    $this->_view->prepopLinks = $contentArray;
+                    $this->_view->prepopLinks = array_unique($contentArray);
                     return $this->_view->render('links.phtml');
                 }
             }else{

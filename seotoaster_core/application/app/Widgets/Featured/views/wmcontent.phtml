@@ -1,20 +1,20 @@
 <form action="javascript:;" method="post" data-name="featured" id="featured-widget-form" class="wmc-block">
     <div>
-        <?php echo $this->formLabel('featured-item-type', $this->translate('Type'), array('class' => 'grid_5 alpha mt5px')); ?>
-        <?php echo $this->formSelect('featuredItemType', 'Group of pages', array('id' => 'featured-item-type', 'class' => 'grid_7 alpha omega'), array(Widgets_Featured_Featured::FEATURED_TYPE_AREA => 'Group of pages', Widgets_Featured_Featured::FEATURED_TYPE_PAGE => 'List just one page')); ?>
+        <?php echo $this->formLabel('featured-item-type', $this->translate('Type'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formSelect('featuredItemType', 'Group of pages', array('id' => 'featured-item-type', 'class' => 'grid_7 alpha omega small'), array(Widgets_Featured_Featured::FEATURED_TYPE_AREA => 'Group of pages', Widgets_Featured_Featured::FEATURED_TYPE_PAGE => 'List just one page')); ?>
     </div>
     <div class="mt5px">
-        <?php echo $this->formSelect('featuredAreaItem', null, array('id' => 'featured-area-item', 'class' => 'grid_12 alpha omega validate')); ?>
+        <?php echo $this->formSelect('featuredAreaItem', null, array('id' => 'featured-area-item', 'class' => 'grid_12 alpha omega small validate')); ?>
     </div>
     <div class="mt5px">
-        <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha mt5px max-res-row')); ?>
-        <?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'grid_7 alpha omega max-res-row')); ?>
+        <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha mt0-25em max-res-row')); ?>
+        <?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'grid_7 alpha omega small max-res-row')); ?>
     </div>
     <div class="mt5px">
-        <?php echo $this->formLabel('featured-item-maxchars', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt5px')); ?>
-        <?php echo $this->formText('featuredItemMaxchars', Widgets_Featured_Featured::AREA_DESC_LENGTH, array('id' => 'featured-item-maxchars', 'class' => 'grid_7 alpha omega')); ?>
+        <?php echo $this->formLabel('featured-item-maxchars', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formText('featuredItemMaxchars', Widgets_Featured_Featured::AREA_DESC_LENGTH, array('id' => 'featured-item-maxchars', 'class' => 'grid_7 alpha omega small')); ?>
     </div>
-    <div class="mt10px">
+    <div class="mt5px">
 	    <label class="grid_6 alpha omega">
             <span class="grid_10 alpha omega"><?php echo $this->translate('Use image'); ?></span>
 		    <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'use-image')); ?>
@@ -24,11 +24,11 @@
             <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped')); ?>
         </label>
 	</div>
-	<label class="max-res-row mt10px grid_6 alpha omega suffix_6">
+	<label class="max-res-row mt5px grid_6 alpha omega suffix_6">
 	    <span class="grid_10 alpha omega"><?php echo $this->translate('Random'); ?></span>
 		<?php echo $this->formCheckbox('random', null, array('id' => 'random')); ?>
 	</label>
-	<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+	<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget small')); ?>
 </form>
 
 <script type="text/javascript">

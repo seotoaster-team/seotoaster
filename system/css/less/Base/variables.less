@@ -107,7 +107,6 @@
 @header-inner-bg         : #aaa;
 @header-inner-color      : #fff;
 
-
 // Links
 //==================================================
 @link-color         : #59a5c3;
@@ -122,14 +121,14 @@
 
 // Components
 //==================================================
-@padding-larger-vertical   : 16px;
-@padding-larger-horizontal : 24px;
+@padding-larger-vertical   : 14px;
+@padding-larger-horizontal : 22px;
 
-@padding-large-vertical    : 12px;
-@padding-large-horizontal  : 20px;
+@padding-large-vertical    : 10px;
+@padding-large-horizontal  : 18px;
 
-@padding-base-vertical     : 8px;
-@padding-base-horizontal   : 16px;
+@padding-base-vertical     : 7px;
+@padding-base-horizontal   : 14px;
 
 @padding-small-vertical    : 4px;
 @padding-small-horizontal  : 8px;
@@ -170,10 +169,14 @@
 
 // Tables
 //==================================================
-@table-bg           : transparent;// overall background-color
-@table-row-bg       : @gray-lighter;// for striping
-@table-row-bg-hover : @table-row-bg;// for hover
-@table-border-color : darken(@gray-light, 5%);// table and cell border
+@table-bg           : transparent;
+// overall background-color
+@table-row-bg       : @gray-lighter;
+// for striping
+@table-row-bg-hover : @table-row-bg;
+// for hover
+@table-border-color : darken(@gray-light, 5%);
+// table and cell border
 
 // Buttons
 //==================================================
@@ -210,7 +213,8 @@
 
 @input-border-width       : 1px;
 @input-border-color       : #ccc;
-@input-border-color-focus : @primary-bg;//border color and shadow in focus
+@input-border-color-focus : @primary-bg;
+//border color and shadow in focus
 @input-border-radius      : 0;
 
 @input-shadow-focus       : false;
@@ -225,10 +229,11 @@
 // Thumbnails
 //==================================================
 @thumbnail-bg            : @body-bg;
-@thumbnail-border-width  : 2px;
+@thumbnail-padding       : 2px;
+@thumbnail-border-width  : 1px;
 @thumbnail-border-color  : @gray-light;
 @thumbnail-border-radius : 0;
-@thumbnail-shadow        : false;
+@thumbnail-shadow        : true;
 @thumbnail-caption-bg    : fade(@primary-bg, 80%);
 @thumbnail-caption-color : @primary-color;
 

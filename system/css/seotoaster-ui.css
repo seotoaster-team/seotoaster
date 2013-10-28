@@ -63,7 +63,7 @@ ol.list-bordered:not([class*="mb"]) {
 ul.list-bordered > li,
 ol.list-bordered > li {
   margin: 0;
-  padding: 8px 16px;
+  padding: 7px 14px;
   border-bottom: 1px dashed #eaeaea;
 }
 ul.list-tags,
@@ -170,7 +170,7 @@ dl.dl-horizontal dd {
   background: #aaaaaa;
   color: #ffffff;
   overflow: hidden;
-  padding: 8px 0;
+  padding: 7px 0;
 }
 .items-list:not([class*="ml"]):not([class*="grid_"]) {
   margin-left: 0;
@@ -226,7 +226,12 @@ ol.items-list .list-row > * {
   overflow: hidden;
   text-align: center;
   background: #ffffff;
-  border: 2px solid #eaeaea;
+  padding: 2px;
+  border: 1px solid #eaeaea;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -236,16 +241,6 @@ ol.items-list .list-row > * {
   -moz-border-radius: 0;
   -ms-border-radius: 0;
   border-radius: 0;
-  /*&:before{
-        content  : '';
-        position : absolute;
-        top      : 0;
-        left     : 0;
-        right    : 0;
-        bottom   : 0;
-        border   : 2px solid @background;
-    }*/
-
   height: 80px;
   line-height: 74px;
 }
@@ -259,10 +254,18 @@ ol.items-list .list-row > * {
 }
 .list-images > *:hover {
   border-color: #666666;
+  -webkit-box-shadow: 3px 3px 3px #666666;
+  -moz-box-shadow: 3px 3px 3px #666666;
+  -ms-box-shadow: 3px 3px 3px #666666;
+  box-shadow: 3px 3px 3px #666666;
 }
 .list-images > *[class*="grid_"] {
   margin-top: 1%;
   margin-bottom: 1%;
+}
+.list-images > * img {
+  width: auto;
+  max-height: 100%;
 }
 .paginator,
 .dataTables_paginate {
@@ -317,7 +320,7 @@ ol.items-list .list-row > * {
   line-height: 18px;
   font-size: 0;
   color: #fff;
-  padding: 8px;
+  padding: 7px;
   background: #eaeaea;
 }
 .social-links a:before {
@@ -489,7 +492,7 @@ form.form-grid input,
 select,
 textarea,
 input {
-  padding: 8px;
+  padding: 7px;
   background-color: #ffffff;
   color: #377d98;
   vertical-align: middle;
@@ -605,16 +608,16 @@ input.small {
 select.large,
 textarea.large,
 input.large {
-  padding: 12px;
+  padding: 10px;
 }
 select {
-  padding: 7px 8px;
+  padding: 6px 7px;
 }
 select.small {
   padding: 3px 4px;
 }
 select.large {
-  padding: 11px 12px;
+  padding: 9px 10px;
 }
 select option {
   color: #333333;
@@ -641,7 +644,7 @@ select option {
 .labeled i + select,
 .labeled i + textarea,
 .labeled i + input {
-  padding-left: 32px;
+  padding-left: 28px;
 }
 .labeled label,
 .labeled .label {
@@ -649,7 +652,7 @@ select option {
   margin-bottom: 0;
   line-height: normal;
   background: #cccccc;
-  padding: 9px 0;
+  padding: 8px 0;
   text-align: center;
   color: #fff;
   -webkit-transition: all 0.3s ease;
@@ -954,16 +957,19 @@ button {
 
   vertical-align: middle;
   margin-bottom: 0;
-  padding: 9px 16px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   font-weight: 600;
-  line-height: normal;
+  line-height: 1;
   text-indent: 0;
   text-align: center;
   cursor: pointer;
   border-width: 0px;
   border-style: solid;
-  white-space: nowrap;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   -webkit-transition: background-color 0.3s ease;
   -moz-transition: background-color 0.3s ease;
   -ms-transition: background-color 0.3s ease;
@@ -1048,6 +1054,16 @@ button[disabled].active {
   background-color: #569cb0;
   border-color: #569cb0;
   text-decoration: none;
+}
+.btn:not([class*="pl"]),
+[type="submit"]:not([class*="pl"]),
+button:not([class*="pl"]) {
+  padding-left: 14px;
+}
+.btn:not([class*="pr"]),
+[type="submit"]:not([class*="pr"]),
+button:not([class*="pr"]) {
+  padding-right: 14px;
 }
 .btn[class*="icon-"]:not(.icon):before,
 [type="submit"][class*="icon-"]:not(.icon):before,
@@ -1773,8 +1789,8 @@ button.info.inverse[disabled].active {
 .btn.large,
 [type="submit"].large,
 button.large {
-  padding: 13px 20px;
-  font-size: 17px;
+  padding: 11px 18px;
+  font-size: 16px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1783,9 +1799,8 @@ button.large {
 .btn.small,
 [type="submit"].small,
 button.small {
-  padding: 5px 8px;
+  padding: 7px 8px;
   font-size: 12px;
-  line-height: 1.5;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1796,9 +1811,13 @@ button.small {
 button.block {
   float: none;
   display: block;
-  width: 100%;
   padding-left: 0;
   padding-right: 0;
+}
+.btn.block + .block:not([class*="grid_"]),
+[type="submit"].block + .block:not([class*="grid_"]),
+button.block + .block:not([class*="grid_"]) {
+  width: 100%;
 }
 .btn.block + .block:not([class*="grid_"]):not([class*="mt"]),
 [type="submit"].block + .block:not([class*="grid_"]):not([class*="mt"]),
@@ -1811,7 +1830,7 @@ button.ui-button-icon-only,
 .btn.icon,
 [type="submit"].icon,
 button.icon {
-  padding: 9px;
+  padding: 8px;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   -ms-box-sizing: content-box;
@@ -1823,7 +1842,7 @@ button.ui-button-icon-only.large,
 .btn.icon.large,
 [type="submit"].icon.large,
 button.icon.large {
-  padding: 13px;
+  padding: 11px;
 }
 .btn.ui-button-icon-only.small,
 [type="submit"].ui-button-icon-only.small,
@@ -2228,7 +2247,7 @@ table {
 }
 table th,
 table td {
-  padding: 8px;
+  padding: 7px;
   vertical-align: middle;
   border-top: 1px solid #dddddd;
 }
@@ -2258,7 +2277,7 @@ table.large {
 }
 table.large th,
 table.large td {
-  padding: 12px;
+  padding: 10px;
 }
 .table-bordered {
   border: 1px solid #dddddd;

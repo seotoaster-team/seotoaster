@@ -1,21 +1,21 @@
 <form action="javascript:;" method="post" data-name="gal" id="gal-widget-form" class="wmc-block">
     <div>
-        <?php echo $this->formLabel('gal-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt5px')); ?>
-        <?php echo $this->formSelect('galFolders', null, array('id' => 'gal-folders', 'class' => 'grid_7 alpha omega folders')); ?>
+        <?php echo $this->formLabel('gal-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formSelect('galFolders', null, array('id' => 'gal-folders', 'class' => 'grid_7 alpha omega small folders')); ?>
     </div>
     <div class="mt5px">
-	    <?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'grid_5 alpha mt5px')); ?>
-	    <?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'grid_4 alpha omega')); ?>
-	    <?php echo $this->formSelect('galThumbUnit', '', array('id' => 'gal-thumb-unit', 'class' => 'grid_3 omega')); ?>
+	    <?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+	    <?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'grid_4 alpha omega small')); ?>
+	    <?php echo $this->formSelect('galThumbUnit', '', array('id' => 'gal-thumb-unit', 'class' => 'grid_3 omega small')); ?>
     </div>
 
-	<label class="mt10px">
+	<label class="mt5px">
         <span class="grid_5 alpha"><?php echo $this->translate('Crop image'); ?></span>
 		<?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop')); ?>
 	</label>
-	<label class="mt10px">
+	<label class="mt5px">
 	    <span class="grid_5 alpha"><?php echo $this->translate('Caption'); ?></span>
 		<?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption')); ?>
 	</label>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget')); ?>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget small')); ?>
 </form>

@@ -58,9 +58,12 @@
     &.block{
         float         : none;
         display       : block;
-        width         : 100%;
         padding-left  : 0;
         padding-right : 0;
+
+        &+.block:not([class*="grid_"]){
+            width : 100%;
+        }
 
         // Vertically space out multiple block buttons
         &+.block:not([class*="grid_"]):not([class*="mt"]){
