@@ -383,7 +383,7 @@ class Backend_PageController extends Zend_Controller_Action {
             'h1'              => $page->getH1(),
             'headerTitle'     => $page->getHeaderTitle(),
             'navName'         => $page->getNavName(),
-            'url'             => $page->getUrl(),
+            'url'             => $this->_helper->page->clean($page->getUrl()),
             'metaDescription' => $page->getMetaDescription(),
             'metaKeywords'    => $page->getMetaKeywords(),
             'teaserText'      => $page->getTeaserText()
