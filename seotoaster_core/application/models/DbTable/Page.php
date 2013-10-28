@@ -165,8 +165,21 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             $pageFields = array('id', 'template_id', 'parent_id', 'last_update', 'is_404page', 'show_in_menu', 'order', 'weight', 'silo_id', 'protected', 'system', 'draft', 'publish_at', 'news', 'err_login_landing', 'mem_landing', 'signup_landing', 'preview_image');
         }
         $select = $this->getAdapter()->select();
+        if($originalsOnly) {
+            $pageFields = array_merge(array(
+                'url'                 => 'page.url',
+                'h1'                  => 'page.h1',
+                'header_title'        => 'page.header_title',
+                'nav_name'            => 'page.nav_name',
+                'targeted_key_phrase' => 'page.targeted_key_phrase',
+                'meta_description'    => 'page.meta_description',
+                'meta_keywords'       => 'page.meta_keywords',
+                'teaser_text'         => 'page.teaser_text',
+                'optimized'           => 0
+            ), $pageFields);
+        }
+        $select->from('page', $pageFields);
         return ($originalsOnly) ? $select : $select
-            ->from('page', $pageFields)
             ->joinLeft('optimized', 'page_id=id', null)
             ->columns(array(
                 'url'                 => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),
