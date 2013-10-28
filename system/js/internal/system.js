@@ -48,7 +48,7 @@ $(function () {
                     margin   : '0px',
                     overflow : 'hidden'
                 });
-                $('.ui-dialog-titlebar').remove();
+				$('[aria-describedby="toasterPopup"] .ui-dialog-titlebar').remove();
             },
             close     : function () {
                 $(this).remove();
@@ -190,7 +190,6 @@ function checkboxRadio() {
             }else {
                 !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio"></label>').after('<span></span>') : $(this).wrap('<label class="checkbox_radio"></label>').after('<span><span></span></span>');
             }
-
         }
         $(this).addClass('processed');
     });
