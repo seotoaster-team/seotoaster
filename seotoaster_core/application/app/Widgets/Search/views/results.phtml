@@ -18,4 +18,4 @@
 </ul>
 <?php endif; ?>
 
-<?php echo $this->paginationControl($this->pager, 'Elastic', 'pager.phtml', array('searchTerm' => $this->searchTerm)); ?>
+<?php echo $this->paginationControl($this->pager, 'Elastic', 'pager.phtml', array('urlData' => $this->urlData)); ?>

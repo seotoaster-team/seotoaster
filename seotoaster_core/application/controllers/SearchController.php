@@ -111,6 +111,19 @@ class SearchController extends Zend_Controller_Action {
             }
         }
         $containerContentArray = array_combine($containersNames, $searchValues);
+        $queryID = md5(serialize($containerContentArray));
+        $this->_helper->flashMessenger->addMessage($containerContentArray, $queryID);
+
+        echo json_encode(
+            array(
+                'redirect' => $this->_helper->website->getUrl() . $redirectPage . '?' . http_build_query(
+                            array('queryID' => $queryID)
+                        )
+            )
+        );
+
+        return;
+
         $containerData = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerNameWithContent($containerContentArray);
         $findUrlList = array();
         if(!empty($containerData)){
@@ -135,7 +148,13 @@ class SearchController extends Zend_Controller_Action {
         }else {
             $this->_helper->session->searchHits = '{$content:nothingfound}';
         }
-        echo json_encode(array('redirect'=>$this->_helper->website->getUrl() . $redirectPage));
+        echo json_encode(
+            array(
+                'redirect' => $this->_helper->website->getUrl() . $redirectPage . '?' . http_build_query(
+                            array('queryID' => $queryID)
+                        )
+            )
+        );
     }
 
 
