@@ -11,37 +11,41 @@
     &.inverse{
         .btn-states(@gray, @gray-light, @gray-light, @primary-color, @primary-bg, @primary-bg);
     }
+
     // Warning appears as orange
     &.warning{
         .btn-states(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
-
-        &.inverse{
-            .btn-states(@gray, @gray-light, @gray-light, @btn-warning-color, @btn-warning-bg, @btn-warning-border);
-        }
     }
+
+    &.inverse-warning{
+        .btn-states(@gray, @gray-light, @gray-light, @btn-warning-color, @btn-warning-bg, @btn-warning-border);
+    }
+
     // Danger and error appear as red
     &.error{
         .btn-states(@btn-error-color, @btn-error-bg, @btn-error-border);
-
-        &.inverse{
-            .btn-states(@gray, @gray-light, @gray-light, @btn-error-color, @btn-error-bg, @btn-error-border);
-        }
     }
+
+    &.inverse-error{
+        .btn-states(@gray, @gray-light, @gray-light, @btn-error-color, @btn-error-bg, @btn-error-border);
+    }
+
     // Success appears as green
     &.success{
         .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
-
-        &.inverse{
-            .btn-states(@gray, @gray-light, @gray-light, @btn-success-color, @btn-success-bg, @btn-success-border);
-        }
     }
+
+    &.inverse-success{
+        .btn-states(@gray, @gray-light, @gray-light, @btn-success-color, @btn-success-bg, @btn-success-border);
+    }
+
     // Info appears as blue
     &.info{
         .btn-states(@btn-info-color, @btn-info-bg, @btn-info-border);
+    }
 
-        &.inverse{
-            .btn-states(@gray, @gray-light, @gray-light, @btn-info-color, @btn-info-bg, @btn-info-border);
-        }
+    &.inverse-info{
+        .btn-states(@gray, @gray-light, @gray-light, @btn-info-color, @btn-info-bg, @btn-info-border);
     }
 
     // Button Sizes
@@ -114,39 +118,43 @@
         // Alternate buttons
         // --------------------------------------------------
         &.inverse{
-            .link-states(@gray-dark, @link-color);
+            .link-states(@gray, @link-color);
         }
+
         // Warning appears as orange
         &.warning{
             .link-states(@brand-warning);
-
-            &.inverse{
-                .link-states(@gray-dark, @brand-warning);
-            }
         }
+
+        &.inverse-warning{
+            .link-states(@gray, @brand-warning);
+        }
+
         // Danger and error appear as red
         &.error{
             .link-states(@brand-error);
-
-            &.inverse{
-                .link-states(@gray-dark, @brand-error);
-            }
         }
+
+        &.inverse-error{
+            .link-states(@gray, @brand-error);
+        }
+
         // Success appears as green
         &.success{
             .link-states(@brand-success);
-
-            &.inverse{
-                .link-states(@gray-dark, @brand-success);
-            }
         }
+
+        &.inverse-success{
+            .link-states(@gray, @brand-success);
+        }
+
         // Info appears as blue
         &.info{
             .link-states(@brand-info);
+        }
 
-            &.inverse{
-                .link-states(@gray-dark, @brand-info);
-            }
+        &.inverse-info{
+            .link-states(@gray, @brand-info);
         }
     }
 }

@@ -448,16 +448,12 @@ form label:not([class*="mb"]),
   margin-bottom: 0.15em;
 }
 form [type="submit"],
-.form [type="submit"],
-form [type="button"],
-.form [type="button"] {
+.form [type="submit"] {
   height: auto;
   float: right;
 }
 form [type="submit"]:not([class*="mt"]),
-.form [type="submit"]:not([class*="mt"]),
-form [type="button"]:not([class*="mt"]),
-.form [type="button"]:not([class*="mt"]) {
+.form [type="submit"]:not([class*="mt"]) {
   margin-top: 10px;
 }
 form.form-inline > p,
@@ -1232,77 +1228,77 @@ button.warning[disabled].active {
   border-color: #9f6736;
   text-decoration: none;
 }
-.btn.warning.inverse,
-[type="submit"].warning.inverse,
-button.warning.inverse {
+.btn.inverse-warning,
+[type="submit"].inverse-warning,
+button.inverse-warning {
   color: #666666;
   background-color: #eaeaea;
   border-color: #eaeaea;
   text-decoration: none;
 }
-.btn.warning.inverse:hover,
-[type="submit"].warning.inverse:hover,
-button.warning.inverse:hover,
-.btn.warning.inverse:focus,
-[type="submit"].warning.inverse:focus,
-button.warning.inverse:focus,
-.btn.warning.inverse:active,
-[type="submit"].warning.inverse:active,
-button.warning.inverse:active,
-.btn.warning.inverse.active,
-[type="submit"].warning.inverse.active,
-button.warning.inverse.active,
-.btn.warning.inverse.ui-state-active,
-[type="submit"].warning.inverse.ui-state-active,
-button.warning.inverse.ui-state-active {
+.btn.inverse-warning:hover,
+[type="submit"].inverse-warning:hover,
+button.inverse-warning:hover,
+.btn.inverse-warning:focus,
+[type="submit"].inverse-warning:focus,
+button.inverse-warning:focus,
+.btn.inverse-warning:active,
+[type="submit"].inverse-warning:active,
+button.inverse-warning:active,
+.btn.inverse-warning.active,
+[type="submit"].inverse-warning.active,
+button.inverse-warning.active,
+.btn.inverse-warning.ui-state-active,
+[type="submit"].inverse-warning.ui-state-active,
+button.inverse-warning.ui-state-active {
   color: #ffffff;
   background-color: #e67e22;
   border-color: #bf6516;
 }
-.btn.warning.inverse:active,
-[type="submit"].warning.inverse:active,
-button.warning.inverse:active,
-.btn.warning.inverse.active,
-[type="submit"].warning.inverse.active,
-button.warning.inverse.active,
-.btn.warning.inverse.ui-state-active,
-[type="submit"].warning.inverse.ui-state-active,
-button.warning.inverse.ui-state-active {
+.btn.inverse-warning:active,
+[type="submit"].inverse-warning:active,
+button.inverse-warning:active,
+.btn.inverse-warning.active,
+[type="submit"].inverse-warning.active,
+button.inverse-warning.active,
+.btn.inverse-warning.ui-state-active,
+[type="submit"].inverse-warning.ui-state-active,
+button.inverse-warning.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #7b410e inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #7b410e inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #7b410e inset;
   box-shadow: 0.2em 0.2em 0.4em #7b410e inset;
 }
-.btn.warning.inverse.disabled,
-[type="submit"].warning.inverse.disabled,
-button.warning.inverse.disabled,
-.btn.warning.inverse[disabled],
-[type="submit"].warning.inverse[disabled],
-button.warning.inverse[disabled],
-.btn.warning.inverse.disabled:hover,
-[type="submit"].warning.inverse.disabled:hover,
-button.warning.inverse.disabled:hover,
-.btn.warning.inverse[disabled]:hover,
-[type="submit"].warning.inverse[disabled]:hover,
-button.warning.inverse[disabled]:hover,
-.btn.warning.inverse.disabled:focus,
-[type="submit"].warning.inverse.disabled:focus,
-button.warning.inverse.disabled:focus,
-.btn.warning.inverse[disabled]:focus,
-[type="submit"].warning.inverse[disabled]:focus,
-button.warning.inverse[disabled]:focus,
-.btn.warning.inverse.disabled:active,
-[type="submit"].warning.inverse.disabled:active,
-button.warning.inverse.disabled:active,
-.btn.warning.inverse[disabled]:active,
-[type="submit"].warning.inverse[disabled]:active,
-button.warning.inverse[disabled]:active,
-.btn.warning.inverse.disabled.active,
-[type="submit"].warning.inverse.disabled.active,
-button.warning.inverse.disabled.active,
-.btn.warning.inverse[disabled].active,
-[type="submit"].warning.inverse[disabled].active,
-button.warning.inverse[disabled].active {
+.btn.inverse-warning.disabled,
+[type="submit"].inverse-warning.disabled,
+button.inverse-warning.disabled,
+.btn.inverse-warning[disabled],
+[type="submit"].inverse-warning[disabled],
+button.inverse-warning[disabled],
+.btn.inverse-warning.disabled:hover,
+[type="submit"].inverse-warning.disabled:hover,
+button.inverse-warning.disabled:hover,
+.btn.inverse-warning[disabled]:hover,
+[type="submit"].inverse-warning[disabled]:hover,
+button.inverse-warning[disabled]:hover,
+.btn.inverse-warning.disabled:focus,
+[type="submit"].inverse-warning.disabled:focus,
+button.inverse-warning.disabled:focus,
+.btn.inverse-warning[disabled]:focus,
+[type="submit"].inverse-warning[disabled]:focus,
+button.inverse-warning[disabled]:focus,
+.btn.inverse-warning.disabled:active,
+[type="submit"].inverse-warning.disabled:active,
+button.inverse-warning.disabled:active,
+.btn.inverse-warning[disabled]:active,
+[type="submit"].inverse-warning[disabled]:active,
+button.inverse-warning[disabled]:active,
+.btn.inverse-warning.disabled.active,
+[type="submit"].inverse-warning.disabled.active,
+button.inverse-warning.disabled.active,
+.btn.inverse-warning[disabled].active,
+[type="submit"].inverse-warning[disabled].active,
+button.inverse-warning[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -1391,77 +1387,77 @@ button.error[disabled].active {
   border-color: #b2493e;
   text-decoration: none;
 }
-.btn.error.inverse,
-[type="submit"].error.inverse,
-button.error.inverse {
+.btn.inverse-error,
+[type="submit"].inverse-error,
+button.inverse-error {
   color: #666666;
   background-color: #eaeaea;
   border-color: #eaeaea;
   text-decoration: none;
 }
-.btn.error.inverse:hover,
-[type="submit"].error.inverse:hover,
-button.error.inverse:hover,
-.btn.error.inverse:focus,
-[type="submit"].error.inverse:focus,
-button.error.inverse:focus,
-.btn.error.inverse:active,
-[type="submit"].error.inverse:active,
-button.error.inverse:active,
-.btn.error.inverse.active,
-[type="submit"].error.inverse.active,
-button.error.inverse.active,
-.btn.error.inverse.ui-state-active,
-[type="submit"].error.inverse.ui-state-active,
-button.error.inverse.ui-state-active {
+.btn.inverse-error:hover,
+[type="submit"].inverse-error:hover,
+button.inverse-error:hover,
+.btn.inverse-error:focus,
+[type="submit"].inverse-error:focus,
+button.inverse-error:focus,
+.btn.inverse-error:active,
+[type="submit"].inverse-error:active,
+button.inverse-error:active,
+.btn.inverse-error.active,
+[type="submit"].inverse-error.active,
+button.inverse-error.active,
+.btn.inverse-error.ui-state-active,
+[type="submit"].inverse-error.ui-state-active,
+button.inverse-error.ui-state-active {
   color: #ffffff;
   background-color: #e74c3c;
   border-color: #d62c1a;
 }
-.btn.error.inverse:active,
-[type="submit"].error.inverse:active,
-button.error.inverse:active,
-.btn.error.inverse.active,
-[type="submit"].error.inverse.active,
-button.error.inverse.active,
-.btn.error.inverse.ui-state-active,
-[type="submit"].error.inverse.ui-state-active,
-button.error.inverse.ui-state-active {
+.btn.inverse-error:active,
+[type="submit"].inverse-error:active,
+button.inverse-error:active,
+.btn.inverse-error.active,
+[type="submit"].inverse-error.active,
+button.inverse-error.active,
+.btn.inverse-error.ui-state-active,
+[type="submit"].inverse-error.ui-state-active,
+button.inverse-error.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
 }
-.btn.error.inverse.disabled,
-[type="submit"].error.inverse.disabled,
-button.error.inverse.disabled,
-.btn.error.inverse[disabled],
-[type="submit"].error.inverse[disabled],
-button.error.inverse[disabled],
-.btn.error.inverse.disabled:hover,
-[type="submit"].error.inverse.disabled:hover,
-button.error.inverse.disabled:hover,
-.btn.error.inverse[disabled]:hover,
-[type="submit"].error.inverse[disabled]:hover,
-button.error.inverse[disabled]:hover,
-.btn.error.inverse.disabled:focus,
-[type="submit"].error.inverse.disabled:focus,
-button.error.inverse.disabled:focus,
-.btn.error.inverse[disabled]:focus,
-[type="submit"].error.inverse[disabled]:focus,
-button.error.inverse[disabled]:focus,
-.btn.error.inverse.disabled:active,
-[type="submit"].error.inverse.disabled:active,
-button.error.inverse.disabled:active,
-.btn.error.inverse[disabled]:active,
-[type="submit"].error.inverse[disabled]:active,
-button.error.inverse[disabled]:active,
-.btn.error.inverse.disabled.active,
-[type="submit"].error.inverse.disabled.active,
-button.error.inverse.disabled.active,
-.btn.error.inverse[disabled].active,
-[type="submit"].error.inverse[disabled].active,
-button.error.inverse[disabled].active {
+.btn.inverse-error.disabled,
+[type="submit"].inverse-error.disabled,
+button.inverse-error.disabled,
+.btn.inverse-error[disabled],
+[type="submit"].inverse-error[disabled],
+button.inverse-error[disabled],
+.btn.inverse-error.disabled:hover,
+[type="submit"].inverse-error.disabled:hover,
+button.inverse-error.disabled:hover,
+.btn.inverse-error[disabled]:hover,
+[type="submit"].inverse-error[disabled]:hover,
+button.inverse-error[disabled]:hover,
+.btn.inverse-error.disabled:focus,
+[type="submit"].inverse-error.disabled:focus,
+button.inverse-error.disabled:focus,
+.btn.inverse-error[disabled]:focus,
+[type="submit"].inverse-error[disabled]:focus,
+button.inverse-error[disabled]:focus,
+.btn.inverse-error.disabled:active,
+[type="submit"].inverse-error.disabled:active,
+button.inverse-error.disabled:active,
+.btn.inverse-error[disabled]:active,
+[type="submit"].inverse-error[disabled]:active,
+button.inverse-error[disabled]:active,
+.btn.inverse-error.disabled.active,
+[type="submit"].inverse-error.disabled.active,
+button.inverse-error.disabled.active,
+.btn.inverse-error[disabled].active,
+[type="submit"].inverse-error[disabled].active,
+button.inverse-error[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -1550,77 +1546,77 @@ button.success[disabled].active {
   border-color: #42855e;
   text-decoration: none;
 }
-.btn.success.inverse,
-[type="submit"].success.inverse,
-button.success.inverse {
+.btn.inverse-success,
+[type="submit"].inverse-success,
+button.inverse-success {
   color: #666666;
   background-color: #eaeaea;
   border-color: #eaeaea;
   text-decoration: none;
 }
-.btn.success.inverse:hover,
-[type="submit"].success.inverse:hover,
-button.success.inverse:hover,
-.btn.success.inverse:focus,
-[type="submit"].success.inverse:focus,
-button.success.inverse:focus,
-.btn.success.inverse:active,
-[type="submit"].success.inverse:active,
-button.success.inverse:active,
-.btn.success.inverse.active,
-[type="submit"].success.inverse.active,
-button.success.inverse.active,
-.btn.success.inverse.ui-state-active,
-[type="submit"].success.inverse.ui-state-active,
-button.success.inverse.ui-state-active {
+.btn.inverse-success:hover,
+[type="submit"].inverse-success:hover,
+button.inverse-success:hover,
+.btn.inverse-success:focus,
+[type="submit"].inverse-success:focus,
+button.inverse-success:focus,
+.btn.inverse-success:active,
+[type="submit"].inverse-success:active,
+button.inverse-success:active,
+.btn.inverse-success.active,
+[type="submit"].inverse-success.active,
+button.inverse-success.active,
+.btn.inverse-success.ui-state-active,
+[type="submit"].inverse-success.ui-state-active,
+button.inverse-success.ui-state-active {
   color: #ffffff;
   background-color: #2ecc71;
   border-color: #25a25a;
 }
-.btn.success.inverse:active,
-[type="submit"].success.inverse:active,
-button.success.inverse:active,
-.btn.success.inverse.active,
-[type="submit"].success.inverse.active,
-button.success.inverse.active,
-.btn.success.inverse.ui-state-active,
-[type="submit"].success.inverse.ui-state-active,
-button.success.inverse.ui-state-active {
+.btn.inverse-success:active,
+[type="submit"].inverse-success:active,
+button.inverse-success:active,
+.btn.inverse-success.active,
+[type="submit"].inverse-success.active,
+button.inverse-success.active,
+.btn.inverse-success.ui-state-active,
+[type="submit"].inverse-success.ui-state-active,
+button.inverse-success.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   box-shadow: 0.2em 0.2em 0.4em #176437 inset;
 }
-.btn.success.inverse.disabled,
-[type="submit"].success.inverse.disabled,
-button.success.inverse.disabled,
-.btn.success.inverse[disabled],
-[type="submit"].success.inverse[disabled],
-button.success.inverse[disabled],
-.btn.success.inverse.disabled:hover,
-[type="submit"].success.inverse.disabled:hover,
-button.success.inverse.disabled:hover,
-.btn.success.inverse[disabled]:hover,
-[type="submit"].success.inverse[disabled]:hover,
-button.success.inverse[disabled]:hover,
-.btn.success.inverse.disabled:focus,
-[type="submit"].success.inverse.disabled:focus,
-button.success.inverse.disabled:focus,
-.btn.success.inverse[disabled]:focus,
-[type="submit"].success.inverse[disabled]:focus,
-button.success.inverse[disabled]:focus,
-.btn.success.inverse.disabled:active,
-[type="submit"].success.inverse.disabled:active,
-button.success.inverse.disabled:active,
-.btn.success.inverse[disabled]:active,
-[type="submit"].success.inverse[disabled]:active,
-button.success.inverse[disabled]:active,
-.btn.success.inverse.disabled.active,
-[type="submit"].success.inverse.disabled.active,
-button.success.inverse.disabled.active,
-.btn.success.inverse[disabled].active,
-[type="submit"].success.inverse[disabled].active,
-button.success.inverse[disabled].active {
+.btn.inverse-success.disabled,
+[type="submit"].inverse-success.disabled,
+button.inverse-success.disabled,
+.btn.inverse-success[disabled],
+[type="submit"].inverse-success[disabled],
+button.inverse-success[disabled],
+.btn.inverse-success.disabled:hover,
+[type="submit"].inverse-success.disabled:hover,
+button.inverse-success.disabled:hover,
+.btn.inverse-success[disabled]:hover,
+[type="submit"].inverse-success[disabled]:hover,
+button.inverse-success[disabled]:hover,
+.btn.inverse-success.disabled:focus,
+[type="submit"].inverse-success.disabled:focus,
+button.inverse-success.disabled:focus,
+.btn.inverse-success[disabled]:focus,
+[type="submit"].inverse-success[disabled]:focus,
+button.inverse-success[disabled]:focus,
+.btn.inverse-success.disabled:active,
+[type="submit"].inverse-success.disabled:active,
+button.inverse-success.disabled:active,
+.btn.inverse-success[disabled]:active,
+[type="submit"].inverse-success[disabled]:active,
+button.inverse-success[disabled]:active,
+.btn.inverse-success.disabled.active,
+[type="submit"].inverse-success.disabled.active,
+button.inverse-success.disabled.active,
+.btn.inverse-success[disabled].active,
+[type="submit"].inverse-success[disabled].active,
+button.inverse-success[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -1709,77 +1705,77 @@ button.info[disabled].active {
   border-color: #42779a;
   text-decoration: none;
 }
-.btn.info.inverse,
-[type="submit"].info.inverse,
-button.info.inverse {
+.btn.inverse-info,
+[type="submit"].inverse-info,
+button.inverse-info {
   color: #666666;
   background-color: #eaeaea;
   border-color: #eaeaea;
   text-decoration: none;
 }
-.btn.info.inverse:hover,
-[type="submit"].info.inverse:hover,
-button.info.inverse:hover,
-.btn.info.inverse:focus,
-[type="submit"].info.inverse:focus,
-button.info.inverse:focus,
-.btn.info.inverse:active,
-[type="submit"].info.inverse:active,
-button.info.inverse:active,
-.btn.info.inverse.active,
-[type="submit"].info.inverse.active,
-button.info.inverse.active,
-.btn.info.inverse.ui-state-active,
-[type="submit"].info.inverse.ui-state-active,
-button.info.inverse.ui-state-active {
+.btn.inverse-info:hover,
+[type="submit"].inverse-info:hover,
+button.inverse-info:hover,
+.btn.inverse-info:focus,
+[type="submit"].inverse-info:focus,
+button.inverse-info:focus,
+.btn.inverse-info:active,
+[type="submit"].inverse-info:active,
+button.inverse-info:active,
+.btn.inverse-info.active,
+[type="submit"].inverse-info.active,
+button.inverse-info.active,
+.btn.inverse-info.ui-state-active,
+[type="submit"].inverse-info.ui-state-active,
+button.inverse-info.ui-state-active {
   color: #ffffff;
   background-color: #3498db;
   border-color: #217dbb;
 }
-.btn.info.inverse:active,
-[type="submit"].info.inverse:active,
-button.info.inverse:active,
-.btn.info.inverse.active,
-[type="submit"].info.inverse.active,
-button.info.inverse.active,
-.btn.info.inverse.ui-state-active,
-[type="submit"].info.inverse.ui-state-active,
-button.info.inverse.ui-state-active {
+.btn.inverse-info:active,
+[type="submit"].inverse-info:active,
+button.inverse-info:active,
+.btn.inverse-info.active,
+[type="submit"].inverse-info.active,
+button.inverse-info.active,
+.btn.inverse-info.ui-state-active,
+[type="submit"].inverse-info.ui-state-active,
+button.inverse-info.ui-state-active {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #16527a inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #16527a inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #16527a inset;
   box-shadow: 0.2em 0.2em 0.4em #16527a inset;
 }
-.btn.info.inverse.disabled,
-[type="submit"].info.inverse.disabled,
-button.info.inverse.disabled,
-.btn.info.inverse[disabled],
-[type="submit"].info.inverse[disabled],
-button.info.inverse[disabled],
-.btn.info.inverse.disabled:hover,
-[type="submit"].info.inverse.disabled:hover,
-button.info.inverse.disabled:hover,
-.btn.info.inverse[disabled]:hover,
-[type="submit"].info.inverse[disabled]:hover,
-button.info.inverse[disabled]:hover,
-.btn.info.inverse.disabled:focus,
-[type="submit"].info.inverse.disabled:focus,
-button.info.inverse.disabled:focus,
-.btn.info.inverse[disabled]:focus,
-[type="submit"].info.inverse[disabled]:focus,
-button.info.inverse[disabled]:focus,
-.btn.info.inverse.disabled:active,
-[type="submit"].info.inverse.disabled:active,
-button.info.inverse.disabled:active,
-.btn.info.inverse[disabled]:active,
-[type="submit"].info.inverse[disabled]:active,
-button.info.inverse[disabled]:active,
-.btn.info.inverse.disabled.active,
-[type="submit"].info.inverse.disabled.active,
-button.info.inverse.disabled.active,
-.btn.info.inverse[disabled].active,
-[type="submit"].info.inverse[disabled].active,
-button.info.inverse[disabled].active {
+.btn.inverse-info.disabled,
+[type="submit"].inverse-info.disabled,
+button.inverse-info.disabled,
+.btn.inverse-info[disabled],
+[type="submit"].inverse-info[disabled],
+button.inverse-info[disabled],
+.btn.inverse-info.disabled:hover,
+[type="submit"].inverse-info.disabled:hover,
+button.inverse-info.disabled:hover,
+.btn.inverse-info[disabled]:hover,
+[type="submit"].inverse-info[disabled]:hover,
+button.inverse-info[disabled]:hover,
+.btn.inverse-info.disabled:focus,
+[type="submit"].inverse-info.disabled:focus,
+button.inverse-info.disabled:focus,
+.btn.inverse-info[disabled]:focus,
+[type="submit"].inverse-info[disabled]:focus,
+button.inverse-info[disabled]:focus,
+.btn.inverse-info.disabled:active,
+[type="submit"].inverse-info.disabled:active,
+button.inverse-info.disabled:active,
+.btn.inverse-info[disabled]:active,
+[type="submit"].inverse-info[disabled]:active,
+button.inverse-info[disabled]:active,
+.btn.inverse-info.disabled.active,
+[type="submit"].inverse-info.disabled.active,
+button.inverse-info.disabled.active,
+.btn.inverse-info[disabled].active,
+[type="submit"].inverse-info[disabled].active,
+button.inverse-info[disabled].active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -2001,7 +1997,7 @@ button.link:focus {
 .btn.link.inverse,
 [type="submit"].link.inverse,
 button.link.inverse {
-  color: #333333;
+  color: #666666;
   background-color: transparent;
   border-color: transparent;
 }
@@ -2056,7 +2052,7 @@ button.link.inverse.disabled.active,
 .btn.link.inverse[disabled].active,
 [type="submit"].link.inverse[disabled].active,
 button.link.inverse[disabled].active {
-  color: #333333;
+  color: #666666;
   text-decoration: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -2128,65 +2124,65 @@ button.link.warning[disabled].active {
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.warning.inverse,
-[type="submit"].link.warning.inverse,
-button.link.warning.inverse {
-  color: #333333;
+.btn.link.inverse-warning,
+[type="submit"].link.inverse-warning,
+button.link.inverse-warning {
+  color: #666666;
   background-color: transparent;
   border-color: transparent;
 }
-.btn.link.warning.inverse:hover,
-[type="submit"].link.warning.inverse:hover,
-button.link.warning.inverse:hover,
-.btn.link.warning.inverse:focus,
-[type="submit"].link.warning.inverse:focus,
-button.link.warning.inverse:focus,
-.btn.link.warning.inverse:active,
-[type="submit"].link.warning.inverse:active,
-button.link.warning.inverse:active,
-.btn.link.warning.inverse.active,
-[type="submit"].link.warning.inverse.active,
-button.link.warning.inverse.active,
-.btn.link.warning.inverse.ui-state-active,
-[type="submit"].link.warning.inverse.ui-state-active,
-button.link.warning.inverse.ui-state-active {
+.btn.link.inverse-warning:hover,
+[type="submit"].link.inverse-warning:hover,
+button.link.inverse-warning:hover,
+.btn.link.inverse-warning:focus,
+[type="submit"].link.inverse-warning:focus,
+button.link.inverse-warning:focus,
+.btn.link.inverse-warning:active,
+[type="submit"].link.inverse-warning:active,
+button.link.inverse-warning:active,
+.btn.link.inverse-warning.active,
+[type="submit"].link.inverse-warning.active,
+button.link.inverse-warning.active,
+.btn.link.inverse-warning.ui-state-active,
+[type="submit"].link.inverse-warning.ui-state-active,
+button.link.inverse-warning.ui-state-active {
   color: #e67e22;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.warning.inverse.disabled,
-[type="submit"].link.warning.inverse.disabled,
-button.link.warning.inverse.disabled,
-.btn.link.warning.inverse[disabled],
-[type="submit"].link.warning.inverse[disabled],
-button.link.warning.inverse[disabled],
-.btn.link.warning.inverse.disabled:hover,
-[type="submit"].link.warning.inverse.disabled:hover,
-button.link.warning.inverse.disabled:hover,
-.btn.link.warning.inverse[disabled]:hover,
-[type="submit"].link.warning.inverse[disabled]:hover,
-button.link.warning.inverse[disabled]:hover,
-.btn.link.warning.inverse.disabled:focus,
-[type="submit"].link.warning.inverse.disabled:focus,
-button.link.warning.inverse.disabled:focus,
-.btn.link.warning.inverse[disabled]:focus,
-[type="submit"].link.warning.inverse[disabled]:focus,
-button.link.warning.inverse[disabled]:focus,
-.btn.link.warning.inverse.disabled:active,
-[type="submit"].link.warning.inverse.disabled:active,
-button.link.warning.inverse.disabled:active,
-.btn.link.warning.inverse[disabled]:active,
-[type="submit"].link.warning.inverse[disabled]:active,
-button.link.warning.inverse[disabled]:active,
-.btn.link.warning.inverse.disabled.active,
-[type="submit"].link.warning.inverse.disabled.active,
-button.link.warning.inverse.disabled.active,
-.btn.link.warning.inverse[disabled].active,
-[type="submit"].link.warning.inverse[disabled].active,
-button.link.warning.inverse[disabled].active {
-  color: #333333;
+.btn.link.inverse-warning.disabled,
+[type="submit"].link.inverse-warning.disabled,
+button.link.inverse-warning.disabled,
+.btn.link.inverse-warning[disabled],
+[type="submit"].link.inverse-warning[disabled],
+button.link.inverse-warning[disabled],
+.btn.link.inverse-warning.disabled:hover,
+[type="submit"].link.inverse-warning.disabled:hover,
+button.link.inverse-warning.disabled:hover,
+.btn.link.inverse-warning[disabled]:hover,
+[type="submit"].link.inverse-warning[disabled]:hover,
+button.link.inverse-warning[disabled]:hover,
+.btn.link.inverse-warning.disabled:focus,
+[type="submit"].link.inverse-warning.disabled:focus,
+button.link.inverse-warning.disabled:focus,
+.btn.link.inverse-warning[disabled]:focus,
+[type="submit"].link.inverse-warning[disabled]:focus,
+button.link.inverse-warning[disabled]:focus,
+.btn.link.inverse-warning.disabled:active,
+[type="submit"].link.inverse-warning.disabled:active,
+button.link.inverse-warning.disabled:active,
+.btn.link.inverse-warning[disabled]:active,
+[type="submit"].link.inverse-warning[disabled]:active,
+button.link.inverse-warning[disabled]:active,
+.btn.link.inverse-warning.disabled.active,
+[type="submit"].link.inverse-warning.disabled.active,
+button.link.inverse-warning.disabled.active,
+.btn.link.inverse-warning[disabled].active,
+[type="submit"].link.inverse-warning[disabled].active,
+button.link.inverse-warning[disabled].active {
+  color: #666666;
   text-decoration: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -2258,65 +2254,65 @@ button.link.error[disabled].active {
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.error.inverse,
-[type="submit"].link.error.inverse,
-button.link.error.inverse {
-  color: #333333;
+.btn.link.inverse-error,
+[type="submit"].link.inverse-error,
+button.link.inverse-error {
+  color: #666666;
   background-color: transparent;
   border-color: transparent;
 }
-.btn.link.error.inverse:hover,
-[type="submit"].link.error.inverse:hover,
-button.link.error.inverse:hover,
-.btn.link.error.inverse:focus,
-[type="submit"].link.error.inverse:focus,
-button.link.error.inverse:focus,
-.btn.link.error.inverse:active,
-[type="submit"].link.error.inverse:active,
-button.link.error.inverse:active,
-.btn.link.error.inverse.active,
-[type="submit"].link.error.inverse.active,
-button.link.error.inverse.active,
-.btn.link.error.inverse.ui-state-active,
-[type="submit"].link.error.inverse.ui-state-active,
-button.link.error.inverse.ui-state-active {
+.btn.link.inverse-error:hover,
+[type="submit"].link.inverse-error:hover,
+button.link.inverse-error:hover,
+.btn.link.inverse-error:focus,
+[type="submit"].link.inverse-error:focus,
+button.link.inverse-error:focus,
+.btn.link.inverse-error:active,
+[type="submit"].link.inverse-error:active,
+button.link.inverse-error:active,
+.btn.link.inverse-error.active,
+[type="submit"].link.inverse-error.active,
+button.link.inverse-error.active,
+.btn.link.inverse-error.ui-state-active,
+[type="submit"].link.inverse-error.ui-state-active,
+button.link.inverse-error.ui-state-active {
   color: #e74c3c;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.error.inverse.disabled,
-[type="submit"].link.error.inverse.disabled,
-button.link.error.inverse.disabled,
-.btn.link.error.inverse[disabled],
-[type="submit"].link.error.inverse[disabled],
-button.link.error.inverse[disabled],
-.btn.link.error.inverse.disabled:hover,
-[type="submit"].link.error.inverse.disabled:hover,
-button.link.error.inverse.disabled:hover,
-.btn.link.error.inverse[disabled]:hover,
-[type="submit"].link.error.inverse[disabled]:hover,
-button.link.error.inverse[disabled]:hover,
-.btn.link.error.inverse.disabled:focus,
-[type="submit"].link.error.inverse.disabled:focus,
-button.link.error.inverse.disabled:focus,
-.btn.link.error.inverse[disabled]:focus,
-[type="submit"].link.error.inverse[disabled]:focus,
-button.link.error.inverse[disabled]:focus,
-.btn.link.error.inverse.disabled:active,
-[type="submit"].link.error.inverse.disabled:active,
-button.link.error.inverse.disabled:active,
-.btn.link.error.inverse[disabled]:active,
-[type="submit"].link.error.inverse[disabled]:active,
-button.link.error.inverse[disabled]:active,
-.btn.link.error.inverse.disabled.active,
-[type="submit"].link.error.inverse.disabled.active,
-button.link.error.inverse.disabled.active,
-.btn.link.error.inverse[disabled].active,
-[type="submit"].link.error.inverse[disabled].active,
-button.link.error.inverse[disabled].active {
-  color: #333333;
+.btn.link.inverse-error.disabled,
+[type="submit"].link.inverse-error.disabled,
+button.link.inverse-error.disabled,
+.btn.link.inverse-error[disabled],
+[type="submit"].link.inverse-error[disabled],
+button.link.inverse-error[disabled],
+.btn.link.inverse-error.disabled:hover,
+[type="submit"].link.inverse-error.disabled:hover,
+button.link.inverse-error.disabled:hover,
+.btn.link.inverse-error[disabled]:hover,
+[type="submit"].link.inverse-error[disabled]:hover,
+button.link.inverse-error[disabled]:hover,
+.btn.link.inverse-error.disabled:focus,
+[type="submit"].link.inverse-error.disabled:focus,
+button.link.inverse-error.disabled:focus,
+.btn.link.inverse-error[disabled]:focus,
+[type="submit"].link.inverse-error[disabled]:focus,
+button.link.inverse-error[disabled]:focus,
+.btn.link.inverse-error.disabled:active,
+[type="submit"].link.inverse-error.disabled:active,
+button.link.inverse-error.disabled:active,
+.btn.link.inverse-error[disabled]:active,
+[type="submit"].link.inverse-error[disabled]:active,
+button.link.inverse-error[disabled]:active,
+.btn.link.inverse-error.disabled.active,
+[type="submit"].link.inverse-error.disabled.active,
+button.link.inverse-error.disabled.active,
+.btn.link.inverse-error[disabled].active,
+[type="submit"].link.inverse-error[disabled].active,
+button.link.inverse-error[disabled].active {
+  color: #666666;
   text-decoration: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -2388,65 +2384,65 @@ button.link.success[disabled].active {
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.success.inverse,
-[type="submit"].link.success.inverse,
-button.link.success.inverse {
-  color: #333333;
+.btn.link.inverse-success,
+[type="submit"].link.inverse-success,
+button.link.inverse-success {
+  color: #666666;
   background-color: transparent;
   border-color: transparent;
 }
-.btn.link.success.inverse:hover,
-[type="submit"].link.success.inverse:hover,
-button.link.success.inverse:hover,
-.btn.link.success.inverse:focus,
-[type="submit"].link.success.inverse:focus,
-button.link.success.inverse:focus,
-.btn.link.success.inverse:active,
-[type="submit"].link.success.inverse:active,
-button.link.success.inverse:active,
-.btn.link.success.inverse.active,
-[type="submit"].link.success.inverse.active,
-button.link.success.inverse.active,
-.btn.link.success.inverse.ui-state-active,
-[type="submit"].link.success.inverse.ui-state-active,
-button.link.success.inverse.ui-state-active {
+.btn.link.inverse-success:hover,
+[type="submit"].link.inverse-success:hover,
+button.link.inverse-success:hover,
+.btn.link.inverse-success:focus,
+[type="submit"].link.inverse-success:focus,
+button.link.inverse-success:focus,
+.btn.link.inverse-success:active,
+[type="submit"].link.inverse-success:active,
+button.link.inverse-success:active,
+.btn.link.inverse-success.active,
+[type="submit"].link.inverse-success.active,
+button.link.inverse-success.active,
+.btn.link.inverse-success.ui-state-active,
+[type="submit"].link.inverse-success.ui-state-active,
+button.link.inverse-success.ui-state-active {
   color: #2ecc71;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.success.inverse.disabled,
-[type="submit"].link.success.inverse.disabled,
-button.link.success.inverse.disabled,
-.btn.link.success.inverse[disabled],
-[type="submit"].link.success.inverse[disabled],
-button.link.success.inverse[disabled],
-.btn.link.success.inverse.disabled:hover,
-[type="submit"].link.success.inverse.disabled:hover,
-button.link.success.inverse.disabled:hover,
-.btn.link.success.inverse[disabled]:hover,
-[type="submit"].link.success.inverse[disabled]:hover,
-button.link.success.inverse[disabled]:hover,
-.btn.link.success.inverse.disabled:focus,
-[type="submit"].link.success.inverse.disabled:focus,
-button.link.success.inverse.disabled:focus,
-.btn.link.success.inverse[disabled]:focus,
-[type="submit"].link.success.inverse[disabled]:focus,
-button.link.success.inverse[disabled]:focus,
-.btn.link.success.inverse.disabled:active,
-[type="submit"].link.success.inverse.disabled:active,
-button.link.success.inverse.disabled:active,
-.btn.link.success.inverse[disabled]:active,
-[type="submit"].link.success.inverse[disabled]:active,
-button.link.success.inverse[disabled]:active,
-.btn.link.success.inverse.disabled.active,
-[type="submit"].link.success.inverse.disabled.active,
-button.link.success.inverse.disabled.active,
-.btn.link.success.inverse[disabled].active,
-[type="submit"].link.success.inverse[disabled].active,
-button.link.success.inverse[disabled].active {
-  color: #333333;
+.btn.link.inverse-success.disabled,
+[type="submit"].link.inverse-success.disabled,
+button.link.inverse-success.disabled,
+.btn.link.inverse-success[disabled],
+[type="submit"].link.inverse-success[disabled],
+button.link.inverse-success[disabled],
+.btn.link.inverse-success.disabled:hover,
+[type="submit"].link.inverse-success.disabled:hover,
+button.link.inverse-success.disabled:hover,
+.btn.link.inverse-success[disabled]:hover,
+[type="submit"].link.inverse-success[disabled]:hover,
+button.link.inverse-success[disabled]:hover,
+.btn.link.inverse-success.disabled:focus,
+[type="submit"].link.inverse-success.disabled:focus,
+button.link.inverse-success.disabled:focus,
+.btn.link.inverse-success[disabled]:focus,
+[type="submit"].link.inverse-success[disabled]:focus,
+button.link.inverse-success[disabled]:focus,
+.btn.link.inverse-success.disabled:active,
+[type="submit"].link.inverse-success.disabled:active,
+button.link.inverse-success.disabled:active,
+.btn.link.inverse-success[disabled]:active,
+[type="submit"].link.inverse-success[disabled]:active,
+button.link.inverse-success[disabled]:active,
+.btn.link.inverse-success.disabled.active,
+[type="submit"].link.inverse-success.disabled.active,
+button.link.inverse-success.disabled.active,
+.btn.link.inverse-success[disabled].active,
+[type="submit"].link.inverse-success[disabled].active,
+button.link.inverse-success[disabled].active {
+  color: #666666;
   text-decoration: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -2518,65 +2514,65 @@ button.link.info[disabled].active {
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.info.inverse,
-[type="submit"].link.info.inverse,
-button.link.info.inverse {
-  color: #333333;
+.btn.link.inverse-info,
+[type="submit"].link.inverse-info,
+button.link.inverse-info {
+  color: #666666;
   background-color: transparent;
   border-color: transparent;
 }
-.btn.link.info.inverse:hover,
-[type="submit"].link.info.inverse:hover,
-button.link.info.inverse:hover,
-.btn.link.info.inverse:focus,
-[type="submit"].link.info.inverse:focus,
-button.link.info.inverse:focus,
-.btn.link.info.inverse:active,
-[type="submit"].link.info.inverse:active,
-button.link.info.inverse:active,
-.btn.link.info.inverse.active,
-[type="submit"].link.info.inverse.active,
-button.link.info.inverse.active,
-.btn.link.info.inverse.ui-state-active,
-[type="submit"].link.info.inverse.ui-state-active,
-button.link.info.inverse.ui-state-active {
+.btn.link.inverse-info:hover,
+[type="submit"].link.inverse-info:hover,
+button.link.inverse-info:hover,
+.btn.link.inverse-info:focus,
+[type="submit"].link.inverse-info:focus,
+button.link.inverse-info:focus,
+.btn.link.inverse-info:active,
+[type="submit"].link.inverse-info:active,
+button.link.inverse-info:active,
+.btn.link.inverse-info.active,
+[type="submit"].link.inverse-info.active,
+button.link.inverse-info.active,
+.btn.link.inverse-info.ui-state-active,
+[type="submit"].link.inverse-info.ui-state-active,
+button.link.inverse-info.ui-state-active {
   color: #3498db;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.btn.link.info.inverse.disabled,
-[type="submit"].link.info.inverse.disabled,
-button.link.info.inverse.disabled,
-.btn.link.info.inverse[disabled],
-[type="submit"].link.info.inverse[disabled],
-button.link.info.inverse[disabled],
-.btn.link.info.inverse.disabled:hover,
-[type="submit"].link.info.inverse.disabled:hover,
-button.link.info.inverse.disabled:hover,
-.btn.link.info.inverse[disabled]:hover,
-[type="submit"].link.info.inverse[disabled]:hover,
-button.link.info.inverse[disabled]:hover,
-.btn.link.info.inverse.disabled:focus,
-[type="submit"].link.info.inverse.disabled:focus,
-button.link.info.inverse.disabled:focus,
-.btn.link.info.inverse[disabled]:focus,
-[type="submit"].link.info.inverse[disabled]:focus,
-button.link.info.inverse[disabled]:focus,
-.btn.link.info.inverse.disabled:active,
-[type="submit"].link.info.inverse.disabled:active,
-button.link.info.inverse.disabled:active,
-.btn.link.info.inverse[disabled]:active,
-[type="submit"].link.info.inverse[disabled]:active,
-button.link.info.inverse[disabled]:active,
-.btn.link.info.inverse.disabled.active,
-[type="submit"].link.info.inverse.disabled.active,
-button.link.info.inverse.disabled.active,
-.btn.link.info.inverse[disabled].active,
-[type="submit"].link.info.inverse[disabled].active,
-button.link.info.inverse[disabled].active {
-  color: #333333;
+.btn.link.inverse-info.disabled,
+[type="submit"].link.inverse-info.disabled,
+button.link.inverse-info.disabled,
+.btn.link.inverse-info[disabled],
+[type="submit"].link.inverse-info[disabled],
+button.link.inverse-info[disabled],
+.btn.link.inverse-info.disabled:hover,
+[type="submit"].link.inverse-info.disabled:hover,
+button.link.inverse-info.disabled:hover,
+.btn.link.inverse-info[disabled]:hover,
+[type="submit"].link.inverse-info[disabled]:hover,
+button.link.inverse-info[disabled]:hover,
+.btn.link.inverse-info.disabled:focus,
+[type="submit"].link.inverse-info.disabled:focus,
+button.link.inverse-info.disabled:focus,
+.btn.link.inverse-info[disabled]:focus,
+[type="submit"].link.inverse-info[disabled]:focus,
+button.link.inverse-info[disabled]:focus,
+.btn.link.inverse-info.disabled:active,
+[type="submit"].link.inverse-info.disabled:active,
+button.link.inverse-info.disabled:active,
+.btn.link.inverse-info[disabled]:active,
+[type="submit"].link.inverse-info[disabled]:active,
+button.link.inverse-info[disabled]:active,
+.btn.link.inverse-info.disabled.active,
+[type="submit"].link.inverse-info.disabled.active,
+button.link.inverse-info.disabled.active,
+.btn.link.inverse-info[disabled].active,
+[type="submit"].link.inverse-info[disabled].active,
+button.link.inverse-info[disabled].active {
+  color: #666666;
   text-decoration: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;

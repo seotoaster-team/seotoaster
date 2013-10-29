@@ -83,9 +83,9 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
             $this->_helpHashMap = array_merge($this->_helpHashMap, $hashMap);
         }
         if(array_key_exists($section, $this->_helpHashMap)) {
-            return '<a class="help icon-help btn link icon info inverse" href="' . self::REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
+            return '<a class="help icon-help btn link icon inverse-info" href="' . self::REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
         }
-        return '<a class="help icon-help btn link icon info inverse" href="javascript:;"></a>';
+        return '<a class="help icon-help btn link icon inverse-info" href="javascript:;"></a>';
     }
 
 }

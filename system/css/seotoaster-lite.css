@@ -2071,6 +2071,9 @@ body {
   z-index: 100;
   line-height: 40px;
 }
+.closebutton:before {
+  content: "\a0";
+}
 .header > .closebutton {
   float: right;
   margin-left: 0;

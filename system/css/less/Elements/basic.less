@@ -90,6 +90,10 @@ body{
     z-index     : 100;
     line-height : 40px;
 
+    &:before{
+        content : "\a0";
+    }
+
     .header>&{
         float       : right;
         margin-left : 0;
@@ -100,13 +104,13 @@ body{
         }
     }
 
-    a{}
+    a{ }
 
     .help{
         .icon-size(14px);
         margin-right : 5px;
 
-        &:hover{}
+        &:hover{ }
     }
 
     .close{
@@ -118,7 +122,7 @@ body{
     }
 
     .close, .hide{
-        &:hover{}
+        &:hover{ }
     }
 }
 .content, .content-footer,
@@ -133,7 +137,7 @@ body{
     .box-sizing;
 
     &.screen-expand{
-        height: auto !important;
+        height : auto !important;
     }
 
     &.wrap{
