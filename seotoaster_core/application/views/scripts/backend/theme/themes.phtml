@@ -2,20 +2,20 @@
 <script id="theme-box" type="text/template">
 
     <!-- download link -->
-    <a class="lnk-download btn link" href="javascript:;" data-name="<%= name %>"><span class="icon-box-add icon16"></span></a>
+    <a class="lnk-download btn link icon small icon-box-add icon16" href="javascript:;" data-name="<%= name %>"><?php echo $this->translate('Download theme');?></a>
     <div class="download-options">
-        <a href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="Download light version of the <%= name %> theme">Get theme</a>
+        <a class="btn small block" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="<?php echo $this->translate('Download light version of the');?> <%= name %> <?php echo $this->translate('theme');?>">Get theme</a>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	    <% if(isCurrent) { %>
-	    <a title="Download full version of the <%= name %> theme" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>">Get website</a>
+	    <a class="btn small block mt0px" title="<?php echo $this->translate('Download full version of the');?> <%= name %> <?php echo $this->translate('theme');?>" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>">Get website</a>
 	    <% } %>
 	    <?php endif; ?>
     </div>
 
 	<% if(isCurrent) { %>
-		<span class="lnk-current btn link" title="<?php echo $this->translate('Current');?>"><span class="icon-ok icon18 success"></span></span>
+		<span class="lnk-current btn link icon small success icon-checkmark-3 icon16" title="<?php echo $this->translate('Current');?>"><?php echo $this->translate('Current');?></span>
 	<% } else { %>
-		<a class="lnk-delete btn link error" title="<?php echo $this->translate('Delete');?>" data-name="<%= name %>"><span class="icon-remove icon16"></span></a>
+		<a class="lnk-delete btn link icon small error icon-remove icon16" title="<?php echo $this->translate('Delete');?>" data-name="<%= name %>"><?php echo $this->translate('Delete');?></a>
 	<% } %>
 
     <div class="theme-preview-img">

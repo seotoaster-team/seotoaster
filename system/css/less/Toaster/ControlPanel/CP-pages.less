@@ -35,7 +35,8 @@
 // -- Navigation
 .navigation{
     .ui-buttonset, .btn-set{
-        display : block;
+        display    : block;
+        margin-top : -1px;
 
         .ui-button, .btn{
             background  : @body-bg;
@@ -280,9 +281,9 @@
     .category-data{
         .background(0);
         .inline-block(top);
-        font-size : @font-size-base;
-        width     : 23%;
-        margin    : 0 (@grid-margin-width / 4) (@grid-margin-width / 2);
+        .grid-elements(4, (@grid-margin-width / 4));
+        font-size     : @font-size-base;
+        margin-bottom : (@grid-margin-width / 2);
 
         &:nth-last-child(1), &:nth-last-child(2), &:nth-last-child(3), &:nth-last-child(4){
             margin-bottom : 0;

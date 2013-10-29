@@ -25,7 +25,7 @@ class Application_Form_Silo extends Zend_Form {
 			'name'  => 'addSilo',
 			'id'    => 'add-silo',
 			'value' => 'Add silo',
-			'class' => 'grid_3 omega',
+			'class' => 'grid_3 omega inline',
 			'label' => 'Add silo'
 		)));
 

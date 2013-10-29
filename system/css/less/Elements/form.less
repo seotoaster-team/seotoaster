@@ -63,7 +63,10 @@ form, .form{
     label{
         color         : @label-color;
         display       : block;
-        margin-bottom : 0.15em;
+
+        &:not([class*="mb"]){
+            margin-bottom : 0.15em;
+        }
         &:first-child{
             //font-weight : bold;
         }

@@ -10,7 +10,7 @@
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
 				<div class="closebutton">
-					<a class="hide icon-chevron-right icon" href="javascript:;" title="Close"></a>
+					<a class="hide icon-chevron-right btn icon link error inverse" href="javascript:;" title="Close"></a>
 				</div>
 			</div>
 			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
@@ -34,7 +34,7 @@
 			</form>
 		</div>
 
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+		<?php echo '<a id="add-user-link" class="btn inline fl-right icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
 
 		<table class="sortable table-striped table-scroll block mt10px" id="users-list">
 			<thead class="block">
@@ -48,7 +48,7 @@
 				</tr>
 			</thead>
 			<tbody class="block h400px">
-
+                <span class="spinner"></span>
 			</tbody>
 		</table>
 	</div>

@@ -189,7 +189,7 @@ doc.on('click', '#screen-expand', function (e) {
     }else{
         $('.ace_editor').height(popupH - (560 - 450))
     }
-    editor.resize()
+    editor.resize();
 });
 ///////// Show/Hide 'cropped' options //////////////
 doc.on('click', '[name="useImage"]', function () {

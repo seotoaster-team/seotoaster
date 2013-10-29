@@ -12,13 +12,48 @@
 // Control Panel
 //==================================================
 #seotoaster-cpanel{
-    width      : 200px;
+    // width      : 200px;
     position   : absolute;
     right      : 5px;
     top        : 0;
     z-index    : 1100;
     background : @body-bg;
     .box-shadow(0 0 10px @gray-dark);
+    .transition();
+
+    /*@media only screen and (min-height : 750px){
+        &{
+            position : fixed;
+        }
+    }*/
+
+    @media only screen and (max-width : 1000px){
+        &{
+            width    : 0px;
+            overflow : hidden;
+
+            &:before{
+                display     : inline-block;
+                font-size   : 20px;
+                width       : 34px;
+                height      : 34px;
+                line-height : 34px;
+                text-align  : center;
+                position    : fixed;
+                right       : 5px;
+                z-index     : 0;
+                background  : @cpanel-header-bg;
+                color       : @cpanel-header-color;
+                font-family : 'toaster-icons';
+                content     : "\e058";
+                .box-shadow(0 0 10px @gray-dark);
+            }
+
+            &:hover{
+                width : 200px;
+            }
+        }
+    }
 
     .ie8 &:after{
         content    : '';
@@ -36,6 +71,7 @@
     &>*{
         background : #fff;
         position   : relative;
+        width      : 200px;
     }
 
     #showhide a{
@@ -65,6 +101,7 @@
 
     #cpanelul{
         margin : 0;
+
         li{
             list-style : none;
             margin     : 0;
@@ -73,7 +110,7 @@
                 text-decoration : none;
                 text-decoration : none;
                 font-size       : 16px;
-                padding         : 5px 10px;
+                padding         : @padding-small-vertical @padding-small-horizontal;
             }
             .ui-accordion-header{
                 background  : @cpanel-header-bg;

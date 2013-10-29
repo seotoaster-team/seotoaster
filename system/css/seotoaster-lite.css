@@ -1201,13 +1201,13 @@ html body .align-middle {
 html body .align-bottom {
   vertical-align: bottom;
 }
-html body .bold {
+html body .text-bold {
   font-weight: bold;
 }
-html body .normal {
+html body .text-normal {
   font-weight: normal;
 }
-html body .italic {
+html body .text-italic {
   font-style: italic;
 }
 html body .cl-none {
@@ -2090,13 +2090,13 @@ body {
   font-size: 14px;
 }
 .closebutton .close {
-  width: 13px;
-  height: 13px;
-  line-height: 13px;
-  font-size: 0;
+  width: 13px !important;
+  height: 13px !important;
+  line-height: 13px !important;
+  font-size: 0 !important;
 }
 .closebutton .close:before {
-  font-size: 13px;
+  font-size: 13px !important;
 }
 .closebutton .hide {
   width: 15px;

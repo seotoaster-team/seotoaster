@@ -75,8 +75,8 @@
 .plugins-list .plugin-item .plugin-control.active,
 .plugins-list .plugin-item .plugin-control.ui-state-active {
   color: #ffffff;
-  background-color: #d8877e;
-  border-color: #cc6257;
+  background-color: #b84438;
+  border-color: #91362c;
 }
 .plugins-list .plugin-item .plugin-control:active,
 .plugins-list .plugin-item .plugin-control.active,
@@ -116,8 +116,8 @@
 .plugins-list .plugin-item .plugin-control.block.active,
 .plugins-list .plugin-item .plugin-control.block.ui-state-active {
   color: #ffffff;
-  background-color: #54d98c;
-  border-color: #2ecc71;
+  background-color: #25a25a;
+  border-color: #1b7943;
 }
 .plugins-list .plugin-item .plugin-control.block:active,
 .plugins-list .plugin-item .plugin-control.block.active,
@@ -157,8 +157,8 @@
 .plugins-list .plugin-item .plugin-endis.active,
 .plugins-list .plugin-item .plugin-endis.ui-state-active {
   color: #ffffff;
-  background-color: #3aa0c8;
-  border-color: #3aa0c8;
+  background-color: #22617a;
+  border-color: #22617a;
 }
 .plugins-list .plugin-item .plugin-endis:active,
 .plugins-list .plugin-item .plugin-endis.active,
@@ -198,8 +198,8 @@
 .plugins-list .plugin-item .plugin-endis.disable.active,
 .plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
   color: #848484;
-  background-color: #eaeaea;
-  border-color: #ffffff;
+  background-color: #b7b7b7;
+  border-color: #d1d1d1;
 }
 .plugins-list .plugin-item .plugin-endis.disable:active,
 .plugins-list .plugin-item .plugin-endis.disable.active,

@@ -293,7 +293,9 @@
     &:not(.featureapage){
         width       : (100% / @num-column) - @margin + (@margin / @num-column);
         margin-left : unit(@margin, ~"%");
+
         @num : ~'@{num-column}n + 1';
+
         &:nth-child(@{num}){
             margin-left : 0;
         }
@@ -423,28 +425,29 @@
 //==================================================
 .button() {
     .inline-block();
-    margin-bottom  : 0; // For input.btn
-    padding-top    : (@padding-base-vertical + @input-border-width - @btn-border-width);
-    padding-bottom : (@padding-base-vertical + @input-border-width - @btn-border-width);
-    font-weight    : 600;
-    line-height    : normal;
-    text-indent    : 0;
-    text-align     : center;
-    cursor         : pointer;
-    border-width   : @btn-border-width;
-    border-style   : solid;
-    white-space    : nowrap;
-    position       : relative;
+    margin-bottom : 0; // For input.btn
+    padding       : @padding-base-vertical @padding-base-horizontal;
+    font-weight   : 600;
+    line-height   : normal;
+    text-indent   : 0;
+    text-align    : center;
+    cursor        : pointer;
+    border-width  : @btn-border-width;
+    border-style  : solid;
+    white-space   : nowrap;
+    position      : relative;
     .text-overflow;
     .transition(background-color, 0.3s);
     .border-radius(@btn-border-radius);
     .btn-states(@primary-color, @primary-bg, @primary-bg);
 
-    &:not([class*="pl"]){
-        padding-left : @padding-base-horizontal;
+    &.inline{
+        padding : (@padding-base-vertical + @input-border-width - @btn-border-width) @padding-base-horizontal;
     }
-    &:not([class*="pr"]){
-        padding-right : @padding-base-horizontal;
+
+    &[class*="grid_"]{
+        padding-left  : 0;
+        padding-right : 0;
     }
 
     &[class*="icon-"]:not(.icon):before{
@@ -452,16 +455,24 @@
     }
 }
 .button-large() {
-    padding     : (@padding-large-vertical - (@input-border-width - @btn-border-width) + 1) @padding-large-horizontal;
+    padding     : @padding-large-vertical @padding-large-horizontal;
     font-size   : @font-size-base + 2;
     line-height : @font-size-base + 4;
     .border-radius(@btn-large-border-radius);
+
+    &.inline{
+        padding : (@padding-large-vertical - (@input-border-width - @btn-border-width) + 1) @padding-large-horizontal;
+    }
 }
 .button-small() {
     padding     : (@padding-small-vertical + (@input-border-width - @btn-border-width) + 1) @padding-small-horizontal;
     font-size   : @font-size-base - 2;
     line-height : @font-size-base; // ensure proper height of button next to small input
     .border-radius(@btn-small-border-radius);
+
+    &.inline{
+        padding : @padding-small-vertical @padding-small-horizontal;
+    }
 }
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
@@ -510,8 +521,8 @@
 
     &:hover, &:focus, &:active, &.active, &.ui-state-active{
         color            : @color;
-        background-color : lighten(@background, 10%);
-        border-color     : lighten(@border, 10%);
+        background-color : darken(@background, 10%);
+        border-color     : darken(@border, 10%);
     }
 
     &:active, &.active, &.ui-state-active{
