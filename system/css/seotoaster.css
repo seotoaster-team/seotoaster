@@ -6129,7 +6129,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
     }*/
 
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1100px) {
   #seotoaster-cpanel {
     width: 0px;
     overflow: hidden;
