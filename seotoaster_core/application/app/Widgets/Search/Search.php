@@ -84,6 +84,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
         $results = array();
         $limit = is_numeric(end($this->_options)) ? filter_var(end($this->_options), FILTER_SANITIZE_NUMBER_INT) : self::SEARCH_LIMIT_RESULT;
         $this->_view->useImage = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
+        $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
         if ($request->has('search')) {
             $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
@@ -116,7 +117,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
         if ($searchForm->getElement('search')->isValid($searchTerm)){
             $searchTerm = $searchForm->getElement('search')->getValue();
             $this->_view->pagerData = array('search' => $searchTerm);
-            $searchTerm = trim($searchTerm, '*') . '*';
+            if (mb_strpos($searchTerm, ' ') === false) {
+                $searchTerm = trim($searchTerm, '*') . '*';
+            }
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
@@ -127,8 +130,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
                             'url' => $hit->url,
                             'h1'  => $hit->h1,
                             'navName' => $hit->navName,
-                            'teaserText' => $hit->teaserText,
-                            'previewImage' => $hit->previewImage
+                            'teaserText' => $hit->teaserText
                         );
                     }, $hits);
 
@@ -168,20 +170,13 @@ class Widgets_Search_Search extends Widgets_Abstract {
                             continue;
                         }
 
-                        if ((bool)$page->getPreviewImage()) {
-                            $previewImage = Tools_Page_Tools::getPreview($page);
-                        } else {
-                            $previewImage = '';
-                        }
-
                         array_push($this->_cacheTags, 'pageid_'.$page->getId());
                         $results[] = array(
                             'pageId'       => $page->getId(),
                             'url'          => $page->getUrl(),
                             'h1'           => $page->getH1(),
                             'teaserText'   => $page->getTeaserText(),
-                            'navName'      => $page->getNavName(),
-                            'previewImage' => $previewImage
+                            'navName'      => $page->getNavName()
                         );
                     }
                 }

@@ -21,7 +21,7 @@ class Application_Form_Search extends Zend_Form {
             'label'    => '',
             'value'    => $this->_search,
             'required' => true,
-            'filters'  => array('StringTrim', 'Alnum'),
+            'filters'  => array(new Zend_Filter_StringTrim(), new Zend_Filter_Alnum(true)),
             'validators' => array(
                 new Zend_Validate_StringLength(array('min' => 3))
             )

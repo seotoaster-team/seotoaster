@@ -105,7 +105,7 @@ class Tools_Search_Tools {
 		$document->addField(Zend_Search_Lucene_Field::text('url', $page['url'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::text('navName', $page['navName'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::text('h1', $page['h1'], 'UTF-8'));
-		$document->addField(Zend_Search_Lucene_Field::text('previewImage', $page['previewImage']));
+//		$document->addField(Zend_Search_Lucene_Field::text('previewImage', $page['previewImage']));
 
 		self::$_index->addDocument($document);
 	}
