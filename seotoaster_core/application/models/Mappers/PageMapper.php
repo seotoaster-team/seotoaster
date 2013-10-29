@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Class Application_Model_Mappers_PageMapper
+ * @method static Application_Model_Mappers_PageMapper getInstance() getInstance() Returns an instance of itself
+ * @method Application_Model_DbTable_Page getDbTable() Returns an instance of corresponding DbTable
+ */
 class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abstract {
 
 	protected $_dbTable       = 'Application_Model_DbTable_Page';
@@ -329,5 +333,38 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         }
         return $isOptimized;
     }
+
+	public function getPagesForSearchIndex($limit = null, $offset = null){
+		$select = $this->getDbTable()->getAdapter()->select()
+				->from(array('p' => 'page'), null)
+				->joinLeft(array('o' => 'optimized'), 'p.id = o.page_id', null)
+				->joinLeft(array('c' => 'container'), 'p.id = c.page_id AND c.container_type = 1', null)
+				->columns(array(
+					'id' => 'p.id',
+					'previewImage' => 'p.preview_image',
+					'url' => new Zend_Db_Expr('COALESCE(o.url, p.url)'),
+					'h1' => new Zend_Db_Expr('COALESCE(o.h1, p.h1)'),
+					'navName' => new Zend_Db_Expr('COALESCE(o.nav_name, p.nav_name)'),
+					'headerTitle' => new Zend_Db_Expr('COALESCE(o.header_title, p.header_title)'),
+					'metaKeywords' => new Zend_Db_Expr('COALESCE(o.meta_keywords, p.meta_keywords)'),
+					'metaDescription' => new Zend_Db_Expr('COALESCE(o.meta_description, p.meta_description)'),
+					'teaserText' => new Zend_Db_Expr('COALESCE(o.teaser_text, p.teaser_text)'),
+					'content' => new Zend_Db_Expr('GROUP_CONCAT(c.content)')
+				))
+				->where("p.system = '?'", 0)
+//                ->where('p.indexed_at IS NULL OR p.updated_at > p.indexed_at')
+				->group('p.id');
+
+		if (!is_null($offset) && is_numeric($offset)){
+			$offset = intval($offset);
+		}
+
+		if (!is_null($limit) && is_numeric($limit)){
+			$select->limit(intval($limit), $offset);
+		}
+
+		return $this->getDbTable()->getAdapter()->fetchAll($select);
+
+	}
 }
 

@@ -1,0 +1,42 @@
+<?php $url = $this->serverUrl().$this->url() . '?'; ?>
+<?php if ($this->pageCount > 1): ?>
+<div class="paginator">
+<?php if ($this->current !== $this->first) :?>
+    <a class="page" href="<?php echo $url.http_build_query($this->urlData); ?>">&laquo; First</a>
+<?php endif; ?>
+
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a class="page" href="<?php echo $url.http_build_query(array_merge($this->urlData, array('showpage' => $this->previous))); ?>">
+      &lsaquo; Previous
+  </a>
+<?php else: ?>
+  <span class="page selected">&lsaquo; Previous</span>
+<?php endif; ?>
+ 
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a href="<?php echo $url.http_build_query(array_merge($this->urlData,  array('showpage' => $page))); ?>">
+        <?php echo $page; ?>
+    </a>
+  <?php else: ?>
+    <?php echo $page; ?>
+  <?php endif; ?>
+<?php endforeach; ?>
+ 
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $url.http_build_query(array_merge($this->urlData, array('showpage' => $this->next))); ?>">
+    Next &rsaquo;
+  </a>
+<?php else: ?>
+  <span class="page selected">Next &rsaquo;</span>
+<?php endif; ?>
+
+<?php if ($this->current !== $this->last) :?>
+    <a class="page" href="<?php echo $url.http_build_query(array_merge($this->urlData, array('showpage'=>$this->last))); ?>">Last &raquo;</a>
+<?php endif; ?>
+
+</div>
+<?php endif; ?>

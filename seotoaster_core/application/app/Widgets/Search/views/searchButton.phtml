@@ -1,6 +1,7 @@
-<input type="button" name="searchButton" class="searchButton" value="Search"/>
+<?php $formId = uniqid('search-btn-'); ?>
+<input id="<?php echo $formId; ?>" type="button" name="searchButton" class="searchButton" value="Search"/>
 <script type="text/javascript">
-    $(document).on('click', '.searchButton', function() {
+    $('#<?php echo $formId; ?>').on('click', function() {
         var urlAction = "<?php echo $this->websiteUrl; ?>backend/search/complexSearch/";
         var searchValues = [];
         var containerNames = [];
