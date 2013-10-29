@@ -1,9 +1,10 @@
 <?php
-
 /**
  * Container mapper
  *
  * @author Seotoaster Dev Team
+ * @method static Application_Model_Mappers_ContainerMapper getInstance() getInstance() Returns an instance of itself
+ * @method Application_Model_DbTable_Container getDbTable() Returns an instance of corresponding DbTable
  */
 class Application_Model_Mappers_ContainerMapper extends Application_Model_Mappers_Abstract {
 
@@ -101,23 +102,13 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
                 ->order('content ASC')
                 ->group(array('content'));
             return $this->getDbTable()->getAdapter()->fetchAll($select);
-        }else{
+        } else {
             return $this->fetchAll($where);
         }
     }
     
     public function findByContainerNames($prepopNames = array()){
         if(!empty($prepopNames)){
-//            $where = '';
-//            foreach($prepopNames as $key =>$prepopName){
-//                $where .= $this->getDbTable()->getAdapter()->quoteInto('name = ?', $prepopName);
-//                if(count($prepopNames) != $key+1){
-//                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP).' OR ';
-//                }else{
-//                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
-//                }
-//            }
-//            return $this->fetchAll($where);
             $select = $this->getDbTable()->getAdapter()
                     ->select()
                     ->from(array('container'))
@@ -126,7 +117,6 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
                     ->where('content IS NOT NULL')
                     ->where('content != ""')
                     ->order('content ASC');
-//                    ->group(array('content'));
             return $this->getDbTable()->getAdapter()->fetchAll($select);
         }
     }
