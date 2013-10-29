@@ -96,6 +96,9 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
                 ->select()
                 ->from(array('container'))
                 ->where($where)
+                ->where('content IS NOT NULL')
+                ->where('content != ""')
+                ->order('content ASC')
                 ->group(array('content'));
             return $this->getDbTable()->getAdapter()->fetchAll($select);
         }else{
@@ -105,16 +108,26 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
     
     public function findByContainerNames($prepopNames = array()){
         if(!empty($prepopNames)){
-            $where = '';
-            foreach($prepopNames as $key =>$prepopName){
-                $where .= $this->getDbTable()->getAdapter()->quoteInto('name = ?', $prepopName);
-                if(count($prepopNames) != $key+1){
-                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP).' OR ';
-                }else{
-                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
-                }
-            }
-            return $this->fetchAll($where);
+//            $where = '';
+//            foreach($prepopNames as $key =>$prepopName){
+//                $where .= $this->getDbTable()->getAdapter()->quoteInto('name = ?', $prepopName);
+//                if(count($prepopNames) != $key+1){
+//                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP).' OR ';
+//                }else{
+//                    $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP);
+//                }
+//            }
+//            return $this->fetchAll($where);
+            $select = $this->getDbTable()->getAdapter()
+                    ->select()
+                    ->from(array('container'))
+                    ->where('name IN (?)', $prepopNames)
+                    ->where('container_type = ?', Application_Model_Models_Container::TYPE_PREPOP)
+                    ->where('content IS NOT NULL')
+                    ->where('content != ""')
+                    ->order('content ASC');
+//                    ->group(array('content'));
+            return $this->getDbTable()->getAdapter()->fetchAll($select);
         }
     }
     

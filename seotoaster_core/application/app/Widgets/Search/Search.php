@@ -26,17 +26,21 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		$this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 
 		$this->_cacheable = false;
+        $this->_cachePrefix = strtolower(__CLASS__).'_';
+        array_push($this->_cacheTags, strtolower(__CLASS__));
 	}
 
 	protected function _load() {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Not enough parameters'));
 		}
-//        $optionsArray = $this->_options;
+        $optionsArray = $this->_options;
 		$rendererName = '_renderSearch' . ucfirst(array_shift($this->_options));
 		if(method_exists($this, $rendererName)) {
 			return $this->$rendererName($this->_options);
 		}
+
+        return $this->_renderSearchComplex($optionsArray);
 	}
 
     /**
@@ -75,19 +79,43 @@ class Widgets_Search_Search extends Widgets_Abstract {
 	private function _renderSearchResults() {
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        if (!$request->has('search')){
-            return '';
+        $params = $request->getParams();
+
+        $results = array();
+        $limit = is_numeric(end($this->_options)) ? filter_var(end($this->_options), FILTER_SANITIZE_NUMBER_INT) : self::SEARCH_LIMIT_RESULT;
+        $this->_view->useImage = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
+
+        if ($request->has('search')) {
+            $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
+            $this->_view->urlData = array('search' => $searchTerm);
+            $results = $this->_searchResultsByTerm($searchTerm);
+        } elseif ($request->has('queryID')) {
+            $queryID = filter_var($request->getParam('queryID'), FILTER_SANITIZE_STRING);
+            $this->_view->urlData = array('queryID' => $queryID);
+            $results = $this->_searchResultsByQueryID($queryID);
         }
 
-        $limit = is_numeric(end($this->_options)) ? filter_var(end($this->_options), FILTER_SANITIZE_NUMBER_INT) : self::SEARCH_LIMIT_RESULT;
+        if (is_array($results) && empty($results) ){
+            return '{$content:nothingfound}';
+        }
+
+        $pager = Zend_Paginator::factory($results);
+        $pager->setDefaultItemCountPerPage($limit);
+        if (isset($params['showpage'])){
+            $pager->setCurrentPageNumber(filter_var($params['showpage'], FILTER_SANITIZE_NUMBER_INT));
+        }
+        $this->_view->pager = $pager;
+
+        return $this->_view->render('results.phtml');
+    }
+
+    private function _searchResultsByTerm($searchTerm){
 
         $searchForm = new Application_Form_Search();
 
-        $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
-
         if ($searchForm->getElement('search')->isValid($searchTerm)){
             $searchTerm = $searchForm->getElement('search')->getValue();
-            $this->_view->searchTerm = $searchTerm;
+            $this->_view->pagerData = array('search' => $searchTerm);
             $searchTerm = trim($searchTerm, '*') . '*';
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
@@ -106,52 +134,82 @@ class Widgets_Search_Search extends Widgets_Abstract {
 
                 $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), array('search'), Helpers_Action_Cache::CACHE_LONG);
             }
-            if (empty($searchResults)) {
-                return '{$content:nothingfound}';
-            } else {
-                $totalHits = count($searchResults);
-                $pager = Zend_Paginator::factory($searchResults);
-                $pager->setDefaultItemCountPerPage($limit);
-                if ($request->has('showpage')){
-                    $pager->setCurrentPageNumber(filter_var($request->getParam('showpage'), FILTER_SANITIZE_NUMBER_INT));
-                }
-                if ($totalHits > $limit){
-                    $this->_view->showMore = true;
-                    $this->_view->limit = $limit;
-                    $searchResults = array_slice($searchResults, 0, $limit);
-                }
-                $this->_view->hits = $searchResults;
-                $this->_view->pager = $pager;
-            }
+            return $searchResults;
         } else {
-            // TODO $searchTerm validation error
             $msg = $searchForm->getElement('search')->getMessages();
+            $error = $this->_translator->translate('Search error. '. implode(PHP_EOL, $msg));
+            throw new Exceptions_SeotoasterWidgetException($error);
+        }
+    }
 
-            return $this->_translator->translate('Search error. '. implode(PHP_EOL, $msg));
+	private function _searchResultsByQueryID($queryID) {
+        $this->_cachePrefix .= 'qid_';
+        if (null === ($results = $this->_cache->load($queryID, $this->_cachePrefix))){
+            $results = array();
+            /**
+             * @var $flashHelper Zend_Controller_Action_Helper_FlashMessenger
+             */
+            $flashHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+            $msgBuffer = $flashHelper->getMessages($queryID);
+
+            if (!empty($msgBuffer)) {
+                $nameValuePairs = $msgBuffer[0];
+                unset($msgBuffer);
+
+                $pageIDs = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerNameWithContent($nameValuePairs);
+                if(!empty($pageIDs)){
+                    // TODO: compare performance
+//                    $pageList = Application_Model_Mappers_PageMapper::getInstance()->find($containerData);
+                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                    $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('id IN (?)', array_values($pageIDs));
+                    $pages = $pageMapper->fetchAll($where);
+                    foreach ($pages as $page) {
+                        if ($page->getDraft()) {
+                            continue;
+                        }
+
+                        if ((bool)$page->getPreviewImage()) {
+                            $previewImage = Tools_Page_Tools::getPreview($page);
+                        } else {
+                            $previewImage = '';
+                        }
+
+                        array_push($this->_cacheTags, 'pageid_'.$page->getId());
+                        $results[] = array(
+                            'pageId'       => $page->getId(),
+                            'url'          => $page->getUrl(),
+                            'h1'           => $page->getH1(),
+                            'teaserText'   => $page->getTeaserText(),
+                            'navName'      => $page->getNavName(),
+                            'previewImage' => $previewImage
+                        );
+                    }
+                }
+            }
+            $this->_cache->save($queryID, $results, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
         }
 
-        $this->_view->useImage = (isset($this->_options[0]) && ($this->_options[0] == 'img' || $this->_options[0] == 'imgc')) ? $this->_options[0] : false;
+        return $results;
+    }
 
-		return $this->_view->render('results.phtml');
-	}
-
-	public static function getWidgetMakerContent() {
-		$translator = Zend_Registry::get('Zend_Translate');
-		$view = new Zend_View(array(
-			'scriptPath' => dirname(__FILE__) . '/views'
-		));
-		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$data = array(
-			'title'   => $translator->translate('Search engine'),
-			'content' => $view->render('wmcontent.phtml'),
-			'icons'   => array(
-				$websiteHelper->getUrl() . 'system/images/widgets/search.png',
-			)
-		);
-
-		unset($view);
-		return $data;
-	}
+//   // removed in current version
+//    public static function getWidgetMakerContent() {
+//		$translator = Zend_Registry::get('Zend_Translate');
+//		$view = new Zend_View(array(
+//			'scriptPath' => dirname(__FILE__) . '/views'
+//		));
+//		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+//		$data = array(
+//			'title'   => $translator->translate('Search engine'),
+//			'content' => $view->render('wmcontent.phtml'),
+//			'icons'   => array(
+//				$websiteHelper->getUrl() . 'system/images/widgets/search.png',
+//			)
+//		);
+//
+//		unset($view);
+//		return $data;
+//	}
 
     private function _renderSearchComplex($optionsArray){
         if(isset($optionsArray[0])){
@@ -160,17 +218,12 @@ class Widgets_Search_Search extends Widgets_Abstract {
             }else{
                 $prepopSearchName = $optionsArray[0];
             }
-            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerName($prepopSearchName);
+            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerName($prepopSearchName, true);
             if($prepopWithNameList){
-                $this->_view->prepopWithName = $prepopWithNameList;
-                foreach($prepopWithNameList as $prepopData){
-                    $contentArray[] = $prepopData->getContent();
-                }
-                asort($contentArray);
-                $this->_view->prepopWithNameList = array_unique($contentArray);
+                $this->_view->prepopName = $prepopSearchName;
+                $this->_view->prepopWithNameList = $prepopWithNameList;
                 return $this->_view->render('searchForm.phtml');
             }
-
         }
     }
 
@@ -189,21 +242,21 @@ class Widgets_Search_Search extends Widgets_Abstract {
     }
 
     private function _renderSearchLinks($optionsArray){
-        if(isset($optionsArray[0]) && isset($optionsArray[1])){
+        if(isset($optionsArray[0])){
             $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
             $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
-            if(strtolower($optionsArray[1]) != 'thispage'){
-                $prepopAllLinks = $containerMapper->findByContainerName($optionsArray[1], true);
+            if(strtolower($optionsArray[0]) != 'thispage'){
+                $prepopAllLinks = $containerMapper->findByContainerName($optionsArray[0], true);
                 if(!empty($prepopAllLinks)){
                     foreach($prepopAllLinks as $prepopData){
                         $contentArray[] = $prepopData['content'];
                     }
                     asort($contentArray);
-                    $this->_view->prepopName = $optionsArray[1];
+                    $this->_view->prepopName = $optionsArray[0];
                     $this->_view->prepopLinks = $contentArray;
                     return $this->_view->render('links.phtml');
                 }
-            }else{
+            } else {
                 $prepopPageLinks = $containerMapper->findPreposByPageId($this->_toasterOptions['id']);
                 if(!empty($prepopPageLinks)){
                     $this->_view->prepopPageLinks = $prepopPageLinks;
@@ -213,41 +266,59 @@ class Widgets_Search_Search extends Widgets_Abstract {
         }
     }
 
-    private function _renderSearchAdvanced($optionsArray){
-        if(isset($optionsArray[1]) && preg_match('~\|~', $optionsArray[1]) && isset($optionsArray[2])){
-            $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+    private function _renderSearchAdvanced(){
+        $this->_cachePrefix .= 'advanced_';
+        if (is_array($this->_options) && !empty($this->_options)) {
             $prepopWithQuantity = array();
             $prepopLabels = array();
-            $prepopNames = explode('|', $optionsArray[1]);
+            $prepopNames = explode('|', $this->_options[0]);
             foreach($prepopNames as $key => $prepopName){
-                if(preg_match('(#)', $prepopName)){
+                if (mb_strpos($prepopName, '(#)') !== false){
                     $prepopWithQuantity[] = str_replace('(#)','',$prepopName);
                     $prepopNames[$key] = str_replace('(#)','',$prepopName);
                 }
             }
-            if(isset($optionsArray[2]) && preg_match('~\|~', $optionsArray[2])){
-                $prepopLabels =  explode('|', $optionsArray[2]);
+            if (isset($this->_options[1]) && mb_strpos($this->_options[1], '|') !== false) {
+                $prepopLabels = explode('|', $this->_options[1]);
             }
-            if(count($prepopNames) == count($prepopLabels)){
+            if (count($prepopNames) == count($prepopLabels)) {
                 $prepopLabels = array_combine($prepopNames, $prepopLabels);
             }
 
-            if(end($optionsArray) == 'select'){
-                $cacheKey = str_replace('(#)','_',$optionsArray[1]);
-                if (null === ($prepopSearchData = $cacheHelper->load('search_prepop_'.$cacheKey, 'search_prepop'))){
+            if (end($this->_options) === 'select') {
+                $cacheKey = str_replace('(#)','N',$this->_options[0]);
+                if (null === ($prepopSearchData = $this->_cache->load($cacheKey, $this->_cachePrefix))) {
                     $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerNames($prepopNames);
-                    if(!empty($prepopWithNameList)){
-                        foreach($prepopWithNameList as $prepopWithName){
-                            $searchArray[$prepopWithName->getPageId()][$prepopWithName->getName()] = $prepopWithName->getContent();
-                            $prepopNamePageIds[$prepopWithName->getName()][$prepopWithName->getContent()][$prepopWithName->getPageId()] = $prepopWithName->getPageId();
-                            $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['content'] = $prepopWithName->getContent();
-                            if(isset($prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['content']) && $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['content'] == $prepopWithName->getContent()){
-                                $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['quantity'] = $prepopNameValues[$prepopWithName->getName()][$prepopWithName->getContent()]['quantity'] + 1;
+                    if (!empty($prepopWithNameList)) {
+                        foreach ($prepopWithNameList as $prepopWithName) {
+                            //adding cache tags
+                            array_push($this->_cacheTags, $prepopWithName['name'].'_'.$prepopWithName['container_type'].'_pid_'.$prepopWithName['page_id']);
+                            $searchArray[$prepopWithName['page_id']][$prepopWithName['name']] = $prepopWithName['content'];
+                            $prepopNamePageIds[$prepopWithName['name']][$prepopWithName['content']][$prepopWithName['page_id']] = $prepopWithName['page_id'];
+                            $prepopNameValues[$prepopWithName['name']][$prepopWithName['content']]['content'] = $prepopWithName['content'];
+                            if (isset($prepopNameValues[$prepopWithName['name']][$prepopWithName['content']]['content'])
+                                    && $prepopNameValues[$prepopWithName['name']][$prepopWithName['content']]['content'] == $prepopWithName['content']
+                            ) {
+                                if (!isset($prepopNameValues[$prepopWithName['name']][$prepopWithName['content']]['quantity'])) {
+                                    $prepopNameValues[$prepopWithName['name']][$prepopWithName['content']]['quantity'] = 0;
+                                }
+                                $prepopNameValues[$prepopWithName['name']][$prepopWithName['content']]['quantity'] += 1;
                             }
                         }
                     }
-                    $prepopSearchData = array('searchArray'=>$searchArray, 'prepopNamePageIds'=>$prepopNamePageIds, 'prepopNameValues'=>$prepopNameValues);
-                    $cacheHelper->save('search_prepop_'.$cacheKey, $prepopSearchData, 'search_prepop', array(), Helpers_Action_Cache::CACHE_SHORT);
+                    $prepopSearchData = array(
+                        'searchArray' => $searchArray,
+                        'prepopNamePageIds' => $prepopNamePageIds,
+                        'prepopNameValues' => $prepopNameValues
+                    );
+                    //saving to cache
+                    $this->_cache->save(
+                        $cacheKey,
+                        $prepopSearchData,
+                        $this->_cachePrefix,
+                        array_unique($this->_cacheTags),
+                        Helpers_Action_Cache::CACHE_NORMAL
+                    );
                 }
                 $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
                 $this->_view->prepopNames = $prepopNames;
@@ -274,13 +345,17 @@ class Widgets_Search_Search extends Widgets_Abstract {
 				'option' => 'search:select:change_to_the_your_prepop_name'
 			),
 			array(
-				'alias'  => $translator->translate('Prepop seacrh button'),
+				'alias'  => $translator->translate('Prepop search button'),
 				'option' => 'search:button'
 			),
             array(
 				'alias'  => $translator->translate('Search form'),
 				'option' => 'search:form'
-			)
+			),
+            array(
+                'alias'  => $translator->translate('Search results'),
+                'option' => 'search:results'
+            )
         );
     }
 }
