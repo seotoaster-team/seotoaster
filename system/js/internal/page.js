@@ -22,12 +22,12 @@ $(function() {
         checkMenu($(e.currentTarget).attr('id'), selectedOpt);
     }).on('click', '#toggle-optimized', function() { // optimized checkbox click
         var optCheck  = $(this);
-        var optimized = optCheck.attr('checked') ? 1 : 0;
+        var optimized = optCheck.is (':checked') ? 1 : 0;
         if(!optimized) {
             showConfirm('Are you sure? You will lose experts optimization once you save your changes !', function() {
                 toggleOptimized(optimized);
             }, function() {
-                optCheck.attr('checked', true);
+                optCheck.prop('checked', true);
             });
         } else {
             toggleOptimized(optimized);
