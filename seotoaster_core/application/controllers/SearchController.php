@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SearchController
  *
@@ -12,10 +11,6 @@ class SearchController extends Zend_Controller_Action {
 	public function init() {
 		parent::init();
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
-		$this->_helper->AjaxContext()->addActionContexts(array(
-			'managesearchindex' => 'json'
-		))->initContext('json');
-
 	}
 
 	public function searchAction() {
@@ -78,21 +73,6 @@ class SearchController extends Zend_Controller_Action {
 		}
 	}
 
-	public function managesearchindexAction() {
-		if($this->getRequest()->isPost()) {
-			$doAction = $this->getRequest()->getParam('doaction');
-			switch ($doAction) {
-				case 'renew':
-					Tools_Search_Tools::renewIndex();
-					$this->_helper->response->success($this->_helper->language->translate('Search index is up to date now.'));
-				break;
-				case 'remove':
-					Tools_Search_Tools::removeIndex();
-				break;
-			}
-		}
-	}
-    
     public function complexsearchAction() {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -114,40 +94,6 @@ class SearchController extends Zend_Controller_Action {
         $queryID = md5(serialize($containerContentArray));
         $this->_helper->flashMessenger->addMessage($containerContentArray, $queryID);
 
-        echo json_encode(
-            array(
-                'redirect' => $this->_helper->website->getUrl() . $redirectPage . '?' . http_build_query(
-                            array('queryID' => $queryID)
-                        )
-            )
-        );
-
-        return;
-
-        $containerData = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerNameWithContent($containerContentArray);
-        $findUrlList = array();
-        if(!empty($containerData)){
-            $pageList = $pageMapper->find($containerData);
-            foreach ($pageList as $page) {
-                $previewImage = '';
-                if ($page->getDraft() == 0) {
-                    if ((bool)$page->getPreviewImage()) {
-                        $previewImage = Tools_Page_Tools::getPreview($page);
-                    }
-                    $resultsHits[] = array(
-                        'pageId'       => $page->getId(),
-                        'url'          => $page->getUrl(),
-                        'h1'           => $page->getH1(),
-                        'teaserText'   => $page->getTeaserText(),
-                        'navName'      => $page->getNavName(),
-                        'previewImage' => $previewImage
-                    );
-                }
-            }
-            $this->_helper->session->searchHits = $resultsHits;
-        }else {
-            $this->_helper->session->searchHits = '{$content:nothingfound}';
-        }
         echo json_encode(
             array(
                 'redirect' => $this->_helper->website->getUrl() . $redirectPage . '?' . http_build_query(
