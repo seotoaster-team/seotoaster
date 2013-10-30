@@ -2368,10 +2368,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   padding: 5px;
 }
 #edit-content #tabs #tabs-frag-1 .ui-accordion-content {
-  max-height: 183px;
+  max-height: 197px;
 }
 #edit-content #tabs #tabs-frag-2 .ui-accordion-content {
-  max-height: 190px;
+  max-height: 171px;
 }
 #edit-content #adminthingsviewer .ui-accordion-content {
   position: relative;
@@ -2417,7 +2417,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background: #ffffff;
   padding: 6px;
   overflow: auto;
-  height: 266px;
+  height: 275px;
 }
 #product-products .productlisting {
   position: relative;
