@@ -332,18 +332,17 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-
-        $externalLinksContent = 'var tinyMCELinkList = new Array(';
-        $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($this->_getProductCategoryPageWhere(), array('h1'));
+        $where = $this->_getProductCategoryPageWhere();
+        $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
         if(!empty ($pages)) {
+            $links = array();
             foreach ($pages as $page) {
-                $externalLinksContent .= '["'
-                    . $page->getH1()
-                    . '", "'
-                    . $this->_helper->website->getUrl() . $page->getUrl()
-                    . '"],';
+                if ($page->getExtraOption(Application_Model_Models_Page::OPT_404PAGE)) {
+                    continue;
+                }
+                array_push($links, array($page->getH1(), $this->_helper->website->getUrl() . $page->getUrl()));
             }
-            $externalLinksContent = substr($externalLinksContent, 0, -1) . ');';
+            $externalLinksContent = sprintf('var tinyMCELinkList = %s;', json_encode($links));
             $this->getResponse()->setRawHeader('Content-type: text/javascript')
                 ->setRawHeader('pragma: no-cache')
                 ->setRawHeader('expires: 0')
