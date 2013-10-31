@@ -184,7 +184,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
                 unset($entry['containers'][$key]);
             }
         }
-
+        $entry = array_merge($entry, array('extraOptions' => $this->getDbTable()->fetchPageOptions($entry['id'])));
         return new $this->_model($entry);
 	}
 
