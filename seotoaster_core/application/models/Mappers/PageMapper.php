@@ -105,7 +105,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
         $model   = $this->_model;
         $entries = array_map(function($row) use(&$dbTable, $model, &$originalsOnly) {
-            $row = array_merge(array('extraOptions' => $dbTable->fetchPageOptions($row['id'])), $row);
+            $row = array_merge($row, array('extraOptions' => $dbTable->fetchPageOptions($row['id'])));
             return new $model($row);
         }, $resultSet->toArray());
 
