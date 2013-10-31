@@ -24,6 +24,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             }
             $this->_view->pageId     = $this->_pageId;
             $this->_view->controls   = Tools_Security_Acl::isAllowed($this) ? $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT): '';
+            $this->_view->params     = Zend_Json::encode(Zend_Controller_Front::getInstance()->getRequest()->getParams());
             $this->_cacheId = $this->_name .'_'. $this->_type .'_pid_'. $this->_pageId .'_'. Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
             return $this->_view->render('ajax.phtml');
         }
