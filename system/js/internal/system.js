@@ -174,7 +174,8 @@ $(function () {
 doc.on('click', '.screen-size', function (e) {
     var name = $(this).data('size');
     $('.closebutton').toggleClass('hidden');
-    $(this).toggleClass('error');
+    $(this).toggleClass('icon-expand icon-turn');
+    $(this).toggleClass('inverse-info inverse-error');
     $('#' + name + ', .' + name).toggleClass('full-screen');
 });
 ///////// Full screen //////////////

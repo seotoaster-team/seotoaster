@@ -11,16 +11,16 @@
 	<div id="selector" class="mt10px grid_12 alpha omega">
 		<div id="borderfortoolbar">
 			<div id="adminthingsviewer">
-				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span></div>
+				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_small"></span></div>
 				<div id="images_small" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
-				<div id="medium"><?php echo $this->translate('Medium'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['medium']; ?>px)</span></div>
+				<div id="medium"><?php echo $this->translate('Medium'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['medium']; ?>px)</span><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_medium"></span></div>
 				<div id="images_medium" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
-				<div id="large"><?php echo $this->translate('Large'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['large']; ?>px)</span></div>
+				<div id="large"><?php echo $this->translate('Large'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['large']; ?>px)</span><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_large"></span></div>
 				<div id="images_large" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
-				<div id="original"><?php echo $this->translate('Original'); ?></div>
+				<div id="original"><?php echo $this->translate('Original'); ?><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_original"></span></div>
 				<div id="images_original" class="show_div"><h3 class="text-center mt10px"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
 
 				<div id="files"><?php echo $this->translate('Files'); ?></div>
@@ -29,9 +29,19 @@
 		</div>
 	</div>
 </div>
-<?php $this->jQuery()->addJavascript('$(function() {$(\'#adminthingsviewer\').accordion({heightStyle: "content", navigation: true, collapsible: true, active: false})});'); ?>
 <script type="text/javascript">
 	$(function() {
+        $('#adminthingsviewer').accordion({
+            heightStyle: "content",
+            navigation: true,
+            collapsible: true,
+            active: false,
+            beforeActivate: function( event, ui ) {
+                if($(event.toElement).hasClass('screen-size')){
+                    return false;
+                }
+            }
+        });
 		$(document).on('change', '#adminselectimgfolder', function() {
 			if($(this).val() != 0) {
 				var el = $('#upload_things_button');

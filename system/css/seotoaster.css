@@ -371,8 +371,7 @@ input[type="checkbox"]:not(.hidden) + span:before,
 .ui-datepicker-next:before,
 .ui-dialog:before,
 .ui-accordion-header-icon:before,
-.search-choice-close:before,
-.screen-size:before {
+.search-choice-close:before {
   font-family: 'toaster-icons';
   font-style: normal;
   speak: none;
@@ -520,12 +519,10 @@ input[type="checkbox"]:not(.hidden) + span:before,
 .sorting_desc:after {
   content: "\f0de";
 }
-.icon-expand:before,
-.screen-size:before {
+.icon-expand:before {
   content: "\e023";
 }
-.icon-turn:before,
-.screen-size.error:before {
+.icon-turn:before {
   content: "\e024";
 }
 .icon-move:before {
@@ -533,8 +530,7 @@ input[type="checkbox"]:not(.hidden) + span:before,
 }
 .icon-close:before,
 .ui-icon-closethick:before,
-.search-choice-close:before,
-.screen-size.error:before {
+.search-choice-close:before {
   content: "\e026";
 }
 .icon-minus:before {
@@ -1927,55 +1923,19 @@ a.info:hover,
   margin: 0 5px;
 }
 .screen-size {
-  background: #fff;
-  color: #666666;
-  cursor: pointer;
-  display: block;
   z-index: 100;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-  font-size: 0;
-}
-.screen-size:before {
-  font-size: 14px;
-}
-.screen-size:hover {
-  opacity: 1;
-  filter: alpha(opacity=100);
 }
 .show_div .screen-size {
-  opacity: 1;
-  filter: alpha(opacity=100);
   position: absolute;
   left: 0;
   top: 0;
   padding: 5px;
 }
-.screen-size.error {
-  background: transparent;
-  color: #e74c3c;
+.screen-size.icon-turn {
   position: fixed;
   right: 2%;
   top: 12px;
   left: auto;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
-  font-size: 0;
-  opacity: 1 !important;
-  filter: alpha(opacity=100) !important;
-}
-.screen-size.error:before {
-  font-size: 16px;
 }
 .full-screen {
   position: fixed !important;
@@ -5510,7 +5470,7 @@ table tr.info > td {
   background-color: #ffffff;
   position: absolute;
   padding: 0;
-  z-index: 1001;
+  z-index: 1002;
 }
 body > .ui-dialog[aria-describedby="toasterPopup"] {
   position: fixed;
@@ -6113,54 +6073,19 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   border: 1px dashed #666666;
 }
 #seotoaster-cpanel {
+  width: 200px;
   position: absolute;
   right: 5px;
   top: 0;
-  z-index: 1100;
+  z-index: 1001;
   background: #ffffff;
   -webkit-box-shadow: 0 0 10px #333333;
   -moz-box-shadow: 0 0 10px #333333;
   -ms-box-shadow: 0 0 10px #333333;
   box-shadow: 0 0 10px #333333;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  /*@media only screen and (min-height : 750px){
-        &{
-            position : fixed;
-        }
-    }*/
-
 }
-@media only screen and (max-width: 1100px) {
-  #seotoaster-cpanel {
-    width: 0px;
-    overflow: hidden;
-  }
-  #seotoaster-cpanel:before {
-    display: inline-block;
-    font-size: 20px;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-    text-align: center;
-    position: fixed;
-    right: 5px;
-    z-index: 0;
-    background: #666666;
-    color: #ffffff;
-    font-family: 'toaster-icons';
-    content: "\e058";
-    -webkit-box-shadow: 0 0 10px #333333;
-    -moz-box-shadow: 0 0 10px #333333;
-    -ms-box-shadow: 0 0 10px #333333;
-    box-shadow: 0 0 10px #333333;
-  }
-  #seotoaster-cpanel:hover {
-    width: 200px;
-  }
+#seotoaster-cpanel:hover {
+  z-index: 1005;
 }
 .ie8 #seotoaster-cpanel:after {
   content: '';
@@ -6172,6 +6097,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   left: -3px;
   z-index: 1;
   background: #333333;
+  opacity: 0.5;
   filter: alpha(opacity=50);
 }
 #seotoaster-cpanel > * {
@@ -7448,6 +7374,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #edit-content #tabs .ui-tabs-panel .ui-accordion-content {
   padding: 5px;
+}
+#edit-content #tabs #tabs-frag-1 .ui-accordion-header .screen-size {
+  display: none;
+  margin-top: 2px;
+}
+#edit-content #tabs #tabs-frag-1 .ui-accordion-header.ui-accordion-header-active .screen-size {
+  display: block;
 }
 #edit-content #tabs #tabs-frag-1 .ui-accordion-content {
   max-height: 197px;

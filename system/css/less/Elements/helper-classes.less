@@ -280,37 +280,20 @@ html body{
 }
 
 .screen-size{
-    background : #fff;
-    color      : @gray;
-    cursor     : pointer;
-    display    : block;
     z-index    : 100;
-    .opacity;
-    .transition();
-    .icon-size(14px);
-
-    &:hover{
-        .opacity(1);
-    }
 
     .show_div &{
-        .opacity(1);
         position : absolute;
         left     : 0;
         top      : 0;
         padding  : 5px;
     }
 
-    &.error{
-        background : transparent;
-        color      : @brand-error;
+    &.icon-turn{
         position   : fixed;
         right      : 2%;
         top        : @header-height / 2 - 8px;
         left       : auto;
-        padding    : 0;
-        .icon-size(16px);
-        .opacity(1) !important;
     }
 }
 
