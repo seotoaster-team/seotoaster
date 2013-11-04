@@ -69,7 +69,7 @@
     .alert-state(@state-success-text, @state-success-bg, @state-success-border);
 
     p, ul, ol{
-        margin : 0;
+        margin-bottom : 0;
 
         &+p, &+ul, &+ol{
             margin-top : 5px;
@@ -77,8 +77,8 @@
     }
 
     li{
-        list-style : none;
-        margin     : 0;
+        // list-style : none;
+        margin : 0;
 
         &+li:not([class*="mt"]){
             margin-top : 0.5em;

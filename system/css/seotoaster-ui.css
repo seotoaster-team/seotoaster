@@ -65,6 +65,24 @@ ol.list-bordered > li {
   margin: 0;
   padding: 6px 12px;
   border-bottom: 1px dashed #eaeaea;
+  position: relative;
+}
+ul.list-bordered > li[class*='active']:before,
+ol.list-bordered > li[class*='active']:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-color: transparent #666666;
+}
+ul.list-bordered > li[class*='active'] a,
+ol.list-bordered > li[class*='active'] a {
+  color: inherit;
 }
 ul.list-tags,
 ol.list-tags {
