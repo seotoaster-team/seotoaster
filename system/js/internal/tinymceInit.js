@@ -1,5 +1,6 @@
 $(document).ready(function(){
     var websiteUrl = $('#website_url').val();
+
     $('textarea.tinymce').tinymce({
         // general settings
         script_url             : websiteUrl + 'system/js/external/tinymce/tiny_mce_gzip.php',
@@ -10,7 +11,7 @@ $(document).ready(function(){
         convert_urls           : false,
         relative_urls          : false,
         entity_encoding        : 'raw',
-        content_css            : websiteUrl + 'themes/' + $('#current_theme').val() + '/content.css',
+        content_css            : $('#content_css').val(),
         external_link_list_url : websiteUrl + 'backend/backend_page/linkslist/',
         forced_root_block      : 'p',
         valid_elements         : '*[*]',

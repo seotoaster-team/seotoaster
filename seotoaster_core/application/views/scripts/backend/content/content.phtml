@@ -47,6 +47,8 @@
     <?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 tabs'));?>
 
 	<?php echo $this->contentForm->getElement('submit'); ?>
+
+    <input type="hidden" id="content_css" value="<?php echo $this->linkContentCss; ?>" />
 </div>
 
 <?php
