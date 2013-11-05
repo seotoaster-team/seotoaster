@@ -205,11 +205,24 @@ class Backend_UploadController extends Zend_Controller_Action {
 					error_log($e->getMessage());
 				}
 			}
+            /**
+             * If uploaded image does not have a name, only the extension.
+             * Name will be randomly generated.
+             */
+            preg_match("/.(?:jpg|jpeg|gif|png)$/", $this->getRequest()->getParam('name', false), $imgExt);
+            $imgName =  preg_replace("/.(?:jpg|jpeg|gif|png)$/", "", $this->getRequest()->getParam('name', false));
+
+            if ('' === $imgName) {
+                $newName = time() . $imgExt[0];
+            } else {
+                $newName = $this->getRequest()->getParam('name', false);
+            }
+
 			if (!$this->_uploadHandler->hasFilter('Rename')) {
 				/**
 				 * Renaming file if additional field 'name' was submited with file
 				 */
-				if (false !== ($newName = $this->getRequest()->getParam('name', false))) {
+				if (false !== $newName) {
 					$this->_uploadHandler->addFilter('Rename', array(
 						'target'    => $receivePath . DIRECTORY_SEPARATOR . $newName,
 						'overwrite' => true
