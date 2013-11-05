@@ -2154,7 +2154,7 @@ body {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  padding: 10px 0 15px;
+  padding: 15px 0 10px;
   height: 55px;
   line-height: 30px;
 }
