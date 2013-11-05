@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Search
  *
@@ -7,37 +6,26 @@
  */
 class Application_Form_Search extends Zend_Form {
 
-	protected $_resultsPageId = 0;
-
-	protected $_search        = '';
+    /**
+     * @var string Search term
+     */
+    protected $_search        = '';
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST);
-		$this->setAttribs(array(
-			'id'     => 'search-form',
-		));
+        $this->setMethod(Zend_Form::METHOD_GET)
+            ->setAttrib('id', 'search-form');
 
-		$this->addElement(new Zend_Form_Element_Text(array(
-			'id'       => 'search',
-			'name'     => 'search',
-			'label'    => '',
-			'value'    => $this->_search,
-			'required' => true,
-			'filters'  => array('StringTrim')
-		)));
-
-		$this->addElement(new Zend_Form_Element_Hidden(array(
-			'id'       => 'results-page-id',
-			'name'     => 'resultsPageId',
-			'value'    => $this->_resultsPageId
-		)));
-
-		$this->addElement(new Zend_Form_Element_Submit(array(
-			'name'  => 'doSearch',
-			'id'    => 'do-search',
-			'value' => 'doSearch',
-			'label' => 'Search'
-		)));
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'id'       => 'search',
+            'name'     => 'search',
+            'label'    => '',
+            'value'    => $this->_search,
+            'required' => true,
+            'filters'  => array(new Zend_Filter_StringTrim(), new Zend_Filter_Alnum(true)),
+            'validators' => array(
+                new Zend_Validate_StringLength(array('min' => 3))
+            )
+        )));
 
 		$this->_initDecorators();
 	}
@@ -58,26 +46,22 @@ class Application_Form_Search extends Zend_Form {
 			'Label',
 			array('HtmlTag', array('tag' => 'p'))
 		));
-		// remove Label decorator from submit button
-		$this->getElement('doSearch')->removeDecorator('Label');
-		$this->getElement('resultsPageId')->removeDecorator('HtmlTag');
 	}
 
-	public function getResultsPageId() {
-		return $this->_resultsPageId;
-	}
-
-	public function setResultsPageId($resultsPageId) {
-		$this->_resultsPageId = $resultsPageId;
-		$this->getElement('resultsPageId')->setValue($resultsPageId);
-		return $this;
-	}
-
-	public function getSearch() {
+    /**
+     * Returns current search term
+     * @return string
+     */
+    public function getSearch() {
 		return $this->_search;
 	}
 
-	public function setSearch($search) {
+    /**
+     * Set search term
+     * @param $search Search term
+     * @return $this Instance of Application_Form_Search for chaining
+     */
+    public function setSearch($search) {
 		$this->_search = $search;
 		$this->getElement('search')->setValue($search);
 		return $this;

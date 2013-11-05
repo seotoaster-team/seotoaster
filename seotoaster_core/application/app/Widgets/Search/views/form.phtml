@@ -1,11 +1,5 @@
-<?php echo $this->searchForm; ?>
-<?php //if($this->renewIndex): ?>
-<!--    <script type="text/javascript">-->
-<!--        $('#logoutul li a').one('click', function(e) {-->
-<!--            e.preventDefault();-->
-<!--            $.post('--><?php //echo $this->_websiteUrl;?><!--backend/search/managesearchindex/', {doaction: 'renew'}, function() {-->
-<!--                window.location.href = --><?php //echo $this->_websiteUrl;?><!--'backend/login/logout/';-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
-<?php //endif; ?>
+<form id="<?php echo $this->searchForm->getAttrib('id'); ?>" action="<?php echo $this->searchForm->getAction(); ?>"
+      method="<?php echo $this->searchForm->getMethod(); ?>">
+    <?php echo $this->searchForm->getElement('search'); ?>
+    <p><input type="submit" value="<?php echo $this->translate('Search'); ?>"/></p>
+</form>
