@@ -241,7 +241,7 @@ body{
         }
     }
 
-    #page-teaser-uploader{
+    &>[id*="teaser-uploader"]{
         position : absolute;
         top      : 0;
         left     : 0;
@@ -254,6 +254,7 @@ body{
             width      : 100%;
             background : transparent;
             color      : transparent;
+            z-index    : 50;
 
             &:active{
                 .box-shadow(none);
@@ -261,7 +262,7 @@ body{
         }
     }
 
-    #page-teaser-uploader-filelist{
+    [id*="teaser-uploader-filelist"]{
     }
 
     &:hover{

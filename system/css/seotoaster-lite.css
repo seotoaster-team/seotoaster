@@ -2213,21 +2213,22 @@ body {
   display: block;
   margin: 10px;
 }
-.page-preview #page-teaser-uploader {
+.page-preview > [id*="teaser-uploader"] {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 }
-.page-preview #page-teaser-uploader button {
+.page-preview > [id*="teaser-uploader"] button {
   height: 100%;
   padding: 0;
   width: 100%;
   background: transparent;
   color: transparent;
+  z-index: 50;
 }
-.page-preview #page-teaser-uploader button:active {
+.page-preview > [id*="teaser-uploader"] button:active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
