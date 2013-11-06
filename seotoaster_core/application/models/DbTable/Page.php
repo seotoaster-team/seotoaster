@@ -101,10 +101,6 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             ->columns(array(
                 'content' => 'template.content'
             ))
-            ->joinLeft('container', 'page.id=container.page_id', null)
-            ->columns(array(
-                'containers' => new Zend_Db_Expr("GROUP_CONCAT(`container`.`name`,'CONTAINER_VAL_SEP',`container`.`content`,'CONTAINER_VAL_SEP',`container`.`id`,'CONTAINER_VAL_SEP',`container`.`published`, 'CONTAINER_VAL_SEP',`container`.`publishing_date` SEPARATOR 'CONTAINER_SEP')")
-            ))
             ->where($where)
             ->orWhere($orWhere);
 
@@ -116,6 +112,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
         // select containers for the current page (including static)
         $select = $this->getAdapter()->select()->from('container', array(
+            'uniqHash' => new Zend_Db_Expr("MD5(CONCAT_WS('-',`name`, COALESCE(`page_id`, 0), `container_type`))"),
             'id',
             'name',
             'page_id',
@@ -124,9 +121,9 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
             'published',
             'publishing_date'
         ))
-        ->where('page_id=' . $row['id'])
+        ->where('page_id = ?', $row['id'])
         ->orWhere('page_id IS NULL');
-        $row['containers'] = $this->getAdapter()->fetchAll($select);
+        $row['containers'] = $this->getAdapter()->fetchAssoc($select);
         return $row;
     }
 
