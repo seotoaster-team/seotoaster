@@ -2,7 +2,7 @@
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties', 'helpSection' => $this->helpSection)); ?>
     <form id="formWidget" class="_fajax _reload condensed content-footer" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
         <div id="form-code" class="grid_6">
-            <span class="screen-size fl-right" data-size="form-code"></span>
+            <span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="form-code"></span>
             <?php echo $this->formForm->getElement('code')->renderLabel(); ?>
             <?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>
         </div>

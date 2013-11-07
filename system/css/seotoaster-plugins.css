@@ -207,20 +207,16 @@
 .smoke-base .dialog .dialog-inner .dialog-buttons button:focus,
 .message .dialog-inner .dialog-buttons button:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button:active,
-.message .dialog-inner .dialog-buttons button.active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.active,
-.message .dialog-inner .dialog-buttons button.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.ui-state-active {
+.message .dialog-inner .dialog-buttons button[class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button[class*="active"] {
   color: #ffffff;
   background-color: #25a25a;
   border-color: #1b7943;
 }
 .message .dialog-inner .dialog-buttons button:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button:active,
-.message .dialog-inner .dialog-buttons button.active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.active,
-.message .dialog-inner .dialog-buttons button.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.ui-state-active {
+.message .dialog-inner .dialog-buttons button[class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
@@ -242,10 +238,10 @@
 .smoke-base .dialog .dialog-inner .dialog-buttons button.disabled:active,
 .message .dialog-inner .dialog-buttons button[disabled]:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button[disabled]:active,
-.message .dialog-inner .dialog-buttons button.disabled.active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.disabled.active,
-.message .dialog-inner .dialog-buttons button[disabled].active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button[disabled].active {
+.message .dialog-inner .dialog-buttons button.disabled[class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button.disabled[class*="active"],
+.message .dialog-inner .dialog-buttons button[disabled][class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -267,20 +263,16 @@
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:focus,
 .message .dialog-inner .dialog-buttons button.cancel:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:active,
-.message .dialog-inner .dialog-buttons button.cancel.active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.active,
-.message .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.ui-state-active {
+.message .dialog-inner .dialog-buttons button.cancel[class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[class*="active"] {
   color: #ffffff;
   background-color: #d62c1a;
   border-color: #a82315;
 }
 .message .dialog-inner .dialog-buttons button.cancel:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel:active,
-.message .dialog-inner .dialog-buttons button.cancel.active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.active,
-.message .dialog-inner .dialog-buttons button.cancel.ui-state-active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.ui-state-active {
+.message .dialog-inner .dialog-buttons button.cancel[class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #921e12 inset;
@@ -302,10 +294,10 @@
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled:active,
 .message .dialog-inner .dialog-buttons button.cancel[disabled]:active,
 .smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled]:active,
-.message .dialog-inner .dialog-buttons button.cancel.disabled.active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled.active,
-.message .dialog-inner .dialog-buttons button.cancel[disabled].active,
-.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled].active {
+.message .dialog-inner .dialog-buttons button.cancel.disabled[class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel.disabled[class*="active"],
+.message .dialog-inner .dialog-buttons button.cancel[disabled][class*="active"],
+.smoke-base .dialog .dialog-inner .dialog-buttons button.cancel[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -1253,21 +1245,70 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   -moz-box-shadow: 0 1px 1px #bbbbbb;
   -ms-box-shadow: 0 1px 1px #bbbbbb;
   box-shadow: 0 1px 1px #bbbbbb;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
   display: inline-block;
   *zoom: 1;
   *display: inline;
   /* Fix for IE7 */
 
   vertical-align: top;
-  width: 23%;
-  margin-left: 1%;
-  margin-right: 1%;
+  width: 24%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   font-size: 14px;
   margin-bottom: 2%;
+}
+#sortable-main .category-data ::made-up-pseudo-element,
+#sortable-main .category-data {
+  width: 23.8%;
+}
+@media only screen and (max-width: 800px) {
+  #sortable-main .category-data {
+    width: 32.333333333333336%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #sortable-main .category-data ::made-up-pseudo-element,
+  #sortable-main .category-data {
+    width: 32.13333333333333%;
+  }
+}
+@media only screen and (max-width: 640px) {
+  #sortable-main .category-data {
+    width: 49%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #sortable-main .category-data ::made-up-pseudo-element,
+  #sortable-main .category-data {
+    width: 48.8%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  #sortable-main .category-data {
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #sortable-main .category-data ::made-up-pseudo-element,
+  #sortable-main .category-data {
+    width: 99.8%;
+  }
 }
 #sortable-main .category-data:nth-last-child(1),
 #sortable-main .category-data:nth-last-child(2),
@@ -1579,6 +1620,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #themes-list .themebox:not(.featureapage) {
   width: 15.000000000000002%;
   margin-left: 2%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
 }
 #themes-list .themebox:not(.featureapage):nth-child(6n + 1) {
   margin-left: 0;
@@ -1586,6 +1631,57 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #themes-list .themebox:not(.featureapage) ::made-up-pseudo-element,
 #themes-list .themebox:not(.featureapage) {
   width: 14.700000000000001%;
+}
+@media only screen and (max-width: 800px) {
+  #themes-list .themebox:not(.featureapage) {
+    width: 32%;
+    margin-left: 2%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #themes-list .themebox:not(.featureapage):nth-child(3n + 1) {
+    margin-left: 0;
+  }
+  #themes-list .themebox:not(.featureapage) ::made-up-pseudo-element,
+  #themes-list .themebox:not(.featureapage) {
+    width: 31.7%;
+  }
+}
+@media only screen and (max-width: 640px) {
+  #themes-list .themebox:not(.featureapage) {
+    width: 49%;
+    margin-left: 2%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #themes-list .themebox:not(.featureapage):nth-child(2n + 1) {
+    margin-left: 0;
+  }
+  #themes-list .themebox:not(.featureapage) ::made-up-pseudo-element,
+  #themes-list .themebox:not(.featureapage) {
+    width: 48.7%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  #themes-list .themebox:not(.featureapage) {
+    width: 100%;
+    margin-left: 0%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #themes-list .themebox:not(.featureapage):nth-child(1n + 1) {
+    margin-left: 0;
+  }
+  #themes-list .themebox:not(.featureapage) ::made-up-pseudo-element,
+  #themes-list .themebox:not(.featureapage) {
+    width: 99.7%;
+  }
 }
 #themes-list .themebox:nth-child(1),
 #themes-list .themebox:nth-child(2),
@@ -1947,15 +2043,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-control:hover,
 .plugins-list .plugin-item .plugin-control:focus,
 .plugins-list .plugin-item .plugin-control:active,
-.plugins-list .plugin-item .plugin-control.active,
-.plugins-list .plugin-item .plugin-control.ui-state-active {
+.plugins-list .plugin-item .plugin-control[class*="active"] {
   color: #ffffff;
   background-color: #b84438;
   border-color: #91362c;
 }
 .plugins-list .plugin-item .plugin-control:active,
-.plugins-list .plugin-item .plugin-control.active,
-.plugins-list .plugin-item .plugin-control.ui-state-active {
+.plugins-list .plugin-item .plugin-control[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #7d2e26 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #7d2e26 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #7d2e26 inset;
@@ -1969,8 +2063,8 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-control[disabled]:focus,
 .plugins-list .plugin-item .plugin-control.disabled:active,
 .plugins-list .plugin-item .plugin-control[disabled]:active,
-.plugins-list .plugin-item .plugin-control.disabled.active,
-.plugins-list .plugin-item .plugin-control[disabled].active {
+.plugins-list .plugin-item .plugin-control.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-control[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -1988,15 +2082,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-control.block:hover,
 .plugins-list .plugin-item .plugin-control.block:focus,
 .plugins-list .plugin-item .plugin-control.block:active,
-.plugins-list .plugin-item .plugin-control.block.active,
-.plugins-list .plugin-item .plugin-control.block.ui-state-active {
+.plugins-list .plugin-item .plugin-control.block[class*="active"] {
   color: #ffffff;
   background-color: #25a25a;
   border-color: #1b7943;
 }
 .plugins-list .plugin-item .plugin-control.block:active,
-.plugins-list .plugin-item .plugin-control.block.active,
-.plugins-list .plugin-item .plugin-control.block.ui-state-active {
+.plugins-list .plugin-item .plugin-control.block[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
@@ -2010,8 +2102,8 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-control.block[disabled]:focus,
 .plugins-list .plugin-item .plugin-control.block.disabled:active,
 .plugins-list .plugin-item .plugin-control.block[disabled]:active,
-.plugins-list .plugin-item .plugin-control.block.disabled.active,
-.plugins-list .plugin-item .plugin-control.block[disabled].active {
+.plugins-list .plugin-item .plugin-control.block.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-control.block[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -2029,15 +2121,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-endis:hover,
 .plugins-list .plugin-item .plugin-endis:focus,
 .plugins-list .plugin-item .plugin-endis:active,
-.plugins-list .plugin-item .plugin-endis.active,
-.plugins-list .plugin-item .plugin-endis.ui-state-active {
+.plugins-list .plugin-item .plugin-endis[class*="active"] {
   color: #ffffff;
   background-color: #22617a;
   border-color: #22617a;
 }
 .plugins-list .plugin-item .plugin-endis:active,
-.plugins-list .plugin-item .plugin-endis.active,
-.plugins-list .plugin-item .plugin-endis.ui-state-active {
+.plugins-list .plugin-item .plugin-endis[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #11323e inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #11323e inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #11323e inset;
@@ -2051,8 +2141,8 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-endis[disabled]:focus,
 .plugins-list .plugin-item .plugin-endis.disabled:active,
 .plugins-list .plugin-item .plugin-endis[disabled]:active,
-.plugins-list .plugin-item .plugin-endis.disabled.active,
-.plugins-list .plugin-item .plugin-endis[disabled].active {
+.plugins-list .plugin-item .plugin-endis.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-endis[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -2070,15 +2160,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-endis.disable:hover,
 .plugins-list .plugin-item .plugin-endis.disable:focus,
 .plugins-list .plugin-item .plugin-endis.disable:active,
-.plugins-list .plugin-item .plugin-endis.disable.active,
-.plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
+.plugins-list .plugin-item .plugin-endis.disable[class*="active"] {
   color: #848484;
   background-color: #b7b7b7;
   border-color: #d1d1d1;
 }
 .plugins-list .plugin-item .plugin-endis.disable:active,
-.plugins-list .plugin-item .plugin-endis.disable.active,
-.plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
+.plugins-list .plugin-item .plugin-endis.disable[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
@@ -2092,8 +2180,8 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .plugins-list .plugin-item .plugin-endis.disable[disabled]:focus,
 .plugins-list .plugin-item .plugin-endis.disable.disabled:active,
 .plugins-list .plugin-item .plugin-endis.disable[disabled]:active,
-.plugins-list .plugin-item .plugin-endis.disable.disabled.active,
-.plugins-list .plugin-item .plugin-endis.disable[disabled].active {
+.plugins-list .plugin-item .plugin-endis.disable.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-endis.disable[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -2241,6 +2329,19 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   width: 31%;
   margin: 1%;
 }
+#edit-content #adminthingsviewer .ui-accordion-content.show_div.full-screen .title {
+  display: block;
+  text-align: center;
+  position: fixed;
+  line-height: 40px;
+  width: 50%;
+  margin: auto;
+  top: 0px;
+  left: 0;
+  right: 0;
+  font-size: 1.25em;
+  color: #666666;
+}
 #edit-content #adminthingsviewer .ui-accordion-content.show_div.full-screen .list-images {
   height: 500px;
 }
@@ -2264,8 +2365,22 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 }
 #filters > label {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 0;
+  right: 0px;
+}
+#filters > label:after,
+#filters > label:before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 15px;
+  border-right: 1px dashed #cccccc;
+}
+#filters > label:before {
+  border-top: 1px dashed #cccccc;
+}
+#filters > label:after {
+  border-bottom: 1px dashed #cccccc;
 }
 #product-products {
   background: #ffffff;

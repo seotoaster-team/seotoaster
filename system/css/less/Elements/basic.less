@@ -20,7 +20,7 @@
 body{
     //background  : @body-bg;
     font-family : @font-family-text;
-    line-height : 1.4;
+    line-height : @line-height;
     color       : @text-color;
 }
 
@@ -177,11 +177,12 @@ body{
 }
 
 .footer{
+    @padding-top: @footer-height - @btn-height-base - 10px;
     .box-sizing;
     clear       : both;
-    padding     : 15px 0 10px;
+    padding     : @padding-top 0 10px;
     height      : @footer-height;
-    line-height : @footer-height - 25px;
+    line-height : @footer-height - 10px - @padding-top;
 
     [class*="content"].grid_12+&{
         padding-left  : @grid-margin-width / 2;

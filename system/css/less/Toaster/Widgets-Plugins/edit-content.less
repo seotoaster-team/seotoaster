@@ -114,6 +114,20 @@
 
                 &.full-screen{
 
+                    .title{
+                        display     : block;
+                        text-align  : center;
+                        position    : fixed;
+                        line-height : @header-height;
+                        width       : 50%;
+                        margin      : auto;
+                        top         : 0px;
+                        left        : 0;
+                        right       : 0;
+                        font-size   : @font-size-large;
+                        color       : @header-color;
+                    }
+
                     .list-images{
                         height : @tpopup-base-height - @header-height - 10px *2;
                     }
@@ -157,9 +171,25 @@
     }
 
     &>label{
-        position : absolute;
-        top      : 4px;
-        right    : 4px;
+        position   : absolute;
+        top        : 0;
+        right      : 0px;
+
+        &:after, &:before{
+            content      : '';
+            display      : block;
+            width        : 8px;
+            height       : 15px;
+            border-right : 1px dashed @input-border-color;
+        }
+
+        &:before{
+            border-top : 1px dashed @input-border-color;
+        }
+
+        &:after{
+            border-bottom : 1px dashed @input-border-color;
+        }
     }
 }
 

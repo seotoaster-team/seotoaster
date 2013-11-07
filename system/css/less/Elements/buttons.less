@@ -2,50 +2,50 @@
 // --------------------------------------------------
 
 // Core styles
-.btn, [type="submit"], button{
+.btn, button, [type="submit"]{
     .button;
 
     // Alternate buttons
     // --------------------------------------------------
     // Inverse button appears as gray => primary
     &.inverse{
-        .btn-states(@gray, @gray-light, @gray-light, @primary-color, @primary-bg, @primary-bg);
+        .btn-color(@gray, @gray-light, @gray-light, @primary-color, @primary-bg, @primary-bg);
     }
 
     // Warning appears as orange
     &.warning{
-        .btn-states(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+        .btn-color(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
     }
 
     &.inverse-warning{
-        .btn-states(@gray, @gray-light, @gray-light, @btn-warning-color, @btn-warning-bg, @btn-warning-border);
+        .btn-color(@gray, @gray-light, @gray-light, @btn-warning-color, @btn-warning-bg, @btn-warning-border);
     }
 
     // Danger and error appear as red
     &.error{
-        .btn-states(@btn-error-color, @btn-error-bg, @btn-error-border);
+        .btn-color(@btn-error-color, @btn-error-bg, @btn-error-border);
     }
 
     &.inverse-error{
-        .btn-states(@gray, @gray-light, @gray-light, @btn-error-color, @btn-error-bg, @btn-error-border);
+        .btn-color(@gray, @gray-light, @gray-light, @btn-error-color, @btn-error-bg, @btn-error-border);
     }
 
     // Success appears as green
     &.success{
-        .btn-states(@btn-success-color, @btn-success-bg, @btn-success-border);
+        .btn-color(@btn-success-color, @btn-success-bg, @btn-success-border);
     }
 
     &.inverse-success{
-        .btn-states(@gray, @gray-light, @gray-light, @btn-success-color, @btn-success-bg, @btn-success-border);
+        .btn-color(@gray, @gray-light, @gray-light, @btn-success-color, @btn-success-bg, @btn-success-border);
     }
 
     // Info appears as blue
     &.info{
-        .btn-states(@btn-info-color, @btn-info-bg, @btn-info-border);
+        .btn-color(@btn-info-color, @btn-info-bg, @btn-info-border);
     }
 
     &.inverse-info{
-        .btn-states(@gray, @gray-light, @gray-light, @btn-info-color, @btn-info-bg, @btn-info-border);
+        .btn-color(@gray, @gray-light, @gray-light, @btn-info-color, @btn-info-bg, @btn-info-border);
     }
 
     // Button Sizes
@@ -108,7 +108,7 @@
     &.link{
         font-weight : normal;
         padding     : 0;
-        .link-states(@link-color);
+        .link-color(@link-color);
 
         &:hover, &:focus{
             color           : @link-color-hover;
@@ -118,43 +118,43 @@
         // Alternate buttons
         // --------------------------------------------------
         &.inverse{
-            .link-states(@gray, @link-color);
+            .link-color(@gray, @link-color);
         }
 
         // Warning appears as orange
         &.warning{
-            .link-states(@brand-warning);
+            .link-color(@brand-warning);
         }
 
         &.inverse-warning{
-            .link-states(@gray, @brand-warning);
+            .link-color(@gray, @brand-warning);
         }
 
         // Danger and error appear as red
         &.error{
-            .link-states(@brand-error);
+            .link-color(@brand-error);
         }
 
         &.inverse-error{
-            .link-states(@gray, @brand-error);
+            .link-color(@gray, @brand-error);
         }
 
         // Success appears as green
         &.success{
-            .link-states(@brand-success);
+            .link-color(@brand-success);
         }
 
         &.inverse-success{
-            .link-states(@gray, @brand-success);
+            .link-color(@gray, @brand-success);
         }
 
         // Info appears as blue
         &.info{
-            .link-states(@brand-info);
+            .link-color(@brand-info);
         }
 
         &.inverse-info{
-            .link-states(@gray, @brand-info);
+            .link-color(@gray, @brand-info);
         }
     }
 }

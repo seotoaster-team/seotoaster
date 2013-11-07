@@ -2,9 +2,7 @@
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage Page Rank Sculpting', 'helpSection' => $this->helpSection)); ?>
 	<div class="content-footer grid_12">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->url(); ?>" class="_fajax grid_12 mb15px form-inline" data-callback="sculptingCallback">
-			<div class="grid_9 alpha">
-				<?php echo $this->siloForm->getElement('name'); ?>
-			</div>
+            <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
 		</form>
 		<div id="sculpting-list" class="grid_12"></div>

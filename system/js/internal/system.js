@@ -174,13 +174,12 @@ $(function () {
 doc.on('click', '.screen-size', function (e) {
     var name = $(this).data('size');
     $('.closebutton').toggleClass('hidden');
-    $(this).toggleClass('icon-expand icon-turn');
-    $(this).toggleClass('inverse-info inverse-error');
+    $(this).toggleClass('icon-expand icon-turn').toggleClass('inverse-info inverse-error');
     $('#' + name + ', .' + name).toggleClass('full-screen');
 });
 ///////// Full screen //////////////
 doc.on('click', '#screen-expand', function (e) {
-    $(this).toggleClass('icon-expand icon-turn')
+    $(this).toggleClass('icon-expand icon-turn');
     var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');

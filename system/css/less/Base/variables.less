@@ -41,8 +41,23 @@
 @tpopup-small-width   : 480px;
 @tpopup-small-height  : 360px;
 
+// PIE
+//==================================================
+@connection-pie : false;
+
+// Responsive
+//==================================================
+@responsive             : true;
+@responsive-size-large  : 1024px;
+@responsive-size-medium : 800px;
+@responsive-size-small  : 640px;
+@responsive-size-mini   : 480px;
+
 // Fonts
 //==================================================
+.google-font() {
+    //@import "http://fonts.googleapis.com/css?family=YOUR GOOGLE FONT";
+}
 @font-family-text     : 'Open Sans', sans-serif;
 @font-family-headings : @font-family-text;
 
@@ -54,22 +69,23 @@
 
 // Grid Base
 //==================================================
-@grid-container-width : 100%;
 //Width for container
-@grid-columns         : 12;
+@grid-container-width : 100%;
 // Number of columns in the grid system
-@grid-margin-width    : 4%;
+@grid-columns         : 12;
+@grid-columns-tablet  : 6;
+@grid-columns-mobile  : 4;
+
 // Margin, to be divided by two and applied to the left and right of all columns
+@grid-margin-width    : 4%;
 
 //Grays
 //==================================================
-@black        : #000;
 @gray-darker  : #111;
 @gray-dark    : #333;
 @gray         : #666;
 @gray-light   : #eaeaea;
 @gray-lighter : #fafafa;
-@white        : #fff;
 
 // Brand Color
 //==================================================
@@ -80,12 +96,13 @@
 @brand-error   : #E74C3C;
 
 //main color website
+// IS USED BY DEFAULT for: @nav-bg, @state-primary (alerts, message, table coloring, datepicker, progressbar, range), @btn-primary, @tabs-nav-li-bg, @dialog-header-bg, @text-select-bg
 @primary-bg              : @brand-primary;
 @primary-bg-hover        : darken(@primary-bg, 10%);
 @primary-bg-active       : @primary-bg;
 @primary-bg-disable      : desaturate(@primary-bg, 15%);
 //the color of the text relative to the main site colors
-@primary-color           : @white;
+@primary-color           : #fff;
 @primary-color-hover     : darken(@primary-color, 5%);
 @primary-color-active    : @primary-color;
 @primary-color-disable   : desaturate(@primary-color, 15%);
@@ -94,6 +111,7 @@
 //==================================================
 @body-bg                 : #fff;
 @text-color              : @gray-dark;
+@line-height             : 1.35;
 
 @text-select-bg          : @primary-bg;
 @text-select-color       : @primary-color;
@@ -144,6 +162,7 @@
 @hr-color                  : @gray-light;
 
 // Form states and alerts
+// IS USED BY DEFAULT for: alerts, message, table coloring, datepicker, progressbar, range
 //==================================================
 @state-border-radius  : @border-radius-base;
 
@@ -172,7 +191,7 @@
 @table-bg           : transparent;
 // overall background-color
 @table-row-bg       : @gray-lighter;
-// for striping
+// is used in .table-striped
 @table-row-bg-hover : @table-row-bg;
 // for hover
 @table-border-color : darken(@gray-light, 5%);
@@ -185,6 +204,10 @@
 @btn-border-radius         : 0px;
 @btn-large-border-radius   : @btn-border-radius * 1.5;
 @btn-small-border-radius   : @btn-border-radius * .5;
+
+@btn-primary-color         : @primary-color;
+@btn-primary-bg            : @primary-bg;
+@btn-primary-border        : darken(@btn-primary-bg, 10%);
 
 @btn-success-color         : #fff;
 @btn-success-bg            : @brand-success;
@@ -217,7 +240,8 @@
 //border color and shadow in focus
 @input-border-radius      : 0;
 
-@input-shadow-focus       : false;
+@input-shadow-focus       : true;
+//Do you need a shadow on focus? (true / false)
 
 @input-color-placeholder  : #ccc;
 
@@ -228,12 +252,17 @@
 
 // Thumbnails
 //==================================================
-@thumbnail-bg            : @body-bg;
+@thumbnail-bg            : transparent;
 @thumbnail-padding       : 2px;
+
 @thumbnail-border-width  : 1px;
 @thumbnail-border-color  : @gray-light;
 @thumbnail-border-radius : 0;
-@thumbnail-shadow        : true;
+
+@thumbnail-shadow-hover  : true;
+//Do you need a shadow on hover? (true / false)
+@thumbnail-color-hover   : @brand-primary;
+
 @thumbnail-caption-bg    : fade(@primary-bg, 80%);
 @thumbnail-caption-color : @primary-color;
 

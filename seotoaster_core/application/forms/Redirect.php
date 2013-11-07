@@ -60,7 +60,7 @@ class Application_Form_Redirect extends Zend_Form {
 			'name'  => 'addRedirect',
 			'id'    => 'add-redirect',
 			'value' => 'Add redirect',
-			'class' => 'grid_2 omega inline',
+			'class' => 'grid_2 omega',
 			'label' => 'Add redirect'
 		)));
 

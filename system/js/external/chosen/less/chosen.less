@@ -129,6 +129,10 @@
 
 /* @group Multi Chosen */
 .chzn-container-multi{
+    #tags_chzn&{
+        min-width: 90%;
+    }
+
     .chzn-choices{
         background-color : @input-bg;
         border-style     : solid;
@@ -137,7 +141,7 @@
         margin           : 0;
         padding          : 0;
         cursor           : text;
-        overflow         : hidden;
+        overflow         : auto;
         height           : 52px;
         .box-sizing;
 
@@ -172,7 +176,7 @@
             background-color : @gray-light;
             color            : @gray;
             font-size        : @font-size-small;
-            padding          : 3px 5px;
+            padding          : 1px 5px;
             margin           : 1%;
             position         : relative;
             cursor           : default;

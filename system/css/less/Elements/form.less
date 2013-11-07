@@ -7,17 +7,13 @@
 //	Custom style
 //==================================================
 form, .form{
-    &:after{
-        content : '';
-        display : block;
-        clear   : both;
-    }
+    .clearfix;
 
     p:not([class*='mb']){
         margin-bottom : 0
     }
 
-    &>p, &>div, fieldset>p, fieldset>div{
+    & > p, & > div, fieldset > p, fieldset > div{
         .box-sizing();
 
         &:not([class*="mt"]):not(:first-child){
@@ -35,7 +31,7 @@ form, .form{
     }
 
     &.condensed{
-        &>p, &>div, fieldset>p, fieldset>div{
+        & > p, & > div, fieldset > p, fieldset > div{
             &:not([class*="mt"]){
                 margin-top : 0.5em;
             }
@@ -55,14 +51,14 @@ form, .form{
         }
 
         // -- Buttons
-        &+[type="submit"], &+[type="button"]{
+        & + [type="submit"], & + [type="button"]{
             margin-top : 0;
         }
     }
 
     label{
-        color         : @label-color;
-        display       : block;
+        color   : @label-color;
+        display : block;
 
         &:not([class*="mb"]){
             margin-bottom : 0.15em;
@@ -74,7 +70,7 @@ form, .form{
 
     // -- Buttons
     [type="submit"]{
-        height : auto;
+        //height : auto;
         float  : right;
 
         &:not([class*="mt"]){
@@ -86,12 +82,12 @@ form, .form{
     }
 
     &.form-inline{
-        &>p, &>div, fieldset>p, fieldset>div{
+        & > p, & > div, fieldset > p, fieldset > div{
             margin-top : 0;
         }
 
         // -- Buttons
-        &>[type="submit"]:not([class*="mt"]), &>[type="button"]:not([class*="mt"]){
+        & > [type="submit"]:not([class*="mt"]), & > [type="button"]:not([class*="mt"]){
             margin-top : 21px;
         }
     }
@@ -114,6 +110,7 @@ select, textarea, input{
     padding          : @padding-base-vertical;
     background-color : @input-bg;
     color            : @input-color;
+    height           : @btn-height-base;
     vertical-align   : middle;
     border-style     : solid;
     border-width     : @input-border-width;
@@ -123,14 +120,14 @@ select, textarea, input{
 
     &:focus:not([type="submit"]):not([type="button"]){
         border-color : @input-border-color-focus;
-        .box-shadow(0 0 3px @input-border-color-focus);
+        .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
     }
 
     &.success{
         border-color : @brand-success;
         color        : @brand-success;
         &:focus{
-            .box-shadow(0 0 3px @brand-success);
+            .box-shadow(0 0 3px @brand-success, @input-shadow-focus);
         }
     }
 
@@ -138,7 +135,7 @@ select, textarea, input{
         border-color : @brand-warning;
         color        : @brand-warning;
         &:focus{
-            .box-shadow(0 0 3px @brand-warning);
+            .box-shadow(0 0 3px @brand-warning, @input-shadow-focus);
         }
     }
 
@@ -146,7 +143,7 @@ select, textarea, input{
         border-color : @brand-error;
         color        : @brand-error;
         &:focus{
-            .box-shadow(0 0 3px @brand-error);
+            .box-shadow(0 0 3px @brand-error, @input-shadow-focus);
         }
     }
 
@@ -154,7 +151,7 @@ select, textarea, input{
         border-color : @brand-info;
         color        : @brand-info;
         &:focus{
-            .box-shadow(0 0 2px @brand-info);
+            .box-shadow(0 0 2px @brand-info, @input-shadow-focus);
         }
     }
 
@@ -166,24 +163,19 @@ select, textarea, input{
     }
 
     &.small{
-        padding : @padding-small-vertical;
+        font-size : @font-size-small;
+        height    : @btn-height-small;
+        padding   : @padding-small-vertical;
     }
 
     &.large{
-        padding : @padding-large-vertical;
+        font-size : @font-size-large;
+        height    : @btn-height-large;
+        padding   : @padding-large-vertical;
     }
 }
 
 select{
-    padding : @padding-base-vertical - 1 @padding-base-vertical;
-
-    &.small{
-        padding : @padding-small-vertical - 1 @padding-small-vertical;
-    }
-
-    &.large{
-        padding : @padding-large-vertical - 1 @padding-large-vertical;
-    }
 
     option{
         color : @text-color;
@@ -206,7 +198,7 @@ textarea{
         color    : @input-color-placeholder;
         .icon-size(1em);
 
-        &+select, &+textarea, &+input{
+        & + select, & + textarea, & + input{
             padding-left : @padding-base-vertical * 4;
         }
     }
@@ -224,7 +216,7 @@ textarea{
     input:focus{
         .box-shadow(none) !important;
 
-        &+label, &+.label{
+        & + label, & + .label{
             background : @input-border-color-focus;
         }
     }
@@ -248,7 +240,7 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
         display : inline;
     }
 
-    &:not(.icon)+span{
+    &:not(.icon) + span{
         .inline-block;
         .icon-size(@font-size-base);
         line-height      : 0;
@@ -259,7 +251,7 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
         border-color     : @input-border-color;
         cursor           : pointer;
 
-        &+span{
+        & + span{
             vertical-align : middle;
         }
 
@@ -270,7 +262,7 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
     }
 
     &:disabled{
-        &+span{
+        & + span{
             background   : @input-bg-disabled;
             border-color : darken(@input-bg-disabled, 10%);
             color        : darken(@input-bg-disabled, 30%) !important;
@@ -278,7 +270,7 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
     }
 }
 input[type="radio"]:not(.hidden){
-    &+span{
+    & + span{
         border-color : darken(@input-border-color, 7%);
         .border-radius(@font-size-base * 2);
 
@@ -291,7 +283,7 @@ input[type="radio"]:not(.hidden){
     }
 
     &:checked{
-        &+span{
+        & + span{
             border-color : @primary-bg;
 
             &:after{
@@ -301,7 +293,7 @@ input[type="radio"]:not(.hidden){
     }
 }
 input[type="checkbox"]:not(.icon):not(.hidden){
-    &+span{
+    & + span{
         color : transparent;
 
         &:before{
@@ -312,13 +304,13 @@ input[type="checkbox"]:not(.icon):not(.hidden){
     }
 
     &:checked{
-        &+span{
+        & + span{
             color : @primary-bg;
         }
     }
 
     &.switcher{
-        &+span{
+        & + span{
             overflow    : hidden;
             font-size   : @font-size-base;
             position    : relative;
@@ -364,7 +356,7 @@ input[type="checkbox"]:not(.icon):not(.hidden){
         }
 
         &:checked{
-            &+span{
+            & + span{
                 //border-color : @brand-success;
 
                 &:before{
@@ -417,7 +409,7 @@ input[type="checkbox"]:not(.icon):not(.hidden){
 // Social button with checkbox
 //==================================================
 input.icon{
-    &~[class*="icon-"]{
+    & ~ [class*="icon-"]{
         color  : @gray-light;
         cursor : pointer;
         .icon-size(42px);
@@ -427,85 +419,85 @@ input.icon{
         }
     }
 
-    &~input{
+    & ~ input{
         border-color : transparent;
 
-        &:empty~.icon-facebook{
+        &:empty ~ .icon-facebook{
         }
     }
 
     &:checked{
-        &~input{
+        & ~ input{
             border-color : @input-border-color;
         }
     }
 
     &.facebook{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #3b5a99;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #3b5a99;
             .box-shadow(0 0 3px #3b5a99);
         }
     }
     &.twitter{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #1aa8e0;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #1aa8e0;
             .box-shadow(0 0 3px #1aa8e0);
         }
     }
     &.linkedin{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #4875b5;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #4875b5;
             .box-shadow(0 0 3px #4875b5);
         }
     }
     &.rss{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #FE9900;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #FE9900;
             .box-shadow(0 0 3px #FE9900);
         }
     }
     &.gplus{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #ca3e2d;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #ca3e2d;
             .box-shadow(0 0 3px #ca3e2d);
         }
     }
     &.youtube{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #c7453f;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #c7453f;
             .box-shadow(0 0 3px #c7453f);
         }
     }
     &.pinterest{
-        &:checked~[class*="icon-"], &~input.filled~[class*="icon-"]{
+        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
             color : #bd3137;
         }
 
-        &:checked~input:focus{
+        &:checked ~ input:focus{
             border-color : #bd3137;
             .box-shadow(0 0 3px #bd3137);
         }

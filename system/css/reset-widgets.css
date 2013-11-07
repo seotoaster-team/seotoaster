@@ -72,15 +72,13 @@
 .plugins-list .plugin-item .plugin-control:hover,
 .plugins-list .plugin-item .plugin-control:focus,
 .plugins-list .plugin-item .plugin-control:active,
-.plugins-list .plugin-item .plugin-control.active,
-.plugins-list .plugin-item .plugin-control.ui-state-active {
+.plugins-list .plugin-item .plugin-control[class*="active"] {
   color: #ffffff;
   background-color: #b84438;
   border-color: #91362c;
 }
 .plugins-list .plugin-item .plugin-control:active,
-.plugins-list .plugin-item .plugin-control.active,
-.plugins-list .plugin-item .plugin-control.ui-state-active {
+.plugins-list .plugin-item .plugin-control[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #7d2e26 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #7d2e26 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #7d2e26 inset;
@@ -94,8 +92,8 @@
 .plugins-list .plugin-item .plugin-control[disabled]:focus,
 .plugins-list .plugin-item .plugin-control.disabled:active,
 .plugins-list .plugin-item .plugin-control[disabled]:active,
-.plugins-list .plugin-item .plugin-control.disabled.active,
-.plugins-list .plugin-item .plugin-control[disabled].active {
+.plugins-list .plugin-item .plugin-control.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-control[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -113,15 +111,13 @@
 .plugins-list .plugin-item .plugin-control.block:hover,
 .plugins-list .plugin-item .plugin-control.block:focus,
 .plugins-list .plugin-item .plugin-control.block:active,
-.plugins-list .plugin-item .plugin-control.block.active,
-.plugins-list .plugin-item .plugin-control.block.ui-state-active {
+.plugins-list .plugin-item .plugin-control.block[class*="active"] {
   color: #ffffff;
   background-color: #25a25a;
   border-color: #1b7943;
 }
 .plugins-list .plugin-item .plugin-control.block:active,
-.plugins-list .plugin-item .plugin-control.block.active,
-.plugins-list .plugin-item .plugin-control.block.ui-state-active {
+.plugins-list .plugin-item .plugin-control.block[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #176437 inset;
@@ -135,8 +131,8 @@
 .plugins-list .plugin-item .plugin-control.block[disabled]:focus,
 .plugins-list .plugin-item .plugin-control.block.disabled:active,
 .plugins-list .plugin-item .plugin-control.block[disabled]:active,
-.plugins-list .plugin-item .plugin-control.block.disabled.active,
-.plugins-list .plugin-item .plugin-control.block[disabled].active {
+.plugins-list .plugin-item .plugin-control.block.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-control.block[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -154,15 +150,13 @@
 .plugins-list .plugin-item .plugin-endis:hover,
 .plugins-list .plugin-item .plugin-endis:focus,
 .plugins-list .plugin-item .plugin-endis:active,
-.plugins-list .plugin-item .plugin-endis.active,
-.plugins-list .plugin-item .plugin-endis.ui-state-active {
+.plugins-list .plugin-item .plugin-endis[class*="active"] {
   color: #ffffff;
   background-color: #22617a;
   border-color: #22617a;
 }
 .plugins-list .plugin-item .plugin-endis:active,
-.plugins-list .plugin-item .plugin-endis.active,
-.plugins-list .plugin-item .plugin-endis.ui-state-active {
+.plugins-list .plugin-item .plugin-endis[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #11323e inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #11323e inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #11323e inset;
@@ -176,8 +170,8 @@
 .plugins-list .plugin-item .plugin-endis[disabled]:focus,
 .plugins-list .plugin-item .plugin-endis.disabled:active,
 .plugins-list .plugin-item .plugin-endis[disabled]:active,
-.plugins-list .plugin-item .plugin-endis.disabled.active,
-.plugins-list .plugin-item .plugin-endis[disabled].active {
+.plugins-list .plugin-item .plugin-endis.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-endis[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
@@ -195,15 +189,13 @@
 .plugins-list .plugin-item .plugin-endis.disable:hover,
 .plugins-list .plugin-item .plugin-endis.disable:focus,
 .plugins-list .plugin-item .plugin-endis.disable:active,
-.plugins-list .plugin-item .plugin-endis.disable.active,
-.plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
+.plugins-list .plugin-item .plugin-endis.disable[class*="active"] {
   color: #848484;
   background-color: #b7b7b7;
   border-color: #d1d1d1;
 }
 .plugins-list .plugin-item .plugin-endis.disable:active,
-.plugins-list .plugin-item .plugin-endis.disable.active,
-.plugins-list .plugin-item .plugin-endis.disable.ui-state-active {
+.plugins-list .plugin-item .plugin-endis.disable[class*="active"] {
   -webkit-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   -moz-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
   -ms-box-shadow: 0.2em 0.2em 0.4em #919191 inset;
@@ -217,8 +209,8 @@
 .plugins-list .plugin-item .plugin-endis.disable[disabled]:focus,
 .plugins-list .plugin-item .plugin-endis.disable.disabled:active,
 .plugins-list .plugin-item .plugin-endis.disable[disabled]:active,
-.plugins-list .plugin-item .plugin-endis.disable.disabled.active,
-.plugins-list .plugin-item .plugin-endis.disable[disabled].active {
+.plugins-list .plugin-item .plugin-endis.disable.disabled[class*="active"],
+.plugins-list .plugin-item .plugin-endis.disable[disabled][class*="active"] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
