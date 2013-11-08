@@ -50,6 +50,10 @@
   padding: 6px 12px;
   overflow: auto;
 }
+.smoke-base {
+  z-index: 1005 !important;
+  position: relative;
+}
 .smoke-base .smokebg {
   background: rgba(255, 255, 255, 0.5);
   -pie-background: rgba(255, 255, 255, 0.5);
@@ -1009,23 +1013,37 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   box-shadow: 0 0 5px #aaaaaa;
 }
 .ui-autocomplete {
+  position: absolute;
   background: #ffffff;
   color: #333333;
   border-style: solid;
   border-width: 1px;
   border-color: #cccccc;
+  z-index: 999;
+  max-height: 200px;
+  overflow: auto;
+  list-style: none;
+}
+.ui-autocomplete .ui-menu-item {
+  margin: 0;
+  padding: 2px;
+  cursor: pointer;
+}
+.ui-autocomplete .ui-menu-item a {
+  color: inherit;
 }
 .ui-autocomplete .ui-menu-item:hover {
+  color: #ffffff;
   background: #31b0d5;
 }
 .ui-effects-transfer {
   border: 1px dashed #666666;
 }
 #meta-description {
-  height: 90px;
+  height: 85px;
 }
 .ie #meta-description {
-  height: 87px;
+  height: 83px;
 }
 .navigation .ui-buttonset,
 .navigation .btn-set {
@@ -1062,7 +1080,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .navigation .btn-set .btn [class*=" icon-"] {
   color: transparent;
   margin-top: -2px;
-  margin-right: 0.75em;
+  margin-right: 5%;
 }
 .navigation .ui-buttonset [type="radio"]:checked + .ui-button,
 .navigation .btn-set [type="radio"]:checked + .ui-button,
@@ -1563,7 +1581,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   height: 350px;
 }
 #silos-list .list-row {
-  line-height: normal;
+  line-height: 1.25;
   text-align: left;
 }
 #listpages {
@@ -1731,8 +1749,6 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   left: 0;
   right: 0;
   z-index: 1;
-  font-size: 0;
-  text-align: center;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;

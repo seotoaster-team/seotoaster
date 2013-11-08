@@ -28,7 +28,7 @@
 			<form id="frm-featured-area" action="<?php echo $this->websiteUrl . '/backend/backend_featured/featured/id/' . $this->pageForm->getElement('pageId')->getValue() . '/pid/' . $this->pageForm->getElement('pageId')->getValue() ?>" method="post" data-callback="loadFaList" class="_fajax grid_12 form-inline">
                 <label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
                 <input id="fa-name" class="grid_11 alpha omega" type="text" name="name" value="">
-				<button id="add-featured-area" class="grid_1 alpha omega mt0px icon icon-plus" type="submit" name="addFeaturedArea" value="<?php echo $this->translate('Add page tag'); ?>"></button>
+				<button id="add-featured-area" class="grid_1 alpha omega mt0px icon-plus" type="submit" name="addFeaturedArea" value="<?php echo $this->translate('Add page tag'); ?>"></button>
 			</form>
 			<div class="header-inner grid_12 mt15px">
 				<div class="grid_12 list-row-item">
@@ -48,7 +48,7 @@
 			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
 		</fieldset>
-		<fieldset class="grid_6 navigation mb25px">
+		<fieldset class="grid_6 navigation mb2em">
 			<legend class="h2"><?php echo $this->translate('Navigation'); ?></legend>
 			<div class="btn-set mt0px">
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
@@ -58,7 +58,7 @@
 				<div class="menu-info mt5px">Please select menu for this page</div>
 			</div>
 		</fieldset>
-		<fieldset class="grid_6 settings mb20px">
+		<fieldset class="grid_6 settings mb2em">
 			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
 			<div class="grid_8 alpha omega text-right featured-link mt0px">
 				<span class="icon-tags icon14"></span>

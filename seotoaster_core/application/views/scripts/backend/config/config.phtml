@@ -88,9 +88,9 @@
             <?php echo $this->configForm->getElement('suPassword'); ?>
         </div>
         <div id="advaced-config" class="content-small-footer pr0 pl0">
-            <div class="grid_4 omega mt10px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
+            <div class="grid_3 omega mt10px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
             <div class="grid_2 mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
-            <label class="grid_6 alpha mt10px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></label>
+            <label class="grid_7 alpha mt10px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></label>
             <div class="cl-both grid_6 mt15px">
                 <div class="grid_7 alpha">
                     <?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>

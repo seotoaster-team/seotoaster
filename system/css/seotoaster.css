@@ -1228,7 +1228,7 @@ html body .block {
   display: block;
 }
 html body .hidden,
-html body .ui-helper-hidden {
+html body [class*="ui-helper-hidden"] {
   display: none;
 }
 html body .pointer {
@@ -1970,7 +1970,7 @@ a.info:hover,
 }
 body {
   font-family: 'Open Sans', sans-serif;
-  line-height: 1.35;
+  line-height: 1.25;
   color: #333333;
 }
 .seotoaster {
@@ -2154,9 +2154,9 @@ body {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  padding: 15px 0 10px;
+  padding: 16px 0 10px;
   height: 55px;
-  line-height: 30px;
+  line-height: 29px;
 }
 [class*="content"].grid_12 + .footer {
   padding-left: 2%;
@@ -2521,7 +2521,7 @@ ol.items-list .list-row > * {
   background: rgba(49, 176, 213, 0.8);
   color: #ffffff;
   font-size: 0.85em;
-  line-height: normal;
+  line-height: 1.25;
   padding: 4px;
   text-align: center;
 }
@@ -2655,7 +2655,7 @@ form fieldset > p:not([class*="mt"]):not(:first-child),
 .form fieldset > p:not([class*="mt"]):not(:first-child),
 form fieldset > div:not([class*="mt"]):not(:first-child),
 .form fieldset > div:not([class*="mt"]):not(:first-child) {
-  margin-top: 0.75em;
+  margin-top: 1em;
 }
 form > p:not([class*="mb"]),
 .form > p:not([class*="mb"]),
@@ -2770,7 +2770,7 @@ input {
   padding: 6px;
   background-color: #ffffff;
   color: #377d98;
-  height: 30px;
+  height: 29px;
   vertical-align: middle;
   border-style: solid;
   border-width: 1px;
@@ -2824,13 +2824,19 @@ input.warning:focus {
 }
 select.error,
 textarea.error,
-input.error {
+input.error,
+select:required,
+textarea:required,
+input:required {
   border-color: #e74c3c;
   color: #e74c3c;
 }
 select.error:focus,
 textarea.error:focus,
-input.error:focus {
+input.error:focus,
+select:required:focus,
+textarea:required:focus,
+input:required:focus {
   -webkit-box-shadow: 0 0 3px #e74c3c;
   -moz-box-shadow: 0 0 3px #e74c3c;
   -ms-box-shadow: 0 0 3px #e74c3c;
@@ -2880,15 +2886,27 @@ select.small,
 textarea.small,
 input.small {
   font-size: 0.85em;
-  height: 24px;
+  height: 22px;
   padding: 4px;
 }
 select.large,
 textarea.large,
 input.large {
   font-size: 1.25em;
-  height: 43px;
+  height: 41px;
   padding: 10px;
+}
+select {
+  padding: 3px 6px;
+  line-height: 23px;
+}
+select.small {
+  padding: 2px 4px;
+  line-height: 25px;
+}
+select.large {
+  padding: 5px 10px;
+  line-height: 19px;
 }
 select option {
   color: #333333;
@@ -2921,9 +2939,9 @@ select option {
 .labeled .label {
   margin-top: 0;
   margin-bottom: 0;
-  line-height: normal;
+  height: 29px;
   background: #cccccc;
-  padding: 7px 0;
+  padding: 6px 0;
   text-align: center;
   color: #fff;
   -webkit-transition: all 0.3s ease;
@@ -3230,7 +3248,7 @@ button,
   margin-bottom: 0;
   padding: 6px 12px;
   font-weight: 600;
-  height: 30px;
+  height: 29px;
   text-indent: 0;
   text-align: center;
   cursor: pointer;
@@ -3329,9 +3347,9 @@ button[class*="grid_"],
   padding-left: 0;
   padding-right: 0;
 }
-.btn[class*="icon-"]:not(.icon):before,
-button[class*="icon-"]:not(.icon):before,
-[type="submit"][class*="icon-"]:not(.icon):before {
+.btn[class*="icon-"]:not(.icon):not(:empty):before,
+button[class*="icon-"]:not(.icon):not(:empty):before,
+[type="submit"][class*="icon-"]:not(.icon):not(:empty):before {
   margin-right: 5px;
 }
 .btn.inverse,
@@ -4001,7 +4019,7 @@ button.large,
 [type="submit"].large {
   padding: 10px 16px;
   font-size: 1.25em;
-  height: 43px;
+  height: 41px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -4012,7 +4030,7 @@ button.small,
 [type="submit"].small {
   padding: 4px 8px;
   font-size: 0.85em;
-  height: 24px;
+  height: 22px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -5022,6 +5040,10 @@ table tr.info > td {
   padding: 6px 12px;
   overflow: auto;
 }
+.smoke-base {
+  z-index: 1005 !important;
+  position: relative;
+}
 .smoke-base .smokebg {
   background: rgba(255, 255, 255, 0.5);
   -pie-background: rgba(255, 255, 255, 0.5);
@@ -5981,23 +6003,37 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   box-shadow: 0 0 5px #aaaaaa;
 }
 .ui-autocomplete {
+  position: absolute;
   background: #ffffff;
   color: #333333;
   border-style: solid;
   border-width: 1px;
   border-color: #cccccc;
+  z-index: 999;
+  max-height: 200px;
+  overflow: auto;
+  list-style: none;
+}
+.ui-autocomplete .ui-menu-item {
+  margin: 0;
+  padding: 2px;
+  cursor: pointer;
+}
+.ui-autocomplete .ui-menu-item a {
+  color: inherit;
 }
 .ui-autocomplete .ui-menu-item:hover {
+  color: #ffffff;
   background: #31b0d5;
 }
 .ui-effects-transfer {
   border: 1px dashed #666666;
 }
 #meta-description {
-  height: 90px;
+  height: 85px;
 }
 .ie #meta-description {
-  height: 87px;
+  height: 83px;
 }
 .navigation .ui-buttonset,
 .navigation .btn-set {
@@ -6034,7 +6070,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 .navigation .btn-set .btn [class*=" icon-"] {
   color: transparent;
   margin-top: -2px;
-  margin-right: 0.75em;
+  margin-right: 5%;
 }
 .navigation .ui-buttonset [type="radio"]:checked + .ui-button,
 .navigation .btn-set [type="radio"]:checked + .ui-button,
@@ -6535,7 +6571,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   height: 350px;
 }
 #silos-list .list-row {
-  line-height: normal;
+  line-height: 1.25;
   text-align: left;
 }
 #listpages {
@@ -6703,8 +6739,6 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   left: 0;
   right: 0;
   z-index: 1;
-  font-size: 0;
-  text-align: center;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;

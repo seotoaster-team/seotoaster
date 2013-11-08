@@ -17,7 +17,7 @@ form, .form{
         .box-sizing();
 
         &:not([class*="mt"]):not(:first-child){
-            margin-top : 0.75em;
+            margin-top : 1em;
         }
         &:not([class*="mb"]){
             margin-bottom : 0;
@@ -46,6 +46,7 @@ form, .form{
         border  : none;
         margin  : 0;
         padding : 0;
+
         legend{
             margin : 0;
         }
@@ -71,7 +72,7 @@ form, .form{
     // -- Buttons
     [type="submit"]{
         //height : auto;
-        float  : right;
+        float : right;
 
         &:not([class*="mt"]){
             margin-top : 10px;
@@ -139,7 +140,7 @@ select, textarea, input{
         }
     }
 
-    &.error{
+    &.error, &:required{
         border-color : @brand-error;
         color        : @brand-error;
         &:focus{
@@ -176,6 +177,18 @@ select, textarea, input{
 }
 
 select{
+    padding     : @padding-base-vertical / 2 @padding-base-vertical;
+    line-height : @btn-height-base - @padding-base-vertical;
+
+    &.small{
+        padding     : @padding-small-vertical / 2 @padding-small-vertical;
+        line-height : @btn-height-base - @padding-small-vertical;
+    }
+
+    &.large{
+        padding     : @padding-large-vertical / 2 @padding-large-vertical;
+        line-height : @btn-height-base - @padding-large-vertical;
+    }
 
     option{
         color : @text-color;
@@ -205,9 +218,9 @@ textarea{
     label, .label{
         margin-top    : 0;
         margin-bottom : 0;
-        line-height   : normal;
+        height        : @btn-height-base;
         background    : @input-border-color;
-        padding       : (@padding-base-vertical + @input-border-width) 0;
+        padding       : @padding-base-vertical 0;
         text-align    : center;
         color         : #fff;
         .transition(all, 0.3s);

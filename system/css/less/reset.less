@@ -131,8 +131,9 @@ fieldset{
     border  : 0;
     margin  : 0;
     padding : 0;
+
     legend{
-        line-height : normal;
+        line-height : 1;
         border      : 0;
         padding     : 0;
     }
@@ -143,6 +144,7 @@ input, select, textarea, button{
     max-width   : 100%;
     font-size   : 100%;
     .box-sizing();
+    .placeholder();
 }
 button, input{
     &::-moz-focus-inner{

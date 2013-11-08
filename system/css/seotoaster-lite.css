@@ -1228,7 +1228,7 @@ html body .block {
   display: block;
 }
 html body .hidden,
-html body .ui-helper-hidden {
+html body [class*="ui-helper-hidden"] {
   display: none;
 }
 html body .pointer {
@@ -1970,7 +1970,7 @@ a.info:hover,
 }
 body {
   font-family: 'Open Sans', sans-serif;
-  line-height: 1.35;
+  line-height: 1.25;
   color: #333333;
 }
 .seotoaster {
@@ -2154,9 +2154,9 @@ body {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  padding: 15px 0 10px;
+  padding: 16px 0 10px;
   height: 55px;
-  line-height: 30px;
+  line-height: 29px;
 }
 [class*="content"].grid_12 + .footer {
   padding-left: 2%;

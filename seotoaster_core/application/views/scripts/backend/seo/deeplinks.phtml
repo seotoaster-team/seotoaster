@@ -6,9 +6,9 @@
 					<?php echo $this->form->getElement('anchorText'); ?>
 				</div>
 				<div class="grid_5 alpha omega mt0px type-url">
-					<label><?php echo $this->form->getElement('urlType') . $this->translate('Local url');?></label>
+					<label for="urlType"><?php echo $this->form->getElement('urlType') . $this->translate('Local url');?></label>
 					<?php echo $this->form->getElement('url'); ?>
-					<label class="nofollow">
+					<label for="nofollow" class="nofollow">
 						<?php echo $this->translate('No follow?'); ?>
 						<?php echo $this->form->getElement('nofollow')->renderViewHelper(); ?>
 					</label>

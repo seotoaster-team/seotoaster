@@ -177,7 +177,7 @@ fieldset {
   padding: 0;
 }
 fieldset legend {
-  line-height: normal;
+  line-height: 1;
   border: 0;
   padding: 0;
 }
@@ -193,6 +193,30 @@ button {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
+}
+input:-moz-placeholder,
+select:-moz-placeholder,
+textarea:-moz-placeholder,
+button:-moz-placeholder {
+  color: #cccccc;
+}
+input::-moz-placeholder,
+select::-moz-placeholder,
+textarea::-moz-placeholder,
+button::-moz-placeholder {
+  color: #cccccc;
+}
+input:-ms-input-placeholder,
+select:-ms-input-placeholder,
+textarea:-ms-input-placeholder,
+button:-ms-input-placeholder {
+  color: #cccccc;
+}
+input::-webkit-input-placeholder,
+select::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+button::-webkit-input-placeholder {
+  color: #cccccc;
 }
 button::-moz-focus-inner,
 input::-moz-focus-inner {

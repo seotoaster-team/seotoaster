@@ -24,7 +24,7 @@
 $(function() {
     var textarea = $('#csscontent').detach();
     textarea.insertBefore('#editor');
-    var editor  = ace.edit("editor");
+    window.editor  = ace.edit("editor");
     editor.setTheme("ace/theme/crimson_editor");
     var CSSMode = require("ace/mode/css").Mode;
     editor.getSession().setMode(new CSSMode());

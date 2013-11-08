@@ -241,8 +241,8 @@ function showConfirm(msg, yesCallback, noCallback) {
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
 }
 function showSpinner(e) {
-    var el = (typeof e !== 'undefined' ? e : event.target);
-    $(el).closest('.seotoaster').append('<span class="spinner"></span>');
+    var el = (typeof e !== 'undefined' ? e : 'body>.seotoaster');
+    $(el).append('<span class="spinner"></span>');
 }
 function hideSpinner() {
     $('.spinner').remove();

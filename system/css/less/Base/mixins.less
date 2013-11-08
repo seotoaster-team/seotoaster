@@ -457,7 +457,7 @@
         background  : @thumbnail-caption-bg;
         color       : @thumbnail-caption-color;
         font-size   : @font-size-small;
-        line-height : normal;
+        line-height : @line-height;
         padding     : @padding-small-vertical;
         text-align  : center;
     }
@@ -517,7 +517,7 @@
         padding-right : 0;
     }
 
-    &[class*="icon-"]:not(.icon):before{
+    &[class*="icon-"]:not(.icon):not(:empty):before{
         margin-right : 5px;
     }
 }
