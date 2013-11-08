@@ -793,7 +793,7 @@
     'of this service'=>'de ce service',
     'OR' => 'OU',
     'Next'=>'Suivant',
-    'Let me in' => 'Valider',
+    'Let me in' => 'Envoyer',
     'First Name' => 'Prénom',
     'Last Name' => 'Nom',
     'Company'   => 'Organisation',
