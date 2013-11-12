@@ -106,7 +106,7 @@ body{
     a{ }
 
     .help{
-        .icon-size(14px);
+        .icon-size(14px) !important;
         margin-right : 5px;
 
         &:hover{ }
@@ -117,7 +117,7 @@ body{
     }
 
     .hide{
-        .icon-size(15px);
+        .icon-size(15px) !important;
     }
 
     .close, .hide{
@@ -277,4 +277,8 @@ body{
             }
         }
     }
+}
+
+.plupload{
+    display : none;
 }

@@ -30,7 +30,7 @@
                 <input id="fa-name" class="grid_11 alpha omega" type="text" name="name" value="">
 				<button id="add-featured-area" class="grid_1 alpha omega mt0px icon-plus" type="submit" name="addFeaturedArea" value="<?php echo $this->translate('Add page tag'); ?>"></button>
 			</form>
-			<div class="header-inner grid_12 mt15px">
+			<div class="header-inner grid_12 mt1em">
 				<div class="grid_12 list-row-item">
 					<?php echo $this->translate('Page tag name'); ?>
 				</div>
@@ -40,8 +40,8 @@
 	</div>
 	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content-footer">
 		<fieldset class="grid_6 mb0px">
-			<legend class="h2 mb0px"><?php echo $this->translate('Page Information'); ?></legend>
-			<p><?php echo $this->pageForm->getElement('h1'); ?></p>
+			<legend class="h2 grid_12 alpha omega"><?php echo $this->translate('Page Information'); ?></legend>
+			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
 			<p><?php echo $this->pageForm->getElement('url'); ?></p>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
@@ -49,7 +49,7 @@
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
 		</fieldset>
 		<fieldset class="grid_6 navigation mb2em">
-			<legend class="h2"><?php echo $this->translate('Navigation'); ?></legend>
+			<legend class="h2 grid_12 alpha omega"><?php echo $this->translate('Navigation'); ?></legend>
 			<div class="btn-set mt0px">
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
 			</div>
@@ -58,7 +58,7 @@
 				<div class="menu-info mt5px">Please select menu for this page</div>
 			</div>
 		</fieldset>
-		<fieldset class="grid_6 settings mb2em">
+		<fieldset class="grid_6 settings mb1-75em">
 			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
 			<div class="grid_8 alpha omega text-right featured-link mt0px">
 				<span class="icon-tags icon14"></span>

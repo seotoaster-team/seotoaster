@@ -338,7 +338,8 @@ class Application_Form_Config extends Zend_Form {
 			'form'  => 'tabs',
 			'name'  => 'submit',
 			'type'  => 'submit',
-			'label' => '<span class="icon-save"></span> Save',
+			'label' => 'Save',
+            'class' => 'icon-save',
 			'escape'=> false
 		)));
 

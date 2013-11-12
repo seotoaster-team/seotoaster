@@ -276,16 +276,16 @@ ol.items-list .list-row > * {
   background: rgba(49, 176, 213, 0.8);
   color: #ffffff;
   font-size: 0.85em;
-  line-height: 1.25;
+  line-height: 1.428571429;
   padding: 4px;
   text-align: center;
 }
 .list-images > *:hover {
-  border-color: #31b0d5;
-  -webkit-box-shadow: 0 0px 3px #31b0d5;
-  -moz-box-shadow: 0 0px 3px #31b0d5;
-  -ms-box-shadow: 0 0px 3px #31b0d5;
-  box-shadow: 0 0px 3px #31b0d5;
+  border-color: #666666;
+  -webkit-box-shadow: 3px 3px 3px #666666;
+  -moz-box-shadow: 3px 3px 3px #666666;
+  -ms-box-shadow: 3px 3px 3px #666666;
+  box-shadow: 3px 3px 3px #666666;
 }
 .list-images > *[class*="grid_"] {
   margin-top: 1%;
@@ -346,7 +346,8 @@ ol.items-list .list-row > * {
   width: 18px;
   height: 18px;
   line-height: 18px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
   color: #fff;
   padding: 6px;
   background: #eaeaea;
@@ -410,7 +411,7 @@ form fieldset > p:not([class*="mt"]):not(:first-child),
 .form fieldset > p:not([class*="mt"]):not(:first-child),
 form fieldset > div:not([class*="mt"]):not(:first-child),
 .form fieldset > div:not([class*="mt"]):not(:first-child) {
-  margin-top: 1em;
+  margin-top: 0.65em;
 }
 form > p:not([class*="mb"]),
 .form > p:not([class*="mb"]),
@@ -525,7 +526,7 @@ input {
   padding: 6px;
   background-color: #ffffff;
   color: #377d98;
-  height: 29px;
+  height: 32px;
   vertical-align: middle;
   border-style: solid;
   border-width: 1px;
@@ -641,27 +642,27 @@ select.small,
 textarea.small,
 input.small {
   font-size: 0.85em;
-  height: 22px;
+  height: 25px;
   padding: 4px;
 }
 select.large,
 textarea.large,
 input.large {
   font-size: 1.25em;
-  height: 41px;
+  height: 45px;
   padding: 10px;
 }
 select {
   padding: 3px 6px;
-  line-height: 23px;
+  line-height: 26px;
 }
 select.small {
   padding: 2px 4px;
-  line-height: 25px;
+  line-height: 19px;
 }
 select.large {
   padding: 5px 10px;
-  line-height: 19px;
+  line-height: 39px;
 }
 select option {
   color: #333333;
@@ -680,7 +681,8 @@ select option {
   width: 1em;
   height: 1em;
   line-height: 1em;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .labeled i:before {
   font-size: 1em;
@@ -694,7 +696,7 @@ select option {
 .labeled .label {
   margin-top: 0;
   margin-bottom: 0;
-  height: 29px;
+  height: 32px;
   background: #cccccc;
   padding: 6px 0;
   text-align: center;
@@ -749,9 +751,9 @@ input[type="radio"]:not(.hidden):not(.icon) + span {
   width: 14px;
   height: 14px;
   line-height: 14px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
   line-height: 0;
-  margin-right: 3px;
   background-color: #ffffff;
   border-style: solid;
   border-width: 1px;
@@ -900,7 +902,8 @@ input.icon ~ [class*="icon-"] {
   width: 42px;
   height: 42px;
   line-height: 42px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
 }
 input.icon ~ [class*="icon-"]:before {
   font-size: 42px;
@@ -1003,20 +1006,19 @@ button,
   margin-bottom: 0;
   padding: 6px 12px;
   font-weight: 600;
-  height: 29px;
+  height: 32px;
+  line-height: 20px;
   text-indent: 0;
   text-align: center;
   cursor: pointer;
   border-width: 0px;
   border-style: solid;
+  white-space: nowrap;
   position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   -webkit-transition: background 0.3s ease;
   -moz-transition: background 0.3s ease;
   -ms-transition: background 0.3s ease;
@@ -1095,6 +1097,13 @@ button[disabled][class*="active"],
   background-color: #569cb0;
   border-color: #437e90;
   text-decoration: none;
+}
+.btn:not(.icon),
+button:not(.icon),
+[type="submit"]:not(.icon) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .btn[class*="grid_"],
 button[class*="grid_"],
@@ -1774,7 +1783,8 @@ button.large,
 [type="submit"].large {
   padding: 10px 16px;
   font-size: 1.25em;
-  height: 41px;
+  height: 45px;
+  line-height: 25px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1785,7 +1795,8 @@ button.small,
 [type="submit"].small {
   padding: 4px 8px;
   font-size: 0.85em;
-  height: 22px;
+  height: 25px;
+  line-height: 17px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   -ms-border-radius: 0px;
@@ -1816,8 +1827,6 @@ button.ui-button-icon-only,
 button.icon,
 [type="submit"].icon {
   padding: 6px;
-  font: 0/0 a;
-  text-shadow: none;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   -ms-box-sizing: content-box;
@@ -1825,7 +1834,8 @@ button.icon,
   width: 14px;
   height: 14px;
   line-height: 14px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .btn.ui-button-icon-only:before,
 button.ui-button-icon-only:before,
@@ -1861,7 +1871,8 @@ button.icon.large,
   width: 16px;
   height: 16px;
   line-height: 16px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
   padding: 10px;
 }
 .btn.ui-button-icon-only.large:before,
@@ -1881,7 +1892,8 @@ button.icon.small,
   width: 12px;
   height: 12px;
   line-height: 12px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
   padding: 4px;
 }
 .btn.ui-button-icon-only.small:before,
@@ -1897,6 +1909,7 @@ button.link,
 [type="submit"].link {
   font-weight: normal;
   padding: 0;
+  height: auto;
   color: #59a5c3;
   background-color: transparent !important;
   border: none !important;

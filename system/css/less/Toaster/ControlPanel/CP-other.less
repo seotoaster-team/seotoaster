@@ -98,14 +98,13 @@
     }
 
     .tabs-contents{
-        font-size : 0;
 
         fieldset, .new-trigger-action{
-            .inline-block;
-            width  : 49%;
-            margin : 2% 0 0 2%;
+            float      : left;
+            margin-top : 2%;
+            .grid-elements(2, 2, true);
 
-            &:nth-child(2n + 1){
+            &:nth-child(2n+1){
                 margin-left : 0;
             }
 
@@ -118,7 +117,7 @@
             position  : relative;
             font-size : @font-size-base;
 
-            &:nth-child(2n + 1){
+            &:nth-child(2n+1){
                 margin-left : 0;
             }
 
@@ -136,7 +135,7 @@
         .new-trigger-action{
             cursor     : pointer;
             font-size  : 75px;
-            padding    : 0.6em 0;
+            padding    : 0.62em 0;
             background : transparent;
             border     : 3px dashed @gray-light;
             color      : @gray-light;

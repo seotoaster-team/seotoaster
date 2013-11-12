@@ -254,7 +254,8 @@ blockquote.info a,
   width: 12px !important;
   height: 12px !important;
   line-height: 12px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon12:before {
   font-size: 12px !important;
@@ -263,7 +264,8 @@ blockquote.info a,
   width: 14px !important;
   height: 14px !important;
   line-height: 14px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon14:before {
   font-size: 14px !important;
@@ -272,7 +274,8 @@ blockquote.info a,
   width: 16px !important;
   height: 16px !important;
   line-height: 16px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon16:before {
   font-size: 16px !important;
@@ -281,7 +284,8 @@ blockquote.info a,
   width: 18px !important;
   height: 18px !important;
   line-height: 18px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon18:before {
   font-size: 18px !important;
@@ -290,7 +294,8 @@ blockquote.info a,
   width: 24px !important;
   height: 24px !important;
   line-height: 24px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon24:before {
   font-size: 24px !important;
@@ -299,7 +304,8 @@ blockquote.info a,
   width: 32px !important;
   height: 32px !important;
   line-height: 32px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon32:before {
   font-size: 32px !important;
@@ -308,7 +314,8 @@ blockquote.info a,
   width: 48px !important;
   height: 48px !important;
   line-height: 48px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon48:before {
   font-size: 48px !important;
@@ -317,7 +324,8 @@ blockquote.info a,
   width: 64px !important;
   height: 64px !important;
   line-height: 64px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .icon64:before {
   font-size: 64px !important;
@@ -1970,7 +1978,7 @@ a.info:hover,
 }
 body {
   font-family: 'Open Sans', sans-serif;
-  line-height: 1.25;
+  line-height: 1.428571429;
   color: #333333;
 }
 .seotoaster {
@@ -2043,32 +2051,35 @@ body {
   float: left;
 }
 .closebutton .help {
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-  font-size: 0;
+  width: 14px !important;
+  height: 14px !important;
+  line-height: 14px !important;
+  font: 0/0 a;
+  text-shadow: none;
   margin-right: 5px;
 }
 .closebutton .help:before {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 .closebutton .close {
   width: 13px !important;
   height: 13px !important;
   line-height: 13px !important;
-  font-size: 0 !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .closebutton .close:before {
   font-size: 13px !important;
 }
 .closebutton .hide {
-  width: 15px;
-  height: 15px;
-  line-height: 15px;
-  font-size: 0;
+  width: 15px !important;
+  height: 15px !important;
+  line-height: 15px !important;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .closebutton .hide:before {
-  font-size: 15px;
+  font-size: 15px !important;
 }
 .content-auto,
 .content,
@@ -2154,9 +2165,9 @@ body {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  padding: 16px 0 10px;
+  padding: 13px 0 10px;
   height: 55px;
-  line-height: 29px;
+  line-height: 32px;
 }
 [class*="content"].grid_12 + .footer {
   padding-left: 2%;
@@ -2242,4 +2253,7 @@ body {
 }
 .page-preview:hover img[src*="noimage.png"] + span:before {
   color: #dddddd;
+}
+.plupload {
+  display: none;
 }

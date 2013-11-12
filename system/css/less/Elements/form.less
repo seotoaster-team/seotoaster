@@ -17,7 +17,7 @@ form, .form{
         .box-sizing();
 
         &:not([class*="mt"]):not(:first-child){
-            margin-top : 1em;
+            margin-top : 0.65em;
         }
         &:not([class*="mb"]){
             margin-bottom : 0;
@@ -52,7 +52,7 @@ form, .form{
         }
 
         // -- Buttons
-        & + [type="submit"], & + [type="button"]{
+        &+[type="submit"], &+[type="button"]{
             margin-top : 0;
         }
     }
@@ -182,12 +182,12 @@ select{
 
     &.small{
         padding     : @padding-small-vertical / 2 @padding-small-vertical;
-        line-height : @btn-height-base - @padding-small-vertical;
+        line-height : @btn-height-small - @padding-small-vertical - @input-border-width * 2;
     }
 
     &.large{
         padding     : @padding-large-vertical / 2 @padding-large-vertical;
-        line-height : @btn-height-base - @padding-large-vertical;
+        line-height : @btn-height-large - @padding-large-vertical + @input-border-width * 4;
     }
 
     option{
@@ -211,7 +211,7 @@ textarea{
         color    : @input-color-placeholder;
         .icon-size(1em);
 
-        & + select, & + textarea, & + input{
+        &+select, &+textarea, &+input{
             padding-left : @padding-base-vertical * 4;
         }
     }
@@ -229,7 +229,7 @@ textarea{
     input:focus{
         .box-shadow(none) !important;
 
-        & + label, & + .label{
+        &+label, &+.label{
             background : @input-border-color-focus;
         }
     }
@@ -253,18 +253,17 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
         display : inline;
     }
 
-    &:not(.icon) + span{
+    &:not(.icon)+span{
         .inline-block;
         .icon-size(@font-size-base);
         line-height      : 0;
-        margin-right     : 3px;
         background-color : @input-bg;
         border-style     : solid;
         border-width     : @input-border-width;
         border-color     : @input-border-color;
         cursor           : pointer;
 
-        & + span{
+        &+span{
             vertical-align : middle;
         }
 
@@ -275,7 +274,7 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
     }
 
     &:disabled{
-        & + span{
+        &+span{
             background   : @input-bg-disabled;
             border-color : darken(@input-bg-disabled, 10%);
             color        : darken(@input-bg-disabled, 30%) !important;
@@ -283,7 +282,7 @@ input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
     }
 }
 input[type="radio"]:not(.hidden){
-    & + span{
+    &+span{
         border-color : darken(@input-border-color, 7%);
         .border-radius(@font-size-base * 2);
 
@@ -296,7 +295,7 @@ input[type="radio"]:not(.hidden){
     }
 
     &:checked{
-        & + span{
+        &+span{
             border-color : @primary-bg;
 
             &:after{
@@ -306,7 +305,7 @@ input[type="radio"]:not(.hidden){
     }
 }
 input[type="checkbox"]:not(.icon):not(.hidden){
-    & + span{
+    &+span{
         color : transparent;
 
         &:before{
@@ -317,13 +316,13 @@ input[type="checkbox"]:not(.icon):not(.hidden){
     }
 
     &:checked{
-        & + span{
+        &+span{
             color : @primary-bg;
         }
     }
 
     &.switcher{
-        & + span{
+        &+span{
             overflow    : hidden;
             font-size   : @font-size-base;
             position    : relative;
@@ -369,7 +368,7 @@ input[type="checkbox"]:not(.icon):not(.hidden){
         }
 
         &:checked{
-            & + span{
+            &+span{
                 //border-color : @brand-success;
 
                 &:before{

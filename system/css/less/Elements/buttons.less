@@ -79,12 +79,11 @@
     // --------------------------------------------------
     &.ui-button-icon-only, &.icon{
         padding : @padding-base-vertical;
-        .hide-text;
         .box-sizing(content-box);
         .icon-size(@font-size-base);
 
         &.inline{
-            padding : (@padding-base-vertical + @input-border-width - @btn-border-width + 1);
+            padding : (@padding-base-vertical+@input-border-width - @btn-border-width+1);
         }
 
         &[class*="grid_"]{
@@ -93,7 +92,7 @@
         }
 
         &.large{
-            .icon-size(@font-size-base + 2);
+            .icon-size(@font-size-base+2);
             padding : @padding-large-vertical;
         }
 
@@ -108,6 +107,7 @@
     &.link{
         font-weight : normal;
         padding     : 0;
+        height      : auto;
         .link-color(@link-color);
 
         &:hover, &:focus{

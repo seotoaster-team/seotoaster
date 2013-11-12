@@ -14,42 +14,18 @@
         </ul>
         <div id="general-config" class="content-small-footer pr0 pl0">
             <?php echo $this->configForm->getElement('currentTheme');?>
-            <div class="grid_6">
-            <?php echo $this->configForm->getElement('language')->renderLabel(); ?>
-            </div>
-            <div class="grid_6">
-            <?php echo $this->configForm->getElement('language')->renderViewHelper(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('imgSmall')->renderLabel(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('imgSmall')->renderViewHelper(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('imgMedium')->renderLabel(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('imgMedium')->renderViewHelper(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('imgLarge')->renderLabel(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('teaserSize')->renderLabel(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-            <?php echo $this->configForm->getElement('teaserSize')->renderViewHelper(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-                <?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?>
-            </div>
-            <div class="grid_6 mt10px">
-                <?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?>
-            </div>
+            <div class="grid_6"><?php echo $this->configForm->getElement('language')->renderLabel(); ?></div>
+            <div class="grid_6"><?php echo $this->configForm->getElement('language')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgSmall')->renderLabel(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgSmall')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgMedium')->renderLabel(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgMedium')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgLarge')->renderLabel(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('teaserSize')->renderLabel(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('teaserSize')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?></div>
 
             <?php echo $this->configForm->getElement('adminEmail');?>
             <?php echo $this->configForm->getElement('superadminLogin');?>
@@ -57,12 +33,8 @@
 
         </div>
         <div id="email-config" class="content-small-footer pr0 pl0">
-            <div class="grid_3 mt10px">
-            <?php echo $this->configForm->getElement('useSmtp')->renderLabel(); ?>
-            </div>
-            <div class="grid_9 mt10px">
-            <?php echo $this->configForm->getElement('useSmtp')->renderViewHelper(); ?>
-            </div>
+            <div class="grid_3 mt10px"><?php echo $this->configForm->getElement('useSmtp')->renderLabel(); ?></div>
+            <div class="grid_9 mt10px"><?php echo $this->configForm->getElement('useSmtp')->renderViewHelper(); ?></div>
             <div class="grid_6 mt10px cl-both">
                 <?php echo $this->configForm->getElement('smtpHost')->renderLabel(); ?>
                 <?php echo $this->configForm->getElement('smtpHost')->renderViewHelper(); ?>

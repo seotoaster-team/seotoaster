@@ -218,7 +218,8 @@
   width: 11px;
   height: 11px;
   line-height: 11px;
-  font-size: 0;
+  font: 0/0 a;
+  text-shadow: none;
 }
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close:before {
   font-size: 11px;
