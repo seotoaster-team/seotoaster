@@ -138,7 +138,19 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         foreach($pagesRowset as $pageRow) {
             $templateRow       = $pageRow->findParentRow('Application_Model_DbTable_Template');
             $pageRow           = $pageRow->toArray();
-            $pageRow['content']= ($templateRow !== null) ? $templateRow->content : '';
+            $pageRow['content'] = ($templateRow !== null) ? $templateRow->content : '';
+            $pageRow['extraOptions'] = Application_Model_Mappers_PageMapper::getInstance()->getDbTable()->fetchPageOptions($pageRow['id']);
+            $select = $this->getDbTable()->getAdapter()->select()->from('container', array(
+                'uniqHash' => new Zend_Db_Expr("MD5(CONCAT_WS('-',`name`, COALESCE(`page_id`, 0), `container_type`))"),
+                'id',
+                'name',
+                'page_id',
+                'container_type',
+                'content',
+                'published',
+                'publishing_date'
+            ))->where('page_id IS NULL OR page_id = ?' , $pageRow['id']);
+            $pageRow['containers'] = $this->getDbTable()->getAdapter()->fetchAssoc($select);
             $entries[]         = $this->_toModel($pageRow);
         }
         if($firstOccurrenceOnly) {
@@ -181,13 +193,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             return null;
         }
 
-        if(isset($entry['containers'])) {
-            foreach($entry['containers'] as $key => $containerData) {
-                $containerKey = md5(implode('-', array($containerData['name'], ($containerData['page_id'] === null) ? 0 : $containerData['page_id'], $containerData['container_type'])));
-                $entry['containers'][$containerKey] = $containerData;
-                unset($entry['containers'][$key]);
-            }
-        }
         $entry = array_merge($entry, array('extraOptions' => $this->getDbTable()->fetchPageOptions($entry['id'])));
         return new $this->_model($entry);
 	}
@@ -352,7 +357,6 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 					'content' => new Zend_Db_Expr('GROUP_CONCAT(c.content)')
 				))
 				->where("p.system = '?'", 0)
-//                ->where('p.indexed_at IS NULL OR p.updated_at > p.indexed_at')
 				->group('p.id');
 
 		if (!is_null($offset) && is_numeric($offset)){

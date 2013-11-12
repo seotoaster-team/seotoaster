@@ -25,6 +25,22 @@ class IndexController extends Zend_Controller_Action {
 		// Getting requested url. If url is not specified - get index.html
 		$pageUrl = $this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE);
 
+        // Mobile switch
+        if ($this->_request->isGet()) {
+            $mobileSwitchValue = $this->_request->getParam('mobileSwitch');
+            if (isset($mobileSwitchValue)) {
+                if ($mobileSwitchValue == 1 || $mobileSwitchValue == 0) {
+                    $this->_helper->session->mobileSwitch = $mobileSwitchValue;
+                }
+            }
+        }
+        if (isset($this->_helper->session->mobileSwitch)) {
+            $mobileSwitch = $this->_helper->session->mobileSwitch;
+        }
+        else {
+            $mobileSwitch = ($this->_helper->mobile->isMobile()) ? 1 : 0;
+        }
+
 		// Trying to do canonic redirects
 		$this->_helper->page->doCanonicalRedirect($pageUrl);
 
@@ -80,12 +96,11 @@ class IndexController extends Zend_Controller_Action {
             $pageContent = $this->_helper->cache->load($pageUrl, 'page_');
         }*/
 
-        // mobile detect
-        if ((bool) $this->_config->getConfig('enableMobileTemplates')){
-            if ($this->_helper->mobile->isMobile()){
-                if (null !== ($mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId()))){
-                    $page->setTemplateId($mobileTemplate->getName())
-                        ->setContent($mobileTemplate->getContent());
+        // Mobile detect
+        if ((bool) $this->_config->getConfig('enableMobileTemplates')) {
+            if ($mobileSwitch == 1) {
+                if (null !== ($mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId()))) {
+                    $page->setTemplateId($mobileTemplate->getName())->setContent($mobileTemplate->getContent());
                 }
                 unset($mobileTemplate);
             }
