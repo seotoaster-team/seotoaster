@@ -41,7 +41,12 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
         }
         $this->_view->pages      = $pagesList;
         $this->_view->flatPages  = $flatPages;
-		$this->_view->newsFolder = $configHelper->getConfig('newsFolder');
+        $newslogPlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('newslog');
+        if($newslogPlugin instanceof Application_Model_Models_Plugin){
+            if($newslogPlugin->getStatus() == Application_Model_Models_Plugin::ENABLED){
+                $this->_view->newsFolder = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+            }
+        }
 		return $this->_view->render('sitemap.phtml');
 	}
 
