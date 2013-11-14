@@ -480,6 +480,7 @@
     'shipped internationally' => 'Spedizione internazionale',
     'Let me in' => 'Entra',
     'Forgot password?' => 'Dimenticata la password?',
+    'Enter the words above' => 'Digita le cifre di cui sopra',
     'Send' => 'Invia'
 
 );?>
