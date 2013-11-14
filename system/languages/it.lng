@@ -477,5 +477,9 @@
     'Free shipping for all orders over' => 'Spedizione gratuita per gli ordini maggiori di',
     'Free shipping for orders over' => 'Spedizione gratuita per ordini maggiori di',
     'shipped to' => 'Spedito a',
-    'shipped internationally' => 'Spedizione internazionale'
+    'shipped internationally' => 'Spedizione internazionale',
+    'Let me in' => 'Entra',
+    'Forgot password?' => 'Dimenticata la password?',
+    'Send' => 'Invia'
+
 );?>
