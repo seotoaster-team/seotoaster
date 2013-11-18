@@ -44,7 +44,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
             ->addFilter(new Zend_Filter_PregReplace(array('match' => '/\s+/', 'replace' => '-')));
 
         // filtering the page url
-        $pageUrl = $filterChain->filter($pageUrl);
+        $pageUrl = $filterChain->filter($this->clean($pageUrl));
 
         // add .html if needed
 		// TODO: in fact it always needed because of Zend_Filter_Alnum in $filterChain
