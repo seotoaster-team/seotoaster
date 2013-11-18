@@ -20,8 +20,14 @@
             <?php $flatPage = $flatPage->toArray(); ?>
             <li class="page"><a title="<?php echo isset($flatPage['optimizedH1']) ? $flatPage['optimizedH1'] : $flatPage['h1']; ?>" href="<?php echo $this->websiteUrl . (isset($flatPage['optimizedUrl']) ? $flatPage['optimizedUrl'] : $flatPage['url']); ?>"><?php echo (isset($flatPage['optimizedNavName']) ? $flatPage['optimizedNavName'] : $flatPage['navName']) ; ?></a></li>
         <?php endforeach; ?>
-        <li>
-            <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo $this->translate('News');?></a>
-        </li>
+        <?php if(isset($this->newsFolder)):?>
+            <li>
+                <?php if($this->newsFolder == ''):?>
+                    <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>" title="News" ><?php echo $this->translate('News');?></a>
+                <?php else:?>
+                    <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo $this->translate('News');?></a>
+                <?php endif;?>
+            </li>
+        <?php endif;?>
     </ul>
 <?php endif; ?>
