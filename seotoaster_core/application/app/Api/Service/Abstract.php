@@ -50,12 +50,12 @@ abstract class Api_Service_Abstract {
 	}
 
 	protected function _initAcl(){
-		$acl = $this->getAcl();
-		foreach ($this->_methodList as $method) {
-			$resourseName = strtolower(get_called_class().'_'.$method);
-			$acl->has($resourseName) || $acl->addResource($resourseName);
-			$acl->deny(null, $resourseName);
-		}
+        $acl = $this->getAcl();
+        foreach ($this->_methodList as $method) {
+            $resourceName = strtolower(get_called_class() . '_' . $method);
+            $acl->has($resourceName) || $acl->addResource($resourceName);
+            $acl->deny(null, $resourceName);
+        }
 
         // Applying custom access control list
         $this->_applyAccessList($acl);
