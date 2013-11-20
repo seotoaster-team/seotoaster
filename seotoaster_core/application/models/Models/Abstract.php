@@ -27,7 +27,7 @@ abstract class Application_Model_Models_Abstract extends Tools_System_Observable
 	}
 
     public function __get($name) {
-		$method = 'set' . ucfirst($name);
+		$method = 'get' . ucfirst($name);
         if (('mapper' == $name) || !method_exists($this, $method)) {
             throw new Exception('Invalid property');
         }
