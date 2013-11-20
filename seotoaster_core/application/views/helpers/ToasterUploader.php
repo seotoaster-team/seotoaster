@@ -8,7 +8,10 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 
 	private $_libraryPath = 'system/js/external/plupload/';
 
-	private $_uploadForm = null;
+    /**
+     * @deprecated TODO remove
+     */
+    private $_uploadForm = null;
 
 	private $_uploadActionUrl = array(
 		'controller' => 'backend_upload',
@@ -59,9 +62,11 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 		$this->view->formId = isset($options['id']) && !empty ($options['id']) ? $options['id'] : 'toaster-uploader';
 		$this->view->buttonCaption = isset($options['caption']) && !empty ($options['caption']) ? $options['caption'] : 'Upload files';
 
-		$this->view->fileTypes = $this->_fileTypes;
-		$this->view->filters = isset($options['filters']) && !empty ($options['filters']) ? $options['filters'] : null;
-
+        if (isset($options['filters']) && !empty ($options['filters'])) {
+            $this->view->filters = array_values(array_intersect_key($this->_fileTypes, array_flip($options['filters'])));
+        } else {
+            $this->view->filters = array();
+        }
 		$this->view->caller = isset($this->_uploadActionUrl['caller']) ? $this->_uploadActionUrl['caller'] : false;
 
 		// max upload file size and files count
