@@ -55,8 +55,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected function _renderMemberSignup() {
 		$this->_view->signupForm       = new Application_Form_Signup();
-		$flashMessanger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-		$errorMessages                 = $flashMessanger->getMessages();
+		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+		$errorMessages                 = $flashMessenger->getMessages();
 		$this->_session->signupPageUrl = $this->_toasterOptions['url'];
 		$this->_view->errors           = ($errorMessages) ? $errorMessages : null;
 		return $this->_view->render('signup.phtml');
