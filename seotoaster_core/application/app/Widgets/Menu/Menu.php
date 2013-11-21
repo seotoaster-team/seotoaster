@@ -7,6 +7,8 @@
  */
 class Widgets_Menu_Menu extends Widgets_Abstract {
 
+    private $_menuTemplate = null;
+
 	protected function  _init() {
 		$this->_cacheTags = array(__CLASS__);
 		$this->_cacheId   = strtolower(__CLASS__).(!empty($this->_options)?'-'.implode('-', $this->_options):'');
@@ -18,6 +20,14 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	protected function  _load() {
         $website      = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$menuType     = $this->_options[0];
+        if(isset($this->_options[1]) && !empty($this->_options[1])) {
+            $this->_menuTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_options[1]);
+            if($this->_menuTemplate !== null) {
+                if($this->_menuTemplate->getType() === Application_Model_Models_Template::TYPE_MENU) {
+                    $this->_menuTemplate = $this->_menuTemplate->getContent();
+                }
+            }
+        }
 		$rendererName = '_render' . ucfirst($menuType) . 'Menu';
         $this->_view->websiteUrl = $website->getUrl();
 		if(method_exists($this, $rendererName)) {
@@ -52,8 +62,13 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 			});
 		}
 
-        $this->_view->pages = $pagesList;
-        return $this->_view->render('mainmenu.phtml');
+        if(is_null($this->_menuTemplate)) {
+            $this->_view->pages = $pagesList;
+            return $this->_view->render('mainmenu.phtml');
+        } else {
+            return $this->_processTemplateMenu($pagesList);
+
+        }
 	}
 
 	private function _renderFlatMenu() {
@@ -84,6 +99,41 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 	 */
 	private function _isPageProtected($page) {
         return (is_array($page['extraOptions']) && in_array(Application_Model_Models_Page::OPT_PROTECTED, $page['extraOptions'])) ? true : false;
+    }
+
+    private function _processTemplateMenu($pages, $subMenu = false, $categoryPage = null) {
+        $entityParser = new Tools_Content_EntityParser();
+        $dictionary = array();
+        $menuHtml = '<ul class="main_menu">';
+        if($subMenu === false) {
+            $template = preg_replace('/\{submenu\}(.)*\{\/submenu\}/msiu', '', $this->_menuTemplate);
+        }
+        else {
+            preg_match('/\{submenu\}((.)*)\{\/submenu\}/msiu', $this->_menuTemplate, $matches);
+            $template = $matches[1];
+        }
+        foreach($pages as $k => $page) {
+            $dictionary['$page:preview'] = '<img class="page-teaser-image" src="'.Tools_Page_Tools::getPreview((integer)$page['id']).'" alt="index">';
+            if($subMenu === true) {
+                $dictionary['$page:category:name'] = $categoryPage['h1'];
+            }
+            foreach($page as $prop => $item) {
+                $dictionary['$page:'.$prop] = $item;
+            }
+            $entityParser->setDictionary($dictionary);
+            $class = ($subMenu === false) ? 'category cat-'.($k+1) : 'page';
+            $menuHtml .= '<li class="'.$class.'">';
+            $menuHtml .= $entityParser->parse($template);
+            if(isset($page['subPages']) && !empty($page['subPages'])) {
+                $menuHtml .= $this->_processTemplateMenu($page['subPages'], true, $page);
+            }
+            $menuHtml .= '</li>';
+        }
+        return $menuHtml.'</ul>';
+    }
+
+    private function _parseMenuTemplate($template) {
+
     }
 
 }
