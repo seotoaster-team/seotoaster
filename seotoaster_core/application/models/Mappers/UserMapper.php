@@ -111,7 +111,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         $userId = $user->getId();
         $dbTable->delete(array('user_id' => $userId));
 
-        if (!empty($attribs)) {
+        if (is_array($attribs) && !empty($attribs)) {
             foreach($attribs as $name => $value){
                 $dbTable->insert(array(
                     'user_id' => $userId,
@@ -119,9 +119,10 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
                     'value' => $value
                 ));
             }
+            $user->setAttributes($attribs);
         }
 
-        return $user->setAttributes($attribs);
+        return $user;
     }
 }
 
