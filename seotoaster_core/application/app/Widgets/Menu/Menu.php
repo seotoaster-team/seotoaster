@@ -22,10 +22,9 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 		$menuType     = $this->_options[0];
         if(isset($this->_options[1]) && !empty($this->_options[1])) {
             $this->_menuTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_options[1]);
-            if($this->_menuTemplate !== null) {
-                if($this->_menuTemplate->getType() === Application_Model_Models_Template::TYPE_MENU) {
-                    $this->_menuTemplate = $this->_menuTemplate->getContent();
-                }
+            if($this->_menuTemplate !== null && $this->_menuTemplate->getType() === Application_Model_Models_Template::TYPE_MENU) {
+                array_push($this->_cacheTags, $this->_menuTemplate->getName());
+                $this->_menuTemplate = $this->_menuTemplate->getContent();
             }
         }
 		$rendererName = '_render' . ucfirst($menuType) . 'Menu';
