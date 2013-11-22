@@ -48,6 +48,9 @@ class Widgets_User_Base extends Widgets_Abstract {
         if (is_numeric(reset($this->_options))) {
             $userId = array_shift($this->_options);
             $this->_user = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
+            if (is_null($this->_user)){
+                return '';
+            }
         } elseif ($this->_sessionHelper->getCurrentUser()->getRoleId() === Tools_Security_Acl::ROLE_GUEST) {
             return '';
         } else {
