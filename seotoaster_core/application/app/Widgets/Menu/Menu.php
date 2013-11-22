@@ -104,13 +104,14 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
     private function _processTemplateMenu($pages, $subMenu = false, $categoryPage = null) {
         $entityParser = new Tools_Content_EntityParser();
         $dictionary = array();
-        $menuHtml = '<ul class="main_menu">';
+        $class = ($subMenu === false) ? 'main_menu' : '';
         if($subMenu === false) {
-            $template = preg_replace('/\{submenu\}(.)*\{\/submenu\}/msiu', '', $this->_menuTemplate);
-        }
-        else {
+            $template = $this->_menuTemplate;
+            $menuHtml = '<ul class="'.$class.'">';
+        } else {
             preg_match('/\{submenu\}((.)*)\{\/submenu\}/msiu', $this->_menuTemplate, $matches);
             $template = $matches[1];
+            $menuHtml = '<ul>';
         }
         foreach($pages as $k => $page) {
             $dictionary['$page:preview'] = '<img class="page-teaser-image" src="'.Tools_Page_Tools::getPreview((integer)$page['id']).'" alt="index">';
@@ -125,16 +126,14 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
             $menuHtml .= '<li class="'.$class.'">';
             $menuHtml .= $entityParser->parse($template);
             if(isset($page['subPages']) && !empty($page['subPages'])) {
-                $menuHtml .= $this->_processTemplateMenu($page['subPages'], true, $page);
+                $menuHtml = preg_replace('/\{submenu\}(.)*\{\/submenu\}/msiu', $this->_processTemplateMenu($page['subPages'], true, $page), $menuHtml);
+            }
+            else {
+                $menuHtml = preg_replace('/\{submenu\}(.)*\{\/submenu\}/msiu', '', $menuHtml);
             }
             $menuHtml .= '</li>';
         }
         return $menuHtml.'</ul>';
     }
-
-    private function _parseMenuTemplate($template) {
-
-    }
-
 }
 
