@@ -78,17 +78,18 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 	}
 
     public function loadUserAttributes(Application_Model_Models_User $user) {
-        if ($user->getId()){
+        $attributes = array();
+        if ($user->getId()) {
             $select = $this->getDbTable()->getAdapter()->select()->from('user_attributes', array('attribute', 'value'))
                     ->where('user_id = ?', $user->getId());
 
             $data = $this->getDbTable()->getAdapter()->fetchPairs($select);
-            if (is_null($data)){
-                $data = array();
+            if (is_null($data)) {
+                $attributes = $data;
             }
-            $user->setAttributes($data);
         }
-        return $user;
+
+        return $user->setAttributes($attributes);
     }
 
     public function saveUserAttributes(Application_Model_Models_User $user) {
