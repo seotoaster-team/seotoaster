@@ -102,6 +102,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
     private function _processTemplateMenu($pages, $subMenu = false, $categoryPage = null) {
         $entityParser = new Tools_Content_EntityParser();
+        $website      = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $dictionary = array();
         $class = ($subMenu === false) ? 'main_menu' : '';
         if($subMenu === false) {
@@ -118,6 +119,9 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                 $dictionary['$page:category:name'] = $categoryPage['h1'];
             }
             foreach($page as $prop => $item) {
+                if($prop === 'url') {
+                    $item = $website->getUrl().$item;
+                }
                 $dictionary['$page:'.$prop] = $item;
             }
             $entityParser->setDictionary($dictionary);
