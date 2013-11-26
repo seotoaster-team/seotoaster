@@ -7,10 +7,9 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private $_cssOrder      = array(
         'reset.css',
-        'style.css',
         'content.css',
         'nav.css',
-        'product.css'
+        'style.css'
     );
 
     private $_themeFullPath = '';
@@ -130,7 +129,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     private function _generatorFiles() {
-        $files = $this->_sortCss($this->_templateFiles());
+        $files = (isset($this->_params[0]) && $this->_params[0]=='sort') ? $this->_sortCss($this->_templateFiles()) : $this->_templateFiles();
         $concatContent = '';
         foreach ($files as $file) {
             $concatContent .= $this->_addCss($this->_themeFullPath.'/'.$file);
@@ -140,13 +139,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             return '';
         }
 
-        if (is_dir($this->_themeFullPath.'/'.self::FOLDER_CSS)) {
-            $filePath = $this->_themeFullPath.'/'.self::FOLDER_CSS;
-        }
-        else {
-            $filePath = $this->_themeFullPath.'/';
-        }
-
+        $filePath = (is_dir($this->_themeFullPath.'/'.self::FOLDER_CSS)) ? $this->_themeFullPath.'/'.self::FOLDER_CSS : $this->_themeFullPath.'/';
         $concatCssToTemplate = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';
 
         try {
