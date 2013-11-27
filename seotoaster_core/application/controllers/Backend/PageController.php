@@ -333,6 +333,13 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->_helper->layout->disableLayout();
 
         $where = $this->_getProductCategoryPageWhere();
+        $whereQuote = $this->_getQuotePageWhere();
+        if($where !== null && $whereQuote !== null) {
+            $where .= ' AND ' . $whereQuote;
+        }
+        else {
+            $where .= $whereQuote;
+        }
         $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
         if(!empty ($pages)) {
             $links = array();
@@ -397,6 +404,14 @@ class Backend_PageController extends Zend_Controller_Action {
     private function _getProductCategoryPageWhere() {
         $productCategoryPage = Tools_Page_Tools::getProductCategoryPage();
         return (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
+    }
+
+    private function _getQuotePageWhere() {
+        $quotePlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('quote');
+        if($quotePlugin !== null && $quotePlugin->getStatus() === Application_Model_Models_Plugin::ENABLED) {
+            return 'parent_id != "' . Quote::QUOTE_CATEGORY_ID . '"';
+        }
+        return null;
     }
 
     private function _restoreOriginalValues($pageData) {
