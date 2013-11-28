@@ -124,9 +124,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
                 $hits = $toasterSearchIndex->find($searchTerm);
-                array_push($this->_cacheTags, 'search_'.$searchTerm);
+                $cacheTags = array('search_'.$searchTerm);
                 $searchResults = array_map(function($hit) use (&$cacheTags) {
-                        array_push($this->_cacheTags, 'pageid_' . $hit->pageId);
+                        array_push($cacheTags, 'pageid_' . $hit->pageId);
                         try {
                             // checking if page is in drafts
                             $draft = (bool)$hit->draft;
@@ -145,6 +145,7 @@ class Widgets_Search_Search extends Widgets_Abstract {
                         }
                     }, $hits);
                 $searchResults = array_filter($searchResults);
+                array_merge($this->_cacheTags, $cacheTags);
                 $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), $this->_cacheTags, Helpers_Action_Cache::CACHE_LONG);
             }
             return $searchResults;
