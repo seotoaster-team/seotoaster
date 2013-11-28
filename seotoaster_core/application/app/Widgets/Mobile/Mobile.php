@@ -75,8 +75,7 @@ class Widgets_Mobile_Mobile extends Widgets_Abstract {
             $option = reset($option);
             list ($key, $params) = explode('=', $option);
             if ($key === $deviceType && !empty($params)){
-                $params = explode(',', $params);
-                return implode(' ', $params);
+                return $params;
             }
         }
     }

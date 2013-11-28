@@ -124,17 +124,28 @@ class Widgets_Search_Search extends Widgets_Abstract {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
                 $hits = $toasterSearchIndex->find($searchTerm);
-                $searchResults = array_map(function($hit){
-                        return array(
-                            'pageId' => $hit->pageId,
-                            'url' => $hit->url,
-                            'h1'  => $hit->h1,
-                            'navName' => $hit->navName,
-                            'teaserText' => $hit->teaserText
-                        );
+                array_push($this->_cacheTags, 'search_'.$searchTerm);
+                $searchResults = array_map(function($hit) use (&$cacheTags) {
+                        array_push($this->_cacheTags, 'pageid_' . $hit->pageId);
+                        try {
+                            // checking if page is in drafts
+                            $draft = (bool)$hit->draft;
+                        } catch (Zend_Search_Lucene_Exception $e) {
+                            // seems we are on old release
+                            $draft = false;
+                        }
+                        if (!$draft) {
+                            return array(
+                                'pageId' => $hit->pageId,
+                                'url' => $hit->url,
+                                'h1'  => $hit->h1,
+                                'navName' => $hit->navName,
+                                'teaserText' => $hit->teaserText
+                            );
+                        }
                     }, $hits);
-
-                $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), array('search'), Helpers_Action_Cache::CACHE_LONG);
+                $searchResults = array_filter($searchResults);
+                $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), $this->_cacheTags, Helpers_Action_Cache::CACHE_LONG);
             }
             return $searchResults;
         } else {
@@ -166,11 +177,10 @@ class Widgets_Search_Search extends Widgets_Abstract {
                     $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('id IN (?)', array_values($pageIDs));
                     $pages = $pageMapper->fetchAll($where);
                     foreach ($pages as $page) {
+                        array_push($this->_cacheTags, 'pageid_'.$page->getId());
                         if ($page->getDraft()) {
                             continue;
                         }
-
-                        array_push($this->_cacheTags, 'pageid_'.$page->getId());
                         $results[] = array(
                             'pageId'       => $page->getId(),
                             'url'          => $page->getUrl(),

@@ -24,6 +24,8 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	const TYPE_MOBILE   = 'typemobile';
 
+    const TYPE_MENU     = 'typemenu';
+
 	protected $_name         = '';
 
 	protected $_oldName      = null;
