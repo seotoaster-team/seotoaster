@@ -101,6 +101,7 @@ class Tools_Search_Tools {
 		$document->addField(Zend_Search_Lucene_Field::unStored('metaDescription', $page['metaDescription'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::unStored('headerTitle', $page['headerTitle'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::unStored('content', $page['content'], 'UTF-8'));
+		$document->addField(Zend_Search_Lucene_Field::text('draft', $page['draft'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::text('teaserText', $page['teaserText'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::text('url', $page['url'], 'UTF-8'));
 		$document->addField(Zend_Search_Lucene_Field::text('navName', $page['navName'], 'UTF-8'));
