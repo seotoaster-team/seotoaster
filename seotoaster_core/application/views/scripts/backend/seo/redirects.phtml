@@ -6,14 +6,14 @@
 				<?php echo $this->form->getElement('fromUrl'); ?>
 			</div>
 			<div class="grid_5 alpha omega mt0px type-url">
-				<label for="urlType"><?php echo $this->form->getElement('urlType') . $this->translate('Local url');?></label>
+				<label for="urlType"><?php echo $this->form->getElement('urlType') . $this->translate(' Local url');?></label>
 				<?php echo $this->form->getElement('toUrl'); ?>
 			</div>
 			<?php echo $this->form->getElement('addRedirect')->renderViewHelper(); ?>
 		</form>
 
 		<div id="redirect-title" class="grid_12 list-title">
-			<div class="grid_1 mr0 ml0 text-center"><input type="checkbox" id="massdell-main" /></div>
+			<div class="grid_1 mr0 ml0 text-center"> <input type="checkbox" id="massdell-main" /></div>
 			<div class="grid_5 alpha omega ml-grid mr-grid"><?php echo $this->translate('Former url'); ?></div>
 			<div class="grid_5 alpha omega ml-grid"><?php echo $this->translate('New url'); ?></div>
 			<div class="grid_1 omega ml0 text-center"><?php echo $this->translate('Action'); ?></div>
