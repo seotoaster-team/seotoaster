@@ -299,12 +299,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 'published',
                 'publishing_date'
             ))
-                ->where('(container_type = 2 OR container_type = 4)')
-                ->where('page_id IS NULL');
-            $stat = $cDbTable->getAdapter()->fetchAssoc($select);
-
+            ->where('(container_type = 2 OR container_type = 4)')
+            ->where('page_id IS NULL');
+            $stat   = $cDbTable->getAdapter()->fetchAssoc($select);
             $parser = new Tools_Content_Parser($mailTemplate, array('containers' => $stat), $parserOptions);
-            return $parser->parseSimple();
+
+            return Tools_Content_Tools::stripEditLinks($parser->parseSimple());
         }
         return false;
     }

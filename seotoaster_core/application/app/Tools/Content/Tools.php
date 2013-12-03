@@ -176,4 +176,14 @@ class Tools_Content_Tools {
 		}
 		return $string;
 	}
+
+    /**
+     * Cut out edit links from contents.
+     */
+    public static function stripEditLinks($string) {
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+            return preg_replace('/<a.*class=\"tpopup generator-links\".*>.*<\/a>/', '', $string);
+        }
+        return $string;
+    }
 }
