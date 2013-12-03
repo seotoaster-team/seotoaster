@@ -132,10 +132,6 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $concatContent .= $this->_addCss($this->_themeFullPath.'/'.$file);
         }
 
-        if ($concatContent == '') {
-            return '';
-        }
-
         $filePath = (is_dir($this->_themeFullPath.'/'.self::FOLDER_CSS)) ? $this->_themeFullPath.'/'.self::FOLDER_CSS : $this->_themeFullPath.'/';
         $fileName = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';
 
