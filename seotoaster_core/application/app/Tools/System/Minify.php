@@ -40,11 +40,12 @@ class Tools_System_Minify {
 			}
 
 			if (!isset($hashStack[$path]) || $hashStack[$path]['hash'] !== $hash){
+                $compressor = new CssMin();
 				$cssContent = Tools_Filesystem_Tools::getFile($path);
 				$cssContent = preg_replace('/url\([\'"]?([^)\'"]*)[\'"]?\)/', 'url("../'.dirname($path).DIRECTORY_SEPARATOR.'${1}")', $cssContent);
 				$hashStack[$path] = array(
 					'hash' => $hash,
-					'content' => CssMin::minify($cssContent)
+					'content' => $compressor->run($cssContent)
 				);
 
 				Tools_Filesystem_Tools::saveFile($websiteHelper->getPath().$websiteHelper->getTmp().$hash.'.css', $hashStack[$path]['content']);

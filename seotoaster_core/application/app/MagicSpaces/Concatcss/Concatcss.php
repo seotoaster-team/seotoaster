@@ -33,7 +33,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     protected function _run() {
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) { //ADMINPANEL
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) { // Adminpanel
             return $this->_spaceContent;   
         }
         
@@ -98,12 +98,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
         $cssOrder = array();
         foreach ($this->_cssOrder as $key => $val) {
-           if (in_array(self::FOLDER_CSS.$val, $files)) {
-               $cssOrder[$key] = self::FOLDER_CSS.$val;
-           }
-           else {
-               $cssOrder[$key] = $val;
-           }
+            $cssOrder[$key] = (in_array(self::FOLDER_CSS.$val, $files)) ? self::FOLDER_CSS.$val : $val;
         }
 
         $files = array_unique($files);
@@ -116,12 +111,14 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private function _addCss($cssPath) {
         $cssContent = '';
-        $fileName = explode('/', $cssPath);
-        $fileName = strtoupper(end($fileName));
 
         if (file_exists($cssPath)) {
+            $fileName   = explode('/', $cssPath);
+            $fileName   = strtoupper(end($fileName));
+            $compressor = new CssMin();
+
             $cssContent .= "/**** ".strtoupper($fileName)." start ****/\n";
-            $cssContent .= CssMin::minify(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
+            $cssContent .= $compressor->run(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
             $cssContent .= "\n/**** ".strtoupper($fileName)." end ****/\n";
         }
 
@@ -140,15 +137,15 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         }
 
         $filePath = (is_dir($this->_themeFullPath.'/'.self::FOLDER_CSS)) ? $this->_themeFullPath.'/'.self::FOLDER_CSS : $this->_themeFullPath.'/';
-        $concatCssToTemplate = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';
+        $fileName = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';
 
         try {
-            Tools_Filesystem_Tools::saveFile($filePath.$concatCssToTemplate, $concatContent);
+            Tools_Filesystem_Tools::saveFile($filePath.$fileName, $concatContent);
         }
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();
         }
 
-        return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.$concatCssToTemplate.'" rel="stylesheet" type="text/css" media="screen" />';
+        return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.$fileName.'" rel="stylesheet" type="text/css" media="screen" />';
     }
 }
