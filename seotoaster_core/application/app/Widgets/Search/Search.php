@@ -88,6 +88,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
 
         if ($request->has('search')) {
             $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
+            if (!preg_match('/^[\p{L}]{3}/u', $searchTerm)) {
+                return sprintf($this->_translator->translate('Search error "%s". The request string should have more than 3 letters.'), $searchTerm);
+            }
             $this->_view->urlData = array('search' => $searchTerm);
             $results = $this->_searchResultsByTerm($searchTerm);
         } elseif ($request->has('queryID')) {
@@ -123,6 +126,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
+                $pattern = new Zend_Search_Lucene_Index_Term($searchTerm);
+                $searchTerm = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
                 $hits = $toasterSearchIndex->find($searchTerm);
                 $cacheTags = array('search_'.$searchTerm);
                 $searchResults = array_map(function($hit) use (&$cacheTags) {
