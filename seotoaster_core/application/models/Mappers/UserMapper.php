@@ -84,7 +84,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
                     ->where('user_id = ?', $user->getId());
 
             $data = $this->getDbTable()->getAdapter()->fetchPairs($select);
-            if (is_null($data)) {
+            if (!is_null($data)) {
                 $attributes = $data;
             }
         }
