@@ -1106,5 +1106,9 @@
     'Total w/o tax' => 'Total HT',
     'User with this email already exist' => 'Cet email est déjà utilisé',
     'Email not valid' => 'Email invalide',
-    'free' => 'gratuit'
+    'free' => 'gratuit',
+    'Get another CAPTCHA' => 'Obtenir un autre CAPTCHA',
+    'Get an audio CAPTCHA' => 'Obtenir un CAPTCHA audio',
+    'Play sound again' => 'Jouer le son',
+    'Download sound as MP3' => 'Télécharger le son MP3'
 );?>
