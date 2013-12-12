@@ -1,33 +1,42 @@
 <?php if(!empty($this->pages)): ?>
-	<ul class="sitemap">
-		<?php foreach ($this->pages as $key => $page): ?>
-			<li><a title="<?php echo ($page['category']['optimizedH1']) ? $page['category']['optimizedH1'] : $page['category']['h1']; ?>" href="<?php echo $this->websiteUrl . ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url']); ?>"><?php echo ($page['category']['optimizedNavName'] ? $page['category']['optimizedNavName'] : $page['category']['navName']) ; ?></a>
-				<?php if(isset($page['subPages'])): ?>
-					<ul id="<?php echo str_replace('.html', '', ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url'])); ?>">
-						<?php foreach ($page['subPages'] as $subPage): ?>
-							<li class="page"><a title="<?php echo ($subPage['optimizedH1']) ? $subPage['optimizedH1'] : $subPage['h1']; ?>" href="<?php echo $this->websiteUrl . ($subPage['optimizedUrl'] ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo ($subPage['optimizedNavName'] ? $subPage['optimizedNavName'] : $subPage['navName']) ; ?></a></li>
-						<?php endforeach; ?>
-					</ul>
-				<?php endif; ?>
-			</li>
-		<?php endforeach; ?>
-	</ul>
+    <ul class="sitemap">
+        <?php foreach ($this->pages as $key => $page): ?>
+            <li><a title="<?php echo ($page['category']['optimizedH1']) ? $page['category']['optimizedH1'] : $page['category']['h1']; ?>" href="<?php echo $this->websiteUrl . ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url']); ?>"><?php echo ($page['category']['optimizedNavName'] ? $page['category']['optimizedNavName'] : $page['category']['navName']) ; ?></a>
+                <?php if(isset($page['subPages'])): ?>
+                    <ul id="<?php echo str_replace('.html', '', ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url'])); ?>">
+                        <?php foreach ($page['subPages'] as $subPage): ?>
+                            <li class="page"><a title="<?php echo ($subPage['optimizedH1']) ? $subPage['optimizedH1'] : $subPage['h1']; ?>" href="<?php echo $this->websiteUrl . ($subPage['optimizedUrl'] ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo ($subPage['optimizedNavName'] ? $subPage['optimizedNavName'] : $subPage['navName']) ; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 <!-- flat pages here -->
+<?php $navName =''; ?>
 <?php if(!empty($this->flatPages)): ?>
     <ul class="sitemap">
         <?php foreach ($this->flatPages as $key => $flatPage): ?>
             <?php $flatPage = $flatPage->toArray(); ?>
-            <li class="page"><a title="<?php echo isset($flatPage['optimizedH1']) ? $flatPage['optimizedH1'] : $flatPage['h1']; ?>" href="<?php echo $this->websiteUrl . (isset($flatPage['optimizedUrl']) ? $flatPage['optimizedUrl'] : $flatPage['url']); ?>"><?php echo (isset($flatPage['optimizedNavName']) ? $flatPage['optimizedNavName'] : $flatPage['navName']) ; ?></a></li>
+            <?php if(!isset($flatPage['extraOptions'][0])) :?>
+                <li class="page"><a title="<?php echo isset($flatPage['optimizedH1']) ? $flatPage['optimizedH1'] : $flatPage['h1']; ?>" href="<?php echo $this->websiteUrl . (isset($flatPage['optimizedUrl']) ? $flatPage['optimizedUrl'] : $flatPage['url']); ?>"><?php echo (isset($flatPage['optimizedNavName']) ? $flatPage['optimizedNavName'] : $flatPage['navName']) ; ?></a></li>
+            <?php elseif(isset($flatPage['extraOptions'][0]) && $flatPage['extraOptions'][0] = 'option_newsindex') :?>
+
+                <?php $navName = isset($flatPage['optimizedNavName']) ? $flatPage['optimizedNavName'] : $flatPage['navName'];?>
+            <?php endif; ?>
         <?php endforeach; ?>
         <?php if(isset($this->newsFolder)):?>
             <li>
                 <?php if($this->newsFolder == ''):?>
-                    <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>" title="News" ><?php echo $this->translate('News');?></a>
+                    <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>" title="News" ><?php echo (isset($navName) && $navName != '') ? $navName : $this->translate('News');?></a>
                 <?php else:?>
-                    <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo $this->translate('News');?></a>
+                    <a href="<?php echo $this->websiteUrl . $this->newsFolder;?>/" title="News" ><?php echo (isset($navName) && $navName != '') ? $navName : $this->translate('News');?></a>
                 <?php endif;?>
             </li>
         <?php endif;?>
     </ul>
 <?php endif; ?>
+<ul class="sitemap">
+    <li><a href="<?php echo $this->websiteUrl?>website.kml">website.kml</a></li>
+</ul>
