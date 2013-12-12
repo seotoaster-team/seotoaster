@@ -439,7 +439,7 @@
     'You don t have any saved addresses'=>'Vous n&rsquo;avez pas d&rsquo;adresses enregistrées',
     'You do not have any orders'=>'Vous n&rsquo;avez pas d&rsquo;ordres',
     'Insert tracking code for this order'=>'Insérez le code de suivi de cette commande',
-    'First'=>'Première',
+    'First'=>'Premier',
     'Last'=>'Dernier',
     'Previous<% } %>'=>'Précédent <%}%>',
     'Next<% } %>'=>'Suivant <%}%>',
