@@ -1110,5 +1110,7 @@
     'Get another CAPTCHA' => 'Obtenir un autre CAPTCHA',
     'Get an audio CAPTCHA' => 'Obtenir un CAPTCHA audio',
     'Play sound again' => 'Jouer le son',
-    'Download sound as MP3' => 'Télécharger le son MP3'
+    'Download sound as MP3' => 'Télécharger le son MP3',
+    'Open Quotes' => 'Devis en cours',
+    'Previous'=> 'Précédent'
 );?>
