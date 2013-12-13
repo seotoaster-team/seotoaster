@@ -1,4 +1,3 @@
-<?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
 <?php if($this->form): ?>
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
@@ -49,11 +48,10 @@
     </p>
 <?php endif; ?>
 
-
+<?php echo $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
-        form.sisyphus();
         if($(form).find('input[type="file"]').length>0){
             $('#<?php echo $this->formId; ?>').sisyphus( {timeout: 1, excludeFields: $('#<?php echo $this->formId; ?> input[type="hidden"], #recaptcha_response_field')});
         }
