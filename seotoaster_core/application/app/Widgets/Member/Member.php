@@ -10,6 +10,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected $_cacheable      = false;
 
+    protected $_translator      = false;
+
 	protected function  _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
@@ -50,7 +52,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         if($this->_session->getCurrentUser()->getRoleId() == Tools_Security_Acl::ROLE_GUEST){
             return '';
         }
-        return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">Logout</a>';
+        $translator = Zend_Registry::get('Zend_Translate');
+        return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">' . $translator->translate('Logout') . '</a>';
 	}
 
     protected function _renderMemberSignup() {
