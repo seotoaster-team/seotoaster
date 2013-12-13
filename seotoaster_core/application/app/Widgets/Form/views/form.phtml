@@ -53,6 +53,7 @@
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
+        form.sisyphus();
         if($(form).find('input[type="file"]').length>0){
             $('#<?php echo $this->formId; ?>').sisyphus( {timeout: 1, excludeFields: $('#<?php echo $this->formId; ?> input[type="hidden"], #recaptcha_response_field')});
         }
