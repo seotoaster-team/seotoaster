@@ -1,21 +1,23 @@
 <form action="javascript:;" method="post" data-name="rss" id="rss-widget-form" class="wmc-block">
-    <div>
+    <p>
         <?php echo $this->formLabel('feed-url', $this->translate('Feed url')); ?>
         <?php echo $this->formText('feedUrl', '', array('id' => 'feed-url', 'class' => 'validate small')); ?>
-    </div>
-    <div class="mt5px">
+    </p>
+    <p class="mt5px">
         <?php echo $this->formLabel('feed-maxres', $this->translate('Max. results'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formText('feedMaxres', Widgets_Rss_Rss::RSS_RESULT_COUNT, array('id' => 'feed-maxres', 'class' => 'grid_7 alpha omega small')); ?>
-    </div>
-    <div class="mt5px">
+    </p>
+    <p class="mt5px">
         <?php echo $this->formLabel('feed-maxch', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formText('feedMaxch', Widgets_Rss_Rss::RSS_DESC_LENGTH, array('id' => 'feed-maxch', 'class' => 'grid_7 alpha omega small')); ?>
-    </div>
-    <label class="mt5px">
-	    <span class="grid_5 alpha omega"><?php echo $this->translate('Use image'); ?></span>
-		<?php echo $this->formCheckbox('useImage', 'img', array('id' => 'feed-item-img')); ?>
-	</label>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget small')); ?>
+    </p>
+    <p class="mt5px">
+        <label class="pointer">
+            <span class="grid_5 alpha omega"><?php echo $this->translate('Use image'); ?></span>
+            <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'feed-item-img')); ?>
+        </label>
+    </p>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
 </form>
 <script type="text/javascript">
 	$(function() {

@@ -246,7 +246,7 @@ blockquote.info a,
 @font-face {
   font-family: 'toaster-icons';
   src: url('../fonts/icons/toaster-icons.eot');
-  src: url('../fonts/icons/toaster-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/toaster-icons.woff') format('woff'), url('../fonts/icons/toaster-icons.svg#toaster-icon') format('svg'), url('../fonts/icons/toaster-icons.ttf') format('truetype');
+  src: url('../fonts/icons/toaster-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/toaster-icons.svg#toaster-icon') format('svg'), url('../fonts/icons/toaster-icons.woff') format('woff'), url('../fonts/icons/toaster-icons.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -2785,7 +2785,6 @@ input {
   padding: 6px;
   background-color: #ffffff;
   color: #377d98;
-  height: 32px;
   vertical-align: middle;
   border-style: solid;
   border-width: 1px;
@@ -2897,16 +2896,18 @@ input.noedit:focus {
   -ms-box-shadow: none !important;
   box-shadow: none !important;
 }
-select.small,
-textarea.small,
-input.small {
+input,
+select {
+  height: 32px;
+}
+input.small,
+select.small {
   font-size: 0.85em;
   height: 25px;
   padding: 4px;
 }
-select.large,
-textarea.large,
-input.large {
+input.large,
+select.large {
   font-size: 1.25em;
   height: 45px;
   padding: 10px;
@@ -7372,7 +7373,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
 #edit-content #tabs {
   background: #ffffff;
   padding: 0;
-  height: 450px;
+  height: 455px;
 }
 #edit-content #tabs .ui-tabs-panel {
   padding: 5px;
@@ -7391,10 +7392,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   display: block;
 }
 #edit-content #tabs #tabs-frag-1 .ui-accordion-content {
-  max-height: 197px;
+  max-height: 189px;
 }
 #edit-content #tabs #tabs-frag-2 .ui-accordion-content {
-  max-height: 171px;
+  max-height: 197px;
 }
 #edit-content #adminthingsviewer .ui-accordion-content {
   position: relative;
@@ -7467,7 +7468,7 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background: #ffffff;
   padding: 6px;
   overflow: auto;
-  height: 275px;
+  height: 271px;
 }
 #product-products .productlisting {
   position: relative;

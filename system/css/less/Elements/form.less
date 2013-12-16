@@ -111,7 +111,6 @@ select, textarea, input{
     padding          : @padding-base-vertical;
     background-color : @input-bg;
     color            : @input-color;
-    height           : @btn-height-base;
     vertical-align   : middle;
     border-style     : solid;
     border-width     : @input-border-width;
@@ -162,6 +161,10 @@ select, textarea, input{
         color        : darken(@input-bg-disabled, 30%) !important;
         .box-shadow(none) !important;
     }
+}
+
+input, select{
+    height : @btn-height-base;
 
     &.small{
         font-size : @font-size-small;

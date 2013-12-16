@@ -526,7 +526,6 @@ input {
   padding: 6px;
   background-color: #ffffff;
   color: #377d98;
-  height: 32px;
   vertical-align: middle;
   border-style: solid;
   border-width: 1px;
@@ -638,16 +637,18 @@ input.noedit:focus {
   -ms-box-shadow: none !important;
   box-shadow: none !important;
 }
-select.small,
-textarea.small,
-input.small {
+input,
+select {
+  height: 32px;
+}
+input.small,
+select.small {
   font-size: 0.85em;
   height: 25px;
   padding: 4px;
 }
-select.large,
-textarea.large,
-input.large {
+input.large,
+select.large {
   font-size: 1.25em;
   height: 45px;
   padding: 10px;

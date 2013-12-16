@@ -1,21 +1,21 @@
 <form action="javascript:;" method="post" data-name="related" id="related-widget-form" class="wmc-block">
-    <div>
+    <p>
         <?php echo $this->formLabel('related-rel', $this->translate('Relevance'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formText('relatedRel', Widgets_Related_Related::REL_WORD_COUNT, array('id' => 'related-rel', 'class' => 'grid_7 alpha omega small')); ?>
-    </div>
-    <div class="mt5px">
+    </p>
+    <p class="mt5px">
         <?php echo $this->formLabel('related-maxres', $this->translate('Max. results'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formText('relatedMaxres', Widgets_Related_Related::REL_MAX_REZULT, array('id' => 'related-maxres', 'class' => 'grid_7 alpha omega small')); ?>
-    </div>
-    <div class="mt5px">
-	    <label class="grid_6 alpha omega">
+    </p>
+    <p class="mt5px">
+	    <label class="grid_6 alpha omega pointer">
             <span class="grid_10 alpha omega"><?php echo $this->translate('Use image'); ?></span>
             <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'related-img')); ?>
         </label>
-	    <label class="cropped-img hidden grid_6 omega">
+	    <label class="cropped-img hidden grid_6 omega pointer">
             <?php echo $this->translate('Cropped'); ?>
             <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped')); ?>
         </label>
-	</div>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget small')); ?>
+	</p>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
 </form>
