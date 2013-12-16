@@ -35,6 +35,7 @@
         <?php if($this->trackingConversionUrl):?>
             <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
         <?php endif;?>
+        <input type="hidden" name="uploadLimitSize" value="<?php echo $this->uploadLimitSize;?>"/>
         <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
     </form>
 <?php endif; ?>
