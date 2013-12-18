@@ -399,7 +399,6 @@ class Backend_SeoController extends Zend_Controller_Action {
                     array_walk($pages, function($page, $key) use(&$pages, &$quoteInstalled) {
                         if($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED) ||
                                                  $page->getDraft() ||
-                                                 $page->getSystem() ||
                                                  $page->getIs404page() ||
                                                  ($quoteInstalled && $page->getParentId() === Quote::QUOTE_CATEGORY_ID)) {
                             unset($pages[$key]);
