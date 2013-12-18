@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * cssmin.php rev ebaf67b 12/06/2013
+ * cssmin.php 2.4.8-2
  * Author: Tubal Martin - http://tubalmartin.me/
  * Repo: https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port
  *
@@ -14,13 +14,14 @@
 /*!
  * YUI Compressor
  * http://developer.yahoo.com/yui/compressor/
- * Author: Julien Lecomte -
+ * Author: Julien Lecomte - http://www.julienlecomte.net/
  * Copyright (c) 2013 Yahoo! Inc. All rights reserved.
  * The copyrights embodied in the content of this file are licensed
  * by Yahoo! Inc. under the BSD (revised) open source license.
  */
 
-class CssMin {
+class CssMin
+{
     const NL = '___YUICSSMIN_PRESERVED_NL___';
     const TOKEN = '___YUICSSMIN_PRESERVED_TOKEN_';
     const COMMENT = '___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_';
@@ -91,7 +92,7 @@ class CssMin {
         // preserve strings so their content doesn't get accidentally minified
         $css = preg_replace_callback('/(?:"(?:[^\\\\"]|\\\\.|\\\\)*")|'."(?:'(?:[^\\\\']|\\\\.|\\\\)*')/S", array($this, 'replace_string'), $css);
 
-        // Let's divide css code in chunks of 25.000 chars aprox.
+        // Let's divide css code in chunks of 5.000 chars aprox.
         // Reason: PHP's PCRE functions like preg_replace have a "backtrack limit"
         // of 100.000 chars by default (php < 5.3.7) so if we're dealing with really
         // long strings and a (sub)pattern matches a number of chars greater than
@@ -100,7 +101,7 @@ class CssMin {
         $charset = '';
         $charset_regexp = '/(@charset)( [^;]+;)/i';
         $css_chunks = array();
-        $css_chunk_length = 25000; // aprox size, not exact
+        $css_chunk_length = 5000; // aprox size, not exact
         $start_index = 0;
         $i = $css_chunk_length; // save initial iterations
         $l = strlen($css);
@@ -112,7 +113,7 @@ class CssMin {
         } else {
             // chunk css code securely
             while ($i < $l) {
-                $i += 50; // save iterations. 500 checks for a closing curly brace }
+                $i += 50; // save iterations
                 if ($l - $start_index <= $css_chunk_length || $i >= $l) {
                     $css_chunks[] = $this->str_slice($css, $start_index);
                     break;
@@ -263,6 +264,9 @@ class CssMin {
         // Normalize all whitespace strings to single spaces. Easier to work with that way.
         $css = preg_replace('/\s+/', ' ', $css);
 
+        // Fix IE7 issue on matrix filters which browser accept whitespaces between Matrix parameters
+        $css = preg_replace_callback('/\s*filter\:\s*progid:DXImageTransform\.Microsoft\.Matrix\(([^\)]+)\)/', array($this, 'preserve_old_IE_specific_matrix_definition'), $css);
+
         // Shorten & preserve calculations calc(...) since spaces are important
         $css = preg_replace_callback('/calc(\(((?:[^\(\)]+|(?1))*)\))/i', array($this, 'replace_calc'), $css);
 
@@ -333,10 +337,12 @@ class CssMin {
         $css = preg_replace('/(\*[a-z0-9\-]+\s*\:[^;\}]+)(\})/', '$1;$2', $css);
 
         // Replace 0 length units 0(px,em,%) with 0.
-        $css = preg_replace('/(^|[^0-9])(?:0?\.)?0(?:em|ex|ch|rem|vw|vh|vm|vmin|cm|mm|in|px|pt|pc|%|deg|g?rad|m?s|k?hz)/iS', '${1}0', $css);
+        //$css = preg_replace('/(^|[^0-9])(?:0?\.)?0(?:em|ex|ch|rem|vw|vh|vm|vmin|cm|mm|in|px|pt|pc|%|deg|g?rad|m?s|k?hz)/iS', '${1}0', $css);
+        // Seotoaster patch for the class type .mg0px.
+        $css = preg_replace('/(^|[^0-9]):(?:0?\.)?0(?:em|ex|ch|rem|vw|vh|vm|vmin|cm|mm|in|px|pt|pc|%|deg|g?rad|m?s|k?hz)/iS', '${1}:0', $css);
 
         // 0% step in a keyframe? restore the % unit
-        $css = preg_replace('/(@[a-z\-]*?keyframes.*?)0\{/iS', '${1}0%{', $css);
+        $css = preg_replace_callback('/(@[a-z\-]*?keyframes[^\{]*?\{)(.*?\}\s*\})/iS', array($this, 'replace_keyframe_zero'), $css);
 
         // Replace 0 0; or 0 0 0; or 0 0 0 0; with 0.
         $css = preg_replace('/\:0(?: 0){1,3}(;|\}| \!)/', ':0$1', $css);
@@ -375,6 +381,16 @@ class CssMin {
         // Add "/" back to fix Opera -o-device-pixel-ratio query
         $css = preg_replace('/'. self::QUERY_FRACTION .'/', '/', $css);
 
+        // Replace multiple semi-colons in a row by a single one
+        // See SF bug #1980989
+        $css = preg_replace('/;;+/', ';', $css);
+
+        // Restore new lines for /*! important comments
+        $css = preg_replace('/'. self::NL .'/', "\n", $css);
+
+        // Lowercase all uppercase properties
+        $css = preg_replace_callback('/(\{|\;)([A-Z\-]+)(\:)/', array($this, 'lowercase_properties'), $css);
+
         // Some source control tools don't like it when files containing lines longer
         // than, say 8000 characters, are checked in. The linebreak option is used in
         // that case to split long lines after a specific column.
@@ -390,18 +406,8 @@ class CssMin {
             }
         }
 
-        // Replace multiple semi-colons in a row by a single one
-        // See SF bug #1980989
-        $css = preg_replace('/;;+/', ';', $css);
-
-        // Restore new lines for /*! important comments
-        $css = preg_replace('/'. self::NL .'/', "\n", $css);
-
-        // Lowercase all uppercase properties
-        $css = preg_replace_callback('/(\{|\;)([A-Z\-]+)(\:)/', array($this, 'lowercase_properties'), $css);
-
-        // restore preserved comments and strings
-        for ($i = 0, $max = count($this->preserved_tokens); $i < $max; $i++) {
+        // restore preserved comments and strings in reverse order
+        for ($i = count($this->preserved_tokens) - 1; $i >= 0; $i--) {
             $css = preg_replace('/' . self::TOKEN . $i . '___/', $this->preserved_tokens[$i], $css, 1);
         }
 
@@ -582,6 +588,17 @@ class CssMin {
     {
         $this->preserved_tokens[] = trim(preg_replace('/\s*([\*\/\(\),])\s*/', '$1', $matches[2]));
         return 'calc('. self::TOKEN . (count($this->preserved_tokens) - 1) . '___' . ')';
+    }
+
+    private function preserve_old_IE_specific_matrix_definition($matches)
+    {
+        $this->preserved_tokens[] = $matches[1];
+        return 'filter:progid:DXImageTransform.Microsoft.Matrix(' . self::TOKEN . (count($this->preserved_tokens) - 1) . '___' . ')';
+    }
+
+    private function replace_keyframe_zero($matches)
+    {
+        return $matches[1] . preg_replace('/0\s*,/', '0%,', preg_replace('/\s*0\s*\{/', '0%{', $matches[2]));
     }
 
     private function rgb_to_hex($matches)

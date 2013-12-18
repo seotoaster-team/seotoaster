@@ -24,7 +24,7 @@
     }
 ?>
 
-<?php $this->jQuery()->onLoadCaptureStart() ?>
+<?php $this->jQuery()->onLoadCaptureStart(); ?>
 
     var prepop = {
         webisteUrl: '<?php echo $this->websiteUrl; ?>',
@@ -73,31 +73,31 @@
         }
     };
 
-<?php $this->jQuery()->onLoadCaptureEnd() ?>
-<?php $this->jQuery()->onLoadCaptureStart() ?>
-    $(function() {
-        $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo (($this->prepopName) ? ('.' . $this->prepopName) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function(e) {
-            //init prepop specific fields
-            prepop.pageId         = '<?php echo $this->commonOptions['pageId']; ?>';
-            prepop.container.type = '<?php echo $this->commonOptions['containerType']; ?>';
-            prepop.container.name = '<?php echo $this->commonOptions['containerName']; ?>';
-            prepop.container.id   = '<?php echo $this->prepopConainerId; ?>';
-            prepop.type           = '<?php echo $this->elementType; ?>';
-            prepop.name           = '<?php echo $this->prepopName; ?>';
-            //setting the content
-            prepop.content = $(e.currentTarget).val();
-            if(prepop.type == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
-                prepop.content = '';
-                $('input[type=checkbox].' + prepop.name + ':checked').each(function() {
-                    prepop.content += '~' + $(this).val();
-                });
-            }
-            //setting up an additional options
-            <?php if(isset($this->limit) && $this->limit): ?>
-                prepop.options.limit = '<?php echo $this->limit; ?>';
-            <?php endif; ?>
-            //executing the prepop
-            prepop.exec();
-        })
-    })
-<?php $this->jQuery()->onLoadCaptureEnd() ?>
+<?php $this->jQuery()->onLoadCaptureEnd(); ?>
+<?php $this->jQuery()->onLoadCaptureStart(); ?>
+
+    $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo (($this->prepopName) ? ('.' . $this->prepopName) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function (e) {
+        //init prepop specific fields
+        prepop.pageId = '<?php echo $this->commonOptions['pageId']; ?>';
+        prepop.container.type = '<?php echo $this->commonOptions['containerType']; ?>';
+        prepop.container.name = '<?php echo $this->commonOptions['containerName']; ?>';
+        prepop.container.id = '<?php echo $this->prepopConainerId; ?>';
+        prepop.type = '<?php echo $this->elementType; ?>';
+        prepop.name = '<?php echo $this->prepopName; ?>';
+        //setting the content
+        prepop.content = $(e.currentTarget).val();
+        if (prepop.type == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
+            prepop.content = '';
+            $('input[type=checkbox].' + prepop.name + ':checked').each(function () {
+                prepop.content += '~' + $(this).val();
+            });
+        }
+        //setting up an additional options
+        <?php if(isset($this->limit) && $this->limit): ?>
+        prepop.options.limit = '<?php echo $this->limit; ?>';
+        <?php endif; ?>
+        //executing the prepop
+        prepop.exec();
+    });
+
+<?php $this->jQuery()->onLoadCaptureEnd(); ?>

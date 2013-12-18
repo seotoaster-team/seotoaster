@@ -389,6 +389,9 @@ class Backend_SeoController extends Zend_Controller_Action {
         if(($sitemapType = $this->getRequest()->getParam('type', '')) == Tools_Content_Feed::SMFEED_TYPE_REGULAR) {
             //regular sitemap.xml requested
             if(null === ($this->view->pages = $this->_helper->cache->load('sitemappages', 'sitemaps_'))) {
+                if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+                    $this->view->newsPageUrlPath = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                }
                 $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
                 if(is_array($pages) && !empty($pages)) {
 

@@ -5,13 +5,27 @@
             xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
         <?php foreach($this->pages as $page): ?>
             <?php if($page->getParentId() != Application_Model_Models_Page::IDCATEGORY_DRAFT): ?>
+                <?php
+                $urlPatch = '';
+                if (isset($this->newsPageUrlPath)) {
+                    if (in_array(Newslog::OPTION_PAGE_DEFAULT, $page->getExtraOptions()) || $page->getNews()==1) {
+                        $urlPatch = $this->newsPageUrlPath.'/';
+                    }
+                }
+                ?>
                 <url>
-                    <loc><?php echo $this->websiteUrl .(($page->getUrl() == 'index.html') ? '' : $page->getUrl()); ?></loc>
+                    <loc><?php echo $this->websiteUrl .(($page->getUrl() == 'index.html') ? '' : $urlPatch.$page->getUrl()); ?></loc>
                     <lastmod><?php echo date('c', time()); ?></lastmod>
                     <changefreq><?php echo Tools_Content_Feed::SMFEED_CHANGEFREEQ; ?></changefreq>
                     <priority><?php echo ($page->getUrl() == Tools_Content_Feed::SMFEED_HIGHPRIORITY_PAGE_URL) ? '1' : '0.8'; ?></priority>
                 </url>
             <?php endif; ?>
         <?php endforeach; ?>
+        <url>
+            <loc><?php echo $this->websiteUrl ."website.kml"; ?></loc>
+            <lastmod><?php echo date('c', time()); ?></lastmod>
+            <changefreq><?php echo Tools_Content_Feed::SMFEED_CHANGEFREEQ; ?></changefreq>
+            <priority>0.8</priority>
+        </url>
     </urlset>
 <?php endif; ?>

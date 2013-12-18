@@ -1,10 +1,9 @@
-<?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
 <?php if($this->form): ?>
 	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
 		<?php echo $this->form->getCode(); ?>
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
-        <input style="display: none;" type="text" id="<?php echo md5($this->form->getName().$this->form->getId()); ?>" name="<?php echo md5($this->form->getName().$this->form->getId()); ?>" value=""/>
+        <input style="display: none;" type="text" id="<?php echo md5($this->form->getName().$this->form->getId()); ?>" name="<?php echo md5($this->form->getName().$this->form->getId()); ?>" value="" data-secur="smart"/>
 		<?php if($this->useRecaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
            <div id="recaptcha_widget">
                <div id="recaptcha_image"></div>
@@ -36,6 +35,7 @@
         <?php if($this->trackingConversionUrl):?>
             <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
         <?php endif;?>
+        <input type="hidden" name="uploadLimitSize" value="<?php echo $this->uploadLimitSize;?>"/>
         <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
     </form>
 <?php endif; ?>
@@ -49,7 +49,7 @@
     </p>
 <?php endif; ?>
 
-
+<?php echo $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
