@@ -267,6 +267,9 @@ class IndexController extends Zend_Controller_Action {
         $this->view->htaccessExists        = false ;
         $this->view->serverConfigGenerated = false;
 
+        //prepare robots.txt
+        $this->_prepareRobotsTxt();
+
         //detecting server software
         if(isset($_SERVER['SERVER_SOFTWARE'])) {
             if(strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
@@ -294,6 +297,17 @@ class IndexController extends Zend_Controller_Action {
 		}
 		return parent::preDispatch();
 	}
+
+    private function _prepareRobotsTxt() {
+        $pattern    = '/Sitemap:.*sitemapindex.xml\n/';
+        $file       = INSTALL_PATH.DIRECTORY_SEPARATOR.'robots.txt';
+        $content    = file_get_contents($file);
+        $websiteUrl = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_SCHEME).'://'.$this->_session->websiteUrl;
+        $sitemapXml = 'Sitemap: '.$websiteUrl."sitemapindex.xml\n";
+        $content    = (preg_match($pattern, $content)) ? preg_replace($pattern, $sitemapXml, $content) : $sitemapXml.$content;
+
+        return file_put_contents($file, $content);
+    }
 
     private function _generateHtaccessContent() {
         $content   = array();
