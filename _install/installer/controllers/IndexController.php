@@ -73,6 +73,10 @@ class IndexController extends Zend_Controller_Action {
 		
 		//checking if required libraries are installed
 		foreach ($this->_requirements['phpExtensions'] as $name) {
+            // php 5.5.x specific check for json extension
+            if(($name === 'json') && (version_compare(PHP_VERSION, '5.5', '>=') < 0)) {
+                continue;
+            }
 			$phpRequirements[$name] = extension_loaded($name);
 		}
 		

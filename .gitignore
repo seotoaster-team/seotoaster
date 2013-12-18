@@ -29,3 +29,4 @@ tmp/*
 .idea/*
 products.xml
 feeds/*
+system/js/external/tinymce/*.gz
