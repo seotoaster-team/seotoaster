@@ -20,6 +20,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_gplusProfile = '';
 
+    protected $_attributes;
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -101,6 +103,57 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 		return $this->_referer;
 	}
 
+    /**
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes) {
+        $this->_attributes = $attributes;
+        return $this;
+    }
 
+    /**
+     * @return array
+     */
+    public function getAttributes() {
+        if (is_null($this->_attributes)){
+            $this->loadAttributes();
+        }
+        return $this->_attributes;
+    }
+
+    public function setAttribute($name, $value) {
+        $this->_attributes[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return array
+     */
+    public function getAttribute($name) {
+        if (is_null($this->_attributes)){
+            $this->loadAttributes();
+        }
+        if ($this->hasAttribute($name)){
+            return $this->_attributes[$name];
+        }
+    }
+
+    /**
+     * Checks if the attribute exists
+     * @param $name
+     * @return bool
+     */
+    public function hasAttribute($name) {
+        return array_key_exists($name, $this->_attributes);
+    }
+
+    /**
+     * Loads extended attributes to user model
+     * @return Application_Model_Models_User
+     */
+    public function loadAttributes() {
+        return Application_Model_Mappers_UserMapper::getInstance()->loadUserAttributes($this);
+    }
 }
 
