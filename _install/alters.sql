@@ -6,8 +6,7 @@ INSERT INTO `template_type` (`id`, `title`) VALUES ('typemenu', 'Menu');
 -- 19/12/2013
 -- User attributes table added
 -- version: 2.1.2
-DROP TABLE IF EXISTS `user_attributes`;
-CREATE TABLE `user_attributes` (
+CREATE TABLE IF NOT EXISTS `user_attributes` (
   `user_id` int(10) unsigned NOT NULL,
   `attribute` tinytext COLLATE utf8_unicode_ci NOT NULL,
   `value` text COLLATE utf8_unicode_ci,
