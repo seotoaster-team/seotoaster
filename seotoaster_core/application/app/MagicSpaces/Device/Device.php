@@ -14,7 +14,7 @@ class MagicSpaces_Device_Device extends Tools_MagicSpaces_Abstract {
         if(!isset($this->_params[0])) {
             return $this->_spaceContent;
         }
-        $devices = explode(',', $this->_params[0]);
+        $devices = explode(',', preg_replace('/\s+/u', '', $this->_params[0]));
         if(empty($devices)) {
             return '';
         }

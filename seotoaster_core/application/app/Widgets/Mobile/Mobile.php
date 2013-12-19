@@ -58,24 +58,22 @@ class Widgets_Mobile_Mobile extends Widgets_Abstract {
     protected function _renderDevice() {
         // detecting on what device we are now
         if ($this->_mobileHelper->isMobile()) {
-            $deviceType = $this->_mobileHelper->isTablet() ? self::MODE_TABLET : self::MODE_MOBILE ;
+            $currentDeviceType = $this->_mobileHelper->isTablet() ? self::MODE_TABLET : self::MODE_MOBILE ;
         } else {
-            $deviceType = self::MODE_DESKTOP;
+            $currentDeviceType = self::MODE_DESKTOP;
         }
 
         // if nothing passed into widget options - simple return current device type
         if (empty($this->_options)) {
-            return $deviceType;
+            return $currentDeviceType;
         }
 
         // parse if we got some options
-
-        $option = preg_grep('/^(?:'.$deviceType.')=/i', $this->_options);
-        if (!empty($option)) {
-            $option = reset($option);
-            list ($key, $params) = explode('=', $option);
-            if ($key === $deviceType && !empty($params)){
-                return $params;
+        foreach($this->_options as $option) {
+            list ($deviceList, $data) = explode('=', $option);
+            $deviceList = explode(',', preg_replace('/\s+/u', '', $deviceList));
+            if (in_array($currentDeviceType, $deviceList)){
+                return $data;
             }
         }
     }
