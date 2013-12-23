@@ -178,6 +178,13 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->fetchAll("draft = '1'", array(), true);
 	}
 
+    public function getDraftPagesCount() {
+        $table  = $this->getDbTable();
+        $select = $table->select()->from($table, array('count' => new Zend_Db_Expr('COUNT(draft)')))->where('draft = ?', '1');
+
+        return $table->fetchRow($select)->toArray();
+    }
+
 	public function fetchAllNomenuPages() {
 		$where = sprintf("show_in_menu = '%s' AND parent_id = %d", Application_Model_Models_Page::IN_NOMENU, Application_Model_Models_Page::IDCATEGORY_DEFAULT);
 		return $this->fetchAll($where);

@@ -370,7 +370,7 @@ class Backend_PageController extends Zend_Controller_Action {
             }
         }
         if($cleanDraftCache) {
-            $this->_cache->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
+            $this->_cache->clean(false, false, Helpers_Action_Cache::TAG_DRAFT);
         }
     }
 
