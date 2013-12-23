@@ -55,6 +55,7 @@ class Tools_Image_Tools {
 			// if the original size less then it needs to resized at
 			// copying original file to destination and exiting
 			if ($destination){
+                $destination = rtrim($destination, DIRECTORY_SEPARATOR);
 				if(isset($sessionHelper->imageQuality)){
                     $optimizedImageName = preg_replace('~\.[a-zA-Z]{3,4}~iu', '.jpg',Tools_Filesystem_Tools::basename($imageFile));
                     switch ($mimeType) {
@@ -83,7 +84,6 @@ class Tools_Image_Tools {
                 }else{
                     copy($imageFile, $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($imageFile));
                 }
-                //
 			}
 			return true;
 		}
