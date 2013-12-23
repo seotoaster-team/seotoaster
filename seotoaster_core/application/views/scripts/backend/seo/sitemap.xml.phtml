@@ -6,15 +6,19 @@
         <?php foreach($this->pages as $page): ?>
             <?php if($page->getParentId() != Application_Model_Models_Page::IDCATEGORY_DRAFT): ?>
                 <?php
-                $urlPatch = '';
+                $url = $page->getUrl();
+                // Path news page
                 if (isset($this->newsPageUrlPath)) {
-                    if (in_array(Newslog::OPTION_PAGE_DEFAULT, $page->getExtraOptions()) || $page->getNews()==1) {
-                        $urlPatch = $this->newsPageUrlPath.'/';
+                    if (in_array(Newslog::OPTION_PAGE_DEFAULT, $page->getExtraOptions()) || $page->getNews() == 1) {
+                        $url = $this->newsPageUrlPath.'/'.$url;
+                    }
+                    elseif (in_array(Newslog::OPTION_PAGE_INDEX, $page->getExtraOptions())) {
+                        $url = $this->newsPageUrlPath.'/';
                     }
                 }
                 ?>
                 <url>
-                    <loc><?php echo $this->websiteUrl .(($page->getUrl() == 'index.html') ? '' : $urlPatch.$page->getUrl()); ?></loc>
+                    <loc><?php echo $this->websiteUrl.(($page->getUrl() == 'index.html') ? '' : $url); ?></loc>
                     <lastmod><?php echo date('c', time()); ?></lastmod>
                     <changefreq><?php echo Tools_Content_Feed::SMFEED_CHANGEFREEQ; ?></changefreq>
                     <priority><?php echo ($page->getUrl() == Tools_Content_Feed::SMFEED_HIGHPRIORITY_PAGE_URL) ? '1' : '0.8'; ?></priority>
