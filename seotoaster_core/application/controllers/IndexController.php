@@ -26,7 +26,7 @@ class IndexController extends Zend_Controller_Action {
 		$pageUrl = $this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE);
 
         // Mobile switch
-        if ($this->_request->isGet()) {
+        if ($this->_request->isGet() && $this->_request->has('mobileSwitch')) {
             $showMobile = filter_var($this->_request->getParam('mobileSwitch'), FILTER_SANITIZE_NUMBER_INT);
             if (!is_null($showMobile)) {
                 $this->_helper->session->mobileSwitch = (bool) $showMobile;

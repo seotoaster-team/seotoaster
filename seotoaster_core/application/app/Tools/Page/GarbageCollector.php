@@ -77,7 +77,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector {
 		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
 		if($this->_object->getDraft() != $sessionHelper->oldPageDraft) {
-			$cacheHelper->clean(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT);
+			$cacheHelper->clean(false, false, Helpers_Action_Cache::TAG_DRAFT);
 		}
 		unset($cacheHelper);
 		unset($sessionHelper);

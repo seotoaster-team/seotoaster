@@ -8,6 +8,10 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 
 	const KEY_DRAFT                 = 'seotoasterDraftPages';
 
+    const KEY_DRAFT_COUNT           = 'seotoasterDraftPagesCount';
+
+    const TAG_DRAFT                 = 'tagDraftPages';
+
 	const PREFIX_DRAFT              = 'draft_';
 
 	const KEY_PLUGINTABS            = 'pluginsExtraTabs';
