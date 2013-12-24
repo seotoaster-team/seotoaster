@@ -9,7 +9,7 @@
             if ($this->customRecaptcha) {
                 echo $this->partial(
                     'recaptcha.phtml',
-                    array('content' => $this->recaptchaCode, 'recaptchaId' => $this->recaptchaId)
+                    array('content' => $this->recaptchaCode, 'recaptchaId' => $this->recaptchaWidgetId)
                 );
             } else {
                 echo $this->recaptchaCode;
