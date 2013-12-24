@@ -1,43 +1,41 @@
 <?php if(isset($this->prepopLinks) && !empty($this->prepopLinks)):?>
-    <ul class="prepoplinks"> 
+    <ul class="prepoplinks">
         <?php foreach($this->prepopLinks as $link):?>
             <li>
-                <a href="javascript:;" class="prepop-link" id="prepop-link-<?php echo $this->prepopName;?>" title="<?php echo $link;?>">
-                    <?php echo $link;?>       
+                <a href="javascript:;" class="prepop-link" data-id="prepop-link-<?php echo $this->prepopName;?>" title="<?php echo $link;?>">
+                    <?php echo $link;?>
                 </a>
             </li>
         <?php endforeach;?>
     </ul>
-    
 <?php endif; ?>
-
 <?php $this->jQuery()->onLoadCaptureStart() ?>
     $(function() {
-        $(document).on('click', 'a.prepop-link', function(e) {
-            e.preventDefault();
-            var urlAction = "<?php echo $this->websiteUrl;?>backend/search/complexsearch/";
-            var searchValues = [];
-            var containerNames = [];
-            var prepopName = $(this).attr('id');
-            var prepopValue = $(this).attr('title');
-            containerNames.push(prepopName.replace('prepop-link-', ''));
-            searchValues.push(prepopValue);
-            $.ajax({
-                type: "POST",
-                url: urlAction,
-                dataType: "json",
-                data: {
-                    searchValues: searchValues,
-                    containerNames:containerNames
-                },
-            success: function(responce){
-                  var url = responce.redirect;
-                  window.location = url;
-            }
-          
-         });
-            return false;
-            
-        });
+    $(document).on('click', 'a.prepop-link', function(e) {
+    e.preventDefault();
+    var urlAction = "<?php echo $this->websiteUrl;?>backend/search/complexsearch/";
+    var searchValues = [];
+    var containerNames = [];
+    var prepopName = $(this).data('id').replace(/\d+/g, '');
+    var prepopValue = $(this).attr('title');
+    containerNames.push(prepopName.replace('prepop-link-', ''));
+    searchValues.push(prepopValue);
+    $.ajax({
+    type: "POST",
+    url: urlAction,
+    dataType: "json",
+    data: {
+    searchValues: searchValues,
+    containerNames:containerNames
+    },
+    success: function(responce){
+    var url = responce.redirect;
+    window.location = url;
+    }
+
+    });
+    return false;
+
+    });
     });
 <?php $this->jQuery()->onLoadCaptureEnd() ?>
