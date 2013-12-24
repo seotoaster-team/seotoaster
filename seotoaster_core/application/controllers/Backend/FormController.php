@@ -205,7 +205,7 @@ class Backend_FormController extends Zend_Controller_Action {
                     $uploader->setDestination($websitePathTemp);
                     $uploader->addValidator('Extension', false, self::ATTACHMENTS_FILE_TYPES);
                     //Adding Size limitation
-                    $uploader->addValidator('Size', false, 10485760); //limit to 10MB
+                    $uploader->addValidator('Size', false, $formParams['uploadLimitSize']*1024*1024);
                     //Adding mime types validation
                     $uploader->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
                                                                     'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel'));
@@ -230,7 +230,7 @@ class Backend_FormController extends Zend_Controller_Action {
                                         $errorMessage .= 'Invalid file format type. ';
                                     }
                                     if($errorType == 'fileSizeTooBig'){
-                                        $errorMessage .= 'Maximum size upload 10mb. ';
+                                        $errorMessage .= $this->_helper->language->translate('Maximum size upload').' '.$formParams['uploadLimitSize'].'mb.';
                                     }
                                     if($errorType == 'fileExtensionFalse'){
                                         $errorMessage .= 'File extension not valid. ';
@@ -243,7 +243,7 @@ class Backend_FormController extends Zend_Controller_Action {
                     }
 
                 }
-
+                unset($formParams['uploadLimitSize']);
                	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,

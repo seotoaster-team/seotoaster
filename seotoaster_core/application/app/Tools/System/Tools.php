@@ -141,7 +141,15 @@ class Tools_System_Tools {
         $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
         if(!empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != ''){
             $options = array('theme' => $captchaTheme);
-            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey'], null, $options);
+            $params = null;
+            if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+                $params = array(
+                    'ssl' => true,
+                    'error' => null,
+                    'xhtml' => false
+                );
+            }
+            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey'], $params, $options);
             return $recaptcha->getHTML();
         }
         return false;

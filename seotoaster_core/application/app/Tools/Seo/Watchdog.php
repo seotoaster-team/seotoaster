@@ -101,7 +101,9 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 			foreach ($containersToUpdate as $containerData) {
 				$container        = $mapper->find($containerData['id_container']);
 				$links            = Tools_Content_Tools::findLinksInContent($container->getContent(), true);
-				$container->registerObserver(new Tools_Content_GarbageCollector());
+				$container->registerObserver(new Tools_Content_GarbageCollector(array(
+                    'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
+                )));
 				if(in_array($fullOldUrl, $links)) {
 					$fullNewUrl             = $websiteHelper->getUrl() . $this->_object->getUrl();
 					$withoutTitleUrlPattern = '~(<a\s+[^\s]*\s*href=")(' . $fullOldUrl . ')("\s*)(>.+</a>)~u';

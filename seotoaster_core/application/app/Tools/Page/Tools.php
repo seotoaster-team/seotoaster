@@ -73,10 +73,21 @@ class Tools_Page_Tools {
 		$cacheHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		if(null === ($draftPages = $cacheHelper->load(Helpers_Action_Cache::KEY_DRAFT, Helpers_Action_Cache::PREFIX_DRAFT))) {
 			$draftPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllDraftPages();
-			$cacheHelper->save(Helpers_Action_Cache::KEY_DRAFT, $draftPages, Helpers_Action_Cache::PREFIX_DRAFT, array(), Helpers_Action_Cache::CACHE_LONG);
+			$cacheHelper->save(Helpers_Action_Cache::KEY_DRAFT, $draftPages, Helpers_Action_Cache::PREFIX_DRAFT, array(Helpers_Action_Cache::TAG_DRAFT), Helpers_Action_Cache::CACHE_LONG);
 		}
 		return $draftPages;
 	}
+
+    public static function getDraftPagesCount() {
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+
+        if (null === ($draftPagesCount = $cacheHelper->load(Helpers_Action_Cache::KEY_DRAFT_COUNT, Helpers_Action_Cache::PREFIX_DRAFT))) {
+            $draftPagesCount = Application_Model_Mappers_PageMapper::getInstance()->getDraftPagesCount();
+            $cacheHelper->save(Helpers_Action_Cache::KEY_DRAFT_COUNT, $draftPagesCount, Helpers_Action_Cache::PREFIX_DRAFT, array(Helpers_Action_Cache::TAG_DRAFT), Helpers_Action_Cache::CACHE_LONG);
+        }
+
+        return $draftPagesCount['count'];
+    }
 
 	public static function getLandingPage($type) {
 		if(!isset($type) || empty ($type)) {

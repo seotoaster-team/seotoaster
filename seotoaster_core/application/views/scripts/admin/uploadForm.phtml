@@ -1,7 +1,6 @@
 <div id="<?php echo $this->formId; ?>" >
 	<button style="cursor:pointer;" id="<?php echo $this->formId; ?>-pickfiles" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></button>
 </div>
-<script>
 <?php
 $jsValName = 'js'.str_replace(' ','',ucwords(str_replace('-', ' ', $this->formId)));
 switch ($this->caller){
@@ -18,26 +17,34 @@ switch ($this->caller){
 		$maxHeight = $maxWidth;
 		break;
 }
+
+$pluploadOptions = array(
+    'runtimes' => 'html5,flash,html4',
+    'browse_button' => $this->formId.'-pickfiles',
+    'rename' => true,
+    'unique_names' => false,
+    'max_file_size' => $this->allowedUploadData['fileSize'].'mb',
+    'max_file_count' => $this->allowedUploadData['fileUploads'],
+    'url' => $this->actionUrl
+);
+if (!$this->disableResize) {
+    $pluploadOptions['resize'] = array(
+        'width' => $maxWidth,
+        'height' => $maxHeight,
+        'quality' => $this->config['imgQuality']
+    );
+}
+
+if (!empty($this->filters)) {
+    $pluploadOptions['filters'] = $this->filters;
+}
 ?>
+<script>
+
 <?php $this->jQuery()->onLoadCaptureStart();?>
 	jQuery.ui && $('#<?php echo $this->formId; ?>-pickfiles').button();
 
-	window.<?php echo $jsValName; ?> = new plupload.Uploader({
-		runtimes : 'html5,flash,html4',
-		browse_button : '<?php echo $this->formId; ?>-pickfiles',
-		rename: true,
-		unique_names: false,
-		max_file_size : '<?php echo $this->allowedUploadData['fileSize']; ?>mb',
-		max_file_count: <?php echo $this->allowedUploadData['fileUploads']; ?>,
-		url : $('#<?php echo $this->formId; ?>-pickfiles').data('url'),
-		<?php if (!$this->disableResize): ?>
-		resize : {width : <?php echo $maxWidth; ?>, height : <?php echo $maxHeight; ?>, quality : <?php echo $this->config['imgQuality']; ?>},
-		<?php endif; ?>
-		flash_swf_url : '<?php echo $this->websiteUrl;?>system/js/external/plupload/plupload.flash.swf',
-		<?php if ($this->filters): ?>
-		filters : [<?php foreach ($this->filters as $title){ echo $this->fileTypes[$title] ? json_encode($this->fileTypes[$title]).PHP_EOL : ''; } ?>]
-		<?php endif;?>
-	});
+	window.<?php echo $jsValName; ?> = new plupload.Uploader(<?php echo json_encode($pluploadOptions); ?>);
 
 	<?php echo $jsValName; ?>.bind('Init', function(up, params) {
 		if ($('#<?php echo $this->formId;?>-filelist').size() == 0) {
@@ -58,7 +65,7 @@ switch ($this->caller){
 		});
 		<?php if ($this->caller == 'media'): ?>
 		$('#things-select-folder,#things-new-folder').attr('disabled', 'disabled');
-        
+
 		var newfolder = $('#things-new-folder').val();
 		if ( newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' ) {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': newfolder};
@@ -77,13 +84,13 @@ switch ($this->caller){
    		$('#things-select-folder,#things-new-folder').removeAttr('disabled');
 		<?php endif; ?>
 		up.refresh();
-        
+
         if($('.change-image-quality').length>0 && newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' || $('.change-image-quality').length>0 && $('#things-select-folder').val() != '0'){
             if($('.change-image-quality').is(":checked")){
                <?php echo $jsValName; ?>.settings.multipart_params.quality = 75;
             }
         }
-        
+
 		<?php echo $jsValName; ?>.start();
 	});
 

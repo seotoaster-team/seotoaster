@@ -24,7 +24,7 @@
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' . sizeof(Tools_Page_Tools::getDraftPages()) . ')', false, false, array('width' => 480, 'height' => 574)); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' .Tools_Page_Tools::getDraftPagesCount() . ')', false, false, array('width' => 480, 'height' => 574)); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['PAGES']) && isset($this->additionalMenu['PAGES']['items'])): ?>
 			<?php foreach($this->additionalMenu['PAGES']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>

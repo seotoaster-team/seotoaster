@@ -31,6 +31,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'url'          => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),
                 'h1'           => new Zend_Db_Expr('COALESCE(optimized.h1, page.h1)'),
                 'navName'      => new Zend_Db_Expr('COALESCE(optimized.nav_name, page.nav_name)'),
+                'teaser'       => new Zend_Db_Expr('COALESCE(optimized.teaser_text, page.teaser_text)'),
                 'optimized'    => new Zend_Db_Expr('COALESCE(optimized.url, optimized.h1, optimized.header_title, optimized.nav_name, optimized.targeted_key_phrase, optimized.meta_description, optimized.meta_keywords, optimized.teaser_text, NULL)')
             ))
             ->where($sysWhere)

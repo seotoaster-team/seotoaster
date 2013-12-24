@@ -10,6 +10,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected $_cacheable      = false;
 
+    protected $_translator      = false;
+
 	protected function  _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
@@ -50,13 +52,14 @@ class Widgets_Member_Member extends Widgets_Abstract {
         if($this->_session->getCurrentUser()->getRoleId() == Tools_Security_Acl::ROLE_GUEST){
             return '';
         }
-        return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">Logout</a>';
+        $translator = Zend_Registry::get('Zend_Translate');
+        return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">' . $translator->translate('Logout') . '</a>';
 	}
 
     protected function _renderMemberSignup() {
 		$this->_view->signupForm       = new Application_Form_Signup();
-		$flashMessanger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-		$errorMessages                 = $flashMessanger->getMessages();
+		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+		$errorMessages                 = $flashMessenger->getMessages();
 		$this->_session->signupPageUrl = $this->_toasterOptions['url'];
 		$this->_view->errors           = ($errorMessages) ? $errorMessages : null;
 		return $this->_view->render('signup.phtml');

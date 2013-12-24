@@ -389,13 +389,22 @@ class Backend_SeoController extends Zend_Controller_Action {
         if(($sitemapType = $this->getRequest()->getParam('type', '')) == Tools_Content_Feed::SMFEED_TYPE_REGULAR) {
             //regular sitemap.xml requested
             if(null === ($this->view->pages = $this->_helper->cache->load('sitemappages', 'sitemaps_'))) {
+                if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+                    $this->view->newsPageUrlPath = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                }
                 $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
                 if(is_array($pages) && !empty($pages)) {
-                    array_walk($pages, function($page, $key) use(&$pages) {
-                        if($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED)) {
+
+                    $quoteInstalled = Tools_Plugins_Tools::findPluginByName('quote')->getStatus() == Application_Model_Models_Plugin::ENABLED;
+                    array_walk($pages, function($page, $key) use(&$pages, &$quoteInstalled) {
+                        if($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED) ||
+                                                 $page->getDraft() ||
+                                                 $page->getIs404page() ||
+                                                 ($quoteInstalled && $page->getParentId() === Quote::QUOTE_CATEGORY_ID)) {
                             unset($pages[$key]);
                         }
                     });
+
                 } else {
                     $pages = array();
                 }

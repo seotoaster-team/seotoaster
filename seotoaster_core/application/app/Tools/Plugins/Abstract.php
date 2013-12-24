@@ -182,9 +182,10 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 			try {
 				$this->_translator->addTranslation(array(
 					'content' => $langsPath . $locale->getLanguage() . '.lng',
-					'locale'  => $locale,
-					'clear'   => true
+					'locale'  => $locale->getLanguage(),
+                    'reload' => true
 				));
+                Zend_Registry::set('Zend_Translate', $this->_translator);
 			} catch (Exception $e) {
 				if (Tools_System_Tools::debugMode()) {
 					error_log("(plugin: " . strtolower(get_called_class()) . ") " . $e->getMessage() . "\n" . $e->getTraceAsString());

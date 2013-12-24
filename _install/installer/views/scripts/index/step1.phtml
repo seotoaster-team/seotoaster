@@ -34,6 +34,7 @@
 			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GD Libaries 2.0</strong> or newer: Works with images');?></li>
 			<li <?php if (!$this->checks['zip']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Zip extension for PHP:</strong> Permit themes management through the interface'); ?></li>
 			<li <?php if (!$this->checks['curl']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.'); ?></li>
+            <li <?php if (isset($this->checks['json']) && !$this->checks['json']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.'); ?></li>
 			<?php if ($this->checks['magicquotes'] !== true) : ?>
 			<li class="error important"><?php echo $this->translate("<strong>Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the package or in your PHP.ini (Otherwise you will get a bunch of'\' in the templates when loading themes)."); ?></li>
 			<?php endif;?>

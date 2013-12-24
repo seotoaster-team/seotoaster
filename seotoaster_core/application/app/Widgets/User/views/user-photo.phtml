@@ -1,0 +1,43 @@
+<?php
+$uploaderId = uniqid('userpics-uploader-');
+$jsValName = 'js' . str_replace(' ', '', ucwords(str_replace('-', ' ', $uploaderId)));
+?>
+<div class="user-photo widget">
+    <?php if (is_null($this->userpic)) { ?>
+    <?php echo $this->gravatar($this->user->getEmail())
+            ->setSecure(true)
+            ->setAttribs(array('id' => 'img-' . $uploaderId, 'class' => 'userpic')); ?>
+    <?php } else { ?>
+    <img id="img-<?php echo $uploaderId; ?>" class="userpic" src="<?php echo $this->websiteUrl.$this->userpic; ?>" alt="<?php echo $this->user->getFullName(); ?>"/>
+    <?php } ?>
+    <div id="<?php echo $uploaderId ?>-filelist" style="display: none;"></div>
+    <?php
+    if ($this->editableMode) {
+        echo $this->formHidden('things-select-folder', Widgets_User_Base::USERPIC_FOLDER);
+        echo $this->toasterUploader(array(
+            'id' => $uploaderId,
+            'caption' => $this->translate('Upload your photo'),
+            'caller'  => 'media',
+            'noMultiupload' => true,
+            'filters' => array('image')
+        ));
+    }
+    ?>
+</div>
+<?php if ($this->editableMode) : ?>
+<script>
+$(function(){
+    if (!window.<?php echo $jsValName;?>){
+        return;
+    }
+    <?php echo $jsValName;?>.bind('BeforeUpload', function(uploader, file) {
+        file.name = '<?php echo $this->imgNameSlug;?>';
+    });
+    <?php echo $jsValName;?>.bind('FileUploaded', function(uploader, file) {
+        var timestamp = new Date().getTime();
+        var newSrc = $('#website_url').val()+'media/<?php echo Widgets_User_Base::USERPIC_FOLDER.'/'.$this->imgSize; ?>/'+file.name+'?'+timestamp;
+        console.log($('#img-<?php echo $uploaderId; ?>').prop('src', newSrc));
+    });
+});
+</script>
+<?php endif ; ?>

@@ -26,19 +26,17 @@ class IndexController extends Zend_Controller_Action {
 		$pageUrl = $this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE);
 
         // Mobile switch
-        if ($this->_request->isGet()) {
-            $mobileSwitchValue = $this->_request->getParam('mobileSwitch');
-            if (isset($mobileSwitchValue)) {
-                if ($mobileSwitchValue == 1 || $mobileSwitchValue == 0) {
-                    $this->_helper->session->mobileSwitch = $mobileSwitchValue;
-                }
+        if ($this->_request->isGet() && $this->_request->has('mobileSwitch')) {
+            $showMobile = filter_var($this->_request->getParam('mobileSwitch'), FILTER_SANITIZE_NUMBER_INT);
+            if (!is_null($showMobile)) {
+                $this->_helper->session->mobileSwitch = (bool) $showMobile;
             }
         }
-        if (isset($this->_helper->session->mobileSwitch)) {
-            $mobileSwitch = $this->_helper->session->mobileSwitch;
-        }
-        else {
-            $mobileSwitch = ($this->_helper->mobile->isMobile()) ? 1 : 0;
+
+        if (!isset($showMobile) && isset($this->_helper->session->mobileSwitch)) {
+            $showMobile = $this->_helper->session->mobileSwitch;
+        } else {
+            $showMobile = $this->_helper->mobile->isMobile();
         }
 
 		// Trying to do canonic redirects
@@ -97,13 +95,12 @@ class IndexController extends Zend_Controller_Action {
         }*/
 
         // Mobile detect
-        if ((bool) $this->_config->getConfig('enableMobileTemplates')) {
-            if ($mobileSwitch == 1) {
-                if (null !== ($mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId()))) {
-                    $page->setTemplateId($mobileTemplate->getName())->setContent($mobileTemplate->getContent());
-                }
-                unset($mobileTemplate);
+        if ((bool) $this->_config->getConfig('enableMobileTemplates') && $showMobile === true) {
+            $mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId());
+            if (null !== ($mobileTemplate)) {
+                $page->setTemplateId($mobileTemplate->getName())->setContent($mobileTemplate->getContent());
             }
+            unset($mobileTemplate);
         }
 
         $pageData = $page->toArray();

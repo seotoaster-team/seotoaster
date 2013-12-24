@@ -88,6 +88,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
 
         if ($request->has('search')) {
             $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
+            if (!preg_match('/^[\p{L}]{3}/u', $searchTerm)) {
+                return sprintf($this->_translator->translate('Search error "%s". The request string should have more than 3 letters.'), $searchTerm);
+            }
             $this->_view->urlData = array('search' => $searchTerm);
             $results = $this->_searchResultsByTerm($searchTerm);
         } elseif ($request->has('queryID')) {
@@ -123,18 +126,32 @@ class Widgets_Search_Search extends Widgets_Abstract {
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
+                $pattern = new Zend_Search_Lucene_Index_Term($searchTerm);
+                $searchTerm = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
                 $hits = $toasterSearchIndex->find($searchTerm);
-                $searchResults = array_map(function($hit){
-                        return array(
-                            'pageId' => $hit->pageId,
-                            'url' => $hit->url,
-                            'h1'  => $hit->h1,
-                            'navName' => $hit->navName,
-                            'teaserText' => $hit->teaserText
-                        );
+                $cacheTags = array('search_'.$searchTerm);
+                $searchResults = array_map(function($hit) use (&$cacheTags) {
+                        array_push($cacheTags, 'pageid_' . $hit->pageId);
+                        try {
+                            // checking if page is in drafts
+                            $draft = (bool)$hit->draft;
+                        } catch (Zend_Search_Lucene_Exception $e) {
+                            // seems we are on old release
+                            $draft = false;
+                        }
+                        if (!$draft) {
+                            return array(
+                                'pageId' => $hit->pageId,
+                                'url' => $hit->url,
+                                'h1'  => $hit->h1,
+                                'navName' => $hit->navName,
+                                'teaserText' => $hit->teaserText
+                            );
+                        }
                     }, $hits);
-
-                $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), array('search'), Helpers_Action_Cache::CACHE_LONG);
+                $searchResults = array_filter($searchResults);
+                array_merge($this->_cacheTags, $cacheTags);
+                $this->_cache->save($searchTerm, $searchResults, strtolower(__CLASS__), $this->_cacheTags, Helpers_Action_Cache::CACHE_LONG);
             }
             return $searchResults;
         } else {
@@ -166,11 +183,10 @@ class Widgets_Search_Search extends Widgets_Abstract {
                     $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('id IN (?)', array_values($pageIDs));
                     $pages = $pageMapper->fetchAll($where);
                     foreach ($pages as $page) {
+                        array_push($this->_cacheTags, 'pageid_'.$page->getId());
                         if ($page->getDraft()) {
                             continue;
                         }
-
-                        array_push($this->_cacheTags, 'pageid_'.$page->getId());
                         $results[] = array(
                             'pageId'       => $page->getId(),
                             'url'          => $page->getUrl(),

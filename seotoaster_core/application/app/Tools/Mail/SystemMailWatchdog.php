@@ -287,8 +287,24 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 'currentTheme' => $extConfig['currentTheme'],
                 'themePath'    => $themeData['path'],
             );
-            $parser = new Tools_Content_Parser($mailTemplate, array(), $parserOptions);
-            return $parser->parseSimple();
+
+            $cDbTable = new Application_Model_DbTable_Container();
+            $select = $cDbTable->getAdapter()->select()->from('container', array(
+                'uniqHash' => new Zend_Db_Expr("MD5(CONCAT_WS('-',`name`, COALESCE(`page_id`, 0), `container_type`))"),
+                'id',
+                'name',
+                'page_id',
+                'container_type',
+                'content',
+                'published',
+                'publishing_date'
+            ))
+            ->where('(container_type = 2 OR container_type = 4)')
+            ->where('page_id IS NULL');
+            $stat   = $cDbTable->getAdapter()->fetchAssoc($select);
+            $parser = new Tools_Content_Parser($mailTemplate, array('containers' => $stat), $parserOptions);
+
+            return Tools_Content_Tools::stripEditLinks($parser->parseSimple());
         }
         return false;
     }

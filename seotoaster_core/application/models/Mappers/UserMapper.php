@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Class Application_Model_Mappers_UserMapper
+ * @method static Application_Model_Mappers_UserMapper getInstance() getInstance() Returns an instance of itself
+ * @method Application_Model_DbTable_User getDbTable() Returns an instance of corresponding DbTable
+ */
 class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abstract {
 
 	protected $_dbTable = 'Application_Model_DbTable_User';
@@ -22,6 +26,11 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 		if(!$user->getPassword()) {
 			unset($data['password']);
 		}
+
+        if ($user->getAttributes()) {
+            Application_Model_Mappers_UserMapper::saveUserAttributes($user);
+        }
+
 		if(null === ($id = $user->getId())) {
 			$data['reg_date'] = date('Y-m-d H:i:s', time());
 			unset($data['id']);
@@ -67,5 +76,54 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 		$user->notifyObservers();
 		return $deleteResult;
 	}
+
+    public function loadUserAttributes(Application_Model_Models_User $user) {
+        $attributes = array();
+        if ($user->getId()) {
+            $select = $this->getDbTable()->getAdapter()->select()->from('user_attributes', array('attribute', 'value'))
+                    ->where('user_id = ?', $user->getId());
+
+            $data = $this->getDbTable()->getAdapter()->fetchPairs($select);
+            if (!is_null($data)) {
+                $attributes = $data;
+            }
+        }
+
+        return $user->setAttributes($attributes);
+    }
+
+    public function saveUserAttributes(Application_Model_Models_User $user) {
+        $paramsCount = func_num_args();
+
+        if ($paramsCount === 1) {
+            list($user) = func_get_args();
+            $attribs = $user->getAttributes();
+        } elseif ($paramsCount === 2) {
+            list($user, $attribs) = func_get_args();
+        } elseif ($paramsCount === 3) {
+            $params = func_get_args();
+            $user = array_shift($params);
+            $attribs = array( $params[0] => $params[1] );
+            unset($params);
+        }
+
+        $dbTable = new Zend_Db_Table('user_attributes');
+
+        $userId = $user->getId();
+        $dbTable->delete(array('user_id' => $userId));
+
+        if (is_array($attribs) && !empty($attribs)) {
+            foreach($attribs as $name => $value){
+                $dbTable->insert(array(
+                    'user_id' => $userId,
+                    'attribute' => $name,
+                    'value' => $value
+                ));
+            }
+            $user->setAttributes($attribs);
+        }
+
+        return $user;
+    }
 }
 

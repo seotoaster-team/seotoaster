@@ -244,7 +244,7 @@
     'Summary'=>'Résumé',
     'Subtotal '=>'Sous-total',
     'Inc. '=>'Inc.',
-    'Discount'=>'Réduction',
+    'Discount'=>'Remise',
     'Shipping '=>'Livraison',
     'Total '=>'Total',
     'Products in your cart'=>'Articles dans votre panier',
@@ -439,7 +439,7 @@
     'You don t have any saved addresses'=>'Vous n&rsquo;avez pas d&rsquo;adresses enregistrées',
     'You do not have any orders'=>'Vous n&rsquo;avez pas d&rsquo;ordres',
     'Insert tracking code for this order'=>'Insérez le code de suivi de cette commande',
-    'First'=>'Première',
+    'First'=>'Premier',
     'Last'=>'Dernier',
     'Previous<% } %>'=>'Précédent <%}%>',
     'Next<% } %>'=>'Suivant <%}%>',
@@ -1110,5 +1110,8 @@
     'Get another CAPTCHA' => 'Obtenir un autre CAPTCHA',
     'Get an audio CAPTCHA' => 'Obtenir un CAPTCHA audio',
     'Play sound again' => 'Jouer le son',
-    'Download sound as MP3' => 'Télécharger le son MP3'
+    'Download sound as MP3' => 'Télécharger le son MP3',
+    'Open Quotes' => 'Devis en cours',
+    'Previous'=> 'Précédent',
+    'You\'ve entered an incorrect security text. Please try again.' => 'Le code de sécurité que vous avez saisi est incorrect. Veuillez réessayer SVP!'
 );?>
