@@ -1,22 +1,20 @@
-<?php $captchaId = uniqid(); ?>
-<script type="text/javascript">
-    var RecaptchaOptions = {
-        theme : 'custom',
-        custom_theme_widget: 'recaptcha_widget_<?php echo $captchaId; ?>'
-    };
-</script>
-
-<div id="recaptcha_widget_<?php echo $captchaId; ?>" class="recaptcha_widget">
-    <div id="recaptcha_image"></div>
+<?php
+$widgetId = '';
+if (!empty($this->recaptchaId)){
+    $widgetId = 'id="'.$this->recaptchaId.'"';
+}
+?>
+<div <?php echo $widgetId; ?> class="recaptcha_widget captcha">
+    <div class="captcha_image" id="recaptcha_image"></div>
     <div class="recaptcha_only_if_incorrect_sol"><?php echo $this->translate('Incorrect please try again');?></div>
-    <label class="recaptcha_only_if_image"><?php echo $this->translate('Enter the words above');?>:</label>
-    <label class="recaptcha_only_if_audio"><?php echo $this->translate('Enter the numbers you hear');?>:</label>
-    <input type="text" id="recaptcha_response_field" name="recaptcha_response_field" />
+    <label class="recaptcha_only_if_image captcha_label"><?php echo $this->translate('Enter the words above');?>:</label>
+    <label class="recaptcha_only_if_audio captcha_label"><?php echo $this->translate('Enter the numbers you hear');?>:</label>
+    <input class="captcha_field" type="text" id="recaptcha_response_field" name="recaptcha_response_field" />
     <div class="recaptcha_links">
-        <a href="javascript:Recaptcha.reload()"><?php echo $this->translate('Get another CAPTCHA');?></a>
-        <a class="recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><?php echo $this->translate('Get an audio CAPTCHA');?></a>
-        <a class="recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><?php echo $this->translate('Get an image CAPTCHA');?></a>
-        <a class="recaptcha_help" href="javascript:Recaptcha.showhelp()"><?php echo $this->translate('Help');?></a>
+        <a href="javascript:Recaptcha.reload();"><?php echo $this->translate('Get another CAPTCHA');?></a>
+        <a class="recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio');"><?php echo $this->translate('Get an audio CAPTCHA');?></a>
+        <a class="recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image');"><?php echo $this->translate('Get an image CAPTCHA');?></a>
+        <a class="recaptcha_help" href="javascript:Recaptcha.showhelp();"><?php echo $this->translate('Help');?></a>
     </div>
 </div>
 <style type="text/css">

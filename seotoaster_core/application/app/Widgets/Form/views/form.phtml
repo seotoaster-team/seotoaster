@@ -4,30 +4,23 @@
 		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
         <input style="display: none;" type="text" id="<?php echo md5($this->form->getName().$this->form->getId()); ?>" name="<?php echo md5($this->form->getName().$this->form->getId()); ?>" value="" data-secur="smart"/>
-		<?php if($this->useRecaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
-           <div id="recaptcha_widget">
-               <div id="recaptcha_image"></div>
-               <div class="recaptcha_only_if_incorrect_sol" style="color:red"><?php echo $this->translate('Incorrect please try again');?></div>
-               <label class="recaptcha_only_if_image"><?php echo $this->translate('Enter the words above');?>:</label>
-               <label class="recaptcha_only_if_audio"><?php echo $this->translate('Enter the numbers you hear');?>:</label>
-               <input type="text" id="recaptcha_response_field" name="recaptcha_response_field" />
-               <div class="recaptcha_links">
-                   <a href="javascript:Recaptcha.reload()"><?php echo $this->translate('Get another CAPTCHA');?></a>
-                   <a class="recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><?php echo $this->translate('Get an audio CAPTCHA');?></a>
-                   <a class="recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><?php echo $this->translate('Get an image CAPTCHA');?></a>
-                   <a class="recaptcha_help" href="javascript:Recaptcha.showhelp()"><?php echo $this->translate('Help');?></a>
-              </div>
-           </div>
-            <?php echo $this->recapthaCode;?>
+		<?php if($this->useRecaptcha && $this->recaptchaCode) : ?>
+            <?php
+            if ($this->customRecaptcha) {
+                echo $this->partial(
+                    'recaptcha.phtml',
+                    array('content' => $this->recaptchaCode, 'recaptchaId' => $this->recaptchaWidgetId)
+                );
+            } else {
+                echo $this->recaptchaCode;
+            }
+            ?>
         <?php endif; ?>
-        <?php if($this->useRecaptcha && $this->recapthaCode && !$this->customRecaptcha): ?>
-            <?php echo $this->recapthaCode;?>
-        <?php endif;?>
         <?php if($this->useCaptcha):?>
             <div class="captcha">
                 <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
-                <label><?php echo $this->translate('Please enter this code in the box below'); ?></label>
-                <input type="text" name="captcha" value="" />
+                <label class="captcha_label"><?php echo $this->translate('Please enter this code in the box below'); ?></label>
+                <input class="captcha_field" type="text" name="captcha" value="" />
                 <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
            </div>
         <?php endif; ?>

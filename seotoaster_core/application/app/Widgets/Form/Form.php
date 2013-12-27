@@ -51,13 +51,17 @@ class Widgets_Form_Form extends Widgets_Abstract {
             }
             if($useRecaptcha){
                 $recaptchaTheme = 'red';
+                $recaptchaWidgetId = uniqid('recaptcha_widget_');
                 if(isset($this->_options[2])){
                     $recaptchaTheme = $this->_options[2];
-                    if($this->_options[2] == 'custom'){
+                    if($recaptchaTheme == 'custom'){
                         $this->_view->customRecaptcha = true;
                     }
                 }
-                $this->_view->recapthaCode = Tools_System_Tools::generateRecaptcha($recaptchaTheme);
+                $this->_view->recaptchaWidgetId = $recaptchaWidgetId;
+                $this->_view->addScriptPath($this->_websiteHelper->getPath()
+                    . 'seotoaster_core/application/views/scripts/backend/form/');
+                $this->_view->recaptchaCode = Tools_System_Tools::generateRecaptcha($recaptchaTheme, $recaptchaWidgetId);
             }
             if($useCaptcha){
                 $this->_view->captchaId = Tools_System_Tools::generateCaptcha();
