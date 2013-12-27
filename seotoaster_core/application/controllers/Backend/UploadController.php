@@ -210,8 +210,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 				 * Renaming file if additional field 'name' was submited with file
 				 */
                 $filterChain = new Zend_Filter();
-                $filterChain->addFilter(new Zend_Filter_PregReplace(array('match' => '/-/', 'replace' => ' ')))
-                    ->addFilter(new Zend_Filter_StringTrim())
+                $filterChain->addFilter(new Zend_Filter_StringTrim())
                     ->addFilter(new Zend_Filter_StringToLower('UTF-8'))
                     ->addFilter(new Zend_Filter_PregReplace(array('match' => '/[^\w\d_]+/u', 'replace' => '-')));
 
