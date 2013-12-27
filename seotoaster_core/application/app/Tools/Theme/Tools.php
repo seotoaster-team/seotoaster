@@ -88,4 +88,15 @@ class Tools_Theme_Tools {
 			throw new Exceptions_SeotoasterException('Unable to write ' . $destinationFile);
 		}
 	}
+
+    public static function urlContentCss() {
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $themesConfig  = Zend_Registry::get('theme');
+        $themesPath    = $themesConfig['path'].$configHelper->getConfig('currentTheme').DIRECTORY_SEPARATOR;
+        $filePath      = $websiteHelper->getPath().$themesPath.MagicSpaces_Concatcss_Concatcss::FOLDER_CSS.'content.css';
+        $folderCssPath = (is_file($filePath)) ? MagicSpaces_Concatcss_Concatcss::FOLDER_CSS : '';
+
+        return $websiteHelper->getUrl().$themesPath.$folderCssPath.'content.css';
+    }
 }
