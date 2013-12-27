@@ -211,10 +211,9 @@ class Backend_UploadController extends Zend_Controller_Action {
 				 */
                 $filterChain = new Zend_Filter();
                 $filterChain->addFilter(new Zend_Filter_PregReplace(array('match' => '/-/', 'replace' => ' ')))
-                    ->addFilter(new Zend_Filter_Alnum(true))
                     ->addFilter(new Zend_Filter_StringTrim())
                     ->addFilter(new Zend_Filter_StringToLower('UTF-8'))
-                    ->addFilter(new Zend_Filter_PregReplace(array('match' => '/\s+/', 'replace' => '-')));
+                    ->addFilter(new Zend_Filter_PregReplace(array('match' => '/[^\w\d_]+/u', 'replace' => '-')));
 
                 // filtering the img name
                 $expFileName = explode('.', $this->getRequest()->getParam('name', false));
