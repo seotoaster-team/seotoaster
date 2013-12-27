@@ -85,7 +85,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
         $files = array();
         foreach ($cssToTemplate[2] as $file) {
-            $files[] = end(explode($this->_toasterData['websiteUrl'].$this->_themeFullPath.'/', $file));
+            $files[] = end(explode($this->_toasterData['websiteUrl'].$this->_themeFullPath.'/', rawurldecode($file)));
         }
 
         return $files;
@@ -141,7 +141,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();
         }
-
+        $aaa = $this->_toasterData['websiteUrl'].$filePath.$fileName;
         return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.$fileName.'" rel="stylesheet" type="text/css" media="screen" />';
     }
 }
