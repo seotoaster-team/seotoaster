@@ -28,7 +28,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         parent::_init();
 
         if (!empty($this->_toasterData)) {
-            $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'];
+            $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'].'/';
         }
     }
 
@@ -81,11 +81,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private function _templateFiles() {
         $cssToTemplate = array();
-        preg_match_all('/<link(.*)href="([^"]*\.css)"(.*)>/', $this->_spaceContent, $cssToTemplate);
+        preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
 
         $files = array();
-        foreach ($cssToTemplate[2] as $file) {
-            $files[] = end(explode($this->_toasterData['websiteUrl'].$this->_themeFullPath.'/', rawurldecode($file)));
+        foreach ($cssToTemplate[1] as $file) {
+            $files[] = end(explode($this->_toasterData['websiteUrl'].$this->_themeFullPath, rawurldecode($file)));
         }
 
         return $files;
@@ -126,13 +126,13 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     private function _generatorFiles() {
-        $files = (isset($this->_params[0]) && $this->_params[0]=='sort') ? $this->_sortCss($this->_templateFiles()) : $this->_templateFiles();
+        $files = (isset($this->_params[0]) && $this->_params[0] == 'sort') ? $this->_sortCss($this->_templateFiles()) : $this->_templateFiles();
         $concatContent = '';
         foreach ($files as $file) {
-            $concatContent .= $this->_addCss($this->_themeFullPath.'/'.$file);
+            $concatContent .= $this->_addCss($this->_themeFullPath.$file);
         }
 
-        $filePath = (is_dir($this->_themeFullPath.'/'.self::FOLDER_CSS)) ? $this->_themeFullPath.'/'.self::FOLDER_CSS : $this->_themeFullPath.'/';
+        $filePath = (is_dir($this->_themeFullPath.self::FOLDER_CSS)) ? $this->_themeFullPath.self::FOLDER_CSS : $this->_themeFullPath;
         $fileName = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';
 
         try {
@@ -141,7 +141,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();
         }
-        $aaa = $this->_toasterData['websiteUrl'].$filePath.$fileName;
-        return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.$fileName.'" rel="stylesheet" type="text/css" media="screen" />';
+
+        return '<link href="'.$this->_toasterData['websiteUrl'].str_replace(' ', '%20', $filePath).$fileName.'" rel="stylesheet" type="text/css" media="screen" />';
     }
 }
