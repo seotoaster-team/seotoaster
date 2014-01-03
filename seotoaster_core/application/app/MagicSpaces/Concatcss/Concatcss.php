@@ -33,8 +33,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     protected function _run() {
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) { // Adminpanel
-            return $this->_spaceContent;   
+        if ($this->_allowedRole()) {
+            return $this->_spaceContent;
         }
         
         $content = null;
@@ -69,11 +69,15 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return $content;
     }
 
-    private function _cacheKey() {
-        $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        $key    = strtolower(get_called_class()).'_'.$roleId.'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
+    private function _allowedRole() {
+        $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        $allowedRole = array(Tools_Security_Acl::ROLE_SUPERADMIN, Tools_Security_Acl::ROLE_ADMIN);
 
-        return $key;
+        return in_array($currentRole, $allowedRole);
+    }
+
+    private function _cacheKey() {
+        return strtolower(get_called_class()).'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
     }
 
     private function _getTemplateFiles() {
@@ -110,13 +114,12 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         $cssContent = '';
 
         if (file_exists($cssPath)) {
-            $fileName   = explode('/', $cssPath);
-            $fileName   = strtoupper(end($fileName));
+            $fileName   = strtoupper(end(explode('/', $cssPath)));
             $compressor = new CssMin();
 
-            $cssContent .= "/**** ".strtoupper($fileName)." start ****/\n";
+            $cssContent .= "/**** ".$fileName." start ****/\n";
             $cssContent .= $compressor->run(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
-            $cssContent .= "\n/**** ".strtoupper($fileName)." end ****/\n";
+            $cssContent .= "\n/**** ".$fileName." end ****/\n";
         }
 
         return $cssContent;
