@@ -209,7 +209,18 @@ class Backend_UploadController extends Zend_Controller_Action {
 				/**
 				 * Renaming file if additional field 'name' was submited with file
 				 */
-				if (false !== ($newName = $this->getRequest()->getParam('name', false))) {
+                $filterChain = new Zend_Filter();
+                $filterChain->addFilter(new Zend_Filter_StringTrim())
+                    ->addFilter(new Zend_Filter_StringToLower('UTF-8'))
+                    ->addFilter(new Zend_Filter_PregReplace(array('match' => '/[^\w\d_]+/u', 'replace' => '-')));
+
+                // filtering the img name
+                $expFileName = explode('.', $this->getRequest()->getParam('name', false));
+                $fileExt = array_pop($expFileName);
+                $name = implode($expFileName);
+                $newName = $filterChain->filter($name) . '.' . $fileExt;
+
+                if (false !== ($newName)) {
 					$this->_uploadHandler->addFilter('Rename', array(
 						'target'    => $receivePath . DIRECTORY_SEPARATOR . $newName,
 						'overwrite' => true

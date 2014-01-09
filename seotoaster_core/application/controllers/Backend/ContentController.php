@@ -152,16 +152,6 @@ class Backend_ContentController extends Zend_Controller_Action {
 		return false;
 	}
 
-    private function _linkContentCss() {
-        $websiteUrl   = $this->_helper->website->getUrl();
-        $currentTheme = $this->_helper->config->getConfig('currentTheme');
-        $folderCss    = MagicSpaces_Concatcss_Concatcss::FOLDER_CSS;
-        $pathToFile   = $this->_websiteData['path'].'themes/'.$currentTheme.'/'.$folderCss.'content.css';
-        $urlToFile    = (is_file($pathToFile)) ? $websiteUrl.'themes/'.$currentTheme.'/'.$folderCss.'content.css' : $websiteUrl.'themes/'.$currentTheme.'/content.css';
-
-        return $urlToFile;
-    }
-
 	private function _renderCorrectView() {
 		$this->view->contentForm = $this->_contentForm;
 		$rendered = '';
@@ -173,7 +163,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 					'medium' => $this->_helper->config->getConfig('imgMedium'),
 					'large'  => $this->_helper->config->getConfig('imgLarge')
 				);
-                $this->view->linkContentCss     = $this->_linkContentCss();
+                $this->view->linkContentCss     = Tools_Theme_Tools::urlContentCss();
 				$this->view->pluginsEditorLinks = $this->_loadPluginsEditorLinks();
 				$this->view->pluginsEditorTop   = $this->_loadPluginsEditorTop();
 				$rendered                       = $this->view->render('backend/content/content.phtml');

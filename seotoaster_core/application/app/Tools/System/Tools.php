@@ -137,7 +137,7 @@ class Tools_System_Tools {
      * @return recaptcha code
      */
     
-    public static function generateRecaptcha($captchaTheme = 'red') {
+    public static function generateRecaptcha($captchaTheme = 'red', $captchaId = null) {
         $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
         if(!empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != ''){
             $options = array('theme' => $captchaTheme);
@@ -148,6 +148,9 @@ class Tools_System_Tools {
                     'error' => null,
                     'xhtml' => false
                 );
+            }
+            if (null !== $captchaId) {
+                $options['custom_theme_widget'] = $captchaId;
             }
             $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey'], $params, $options);
             return $recaptcha->getHTML();
