@@ -86,7 +86,7 @@ class Tools_Page_Tools {
             $cacheHelper->save(Helpers_Action_Cache::KEY_DRAFT_COUNT, $draftPagesCount, Helpers_Action_Cache::PREFIX_DRAFT, array(Helpers_Action_Cache::TAG_DRAFT), Helpers_Action_Cache::CACHE_LONG);
         }
 
-        return $draftPagesCount['count'];
+        return $draftPagesCount;
     }
 
 	public static function getLandingPage($type) {

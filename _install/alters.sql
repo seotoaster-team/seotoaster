@@ -1,4 +1,4 @@
---21/11/2013
+-- 21/11/2013
 -- Main menu template type
 -- version: 2.1.0
 INSERT INTO `template_type` (`id`, `title`) VALUES ('typemenu', 'Menu');
