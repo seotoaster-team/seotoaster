@@ -1113,5 +1113,6 @@
     'Download sound as MP3' => 'Télécharger le son MP3',
     'Open Quotes' => 'Devis en cours',
     'Previous'=> 'Précédent',
-    'You\'ve entered an incorrect security text. Please try again.' => 'Le code de sécurité que vous avez saisi est incorrect. Veuillez réessayer SVP!'
+    'You\'ve entered an incorrect security text. Please try again.' => 'Le code de sécurité que vous avez saisi est incorrect. Veuillez réessayer SVP!',
+    'Required fields are missing! Please fill all fields marked with *' => 'Veuillez noter que tous les champs marqués d\'une * sont obligatoires'
 );?>

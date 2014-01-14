@@ -14,6 +14,12 @@ CREATE TABLE IF NOT EXISTS `user_attributes` (
   CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- 26/12/2013
+-- SEO Intro fields for optimized table
+-- version: 2.1.2
+ALTER TABLE `optimized` ADD `seo_intro` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL AFTER `teaser_text` ,
+ADD `seo_intro_target` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL AFTER `seo_intro`;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.1.2' WHERE `name`='version';
+UPDATE `config` SET `value`='2.1.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
