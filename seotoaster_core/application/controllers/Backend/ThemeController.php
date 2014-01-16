@@ -6,414 +6,432 @@
 
 class Backend_ThemeController extends Zend_Controller_Action {
 
-	const DEFAULT_CSS_NAME = 'style.css';
+    const DEFAULT_CSS_NAME       = 'style.css';
 
-	private $_protectedTemplates = array('index', 'default', 'category');
+    private $_protectedTemplates = array('index', 'default', 'category');
 
-    private $_websiteConfig = null;
+    private $_websiteConfig      = null;
 
-	private $_themeConfig = null;
+    private $_themeConfig        = null;
 
-	public function init() {
-		parent::init();
-		if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_THEMES)) {
-			$this->redirect($this->_helper->website->getUrl(), array('exit' => true));
-		}
-		$this->view->websiteUrl = $this->_helper->website->getUrl();
-		$this->_websiteConfig = Zend_Registry::get('website');
-		$this->_themeConfig = Zend_Registry::get('theme');
-		$this->_translator = Zend_Registry::get('Zend_Translate');
-		$this->_helper->AjaxContext()->addActionContexts(array(
-			'pagesviatemplate' => 'json',
-		))->initContext('json');
+    private $_templatesOrder     = array(
+        'typeregular' => ''
+    );
 
-	}
+    public function init() {
+        parent::init();
+        if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_THEMES)) {
+            $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
+        }
+        $this->view->websiteUrl = $this->_helper->website->getUrl();
+        $this->_websiteConfig = Zend_Registry::get('website');
+        $this->_themeConfig = Zend_Registry::get('theme');
+        $this->_translator = Zend_Registry::get('Zend_Translate');
+        $this->_helper->AjaxContext()->addActionContexts(array(
+            'pagesviatemplate' => 'json',
+        ))->initContext('json');
 
-	/**
-	 * Method returns template editing screen
-	 * and saves edited template
-	 */
-	public function templateAction() {
-		$templateForm = new Application_Form_Template();
-		$templateName = $this->getRequest()->getParam('id');
-		$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
-		$currentTheme = $this->_helper->config->getConfig('currentTheme');
-		if (!$this->getRequest()->isPost()) {
-			$templateForm->getElement('pageId')->setValue($this->getRequest()->getParam('pid'));
-			if ($templateName) {
-				$template = $mapper->find($templateName);
-				if ($template instanceof Application_Model_Models_Template) {
-					$templateForm->getElement('content')->setValue($template->getContent());
-					$templateForm->getElement('name')->setValue($template->getName());
-					$templateForm->getElement('id')->setValue($template->getName());
-					$templateForm->getElement('templateType')->setValue($template->getType());
-					$this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
-				}
-				//get template preview image
-				try {
-					$templatePreviewDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme . DIRECTORY_SEPARATOR . $this->_themeConfig['templatePreview'];
-					$images = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
-					if (isset($images[$template->getName()])) {
-						$this->view->templatePreview = $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $images[$template->getName()];
-					}
-				} catch (Exceptions_SeotoasterException $se) {
-					$this->view->templatePreview = 'system/images/no_preview.png';
-				}
-			}
-		} else {
-			if ($templateForm->isValid($this->getRequest()->getPost())) {
-				$templateData = $templateForm->getValues();
-				$originalName = $templateData['id'];
+    }
 
-				if ($templateData['templateType'] === Application_Model_Models_Template::TYPE_MOBILE ||
-					preg_match('~^mobile_~', $templateData['name'])) {
-					$isMobileTemplate = true;
-					$templateData['name'] = 'mobile_'.preg_replace('~^mobile_~', '', $templateData['name']);
-					$templateData['templateType'] = Application_Model_Models_Template::TYPE_MOBILE;
-				} else {
-					$isMobileTemplate = false;
-				}
+    /**
+     * Method returns template editing screen
+     * and saves edited template
+     */
+    public function templateAction() {
+        $templateForm = new Application_Form_Template();
+        $templateName = $this->getRequest()->getParam('id');
+        $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+        $currentTheme = $this->_helper->config->getConfig('currentTheme');
+        if (!$this->getRequest()->isPost()) {
+            $templateForm->getElement('pageId')->setValue($this->getRequest()->getParam('pid'));
+            if ($templateName) {
+                $template = $mapper->find($templateName);
+                if ($template instanceof Application_Model_Models_Template) {
+                    $templateForm->getElement('content')->setValue($template->getContent());
+                    $templateForm->getElement('name')->setValue($template->getName());
+                    $templateForm->getElement('id')->setValue($template->getName());
+                    $templateForm->getElement('templateType')->setValue($template->getType());
+                    $this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
+                }
+                //get template preview image
+                try {
+                    $templatePreviewDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme . DIRECTORY_SEPARATOR . $this->_themeConfig['templatePreview'];
+                    $images = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
+                    if (isset($images[$template->getName()])) {
+                        $this->view->templatePreview = $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $images[$template->getName()];
+                    }
+                } catch (Exceptions_SeotoasterException $se) {
+                    $this->view->templatePreview = 'system/images/no_preview.png';
+                }
+            }
+        } else {
+            if ($templateForm->isValid($this->getRequest()->getPost())) {
+                $templateData = $templateForm->getValues();
+                $originalName = $templateData['id'];
 
-				//check if we received 'id' in request and try to find existing template with this id
-				/**
-				 * @var $template Application_Model_Models_Template
-				 */
-				if (!empty($originalName) && null !== ($template = $mapper->find($originalName))) {
-					$status = 'update';
-					// avoid renaming of system protected templates
-					if (!in_array($template->getName(), $this->_protectedTemplates)) {
-						$template->setOldName($originalName);
-						$template->setName($templateData['name']);
-					} else {
-						// TODO throw error if trying to rename protected template
-					}
-					$template->setContent($templateData['content']);
+                if ($templateData['templateType'] === Application_Model_Models_Template::TYPE_MOBILE ||
+                    preg_match('~^mobile_~', $templateData['name'])) {
+                    $isMobileTemplate = true;
+                    $templateData['name'] = 'mobile_'.preg_replace('~^mobile_~', '', $templateData['name']);
+                    $templateData['templateType'] = Application_Model_Models_Template::TYPE_MOBILE;
+                } else {
+                    $isMobileTemplate = false;
+                }
 
-				} else {
-					$status = 'new';
-					//if ID missing and name is not exists and name is not system protected - creating new template
-					if (in_array($templateData['name'], $this->_protectedTemplates) ||
-							null !== $mapper->find($templateData['name']) ) {
-						$this->_helper->response->response($this->_translator->translate('Template with such name already exists'), true);
-					}
-					$template = new Application_Model_Models_Template($templateData);
-				}
-				$template->setType($templateData['templateType']);
+                //check if we received 'id' in request and try to find existing template with this id
+                /**
+                 * @var $template Application_Model_Models_Template
+                 */
+                if (!empty($originalName) && null !== ($template = $mapper->find($originalName))) {
+                    $status = 'update';
+                    // avoid renaming of system protected templates
+                    if (!in_array($template->getName(), $this->_protectedTemplates)) {
+                        $template->setOldName($originalName);
+                        $template->setName($templateData['name']);
+                    } else {
+                        // TODO throw error if trying to rename protected template
+                    }
+                    $template->setContent($templateData['content']);
 
-				// saving/updating template in db
-				$result = $mapper->save($template);
-				if ($result) {
-					$this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
-				}
-				// saving to file in theme folder
-				$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
-				$filepath = $currentThemePath . DIRECTORY_SEPARATOR;
+                } else {
+                    $status = 'new';
+                    //if ID missing and name is not exists and name is not system protected - creating new template
+                    if (in_array($templateData['name'], $this->_protectedTemplates) ||
+                        null !== $mapper->find($templateData['name']) ) {
+                        $this->_helper->response->response($this->_translator->translate('Template with such name already exists'), true);
+                    }
+                    $template = new Application_Model_Models_Template($templateData);
+                }
+                $template->setType($templateData['templateType']);
 
-				if ($isMobileTemplate) {
-					if (!is_dir($filepath . 'mobile')) {
-						Tools_Filesystem_Tools::mkDir($filepath . 'mobile');
-					}
-					$filepath .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getName());
-				} else {
-					$filepath .= $templateData['name'];
-				}
-				$filepath .= '.html';
+                // saving/updating template in db
+                $result = $mapper->save($template);
+                if ($result) {
+                    $this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
+                }
+                // saving to file in theme folder
+                $currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
+                $filepath = $currentThemePath . DIRECTORY_SEPARATOR;
 
-				try {
-					if ($filepath) {
-						Tools_Filesystem_Tools::saveFile($filepath, $templateData['content']);
-					}
-					if ($status === 'update' && ($template->getOldName() !== $template->getName())) {
-						$oldFilename = $currentThemePath . DIRECTORY_SEPARATOR;
-						if ($isMobileTemplate) {
-							$oldFilename .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getOldName());
-						} else {
-							$oldFilename .= $template->getOldName();
-						}
-						$oldFilename .= '.html';
-						if (is_file($oldFilename)) {
-							if (false === Tools_Filesystem_Tools::deleteFile($oldFilename)) {
+                if ($isMobileTemplate) {
+                    if (!is_dir($filepath . 'mobile')) {
+                        Tools_Filesystem_Tools::mkDir($filepath . 'mobile');
+                    }
+                    $filepath .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getName());
+                } else {
+                    $filepath .= $templateData['name'];
+                }
+                $filepath .= '.html';
 
-							}
-						}
-						unset($oldFilename);
-					}
-				} catch (Exceptions_SeotoasterException $e) {
-					Tools_System_Tools::debugMode() && error_log($e->getMessage());
-				}
-				$this->_helper->cache->clean(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS);
+                try {
+                    if ($filepath) {
+                        Tools_Filesystem_Tools::saveFile($filepath, $templateData['content']);
+                    }
+                    if ($status === 'update' && ($template->getOldName() !== $template->getName())) {
+                        $oldFilename = $currentThemePath . DIRECTORY_SEPARATOR;
+                        if ($isMobileTemplate) {
+                            $oldFilename .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getOldName());
+                        } else {
+                            $oldFilename .= $template->getOldName();
+                        }
+                        $oldFilename .= '.html';
+                        if (is_file($oldFilename)) {
+                            if (false === Tools_Filesystem_Tools::deleteFile($oldFilename)) {
 
-				$this->_helper->response->response($status, false);
+                            }
+                        }
+                        unset($oldFilename);
+                    }
+                } catch (Exceptions_SeotoasterException $e) {
+                    Tools_System_Tools::debugMode() && error_log($e->getMessage());
+                }
+                $this->_helper->cache->clean(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS);
 
-			} else {
-				$errorMessages = array();
-				$validationErrors = $templateForm->getErrors();
-				$messages = array(
-					'name'    => array(
-						'isEmpty'              => 'Template name field can\'t be empty.',
-						'notAlnum'             => 'Template name contains characters which are non alphabetic and no digits',
-						'stringLengthTooLong'  => 'Template name field is too long.',
-						'stringLengthTooShort' => 'Template name field is too short.'),
-					'content' => array(
-						'isEmpty' => 'Content can\'t be empty.'
-					)
-				);
-				foreach ($validationErrors as $element => $errors) {
-					if (empty ($errors)) {
-						continue;
-					}
-					foreach ($messages[$element] as $n => $message) {
-						if (in_array($n, $errors)) {
-							array_push($errorMessages, $message);
-						}
-					}
-				}
-				$this->_helper->response->response($errorMessages, true);
-			}
-		}
-		$this->view->helpSection = 'addtemplate';
-		$this->view->templateForm = $templateForm;
-	}
+                $this->_helper->response->response($status, false);
 
-	/**
-	 * Method return form for editing css files for current theme
-	 * and saves css file content
-	 */
-	public function editcssAction() {
-		$cssFiles = $this->_buildCssFileList();
-		$defaultCss = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(self::DEFAULT_CSS_NAME, current($cssFiles));
+            } else {
+                $errorMessages = array();
+                $validationErrors = $templateForm->getErrors();
+                $messages = array(
+                    'name'    => array(
+                        'isEmpty'              => 'Template name field can\'t be empty.',
+                        'notAlnum'             => 'Template name contains characters which are non alphabetic and no digits',
+                        'stringLengthTooLong'  => 'Template name field is too long.',
+                        'stringLengthTooShort' => 'Template name field is too short.'),
+                    'content' => array(
+                        'isEmpty' => 'Content can\'t be empty.'
+                    )
+                );
+                foreach ($validationErrors as $element => $errors) {
+                    if (empty ($errors)) {
+                        continue;
+                    }
+                    foreach ($messages[$element] as $n => $message) {
+                        if (in_array($n, $errors)) {
+                            array_push($errorMessages, $message);
+                        }
+                    }
+                }
+                $this->_helper->response->response($errorMessages, true);
+            }
+        }
+        $this->view->helpSection = 'addtemplate';
+        $this->view->templateForm = $templateForm;
+    }
 
-		$editcssForm = new Application_Form_Css();
-		$editcssForm->getElement('cssname')->setMultiOptions($cssFiles);
-		$editcssForm->getElement('cssname')->setValue(self::DEFAULT_CSS_NAME);
+    /**
+     * Method return form for editing css files for current theme
+     * and saves css file content
+     */
+    public function editcssAction() {
+        $cssFiles = $this->_buildCssFileList();
+        $defaultCss = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(self::DEFAULT_CSS_NAME, current($cssFiles));
 
-		//checking, if form was submited via POST then
-		if ($this->getRequest()->isPost()) {
-			$postParams = $this->getRequest()->getParams();
-			if (isset($postParams['getcss']) && !empty ($postParams['getcss'])) {
-				$cssName = $postParams['getcss'];
-				try {
-					$content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName);
-					$this->_helper->response->response($content, false);
-				} catch (Exceptions_SeotoasterException $e) {
-					$this->_helper->response->response($e->getMessage(), true);
-				}
-			} else {
-				if (is_string($postParams['content']) && empty($postParams['content'])) {
-					$editcssForm->getElement('content')->setRequired(false);
-				}
-				if ($editcssForm->isValid($postParams)) {
-					$cssName = $postParams['cssname'];
-					try {
+        $editcssForm = new Application_Form_Css();
+        $editcssForm->getElement('cssname')->setMultiOptions($cssFiles);
+        $editcssForm->getElement('cssname')->setValue(self::DEFAULT_CSS_NAME);
+
+        //checking, if form was submited via POST then
+        if ($this->getRequest()->isPost()) {
+            $postParams = $this->getRequest()->getParams();
+            if (isset($postParams['getcss']) && !empty ($postParams['getcss'])) {
+                $cssName = $postParams['getcss'];
+                try {
+                    $content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName);
+                    $this->_helper->response->response($content, false);
+                } catch (Exceptions_SeotoasterException $e) {
+                    $this->_helper->response->response($e->getMessage(), true);
+                }
+            } else {
+                if (is_string($postParams['content']) && empty($postParams['content'])) {
+                    $editcssForm->getElement('content')->setRequired(false);
+                }
+                if ($editcssForm->isValid($postParams)) {
+                    $cssName = $postParams['cssname'];
+                    try {
                         Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName, $postParams['content']);
-                        $this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', basename($cssName))));
-						$this->_helper->response->response($this->_translator->translate('CSS saved'), false);
-					}
-                    catch (Exceptions_SeotoasterException $e) {
-						$this->_helper->response->response($e->getMessage(), true);
-					}
-				}
-			}
-			$this->_helper->response->response($this->_translator->translate('Undefined error'), true);
-		} else {
-			try {
-				$editcssForm->getElement('content')->setValue(Tools_Filesystem_Tools::getFile($defaultCss));
-				$editcssForm->getElement('cssname')->setValue(array_search(self::DEFAULT_CSS_NAME, current($cssFiles)));
-			} catch (Exceptions_SeotoasterException $e) {
-				$this->view->errorMessage = $e->getMessage();
-			}
-		}
-		$this->view->helpSection = 'editcss';
-		$this->view->editcssForm = $editcssForm;
-	}
+                        $params = array(
+                            'websiteUrl'   => $this->_helper->website->getUrl(),
+                            'themePath'    => $this->_websiteConfig['path'] . $this->_themeConfig['path'],
+                            'currentTheme' => $this->_helper->config->getConfig('currentTheme')
+                        );
+                        $concatCss = Tools_Factory_WidgetFactory::createWidget('Concatcss', array('refresh' => true), $params);
+                        $concatCss->render();
+                        $this->_helper->response->response($this->_translator->translate('CSS saved'), false);
+                    } catch (Exceptions_SeotoasterException $e) {
+                        $this->_helper->response->response($e->getMessage(), true);
+                    }
+                }
+            }
+            $this->_helper->response->response($this->_translator->translate('Undefined error'), true);
+        } else {
+            try {
+                $editcssForm->getElement('content')->setValue(Tools_Filesystem_Tools::getFile($defaultCss));
+                $editcssForm->getElement('cssname')->setValue(array_search(self::DEFAULT_CSS_NAME, current($cssFiles)));
+            } catch (Exceptions_SeotoasterException $e) {
+                $this->view->errorMessage = $e->getMessage();
+            }
+        }
+        $this->view->helpSection = 'editcss';
+        $this->view->editcssForm = $editcssForm;
+    }
 
-	/**
-	 * Method build a list of css files for current theme
-	 * with subdirectories
-	 * @return <type>
-	 */
-	private function _buildCssFileList() {
-		$currentThemeName = $this->_helper->config->getConfig('currentTheme');
-		$currentThemePath = Tools_System_Tools::normalizePath(realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName));
+    /**
+     * Method build a list of css files for current theme
+     * with subdirectories
+     * @return <type>
+     */
+    private function _buildCssFileList() {
+        $currentThemeName = $this->_helper->config->getConfig('currentTheme');
+        $currentThemePath = Tools_System_Tools::normalizePath(realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName));
 
-		$cssFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'css', true);
+        $cssFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'css', true);
 
-		$cssTree = array();
-		foreach ($cssFiles as $file) {
-			// don't show concat css for editing
-			if (preg_match('/'.MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX.'[a-zA-Z0-9]+\.css/i', strtolower(basename($file)))) {
-				continue;
-			}
-			preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', Tools_System_Tools::normalizePath($file), $sequences);
-			$subfolders = $currentThemeName . '/' . $sequences[1][0];
-			$files = array();
-			foreach ($sequences[2] as $key => $value) {
-				$files[$subfolders . $value] = $value;
-			}
+        $cssTree = array();
+        foreach ($cssFiles as $file) {
+            // don't show concat.css for editing
+            if (strtolower(basename($file)) == Widgets_Concatcss_Concatcss::FILENAME) {
+                continue;
+            }
+            preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', Tools_System_Tools::normalizePath($file), $sequences);
+            $subfolders = $currentThemeName . '/' . $sequences[1][0];
+            $files = array();
+            foreach ($sequences[2] as $key => $value) {
+                $files[$subfolders . $value] = $value;
+            }
 
-			if (!array_key_exists($subfolders, $cssTree)) {
-				$cssTree[$subfolders] = array();
-			}
-			$cssTree[$subfolders] = array_merge($cssTree[$subfolders], $files);
+            if (!array_key_exists($subfolders, $cssTree)) {
+                $cssTree[$subfolders] = array();
+            }
+            $cssTree[$subfolders] = array_merge($cssTree[$subfolders], $files);
 
-		}
+        }
 
-		return $cssTree;
-	}
+        return $cssTree;
+    }
 
+    private function _sortTemplates($templates = array()) {
+        if (empty($templates)) {
+            return array();
+        }
+        $sortTemplates = array_intersect_key($templates, $this->_templatesOrder);
+        $allTemplates  = array_diff_key($templates, $this->_templatesOrder);
 
-	/**
-	 * Method returns list of templates or template content if id given in params (AJAX)
-	 * @return html || json
-	 */
-	public function gettemplateAction() {
-		if ($this->getRequest()->isPost()) {
-			$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
-			$listtemplates = $this->getRequest()->getParam('listtemplates');
-			$additional = $this->getRequest()->getParam('additional');
-			$pageId = $this->getRequest()->getParam('pageId');
-			if ($pageId) {
-				$page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
-			}
-			$currentTheme = $this->_helper->config->getConfig('currentTheme');
-			//get template preview image
-			$templatePreviewDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme . DIRECTORY_SEPARATOR . $this->_themeConfig['templatePreview'];
-			if ($templatePreviewDir && is_dir($templatePreviewDir)) {
-				$tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
-			} else {
-				$tmplImages = array();
-			}
+        return array_merge($sortTemplates, $allTemplates);
+    }
 
-			$types = $mapper->fetchAllTypes();
-			if (array_key_exists($listtemplates, array_merge($types, array('all' => 'all')))) {
-				$template = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
-				$this->view->templates = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
-				if (empty($this->view->templates) || !$this->view->templates) {
-					$this->_helper->response->response($this->_translator->translate('Template not found'), true);
-					return true;
-				}
-				$this->view->protectedTemplates = $this->_protectedTemplates;
-				$this->view->types = $types;
-				echo $this->view->render($this->getViewScript('templateslist'));
-			} else {
-				$template = $mapper->find($listtemplates);
-				if ($template instanceof Application_Model_Models_Template) {
-					$template = array(
-						'id'       => $template->getId(),
-						'name'     => $template->getName(),
-						'fullName' => $template->getName(),
-						'type'     => $template->getType(),
-						'content'  => $template->getContent(),
-						'preview'  => isset($tmplImages[$template->getName()]) ?
-								$this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $tmplImages[$template->getName()] :
-								'system/images/no_preview.png'
-					);
-					$this->_helper->response->response($template, true);
-				} else {
-					//$response = array('done'=> false);
-					$this->_helper->response->response($this->_translator->translate('Template not found'), true);
-				}
-			}
+    /**
+     * Method returns list of templates or template content if id given in params (AJAX)
+     * @return html || json
+     */
+    public function gettemplateAction() {
+        if ($this->getRequest()->isPost()) {
+            $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+            $listtemplates = $this->getRequest()->getParam('listtemplates');
+            $additional = $this->getRequest()->getParam('additional');
+            $pageId = $this->getRequest()->getParam('pageId');
+            if ($pageId) {
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
+            }
+            $currentTheme = $this->_helper->config->getConfig('currentTheme');
+            //get template preview image
+            $templatePreviewDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme . DIRECTORY_SEPARATOR . $this->_themeConfig['templatePreview'];
+            if ($templatePreviewDir && is_dir($templatePreviewDir)) {
+                $tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
+            } else {
+                $tmplImages = array();
+            }
 
-			exit;
-		}
-	}
+            $types = $mapper->fetchAllTypes();
+            if (array_key_exists($listtemplates, array_merge($types, array('all' => 'all')))) {
+                $template = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
+                $this->view->templates = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
+                if (empty($this->view->templates) || !$this->view->templates) {
+                    $this->_helper->response->response($this->_translator->translate('Template not found'), true);
+                    return true;
+                }
+                $this->view->protectedTemplates = $this->_protectedTemplates;
+                $this->view->types = $this->_sortTemplates($types);
+                echo $this->view->render($this->getViewScript('templateslist'));
+            } else {
+                $template = $mapper->find($listtemplates);
+                if ($template instanceof Application_Model_Models_Template) {
+                    $template = array(
+                        'id'       => $template->getId(),
+                        'name'     => $template->getName(),
+                        'fullName' => $template->getName(),
+                        'type'     => $template->getType(),
+                        'content'  => $template->getContent(),
+                        'preview'  => isset($tmplImages[$template->getName()]) ?
+                            $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $tmplImages[$template->getName()] :
+                            'system/images/no_preview.png'
+                    );
+                    $this->_helper->response->response($template, true);
+                } else {
+                    //$response = array('done'=> false);
+                    $this->_helper->response->response($this->_translator->translate('Template not found'), true);
+                }
+            }
 
-	private function _getTemplateListByType($type, $tmplImages, $currentTheme, $currTemplate = '') {
-		$where = (($type != 'all') ? "type = '" . $type . "'" : null);
-		$templates = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll($where);
-		$templateList = array();
-		foreach ($templates as $template) {
-			array_push($templateList, array(
-				'id'            => $template->getId(),
-				'name'          => $template->getName(),
-				'fullName'      => $template->getName(),
-				'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
-				'content'       => $template->getContent(),
-				'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $tmplImages[$template->getName()] : false, //'system/images/no_preview.png'
-				'pagesCount'    => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
-			));
-		}
-		return $templateList;
-	}
+            exit;
+        }
+    }
 
-	/**
-	 * Method which delete template (AJAX)
-	 */
-	public function deletetemplateAction() {
-		if ($this->getRequest()->isPost()) {
-			$mapper = Application_Model_Mappers_TemplateMapper::getInstance();
-			$templateId = $this->getRequest()->getPost('id');
-			if ($templateId) {
-				$template = $mapper->find($templateId);
-				if ($template instanceof Application_Model_Models_Template && !in_array($template->getName(), $this->_protectedTemplates)) {
-					$result = $mapper->delete($template);
-					if ($result) {
-						$currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig('currentTheme'));
-						$filename = $currentThemePath . DIRECTORY_SEPARATOR;
-						if ($template->getType() === Application_Model_Models_Template::TYPE_MOBILE
-								&& preg_match('~^mobile_~', $template->getName())
-						) {
-							$filename .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getName());
-						} else {
-							$filename .= $template->getName();
-						}
-						$filename .= '.html';
-						Tools_Filesystem_Tools::deleteFile($filename);
-						$status = $this->_translator->translate('Template deleted.');
-					} else {
-						$status = $this->_translator->translate('Can\'t delete template or template doesn\'t exists.');
-					}
-					$this->_helper->response->response($status, false);
-				}
-			}
-			$this->_helper->response->response($this->_translator->translate('Template doesn\'t exists'), false);
-		}
-	}
+    private function _getTemplateListByType($type, $tmplImages, $currentTheme, $currTemplate = '') {
+        $where = (($type != 'all') ? "type = '" . $type . "'" : null);
+        $templates = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll($where);
+        $templateList = array();
+        foreach ($templates as $template) {
+            array_push($templateList, array(
+                'id'            => $template->getId(),
+                'type'          => $template->getType(),
+                'name'          => $template->getName(),
+                'fullName'      => $template->getName(),
+                'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
+                'content'       => $template->getContent(),
+                'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $tmplImages[$template->getName()] : false, //'system/images/no_preview.png'
+                'pagesCount'    => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
+            ));
+        }
+        return $templateList;
+    }
 
-	public function themesAction() {
-		$this->view->helpSection = 'themes';
-	}
+    /**
+     * Method which delete template (AJAX)
+     */
+    public function deletetemplateAction() {
+        if ($this->getRequest()->isPost()) {
+            $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+            $templateId = $this->getRequest()->getPost('id');
+            if ($templateId) {
+                $template = $mapper->find($templateId);
+                if ($template instanceof Application_Model_Models_Template && !in_array($template->getName(), $this->_protectedTemplates)) {
+                    $result = $mapper->delete($template);
+                    if ($result) {
+                        $currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig('currentTheme'));
+                        $filename = $currentThemePath . DIRECTORY_SEPARATOR;
+                        if ($template->getType() === Application_Model_Models_Template::TYPE_MOBILE
+                            && preg_match('~^mobile_~', $template->getName())
+                        ) {
+                            $filename .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getName());
+                        } else {
+                            $filename .= $template->getName();
+                        }
+                        $filename .= '.html';
+                        Tools_Filesystem_Tools::deleteFile($filename);
+                        $status = $this->_translator->translate('Template deleted.');
+                    } else {
+                        $status = $this->_translator->translate('Can\'t delete template or template doesn\'t exists.');
+                    }
+                    $this->_helper->response->response($status, false);
+                }
+            }
+            $this->_helper->response->response($this->_translator->translate('Template doesn\'t exists'), false);
+        }
+    }
 
-	/**
-	 * @deprecated Use put action of the themes rest-service. Will be removed in 2.0.7
-	 *
-	 */
-	public function applythemeAction() {
-	}
+    public function themesAction() {
+        $this->view->helpSection = 'themes';
+    }
 
-	/**
-	 * @deprecated Use get action of the themes rest-service. Will be removed in 2.0.7
-	 *
-	 */
-	public function downloadthemeAction() {
-	}
+    /**
+     * @deprecated Use put action of the themes rest-service. Will be removed in 2.0.7
+     *
+     */
+    public function applythemeAction() {
+    }
 
-	/**
-	 * @deprecated Use delete action of the themes rest-service. Will be removed in 2.0.7
-	 *
-	 */
-	public function deletethemeAction() {
-	}
+    /**
+     * @deprecated Use get action of the themes rest-service. Will be removed in 2.0.7
+     *
+     */
+    public function downloadthemeAction() {
+    }
 
-	/**
-	 * Method saves theme in database
-	 *
-	 * @deprecated  Will be removed in 2.0.7
-	 */
-	private function _saveThemeInDatabase($themeName) {
-		return false;
-	}
+    /**
+     * @deprecated Use delete action of the themes rest-service. Will be removed in 2.0.7
+     *
+     */
+    public function deletethemeAction() {
+    }
 
-	/**
-	 * Returns amount of pages using specific template
-	 *
-	 */
-	public function pagesviatemplateAction() {
-		$templateName = $this->getRequest()->getParam('template', '');
-		if ($templateName) {
-			$this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
-		}
-	}
+    /**
+     * Method saves theme in database
+     *
+     * @deprecated  Will be removed in 2.0.7
+     */
+    private function _saveThemeInDatabase($themeName) {
+        return false;
+    }
+
+    /**
+     * Returns amount of pages using specific template
+     *
+     */
+    public function pagesviatemplateAction() {
+        $templateName = $this->getRequest()->getParam('template', '');
+        if ($templateName) {
+            $this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
+        }
+    }
 }
-

@@ -35,16 +35,11 @@ class Application_Form_Redirect extends Zend_Form {
 			)
 		)));
 
-		$this->addElement(new Zend_Form_Element_Radio(array(
-			'name'         => 'urlType',
-			'multiOptions' => array(
-				0 => 'Local url',
-				1 => 'External url'
-			),
-			//'label'     => 'Url',
+		$this->addElement(new Zend_Form_Element_Checkbox(array(
+			'name'    => 'urlType',
 			'required'  => true,
-			'separator' => '',
-			'value'     => 'local'
+			'value'   => 'local',
+			'checked' => 'checked'
 		)));
 
 		$this->addElement(new Zend_Form_Element_Select(array(
@@ -65,9 +60,11 @@ class Application_Form_Redirect extends Zend_Form {
 			'name'  => 'addRedirect',
 			'id'    => 'add-redirect',
 			'value' => 'Add redirect',
-			'class' => 'blue-btn',
+			'class' => 'grid_2 omega',
 			'label' => 'Add redirect'
 		)));
+
+		$this->setElementDecorators(array('ViewHelper', 'Label'));
 
 	}
 

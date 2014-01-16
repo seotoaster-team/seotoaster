@@ -38,11 +38,11 @@ class Tools_Content_Tools {
 
 	public static function proccessFormMessagesIntoHtml($messages, $formClassName = '') {
 		$form = ($formClassName) ? new $formClassName() : null;
-		$html = '<ul class="form-errors">';
+		$html = '<ul class="form-errors list-unstyled">';
 		foreach ($messages as $element => $messageData) {
 			$errMessages = array_values($messageData);
 			$html .= '<li><span class="error-title">' . (($form) ? $form->getElement($element)->getLabel() : $element) . '</span>';
-			$html .= '<ul>';
+			$html .= '<ul class="list-unstyled text-italic">';
 			foreach ($errMessages as $message) {
 				$html .= '<li>' . $message . '</li>';
 			}

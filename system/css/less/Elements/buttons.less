@@ -1,0 +1,234 @@
+// Base styles
+// --------------------------------------------------
+
+// Core styles
+.btn, button, [type="submit"]{
+    .button;
+
+    // Alternate buttons
+    // --------------------------------------------------
+    // Inverse button appears as gray => primary
+    &.inverse{
+        .btn-color(@gray, @gray-light, @gray-light, @primary-color, @primary-bg, @primary-bg);
+    }
+
+    // Warning appears as orange
+    &.warning{
+        .btn-color(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+    }
+
+    &.inverse-warning{
+        .btn-color(@gray, @gray-light, @gray-light, @btn-warning-color, @btn-warning-bg, @btn-warning-border);
+    }
+
+    // Danger and error appear as red
+    &.error{
+        .btn-color(@btn-error-color, @btn-error-bg, @btn-error-border);
+    }
+
+    &.inverse-error{
+        .btn-color(@gray, @gray-light, @gray-light, @btn-error-color, @btn-error-bg, @btn-error-border);
+    }
+
+    // Success appears as green
+    &.success{
+        .btn-color(@btn-success-color, @btn-success-bg, @btn-success-border);
+    }
+
+    &.inverse-success{
+        .btn-color(@gray, @gray-light, @gray-light, @btn-success-color, @btn-success-bg, @btn-success-border);
+    }
+
+    // Info appears as blue
+    &.info{
+        .btn-color(@btn-info-color, @btn-info-bg, @btn-info-border);
+    }
+
+    &.inverse-info{
+        .btn-color(@gray, @gray-light, @gray-light, @btn-info-color, @btn-info-bg, @btn-info-border);
+    }
+
+    // Button Sizes
+    // --------------------------------------------------
+    &.large{
+        .button-large;
+    }
+    &.small{
+        .button-small;
+    }
+
+    // Block button
+    // --------------------------------------------------
+    &.block{
+        float         : none;
+        display       : block;
+        padding-left  : 0;
+        padding-right : 0;
+
+        &:not([class*="grid_"]){
+            width : 100%;
+        }
+
+        // Vertically space out multiple block buttons
+        &+.block:not([class*="grid_"]):not([class*="mt"]){
+            margin-top : 5px;
+        }
+    }
+
+    // Button with icon
+    // --------------------------------------------------
+    &.ui-button-icon-only, &.icon{
+        padding : @padding-base-vertical;
+        .box-sizing(content-box);
+        .icon-size(@font-size-base);
+
+        &.inline{
+            padding : (@padding-base-vertical+@input-border-width - @btn-border-width+1);
+        }
+
+        &[class*="grid_"]{
+            padding-left  : 0;
+            padding-right : 0;
+        }
+
+        &.large{
+            .icon-size(@font-size-base+2);
+            padding : @padding-large-vertical;
+        }
+
+        &.small{
+            .icon-size(@font-size-base - 2);
+            padding : @padding-small-vertical;
+        }
+    }
+
+    // Button with icon
+    // --------------------------------------------------
+    &.link{
+        font-weight : normal;
+        padding     : 0;
+        height      : auto;
+        .link-color(@link-color);
+
+        &:hover, &:focus{
+            color           : @link-color-hover;
+            text-decoration : none;
+        }
+
+        // Alternate buttons
+        // --------------------------------------------------
+        &.inverse{
+            .link-color(@gray, @link-color);
+        }
+
+        // Warning appears as orange
+        &.warning{
+            .link-color(@brand-warning);
+        }
+
+        &.inverse-warning{
+            .link-color(@gray, @brand-warning);
+        }
+
+        // Danger and error appear as red
+        &.error{
+            .link-color(@brand-error);
+        }
+
+        &.inverse-error{
+            .link-color(@gray, @brand-error);
+        }
+
+        // Success appears as green
+        &.success{
+            .link-color(@brand-success);
+        }
+
+        &.inverse-success{
+            .link-color(@gray, @brand-success);
+        }
+
+        // Info appears as blue
+        &.info{
+            .link-color(@brand-info);
+        }
+
+        &.inverse-info{
+            .link-color(@gray, @brand-info);
+        }
+    }
+}
+
+// Button sets
+// --------------------------------------------------
+.ui-buttonset, .btn-set{
+    font-size    : 0;
+    display      : inline-block;
+    border-width : @btn-border-width;
+    border-style : solid;
+    border-color : @primary-bg;
+    width        : auto;
+    float        : none;
+
+    .ui-button, .btn{
+        font-size   : @font-size-base;
+        margin-left : 1px;
+
+        &:first-child{
+            margin-left : 0;
+        }
+
+        &:hover{
+        }
+
+        &:active{
+        }
+
+        &.ui-state-active, .active{
+        }
+
+        [class^="icon-"], [class*=" icon-"]{
+        }
+    }
+
+    [type="radio"], [type="checkbox"]{
+
+        &+.ui-button, &+.btn{
+
+            &:first-child{
+            }
+
+            [class^="icon-"], [class*=" icon-"]{
+            }
+        }
+    }
+
+    [type="radio"]:checked, [type="checkbox"]:checked{
+        &+.ui-button, &+.btn{
+
+            &:first-child{
+            }
+
+            [class^="icon-"], [class*=" icon-"]{
+            }
+        }
+
+    }
+}
+
+// Specificity overrides
+input[type="submit"], input[type="reset"], input[type="button"]{
+    &.block{
+        width : 100%;
+    }
+}
+
+//	User button
+// --------------------------------------------------
+[type="submit"], .save-and-close, #save-btn{
+    float : right;
+
+    .content-footer.grid_12+footer &, .content-medium-footer.grid_12+footer &, .content-small-footer.grid_12+footer &{
+        margin-right : @grid-margin-width / 2;
+    }
+}

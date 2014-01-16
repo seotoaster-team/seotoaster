@@ -44,12 +44,14 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
     const SECTION_PLUGINS      = 'plugins';
 
     const SECTION_FA           = 'fa';
-    
+
     const SECTION_EDITCONTENT  = 'content';
-    
+
     const SECTION_ACTIONEMAILS = 'actionemails';
 
 	const SECTION_EDITFORM     = 'editform';
+
+	const SECTION_WIDCARD    = 'widcard';
 
     private $_helpHashMap  = array(
         self::SECTION_ADDPAGE      => 'how-to-create-and-edit-a-page.html',
@@ -72,7 +74,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
         self::SECTION_FA           => 'how-to-add-and-edit-a-featured-area.html',
         self::SECTION_ACTIONEMAILS => 'action-emails-cheat-sheet.html',
         self::SECTION_EDITCONTENT  => 'add-and-edit-content.html',
-	    self::SECTION_EDITFORM     => 'how-to-add-a-form.html'
+	    self::SECTION_EDITFORM     => 'how-to-add-a-form.html',
+	    self::SECTION_WIDCARD      => 'local-search-engine-optimization.html'
     );
 
     public function toasterHelp($section, $hashMap = null) {
@@ -80,9 +83,9 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract {
             $this->_helpHashMap = array_merge($this->_helpHashMap, $hashMap);
         }
         if(array_key_exists($section, $this->_helpHashMap)) {
-            return '<a href="' . self::REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank">' . $this->view->translate('Help') . '</a>';
+            return '<a class="help icon-help btn link icon inverse-info" href="' . self::REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
         }
-        return '<a href="javascript:;">' . $this->view->translate('Help') . '</a>';
+        return '<a class="help icon-help btn link icon inverse-info" href="javascript:;"></a>';
     }
 
 }

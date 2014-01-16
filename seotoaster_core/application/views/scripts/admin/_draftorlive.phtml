@@ -1,6 +1,8 @@
-<input type="checkbox" id="published" <?php echo ($this->published) ? 'checked="checked"' : ''; ?> name="published" value="<?php echo ($this->published) ? '1' : '0'; ?>" />
-<?php echo $this->translate($this->publishedLabel);?>
-<span id="publish-later" style="display: none;">&nbsp;&nbsp;<?php echo $this->translate($this->publishAtLabel);?>:&nbsp;&nbsp;
+<label class="fl-left pointer">
+	<input type="checkbox" id="published" <?php echo ($this->published) ? 'checked="checked"' : ''; ?> name="published" value="<?php echo ($this->published) ? '1' : '0'; ?>" />
+	<?php echo $this->translate($this->publishedLabel);?>
+</label>
+<span id="publish-later" class="fl-left hidden ml3">&nbsp;&nbsp;<?php echo $this->translate($this->publishAtLabel);?>:&nbsp;&nbsp;
 	<?php echo $this->datePicker(
 		'datepicker',
 		((intval($this->publishAt)) ? date('M j, Y', strtotime($this->publishAt)) : ''),
@@ -9,7 +11,8 @@
 			'onSelect'    => (isset($this->onselectCallback)) ? new Zend_Json_Expr($this->onselectCallback) : ''
 		),
 		array(
-			'style' => 'width:95px !important; border-radius:2px;'
+			'style' => 'width:100px;',
+            'class' => 'small'
 		));
 	?>
 </span>
@@ -19,6 +22,6 @@
 		$(document).on('click', '#published', pubunpub);
 	});
 	function pubunpub() {
-		$('#publish-later').css({display : (($('#published').prop('checked')) ? 'none' : 'inline')});
+		$('#publish-later').css({display : (($('#published').prop('checked')) ? 'none' : 'block')});
 	}
 </script>

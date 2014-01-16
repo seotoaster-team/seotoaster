@@ -1,0 +1,74 @@
+#new-post{
+    #newslog-frm-newpost{
+        #teaser-text{
+            height : 85px;
+        }
+    }
+
+    #templatelist{
+        height   : 115px;
+        overflow : auto;
+
+        .template_delete{
+            display : none;
+        }
+    }
+
+    #news-tags{
+        overflow : auto;
+        height   : 224px;
+
+        .tag-widget{
+            float  : left;
+            width  : 32%;
+            margin : 0 0.666% 1%;
+            .box-sizing;
+
+            label{
+                cursor : pointer;
+                .tag-editable{
+                }
+            }
+        }
+    }
+
+    #manage-posts{
+        .news-item{
+            .box-shadow(0 1px 1px #BBB);
+            background : @gray-lighter;
+            cursor     : pointer;
+            padding    : 5px;
+            margin-top : 4%;
+
+            &:first-child, &:first-child+.news-item, &:first-child+.news-item+.news-item{
+                margin-top : 0;
+            }
+
+            &:hover{
+                background : @gray-light;
+            }
+
+            .news-item-img{
+                overflow    : hidden;
+                height      : 90px;
+                line-height : 90px;
+
+                img{
+                    height : 100%;
+                    width  : 100%;
+                }
+            }
+            .news-item-title{
+                margin-top : 0.2em;
+                display    : block;
+                font-size  : 1.1em;
+                .text-overflow;
+            }
+            .news-item-additional{
+                font-weight : bold;
+                font-size   : @font-size-mini;
+                color       : @gray;
+            }
+        }
+    }
+}

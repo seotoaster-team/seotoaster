@@ -2,9 +2,9 @@
 
 class Widgets_Content_Content extends Widgets_AbstractContent {
 
-    const POPUP_WIDTH  = 964;
+    const POPUP_WIDTH  = 960;
 
-    const POPUP_HEIGHT = 594;
+    const POPUP_HEIGHT = 560;
 
     protected function  _init() {
         $this->_type = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;

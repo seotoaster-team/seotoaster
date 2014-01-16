@@ -123,17 +123,14 @@ class Zend_View_Helper_ToasterRadio extends Zend_View_Helper_FormElement {
             $optId = $id . '-' . $filter->filter($opt_value);
 
             // Wrap the radios in labels
-			$divClass = 'grid_4';
+			/*$divClass = 'grid_4';
 			if($opt_label == $startOpt) {
 				$divClass .= ' alpha';
 			}
 			if($opt_label == $endOPt) {
 				$divClass .= ' omega';
-			}
-            $radio = '<div class="' . $divClass . '"><label'
-                    . $this->_htmlAttribs($label_attribs) . ' for="' . $optId . '">'
-                    . (('prepend' == $labelPlacement) ? $opt_label : '')
-                    . '<input type="' . $this->_inputType . '"'
+			}*/
+            $radio = '<input type="' . $this->_inputType . '"'
                     . ' name="' . $name . '"'
                     . ' id="' . $optId . '"'
                     . ' value="' . $this->view->escape($opt_value) . '"'
@@ -141,8 +138,11 @@ class Zend_View_Helper_ToasterRadio extends Zend_View_Helper_FormElement {
                     . $disabled
                     . $this->_htmlAttribs($attribs)
                     . $endTag
-                    . (('append' == $labelPlacement) ? '&nbsp;' . $opt_label : '')
-                    . '</label></div>';
+                    . '<label class="btn large grid_4"' . $this->_htmlAttribs($label_attribs) . ' for="' . $optId . '">'
+	                    . (('prepend' == $labelPlacement) ? $opt_label : '')
+	                    . '<span class="icon-ok-sign icon14 text-left"></span>'
+	                    . (('append' == $labelPlacement) ? $opt_label : '')
+                    . '</label>';
 
             // add to the array of radio buttons
             $list[] = $radio;

@@ -12394,7 +12394,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					if (re.test('' + h))
 						h = Math.max(parseInt(h, 10) + (o.deltaHeight || 0), mh);
 
-					// Render UI
+					// Render Modules
 					o = t.theme.renderUI({
 						targetNode : e,
 						width : w,

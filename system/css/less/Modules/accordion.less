@@ -1,0 +1,55 @@
+// JQuery UI Accordion
+//==================================================
+.ui-accordion{
+    .ui-accordion-header{
+        display       : block;
+        position      : relative;
+        cursor        : pointer;
+        margin-top    : 2px;
+        margin-bottom : 0;
+        color         : @accordion-header-color;
+        font-weight   : normal;
+        background    : @accordion-header-bg;
+        padding       : @padding-base-vertical @padding-base-horizontal;
+        min-height    : 0; // support: IE7
+
+        &:first-child{
+            margin-top : 0;
+        }
+
+        a{
+            color : inherit;
+        }
+
+        &:hover{
+            color      : @accordion-header-color-hover;
+            background : @accordion-header-bg-hover;
+        }
+
+        &.ui-accordion-header-active{
+            color      : @accordion-header-color-active;
+            background : @accordion-header-bg-active;
+        }
+
+        &.ui-accordion-icons{
+            .ui-accordion-header-icon{
+                .inline-block();
+                margin-left  : -@padding-base-horizontal / 2;
+                margin-right : @padding-base-horizontal / 2;
+                .icon-size(14px);
+            }
+        }
+
+        &.ui-accordion-noicons{
+        }
+    }
+    .ui-accordion-content{
+        background    : @accordion-content-bg;
+        border        : @accordion-content-border-width solid @accordion-content-border-color;
+        border-top    : none;
+        margin-top    : 0;
+        margin-bottom : 0;
+        padding       : @padding-base-vertical @padding-base-horizontal;
+        overflow      : auto;
+    }
+}

@@ -1,47 +1,69 @@
-<div class="seotoaster container_12 h570 rounded3px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 		'headerText'      => $this->translate('Manage users'),
-		'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><img src="' . $this->websiteUrl . 'system/images/csv.png" alt="export users" /><a href="javascript:;" id="export-users">'. $this->translate('export as csv file') . '</a></form>',
-        'helpSection'     => $this->helpSection
-	)); ?>
-	<div id="add-user" style="position: relative; overflow: hidden;">
-		<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="userCallback">
-			<div class="grid_6">
-				<?php echo $this->userForm->getElement('email'); ?>
-			</div>
-			<div class="grid_6">
-				<?php echo $this->userForm->getElement('fullName'); ?>
-			</div>
-			<div class="grid_6">
-                <div class="grid_6">
-				    <?php echo $this->userForm->getElement('password'); ?>
-                </div>
-                <div class="grid_6">
-                    <?php echo $this->userForm->getElement('roleId'); ?>
-                </div>
-			</div>
-			<div class="grid_6">
-                <?php echo $this->userForm->getElement('gplusProfile'); ?>
-			</div>
-			<?php echo $this->userForm->getElement('saveUser'); ?>
-			<?php echo $this->userForm->getElement('id'); ?>
-		</form>
-	</div>
-	<table class="sortable grid_12" id="users-list">
-		<thead style="display: block;">
-			<tr style="display: block; overflow: hidden">
-				<th class="grid_3"><?php echo $this->translate('E-mail'); ?></th>
-				<th class="grid_2"><?php echo $this->translate('Full name'); ?></th>
-				<th class="grid_2"><?php echo $this->translate('Role'); ?></th>
-				<th class="grid_2"><?php echo $this->translate('Last login'); ?></th>
-				<th class="grid_2"><?php echo $this->translate('Ip address'); ?></th>
-				<th class="grid_1 omega"><?php echo $this->translate('Actions'); ?></th>
-			</tr>
-		</thead>
-		<tbody style="display: block;">
+        'helpSection'     => $this->helpSection,
+        'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'
 
-		</tbody>
-	</table>
+    )); ?>
+	<div class="content grid_12">
+		<div id="add-user" class="show-right">
+			<div class="header">
+				<?php echo $this->translate('Add new user'); ?>
+				<div class="closebutton">
+					<a class="hide icon-chevron-right btn icon link inverse-error" href="javascript:;" title="Close"></a>
+				</div>
+			</div>
+			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
+				<div class="grid_7 omega">
+					<?php echo $this->userForm->getElement('fullName'); ?>
+				</div>
+				<div class="grid_5 mt0px">
+					<?php echo $this->userForm->getElement('roleId'); ?>
+				</div>
+				<div class="grid_12">
+					<?php echo $this->userForm->getElement('email'); ?>
+				</div>
+				<div class="grid_12">
+					<?php echo $this->userForm->getElement('password'); ?>
+				</div>
+				<div class="grid_12">
+					<?php echo $this->userForm->getElement('gplusProfile'); ?>
+				</div>
+				<?php echo $this->userForm->getElement('saveUser'); ?>
+				<?php echo $this->userForm->getElement('id'); ?>
+			</form>
+		</div>
+
+		<?php echo '<a id="add-user-link" class="btn fl-right icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+
+		<table class="sortable table-striped table-scroll block mt10px" id="users-list">
+			<thead class="block">
+				<tr class="block wrap">
+					<th><?php echo $this->translate('E-mail'); ?></th>
+					<th><?php echo $this->translate('Full name'); ?></th>
+					<th><?php echo $this->translate('Role'); ?></th>
+					<th><?php echo $this->translate('Last login'); ?></th>
+					<th><?php echo $this->translate('Ip address'); ?></th>
+					<th class="text-center"><?php echo $this->translate('Actions'); ?></th>
+				</tr>
+			</thead>
+			<tbody class="block h400px">
+                <span class="spinner"></span>
+			</tbody>
+		</table>
+	</div>
 </div>
+<script type="text/javascript">
+	$(function() {
+		$(document).on('click', '#add-user-link, ._tedit', function(){
+			$('#add-user').addClass('show');
+		}).on('click', '#save-user', function() {
+			$('#add-user').removeClass('show');
+		}).on('click', '.closebutton .hide, .show~*', function() {
+			$('#add-user').removeClass('show');
+			return false;
+		});
+	})
+</script>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.js'); ?>

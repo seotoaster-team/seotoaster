@@ -97,14 +97,19 @@ class Application_Form_User extends Zend_Form {
 			'value' => $this->_id
 		)));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'   => 'saveUser',
 			'id'     => 'save-user',
 			'value'  => 'Save user',
-			'class'  => 'blue-btn',
+			'type'   => 'submit',
+			'class'  => 'mr-grid mt20px',
 			'ignore' => true,
-			'label'  => 'Save user'
+			'label'  => '<span class="icon-save"></span> Save user',
+			'escape' => false
 		)));
+
+		$this->setElementDecorators(array('ViewHelper', 'Label'));
+		$this->getElement('saveUser')->removeDecorator('Label');
 	}
 
 	public function getEmail() {

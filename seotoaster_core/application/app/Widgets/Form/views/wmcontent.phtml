@@ -1,15 +1,19 @@
 <form action="javascript:;" method="post" data-name="form" id="forms-widget-form" class="wmc-block">
-	<?php echo $this->formLabel('forms-newname', $this->translate('Form name'), array('class' => 'nopad grid_6')); ?>
-	<?php echo $this->formText('formsNewname', '', array('id' => 'forms-newname', 'class' => 'nopad grid_6')); ?>
-	<?php echo $this->formLabel('forms-existing', $this->translate('Select a form'), array('class' => 'nopad grid_6')); ?>
-	<?php echo $this->formSelect('formsExisting', null, array('id' => 'forms-existing', 'class' => 'nopad grid_6')); ?>
-	<?php echo $this->formLabel('forms-captcha', $this->translate('recaptcha'), array('class' => 'nopad grid_6')); ?>
-	<div class="nopad grid_6">
-		<?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
-	</div>
-	<div class="grid_12 nopad">
-		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget-forms')); ?>
-	</div>
+    <p>
+        <?php echo $this->formLabel('forms-newname', $this->translate('Form name'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formText('formsNewname', '', array('id' => 'forms-newname', 'class' => 'grid_7 alpha omega small')); ?>
+    </p>
+    <p class="mt5px">
+        <?php echo $this->formLabel('forms-existing', $this->translate('Select a form'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formSelect('formsExisting', null, array('id' => 'forms-existing', 'class' => 'grid_7 alpha omega small')); ?>
+    </p>
+    <p class="mt5px">
+        <label class="pointer">
+            <span class="grid_5 alpha"><?php echo $this->translate('Use recaptcha'); ?></span>
+            <?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
+        </label>
+    </p>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-forms block small')); ?>
 </form>
 <script type="text/javascript">
 	$(function() {
@@ -31,8 +35,8 @@
 			} else if($('#forms-existing').val() != 0) {
 				widgetHtml += ':' + $('#forms-existing').val();
 			} else {
-				$('#forms-existing').addClass('red-border');
-				$('#forms-newname').addClass('red-border');
+                $('#forms-existing').addClass('error');
+                $('#forms-newname').addClass('error');
 				widgetHtml = '';
 			}
 			if(widgetHtml != '') {
