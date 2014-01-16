@@ -51,7 +51,7 @@ $(function() {
 				window.location.href = responseText.notFoundUrl;
 			}
 			else {
-				smoke.alert('Sorry, but you don\'t have the 404 error page You can create a page and assign it as 404 error page Use the checkbox on the create/update page screen.', {'classname':'errors'});
+				smoke.alert($('#edit404-errorMsg').html(), {'classname':'errors'});
 			}
 		});
 	});
