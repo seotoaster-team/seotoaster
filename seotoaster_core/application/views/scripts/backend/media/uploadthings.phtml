@@ -1,49 +1,72 @@
 <script>
-<?php $this->jQuery()->onLoadCaptureStart();?>
-$('.change-image-quality').attr('checked', true);
-$('#things-new-folder')
-	.focus(function(){
-		if ( $(this).val() == $(this).attr('data-defaultlabel') ){
-			$(this).val('')
-		}
-	})
-	.blur(function(){
-		if ( $(this).val() == '' ){
-			$(this).val($(this).attr('data-defaultlabel'))
-		}
-	})
-<?php $this->jQuery()->onLoadCaptureEnd();?>
+    <?php $this->jQuery()->onLoadCaptureStart();?>
+    $('.change-image-quality').attr('checked', true);
+    $('#things-new-folder')
+            .focus(function () {
+                if ($(this).val() == $(this).attr('data-defaultlabel')) {
+                    $(this).val('')
+                }
+            })
+            .blur(function () {
+                if ($(this).val() == '') {
+                    $(this).val($(this).attr('data-defaultlabel'))
+                }
+            })
+    <?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>
 
 <div class="seotoaster container">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Upload your files and images', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12 content">
-		<div class="grid_5">
-			<?php echo $this->formSelect('things-select-folder', (isset($this->currFolder) ? $this->currFolder : null), null, $this->listFolders); ?>
-		</div>
-		<span class="grid_2 or"><?php echo $this->translate('OR'); ?></span>
-		<div class="grid_5">
-			<?php echo $this->formText('things-new-folder', $this->translate('create new folder'), array('data-defaultlabel' => $this->translate('create new folder'))); ?>
-		</div>
-        <div class="grid_12 mt20px mb15px">
-			<?php
-			$thingsUploader = $this->toasterUploader(
-				array(
-					'id'      => 'media-toaster-uploader',
-					'type'    => 'dragdrop',
-					'caption' => $this->translate('Choose and upload file(s)'),
-					'caller'  => 'media'
-				));
-			echo $thingsUploader;
-			?>
-            <label class="fl-right mt15px pointer"><input type="checkbox" name="change-image-quality" class="change-image-quality" value="0"/> <?php echo $this->translate('Optimize image size.');?></label>
+    <?php echo $this->partial(
+        'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array('headerText' => 'Upload your files and images', 'helpSection' => $this->helpSection)
+    ); ?>
+    <div class="grid_12 content">
+        <div class="grid_5">
+            <?php echo $this->formSelect(
+                'things-select-folder',
+                (isset($this->currFolder) ? $this->currFolder : null),
+                null,
+                $this->listFolders
+            ); ?>
         </div>
-		<!--div class="grid_12 seo-tip">
+        <span class="grid_2 or"><?php echo $this->translate('OR'); ?></span>
+
+        <div class="grid_5">
+            <?php
+            $newFolderLabel = $this->translate('create new folder');
+            echo $this->formText(
+                'things-new-folder',
+                null,
+                array(
+                    'placeholder'       => $newFolderLabel,
+                    'data-defaultlabel' => $newFolderLabel
+                )
+            ); ?>
+        </div>
+        <div class="grid_12 mt20px mb15px">
+            <?php
+            $thingsUploader = $this->toasterUploader(
+                array(
+                    'id'      => 'media-toaster-uploader',
+                    'type'    => 'dragdrop',
+                    'caption' => $this->translate('Drag & drop files here'),
+                    'caller'  => 'media'
+                )
+            );
+            echo $thingsUploader;
+            ?>
+            <label class="fl-right mt15px pointer"><input type="checkbox" name="change-image-quality"
+                                                          class="change-image-quality"
+                                                          value="0"/> <?php echo $this->translate(
+                    'Optimize image size.'
+                ); ?></label>
+        </div>
+        <!--div class="grid_12 seo-tip">
 			<strong><?php echo $this->translate('SEO tip'); ?></strong>: <?php echo $this->translate('Have you thought about  meaningfully naming your images files after your keywords');?>?
 		</div-->
-		<div id="media-toaster-uploader-filelist" class="grid_12 ui-widget-content scroll h300px">
-			<?php echo $this->translate('Upload progress will appear here.');?>
-		</div>
-	</div>
+        <div id="media-toaster-uploader-filelist" class="grid_12 ui-widget-content scroll h300px">
+            <?php echo $this->translate('Upload progress will appear here.'); ?>
+        </div>
+    </div>
 
 </div>
