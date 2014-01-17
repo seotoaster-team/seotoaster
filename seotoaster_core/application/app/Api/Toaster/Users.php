@@ -4,7 +4,8 @@
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
 
-class Api_Toaster_Users extends Api_Service_Abstract {
+class Api_Toaster_Users extends Api_Service_Abstract
+{
 
     /**
      * @var Helpers_Action_Session
@@ -18,18 +19,19 @@ class Api_Toaster_Users extends Api_Service_Abstract {
         Tools_Security_Acl::ROLE_SUPERADMIN => array(
             'allow' => array('get', 'post', 'put', 'delete')
         ),
-        Tools_Security_Acl::ROLE_ADMIN      => array(
+        Tools_Security_Acl::ROLE_ADMIN => array(
             'allow' => array('get', 'post', 'put', 'delete')
         ),
-        Tools_Security_Acl::ROLE_MEMBER     => array(
+        Tools_Security_Acl::ROLE_MEMBER => array(
             'allow' => array('get', 'put', 'delete')
         ),
-        Tools_Security_Acl::ROLE_USER       => array(
+        Tools_Security_Acl::ROLE_USER => array(
             'allow' => array('get', 'put')
         )
     );
 
-    public function init() {
+    public function init()
+    {
         parent::init();
         $this->_sessionHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('session');
         $acl = $this->getAcl();
@@ -41,7 +43,8 @@ class Api_Toaster_Users extends Api_Service_Abstract {
      * should respond with the server resource state of the resource identified
      * by the 'id' value.
      */
-    public function getAction() {
+    public function getAction()
+    {
         // TODO: Implement getAction() method.
     }
 
@@ -49,7 +52,8 @@ class Api_Toaster_Users extends Api_Service_Abstract {
      * The post action handles POST requests; it should accept and digest a
      * POSTed resource representation and persist the resource state.
      */
-    public function postAction() {
+    public function postAction()
+    {
         // TODO: Implement postAction() method.
     }
 
@@ -58,14 +62,15 @@ class Api_Toaster_Users extends Api_Service_Abstract {
      * should update the server resource state of the resource identified by
      * the 'id' value.
      */
-    public function putAction() {
+    public function putAction()
+    {
         $id = intval(filter_var($this->_request->getParam('id'), FILTER_VALIDATE_INT));
         $data = json_decode($this->_request->getRawBody(), true);
 
         if ($id && !empty($data)) {
             if (!Tools_Security_Acl::isAllowed(
-                        Tools_Security_Acl::RESOURCE_USERS
-                    ) && $id !== $this->_sessionHelper->getCurrentUser()->getId()
+                    Tools_Security_Acl::RESOURCE_USERS
+                ) && $id !== $this->_sessionHelper->getCurrentUser()->getId()
             ) {
                 $this->_error(self::REST_STATUS_FORBIDDEN);
             }
@@ -84,15 +89,11 @@ class Api_Toaster_Users extends Api_Service_Abstract {
                         $user->setAttribute($attribute, $value);
                     }
                 }
-
-                $status = Application_Model_Mappers_UserMapper::getInstance()->save($user);
-                if ($status) {
-                    return array('status' => 'ok');
-                }
+                $user->setPassword(false);
+                Application_Model_Mappers_UserMapper::getInstance()->save($user);
+                return array('status' => 'ok');
             }
         }
-
-        $this->_error();
     }
 
     /**
@@ -100,7 +101,8 @@ class Api_Toaster_Users extends Api_Service_Abstract {
      * parameter; it should update the server resource state of the resource
      * identified by the 'id' value.
      */
-    public function deleteAction() {
+    public function deleteAction()
+    {
         // TODO: Implement deleteAction() method.
     }
 
