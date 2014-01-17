@@ -78,7 +78,7 @@
         {{if key == currentTrigger }}
             {{each(name, data) trigger}}
                 <div id="${key}-triegger-${name.replace(/\s+/g, '-')}" class="tabs-contents">
-                    <span class="new-trigger-action icon-plus-sign" data-trigger-name="${name}">
+                    <span class="new-trigger-action icon-plus-sign text-center" data-trigger-name="${name}">
 						<?php //echo $this->translate('Add a recipient'); ?>
 					</span>
                 </div>
