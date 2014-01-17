@@ -63,7 +63,7 @@
 			<div class="grid_8 alpha omega text-right featured-link mt0px">
 				<span class="icon-tags icon14"></span>
 				<?php
-					echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Add a page to a tags') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
+					echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Tag this page') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
 				?>
 			</div>
 			<div class="cl-both background mt5px">
@@ -79,14 +79,17 @@
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
-				<span class="icon-folder-upload hidden"><?php echo $this->translate('Choose you image');?></span>
+				<span class="icon-folder-upload hidden"><?php echo $this->translate('Upload an image');?></span>
 				<?php
 					$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
 					echo $uploader;
 				?>
 			</div>
 			<div  class="grid_8 alpha omega">
-				<?php echo $this->pageForm->getElement('teaserText'); ?>
+				<?php echo $this->pageForm->getElement('teaserText')->setAttrib(
+                    'placeholder',
+                    $this->translate('Insert a text snippet. You can then call that text when creating page lists. It can also be used by the integrated search engine.')
+                ); ?>
 			</div>
 		</fieldset>
 		<?php echo $this->pageForm->getElement('templateId'); ?>

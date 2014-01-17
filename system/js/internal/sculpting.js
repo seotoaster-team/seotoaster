@@ -44,5 +44,6 @@ loadSculptingData = function() {
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadsculptingdata', function(response) {
 		hideSpinner();
 		$('#sculpting-list').html(response.sculptingList);
+        checkboxRadio();
 	})
 };
