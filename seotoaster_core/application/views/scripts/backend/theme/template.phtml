@@ -19,7 +19,7 @@
 			<div class="grid_4 alpha mt0px">
 				<?php echo $this->templateForm->getElement( 'templateType' ); ?>
 			</div>
-			<div id="other-listpages" class="grid_2 alpha mt25px">
+			<div id="other-listpages" class="grid_2 alpha mt2em">
 			<?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
                 <a id="listpages-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate( 'Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' ); ?>
                                                                                  ]</a>
@@ -28,7 +28,7 @@
             <?php endif; ?>
 			</div>
             <?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
-            <div id="other-templates" class="grid_2 alpha omega mt25px">
+            <div id="other-templates" class="grid_2 alpha omega mt2em">
 				<a id="listtemplates-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
 			</div>
             <?php endif; ?>
