@@ -19,7 +19,7 @@ $(function() {
     $('#templatelist').on('click', '.template_name', function(){
 		showSpinner();
 		$('.template_item').removeClass('curr-template').find('.template-check').remove();
-		$(this).before('<span class="template-check icon-check"/></span>').parent().addClass('curr-template');
+		$(this).before('<span class="template-check icon-check icon16"/></span>').parent().addClass('curr-template');
         $.post(
             $('#website_url').val()+'backend/backend_theme/gettemplate/',
             {'listtemplates': $(this).parent().find('input[name="template-id"]').val()},
@@ -88,7 +88,7 @@ function showTemplateList(e){
 				});
 				var templateName = $('#template_id').val();
 				$('.template_item').removeClass('curr-template').find('.template-check').remove();
-				$('.template_item').has('input[value="'+ templateName +'"]').addClass('curr-template').find('.template_name').before('<span class="template-check icon-check"/></span>');
+				$('.template_item').has('input[value="'+ templateName +'"]').addClass('curr-template').find('.template_name').before('<span class="template-check icon-check icon16"/></span>');
 			},
 			'html'
 		);
