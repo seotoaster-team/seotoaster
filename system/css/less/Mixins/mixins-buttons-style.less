@@ -1,0 +1,294 @@
+@btn-height-base   : floor(@font-size-base * unit(@btn-line-height) + @padding-base-vertical * 2);
+@btn-height-larger : floor(unit(@font-size-larger) * @font-size-base * unit(@btn-line-height) + @padding-larger-vertical * 2);
+@btn-height-large  : floor(unit(@font-size-large) * @font-size-base * unit(@btn-line-height) + @padding-large-vertical * 2);
+@btn-height-small  : floor(unit(@font-size-small) * @font-size-base * unit(@btn-line-height) + @padding-small-vertical * 2);
+@btn-height-mini   : floor(unit(@font-size-mini) * @font-size-base * unit(@btn-line-height) + @padding-mini-vertical * 2);
+
+.button() {
+    .inline-block();
+    margin-bottom   : 0; // For input.btn
+    padding         : @padding-base-vertical @padding-base-horizontal;
+    height          : @btn-height-base;
+    line-height     : @btn-height-base - @padding-base-vertical * 2;
+    text-align      : center;
+    cursor          : pointer;
+    position        : relative;
+    text-decoration : none;
+    .box-sizing;
+    .user-select;
+    .border-radius(@btn-border-radius);
+    .btn-color(@btn-primary-color, @btn-primary-bg, @btn-primary-border, true, true);
+    .activate-border(@activate) when (@activate > 0){
+        border-width : @btn-border-width;
+        border-style : solid;
+    }
+    .activate-border(@btn-border-width);
+    .activate-transition(@activate) when (@activate = true){
+        .transition(background, 0.3s);
+    }
+    .activate-transition(@activate-button-transition);
+
+    &:not(.icon){
+        .text-overflow;
+    }
+
+    &[class*="grid_"]{
+        padding-left  : 0;
+        padding-right : 0;
+    }
+
+    &[class*="icon-"]:not(.icon):not(:empty):before{
+        margin-right : 5px;
+    }
+}
+
+.button-larger(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    padding     : @padding-larger-vertical @padding-larger-horizontal;
+    height      : @btn-height-larger;
+    line-height : @btn-height-larger - @padding-larger-vertical * 2;
+    .border-radius(@btn-larger-border-radius);
+}
+
+.button-large(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    padding     : @padding-large-vertical @padding-large-horizontal;
+    height      : @btn-height-large;
+    line-height : @btn-height-large - @padding-large-vertical * 2;
+    .border-radius(@btn-large-border-radius);
+}
+
+.button-small(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    padding     : @padding-small-vertical @padding-small-horizontal;
+    height      : @btn-height-small;
+    line-height : @btn-height-small - @padding-small-vertical * 2;
+    .border-radius(@btn-small-border-radius);
+}
+
+.button-mini(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    padding     : @padding-mini-vertical @padding-mini-horizontal;
+    height      : @btn-height-mini;
+    line-height : @btn-height-mini - @padding-mini-vertical * 2;
+    .border-radius(@btn-mini-border-radius);
+}
+
+.icon-unit(@unit : @font-size-base) when (ispixel(@unit)){
+    .icon-larger(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(24px);
+        padding : (@btn-height-larger - 24px) / 2;
+    }
+
+    .icon-large(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(19px);
+        padding : (@btn-height-large - 19px) / 2;
+    }
+
+    .icon-base(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(16px);
+        padding : (@btn-height-base - 16px) / 2;
+    }
+
+    .icon-small(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(11px);
+        padding : (@btn-height-small - 11px) / 2;
+    }
+}
+.icon-unit(@unit : @font-size-base) when not (ispixel(@unit)){
+    .icon-larger(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(1.5rem);
+        padding : (@btn-height-larger - 1.5rem) / 2;
+    }
+
+    .icon-large(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(1.25rem);
+        padding : (@btn-height-large - 1.25rem) / 2;
+    }
+
+    .icon-base(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(1rem);
+        padding : (@btn-height-base - 1rem) / 2;
+    }
+
+    .icon-small(@activate: @activate-alternate-style-size, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+        .icon-size(.75rem);
+        padding : (@btn-height-small - .75rem) / 2;
+    }
+}
+.icon-unit();
+
+// Easily pump out default styles, as well as :hover, :focus, :active,
+// and disabled options for all buttons
+.link-color( @color, @activate: @activate-alternate-style-color, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    color            : @color;
+    background-color : transparent;
+    .activate-border(@activate) when (@activate > 0){
+        border : none;
+    }
+    .activate-border(@btn-border-width);
+
+    .activate-hover(@activate) when (@activate = true){
+        &:hover, &:active{
+            color : darken(@color, 30%);
+            .box-shadow(none);
+        }
+    }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch{
+            color : darken(@color, 30%);
+            .box-shadow(none);
+        }
+    }
+    .activate-hover(@activate-hover);
+
+    &.disabled, &[disabled]{
+        color           : desaturate(@color, 30%);
+        text-decoration : none;
+        .box-shadow(none);
+    }
+}
+
+.link-color( @color, @color-hover, @activate: @activate-alternate-style-color, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    color            : @color;
+    background-color : transparent;
+    .activate-border(@activate) when (@activate > 0){
+        border : none;
+    }
+    .activate-border(@btn-border-width);
+
+    .activate-hover(@activate) when (@activate = true){
+        &:hover, &:active{
+            color : @color-hover;
+            .box-shadow(none);
+        }
+    }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch{
+            color : @color-hover;
+            .box-shadow(none);
+        }
+    }
+    .activate-hover(@activate-hover);
+
+    &.disabled, &[disabled]{
+        color           : desaturate(@color, 30%);
+        text-decoration : none;
+        .box-shadow(none);
+    }
+}
+
+.btn-color( @color, @background, @border, @activate: @activate-alternate-style-color, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    color            : @color;
+    background-color : @background;
+    .activate-border(@activate) when (@activate > 0){
+        border-color : @border;
+    }
+    .activate-border(@btn-border-width);
+
+    .activate-hover(@activate) when (@activate = true){
+        &:hover, &:active{
+            color            : @color;
+            background-color : darken(@background, 10%);
+            .activate-border(@activate) when (@activate > 0){
+                border-color : darken(@border, 10%);
+            }
+            .activate-border(@btn-border-width);
+        }
+
+        &:active{
+            .box-shadow(0.2rem 0.2rem 0.4rem darken(@background, 25%) inset);
+        }
+    }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch{
+            color            : @color;
+            background-color : darken(@background, 10%);
+            .activate-border(@activate) when (@activate > 0){
+                border-color : darken(@border, 10%);
+            }
+            .activate-border(@btn-border-width);
+            .box-shadow(0.2rem 0.2rem 0.4rem darken(@background, 25%) inset);
+        }
+    }
+    .activate-hover(@activate-hover);
+
+    &.disabled, &[disabled]{
+        .box-shadow(none);
+        color            : desaturate(@color, 30%);
+        background-color : desaturate(@background, 30%);
+        text-decoration  : none;
+        .activate-border(@activate) when (@activate > 0){
+            border-color : desaturate(@border, 30%);
+        }
+        .activate-border(@btn-border-width);
+    }
+}
+
+.btn-color( @color, @background, @border, @color2, @background2, @border2, @activate: @activate-alternate-style-color, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
+    color            : @color;
+    background-color : @background;
+    text-decoration  : none;
+    .activate-border(@activate) when (@activate > 0){
+        border-color : @border;
+    }
+    .activate-border(@btn-border-width);
+
+    .activate-hover(@activate) when (@activate = true){
+        &:hover, &:active{
+            color            : @color2;
+            background-color : @background2;
+            .activate-border(@activate) when (@activate > 0){
+                border-color : @border2;
+            }
+            .activate-border(@btn-border-width);
+        }
+
+        &:active{
+            .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset);
+        }
+    }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch{
+            color            : @color2;
+            background-color : @background2;
+            .activate-border(@activate) when (@activate > 0){
+                border-color : @border2;
+            }
+            .activate-border(@btn-border-width);
+            .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset);
+        }
+    }
+    .activate-hover(@activate-hover);
+
+    &.disabled, &[disabled]{
+        .box-shadow(none);
+        color            : desaturate(@color, 30%);
+        background-color : @background;
+        text-decoration  : none;
+        .activate-border(@activate) when (@activate > 0){
+            border-color : @border;
+        }
+        .activate-border(@btn-border-width);
+    }
+}
+
+// 3D-Button
+//==================================================
+.button-3d(@color, @background, @border) {
+    .box-shadow(0px 0.25em 0px @border);
+
+    .activate-hover(@activate) when (@activate = true){
+        &:hover{
+            .box-shadow(0px 0.25em 0px darken(@border, 10%));
+        }
+
+        &:active{
+            .box-shadow(0px 0.2em 0px darken(@border, 10%));
+            top : 0.05em;
+        }
+    }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch{
+            .box-shadow(0px 0.2em 0px darken(@border, 10%));
+            top : 0.05em;
+        }
+    }
+    .activate-hover(@activate-hover);
+}

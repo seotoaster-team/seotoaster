@@ -1,98 +1,91 @@
 // Table of Content
 //==================================================
-//	Links
-//	Heading
-//	Blockquotes
-//  Toaster icon
-//  Custom classes
+//	Basic Styles
+//	Typography and Classes for content
+//	Lists Styles
+//	Tables Styles
+//	Buttons Styles
+//	Images Style
 //==================================================
+
+// Basic Styles
+//==================================================
+body{
+    font-size                   : @font-size-base;
+    font-family                 : @font-family-text;
+    line-height                 : @line-height;
+    -webkit-font-smoothing      : antialiased;
+    -webkit-backface-visibility : hidden;
+    -moz-backface-visibility    : visible;
+    -ms-backface-visibility     : hidden;
+}
 
 // Links
 //==================================================
 a{
-	color           : @link-color;
-	text-decoration : none;
-}
-p a, p a:visited{
-	line-height : inherit;
+    color           : @link-color;
+    text-decoration : none;
 }
 a:visited{
-	//color : @link-color-visited;
+    //color : @link-color-visited;
 }
 a:hover{
-	color : @link-color-hover
+    color : @link-color-hover
 }
 a:active{
-	color : @link-color-active;
+    color : @link-color-active;
 }
 
 // Heading
 //==================================================
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6{
-	color         : @heading-color;
-	font-family   : @font-family-headings;
-	font-weight   : bold;
-	margin-top    : 1.5em;
-	margin-bottom : 0.5em;
+    margin-top    : 1.5em;
+    margin-bottom : 0.5em;
+    color         : @heading-color;
+    font-weight   : @heading-weight;
+    font-family   : @font-family-headings;
 
-	&:first-child{
-		margin-top : 0;
-	}
-	a{
-		font-weight : inherit;
-	}
-	.slide .description &{
-		color : inherit;
-	}
+    &:first-child{ margin-top : 0; }
+
+    .slide .description &{ color : @slider-heading-color; }
+
+    footer &{
+        color : @footer-heading-color;
+    }
+
+    &:empty{
+        display : none;
+    }
 }
-h1, .h1{
-	font-size : 2em;
-}
-h2, .h2{
-	font-size : 1.5em;
-}
-h3, .h3{
-	font-size : 1.25em;
-}
-h4, .h4{
-	font-size : 1em;
-}
-h5, .h5{
-	font-size : 0.875em;
-}
-h6, .h6{
-	font-size : 0.75em;
-}
+h1, .h1{ font-size : 2em; }
+h2, .h2{ font-size : 1.5em; }
+h3, .h3{ font-size : 1.25em; }
+h4, .h4{ font-size : 1em; }
+h5, .h5{ font-size : 0.875em; }
+h6, .h6{ font-size : 0.75em; }
+
 .subheader{
-	font-size : @font-size-small;
-	color     : @subheading-color;
+    color     : @subheading-color;
+    font-size : @font-size-small;
 }
 
 p{
-	margin-bottom : 1.5em;
-	img{
-		margin : 0;
-	}
-}
-hr{
-	border       : 1px solid #CCC;
-	border-width : 1px 0 0;
-	clear        : both;
-	margin       : 10px 0 30px;
-	height       : 0;
+    &+p{ margin-top : 1.5em; }
+
+    img{ margin : 0; }
 }
 
 //	Blockquotes
 //==================================================
 blockquote, .blockquote, .seo-tip{
-	font-size     : @font-size-base;
-	color         : @gray;
-	font-style    : italic;
-	background    : @gray-lighter;
-	margin-bottom : 1.5em;
-	padding       : 0.75em 1.5em;
-	border-left   : 3px solid @gray;
+    font-size     : @font-size-base;
+    color         : @gray;
+    font-style    : italic;
+    background    : @gray-lighter;
+    margin-bottom : 1.5em;
+    padding       : 0.75em 1.5em;
+    border-left   : 3px solid @gray;
 
     p, ul, ol{
         margin : 0;
@@ -102,34 +95,54 @@ blockquote, .blockquote, .seo-tip{
         }
     }
     li{
-        margin-left: 1em;
-        margin-bottom: 0;
+        margin-left   : 1em;
+        margin-bottom : 0;
 
         &+li{
-            margin-top: 0.5em;
+            margin-top : 0.5em;
         }
     }
 
     // Alternate styles
     // -------------------------
     &.success{
-        .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+        .alert-state(@state-green-text, @state-green-bg, @state-green-border);
     }
     &.warning{
-        .alert-state(@state-warning-text, @state-warning-bg, @state-warning-border);
+        .alert-state(@state-orange-text, @state-orange-bg, @state-orange-border);
     }
     &.error{
-        .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+        .alert-state(@state-red-text, @state-red-bg, @state-red-border);
     }
     &.info{
-        .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+        .alert-state(@state-blue-text, @state-blue-bg, @state-blue-border);
     }
 }
-
-//  Toaster ICON
-//==================================================
-@import "toaster-icon";
 
 //  Custom Classes
 //==================================================
 @import "helper-classes";
+
+//	Blockquotes
+//==================================================
+@import "blockquotes";
+
+// Lists Styles
+//==================================================
+@import "lists";
+
+// Tables Styles
+//==================================================
+@import "tables";
+
+// Images Styles
+//==================================================
+@import "images";
+
+// Buttons Styles
+//==================================================
+@import "buttons";
+
+// Divider Styles
+//==================================================
+@import "divider";

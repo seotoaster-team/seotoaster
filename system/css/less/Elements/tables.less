@@ -6,14 +6,14 @@ table{
 
     th, td{
         padding        : @padding-base-vertical;
-        vertical-align : middle;
         border-top     : 1px solid @table-border-color;
+        vertical-align : middle;
     }
 
     th{
-        text-align     : left;
-        vertical-align : bottom;
         border-top     : 0;
+        vertical-align : bottom;
+        text-align     : left;
     }
 
     td{
@@ -32,60 +32,143 @@ table{
         background-color : @body-bg;
     }
 
-    &.small{
-        font-size : @font-size-small;
+    .activate-style-size(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+        &.small{
+            th, td{
+                padding : 5px;
+            }
+        }
 
-        th, td{
-            padding : 5px;
+        &.large{
+            th, td{
+                padding : @padding-large-vertical;
+            }
         }
     }
-
-    &.large{
-        font-size : @font-size-large;
-
-        th, td{
-            padding : @padding-large-vertical;
-        }
-    }
-}
+.activate-style-size(@activate-alternate-style-size, @activate-alternate-style);}
 
 // BORDERED VERSION
 //==================================================
-.table-bordered{
-    border          : 1px solid @table-border-color;
-    border-collapse : separate; // Done so we can round those corners!
-    border-left     : 0;
+.activate-table-bordered(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .table-bordered{
+        border          : 1px solid @table-border-color;
+        border-collapse : separate; // Done so we can round those corners!
+        border-left     : 0;
 
-    tr > th,
-    tr > td{
-        border-left : 1px solid @table-border-color;
+        tr > th,
+        tr > td{
+            border-left : 1px solid @table-border-color;
+        }
     }
 }
+.activate-table-bordered(@activate-alternate-style-tables-bordered, @activate-alternate-style);
 
 // ZEBRA-STRIPING
 //==================================================
 // Default zebra-stripe styles (alternating gray and transparent backgrounds)
-.table-striped{
-    tr > td{
-        border-top : 0;
-    }
-    tr:nth-child(even) > td, tr:nth-child(even){
-        background-color : @table-row-bg;
+.activate-table-striped(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .table-striped{
+        tr > td{
+            border-top : 0;
+        }
+        tr:nth-child(even) > td{
+            background-color : @table-row-bg;
+        }
     }
 }
+.activate-table-striped(@activate-alternate-style-tables-striped, @activate-alternate-style);
 
 // HOVER EFFECT
 //==================================================
 // Placed here since it has to come after the potential zebra striping
-.table-hover{
-    tr:hover > td{
-        background-color : @table-row-bg-hover;
-
-        .table-striped&{
-            background-color : darken(@table-row-bg, 5%);
+.activate-table-hover(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .table-hover{
+        tr{
+            &:hover > td{
+                background-color : @table-row-bg-hover;
+            }
+            .activate(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+                > td.green:hover,
+                > th.green:hover,
+                &.green:hover > td{
+                    background-color : darken(@state-green-bg, 5%);
+                    border-color     : darken(@state-green-border, 5%);
+                }
+                > td.red:hover,
+                > th.red:hover,
+                &.red:hover > td{
+                    background-color : darken(@state-red-bg, 5%);
+                    border-color     : darken(@state-red-border, 5%);
+                }
+                > td.orange:hover,
+                > th.orange:hover,
+                &.orange:hover > td{
+                    background-color : darken(@state-orange-bg, 5%);
+                    border-color     : darken(@state-orange-border, 5%);
+                }
+                > td.blue:hover,
+                > th.blue:hover,
+                &.blue:hover > td{
+                    background-color : darken(@state-blue-bg, 5%);
+                    border-color     : darken(@state-blue-border, 5%);
+                }
+            }
+            .activate(@activate-alternate-style-color, @activate-alternate-style);
         }
     }
 }
+.activate-table-hover(@activate-alternate-style-tables-hover, @activate-alternate-style);
+
+// TABLE BACKGROUNDS
+// -----------------
+// Exact selectors below required to override .table-striped
+.activate-style-color(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    table{
+        tr{
+            > td.primary,
+            > th.primary,
+            &.primary > td{
+                color            : @text-color;
+                background-color : @state-primary-bg;
+                border-color     : @state-primary-border;
+                border-bottom    : 1px solid @state-primary-border;
+            }
+            > td.green,
+            > th.green,
+            &.green > td{
+                color            : @text-color;
+                background-color : @state-green-bg;
+                border-color     : @state-green-border;
+                border-bottom    : 1px solid @state-green-border;
+            }
+            > td.red,
+            > th.red,
+            &.red > td{
+                color            : @text-color;
+                background-color : @state-red-bg;
+                border-color     : @state-red-border;
+                border-bottom    : 1px solid @state-red-border;
+            }
+            > td.orange,
+            > th.orange,
+            &.orange > td{
+                color            : @text-color;
+                background-color : @state-orange-bg;
+                border-color     : @state-orange-border;
+                border-bottom    : 1px solid @state-orange-border;
+            }
+            > td.blue,
+            > th.blue,
+            &.blue > td{
+                color            : @text-color;
+                background-color : @state-blue-bg;
+                border-color     : @state-blue-border;
+                border-bottom    : 1px solid @state-blue-border;
+            }
+        }
+    }
+}
+.activate-style-color(@activate-alternate-style-color, @activate-alternate-style);
 
 // HOVER scroll
 //==================================================
@@ -114,89 +197,6 @@ table{
         .box-sizing;
         //padding-left  : 0;
         //padding-right : 0;
-    }
-}
-
-// TABLE BACKGROUNDS
-// -----------------
-// Exact selectors below required to override .table-striped
-table tr{
-    > td.success,
-    > th.success,
-    &.success > td{
-        color            : @text-color;
-        background-color : @state-success-bg;
-        border-color     : @state-success-border;
-        border-bottom    : 1px solid @state-success-border;
-    }
-    > td.error,
-    > th.error,
-    &.error > td{
-        color            : @text-color;
-        background-color : @state-error-bg;
-        border-color     : @state-error-border;
-        border-bottom    : 1px solid @state-error-border;
-    }
-    > td.warning,
-    > th.warning,
-    &.warning > td{
-        color            : @text-color;
-        background-color : @state-warning-bg;
-        border-color     : @state-warning-border;
-        border-bottom    : 1px solid @state-warning-border;
-    }
-    > td.info,
-    > th.info,
-    &.info > td{
-        color            : @text-color;
-        background-color : @state-info-bg;
-        border-color     : @state-info-border;
-        border-bottom    : 1px solid @state-info-border;
-    }
-}
-
-// Hover states for .table-hover
-.table-hover tr{
-    > td.success:hover,
-    > th.success:hover,
-    &.success:hover > td{
-        background-color : darken(@state-success-bg, 5%);
-        border-color     : darken(@state-success-border, 5%);
-    }
-    > td.error:hover,
-    > th.error:hover,
-    &.error:hover > td{
-        background-color : darken(@state-error-bg, 5%);
-        border-color     : darken(@state-error-border, 5%);
-    }
-    > td.warning:hover,
-    > th.warning:hover,
-    &.warning:hover > td{
-        background-color : darken(@state-warning-bg, 5%);
-        border-color     : darken(@state-warning-border, 5%);
-    }
-    > td.info:hover,
-    > th.info:hover,
-    &.info:hover > td{
-        background-color : darken(@state-info-bg, 5%);
-        border-color     : darken(@state-info-border, 5%);
-    }
-}
-
-// Table classes
-//==================================================
-.table{
-    float   : none;
-    display : table;
-
-    .tr{
-        float   : none;
-        display : table-row;
-
-        .td{
-            float   : none;
-            display : table-cell;
-        }
     }
 }
 

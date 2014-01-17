@@ -8,18 +8,9 @@
 //  Animate
 //==================================================
 
-// Lists Styles
-//==================================================
-@import "Elements/lists";
-
 // Form Styles
 //==================================================
-@import "Elements/form";
-
-// Buttons Styles
-//==================================================
-@import "Elements/buttons";
-
-// Tables Styles
-//==================================================
-@import "Elements/tables";
+.activate-form(@activate) when (@activate = true){
+    @import "Elements/form";
+}
+.activate-form(@activate-widget-form);

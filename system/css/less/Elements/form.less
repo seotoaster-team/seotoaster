@@ -9,87 +9,103 @@
 form, .form{
     .clearfix;
 
-    p:not([class*='mb']){
-        margin-bottom : 0
+    p{
+        margin : 0
     }
 
-    & > p, & > div, fieldset > p, fieldset > div{
-        .box-sizing();
-
-        &:not([class*="mt"]):not(:first-child){
+    &, fieldset{
+        &>p, &>div{
             margin-top : 0.65em;
-        }
-        &:not([class*="mb"]){
-            margin-bottom : 0;
-        }
+            .box-sizing;
+            .clearfix;
 
-        &:after{
-            content : '';
-            display : block;
-            clear   : both;
-        }
-    }
-
-    &.condensed{
-        & > p, & > div, fieldset > p, fieldset > div{
-            &:not([class*="mt"]){
-                margin-top : 0.5em;
-            }
-
-            &:first-child:not([class*="mt"]){
+            &:first-child{
                 margin-top : 0;
             }
         }
     }
 
-    fieldset{
-        border  : none;
-        margin  : 0;
-        padding : 0;
-
-        legend{
-            margin : 0;
+    &.condensed{
+        &, fieldset{
+            &>p, &>div{
+                margin-top : .5em;
+            }
         }
+    }
 
-        // -- Buttons
-        &+[type="submit"], &+[type="button"]{
-            margin-top : 0;
+    fieldset{
+        legend{
         }
     }
 
     label{
-        color   : @label-color;
-        display : block;
+        display       : block;
+        margin-bottom : 0.25em;
+        color         : @label-color;
 
-        &:not([class*="mb"]){
-            margin-bottom : 0.15em;
+        &.required:after{
+            color   : @brand-red;
+            content : ' *';
         }
-        &:first-child{
-            //font-weight : bold;
+    }
+
+    // -- Recaptcha & Captcha style
+    .captcha{
+
+        .captcha_image{
+            width      : 65% !important;
+            height     : auto !important;
+            float      : left;
+            text-align : center;
+
+            #left &, #right &{
+                width : 100% !important;
+            }
+        }
+
+        label, input{
+            float       : left;
+            width       : 35%;
+            font-weight : normal;
+            font-size   : @font-size-small;
+
+            #left &, #right &{
+                width : 100%;
+            }
+        }
+
+        .recaptcha_links{
+            clear       : both;
+            font-size   : @font-size-small;
+            padding-top : 1em;
+
+            a+a{
+                border-left  : 1px solid @gray;
+                padding-left : 1em;
+                margin-left  : 1em;
+            }
         }
     }
 
     // -- Buttons
     [type="submit"]{
-        //height : auto;
         float : right;
-
-        &:not([class*="mt"]){
-            margin-top : 10px;
-        }
+        margin-top : 10px;
 
         &:hover{
         }
     }
 
     &.form-inline{
-        & > p, & > div, fieldset > p, fieldset > div{
-            margin-top : 0;
+        &, fieldset{
+            &>p, &>div{
+                margin-top : 0;
+            }
         }
 
         // -- Buttons
-        & > [type="submit"]:not([class*="mt"]), & > [type="button"]:not([class*="mt"]){
-            margin-top : 21px;
+        & > [type="submit"], & > [type="button"]{
+            margin-top : 24px;
         }
     }
 
@@ -109,317 +125,208 @@ form, .form{
 
 select, textarea, input{
     padding          : @padding-base-vertical;
+    border-width     : @input-border-width;
+    border-style     : solid;
+    border-color     : @input-border-color;
     background-color : @input-bg;
     color            : @input-color;
     vertical-align   : middle;
-    border-style     : solid;
-    border-width     : @input-border-width;
-    border-color     : @input-border-color;
     .border-radius(@input-border-radius);
-    .transition(all, 0.3s);
+    .activate-transition(@activate) when (@activate = true){
+        .transition(all, 0.3s);
+    }
+    .activate-transition(@activate-button-transition);
 
     &:focus:not([type="submit"]):not([type="button"]){
         border-color : @input-border-color-focus;
         .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
     }
 
-    &.success{
-        border-color : @brand-success;
-        color        : @brand-success;
-        &:focus{
-            .box-shadow(0 0 3px @brand-success, @input-shadow-focus);
+    .activate-style-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        &.success{
+            border-color : @brand-green;
+            color        : @brand-green;
+            &:focus{
+                .box-shadow(0 0 3px @brand-green, @input-shadow-focus);
+            }
         }
-    }
 
-    &.warning{
-        border-color : @brand-warning;
-        color        : @brand-warning;
-        &:focus{
-            .box-shadow(0 0 3px @brand-warning, @input-shadow-focus);
+        &.warning{
+            border-color : @brand-orange;
+            color        : @brand-orange;
+            &:focus{
+                .box-shadow(0 0 3px @brand-orange, @input-shadow-focus);
+            }
         }
-    }
 
-    &.error, &:required{
-        border-color : @brand-error;
-        color        : @brand-error;
-        &:focus{
-            .box-shadow(0 0 3px @brand-error, @input-shadow-focus);
+        &.error, &:required{
+            border-color : @brand-red;
+            color        : @brand-red;
+            &:focus{
+                .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
+            }
         }
-    }
 
-    &.info{
-        border-color : @brand-info;
-        color        : @brand-info;
-        &:focus{
-            .box-shadow(0 0 2px @brand-info, @input-shadow-focus);
+        &.info{
+            border-color : @brand-blue;
+            color        : @brand-blue;
+            &:focus{
+                .box-shadow(0 0 2px @brand-blue, @input-shadow-focus);
+            }
         }
     }
+    .activate-style-color(@activate-alternate-style-color, @activate-alternate-style);
 
     &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit, &.noedit:focus{
-        background   : @input-bg-disabled !important;
         border-color : darken(@input-bg-disabled, 10%) !important;
+        background   : @input-bg-disabled !important;
         color        : darken(@input-bg-disabled, 30%) !important;
         .box-shadow(none) !important;
     }
 }
 
-input, select{
+input{
     height : @btn-height-base;
 
-    &.small{
-        font-size : @font-size-small;
-        height    : @btn-height-small;
-        padding   : @padding-small-vertical;
-    }
+    .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        &.small{
+            height  : @btn-height-small;
+            padding : @padding-small-vertical;
+        }
 
-    &.large{
-        font-size : @font-size-large;
-        height    : @btn-height-large;
-        padding   : @padding-large-vertical;
+        &.large{
+            height  : @btn-height-large;
+            padding : @padding-large-vertical;
+        }
     }
+    .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
 }
 
 select{
     padding     : @padding-base-vertical / 2 @padding-base-vertical;
+    height      : @btn-height-base;
     line-height : @btn-height-base - @padding-base-vertical;
 
-    &.small{
-        padding     : @padding-small-vertical / 2 @padding-small-vertical;
-        line-height : @btn-height-small - @padding-small-vertical - @input-border-width * 2;
-    }
+    .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        &.small{
+            padding     : @padding-small-vertical / 2 @padding-small-vertical;
+            line-height : @btn-height-small - @padding-small-vertical;
+        }
 
-    &.large{
-        padding     : @padding-large-vertical / 2 @padding-large-vertical;
-        line-height : @btn-height-large - @padding-large-vertical + @input-border-width * 4;
-    }
+        &.large{
+            padding     : @padding-large-vertical / 2 @padding-large-vertical;
+            line-height : @btn-height-large - @padding-large-vertical;
+        }
 
-    option{
-        color : @text-color;
+        option{
+            color : @text-color;
+        }
     }
+    .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
 }
 
 textarea{
+    //min-height : 3em;
 }
 
-.labeled{
-    position : relative;
+.activate-form-labeled(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+    .labeled{
+        position : relative;
+        .clearfix;
 
-    i{
-        position : absolute;
-        margin   : auto;
-        left     : 5px;
-        top      : 0;
-        bottom   : 0;
-        z-index  : 2;
-        color    : @input-color-placeholder;
-        .icon-size(1em);
+        &.icon{
+            input{
+                &+[class*="icon-"]{
+                    position : absolute;
+                    margin   : auto;
+                    top      : 0;
+                    bottom   : 0;
+                    z-index  : 2;
+                    color    : @input-color-placeholder;
+                    .icon-size(@font-size-base);
+                }
 
-        &+select, &+textarea, &+input{
-            padding-left : @padding-base-vertical * 4;
+                &:focus+[class*="icon-"]{
+                    color : @gray;
+                }
+            }
+
+            &.right{
+                [class*="icon-"]{
+                    right : (@padding-base-vertical * 2) - (@font-size-base / 2);
+                }
+
+                input{
+                    padding-right : @padding-base-vertical * 4;
+                }
+            }
+
+            &.left{
+                [class*="icon-"]{
+                    left : (@padding-base-vertical * 2) - (@font-size-base / 2);
+                }
+                input{
+                    padding-left : @padding-base-vertical * 4;
+                }
+            }
         }
-    }
-    label, .label{
-        margin-top    : 0;
-        margin-bottom : 0;
-        height        : @btn-height-base;
-        background    : @input-border-color;
-        padding       : @padding-base-vertical 0;
-        text-align    : center;
-        color         : #fff;
-        .transition(all, 0.3s);
-    }
+        label, .label{
+            margin-top    : 0;
+            margin-bottom : 0;
+            height        : @btn-height-base;
+            background    : @input-border-color;
+            padding       : @padding-base-vertical 0;
+            text-align    : center;
+            color         : #fff;
+            .transition(all, 0.3s);
+        }
 
-    input:focus{
-        .box-shadow(none) !important;
+        input:focus{
+            .box-shadow(none, @input-shadow-focus) !important;
 
-        &+label, &+.label{
-            background : @input-border-color-focus;
+            &+label, &+.label{
+                background : @input-border-color-focus;
+            }
         }
     }
 }
+.activate-form-labeled(@activate-alternate-style-form-labeled, @activate-alternate-style);
 
 // -- Checkbox & Radio field style
-.checkbox_radio{
-    .inline-block();
-    line-height : 0;
-}
-input[type="checkbox"]:not(.hidden), input[type="radio"]:not(.hidden){
-    -webkit-appearance : none;
-    -moz-appearance    : none;
-    appearance         : none;
-    display            : none;
-    line-height        : 0;
-    width              : 0;
-    height             : 0;
-
-    .ie8 &{
-        display : inline;
-    }
-
-    &:not(.icon)+span{
-        .inline-block;
-        .icon-size(@font-size-base);
-        line-height      : 0;
-        background-color : @input-bg;
-        border-style     : solid;
-        border-width     : @input-border-width;
-        border-color     : @input-border-color;
-        cursor           : pointer;
-
-        &+span{
-            vertical-align : middle;
-        }
-
-        &:after{
-            content : '';
-            .inline-block;
-        }
-    }
-
-    &:disabled{
-        &+span{
-            background   : @input-bg-disabled;
-            border-color : darken(@input-bg-disabled, 10%);
-            color        : darken(@input-bg-disabled, 30%) !important;
-        }
-    }
-}
-input[type="radio"]:not(.hidden){
-    &+span{
-        border-color : darken(@input-border-color, 7%);
-        .border-radius(@font-size-base * 2);
-
-        &:after{
-            width  : 10px;
-            height : 10px;
-            margin : 2px;
-            .border-radius(@font-size-base * 2);
-        }
-    }
-
-    &:checked{
-        &+span{
-            border-color : @primary-bg;
-
-            &:after{
-                background : @primary-bg;
-            }
-        }
-    }
-}
-input[type="checkbox"]:not(.icon):not(.hidden){
-    &+span{
-        color : transparent;
-
-        &:before{
-            top       : -4px;
-            left      : 1px;
-            font-size : @font-size-base * 1.25;
-        }
-    }
-
-    &:checked{
-        &+span{
-            color : @primary-bg;
-        }
-    }
-
-    &.switcher{
-        &+span{
-            overflow    : hidden;
-            font-size   : @font-size-base;
-            position    : relative;
-            width       : 3.75em;
-            height      : 1.25em;
-            line-height : 1.25em;
-            //border-color : @brand-error;
-
-            &:before, &:after{
-                .inline-block();
-                position    : static;
-                font-family : @font-family-text;
-                font-size   : @font-size-mini;
-                line-height : 1.75em;
-                font-weight : bold;
-            }
-
-            &:before{
-                float       : left;
-                content     : "ON";
-                margin-left : 0.45em;
-                color       : @brand-success;
-            }
-
-            &:after{
-                float        : right;
-                content      : "OFF";
-                margin-right : 0.25em;
-                color        : @brand-error;
-            }
-
-            span{
-                .transition(all, 0.3s);
-                background : @brand-error;
-                background : @input-border-color;
-                position   : absolute;
-                z-index    : 5;
-                left       : 1px;
-                top        : 1px;
-                bottom     : 1px;
-                width      : 1.8em;
-            }
-        }
-
-        &:checked{
-            &+span{
-                //border-color : @brand-success;
-
-                &:before{
-                }
-
-                &:after{
-                }
-
-                span{
-                    //background : @brand-success;
-                    left : 1.85em;
-                }
-            }
-        }
-    }
-}
+.checkboxRadioStyle();
 
 // Search form
 //==================================================
-#search-form{
-    margin-top : 30px;
+.activate-search(@activate) when (@activate = true){
+    #search-form{
+        p{
+            float  : left;
+            width  : 30%;
+            margin : 0;
 
-    p{
-        float  : left;
-        width  : 25%;
-        margin : 0;
+            &:first-child{
+                width : 70%;
+            }
 
-        &:first-child{
-            width : 75%;
         }
 
-    }
+        input{
 
-    input{
+            &[type="text"]{
+                .border-radius(@input-border-radius 0 0 @input-border-radius);
+            }
 
-        &[type="text"]{
-            .border-radius(@input-border-radius 0 0 @input-border-radius);
-        }
-
-        &[type="submit"]{
-            width         : 100%;
-            padding-left  : 0;
-            padding-right : 0;
-            margin        : 0;
-            .border-radius(0 @input-border-radius @input-border-radius 0);
+            &[type="submit"]{
+                width         : 100%;
+                padding-left  : 0;
+                padding-right : 0;
+                margin        : 0;
+                .border-radius(0 @input-border-radius @input-border-radius 0);
+            }
         }
     }
 }
+    .activate-search(@activate-widget-search);
 
 // Social button with checkbox
 //==================================================

@@ -98,6 +98,8 @@
     }
 
     .tabs-contents{
+        max-height : 410px;
+        overflow   : auto;
 
         fieldset, .new-trigger-action{
             float      : left;
@@ -268,10 +270,10 @@
             }
         }
         .plugin-control{
-            .btn-color(@btn-error-color, desaturate(@btn-error-bg, 25%), desaturate(@btn-error-border, 25%));
+            .btn-color(@btn-red-color, desaturate(@btn-red-bg, 25%), desaturate(@btn-red-border, 25%));
 
             &.block{
-                .btn-color(@btn-success-color, @btn-success-bg, @btn-success-border);
+                .btn-color(@btn-green-color, @btn-green-bg, @btn-green-border);
             }
         }
         .plugin-endis{

@@ -7,35 +7,25 @@
 //	Grid System
 //==================================================
 
+//  Fonts
+//==================================================
+@import "Elements/fonts";
+
 // Reset & Basics
 //==================================================
 *{
     margin         : 0;
     padding        : 0;
-    border         : none;
     outline        : none;
-    vertical-align : baseline;
+    border                      : none;
     background     : transparent;
+    vertical-align              : baseline;
+    -webkit-touch-callout       : none; //если надо, то запрещаем выделение текста
+    -webkit-tap-highlight-color : rgba(0, 0, 0, 0); //убираем фон подсветки ссылок и кнопок
+    -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
 }
 .reset-element{
-    background     : transparent;
-    border         : 0 none;
-    color          : inherit;
-    font-family    : inherit;
-    font-size      : 100%;
-    font-style     : inherit;
-    font-weight    : inherit;
-    margin         : 0;
-    padding        : 0;
-    vertical-align : baseline;
-    .box-shadow(none);
-    .border-radius(0);
-    .transition(none);
-
-    &:hover, &:focus{
-        .box-shadow(none);
-        .border-radius(0);
-    }
+    .reset-element;
 }
 ::-moz-selection{
     background : @text-select-bg;
@@ -66,9 +56,6 @@ audio:not([controls]){
     display : none;
     height  : 0;
 }
-ol, ul{
-    //list-style : none;
-}
 blockquote, q{
     quotes : none;
 }
@@ -90,8 +77,9 @@ small{
     display : none;
 }
 table{
-    border-collapse : collapse;
     border-spacing  : 0;
+    border-collapse : collapse;
+    word-break      : break-all
 }
 a:focus, input[type="checkbox"]:focus, input[type="radio"]:focus, *:focus{
     outline : none;
@@ -103,18 +91,26 @@ img, input[type="submit"], input[type="button"], button, input[type="checkbox"],
     vertical-align : middle;
 }
 img{
-    height    : auto;
     max-width : 100%;
+    height    : auto;
 }
-._lbox, .gall{
-    .inline-block();
+.fb-like-box>span, .fb-like-box iframe{
+    position : relative !important;
+    width    : 100% !important;
+    height   : auto !important;
 }
-a.generator-links img, a.generator-links:hover img{
-    border : none !important;
-    .box-shadow(none);
+.generator-links, .tpopup{
+    &, &:hover{
+        img{
+            width  : auto !important;
+            border : none !important;
+            .box-shadow(none);
+        }
+    }
 }
-.gmaps img{
-    max-width : none;
+.gmaps, ._lbox{
+    max-width : 100%;
+    img{ max-width : none; }
 }
 [contenteditable="true"]{
     .box-sizing;
@@ -140,17 +136,17 @@ fieldset{
     }
 }
 input, select, textarea, button{
-    font-family : inherit;
-    width       : 100%;
     max-width   : 100%;
+    width       : 100%;
     font-size   : 100%;
-    .box-sizing();
+    font-family : inherit;
+    .box-sizing;
     .placeholder();
 }
 button, input{
     &::-moz-focus-inner{
-        border  : 0;
         padding : 0;
+        border  : 0;
     }
 }
 
@@ -166,20 +162,9 @@ input[type="checkbox"]{
 }
 
 textarea{
-    overflow       : auto;
     vertical-align : top;
     line-height    : normal;
-    .resize(none);
-
-    &.vert{
-        resize : vertical;
-    }
-    &.horz{
-        resize : horizontal;
-    }
-    &.no-resize{
-        resize : none;
-    }
+    .resize();
 }
 
 input[type="search"]{
@@ -190,15 +175,10 @@ input[type="search"]{
 }
 
 input[type="checkbox"], input[type="radio"]{
-    border  : none;
     padding : 0;
+    border  : none;
 }
 
-// Set the height of select and file controls to match text inputs
-select, input[type="file"]{
-    //height      : @input-height; // In IE7, the height of the select element cannot be changed by height, only font-size.
-    //line-height : @input-height;
-}
 // Make multiple select elements height not fixed
 select[multiple],
 select[size]{
@@ -207,18 +187,19 @@ select[size]{
 
 // Fix optgroup Firefox bug per https://github.com/twitter/bootstrap/issues/7611
 select optgroup{
-    font-size   : inherit;
     font-style  : inherit;
+    font-size   : inherit;
     font-family : inherit;
 }
 
 input[type="button"], input[type="submit"], button, .button{
-    //clear : both;
-    width : auto;
+//    clear  : both;
+    width  : auto;
+    border : none;
 }
-button, html input[type="button"], input[type="reset"], input[type="submit"]{
-    -webkit-appearance : button;
+button, input[type="button"], input[type="reset"], input[type="submit"]{
     cursor             : pointer;
+    -webkit-appearance : button;
 }
 button[disabled], html input[disabled]{
     cursor : default;
@@ -227,6 +208,40 @@ button[disabled], html input[disabled]{
     color : inherit;
 }
 
+// Overlays
+.ui-widget-overlay{
+    position   : fixed;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    left       : 0;
+    z-index    : 1000;
+    background : #000;
+    .opacity(0.5);
+
+    &~.ui-widget-overlay{
+        display : none;
+    }
+}
+.ui-dialog{
+    position : fixed;
+    z-index  : 1001;
+}
+
 // Grid System
 //==================================================
 @import "Elements/grid";
+
+// System classes
+//==================================================
+.activate-system-classes(@activate) when ( @activate = true){
+    @import "Elements/system-classes";
+}
+.activate-system-classes(@activate-system-classes);
+
+//  Toaster ICON
+//==================================================
+.activate-toaster-icon(@activate) when ( @activate = true){
+    @import "Elements/toaster-icons";
+}
+.activate-toaster-icon(@activate-toaster-icons);

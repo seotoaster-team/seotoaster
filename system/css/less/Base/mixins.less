@@ -9,11 +9,13 @@
 // Font-face
 //==================================================
 .font-face(@fontname, @fontfile, @fontweight : normal, @fontstyle: normal) {
-    font-family : "@{fontname}";
-    src         : url("../fonts/@{fontfile}.eot");
-    src         : url("../fonts/@{fontfile}.eot?#iefix") format("embedded-opentype"), url("../fonts/@{fontfile}.woff") format("woff"), url("../fonts/@{fontfile}.ttf") format("truetype"), url("../fonts/@{fontfile}.svg#@{fontname}") format("svg");
-    font-weight : @fontweight;
-    font-style  : @fontstyle;
+    @font-face{
+        font-family : "@{fontname}";
+        src         : url("../fonts/@{fontfile}.eot");
+        src         : url("../fonts/@{fontfile}.eot?#iefix") format("embedded-opentype"), url("../fonts/@{fontfile}.svg#@{fontname}") format("svg"), url("../fonts/@{fontfile}.woff") format("woff"), url("../fonts/@{fontfile}.ttf") format("truetype");
+        font-weight : @fontweight;
+        font-style  : @fontstyle;
+    }
 }
 
 // Grid system
@@ -32,9 +34,9 @@
     .grid(@num-column - 1, @grid, @name);
 }
 
-.grid-mobile(@response : @responsive) when (@response = true){
-    @responsive-size-tablet : @responsive-size-medium+1;
-    @media only screen and (min-width : @responsive-size-tablet) and (max-width : @grid-container-width){
+.grid-mobile(@response : @activate-responsive) when (@response = true){
+    @media only screen and (max-width : @responsive-size-tablet){
+        .t-hide{ display : none; }
         .grid(@grid-columns-tablet, @grid-columns-tablet, t-grid);
 
         .prefix(@grid-columns-tablet - 1);
@@ -43,7 +45,8 @@
         .pull(@grid-columns-tablet - 1);
     }
 
-    @media only screen and (max-width : @responsive-size-medium){
+    @media only screen and (max-width : @responsive-size-mobile){
+        .m-hide{ display : none; }
         .grid(@grid-columns-mobile, @grid-columns-mobile, m-grid);
 
         .prefix(@grid-columns-mobile - 1);
@@ -89,7 +92,7 @@
 
 // Margin - Padding
 //==================================================
-.margin (@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
+.margin-list (@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
     @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
 
     .result(@v, @n, @p) when (@p = all){
@@ -108,11 +111,11 @@
         .ml@{n}{ margin-left : @v; }
     }
 
-    .result(@value, @name, @position);
-    .margin(@value - @step, @position, @step);
+    .result(@value, @name, @position) !important;
+    .margin-list(@value - @step, @position, @step);
 }
 
-.padding (@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
+.padding-list (@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
     @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
 
     .result(@v, @n, @p) when (@p = all){
@@ -131,11 +134,11 @@
         .pl@{n}{ padding-left : @v; }
     }
 
-    .result(@value, @name, @position);
-    .padding(@value - @step, @position, @step);
+    .result(@value, @name, @position) !important;
+    .padding-list(@value - @step, @position, @step);
 }
 
-.position (@value, @position, @step:5) when (@value >= 0) and not (@value = none){
+.position-list (@value, @position, @step:5) when (@value >= 0) and not (@value = none){
     @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
 
     .result(@v, @n, @p) when (@p = top){
@@ -151,53 +154,75 @@
         .l@{n}{ left : @v; }
     }
 
-    .result(@value, @name, @position);
-    .position(@value - @step, @position, @step);
+    .result(@value, @name, @position) !important;
+    .position-list(@value - @step, @position, @step);
 }
 
 // Width - Height
 //==================================================
-.width (@width, @step:5) when (@width >= 0) and not (@width = none){
+.width-list (@width, @step:5) when (@width >= 0) and not (@width = none){
     @name : e(`(function(){ var a = "@{width}"; return a.replace('%', '')}())`);
 
     .result(@w, @n) {
         .w@{n}{ width : @w; }
     }
     .result(@width, @name);
-    .width(@width - @step, @step);
+    .width-list(@width - @step, @step);
 }
-.height (@height, @step:5) when (@height >= 0) and not (@height = none){
+.height-list (@height, @step:5) when (@height >= 0) and not (@height = none){
     @name : e(`(function(){ var a = "@{height}"; return a.replace('%', '')}())`);
 
     .result(@h, @n) {
         .h@{n}{ height : @h; }
     }
     .result(@height, @name);
-    .height(@height - @step, @step);
+    .height-list(@height - @step, @step);
 }
 
 // Transformations
 //==================================================
 .transition(@property:all, @time:0.5s) {
-    -webkit-transition : @property @time ease;
-    -moz-transition    : @property @time ease;
-    -ms-transition     : @property @time ease;
-    -o-transition      : @property @time ease;
-    transition         : @property @time ease;
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-transition : @property @time ease; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-transition : @property @time ease; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-transition : @property @time ease; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-transition : @property @time ease; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { transition : @property @time ease; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
 }
 // Basic transform
 .transform(@transform) {
-    -webkit-transform : @transform;
-    -moz-transform    : @transform;
-    -ms-transform     : @transform;
-    -o-transform      : @transform;
-    transform         : @transform;
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-transform : @transform; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-transform : @transform; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-transform : @transform; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-transform : @transform; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { transform : @transform; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
 }
-.rotate(@degrees) {
-    .transform(rotate(@degrees));
+.transform-origin(@transform-origin) {
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-transform-origin : @transform-origin; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-transform-origin : @transform-origin; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-transform-origin : @transform-origin; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-transform-origin : @transform-origin; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { transform-origin : @transform-origin; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
 }
-.scale(@ratio) {
-    .transform(scale(@ratio));
+.rotate(...) {
+    .transform(rotate(@arguments));
+}
+.scale(...) {
+    .transform(scale(@arguments));
 }
 .translate(@x, @y) {
     .transform(translate(@x, @y));
@@ -212,12 +237,17 @@
 // User select
 // For selecting text on the page
 //==================================================
-.user-select(@select) {
-    -webkit-user-select : @select;
-    -moz-user-select    : @select;
-    -ms-user-select     : @select;
-    -o-user-select      : @select;
-    user-select         : @select;
+.user-select(@select:none) {
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-user-select : @select; -khtml-user-select : @select; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-user-select : @select; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-user-select : @select; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-user-select : @select; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { user-select : @select; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
 }
 
 // Resize anything
@@ -239,25 +269,30 @@
 //==================================================
 .opacity(@opacity: 0.5) {
     opacity : @opacity;
-    @opperc : @opacity * 100;
-    filter  : ~"alpha(opacity=@{opperc})";
+    .activate-support-ie7(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        @opperc : @opacity * 100;
+        filter : ~"alpha(opacity=@{opperc})";
+    }
+    .activate-support-ie7(@ie7, @ie);
 }
 
 // Display: inline-block
 //==================================================
 .inline-block(@valign:middle) {
     display        : inline-block;
-    *zoom          : 1; /* Fix for IE7 */
-    *display       : inline; /* Fix for IE7 */
     vertical-align : @valign;
+    .activate-support-ie7(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        *zoom    : 1; // Fix for IE7
+        *display : inline; // Fix for IE7
+    }
+    .activate-support-ie7(@ie7, @ie);
 }
-.inline-block-wrap(@valign:middle) {
-    font-size    : 0;
-    word-spacing : -10px;
-    &>*{
+.inline-block-wrap(@valign : middle, @el : ~'>*') {
+    font-size : 0;
+
+    @{el}{
         .inline-block(@valign);
-        font-size    : @font-size-base;
-        word-spacing : normal;
+        font-size : @font-size-base;
     }
 }
 
@@ -265,90 +300,156 @@
 //==================================================
 .hide-text() {
     font        : 0/0 a;
-    //color       : transparent;
     text-shadow : none;
 }
 
 // CSS3
 //==================================================
 // -- Border Radius
-.border-radius(@radius) {
-    -webkit-border-radius : @radius;
-    -moz-border-radius    : @radius;
-    -ms-border-radius     : @radius;
-    border-radius         : @radius;
+.border-radius(@radius, @important : false) when not (@radius = 0), (@important = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-border-radius : @radius; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-border-radius : @radius; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-border-radius : @radius; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-border-radius : @radius; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { border-radius : @radius; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
     .pie;
 }
 
 // -- Box Shadow
 .box-shadow(@shadow, @shadow-switcher : true) when (@shadow-switcher = true){
-    -webkit-box-shadow : @shadow;
-    -moz-box-shadow    : @shadow;
-    -ms-box-shadow     : @shadow;
-    box-shadow         : @shadow;
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-box-shadow : @shadow; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-box-shadow : @shadow; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-box-shadow : @shadow; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-box-shadow : @shadow; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { box-shadow : @shadow; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
     .pie;
 }
+.backface-visibility(@visibility) {
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-backface-visibility : @visibility; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-backface-visibility : @visibility; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-backface-visibility : @visibility; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-backface-visibility : @visibility; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { backface-visibility : @visibility; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
+}
 
-.pie(@pie : @connection-pie) when (@pie = true){
-    .ie &{
-        behavior : url('../js/system/PIE.htc');
-    }
+.pie(@pie : @activate-pie) when (@pie = true){
+    behavior : url('../js/system/PIE.php');
 }
 
 // -- Box Sizing
 .box-sizing(@box-sizing:border-box) {
-    -webkit-box-sizing : @arguments;
-    -moz-box-sizing    : @arguments;
-    -ms-box-sizing     : @arguments;
-    box-sizing         : @arguments;
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-box-sizing : @box-sizing; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-box-sizing : @box-sizing; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-box-sizing : @box-sizing; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-box-sizing : @box-sizing; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { box-sizing : @box-sizing; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
 }
 
 // -- Content Columns
 .content-columns(@column-count, @column-gap: @grid-margin-width) when (@column-count > 0){
-    -webkit-column-count : @column-count;
-    -moz-column-count    : @column-count;
-    column-count         : @column-count;
-    -webkit-column-gap   : @column-gap;
-    -moz-column-gap      : @column-gap;
-    column-gap           : @column-gap;
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-column-count : @column-count; -webkit-column-gap : @column-gap; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-column-count : @column-count; -moz-column-gap : @column-gap; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-column-count : @column-count; -ms-column-gap : @column-gap; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-column-count : @column-count; -o-column-gap : @column-gap; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { column-count : @column-count; column-gap : @column-gap; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@w3c, w3c);
 }
 
-.grid-elements (@num-column, @margin, @full: false, @response : @responsive) when (@num-column > 0) and (@full = false){
-    width        : (100% / @num-column) - @margin;
-    margin-left  : unit(@margin / 2, ~"%");
-    margin-right : unit(@margin / 2, ~"%");
-    .box-sizing;
+.grid-elements (@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @response : @activate-responsive, @style-switch : true) when (@num-column > 0) and (@margin = 0), (@full = false){
+    width : (100% / @num-column) - @margin;
 
-    .grid-responsive(@margin, @full, @response);
-}
-
-.grid-elements (@num-column, @margin, @full, @response : @responsive) when (@num-column > 0) and (@full = true){
-    &:not(.featureapage){
-        width       : (100% / @num-column) - @margin+(@margin / @num-column);
-        margin-left : unit(@margin, ~"%");
+    .activate-style-switch(@activate) when (@activate = true){
         .box-sizing;
-        @num : ~'@{num-column}n+1';
+        margin-left  : unit(@margin / 2, ~"%") !important;
+        margin-right : unit(@margin / 2, ~"%");
+    }
+    .activate-style-switch(@style-switch);
+    .grid-tablet(@margin, @full, @response, @tablet-column);
+    .grid-mobile(@margin, @full, @response, @mobile-column);
+}
 
-        &:nth-child(@{num}){
-            margin-left : 0;
+.grid-elements (@num-column, @margin, @full, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @response : @activate-responsive, @style-switch : true) when (@num-column > 1) and (@full = true) and (@margin > 0){
+    width        : (100% / @num-column) - @margin + (@margin / @num-column);
+    margin-left  : unit(@margin, ~"%");
+    margin-right : 0;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+    }
+    .activate-style-switch(@style-switch);
+
+    .activate-reset-ml(@activate) when (@activate = false){
+        &:nth-child(n){
+            margin-left : unit(@margin, ~"%");
         }
     }
+    .activate-reset-ml(@style-switch);
 
-    .grid-responsive(@margin, @full, @response);
+    @num : ~'@{num-column}n + 1';
+    &:nth-child(@{num}){
+        margin-left : 0;
+    }
+    .grid-tablet(@margin, @full, @response, @tablet-column);
+    .grid-mobile(@margin, @full, @response, @mobile-column);
 }
 
-.grid-responsive(@margin, @full, @response) when (@response = true){
+.grid-elements (@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @response : @activate-responsive, @style-switch : true) when (@num-column = 1) and (@full = true){
+    width       : 100%;
+    margin-left : 0;
 
-    @media only screen and (max-width : 800px){
-        .grid-elements(3, @margin, @full, false);
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
     }
+    .activate-style-switch(@style-switch);
+    .grid-tablet(@margin, @full, @response, @tablet-column);
+    .grid-mobile(@margin, @full, @response, @mobile-column);
+}
 
-    @media only screen and (max-width : 640px){
-        .grid-elements(2, @margin, @full, false);
+.grid-tablet(@margin, @full, @response, @tablet-column) when (@tablet-column > 0) and (@response = true){
+    @marginT : @margin;
+    .check-margin(@m, @tc) when (@m = 0) and (@tc > 1){
+        @marginT : @grid-margin-width;
     }
+    .check-margin(@margin, @tablet-column);
+    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+    @media only screen and (max-width : @responsive-size-tablet) and  (min-width : @responsive-size-mobile-over){
+        .grid-elements(@tablet-column, @marginT, @full, 0, 0, false, false);
+    }
+}
 
-    @media only screen and (max-width : 480px){
-        .grid-elements(1, 0, @full, false);
+.grid-mobile(@margin, @full, @response, @mobile-column) when (@mobile-column > 0) and (@response = true){
+    @marginM : @margin;
+    .check-margin(@m, @mc) when (@m = 0) and (@mc > 1){
+        @marginM : @grid-margin-width;
+    }
+    .check-margin(@margin, @mobile-column);
+
+    @media only screen and (max-width : @responsive-size-mobile){
+        .grid-elements(@mobile-column, @marginM, @full, 0, 0, false, false);
     }
 }
 
@@ -360,12 +461,18 @@
     @backgroundMs     : e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-ms-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-ms-radial-gradient").replace(/,\s* \d*(px|%) \d*(px|%)/,", circle").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
     @backgroundOpera  : e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-o-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-o-radial-gradient").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");})()`);
     @backgroundW3C    : e(`(function(){var a,b,c,d,e;a="@{arguments}",b=null,c=a.split(/,(?=\s*(?:linear|radial))/g),d=c.length,e=0;while(e<d){try{"".trim(),b=!0}catch(f){b=!1}b&&(c[e]=c[e].trim()),e++}return c.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
-    background-image : @backgroundSVG;
-    background-image : @backgroundWebkit;
-    background-image : @backgroundMoz;
-    background-image : @backgroundMs;
-    background-image : @backgroundOpera;
-    background-image : @backgroundW3C;
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie9) { background-image : @backgroundSVG; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { background-image : @backgroundWebkit; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { background-image : @backgroundMoz; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { background-image : @backgroundMs; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { background-image : @backgroundOpera; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { background-image : @backgroundW3C; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@ie9, ie9);
+    .activate(@w3c, w3c);
 }
 .gradient-horizontal(...) {
     @backgroundWebkit: e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-webkit-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-webkit-radial-gradient").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
@@ -375,14 +482,29 @@
     @color-one     : e(`(function(){var a, b; a = "@{arguments}", b = a.indexOf(' '); return a.substring(1, b);}())`);
     @color-two     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.lastIndexOf(',')+2, c = a.lastIndexOf(' '); return a.substring(b, c);}())`);
     @backgroundSVG : e(`(function(){function G(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a)return a;do c=a.charCodeAt(k++),d=a.charCodeAt(k++),e=a.charCodeAt(k++),j=c<<16|d<<8|e,f=j>>18&63,g=j>>12&63,h=j>>6&63,i=j&63,n[l++]=b.charAt(f)+b.charAt(g)+b.charAt(h)+b.charAt(i);while(k<a.length);m=n.join("");var o=a.length%3;return(o?m.slice(0,o-3):m)+"===".slice(o||3)}var a="linear-gradient(to right, @{arguments})",b=null,c=!0,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,f=/top/,g=/right/,h=/bottom/,i=/left/,j=/to\s*top/,k=/to\s*right/,l=/to\s*bottom/,m=/to\s*left/,n=/45deg/,o=/-45deg/,p=/\d*deg/;for(var q=0;q<e;q++){if(/linear/.test(d[q])){d[q]=d[q].replace(/linear-gradient\s*\(/,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none">');if(f.test(d[q])&&!j.test(d[q])||l.test(d[q])||/180deg/.test(d[q])){var r=null;l.test(d[q])?r=l:/180deg/.test(d[q])?r=/180deg/:r=f,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%">')}else if(g.test(d[q])&&!k.test(d[q])||m.test(d[q])||/270deg/.test(d[q])){var r=null;m.test(d[q])?r=m:/270deg/.test(d[q])?r=/270deg/:r=g,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="100%" y1="0%" x2="0%" y2="0%">')}else if(h.test(d[q])&&!l.test(d[q])||j.test(d[q])||/[^\d]0deg/.test(d[q])){var r=null;j.test(d[q])?r=j:/0deg/.test(d[q])?r=/0deg/:r=h,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="0%" y2="0%">')}else if(i.test(d[q])&&!m.test(d[q])||k.test(d[q])||/90deg/.test(d[q])){var r=null;k.test(d[q])?r=k:/90deg/.test(d[q])?r=/90deg/:r=i,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">')}else n.test(d[q])&&!o.test(d[q])?d[q]=d[q].replace(n,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">'):o.test(d[q])?d[q]=d[q].replace(o,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">'):c=!1}try{"".trim(),b=!0}catch(s){b=!1}b&&(d[q]=d[q].trim());if(/linear/.test(d[q])||/radial/.test(d[q])){d[q]=d[q].slice(0,-1),d[q]="url(data:image/svg+xml;base64--"+d[q]+'</linearGradient><rect x="0" y="0" width="1" height="1" fill="url(***)" /></svg>)';var t=d.join("@@@"),u=t.match(/rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,v=t.match(/hsla?\(\d+,\s*\d+%,\s*\d+%,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,w=[],x=[];for(var y=0;y<u.length;y++)w[y]=u[y].replace(/,/g,"--");for(var z=0;z<v.length;z++)x[z]=v[z].replace(/,/g,"--");for(var A=0;A<u.length;A++)t=t.replace(u[A],w[A]);for(var B=0;B<v.length;B++)t=t.replace(v[B],x[B]);var C=t.split(",");for(var D=0;D<C.length;D++){C[D]=C[D].replace(/(#\w{3,6})\s*(\d*%*)/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/(rgba?\(\d+--\s*\d+--\s*\d+--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/rgba/g,"rgb").replace(/(hsla?\(\d+--\s*\d+%--\s*\d+%--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/hsla/g,"hsl").replace(/((?:aqua|black|blue|fuchsia|gray|grey|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow))\s*(\d*%)*/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/\*\*\*/,"#grad-ucgg-generated");try{"".trim(),b=!0}catch(s){b=!1}b&&(C[D]=C[D].trim())}C=C.toString().replace(/,/g,"").replace(/--/g,",").replace(/(rgb?\(\d+,\s*\d+,\s*\d+),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)").replace(/(hsl?\(\d+,\s*\d+%,\s*\d+%),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)")}}/radial/.test(C)&&(/((ellipse).*(center)|(circle).*(center))/g.test(C)?C=C.replace(/<\/linearGradient>/g,"</radialGradient>").replace(/radial-gradient[^<]+/g,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none"><radialGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="75%">').replace(/<rect x=\S+\d\S+ y=\S+\d\S+ width=\S+\d\S+ height=\S+\d\S+ fill=\S+\w\S+ \/>/g,'<rect x="-50" y="-50" width="101" height="101" fill="url(#grad-ucgg-generated)" />'):C=!1);var E=null;try{C=C.split("@@@");var F=0;for(F;F<C.length;F++)E=C[F].match(/<\?xml.*<\/svg>/),E=G(E.join("")),C[F]=C[F].replace(/(<\?xml.*<\/svg>)/,E)}catch(s){}return c?C:C=!1,C?C.toString().replace(/\[/g,"").replace(/\]/g,""):C}())`);
-    background-image : @backgroundSVG;
-    background-image : -moz-linear-gradient(left, @backgroundMoz); // FF3.6+
-    background-image : -webkit-gradient(linear, left top, right top, color-stop(0%, @color-one), color-stop(100%, @color-two)); // Chrome,Safari4+
-    background-image : -webkit-linear-gradient(left, @backgroundWebkit); // Chrome10+,Safari5.1+
-    background-image : -o-linear-gradient(left, @backgroundOpera); // Opera11.10+
-    background-image : -ms-linear-gradient(left, @backgroundW3C); // IE10+
-    background-image : linear-gradient(to right, @backgroundW3C); // W3C
-    filter           : e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@color-one,@color-two));
+    // ie 9
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie9) { background-image : @backgroundSVG; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        background-image : -webkit-gradient(linear, left top, right top, color-stop(0%, @color-one), color-stop(100%, @color-two)); // Chrome,Safari4+
+        background-image : -webkit-linear-gradient(left, @backgroundWebkit); // Chrome10+,Safari5.1+
+    }
+    // FF3.6+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { background-image : -moz-linear-gradient(left, @backgroundMoz); }
+    // IE10+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { background-image : -ms-linear-gradient(left, @backgroundW3C); }
+    // ie 8
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie8) { filter : e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@color-one,@color-two)); }
+    // Opera11.10+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { background-image : -o-linear-gradient(left, @backgroundOpera); }
+    // W3C
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { background-image : linear-gradient(to right, @backgroundW3C); }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@ie8, ie8);
+    .activate(@ie9, ie9);
+    .activate(@w3c, w3c);
 }
 
 .gradient-vertical(...) {
@@ -393,27 +515,61 @@
     @color-one     : e(`(function(){var a, b; a = "@{arguments}", b = a.indexOf(' '); return a.substring(1, b);}())`);
     @color-two     : e(`(function(){var a, b, c; a = "@{arguments}", b = a.lastIndexOf(',')+2, c = a.lastIndexOf(' '); return a.substring(b, c);}())`);
     @backgroundSVG : e(`(function(){function G(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a)return a;do c=a.charCodeAt(k++),d=a.charCodeAt(k++),e=a.charCodeAt(k++),j=c<<16|d<<8|e,f=j>>18&63,g=j>>12&63,h=j>>6&63,i=j&63,n[l++]=b.charAt(f)+b.charAt(g)+b.charAt(h)+b.charAt(i);while(k<a.length);m=n.join("");var o=a.length%3;return(o?m.slice(0,o-3):m)+"===".slice(o||3)}var a="linear-gradient(top, @{arguments})",b=null,c=!0,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,f=/top/,g=/right/,h=/bottom/,i=/left/,j=/to\s*top/,k=/to\s*right/,l=/to\s*bottom/,m=/to\s*left/,n=/45deg/,o=/-45deg/,p=/\d*deg/;for(var q=0;q<e;q++){if(/linear/.test(d[q])){d[q]=d[q].replace(/linear-gradient\s*\(/,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none">');if(f.test(d[q])&&!j.test(d[q])||l.test(d[q])||/180deg/.test(d[q])){var r=null;l.test(d[q])?r=l:/180deg/.test(d[q])?r=/180deg/:r=f,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%">')}else if(g.test(d[q])&&!k.test(d[q])||m.test(d[q])||/270deg/.test(d[q])){var r=null;m.test(d[q])?r=m:/270deg/.test(d[q])?r=/270deg/:r=g,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="100%" y1="0%" x2="0%" y2="0%">')}else if(h.test(d[q])&&!l.test(d[q])||j.test(d[q])||/[^\d]0deg/.test(d[q])){var r=null;j.test(d[q])?r=j:/0deg/.test(d[q])?r=/0deg/:r=h,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="0%" y2="0%">')}else if(i.test(d[q])&&!m.test(d[q])||k.test(d[q])||/90deg/.test(d[q])){var r=null;k.test(d[q])?r=k:/90deg/.test(d[q])?r=/90deg/:r=i,d[q]=d[q].replace(r,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">')}else n.test(d[q])&&!o.test(d[q])?d[q]=d[q].replace(n,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">'):o.test(d[q])?d[q]=d[q].replace(o,'<linearGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">'):c=!1}try{"".trim(),b=!0}catch(s){b=!1}b&&(d[q]=d[q].trim());if(/linear/.test(d[q])||/radial/.test(d[q])){d[q]=d[q].slice(0,-1),d[q]="url(data:image/svg+xml;base64--"+d[q]+'</linearGradient><rect x="0" y="0" width="1" height="1" fill="url(***)" /></svg>)';var t=d.join("@@@"),u=t.match(/rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,v=t.match(/hsla?\(\d+,\s*\d+%,\s*\d+%,\s*(?:0|1|\.\d+|0\.\d+)\)\s*\d*%*/g)||0,w=[],x=[];for(var y=0;y<u.length;y++)w[y]=u[y].replace(/,/g,"--");for(var z=0;z<v.length;z++)x[z]=v[z].replace(/,/g,"--");for(var A=0;A<u.length;A++)t=t.replace(u[A],w[A]);for(var B=0;B<v.length;B++)t=t.replace(v[B],x[B]);var C=t.split(",");for(var D=0;D<C.length;D++){C[D]=C[D].replace(/(#\w{3,6})\s*(\d*%*)/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/(rgba?\(\d+--\s*\d+--\s*\d+--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/rgba/g,"rgb").replace(/(hsla?\(\d+--\s*\d+%--\s*\d+%--\s*(0|1|\.\d+|0\.\d+)\))\s*(\d*%)*/g,'<stop offset="$3" stop-color="$1" stop-opacity="$2"/>').replace(/hsla/g,"hsl").replace(/((?:aqua|black|blue|fuchsia|gray|grey|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow))\s*(\d*%)*/g,'<stop offset="$2" stop-color="$1" stop-opacity="1"/>').replace(/\*\*\*/,"#grad-ucgg-generated");try{"".trim(),b=!0}catch(s){b=!1}b&&(C[D]=C[D].trim())}C=C.toString().replace(/,/g,"").replace(/--/g,",").replace(/(rgb?\(\d+,\s*\d+,\s*\d+),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)").replace(/(hsl?\(\d+,\s*\d+%,\s*\d+%),\s*(?:0|1|\.\d+|0\.\d+)\)/g,"$1)")}}/radial/.test(C)&&(/((ellipse).*(center)|(circle).*(center))/g.test(C)?C=C.replace(/<\/linearGradient>/g,"</radialGradient>").replace(/radial-gradient[^<]+/g,'<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1 1" preserveAspectRatio="none"><radialGradient id="grad-ucgg-generated" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="75%">').replace(/<rect x=\S+\d\S+ y=\S+\d\S+ width=\S+\d\S+ height=\S+\d\S+ fill=\S+\w\S+ \/>/g,'<rect x="-50" y="-50" width="101" height="101" fill="url(#grad-ucgg-generated)" />'):C=!1);var E=null;try{C=C.split("@@@");var F=0;for(F;F<C.length;F++)E=C[F].match(/<\?xml.*<\/svg>/),E=G(E.join("")),C[F]=C[F].replace(/(<\?xml.*<\/svg>)/,E)}catch(s){}return c?C:C=!1,C?C.toString().replace(/\[/g,"").replace(/\]/g,""):C}())`);
-    background-image : @backgroundSVG;
-    background-image : -moz-linear-gradient(top, @backgroundMoz); // FF3.6+
-    background-image : -webkit-gradient(linear, left top, left bottom, color-stop(0%, @color-one), color-stop(100%, @color-two)); // Chrome,Safari4+
-    background-image : -webkit-linear-gradient(top, @backgroundWebkit); // Chrome10+,Safari5.1+
-    background-image : -o-linear-gradient(top, @backgroundOpera); // Opera11.10+
-    background-image : -ms-linear-gradient(top, @backgroundW3C); // IE10+
-    background-image : linear-gradient(top, @backgroundW3C); // W3C
-    filter           : e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@color-one,@color-two));
+    // ie 9
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie9) { background-image : @backgroundSVG; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        background-image : -webkit-gradient(linear, left top, left bottom, color-stop(0%, @color-one), color-stop(100%, @color-two)); // Chrome,Safari4+
+        background-image : -webkit-linear-gradient(top, @backgroundWebkit); // Chrome10+,Safari5.1+
+    }
+    // FF3.6+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { background-image : -moz-linear-gradient(top, @backgroundMoz); }
+    // IE10+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { background-image : -ms-linear-gradient(top, @backgroundW3C); }
+    // ie8
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie8) { filter : e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@color-one,@color-two)); }
+    // Opera11.10+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { background-image : -o-linear-gradient(top, @backgroundOpera); }
+    // W3C
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { background-image : linear-gradient(top, @backgroundW3C); }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@opera, o);
+    .activate(@ie, ie);
+    .activate(@ie8, ie8);
+    .activate(@ie9, ie9);
+    .activate(@w3c, w3c);
+}
+
+.rgba(@color, @opacity) {
+    background : fade(@color, @opacity * 100%);
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = true) {
+        @colorIE   : argb(fade(@color, @opacity * 100%));
+        -ms-filter : "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='@{colorIE}', EndColorStr='@{colorIE}')";
+        filter     : progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='@{colorIE}', EndColorStr='@{colorIE}');
+        zoom       : 1 !important;
+    }
+    .activate(@ie8, @ie);
 }
 
 // Placeholder text
 //==================================================
 .placeholder(@color: @input-color-placeholder) {
-    &:-moz-placeholder{ color : @color; }
-    // Firefox 4-18
-    &::-moz-placeholder{ color : @color; }
-    // Firefox 19+
-    &:-ms-input-placeholder{ color : @color; }
-    // Internet Explorer 10+
-    &::-webkit-input-placeholder{ color : @color; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        &::-webkit-input-placeholder{ color : @color; }
+    }
     // Safari and Chrome
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) {
+        // Firefox 4-18
+        &:-moz-placeholder{ color : @color; }
+        // Firefox 19+
+        &::-moz-placeholder{ color : @color; }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) {
+        &:-ms-input-placeholder{ color : @color; }
+    }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ie);
 }
 
 // Icon size
@@ -422,7 +578,7 @@
     width       : @size;
     height      : @size;
     line-height : @size;
-    .hide-text;
+    font-size   : 0;
 
     &:before{
         font-size : @size;
@@ -438,44 +594,47 @@
     text-align : center;
     padding    : @thumbnail-padding;
     background : @background;
-    border     : @border-width solid @border-color;
-    .box-sizing();
     .transition(all, 0.3s);
     .border-radius(@radius);
-    /*&:before{
-        content  : '';
-        position : absolute;
-        top      : 0;
-        left     : 0;
-        right    : 0;
-        bottom   : 0;
-        border   : @thumbnail-padding solid @background;
-    }*/
-
-    [class*="caption"]{
-        background  : @thumbnail-caption-bg;
-        color       : @thumbnail-caption-color;
-        font-size   : @font-size-small;
-        line-height : @line-height;
-        padding     : @padding-small-vertical;
-        text-align  : center;
+    .activate-border(@activate) when (@activate > 0){
+        border : @border-width solid @border-color;
     }
+    .activate-border(@border-width);
 
-    &:hover{
-        border-color : @thumbnail-color-hover;
-        .box-shadow(3px 3px 3px @thumbnail-color-hover, @thumbnail-shadow-hover);
+    //    &:before{
+    //        content  : '';
+    //        position : absolute;
+    //        top      : 0;
+    //        left     : 0;
+    //        right    : 0;
+    //        bottom   : 0;
+    //        border   : @thumbnail-padding solid @background;
+    //    }
+
+    .activate-hover(@activate) when (@activate = true){
+        &:hover{
+            border-color : @thumbnail-color-hover;
+            .box-shadow(3px 3px 3px @thumbnail-color-hover, @thumbnail-shadow-hover);
+        }
     }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch{
+            border-color : @thumbnail-color-hover;
+            .box-shadow(0 0px 3px @thumbnail-color-hover, @thumbnail-shadow-hover);
+        }
+    }
+    .activate-hover(@activate-hover);
 }
 
 // Alert states
 //==================================================
-.alert-state(@color, @background, @border) {
+.alert-state(@color, @background, @border, @activate: @activate-alternate-style-color, @activate2: @activate-alternate-style) when (@activate = true) and (@activate2 = true){
     background-color : @background;
     border-color     : @border;
     color            : @color;
 
     hr{
-        border-top-color : darken(@border, 5%);
+        background : darken(@border, 5%);
     }
 
     a{
@@ -483,167 +642,172 @@
     }
 }
 
-// Button states
+// Button mixins => state, size, alternative styles
 //==================================================
-@btn-height-base  : floor(@font-size-base * unit(@line-height)+@padding-base-vertical * 2);
-@btn-height-large : floor(unit(@font-size-large) * @font-size-base * unit(@line-height)+@padding-large-vertical * 2);
-@btn-height-small : floor(unit(@font-size-small) * @font-size-base * unit(@line-height)+@padding-small-vertical * 2);
-.button() {
-    .inline-block();
-    margin-bottom : 0; // For input.btn
-    padding       : @padding-base-vertical @padding-base-horizontal;
-    font-weight   : 600;
-    height        : @btn-height-base;
-    line-height   : @btn-height-base - @padding-base-vertical * 2;
-    text-indent   : 0;
-    text-align    : center;
-    cursor        : pointer;
-    border-width  : @btn-border-width;
-    border-style  : solid;
-    white-space   : nowrap;
-    position      : relative;
-    .box-sizing;
-    .transition(background, 0.3s);
-    .border-radius(@btn-border-radius);
-    .btn-color(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+@import "../Mixins/mixins-buttons-style";
 
-    &:not(.icon){
-        .text-overflow;
-    }
-
-    &[class*="grid_"]{
-        padding-left  : 0;
-        padding-right : 0;
-    }
-
-    &[class*="icon-"]:not(.icon):not(:empty):before{
-        margin-right : 5px;
-    }
-}
-
-.button-large() {
-    padding     : @padding-large-vertical @padding-large-horizontal;
-    font-size   : @font-size-large;
-    height      : @btn-height-large;
-    line-height : @btn-height-large - @padding-large-vertical * 2;
-    .border-radius(@btn-large-border-radius);
-}
-
-.button-small() {
-    padding     : @padding-small-vertical @padding-small-horizontal;
-    font-size   : @font-size-small;
-    height      : @btn-height-small;
-    line-height : @btn-height-small - @padding-small-vertical * 2;
-    .border-radius(@btn-small-border-radius);
-}
-
-// Easily pump out default styles, as well as :hover, :focus, :active,
-// and disabled options for all buttons
-.link-color( @color ) {
-    color            : @color;
-    background-color : transparent !important;
-    border           : none !important;
-
-    &:hover, &:focus, &:active, &[class*="active"]{
-        color : darken(@color, 30%);
-        .box-shadow(none);
-    }
-
-    &.disabled, &[disabled]{
-        &, &:hover, &:focus, &:active, &[class*="active"]{
-            color           : desaturate(@color, 30%);
-            text-decoration : none;
-            .box-shadow(none);
-        }
-    }
-}
-
-.link-color( @color, @color-hover ) {
-    color            : @color;
-    background-color : transparent !important;
-    border           : none !important;
-
-    &:hover, &:focus, &:active, &[class*="active"]{
-        color : @color-hover;
-        .box-shadow(none);
-    }
-
-    &.disabled, &[disabled]{
-        &, &:hover, &:focus, &:active, &[class*="active"]{
-            color           : desaturate(@color, 30%);
-            text-decoration : none;
-            .box-shadow(none);
-        }
-    }
-}
-
-.btn-color( @color, @background, @border) {
-    color            : @color;
-    background-color : @background;
-    border-color     : @border;
-
-    &:hover, &:focus, &:active, &[class*="active"]{
-        color            : @color;
-        background-color : darken(@background, 10%);
-        border-color     : darken(@border, 10%);
-    }
-
-    &:active, &[class*="active"]{
-        .box-shadow(0.2em 0.2em 0.4em darken(@background, 25%) inset);
-    }
-
-    &.disabled, &[disabled]{
-        &, &:hover, &:focus, &:active, &[class*="active"]{
-            .box-shadow(none);
-            color            : desaturate(@color, 30%);
-            background-color : desaturate(@background, 30%);
-            border-color     : desaturate(@border, 30%);
-            text-decoration  : none;
-        }
-    }
-}
-
-.btn-color( @color, @background, @border, @color2, @background2, @border2 ) {
-    color            : @color;
-    background-color : @background;
-    border-color     : @border;
-    text-decoration  : none;
-
-    &:hover, &:focus, &:active, &[class*="active"]{
-        color            : @color2;
-        background-color : @background2;
-        border-color     : @border2;
-    }
-
-    &:active, &[class*="active"]{
-        .box-shadow(0.2em 0.2em 0.4em darken(@background2, 25%) inset);
-    }
-
-    &.disabled, &[disabled]{
-        &, &:hover, &:focus, &:active, &[class*="active"]{
-            .box-shadow(none);
-            color            : desaturate(@color, 30%);
-            background-color : @background;
-            border-color     : @border;
-            text-decoration  : none;
-        }
-    }
-}
+// Animate mixins by Daniel Eden => http://daneden.me/animate
+//===================================================
+@import "../Mixins/mixins-animate";
 
 // Customer mixins
 //===================================================
+.checkboxRadioStyle(@activate : @activate-checkbox-radio-style) when (@activate = true){
+    .checkbox_radio-wrap{
+        .inline-block;
+    }
+    input[type="checkbox"], input[type="radio"]{
+        height       : auto;
+        position     : absolute;
+        .opacity(0);
+
+        &~.checkbox_radio{
+            .inline-block;
+            font-size        : @checkbox-radio-width;
+            height           : 1em;
+            width            : 1em;
+            line-height      : 0;
+//            margin-right     : 3px;
+            background-color : @input-bg;
+            vertical-align   : middle;
+            border-style     : solid;
+            border-width     : @input-border-width;
+            border-color     : @input-border-color;
+            cursor           : pointer;
+
+            &:before{
+                font-family : 'toaster-icons';
+                content     : '';
+                display     : block;
+            }
+        }
+
+        &:disabled{
+            &~.checkbox_radio{
+                background   : @input-bg-disabled;
+                border-color : darken(@input-bg-disabled, 10%);
+                color        : darken(@input-bg-disabled, 30%) !important;
+            }
+        }
+    }
+
+    input[type="radio"]{
+        &~.checkbox_radio{
+            .border-radius(10em);
+
+            &:before{
+                width  : 0.75em;
+                height : 0.75em;
+                margin : 0.125em;
+                .border-radius(10em);
+            }
+        }
+
+        &:checked{
+            &~.checkbox_radio{
+                border-color : @primary-bg;
+
+                &:before{
+                    background : @primary-bg;
+                }
+            }
+        }
+    }
+
+    input[type="checkbox"]{
+        &~.checkbox_radio{
+            &:before{
+                content   : '\e013';
+                color     : transparent;
+                font-size : @font-size-larger;
+                margin    : 0.2em 0 0 0;
+                //                margin    : 0.1em 0 0 0.1em;
+            }
+        }
+
+        &:checked{
+            &~.checkbox_radio{
+                &:before{
+                    color : @primary-bg;
+                }
+            }
+        }
+
+        &.switcher{
+            &~.checkbox_radio{
+                overflow : hidden;
+                position : relative;
+                width    : 4em;
+                height   : 1.25em;
+
+                &:before, &:after{
+                    position    : static;
+                    font-family : @font-family-text;
+                    font-size   : @font-size-mini;
+                    line-height : @font-size-mini * 2.5;
+                    font-weight : bold;
+                    width       : 50%;
+                    text-align  : center;
+                    float       : left;
+                    margin      : 0;
+                }
+
+                &:before{
+                    content : "ON" !important;
+                    color   : @brand-green;
+                }
+
+                &:after{
+                    content : "OFF" !important;
+                    color   : @brand-red;
+                }
+
+                span{
+                    .transition(all, 0.3s);
+                    .box-sizing();
+                    background : @input-border-color;
+                    position   : absolute;
+                    border     : 1px solid @input-bg;
+                    z-index    : 5;
+                    left       : 0;
+                    top        : 0;
+                    bottom     : 0;
+                    width      : 50%;
+                }
+            }
+
+            &:checked{
+                &~.checkbox_radio{
+                    span{
+                        left : 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .grayscale() {
     img:not([src*="plugins"]):not([src*="system"]){
-        filter         : url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter     id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 3.5+ */
-        filter         : gray; /* IE6-9 */
-        -webkit-filter : grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+        filter         : url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter     id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); // Firefox 3.5+
+        filter         : gray; // IE6-9
+        -webkit-filter : grayscale(1); // Google Chrome, Safari 6+ & Opera 15+
         .transition;
     }
 
-    &:hover img:not([src*="plugins"]):not([src*="system"]){
-        filter         : none;
-        -webkit-filter : grayscale(0);
+    .activate-hover(@activate) when (@activate = true){
+        &:hover img:not([src*="plugins"]):not([src*="system"]){
+            filter         : none;
+            -webkit-filter : grayscale(0);
+        }
     }
+    .activate-hover(@activate) when (@activate = false){
+        &.touch img:not([src*="plugins"]):not([src*="system"]){
+            filter         : none;
+            -webkit-filter : grayscale(0);
+        }
+    }
+    .activate-hover(@activate-hover);
 }
 
 .clearfix() {
@@ -653,8 +817,31 @@
         display    : block;
         overflow   : hidden;
         visibility : hidden;
-        width      : 0;
         height     : 0;
+    }
+}
+
+.reset-element(@reset : @activate-reset-element) when (@reset = true){
+    width          : auto;
+    height         : auto;
+    background     : transparent;
+    border         : 0 none;
+    color          : inherit;
+    font-family    : inherit;
+    font-size      : 100%;
+    font-style     : inherit;
+    font-weight    : inherit;
+    margin         : 0;
+    position       : static;
+    padding        : 0;
+    vertical-align : baseline;
+    .box-shadow(none);
+    .border-radius(0, true);
+    .transition(none);
+
+    &:hover, &:focus, {
+        .box-shadow(none);
+        .border-radius(0);
     }
 }
 

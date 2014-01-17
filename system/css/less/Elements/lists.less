@@ -1,6 +1,7 @@
 ul, ol{
-    margin-bottom : 1.5em;
-    margin-left   : 2.5em;
+    margin-bottom       : 1.5em;
+    margin-left         : 2.5em;
+    list-style-position : inside;
 
     ol, ul{
         margin    : 0.3em 0 1em 2.5em;
@@ -13,129 +14,243 @@ ul, ol{
         li{ }
     }
 
-    &.list-unstyled{
-        list-style-type : none;
+    .activate-list-unstyled(@activate) when (@activate = true){
+        &.list-unstyled{
+            list-style-type : none;
 
-        &:not([class*="ml"]):not([class*="grid_"]){
-            margin-left : 0.5em;
-        }
-
-        &:not([class*="mb"]){
-            margin-bottom : 0;
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
+            }
         }
     }
+    .activate-list-unstyled(@activate-list-unstyled);
 
-    &.list-inline{
-        list-style-type : none;
+    .activate-list-inline(@activate) when (@activate = true){
+        &.list-inline{
+            list-style-type : none;
 
-        &:not([class*="ml"]):not([class*="grid_"]){
-            margin-left : 0;
-        }
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
+            }
 
-        &:not([class*="mb"]){
-            margin-bottom : 0;
-        }
-
-        &>li{
-            margin : 0 0.5em;
-            .inline-block(top);
+            &>li{
+                .inline-block(top);
+                margin : 0 0.5em;
+            }
         }
     }
+    .activate-list-inline(@activate-list-inline);
 
-    &.list-bordered{
-        list-style-type : none;
+    .activate-list-bordered(@activate) when (@activate = true){
+        &.list-bordered{
+            list-style-type : none;
 
-        &:not([class*="ml"]):not([class*="grid_"]){
-            margin-left : 0;
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
+            }
+
+            &>li{
+                border-bottom  : 1px dashed @hr-color;
+                margin         : 0;
+                padding-top    : @padding-base-vertical;
+                padding-bottom : @padding-base-vertical;
+                position       : relative;
+
+                &[class*='active']{
+                    &:before{
+                        content      : '';
+                        position     : absolute;
+                        left         : 0;
+                        top          : 0;
+                        bottom       : 0;
+                        margin       : auto;
+                        height       : 0;
+                        border-style : solid;
+                        border-width : 5px 0 5px 5px;
+                        border-color : transparent @gray;
+                    }
+                }
+            }
+
+            a{
+                color           : inherit;
+                text-decoration : underline;
+                &:hover{
+                    text-decoration : none;
+                }
+            }
         }
+    }
+    .activate-list-bordered(@activate-list-bordered);
 
-        &:not([class*="mb"]){
-            margin-bottom : 0;
+    .activate-list-tags(@activate) when (@activate = true){
+        &.list-tags{
+            list-style-type : none;
+
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
+            }
+
+            &:not([class*="mb"]){
+                margin-bottom : 0;
+            }
+
+            &>li{
+                margin     : 2px 0 0;
+                padding    : @padding-small-vertical @padding-mini-horizontal;
+                background : @gray-light;
+                cursor     : pointer;
+                .text-overflow;
+                .box-sizing();
+
+                &>*{
+                    .inline-block;
+                }
+
+                &:hover, &.active, &.tag-current{
+                    background : darken(@gray-light, 10%);
+                }
+
+                &.disabled{
+                    cursor     : default;
+                    background : @gray-lighter;
+                    color      : darken(@gray-light, 10%);
+                }
+
+                &.active, &.tag-current{
+                }
+
+                [class*="icon-"].fl-right{
+                    margin-top : 0.15em;
+                }
+
+                [class*="remove"], [class*="close"]{
+                    font-size : 0.85em;
+                }
+            }
+
+            &.list-inline>li{
+                margin : 2px 2px 0;
+            }
+
+            &:not(.list-inline)>li:first-child{
+                margin-top : 0;
+            }
         }
+    }
+    .activate-list-tags(@activate-list-tags);
 
-        &>li{
-            margin        : 0;
-            padding       : @padding-base-vertical @padding-base-horizontal;
-            border-bottom : 1px dashed @gray-light;
-            position      : relative;
+    .activate-list-arrow(@activate) when (@activate = true){
+        &.list-arrow{
+            list-style-type : none;
 
-            &[class*='active']{
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
+            }
+
+            &>li{
+                padding-left : 1em;
+
                 &:before{
-                    content      : '';
-                    position     : absolute;
-                    left         : 0;
-                    top          : 0;
-                    bottom       : 0;
-                    margin       : auto;
-                    height       : 0;
-                    border-style : solid;
-                    border-width : 5px 0 5px 5px;
-                    border-color : transparent @gray;
+                    vertical-align : top;
+                    color          : inherit;
+                    content        : '>';
+                    margin-left    : -1em;
+                    .activate-toaster-icon(@toaster-icons : @activate-toaster-icons) when ( @toaster-icons = true){
+                        font-family : 'toaster-icons';
+                        content     : '\e0c3';
+                    }
+                    .activate-toaster-icon;
                 }
 
-                a{
-                    color : inherit;
+                &:hover{
+                    &:before{
+                        color : @brand-primary;
+                    }
                 }
             }
         }
     }
+    .activate-list-arrow(@activate-list-arrow);
 
-    &.list-tags{
-        list-style-type : none;
+    .activate-list-count-sign(@activate) when (@activate = true){
+        &.list-count-sign{
+            list-style-type : none;
+            counter-reset   : list;
 
-        &:not([class*="ml"]):not([class*="grid_"]){
-            margin-left : 0;
-        }
-
-        &:not([class*="mb"]){
-            margin-bottom : 0;
-        }
-
-        &>li{
-            margin     : 2px 0 0;
-            padding    : @padding-small-vertical @padding-mini-horizontal;
-            background : @gray-light;
-            cursor     : pointer;
-            .text-overflow;
-            .box-sizing();
-
-            &>*{
-                .inline-block;
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
             }
 
-            &:hover, &.active, &.tag-current{
-                background : darken(@gray-light, 10%);
+            &>li{
+                margin-bottom : 0.5em;
+                padding-left  : 3em;
+                line-height   : 2em;
+
+                &:before{
+                    .inline-block();
+                    counter-increment : list;
+                    content           : counter(list);
+                    width             : 2em;
+                    height            : 2em;
+                    text-align        : center;
+                    background-color  : @gray-lighter;
+                    margin-left       : -3em;
+                    margin-right      : 1em;
+                    .transition(background-color, 0.5s);
+                    .border-radius(10em);
+                }
+
+                &:hover{
+                    &:before{
+                        background : @primary-bg;
+                        color      : @primary-color;
+                    }
+                }
             }
-
-            &.disabled{
-                cursor     : default;
-                background : @gray-lighter;
-                color      : darken(@gray-light, 10%);
-            }
-
-            &.active, &.tag-current{
-            }
-
-            [class*="icon-"].fl-right{
-                margin-top : 0.15em;
-            }
-
-            [class*="remove"], [class*="close"]{
-                font-size : 0.85em;
-            }
-        }
-
-        &.list-inline>li{
-            margin : 2px 2px 0;
-        }
-
-        &:not(.list-inline)>li:first-child{
-            margin-top : 0;
         }
     }
+    .activate-list-count-sign(@activate-list-count-sign);
+
+    .activate-list-icon-sign(@activate) when (@activate = true){
+        &.list-icon-sign{
+            list-style-type : none;
+            counter-reset   : list;
+
+            &:not([class*="ml"]):not([class*="grid_"]){
+                margin-left : 0;
+            }
+
+            &>li{
+                margin-bottom : 0.5em;
+                padding-left  : 3em;
+                line-height   : 2em;
+                display       : list-item;
+
+                &:before{
+                    .inline-block();
+                    width            : 2em;
+                    height           : 2em;
+                    text-align       : center;
+                    background-color : @gray-lighter;
+                    margin-left      : -3em;
+                    margin-right     : 1em;
+                    .transition(background-color, 0.5s);
+                    .border-radius(10em);
+                }
+
+                &:hover{
+                    &:before{
+                        background : @primary-bg;
+                        color      : @primary-color;
+                    }
+                }
+            }
+        }
+    }
+    .activate-list-icon-sign(@activate-list-icon-sign);
 
     &.small{
-
         &>li{
             padding : @padding-mini-vertical @padding-mini-horizontal;
         }
@@ -172,11 +287,12 @@ dl{
         }
     }
 
-    &.dl-horizontal{
+    &.horizontal{
         dt{
-            float : left;
-            width : 35%;
-            clear : left;
+            float      : left;
+            clear      : left;
+            width      : 35%;
+            text-align : right;
         }
 
         dd{

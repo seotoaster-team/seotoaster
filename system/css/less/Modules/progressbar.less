@@ -1,11 +1,11 @@
 .ui-progressbar{
     position    : relative;
-    text-align  : left;
     height      : @progressbar-size;
-    line-height : @progressbar-size;
-    background  : @progressbar-bg;
     border      : 1px solid @progressbar-border-color;
-    .box-sizing();
+    background  : @progressbar-bg;
+    text-align  : left;
+    line-height : @progressbar-size;
+    .box-sizing;
 
     .ui-progressbar-value{
         height     : 100%;
@@ -32,41 +32,44 @@
 
     // Alternate progressbar
     // --------------------------------------------------
-    &.warning{
-        background   : @state-warning-bg;
-        border-color : @state-warning-border;
+    .activate(@activate) when (@activate = true){
+        &.warning{
+            background   : @state-orange-bg;
+            border-color : @state-orange-border;
 
-        .ui-progressbar-value{
-            background : @state-warning-text;
+            .ui-progressbar-value{
+                background : @state-orange-text;
+            }
+        }
+
+        &.error{
+            background   : @state-red-bg;
+            border-color : @state-red-border;
+
+            .ui-progressbar-value{
+                background : @state-red-text;
+            }
+        }
+
+        &.success{
+            background   : @state-green-bg;
+            border-color : @state-green-border;
+
+            .ui-progressbar-value{
+                background : @state-green-text;
+            }
+        }
+
+        &.info{
+            background   : @state-blue-bg;
+            border-color : @state-blue-border;
+
+            .ui-progressbar-value{
+                background : @state-blue-text;
+            }
         }
     }
-
-    &.error{
-        background   : @state-error-bg;
-        border-color : @state-error-border;
-
-        .ui-progressbar-value{
-            background : @state-error-text;
-        }
-    }
-
-    &.success{
-        background   : @state-success-bg;
-        border-color : @state-success-border;
-
-        .ui-progressbar-value{
-            background : @state-success-text;
-        }
-    }
-
-    &.info{
-        background   : @state-info-bg;
-        border-color : @state-info-border;
-
-        .ui-progressbar-value{
-            background : @state-info-text;
-        }
-    }
+    .activate(@activate-alternate-style);
 }
 
 [id*="-filelist"]{
@@ -99,11 +102,11 @@
                 .icon-size(@font-size-base);
                 float      : right;
                 margin-top : 2px;
-                color      : @brand-info;
+                color      : @brand-blue;
             }
 
             .ui-icon-alert{
-                color : @brand-error;
+                color : @brand-red;
             }
         }
     }

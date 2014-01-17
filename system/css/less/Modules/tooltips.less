@@ -1,10 +1,10 @@
 .ui-tooltip{
-	background : @tooltip-bg;
-	color      : @tooltip-color;
-	padding    : 8px;
 	position   : absolute;
 	z-index    : 9999;
+    padding    : @padding-base-vertical @padding-base-horizontal;
 	max-width  : @tooltip-width;
+    background : @tooltip-bg;
+    color      : @tooltip-color;
 	.box-shadow(0 0 5px #aaa);
 
 	.ui-tooltip-content{ }

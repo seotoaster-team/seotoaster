@@ -6,11 +6,21 @@
 //	Basic Widgets and Plugins
 //==================================================
 
-// JQuery Modules Styles
+// Modules Styles
 //==================================================
-@import "Packages/modules";
+.activate-modules(@activate) when (@activate = true){
+    @import "Packages/modules";
+}
+.activate-modules(@activate-modules);
 
-// Control Panel Styles
+// Animation
+//==================================================
+.activate-animate(@activate) when (@activate = true){
+    @import "Packages/animate-custom";
+}
+.activate-animate(@activate-animate);
+
+// Control Panel Elements Styles
 //==================================================
 @import "Packages/control_panel";
 

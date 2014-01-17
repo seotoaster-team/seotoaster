@@ -1,0 +1,4093 @@
+//    Animate.css - http://daneden.me/animate
+//    Licensed under the MIT license
+//
+//    Copyright (c) 2013 Daniel Eden
+//
+//    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+//    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+.animate-duration(@duration) {//The animation-duration property defines how many seconds or milliseconds an animation takes to complete one cycle. Value: 1s/2s/3s...
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-duration : @duration; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-duration : @duration; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-duration : @duration; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-duration : @duration; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-duration : @duration; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+}
+
+.animate-direction(@direction) {//The animation-direction property defines whether or not the animation should play in reverse on alternate cycles. Value:normal/reverse/alternate.
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-direction : @direction; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-direction : @direction; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-direction : @direction; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-direction : @direction; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-direction : @direction; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+}
+
+.animate-delay(@delay) {//The animation-delay property defines when the animation will start. Value: 1s/2s/3s...
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-delay : @delay; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-delay : @delay; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-delay : @delay; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-delay : @delay; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-delay : @delay; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+}
+
+.animate-timing-function(@timing-function) {//The animation-timing-function specifies the speed curve of the animation. Value: linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier(n,n,n,n).
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-timing-function : @timing-function; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-timing-function : @timing-function; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-timing-function : @timing-function; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-timing-function : @timing-function; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-timing-function : @timing-function; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+}
+
+.animated(@activate : @activate-animate) when (@activate = true){//The animation-fill-mode property specifies what values are applied by the animation outside the time it is executing. Value: none/forwards/backwards/both.
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-fill-mode : both; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-fill-mode : both; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-fill-mode : both; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-fill-mode : both; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-fill-mode : both; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+    .animate-duration(1s);
+
+    &.hinge{
+        .animate-duration(2s)
+    }
+}
+
+.animate-repeat(@activate : @activate-animate) when (@activate = true){//The animation-iteration-count property defines how many times an animation should be played. Value: n/infinite.
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-iteration-count : infinite; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-iteration-count : infinite; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-iteration-count : infinite; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-iteration-count : infinite; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-iteration-count : infinite; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+}
+
+.animation(@name) {//The animation-name property specifies a name for the @keyframes animation. Value: keyframename/none.
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-name : @name; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-name : @name; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-name : @name; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-animation-name : @name; }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { animation-name : @name; }
+    .activate(@webkit, webkit);
+    .activate(@moz, moz);
+    .activate(@ie, ms);
+    .activate(@opera, o);
+    .activate(@w3c, w3c);
+}
+
+// Attention seekers
+//=============================================
+.activate-animate-flash(@activate : @activate-animate, @activate2 : @activate-animate-flash) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes flash{
+            0%, 50%, 100%{ opacity : 1; }
+            25%, 75%{ opacity : 0; }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes flash{
+            0%, 50%, 100%{ opacity : 1; }
+            25%, 75%{ opacity : 0; }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounce(@activate : @activate-animate, @activate2 : @activate-animate-bounce) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounce{
+            0%, 20%, 50%, 80%, 100%{ -webkit-transform : translateY(0); }
+            40%{ -webkit-transform : translateY(-30px); }
+            60%{ -webkit-transform : translateY(-15px); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounce{
+            0%, 20%, 50%, 80%, 100%{ transform : translateY(0); }
+            40%{ .transform(translateY(-30px)); }
+            60%{ .transform(translateY(-15px)); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-shake(@activate : @activate-animate, @activate2 : @activate-animate-shake) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes shake{
+            0%, 100%{ -webkit-transform : translateX(0); }
+            10%, 30%, 50%, 70%, 90%{ -webkit-transform : translateX(-10px); }
+            20%, 40%, 60%, 80%{ -webkit-transform : translateX(10px); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes shake{
+            0%, 100%{ .transform(translateX(0)); }
+            10%, 30%, 50%, 70%, 90%{ .transform(translateX(-10px)); }
+            20%, 40%, 60%, 80%{ .transform(translateX(10px)); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tada(@activate : @activate-animate, @activate2 : @activate-animate-tada) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tada{
+            0%{ -webkit-transform : scale(1); }
+            10%, 20%{ -webkit-transform : scale(0.9) rotate(-3deg); }
+            30%, 50%, 70%, 90%{ -webkit-transform : scale(1.1) rotate(3deg); }
+            40%, 60%, 80%{ -webkit-transform : scale(1.1) rotate(-3deg); }
+            100%{ -webkit-transform : scale(1) rotate(0); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tada{
+            0%{ .transform(scale(1)); }
+            10%, 20%{ .transform(scale(0.9) rotate(-3deg)); }
+            30%, 50%, 70%, 90%{ .transform(scale(1.1) rotate(3deg)); }
+            40%, 60%, 80%{ .transform(scale(1.1) rotate(-3deg)); }
+            100%{ .transform(scale(1) rotate(0)); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-swing(@activate : @activate-animate, @activate2 : @activate-animate-swing) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes swing{
+            20%, 40%, 60%, 80%, 100%{ -webkit-transform-origin : top center; }
+            20%{ -webkit-transform : rotate(15deg); }
+            40%{ -webkit-transform : rotate(-10deg); }
+            60%{ -webkit-transform : rotate(5deg); }
+            80%{ -webkit-transform : rotate(-5deg); }
+            100%{ -webkit-transform : rotate(0deg); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes swing{
+            20%{ .rotate(15deg); }
+            40%{ .rotate(-10deg); }
+            60%{ .rotate(5deg); }
+            80%{ .rotate(-5deg); }
+            100%{ .rotate(0deg); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-wobble(@activate : @activate-animate, @activate2 : @activate-animate-wobble) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes wobble{
+            0%{ -webkit-transform : translateX(0%); }
+            15%{ -webkit-transform : translateX(-25%) rotate(-5deg); }
+            30%{ -webkit-transform : translateX(20%) rotate(3deg); }
+            45%{ -webkit-transform : translateX(-15%) rotate(-3deg); }
+            60%{ -webkit-transform : translateX(10%) rotate(2deg); }
+            75%{ -webkit-transform : translateX(-5%) rotate(-1deg); }
+            100%{ -webkit-transform : translateX(0%); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes wobble{
+            0%{ .transform(translateX(0%)); }
+            15%{ .transform(translateX(-25%) rotate(-5deg)); }
+            30%{ .transform(translateX(20%) rotate(3deg)); }
+            45%{ .transform(translateX(-15%) rotate(-3deg)); }
+            60%{ .transform(translateX(10%) rotate(2deg)); }
+            75%{ .transform(translateX(-5%) rotate(-1deg)); }
+            100%{ .transform(translateX(0%)); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-wiggle(@activate : @activate-animate, @activate2 : @activate-animate-wiggle) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes wiggle{
+            0%{ -webkit-transform : skewX(9deg); }
+            10%{ -webkit-transform : skewX(-8deg); }
+            20%{ -webkit-transform : skewX(7deg); }
+            30%{ -webkit-transform : skewX(-6deg); }
+            40%{ -webkit-transform : skewX(5deg); }
+            50%{ -webkit-transform : skewX(-4deg); }
+            60%{ -webkit-transform : skewX(3deg); }
+            70%{ -webkit-transform : skewX(-2deg); }
+            80%{ -webkit-transform : skewX(1deg); }
+            90%{ -webkit-transform : skewX(0deg); }
+            100%{ -webkit-transform : skewX(0deg); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes wiggle{
+            0%{ .transform(skewX(9deg)); }
+            10%{ .transform(skewX(-8deg)); }
+            20%{ .transform(skewX(7deg)); }
+            30%{ .transform(skewX(-6deg)); }
+            40%{ .transform(skewX(5deg)); }
+            50%{ .transform(skewX(-4deg)); }
+            60%{ .transform(skewX(3deg)); }
+            70%{ .transform(skewX(-2deg)); }
+            80%{ .transform(skewX(1deg)); }
+            90%{ .transform(skewX(0deg)); }
+            100%{ .transform(skewX(0deg)); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-pulse(@activate : @activate-animate, @activate2 : @activate-animate-pulse) when (@activate = true) and (@activate2 = true){
+
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes pulse{
+            0%{ -webkit-transform : scale(1); }
+            50%{ -webkit-transform : scale(1.1); }
+            100%{ -webkit-transform : scale(1); }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes pulse{
+            0%{ .scale(1); }
+            50%{ .scale(1.1); }
+            100%{ .scale(1); }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Flippers
+//=============================================
+.activate-animate-flip(@activate : @activate-animate, @activate2 : @activate-animate-flip) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes flip{
+            0%{
+                -webkit-transform                 : perspective(400px) rotateY(0);
+                -webkit-animation-timing-function : ease-out;
+            }
+            40%{
+                -webkit-transform                 : perspective(400px) translateZ(150px) rotateY(170deg);
+                -webkit-animation-timing-function : ease-out;
+            }
+            50%{
+                -webkit-transform                 : perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+                -webkit-animation-timing-function : ease-in;
+            }
+            80%{
+                -webkit-transform                 : perspective(400px) rotateY(360deg) scale(.95);
+                -webkit-animation-timing-function : ease-in;
+            }
+            100%{
+                -webkit-transform                 : perspective(400px) scale(1);
+                -webkit-animation-timing-function : ease-in;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes flip{
+            0%{
+                .transform(perspective(400px) rotateY(0));
+                .animate-timing-function(ease-out);
+            }
+            40%{
+                .transform(perspective(400px) translateZ(150px) rotateY(170deg));
+                .animate-timing-function(ease-out);
+            }
+            50%{
+                .transform(perspective(400px) translateZ(150px) rotateY(190deg) scale(1));
+                .animate-timing-function(ease-in);
+            }
+            80%{
+                .transform(perspective(400px) rotateY(360deg) scale(.95));
+                .animate-timing-function(ease-in);
+            }
+            100%{
+                .transform(perspective(400px) scale(1));
+                .animate-timing-function(ease-in);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-flipInX(@activate : @activate-animate, @activate2 : @activate-animate-flipInX) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes flipInX{
+            0%{
+                -webkit-transform : perspective(400px) rotateX(90deg);
+                opacity           : 0;
+            }
+
+            40%{
+                -webkit-transform : perspective(400px) rotateX(-10deg);
+            }
+
+            70%{
+                -webkit-transform : perspective(400px) rotateX(10deg);
+            }
+
+            100%{
+                -webkit-transform : perspective(400px) rotateX(0deg);
+                opacity           : 1;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes flipInX{
+            0%{
+                .transform(perspective(400px) rotateX(90deg));
+                opacity : 0;
+            }
+
+            40%{
+                .transform(perspective(400px) rotateX(-10deg));
+            }
+
+            70%{
+                .transform(perspective(400px) rotateX(10deg));
+            }
+
+            100%{
+                .transform(perspective(400px) rotateX(0deg));
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-flipOutX(@activate : @activate-animate, @activate2 : @activate-animate-flipOutX) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes flipOutX{
+            0%{
+                -webkit-transform : perspective(400px) rotateX(0deg);
+                opacity           : 1;
+            }
+            100%{
+                -webkit-transform : perspective(400px) rotateX(90deg);
+                opacity           : 0;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes flipOutX{
+            0%{
+                .transform(perspective(400px) rotateX(0deg));
+                opacity : 1;
+            }
+            100%{
+                .transform(perspective(400px) rotateX(90deg));
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-flipInY(@activate : @activate-animate, @activate2 : @activate-animate-flipInY) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes flipInY{
+            0%{
+                -webkit-transform : perspective(400px) rotateY(90deg);
+                opacity           : 0;
+            }
+
+            40%{
+                -webkit-transform : perspective(400px) rotateY(-10deg);
+            }
+
+            70%{
+                -webkit-transform : perspective(400px) rotateY(10deg);
+            }
+
+            100%{
+                -webkit-transform : perspective(400px) rotateY(0deg);
+                opacity           : 1;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes flipInY{
+            0%{
+                .transform(perspective(400px) rotateY(90deg));
+                opacity : 0;
+            }
+
+            40%{
+                .transform(perspective(400px) rotateY(-10deg));
+            }
+
+            70%{
+                .transform(perspective(400px) rotateY(10deg));
+            }
+
+            100%{
+                .transform(perspective(400px) rotateY(0deg));
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-flipOutY(@activate : @activate-animate, @activate2 : @activate-animate-flipOutY) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes flipOutY{
+            0%{
+                -webkit-transform : perspective(400px) rotateY(0deg);
+                opacity           : 1;
+            }
+            100%{
+                -webkit-transform : perspective(400px) rotateY(90deg);
+                opacity           : 0;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes flipOutY{
+            0%{
+                .transform(perspective(400px) rotateY(0deg));
+                opacity : 1;
+            }
+            100%{
+                .transform(perspective(400px) rotateY(90deg));
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Fading entrances
+//=============================================
+.activate-animate-fadeIn(@activate : @activate-animate, @activate2 : @activate-animate-fadeIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeIn{
+            0%{ opacity : 0; }
+            100%{ opacity : 1; }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeIn{
+            0%{ opacity : 0; }
+            100%{ opacity : 1; }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInUp(@activate : @activate-animate, @activate2 : @activate-animate-fadeInUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInUp{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateY(20px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInUp{
+            0%{
+                opacity : 0;
+                .transform(translate(0 20px));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInDown(@activate : @activate-animate, @activate2 : @activate-animate-fadeInDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInDown{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateY(-20px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInDown{
+            0%{
+                opacity : 0;
+                .transform(translate(0 -20px));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInLeft(@activate : @activate-animate, @activate2 : @activate-animate-fadeInLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInLeft{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateX(-20px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInLeft{
+            0%{
+                opacity : 0;
+                .transform(translate(-20px 0));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInRight(@activate : @activate-animate, @activate2 : @activate-animate-fadeInRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInRight{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateX(20px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInRight{
+            0%{
+                opacity : 0;
+                .transform(translate(20px 0));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInUpBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInUpBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInUpBig{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateY(2000px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInUpBig{
+            0%{
+                opacity : 0;
+                .transform(translate(0 2000px));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInDownBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInDownBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInDownBig{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateY(-2000px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInDownBig{
+            0%{
+                opacity : 0;
+                .transform(translate(0 -2000px));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInLeftBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInLeftBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInLeftBig{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateX(-2000px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInLeftBig{
+            0%{
+                opacity : 0;
+                .transform(translate(-2000px 0));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeInRightBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInRightBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeInRightBig{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateX(2000px);
+            }
+
+            100%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeInRightBig{
+            0%{
+                opacity : 0;
+                .transform(translate(2000px 0));
+            }
+
+            100%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Fading exits
+//=============================================
+.activate-animate-fadeOut(@activate : @activate-animate, @activate2 : @activate-animate-fadeOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOut{
+            0%{ opacity : 1; }
+            100%{ opacity : 0; }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOut{
+            0%{ opacity : 1; }
+            100%{ opacity : 0; }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutUp(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutUp{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateY(-20px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutUp{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(0 -20px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutDown(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutDown{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateY(20px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutDown{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(0 20px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutLeft(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutLeft{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(-20px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutLeft{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(-20px 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutRight(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutRight{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(20px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutRight{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(20px 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutUpBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutUpBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutUpBig{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateY(-2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutUpBig{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(0 -2000px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutDownBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutDownBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutDownBig{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateY(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateY(2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutDownBig{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(0 2000px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutLeftBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutLeftBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutLeftBig{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(-2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutLeftBig{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(-2000px 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-fadeOutRightBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutRightBig) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes fadeOutRightBig{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateX(0);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(2000px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes fadeOutRightBig{
+            0%{
+                opacity : 1;
+                .transform(translate(0 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(2000px 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Bouncing entrances
+//=============================================
+.activate-animate-bounceIn(@activate : @activate-animate, @activate2 : @activate-animate-bounceIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceIn{
+            0%{
+                opacity           : 0;
+                -webkit-transform : scale(.3);
+            }
+
+            50%{
+                opacity           : 1;
+                -webkit-transform : scale(1.05);
+            }
+
+            70%{
+                -webkit-transform : scale(.9);
+            }
+
+            100%{
+                -webkit-transform : scale(1);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceIn{
+            0%{
+                opacity : 0;
+                .scale(.3);
+            }
+
+            50%{
+                opacity : 1;
+                .scale(1.05);
+            }
+
+            70%{
+                .scale(.9);
+            }
+
+            100%{
+                .scale(1);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceInUp(@activate : @activate-animate, @activate2 : @activate-animate-bounceInUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceInUp{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateY(2000px);
+            }
+
+            60%{
+                opacity           : 1;
+                -webkit-transform : translateY(-30px);
+            }
+
+            80%{
+                -webkit-transform : translateY(10px);
+            }
+
+            100%{
+                -webkit-transform : translateY(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceInUp{
+            0%{
+                opacity : 0;
+                .transform(translate(0 2000px));
+            }
+
+            60%{
+                opacity : 1;
+                .transform(translate(0 -30px));
+            }
+
+            80%{
+                .transform(translate(0 10px));
+            }
+
+            100%{
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceInDown(@activate : @activate-animate, @activate2 : @activate-animate-bounceInDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceInDown{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateY(-2000px);
+            }
+
+            60%{
+                opacity           : 1;
+                -webkit-transform : translateY(30px);
+            }
+
+            80%{
+                -webkit-transform : translateY(-10px);
+            }
+
+            100%{
+                -webkit-transform : translateY(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceInDown{
+            0%{
+                opacity : 0;
+                .transform(translate(0 -2000px));
+            }
+
+            60%{
+                opacity : 1;
+                .transform(translate(0 30px));
+            }
+
+            80%{
+                .transform(translate(0 -10px));
+            }
+
+            100%{
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceInLeft(@activate : @activate-animate, @activate2 : @activate-animate-bounceInLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceInLeft{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateX(-2000px);
+            }
+
+            60%{
+                opacity           : 1;
+                -webkit-transform : translateX(30px);
+            }
+
+            80%{
+                -webkit-transform : translateX(-10px);
+            }
+
+            100%{
+                -webkit-transform : translateX(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceInLeft{
+            0%{
+                opacity : 0;
+                .transform(translate(-2000px 0));
+            }
+
+            60%{
+                opacity : 1;
+                .transform(translate(30px 0));
+            }
+
+            80%{
+                .transform(translate(-10px 0));
+            }
+
+            100%{
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceInRight(@activate : @activate-animate, @activate2 : @activate-animate-bounceInRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceInRight{
+            0%{
+                opacity           : 0;
+                -webkit-transform : translateX(2000px);
+            }
+
+            60%{
+                opacity           : 1;
+                -webkit-transform : translateX(-30px);
+            }
+
+            80%{
+                -webkit-transform : translateX(10px);
+            }
+
+            100%{
+                -webkit-transform : translateX(0);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceInRight{
+            0%{
+                opacity : 0;
+                .transform(translate(2000px 0));
+            }
+
+            60%{
+                opacity : 1;
+                .transform(translate(-30px 0));
+            }
+
+            80%{
+                .transform(translate(10px 0));
+            }
+
+            100%{
+                .transform(translate(0 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Bouncing exits
+//=============================================
+.activate-animate-bounceOut(@activate : @activate-animate, @activate2 : @activate-animate-bounceOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceOut{
+            0%{
+                -webkit-transform : scale(1);
+            }
+
+            25%{
+                -webkit-transform : scale(.95);
+            }
+
+            50%{
+                opacity           : 1;
+                -webkit-transform : scale(1.1);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : scale(.3);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceOut{
+            0%{
+                .scale(1);
+            }
+
+            25%{
+                .scale(.95);
+            }
+
+            50%{
+                opacity : 1;
+                .scale(1.1);
+            }
+
+            100%{
+                opacity : 0;
+                .scale(.3);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceOutUp(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceOutUp{
+            0%{
+                -webkit-transform : translateY(0);
+            }
+
+            20%{
+                opacity           : 1;
+                -webkit-transform : translateY(20px);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateY(-2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceOutUp{
+            0%{
+                .transform(translate(0 0));
+            }
+
+            20%{
+                opacity : 1;
+                .transform(translate(0 20px));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(0 -2000px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceOutDown(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceOutDown{
+            0%{
+                -webkit-transform : translateY(0);
+            }
+
+            20%{
+                opacity           : 1;
+                -webkit-transform : translateY(-20px);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateY(2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceOutDown{
+            0%{
+                .transform(translate(0 0));
+            }
+
+            20%{
+                opacity : 1;
+                .transform(translate(0 -20px));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(0 2000px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceOutLeft(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceOutLeft{
+            0%{
+                -webkit-transform : translateX(0);
+            }
+
+            20%{
+                opacity           : 1;
+                -webkit-transform : translateX(20px);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(-2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceOutLeft{
+            0%{
+                .transform(translate(0 0));
+            }
+
+            20%{
+                opacity : 1;
+                .transform(translate(20px 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(-2000px 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bounceOutRight(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bounceOutRight{
+            0%{
+                -webkit-transform : translateX(0);
+            }
+
+            20%{
+                opacity           : 1;
+                -webkit-transform : translateX(-20px);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(2000px);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bounceOutRight{
+            0%{
+                .transform(translate(0 0));
+            }
+
+            20%{
+                opacity : 1;
+                .transform(translate(-20px 0));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(2000px 0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Rotating entrances
+//=============================================
+.activate-animate-rotateIn(@activate : @activate-animate, @activate2 : @activate-animate-rotateIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateIn{
+            0%{
+                -webkit-transform-origin : center center;
+                -webkit-transform        : rotate(-200deg);
+                opacity                  : 0;
+            }
+
+            100%{
+                -webkit-transform-origin : center center;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateIn{
+            0%{
+                .transform-origin(center center);
+                .rotate(-200deg);
+                opacity : 0;
+            }
+
+            100%{
+                .transform-origin(center center);
+                .rotate(0);
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateInUpLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateInUpLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateInUpLeft{
+            0%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(90deg);
+                opacity                  : 0;
+            }
+
+            100%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateInUpLeft{
+            0%{
+                .transform-origin(left bottom);
+                .rotate(90deg);
+                opacity : 0;
+            }
+
+            100%{
+                .transform-origin(left bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateInDownLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateInDownLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateInDownLeft{
+            0%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(-90deg);
+                opacity                  : 0;
+            }
+
+            100%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateInDownLeft{
+            0%{
+                .transform-origin(left bottom);
+                .rotate(-90deg);
+                opacity : 0;
+            }
+
+            100%{
+                .transform-origin(left bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateInUpRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateInUpRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateInUpRight{
+            0%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(-90deg);
+                opacity                  : 0;
+            }
+
+            100%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateInUpRight{
+            0%{
+                .transform-origin(right bottom);
+                .rotate(-90deg);
+                opacity : 0;
+            }
+
+            100%{
+                .transform-origin(right bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateInDownRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateInDownRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateInDownRight{
+            0%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(90deg);
+                opacity                  : 0;
+            }
+
+            100%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateInDownRight{
+            0%{
+                .transform-origin(right bottom);
+                .rotate(90deg);
+                opacity : 0;
+            }
+
+            100%{
+                .transform-origin(right bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Rotating exits
+//=============================================
+.activate-animate-rotateOut(@activate : @activate-animate, @activate2 : @activate-animate-rotateOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateOut{
+            0%{
+                -webkit-transform-origin : center center;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+
+            100%{
+                -webkit-transform-origin : center center;
+                -webkit-transform        : rotate(200deg);
+                opacity                  : 0;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateOut{
+            0%{
+                .transform-origin(center center);
+                .rotate(0);
+                opacity : 1;
+            }
+
+            100%{
+                .transform-origin(center center);
+                .rotate(200deg);
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateOutUpLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutUpLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateOutUpLeft{
+            0%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+
+            100%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(-90deg);
+                opacity                  : 0;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateOutUpLeft{
+            0%{
+                .transform-origin(left bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+
+            100%{
+                .transform-origin(left bottom);
+                .rotate(-90deg);
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateOutDownLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutDownLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateOutDownLeft{
+            0%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+
+            100%{
+                -webkit-transform-origin : left bottom;
+                -webkit-transform        : rotate(90deg);
+                opacity                  : 0;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateOutDownLeft{
+            0%{
+                .transform-origin(left bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+
+            100%{
+                .transform-origin(left bottom);
+                .rotate(90deg);
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateOutUpRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutUpRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateOutUpRight{
+            0%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+
+            100%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(90deg);
+                opacity                  : 0;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateOutUpRight{
+            0%{
+                .transform-origin(right bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+
+            100%{
+                .transform-origin(right bottom);
+                .rotate(90deg);
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateOutDownRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutDownRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateOutDownRight{
+            0%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(0);
+                opacity                  : 1;
+            }
+
+            100%{
+                -webkit-transform-origin : right bottom;
+                -webkit-transform        : rotate(-90deg);
+                opacity                  : 0;
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateOutDownRight{
+            0%{
+                .transform-origin(right bottom);
+                .rotate(0);
+                opacity : 1;
+            }
+
+            100%{
+                .transform-origin(right bottom);
+                .rotate(-90deg);
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Lightspeed
+//=============================================
+.activate-animate-lightSpeedIn(@activate : @activate-animate, @activate2 : @activate-animate-lightSpeedIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes lightSpeedIn{
+            0%{ -webkit-transform : translateX(100%) skewX(-30deg); opacity : 0; }
+            60%{ -webkit-transform : translateX(-20%) skewX(30deg); opacity : 1; }
+            80%{ -webkit-transform : translateX(0%) skewX(-15deg); opacity : 1; }
+            100%{ -webkit-transform : translateX(0%) skewX(0deg); opacity : 1; }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes lightSpeedIn{
+            0%{
+                .transform(translateX(100%) skewX(-30deg));
+                opacity : 0;
+            }
+            60%{
+                .transform(translateX(-20%) skewX(30deg));
+                opacity : 1;
+            }
+            80%{
+                .transform(translateX(0%) skewX(-15deg));
+                opacity : 1;
+            }
+            100%{
+                .transform(translateX(0%) skewX(0deg));
+                opacity : 1;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-lightSpeedOut(@activate : @activate-animate, @activate2 : @activate-animate-lightSpeedOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes lightSpeedOut{
+            0%{ -webkit-transform : translateX(0%) skewX(0deg); opacity : 1; }
+            100%{ -webkit-transform : translateX(100%) skewX(-30deg); opacity : 0; }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes lightSpeedOut{
+            0%{
+                .transform(translateX(0%) skewX(0deg));
+                opacity : 1;
+            }
+            100%{
+                .transform(translateX(100%) skewX(-30deg));
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Specials
+//=============================================
+.activate-animate-hinge(@activate : @activate-animate, @activate2 : @activate-animate-hinge) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes hinge{
+            0%{ -webkit-transform : rotate(0); -webkit-transform-origin : top left; -webkit-animation-timing-function : ease-in-out; }
+            20%, 60%{ -webkit-transform : rotate(80deg); -webkit-transform-origin : top left; -webkit-animation-timing-function : ease-in-out; }
+            40%{ -webkit-transform : rotate(60deg); -webkit-transform-origin : top left; -webkit-animation-timing-function : ease-in-out; }
+            80%{ -webkit-transform : rotate(60deg) translateY(0); opacity : 1; -webkit-transform-origin : top left; -webkit-animation-timing-function : ease-in-out; }
+            100%{ -webkit-transform : translateY(700px); opacity : 0; }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes hinge{
+            0%{
+                .rotate(0);
+                .transform-origin(top left);
+                .animate-timing-function(ease-in-out);
+            }
+            20%, 60%{
+                .rotate(80deg);
+                .transform-origin(top left);
+                .animate-timing-function(ease-in-out);
+            }
+            40%{
+                .rotate(60deg);
+                .transform-origin(top left);
+                .animate-timing-function(ease-in-out);
+            }
+            80%{
+                .transform(rotate(60deg) translate(0 0));
+                .transform-origin(top left);
+                .animate-timing-function(ease-in-out);
+                opacity                   : 1;
+            }
+            100%{
+                .transform(translate(0 700px));
+                opacity : 0;
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rollIn(@activate : @activate-animate, @activate2 : @activate-animate-rollIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rollIn{
+            0%{ opacity : 0; -webkit-transform : translateX(-100%) rotate(-120deg); }
+            100%{ opacity : 1; -webkit-transform : translateX(0px) rotate(0deg); }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rollIn{
+            0%{
+                opacity : 0;
+                .transform(translate(-100%, 0) rotate(-120deg));
+            }
+            100%{
+                opacity : 1;
+                .transform(translate(0px, 0) rotate(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rollOut(@activate : @activate-animate, @activate2 : @activate-animate-rollOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rollOut{
+            0%{
+                opacity           : 1;
+                -webkit-transform : translateX(0px) rotate(0deg);
+            }
+
+            100%{
+                opacity           : 0;
+                -webkit-transform : translateX(100%) rotate(120deg);
+            }
+        }
+
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rollOut{
+            0%{
+                opacity : 1;
+                .transform(translate(0, 0) rotate(0deg));
+            }
+
+            100%{
+                opacity : 0;
+                .transform(translate(100%, 0) rotate(120deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+
+// Other
+//=============================================
+.activate-animate-rotate(@activate : @activate-animate, @activate2 : @activate-animate-rotate) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotate{
+            0%{
+                -webkit-transform-origin : center center;
+                -webkit-transform        : rotate(-360deg);
+            }
+
+            100%{
+                -webkit-transform-origin : center center;
+                -webkit-transform        : rotate(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotate{
+            0%{
+                .transform-origin(center center);
+                .rotate(-360deg);
+            }
+
+            100%{
+                .transform-origin(center center);
+                .rotate(0);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Magic css3 animations
+.activate-animate-magic(@activate : @activate-animate, @activate2 : @activate-animate-magic) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes magic{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 100% 200%;
+                -webkit-transform: scale(1, 1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 200% 500%;
+                -webkit-transform: scale(0, 0) rotate(270deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes magic{
+            0% {
+                opacity: 1;
+                .transform-origin(100% 200%);
+                .transform(scale(1, 1) rotate(0deg));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(200% 500%);
+                .transform(scale(0, 0) rotate(270deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-twisterInDown(@activate : @activate-animate, @activate2 : @activate-animate-twisterInDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes twisterInDown{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: scale(0, 0) rotate(360deg) translateY(-100%);
+            }
+
+            30% {
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: scale(0, 0) rotate(360deg) translateY(-100%);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform-origin: 100% 100%;
+                -webkit-transform: scale(1, 1) rotate(0deg) translateY(0%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes twisterInDown{
+            0% {
+                opacity: 0;
+                .transform-origin(0 100%);
+                .transform(scale(0, 0) rotate(360deg) translate(0 -100%));
+            }
+
+            30% {
+                .transform-origin(0 100%);
+                .transform(scale(0, 0) rotate(360deg) translate(0 -100%));
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(100% 100%);
+                .transform(scale(1, 1) rotate(0deg) translate(0 0%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-twisterInUp(@activate : @activate-animate, @activate2 : @activate-animate-twisterInUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes twisterInUp{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 100% 0;
+                -webkit-transform: scale(0, 0) rotate(360deg) translateY(100%);
+            }
+
+            30% {
+                -webkit-transform-origin: 100% 0;
+                -webkit-transform: scale(0, 0) rotate(360deg) translateY(100%);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: scale(1, 1) rotate(0deg) translateY(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes twisterInUp{
+            0% {
+                opacity: 0;
+                .transform-origin(100% 0);
+                .transform(scale(0, 0) rotate(360deg) translate(0 100%));
+            }
+
+            30% {
+                .transform-origin(100% 0);
+                .transform(scale(0, 0) rotate(360deg) translate(0 100%));
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(100% 100%);
+                .transform(scale(1, 1) rotate(0deg) translate(0 0%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-swap(@activate : @activate-animate, @activate2 : @activate-animate-swap) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes swap{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: scale(0, 0) translate(-700px, 0px);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform-origin: 100% 100%;
+                -webkit-transform: scale(1, 1) translate(0px, 0px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes swap{
+            0% {
+                opacity: 0;
+                .transform-origin(0 100%);
+                .transform(scale(0, 0) translate(-700px, 0px));
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(100% 100%);
+                .transform(scale(1, 1) translate(0px, 0px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Bling
+//=============================================
+.activate-animate-puffIn(@activate : @activate-animate, @activate2 : @activate-animate-puffIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes puffIn{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(2, 2);
+                -webkit-filter: blur(2px);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes puffIn{
+            0% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .scale(2, 2);
+                -webkit-filter: blur(2px);
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(1, 1);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-puffOut(@activate : @activate-animate, @activate2 : @activate-animate-puffOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes puffOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1);
+            }
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(2, 2);
+                -webkit-filter: blur(2px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes puffOut{
+            0% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .scale(2, 2);
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(1, 1);
+                -webkit-filter: blur(2px);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-vanishIn(@activate : @activate-animate, @activate2 : @activate-animate-vanishIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes vanishIn{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(2, 2);
+                -webkit-filter: blur(90px);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes vanishIn{
+            0% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .scale(2, 2);
+                -webkit-filter: blur(90px);
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(1, 1);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-vanishOut(@activate : @activate-animate, @activate2 : @activate-animate-vanishOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes vanishOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(2, 2);
+                -webkit-filter: blur(20px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes vanishOut{
+            0% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(1, 1);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .scale(2, 2);
+                -webkit-filter: blur(20px);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+//Static Effects
+//=============================================
+.activate-animate-openDownLeft(@activate : @activate-animate, @activate2 : @activate-animate-openDownLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openDownLeft{
+            0% {
+                -webkit-transform-origin: bottom left;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                -webkit-transform-origin: bottom left;
+                -webkit-transform: rotate(-110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openDownLeft{
+            0% {
+                .transform-origin(bottom left);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                .transform-origin(bottom left);
+                .rotate(-110deg);
+                .animate-timing-function(ease-in-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openDownRight(@activate : @activate-animate, @activate2 : @activate-animate-openDownRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openDownRight{
+            0% {
+                -webkit-transform-origin: bottom right;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                -webkit-transform-origin: bottom right;
+                -webkit-transform: rotate(110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openDownRight{
+            0% {
+                .transform-origin(bottom right);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                .transform-origin(bottom right);
+                .rotate(110deg);
+                .animate-timing-function(ease-in-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openUpLeft(@activate : @activate-animate, @activate2 : @activate-animate-openUpLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openUpLeft{
+            0% {
+                -webkit-transform-origin: top left;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                -webkit-transform-origin: top left;
+                -webkit-transform: rotate(110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openUpLeft{
+            0% {
+                .transform-origin(top left);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                .transform-origin(top left);
+                .rotate(110deg);
+                .animate-timing-function(ease-in-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openUpRight(@activate : @activate-animate, @activate2 : @activate-animate-openUpRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openUpRight{
+            0% {
+                -webkit-transform-origin: top right;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                -webkit-transform-origin: top right;
+                -webkit-transform: rotate(-110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openUpRight{
+            0% {
+                .transform-origin(top right);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                .transform-origin(top right);
+                .rotate(-110deg);
+                .animate-timing-function(ease-in-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openDownLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-openDownLeftReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openDownLeftReturn{
+            0% {
+                -webkit-transform-origin: bottom left;
+                -webkit-transform: rotate(-110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+
+            100% {
+                -webkit-transform-origin: bottom left;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openDownLeftReturn{
+            0% {
+                .transform-origin(bottom left);
+                .rotate(-110deg);
+                .animate-timing-function(ease-in-out);
+            }
+
+            100% {
+                .transform-origin(bottom left);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openDownRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-openDownRightReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openDownRightReturn{
+            0% {
+                -webkit-transform-origin: bottom right;
+                -webkit-transform: rotate(110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+
+            100% {
+                -webkit-transform-origin: bottom right;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openDownRightReturn{
+            0% {
+                .transform-origin(bottom left);
+                .rotate(110deg);
+                .animate-timing-function(ease-in-out);
+            }
+
+            100% {
+                .transform-origin(bottom left);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openUpLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-openUpLeftReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openUpLeftReturn{
+            0% {
+                -webkit-transform-origin: top left;
+                -webkit-transform: rotate(110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+
+            100% {
+                -webkit-transform-origin: top left;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openUpLeftReturn{
+            0% {
+                .transform-origin(top left);
+                .rotate(110deg);
+                .animate-timing-function(ease-in-out);
+            }
+
+            100% {
+                .transform-origin(top left);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openUpRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-openUpRightReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openUpRightReturn{
+            0% {
+                -webkit-transform-origin: top right;
+                -webkit-transform: rotate(-110deg);
+                -webkit-animation-timing-function: ease-in-out;
+            }
+
+            100% {
+                -webkit-transform-origin: top right;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openUpRightReturn{
+            0% {
+                .transform-origin(top right);
+                .rotate(-110deg);
+                .animate-timing-function(ease-in-out);
+            }
+
+            100% {
+                .transform-origin(top right);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+//Perspective
+//=============================================
+.activate-animate-perspectiveDown(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveDown{
+            0% {
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: perspective(800px) rotateX(0deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: perspective(800px) rotateX(-180deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveDown{
+            0% {
+                .transform-origin(0 100%);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+
+            100% {
+                .transform-origin(0 100%);
+                .transform(perspective(800px) rotateX(-180deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveUp(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveUp{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateX(0deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateX(180deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveUp{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+
+            100% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(180deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveLeft(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveLeft{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateY(0deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateY(-180deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveLeft{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateY(0deg));
+            }
+
+            100% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateY(180deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveRight(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveRight{
+            0% {
+                -webkit-transform-origin: 100% 0;
+                -webkit-transform: perspective(800px) rotateY(0deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 100% 0;
+                -webkit-transform: perspective(800px) rotateY(180deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveRight{
+            0% {
+                .transform-origin(100% 0);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+
+            100% {
+                .transform-origin(100% 0);
+                .transform(perspective(800px) rotateX(180deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveDownReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveDownReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveDownReturn{
+            0% {
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: perspective(800px) rotateX(-180deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 100%;
+                -webkit-transform: perspective(800px) rotateX(0deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveDownReturn{
+            0% {
+                .transform-origin(0 100%);
+                .transform(perspective(800px) rotateX(-180deg));
+            }
+
+            100% {
+                .transform-origin(0 100%);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveUpReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveUpReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveUpReturn{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateX(180deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateX(0deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveUpReturn{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(180deg));
+            }
+
+            100% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveLeftReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveLeftReturn{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateY(-180deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateY(0deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveLeftReturn{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(-180deg));
+            }
+
+            100% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-perspectiveRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveRightReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes perspectiveRightReturn{
+            0% {
+                -webkit-transform-origin: 100% 0;
+                -webkit-transform: perspective(800px) rotateY(180deg);
+            }
+
+            100% {
+                -webkit-transform-origin: 100% 0;
+                -webkit-transform: perspective(800px) rotateY(0deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes perspectiveRightReturn{
+            0% {
+                .transform-origin(100% 0);
+                .transform(perspective(800px) rotateX(180deg));
+            }
+
+            100% {
+                .transform-origin(100% 0);
+                .transform(perspective(800px) rotateX(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Static Effects Out
+//=============================================
+.activate-animate-openDownLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-openDownLeftOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openDownLeftOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: bottom left;
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: bottom left;
+                -webkit-transform: rotate(-110deg);
+                -webkit-animation-timing-function: ease-in-o;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openDownLeftOut{
+            0% {
+                opacity: 1;
+                .transform-origin(bottom left);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(bottom left);
+                .rotate(-110deg);
+                .animate-timing-function(ease-in-o);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openDownRightOut(@activate : @activate-animate, @activate2 : @activate-animate-openDownRightOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openDownRightOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: bottom right;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: bottom right;
+                -webkit-transform: rotate(110deg);
+                -webkit-animation-timing-function: ease-in-o;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openDownRightOut{
+            0% {
+                opacity: 1;
+                .transform-origin(bottom right);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(bottom right);
+                .rotate(110deg);
+                .animate-timing-function(ease-in-o);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openUpLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-openUpLeftOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openUpLeftOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: top left;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: top left;
+                -webkit-transform: rotate(110deg);
+                -webkit-animation-timing-function: ease-in-o;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openUpLeftOut{
+            0% {
+                opacity: 1;
+                .transform-origin(top left);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(top left);
+                .rotate(110deg);
+                .animate-timing-function(ease-in-o);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-openUpRightOut(@activate : @activate-animate, @activate2 : @activate-animate-openUpRightOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes openUpRightOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: top right;
+                -webkit-transform: rotate(0deg);
+                -webkit-animation-timing-function: ease-out;
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: top right;
+                -webkit-transform: rotate(-110deg);
+                -webkit-animation-timing-function: ease-in-o;
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes openUpRightOut{
+            0% {
+                opacity: 1;
+                .transform-origin(top right);
+                .rotate(0deg);
+                .animate-timing-function(ease-out);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(top right);
+                .rotate(-110deg);
+                .animate-timing-function(ease-in-o);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Rotate
+//=============================================
+.activate-animate-rotateDown(@activate : @activate-animate, @activate2 : @activate-animate-rotateDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateDown{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateX(0deg) translateZ(0px);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 100%;
+                -webkit-transform: perspective(800px) rotateX(-180deg) translateZ(300px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateDown{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(0deg) translateZ(0px));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 100%);
+                .transform(perspective(800px) rotateX(-180deg) translateZ(300px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateUp(@activate : @activate-animate, @activate2 : @activate-animate-rotateUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateUp{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateX(0deg) translateZ(0px);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 0;
+                -webkit-transform: perspective(800px) rotateX(180deg) translateZ(100px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateUp{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateX(0deg) translateZ(0px));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 0);
+                .transform(perspective(800px) rotateX(180deg) translateZ(100px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateLeft{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateY(0deg) translateZ(0px);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 0;
+                -webkit-transform: perspective(800px) rotateY(180deg) translateZ(300px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateLeft{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateY(0deg) translateZ(0px));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 0);
+                .transform(perspective(800px) rotateY(180deg) translateZ(300px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-rotateRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes rotateRight{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: perspective(800px) rotateY(0deg) translate3d(0px);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 0;
+                -webkit-transform: perspective(800px) rotateY(-180deg) translateZ(150px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes rotateRight{
+            0% {
+                .transform-origin(0 0);
+                .transform(perspective(800px) rotateY(0deg) translate3d(0px));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 0);
+                .transform(perspective(800px) rotateY(-180deg) translateZ(150px));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Slide
+//=============================================
+.activate-animate-slideDown(@activate : @activate-animate, @activate2 : @activate-animate-slideDown) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideDown{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(0%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(100%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideDown{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateY(0%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateY(100%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideUp(@activate : @activate-animate, @activate2 : @activate-animate-slideUp) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideUp{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(0%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(-100%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideUp{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateY(0%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateY(-100%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideLeft(@activate : @activate-animate, @activate2 : @activate-animate-slideLeft) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideLeft{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(0%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(-100%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideLeft{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateX(0%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateX(-100%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideRight(@activate : @activate-animate, @activate2 : @activate-animate-slideRight) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideRight{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(0%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(100%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideRight{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateX(0%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateX(100%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideDownReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideDownReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideDownReturn{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(100%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(0%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideDownReturn{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateY(100%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateY(0%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideUpReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideUpReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideUpReturn{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(-100%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateY(0%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideUpReturn{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateY(-100%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateY(0%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideLeftReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideLeftReturn{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(-100%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(0%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideLeftReturn{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateX(-100%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateX(0%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-slideRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideRightReturn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes slideRightReturn{
+            0% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(100%);
+            }
+
+            100% {
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: translateX(0%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes slideRightReturn{
+            0% {
+                .transform-origin(0 0);
+                .transform(translateX(100%));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(0 0);
+                .transform(translateX(0%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Math
+//=============================================
+.activate-animate-swashOut(@activate : @activate-animate, @activate2 : @activate-animate-swashOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes swashOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1);
+            }
+
+            80% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0.9, 0.9);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0, 0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes swashOut{
+            0% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(1, 1);
+            }
+
+            80% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(0.9, 0.9);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .scale(0, 0);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-swashIn(@activate : @activate-animate, @activate2 : @activate-animate-swashIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes swashIn{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0, 0);
+            }
+
+            90% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0.9, 0.9);
+            }
+
+            100% {
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes swashIn{
+            0% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .scale(0, 0);
+            }
+
+            90% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .scale(0.9, 0.9);
+            }
+
+            100% {
+                .transform-origin(50% 50%);
+                .scale(1, 1);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-foolishOut(@activate : @activate-animate, @activate2 : @activate-animate-foolishOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes foolishOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1) rotate(360deg);
+            }
+
+            20% {
+                opacity: 1;
+                -webkit-transform-origin: 0% 0%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            40% {
+                opacity: 1;
+                -webkit-transform-origin: 100% 0%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            60% {
+                opacity: 1;
+                -webkit-transform-origin: 0%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            80% {
+                opacity: 1;
+                -webkit-transform-origin: 0% 100%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0, 0) rotate(0deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes foolishOut{
+            0% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .transform(scale(1, 1) rotate(360deg));
+            }
+
+            20% {
+                opacity: 1;
+                .transform-origin(0% 0%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            40% {
+                opacity: 1;
+                .transform-origin(100% 0%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            60% {
+                opacity: 1;
+                .transform-origin(0%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            80% {
+                opacity: 1;
+                .transform-origin(0% 100%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .transform(scale(0, 0) rotate(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-foolishIn(@activate : @activate-animate, @activate2 : @activate-animate-foolishIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes foolishIn{
+            0% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0, 0) rotate(360deg);
+            }
+
+            20% {
+                opacity: 1;
+                -webkit-transform-origin: 0% 100%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            40% {
+                opacity: 1;
+                -webkit-transform-origin: 100% 100%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            60% {
+                opacity: 1;
+                -webkit-transform-origin: 0%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            80% {
+                opacity: 1;
+                -webkit-transform-origin: 0% 0%;
+                -webkit-transform: scale(0.5, 0.5) rotate(0deg);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1) rotate(0deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes foolishIn{
+            0% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .transform(scale(0, 0) rotate(360deg));
+            }
+
+            20% {
+                opacity: 1;
+                .transform-origin(0% 100%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            40% {
+                opacity: 1;
+                .transform-origin(100% 100%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            60% {
+                opacity: 1;
+                .transform-origin(0%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            80% {
+                opacity: 1;
+                .transform-origin(0% 0%);
+                .transform(scale(0.5, 0.5) rotate(0deg));
+            }
+
+            100% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .transform(scale(1, 1) rotate(0deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-holeOut(@activate : @activate-animate, @activate2 : @activate-animate-holeOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes holeOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(1, 1) rotateY(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: scale(0, 0) rotateY(180deg);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes holeOut{
+            0% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .transform(scale(1, 1) rotateY(0deg));
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(50% 50%);
+                .transform(scale(0, 0) rotateY(180deg));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Tin
+//=============================================
+.activate-animate-tinRightOut(@activate : @activate-animate, @activate2 : @activate-animate-tinRightOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinRightOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateX(0);
+            }
+
+            10%, 30% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateX(0);
+            }
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateX(900%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinRightOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                .transform(scale(1, 1) translateX(0));
+            }
+
+            10%, 30% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateX(0));
+            }
+            100% {
+                opacity: 0;
+                .transform(scale(1, 1) translateX(900%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-tinLeftOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinLeftOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateX(0);
+            }
+
+            10%, 30% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateX(0);
+            }
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateX(-900%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinLeftOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                .transform(scale(1, 1) translateX(0));
+            }
+
+            10%, 30% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateX(0));
+            }
+            100% {
+                opacity: 0;
+                .transform(scale(1, 1) translateX(-900%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinUpOut(@activate : @activate-animate, @activate2 : @activate-animate-tinUpOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinUpOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateY(0);
+            }
+
+            10%, 30% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateY(-900%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinUpOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                .transform(scale(1, 1) translateY(0));
+            }
+
+            10%, 30% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateY(0));
+            }
+            100% {
+                opacity: 0;
+                .transform(scale(1, 1) translateY(-900%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinDownOut(@activate : @activate-animate, @activate2 : @activate-animate-tinDownOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinDownOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateY(0);
+            }
+
+            10%, 30% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateY(900%);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinDownOut{
+            0%, 20%, 40%, 50% {
+                opacity: 1;
+                .transform(scale(1, 1) translateY(0));
+            }
+
+            10%, 30% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateY(0));
+            }
+            100% {
+                opacity: 0;
+                .transform(scale(1, 1) translateY(900%));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinRightIn(@activate : @activate-animate, @activate2 : @activate-animate-tinRightIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinRightIn{
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateX(900%);
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateX(0);
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateX(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinRightIn{
+            0% {
+                opacity: 0;
+                .transform(scale(1, 1) translateX(900%));
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateX(0));
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                .transform(scale(1, 1) translateX(0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinLeftIn(@activate : @activate-animate, @activate2 : @activate-animate-tinLeftIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinLeftIn{
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateX(-900%);
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateX(0);
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateX(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinLeftIn{
+            0% {
+                opacity: 0;
+                .transform(scale(1, 1) translateX(-900%));
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateX(0));
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                .transform(scale(1, 1) translateX(0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinUpIn(@activate : @activate-animate, @activate2 : @activate-animate-tinUpIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinUpIn{
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateY(-900%);
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateY(0);
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateY(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinUpIn{
+            0% {
+                opacity: 0;
+                .transform(scale(1, 1) translateY(-900%));
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateY(0));
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                .transform(scale(1, 1) translateY(0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-tinDownIn(@activate : @activate-animate, @activate2 : @activate-animate-tinDownIn) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes tinDownIn{
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(1, 1) translateY(900%);
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                -webkit-transform: scale(1.1, 1.1) translateY(0);
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                -webkit-transform: scale(1, 1) translateY(0);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes tinDownIn{
+            0% {
+                opacity: 0;
+                .transform(scale(1, 1) translateY(900%));
+            }
+
+            50%, 70%, 90% {
+                opacity: 1;
+                .transform(scale(1.1, 1.1) translateY(0));
+            }
+
+            60%, 80%, 100% {
+                opacity: 1;
+                .transform(scale(1, 1) translateY(0));
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+// Bomb
+//=============================================
+.activate-animate-bombRightOut(@activate : @activate-animate, @activate2 : @activate-animate-bombRightOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bombRightOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: rotate(0deg);
+                -webkit-filter: blur(0px);
+            }
+
+            50% {
+                opacity: 1;
+                -webkit-transform-origin: 200% 50%;
+                -webkit-transform: rotate(160deg);
+                -webkit-filter: blur(0px);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: 200% 50%;
+                -webkit-transform: rotate(160deg);
+                -webkit-filter: blur(20px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bombRightOut{
+            0% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .rotate(0deg);
+                -webkit-filter: blur(0px);
+            }
+
+            50% {
+                opacity: 1;
+                .transform-origin(200% 50%);
+                .rotate(160deg);
+                -webkit-filter: blur(0px);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(200% 50%);
+                .rotate(160deg);
+                -webkit-filter: blur(20px);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+.activate-animate-bombLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-bombLeftOut) when (@activate = true) and (@activate2 = true){
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+        @-webkit-keyframes bombLeftOut{
+            0% {
+                opacity: 1;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-transform: rotate(0deg);
+                -webkit-filter: blur(0px);
+            }
+
+            50% {
+                opacity: 1;
+                -webkit-transform-origin: -100% 50%;
+                -webkit-transform: rotate(-160deg);
+                -webkit-filter: blur(0px);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform-origin: -100% 50%;
+                -webkit-transform: rotate(-160deg);
+                -webkit-filter: blur(20px);
+            }
+        }
+    }
+    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+        @keyframes bombLeftOut{
+            0% {
+                opacity: 1;
+                .transform-origin(50% 50%);
+                .rotate(0deg);
+                -webkit-filter: blur(0px);
+            }
+
+            50% {
+                opacity: 1;
+                .transform-origin(-100% 50%);
+                .rotate(-160deg);
+                -webkit-filter: blur(0px);
+            }
+
+            100% {
+                opacity: 0;
+                .transform-origin(-100% 50%);
+                .rotate(-160deg);
+                -webkit-filter: blur(20px);
+            }
+        }
+    }
+    .activate(@webkit, webkit);
+    .activate(@w3c, w3c);
+}
+//// Other
+//=============================================
+//.activate-animate-ANIMATION_NAME(@activate : @activate-animate, @activate2 : @activate-animate-ANIMATION_NAME) when (@activate = true) and (@activate2 = true){
+//    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+//    }
+//    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {
+//    }
+//    .activate(@webkit, webkit);
+//    .activate(@moz, moz);
+//    .activate(@opera, o);
+//    .activate(@w3c, w3c);
+//}

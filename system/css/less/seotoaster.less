@@ -20,27 +20,28 @@
 //==================================================
 @import "Elements/basic";
 
-// Lists Styles
-//==================================================
-@import "Elements/lists";
-
 // Form Styles
 //==================================================
-@import "Elements/form";
+.activate-form(@activate) when (@activate = true){
+    @import "Elements/form";
+}
+.activate-form(@activate-widget-form);
 
-// Buttons Styles
+// Modules Styles
 //==================================================
-@import "Elements/buttons";
+.activate-modules(@activate) when (@activate = true){
+    @import "Packages/modules";
+}
+.activate-modules(@activate-modules);
 
-// Tables Styles
+// Animation
 //==================================================
-@import "Elements/tables";
+.activate-animate(@activate) when (@activate = true){
+    @import "Packages/animate-custom";
+}
+.activate-animate(@activate-animate);
 
-// JQuery Modules Styles
-//==================================================
-@import "Packages/modules";
-
-// Control Panel Styles
+// Control Panel Elements Styles
 //==================================================
 @import "Packages/control_panel";
 

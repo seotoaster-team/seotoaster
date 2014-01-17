@@ -1,0 +1,35 @@
+.carousel{
+    position  : relative;
+    max-width : 100%;
+    .user-select();
+
+    .carousel-clip{
+        overflow : hidden;
+        height   : 100%;
+    }
+
+    .carousel-wrap{
+        .inline-block-wrap(top, ~'.carousel-item');
+        min-width : 100%;
+    }
+
+    .carousel-btn{
+        position : absolute;
+        top      : -24px;
+        padding  : @padding-small-vertical;
+        color    : #fff;
+        .rgba(#000, 0.5);
+        .icon-size(12px);
+
+        &:hover{
+            background : @primary-bg;
+        }
+
+        &.prev{
+            right : 24px;
+        }
+        &.next{
+            right : 0;
+        }
+    }
+}

@@ -32,6 +32,10 @@
 //  Mixin
 //==================================================
 
+// Activate elements
+//==================================================
+@import "activate-elements";
+
 // Size toaster popup
 //==================================================
 @tpopup-base-width    : 960px;
@@ -47,18 +51,21 @@
 
 // Responsive
 //==================================================
-@responsive             : true;
-@responsive-size-large  : 1024px;
-@responsive-size-medium : 800px;
-@responsive-size-small  : 640px;
-@responsive-size-mini   : 480px;
+@responsive-size-desktop  : 1024px;
+@responsive-size-tablet   : 768px;
+@responsive-size-mobile   : 480px;
+@responsive-size-phone    : 320px;
+
+@responsive-column-tablet : 2;
+@responsive-column-mobile : 1;
 
 // Fonts
 //==================================================
 .google-font() {
     //@import "http://fonts.googleapis.com/css?family=YOUR GOOGLE FONT";
 }
-@font-family-text     : 'Open Sans', sans-serif;
+
+@font-family-text     : Helvetica, "Helvetica Neue", Arial, sans-serif;
 @font-family-headings : @font-family-text;
 
 @font-size-larger     : 1.5em;
@@ -90,10 +97,10 @@
 // Brand Color
 //==================================================
 @brand-primary : #31B0D5;
-@brand-success : #2ECC71;
-@brand-info    : #3498DB;
-@brand-warning : #E67E22;
-@brand-error   : #E74C3C;
+@brand-green   : #2ECC71;
+@brand-blue    : #3498DB;
+@brand-orange  : #E67E22;
+@brand-red     : #E74C3C;
 
 //main color website
 // IS USED BY DEFAULT for: @nav-bg, @state-primary (alerts, message, table coloring, datepicker, progressbar, range), @btn-primary, @tabs-nav-li-bg, @dialog-header-bg, @text-select-bg
@@ -117,6 +124,7 @@
 @text-select-color       : @primary-color;
 
 @header-bg               : @gray-light;
+//@header-bg               : darken(@gray-light, 10%);
 @header-color            : @gray;
 @header-height           : 40px;
 
@@ -125,22 +133,50 @@
 @header-inner-bg         : #aaa;
 @header-inner-color      : #fff;
 
+// variables for Main Menu
+@nav-height               : 35px;
+
+@nav-bg                   : @primary-bg;
+@nav-bg-hover             : darken(@nav-bg, 20%);
+@nav-bg-current           : @nav-bg-hover;
+
+@nav-color                : @primary-color;
+@nav-color-hover          : @nav-color;
+@nav-color-current        : @nav-color-hover;
+
+@nav-drop-down-list-bg            : #fff;
+@nav-drop-down-list-bg-hover      : @gray-lighter;
+@nav-drop-down-list-bg-current    : @nav-drop-down-list-bg-hover;
+@nav-drop-down-list-color         : @text-color;
+@nav-drop-down-list-color-hover   : @nav-drop-down-list-color;
+@nav-drop-down-list-color-current : @nav-drop-down-list-color-hover;
+
+// variables for Content
+@content-bg               : #fff;
+@content-color            : @text-color;
+
+// variables for Footer
+@footer-bg                : darken(@gray, 25%);
+@footer-color             : @gray;
+@footer-heading-color     : @gray-lighter;
+
 // Links
 //==================================================
 @link-color         : #59a5c3;
 @link-color-hover   : darken(@link-color, 15%);
 @link-color-active  : @link-color-hover;
-@link-color-visited : @link-color;
+@link-color-visited : @link-color; // look typography.less line 16
 
 // Heading
 //==================================================
 @heading-color    : #4c4c4c;
+@heading-weight   : bold;
 @subheading-color : @gray;
 
 // Components
 //==================================================
-@padding-larger-vertical   : 14px;
-@padding-larger-horizontal : 20px;
+@padding-larger-vertical   : 12px;
+@padding-larger-horizontal : 18px;
 
 @padding-large-vertical    : 10px;
 @padding-large-horizontal  : 16px;
@@ -152,13 +188,13 @@
 @padding-small-horizontal  : 8px;
 
 @padding-mini-vertical     : 2px;
-@padding-mini-horizontal   : 4px;
+@padding-mini-horizontal   : 6px;
 
 @border-radius-base        : 5px;
 @border-radius-large       : 7px;
 @border-radius-small       : 3px;
 
-@hr-size                   : 2px;
+@hr-size                   : 1px;
 @hr-color                  : @gray-light;
 
 // Form states and alerts
@@ -170,21 +206,21 @@
 @state-primary-bg     : lighten(desaturate(@state-primary-text, 30%), 35%);
 @state-primary-border : darken(@state-primary-bg, 15%);
 
-@state-success-bg     : #D8EFC1;
-@state-success-text   : #79985B;
-@state-success-border : #B4D892;
+@state-green-bg     : #D8EFC1;
+@state-green-text   : #79985B;
+@state-green-border : #B4D892;
 
-@state-info-bg        : #B8E1F1;
-@state-info-text      : #52889B;
-@state-info-border    : #A1C7D5;
+@state-blue-bg        : #B8E1F1;
+@state-blue-text      : #52889B;
+@state-blue-border    : #A1C7D5;
 
-@state-warning-bg     : #FEEBB7;
-@state-warning-text   : #B49133;
-@state-warning-border : #E7D195;
+@state-orange-bg     : #FEEBB7;
+@state-orange-text   : #B49133;
+@state-orange-border : #E7D195;
 
-@state-error-bg       : #F9BCC3;
-@state-error-text     : #B76973;
-@state-error-border   : #F09DA7;
+@state-red-bg       : #F9BCC3;
+@state-red-text     : #B76973;
+@state-red-border   : #F09DA7;
 
 // Tables
 //==================================================
@@ -199,31 +235,34 @@
 
 // Buttons
 //==================================================
+@btn-line-height           : 1.33;
 @btn-border-width          : 0px;
 
 @btn-border-radius         : 0px;
+@btn-larger-border-radius  : @btn-border-radius * 2;
 @btn-large-border-radius   : @btn-border-radius * 1.5;
 @btn-small-border-radius   : @btn-border-radius * .5;
+@btn-mini-border-radius    : @btn-border-radius * .25;
 
 @btn-primary-color         : @primary-color;
 @btn-primary-bg            : @primary-bg;
 @btn-primary-border        : darken(@btn-primary-bg, 10%);
 
-@btn-success-color         : #fff;
-@btn-success-bg            : @brand-success;
-@btn-success-border        : darken(@btn-success-bg, 10%);
+@btn-green-color           : #fff;
+@btn-green-bg              : @brand-green;
+@btn-green-border          : darken(@btn-green-bg, 10%);
 
-@btn-warning-color         : #fff;
-@btn-warning-bg            : @brand-warning;
-@btn-warning-border        : darken(@btn-warning-bg, 10%);
+@btn-orange-color          : #fff;
+@btn-orange-bg             : @brand-orange;
+@btn-orange-border         : darken(@btn-orange-bg, 10%);
 
-@btn-error-color           : #fff;
-@btn-error-bg              : @brand-error;
-@btn-error-border          : darken(@btn-error-bg, 10%);
+@btn-red-color             : #fff;
+@btn-red-bg                : @brand-red;
+@btn-red-border            : darken(@btn-red-bg, 10%);
 
-@btn-info-color            : #fff;
-@btn-info-bg               : @brand-info;
-@btn-info-border           : darken(@btn-info-bg, 10%);
+@btn-blue-color            : #fff;
+@btn-blue-bg               : @brand-blue;
+@btn-blue-border           : darken(@btn-blue-bg, 10%);
 
 // Forms
 //==================================================
@@ -231,39 +270,41 @@
 
 @input-color              : darken(@link-color, 15%);
 
-@input-bg                 : @body-bg;
+@input-bg                 : #fff;
 @input-bg-disabled        : @gray-light;
 
 @input-border-width       : 1px;
 @input-border-color       : #ccc;
-@input-border-color-focus : @primary-bg;
-//border color and shadow in focus
-@input-border-radius      : 0;
+@input-border-color-focus : @primary-bg;//border color and shadow in focus
+@input-border-radius      : 0px;
 
 @input-shadow-focus       : true;//Do you need a shadow on focus? (true / false)
 
 @input-color-placeholder  : #ccc;
 
+@checkbox-radio-width     : 16px;
+
 // Slide Show
 //==================================================
 @slider-height         : 350px;
 @slider-button-size    : 18px;
+@slider-heading-color  : @gray-lighter; // color headings in slide description
 
 // Thumbnails
 //==================================================
-@thumbnail-bg            : transparent;
-@thumbnail-padding       : 2px;
+@thumbnail-bg              : transparent;
+@thumbnail-padding         : 2px;
 
-@thumbnail-border-width  : 1px;
-@thumbnail-border-color  : @gray-light;
-@thumbnail-border-radius : 0;
+@thumbnail-border-width    : 1px;
+@thumbnail-border-color    : @gray-light;
+@thumbnail-border-radius   : 0;
 
-@thumbnail-shadow-hover  : true;
-//Do you need a shadow on hover? (true / false)
-@thumbnail-color-hover   : @gray;
+@thumbnail-shadow-hover    : true;//Do you need a shadow on hover? (true / false)
+@thumbnail-color-hover     : @gray;
 
-@thumbnail-caption-bg    : fade(@primary-bg, 80%);
-@thumbnail-caption-color : @primary-color;
+@thumbnail-caption-bg      : @primary-bg;
+@thumbnail-caption-opacity : 0.8;
+@thumbnail-caption-color   : @primary-color;
 
 // Breadcrumbs
 //==================================================
@@ -312,7 +353,7 @@
 @cpanel-subtitle-bg         : #eee;
 @cpanel-content-bg          : #fff;
 
-// JQuery UI Tabs = http://jqueryui.com/tabs/
+// JQuery Modules Tabs = http://jqueryui.com/tabs/
 //=============================================================
 @tabs-nav-bg              : @gray-light;
 @tabs-nav-li-bg           : transparent;
@@ -326,7 +367,18 @@
 
 @tabs-container-bg        : @body-bg;
 
-// JQuery UI Datepicker
+// JQuery Modules Dialog = http://jqueryui.com/dialog/
+//=============================================================
+@dialog-bg           : @body-bg;
+@dialog-border-width : 1px;
+@dialog-border-color : darken(@primary-bg, 5%);
+
+@dialog-header-bg    : @primary-bg;
+@dialog-header-color : @primary-color;
+
+@dialog-content-bg   : transparent;
+
+// JQuery Modules Datepicker = http://jqueryui.com/datepicker/
 //==================================================
 @datepicker-width             : 210px;
 @datepicker-bg                : @body-bg;
@@ -343,7 +395,7 @@
 
 @datepicker-week-bg           : @datepicker-header-bg;
 @datepicker-week-color        : @datepicker-header-color;
-@datepicker-week-end-color    : desaturate(@brand-error, 20%);
+@datepicker-week-end-color    : desaturate(@brand-red, 20%);
 @datepicker-week-box-size     : 30px;
 @datepicker-week-font-size    : 10px;
 
@@ -357,33 +409,40 @@
 @datepicker-current-day-bg    : lighten(@datepicker-header-bg, 5%);
 @datepicker-current-day-color : @datepicker-week-color;
 
-// JQuery UI Autocomplete = http://jqueryui.com/autocomplete/
+// JQuery Modules Autocomplete = http://jqueryui.com/autocomplete/
 //=============================================================
 @autocomplete-bg               : @input-bg;
 @autocomplete-color            : @text-color;
 @autocomplete-item-bg-hover    : @primary-bg;
 @autocomplete-item-color-hover : @primary-color;
 
-// JQuery UI Tooltip = http://jqueryui.com/tooltip/
+// JQuery Modules Tooltip = http://jqueryui.com/tooltip/
 //=============================================================
-@tooltip-bg    : @body-bg;
+@tooltip-bg    : #fff;
 @tooltip-color : @text-color;
 @tooltip-width : 300px;
 
-// JQuery UI Slider (range) = http://jqueryui.com/slider/
+// JQuery Modules Slider (range) = http://jqueryui.com/slider/
 //=============================================================
 @range-size         : 16px;
-@range-bg           : @body-bg;
+@range-bg           : #fff;
 @range-border-color : @input-border-color;
 @range-range-bg     : @gray-light;
 @range-handle-bg    : @gray;
 
-// JQuery UI Progressbar = http://jqueryui.com/progressbar/
+// JQuery Modules Progressbar = http://jqueryui.com/progressbar/
 //=============================================================
 @progressbar-size         : 18px;
-@progressbar-bg           : @body-bg;
+@progressbar-bg           : #fff;
 @progressbar-border-color : darken(@primary-bg, 15%);
 @progressbar-range-bg     : @primary-bg;
+
+// ScrollBars = http://codemug.com/html/custom-scrollbars-using-css/
+//=============================================================
+@scrollbar-size             : 10px;
+@scrollbar-bg               : @gray-light;
+@scrollbar-slider-button-bg : darken(@scrollbar-bg, 10%);
+@scrollbar-resize-color     : darken(@scrollbar-bg, 10%);
 
 // Mixin
 //==================================================

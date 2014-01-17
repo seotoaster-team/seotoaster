@@ -1,13 +1,13 @@
 .ui-autocomplete{
     position     : absolute;
+    z-index      : 999;
+    overflow     : auto;
+    max-height   : 200px;
+    border-width : @input-border-width;
+    border-style : solid;
+    border-color : @input-border-color;
     background   : @autocomplete-bg;
     color        : @autocomplete-color;
-    border-style : solid;
-    border-width : @input-border-width;
-    border-color : @input-border-color;
-    z-index      : 999;
-    max-height   : 200px;
-    overflow     : auto;
     list-style   : none;
 
     .ui-menu-item{

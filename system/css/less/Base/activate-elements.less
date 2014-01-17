@@ -1,0 +1,205 @@
+// Browser support
+@w3c    : true;
+@webkit : true;
+@moz    : true;
+@opera  : false;
+@ie     : true; // 10+ and old version
+    @ie9    : true;
+    @ie8    : true;
+    @ie7    : false;
+
+// PIE
+@activate-pie                           : false;
+
+// Responsive (MediaQueries)
+@activate-responsive                    : false;
+@activate-hover                         : true;
+
+//Toaster icons
+@activate-toaster-icons                 : true;
+
+// Alternate Style (color, size, type) FOR=> Buttons, Alert, Progressbar, Range, Form input, Link, Table
+@activate-alternate-style               : true;
+
+@activate-alternate-style-size          : true;
+@activate-alternate-style-color         : true;
+@activate-alternate-style-form-labeled  : true;
+@activate-alternate-style-button   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
+    @activate-alternate-style-button-3d   : false;
+@activate-alternate-style-images        : false; // .img-thumbnail, .img-circle, .img-rounded
+@activate-alternate-style-tables        : true; // .table-bordered, .table-striped, .table-hover
+    @activate-alternate-style-tables-bordered : @activate-alternate-style-tables; // .table-bordered
+    @activate-alternate-style-tables-striped  : @activate-alternate-style-tables; // .table-striped
+    @activate-alternate-style-tables-hover    : @activate-alternate-style-tables; // .table-hover
+
+// Style for Button
+@activate-button-transition             : true;
+
+// Style for Checkbox and Radio
+@activate-checkbox-radio-style          : true;
+
+// Connection / Disconnection system-classes.less
+@activate-system-classes                : true;
+
+// Connection / Disconnection modules.less OR each individually
+@activate-modules                       : true;
+
+@activate-module-carousel               : false;
+@activate-module-alert                  : true;
+@activate-module-accordion              : true;
+@activate-module-tabs                   : true;
+@activate-module-dialog                 : true;
+@activate-module-datepicker             : true;
+@activate-module-autocomplete           : true;
+@activate-module-tooltips               : true;
+@activate-module-range                  : true;
+@activate-module-progressbar            : true;
+@activate-module-chosen                 : true;
+@activate-module-scrollbar              : false;
+
+// Connection / Disconnection TOASTER WIDGETS OR each individually
+@activate-widget-directupload           : false;
+@activate-widget-form                   : true; // hide/show all styles for form components
+@activate-widget-form-builder           : false; // style for form created with help builder form (http://www.seosamba.com/free-form-maker/)
+@activate-widget-gallery                : false;
+@activate-widget-breadcrumbs            : false;
+@activate-widget-LP-LC                  : false; // List Pages, List Categories
+@activate-widget-FA-FP-RP               : false; // FeaturedArea, FeaturedPage & RelatedPage
+@activate-widget-FA-FP-RP-LP-LC-sidebar : false; // FeaturedArea, FeaturedPage & RelatedPage
+@activate-widget-menu-main              : false;
+@activate-widget-menu-static            : false;
+@activate-widget-news-list              : false;
+@activate-widget-rss                    : false;
+@activate-widget-search                 : false; // Search form and Saerch results
+@activate-widget-sitemap                : false;
+@activate-widget-slider                 : false; // Slider cycle and toaster Image Rotator
+
+// Activate class for reset element
+@activate-reset-element                 : true;
+
+// Activate alternative classes for list
+@activate-list-unstyled                 : true;
+@activate-list-inline                   : true;
+@activate-list-bordered                 : true;
+@activate-list-tags                     : true;
+@activate-list-arrow                    : true;
+@activate-list-count-sign               : true;
+@activate-list-icon-sign                : true;
+@activate-list-testimonials             : false; // styles are in system-classes.less, check that was included
+@activate-list-social-links             : true; // styles are in system-classes.less, check that was included
+
+// Animate CSS3. DEMO => https://daneden.me/animate/
+@activate-animate                       : false;
+
+@activate-animate-rotate                : true;
+@activate-animate-flash                 : true;
+@activate-animate-shake                 : true;
+@activate-animate-bounce                : true;
+@activate-animate-tada                  : true;
+@activate-animate-swing                 : true;
+@activate-animate-wobble                : true;
+@activate-animate-wiggle                : true;
+@activate-animate-pulse                 : true;
+@activate-animate-flip                  : true;
+@activate-animate-flipInX               : true;
+@activate-animate-flipOutX              : true;
+@activate-animate-flipInY               : true;
+@activate-animate-flipOutY              : true;
+@activate-animate-fadeIn                : true;
+@activate-animate-fadeInUp              : true;
+@activate-animate-fadeInDown            : true;
+@activate-animate-fadeInLeft            : true;
+@activate-animate-fadeInRight           : true;
+@activate-animate-fadeInUpBig           : true;
+@activate-animate-fadeInDownBig         : true;
+@activate-animate-fadeInLeftBig         : true;
+@activate-animate-fadeInRightBig        : true;
+@activate-animate-fadeOut               : true;
+@activate-animate-fadeOutUp             : true;
+@activate-animate-fadeOutDown           : true;
+@activate-animate-fadeOutLeft           : true;
+@activate-animate-fadeOutRight          : true;
+@activate-animate-fadeOutUpBig          : true;
+@activate-animate-fadeOutDownBig        : true;
+@activate-animate-fadeOutLeftBig        : true;
+@activate-animate-fadeOutRightBig       : true;
+@activate-animate-bounceIn              : true;
+@activate-animate-bounceInUp            : true;
+@activate-animate-bounceInDown          : true;
+@activate-animate-bounceInLeft          : true;
+@activate-animate-bounceInRight         : true;
+@activate-animate-bounceOut             : true;
+@activate-animate-bounceOutUp           : true;
+@activate-animate-bounceOutDown         : true;
+@activate-animate-bounceOutLeft         : true;
+@activate-animate-bounceOutRight        : true;
+@activate-animate-rotateIn              : true;
+@activate-animate-rotateInUpLeft        : true;
+@activate-animate-rotateInDownLeft      : true;
+@activate-animate-rotateInUpRight       : true;
+@activate-animate-rotateInDownRight     : true;
+@activate-animate-rotateOut             : true;
+@activate-animate-rotateOutUpLeft       : true;
+@activate-animate-rotateOutDownLeft     : true;
+@activate-animate-rotateOutUpRight      : true;
+@activate-animate-rotateOutDownRight    : true;
+@activate-animate-lightSpeedIn          : true;
+@activate-animate-lightSpeedOut         : true;
+@activate-animate-hinge                 : true;
+@activate-animate-rollIn                : true;
+@activate-animate-rollOut               : true;
+@activate-animate-magic                 : true;
+@activate-animate-twisterInDown         : true;
+@activate-animate-twisterInUp           : true;
+@activate-animate-swap                  : true;
+@activate-animate-puffIn                : true;
+@activate-animate-puffOut               : true;
+@activate-animate-vanishIn              : true;
+@activate-animate-vanishOut             : true;
+@activate-animate-openDownLeft          : true;
+@activate-animate-openDownRight         : true;
+@activate-animate-openUpLeft            : true;
+@activate-animate-openUpRight           : true;
+@activate-animate-openDownLeftReturn    : true;
+@activate-animate-openDownRightReturn   : true;
+@activate-animate-openUpLeftReturn      : true;
+@activate-animate-openUpRightReturn     : true;
+@activate-animate-perspectiveDown       : true;
+@activate-animate-perspectiveUp         : true;
+@activate-animate-perspectiveLeft       : true;
+@activate-animate-perspectiveRight      : true;
+@activate-animate-perspectiveDownReturn : true;
+@activate-animate-perspectiveUpReturn   : true;
+@activate-animate-perspectiveLeftReturn : true;
+@activate-animate-perspectiveRightReturn: true;
+@activate-animate-openDownLeftOut       : true;
+@activate-animate-openDownRightOut      : true;
+@activate-animate-openUpLeftOut         : true;
+@activate-animate-openUpRightOut        : true;
+@activate-animate-rotateDown            : true;
+@activate-animate-rotateUp              : true;
+@activate-animate-rotateLeft            : true;
+@activate-animate-rotateRight           : true;
+@activate-animate-slideDown             : true;
+@activate-animate-slideUp               : true;
+@activate-animate-slideLeft             : true;
+@activate-animate-slideRight            : true;
+@activate-animate-slideDownReturn       : true;
+@activate-animate-slideUpReturn         : true;
+@activate-animate-slideLeftReturn       : true;
+@activate-animate-slideRightReturn      : true;
+@activate-animate-swashOut              : true;
+@activate-animate-swashIn               : true;
+@activate-animate-foolishOut            : true;
+@activate-animate-foolishIn             : true;
+@activate-animate-holeOut               : true;
+@activate-animate-tinRightOut           : true;
+@activate-animate-tinLeftOut            : true;
+@activate-animate-tinUpOut              : true;
+@activate-animate-tinDownOut            : true;
+@activate-animate-tinRightIn            : true;
+@activate-animate-tinLeftIn             : true;
+@activate-animate-tinUpIn               : true;
+@activate-animate-tinDownIn             : true;
+@activate-animate-bombRightOut          : true;
+@activate-animate-bombLeftOut           : true;

@@ -1,59 +1,104 @@
 // Table of Content
 //==================================================
+//	Modules Carousel Styles
+//  Modules Alert Styles = http://smoke-js.com/
 //  Modules Accordion Styles
-//  Modules Alert Styles
-//  Modules Modals Styles
 //  Modules Tabs Styles
-//  Modules Slider Styles
+//  Modules Dialog Styles
 //  Modules Datepicker Styles
+//  Modules Autocomplete Styles
 //  Modules Toltips Styles
-//	Modules Progressbar Styles
+//  Modules Range Styles
+//  Modules Progressbar Styles
 //	Scrollbar Styles
 //==================================================
 
+// Carousel Styles
+//==================================================
+.activate-carousel(@activate : @activate-module-carousel) when (@activate = true){
+@import "../Modules/carousel";
+}
+    .activate-carousel;
+
+// Alert Styles
+//==================================================
+.activate-alert(@activate : @activate-module-alert) when (@activate = true){
+@import "../Modules/alert"; // http://smoke-js.com/
+}
+    .activate-alert;
+
 // Modules Accordion Styles
 //==================================================
+.activate-accordion(@activate : @activate-module-accordion) when (@activate = true){
 @import "../Modules/accordion";
-
-// Modules Alert Styles
-//==================================================
-@import "../Modules/alert";
-
-// Modules Modals Styles
-//==================================================
-@import "../Modules/dialog";
+}
+    .activate-accordion;
 
 // Modules Tabs Styles
 //==================================================
+.activate-tabs(@activate : @activate-module-tabs) when (@activate = true){
 @import "../Modules/tabs";
+}
+    .activate-tabs;
 
-// Modules Slider Styles
+// Modules Dialog Styles
 //==================================================
-@import "../Modules/slider";
-
-// Modules Progressbar Styles
-//==================================================
-@import "../Modules/progressbar";
+.activate-dialog(@activate : @activate-module-dialog) when (@activate = true){
+@import "../Modules/dialog";
+}
+    .activate-dialog;
 
 // Modules Datepicker Styles
 //==================================================
+.activate-datepicker(@activate : @activate-module-datepicker) when (@activate = true){
 @import "../Modules/datepicker";
+}
+    .activate-datepicker;
 
-// Modules Toltips Styles
+// Modules Datepicker Styles
 //==================================================
-@import "../Modules/tooltips";
-
-// Modules Toltips Styles
-//==================================================
+.activate-autocomplete(@activate : @activate-module-autocomplete) when (@activate = true){
 @import "../Modules/autocomplete";
+}
+    .activate-autocomplete;
 
 // Modules Toltips Styles
 //==================================================
-//@import "../Modules/scrollbars";
+.activate-tooltips(@activate : @activate-module-tooltips) when (@activate = true){
+@import "../Modules/tooltips";
+}
+    .activate-tooltips;
 
-// Basic style
+// Modules Slider (range) Styles
+//==================================================
+.activate-range(@activate : @activate-module-range) when (@activate = true){
+@import "../Modules/range";
+}
+    .activate-range;
+
+// Modules Progressbar Styles
+//==================================================
+.activate-progressbar(@activate : @activate-module-progressbar) when (@activate = true){
+@import "../Modules/progressbar";
+}
+    .activate-progressbar;
+
+// Modules Chosen Styles
+//==================================================
+.activate-chosen(@activate : @activate-module-chosen) when (@activate = true){
+@import "../Modules/chosen";
+}
+    .activate-chosen;
+
+// Modules Chosen Styles
+//==================================================
+.activate-scrollbar(@activate : @activate-module-scrollbar) when (@activate = true){
+@import "../Modules/scrollbars";
+}
+    .activate-scrollbar;
+
+// UI effects transfer
 //==================================================
 .ui-effects-transfer{
-	border: 1px dashed @gray;
+    border: 1px dashed @gray;
 }
-

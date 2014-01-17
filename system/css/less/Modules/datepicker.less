@@ -1,11 +1,12 @@
 // JQuery UI Datepicker
 //==================================================
 .ui-datepicker{
+    z-index    : 100 !important;
 	display    : none;
-	width      : @datepicker-width;
-	background : @body-bg;
 	padding    : 0;
+    width      : @datepicker-width;
 	border     : 1px solid @datepicker-border-color;
+    background : @body-bg;
 
 	.ui-datepicker-header{
 		background : @datepicker-header-bg;
@@ -70,46 +71,44 @@
 		}
 
 		thead{
-			tr{
-				th{
-					line-height : @datepicker-week-box-size;
-					background  : @datepicker-week-bg;
-					color       : @datepicker-week-color;
-					font-size   : @datepicker-week-font-size;
-				}
-			}
+            tr{ }
+            th{
+                line-height : @datepicker-week-box-size;
+                background  : @datepicker-week-bg;
+                color       : @datepicker-week-color;
+                font-size   : @datepicker-week-font-size;
+            }
 		}
 
 		tbody{
-			tr{
-				td{
-					font-size    : @datepicker-day-font-size;
-					border-right : 1px solid @datepicker-border-color;
-					border-top   : 1px solid @datepicker-border-color;
+            tr{ }
+            td{
+                font-size    : @datepicker-day-font-size;
+                border-right : 1px solid @datepicker-border-color;
+                border-top   : 1px solid @datepicker-border-color;
 
-					a{
-						padding     : 0 !important;
-						line-height : @datepicker-week-box-size;
-						display     : block;
-						color       : @text-color;
-						background  : @datepicker-day-bg;
-						border      : none;
-						.border-radius(0);
+                a{
+                    padding     : 0 !important;
+                    line-height : @datepicker-week-box-size;
+                    display     : block;
+                    color       : @text-color;
+                    background  : @datepicker-day-bg;
+                    border      : none;
+                    .border-radius(0);
 
-						&:hover{
-							background : @gray-lighter;
-						}
-					}
+                    &:hover{
+                        background : @gray-lighter;
+                    }
+                }
 
-					&.ui-datepicker-current-day a{
-						color      : @datepicker-current-day-color;
-						background : @datepicker-current-day-bg;
-					}
+                &.ui-datepicker-current-day a{
+                    color      : @datepicker-current-day-color;
+                    background : @datepicker-current-day-bg;
+                }
 
-					&.ui-datepicker-today a{
-						color      : @datepicker-today-color;
-						background : @datepicker-today-bg;
-					}
+                &.ui-datepicker-today a{
+                    color      : @datepicker-today-color;
+                    background : @datepicker-today-bg;
 				}
 			}
 		}

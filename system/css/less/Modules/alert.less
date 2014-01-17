@@ -1,78 +1,21 @@
-.smoke-base{
-    z-index  : 1005 !important;
-    position : relative;
-
-    .smokebg{
-        background      : rgba(255, 255, 255, 0.5);
-        -pie-background : rgba(255, 255, 255, 0.5);
-        position        : absolute;
-        left            : 0;
-        right           : 0;
-        top             : 0;
-        bottom          : 0;
-        z-index         : 100;
-    }
-
-    .dialog{
-        position      : fixed;
-        top           : 30%;
-        left          : 0;
-        right         : 0;
-        z-index       : 101;
-        margin        : 0 auto;
-        width         : 800px;
-        max-width     : 75%;
-        max-height    : 45%;
-        overflow      : auto;
-        font-size     : @font-size-larger;
-        text-align    : center;
-        border        : 2px solid;
-        border-radius : @state-border-radius;
-        .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
-
-        .close{
-            .icon-size(16px);
-            cursor   : pointer;
-            position : absolute;
-            top      : 0;
-            right    : 0;
-            color    : inherit;
-
-            &:hover{
-                color : @brand-error;
-            }
-        }
-
-        // Alternate styles
-        // -------------------------
-        &.alert-success, &.success{
-            .box-shadow(0 0 100px desaturate(@state-success-border, 10%));
-        }
-        &.alert-warning, &.warning{
-            .box-shadow(0 0 100px desaturate(@state-warning-border, 10%));
-        }
-        &.alert-error, &.error{
-            .box-shadow(0 0 100px desaturate(@state-error-border, 10%));
-        }
-        &.alert-info, &.info{
-            .box-shadow(0 0 100px desaturate(@state-info-border, 10%));
-        }
-    }
-}
-
-.message{
-    display     : block;
-    border-left : 3px solid;
-}
-
-//.alert, [class*="alert-"],
+// Alert and Message styles
+// -------------------------
 .message,
 .smoke-base .dialog{
-    padding : @padding-base-vertical @padding-base-horizontal;
-    .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+    padding       : @padding-base-vertical @padding-base-horizontal;
+    border        : 1px solid;
+    border-radius : @state-border-radius;
+    .alert-state(@state-green-text, @state-green-bg, @state-green-border);
+
+    .close{
+        position : relative;
+        top      : -2px;
+        right    : -21px;
+        color    : inherit;
+    }
 
     p, ul, ol{
-        margin-bottom : 0;
+        margin : 0;
 
         &+p, &+ul, &+ol{
             margin-top : 5px;
@@ -80,13 +23,14 @@
     }
 
     li{
-        // list-style : none;
-        margin : 0;
+        margin     : 0;
+        list-style : none;
 
-        &+li:not([class*="mt"]){
+        &+li{
             margin-top : 0.5em;
         }
     }
+
     a{
         text-decoration : underline;
 
@@ -95,37 +39,19 @@
         }
     }
 
-    .dialog-inner{
-
-        .dialog-buttons{
-            margin-top : 10px;
-            font-size  : @font-size-base;
-
-            button{
-                float  : none;
-                margin : 0 @padding-small-horizontal;
-                .btn-color(@btn-success-color, @btn-success-bg, @btn-success-border);
-
-                &.cancel{
-                    .btn-color(@btn-error-color, @btn-error-bg, @btn-error-border);
-                }
-            }
-        }
-    }
-
     // Alternate styles
     // -------------------------
     &.alert-success, &.success{
-        .alert-state(@state-success-text, @state-success-bg, @state-success-border);
+        .alert-state(@state-green-text, @state-green-bg, @state-green-border);
     }
     &.alert-warning, &.warning{
-        .alert-state(@state-warning-text, @state-warning-bg, @state-warning-border);
+        .alert-state(@state-orange-text, @state-orange-bg, @state-orange-border);
     }
     &.alert-error, &.error{
-        .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+        .alert-state(@state-red-text, @state-red-bg, @state-red-border);
     }
     &.alert-info, &.info{
-        .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+        .alert-state(@state-blue-text, @state-blue-bg, @state-blue-border);
     }
 
     // Block alerts
@@ -137,8 +63,98 @@
 }
 
 .ui-state-error{
-    .alert-state(@state-error-text, @state-error-bg, @state-error-border);
+    .alert-state(@state-red-text, @state-red-bg, @state-red-border);
 }
 .ui-state-highlight{
-    .alert-state(@state-info-text, @state-info-bg, @state-info-border);
+    .alert-state(@state-blue-text, @state-blue-bg, @state-blue-border);
+}
+
+.smoke-base{
+    z-index  : 1005 !important;
+    position : relative;
+
+    .smokebg{
+        position : fixed;
+        left     : 0;
+        right    : 0;
+        top      : 0;
+        bottom   : 0;
+        z-index  : 100;
+        .rgba(#fff, 0.5);
+    }
+
+    .dialog{
+        position      : fixed;
+        z-index       : 101;
+        top           : 25%;
+        left          : 0;
+        right         : 0;
+        margin        : 0 auto;
+        width         : 100%;
+        max-width     : @grid-container-width * 0.75;
+        max-height    : 50%;
+        overflow      : auto;
+        font-size     : @font-size-large;
+        text-align    : center;
+        border        : 1px solid;
+        border-radius : @state-border-radius;
+        .box-shadow(0 0 100px desaturate(@state-green-border, 10%));
+
+        .close{
+            .icon-size(16px);
+            cursor   : pointer;
+            position : absolute;
+            top      : 0;
+            right    : 0;
+            color    : inherit;
+
+            &:hover{
+                color : @brand-red;
+            }
+        }
+
+        // Alternate styles
+        // -------------------------
+        &.alert-success, &.success{
+            .box-shadow(0 0 100px desaturate(@state-green-border, 10%));
+        }
+        &.alert-warning, &.warning{
+            .box-shadow(0 0 100px desaturate(@state-orange-border, 10%));
+        }
+        &.alert-error, &.error{
+            .box-shadow(0 0 100px desaturate(@state-red-border, 10%));
+        }
+        &.alert-info, &.info{
+            .box-shadow(0 0 100px desaturate(@state-blue-border, 10%));
+        }
+    }
+
+    .dialog-inner{
+        font-size : @font-size-larger;
+        padding   : @padding-larger-vertical @padding-larger-horizontal;
+    }
+
+    .form-errors{
+        max-height : 210px;
+        overflow   : auto;
+    }
+
+    .dialog-buttons{
+        margin-top : 10px;
+        font-size  : @font-size-base;
+
+        button{
+            float  : none;
+            margin : 0 @padding-small-horizontal;
+            .btn-color(@btn-green-color, @btn-green-bg, @btn-green-border);
+
+            &.cancel{
+                .btn-color(@btn-red-color, @btn-red-bg, @btn-red-border);
+            }
+        }
+    }
+}
+.message{
+    display     : block;
+    border-left : 3px solid;
 }

@@ -1,10 +1,3 @@
-@font-face{
-    font-family : 'toaster-icons';
-    src         : url('../fonts/icons/toaster-icons.eot');
-    src         : url('../fonts/icons/toaster-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/toaster-icons.svg#toaster-icon') format('svg'), url('../fonts/icons/toaster-icons.woff') format('woff'), url('../fonts/icons/toaster-icons.ttf') format('truetype');
-    font-weight : normal;
-    font-style  : normal;
-}
 .icon12{ .icon-size(12px) !important; }
 .icon14{ .icon-size(14px) !important; }
 .icon16{ .icon-size(16px) !important; }
@@ -13,42 +6,33 @@
 .icon32{ .icon-size(32px) !important; }
 .icon48{ .icon-size(48px) !important; }
 .icon64{ .icon-size(64px) !important; }
-.fs12{ font-size : 12px; }
-.fs14{ font-size : 14px; }
-.fs16{ font-size : 16px; }
-.fs18{ font-size : 18px; }
-.fs24{ font-size : 24px; }
-.fs32{ font-size : 32px; }
-.fs48{ font-size : 48px; }
-.fs64{ font-size : 64px; }
 
-[class^="icon-"], [class*=" icon-"]{
-    position   : relative;
+[class*="icon-"]{
     .inline-block;
-    //line-height : 0;
-    text-align : center;
+    position   : relative;
 }
 
 .toaster-icon,
 [class^="icon-"]:before, [class*=" icon-"]:before, [data-icon]:before,
-input[type="checkbox"]:not(.hidden)+span:before,
 [class^="ui-icon-"]:before, [class*=" ui-icon-"]:before,
 .sorting:after, .sorting_asc:after, .sorting_desc:after,
 .ui-datepicker-prev:before, .ui-datepicker-next:before, .ui-dialog:before, .ui-accordion-header-icon:before,
 .search-choice-close:before{
-    //.inline-block;
     font-family             : 'toaster-icons';
-    font-style              : normal;
     speak                   : none;
-    font-weight             : normal !important;
+    font-style              : normal;
+    font-weight             : normal;
     text-transform          : none;
-    -webkit-font-smoothing  : antialiased;
-    -moz-osx-font-smoothing : grayscale;
     line-height             : 1;
     position                : relative;
+    text-align              : center;
+
+    // Better Font Rendering
+    -webkit-font-smoothing  : antialiased;
+    -moz-osx-font-smoothing : grayscale;
 }
 
-/* Use the following CSS code if you want to use data attributes for inserting your icons */
+// Use the following CSS code if you want to use data attributes for inserting your icons
 [data-icon]:before{
     content : attr(data-icon);
 }
@@ -203,7 +187,7 @@ input[type="checkbox"]:not(.hidden)+span:before,
 .icon-checkmark-2:before{
     content : "\e02e";
 }
-.icon-checkmark-3:before, input[type="checkbox"]:not(.icon):not(.hidden)+span:before, .ui-icon-check:before{
+.icon-checkmark-3:before, .ui-icon-check:before{
     content : "\e013";
 }
 .icon-checked:before{

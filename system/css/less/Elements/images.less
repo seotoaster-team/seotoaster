@@ -1,0 +1,33 @@
+img[src*="/media/"]{
+}
+
+img[style*="float: left"], img[style*="float:left"]{
+    margin-right : 15px;
+}
+
+img[style*="float: right"], img[style*="float:right"]{
+    margin-left : 15px;
+}
+
+img{
+    .activate-style-image(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+        .img-thumbnail &, &.img-thumbnail{
+            .thumbnail-state();
+        }
+        .img-circle &, &.img-circle{
+            .thumbnail-state(500px);
+        }
+        .img-rounded &, &.img-rounded{
+            .border-radius(@border-radius-base);
+        }
+    }
+    .activate-style-image(@activate-alternate-style-images, @activate-alternate-style);
+}
+
+[class*="caption"]{
+    padding    : @padding-small-vertical;
+    color      : @thumbnail-caption-color;
+    text-align : center;
+    font-size  : @font-size-small;
+    .rgba(@thumbnail-caption-bg, @thumbnail-caption-opacity);
+}

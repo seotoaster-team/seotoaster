@@ -30,19 +30,20 @@
             color      : @accordion-header-color-active;
             background : @accordion-header-bg-active;
         }
+    }
 
-        &.ui-accordion-icons{
-            .ui-accordion-header-icon{
-                .inline-block();
-                margin-left  : -@padding-base-horizontal / 2;
-                margin-right : @padding-base-horizontal / 2;
-                .icon-size(14px);
-            }
-        }
-
-        &.ui-accordion-noicons{
+    .ui-accordion-icons{
+        .ui-accordion-header-icon{
+            .inline-block();
+            margin-left  : -@padding-base-horizontal / 2;
+            margin-right : @padding-base-horizontal / 2;
+            .icon-size(14px);
         }
     }
+
+    .ui-accordion-noicons{
+    }
+
     .ui-accordion-content{
         background    : @accordion-content-bg;
         border        : @accordion-content-border-width solid @accordion-content-border-color;
