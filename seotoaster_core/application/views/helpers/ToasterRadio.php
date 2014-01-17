@@ -138,7 +138,7 @@ class Zend_View_Helper_ToasterRadio extends Zend_View_Helper_FormElement {
                     . $disabled
                     . $this->_htmlAttribs($attribs)
                     . $endTag
-                    . '<label class="btn large grid_4"' . $this->_htmlAttribs($label_attribs) . ' for="' . $optId . '">'
+                    . '<label class="btn large grid_4 alpha omega"' . $this->_htmlAttribs($label_attribs) . ' for="' . $optId . '">'
 	                    . (('prepend' == $labelPlacement) ? $opt_label : '')
 	                    . '<span class="icon-ok-sign icon14 text-left"></span>'
 	                    . (('append' == $labelPlacement) ? $opt_label : '')
