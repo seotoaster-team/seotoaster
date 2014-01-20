@@ -15,7 +15,7 @@ $(document).ready(function(){
         external_link_list_url : websiteUrl + 'backend/backend_page/linkslist/',
         forced_root_block      : 'p',
         valid_elements         : '*[*]',
-        extended_valid_elements: 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name]',
+        extended_valid_elements: 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]',
 
         // buttons
         theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,|,link,unlink,anchor,hr',
