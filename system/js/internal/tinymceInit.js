@@ -7,7 +7,7 @@ $(document).ready(function(){
         theme                  : 'advanced',
         width                  : '100%',
         height                 : 425,
-        plugins                : 'preview,spellchecker,fullscreen,media,paste,stw',
+        plugins                : 'preview,fullscreen,media,paste,stw',
         convert_urls           : false,
         relative_urls          : false,
         entity_encoding        : 'raw',
