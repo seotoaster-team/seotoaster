@@ -396,13 +396,14 @@ class Backend_SeoController extends Zend_Controller_Action {
                 if(is_array($pages) && !empty($pages)) {
 
                     $quoteInstalled = Tools_Plugins_Tools::findPluginByName('quote')->getStatus() == Application_Model_Models_Plugin::ENABLED;
-                    array_walk($pages, function($page, $key) use(&$pages, &$quoteInstalled) {
+                    $pages = array_filter($pages, function($page) use($quoteInstalled) {
                         if($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED) ||
                                                  $page->getDraft() ||
                                                  $page->getIs404page() ||
-                                                 ($quoteInstalled && $page->getParentId() === Quote::QUOTE_CATEGORY_ID)) {
-                            unset($pages[$key]);
+                                                 ($quoteInstalled && (intval($page->getParentId()) === Quote::QUOTE_CATEGORY_ID))) {
+                            return false;
                         }
+                        return true;
                     });
 
                 } else {
