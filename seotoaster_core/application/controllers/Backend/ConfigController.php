@@ -204,11 +204,12 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
         $triggers        = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
-
+        $services        = array('email' => 'e-mail', 'sms' => 'sms');
         $recipients                 = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
         $this->view->recipients     = array_combine($recipients, $recipients);
         $this->view->mailTemplates  = Tools_Mail_Tools::getMailTemplatesHash();
         $this->view->triggers       = $triggers;
+        $this->view->services       = $services;
         $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
             return str_replace('-', ' ', ucfirst($trigger));
         }, array_keys($triggers))));
