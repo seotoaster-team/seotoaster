@@ -110,7 +110,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         $dbTable = new Zend_Db_Table('user_attributes');
 
         $userId = $user->getId();
-        $dbTable->delete(array('user_id' => $userId));
+        $dbTable->delete(array('user_id = ?' => $userId));
 
         if (is_array($attribs) && !empty($attribs)) {
             foreach($attribs as $name => $value){
