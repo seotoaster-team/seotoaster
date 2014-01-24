@@ -40,8 +40,14 @@
                     <div class="trigger-title mt0px">
                         <?php echo $this->translate('When'); ?> <strong>${title}</strong><br />
                     </div>
-					<p>
-						<?php echo $this->formLabel('recipients', 'send an e-mail to', array('class' => 'grid_4 mt5px')); ?>
+                    {{if triggerName == 'store_neworder' }}
+                    <div>
+                        <?php echo $this->formLabel('recipients', 'send a(an)', array('class' => 'grid_4 mt5px')); ?>
+                        <?php echo $this->formSelect('actions[${index}][service]', '${sendto}', array('class' => 'grid_8'), $this->services); ?>
+                    </div>
+                    {{/if}}
+					<div>
+						<?php echo $this->formLabel('recipients', 'send to', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formSelect('actions[${index}][recipient]', '${sendto}', array('class' => 'grid_8'), $this->recipients); ?>
 					</p>
 					<p>
@@ -59,7 +65,13 @@
 					<p>
 						<?php echo $this->formLabel('subject', 'with subject', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][subject]', '${subject}', array('class' => 'grid_8')); ?>
-					</p>
+					</div>
+                    {{if triggerName == 'store_neworder' }}
+                    <div>
+                        <?php echo $this->formLabel('message', 'your message', array('class' => '{{if serviceName != \'sms\'}}hidden {{/if}}grid_4 mt5px')); ?>
+                        <?php echo $this->formTextarea('actions[${index}][message]', '', array('class' => '{{if serviceName != \'sms\'}}hidden {{/if}}grid_8', 'placeholder' => 'SMS are text only', 'rows' => '3')); ?>
+                    </div>
+                    {{/if}}
                 </fieldset>
             {{/if}}
         {{/each}}
@@ -110,10 +122,10 @@
             showAction($(this).find('.action-preview').data('action'));
         }).on('click', '.new-trigger-action',function(e){
             e.preventDefault();
-            var triggerName = $(this).data('triggerName');
+            var triggerName       = $(e.target).data('triggerName');
             var actionTriggerTmpl = $('#triggerActionTemplate').template();
-            $(this).before($.tmpl(actionTriggerTmpl, {triggers : actionTriggers, triggerName : triggerName, index : (lastId++)}));
-        }).on('click', '#save-actions',function(e){
+            $(e.target).before($.tmpl(actionTriggerTmpl, {triggers: actionTriggers, triggerName: triggerName, index: (lastId++), serviceName: null}));
+        }).on('click', '#save-actions', function(e) {
             $.ajax({
                 url        : '<?php echo $this->escape($this->url()); ?>',
                 type       : 'post',
@@ -136,6 +148,24 @@
             }else{
                 $trigger.remove();
             }
+        }).on('change', 'select[id*="service"]', function() {
+            var templateEl = $(this).parent().nextAll('div').find('[id*="template"]');
+            var messageEl  = $(this).parent().nextAll('div').find('[id*="message"]');
+            var recipientEl  = $(this).parent().nextAll('div').find('[id*="recipient"]');
+            var recipientIndex = $('[value="customer"]', recipientEl).index();
+            if($(this).val() === 'sms') {
+                $(templateEl).addClass('hidden').prev('label').addClass('hidden');
+                $(messageEl).removeClass('hidden').prev('label').removeClass('hidden');
+                $('option:eq('+recipientIndex+')', recipientEl).prop("selected", "selected");
+                $('option:gt('+recipientIndex+')',recipientEl).hide();
+                $('option:lt('+recipientIndex+')',recipientEl).hide();
+            }
+            else {
+                $(templateEl).removeClass('hidden').prev('label').removeClass('hidden');
+                $(messageEl).addClass('hidden').prev('label').addClass('hidden');
+                $('option:gt('+recipientIndex+')',recipientEl).show();
+                $('option:lt('+recipientIndex+')',recipientEl).show();
+            }
         });
 
         function showAction(actionName){
@@ -150,22 +180,33 @@
                 atholder.tabs('destroy');
             }
 
-            atholder.empty().append($.tmpl(triggersTabsTmpl, {triggers : actionTriggers, currentTrigger : actionName})).tabs({
-                    create : function(event, ui){
-                        $.each(actions, function(index, item){
-                            var triggerHolderId = actionName+'-triegger-'+item.trigger;
-                            var triggerHolder = $(event.target).find('#'+triggerHolderId);
-                            var action = $.tmpl($('#triggerActionTemplate').template(), {triggers : actionTriggers, triggerName : item.trigger, index : item.id, triggerId : item.id});
-                            $('select[name*=trigger]', action).val(item.trigger);
-                            $('select[name*=recipient]', action).val(item.recipient);
-                            $('select[name*=template]', action).val(item.template);
-                            $('textarea[name*=message]', action).val(item.message);
-                            $('input[name*=from]', action).val(item.from);
-                            $('input[name*=subject]', action).val(item.subject);
-                            $(triggerHolder).prepend(action);
-                        });
-                    }
-                });
-        }
+			atholder
+				.empty()
+				.append($.tmpl(triggersTabsTmpl, {triggers: actionTriggers, currentTrigger: actionName}))
+				.tabs({
+					create: function(event, ui) {
+						$.each(actions, function(index, item) {
+							var triggerHolderId = actionName + '-triegger-' + item.trigger;
+							var triggerHolder   = $(event.target).find('#' + triggerHolderId);
+                            var serviceName     = item.service;
+							var action          = $.tmpl($('#triggerActionTemplate').template(), {triggers: actionTriggers, triggerName: item.trigger, index: item.id, triggerId: item.id, serviceName: serviceName});
+                            if(item.service == 'sms') {
+                                $('select[name*=template]', action).addClass('hidden').prev('label').addClass('hidden');
+                                var recipientIndex = $('select[name*=recipient] option[value="customer"]', action).index();
+                                $('select[name*=recipient] option:gt('+recipientIndex+')', action).hide();
+                                $('select[name*=recipient] option:lt('+recipientIndex+')', action).hide();
+                            }
+                            $('select[name*=service]', action).val(item.service);
+							$('select[name*=trigger]', action).val(item.trigger);
+							$('select[name*=recipient]', action).val(item.recipient);
+							$('select[name*=template]', action).val(item.template);
+							$('textarea[name*=message]', action).val(item.message);
+							$('input[name*=from]', action).val(item.from);
+							$('input[name*=subject]', action).val(item.subject);
+							$(triggerHolder).prepend(action);
+						});
+					}
+				});
+		}
     });
 </script>

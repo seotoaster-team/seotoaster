@@ -5,6 +5,10 @@
  */
 class Application_Model_Models_TriggerAction extends Application_Model_Models_Abstract {
 
+    const SERVICE_TYPE_EMAIL = 'email';
+
+    const SERVICE_TYPE_SMS = 'sms';
+
 	protected $_trigger;
 
 	protected $_template;
@@ -16,6 +20,8 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
     protected $_from    = '';
 
     protected $_subject = '';
+
+    protected $_service;
 
 
 	public function setMessage($message) {
@@ -66,6 +72,15 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
     public function getSubject() {
         return $this->_subject;
+    }
+
+    public function setService($service) {
+        $this->_service = $service;
+        return $this;
+    }
+
+    public function getService() {
+        return $this->_service;
     }
 
 }
