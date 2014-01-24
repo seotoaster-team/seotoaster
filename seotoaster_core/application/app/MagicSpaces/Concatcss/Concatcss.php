@@ -5,6 +5,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     const FOLDER_CSS        = 'css/';
 
+    private $_disableForRoles = array(
+        Tools_Security_Acl::ROLE_SUPERADMIN,
+        Tools_Security_Acl::ROLE_ADMIN
+    );
+
     private $_cssOrder      = array(
         'reset.css',
         'content.css',
@@ -33,14 +38,15 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     protected function _run() {
-        if ($this->_allowedRole()) {
+        $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        if (in_array($currentRole, $this->_disableForRoles)) {
             return $this->_spaceContent;
         }
         
         $content = null;
         if ($this->_cacheable === true) {
             $this->_cache   = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
-            $this->_cacheId = $this->_cacheKey();
+            $this->_cacheId = strtolower(get_called_class()).'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
 
             if (null === ($content = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
                 $cssTag = array();
@@ -52,7 +58,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
                 $content = $this->_generatorFiles();
                 try {
-                    $this->_cache->save($this->_cacheId, $content, $this->_cachePrefix, $this->_cacheTags);
+                    $this->_cache->save($this->_cacheId, $content, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
                 }
                 catch (Exceptions_SeotoasterException $ste) {
                     $content = $ste->getMessage();
@@ -67,17 +73,6 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         }
 
         return $content;
-    }
-
-    private function _allowedRole() {
-        $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        $allowedRole = array(Tools_Security_Acl::ROLE_SUPERADMIN, Tools_Security_Acl::ROLE_ADMIN);
-
-        return in_array($currentRole, $allowedRole);
-    }
-
-    private function _cacheKey() {
-        return strtolower(get_called_class()).'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
     }
 
     private function _getTemplateFiles() {
