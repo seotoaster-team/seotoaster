@@ -19,7 +19,7 @@
         <?php if($this->useCaptcha):?>
             <div class="captcha">
                 <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
-                <label class="captcha_label"><?php echo $this->translate('Please enter this code in the box below'); ?></label>
+                <label class="captcha_label"><?php echo $this->translate('Enter the words from picture');?></label>
                 <input class="captcha_field" type="text" name="captcha" value="" />
                 <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
            </div>
