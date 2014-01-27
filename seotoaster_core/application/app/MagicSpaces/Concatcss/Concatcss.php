@@ -45,7 +45,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     protected function _run() {
         $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        if (in_array($currentRole, $this->_disableForRoles) || empty($this->_toasterData)) {
+        if (!$this->_isBrowserIe() || empty($this->_toasterData) || in_array($currentRole, $this->_disableForRoles)) {
             return $this->_spaceContent;
         }
         
@@ -83,6 +83,38 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         }
 
         return $content;
+    }
+
+    private function _isBrowserIe($notBelowVersion = 8) {
+        $is = true;
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+            if (preg_match('/MSIE/i', $userAgent) && !preg_match('/Opera/i', $userAgent)) {
+                $userBrowser = 'MSIE';
+                $matches     = array();
+
+                preg_match_all('#(?<browser>Version|'.$userBrowser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#', $userAgent, $matches);
+
+                if (isset($matches['browser']) && count($matches['browser']) != 1) {
+                    if (strripos($userAgent, 'Version') < strripos($userAgent, $userBrowser)) {
+                        $version = isset($matches['version'][0]) ? $matches['version'][0] : false;
+                    }
+                    else {
+                        $version = isset($matches['version'][1]) ? $matches['version'][1] : false;
+                    }
+                }
+                else {
+                    $version = isset($matches['version'][0]) ? $matches['version'][0] : false;
+                }
+
+                if ($version && $version <= $notBelowVersion) {
+                    $is = false;
+                }
+            }
+        }
+
+        return $is;
     }
 
     private function _getTemplateFiles() {
