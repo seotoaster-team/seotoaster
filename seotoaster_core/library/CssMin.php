@@ -90,7 +90,10 @@ class CssMin
         }
 
         // preserve strings so their content doesn't get accidentally minified
-        $css = preg_replace_callback('/(?:"(?:[^\\\\"]|\\\\.|\\\\)*")|'."(?:'(?:[^\\\\']|\\\\.|\\\\)*')/S", array($this, 'replace_string'), $css);
+        // Seotoaster patch unclosed quotes. Example: filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='u', endColorstr='url(___YUICSSMIN_PRESERVED_TOKEN_0___);
+        //$css = preg_replace('/(?:"([^,;]+);)|'."(?:'([^,;]+);)/S", "'$1';", $css);
+        $css = preg_replace_callback('/(?:"(?:[^\\\\";}]|\\\\.|\\\\)*")|'."(?:'(?:[^\\\\';}]|\\\\.|\\\\)*')/S", array($this, 'replace_string'), $css);
+        //$css = preg_replace_callback('/(?:"(?:[^\\\\"]|\\\\.|\\\\)*")|'."(?:'(?:[^\\\\']|\\\\.|\\\\)*')/S", array($this, 'replace_string'), $css);
 
         // Let's divide css code in chunks of 5.000 chars aprox.
         // Reason: PHP's PCRE functions like preg_replace have a "backtrack limit"
