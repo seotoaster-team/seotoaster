@@ -1,7 +1,9 @@
 <?php if(!empty($this->pages)): ?>
     <ul class="sitemap">
         <?php foreach ($this->pages as $key => $page): ?>
-            <li><a title="<?php echo ($page['category']['optimizedH1']) ? $page['category']['optimizedH1'] : $page['category']['h1']; ?>" href="<?php echo $this->websiteUrl . ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url']); ?>"><?php echo ($page['category']['optimizedNavName'] ? $page['category']['optimizedNavName'] : $page['category']['navName']) ; ?></a>
+            <li>
+                <a title="<?php echo (isset($page['category']['optimizedH1'])) ? $page['category']['optimizedH1'] : $page['category']['h1']; ?>"
+                   href="<?php echo $this->websiteUrl . (isset($page['category']['optimizedUrl']) ? $page['category']['optimizedUrl'] : $page['category']['url']); ?>"><?php echo(isset($page['category']['optimizedNavName']) ? $page['category']['optimizedNavName'] : $page['category']['navName']); ?></a>
                 <?php if(isset($page['subPages'])): ?>
                     <ul id="<?php echo str_replace('.html', '', ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url'])); ?>">
                         <?php foreach ($page['subPages'] as $subPage): ?>
