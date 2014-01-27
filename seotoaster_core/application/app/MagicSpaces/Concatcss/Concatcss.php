@@ -81,7 +81,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
         $files = array();
         foreach ($cssToTemplate[1] as $file) {
-            $files[] = end(explode($this->_toasterData['websiteUrl'].$this->_themeFullPath, rawurldecode($file)));
+            $link    = explode($this->_toasterData['websiteUrl'].$this->_themeFullPath, rawurldecode($file));
+            $files[] = end($link);
         }
 
         return $files;
@@ -109,7 +110,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         $cssContent = '';
 
         if (file_exists($cssPath)) {
-            $fileName   = strtoupper(end(explode('/', $cssPath)));
+            $fileName   = explode('/', $cssPath);
+            $fileName   = strtoupper(end($fileName));
             $compressor = new CssMin();
 
             $cssContent .= "/**** ".$fileName." start ****/\n";

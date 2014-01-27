@@ -25,12 +25,12 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
         $flatPages       = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
         foreach($pages as $key => $page) {
             if($page['parentId'] == 0) {
-                if($page['protected'] && !$isAllowed && !$showMemberPages) {
+                if((bool)$page['protected'] && !$isAllowed && !$showMemberPages) {
                     continue;
                 }
                 $pagesList[$key]['category'] = $page;
                 foreach($pages as $subPage) {
-                    if($subPage['protected'] && !$isAllowed && !$showMemberPages) {
+                    if ((isset($subPage['protected']) && (bool)$subPage['protected']) && !$isAllowed && !$showMemberPages) {
                         continue;
                     }
                     if($subPage['parentId'] == $page['id']) {
