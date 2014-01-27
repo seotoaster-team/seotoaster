@@ -19,34 +19,44 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private $_themeFullPath = '';
 
-    protected $_cache       = null;
+    private $_fileCode      = '';
 
-    protected $_cacheId     = null;
+    private $_folderСssPath = '';
 
-    protected $_cachePrefix = 'magicspaces_';
+    private $_cacheable     = true;
 
-    protected $_cacheable   = true;
+    private $_cache         = null;
 
-    protected $_cacheTags   = array();
+    private $_cacheId       = null;
+
+    private $_cachePrefix   = 'magicspaces_';
+
+    private $_cacheTags     = array();
 
     protected function _init() {
         parent::_init();
 
         if (!empty($this->_toasterData)) {
             $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'].'/';
+            $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 10);
+            $this->_folderСssPath = (is_dir($this->_themeFullPath.self::FOLDER_CSS)) ? $this->_themeFullPath.self::FOLDER_CSS : $this->_themeFullPath;
         }
     }
 
     protected function _run() {
         $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        if (in_array($currentRole, $this->_disableForRoles)) {
+        if (in_array($currentRole, $this->_disableForRoles) || empty($this->_toasterData)) {
             return $this->_spaceContent;
         }
         
         $content = null;
         if ($this->_cacheable === true) {
             $this->_cache   = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
-            $this->_cacheId = strtolower(get_called_class()).'_'.substr(md5($this->_toasterData['templateId']), 0, 10);
+            $this->_cacheId = strtolower(get_called_class()).'_'.$this->_fileCode;
+
+            if (!file_exists($this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css')) {
+                $this->_cache->clean($this->_cacheId, $this->_cachePrefix);
+            }
 
             if (null === ($content = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
                 $cssTag = array();
@@ -129,16 +139,15 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $concatContent .= $this->_addCss($this->_themeFullPath.$file);
         }
 
-        $filePath = (is_dir($this->_themeFullPath.self::FOLDER_CSS)) ? $this->_themeFullPath.self::FOLDER_CSS : $this->_themeFullPath;
-        $fileName = self::FILE_NAME_PREFIX.substr(md5($this->_toasterData['templateId']), 0, 10).'.css';
+        $fileName = self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
 
         try {
-            Tools_Filesystem_Tools::saveFile($filePath.$fileName, $concatContent);
+            Tools_Filesystem_Tools::saveFile($this->_folderСssPath.$fileName, $concatContent);
         }
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();
         }
 
-        return '<link href="'.$this->_toasterData['websiteUrl'].str_replace(' ', '%20', $filePath).$fileName.'" rel="stylesheet" type="text/css" media="screen"/>';
+        return '<link href="'.$this->_toasterData['websiteUrl'].str_replace(' ', '%20', $this->_folderСssPath).$fileName.'" rel="stylesheet" type="text/css" media="screen"/>';
     }
 }
