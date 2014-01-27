@@ -25,7 +25,8 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
             $controlIcon .= '-static';
         }
 
-        $widgetName   = strtolower(end(explode('_', get_called_class())));
+        $widgetName   = explode('_', get_called_class());
+        $widgetName   = strtolower(end($widgetName));
         $controlIcon .= '-' . $widgetName . '.png';
         if(!$hint) {
             $hint = 'edit ' . ($widgetName == 'content' ? '' : $widgetName) . ' content';
