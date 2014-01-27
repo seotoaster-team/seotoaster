@@ -9,7 +9,7 @@
                         <?php foreach ($page['subPages'] as $subPage): ?>
                             <li class="page">
                                 <a title="<?php echo isset($subPage['optimizedH1']) ? $subPage['optimizedH1'] : $subPage['h1']; ?>"
-                                   href="<?php echo $this->websiteUrl . ($subPage['optimizedUrl'] ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo isset($subPage['optimizedNavName'] ? $subPage['optimizedNavName'] : $subPage['navName']) ; ?></a>
+                                   href="<?php echo $this->websiteUrl . (isset($subPage['optimizedUrl']) ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo isset($subPage['optimizedNavName']) ? $subPage['optimizedNavName'] : $subPage['navName'] ; ?></a>
                             </li>
                         <?php endforeach; ?>
                     </ul>
