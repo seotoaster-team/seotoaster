@@ -7,7 +7,10 @@
                 <?php if(isset($page['subPages'])): ?>
                     <ul id="<?php echo str_replace('.html', '', ($page['category']['optimizedUrl'] ? $page['category']['optimizedUrl'] : $page['category']['url'])); ?>">
                         <?php foreach ($page['subPages'] as $subPage): ?>
-                            <li class="page"><a title="<?php echo ($subPage['optimizedH1']) ? $subPage['optimizedH1'] : $subPage['h1']; ?>" href="<?php echo $this->websiteUrl . ($subPage['optimizedUrl'] ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo ($subPage['optimizedNavName'] ? $subPage['optimizedNavName'] : $subPage['navName']) ; ?></a></li>
+                            <li class="page">
+                                <a title="<?php echo isset($subPage['optimizedH1']) ? $subPage['optimizedH1'] : $subPage['h1']; ?>"
+                                   href="<?php echo $this->websiteUrl . ($subPage['optimizedUrl'] ? $subPage['optimizedUrl'] : $subPage['url']); ?>"><?php echo isset($subPage['optimizedNavName'] ? $subPage['optimizedNavName'] : $subPage['navName']) ; ?></a>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
