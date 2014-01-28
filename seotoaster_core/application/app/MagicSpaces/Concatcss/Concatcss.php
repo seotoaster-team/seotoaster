@@ -85,8 +85,9 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return $content;
     }
 
-    private function _isBrowserIe($notBelowVersion = 8) {
-        $is = true;
+    private function _isBrowserIe($notBelowVersion = 9) {
+        $version = false;
+
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
@@ -97,24 +98,20 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
                 preg_match_all('#(?<browser>Version|'.$userBrowser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#', $userAgent, $matches);
 
                 if (isset($matches['browser']) && count($matches['browser']) != 1) {
-                    if (strripos($userAgent, 'Version') < strripos($userAgent, $userBrowser)) {
-                        $version = isset($matches['version'][0]) ? $matches['version'][0] : false;
+                    if (isset($matches['version'][0]) && strripos($userAgent, 'Version') < strripos($userAgent, $userBrowser)) {
+                        $version = $matches['version'][0];
                     }
-                    else {
-                        $version = isset($matches['version'][1]) ? $matches['version'][1] : false;
+                    elseif (isset($matches['version'][1])) {
+                        $version = $matches['version'][1];
                     }
                 }
-                else {
-                    $version = isset($matches['version'][0]) ? $matches['version'][0] : false;
-                }
-
-                if ($version && $version <= $notBelowVersion) {
-                    $is = false;
+                elseif (isset($matches['version'][0])) {
+                    $version = $matches['version'][0];
                 }
             }
         }
 
-        return $is;
+        return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
     private function _getTemplateFiles() {
