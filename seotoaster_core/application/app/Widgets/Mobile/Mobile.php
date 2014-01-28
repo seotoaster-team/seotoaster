@@ -42,7 +42,7 @@ class Widgets_Mobile_Mobile extends Widgets_Abstract {
     protected function _renderSwitch() {
         $mobileSwitch = $this->_sessionHelper->mobileSwitch;
         if (null !== $mobileSwitch) {
-            $mobileSwitch = !$mobileSwitch ? 0 : 1;
+            $mobileSwitch = $mobileSwitch ? 0 : 1;
         } else {
             $mobileSwitch = $this->_mobileHelper->isMobile() ? 0 : 1;
         }
