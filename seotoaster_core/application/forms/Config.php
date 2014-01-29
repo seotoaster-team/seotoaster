@@ -282,10 +282,12 @@ class Application_Form_Config extends Zend_Form {
 		$this->addElement('text', 'smtpLogin', array(
 			'value' => $this->_smtpLogin,
 			'label' => 'SMTP Login',
+            'autocomplete' => 'off'
 		));
 		$this->addElement('password', 'smtpPassword', array(
 			'value'  => $this->_smtpPassword,
 			'label'  => 'SMTP Password',
+            'autocomplete' => 'off',
 			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
@@ -340,6 +342,7 @@ class Application_Form_Config extends Zend_Form {
 			'type'  => 'submit',
 			'label' => 'Save',
             'class' => 'icon-save',
+            'ignore' => true,
 			'escape'=> false
 		)));
 
