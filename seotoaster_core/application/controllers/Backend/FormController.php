@@ -146,8 +146,8 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 //validating recaptcha
                 if($useCaptcha == 1){
-                    if(!empty($websiteConfig) && isset($websiteConfig['recapthaPublicKey']) && $websiteConfig['recapthaPublicKey'] != '' 
-                            && isset($websiteConfig['recapthaPrivateKey']) && $websiteConfig['recapthaPrivateKey'] != '' 
+                    if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
+                            && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY])
                             && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha'])){
                         
                         if(isset($formParams['recaptcha_challenge_field']) && isset($formParams['recaptcha_response_field'])) {
@@ -158,7 +158,7 @@ class Backend_FormController extends Zend_Controller_Action {
                                 $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
                                 $this->_redirect($formParams['formUrl']);
                             }
-                            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig['recapthaPublicKey'], $websiteConfig['recapthaPrivateKey']);
+                            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY], $websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY]);
                             $result = $recaptcha->verify($formParams['recaptcha_challenge_field'], $formParams['recaptcha_response_field']);
                             if(!$result->isValid()){
                                 if($xmlHttpRequest){
