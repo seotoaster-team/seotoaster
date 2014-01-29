@@ -34,6 +34,12 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
     }
 
+    public function indexAction()
+    {
+        $this->view->helpSection = 'updater';
+    }
+
+
     public function updateAction()
     {
         $this->_websitePath     = $this->_helper->website->getPath();
@@ -185,15 +191,12 @@ class Backend_UpdateController extends Zend_Controller_Action
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
         $dbAdapter->query('SET autocommit = 0;');
-        //$e = $dbAdapter->beginTransaction();
         try {
             foreach ($sqlAlters as $alter) {
                 $dbAdapter->query($alter);
             }
-            //$q = $dbAdapter->commit();
             return true;
         } catch (Exception $ex) {
-            //$w = $dbAdapter->rollBack();
             return $ex->getMessage();
         }
     }
