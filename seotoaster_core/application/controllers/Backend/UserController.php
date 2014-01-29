@@ -91,6 +91,7 @@ class Backend_UserController extends Zend_Controller_Action {
                     $usrData = $user->toArray();
                     unset($usrData['password']);
                     unset($usrData['id']);
+                    unset($usrData['attributes']);
                     $dataToExport[] = $usrData;
                 }
                 $exportResult = Tools_System_Tools::arrayToCsv($dataToExport, array(
