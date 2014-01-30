@@ -8,17 +8,17 @@
 class Backend_UpdateController extends Zend_Controller_Action
 {
 
-    const MASTER_CMS_LINK       = 'http://seotoaster.com/cms.txt';
-    const MASTER_STORE_LINK     = 'http://seotoaster.com/store.txt';
+    const MASTER_CMS_LINK = 'http://seotoaster.com/cms.txt';
+    const MASTER_STORE_LINK = 'http://seotoaster.com/store.txt';
 
-    protected $_redirector      = null;
-    protected $_session         = null;
-    protected $_downloadLink    = null;
-    protected $_toasterVersion  = null;
-    protected $_remoteVersion   = null;
-    protected $_websitePath     = null;
-    protected $_tmpPath         = null;
-    protected $_newToasterPath  = null;
+    protected $_redirector = null;
+    protected $_session = null;
+    protected $_downloadLink = null;
+    protected $_toasterVersion = null;
+    protected $_remoteVersion = null;
+    protected $_websitePath = null;
+    protected $_tmpPath = null;
+    protected $_newToasterPath = null;
 
     /**
      * Init method. Checking permissions.
@@ -26,72 +26,92 @@ class Backend_UpdateController extends Zend_Controller_Action
     public function init()
     {
         parent::init();
-        $this->_redirector  = new Zend_Controller_Action_Helper_Redirector();
-        $this->_session     = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $this->_redirector = new Zend_Controller_Action_Helper_Redirector();
+        $this->_session = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $this->view->websiteUrl = $this->_helper->website->getUrl();
 
         if ($this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_SUPERADMIN) {
             $this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
         }
-    }
 
-    public function indexAction()
-    {
+        $this->_websitePath = $this->_helper->website->getPath();
+        $this->_tmpPath = $this->_helper->website->getTmp();
+        $this->_newToasterPath = $this->_helper->website->getPath() . $this->_helper->website->getTmp(
+            ) . 'updates' . DIRECTORY_SEPARATOR;
         $this->view->helpSection = 'updater';
-    }
 
-
-    public function updateAction()
-    {
-        $this->_websitePath     = $this->_helper->website->getPath();
-        $this->_tmpPath         = $this->_helper->website->getTmp();
-        $this->_newToasterPath  = $this->_helper->website->getPath() . $this->_helper->website->getTmp() . 'updates' . DIRECTORY_SEPARATOR;
         try {
             if (file_exists($this->_websitePath . 'plugins/shopping/version.txt')) {
-                $this->_toasterVersion = trim(Tools_Filesystem_Tools::getFile($this->_websitePath . 'plugins/shopping/version.txt'));
+                $this->_toasterVersion = trim(
+                    Tools_Filesystem_Tools::getFile($this->_websitePath . 'plugins/shopping/version.txt')
+                );
                 $master_link = self::MASTER_STORE_LINK;
             } else {
                 $this->_toasterVersion = trim(Tools_Filesystem_Tools::getFile('version.txt'));
                 $master_link = self::MASTER_CMS_LINK;
             }
             $master_versions = explode("\n", file_get_contents($master_link));
-            $this->_remoteVersion   = filter_var($master_versions [0], FILTER_SANITIZE_STRING);
-            $this->_downloadLink    = filter_var($master_versions [1], FILTER_SANITIZE_URL);
+            $this->_remoteVersion = filter_var($master_versions [0], FILTER_SANITIZE_STRING);
+            $this->_downloadLink = filter_var($master_versions [1], FILTER_SANITIZE_URL);
         } catch (Exceptions_SeotoasterException $se) {
             if (self::debugMode()) {
                 error_log($se->getMessage());
+                return $this->view->result = "Can't get toasters version";
             }
         }
+    }
+
+    public function indexAction()
+    {
+        $this->view->remoteVersion = $this->_remoteVersion;
+        $this->view->localVersion = $this->_toasterVersion;
+    }
+
+
+    public function updateAction()
+    {
+        $withoutBackup = $this->_request->getParam('withoutBackup') === 'true' ? true : false;
         $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
-       if (1 === $updateStatus) {
-/*
-           $backup = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
-           if ($backup === true) {
-               $zipDownloaded = $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
-               if ($zipDownloaded === true) {
-                 $unZiped = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
-                 if ($unZiped === true) {
-                     $copyConf     =  $this->_copyFiles();
-                     $mvInstallDir = $this->_copyToaster($this->_newToasterPath . 'install', $this->_newToasterPath . '_install');
-                       if ($copyConf === true && $mvInstallDir === true) {
-                       */
-                           try {
-                               //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
-                               $this->_updateDataBase();
-                           } catch (Exception $ex) {
-                               //$this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
-                               return $ex->getMessage();
-                           }
-                       /*
-                       }
-                 }
-               }
-           }
-*/
-                $this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
+        if (1 === $updateStatus) {
+            if ($withoutBackup === false) {
+                $backup = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
+            } else {
+                $backup = true;
+            }
+            if ($backup === true) {
+                $zipDownloaded = $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
+                if ($zipDownloaded === true) {
+                    $unZiped = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
+                    if ($unZiped === true) {
+                        $copyConf = $this->_copyConfigs();
+                        $mvInstallDir = $this->_copyToaster(
+                            $this->_newToasterPath . 'install',
+                            $this->_newToasterPath . '_install'
+                        );
+                        if ($copyConf === true && $mvInstallDir === true) {
+                            try {
+                                //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+                                //$this->_updateDataBase();
+                            } catch (Exception $ex) {
+                                //$this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
+                                return $ex->getMessage();
+                            }
+                        } else {
+                            return $this->view->result = "Can't copy config files!";
+                        }
+                    }
+                } else {
+                    return $this->view->result = "Can't unzip toaster!";
+                }
+            } else {
+                return $this->view->result = "Can't create toaster backup!";
+            }
+            return $this->view->result = "Success";
+            //$this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
         } elseif (-1 === $updateStatus) {
-            return 'Your version of the system is higher than the remote';
+            return $this->view->result = 'Your version of the system is higher than the remote';
         } else {
-            return 'Your system up to date';
+            return $this->view->result = 'Your system up to date';
         }
     }
 
@@ -101,7 +121,9 @@ class Backend_UpdateController extends Zend_Controller_Action
         try {
             $upZip = $path . $zipName;
             //TODO Check if dir exist and not empty
-            if (!is_dir($newPath)) mkdir($newPath);
+            if (!is_dir($newPath)) {
+                mkdir($newPath);
+            }
             set_time_limit(0);
             $fp = fopen($upZip, 'w+');
             $ch = curl_init($this->_downloadLink);
@@ -117,12 +139,12 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
     }
 
-    protected function _copyFiles()
+    protected function _copyConfigs()
     {
         if (!copy($this->_websitePath . 'system/coreinfo.php', $this->_newToasterPath . 'system/coreinfo.php')) {
             return false;
         }
-        mkdir( $this->newToasterPath . '_install');
+        mkdir($this->newToasterPath . '_install');
         return true;
     }
 
@@ -179,18 +201,23 @@ class Backend_UpdateController extends Zend_Controller_Action
         if (file_exists($this->_websitePath . 'plugins/shopping/version.txt')) {
             $select = $dbAdapter->select()->from('shopping_config', array('value'))->where('name = ?', 'version');
             $dbVersion = $dbAdapter->fetchRow($select);
-            $storeAlters = stristr(trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/store-alters.sql')), '-- version: ' .  $dbVersion['value']);
+            $storeAlters = stristr(
+                trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/store-alters.sql')),
+                '-- version: ' . $dbVersion['value']
+            );
         }
 
         $select = $dbAdapter->select()->from('config', array('value'))->where('name = ?', 'version');
         $dbVersion = $dbAdapter->fetchRow($select);
-        $alters = stristr(trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/alters.sql')), '-- version: ' .  $dbVersion['value']);
+        $alters = stristr(
+            trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/alters.sql')),
+            '-- version: ' . $dbVersion['value']
+        );
         if (!empty($storeAlters) && is_array($storeAlters)) {
-            $alters = array_merge($alters,$storeAlters);
+            $alters = array_merge($alters, $storeAlters);
         }
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
-        $dbAdapter->query('SET autocommit = 0;');
         try {
             foreach ($sqlAlters as $alter) {
                 $dbAdapter->query($alter);

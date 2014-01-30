@@ -1,10 +1,8 @@
 <div class="seotoaster container_12 h350 rounded3px">
-
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
-    <div class="grid_12">
-        <?php
-            echo "<h1>test</h1>";
-        ?>
-    </div>
-
+    <p class="grid_12 mb20px seo-tip">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
+    <p class="grid_6 mb20px" style="text-align: center;">Local toaster version: <?php echo $this->localVersion; ?></p>
+    <p class="grid_6 mb20px" style="text-align: center;">Remote toaster version: <?php echo $this->remoteVersion; ?></p>
+    <p class="grid_12" style="text-align: center;"><span class="grid_6">Update my toaster with archiving your current version of the toaster: </span><span class="grid_6">Updater my toaster without archiving: </span></p>
+    <p class="grid_12 mt20px"><a id="backup" class="grid_6 button" href="<?php echo $this->websiteUrl ?>backend/backend_update/update"><?php echo $this->translate('With Backup');?></a><a id="noBackup" class="grid_6 button" href="<?php echo $this->websiteUrl ?>backend/backend_update/update/withoutBackup/true"><?php echo $this->translate('No Backup');?></a></p>
 </div>

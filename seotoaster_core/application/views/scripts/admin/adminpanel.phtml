@@ -95,7 +95,7 @@
 					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '954', 'height' => '574')); ?></li>
 				<?php endif; ?>
 				<li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '954', 'height' => '574')); ?></li>
-                <li><?php echo $this->toasterLink('backend_update', 'index', $this->translate('Update'), false, false, array('width' => '954', 'height' => '574')); ?></li>
+                <li><?php echo $this->toasterLink('backend_update', 'index', $this->translate('Update'), false, false, array('width' => '560', 'height' => '250')); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['OTHER']) && isset($this->additionalMenu['OTHER']['items'])): ?>
 			<?php foreach($this->additionalMenu['OTHER']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
