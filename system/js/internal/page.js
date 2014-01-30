@@ -91,7 +91,7 @@ function checkMenu(currentMenuItem, selectedOption) {
 
     switch (currentMenuItem) {
         case _STATIC_MENU_ID:
-            $('.menu-info').text('This page is in flat menu');
+            $('.menu-info').show().text('This page is in flat menu');
         case _NO_MENU_ID:
             if (!selector.find('option[value="-1"]').length) {
                 selector.prepend($('<option />').val('-1').text('No category'));
@@ -99,7 +99,7 @@ function checkMenu(currentMenuItem, selectedOption) {
             selector.val(-1);
             selector.hide();
             if (currentMenuItem == _NO_MENU_ID) {
-                $('.menu-info').text('This page is not in menu');
+                $('.menu-info').show().text('This page is not in menu');
             }
             break;
         case _MAIN_MENU_ID:
@@ -111,11 +111,10 @@ function checkMenu(currentMenuItem, selectedOption) {
                     selector.val(selectedOption);
                 }
             }
-            selector.show();
+            selector.show().next('.menu-info').hide();
             break;
     }
 }
-
 
 function showTemplatesList() {
     $.post($('#website_url').val() + 'backend/backend_theme/gettemplate/pageId/' + $('#pageId').val(), {
