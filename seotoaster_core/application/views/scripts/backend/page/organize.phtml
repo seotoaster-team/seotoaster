@@ -1,12 +1,20 @@
+<?php $collapseTitle = $this->translate('collapse'); ?>
 <div class="seotoaster container refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Organize pages', 'innerHeaderHtml' => '<div class="organize-links"><a id="collapse-global" class="icon-arrow-up" href="javascript:;">collapse all</a> | <a id="expand-global" class="icon-arrow-down" href="javascript:;">expand all</a></div>', 'helpSection' => $this->helpSection)); ?>
+    <?php echo $this->partial(
+            'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+            array(
+                    'headerText' => 'Organize pages',
+                    'innerHeaderHtml' => '<div class="organize-links"><a id="collapse-global" class="icon-arrow-up" href="javascript:;">'.$this->translate('collapse all').'</a> | <a id="expand-global" class="icon-arrow-down" href="javascript:;">'.$this->translate('expand all').'</a></div>',
+                    'helpSection' => $this->helpSection
+            )
+    ); ?>
     <div id="sortable-main" class="content-footer">
 		<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
             <?php  foreach($this->tree as $key => $treeData): ?>
                 <div class="category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
 					<div class="catmove">
                         <input class="check-all" type="checkbox" title="Check all"/>&nbsp;
-                        <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
+                        <a href="javascript:;" class="collapse-all icon-arrow-up" title="<?php echo $collapseTitle; ?>"></a>
                         <?php echo $this->toasterLink('backend_page', 'page', $treeData['category']->getNavName(), 'id/' . $treeData['category']->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
                     </div>
 					<ul class="organise list-bordered">
@@ -29,7 +37,7 @@
 		<div class="category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_STATICMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
             <div class="catmove">
                 <input class="check-all" type="checkbox" title="Check all"/>&nbsp;
-                <a href="javascript:;" title="static menu"> Static menu</a>
+                <span title="<?php echo $this->translate('Static menu'); ?>"><?php echo $this->translate('Static menu'); ?></span>
                 <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
             </div>
 			<ul class="organise list-bordered">
@@ -50,7 +58,7 @@
 		<div class="category-data nosort" data-menu="<?php echo Application_Model_Models_Page::IN_NOMENU; ?>" id="<?php echo Application_Model_Models_Page::IDCATEGORY_DEFAULT; ?>">
             <div class="catmove">
                 <input class="check-all" type="checkbox" title="Check all"/>&nbsp;
-                <a href="javascript:;" title="static menu"> No menu</a>
+                <span title="<?php echo $this->translate('No menu');?>"><?php echo $this->translate('No menu');?></span>
                 <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
             </div>
 			<ul class="organise list-bordered">
