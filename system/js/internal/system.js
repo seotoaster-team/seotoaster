@@ -197,12 +197,12 @@ doc.on('click', '[name="useImage"]', function () {
 });
 ///////// checkbox & radio button //////////////
 function checkboxRadio() {
-    $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function () {
-        if (!$(this).closest('.btn-set').length) {
-            if ($(this).parent('label').length) {
+    $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function(){
+        if(!$(this).closest('.btn-set').length){
+            if($(this).parent('label').length){
                 !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
-            } else {
-                !$(this).hasClass('switcher') ? $(this).wrap('<label class="pointer"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="pointer checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"><span></span></span>');
+            }else{
+                !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"><span></span></span>');
             }
         }
         $(this).addClass('processed');
