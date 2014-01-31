@@ -134,7 +134,8 @@ class Tools_Content_Parser {
 
 	private function _runMagicSpaces() {
 		preg_match_all('~{([\w]+' . self::OPTIONS_SEPARATOR . '*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
-		if(!empty($spacesFound) && isset($spacesFound[1])) {
+        $spacesFound = array_filter($spacesFound);
+		if (!empty($spacesFound) && isset($spacesFound[1])) {
 			foreach($spacesFound[1] as $spaceName) {
 
                 //if any parameters passed
@@ -152,6 +153,11 @@ class Tools_Content_Parser {
 					continue;
 				}
 			}
+
+            if ($this->_iteration <= self::PARSE_DEEP) {
+                $this->_iteration++;
+                $this->_runMagicSpaces();
+            }
 		}
 	}
 
