@@ -5,7 +5,7 @@
         'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'
 
     )); ?>
-	<div class="content grid_12">
+	<div class="content grid_12 pt20px">
 		<div id="add-user" class="show-right">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
@@ -35,8 +35,8 @@
 		</div>
 
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
-
-		<table class="sortable table-striped table-scroll block mt10px" id="users-list">
+        <span class="clearfix"></span>
+		<table class="sortable table-striped table-scroll block mt20px" id="users-list">
 			<thead class="block">
 				<tr class="block wrap">
 					<th><?php echo $this->translate('E-mail'); ?></th>
@@ -66,4 +66,4 @@
 	})
 </script>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.min.js'); ?>
