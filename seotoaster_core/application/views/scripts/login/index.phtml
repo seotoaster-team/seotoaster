@@ -32,7 +32,7 @@
 				<?php foreach($this->languages as $lang): ?>
 					<a class="flag-button" title="<?php echo ($this->translate('Select ') . $lang['language'] . $this->translate(' language'));?> " href="#">
 						<img alt="<?php echo $lang['language']; ?>" class="lang-select" data-lng="<?php echo $lang['name']; ?>" src="<?php echo $this->websiteUrl . $lang['flag']; ?>" border="0" />
-					</a>&nbsp;
+					</a>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</div>
