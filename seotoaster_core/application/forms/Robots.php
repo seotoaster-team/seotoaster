@@ -17,7 +17,6 @@ class Application_Form_Robots extends Zend_Form
                 'id'      => 'robots-content',
                 'cols'    => '45',
                 'rows'    => '14',
-                'class'   => 'h250px',
                 'value'   => $this->_content,
                 'filters' => array('StringTrim')
             ))

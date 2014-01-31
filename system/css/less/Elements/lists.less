@@ -1,10 +1,9 @@
 ul, ol{
-    margin-bottom       : 1.5em;
-    margin-left         : 2.5em;
-    list-style-position : inside;
+    margin-bottom : 1.5em;
+    padding-left  : 2.5em;
 
     ol, ul{
-        margin    : 0.3em 0 1em 2.5em;
+        margin    : 0.3em 0 1em;
         font-size : 0.9em;
     }
 
@@ -17,10 +16,7 @@ ul, ol{
     .activate-list-unstyled(@activate) when (@activate = true){
         &.list-unstyled{
             list-style-type : none;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
+            padding-left    : 0;
         }
     }
     .activate-list-unstyled(@activate-list-unstyled);
@@ -28,10 +24,7 @@ ul, ol{
     .activate-list-inline(@activate) when (@activate = true){
         &.list-inline{
             list-style-type : none;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
+            padding-left    : 0;
 
             &>li{
                 .inline-block(top);
@@ -44,10 +37,7 @@ ul, ol{
     .activate-list-bordered(@activate) when (@activate = true){
         &.list-bordered{
             list-style-type : none;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
+            padding-left    : 0;
 
             &>li{
                 border-bottom  : 1px dashed @hr-color;
@@ -86,14 +76,8 @@ ul, ol{
     .activate-list-tags(@activate) when (@activate = true){
         &.list-tags{
             list-style-type : none;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
-
-            &:not([class*="mb"]){
-                margin-bottom : 0;
-            }
+            padding-left    : 0;
+            margin-bottom   : 0;
 
             &>li{
                 margin     : 2px 0 0;
@@ -143,10 +127,7 @@ ul, ol{
     .activate-list-arrow(@activate) when (@activate = true){
         &.list-arrow{
             list-style-type : none;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
+            padding-left    : 0;
 
             &>li{
                 padding-left : 1em;
@@ -163,11 +144,21 @@ ul, ol{
                     .activate-toaster-icon;
                 }
 
-                &:hover{
-                    &:before{
-                        color : @brand-primary;
+                .activate-hover(@activate) when (@activate = true){
+                    &:hover{
+                        &:before{
+                            color : @brand-primary;
+                        }
                     }
                 }
+                .activate-hover(@activate) when (@activate = false){
+                    &.touch{
+                        &:before{
+                            color : @brand-primary;
+                        }
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
     }
@@ -177,10 +168,7 @@ ul, ol{
         &.list-count-sign{
             list-style-type : none;
             counter-reset   : list;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
+            padding-left    : 0;
 
             &>li{
                 margin-bottom : 0.5em;
@@ -201,12 +189,23 @@ ul, ol{
                     .border-radius(10em);
                 }
 
-                &:hover{
-                    &:before{
-                        background : @primary-bg;
-                        color      : @primary-color;
+                .activate-hover(@activate) when (@activate = true){
+                    &:hover{
+                        &:before{
+                            background : @primary-bg;
+                            color      : @primary-color;
+                        }
                     }
                 }
+                .activate-hover(@activate) when (@activate = false){
+                    &.touch{
+                        &:before{
+                            background : @primary-bg;
+                            color      : @primary-color;
+                        }
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
     }
@@ -216,10 +215,7 @@ ul, ol{
         &.list-icon-sign{
             list-style-type : none;
             counter-reset   : list;
-
-            &:not([class*="ml"]):not([class*="grid_"]){
-                margin-left : 0;
-            }
+            padding-left    : 0;
 
             &>li{
                 margin-bottom : 0.5em;
@@ -239,12 +235,23 @@ ul, ol{
                     .border-radius(10em);
                 }
 
-                &:hover{
-                    &:before{
-                        background : @primary-bg;
-                        color      : @primary-color;
+                .activate-hover(@activate) when (@activate = true){
+                    &:hover{
+                        &:before{
+                            background : @primary-bg;
+                            color      : @primary-color;
+                        }
                     }
                 }
+                .activate-hover(@activate) when (@activate = false){
+                    &.touch{
+                        &:before{
+                            background : @primary-bg;
+                            color      : @primary-color;
+                        }
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
     }
@@ -308,23 +315,20 @@ dl{
     padding    : @padding-base-vertical 0;
 }
 .items-list{
-
-    &:not([class*="ml"]):not([class*="grid_"]){
-        margin-left : 0;
-    }
-
-    &:not([class*="mb"]){
-        margin-bottom : 0;
-    }
+    margin-bottom : 0;
+    padding       : 0;
 
     .list-row{
-        background    : @gray-lighter;
-        padding       : @padding-small-vertical 0;
-        margin-top    : 2px;
-        margin-bottom : 0;
-        overflow      : hidden;
-        list-style    : none;
-        max-width     : 100%;
+        background : @gray-lighter;
+        margin     : 0;
+        padding    : @padding-small-vertical 0;
+        overflow   : hidden;
+        list-style : none;
+        max-width  : 100%;
+
+        &+.list-row{
+            margin-top : 2px;
+        }
 
         .list-row-item{
             .text-overflow;
@@ -364,6 +368,7 @@ dl{
         .thumbnail-state(0);
         height      : 80px;
         line-height : 74px;
+        .box-sizing();
 
         &[class*="grid_"]{
             margin-top    : 1%;

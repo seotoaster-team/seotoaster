@@ -7,36 +7,6 @@ blockquote, .blockquote, .seo-tip{
     padding       : 0.75em 1.5em;
     border-left   : 3px solid @gray;
 
-//    &:before, &:after{
-//        margin-top  : -0.7em;
-//        color       : @gray-light;
-//        font-size   : 4em;
-//        font-family : 'toaster-icons';
-//        line-height : 1em;
-//    }
-
-//    &:after{
-//        float      : right;
-//        margin-top : -0.35em;
-//        content    : "201c";
-//        .activate(@activate : @activate-toaster-icons) when ( @activate = true){
-//            content : "\e074";
-//            //content : "\e076"; // variant 2
-//        }
-//        .activate;
-//    }
-
-//    &:before{
-//        float        : left;
-//        margin-right : 0.5em;
-//        content      : "201e";
-//        .activate(@activate : @activate-toaster-icons) when ( @activate = true){
-//            content : "\e073";
-//            //content      : "\e075"; // variant 2
-//        }
-//        .activate;
-//    }
-
     p, ul, ol{
         margin : 0;
 
@@ -56,15 +26,15 @@ blockquote, .blockquote, .seo-tip{
     // Alternate styles
     // -------------------------
     &.success{
-        .alert-state(@state-green-text, @state-green-bg, @state-green-border);
+        .alert-color(@state-green-text, @state-green-bg, @state-green-border, @activate-alternate-style-color-green);
     }
     &.warning{
-        .alert-state(@state-orange-text, @state-orange-bg, @state-orange-border);
+        .alert-color(@state-orange-text, @state-orange-bg, @state-orange-border, @activate-alternate-style-color-orange);
     }
     &.error{
-        .alert-state(@state-red-text, @state-red-bg, @state-red-border);
+        .alert-color(@state-red-text, @state-red-bg, @state-red-border, @activate-alternate-style-color-red);
     }
     &.info{
-        .alert-state(@state-blue-text, @state-blue-bg, @state-blue-border);
+        .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border, @activate-alternate-style-color-blue);
     }
 }

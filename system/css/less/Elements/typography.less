@@ -1,24 +1,11 @@
 // Table of Content
 //==================================================
-//	Basic Styles
-//	Typography and Classes for content
-//	Lists Styles
-//	Tables Styles
-//	Buttons Styles
-//	Images Style
+//	Links
+//	Heading
+//	Blockquotes
+//  Toaster icon
+//  Custom classes
 //==================================================
-
-// Basic Styles
-//==================================================
-body{
-    font-size                   : @font-size-base;
-    font-family                 : @font-family-text;
-    line-height                 : @line-height;
-    -webkit-font-smoothing      : antialiased;
-    -webkit-backface-visibility : hidden;
-    -moz-backface-visibility    : visible;
-    -ms-backface-visibility     : hidden;
-}
 
 // Links
 //==================================================
@@ -29,12 +16,20 @@ a{
 a:visited{
     //color : @link-color-visited;
 }
-a:hover{
-    color : @link-color-hover
+.activate-hover(@activate) when (@activate = true){
+    a:hover{
+        color : @link-color-hover
+    }
+    a:active{
+        color : @link-color-active;
+    }
 }
-a:active{
-    color : @link-color-active;
+.activate-hover(@activate) when (@activate = false){
+    a.touch{
+        color : @link-color-active;
+    }
 }
+.activate-hover(@activate-hover);
 
 // Heading
 //==================================================
@@ -74,49 +69,6 @@ p{
     &+p{ margin-top : 1.5em; }
 
     img{ margin : 0; }
-}
-
-//	Blockquotes
-//==================================================
-blockquote, .blockquote, .seo-tip{
-    font-size     : @font-size-base;
-    color         : @gray;
-    font-style    : italic;
-    background    : @gray-lighter;
-    margin-bottom : 1.5em;
-    padding       : 0.75em 1.5em;
-    border-left   : 3px solid @gray;
-
-    p, ul, ol{
-        margin : 0;
-
-        &+p, &+ul, &+ol{
-            margin-top : 0.5em;
-        }
-    }
-    li{
-        margin-left   : 1em;
-        margin-bottom : 0;
-
-        &+li{
-            margin-top : 0.5em;
-        }
-    }
-
-    // Alternate styles
-    // -------------------------
-    &.success{
-        .alert-state(@state-green-text, @state-green-bg, @state-green-border);
-    }
-    &.warning{
-        .alert-state(@state-orange-text, @state-orange-bg, @state-orange-border);
-    }
-    &.error{
-        .alert-state(@state-red-text, @state-red-bg, @state-red-border);
-    }
-    &.info{
-        .alert-state(@state-blue-text, @state-blue-bg, @state-blue-border);
-    }
 }
 
 //  Custom Classes

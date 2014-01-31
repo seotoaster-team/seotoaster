@@ -19,9 +19,18 @@
             color : inherit;
         }
 
+        .activate-hover(@activate) when (@activate = true){
         &:hover{
             color      : @autocomplete-item-color-hover;
             background : @autocomplete-item-bg-hover;
         }
+    }
+        .activate-hover(@activate) when (@activate = false){
+            &.touch{
+                color      : @autocomplete-item-color-hover;
+                background : @autocomplete-item-bg-hover;
+            }
+        }
+        .activate-hover(@activate-hover);
     }
 }

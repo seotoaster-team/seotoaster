@@ -69,29 +69,25 @@
 
     .sculpting-row{
         .background;
-        padding    : 0;
+        padding    : 0 0 5px;
         margin-top : 10px;
 
         &:first-child{
             margin-top : 0;
         }
+    }
 
-        .sculpting-subrow{
-            margin-bottom : 5px;
-            overflow      : hidden;
+    .sculpting-title{
+        text-transform : capitalize;
+        .text-overflow;
+    }
 
-            &>div:first-child{
-                padding-top : @padding-base-vertical;
-                .text-overflow;
-            }
+    .sculpting-subrow{
+        margin-top  : 5px;
+        line-height : @btn-height-base;
 
-            &:first-child{
-                text-transform : capitalize;
-
-                &>div:first-child{
-                    padding-top : 0;
-                }
-            }
+        &>div:first-child{
+            .text-overflow;
         }
     }
 }

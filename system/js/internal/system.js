@@ -202,7 +202,7 @@ function checkboxRadio() {
             if($(this).parent('label').length){
                 !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
             }else{
-                !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"><span></span></span>');
+                !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap '+ $(this).data('label-class') +'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap '+ $(this).data('label-class') +'"></label>').after('<span class="checkbox_radio"><span></span></span>');
             }
         }
         $(this).addClass('processed');

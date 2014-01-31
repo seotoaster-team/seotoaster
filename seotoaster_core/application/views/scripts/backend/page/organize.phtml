@@ -1,14 +1,14 @@
 <?php $collapseTitle = $this->translate('collapse'); ?>
 <div class="seotoaster container refreshOnClose">
     <?php echo $this->partial(
-            'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
-            array(
-                    'headerText' => 'Organize pages',
-                    'innerHeaderHtml' => '<div class="organize-links"><a id="collapse-global" class="icon-arrow-up" href="javascript:;">'.$this->translate('collapse all').'</a> | <a id="expand-global" class="icon-arrow-down" href="javascript:;">'.$this->translate('expand all').'</a></div>',
-                    'helpSection' => $this->helpSection
-            )
+        'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array(
+            'headerText' => 'Organize pages',
+            'innerHeaderHtml' => '<div class="organize-links"><a id="collapse-global" class="icon-arrow-up" href="javascript:;">'.$this->translate('collapse all').'</a> | <a id="expand-global" class="icon-arrow-down" href="javascript:;">'.$this->translate('expand all').'</a></div>',
+            'helpSection' => $this->helpSection
+        )
     ); ?>
-    <div id="sortable-main" class="content-footer">
+    <div id="sortable-main" class="content-footer scroll">
 		<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
             <?php  foreach($this->tree as $key => $treeData): ?>
                 <div class="category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">

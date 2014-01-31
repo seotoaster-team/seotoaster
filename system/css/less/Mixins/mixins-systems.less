@@ -1,0 +1,339 @@
+// Font-face
+//==================================================
+.font-face(@fontname, @fontfile, @fontweight : normal, @fontstyle: normal) {
+    @font-face{
+        font-family : "@{fontname}";
+        src         : url("../fonts/@{fontfile}.eot");
+        src         : url("../fonts/@{fontfile}.eot?#iefix") format("embedded-opentype"), url("../fonts/@{fontfile}.svg#@{fontname}") format("svg"), url("../fonts/@{fontfile}.woff") format("woff"), url("../fonts/@{fontfile}.ttf") format("truetype");
+        font-weight : @fontweight;
+        font-style  : @fontstyle;
+    }
+}
+
+// Grid system
+//==================================================
+.grid (@grid : @grid-columns, @name : grid, @num-column : 1) when (@grid >= @num-column){
+    .@{name}_@{num-column}{
+        width : percentage((@num-column / @grid)) - @grid-margin-width;
+        &.alpha, &.omega{
+            width : percentage((@num-column / @grid)) - @grid-margin-width / 2;
+        }
+        &.alpha.omega{
+            width : percentage(@num-column / @grid);
+        }
+    }
+
+    .grid(@grid, @name, @num-column + 1);
+}
+
+.grid-mobile(@response : @activate-responsive) when (@response = true){
+    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+    @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
+        .t-hide{ display : none; }
+        .t-alpha{ margin-left : 0; }
+        .t-omega{ margin-right : 0; }
+        .grid(@grid-columns-tablet, t-grid);
+
+        .prefix(@grid-columns-tablet - 1);
+        .suffix(@grid-columns-tablet - 1);
+        .push(@grid-columns-tablet - 1);
+        .pull(@grid-columns-tablet - 1);
+    }
+
+    @media only screen and (max-width : @responsive-size-mobile){
+        .m-hide{ display : none; }
+        .m-alpha{ margin-left : 0; }
+        .m-omega{ margin-right : 0; }
+        .grid(@grid-columns-mobile, m-grid);
+
+        .prefix(@grid-columns-mobile - 1);
+        .suffix(@grid-columns-mobile - 1);
+        .push(@grid-columns-mobile - 1);
+        .pull(@grid-columns-mobile - 1);
+    }
+}
+
+.prefix(@num-column) when (@num-column > 0){
+    .prefix_@{num-column}{
+        margin-left : percentage((@num-column / @grid-columns)) + @grid-margin-width / 2;
+        &.alpha{
+            margin-left : percentage((@num-column / @grid-columns));
+        }
+    }
+    .prefix(@num-column - 1);
+}
+
+.suffix(@num-column) when (@num-column > 0){
+    .suffix_@{num-column}{
+        margin-right : percentage((@num-column / @grid-columns)) + @grid-margin-width / 2;
+        &.omega{
+            margin-right : percentage((@num-column / @grid-columns));
+        }
+    }
+    .suffix(@num-column - 1);
+}
+
+.pull(@num-column) when (@num-column > 0){
+    .pull_@{num-column}{
+        left : percentage((@num-column / @grid-columns)) * -1;
+    }
+    .pull(@num-column - 1);
+}
+
+.push(@num-column) when (@num-column > 0){
+    .push_@{num-column}{
+        left : percentage((@num-column / @grid-columns));
+    }
+    .push(@num-column - 1);
+}
+
+// Margin - Padding
+//==================================================
+.margin-list(@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
+    @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
+
+    .result(@v, @n, @p) when (@p = all){
+        .m@{n}{ margin : @v; }
+    }
+    .result(@v, @n, @p) when (@p = top){
+        .mt@{n}{ margin-top : @v; }
+    }
+    .result(@v, @n, @p) when (@p = right){
+        .mr@{n}{ margin-right : @v; }
+    }
+    .result(@v, @n, @p) when (@p = bottom){
+        .mb@{n}{ margin-bottom : @v; }
+    }
+    .result(@v, @n, @p) when (@p = left){
+        .ml@{n}{ margin-left : @v; }
+    }
+
+    .result(@value, @name, @position) !important;
+    .margin-list(@value - @step, @position, @step);
+}
+
+.padding-list(@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
+    @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
+
+    .result(@v, @n, @p) when (@p = all){
+        .p@{n}{ padding : @v; }
+    }
+    .result(@v, @n, @p) when (@p = top){
+        .pt@{n}{ padding-top : @v; }
+    }
+    .result(@v, @n, @p) when (@p = right){
+        .pr@{n}{ padding-right : @v; }
+    }
+    .result(@v, @n, @p) when (@p = bottom){
+        .pb@{n}{ padding-bottom : @v; }
+    }
+    .result(@v, @n, @p) when (@p = left){
+        .pl@{n}{ padding-left : @v; }
+    }
+
+    .result(@value, @name, @position) !important;
+    .padding-list(@value - @step, @position, @step);
+}
+
+.position-list(@value, @position, @step:5) when (@value >= 0) and not (@value = none){
+    @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
+
+    .result(@v, @n, @p) when (@p = top){
+        .t@{n}{ top : @v; }
+    }
+    .result(@v, @n, @p) when (@p = right){
+        .r@{n}{ right : @v; }
+    }
+    .result(@v, @n, @p) when (@p = bottom){
+        .b@{n}{ bottom : @v; }
+    }
+    .result(@v, @n, @p) when (@p = left){
+        .l@{n}{ left : @v; }
+    }
+
+    .result(@value, @name, @position) !important;
+    .position-list(@value - @step, @position, @step);
+}
+
+// Width - Height
+//==================================================
+.width-list(@width, @step:5) when (@width >= 0) and not (@width = none){
+    @name : e(`(function(){ var a = "@{width}"; return a.replace('%', '')}())`);
+
+    .result(@w, @n) {
+        .w@{n}{ width : @w; }
+    }
+    .result(@width, @name);
+    .width-list(@width - @step, @step);
+}
+.height-list(@height, @step:5) when (@height >= 0) and not (@height = none){
+    @name : e(`(function(){ var a = "@{height}"; return a.replace('%', '')}())`);
+
+    .result(@h, @n) {
+        .h@{n}{ height : @h; }
+    }
+    .result(@height, @name);
+    .height-list(@height - @step, @step);
+}
+
+// Text overflow
+// Requires inline-block or block for proper styling
+//==================================================
+.text-overflow() {
+    overflow      : hidden;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+}
+// Opacity
+//==================================================
+.opacity(@opacity: 0.5) {
+    opacity : @opacity;
+    .activate-support-ie8(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        @opperc : @opacity * 100;
+        filter : ~"alpha(opacity=@{opperc})";
+    }
+    .activate-support-ie8(@ie8, @ie);
+}
+
+// Display: inline-block
+//==================================================
+.inline-block-wrap(@valign : middle, @el : ~'>*') {
+    font-size : 0;
+
+    @{el}{
+        .inline-block(@valign);
+        .font-size-unit(@unit : @font-size-base) when (isem(@unit)){ font-size : @font-size-base * 16; }
+        .font-size-unit(@unit : @font-size-base) when not (isem(@unit)){ font-size : @font-size-base; }
+        .font-size-unit();
+    }
+}
+
+.inline-block(@valign : middle) {
+    display        : inline-block;
+    vertical-align : @valign;
+    .activate-support-ie7(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        *zoom    : 1; // Fix for IE7
+        *display : inline; // Fix for IE7
+    }
+    .activate-support-ie7(@ie7, @ie);
+}
+
+// Hide text
+//==================================================
+.hide-text() {
+    font        : 0/0 a;
+    text-shadow : none;
+}
+
+// CSS3 support in ie
+//==================================================
+.pie(@pie : @activate-pie) when (@pie = true){
+    behavior : url('../js/system/PIE.php');
+}
+
+// -- Grid Elements
+.grid-elements(@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @response : @activate-responsive, @style-switch : true) when (@margin = 0), (@full = false){
+    width : (100% / @num-column) - @margin;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+        margin-left  : unit(@margin / 2, ~"%") !important;
+        margin-right : unit(@margin / 2, ~"%");
+    }
+    .activate-style-switch(@style-switch);
+    .grid-elements-tablet(@margin, @full, @response, @tablet-column);
+    .grid-elements-mobile(@margin, @full, @response, @mobile-column);
+}
+
+.grid-elements(@num-column, @margin, @full, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @response : @activate-responsive, @style-switch : true) when (@num-column > 1) and (@full = true) and (@margin > 0){
+    width        : (100% / @num-column) - @margin + (@margin / @num-column);
+    margin-left  : unit(@margin, ~"%");
+    margin-right : 0;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+    }
+    .activate-style-switch(@style-switch);
+
+    .activate-reset-ml(@activate) when (@activate = false){
+        &:nth-child(n){
+            margin-left : unit(@margin, ~"%");
+        }
+    }
+    .activate-reset-ml(@style-switch);
+    @num : ~'@{num-column}n + 1';
+    &:nth-child(@{num}){
+        margin-left : 0;
+    }
+    .grid-elements-tablet(@margin, @full, @response, @tablet-column);
+    .grid-elements-mobile(@margin, @full, @response, @mobile-column);
+}
+
+.grid-elements (@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @response : @activate-responsive, @style-switch : true) when (@num-column = 1) and (@full = true){
+    width       : 100%;
+    margin-left : 0;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+    }
+    .activate-style-switch(@style-switch);
+    .grid-elements-tablet(@margin, @full, @response, @tablet-column);
+    .grid-elements-mobile(@margin, @full, @response, @mobile-column);
+}
+
+.grid-elements-tablet(@margin, @full, @response, @tablet-column) when (@tablet-column > 0) and (@response = true){
+    @marginT : @margin;
+    .check-margin(@m, @tc) when (@m = 0) and (@tc > 1){
+        @marginT : @grid-margin-width;
+    }
+    .check-margin(@margin, @tablet-column);
+    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+    @media only screen and (max-width : @responsive-size-tablet) and  (min-width : @responsive-size-mobile-over){
+        .grid-elements(@tablet-column, @marginT, @full, 0, 0, false, false);
+    }
+}
+
+.grid-elements-mobile(@margin, @full, @response, @mobile-column) when (@mobile-column > 0) and (@response = true){
+    @marginM : @margin;
+    .check-margin(@m, @mc) when (@m = 0) and (@mc > 1){
+        @marginM : @grid-margin-width;
+    }
+    .check-margin(@margin, @mobile-column);
+
+    @media only screen and (max-width : @responsive-size-mobile){
+        .grid-elements(@mobile-column, @marginM, @full, 0, 0, false, false);
+    }
+}
+
+// Icon size
+//==================================================
+.icon-size(@size) when (@size > 0){
+    width       : @size;
+    height      : @size;
+    line-height : @size;
+    font-size   : 0 !important;
+
+    &:before{
+        font-size : @size;
+    }
+}
+
+// Resize anything
+//==================================================
+.resize(@direction:none) {
+    resize   : @direction; // Options: horizontal, vertical, both, none
+    overflow : auto; // Safari fix
+}
+
+// ClearFix
+//==================================================
+.clearfix() {
+    &:after{
+        content    : "";
+        clear      : both;
+        display    : block;
+        overflow   : hidden;
+        visibility : hidden;
+        height     : 0;
+    }
+}

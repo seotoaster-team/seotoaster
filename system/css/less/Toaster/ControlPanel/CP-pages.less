@@ -284,11 +284,7 @@
         .grid-elements(4, @grid-margin-width / 2);
         letter-spacing : normal;
         font-size      : @font-size-base;
-        margin-bottom  : 2%;
-
-        &:nth-last-child(1), &:nth-last-child(2), &:nth-last-child(3), &:nth-last-child(4){
-            margin-bottom : 0;
-        }
+        margin-bottom  : 1%;
     }
 
     .nosort{
@@ -311,6 +307,12 @@
 
         .page, a{
             vertical-align : middle;
+        }
+
+        .page{
+            width : 150px;
+            .inline-block();
+            .text-overflow();
         }
 
         .collapse-all{

@@ -33,41 +33,50 @@
     // Alternate progressbar
     // --------------------------------------------------
     .activate(@activate) when (@activate = true){
-        &.warning{
-            background   : @state-orange-bg;
-            border-color : @state-orange-border;
+        .activate-color-green(@activate) when (@activate = true){
+            &.success{
+                background   : @state-green-bg;
+                border-color : @state-green-border;
 
-            .ui-progressbar-value{
-                background : @state-orange-text;
+                .ui-progressbar-value{
+                    background : @state-green-text;
+                }
             }
         }
+        .activate-color-orange(@activate) when (@activate = true){
+            &.warning{
+                background   : @state-orange-bg;
+                border-color : @state-orange-border;
 
-        &.error{
-            background   : @state-red-bg;
-            border-color : @state-red-border;
-
-            .ui-progressbar-value{
-                background : @state-red-text;
+                .ui-progressbar-value{
+                    background : @state-orange-text;
+                }
             }
         }
+        .activate-color-red(@activate) when (@activate = true){
+            &.error{
+                background   : @state-red-bg;
+                border-color : @state-red-border;
 
-        &.success{
-            background   : @state-green-bg;
-            border-color : @state-green-border;
-
-            .ui-progressbar-value{
-                background : @state-green-text;
+                .ui-progressbar-value{
+                    background : @state-red-text;
+                }
             }
         }
+        .activate-color-blue(@activate) when (@activate = true){
+            &.info{
+                background   : @state-blue-bg;
+                border-color : @state-blue-border;
 
-        &.info{
-            background   : @state-blue-bg;
-            border-color : @state-blue-border;
-
-            .ui-progressbar-value{
-                background : @state-blue-text;
+                .ui-progressbar-value{
+                    background : @state-blue-text;
+                }
             }
         }
+        .activate-color-green(@activate-alternate-style-color-green);
+        .activate-color-orange(@activate-alternate-style-color-orange);
+        .activate-color-red(@activate-alternate-style-color-red);
+        .activate-color-blue(@activate-alternate-style-color-blue);
     }
     .activate(@activate-alternate-style);
 }

@@ -24,9 +24,9 @@
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
 		<?php
 			$this->headLink()
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-plugins.css', 'screen', 'IE')
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-lite.css', 'screen', 'IE')
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css', 'screen', 'IE')
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-plugins.css', 'screen', 'lt IE 9')
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-lite.css', 'screen', 'lt IE 9')
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css', 'screen', 'lt IE 9')
 				->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-cp.css')
 				->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
                 ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
@@ -53,7 +53,7 @@
 		?>
 
 		<?php $this->headScript()->setAllowArbitraryAttributes(true)
-			->prependFile($this->websiteUrl . 'system/js/internal/system.js'); ?>
+			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js'); ?>
 
 		<?php
         echo $this->jQuery();

@@ -67,6 +67,11 @@
 .activate-tooltips(@activate : @activate-module-tooltips) when (@activate = true){
 @import "../Modules/tooltips";
 }
+.activate-tooltips(@activate : @activate-module-tooltips) when (@activate = false){
+    .ui-tooltip{
+        display: none;
+    }
+}
     .activate-tooltips;
 
 // Modules Slider (range) Styles
@@ -96,6 +101,13 @@
 @import "../Modules/scrollbars";
 }
     .activate-scrollbar;
+
+// Pagination Styles
+//==================================================
+.activate-pagination(@activate : @activate-module-pagination) when (@activate = true){
+    // TODO create style for pagination
+}
+    .activate-pagination;
 
 // UI effects transfer
 //==================================================

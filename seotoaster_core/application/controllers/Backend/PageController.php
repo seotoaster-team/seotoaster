@@ -26,7 +26,7 @@ class Backend_PageController extends Zend_Controller_Action {
             ->addActionContexts(array(
             'edit404page'      => 'json',
             'rendermenu'       => 'json',
-                  'listpages'        => array('json', 'html'),
+            'listpages'        => array('json', 'html'),
             'publishpages'     => 'json',
             'checkforsubpages' => 'json',
             'toggleoptimized'  => 'json'

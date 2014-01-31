@@ -14,42 +14,103 @@ html body{
 
         .primary{
             color : @primary-bg;
-            a&:hover, &.link:hover{
-                color : darken(@primary-bg, 15%);
+            .activate-hover(@activate) when (@activate = true){
+                a&:hover{
+                    color : darken(@primary-bg, 15%);
+                }
+            }
+            .activate-hover(@activate) when (@activate = false){
+                a&.touch{
+                    color : darken(@primary-bg, 15%);
+                }
+            }
+            .activate-hover(@activate-hover);
+        }
+        .activate-color-green(@activate) when (@activate = true){
+            .success{
+                color : @brand-green;
+                .activate-hover(@activate) when (@activate = true){
+                    a&:hover{
+                        color : darken(@brand-green, 15%);
+                    }
+                }
+                .activate-hover(@activate) when (@activate = false){
+                    a&.touch{
+                        color : darken(@brand-green, 15%);
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
-        .success{
-            color : @brand-green;
-            a&:hover, &.link:hover{
-                color : darken(@brand-green, 15%);
+        .activate-color-orange(@activate) when (@activate = true){
+            .warning{
+                color : @brand-orange;
+                .activate-hover(@activate) when (@activate = true){
+                    a&:hover{
+                        color : darken(@brand-orange, 15%);
+                    }
+                }
+                .activate-hover(@activate) when (@activate = false){
+                    a&.touch{
+                        color : darken(@brand-orange, 15%);
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
-        .warning{
-            color : @brand-orange;
-            a&:hover, &.link:hover{
-                color : darken(@brand-orange, 15%);
+        .activate-color-red(@activate) when (@activate = true){
+            .error{
+                color : @brand-red;
+                .activate-hover(@activate) when (@activate = true){
+                    a&:hover{
+                        color : darken(@brand-red, 15%);
+                    }
+                }
+                .activate-hover(@activate) when (@activate = false){
+                    a&.touch{
+                        color : darken(@brand-red, 15%);
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
-        .error{
-            color : @brand-red;
-            a&:hover, &.link:hover{
-                color : darken(@brand-red, 15%);
+        .activate-color-blue(@activate) when (@activate = true){
+            .info{
+                color : @brand-blue;
+                .activate-hover(@activate) when (@activate = true){
+                    a&:hover{
+                        color : darken(@brand-blue, 15%);
+                    }
+                }
+                .activate-hover(@activate) when (@activate = false){
+                    a&.touch{
+                        color : darken(@brand-blue, 15%);
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
         }
-        .info{
-            color : @brand-blue;
-            a&:hover, &.link:hover{
-                color : darken(@brand-blue, 15%);
-            }
-        }
+        .activate-color-green(@activate-alternate-style-color-green);
+        .activate-color-orange(@activate-alternate-style-color-orange);
+        .activate-color-red(@activate-alternate-style-color-red);
+        .activate-color-blue(@activate-alternate-style-color-blue);
     }
     .activate-color(@activate-alternate-style-color, @activate-alternate-style);
 
     .activate-font-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        .larger{ font-size : @font-size-larger; }
-        .large{ font-size : @font-size-large; }
-        .small{ font-size : @font-size-small; }
-        .mini{ font-size : @font-size-mini; }
+        .activate-font-size-larger(@activate) when (@activate = true){
+            .larger{ font-size : @font-size-larger; }
+        }
+        .activate-font-size-large(@activate) when (@activate = true){
+            .large{ font-size : @font-size-large; }
+        }
+        .activate-font-size-small(@activate) when (@activate = true){
+            .small{ font-size : @font-size-small; }
+            .mini{ font-size : @font-size-mini; }
+        }
+        .activate-font-size-larger(@activate-alternate-style-size-larger);
+        .activate-font-size-large(@activate-alternate-style-size-large);
+        .activate-font-size-small(@activate-alternate-style-size-small);
     }
     .activate-font-size(@activate-alternate-style-size, @activate-alternate-style);
 }

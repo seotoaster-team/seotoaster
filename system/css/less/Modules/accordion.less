@@ -18,13 +18,22 @@
         }
 
         a{
-            color : inherit;
+//            color : inherit;
         }
 
-        &:hover{
-            color      : @accordion-header-color-hover;
-            background : @accordion-header-bg-hover;
+        .activate-hover(@activate) when (@activate = true){
+            &:hover{
+                color      : @accordion-header-color-hover;
+                background : @accordion-header-bg-hover;
+            }
         }
+        .activate-hover(@activate) when (@activate = false){
+            &.touch{
+                color      : @accordion-header-color-hover;
+                background : @accordion-header-bg-hover;
+            }
+        }
+        .activate-hover(@activate-hover);
 
         &.ui-accordion-header-active{
             color      : @accordion-header-color-active;
@@ -34,10 +43,10 @@
 
     .ui-accordion-icons{
         .ui-accordion-header-icon{
-            .inline-block();
+            .inline-block;
             margin-left  : -@padding-base-horizontal / 2;
             margin-right : @padding-base-horizontal / 2;
-            .icon-size(14px);
+            .icon-size(16px);
         }
     }
 

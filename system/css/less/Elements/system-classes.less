@@ -28,11 +28,9 @@ html body{
 
     .wrap{ overflow : hidden; }
     .block{ display : block; }
+    .word-break{ word-break : break-all; }
     [class*="hidden"]{ display : none; }
 
-    .pointer{ cursor : pointer; }
-
-    .scroll{ overflow : auto; }
     .fixed{
         position : fixed !important;
         &.top{ top : 0; }
@@ -87,46 +85,72 @@ html body{
 // -- color bg
 .activate-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
     .primary-bg{ background-color : @primary-bg; }
-    .green-bg{ background-color : @brand-green; }
-    .orange-bg{ background-color : @brand-orange; }
-    .red-bg{ background-color : @brand-red; }
-    .blue-bg{ background-color : @brand-blue; }
+    .activate-color-green(@activate) when (@activate = true){
+        .green-bg{ background-color : @brand-green; }
+    }
+    .activate-color-orange(@activate) when (@activate = true){
+        .orange-bg{ background-color : @brand-orange; }
+    }
+    .activate-color-red(@activate) when (@activate = true){
+        .red-bg{ background-color : @brand-red; }
+    }
+    .activate-color-blue(@activate) when (@activate = true){
+        .blue-bg{ background-color : @brand-blue; }
+    }
+    .activate-color-green(@activate-alternate-style-color-green);
+    .activate-color-orange(@activate-alternate-style-color-orange);
+    .activate-color-red(@activate-alternate-style-color-red);
+    .activate-color-blue(@activate-alternate-style-color-blue);
 }
 .activate-color(@activate-alternate-style-color, @activate-alternate-style);
 
 // Social Links
 //==================================================
 .activate-list-social-links(@activate) when (@activate = true){
-    @facebook : #3b5a99;
-    @twitter  : #1aa8e0;
-    @gplus    : #ca3e2d;
+    @facebook : #3B5A99;
+    @twitter  : #1AA8E0;
+    @gplus    : #CA3E2D;
     @rss      : #FE9900;
-    @linkedin : #4875b5;
+    @linkedin : #4875B5;
     @youtube  : #B72D24;
 
     .social-links{
         .hide-text;
 
-        .facebook{ background : @facebook; }
-        .twitter{ background : @twitter; }
-        .gplus{ background : @gplus; }
         .rss{ background : @rss; }
-        .linkedin{ background : @linkedin; }
+        .gplus{ background : @gplus; }
+        .twitter{ background : @twitter; }
         .youtube{ background : @youtube; }
+        .linkedin{ background : @linkedin; }
+        .facebook{ background : @facebook; }
 
         a[class*="icon-"]{
-            .icon-size(18px);
-            color        : #fff;
-            margin-right : 5px;
+            .icon-size(@social-icon-size);
+            margin-left : 5px;
+            color       : #FFF;
+            padding     : @padding-base-vertical;
 
-            &:hover{
-                &.facebook{ background : darken(@facebook, 10%); }
-                &.twitter{ background : darken(@twitter, 10%); }
-                &.gplus{ background : darken(@gplus, 10%); }
-                &.rss{ background : darken(@rss, 10%); }
-                &.linkedin{ background : darken(@linkedin, 10%); }
-                &.youtube{ background : darken(@youtube, 10%); }
+            .activate-hover(@activate) when (@activate = true){
+                &:hover{
+                    &.rss{ background : darken(@rss, 10%); }
+                    &.gplus{ background : darken(@gplus, 10%); }
+                    &.twitter{ background : darken(@twitter, 10%); }
+                    &.youtube{ background : darken(@youtube, 10%); }
+                    &.linkedin{ background : darken(@linkedin, 10%); }
+                    &.facebook{ background : darken(@facebook, 10%); }
+                }
             }
+            .activate-hover(@activate) when (@activate = false){
+                &.touch{
+                    &.rss{ background : darken(@rss, 10%); }
+                    &.gplus{ background : darken(@gplus, 10%); }
+                    &.twitter{ background : darken(@twitter, 10%); }
+                    &.youtube{ background : darken(@youtube, 10%); }
+                    &.linkedin{ background : darken(@linkedin, 10%); }
+                    &.facebook{ background : darken(@facebook, 10%); }
+                }
+            }
+            .activate-hover(@activate-hover);
         }
     }
 }
@@ -137,13 +161,14 @@ html body{
 .activate-generator-links(@activate, @activate2) when (@activate = true) and (@activate2 = true){
     .gl-change{
         .generator-links{
-            .icon-size(12px);
-            .inline-block(top);
-            .btn-color(@btn-blue-color, @btn-blue-bg, @btn-blue-border);
-            .border-radius(10px);
-            padding  : @padding-small-vertical;
-            position : relative;
-            margin   : 12px 0 0 -20px;
+            .icon-size(@icon-size-small);
+            .inline-block(bottom);
+            .button-color(@btn-blue-color, @btn-blue-bg, @btn-blue-border);
+            padding     : @padding-mini-vertical;
+            position    : relative;
+            border-left : 2px solid #FFF;
+            border-top  : 2px solid #FFF;
+            margin      : 0 0 -2px -(@icon-size-small + @padding-mini-vertical * 2);
 
             img{
                 display : none !important;
@@ -166,7 +191,7 @@ html body{
     .list-testimonials{
         list-style-type : none;
 
-        &:not([class*="ml"]):not([class*="grid_"]){
+        &:not([class*="grid_"]){
             margin-left : 0;
         }
 
@@ -238,7 +263,10 @@ html body{
 
 // User classes
 //==================================================
-.scroll{ overflow : auto; }
+.scroll{
+    overflow   : auto;
+    max-height : 100%;
+}
 .background{
     .background;
 }
@@ -282,19 +310,16 @@ html body{
 
     &.show{
 
-        //&~#frm-page, &~#frm_template, &~#users-list_wrapper, &~#newslog-frm-newpost{
         &:before{
-            content    : '';
-            position   : fixed;
-            top        : 0;
-            left       : 0;
-            right      : 0;
-            bottom     : 0;
-            z-index    : -1;
-            background : #fff;
-            .opacity();
+            content  : '';
+            position : fixed;
+            top      : 0;
+            left     : 0;
+            right    : 0;
+            bottom   : 0;
+            z-index  : -1;
+            .rgba(#fff, 0.5);
         }
-        //}
     }
 }
 .show-right{

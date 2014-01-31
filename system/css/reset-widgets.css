@@ -24,12 +24,14 @@
 .plugins-list .plugin-item:hover .readme-plugin,
 .plugins-list .plugin-item:hover .del-plugin {
   opacity: 1;
+  filter: alpha(opacity=100);
 }
 .plugins-list .plugin-item .readme-plugin,
 .plugins-list .plugin-item .del-plugin {
   z-index: 7;
   text-align: center;
   opacity: 0;
+  filter: alpha(opacity=0);
 }
 .plugins-list .plugin-item .readme-plugin {
   color: #fff;
@@ -64,6 +66,10 @@
 .plugins-list .plugin-item .plugin-control {
   color: #ffffff;
   background-color: #cc6257;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  box-shadow: none !important;
 }
 .plugins-list .plugin-item .plugin-control:hover,
 .plugins-list .plugin-item .plugin-control:active {
@@ -89,6 +95,10 @@
 .plugins-list .plugin-item .plugin-control.block {
   color: #ffffff;
   background-color: #2ecc71;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  box-shadow: none !important;
 }
 .plugins-list .plugin-item .plugin-control.block:hover,
 .plugins-list .plugin-item .plugin-control.block:active {
@@ -114,6 +124,10 @@
 .plugins-list .plugin-item .plugin-endis {
   color: #ffffff;
   background-color: #2d81a2;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  box-shadow: none !important;
 }
 .plugins-list .plugin-item .plugin-endis:hover,
 .plugins-list .plugin-item .plugin-endis:active {
@@ -139,6 +153,10 @@
 .plugins-list .plugin-item .plugin-endis.disable {
   color: #848484;
   background-color: #d1d1d1;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  box-shadow: none !important;
 }
 .plugins-list .plugin-item .plugin-endis.disable:hover,
 .plugins-list .plugin-item .plugin-endis.disable:active {

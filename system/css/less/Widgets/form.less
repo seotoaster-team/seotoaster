@@ -38,17 +38,6 @@ form, .form{
         }
     }
 
-    label{
-        display       : block;
-        margin-bottom : 0.25em;
-        color         : @label-color;
-
-        &.required:after{
-            color   : @brand-red;
-            content : ' *';
-        }
-    }
-
     // -- Recaptcha & Captcha style
     .captcha{
 
@@ -89,7 +78,7 @@ form, .form{
 
     // -- Buttons
     [type="submit"]{
-        float : right;
+        float      : right;
         margin-top : 10px;
 
         &:hover{
@@ -105,6 +94,7 @@ form, .form{
 
         // -- Buttons
         & > [type="submit"], & > [type="button"]{
+            clear      : none;
             margin-top : 24px;
         }
     }
@@ -123,6 +113,17 @@ form, .form{
     }
 }
 
+label{
+    display       : block;
+    margin-bottom : 0.25em;
+    color         : @label-color;
+
+    &.required:after{
+        color   : @brand-red;
+        content : ' *';
+    }
+}
+
 select, textarea, input{
     padding          : @padding-base-vertical;
     border-width     : @input-border-width;
@@ -137,43 +138,53 @@ select, textarea, input{
     }
     .activate-transition(@activate-button-transition);
 
-    &:focus:not([type="submit"]):not([type="button"]){
+    //    &:focus:not([type="submit"]):not([type="button"]){
+    &:focus{
         border-color : @input-border-color-focus;
         .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
     }
 
     .activate-style-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        &.success{
-            border-color : @brand-green;
-            color        : @brand-green;
-            &:focus{
-                .box-shadow(0 0 3px @brand-green, @input-shadow-focus);
+        .activate-color-green(@activate) when (@activate = true){
+            &.success{
+                border-color : @brand-green;
+                color        : @brand-green;
+                &:focus{
+                    .box-shadow(0 0 3px @brand-green, @input-shadow-focus);
+                }
             }
         }
-
-        &.warning{
-            border-color : @brand-orange;
-            color        : @brand-orange;
-            &:focus{
-                .box-shadow(0 0 3px @brand-orange, @input-shadow-focus);
+        .activate-color-orange(@activate) when (@activate = true){
+            &.warning{
+                border-color : @brand-orange;
+                color        : @brand-orange;
+                &:focus{
+                    .box-shadow(0 0 3px @brand-orange, @input-shadow-focus);
+                }
             }
         }
-
-        &.error, &:required{
-            border-color : @brand-red;
-            color        : @brand-red;
-            &:focus{
-                .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
+        .activate-color-red(@activate) when (@activate = true){
+            &.error{
+                border-color : @brand-red;
+                color        : @brand-red;
+                &:focus{
+                    .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
+                }
             }
         }
-
-        &.info{
-            border-color : @brand-blue;
-            color        : @brand-blue;
-            &:focus{
-                .box-shadow(0 0 2px @brand-blue, @input-shadow-focus);
+        .activate-color-blue(@activate) when (@activate = true){
+            &.info{
+                border-color : @brand-blue;
+                color        : @brand-blue;
+                &:focus{
+                    .box-shadow(0 0 2px @brand-blue, @input-shadow-focus);
+                }
             }
         }
+        .activate-color-green(@activate-alternate-style-color-green);
+        .activate-color-orange(@activate-alternate-style-color-orange);
+        .activate-color-red(@activate-alternate-style-color-red);
+        .activate-color-blue(@activate-alternate-style-color-blue);
     }
     .activate-style-color(@activate-alternate-style-color, @activate-alternate-style);
 
@@ -189,34 +200,61 @@ input{
     height : @btn-height-base;
 
     .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        &.small{
-            height  : @btn-height-small;
-            padding : @padding-small-vertical;
+        .activate-font-size-larger(@activate) when (@activate = true){
+            &.larger{
+                height  : @btn-height-larger;
+                padding : @padding-larger-vertical;
+            }
         }
-
-        &.large{
-            height  : @btn-height-large;
-            padding : @padding-large-vertical;
+        .activate-font-size-large(@activate) when (@activate = true){
+            &.large{
+                height  : @btn-height-large;
+                padding : @padding-large-vertical;
+            }
         }
+        .activate-font-size-small(@activate) when (@activate = true){
+            &.small{
+                height  : @btn-height-small;
+                padding : @padding-small-vertical;
+            }
+        }
+        .activate-font-size-larger(@activate-alternate-style-size-larger);
+        .activate-font-size-large(@activate-alternate-style-size-large);
+        .activate-font-size-small(@activate-alternate-style-size-small);
     }
     .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
 }
 
 select{
-    padding     : @padding-base-vertical / 2 @padding-base-vertical;
     height      : @btn-height-base;
     line-height : @btn-height-base - @padding-base-vertical;
+    padding     : @padding-base-vertical / 2 @padding-base-vertical;
 
     .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        &.small{
-            padding     : @padding-small-vertical / 2 @padding-small-vertical;
-            line-height : @btn-height-small - @padding-small-vertical;
+        .activate-font-size-larger(@activate) when (@activate = true){
+            &.larger{
+                height      : @btn-height-larger;
+                line-height : @btn-height-larger - @padding-larger-vertical;
+                padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
+            }
         }
-
-        &.large{
-            padding     : @padding-large-vertical / 2 @padding-large-vertical;
-            line-height : @btn-height-large - @padding-large-vertical;
+        .activate-font-size-large(@activate) when (@activate = true){
+            &.large{
+                height      : @btn-height-large;
+                line-height : @btn-height-large - @padding-large-vertical;
+                padding     : @padding-large-vertical / 2 @padding-large-vertical;
+            }
         }
+        .activate-font-size-small(@activate) when (@activate = true){
+            &.small{
+                height      : @btn-height-small;
+                line-height : @btn-height-small - @padding-small-vertical;
+                padding     : @padding-small-vertical / 2 @padding-small-vertical;
+            }
+        }
+        .activate-font-size-larger(@activate-alternate-style-size-larger);
+        .activate-font-size-large(@activate-alternate-style-size-large);
+        .activate-font-size-small(@activate-alternate-style-size-small);
 
         option{
             color : @text-color;
@@ -236,19 +274,20 @@ textarea{
 
         &.icon{
             input{
-                &+[class*="icon-"]{
-                    position : absolute;
-                    margin   : auto;
-                    top      : 0;
-                    bottom   : 0;
-                    z-index  : 2;
-                    color    : @input-color-placeholder;
-                    .icon-size(@font-size-base);
-                }
 
                 &:focus+[class*="icon-"]{
                     color : @gray;
                 }
+            }
+
+            [class*="icon-"]{
+                position : absolute;
+                margin   : auto;
+                top      : 0;
+                bottom   : 0;
+                z-index  : 2;
+                color    : @input-color-placeholder;
+                .icon-size(@font-size-base);
             }
 
             &.right{
@@ -279,6 +318,35 @@ textarea{
             text-align    : center;
             color         : #fff;
             .transition(all, 0.3s);
+
+            .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+                .activate-font-size-larger(@activate) when (@activate = true){
+                    &.larger{
+                        height  : @btn-height-larger;
+                        padding : @padding-larger-vertical 0;
+                    }
+                }
+                .activate-font-size-large(@activate) when (@activate = true){
+                    &.large{
+                        height  : @btn-height-large;
+                        padding : @padding-large-vertical 0;
+                    }
+                }
+                .activate-font-size-small(@activate) when (@activate = true){
+                    &.small{
+                        height  : @btn-height-small;
+                        padding : @padding-small-vertical 0;
+                    }
+                }
+                .activate-font-size-larger(@activate-alternate-style-size-larger);
+                .activate-font-size-large(@activate-alternate-style-size-large);
+                .activate-font-size-small(@activate-alternate-style-size-small);
+
+                option{
+                    color : @text-color;
+                }
+            }
+            .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
         }
 
         input:focus{
@@ -290,12 +358,14 @@ textarea{
         }
     }
 }
-.activate-form-labeled(@activate-alternate-style-form-labeled, @activate-alternate-style);
+    .activate-form-labeled(@activate-alternate-style-form-labeled, @activate-alternate-style)
+;
 
 // -- Checkbox & Radio field style
-.checkboxRadioStyle();
+    .checkboxRadioStyle()
+;
 
-// Search form
+//	Search form
 //==================================================
 .activate-search(@activate) when (@activate = true){
     #search-form{
@@ -326,7 +396,8 @@ textarea{
         }
     }
 }
-    .activate-search(@activate-widget-search);
+    .activate-search(@activate-widget-search)
+;
 
 // Social button with checkbox
 //==================================================

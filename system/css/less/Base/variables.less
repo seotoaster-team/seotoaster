@@ -105,14 +105,8 @@
 //main color website
 // IS USED BY DEFAULT for: @nav-bg, @state-primary (alerts, message, table coloring, datepicker, progressbar, range), @btn-primary, @tabs-nav-li-bg, @dialog-header-bg, @text-select-bg
 @primary-bg              : @brand-primary;
-@primary-bg-hover        : darken(@primary-bg, 10%);
-@primary-bg-active       : @primary-bg;
-@primary-bg-disable      : desaturate(@primary-bg, 15%);
 //the color of the text relative to the main site colors
 @primary-color           : #fff;
-@primary-color-hover     : darken(@primary-color, 5%);
-@primary-color-active    : @primary-color;
-@primary-color-disable   : desaturate(@primary-color, 15%);
 
 // Scaffolding
 //==================================================
@@ -123,12 +117,11 @@
 @text-select-bg          : @primary-bg;
 @text-select-color       : @primary-color;
 
+// variables for Header
 @header-bg               : @gray-light;
 //@header-bg               : darken(@gray-light, 10%);
 @header-color            : @gray;
 @header-height           : 40px;
-
-@footer-height           : 55px;
 
 @header-inner-bg         : #aaa;
 @header-inner-color      : #fff;
@@ -159,6 +152,8 @@
 @footer-bg                : darken(@gray, 25%);
 @footer-color             : @gray;
 @footer-heading-color     : @gray-lighter;
+
+@footer-height           : 55px;
 
 // Links
 //==================================================
@@ -200,7 +195,7 @@
 // Form states and alerts
 // IS USED BY DEFAULT for: alerts, message, table coloring, datepicker, progressbar, range
 //==================================================
-@state-border-radius  : @border-radius-base;
+@state-border-radius  : 0;
 
 @state-primary-text   : @brand-primary;
 @state-primary-bg     : lighten(desaturate(@state-primary-text, 30%), 35%);
@@ -233,16 +228,29 @@
 @table-border-color : darken(@gray-light, 5%);
 // table and cell border
 
+// Icons size
+//==================================================
+@icon-size-larger : 24px;
+@icon-size-large  : 19px;
+@icon-size-base   : 16px;
+@icon-size-small  : 11px;
+
+@social-icon-size : 20px;
+
 // Buttons
 //==================================================
 @btn-line-height           : 1.33;
-@btn-border-width          : 0px;
+@btn-border-width          : 0;
 
-@btn-border-radius         : 0px;
+@btn-height-base           : floor(@font-size-base * unit(@btn-line-height) + @padding-base-vertical * 2 + @btn-border-width * 2);
+@btn-height-larger         : floor(unit(@font-size-larger) * @font-size-base * unit(@btn-line-height) + @padding-larger-vertical * 2 + @btn-border-width * 2);
+@btn-height-large          : floor(unit(@font-size-large) * @font-size-base * unit(@btn-line-height) + @padding-large-vertical * 2 + @btn-border-width * 2);
+@btn-height-small          : floor(unit(@font-size-small) * @font-size-base * unit(@btn-line-height) + @padding-small-vertical * 2 + @btn-border-width * 2);
+
+@btn-border-radius         : 0;
 @btn-larger-border-radius  : @btn-border-radius * 2;
 @btn-large-border-radius   : @btn-border-radius * 1.5;
 @btn-small-border-radius   : @btn-border-radius * .5;
-@btn-mini-border-radius    : @btn-border-radius * .25;
 
 @btn-primary-color         : @primary-color;
 @btn-primary-bg            : @primary-bg;
@@ -330,10 +338,10 @@
 @accordion-header-color         : @gray;
 
 @accordion-header-bg-hover      : darken(@accordion-header-bg, 10%);
-@accordion-header-color-hover   : darken(@accordion-header-color, 10%);
+@accordion-header-color-hover   : @accordion-header-color;
 
 @accordion-header-bg-active     : darken(@accordion-header-bg, 10%);
-@accordion-header-color-active  : darken(@accordion-header-color, 10%);
+@accordion-header-color-active  : @accordion-header-color;
 
 @accordion-content-bg           : @body-bg;
 @accordion-content-border-width : 1px;
@@ -360,10 +368,10 @@
 @tabs-nav-li-color        : @gray;
 
 @tabs-nav-li-bg-hover     : darken(@tabs-nav-bg, 5%);
-@tabs-nav-li-color-hover  : darken(@tabs-nav-li-color, 5%);
+@tabs-nav-li-color-hover  : @tabs-nav-li-color;
 
 @tabs-nav-li-bg-active    : @body-bg;
-@tabs-nav-li-color-active : @gray-darker;
+@tabs-nav-li-color-active : @tabs-nav-li-color;
 
 @tabs-container-bg        : @body-bg;
 

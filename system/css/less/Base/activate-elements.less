@@ -21,12 +21,30 @@
 // Alternate Style (color, size, type) FOR=> Buttons, Alert, Progressbar, Range, Form input, Link, Table
 @activate-alternate-style               : true;
 
+// Alternate Style => SIZE
 @activate-alternate-style-size          : true;
+    @activate-alternate-style-size-larger : true;
+    @activate-alternate-style-size-large  : true;
+    @activate-alternate-style-size-small  : true;
+
+// Alternate Style => COLOR
 @activate-alternate-style-color         : true;
+    @activate-alternate-style-color-red    : true;
+    @activate-alternate-style-color-blue   : true;
+    @activate-alternate-style-color-green  : true;
+    @activate-alternate-style-color-orange : true;
+
+// Alternate Style => LABELED
 @activate-alternate-style-form-labeled  : true;
+
+// Alternate Style => BUTTON TYPE
 @activate-alternate-style-button   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
     @activate-alternate-style-button-3d   : false;
+
+// Alternate Style => IMAGES
 @activate-alternate-style-images        : false; // .img-thumbnail, .img-circle, .img-rounded
+
+// Alternate Style => TABLES
 @activate-alternate-style-tables        : true; // .table-bordered, .table-striped, .table-hover
     @activate-alternate-style-tables-bordered : @activate-alternate-style-tables; // .table-bordered
     @activate-alternate-style-tables-striped  : @activate-alternate-style-tables; // .table-striped
@@ -34,6 +52,7 @@
 
 // Style for Button
 @activate-button-transition             : true;
+@activate-button-box-shadow             : true;
 
 // Style for Checkbox and Radio
 @activate-checkbox-radio-style          : true;
@@ -55,6 +74,7 @@
 @activate-module-range                  : true;
 @activate-module-progressbar            : true;
 @activate-module-chosen                 : true;
+@activate-module-pagination             : true;
 @activate-module-scrollbar              : false;
 
 // Connection / Disconnection TOASTER WIDGETS OR each individually
@@ -203,3 +223,6 @@
 @activate-animate-tinDownIn             : true;
 @activate-animate-bombRightOut          : true;
 @activate-animate-bombLeftOut           : true;
+
+// Activate effects styles
+@activate-grayscale : false;

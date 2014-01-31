@@ -137,7 +137,7 @@
         .new-trigger-action{
             cursor     : pointer;
             font-size  : 75px;
-            padding    : 0.62em 0;
+            padding    : 0.57em 0;
             background : transparent;
             border     : 3px dashed @gray-light;
             color      : @gray-light;
@@ -270,17 +270,17 @@
             }
         }
         .plugin-control{
-            .btn-color(@btn-red-color, desaturate(@btn-red-bg, 25%), desaturate(@btn-red-border, 25%));
+            .button-color(@btn-red-color, desaturate(@btn-red-bg, 25%), desaturate(@btn-red-border, 25%));
 
             &.block{
-                .btn-color(@btn-green-color, @btn-green-bg, @btn-green-border);
+                .button-color(@btn-green-color, @btn-green-bg, @btn-green-border);
             }
         }
         .plugin-endis{
-            .btn-color(#fff, #2d81a2, #2d81a2);
+            .button-color(#fff, #2d81a2, #2d81a2);
 
             &.disable{
-                .btn-color(darken(@gray-light, 40%), darken(@gray-light, 10%), @gray-light);
+                .button-color(darken(@gray-light, 40%), darken(@gray-light, 10%), @gray-light);
             }
         }
     }

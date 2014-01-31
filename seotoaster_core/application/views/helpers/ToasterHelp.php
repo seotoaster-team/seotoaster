@@ -58,7 +58,7 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
         self::SECTION_ADDPAGE      => 'how-to-create-and-edit-a-page.html',
         self::SECTION_EDITPAGE     => 'how-to-create-and-edit-a-page.html',
         self::SECTION_ORGANIZE     => 'how-to-organize-pages.html',
-        self::SECTION_DRAFT    => 'how-to-set-page-as-draft.html',
+        self::SECTION_DRAFT        => 'how-to-set-page-as-draft.html',
         self::SECTION_UPLOADTHINGS => 'how-to-upload-things.html',
         self::SECTION_REMOVETHINGS => 'how-to-remove-things.html',
         self::SECTION_ROBOTS       => 'how-to-edit-robottxt.html',
@@ -75,8 +75,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
         self::SECTION_FA           => 'how-to-add-and-edit-a-featured-area.html',
         self::SECTION_ACTIONEMAILS => 'action-emails-cheat-sheet.html',
         self::SECTION_EDITCONTENT  => 'add-and-edit-content.html',
-        self::SECTION_EDITFORM => 'how-to-add-a-form.html',
-        self::SECTION_WIDCARD  => 'local-search-engine-optimization.html'
+        self::SECTION_EDITFORM     => 'how-to-add-a-form.html',
+        self::SECTION_WIDCARD      => 'local-search-engine-optimization.html'
     );
 
     public function toasterHelp($section, $hashMap = null)

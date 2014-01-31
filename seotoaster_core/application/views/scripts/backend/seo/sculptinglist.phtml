@@ -2,13 +2,13 @@
 
 	<?php foreach ($this->pages as $key => $pageData): ?>
 		<div class="sculpting-row">
-			<div class="sculpting-subrow list-title">
-				<div class="grid_6"><?php echo $pageData['label']; ?></div>
-				<label class="grid_6 pointer"><?php echo $this->translate('Silo this category'); ?>&nbsp;<input type="checkbox" value="<?php echo $key; ?>" name="siloCat[<?php echo $key; ?>]" class="silo-this-cat" <?php echo (isset($pageData['isSilo']) && $pageData['isSilo']) ? 'checked="checked"' : ''; ?>/></label>
+			<div class="sculpting-title list-title">
+				<div class="grid_7"><?php echo $pageData['label']; ?></div>
+				<div class="grid_5 pointer text-right"><?php echo $this->translate('Silo this category'); ?>&nbsp;&nbsp;&nbsp;<input type="checkbox" value="<?php echo $key; ?>" name="siloCat[<?php echo $key; ?>]" class="silo-this-cat" <?php echo (isset($pageData['isSilo']) && $pageData['isSilo']) ? 'checked="checked"' : ''; ?>/></div>
 			</div>
 			<?php if(isset($pageData['subpages']) && is_array($pageData['subpages']) && !empty($pageData['subpages'])): ?>
 				<?php foreach($pageData['subpages'] as $subPage): ?>
-					<div class="sculpting-subrow">
+					<div class="sculpting-subrow clearfix">
 						<div class="grid_6" title="<?php echo $subPage->getNavName(); ?>"><?php echo $subPage->getNavName(); ?></div>
 						<div class="grid_6"><?php echo $this->formSelect('siloSelect', (($subPage->getSiloId()) ? $subPage->getSiloId() : 0), array('id' => $subPage->getId(), 'class' => 'silo-select'), $this->silosOptions); ?></div>
 					</div>

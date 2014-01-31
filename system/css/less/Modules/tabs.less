@@ -10,9 +10,9 @@
     }
 
     .ui-tabs-nav:not([class*="list-"]){
-        background : @tabs-nav-bg;
-        margin     : 0;
-        padding    : 0 @grid-margin-width / 2;
+        background    : @tabs-nav-bg;
+        margin-bottom : 0;
+        padding       : 0 @grid-margin-width / 2;
 
         .tabs-gray&{
             background : transparent;
@@ -91,8 +91,8 @@
 
                 .tabs-gray&{
                     .background(0);
-                    position   : relative;
-                    z-index    : 1;
+                    position : relative;
+                    z-index  : 1;
 
                     a{
                         font-weight : normal;
@@ -112,8 +112,8 @@
         .tabs-gray&{
             .background();
             border-top : 0;
-            position : relative;
-            z-index  : 1;
+            position   : relative;
+            z-index    : 1;
         }
     }
 }

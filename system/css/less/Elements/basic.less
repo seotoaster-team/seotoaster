@@ -41,7 +41,12 @@ body{
         margin-top : 15%;
         padding    : 2px;
         width      : 400px;
-        .box-shadow(0 5px 15px #777)
+        .box-shadow(0 5px 15px #777);
+
+        .flag-button{
+            float       : left;
+            margin-left : 8px;
+        }
     }
 }
 
@@ -141,8 +146,9 @@ body{
     margin-top    : 0 !important;
     margin-bottom : 0 !important;
     padding-top   : 10px;
-    overflow      : auto;
-    .box-sizing;
+    //    overflow      : auto;
+    .box-sizing();
+    .clearfix();
 
     &.screen-expand{
         height : auto !important;

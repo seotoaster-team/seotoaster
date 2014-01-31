@@ -84,34 +84,63 @@ table{
 .activate-table-hover(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
     .table-hover{
         tr{
+            .activate-hover(@activate) when (@activate = true){
             &:hover > td{
                 background-color : @table-row-bg-hover;
             }
+            }
+            .activate-hover(@activate) when (@activate = false){
+                &.touch > td{
+                    background-color : @table-row-bg-hover;
+                }
+            }
+            .activate-hover(@activate-hover);
             .activate(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-                > td.green:hover,
-                > th.green:hover,
+                .activate-hover(@activate) when (@activate = true){
+                    > .green:hover,
                 &.green:hover > td{
                     background-color : darken(@state-green-bg, 5%);
                     border-color     : darken(@state-green-border, 5%);
                 }
-                > td.red:hover,
-                > th.red:hover,
+                    > .red:hover,
                 &.red:hover > td{
                     background-color : darken(@state-red-bg, 5%);
                     border-color     : darken(@state-red-border, 5%);
                 }
-                > td.orange:hover,
-                > th.orange:hover,
+                    > .orange:hover,
                 &.orange:hover > td{
                     background-color : darken(@state-orange-bg, 5%);
                     border-color     : darken(@state-orange-border, 5%);
                 }
-                > td.blue:hover,
-                > th.blue:hover,
+                    > .blue:hover,
                 &.blue:hover > td{
                     background-color : darken(@state-blue-bg, 5%);
                     border-color     : darken(@state-blue-border, 5%);
                 }
+            }
+                .activate-hover(@activate) when (@activate = false){
+                    > .green.touch,
+                    &.green.touch > td{
+                        background-color : darken(@state-green-bg, 5%);
+                        border-color     : darken(@state-green-border, 5%);
+                    }
+                    > .red.touch,
+                    &.red.touch > td{
+                        background-color : darken(@state-red-bg, 5%);
+                        border-color     : darken(@state-red-border, 5%);
+                    }
+                    > .orange.touch,
+                    &.orange.touch > td{
+                        background-color : darken(@state-orange-bg, 5%);
+                        border-color     : darken(@state-orange-border, 5%);
+                    }
+                    > .blue.touch,
+                    &.blue.touch > td{
+                        background-color : darken(@state-blue-bg, 5%);
+                        border-color     : darken(@state-blue-border, 5%);
+                    }
+                }
+                .activate-hover(@activate-hover);
             }
             .activate(@activate-alternate-style-color, @activate-alternate-style);
         }
@@ -125,40 +154,35 @@ table{
 .activate-style-color(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
     table{
         tr{
-            > td.primary,
-            > th.primary,
+            > .primary,
             &.primary > td{
                 color            : @text-color;
                 background-color : @state-primary-bg;
                 border-color     : @state-primary-border;
                 border-bottom    : 1px solid @state-primary-border;
             }
-            > td.green,
-            > th.green,
+            > .green,
             &.green > td{
                 color            : @text-color;
                 background-color : @state-green-bg;
                 border-color     : @state-green-border;
                 border-bottom    : 1px solid @state-green-border;
             }
-            > td.red,
-            > th.red,
+            > .red,
             &.red > td{
                 color            : @text-color;
                 background-color : @state-red-bg;
                 border-color     : @state-red-border;
                 border-bottom    : 1px solid @state-red-border;
             }
-            > td.orange,
-            > th.orange,
+            > .orange,
             &.orange > td{
                 color            : @text-color;
                 background-color : @state-orange-bg;
                 border-color     : @state-orange-border;
                 border-bottom    : 1px solid @state-orange-border;
             }
-            > td.blue,
-            > th.blue,
+            > .blue,
             &.blue > td{
                 color            : @text-color;
                 background-color : @state-blue-bg;
@@ -170,7 +194,30 @@ table{
 }
 .activate-style-color(@activate-alternate-style-color, @activate-alternate-style);
 
-// HOVER scroll
+//  Table responsive
+//==================================================
+.activate-table-responsive(@activate) when ( @activate = true){
+    .table-head{
+        display       : none;
+    }
+    @media only screen and (max-width : @responsive-size-mobile){
+        thead, th{
+            display : none;
+        }
+        td{
+            display : block;
+        }
+        .table-head{
+            display       : block;
+            color         : @brand-primary;
+            border-bottom : 1px dashed @gray-light;
+            margin-bottom : 0.5em;
+        }
+    }
+}
+    .activate-table-responsive(@activate-responsive);
+
+//  Table scroll
 //==================================================
 .table-scroll{
     overflow : auto;

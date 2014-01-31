@@ -2,12 +2,9 @@
 //==================================================
 .container{
     width        : @grid-container-width;
+    max-width    : 100%;
     margin-left  : auto;
     margin-right : auto;
-    .activate-responsive(@activate) when (@activate = true){
-        max-width    : 100%;
-    }
-    .activate-responsive(@activate-responsive);
 
     &:after{
         content : "";
@@ -20,7 +17,7 @@
     }
 }
 
-[class*="grid_"]{
+[class*=" grid_"], [class^="grid_"]{
     display      : inline;
     float        : left;
     position     : relative;

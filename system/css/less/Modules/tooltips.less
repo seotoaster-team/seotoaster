@@ -8,4 +8,28 @@
 	.box-shadow(0 0 5px #aaa);
 
 	.ui-tooltip-content{ }
+
+    .arrow{
+        position     : absolute;
+        width        : 0;
+        height       : 0;
+        border-width : 10px;
+        border-style : solid;
+        border-color : @tooltip-bg;
+        margin       : auto;
+
+        &.left{
+            top    : 0;
+            bottom : 0;
+            right   : 100%;
+            border-color: transparent  @tooltip-bg transparent transparent;
+        }
+
+        &.right{
+            top    : 0;
+            bottom : 0;
+            left   : 100%;
+            border-color: transparent transparent transparent @tooltip-bg;
+        }
+    }
 }
