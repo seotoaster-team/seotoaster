@@ -48,8 +48,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         if (!$this->_isBrowserIe() || empty($this->_toasterData) || in_array($currentRole, $this->_disableForRoles)) {
             return $this->_spaceContent;
         }
-        
-        $content = null;
+
+        $filePath = null;
         if ($this->_cacheable === true) {
             $this->_cache   = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
             $this->_cacheId = strtolower(get_called_class()).'_'.$this->_fileCode;
@@ -58,7 +58,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
                 $this->_cache->clean($this->_cacheId, $this->_cachePrefix);
             }
 
-            if (null === ($content = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
+            if (null === ($filePath = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
                 $cssTag = array();
                 foreach ($this->_getTemplateFiles() as $file) {
                     $cssTag[] = preg_replace('/[^\w\d_]/', '', basename($file));
@@ -66,23 +66,23 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
                 $this->_cacheTags   = array_merge($this->_cacheTags, $cssTag);
                 $this->_cacheTags[] = $this->_toasterData['templateId'];
 
-                $content = $this->_generatorFiles();
+                $filePath = $this->_generatorFiles();
                 try {
-                    $this->_cache->save($this->_cacheId, $content, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
+                    $this->_cache->save($this->_cacheId, $filePath, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
                 }
                 catch (Exceptions_SeotoasterException $ste) {
-                    $content = $ste->getMessage();
+                    return $this->_spaceContent.'<!-- '.$ste->getMessage().' -->';
                 }
             }
-            elseif ($content === false) {
-                $content = $this->_generatorFiles();
+            elseif ($filePath === false) {
+                $filePath = $this->_generatorFiles();
             }
         }
         else {
-            $content = $this->_generatorFiles();
+            $filePath = $this->_generatorFiles();
         }
 
-        return $content;
+        return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.'" rel="stylesheet" type="text/css" media="screen"/>';
     }
 
     private function _isBrowserIe($notBelowVersion = 9) {
@@ -124,7 +124,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $files[] = end($link);
         }
 
-        return $files;
+        return (isset($this->_params[0]) && $this->_params[0] == 'sort') ? $this->_sortCss($files) : $files;
     }
 
     private function _sortCss($files) {
@@ -162,21 +162,22 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     private function _generatorFiles() {
-        $files = (isset($this->_params[0]) && $this->_params[0] == 'sort') ? $this->_sortCss($this->_getTemplateFiles()) : $this->_getTemplateFiles();
-        $concatContent = '';
+        $files   = $this->_getTemplateFiles();
+        $content = '';
+        
         foreach ($files as $file) {
-            $concatContent .= $this->_addCss($this->_themeFullPath.$file);
+            $content .= $this->_addCss($this->_themeFullPath.$file);
         }
 
-        $fileName = self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
+        $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
 
         try {
-            Tools_Filesystem_Tools::saveFile($this->_folderСssPath.$fileName, $concatContent);
+            Tools_Filesystem_Tools::saveFile($filePath, $content);
         }
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();
         }
 
-        return '<link href="'.$this->_toasterData['websiteUrl'].str_replace(' ', '%20', $this->_folderСssPath).$fileName.'" rel="stylesheet" type="text/css" media="screen"/>';
+        return str_replace(' ', '%20', $filePath);
     }
 }
