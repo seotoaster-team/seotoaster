@@ -6,7 +6,7 @@
 </div>
 <div class="content">
 	<?php if($this->responseData && is_array($this->responseData)): ?>
-		<ol class="grid_12 items-list">
+		<ol class="grid_12 items-list scroll">
 			<?php foreach($this->responseData as $number => $page): ?>
 				<li class="list-row">
 					<span class="list-row-count grid_1 alpha omega">#<?php echo ++$number; ?></span>
