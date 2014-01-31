@@ -71,7 +71,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
                     $this->_cache->save($this->_cacheId, $filePath, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
                 }
                 catch (Exceptions_SeotoasterException $ste) {
-                    return '<!--'.$ste->getMessage().'-->';
+                    return $this->_spaceContent.'<!-- '.$ste->getMessage().' -->';
                 }
             }
             elseif ($filePath === false) {
@@ -169,13 +169,15 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $content .= $this->_addCss($this->_themeFullPath.$file);
         }
 
+        $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
+
         try {
-            Tools_Filesystem_Tools::saveFile($this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css', $content);
+            Tools_Filesystem_Tools::saveFile($filePath, $content);
         }
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();
         }
 
-        return str_replace(' ', '%20', $this->_folderСssPath).self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
+        return str_replace(' ', '%20', $filePath);
     }
 }
