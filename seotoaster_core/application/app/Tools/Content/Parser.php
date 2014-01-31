@@ -37,6 +37,7 @@ class Tools_Content_Parser {
 	public function parse() {
 		$this->_parse();
 		$this->_changeMedia();
+        $this->_iteration = 0;
 		$this->_runMagicSpaces();
 		return $this->_content;
 	}
@@ -133,20 +134,26 @@ class Tools_Content_Parser {
 	}
 
 	private function _runMagicSpaces() {
+        $this->_iteration++;
+
 		preg_match_all('~{([\w]+' . self::OPTIONS_SEPARATOR . '*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
         $spacesFound = array_filter($spacesFound);
-		if (!empty($spacesFound) && isset($spacesFound[1])) {
-			foreach($spacesFound[1] as $spaceName) {
 
+		if (!empty($spacesFound) && isset($spacesFound[1])) {
+			foreach ($spacesFound[1] as $spaceName) {
                 //if any parameters passed
                 $parameters = explode(self::OPTIONS_SEPARATOR, $spaceName);
-                if(is_array($parameters)) {
+                if (is_array($parameters)) {
                     $spaceName = array_shift($parameters);
                 }
 
 				try {
-					$magicSpace     = Tools_Factory_MagicSpaceFactory::createMagicSpace($spaceName, $this->_content, array_merge($this->_pageData, $this->_options), $parameters);
-					$this->_content = $magicSpace->run();
+                    $this->_content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
+                        $spaceName,
+                        $this->_content,
+                        array_merge($this->_pageData, $this->_options),
+                        $parameters
+                    )->run();
 				}
 				catch (Exception $e) {
 					Tools_System_Tools::debugMode() && error_log($e->getMessage());
@@ -155,7 +162,6 @@ class Tools_Content_Parser {
 			}
 
             if ($this->_iteration <= self::PARSE_DEEP) {
-                $this->_iteration++;
                 $this->_runMagicSpaces();
             }
 		}
