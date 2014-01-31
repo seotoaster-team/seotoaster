@@ -58,7 +58,11 @@ $(function() {
 
     $(document).on('click', '#listtemplates-btn', function(e){
         e.preventDefault();
-		$('#templatelist').addClass('show');
+        var $templateList =  $('#templatelist');
+        $templateList.addClass('show').find('.content').accordion("refresh");
+        $templateList.find('.template_group').css({
+            'max-height' : $templateList.height() - $templateList.find('.header').outerHeight(true) - ($templateList.find('.content').outerHeight(true) - $templateList.find('.content').height()) - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
+        });
     }).on('click', '.closebutton .hide, .show~#frm_template', function(e) {
 		$('#templatelist, #listpages').removeClass('show');
 		return false;
@@ -73,18 +77,16 @@ $(function() {
 });
 
 function showTemplateList(e){
-	if(!$('#templatelist').find('.content').length || e == 'update'){
+    var $templateList =  $('#templatelist');
+	if(!$templateList.find('.content').length || e == 'update'){
 		$.post(
 			$('#website_url').val()+'backend/backend_theme/gettemplate/',
 			{'listtemplates':'all', 'pageId' : $('#pageId').val()},
 			function(html){
-				$('#templatelist').html(html).find('.content').accordion({
+                $templateList.html(html).find('.content').accordion({
 					heightStyle: 'content',
 					header : '.template_header',
 					collapsible: true
-				});
-				$('#templatelist .template_group').css({
-					'max-height' : $('#templatelist .content').height() - ($('#templatelist .template_header').outerHeight(true) + 2) * $('#templatelist .template_header').length
 				});
 				var templateName = $('#template_id').val();
 				$('.template_item').removeClass('curr-template').find('.template-check').remove();
@@ -100,13 +102,7 @@ function showListPages(e){
 		$('#website_url').val()+'backend/backend_page/listpages/',
 		{'template': $('#template_id').val(), 'format': 'html'},
 		function(html){
-			$('#listpages').html(html).find('.content').accordion({
-				heightStyle: 'content',
-				header : '.template_header'
-			});
-			$('#listpages .template_group').css({
-				'max-height' : $('#listpages .content').height() - $('#listpages .template_header').outerHeight(true) * $('#listpages .template_header').length
-			});
+			$('#listpages').html(html);
 		},
 		'html'
 	);
