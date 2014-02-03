@@ -11,14 +11,15 @@ class Backend_UpdateController extends Zend_Controller_Action
     const MASTER_CMS_LINK = 'http://seotoaster.com/cms.txt';
     const MASTER_STORE_LINK = 'http://seotoaster.com/store.txt';
 
-    protected $_redirector = null;
-    protected $_session = null;
-    protected $_downloadLink = null;
-    protected $_toasterVersion = null;
-    protected $_remoteVersion = null;
-    protected $_websitePath = null;
-    protected $_tmpPath = null;
-    protected $_newToasterPath = null;
+    protected $_redirector      = null;
+    protected $_session         = null;
+    protected $_downloadLink    = null;
+    protected $_toasterVersion  = null;
+    protected $_remoteVersion   = null;
+    protected $_websitePath     = null;
+    protected $_tmpPath         = null;
+    protected $_newToasterPath  = null;
+    protected $_logFile         = null;
 
     /**
      * Init method. Checking permissions.
@@ -65,53 +66,104 @@ class Backend_UpdateController extends Zend_Controller_Action
     {
         $this->view->remoteVersion = $this->_remoteVersion;
         $this->view->localVersion = $this->_toasterVersion;
+        if (!$this->_session->nextStep) {
+            $this->_session->nextStep = 1;
+        }
     }
 
 
     public function updateAction()
     {
-        $withoutBackup = $this->_request->getParam('withoutBackup') === 'true' ? true : false;
-        $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
-        if (1 === $updateStatus) {
-            if ($withoutBackup === false) {
-                $backup = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
+        $this->_session->withoutBackup = $this->_request->getParam('withoutBackup') === 'true' ? true : false;
+
+        if ($this->_session->nextStep === 1) {
+            $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
+            if (1 === $updateStatus) {
+                $this->_session->nextStep = 2;
+                return $this->_helper->response->success($this->_helper->language->translate('Update started!'));
+            } elseif (-1 === $updateStatus) {
+                return $this->_helper->response->success($this->_helper->language->translate('Your version of the system is higher than the remote'));
             } else {
-                $backup = true;
+                return $this->_helper->response->success($this->_helper->language->translate('Your system up to date'));
             }
-            if ($backup === true) {
-                $zipDownloaded = $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
-                if ($zipDownloaded === true) {
-                    $unZiped = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
-                    if ($unZiped === true) {
-                        $copyConf = $this->_copyConfigs();
-                        $mvInstallDir = $this->_copyToaster(
-                            $this->_newToasterPath . 'install',
-                            $this->_newToasterPath . '_install'
-                        );
-                        if ($copyConf === true && $mvInstallDir === true) {
-                            try {
-                                //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
-                                //$this->_updateDataBase();
-                            } catch (Exception $ex) {
-                                //$this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
-                                return $ex->getMessage();
-                            }
-                        } else {
-                            return $this->view->result = "Can't copy config files!";
-                        }
-                    }
+        }
+
+        if ($this->_session->nextStep === 2) {
+            try {
+                if ( $this->_session->withoutBackup === false) {
+                    $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
+                    $this->_session->nextStep = 3;
+                    $this->_helper->response->success($this->_helper->language->translate('Backup created'));
                 } else {
-                    return $this->view->result = "Can't unzip toaster!";
+                    $this->_session->nextStep = 3;
                 }
-            } else {
-                return $this->view->result = "Can't create toaster backup!";
+            } catch (Exception $se) {
+                error_log($se->getMessage());
+                return $this->_helper->response->success($this->_helper->language->translate("Can't create toaster backup!"));
             }
-            return $this->view->result = "Success";
-            //$this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
-        } elseif (-1 === $updateStatus) {
-            return $this->view->result = 'Your version of the system is higher than the remote';
-        } else {
-            return $this->view->result = 'Your system up to date';
+
+        }
+
+        if ($this->_session->nextStep === 3) {
+            try {
+                $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
+                $this->_session->nextStep = 4;
+                $this->_helper->response->success($this->_helper->language->translate('Toaster zip downloaded!'));
+            } catch (Exception $se) {
+                error_log($se->getMessage());
+                return  $this->_helper->response->success($this->_helper->language->translate("Can't download zip"));
+            }
+        }
+        if ($this->_session->nextStep === 4) {
+            try {
+                $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
+                $this->_session->nextStep = 5;
+                $this->_helper->response->success($this->_helper->language->translate('Toaster unziped!'));
+            } catch (Exception $se) {
+                error_log($se->getMessage());
+                return  $this->_helper->response->success($this->_helper->language->translate("Can't unzip toaster"));
+            }
+        }
+
+        if ($this->_session->nextStep === 5) {
+            try {
+                $this->_copyConfigs();
+                $this->_copyToaster($this->_newToasterPath . 'install', $this->_newToasterPath . '_install');
+                $this->_session->nextStep = 6;
+                $this->_helper->response->success($this->_helper->language->translate('Configs copied!'));
+            } catch (Exception $se) {
+                error_log($se->getMessage());
+                return  $this->_helper->response->success($this->_helper->language->translate("Can't copy config files!"));
+            }
+        }
+
+        if ($this->_session->nextStep === 6) {
+            try {
+                //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+                $this->_session->nextStep = 7;
+                $this->_helper->response->success($this->_helper->language->translate('Toaster files copied!'));
+
+            } catch (Exception $ex) {
+                $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
+                $this->_helper->response->success($this->_helper->language->translate('Unsuccessful attempt to copy files. The old version of the files is restored!'));
+                return $ex->getMessage();
+            }
+        }
+
+        if ($this->_session->nextStep === 7) {
+            try {
+                //$this->_updateDataBase();
+                $this->_session->nextStep = 8;
+                $this->_helper->response->success($this->_helper->language->translate('Database altered!'));
+
+            } catch (Exception $ex) {
+                $this->_helper->response->success($this->_helper->language->translate('UUnsuccessful attempt to altering database!'));
+                return $ex->getMessage();
+            }
+        }
+
+        if ($this->_session->nextStep === 8) {
+            return  $this->_helper->response->success($this->_helper->language->translate("Success"));
         }
     }
 
