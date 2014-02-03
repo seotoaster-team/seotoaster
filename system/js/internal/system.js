@@ -195,6 +195,20 @@ doc.on('click', '#screen-expand', function (e) {
 doc.on('click', '[name="useImage"]', function () {
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
+///////// Scrolling navigation Tabs //////////////
+doc.on('click', '.tabs-nav-wrap .arrow', function(){
+    var $nav = $(this).nextAll('.ui-tabs-nav');
+    var navScroll = $nav.scrollLeft();
+    if($(this).hasClass('left')){
+        $nav.animate({
+            scrollLeft : navScroll - 200
+        });
+    }else if($(this).hasClass('right')){
+        $nav.animate({
+            scrollLeft : navScroll + 200
+        });
+    }
+});
 ///////// checkbox & radio button //////////////
 function checkboxRadio() {
     $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function(){
