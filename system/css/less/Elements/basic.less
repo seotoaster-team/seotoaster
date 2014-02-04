@@ -141,6 +141,7 @@ body{
         &:hover{ }
     }
 }
+
 .content-auto,
 .content, .content-footer,
 .content-medium, .content-medium-footer,
@@ -163,21 +164,31 @@ body{
     }
 
     .ui-tabs &.ui-tabs-panel{
-        padding : 10px 0 0;
-    }
-
-    .ui-tabs &.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]){
         padding : 10px @grid-margin-width / 2 0;
+    }
+}
+
+.with-content, .with-content-footer{
+
+    &>.ui-tabs-panel{
+        position      : static;
+        background    : @body-bg;
+        margin-top    : 0 !important;
+        margin-bottom : 0 !important;
+        padding-top   : 10px !important;
+        clear         : both;
+        .box-sizing();
+        .clearfix();
     }
 }
 
 .content, .content-medium, .content-small, .content-auto{
     padding-bottom : 10px;
 }
-.content{
+.content, .with-content>.ui-tabs-panel{
     height : @tpopup-base-height - @header-height;
 }
-.content-footer{
+.content-footer, .with-content-footer>.ui-tabs-panel{
     height : @tpopup-base-height - @header-height - @footer-height;
 }
 .content-medium{

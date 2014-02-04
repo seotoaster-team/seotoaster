@@ -942,10 +942,10 @@ button:active,
 .btn:active,
 button:active,
 [type="submit"]:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
 }
 .btn.disabled,
 button.disabled,
@@ -1043,10 +1043,10 @@ button.warning:active,
 .btn.warning:active,
 button.warning:active,
 [type="submit"].warning:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
 }
 .btn.warning.disabled,
 button.warning.disabled,
@@ -1126,10 +1126,10 @@ button.error:active,
 .btn.error:active,
 button.error:active,
 [type="submit"].error:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
 }
 .btn.error.disabled,
 button.error.disabled,
@@ -1209,10 +1209,10 @@ button.success:active,
 .btn.success:active,
 button.success:active,
 [type="submit"].success:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
 }
 .btn.success.disabled,
 button.success.disabled,
@@ -1292,10 +1292,10 @@ button.info:active,
 .btn.info:active,
 button.info:active,
 [type="submit"].info:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
 }
 .btn.info.disabled,
 button.info.disabled,
@@ -2192,16 +2192,29 @@ body {
 .ui-tabs .content-medium-footer.ui-tabs-panel,
 .ui-tabs .content-small.ui-tabs-panel,
 .ui-tabs .content-small-footer.ui-tabs-panel {
-  padding: 10px 0 0;
-}
-.ui-tabs .content-auto.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-footer.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-medium.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-medium-footer.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-small.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-small-footer.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]) {
   padding: 10px 2% 0;
+}
+.with-content > .ui-tabs-panel,
+.with-content-footer > .ui-tabs-panel {
+  position: static;
+  background: #ffffff;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 10px !important;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.with-content > .ui-tabs-panel:after,
+.with-content-footer > .ui-tabs-panel:after {
+  content: "";
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  height: 0;
 }
 .content,
 .content-medium,
@@ -2209,10 +2222,12 @@ body {
 .content-auto {
   padding-bottom: 10px;
 }
-.content {
+.content,
+.with-content > .ui-tabs-panel {
   height: 520px;
 }
-.content-footer {
+.content-footer,
+.with-content-footer > .ui-tabs-panel {
   height: 465px;
 }
 .content-medium {

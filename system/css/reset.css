@@ -70,6 +70,11 @@ body {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: visible;
   -ms-backface-visibility: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 article,
 aside,
@@ -182,15 +187,8 @@ img {
   font-size: 0.85em;
   padding: 2px 6px;
 }
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
 fieldset legend {
   line-height: 1;
-  border: 0;
-  padding: 0;
   -webkit-margin-bottom-collapse: separate;
 }
 input,
@@ -287,6 +285,15 @@ button,
 [type="submit"] {
   cursor: pointer;
   -webkit-appearance: button;
+}
+button:focus,
+[type="button"]:focus,
+[type="reset"]:focus,
+[type="submit"]:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 button[disabled],
 html input[disabled] {
@@ -1816,13 +1823,13 @@ button a,
   clear: both;
 }
 .fl-left {
-  float: left;
+  float: left !important;
 }
 .fl-right {
-  float: right;
+  float: right !important;
 }
 .fl-none {
-  float: none;
+  float: none !important;
 }
 .wrap {
   overflow: hidden;
@@ -2464,10 +2471,10 @@ button a,
   background-color: #217dbb;
 }
 .gl-change .generator-links:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
 }
 .gl-change .generator-links.disabled,
 .gl-change .generator-links[disabled] {
@@ -2533,6 +2540,9 @@ button a,
   overflow: hidden;
   visibility: hidden;
   height: 0;
+}
+.background legend {
+  background: #fff;
 }
 .move {
   cursor: url("../images/openhand.cur"), default;

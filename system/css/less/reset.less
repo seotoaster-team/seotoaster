@@ -50,6 +50,7 @@ body{
     -webkit-backface-visibility : hidden;
     -moz-backface-visibility    : visible;
     -ms-backface-visibility     : hidden;
+    .user-select();
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
     display : block;
@@ -128,14 +129,14 @@ img{
 // Reset Form
 //==================================================
 fieldset{
-    border  : 0;
-    margin  : 0;
-    padding : 0;
+//    border  : 0;
+//    margin  : 0;
+//    padding : 0;
 
     legend{
         line-height : 1;
-        border      : 0;
-        padding     : 0;
+//        border      : 0;
+//        padding     : 0;
         -webkit-margin-bottom-collapse : separate;
     }
 }
@@ -201,13 +202,16 @@ select optgroup{
 }
 
 [type="button"], [type="submit"], button{
-//    clear  : both;
     width  : auto;
     border : none;
 }
 button, [type="button"], [type="reset"], [type="submit"]{
     cursor             : pointer;
     -webkit-appearance : button;
+
+    &:focus{
+        .box-shadow(none, @input-shadow-focus);
+    }
 }
 button[disabled], html input[disabled]{
     cursor : default;

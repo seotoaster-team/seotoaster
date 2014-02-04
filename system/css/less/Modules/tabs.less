@@ -106,6 +106,7 @@
     }
 
     .ui-tabs-panel{
+        clear      : both;
         display    : block;
         border     : none;
         background : @tabs-container-bg;
@@ -127,13 +128,7 @@
     overflow    : hidden;
 
     .ui-tabs-nav{
-        margin  : 0 3%;
-        padding : 0 !important;
-
-        .ui-tabs-active{
-            position : relative;
-            z-index  : 15;
-        }
+        padding : 0 3% !important;
     }
 
     .arrow{
@@ -145,7 +140,7 @@
         text-align : center;
         cursor     : pointer;
         background : @tabs-nav-bg;
-        .box-shadow(0 0 15px darken(@tabs-nav-li-bg-hover, 20%));
+        .box-shadow(0 0 7px darken(@tabs-nav-li-bg-hover, 20%));
 
         &.right{
             left  : auto;

@@ -77,10 +77,10 @@
   background-color: #b84438;
 }
 .plugins-list .plugin-item .plugin-control:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
 }
 .plugins-list .plugin-item .plugin-control.disabled,
 .plugins-list .plugin-item .plugin-control[disabled] {
@@ -106,10 +106,10 @@
   background-color: #25a25a;
 }
 .plugins-list .plugin-item .plugin-control.block:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
 }
 .plugins-list .plugin-item .plugin-control.block.disabled,
 .plugins-list .plugin-item .plugin-control.block[disabled] {
@@ -135,10 +135,10 @@
   background-color: #22617a;
 }
 .plugins-list .plugin-item .plugin-endis:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
 }
 .plugins-list .plugin-item .plugin-endis.disabled,
 .plugins-list .plugin-item .plugin-endis[disabled] {
@@ -164,10 +164,10 @@
   background-color: #b7b7b7;
 }
 .plugins-list .plugin-item .plugin-endis.disable:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
 }
 .plugins-list .plugin-item .plugin-endis.disable.disabled,
 .plugins-list .plugin-item .plugin-endis.disable[disabled] {

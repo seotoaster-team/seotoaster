@@ -2,15 +2,16 @@
 // -------------------------
 .message,
 .smoke-base .dialog{
+    position      : relative;
     padding       : @padding-base-vertical @padding-base-horizontal;
     border        : 1px solid;
     border-radius : @state-border-radius;
     .alert-color(@state-green-text, @state-green-bg, @state-green-border, true, true);
 
     .close{
-        position : relative;
-        top      : -2px;
-        right    : -21px;
+        position : absolute;
+        top      : 0;
+        right    : 0;
         color    : inherit;
     }
 
@@ -115,16 +116,16 @@
 
         // Alternate styles
         // -------------------------
-        &.alert-success, &.success{
+        &.success{
             .box-shadow(0 0 100px desaturate(@state-green-border, 10%), @activate-alternate-style-color-green);
         }
-        &.alert-warning, &.warning{
+        &.warning{
             .box-shadow(0 0 100px desaturate(@state-orange-border, 10%), @activate-alternate-style-color-orange);
         }
-        &.alert-error, &.error{
+        &.error{
             .box-shadow(0 0 100px desaturate(@state-red-border, 10%), @activate-alternate-style-color-red);
         }
-        &.alert-info, &.info{
+        &.info{
             .box-shadow(0 0 100px desaturate(@state-blue-border, 10%), @activate-alternate-style-color-blue);
         }
     }
@@ -157,4 +158,5 @@
 .message{
     display     : block;
     border-left : 3px solid;
+    .box-sizing();
 }

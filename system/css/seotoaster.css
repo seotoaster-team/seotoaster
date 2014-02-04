@@ -942,10 +942,10 @@ button:active,
 .btn:active,
 button:active,
 [type="submit"]:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #175c70 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #175c70 inset;
 }
 .btn.disabled,
 button.disabled,
@@ -1043,10 +1043,10 @@ button.warning:active,
 .btn.warning:active,
 button.warning:active,
 [type="submit"].warning:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #7b410e inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #7b410e inset;
 }
 .btn.warning.disabled,
 button.warning.disabled,
@@ -1126,10 +1126,10 @@ button.error:active,
 .btn.error:active,
 button.error:active,
 [type="submit"].error:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
 }
 .btn.error.disabled,
 button.error.disabled,
@@ -1209,10 +1209,10 @@ button.success:active,
 .btn.success:active,
 button.success:active,
 [type="submit"].success:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
 }
 .btn.success.disabled,
 button.success.disabled,
@@ -1292,10 +1292,10 @@ button.info:active,
 .btn.info:active,
 button.info:active,
 [type="submit"].info:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #16527a inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #16527a inset;
 }
 .btn.info.disabled,
 button.info.disabled,
@@ -2192,16 +2192,29 @@ body {
 .ui-tabs .content-medium-footer.ui-tabs-panel,
 .ui-tabs .content-small.ui-tabs-panel,
 .ui-tabs .content-small-footer.ui-tabs-panel {
-  padding: 10px 0 0;
-}
-.ui-tabs .content-auto.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-footer.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-medium.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-medium-footer.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-small.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]),
-.ui-tabs .content-small-footer.ui-tabs-panel:not([class*="pl"]):not([class*="pr"]) {
   padding: 10px 2% 0;
+}
+.with-content > .ui-tabs-panel,
+.with-content-footer > .ui-tabs-panel {
+  position: static;
+  background: #ffffff;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 10px !important;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.with-content > .ui-tabs-panel:after,
+.with-content-footer > .ui-tabs-panel:after {
+  content: "";
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  height: 0;
 }
 .content,
 .content-medium,
@@ -2209,10 +2222,12 @@ body {
 .content-auto {
   padding-bottom: 10px;
 }
-.content {
+.content,
+.with-content > .ui-tabs-panel {
   height: 520px;
 }
-.content-footer {
+.content-footer,
+.with-content-footer > .ui-tabs-panel {
   height: 465px;
 }
 .content-medium {
@@ -2931,6 +2946,7 @@ input.icon.pinterest:checked ~ input:focus {
 }
 .message,
 .smoke-base .dialog {
+  position: relative;
   padding: 6px 12px;
   border: 1px solid;
   border-radius: 0;
@@ -2948,9 +2964,9 @@ input.icon.pinterest:checked ~ input:focus {
 }
 .message .close,
 .smoke-base .dialog .close {
-  position: relative;
-  top: -2px;
-  right: -21px;
+  position: absolute;
+  top: 0;
+  right: 0;
   color: inherit;
 }
 .message p,
@@ -3158,28 +3174,24 @@ input.icon.pinterest:checked ~ input:focus {
 .smoke-base .dialog .close:hover {
   color: #e74c3c;
 }
-.smoke-base .dialog.alert-success,
 .smoke-base .dialog.success {
   -webkit-box-shadow: 0 0 100px #b4d199;
   -moz-box-shadow: 0 0 100px #b4d199;
   -ms-box-shadow: 0 0 100px #b4d199;
   box-shadow: 0 0 100px #b4d199;
 }
-.smoke-base .dialog.alert-warning,
 .smoke-base .dialog.warning {
   -webkit-box-shadow: 0 0 100px #e1ce9c;
   -moz-box-shadow: 0 0 100px #e1ce9c;
   -ms-box-shadow: 0 0 100px #e1ce9c;
   box-shadow: 0 0 100px #e1ce9c;
 }
-.smoke-base .dialog.alert-error,
 .smoke-base .dialog.error {
   -webkit-box-shadow: 0 0 100px #eaa3ab;
   -moz-box-shadow: 0 0 100px #eaa3ab;
   -ms-box-shadow: 0 0 100px #eaa3ab;
   box-shadow: 0 0 100px #eaa3ab;
 }
-.smoke-base .dialog.alert-info,
 .smoke-base .dialog.info {
   -webkit-box-shadow: 0 0 100px #a8c4ce;
   -moz-box-shadow: 0 0 100px #a8c4ce;
@@ -3214,10 +3226,10 @@ input.icon.pinterest:checked ~ input:focus {
   background-color: #25a25a;
 }
 .smoke-base .dialog-buttons button:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
 }
 .smoke-base .dialog-buttons button.disabled,
 .smoke-base .dialog-buttons button[disabled] {
@@ -3243,10 +3255,10 @@ input.icon.pinterest:checked ~ input:focus {
   background-color: #d62c1a;
 }
 .smoke-base .dialog-buttons button.cancel:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #921e12 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #921e12 inset;
 }
 .smoke-base .dialog-buttons button.cancel.disabled,
 .smoke-base .dialog-buttons button.cancel[disabled] {
@@ -3261,6 +3273,10 @@ input.icon.pinterest:checked ~ input:focus {
 .message {
   display: block;
   border-left: 3px solid;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .ui-accordion .ui-accordion-header {
   display: block;
@@ -3425,6 +3441,7 @@ input.icon.pinterest:checked ~ input:focus {
   color: #333333;
 }
 .ui-tabs .ui-tabs-panel {
+  clear: both;
   display: block;
   border: none;
   background: #ffffff;
@@ -3461,12 +3478,7 @@ input.icon.pinterest:checked ~ input:focus {
   overflow: hidden;
 }
 .tabs-nav-wrap .ui-tabs-nav {
-  margin: 0 3%;
-  padding: 0 !important;
-}
-.tabs-nav-wrap .ui-tabs-nav .ui-tabs-active {
-  position: relative;
-  z-index: 15;
+  padding: 0 3% !important;
 }
 .tabs-nav-wrap .arrow {
   position: absolute;
@@ -3477,10 +3489,10 @@ input.icon.pinterest:checked ~ input:focus {
   text-align: center;
   cursor: pointer;
   background: #eaeaea;
-  -webkit-box-shadow: 0 0 15px #aaaaaa;
-  -moz-box-shadow: 0 0 15px #aaaaaa;
-  -ms-box-shadow: 0 0 15px #aaaaaa;
-  box-shadow: 0 0 15px #aaaaaa;
+  -webkit-box-shadow: 0 0 7px #aaaaaa;
+  -moz-box-shadow: 0 0 7px #aaaaaa;
+  -ms-box-shadow: 0 0 7px #aaaaaa;
+  box-shadow: 0 0 7px #aaaaaa;
 }
 .tabs-nav-wrap .arrow.right {
   left: auto;
@@ -3692,6 +3704,13 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   line-height: 30px;
   margin: 0 30px;
   font-weight: normal;
+}
+.ui-datepicker .ui-datepicker-header > .ui-datepicker-title select {
+  width: 49%;
+  float: left;
+}
+.ui-datepicker .ui-datepicker-header > .ui-datepicker-title select + select {
+  margin-left: 2%;
 }
 .ui-datepicker .ui-datepicker-calendar {
   width: 100%;
@@ -5063,10 +5082,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background-color: #b84438;
 }
 .plugins-list .plugin-item .plugin-control:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #7d2e26 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #7d2e26 inset;
 }
 .plugins-list .plugin-item .plugin-control.disabled,
 .plugins-list .plugin-item .plugin-control[disabled] {
@@ -5092,10 +5111,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background-color: #25a25a;
 }
 .plugins-list .plugin-item .plugin-control.block:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #176437 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #176437 inset;
 }
 .plugins-list .plugin-item .plugin-control.block.disabled,
 .plugins-list .plugin-item .plugin-control.block[disabled] {
@@ -5121,10 +5140,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background-color: #22617a;
 }
 .plugins-list .plugin-item .plugin-endis:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #11323e inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #11323e inset;
 }
 .plugins-list .plugin-item .plugin-endis.disabled,
 .plugins-list .plugin-item .plugin-endis[disabled] {
@@ -5150,10 +5169,10 @@ body > .ui-dialog[aria-describedby="toasterPopup"] iframe {
   background-color: #b7b7b7;
 }
 .plugins-list .plugin-item .plugin-endis.disable:active {
-  -webkit-box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
-  -moz-box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
-  -ms-box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
-  box-shadow: 0.2rem 0.2rem 0.4rem #919191 inset;
+  -webkit-box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
+  -moz-box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
+  -ms-box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
+  box-shadow: 0.2rem 0.2rem 0.2rem #919191 inset;
 }
 .plugins-list .plugin-item .plugin-endis.disable.disabled,
 .plugins-list .plugin-item .plugin-endis.disable[disabled] {

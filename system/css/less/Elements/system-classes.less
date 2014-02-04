@@ -21,9 +21,9 @@
 .cl-none{ clear : none; }
 .cl-both{ clear : both; }
 
-.fl-left{ float : left; }
-.fl-right{ float : right; }
-.fl-none{ float : none; }
+.fl-left{ float : left !important; }
+.fl-right{ float : right !important; }
+.fl-none{ float : none !important; }
 
 .wrap{ overflow : hidden; }
 .block{ display : block; }
@@ -47,7 +47,7 @@
 .fs48{ font-size : 48px; }
 .fs64{ font-size : 64px; }
 
-.pointer{ cursor: pointer; }
+.pointer{ cursor : pointer; }
 .text-overflow{
     .text-overflow();
 }
@@ -105,7 +105,8 @@
     .activate-color-red(@activate-alternate-style-color-red);
     .activate-color-blue(@activate-alternate-style-color-blue);
 }
-.activate-color(@activate-alternate-style-color, @activate-alternate-style);
+    .activate-color(@activate-alternate-style-color, @activate-alternate-style)
+;
 
 // Social Links
 //==================================================
@@ -157,7 +158,8 @@
         }
     }
 }
-.activate-list-social-links(@activate-list-social-links);
+    .activate-list-social-links(@activate-list-social-links)
+;
 
 // Change style for Generator Links
 //==================================================
@@ -188,7 +190,8 @@
         }
     }
 }
-.activate-generator-links(@activate-list-social-links, @activate-toaster-icons);
+    .activate-generator-links(@activate-list-social-links, @activate-toaster-icons)
+;
 
 .activate-list-testimonials(@activate) when (@activate = true){
     .list-testimonials{
@@ -245,7 +248,8 @@
         }
     }
 }
-.activate-list-testimonials(@activate-list-testimonials);
+    .activate-list-testimonials(@activate-list-testimonials)
+;
 
 // Table classes
 //==================================================
@@ -272,6 +276,10 @@
 }
 .background{
     .background;
+
+    legend{
+        background : #fff;
+    }
 }
 
 .move{
