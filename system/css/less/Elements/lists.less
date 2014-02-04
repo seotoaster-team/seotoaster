@@ -87,10 +87,6 @@ ul, ol{
                 .text-overflow;
                 .box-sizing();
 
-                &>*{
-                    .inline-block;
-                }
-
                 &:hover, &.active, &.tag-current{
                     background : darken(@gray-light, 10%);
                 }
@@ -390,6 +386,7 @@ dl{
     font-size   : @font-size-small;
     cursor      : default;
     line-height : 1;
+    .inline-block();
 
     *{
         .inline-block;

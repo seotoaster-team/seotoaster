@@ -13,19 +13,7 @@
 
     *{
         /*Reset style*/
-        background     : transparent;
-        border         : 0 none;
-        color          : inherit;
-        font-family    : inherit;
-        font-size      : 100%;
-        font-style     : inherit;
-        font-weight    : inherit;
-        margin         : 0;
-        padding        : 0;
-        vertical-align : baseline;
-        .box-shadow(none);
-        .border-radius(0);
-        .transition(none);
+        .reset-style();
         /*end reset*/
     }
 
@@ -97,6 +85,11 @@
                 margin  : 0;
                 padding : 0;
                 border  : none;
+
+                li+li{
+                    border-top: 1px dashed @gray-light;
+                }
+
                 a{
                     background : none;
                     color      : @link-color;

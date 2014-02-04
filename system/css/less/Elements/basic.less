@@ -60,6 +60,10 @@ body{
     font-size   : @font-size-large;
     position    : relative;
 
+    .shadow{
+        .box-shadow(0 5px 15px #fff);
+    }
+
     &>*{
         font-size : @font-size-base;
     }
@@ -146,7 +150,7 @@ body{
     margin-top    : 0 !important;
     margin-bottom : 0 !important;
     padding-top   : 10px;
-    //    overflow      : auto;
+    clear         : both;
     .box-sizing();
     .clearfix();
 

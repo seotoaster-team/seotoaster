@@ -285,7 +285,7 @@
 .button-color( @color, @background, @border, @activate: true, @activate2: @activate-alternate-style-color, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
     color            : @color;
     background-color : @background;
-    .box-shadow(none, @input-shadow-focus, true);
+    .box-shadow(none, @input-shadow-focus);
     .activate-border(@activate) when (@activate > 0){
         border-color : @border;
     }
@@ -334,7 +334,7 @@
     color            : @color;
     background-color : @background;
     text-decoration  : none;
-    .box-shadow(none, @input-shadow-focus, true);
+    .box-shadow(none, @input-shadow-focus);
     .activate-border(@activate) when (@activate > 0){
         border-color : @border;
     }

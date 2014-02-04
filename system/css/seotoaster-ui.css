@@ -142,12 +142,14 @@ form.form-grid input,
   margin-left: 2%;
   width: 48%;
 }
-label {
+form label,
+.form label {
   display: block;
   margin-bottom: 0.25em;
   color: #888888;
 }
-label.required:after {
+form label.required:after,
+.form label.required:after {
   color: #e74c3c;
   content: ' *';
 }
@@ -341,8 +343,8 @@ select option {
   margin-top: 0;
   margin-bottom: 0;
   height: 30px;
+  line-height: 30px;
   background: #cccccc;
-  padding: 6px 0;
   text-align: center;
   color: #fff;
   -webkit-transition: all 0.3s ease;
@@ -369,14 +371,17 @@ select option {
 .labeled .label option {
   color: #333333;
 }
-.labeled input:focus {
+.labeled input:focus,
+.labeled select:focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   box-shadow: none;
 }
-.labeled input:focus + label,
-.labeled input:focus + .label {
+.labeled input:focus ~ label,
+.labeled select:focus ~ label,
+.labeled input:focus ~ .label,
+.labeled select:focus ~ .label {
   background: #31b0d5;
 }
 .checkbox_radio-wrap {
@@ -396,7 +401,7 @@ select option {
 [type="checkbox"] ~ .checkbox_radio,
 [type="radio"] ~ .checkbox_radio {
   display: inline-block;
-  font-size: 16px;
+  font-size: 16px !important;
   height: 1em;
   width: 1em;
   line-height: 0;

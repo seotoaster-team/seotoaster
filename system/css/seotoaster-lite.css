@@ -116,76 +116,76 @@ p + p {
 p img {
   margin: 0;
 }
-html body .gray-darker {
+.gray-darker {
   color: #111111;
 }
-html body .gray-dark {
+.gray-dark {
   color: #333333;
 }
-html body .gray {
+.gray {
   color: #666666;
 }
-html body .gray-light {
+.gray-light {
   color: #eaeaea;
 }
-html body .gray-lighter {
+.gray-lighter {
   color: #fafafa;
 }
-html body .gray-darker-bg {
+.gray-darker-bg {
   background: #111111;
 }
-html body .gray-dark-bg {
+.gray-dark-bg {
   background: #333333;
 }
-html body .gray-bg {
+.gray-bg {
   background: #666666;
 }
-html body .gray-light-bg {
+.gray-light-bg {
   background: #eaeaea;
 }
-html body .gray-lighter-bg {
+.gray-lighter-bg {
   background: #fafafa;
 }
-html body .primary {
+.primary {
   color: #31b0d5;
 }
-ahtml body .primary:hover {
+a.primary:hover {
   color: #1f7e9a;
 }
-html body .success {
+.success {
   color: #2ecc71;
 }
-ahtml body .success:hover {
+a.success:hover {
   color: #208e4e;
 }
-html body .warning {
+.warning {
   color: #e67e22;
 }
-ahtml body .warning:hover {
+a.warning:hover {
   color: #a85913;
 }
-html body .error {
+.error {
   color: #e74c3c;
 }
-ahtml body .error:hover {
+a.error:hover {
   color: #bf2718;
 }
-html body .info {
+.info {
   color: #3498db;
 }
-ahtml body .info:hover {
+a.info:hover {
   color: #1d6fa5;
 }
-html body .larger {
+.larger {
   font-size: 1.5em;
 }
-html body .large {
+.large {
   font-size: 1.25em;
 }
-html body .small {
+.small {
   font-size: 0.85em;
 }
-html body .mini {
+.mini {
   font-size: 0.75em;
 }
 blockquote,
@@ -404,11 +404,6 @@ ol.list-tags > li {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
-}
-ul.list-tags > li > *,
-ol.list-tags > li > * {
-  display: inline-block;
-  vertical-align: middle;
 }
 ul.list-tags > li:hover,
 ol.list-tags > li:hover,
@@ -663,6 +658,8 @@ ol.items-list .list-row > * {
   font-size: 0.85em;
   cursor: default;
   line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
 }
 .paginator *,
 .dataTables_paginate * {
@@ -928,10 +925,10 @@ button,
   transition: background 0.3s ease;
   color: #ffffff;
   background-color: #31b0d5;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn:hover,
 button:hover,
@@ -988,10 +985,10 @@ button.inverse,
   color: #666666;
   background-color: #eaeaea;
   text-decoration: none;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.inverse:hover,
 button.inverse:hover,
@@ -1029,10 +1026,10 @@ button.warning,
 [type="submit"].warning {
   color: #ffffff;
   background-color: #e67e22;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.warning:hover,
 button.warning:hover,
@@ -1071,10 +1068,10 @@ button.inverse-warning,
   color: #666666;
   background-color: #eaeaea;
   text-decoration: none;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.inverse-warning:hover,
 button.inverse-warning:hover,
@@ -1112,10 +1109,10 @@ button.error,
 [type="submit"].error {
   color: #ffffff;
   background-color: #e74c3c;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.error:hover,
 button.error:hover,
@@ -1154,10 +1151,10 @@ button.inverse-error,
   color: #666666;
   background-color: #eaeaea;
   text-decoration: none;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.inverse-error:hover,
 button.inverse-error:hover,
@@ -1195,10 +1192,10 @@ button.success,
 [type="submit"].success {
   color: #ffffff;
   background-color: #2ecc71;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.success:hover,
 button.success:hover,
@@ -1237,10 +1234,10 @@ button.inverse-success,
   color: #666666;
   background-color: #eaeaea;
   text-decoration: none;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.inverse-success:hover,
 button.inverse-success:hover,
@@ -1278,10 +1275,10 @@ button.info,
 [type="submit"].info {
   color: #ffffff;
   background-color: #3498db;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.info:hover,
 button.info:hover,
@@ -1320,10 +1317,10 @@ button.inverse-info,
   color: #666666;
   background-color: #eaeaea;
   text-decoration: none;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .btn.inverse-info:hover,
 button.inverse-info:hover,
@@ -2059,6 +2056,12 @@ body {
   font-size: 1.25em;
   position: relative;
 }
+.header .shadow {
+  -webkit-box-shadow: 0 5px 15px #ffffff;
+  -moz-box-shadow: 0 5px 15px #ffffff;
+  -ms-box-shadow: 0 5px 15px #ffffff;
+  box-shadow: 0 5px 15px #ffffff;
+}
 .header > * {
   font-size: 14px;
 }
@@ -2144,6 +2147,7 @@ body {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding-top: 10px;
+  clear: both;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;

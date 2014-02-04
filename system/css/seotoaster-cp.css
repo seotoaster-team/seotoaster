@@ -13,6 +13,8 @@
 #seotoaster-cpanel * {
   /*Reset style*/
 
+  width: auto;
+  height: auto;
   background: transparent;
   border: 0 none;
   color: inherit;
@@ -21,18 +23,30 @@
   font-style: inherit;
   font-weight: inherit;
   margin: 0;
+  position: static;
   padding: 0;
   vertical-align: baseline;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   box-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  border-radius: 0;
   -webkit-transition: none 0.5s ease;
   -moz-transition: none 0.5s ease;
   -ms-transition: none 0.5s ease;
   transition: none 0.5s ease;
   /*end reset*/
 
+}
+#seotoaster-cpanel *:hover,
+#seotoaster-cpanel *:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 #seotoaster-cpanel:hover {
   z-index: 1005;
@@ -96,6 +110,9 @@
   margin: 0;
   padding: 0;
   border: none;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-content li + li {
+  border-top: 1px dashed #eaeaea;
 }
 #seotoaster-cpanel #cpanelul li .ui-accordion-content a {
   background: none;

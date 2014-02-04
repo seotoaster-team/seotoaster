@@ -1,8 +1,10 @@
 .ui-autocomplete{
+    padding      : 0;
     position     : absolute;
     z-index      : 999;
     overflow     : auto;
-    max-height   : 200px;
+    font-size    : @font-size-base;
+    max-height   : @font-size-base * @line-height * 8 * @padding-mini-vertical * 2;
     border-width : @input-border-width;
     border-style : solid;
     border-color : @input-border-color;
@@ -20,11 +22,11 @@
         }
 
         .activate-hover(@activate) when (@activate = true){
-        &:hover{
-            color      : @autocomplete-item-color-hover;
-            background : @autocomplete-item-bg-hover;
+            &:hover{
+                color      : @autocomplete-item-color-hover;
+                background : @autocomplete-item-bg-hover;
+            }
         }
-    }
         .activate-hover(@activate) when (@activate = false){
             &.touch{
                 color      : @autocomplete-item-color-hover;

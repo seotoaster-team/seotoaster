@@ -111,16 +111,16 @@ form, .form{
             width       : percentage((6 / @grid-columns)) - @grid-margin-width / 2;
         }
     }
-}
 
-label{
-    display       : block;
-    margin-bottom : 0.25em;
-    color         : @label-color;
+    label{
+        display       : block;
+        margin-bottom : 0.25em;
+        color         : @label-color;
 
-    &.required:after{
-        color   : @brand-red;
-        content : ' *';
+        &.required:after{
+            color   : @brand-red;
+            content : ' *';
+        }
     }
 }
 
@@ -313,8 +313,8 @@ textarea{
             margin-top    : 0;
             margin-bottom : 0;
             height        : @btn-height-base;
+            line-height   : @btn-height-base;
             background    : @input-border-color;
-            padding       : @padding-base-vertical 0;
             text-align    : center;
             color         : #fff;
             .transition(all, 0.3s);
@@ -349,10 +349,10 @@ textarea{
             .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
         }
 
-        input:focus{
+        input:focus, select:focus{
             .box-shadow(none, @input-shadow-focus) !important;
 
-            &+label, &+.label{
+            &~label, &~.label{
                 background : @input-border-color-focus;
             }
         }

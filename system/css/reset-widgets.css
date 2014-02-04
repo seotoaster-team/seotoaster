@@ -66,10 +66,10 @@
 .plugins-list .plugin-item .plugin-control {
   color: #ffffff;
   background-color: #cc6257;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .plugins-list .plugin-item .plugin-control:hover,
 .plugins-list .plugin-item .plugin-control:active {
@@ -95,10 +95,10 @@
 .plugins-list .plugin-item .plugin-control.block {
   color: #ffffff;
   background-color: #2ecc71;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .plugins-list .plugin-item .plugin-control.block:hover,
 .plugins-list .plugin-item .plugin-control.block:active {
@@ -124,10 +124,10 @@
 .plugins-list .plugin-item .plugin-endis {
   color: #ffffff;
   background-color: #2d81a2;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .plugins-list .plugin-item .plugin-endis:hover,
 .plugins-list .plugin-item .plugin-endis:active {
@@ -153,10 +153,10 @@
 .plugins-list .plugin-item .plugin-endis.disable {
   color: #848484;
   background-color: #d1d1d1;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -ms-box-shadow: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
 }
 .plugins-list .plugin-item .plugin-endis.disable:hover,
 .plugins-list .plugin-item .plugin-endis.disable:active {

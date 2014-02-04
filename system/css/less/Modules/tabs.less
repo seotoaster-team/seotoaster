@@ -11,6 +11,7 @@
 
     .ui-tabs-nav:not([class*="list-"]){
         background    : @tabs-nav-bg;
+        font-size     : 0;
         margin-bottom : 0;
         padding       : 0 @grid-margin-width / 2;
 
@@ -30,7 +31,7 @@
             padding : 0;
 
             li{
-                float      : none;
+                width      : 100%;
                 text-align : inherit;
                 border-top : 2px solid @body-bg;
 
@@ -41,7 +42,8 @@
         }
 
         li{
-            float       : left;
+            .inline-block();
+            font-size   : @font-size-base;
             margin      : 0;
             padding     : 0;
             background  : @tabs-nav-li-bg;
@@ -114,6 +116,45 @@
             border-top : 0;
             position   : relative;
             z-index    : 1;
+        }
+    }
+}
+
+.tabs-nav-wrap{
+    position    : relative;
+    line-height : @header-height;
+    white-space : nowrap;
+    overflow    : hidden;
+
+    .ui-tabs-nav{
+        margin  : 0 3%;
+        padding : 0 !important;
+
+        .ui-tabs-active{
+            position : relative;
+            z-index  : 15;
+        }
+    }
+
+    .arrow{
+        position   : absolute;
+        z-index    : 10;
+        top        : 0;
+        left       : 0;
+        width      : 3%;
+        text-align : center;
+        cursor     : pointer;
+        background : @tabs-nav-bg;
+        .box-shadow(0 0 15px darken(@tabs-nav-li-bg-hover, 20%));
+
+        &.right{
+            left  : auto;
+            right : 0;
+        }
+
+        &:hover{
+            background : @tabs-nav-li-bg-hover;
+            color      : @gray-dark;
         }
     }
 }
