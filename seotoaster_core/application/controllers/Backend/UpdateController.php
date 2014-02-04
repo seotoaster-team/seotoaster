@@ -35,10 +35,11 @@ class Backend_UpdateController extends Zend_Controller_Action
             $this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
         }
 
-        $this->_websitePath         = $this->_helper->website->getPath();
-        $this->_tmpPath             = $this->_helper->website->getTmp();
-        $this->_newToasterPath      = $this->_helper->website->getPath() . $this->_helper->website->getTmp() . 'updates' . DIRECTORY_SEPARATOR;
-        $this->view->helpSection    = 'updater';
+        $this->_websitePath             = $this->_helper->website->getPath();
+        $this->_tmpPath                 = $this->_helper->website->getTmp();
+        $this->_newToasterPath          = $this->_helper->website->getPath() . $this->_helper->website->getTmp() . 'updates' . DIRECTORY_SEPARATOR;
+        $this->view->helpSection        = 'updater';
+        $this->_session->withoutBackup  = $this->_request->getParam('withoutBackup') === 'true' ? true : false;
 
         try {
             if (file_exists($this->_websitePath . 'plugins/shopping/version.txt')) {
@@ -73,8 +74,6 @@ class Backend_UpdateController extends Zend_Controller_Action
 
     public function updateAction()
     {
-        $this->_session->withoutBackup = $this->_request->getParam('withoutBackup') === 'true' ? true : false;
-
         if ($this->_session->nextStep === 1) {
             $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
             if (1 === $updateStatus) {
@@ -88,81 +87,73 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
 
         if ($this->_session->nextStep === 2) {
-            try {
-                if ( $this->_session->withoutBackup === false) {
-                    $result = @$this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
-                    if ($result === true) {
-                        $this->_session->nextStep = 3;
-                        return $this->_helper->response->success($this->_helper->language->translate('Backup created.'));
-                    } else {
-
-                    }
-                } else {
+            if ( $this->_session->withoutBackup === false) {
+                $result = @$this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
+                if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
-                    return $this->_helper->response->success($this->_helper->language->translate('Without backup.'));
+                    return $this->_helper->response->success($this->_helper->language->translate('Backup created.'));
+                } else {
+                    return $this->_helper->response->fail($this->_helper->language->translate("Can't create toaster backup."));
                 }
-            } catch (Exception $se) {
-                error_log($se->getMessage());
-                return $this->_helper->response->success($this->_helper->language->translate("Can't create toaster backup."));
+            } else {
+                $this->_session->nextStep = 3;
+                return $this->_helper->response->success($this->_helper->language->translate('Without backup.'));
             }
-
         }
 
         if ($this->_session->nextStep === 3) {
-            try {
-                @$this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
+            $result = @$this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
+            if (isset($result) && $result === true) {
                 $this->_session->nextStep = 4;
                 return $this->_helper->response->success($this->_helper->language->translate('Toaster zip downloaded.'));
-            } catch (Exception $se) {
-                error_log($se->getMessage());
-                return  $this->_helper->response->success($this->_helper->language->translate("Can't download zip"));
+            } else {
+                return  $this->_helper->response->fail($this->_helper->language->translate("Can't download zip"));
             }
         }
         if ($this->_session->nextStep === 4) {
-            try {
-                @$this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
+            $result = @$this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
+            if (isset($result) && $result === true) {
                 $this->_session->nextStep = 5;
                 return $this->_helper->response->success($this->_helper->language->translate('Toaster unziped.'));
-            } catch (Exception $se) {
-                error_log($se->getMessage());
-                return  $this->_helper->response->success($this->_helper->language->translate("Can't unzip toaster."));
+            } else {
+                return  $this->_helper->response->fail($this->_helper->language->translate("Can't unzip toaster."));
             }
         }
 
         if ($this->_session->nextStep === 5) {
-            try {
-                $this->_copyConfigs();
-                $this->_copyToaster($this->_newToasterPath . 'install', $this->_newToasterPath . '_install');
+            $coreResult = $this->_copyConfigs();
+            $result     = $this->_copyToaster($this->_newToasterPath . 'install', $this->_newToasterPath . '_install');
+            if ((isset($coreResult) && $coreResult === true) && (isset($result) && $result === true)) {
                 $this->_session->nextStep = 6;
                 return $this->_helper->response->success($this->_helper->language->translate('Configs copied.'));
-            } catch (Exception $se) {
-                error_log($se->getMessage());
-                return $this->_helper->response->success($this->_helper->language->translate("Can't copy config files."));
+            } else {
+                return $this->_helper->response->fail($this->_helper->language->translate('Can\'t copy config files.'));
             }
         }
 
         if ($this->_session->nextStep === 6) {
-            try {
-                //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            //$result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            if (isset($result) && $result === true) {
                 $this->_session->nextStep = 7;
                 return $this->_helper->response->success($this->_helper->language->translate('Toaster files copied.'));
-
-            } catch (Exception $ex) {
-                $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
-                $ex->getMessage();
-                return $this->_helper->response->success($this->_helper->language->translate('Unsuccessful attempt to copy files. The old version of the files is restored.'));
+            } else {
+                if ( $this->_session->withoutBackup === false) {
+                    //@$this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
+                    return $this->_helper->response->fail($this->_helper->language->translate('Unsuccessful attempt to copy files. The old version of the files is restored.'));
+                } else {
+                    return $this->_helper->response->fail($this->_helper->language->translate('Unsuccessful attempt to copy files.'));
+                }
             }
         }
 
         if ($this->_session->nextStep === 7) {
-            try {
-                //$this->_updateDataBase();
+            //$result = $this->_updateDataBase();
+            if (isset($result) && $result === true) {
                 $this->_session->nextStep = 8;
                 return $this->_helper->response->success($this->_helper->language->translate('Database altered.'));
 
-            } catch (Exception $ex) {
-                $ex->getMessage();
-                return $this->_helper->response->success($this->_helper->language->translate('Unsuccessful attempt to altering database.'));
+            } else {
+                return $this->_helper->response->fail($this->_helper->language->translate('Unsuccessful attempt to altering database.'));
             }
         }
 
