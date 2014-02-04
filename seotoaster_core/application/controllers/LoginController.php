@@ -117,7 +117,7 @@ class LoginController extends Zend_Controller_Action {
 				)));
 				$resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
 				if($resetTokenId) {
-					$this->_helper->flashMessenger->addMessage('We\'ve sent an email to ' . $user->getEmail() . ' containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.');
+					$this->_helper->flashMessenger->setNamespace('passreset')->addMessage('We\'ve sent an email to '.$user->getEmail().' containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.');
                     if(isset($this->_helper->session->retrieveRedirect)){
                         $redirectTo = $this->_helper->session->retrieveRedirect;
                         unset($this->_helper->session->retrieveRedirect);
