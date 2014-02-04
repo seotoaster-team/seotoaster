@@ -13,7 +13,7 @@
 </div>
 
 <?php if (count($this->messages)) : ?>
-	<ul id="messages" class="container alert error text-center w350px" style="top: 5%">
+	<ul id="messages" class="container error text-center" style="top: 5%">
         <span class="icon-close close" onclick="$('#messages').remove()"></span>
 		<?php foreach ($this->messages as $message) : ?>
 			<li>
@@ -56,7 +56,6 @@
 	</div>
 </div>
 
-
 <script type="text/javascript" charset="utf-8">
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
 	$('.lang-select').on('click', function(e) {
@@ -65,6 +64,5 @@
 			window.location.reload();
 		})
 	});
-	//$('.textcentered').buttonset();
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>
