@@ -123,7 +123,6 @@ function saveTemplate() {
             name : $('#title').val(),
             id: $('#template_id').val()
         },
-
         beforeSend : function() {showSpinner();},
         success : function(response) {
             hideSpinner();
