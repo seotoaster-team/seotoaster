@@ -144,6 +144,14 @@ select, textarea, input{
         .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
     }
 
+    .notvalid{
+        border-color : @brand-red;
+        color        : @brand-red;
+        &:focus{
+            .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
+        }
+    }
+
     .activate-style-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
         .activate-color-green(@activate) when (@activate = true){
             &.success{
