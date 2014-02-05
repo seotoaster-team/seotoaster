@@ -285,7 +285,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
             return true;
         } catch (Exception $ex) {
-            return $ex->getMessage();
+            error_log($ex->getMessage());
+            return false;
         }
+        return false;
     }
 }
