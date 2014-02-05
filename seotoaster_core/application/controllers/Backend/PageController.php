@@ -143,7 +143,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 exit;
             }
             $messages = array_merge($pageForm->getMessages(), $messages);
-            $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($messages, get_class($pageForm)));
+            $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($messages));
             exit;
         }
 

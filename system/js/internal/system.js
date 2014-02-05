@@ -113,15 +113,23 @@ $(function(){
                     hideSpinner();
                     showMessage(response.responseText);
                 }else{
-                    if(!$(form).data('norefresh')){
-                        $(form).find('input:text').not(donotCleanInputs.join(',')).val('');
-                    }
                     hideSpinner();
-                    smoke.alert(response.responseText, function(){
-                        if(typeof callback!='undefined' && callback!=null){
-                            eval(callback+'()');
-                        }
-                    }, {classname : "error"});
+                    if(typeof response.responseText === 'object'){
+                        $.each(response.responseText, function(elementName, errorMessage){
+                            form.find('[name="'+elementName+'"]').prop('title', errorMessage)
+                                .addClass('notvalid');
+                        });
+                        $('.notvalid').on('keyup', function(){
+                            $(this).tooltip('destroy').removeClass('notvalid').removeAttr('title');
+                        })
+                        showTooltip('.notvalid', 'error', 'right');
+                    }else{
+                        smoke.alert(response.responseText, function () {
+                            if (typeof callback != 'undefined' && callback != null) {
+                                eval(callback + '()');
+                            }
+                        }, {classname : "error"});
+                    }
                 }
             },
             error      : function(err){

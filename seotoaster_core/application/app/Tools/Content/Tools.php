@@ -36,6 +36,18 @@ class Tools_Content_Tools {
 		return $matches;
 	}
 
+    public static function proccessFormMessages($messages){
+        foreach ($messages as $elName => $message) {
+            $messg = '';
+            foreach ($message as $msg) {
+                $messg .= $msg.' ';
+            }
+            $messageResult[$elName] = trim($messg);
+        }
+        return $messageResult;
+    }
+
+
 	public static function proccessFormMessagesIntoHtml($messages, $formClassName = '') {
 		$form = ($formClassName) ? new $formClassName() : null;
 		$html = '<ul class="form-errors list-unstyled">';
