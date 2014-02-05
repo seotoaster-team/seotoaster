@@ -12,18 +12,6 @@
 	<a href="<?php echo $this->websiteUrl; ?>" title="<?php echo $this->translate('Are you lost?'); ?>">&larr; <?php echo $this->translate('back to'); ?>&nbsp;<?php echo $_SERVER['SERVER_NAME']; ?></a>
 </div>
 
-<?php if (count($this->messages)) : ?>
-	<ul id="messages" class="container error text-center" style="top: 5%">
-        <span class="icon-close close" onclick="$('#messages').remove()"></span>
-		<?php foreach ($this->messages as $message) : ?>
-			<li>
-				<span class="icon-exclamation-sign icon16" style="margin-top: -3px;"></span>
-				<?php echo $this->escape($message); ?>
-			</li>
-		<?php endforeach; ?>
-	</ul>
-<?php endif; ?>
-
 <div class="seotoaster container go-form">
 	<div class="header">
 		<?php echo $this->translate('Welcome Back'); ?>
@@ -64,5 +52,10 @@
 			window.location.reload();
 		})
 	});
+    showTooltip('.notvalid', 'error', 'right');
+    $('.notvalid').on('keyup', function(){
+        $(this).tooltip('destroy').removeClass('notvalid').removeAttr('title');
+        $(this).unbind();
+    })
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>

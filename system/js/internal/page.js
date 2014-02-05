@@ -45,6 +45,7 @@ $(function () {
             var currentValue = $(this).val();
             $(_elements).each(function () {
                 $(this).val(currentValue);
+                $(this).removeClass('notvalid').removeAttr('title');
             });
         });
         menuSelector.each(function () {
