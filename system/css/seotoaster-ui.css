@@ -177,15 +177,15 @@ input:focus {
   -ms-box-shadow: 0 0 3px #31b0d5;
   box-shadow: 0 0 3px #31b0d5;
 }
-select .notvalid,
-textarea .notvalid,
-input .notvalid {
+select.notvalid,
+textarea.notvalid,
+input.notvalid {
   border-color: #e74c3c;
   color: #e74c3c;
 }
-select .notvalid:focus,
-textarea .notvalid:focus,
-input .notvalid:focus {
+select.notvalid:focus,
+textarea.notvalid:focus,
+input.notvalid:focus {
   -webkit-box-shadow: 0 0 3px #e74c3c;
   -moz-box-shadow: 0 0 3px #e74c3c;
   -ms-box-shadow: 0 0 3px #e74c3c;

@@ -32,6 +32,8 @@
 
 .fixed{
     position : fixed !important;
+    z-index: 100;
+
     &.top{ top : 0; }
     &.left{ left : 0; }
     &.right{ right : 0; }
@@ -105,8 +107,7 @@
     .activate-color-red(@activate-alternate-style-color-red);
     .activate-color-blue(@activate-alternate-style-color-blue);
 }
-    .activate-color(@activate-alternate-style-color, @activate-alternate-style)
-;
+.activate-color(@activate-alternate-style-color, @activate-alternate-style);
 
 // Social Links
 //==================================================
@@ -190,8 +191,7 @@
         }
     }
 }
-    .activate-generator-links(@activate-list-social-links, @activate-toaster-icons)
-;
+.activate-generator-links(@activate-list-social-links, @activate-toaster-icons);
 
 .activate-list-testimonials(@activate) when (@activate = true){
     .list-testimonials{
@@ -248,8 +248,7 @@
         }
     }
 }
-    .activate-list-testimonials(@activate-list-testimonials)
-;
+.activate-list-testimonials(@activate-list-testimonials);
 
 // Table classes
 //==================================================

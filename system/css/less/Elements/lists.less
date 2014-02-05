@@ -350,31 +350,26 @@ dl{
 .list-images{
     font-size       : 0;
     list-style-type : none;
-
-    &:not([class*="ml"]):not([class*="grid_"]){
-        margin-left : 0;
-    }
-
-    &:not([class*="mb"]){
-        margin-bottom : 0;
-    }
+    margin-left     : 0;
+    margin-bottom   : 0;
 
     &>*{
         .inline-block(top);
         .thumbnail-state(0);
         height      : 80px;
         line-height : 74px;
+        margin      : @grid-margin-width / 4;
         .box-sizing();
-
-        &[class*="grid_"]{
-            margin-top    : 1%;
-            margin-bottom : 1%;
-        }
 
         img{
             width      : auto;
             max-height : 100%;
         }
+    }
+
+    &>img{
+        height      : auto;
+        line-height : normal;
     }
 }
 

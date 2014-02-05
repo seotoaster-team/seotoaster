@@ -1845,6 +1845,7 @@ button a,
 }
 .fixed {
   position: fixed !important;
+  z-index: 100;
 }
 .fixed.top {
   top: 0;

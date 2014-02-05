@@ -609,11 +609,7 @@ ol.items-list .list-row > * {
 .list-images {
   font-size: 0;
   list-style-type: none;
-}
-.list-images:not([class*="ml"]):not([class*="grid_"]) {
   margin-left: 0;
-}
-.list-images:not([class*="mb"]) {
   margin-bottom: 0;
 }
 .list-images > * {
@@ -632,6 +628,7 @@ ol.items-list .list-row > * {
   border: 1px solid #eaeaea;
   height: 80px;
   line-height: 74px;
+  margin: 1%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -644,13 +641,13 @@ ol.items-list .list-row > * {
   -ms-box-shadow: 3px 3px 3px #666666;
   box-shadow: 3px 3px 3px #666666;
 }
-.list-images > *[class*="grid_"] {
-  margin-top: 1%;
-  margin-bottom: 1%;
-}
 .list-images > * img {
   width: auto;
   max-height: 100%;
+}
+.list-images > img {
+  height: auto;
+  line-height: normal;
 }
 .paginator,
 .dataTables_paginate {
@@ -2247,6 +2244,7 @@ body {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
+  background: #ffffff;
   clear: both;
   padding: 15px 0 10px;
   height: 55px;
