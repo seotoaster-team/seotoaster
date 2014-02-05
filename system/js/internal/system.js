@@ -121,6 +121,7 @@ $(function(){
                         });
                         $('.notvalid').on('keyup', function(){
                             $(this).tooltip('destroy').removeClass('notvalid').removeAttr('title');
+                            $(this).unbind();
                         })
                         showTooltip('.notvalid', 'error', 'right');
                     }else{
