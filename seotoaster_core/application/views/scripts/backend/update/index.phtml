@@ -19,15 +19,16 @@ function update() {
         dataType: 'json',
         beforeSend : function() {showSpinner();},
         success: function(response) {
-            hideSpinner();
             if(!response.error) {
                 $("#progress").append('<li class="mb10px">' + response.responseText + '</li>');
                 if (response.responseText === "Success") {
                     $subBtn.removeAttr("disabled");
+                    hideSpinner();
                     return;
                 }
                 update();
             } else {
+                hideSpinner();
                 $subBtn.removeAttr("disabled");
                 $subBtn.val('Continue');
                 showMessage(response.responseText, true);

@@ -27,8 +27,8 @@ class Backend_UpdateController extends Zend_Controller_Action
     public function init()
     {
         parent::init();
-        $this->_redirector = new Zend_Controller_Action_Helper_Redirector();
-        $this->_session = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $this->_redirector      = new Zend_Controller_Action_Helper_Redirector();
+        $this->_session         = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
         $this->view->websiteUrl = $this->_helper->website->getUrl();
 
         if ($this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_SUPERADMIN) {
@@ -78,7 +78,7 @@ class Backend_UpdateController extends Zend_Controller_Action
             $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
             if (1 === $updateStatus) {
                 $this->_session->nextStep = 2;
-                return $this->_helper->response->success($this->_helper->language->translate('Update started.'));
+                return $this->_helper->response->success($this->_helper->language->translate('Update started. Please wait.'));
             } elseif (-1 === $updateStatus) {
                 return $this->_helper->response->success($this->_helper->language->translate('Your version of the system is higher than the remote.'));
             } else {
@@ -88,33 +88,33 @@ class Backend_UpdateController extends Zend_Controller_Action
 
         if ($this->_session->nextStep === 2) {
             if ( $this->_session->withoutBackup === false) {
-                $result = @$this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
+                $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
                 if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
-                    return $this->_helper->response->success($this->_helper->language->translate('Backup created.'));
+                    return $this->_helper->response->success($this->_helper->language->translate('Backup created. Path to backup: "' . $this->_tmpPath . 'backup.zip" Downloading started.'));
                 } else {
                     return $this->_helper->response->fail($this->_helper->language->translate("Can't create toaster backup."));
                 }
             } else {
                 $this->_session->nextStep = 3;
-                return $this->_helper->response->success($this->_helper->language->translate('Without backup.'));
+                return $this->_helper->response->success($this->_helper->language->translate('Without backup. Downloading started.'));
             }
         }
 
         if ($this->_session->nextStep === 3) {
-            $result = @$this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
+            $result = $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 4;
-                return $this->_helper->response->success($this->_helper->language->translate('Toaster zip downloaded.'));
+                return $this->_helper->response->success($this->_helper->language->translate('Toaster zip downloaded. Unzipping.'));
             } else {
                 return  $this->_helper->response->fail($this->_helper->language->translate("Can't download zip"));
             }
         }
         if ($this->_session->nextStep === 4) {
-            $result = @$this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
+            $result = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 5;
-                return $this->_helper->response->success($this->_helper->language->translate('Toaster unziped.'));
+                return $this->_helper->response->success($this->_helper->language->translate('Toaster unzipped. Copying configs.'));
             } else {
                 return  $this->_helper->response->fail($this->_helper->language->translate("Can't unzip toaster."));
             }
@@ -125,20 +125,20 @@ class Backend_UpdateController extends Zend_Controller_Action
             $result     = $this->_copyToaster($this->_newToasterPath . 'install', $this->_newToasterPath . '_install');
             if ((isset($coreResult) && $coreResult === true) && (isset($result) && $result === true)) {
                 $this->_session->nextStep = 6;
-                return $this->_helper->response->success($this->_helper->language->translate('Configs copied.'));
+                return $this->_helper->response->success($this->_helper->language->translate('Configs copied. Copying toaster files.'));
             } else {
                 return $this->_helper->response->fail($this->_helper->language->translate('Can\'t copy config files.'));
             }
         }
 
         if ($this->_session->nextStep === 6) {
-            //$result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 7;
                 return $this->_helper->response->success($this->_helper->language->translate('Toaster files copied.'));
             } else {
                 if ( $this->_session->withoutBackup === false) {
-                    //@$this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
+                    $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
                     return $this->_helper->response->fail($this->_helper->language->translate('Unsuccessful attempt to copy files. The old version of the files is restored.'));
                 } else {
                     return $this->_helper->response->fail($this->_helper->language->translate('Unsuccessful attempt to copy files.'));
@@ -147,7 +147,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
 
         if ($this->_session->nextStep === 7) {
-            //$result = $this->_updateDataBase();
+            $result = $this->_updateDataBase();
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 8;
                 return $this->_helper->response->success($this->_helper->language->translate('Database altered.'));
@@ -195,33 +195,47 @@ class Backend_UpdateController extends Zend_Controller_Action
         return true;
     }
 
-    protected function _zipUnzip($action, $path, $tmpPath, $zipName)
+    protected function _zipUnzip($action, $source, $destination, $name)
     {
+        if (!extension_loaded('zip') || !file_exists($source)) {
+            return false;
+        }
+        $zip = new ZipArchive();
         if ($action === 'compress') {
-            $filter = new Zend_Filter_Compress(
-                array(
-                    'adapter' => 'Zip',
-                    'options' => array(
-                        'archive' => $zipName,
-                    )
-                )
-            );
-            $filter->filter($path);
-            rename($path . $zipName, $tmpPath . $zipName);
+            $exclude = array('tmp',  'cache', 'media', 'previews','theme');
+            if (!$zip->open($destination.$name, ZIPARCHIVE::CREATE)) {
+                return false;
+            }
+            $source = str_replace('\\', '/', realpath($source));
+            if (is_dir($source) === true) {
+                $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+                foreach ($files as $file) {
+                    if (!in_array($file, $exclude)) {
+                        $file = str_replace('\\', '/', realpath($file));
+                        if(is_dir($file) === true) {
+                            $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                        }
+                        else if(is_file($file) === true) {
+                            $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                        }
+                    }
+                }
+            }
+            else if (is_file($source) === true) {
+                $zip->addFromString(basename($source), file_get_contents($source));
+            }
+            $zip->close();
             return true;
         } elseif ($action === 'decompress') {
-            $filter = new Zend_Filter_Decompress(
-                array(
-                    'adapter' => 'Zip',
-                    'options' => array(
-                        'target' => $tmpPath,
-                    )
-                )
-            );
-            $filter->filter($path . $zipName);
-            return true;
+            $res = $zip->open($source . $name);
+            if ($res === TRUE) {
+                $zip->extractTo($destination);
+                $zip->close();
+                return true;
+            } else {
+                return false;
+            }
         }
-        throw new Exception ( "zipUnzip problem");
     }
 
     protected function _copyToaster($source, $dest)
