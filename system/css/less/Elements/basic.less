@@ -203,11 +203,9 @@ body{
 .content-small-footer{
     height : @tpopup-small-height - @header-height - @footer-height;
 }
-
 .footer{
     @padding-top: @footer-height - @btn-height-base - 10px;
     .box-sizing;
-    background  : @body-bg;
     clear       : both;
     padding     : @padding-top 0 10px;
     height      : @footer-height;
@@ -220,6 +218,10 @@ body{
 
     [type="submit"], [type="button"]{
         margin-top : 0 !important;
+    }
+
+    [class*=".content-"] &{
+        background  : @body-bg;
     }
 }
 

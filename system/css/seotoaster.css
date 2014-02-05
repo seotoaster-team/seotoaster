@@ -885,6 +885,7 @@ img[style*="float:right"] {
   margin-left: 15px;
 }
 [class*="caption"] {
+  line-height: 1.428571429;
   padding: 4px;
   color: #ffffff;
   text-align: center;
@@ -2244,7 +2245,6 @@ body {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
-  background: #ffffff;
   clear: both;
   padding: 15px 0 10px;
   height: 55px;
@@ -2257,6 +2257,9 @@ body {
 .footer [type="submit"],
 .footer [type="button"] {
   margin-top: 0 !important;
+}
+[class*=".content-"] .footer {
+  background: #ffffff;
 }
 .page-preview {
   -webkit-box-shadow: 0 1px 1px #bbbbbb;
