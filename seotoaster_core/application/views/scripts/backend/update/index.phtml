@@ -1,51 +1,45 @@
 <script type="text/javascript">
-
-/*    $('input[type=checkbox]').checked(function (e) {
-        e.preventDefault();
-        if ($(this).is(':checked')) {
+    function update() {
+        var url = '<?php echo $this->websiteUrl ?>backend/backend_update/update';
+        var $subBtn = $("input[type=submit]");
+        if ($('input[type=checkbox]').is(':checked')) {
             url = url + '/withoutBackup/true';
         }
-    });*/
-
-function update() {
-    var url     = '<?php echo $this->websiteUrl ?>backend/backend_update/update';
-    var $subBtn    = $("input[type=submit]");
-    if ($('input[type=checkbox]').is(':checked')) {
-            url = url + '/withoutBackup/true';
-    }
-    $subBtn.attr("disabled", "disabled");
-    $.ajax({
-        url : url,
-        dataType: 'json',
-        beforeSend : function() {showSpinner();},
-        success: function(response) {
-            if(!response.error) {
-                $("#progress").append('<li class="mb10px">' + response.responseText + '</li>');
-                if (response.responseText === "Success") {
-                    $subBtn.removeAttr("disabled");
+        $subBtn.attr("disabled", "disabled");
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            beforeSend: function () {
+                smoke.signal('<img src="' + $('#website_url').val() + 'system/images/loading.gif" alt="working..." />', 60000);
+            },
+            success: function (response) {
+                if (!response.error) {
+                    $("#progress").append('<li class="mb10px">' + response.responseText.message + '</li>');
+                    if (response.responseText.status == 0) {
+                        $subBtn.removeAttr("disabled");
+                        hideSpinner();
+                        return;
+                    }
+                    update();
+                } else {
                     hideSpinner();
-                    return;
+                    $subBtn.removeAttr("disabled");
+                    $subBtn.val('Continue');
+                    showMessage(response.responseText.message, true);
                 }
-                update();
-            } else {
-                hideSpinner();
-                $subBtn.removeAttr("disabled");
-                $subBtn.val('Continue');
-                showMessage(response.responseText, true);
+            },
+            error: function (err) {
+                showMessage(err, true);
             }
-        },
-        error: function(err) {
-            showMessage(err, true);
-        }
-    });
-}
+        });
+    }
 
-$(function(){
-    $('#update').submit(function(e) {
-        e.preventDefault();
-        update();
-    })
-});
+    $(function () {
+        $('#update').submit(function (e) {
+            e.preventDefault();
+            update();
+        })
+    });
 </script>
 <div class="seotoaster container_12 h450 rounded3px">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
