@@ -1,7 +1,7 @@
 <?php
 
 /**
- * UpdateController - handler for upadate
+ * UpdateController - handler for update
  *
  * @author Vitaly Vyrodov <vitaly.vyrodov@gmail.com>
  */
