@@ -1,7 +1,7 @@
 <?php
 
 /**
- * UpdateController - handler for update
+ * UpdateController - handler for upadate
  *
  * @author Vitaly Vyrodov <vitaly.vyrodov@gmail.com>
  */
@@ -15,6 +15,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     protected $_session = null;
     protected $_downloadLink = null;
     protected $_toasterVersion = null;
+    protected $_storeVersion = null;
     protected $_remoteVersion = null;
     protected $_websitePath = null;
     protected $_tmpPath = null;
@@ -44,21 +45,22 @@ class Backend_UpdateController extends Zend_Controller_Action
 
         try {
             if (file_exists($this->_websitePath . 'plugins/shopping/version.txt')) {
-                $this->_toasterVersion = trim(
+                $this->_storeVersion = trim(
                     Tools_Filesystem_Tools::getFile($this->_websitePath . 'plugins/shopping/version.txt')
                 );
                 $master_link = self::MASTER_STORE_LINK;
             } else {
-                $this->_toasterVersion = trim(Tools_Filesystem_Tools::getFile('version.txt'));
                 $master_link = self::MASTER_CMS_LINK;
             }
+            $this->_toasterVersion = trim(Tools_Filesystem_Tools::getFile('version.txt'));
+
             $master_versions = explode("\n", file_get_contents($master_link));
             $this->_remoteVersion = filter_var($master_versions [0], FILTER_SANITIZE_STRING);
             $this->_downloadLink = filter_var($master_versions [1], FILTER_SANITIZE_URL);
         } catch (Exceptions_SeotoasterException $se) {
             if (self::debugMode()) {
                 error_log($se->getMessage());
-                return $this->view->result = "Can't get toasters version";
+                return $this->view->result =  $this->_helper->language->translate('Can\'t get toasters version');
             }
         }
     }
@@ -66,7 +68,11 @@ class Backend_UpdateController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->remoteVersion = $this->_remoteVersion;
-        $this->view->localVersion = $this->_toasterVersion;
+        if ($this->_storeVersion) {
+            $this->view->localVersion = $this->_storeVersion;
+        } else {
+            $this->view->localVersion = $this->_toasterVersion;
+        }
         if (!$this->_session->nextStep) {
             $this->_session->nextStep = 1;
         }
@@ -81,8 +87,9 @@ class Backend_UpdateController extends Zend_Controller_Action
         /**
          * Step 1: Checks the current version of the toaster. And if needs updating puts NextStep = 2
          */
+        $version = $this->_storeVersion ? $this->_storeVersion : $this->_toasterVersion;
         if ($this->_session->nextStep === 1) {
-            $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
+            $updateStatus = version_compare($this->_remoteVersion, $version);
             if (1 === $updateStatus) {
                 $this->_session->nextStep = 2;
                 return $this->_helper->response->success(
@@ -240,7 +247,6 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 7) {
             $this->_session->nextStep = 1;
-            unlink($this->_tmpPath . 'toaster.zip');
             return $this->_helper->response->success(
                 array('status' => 0, 'message' => $this->_helper->language->translate("Success!"))
             );
@@ -360,7 +366,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     protected function _updateDataBase()
     {
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-        if (file_exists($this->_websitePath . 'plugins/shopping/version.txt')) {
+        if ($this->_storeVersion) {
             $select = $dbAdapter->select()->from('shopping_config', array('value'))->where('name = ?', 'version');
             $dbVersion = $dbAdapter->fetchRow($select);
             $storeAlters = stristr(
