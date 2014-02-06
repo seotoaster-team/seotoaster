@@ -10,6 +10,8 @@ class Backend_UpdateController extends Zend_Controller_Action
 
     const MASTER_CMS_LINK = 'http://seotoaster.com/cms.txt';
     const MASTER_STORE_LINK = 'http://seotoaster.com/store.txt';
+    const BACKUP_NAME = 'backup.zip';
+    const PACK_NAME = 'toaster.zip';
 
     protected $_redirector = null;
     protected $_session = null;
@@ -21,6 +23,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     protected $_tmpPath = null;
     protected $_newToasterPath = null;
     protected $_logFile = null;
+
 
     /**
      * Init method. Checking permissions.
@@ -79,6 +82,20 @@ class Backend_UpdateController extends Zend_Controller_Action
     }
 
     /**
+     * Remove backup file if exist.
+     * @return mixed
+     */
+    public function cleanupAction()
+    {
+        if (file_exists($this->_tmpPath . self::BACKUP_NAME)) {
+            unlink($this->_tmpPath . self::BACKUP_NAME);
+            return $this->_helper->response->success($this->_helper->language->translate('Backup removed.'));
+        } else {
+            return $this->_helper->response->fail($this->_helper->language->translate('No backup file.'));
+        }
+    }
+
+    /**
      * The main method of updating
      * @return mixed
      */
@@ -119,7 +136,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 2) {
             if ($this->_session->withoutBackup === false) {
-                $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
+                $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, self::BACKUP_NAME);
                 if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
                     return $this->_helper->response->success(
@@ -153,7 +170,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          *  Step 3: Loading Pack. And puts NextStep = 4
          */
         if ($this->_session->nextStep === 3) {
-            $result = $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
+            $result = $this->_getZip(self::PACK_NAME, $this->_tmpPath, $this->_newToasterPath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 4;
                 return $this->_helper->response->success(
@@ -163,7 +180,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                     )
                 );
             } else {
-                unlink($this->_tmpPath . 'toaster.zip');
+                unlink($this->_tmpPath . self::PACK_NAME);
                 return $this->_helper->response->fail(
                     array('status' => 0, 'message' => $this->_helper->language->translate("Can't download zip"))
                 );
@@ -174,7 +191,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          *  Step 4: Unzipping Pack. And puts NextStep = 5
          */
         if ($this->_session->nextStep === 4) {
-            $result = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
+            $result = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, self::PACK_NAME);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 5;
                 return $this->_helper->response->success(
@@ -193,7 +210,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          *  Step 5: Replace the files. And puts NextStep = 6
          */
         if ($this->_session->nextStep === 5) {
-            $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            $result = true; //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 6;
                 return $this->_helper->response->success(
@@ -201,7 +218,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
             } else {
                 if ($this->_session->withoutBackup === false) {
-                    $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, 'backup.zip');
+                    $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, self::BACKUP_NAME);
                     return $this->_helper->response->fail(
                         array(
                             'status' => 0,
@@ -260,7 +277,7 @@ class Backend_UpdateController extends Zend_Controller_Action
      * @return true - All went well.
      * @return false - Something went wrong.
      */
-    protected function _getZip($zipName = 'toaster.zip', $path, $newPath)
+    protected function _getZip($zipName = self::PACK_NAME, $path, $newPath)
     {
         $upZip = $path . $zipName;
         //TODO Check if dir exist and not empty
@@ -381,8 +398,8 @@ class Backend_UpdateController extends Zend_Controller_Action
             trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/alters.sql')),
             '-- version: ' . $dbVersion['value']
         );
-        if (!empty($storeAlters) && is_array($storeAlters)) {
-            $alters = array_merge($alters, $storeAlters);
+        if (!empty($storeAlters)) {
+            $alters = $alters . ' ' .$storeAlters;
         }
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
@@ -398,4 +415,5 @@ class Backend_UpdateController extends Zend_Controller_Action
         return false;
     }
 }
+
 

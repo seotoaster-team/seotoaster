@@ -9,6 +9,7 @@
         $.ajax({
             url: url,
             dataType: 'json',
+            timeout: 60000,
             beforeSend: function () {
                 smoke.signal('<img src="' + $('#website_url').val() + 'system/images/loading.gif" alt="working..." />', 60000);
             },
@@ -39,6 +40,27 @@
             e.preventDefault();
             update();
         })
+        $('#rmBkp').on('click', function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "<?php echo $this->websiteUrl ?>backend/backend_update/cleanup/",
+                dataType: 'json',
+                beforeSend: function () {
+                   showSpinner();
+                },
+                success: function (response) {
+                    hideSpinner();
+                    if (!response.error) {
+                        showMessage(response.responseText);
+                    } else {
+                        showMessage(response.responseText, true);
+                    }
+                },
+                error: function (err) {
+                    showMessage(err, true);
+                }
+            });
+        })
     });
 </script>
 <div class="seotoaster container_12 h450 rounded3px">
@@ -51,6 +73,7 @@
             <div class="grid_6">Without backup: <input type ="checkbox" name="withoutBackup" value = "true"></div>
             <div class="grid_6"><input type="submit" name="update" value="<?php echo $this->translate('Update'); ?>"></div>
         </form>
+    <p class="grid_6 mb20px" id="rmBkp"><a href="javascript:;">Remove backup</a></p>
     </div>
     <ul id="progress" class="seo-tip">
     </ul>
