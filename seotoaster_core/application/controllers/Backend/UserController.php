@@ -37,7 +37,7 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 			else {
-				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($userForm->getMessages()));
+                $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($userForm->getMessages()));
 				exit;
 			}
 		}
