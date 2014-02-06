@@ -72,9 +72,15 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
     }
 
-
+    /**
+     * The main method of updating
+     * @return mixed
+     */
     public function updateAction()
     {
+        /**
+         * Step 1: Checks the current version of the toaster. And if needs updating puts NextStep = 2
+         */
         if ($this->_session->nextStep === 1) {
             $updateStatus = version_compare($this->_remoteVersion, $this->_toasterVersion);
             if (1 === $updateStatus) {
@@ -101,6 +107,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
         }
 
+        /**
+         *  Step 2: Creates a backup of the toaster. And puts NextStep = 3
+         */
         if ($this->_session->nextStep === 2) {
             if ($this->_session->withoutBackup === false) {
                 $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, 'backup.zip');
@@ -133,6 +142,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
         }
 
+        /**
+         *  Step 3: Loading Pack. And puts NextStep = 4
+         */
         if ($this->_session->nextStep === 3) {
             $result = $this->_getZip('toaster.zip', $this->_tmpPath, $this->_newToasterPath);
             if (isset($result) && $result === true) {
@@ -144,12 +156,16 @@ class Backend_UpdateController extends Zend_Controller_Action
                     )
                 );
             } else {
+                unlink($this->_tmpPath . 'toaster.zip');
                 return $this->_helper->response->fail(
                     array('status' => 0, 'message' => $this->_helper->language->translate("Can't download zip"))
                 );
             }
         }
 
+        /**
+         *  Step 4: Unzipping Pack. And puts NextStep = 5
+         */
         if ($this->_session->nextStep === 4) {
             $result = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, 'toaster.zip');
             if (isset($result) && $result === true) {
@@ -166,7 +182,9 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
             }
         }
-
+        /**
+         *  Step 5: Replace the files. And puts NextStep = 6
+         */
         if ($this->_session->nextStep === 5) {
             $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
@@ -196,6 +214,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
         }
 
+        /**
+         *  Step 6: Altering DataBase. And puts NextStep = 7
+         */
         if ($this->_session->nextStep === 6) {
             $result = $this->_updateDataBase();
             if (isset($result) && $result === true) {
@@ -214,14 +235,24 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
         }
 
+        /**
+         *  Step 7: Completing update. And puts NextStep = 1
+         */
         if ($this->_session->nextStep === 7) {
+            $this->_session->nextStep = 1;
             return $this->_helper->response->success(
                 array('status' => 0, 'message' => $this->_helper->language->translate("Success!"))
             );
         }
     }
 
-
+    /**
+     * @param string $zipName
+     * @param string $path
+     * @param  string $newPath
+     * @return true - All went well.
+     * @return false - Something went wrong.
+     */
     protected function _getZip($zipName = 'toaster.zip', $path, $newPath)
     {
         $upZip = $path . $zipName;
@@ -241,6 +272,15 @@ class Backend_UpdateController extends Zend_Controller_Action
         return true;
     }
 
+    /**
+     * Zipping/Unzipping method.
+     * @param string $action
+     * @param string $source
+     * @param string $destination
+     * @param string $name
+     * @return true - All went well.
+     * @return false - Something went wrong.
+     */
     protected function _zipUnzip($action, $source, $destination, $name)
     {
         if (!extension_loaded('zip') || !file_exists($source)) {
@@ -286,6 +326,13 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
     }
 
+    /**
+     * Replacing toaster method.
+     * @param string $source
+     * @param string $dest
+     * @return true - All went well.
+     * @return false - Something went wrong.
+     */
     protected function _copyToaster($source, $dest)
     {
         foreach (
@@ -304,6 +351,11 @@ class Backend_UpdateController extends Zend_Controller_Action
         return true;
     }
 
+    /**
+     * Database altering method
+     * @return true - All went well.
+     * @return false - Something went wrong.
+     */
     protected function _updateDataBase()
     {
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
