@@ -240,6 +240,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 7) {
             $this->_session->nextStep = 1;
+            unlink($this->_tmpPath . 'toaster.zip');
             return $this->_helper->response->success(
                 array('status' => 0, 'message' => $this->_helper->language->translate("Success!"))
             );
