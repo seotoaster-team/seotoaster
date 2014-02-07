@@ -365,7 +365,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                 RecursiveIteratorIterator::SELF_FIRST) as $item
         ) {
             if ($item->isDir()) {
-                mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                @mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
             } else {
                 copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
                 unlink($item->getPathName());
