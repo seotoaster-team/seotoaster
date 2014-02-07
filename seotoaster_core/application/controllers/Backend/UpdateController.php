@@ -282,7 +282,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         $upZip = $path . $zipName;
         //TODO Check if dir exist and not empty
         if (!is_dir($newPath)) {
-            mkdir($newPath);
+            @mkdir($newPath);
         }
         set_time_limit(0);
         $fp = fopen($upZip, 'w+');
@@ -367,7 +367,7 @@ class Backend_UpdateController extends Zend_Controller_Action
             if ($item->isDir()) {
                 @mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
             } else {
-                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                copy($item, $dest . $iterator->getSubPathName());
                 unlink($item->getPathName());
             }
         }
