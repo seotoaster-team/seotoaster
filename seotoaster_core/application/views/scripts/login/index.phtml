@@ -26,22 +26,22 @@
 		</div>
 	</div>
 
-    <div class="grid_12">
-		<form class="grid_12 mt15px" action="<?php echo $this->url(); ?>" method="post" >
-			<fieldset>
-				<dl class="Zend_Form">
-					<?php
-						echo $this->loginForm->email;
-						echo $this->loginForm->password;
-					?>
-				</dl>
-			</fieldset>
-            <div class="footer">
-                <?php echo $this->loginForm->submit; ?>
-                <a id="forgot-password" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
-            </div>
-		</form>
-	</div>
+	<form class="grid_12 mt15px pl2 pr2" action="<?php echo $this->url(); ?>" method="post" >
+		<p><?php
+                echo $this->loginForm->getElement('email')->renderLabel();
+			    echo $this->loginForm->getElement('email')->renderViewHelper();
+            ?>
+        </p>
+        <p><?php
+                echo $this->loginForm->getElement('password')->renderLabel();
+                echo $this->loginForm->getElement('password')->renderViewHelper();
+		    ?>
+        </p>
+        <div class="footer">
+            <?php echo $this->loginForm->getElement('submit')->renderViewHelper();?>
+            <a id="forgot-password" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
+        </div>
+	</form>
 </div>
 
 <script type="text/javascript" charset="utf-8">

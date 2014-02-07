@@ -72,6 +72,13 @@ class LoginController extends Zend_Controller_Action {
 			$this->view->messages   = $this->_helper->flashMessenger->getMessages();
 			//unset url redirect set from any login widget
 			unset($this->_helper->session->redirectUserTo);
+            $loginForm->removeDecorator('HtmlTag');
+            $loginForm->setElementDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    'Label',
+                    array('HtmlTag', array('tag' => 'p'))
+            ));
             $this->view->loginForm  = $loginForm;
 		}
 	}
@@ -168,6 +175,13 @@ class LoginController extends Zend_Controller_Action {
         if (!empty($passResetMsg)) {
             $this->view->retrieveSuccessMessage = join($passResetMsg, PHP_EOL);
         }
+        $form->removeDecorator('HtmlTag');
+        $form->setElementDecorators(array(
+                'ViewHelper',
+                'Errors',
+                'Label',
+                array('HtmlTag', array('tag' => 'p'))
+        ));
 		$this->view->form     = $form;
 	}
 
