@@ -210,7 +210,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          *  Step 5: Replace the files. And puts NextStep = 6
          */
         if ($this->_session->nextStep === 5) {
-            $result = true; //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 6;
                 return $this->_helper->response->success(
