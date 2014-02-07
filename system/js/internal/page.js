@@ -1,6 +1,5 @@
 $(function () {
     $('#pageCategory').hide();
-    $('#templateId').prev().hide(); //hide label for the hidden field 'templateId'
 
     var _elements = [$('#header-title'), $('#url'), $('#nav-name')];
     var menuSelector = $('input.menu-selector');
@@ -12,7 +11,7 @@ $(function () {
 
     $(document).on('click', '.template_name',function () { // click on template name in templates list
         var templateId = $(this).parent().find('input[name="template-id"]').val();
-        $('#templateId').val(templateId);
+        $('#templateId').val(templateId).change();
         $('#curr-template').text(templateId);
         $('#templatelist').removeClass('show');
     }).on('click', 'input.menu-selector',function (e) { // main menu radio click

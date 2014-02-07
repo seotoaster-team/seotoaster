@@ -117,10 +117,21 @@ form, .form{
         margin-bottom : 0.25em;
         color         : @label-color;
 
-        &.required:after{
-            color   : @brand-red;
-            content : ' *';
+        &.notvalid:before{
         }
+    }
+}
+
+.required:after{
+    color   : @brand-red;
+    content : ' *';
+}
+.notvalid{
+    color : @brand-red !important;
+    &:before{
+        font-family  : 'toaster-icons';
+        content      : "\f06a";
+        margin-right : 5px;
     }
 }
 

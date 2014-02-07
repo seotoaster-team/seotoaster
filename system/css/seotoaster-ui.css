@@ -148,10 +148,17 @@ form label,
   margin-bottom: 0.25em;
   color: #888888;
 }
-form label.required:after,
-.form label.required:after {
+.required:after {
   color: #e74c3c;
   content: ' *';
+}
+.notvalid {
+  color: #e74c3c !important;
+}
+.notvalid:before {
+  font-family: 'toaster-icons';
+  content: "\f06a";
+  margin-right: 5px;
 }
 select,
 textarea,

@@ -116,12 +116,32 @@ $(function(){
                     hideSpinner();
                     if(typeof response.responseText === 'object'){
                         $.each(response.responseText, function(elementName, errorMessage){
-                            form.find('[name="'+elementName+'"]').prop('title', errorMessage)
-                                .addClass('notvalid');
+                            var $field = form.find('[name="'+elementName+'"]');
+                            $field.addClass('notvalid');
+                            if($field.is(':checkbox') || $field.is(':radio') || $field.is(':hidden')){
+                                if($field.parent().is('label')){
+                                    $field.parent().prop('title', errorMessage).addClass('notvalid');
+                                }else{
+                                    var fieldId =  $field.prop('id');
+                                    doc.find('[for="'+ fieldId +'"]').prop('title', errorMessage).addClass('notvalid');
+                                }
+                            }else{
+                                $field.prop('title', errorMessage);
+                            }
                         });
-                        $('.notvalid').on('keyup', function(){
-                            $(this).tooltip('destroy').removeClass('notvalid').removeAttr('title');
-                            $(this).unbind();
+                        $('.notvalid').on('change', function(){
+                            var $field = $(this);
+                            if($field.is(':checkbox') || $field.is(':radio') || $field.is(':hidden')){
+                                if($field.parent().is('label')){
+                                    $field.parent().tooltip('destroy').removeAttr('title', '').removeClass('notvalid');
+                                }else{
+                                    var fieldId =  $field.prop('id');
+                                    doc.find('[for="'+ fieldId +'"]').tooltip('destroy').removeAttr('title', '').removeClass('notvalid');
+                                }
+                            }else{
+                                $field.tooltip('destroy').removeClass('notvalid').removeAttr('title');
+                            }
+                            $field.unbind();
                         })
                         showTooltip('.notvalid', 'error', 'right');
                     }else{
@@ -138,7 +158,7 @@ $(function(){
                 showMessage('Oops! sorry but something fishy is going on - try again or call for support.', true);
             }
         })
-    })
+    });
     //seotoaster edit item link
     doc.on('click', 'a._tedit', function(e){
         e.preventDefault();
