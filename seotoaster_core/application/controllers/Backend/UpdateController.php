@@ -219,9 +219,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             } else {
                 if ($this->_session->withoutBackup === false) {
                     $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, self::BACKUP_NAME);
-                    return $this->_helper->response->fail(
+                    return $this->_helper->response->success(
                         array(
-                            'status' => 0,
+                            'status' => 1,
                             'message' => $this->_helper->language->translate(
                                     'Unsuccessful attempt to copy files. The old version of the files is restored.'
                                 )
