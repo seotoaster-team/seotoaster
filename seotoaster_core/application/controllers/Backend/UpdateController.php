@@ -280,7 +280,6 @@ class Backend_UpdateController extends Zend_Controller_Action
     protected function _getZip($zipName = self::PACK_NAME, $path, $newPath)
     {
         $upZip = $path . $zipName;
-        //TODO Check if dir exist and not empty
         if (!is_dir($newPath)) {
             @mkdir($newPath);
         }
@@ -365,7 +364,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                 RecursiveIteratorIterator::SELF_FIRST) as $item
         ) {
             if ($item->isDir()) {
-                @mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                @mkdir($dest . $iterator->getSubPathName());
             } else {
                 copy($item, $dest . $iterator->getSubPathName());
                 unlink($item->getPathName());
