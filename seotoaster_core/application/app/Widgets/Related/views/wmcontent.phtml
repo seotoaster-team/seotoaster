@@ -1,20 +1,21 @@
 <form action="javascript:;" method="post" data-name="related" id="related-widget-form" class="wmc-block">
-	<?php echo $this->formLabel('related-rel', $this->translate('Relevance'), array('class' => 'nopad grid_6')); ?>
-	<?php echo $this->formText('relatedRel', Widgets_Related_Related::REL_WORD_COUNT, array('id' => 'related-rel', 'class' => 'nopad grid_6')); ?>
-	<?php echo $this->formLabel('related-maxres', $this->translate('Max. results'), array('class' => 'nopad grid_6')); ?>
-	<?php echo $this->formText('relatedMaxres', Widgets_Related_Related::REL_MAX_REZULT, array('id' => 'related-maxres', 'class' => 'nopad grid_6')); ?>
-	<?php echo $this->formLabel('related-img', $this->translate('Use image'), array('class' => 'nopad grid_6')); ?>
-	<div class="nopad grid_6">
-		<?php echo $this->formCheckbox('relatedImg', 'img', array('id' => 'related-img')); ?>
-		<?php echo $this->formLabel('use-image-cropped', $this->translate('Cropped'), array('style' => 'display:none;', 'class' => 'cropped-img')); ?>
-		<?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped', 'style' => 'display:none;', 'class' => 'cropped-img')); ?>
-	</div>
-	<div class="grid_12 nopad">
-		<?php echo $this->formSubmit('applyWidget', $this->translate('Apply'), array('class' => 'apply-widget')); ?>
-	</div>
+    <p>
+        <?php echo $this->formLabel('related-rel', $this->translate('Relevance'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formText('relatedRel', Widgets_Related_Related::REL_WORD_COUNT, array('id' => 'related-rel', 'class' => 'grid_7 alpha omega small')); ?>
+    </p>
+    <p class="mt5px">
+        <?php echo $this->formLabel('related-maxres', $this->translate('Max. results'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formText('relatedMaxres', Widgets_Related_Related::REL_MAX_REZULT, array('id' => 'related-maxres', 'class' => 'grid_7 alpha omega small')); ?>
+    </p>
+    <p class="mt5px">
+	    <label class="grid_6 alpha omega pointer">
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Use image'); ?></span>
+            <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'related-img')); ?>
+        </label>
+	    <label class="cropped-img hidden grid_6 omega pointer">
+            <?php echo $this->translate('Cropped'); ?>
+            <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped')); ?>
+        </label>
+	</p>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
 </form>
-<script type="text/javascript">
-	$(document).on('click', '#related-img', function() {
-	    $('.cropped-img').fadeToggle();
-    });
-</script>

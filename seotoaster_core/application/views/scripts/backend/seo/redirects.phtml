@@ -1,31 +1,28 @@
-<div class="seotoaster container_12 h570 rounded3px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12 mb10px">
-		<form id="frm-redirects" style="overflow: hidden;" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="reloadRedirectsList">
+	<div class="content-footer">
+		<form id="frm-redirects" class="_fajax grid_12 mb15px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
 			<div class="grid_5 alpha">
 				<?php echo $this->form->getElement('fromUrl'); ?>
 			</div>
-			<div class="grid_5">
-				<?php echo $this->form->getElement('urlType'); ?>
+			<div class="grid_5 alpha omega mt0px type-url">
+				<label for="urlType"><?php echo $this->form->getElement('urlType') . $this->translate(' Local url');?></label>
 				<?php echo $this->form->getElement('toUrl'); ?>
 			</div>
-			<div style="overflow: hidden;">
-				<?php echo $this->form->getElement('addRedirect')->renderViewHelper(); ?>
-			</div>
+			<?php echo $this->form->getElement('addRedirect')->renderViewHelper(); ?>
 		</form>
-	</div>
 
-	<div id="redirect-title" class="grid_12">
-		<div class="grid_0_5"><input type="checkbox" id="massdell-main" /></div>
-		<div class="grid_5"><?php echo $this->translate('Former url'); ?></div>
-		<div class="grid_5"><?php echo $this->translate('New url'); ?></div>
-		<div class="grid_1"><?php echo $this->translate('Action'); ?></div>
+		<div id="redirect-title" class="grid_12 list-title">
+			<div class="grid_1 mr0 ml0 text-center"> <input type="checkbox" id="massdell-main" /></div>
+			<div class="grid_5 alpha omega ml-grid mr-grid"><?php echo $this->translate('Former url'); ?></div>
+			<div class="grid_6 mr0"><?php echo $this->translate('New url'); ?></div>
+		</div>
+		<div id="redirects-list" class="grid_12 items-list"></div>
 	</div>
-	<div id="redirects-list" class="grid_12"></div>
-	<div class="grid_12" style="text-align: right">
+	<div class="grid_12 footer">
 <!--	<button class="mdel-button" id="massdel-run">--><?php //echo $this->translate('Delete selected'); ?><!--</button>-->
-		<a href="javascript:;" class="delete-selected" id="massdel-run">[ Delete selected ]</a>
+		<a href="javascript:;" class="delete-selected btn link error" id="massdel-run">[ Delete selected ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
-	</div>
+	</dv>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.js'); ?>

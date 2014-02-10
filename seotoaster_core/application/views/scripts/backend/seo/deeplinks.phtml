@@ -1,35 +1,32 @@
-<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
+<div class="seotoaster container refreshOnClose">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit deeplink', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12">
-		<form id="frm-deeplinks" action="<?php echo $this->url(); ?>" method="post" class="_fajax" data-callback="loadDeeplinksList">
-			<div class="grid_5 alpha">
-				<?php echo $this->form->getElement('anchorText'); ?>
-			</div>
-			<div class="grid_5" style="position: relative;">
-				<?php echo $this->form->getElement('urlType'); ?>
-				<?php echo $this->form->getElement('url'); ?>
-				<div style="position: absolute; top:0px; right: 5px;">
-					<label style="float: left;"><?php echo $this->translate('No follow?'); ?></label>
-					<?php echo $this->form->getElement('nofollow')->renderViewHelper(); ?>
+	<div class="content-footer">
+			<form id="frm-deeplinks" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mb15px form-inline" data-callback="loadDeeplinksList">
+				<div class="grid_5 alpha">
+					<?php echo $this->form->getElement('anchorText'); ?>
 				</div>
-			</div>
-            <div style="overflow: hidden">
-			<?php echo $this->form->getElement('addDeeplink'); ?>
-            </div>
-		</form>
+				<div class="grid_5 alpha omega mt0px type-url">
+					<label for="urlType"><?php echo $this->form->getElement('urlType') . $this->translate(' Local url');?></label>
+					<?php echo $this->form->getElement('url'); ?>
+					<label for="nofollow" class="nofollow">
+						<?php echo $this->translate('No follow?'); ?>
+						<?php echo $this->form->getElement('nofollow')->renderViewHelper(); ?>
+					</label>
+				</div>
+				<?php echo $this->form->getElement('addDeeplink'); ?>
+			</form>
+		<div id="deeplinks-title" class="grid_12 list-title">
+			<div class="grid_1 mr0 ml0 text-center"> <input type="checkbox" id="chk-all" name="deleteAll" /></div>
+			<div class="grid_3 alpha omega ml-grid mr-grid">Anchor text</div>
+			<div class="grid_6 alpha omega ml-grid">Url</div>
+			<div class="grid_1 alpha omega text-center">Rel</div>
+		</div>
+		<div id="deeplinks-list" class="grid_12 items-list"></div>
 	</div>
-	<div class="grid_12" id="table-header">
-		<div class="grid_0_5"><input type="checkbox" id="chk-all" name="deleteAll" /></div>
-		<div class="grid_4">Anchor text</div>
-		<div class="grid_5">Url</div>
-		<div class="grid_1">Rel</div>
-		<div class="grid_1">Action</div>
-	</div>
-	<div id="deeplinks-list" class="grid_12"></div>
-	<div class="grid_12" style="text-align: right">
+	<div class="grid_12 footer">
 <!--		<button class="mdel-button" id="deeplink-massdel-run">--><?php //echo $this->translate('Delete selected'); ?><!--</button>-->
-		<a href="javascript:;" class="delete-selected" id="deeplink-massdel-run">[ Delete selected ]</a>
+		<a href="javascript:;" class="delete-selected btn link error" id="deeplink-massdel-run">[ Delete selected ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
-	</div>
+	</dv>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/deeplinks.js'); ?>

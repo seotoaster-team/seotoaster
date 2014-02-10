@@ -1,306 +1,237 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
-<div class="seotoaster container_12 h570 rounded3px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12">
+	<div class="grid_12 content-footer pt15px">
 		<form id="removeForm" class="">
-			<div class="grid_8">
+			<div class="grid_9">
 			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>
 			</div>
-			<div class="grid_4" style="text-align: right;">
-				<input type="checkbox" id="check-all" />
-				<label id="check-all-label" style="cursor:pointer;" for="check-all"><?php echo $this->translate('Check all?'); ?></label>
-			</div>
-			<div class="clear"></div>
-			<div class="grid_12 mt10px">
+            <label id="check-all-label" class="btn link grid_3 mt5px"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
+			<div class="grid_12 mt15px">
 				<div id="filebrowser">
 					<ul>
 						<li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
 						<li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
 					</ul>
-					<div id="filebrowser-images" class="filebrowser-zone"></div>
+					<div id="filebrowser-images" class="filebrowser-zone list-images"></div>
 					<div id="filebrowser-files" class="filebrowser-zone"></div>
 				</div>
 			</div>
 		</form>
 	</div>
-	<div class="grid_12">
-		<button id="deleteBtn" class="grid_12 mt10px"><?php echo $this->translate('Delete Selected');?></button>
+	<div class="grid_12 footer">
+		<button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete Selected');?></button>
 	</div>
 </div>
-
 <script id="imageContainerTemplate" type="text/x-jquery-tmpl">
     <div class="file-container grid_3">
-		<img src="${src}" alt="${name}" title="${name}" />
-		<input type="checkbox" class="toremove" name="removeImages[]" value="${name}" />
-	</div>
+        <img src="${src}" alt="${name}" title="${name}" />
+        <input type="checkbox" class="toremove" name="removeImages[]" value="${name}" />
+    </div>
 </script>
 <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
     <div class="file-container">
-	    <label data-type="${name}">${name}</label>
-		<input type="checkbox" class="toremove toremove-file" name="removeFiles[]" value="${name}" />
-	</div>
+        <label data-type="${name}">${name}</label>
+        <input type="checkbox" class="toremove toremove-file" name="removeFiles[]" value="${name}" />
+    </div>
 </script>
 <script id="errorMsgTemplate" type="text/x-jquery-tmpl">
-	<div class="ui-widget">
-		<div class="ui-state-error ui-corner-all">
-			<p><span class="ui-icon ui-icon-alert" style="display:inline-block;"></span>${errorMsg}</p>
-		</div>
-	</div>
+    <div class="ui-widget">
+        <div class="ui-state-error">
+            <p><span class="ui-icon ui-icon-alert"></span>${errorMsg}</p>
+        </div>
+    </div>
 </script>
 <script id="fileErrorTemplate" type="text/x-jquery-tmpl">
-	<div class="ui-widget">
-		<div class="ui-state-error ui-corner-all" style="margin-top: 15px; padding: 0 .7em;">
-			<p><span class="ui-icon ui-icon-alert" style="display:inline-block;"></span>
-			<strong>${name}&nbsp;</strong>
-			{{if errors instanceof Array}}
-			<?php echo $this->translate('is used');?>
-				{{each errors}}
-				{{if $index > 0}} and {{/if}}
-				<a href="<?php echo $this->websiteUrl;?>${$value}" target="_blank">here</a>. Please go remove or replace it with another image first so that your website stays pretty.
-				{{/each}}
-			{{else}}
-				${errors}
-			{{/if}}
-			</p>
-		</div>
-	</div>
+    <div class="ui-widget">
+        <div class="ui-state-error">
+            <p><span class="ui-icon ui-icon-alert"></span>
+                <strong>${name}&nbsp;</strong>
+                {{if errors instanceof Array}}
+                <?php echo $this->translate('is used');?>
+                {{each errors}}
+                {{if $index > 0}} and {{/if}}
+                <a href="<?php echo $this->websiteUrl;?>${$value}" target="_blank">here</a>. Please go remove or replace it with another image first so that your website stays pretty.
+                {{/each}}
+                {{else}}
+                ${errors}
+                {{/if}}
+            </p>
+        </div>
+    </div>
 </script>
-
 <script type="text/javascript">
-<?php $this->jQuery()->onLoadCaptureStart();?>
+    <?php $this->jQuery()->onLoadCaptureStart();?>
     var btnCheckAll = $('#check-all'),
         btnDelete   = $('#deleteBtn');
 
-        btnCheckAll.button();
-        btnDelete.button();
+    btnCheckAll.button();
+    btnDelete.button();
 
     $('#ajax_msg').unbind('click').removeAttr('style').removeClass().html('').dialog({
-		maxHeight: 500,
-		width: 400,
-		resizable: false,
-		modal: true,
-		autoOpen: false
-	});
-
-	$('#filebrowser').tabs({
-		select: function(event, ui) {
-			var total = $(ui.panel).find('input.toremove').size();
-			var checked = $(ui.panel).find('input.toremove:checked').size();
-			if (total > 0 && total === checked) {
-				btnCheckAll.attr('checked', 'checked');
-			} else {
-				btnCheckAll.removeAttr('checked');
-			}
-			btnCheckAll.button('refresh');
-		}
-	});
-
-	$('.ui-tabs-nav').removeClass('ui-corner-all').addClass('ui-corner-top');
-
-	// disabling clicking on non-folder item
-	$('#folder>option:first').attr('disabled', true);
-
-	$('#folder').change(function(){
-		$('.filebrowser-zone').html('');
-		$('.counter').text('');
-
-		if ($(this).val() == 0){
-			return false;
-		}
-
-		$('#check-all:checked').removeAttr('checked');
-
-		$.ajax({
-			url: '<?php echo $this->url(array('action'=>'getdirectorycontent'));?>',
-			type: 'post',
-			data: {folder: $(this).val()},
-			dataType: 'json',
-			success: function(response){
-				$('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
-				$('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
-				window.console && console.log(response);
-			}
-		});
-	});
-
-	/**
-	 * Handler for delete
-	 */
-	$('#deleteBtn').bind('click', function(event){
-		event.preventDefault();
-		var fileForm = $('#removeForm');
-		if ( $('#folder').val() === '0' ) {
-			proccessError({errorMsg: '<?php echo $this->translate('No folder specified');?>'});
-			return false;
-		}
-
-		if ( fileForm.find('input.toremove:checked').size() == 0 ){
-			proccessError({errorMsg: '<?php echo $this->translate('Nothing to remove');?>'});
-			return false;
-		}
-		$.ajax({
-			url: '<?php echo $this->url(array('action'=>'removefile'));?>',
-			type: 'post',
-			data: fileForm.serialize(),
-			dataType: 'json',
-			beforeSend: function(){
-				$('#deleteBtn').hide();
-			},
-			complete: function(){
-				$('#deleteBtn').show();
-			},
-			success: function(response){
-				//window.console && console.log(response.errors);
-				proccessError(response);
-                //showMessage();
-
-				if (response.hasOwnProperty('deleted') && response.deleted.length > 0 ){
-					var removedFiles = [];
-					for (var i in response.deleted) {
-						$('#filebrowser').queue(function(next){
-							$('div.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').hide('explode', {}, 'slow', function(){
-								$(this).remove();
-							});
-							next();
-						});
-					}
-				}
-				if (response.hasOwnProperty('folderRemoved')){
-					if (response.folderRemoved === true){
-						$('#folder').find('option:selected').remove().end().val('0');
-					}
-				}
-
-			}
-		});
-	});
-
-	$(document).on('toggleActive', '.file-container', function(){
-		var $flag   = $(this).children('input.toremove');
-		var $parent = $(this).parent('.filebrowser-zone');
-
-        if ($flag.attr('checked')){
-			$flag.removeAttr('checked');
-			$(this).removeClass('active');
-			if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
-				$('#check-all').removeAttr('checked');
-			}
-		} else {
-			$(this).addClass('active');
-			$flag.attr('checked', 'checked');
-			if ($parent.find('.file-container:not(.active)').size() === 0){
-				btnCheckAll.attr('checked', 'checked');
-			}
-		}
-		btnCheckAll.button('refresh');
-	}).on('click', '.file-container', function(){
-		$(this).trigger('toggleActive');
-	}).on('click', '.file-container > input.toremove', function(event){
-        $(this).parent('.file-container').trigger('toggleActive');
+        maxHeight: 500,
+        width: 400,
+        resizable: false,
+        modal: true,
+        autoOpen: false
     });
 
-	/**
-	 * handling "check all" checkbox
-	 */
-	$(document).on('change', '#check-all', function() {
-		var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
-		if (this.checked === true) {
-			var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container:not(.active)')
-		} else {
-			var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
-		}
-		if (items.size()){
-			items.trigger('toggleActive');
-		}
-	});
-	$('#check-all-label').bind('click', function(){
-		$('#check-all').trigger('change');
-	});
+    $('#filebrowser').tabs({
+        select: function(event, ui) {
+            var total = $(ui.panel).find('input.toremove').size();
+            var checked = $(ui.panel).find('input.toremove:checked').size();
+            if (total > 0 && total === checked) {
+                btnCheckAll.prop('checked', true);
+            } else {
+                btnCheckAll.prop('checked', false);
+            }
+            btnCheckAll.button('refresh');
+        }
+    });
 
-	/**
-	 * function proccessing errors coming in ajax response to dialog box
-	 */
-	function proccessError(ajaxResponse){
-		//var dialogHolder = $('#ajax_msg');
-		var openFlag   = false;
+    $('.ui-tabs-nav').removeClass('ui-corner-all').addClass('ui-corner-top');
+
+    // disabling clicking on non-folder item
+    $('#folder>option:first').prop('disabled', true);
+
+    $('#folder').change(function(){
+        $('.filebrowser-zone').html('');
+        showSpinner();
+        $('.counter').text('');
+
+        if ($(this).val() == 0){
+            return false;
+        }
+
+        $('#check-all:checked').prop('checked', false);
+
+        $.ajax({
+            url: '<?php echo $this->url(array('action'=>'getdirectorycontent'));?>',
+            type: 'post',
+            data: {folder: $(this).val()},
+            dataType: 'json',
+            success: function(response){
+                $('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
+                $('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
+                hideSpinner();
+            }
+        });
+    });
+
+    /**
+     * Handler for delete
+     */
+    $(document).on('click', '#deleteBtn', function(event) {
+        event.preventDefault();
+        var fileForm = $('#removeForm');
+        if ($('#folder').val() === '0') {
+            proccessError({errorMsg: '<?php echo $this->translate('No folder specified');?>'});
+            return false;
+        }
+
+        if (fileForm.find('input.toremove:checked').size() == 0) {
+            proccessError({errorMsg: '<?php echo $this->translate('Nothing to remove');?>'});
+            return false;
+        }
+
+        $.ajax({
+            url: '<?php echo $this->url(array('action' => 'removefile'));?>',
+            type: 'post',
+            data: fileForm.serialize(),
+            dataType: 'json',
+            beforeSend: function(){
+                showSpinner()
+            },
+            complete: function(){
+                hideSpinner()
+            },
+            success: function(response) {
+                proccessError(response);
+
+                if (response.hasOwnProperty('deleted') && response.deleted.length > 0) {
+                    var removedFiles = [];
+                    for (var i in response.deleted) {
+                        $('#filebrowser').queue(function(next){
+                            $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').remove();
+                            next();
+                        });
+                    }
+                }
+                if (response.hasOwnProperty('folderRemoved')) {
+                    if (response.folderRemoved === true){
+                        $('#folder').find('option:selected').remove().end().val('0');
+                    }
+                }
+            }
+        });
+    });
+
+    $(document).on('toggleActive', '.file-container', function() {
+        var $flag   = $(this).children('input.toremove');
+        var $parent = $(this).parent('.filebrowser-zone');
+
+        if ($flag.prop('checked')){
+            $flag.prop('checked', false);
+            $(this).removeClass('active');
+            if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
+                $('#check-all').prop('checked', false);
+            }
+        } else {
+            $(this).addClass('active');
+            $flag.prop('checked', true);
+            if ($parent.find('.file-container:not(.active)').size() === 0){
+                btnCheckAll.prop('checked', true);
+            }
+        }
+        btnCheckAll.button('refresh');
+    }).on('click', '.file-container', function() {
+            $(this).trigger('toggleActive');
+        }).on('click', '.file-container > input.toremove', function(event) {
+            $(this).parent('.file-container').trigger('toggleActive');
+        });
+
+    /**
+     * handling "check all" checkbox
+     */
+    $(document).on('change', '#check-all', function() {
+        var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
+        if (this.checked === true) {
+            var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container:not(.active)')
+        } else {
+            var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
+        }
+        if (items.size()){
+            items.trigger('toggleActive');
+        }
+    });
+    $('#check-all-label').bind('click', function() {
+        $('#check-all').trigger('change');
+    });
+
+    /**
+     * function proccessing errors coming in ajax response to dialog box
+     */
+    function proccessError(ajaxResponse) {
+        //var dialogHolder = $('#ajax_msg');
+        var openFlag   = false;
         var errorsHtml = '';
-		//dialogHolder.html('');
+        //dialogHolder.html('');
 
-		if (ajaxResponse.hasOwnProperty('errorMsg')){
-			errorsHtml = $('#errorMsgTemplate').tmpl(ajaxResponse);
-			openFlag = true;
-		}
+        if (ajaxResponse.hasOwnProperty('errorMsg')){
+            errorsHtml = $('#errorMsgTemplate').tmpl(ajaxResponse);
+            openFlag = true;
+        }
 
-		if (ajaxResponse.hasOwnProperty('errors')){
-			if (ajaxResponse.errors !== false) {
-				openFlag = true;
-				errorsHtml = $('#fileErrorTemplate').tmpl(ajaxResponse.errors);
-			}
-		}
+        if (ajaxResponse.hasOwnProperty('errors')){
+            if (ajaxResponse.errors !== false) {
+                openFlag = true;
+                errorsHtml = $('#fileErrorTemplate').tmpl(ajaxResponse.errors);
+            }
+        }
 
-		if (openFlag){
+        if (openFlag){
             showMessage($('<div></div>').html(errorsHtml).html(), true);
-		}
-	}
-<?php $this->jQuery()->onLoadCaptureEnd();?>
+        }
+    }
+    <?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>
-
-<style type="text/css">
-    #check-all-label span {font-size: 15px;}
-	#filebrowser .filebrowser-zone {
-		overflow-y: auto;
-
-		height: 395px;
-		padding: 5px;
-	}
-	#filebrowser div.file-container {
-		margin-top: 5px;
-		position: relative;
-		height: 70px;
-		opacity: 1;
-		cursor: pointer;
-		-webkit-transition: opacity 0.5s ease;
-		-moz-transition: opacity 0.5s ease;
-		-o-transition: opacity 0.5s ease;
-		-ms-transition: opacity 0.5s ease;
-		transition: opacity 0.5s ease;
-	}
-	#filebrowser div.file-container.active {
-		opacity: 0.55;
-		outline: 1px solid red;
-	}
-	#filebrowser div.file-container:hover {
-		opacity: 0.5;
-	}
-	#filebrowser div.file-container img {
-		width: 100%;
-		height: 70px
-	}
-	#filebrowser input {
-		display: none !important;
-	}
-
-    #filebrowser-files div.file-container {
-        height: auto;
-    }
-    #filebrowser-files div.file-container label[data-type]::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        display: inline-block;
-        margin-right: 5px;
-        background: url(/system/images/filetypes.png) no-repeat top left;
-        background-position: 0 -34px;
-    }
-    #filebrowser-files div.file-container label[data-type$='.doc']::before{ background-position: 0 0;}
-    #filebrowser-files div.file-container label[data-type$='.exe']::before{ background-position: 0 -17px;}
-    #filebrowser-files div.file-container label[data-type$='.mov']::before{ background-position: 0 -51px;}
-    #filebrowser-files div.file-container label[data-type$='.mp3']::before{ background-position: 0 -68px;}
-    #filebrowser-files div.file-container label[data-type$='.pdf']::before{ background-position: 0 -85px;}
-    #filebrowser-files div.file-container label[data-type$='.psd']::before{ background-position: 0 -102px;}
-    #filebrowser-files div.file-container label[data-type$='.swf']::before{ background-position: 0 -119px;}
-    #filebrowser-files div.file-container label[data-type$='.txt']::before{ background-position: 0 -136px;}
-    #filebrowser-files div.file-container label[data-type$='.wmv']::before{ background-position: 0 -153px;}
-    #filebrowser-files div.file-container label[data-type$='.xls']::before{ background-position: 0 -170px;}
-    #filebrowser-files div.file-container label[data-type$='.zip']::before{ background-position: 0 -187px;}
-</style>

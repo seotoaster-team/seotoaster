@@ -1,0 +1,15 @@
+// Alert states
+//==================================================
+.alert-color(@color, @background, @border, @activate: true, @activate2: @activate-alternate-style-color, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+    background-color : @background;
+    border-color     : @border;
+    color            : @color;
+
+    hr{
+        background : darken(@border, 5%);
+    }
+
+    a{
+        color : darken(@color, 10%);
+    }
+}

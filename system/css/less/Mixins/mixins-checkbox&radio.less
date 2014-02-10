@@ -1,0 +1,143 @@
+.checkboxRadioStyle(@activate : @activate-checkbox-radio-style) when (@activate = true){
+    .checkbox_radio-wrap{
+        .inline-block;
+        cursor  : pointer;
+        margin  : 0;
+        padding : 0;
+    }
+    [type="checkbox"], [type="radio"]{
+        height   : auto;
+        position : absolute;
+        .opacity(0);
+
+        &~.checkbox_radio{
+            .inline-block;
+            font-size        : @checkbox-radio-width !important;
+            height           : 1em;
+            width            : 1em;
+            line-height      : 0;
+            background-color : @input-bg;
+            vertical-align   : middle;
+            border-style     : solid;
+            border-width     : @input-border-width;
+            border-color     : @input-border-color;
+            cursor           : pointer;
+
+            &:before{
+                font-family : 'toaster-icons';
+                content     : '';
+                display     : block;
+            }
+        }
+
+        &:disabled{
+            &~.checkbox_radio{
+                background   : @input-bg-disabled !important;
+                border-color : darken(@input-bg-disabled, 10%) !important;
+            }
+
+            &:checked{
+                &~.checkbox_radio{
+                    &:before{
+                        color      : darken(@input-bg-disabled, 30%) !important;
+                        background : darken(@input-bg-disabled, 30%) !important;
+                    }
+                }
+            }
+        }
+    }
+
+    [type="radio"]{
+        &~.checkbox_radio{
+            .border-radius(10em);
+
+            &:before{
+                width  : 0.75em;
+                height : 0.75em;
+                margin : 0.125em;
+                .border-radius(10em);
+            }
+        }
+
+        &:checked{
+            &~.checkbox_radio{
+                border-color : @primary-bg;
+
+                &:before{
+                    background : @primary-bg;
+                }
+            }
+        }
+    }
+
+    [type="checkbox"]{
+        &~.checkbox_radio{
+            &:before{
+                content   : '\e013';
+                color     : transparent;
+                font-size : @font-size-larger;
+                margin    : 0.15em 0 0
+            }
+        }
+
+        &:checked{
+            &~.checkbox_radio{
+                &:before{
+                    color : @primary-bg;
+                }
+            }
+        }
+
+        &.switcher{
+            &~.checkbox_radio{
+                overflow : hidden;
+                position : relative;
+                width    : 4em;
+                height   : 1.25em;
+
+                &:before, &:after{
+                    position    : static;
+                    font-family : @font-family-text;
+                    font-size   : @font-size-mini;
+                    line-height : @font-size-mini * 2.5;
+                    font-weight : bold;
+                    width       : 50%;
+                    text-align  : center;
+                    float       : left;
+                    margin      : 0;
+                }
+
+                &:before{
+                    content : "ON" !important;
+                    color   : @brand-green;
+                }
+
+                &:after{
+                    content : "OFF" !important;
+                    color   : @brand-red;
+                }
+
+                span{
+                    .transition(all, 0.3s);
+                    .box-sizing();
+                    background : @input-border-color;
+                    position   : absolute;
+                    border     : 1px solid @input-bg;
+                    z-index    : 5;
+                    left       : 0;
+                    top        : 0;
+                    bottom     : 0;
+                    width      : 50%;
+                }
+            }
+
+            &:checked{
+                &~.checkbox_radio{
+                    span{
+                        left : 50%;
+                    }
+                }
+            }
+        }
+    }
+}

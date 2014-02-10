@@ -75,25 +75,21 @@ class Application_Form_Page extends Zend_Form {
 			'filters'  => array('StringTrim')
 		)));
 
-		$this->addElement(new Zend_Form_Element_Textarea(array(
-			'name'     => 'metaDescription',
-			'id'       => 'meta-description',
-			'cols'     => '45',
-			'rows'     => '7',
-			'label'    => 'Meta description',
-			'class'    => 'h110',
-			'value'    => $this->_metaDescription,
+		$this->addElement(new Zend_Form_Element_Text(array(
+			'name'     => 'metaKeywords',
+			'id'       => 'meta-keywords',
+			'label'    => 'Meta keywords',
+			'value'    => $this->_metaKeywords,
 			'filters'  => array('StringTrim')
 		)));
 
 		$this->addElement(new Zend_Form_Element_Textarea(array(
-			'name'     => 'metaKeywords',
-			'id'       => 'meta-keywords',
+			'name'     => 'metaDescription',
+			'id'       => 'meta-description',
 			'cols'     => '45',
-			'rows'     => '3',
-			'label'    => 'Meta keywords',
-			'class'    => 'h70',
-			'value'    => $this->_metaKeywords,
+			'rows'     => '4',
+			'label'    => 'Meta description',
+			'value'    => $this->_metaDescription,
 			'filters'  => array('StringTrim')
 		)));
 
@@ -101,10 +97,8 @@ class Application_Form_Page extends Zend_Form {
 			'name'     => 'teaserText',
 			'id'       => 'teaser-text',
 			'cols'     => '45',
-			'rows'     => '3',
-			'label'    => 'Teaser Text',
+			'rows'     => '6',
 			'value'    => $this->_teaserText,
-			'class'    => array('hldd00', 'h130'),
 			'filters'  => array('StringTrim')
 		)));
 
@@ -124,6 +118,7 @@ class Application_Form_Page extends Zend_Form {
 			'name'         => 'pageCategory',
 			'id'           => 'page-category',
 			'label'        => 'Main menu',
+			'class'        => 'mb5px',
 			'multiOptions' => array(
 				'Seotoaster' => array(
 					Application_Model_Models_Page::IDCATEGORY_CATEGORY => 'This page is a category'
@@ -139,7 +134,7 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'extraOptions',
 			'id'           => 'page-options',
-			'label'        => 'This page is',
+			'class'        => 'grid_9 alpha omega',
 			'multiOptions' => array_merge(array('0' => 'Select an option'), Tools_Page_Tools::getPageOptions(true)),
 			'registerInArrayValidator' => false,
 			'value' => $this->_pageOption
@@ -176,11 +171,15 @@ class Application_Form_Page extends Zend_Form {
 			'value' => $this->_publishAt
 		)));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'updatePage',
 			'id'    => 'update-page',
+			'form'  => 'frm-page',
+			'type'  => 'submit',
 			'value' => 'Save page',
-			'label' => 'Save page'
+			'class' => 'icon-save',
+			'label' => 'Save page',
+			'escape'=> false
 		)));
 
 		//$this->setDecorators(array('ViewScript'));

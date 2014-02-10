@@ -1,0 +1,146 @@
+#seotoaster-cpanel {
+  width: 200px;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  z-index: 1001;
+  background: #ffffff;
+  -webkit-box-shadow: 0 0 10px #333333;
+  -moz-box-shadow: 0 0 10px #333333;
+  -ms-box-shadow: 0 0 10px #333333;
+  box-shadow: 0 0 10px #333333;
+}
+#seotoaster-cpanel * {
+  /*Reset style*/
+
+  width: auto;
+  height: auto;
+  background: transparent;
+  border: 0 none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  position: static;
+  padding: 0;
+  vertical-align: baseline;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  border-radius: 0;
+  -webkit-transition: none 0.5s ease;
+  -moz-transition: none 0.5s ease;
+  -ms-transition: none 0.5s ease;
+  transition: none 0.5s ease;
+  /*end reset*/
+
+}
+#seotoaster-cpanel *:hover,
+#seotoaster-cpanel *:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}
+#seotoaster-cpanel:hover {
+  z-index: 1005;
+}
+#seotoaster-cpanel > * {
+  background: #fff;
+  position: relative;
+  width: 200px;
+}
+#seotoaster-cpanel #showhide a {
+  text-decoration: none;
+  background: #666666;
+  color: #ffffff;
+  font-size: 11pt;
+  padding: 6px 12px;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+}
+#seotoaster-cpanel #seotoaster-logowrap {
+  background: #fff;
+  text-align: center;
+}
+#seotoaster-cpanel #seotoaster-logowrap img {
+  max-width: 200px;
+}
+#seotoaster-cpanel #seotoaster-logowrap #system-version {
+  font-family: tahoma, geneva, verdana, sans-serif !important;
+  font-size: 7px !important;
+  text-align: right;
+  padding-right: 5px;
+}
+#seotoaster-cpanel #cpanelul {
+  margin: 0;
+}
+#seotoaster-cpanel #cpanelul li {
+  list-style: none;
+  margin: 0;
+}
+#seotoaster-cpanel #cpanelul li a {
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 4px 8px;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-header {
+  background: #666666;
+  margin: 0 0 1px;
+  font-weight: bold;
+  color: #ffffff;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-header:hover {
+  background: #595959;
+  color: #ffffff;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-header.ui-accordion-header-active {
+  background: #595959;
+  color: #ffffff;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-content {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-content li + li {
+  border-top: 1px dashed #eaeaea;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-content a {
+  background: none;
+  color: #59a5c3;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-content a:hover {
+  color: #377d98;
+}
+#seotoaster-cpanel #cpanelul li .ui-accordion-content .cpanelsubtitle {
+  padding: 6px 12px;
+  background: #eeeeee;
+}
+#seotoaster-cpanel #logoutul {
+  margin: 0;
+}
+#seotoaster-cpanel #logoutul li {
+  list-style: none;
+  margin: 0;
+}
+#seotoaster-cpanel #logoutul li a {
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 16px;
+  color: #eaeaea;
+  background: #666666;
+  padding: 6px 12px;
+}
+#seotoaster-cpanel #logoutul li a:hover {
+  background: #d15e52;
+}

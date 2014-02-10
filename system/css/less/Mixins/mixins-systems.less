@@ -1,0 +1,362 @@
+// Font-face
+//==================================================
+.font-face(@fontname, @fontfile, @fontweight : normal, @fontstyle: normal) {
+    @font-face{
+        font-family : "@{fontname}";
+        src         : url("../fonts/@{fontfile}.eot");
+        src         : url("../fonts/@{fontfile}.eot?#iefix") format("embedded-opentype"), url("../fonts/@{fontfile}.svg#@{fontname}") format("svg"), url("../fonts/@{fontfile}.woff") format("woff"), url("../fonts/@{fontfile}.ttf") format("truetype");
+        font-weight : @fontweight;
+        font-style  : @fontstyle;
+    }
+}
+
+// Grid system
+//==================================================
+.grid (@grid : @grid-columns, @prefix : ~'', @num-column : 1, @switch : true) when (@grid >= @num-column){
+    .@{prefix}grid_@{num-column}{
+        width : round(percentage((@num-column / @grid)) - @grid-margin-width, 3);
+        &.alpha, &.omega{
+            width : round(percentage(@num-column / @grid) - @grid-margin-width / 2, 3);
+        }
+        &.alpha.omega{
+            width : round(percentage(@num-column / @grid), 3);
+        }
+    }
+
+    .grid(@grid, @prefix, @num-column + 1, false);
+    .activate-grid-element(@switch);
+}
+.grid-mobile(@response : @activate-responsive, @adaptive : @activate-adaptive) when (@response = true), (@adaptive = true){
+    .type-of-development(@activate : @activate-responsive) when (@activate = true){
+        @responsive-size-mobile-over : @responsive-size-mobile + 1;
+        @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
+            .t-hide{ display : none; }
+            .grid(@grid-columns-tablet, t-);
+        }
+
+        @media only screen and (max-width : @responsive-size-mobile){
+            .m-hide{ display : none; }
+            .grid(@grid-columns-mobile, m-);
+        }
+    }
+    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true) and (@activate2 = false){
+        .tablet{
+            .t-hide{ display : none; }
+            .grid(@grid-columns-tablet, t-);
+        }
+
+        .mobile{
+            .m-hide{ display : none; }
+            .grid(@grid-columns-mobile, m-);
+        }
+    }
+    .type-of-development();
+}
+
+.activate-grid-element(@activate) when (@activate = true){
+    .@{prefix}alpha{ margin-left : 0; }
+    .@{prefix}omega{ margin-right : 0; }
+    .prefix(@grid, @prefix, @num-column);
+    .suffix(@grid, @prefix, @num-column);
+    .push(@grid, @prefix, @num-column);
+    .pull(@grid, @prefix, @num-column);
+}
+
+.prefix(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
+    .@{prefix}prefix_@{num-column}{
+        margin-left : round(percentage(@num-column / @grid) + @grid-margin-width / 2, 2);
+        &.alpha{
+            margin-left : round(percentage(@num-column / @grid), 2);
+        }
+    }
+    .prefix(@grid, @prefix, @num-column + 1);
+}
+
+.suffix(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
+    .@{prefix}suffix_@{num-column}{
+        margin-right : round(percentage(@num-column / @grid) + @grid-margin-width / 2, 2);
+        &.omega{
+            margin-right : round(percentage(@num-column / @grid), 2);
+        }
+    }
+    .suffix(@grid, @prefix, @num-column + 1);
+}
+
+.pull(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
+    .@{prefix}pull_@{num-column}{
+        left : round(percentage(@num-column / @grid) * -1, 2);
+    }
+    .pull(@grid, @prefix, @num-column + 1);
+}
+
+.push(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
+    .@{prefix}push_@{num-column}{
+        left : round(percentage(@num-column / @grid), 2);
+    }
+    .push(@grid, @prefix, @num-column + 1);
+}
+
+// Margin - Padding
+//==================================================
+.margin-list(@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
+    @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
+
+    .result(@v, @n, @p) when (@p = all){
+        .m@{n}{ margin : @v; }
+    }
+    .result(@v, @n, @p) when (@p = top){
+        .mt@{n}{ margin-top : @v; }
+    }
+    .result(@v, @n, @p) when (@p = right){
+        .mr@{n}{ margin-right : @v; }
+    }
+    .result(@v, @n, @p) when (@p = bottom){
+        .mb@{n}{ margin-bottom : @v; }
+    }
+    .result(@v, @n, @p) when (@p = left){
+        .ml@{n}{ margin-left : @v; }
+    }
+
+    .result(@value, @name, @position) !important;
+    .margin-list(@value - @step, @position, @step);
+}
+
+.padding-list(@value, @position:all, @step:5) when (@value >= 0) and not (@value = none){
+    @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
+
+    .result(@v, @n, @p) when (@p = all){
+        .p@{n}{ padding : @v; }
+    }
+    .result(@v, @n, @p) when (@p = top){
+        .pt@{n}{ padding-top : @v; }
+    }
+    .result(@v, @n, @p) when (@p = right){
+        .pr@{n}{ padding-right : @v; }
+    }
+    .result(@v, @n, @p) when (@p = bottom){
+        .pb@{n}{ padding-bottom : @v; }
+    }
+    .result(@v, @n, @p) when (@p = left){
+        .pl@{n}{ padding-left : @v; }
+    }
+
+    .result(@value, @name, @position) !important;
+    .padding-list(@value - @step, @position, @step);
+}
+
+.position-list(@value, @position, @step:5) when (@value >= 0) and not (@value = none){
+    @name : e(`(function(){ var a = "@{value}"; return a.replace('%', '').replace('.', '-')}())`);
+
+    .result(@v, @n, @p) when (@p = top){
+        .t@{n}{ top : @v; }
+    }
+    .result(@v, @n, @p) when (@p = right){
+        .r@{n}{ right : @v; }
+    }
+    .result(@v, @n, @p) when (@p = bottom){
+        .b@{n}{ bottom : @v; }
+    }
+    .result(@v, @n, @p) when (@p = left){
+        .l@{n}{ left : @v; }
+    }
+
+    .result(@value, @name, @position) !important;
+    .position-list(@value - @step, @position, @step);
+}
+
+// Width - Height
+//==================================================
+.width-list(@width, @step:5) when (@width >= 0) and not (@width = none){
+    @name : e(`(function(){ var a = "@{width}"; return a.replace('%', '')}())`);
+
+    .result(@w, @n) {
+        .w@{n}{ width : @w; }
+    }
+    .result(@width, @name);
+    .width-list(@width - @step, @step);
+}
+.height-list(@height, @step:5) when (@height >= 0) and not (@height = none){
+    @name : e(`(function(){ var a = "@{height}"; return a.replace('%', '')}())`);
+
+    .result(@h, @n) {
+        .h@{n}{ height : @h; }
+    }
+    .result(@height, @name);
+    .height-list(@height - @step, @step);
+}
+
+// Text overflow
+// Requires inline-block or block for proper styling
+//==================================================
+.text-overflow() {
+    overflow      : hidden;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+}
+// Opacity
+//==================================================
+.opacity(@opacity: 0.5) {
+    opacity : @opacity;
+    .activate-support-ie8(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        @opperc : @opacity * 100;
+        filter : ~"alpha(opacity=@{opperc})";
+    }
+    .activate-support-ie8(@ie8, @ie);
+}
+
+// Display: inline-block
+//==================================================
+.inline-block-wrap(@valign : middle, @el : ~'>*') {
+    font-size : 0;
+
+    @{el}{
+        .inline-block(@valign);
+        .font-size-unit(@unit : @font-size-base) when (isem(@unit)){ font-size : @font-size-base * 16; }
+        .font-size-unit(@unit : @font-size-base) when not (isem(@unit)){ font-size : @font-size-base; }
+        .font-size-unit();
+    }
+}
+
+.inline-block(@valign : middle) {
+    display        : inline-block;
+    vertical-align : @valign;
+    .activate-support-ie7(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+        *zoom    : 1; // Fix for IE7
+        *display : inline; // Fix for IE7
+    }
+    .activate-support-ie7(@ie7, @ie);
+}
+
+// Hide text
+//==================================================
+.hide-text() {
+    font        : 0/0 a;
+    text-shadow : none;
+}
+
+// CSS3 support in ie
+//==================================================
+.pie(@pie : @activate-pie) when (@pie = true){
+    behavior : url('../js/system/PIE.php');
+}
+
+// -- Grid Elements
+.grid-elements(@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@margin = 0), (@full = false){
+    width : (100% / @num-column) - @margin;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+        margin-left  : unit(@margin / 2, ~"%") !important;
+        margin-right : unit(@margin / 2, ~"%");
+    }
+    .activate-style-switch(@style-switch);
+
+    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true), (@activate2 = true){
+        .grid-elements-tablet(@tablet-column, @margin, @full);
+        .grid-elements-mobile(@mobile-column, @margin, @full);
+    }
+    .type-of-development();
+}
+
+.grid-elements(@num-column, @margin, @full, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@num-column > 1) and (@full = true) and (@margin > 0){
+    width        : (100% / @num-column) - @margin + (@margin / @num-column);
+    margin-left  : unit(@margin, ~"%");
+    margin-right : 0;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+    }
+    .activate-style-switch(@activate) when (@activate = false){
+        &:nth-child(n){ margin-left : unit(@margin, ~"%"); }
+    }
+    .activate-style-switch(@style-switch);
+
+    @num : ~'@{num-column}n + 1';
+    &:nth-child(@{num}){
+        margin-left : 0;
+    }
+
+    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true), (@activate2 = true){
+        .grid-elements-tablet(@tablet-column, @margin, @full);
+        .grid-elements-mobile(@mobile-column, @margin, @full);
+    }
+    .type-of-development();
+}
+
+.grid-elements (@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@num-column = 1) and (@full = true){
+    width       : 100%;
+    margin-left : 0;
+
+    .activate-style-switch(@activate) when (@activate = true){
+        .box-sizing;
+    }
+    .activate-style-switch(@style-switch);
+
+    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true), (@activate2 = true){
+        .grid-elements-tablet(@tablet-column, @margin, @full);
+        .grid-elements-mobile(@mobile-column, @margin, @full);
+    }
+    .type-of-development();
+}
+
+.grid-elements-tablet(@tablet-column, @margin, @full) when (@tablet-column > 0){
+    //    .type-of-development(@activate : @activate-responsive) when (@activate = true){
+    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+    @media only screen and (max-width : @responsive-size-tablet) and  (min-width : @responsive-size-mobile-over){
+        .grid-elements(@tablet-column, @margin, @full, 0, 0, false);
+    }
+    //    }
+    //    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true) and (@activate2 = false){
+    //        .tablet &{
+    //            .grid-elements(@tablet-column, @margin, @full, 0, 0, false);
+    //        }
+    //    }
+    //    .type-of-development();
+}
+
+.grid-elements-mobile(@mobile-column, @margin, @full) when (@mobile-column > 0){
+    //    .type-of-development(@activate : @activate-responsive) when (@activate = true){
+    @media only screen and (max-width : @responsive-size-mobile){
+        .grid-elements(@mobile-column, @margin, @full, 0, 0, false);
+    }
+    //    }
+    //    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true) and (@activate2 = false){
+    //        .mobile &{
+    //            .grid-elements(@mobile-column, @margin, @full, 0, 0, false);
+    //        }
+    //    }
+    //    .type-of-development();
+}
+
+// Icon size
+//==================================================
+.icon-size(@size) when (@size > 0){
+    width       : @size;
+    height      : @size;
+    line-height : @size;
+    font-size   : 0 !important;
+
+    &:before{
+        font-size : @size;
+    }
+}
+
+// Resize anything
+//==================================================
+.resize(@direction:none) {
+    resize   : @direction; // Options: horizontal, vertical, both, none
+    overflow : auto; // Safari fix
+}
+
+// ClearFix
+//==================================================
+.clearfix() {
+    &:after{
+        content    : "";
+        clear      : both;
+        display    : block;
+        overflow   : hidden;
+        visibility : hidden;
+        height     : 0;
+    }
+}

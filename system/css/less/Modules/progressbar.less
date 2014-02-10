@@ -1,0 +1,122 @@
+.ui-progressbar{
+    position    : relative;
+    height      : @progressbar-size;
+    border      : 1px solid @progressbar-border-color;
+    background  : @progressbar-bg;
+    text-align  : left;
+    line-height : @progressbar-size;
+    .box-sizing;
+
+    .ui-progressbar-value{
+        height     : 100%;
+        background : @progressbar-range-bg;
+    }
+
+    .label{
+        position       : absolute;
+        top            : 0;
+        left           : 0.5em;
+        bottom         : 0;
+        z-index        : 5;
+        text-transform : uppercase;
+        font-size      : @font-size-small;
+        color          : rgba(0, 0, 0, 0.7);
+        font-weight    : bold;
+
+        b{
+            &:after{
+                content : '%';
+            }
+        }
+    }
+
+    // Alternate progressbar
+    // --------------------------------------------------
+    .activate(@activate) when (@activate = true){
+        .activate-color-green(@activate) when (@activate = true){
+            &.success{
+                background   : @state-green-bg;
+                border-color : @state-green-border;
+
+                .ui-progressbar-value{
+                    background : @state-green-text;
+                }
+            }
+        }
+        .activate-color-orange(@activate) when (@activate = true){
+            &.warning{
+                background   : @state-orange-bg;
+                border-color : @state-orange-border;
+
+                .ui-progressbar-value{
+                    background : @state-orange-text;
+                }
+            }
+        }
+        .activate-color-red(@activate) when (@activate = true){
+            &.error{
+                background   : @state-red-bg;
+                border-color : @state-red-border;
+
+                .ui-progressbar-value{
+                    background : @state-red-text;
+                }
+            }
+        }
+        .activate-color-blue(@activate) when (@activate = true){
+            &.info{
+                background   : @state-blue-bg;
+                border-color : @state-blue-border;
+
+                .ui-progressbar-value{
+                    background : @state-blue-text;
+                }
+            }
+        }
+        .activate-color-green(@activate-alternate-style-color-green);
+        .activate-color-orange(@activate-alternate-style-color-orange);
+        .activate-color-red(@activate-alternate-style-color-red);
+        .activate-color-blue(@activate-alternate-style-color-blue);
+    }
+    .activate(@activate-alternate-style);
+}
+
+[id*="-filelist"]{
+    .ui-widget{
+        .ui-state-highlight, .ui-state-error{
+            overflow      : hidden;
+            margin-bottom : 0.2em;
+            font-size     : @font-size-small;
+            padding       : 0 @padding-small-vertical;
+            height        : @progressbar-size;
+            line-height   : @progressbar-size;
+
+            p{
+                margin      : 0;
+                position    : relative;
+                z-index     : 5;
+                max-width   : 93%;
+                color       : rgba(0, 0, 0, 0.7);
+                height      : @progressbar-size - 2;
+                line-height : @progressbar-size - 2;
+                .inline-block;
+                .text-overflow;
+
+                &+.ui-progressbar{
+                    margin : -@progressbar-size -@padding-small-vertical 0;
+                }
+            }
+
+            .ui-icon{
+                .icon-size(@font-size-base);
+                float      : right;
+                margin-top : 2px;
+                color      : @brand-blue;
+            }
+
+            .ui-icon-alert{
+                color : @brand-red;
+            }
+        }
+    }
+}

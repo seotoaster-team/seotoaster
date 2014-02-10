@@ -1,0 +1,146 @@
+.ui-dialog{
+    font-size        : @font-size-base;
+    background-color : @body-bg;
+    position         : absolute;
+    padding          : 0;
+    z-index          : 1002;
+
+    body>&[aria-describedby="toasterPopup"]{
+        position    : fixed;
+        border      : none;
+        top         : 0 !important;
+        bottom      : 0 !important;
+        left        : 0 !important;
+        right       : 0 !important;
+        margin      : auto !important;
+        line-height : 0;
+        .box-shadow(3px 3px 10px #000);
+
+        &.screen-expand{
+            height    : 100% !important;
+            min-width : 960px;
+        }
+
+        iframe{
+            background-image    : url("../images/spinner.gif");
+            background-position : center center;
+            background-repeat   : no-repeat;
+        }
+    }
+
+    .ui-dialog-titlebar{
+        background  : @header-bg;
+        color       : @header-color;
+        position    : relative;
+        overflow    : hidden;
+        line-height : 40px;
+        height      : 40px;
+        padding     : 0 @grid-margin-width/2;
+        font-size   : @font-size-large;
+        text-align  : right;
+
+        &>*{
+            font-size : @font-size-base;
+        }
+
+        .ui-draggable&{
+            cursor : move;
+        }
+
+        .ui-dialog-title{
+            float          : left;
+            max-width      : 90%;
+            text-transform : capitalize;
+            font-size      : inherit;
+            .text-overflow;
+        }
+
+        .ui-dialog-titlebar-close{
+            vertical-align : middle;
+            .link-color(@gray-dark, @brand-red);
+
+            &:hover{}
+
+            .ui-icon-closethick{
+                .icon-size(13px);
+            }
+
+            .ui-button-text{
+                display : none;
+            }
+        }
+    }
+    .ui-dialog-content{
+        position   : relative;
+        border     : 0;
+        padding    : 0 @grid-margin-width/2;
+        background : @body-bg;
+        overflow   : auto;
+    }
+    .ui-dialog-buttonpane{
+        overflow         : hidden;
+        text-align       : left;
+        border-width     : 1px 0 0 0;
+        background-image : none;
+        margin-bottom    : 15px;
+        padding          : 0 @grid-margin-width/2;
+
+        .ui-dialog-buttonset{
+            float : right;
+        }
+
+        .ui-dialog-buttonpane button{
+            margin : .5em .4em .5em 0;
+            cursor : pointer;
+        }
+    }
+    .ui-resizable-se{
+        width               : 12px;
+        height              : 12px;
+        right               : -5px;
+        bottom              : -5px;
+        background-position : 16px 16px;
+    }
+}
+
+@media only screen and (max-height : @tpopup-base-height){
+    (~'body>[aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"]'){
+        margin-top : 0 !important;
+    }
+}
+
+@media only screen and (max-height : @tpopup-medium-height){
+    (~'body>[aria-describedby="toasterPopup"][style*="height: @{tpopup-medium-height};"]'){
+        margin-top : 0 !important;
+    }
+}
+
+@media only screen and (max-height : @tpopup-small-height){
+    (~'body>[aria-describedby="toasterPopup"][style*="height: @{tpopup-small-height};"]'){
+        margin-top : 0 !important;
+    }
+}
+
+@media only screen and (max-width : @tpopup-base-width){
+    (~'body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-base-width};"]'){
+        margin-left : 0 !important;
+    }
+}
+
+@media only screen and (max-width : @tpopup-medium-width){
+    (~'body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-medium-width};"]'){
+        margin-left : 0 !important;
+    }
+}
+
+@media only screen and (max-width : @tpopup-small-width){
+    (~'body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"]'){
+        margin-left : 0 !important;
+    }
+}
+
+.ui-overlay+.ui-widget-content{
+    background : @body-bg;
+    z-index    : 1001;
+    .box-shadow(3px 3px 10px #000);
+}

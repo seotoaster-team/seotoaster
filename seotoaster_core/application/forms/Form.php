@@ -57,7 +57,7 @@ class Application_Form_Form extends Zend_Form {
 		)));
 
         //new Zend_Validate_Alnum(array('allowWhiteSpace' => true))
-        
+
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'reply-from',
 			'name'       => 'replyFrom',
@@ -137,8 +137,12 @@ class Application_Form_Form extends Zend_Form {
 			'value' => $this->_id
 		)));
 
-        $this->addElement('submit', 'submit', array(
-			'label' => 'Save'
+        $this->addElement('button', 'submit', array(
+			'label' => '<span class="icon-save"></span> Save',
+            'type'  => 'submit',
+            'class' => 'grid_3 omega',
+            'form'   => 'formWidget',
+            'escape'=> false
 		));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));

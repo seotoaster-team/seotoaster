@@ -66,71 +66,62 @@ class Backend_PluginController extends Zend_Controller_Action {
 		return $prepared;
 	}
 
-	public function triggerinstallAction() {
-		if($this->getRequest()->isPost()) {
-			$pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
-			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
-			$miscData     = Zend_Registry::get('misc');
+    public function triggerinstallAction() {
+        if ($this->getRequest()->isPost()) {
+            $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
+            $plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
+            $miscData     = Zend_Registry::get('misc');
+            $statusFile   = ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) ? Application_Model_Models_Plugin::INSTALL_FILE_NAME : Application_Model_Models_Plugin::UNINSTALL_FILE_NAME;
+            $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
 
-			$sqlFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] . $plugin->getName() . '/system/' .
-						   (($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED) ? Application_Model_Models_Plugin::INSTALL_FILE_NAME : Application_Model_Models_Plugin::UNINSTALL_FILE_NAME);
+            if (file_exists($sqlFilePath)) {
+                try {
+                    $sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
+                    if (strlen($sqlFileContent)) {
+                        //@todo change unsafe explode in next line
+                        $queries = Tools_System_SqlSplitter::split($sqlFileContent);
+                        if (is_array($queries) && !empty ($queries)) {
+                            $dbAdapter = Zend_Registry::get('dbAdapter');
+                            try {
+                                array_walk($queries, function($query, $key, $adapter) {
+                                    if(strlen(trim($query))) {
+                                        $adapter->query($query);
+                                    }
+                                }, $dbAdapter);
+                            }
+                            catch (Exception $e) {
+                                error_log($e->getMessage());
+                                $this->_helper->response->fail($e->getMessage());
+                            }
+                        }
+                    }
+                }
+                catch (Exceptions_SeotoasterPluginException $se) {
+                    error_log($se->getMessage());
+                    $this->_helper->response->fail($se->getMessage());
+                }
+            }
 
-			if(file_exists($sqlFilePath)) {
-				try {
-					$sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
-					if(strlen($sqlFileContent)) {
-						$queries = Tools_System_SqlSplitter::split($sqlFileContent);
-						if(is_array($queries) && !empty ($queries)) {
-							/**
-							 * @var $dbAdapter Zend_Db_Adapter_Abstract
-							 */
-							$dbAdapter = Zend_Registry::get('dbAdapter');
-							try {
-								$dbAdapter->beginTransaction();
-								array_walk($queries, function($query, $key, $adapter) {
-									if(strlen(trim($query))) {
-										$adapter->query($query);
-									}
-								}, $dbAdapter);
-								$dbAdapter->commit();
-							}
-							catch (Exception $e) {
-								$dbAdapter->rollBack();
-								$eMsg = $e->getMessage();
-								Tools_System_Tools::debugMode() && error_log($eMsg);
-								$this->_helper->response->fail($eMsg);
-							}
-						}
-					}
-				}
-				catch(Exceptions_SeotoasterPluginException $se) {
-					error_log($se->getMessage());
-					$this->_helper->response->fail($se->getMessage());
-				}
-			}
+            $plugin->registerObserver(new Tools_Plugins_GarbageCollector(
+                array('action' => $statusFile)
+            ));
 
-			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(
-				array('action' => ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED) ? Tools_System_GarbageCollector::CLEAN_ONCREATE : Tools_System_GarbageCollector::CLEAN_ONDELETE)
-			));
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
+                $pluginMapper->save($plugin);
+                $this->view->buttonText  = 'Uninstall';
+                $this->view->endisButton = true;
+            }
+            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != NULL) {
+                $pluginMapper->delete($plugin);
+                $this->view->buttonText = 'Install';
+                $this->view->endisButton = false;
+            }
 
-			if($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED) {
-				$plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
-				$pluginMapper->save($plugin);
-				$this->view->buttonText  = 'Uninstall';
-				$this->view->endisButton = true;
-			}
-
-			elseif($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) {
-
-				$pluginMapper->delete($plugin);
-
-				$this->view->buttonText = 'Install';
-				$this->view->endisButton = false;
-			}
-			$this->_helper->cache->clean(null, null, array('plugins'));
-			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
-		}
-	}
+            $this->_helper->cache->clean(null, null, array('plugins'));
+            $this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
+        }
+    }
 
 	public function triggerAction() {
 		if($this->getRequest()->isPost()) {
