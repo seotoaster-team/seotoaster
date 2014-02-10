@@ -54,9 +54,11 @@
         <p class="grid_6 text-center">Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
         <div class="what-new">
             <ul>
-                <?php foreach ($this->whatIsNew as $news) : ?>
-                    <li><?php echo $news ?></li>
-                <?php endforeach ?>
+                <?php if (is_array($this->whatIsNew)) : ?>
+                    <?php foreach ($this->whatIsNew as $news) : ?>
+                        <li><?php echo $news ?></li>
+                    <?php endforeach ?>
+                <?php endif ?>
             </ul>
         </div>
     </div>

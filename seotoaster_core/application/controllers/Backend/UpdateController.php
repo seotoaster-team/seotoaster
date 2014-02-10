@@ -132,14 +132,14 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 2) {
             if ($this->_session->withoutBackup === false) {
-                $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, self::BACKUP_NAME);
+                $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, time() . '-' . self::BACKUP_NAME);
                 if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
                     return $this->_helper->response->success(
                         array(
                             'status' => 1,
                             'message' => $this->_helper->language->translate(
-                                    'Backup created. Path to backup: "' . $this->_tmpPath . 'backup.zip" Downloading started.'
+                                    'Backup created. Path to backup: "' . $this->_tmpPath . array_shift(glob($this->_tmpPath . '*-' .self::BACKUP_NAME)) .' Downloading started.'
                                 )
                         )
                     );
@@ -214,7 +214,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
             } else {
                 if ($this->_session->withoutBackup === false) {
-                    $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, self::BACKUP_NAME);
+                    $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, array_shift(glob($this->_tmpPath . '*-' .self::BACKUP_NAME)));
                     return $this->_helper->response->fail(
                         array(
                             'status' => 0,
