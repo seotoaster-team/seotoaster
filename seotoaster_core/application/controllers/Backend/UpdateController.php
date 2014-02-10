@@ -211,13 +211,35 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
             }
         }
+
         /**
-         *  Step 5: Replace the files. And puts NextStep = 6
+         *  Step 5: Altering DataBase. And puts NextStep = 6
          */
         if ($this->_session->nextStep === 5) {
-            $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            $result = $this->_updateDataBase();
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 6;
+                return $this->_helper->response->success(
+                    array('status' => 1, 'message' => $this->_helper->language->translate('Database altered.'))
+                );
+
+            } else {
+                return $this->_helper->response->fail(
+                    array(
+                        'status' => 0,
+                        'message' => $this->_helper->language->translate('Unsuccessful attempt to altering database.')
+                    )
+                );
+            }
+        }
+
+        /**
+         *  Step 6: Replace the files. And puts NextStep = 7
+         */
+        if ($this->_session->nextStep === 6) {
+            $result = true; //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            if (isset($result) && $result === true) {
+                $this->_session->nextStep = 7;
                 return $this->_helper->response->success(
                     array('status' => 1, 'message' => $this->_helper->language->translate('Toaster files copied.'))
                 );
@@ -240,27 +262,6 @@ class Backend_UpdateController extends Zend_Controller_Action
                         )
                     );
                 }
-            }
-        }
-
-        /**
-         *  Step 6: Altering DataBase. And puts NextStep = 7
-         */
-        if ($this->_session->nextStep === 6) {
-            $result = $this->_updateDataBase();
-            if (isset($result) && $result === true) {
-                $this->_session->nextStep = 7;
-                return $this->_helper->response->success(
-                    array('status' => 1, 'message' => $this->_helper->language->translate('Database altered.'))
-                );
-
-            } else {
-                return $this->_helper->response->fail(
-                    array(
-                        'status' => 0,
-                        'message' => $this->_helper->language->translate('Unsuccessful attempt to altering database.')
-                    )
-                );
             }
         }
 
@@ -392,7 +393,11 @@ class Backend_UpdateController extends Zend_Controller_Action
             $select = $dbAdapter->select()->from('shopping_config', array('value'))->where('name = ?', 'version');
             $dbVersion = $dbAdapter->fetchRow($select);
             $storeAlters = stristr(
-                trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/store-alters.sql')),
+                trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/store-alters.sql')),
+                '-- version: ' . $dbVersion['value']
+            );
+            $revertStoreAlters = stristr(
+                trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/revert-store-alters.sql')),
                 '-- version: ' . $dbVersion['value']
             );
         }
@@ -400,20 +405,32 @@ class Backend_UpdateController extends Zend_Controller_Action
         $select = $dbAdapter->select()->from('config', array('value'))->where('name = ?', 'version');
         $dbVersion = $dbAdapter->fetchRow($select);
         $alters = stristr(
-            trim(Tools_Filesystem_Tools::getFile($this->_websitePath . '_install/alters.sql')),
+            trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/alters.sql')),
             '-- version: ' . $dbVersion['value']
         );
+        $revertAlters = stristr(
+            trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/revert-alters.sql')),
+            '-- version: ' . $dbVersion['value']
+        );
+
         if (!empty($storeAlters)) {
             $alters = $alters . ' ' .$storeAlters;
         }
+        if (!empty($revertStoreAlters)) {
+            $revertAlters = $revertAlters . ' ' .$revertStoreAlters;
+        }
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
+        $revertSqlAlters = Tools_System_SqlSplitter::split($revertAlters);
         try {
             foreach ($sqlAlters as $alter) {
                 $dbAdapter->query($alter);
             }
             return true;
         } catch (Exception $ex) {
+            foreach ($revertSqlAlters as $revertAlter) {
+                $dbAdapter->query($revertAlter);
+            }
             error_log($ex->getMessage());
             return false;
         }
