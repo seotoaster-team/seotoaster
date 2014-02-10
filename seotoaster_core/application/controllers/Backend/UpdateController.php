@@ -65,7 +65,8 @@ class Backend_UpdateController extends Zend_Controller_Action
             $master_versions = explode("\n", file_get_contents($master_link));
             $this->_remoteVersion = filter_var($master_versions [0], FILTER_SANITIZE_STRING);
             $this->_downloadLink = filter_var($master_versions [1], FILTER_SANITIZE_URL);
-            $this->_whatIsNew = explode("\n", stristr($whatIsNew, 'Version: ' . $this->_remoteVersion));
+            $this->_whatIsNew = explode("\n", stristr(trim($whatIsNew), 'Version: ' . $this->_remoteVersion));
+            array_shift($this->_whatIsNew);
         } catch (Exceptions_SeotoasterException $se) {
             if (self::debugMode()) {
                 error_log($se->getMessage());
@@ -77,7 +78,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->remoteVersion = $this->_remoteVersion;
-        if (count($this->_whatIsNew) > 1) {
+        if (count($this->_whatIsNew)) {
             $this->view->whatIsNew = $this->_whatIsNew;
         }
         if ($this->_storeVersion) {
@@ -89,20 +90,6 @@ class Backend_UpdateController extends Zend_Controller_Action
             $this->_session->nextStep = 1;
         }
     }
-
-    /**
-     * Remove backup file if exist.
-     * @return mixed
-     */
-/*    public function cleanupAction()
-    {
-        if (file_exists($this->_tmpPath . self::BACKUP_NAME)) {
-            unlink($this->_tmpPath . self::BACKUP_NAME);
-            return $this->_helper->response->success($this->_helper->language->translate('Backup removed.'));
-        } else {
-            return $this->_helper->response->fail($this->_helper->language->translate('No backup file.'));
-        }
-    }*/
 
     /**
      * The main method of updating
