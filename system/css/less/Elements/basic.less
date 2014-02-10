@@ -146,12 +146,13 @@ body{
 .content, .content-footer,
 .content-medium, .content-medium-footer,
 .content-small, .content-small-footer{
-    position      : static;
-    background    : @body-bg;
-    margin-top    : 0 !important;
-    margin-bottom : 0 !important;
-    padding-top   : 10px;
-    clear         : both;
+    position       : static;
+    background     : @body-bg;
+    margin-top     : 0 !important;
+    margin-bottom  : 0 !important;
+    padding-top    : 10px;
+    padding-bottom : 5px;
+    clear          : both;
     .box-sizing();
     .clearfix();
 
@@ -207,6 +208,7 @@ body{
     @padding-top: @footer-height - @btn-height-base - 10px;
     .box-sizing;
     clear       : both;
+    margin-top  : 0;
     padding     : @padding-top 0 10px;
     height      : @footer-height;
     line-height : @footer-height - 10px - @padding-top;
@@ -221,7 +223,7 @@ body{
     }
 
     [class*=".content-"] &{
-        background  : @body-bg;
+        background : @body-bg;
     }
 }
 

@@ -15,23 +15,6 @@
         color    : inherit;
     }
 
-    p, ul, ol{
-        margin : 0;
-
-        &+p, &+ul, &+ol{
-            margin-top : 5px;
-        }
-    }
-
-    li{
-        margin     : 0;
-        list-style : none;
-
-        &+li{
-            margin-top : 0.5em;
-        }
-    }
-
     a{
         text-decoration : underline;
 
@@ -53,6 +36,9 @@
     }
     &.alert-info, &.info{
         .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border, @activate-alternate-style-color-blue);
+    }
+    &.alert-gray, &.gray{
+        .alert-color(@gray, @gray-lighter, @gray-light, @activate-alternate-style-color-gray);
     }
 
     // Block alerts

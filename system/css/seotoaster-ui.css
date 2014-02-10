@@ -330,7 +330,8 @@ select option {
   height: 0;
 }
 .labeled.icon input:focus + [class*="icon-"] {
-  color: #666666;
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
 .labeled.icon [class*="icon-"] {
   position: absolute;
@@ -338,7 +339,8 @@ select option {
   top: 0;
   bottom: 0;
   z-index: 2;
-  color: #cccccc;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
   width: 14px;
   height: 14px;
   line-height: 14px;
@@ -358,6 +360,10 @@ select option {
 }
 .labeled.icon.left input {
   padding-left: 24px;
+}
+.labeled.icon.top [class*="icon-"] {
+  margin: 0;
+  top: 5px;
 }
 .labeled label,
 .labeled .label {
@@ -408,6 +414,7 @@ select option {
 .checkbox_radio-wrap {
   display: inline-block;
   vertical-align: middle;
+  line-height: 0;
   cursor: pointer;
   margin: 0;
   padding: 0;

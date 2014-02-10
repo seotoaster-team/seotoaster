@@ -59,7 +59,7 @@
         </div>
 
         <?php if ($this->isSuperAdmin): ?>
-            <div id="security-config" class="content-small-footer pr0 pl0">
+            <div id="security-config" class="content-small-footer pr0 pl0 pt50px">
                 <?php echo $this->configForm->getElement('suLogin'); ?>
                 <?php echo $this->configForm->getElement('suPassword'); ?>
             </div>
@@ -109,14 +109,14 @@
                 </div>
 
             </div>
-            <div id="securityForm-config" class="content-small-footer pr0 pl0">
+            <div id="securityForm-config" class="content-small-footer pr0 pl0 pt50px">
                 <?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PUBLIC_KEY); ?>
                 <?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PRIVATE_KEY); ?>
-                <div class="grid_12 mt15px">
+                <p class="grid_12 mt15px">
                     <a target="_blank" href="https://www.google.com/recaptcha/admin/create"><?php echo $this->translate(
                             'Get your own reCAPTCHA key here now.'
                         ); ?></a>
-                </div>
+                </p>
             </div>
         <?php endif; ?>
     </form>

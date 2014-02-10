@@ -59,13 +59,6 @@
   color: #444444;
   text-decoration: none;
 }
-.chzn-container-single .chzn-single span {
-  margin-right: 26px;
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .chzn-container-single .chzn-single abbr {
   display: block;
   position: absolute;

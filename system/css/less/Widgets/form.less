@@ -295,7 +295,7 @@ textarea{
             input{
 
                 &:focus+[class*="icon-"]{
-                    color : @gray;
+                    .opacity(1);
                 }
             }
 
@@ -305,7 +305,7 @@ textarea{
                 top      : 0;
                 bottom   : 0;
                 z-index  : 2;
-                color    : @input-color-placeholder;
+                .opacity();
                 .icon-size(@font-size-base);
             }
 
@@ -327,7 +327,16 @@ textarea{
                     padding-left : @padding-base-vertical * 4;
                 }
             }
+
+            &.top{
+                [class*="icon-"]{
+                    margin : 0;
+                    top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
+                }
+            }
         }
+
+        //        label:not(.nolabeled), .label:not(.nolabeled){
         label, .label{
             margin-top    : 0;
             margin-bottom : 0;

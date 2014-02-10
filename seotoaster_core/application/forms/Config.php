@@ -222,7 +222,7 @@ class Application_Form_Config extends Zend_Form {
 			->setElementDecorators(array(
 				'ViewHelper',
 				'Label',
-				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12', 'mt10px') ))
+				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => 'grid_12 mt10px'))
 				))
 			->setElementFilters(array('StringTrim', 'StripTags'));
 

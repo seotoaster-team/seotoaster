@@ -23,11 +23,7 @@
 				<li class="cpanelsubtitle"><?php echo $this->translate('Other pages'); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<li><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                <li>
-                    <a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-                    <span id="edit404-errorMsg" style="display: none"><?php
-                        echo $this->translate("Sorry, but you don't have a custom - 404 not found - page yet. Click %1\$s to create a 404 page using the appropriate option found under the \"Settings\" section",$this->toasterLink('backend_page', 'page', $this->translate('here'), false, false, array('width' => '960', 'height' => '560')));
-                        ?></span>
+                <li><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
 				<li><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' .Tools_Page_Tools::getDraftPagesCount() . ')', false, false, array('width' => 480, 'height' => 560)); ?></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['PAGES']) && isset($this->additionalMenu['PAGES']['items'])): ?>
 			<?php foreach($this->additionalMenu['PAGES']['items'] as $item):?>
@@ -57,7 +53,7 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('SEO'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, array('width' => '360', 'height' => '340')); ?></li>
+				<li><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, array('width' => '360', 'height' => '350')); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<li class="cpanelsubtitle"><?php echo $this->translate('Link strategy'); ?></li>
 				<li><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '560')); ?></li>
@@ -138,4 +134,9 @@
 			<a href="<?php echo $this->websiteUrl; ?>logout/" title="Logout"><?php echo $this->translate('LOGOUT'); ?></a>
          </li>
     </ul>
+    <span id="edit404-errorMsg" style="display: none">
+        <?php
+            echo $this->translate("Sorry, but you don't have a custom - 404 not found - page yet. Click %1\$s to create a 404 page using the appropriate option found under the \"Settings\" section",$this->toasterLink('backend_page', 'page', $this->translate('here'), false, false, array('width' => '960', 'height' => '560')));
+        ?>
+    </span>
 </div>

@@ -28,7 +28,6 @@
 .wrap{ overflow : hidden; }
 .block{ display : block; }
 .word-break{ word-break : break-all; }
-[class*="hidden"]{ display : none; }
 
 .fixed{
     position : fixed !important;
@@ -40,14 +39,14 @@
     &.bottom{ bottom : 0; }
 }
 
-.fs12{ font-size : 12px; }
-.fs14{ font-size : 14px; }
-.fs16{ font-size : 16px; }
-.fs18{ font-size : 18px; }
-.fs24{ font-size : 24px; }
-.fs32{ font-size : 32px; }
-.fs48{ font-size : 48px; }
-.fs64{ font-size : 64px; }
+.fs12{ font-size : 12px !important; }
+.fs14{ font-size : 14px !important; }
+.fs16{ font-size : 16px !important; }
+.fs18{ font-size : 18px !important; }
+.fs24{ font-size : 24px !important; }
+.fs32{ font-size : 32px !important; }
+.fs48{ font-size : 48px !important; }
+.fs64{ font-size : 64px !important; }
 
 .pointer{ cursor : pointer; }
 .text-overflow{
@@ -88,6 +87,9 @@
 .width-list(100%, 5);
 
 // -- color bg
+.body-bg{
+    background: @body-bg;
+}
 .activate-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
     .primary-bg{ background-color : @primary-bg; }
     .activate-color-green(@activate) when (@activate = true){
@@ -272,6 +274,11 @@
 .scroll{
     overflow   : auto;
     max-height : 100%;
+
+    &.scroll-left{
+        direction:rtl;
+        &>*{ direction : ltr; }
+    }
 }
 .background{
     .background;

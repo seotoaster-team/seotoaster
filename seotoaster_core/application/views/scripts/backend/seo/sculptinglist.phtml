@@ -1,7 +1,7 @@
 <?php if(is_array($this->pages) && !empty ($this->pages)): ?>
 
 	<?php foreach ($this->pages as $key => $pageData): ?>
-		<div class="sculpting-row">
+		<div class="sculpting-row clearfix">
 			<div class="sculpting-title list-title">
 				<div class="grid_7"><?php echo $pageData['label']; ?></div>
 				<div class="grid_5 pointer text-right"><?php echo $this->translate('Silo this category'); ?>&nbsp;&nbsp;&nbsp;<input type="checkbox" value="<?php echo $key; ?>" name="siloCat[<?php echo $key; ?>]" class="silo-this-cat" <?php echo (isset($pageData['isSilo']) && $pageData['isSilo']) ? 'checked="checked"' : ''; ?>/></div>

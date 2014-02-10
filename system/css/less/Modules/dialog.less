@@ -5,29 +5,6 @@
     padding          : 0;
     z-index          : 1002;
 
-    body>&[aria-describedby="toasterPopup"]{
-        position    : fixed;
-        border      : none;
-        top         : 0 !important;
-        bottom      : 0 !important;
-        left        : 0 !important;
-        right       : 0 !important;
-        margin      : auto !important;
-        line-height : 0;
-        .box-shadow(3px 3px 10px #000);
-
-        &.screen-expand{
-            height    : 100% !important;
-            min-width : 960px;
-        }
-
-        iframe{
-            background-image    : url("../images/spinner.gif");
-            background-position : center center;
-            background-repeat   : no-repeat;
-        }
-    }
-
     .ui-dialog-titlebar{
         background  : @header-bg;
         color       : @header-color;
