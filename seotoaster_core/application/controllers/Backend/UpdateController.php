@@ -422,14 +422,16 @@ class Backend_UpdateController extends Zend_Controller_Action
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
         $revertSqlAlters = Tools_System_SqlSplitter::split($revertAlters);
+        $cnt = 0;
         try {
             foreach ($sqlAlters as $alter) {
                 $dbAdapter->query($alter);
+                $cnt++;
             }
             return true;
         } catch (Exception $ex) {
-            foreach ($revertSqlAlters as $revertAlter) {
-                $dbAdapter->query($revertAlter);
+            for($i = 0; $i < $cnt; $i++) {
+                $dbAdapter->query($revertSqlAlters[$i]);
             }
             error_log($ex->getMessage());
             return false;
