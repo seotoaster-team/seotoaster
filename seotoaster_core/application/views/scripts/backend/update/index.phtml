@@ -11,12 +11,12 @@
             dataType: 'json',
             timeout: 60000,
             beforeSend: function () {
-                smoke.signal('<img src="' + $('#website_url').val() + 'system/images/loading.gif" alt="working..." />', 60000);
+                showSpinner();
             },
             success: function (response) {
                 if (!response.error) {
                     if(!$("#progress").length){
-                        $('.update-form').after('<ul id="progress" class="seo-tip grid_11"></ul>');
+                        $('.update-form').append('<ul id="progress" class="seo-tip grid_11"></ul>');
                     }
                     $("#progress").append('<li class="mb10px mleft10px">' + response.responseText.message + '</li>');
 
@@ -45,39 +45,19 @@
             e.preventDefault();
             update();
         });
-        $('#rmBkp').on('click', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: "<?php echo $this->websiteUrl ?>backend/backend_update/cleanup/",
-                dataType: 'json',
-                beforeSend: function () {
-                    showSpinner();
-                },
-                success: function (response) {
-                    hideSpinner();
-                    if (!response.error) {
-                        showMessage(response.responseText);
-                    } else {
-                        showMessage(response.responseText, true);
-                    }
-                },
-                error: function (err) {
-                    showMessage(err, true);
-                }
-            });
-        })
     });
 </script>
-<div class="seotoaster container_12 h450 rounded3px">
+<div class="seotoaster container">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
-    <p class="grid_11 mb20px seo-tip">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
-    <p class="grid_6 mb20px">Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
-    <p class="grid_6 mb20px">Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
-    <div class="grid_12 update-form">
+    <div class="content-small-footer update-form grid_12">
+        <p class="message info">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
+        <p class="grid_6 text-center">Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
+        <p class="grid_6 text-center">Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
+    </div>
+    <div class="footer grid_12">
         <form id="update" action="<?php echo $this->websiteUrl ?>backend/backend_update/update" method="get">
-            <div class="mt10px prefix_4 grid_4">Without backup: <input type ="checkbox" name="withoutBackup" value = "true"></div>
-            <div class="grid_4"><input type="submit" name="update" value="<?php echo $this->translate('Update'); ?>"></div>
+            <label class="fl-left">Without backup: <input type ="checkbox" name="withoutBackup" value = "true"></label>
+            <input type="submit" name="update" value="<?php echo $this->translate('Update'); ?>">
         </form>
-    <p class="prefix_8 grid_4 mb20px mt10px" style="text-align:right;" id="rmBkp"><a style="margin-right: 6px;" href="javascript:;">Remove backup</a></p>
     </div>
 </div>
