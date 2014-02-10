@@ -10,6 +10,8 @@ class Backend_UpdateController extends Zend_Controller_Action
 
     const MASTER_CMS_LINK = 'http://seotoaster.com/cms.txt';
     const MASTER_STORE_LINK = 'http://seotoaster.com/store.txt';
+    const WHATISNEW_CMS_LINK = 'http://seotoaster.com/cms-changelog.md';
+    const WHATISNEW_STORE_LINK = 'http://seotoaster.com/store-changelog.md';
     const BACKUP_NAME = 'backup.zip';
     const PACK_NAME = 'toaster.zip';
 
@@ -23,6 +25,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     protected $_tmpPath = null;
     protected $_newToasterPath = null;
     protected $_logFile = null;
+    protected $_whatIsNew = array();
 
 
     /**
@@ -51,8 +54,10 @@ class Backend_UpdateController extends Zend_Controller_Action
                 $this->_storeVersion = trim(
                     Tools_Filesystem_Tools::getFile($this->_websitePath . 'plugins/shopping/version.txt')
                 );
+                $whatIsNew = file_get_contents(self::WHATISNEW_STORE_LINK);
                 $master_link = self::MASTER_STORE_LINK;
             } else {
+                $whatIsNew =  file_get_contents(self::WHATISNEW_CMS_LINK);
                 $master_link = self::MASTER_CMS_LINK;
             }
             $this->_toasterVersion = trim(Tools_Filesystem_Tools::getFile('version.txt'));
@@ -60,6 +65,7 @@ class Backend_UpdateController extends Zend_Controller_Action
             $master_versions = explode("\n", file_get_contents($master_link));
             $this->_remoteVersion = filter_var($master_versions [0], FILTER_SANITIZE_STRING);
             $this->_downloadLink = filter_var($master_versions [1], FILTER_SANITIZE_URL);
+            $this->_whatIsNew = explode("\n", stristr($whatIsNew, 'Version: ' . $this->_remoteVersion));
         } catch (Exceptions_SeotoasterException $se) {
             if (self::debugMode()) {
                 error_log($se->getMessage());
@@ -71,6 +77,9 @@ class Backend_UpdateController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->remoteVersion = $this->_remoteVersion;
+        if (count($this->_whatIsNew) > 1) {
+            $this->view->whatIsNew = $this->_whatIsNew;
+        }
         if ($this->_storeVersion) {
             $this->view->localVersion = $this->_storeVersion;
         } else {
@@ -85,7 +94,7 @@ class Backend_UpdateController extends Zend_Controller_Action
      * Remove backup file if exist.
      * @return mixed
      */
-    public function cleanupAction()
+/*    public function cleanupAction()
     {
         if (file_exists($this->_tmpPath . self::BACKUP_NAME)) {
             unlink($this->_tmpPath . self::BACKUP_NAME);
@@ -93,7 +102,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         } else {
             return $this->_helper->response->fail($this->_helper->language->translate('No backup file.'));
         }
-    }
+    }*/
 
     /**
      * The main method of updating
