@@ -105,12 +105,21 @@ class Backend_UpdateController extends Zend_Controller_Action
             $updateStatus = version_compare($this->_remoteVersion, $version);
             if (1 === $updateStatus) {
                 $this->_session->nextStep = 2;
-                return $this->_helper->response->success(
-                    array(
-                        'status' => 1,
-                        'message' => $this->_helper->language->translate('Update started. Please wait.')
-                    )
-                );
+                if ($this->_session->withoutBackup === false) {
+                    return $this->_helper->response->success(
+                        array(
+                            'status' => 1,
+                            'message' => $this->_helper->language->translate('Update started. Creating backup.')
+                        )
+                    );
+                } else {
+                    return $this->_helper->response->success(
+                        array(
+                            'status' => 1,
+                            'message' => $this->_helper->language->translate('Update started. Please wait.')
+                        )
+                    );
+                }
             } elseif (-1 === $updateStatus) {
                 return $this->_helper->response->success(
                     array(
