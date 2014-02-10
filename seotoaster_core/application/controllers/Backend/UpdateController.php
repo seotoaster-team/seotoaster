@@ -141,6 +141,10 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 2) {
             if ($this->_session->withoutBackup === false) {
+                $oldBackup = array_shift(glob($this->_tmpPath . '*-' .self::BACKUP_NAME));
+                if ($oldBackup) {
+                    unlink($oldBackup);
+                }
                 $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, time() . '-' . self::BACKUP_NAME);
                 if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
