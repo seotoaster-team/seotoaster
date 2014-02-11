@@ -14,11 +14,12 @@
                 showSpinner();
             },
             success: function (response) {
+                var $progress = $("#progress");
                 if (!response.error) {
-                    if(!$("#progress").length){
-                        $('#what-new').attr('id', 'progress');
+                    if(!$progress.length){
+                        $('#news').attr('id', 'progress');
                     }
-                    $("#progress").append('<li><i class="icon-checkmark-3 success mr2"></i>' + response.responseText.message + '</li>');
+                    $progress.append('<li><i class="icon-checkmark-3 success mr2"></i>' + response.responseText.message + '</li>');
 
                     if (response.responseText.status == 0) {
                         $('.current-version').text('<?php echo $this->remoteVersion; ?>');
@@ -52,7 +53,7 @@
         <p class="message info">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
         <p class="grid_6 mt10px text-center">Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
         <p class="grid_6 mt10px text-center">Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
-        <ul id="what-new" class="grid_12 mt10px mb0px scroll h150px list-bordered">
+        <ul id="news" class="grid_12 mt10px mb0px scroll h150px list-bordered">
             <?php if (is_array($this->whatIsNew)) : ?>
                 <?php foreach ($this->whatIsNew as $news) : ?>
                     <li><i class="icon-pencil-2 gray mr2"></i><?php echo $news ?></li>
