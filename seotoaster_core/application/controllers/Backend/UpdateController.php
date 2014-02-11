@@ -332,7 +332,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
         $zip = new ZipArchive();
         if ($action === 'compress') {
-            $exclude = array('tmp', 'cache', 'media', 'previews', 'theme');
+            $exclude = array('tmp', 'cache', 'media', 'previews', 'themes');
             if (!$zip->open($destination . $name, ZIPARCHIVE::CREATE)) {
                 return false;
             }
