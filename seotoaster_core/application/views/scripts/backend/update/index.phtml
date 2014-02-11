@@ -14,12 +14,12 @@
                 showSpinner();
             },
             success: function (response) {
-                var $progress = $("#progress");
                 if (!response.error) {
-                    if(!$progress.length){
+                    if(!$('#progress').length){
                         $('#news').attr('id', 'progress');
+                        $('#progress').empty();
                     }
-                    $progress.append('<li><i class="icon-checkmark-3 success mr2"></i>' + response.responseText.message + '</li>');
+                    $('#progress').append('<li><i class="icon-checkmark-3 success mr2"></i>' + response.responseText.message + '</li>');
 
                     if (response.responseText.status == 0) {
                         $('.current-version').text('<?php echo $this->remoteVersion; ?>');
@@ -27,6 +27,7 @@
                         hideSpinner();
                         return;
                     }
+                    hideSpinner();
                     update();
                 } else {
                     hideSpinner();

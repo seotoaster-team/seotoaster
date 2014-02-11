@@ -467,5 +467,3 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
     }
 }
-
-
