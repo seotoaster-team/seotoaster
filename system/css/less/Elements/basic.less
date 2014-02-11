@@ -222,8 +222,10 @@ body{
         margin-top : 0 !important;
     }
 
-    [class*=".content-"] &{
-        background : @body-bg;
+    [class*="content-"] &{
+        background     : @body-bg;
+        padding-bottom : 0;
+        height         : @footer-height - 10px;
     }
 }
 

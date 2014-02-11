@@ -2538,19 +2538,18 @@
   background: #ffffff;
 }
 #webbuilder-image-only-inner #webbuilder-form-image-data {
-  height: 106px;
+  height: 105px;
 }
 #webbuilder-image-only-inner #images-list {
-  height: 460px;
+  height: 440px;
   overflow: auto;
 }
 #webbuilder-image-only-inner #images-list > * {
   width: 18%;
-  margin: 1% 1.5% 1% 0.5%;
 }
 #webbuilder-image-only-inner #webbuilder-main-image {
-  height: 298px;
-  line-height: 298px;
+  height: 280px;
+  line-height: 280px;
 }
 #webbuilder-image-only-inner #webbuilder-main-image img {
   max-height: 100%;
@@ -2559,8 +2558,8 @@
 }
 #webbuilder-image-only-inner .noimage {
   font-size: 64px;
-  height: 460px;
-  line-height: 460px;
+  height: 440px;
+  line-height: 440px;
   text-align: center;
   color: #eaeaea;
   text-transform: uppercase;

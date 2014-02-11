@@ -107,7 +107,7 @@ form .captcha .recaptcha_links a + a,
 form [type="submit"],
 .form [type="submit"] {
   float: right;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 form.form-inline > p,
 .form.form-inline > p,
@@ -329,7 +329,9 @@ select option {
   visibility: hidden;
   height: 0;
 }
-.labeled.icon input:focus + [class*="icon-"] {
+.labeled.icon input:focus ~ [class*="icon-"],
+.labeled.icon select:focus ~ [class*="icon-"],
+.labeled.icon textarea:focus ~ [class*="icon-"] {
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -352,13 +354,21 @@ select option {
 .labeled.icon.right [class*="icon-"] {
   right: 5px;
 }
-.labeled.icon.right input {
+.labeled.icon.right input,
+.labeled.icon.right textarea {
   padding-right: 24px;
+}
+.labeled.icon.right select {
+  padding-right: 36px;
+}
+.labeled.icon.right select ~ [class*="icon-"] {
+  right: 17px;
 }
 .labeled.icon.left [class*="icon-"] {
   left: 5px;
 }
-.labeled.icon.left input {
+.labeled.icon.left input,
+.labeled.icon.left textarea {
   padding-left: 24px;
 }
 .labeled.icon.top [class*="icon-"] {

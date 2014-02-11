@@ -52,8 +52,8 @@
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
     <div class="content-small-footer update-form grid_12">
         <p class="message info">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
-        <p class="grid_6 mt10px text-center">Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
-        <p class="grid_6 mt10px text-center">Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
+        <p class="grid_6 mt10px text-center"><i class="icon-notice icon16 error"></i> Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
+        <p class="grid_6 mt10px text-center"><i class="icon-check icon16 success"></i> Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
         <ul id="news" class="grid_12 mt10px mb0px scroll h150px list-bordered">
             <?php if (is_array($this->whatIsNew)) : ?>
                 <?php foreach ($this->whatIsNew as $news) : ?>

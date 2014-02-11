@@ -2226,8 +2226,10 @@ body {
 .footer [type="button"] {
   margin-top: 0 !important;
 }
-[class*=".content-"] .footer {
+[class*="content-"] .footer {
   background: #ffffff;
+  padding-bottom: 0;
+  height: 45px;
 }
 .page-preview {
   -webkit-box-shadow: 0 1px 1px #bbbbbb;
@@ -2418,7 +2420,7 @@ form .captcha .recaptcha_links a + a,
 form [type="submit"],
 .form [type="submit"] {
   float: right;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 form.form-inline > p,
 .form.form-inline > p,
@@ -2640,7 +2642,9 @@ select option {
   visibility: hidden;
   height: 0;
 }
-.labeled.icon input:focus + [class*="icon-"] {
+.labeled.icon input:focus ~ [class*="icon-"],
+.labeled.icon select:focus ~ [class*="icon-"],
+.labeled.icon textarea:focus ~ [class*="icon-"] {
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -2663,13 +2667,21 @@ select option {
 .labeled.icon.right [class*="icon-"] {
   right: 5px;
 }
-.labeled.icon.right input {
+.labeled.icon.right input,
+.labeled.icon.right textarea {
   padding-right: 24px;
+}
+.labeled.icon.right select {
+  padding-right: 36px;
+}
+.labeled.icon.right select ~ [class*="icon-"] {
+  right: 17px;
 }
 .labeled.icon.left [class*="icon-"] {
   left: 5px;
 }
-.labeled.icon.left input {
+.labeled.icon.left input,
+.labeled.icon.left textarea {
   padding-left: 24px;
 }
 .labeled.icon.top [class*="icon-"] {
@@ -5481,19 +5493,18 @@ input.icon.pinterest:checked ~ input:focus {
   background: #ffffff;
 }
 #webbuilder-image-only-inner #webbuilder-form-image-data {
-  height: 106px;
+  height: 105px;
 }
 #webbuilder-image-only-inner #images-list {
-  height: 460px;
+  height: 440px;
   overflow: auto;
 }
 #webbuilder-image-only-inner #images-list > * {
   width: 18%;
-  margin: 1% 1.5% 1% 0.5%;
 }
 #webbuilder-image-only-inner #webbuilder-main-image {
-  height: 298px;
-  line-height: 298px;
+  height: 280px;
+  line-height: 280px;
 }
 #webbuilder-image-only-inner #webbuilder-main-image img {
   max-height: 100%;
@@ -5502,8 +5513,8 @@ input.icon.pinterest:checked ~ input:focus {
 }
 #webbuilder-image-only-inner .noimage {
   font-size: 64px;
-  height: 460px;
-  line-height: 460px;
+  height: 440px;
+  line-height: 440px;
   text-align: center;
   color: #eaeaea;
   text-transform: uppercase;

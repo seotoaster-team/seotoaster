@@ -79,7 +79,7 @@ form, .form{
     // -- Buttons
     [type="submit"]{
         float      : right;
-        margin-top : 10px;
+        margin-top : @footer-height - @btn-height-base - 10px;
 
         &:hover{
         }
@@ -292,9 +292,9 @@ textarea{
         .clearfix;
 
         &.icon{
-            input{
+            input, select, textarea{
 
-                &:focus+[class*="icon-"]{
+                &:focus~[class*="icon-"]{
                     .opacity(1);
                 }
             }
@@ -314,8 +314,16 @@ textarea{
                     right : (@padding-base-vertical * 2) - (@font-size-base / 2);
                 }
 
-                input{
+                input, textarea{
                     padding-right : @padding-base-vertical * 4;
+                }
+
+                select{
+                    padding-right : @padding-base-vertical * 6;
+
+                    &~[class*="icon-"]{
+                        right : (@padding-base-vertical * 4) - (@font-size-base / 2);
+                    }
                 }
             }
 
@@ -323,7 +331,7 @@ textarea{
                 [class*="icon-"]{
                     left : (@padding-base-vertical * 2) - (@font-size-base / 2);
                 }
-                input{
+                input, textarea{
                     padding-left : @padding-base-vertical * 4;
                 }
             }
