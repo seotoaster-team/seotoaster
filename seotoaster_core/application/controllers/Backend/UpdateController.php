@@ -155,7 +155,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                         array(
                             'status' => 1,
                             'message' => $this->_helper->language->translate(
-                                    'Backup created. Path to backup: "' . $this->_tmpPath . array_shift(
+                                    'Backup created. Path to backup: "' . array_shift(
                                         glob($this->_tmpPath . '*-' . self::BACKUP_NAME)
                                     ) . ' Downloading started.'
                                 )
