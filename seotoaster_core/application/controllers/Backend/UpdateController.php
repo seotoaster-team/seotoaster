@@ -51,16 +51,14 @@ class Backend_UpdateController extends Zend_Controller_Action
 
         try {
             if (file_exists($this->_websitePath . 'plugins/shopping/version.txt')) {
-                $this->_storeVersion = trim(
-                    Tools_Filesystem_Tools::getFile($this->_websitePath . 'plugins/shopping/version.txt')
-                );
+                $this->_storeVersion = $this->_getFileContent($this->_websitePath . 'plugins/shopping/version.txt');
                 $whatIsNew = file_get_contents(self::WHATISNEW_STORE_LINK);
                 $master_link = self::MASTER_STORE_LINK;
             } else {
-                $whatIsNew =  file_get_contents(self::WHATISNEW_CMS_LINK);
+                $whatIsNew = file_get_contents(self::WHATISNEW_CMS_LINK);
                 $master_link = self::MASTER_CMS_LINK;
             }
-            $this->_toasterVersion = trim(Tools_Filesystem_Tools::getFile('version.txt'));
+            $this->_toasterVersion = $this->_getFileContent('version.txt');
 
             $master_versions = explode("\n", file_get_contents($master_link));
             $this->_remoteVersion = filter_var($master_versions [0], FILTER_SANITIZE_STRING);
@@ -70,7 +68,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         } catch (Exceptions_SeotoasterException $se) {
             if (self::debugMode()) {
                 error_log($se->getMessage());
-                return $this->view->result =  $this->_helper->language->translate('Can\'t get toasters version');
+                return $this->view->result = $this->_helper->language->translate('Can\'t get toasters version');
             }
         }
     }
@@ -141,18 +139,25 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 2) {
             if ($this->_session->withoutBackup === false) {
-                $oldBackup = array_shift(glob($this->_tmpPath . '*-' .self::BACKUP_NAME));
+                $oldBackup = array_shift(glob($this->_tmpPath . '*-' . self::BACKUP_NAME));
                 if ($oldBackup) {
                     unlink($oldBackup);
                 }
-                $result = $this->_zipUnzip('compress', $this->_websitePath, $this->_tmpPath, time() . '-' . self::BACKUP_NAME);
+                $result = $this->_zipUnzip(
+                    'compress',
+                    $this->_websitePath,
+                    $this->_tmpPath,
+                    time() . '-' . self::BACKUP_NAME
+                );
                 if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
                     return $this->_helper->response->success(
                         array(
                             'status' => 1,
                             'message' => $this->_helper->language->translate(
-                                    'Backup created. Path to backup: "' . $this->_tmpPath . array_shift(glob($this->_tmpPath . '*-' .self::BACKUP_NAME)) .' Downloading started.'
+                                    'Backup created. Path to backup: "' . $this->_tmpPath . array_shift(
+                                        glob($this->_tmpPath . '*-' . self::BACKUP_NAME)
+                                    ) . ' Downloading started.'
                                 )
                         )
                     );
@@ -160,7 +165,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                     return $this->_helper->response->fail(
                         array(
                             'status' => 0,
-                            'message' => $this->_helper->language->translate("Can't create toaster backup.")
+                            'message' => $this->_helper->language->translate('Can\'t create toaster backup.')
                         )
                     );
                 }
@@ -191,7 +196,7 @@ class Backend_UpdateController extends Zend_Controller_Action
             } else {
                 unlink($this->_tmpPath . self::PACK_NAME);
                 return $this->_helper->response->fail(
-                    array('status' => 0, 'message' => $this->_helper->language->translate("Can't download zip"))
+                    array('status' => 0, 'message' => $this->_helper->language->translate('Can\'t download zip.'))
                 );
             }
         }
@@ -211,7 +216,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
             } else {
                 return $this->_helper->response->fail(
-                    array('status' => 0, 'message' => $this->_helper->language->translate("Can't unzip toaster."))
+                    array('status' => 0, 'message' => $this->_helper->language->translate('Can\'t unzip toaster.'))
                 );
             }
         }
@@ -241,7 +246,7 @@ class Backend_UpdateController extends Zend_Controller_Action
          *  Step 6: Replace the files. And puts NextStep = 7
          */
         if ($this->_session->nextStep === 6) {
-            $result = true; //$this->_copyToaster($this->_newToasterPath, $this->_websitePath);
+            $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 7;
                 return $this->_helper->response->success(
@@ -249,7 +254,12 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
             } else {
                 if ($this->_session->withoutBackup === false) {
-                    $this->_zipUnzip('decompress', $this->_tmpPath, $this->_websitePath, array_shift(glob($this->_tmpPath . '*-' .self::BACKUP_NAME)));
+                    $this->_zipUnzip(
+                        'decompress',
+                        $this->_tmpPath,
+                        $this->_websitePath,
+                        array_shift(glob($this->_tmpPath . '*-' . self::BACKUP_NAME))
+                    );
                     return $this->_helper->response->fail(
                         array(
                             'status' => 0,
@@ -276,7 +286,7 @@ class Backend_UpdateController extends Zend_Controller_Action
             $this->_session->nextStep = 1;
             unlink($this->_tmpPath . self::PACK_NAME);
             return $this->_helper->response->success(
-                array('status' => 0, 'message' => $this->_helper->language->translate("Success!"))
+                array('status' => 0, 'message' => $this->_helper->language->translate('Success!'))
             );
         }
     }
@@ -396,32 +406,32 @@ class Backend_UpdateController extends Zend_Controller_Action
         if ($this->_storeVersion) {
             $select = $dbAdapter->select()->from('shopping_config', array('value'))->where('name = ?', 'version');
             $dbVersion = $dbAdapter->fetchRow($select);
-            $storeAlters = stristr(
-                trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/store-alters.sql')),
+            $storeAlters = $this->_getFileContent(
+                $this->_newToasterPath . '_install/store-alters.sql',
                 '-- version: ' . $dbVersion['value']
             );
-            $revertStoreAlters = stristr(
-                trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/revert-store-alters.sql')),
+            $revertStoreAlters = $this->_getFileContent(
+                $this->_newToasterPath . '_install/revert-store-alters.sql',
                 '-- version: ' . $dbVersion['value']
             );
         }
 
         $select = $dbAdapter->select()->from('config', array('value'))->where('name = ?', 'version');
         $dbVersion = $dbAdapter->fetchRow($select);
-        $alters = stristr(
-            trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/alters.sql')),
+        $alters = $this->_getFileContent(
+            $this->_newToasterPath . '_install/alters.sql',
             '-- version: ' . $dbVersion['value']
         );
-        $revertAlters = stristr(
-            trim(Tools_Filesystem_Tools::getFile($this->_newToasterPath . '_install/revert-alters.sql')),
+        $revertAlters = $this->_getFileContent(
+            $this->_newToasterPath . '_install/revert-alters.sql',
             '-- version: ' . $dbVersion['value']
         );
 
         if (!empty($storeAlters)) {
-            $alters = $alters . ' ' .$storeAlters;
+            $alters = $alters . ' ' . $storeAlters;
         }
         if (!empty($revertStoreAlters)) {
-            $revertAlters = $revertAlters . ' ' .$revertStoreAlters;
+            $revertAlters = $revertAlters . ' ' . $revertStoreAlters;
         }
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
@@ -434,13 +444,27 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
             return true;
         } catch (Exception $ex) {
-            for($i = 0; $i < $cnt; $i++) {
+            for ($i = 0; $i < $cnt; $i++) {
                 $dbAdapter->query($revertSqlAlters[$i]);
             }
             error_log($ex->getMessage());
             return false;
         }
         return false;
+    }
+
+    /**
+     * @param $fileNameWithPath
+     * @param bool $needle
+     * @return string
+     */
+    protected function _getFileContent($fileNameWithPath, $needle = false)
+    {
+        if ($needle) {
+            return stristr(trim(Tools_Filesystem_Tools::getFile($fileNameWithPath)), $needle);
+        } else {
+            return trim(Tools_Filesystem_Tools::getFile($fileNameWithPath));
+        }
     }
 }
 
