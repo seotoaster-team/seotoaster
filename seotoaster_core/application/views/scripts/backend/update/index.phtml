@@ -10,27 +10,23 @@
             url: url,
             dataType: 'json',
             timeout: 60000,
-            beforeSend: function () {
-                showSpinner();
-            },
             success: function (response) {
                 if (!response.error) {
                     if(!$('#progress').length){
                         $('#news').attr('id', 'progress');
                         $('#progress').empty();
                     }
-                    $('#progress').append('<li><i class="icon-checkmark-3 success mr2"></i>' + response.responseText.message + '</li>');
+                    $('#progress').find('li:last').find('img').replaceWith('<i class="icon-checkmark-3 success mr2"></i>');
+                    $('#progress').append('<li><img class="mr2" src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif" alt="spinner"/>' + response.responseText.message + '</li>');
 
                     if (response.responseText.status == 0) {
+                        $('#progress').find('li:last').find('img').replaceWith('<i class="icon-checkmark-3 success mr2"></i>');
                         $('.current-version').text('<?php echo $this->remoteVersion; ?>');
                         $subBtn.removeAttr("disabled");
-                        hideSpinner();
                         return;
                     }
-                    hideSpinner();
                     update();
                 } else {
-                    hideSpinner();
                     $subBtn.removeAttr("disabled");
                     $subBtn.val('Continue');
                     showMessage(response.responseText.message, true);
@@ -50,11 +46,11 @@
 </script>
 <div class="seotoaster container">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
-    <div class="content-small-footer update-form grid_12">
+    <div class="content-footer update-form grid_12">
         <p class="message info">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
         <p class="grid_6 mt10px text-center"><i class="icon-notice icon16 error"></i> Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
         <p class="grid_6 mt10px text-center"><i class="icon-check icon16 success"></i> Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
-        <ul id="news" class="grid_12 mt10px mb0px scroll h150px list-bordered">
+        <ul id="news" class="grid_12 mt10px mb0px list-bordered">
             <?php if (is_array($this->whatIsNew)) : ?>
                 <?php foreach ($this->whatIsNew as $news) : ?>
                     <li><i class="icon-pencil-2 gray mr2"></i><?php echo $news ?></li>
