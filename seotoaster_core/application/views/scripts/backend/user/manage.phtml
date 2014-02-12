@@ -34,7 +34,7 @@
 			</form>
 		</div>
 
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-plus" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
 		<table class="sortable table-striped table-scroll block mt20px" id="users-list">
 			<thead class="block">
@@ -55,14 +55,9 @@
 </div>
 <script type="text/javascript">
 	$(function() {
-		$(document).on('click', '#add-user-link, ._tedit', function(){
-			$('#add-user').addClass('show');
-		}).on('click', '#save-user', function() {
-			//$('#add-user').removeClass('show');
-		}).on('click', '.closebutton .hide, .show~*', function() {
-			$('#add-user').removeClass('show');
-			return false;
-		});
+        $(document).on('click', '#add-user-link, ._tedit',function(){
+            $('#add-user').show("slide", { direction: "right"});
+        });
 	})
 </script>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>

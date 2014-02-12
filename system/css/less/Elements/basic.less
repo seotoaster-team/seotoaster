@@ -207,11 +207,11 @@ body{
 .footer{
     @padding-top: @footer-height - @btn-height-base - 10px;
     .box-sizing;
-    clear       : both;
-    margin-top  : 0;
-    padding     : @padding-top 0 10px;
-    height      : @footer-height;
-    line-height : @footer-height - 10px - @padding-top;
+    clear         : both;
+    margin-top    : @padding-top;
+    margin-bottom : 10px;
+    height        : @btn-height-base;
+    line-height   : @btn-height-base;
 
     [class*="content"].grid_12+&{
         padding-left  : @grid-margin-width / 2;
@@ -222,10 +222,9 @@ body{
         margin-top : 0 !important;
     }
 
-    [class*="content-"] &{
-        background     : @body-bg;
-        padding-bottom : 0;
-        height         : @footer-height - 10px;
+    [class*="content"]>&{
+        background    : @body-bg;
+        margin-bottom : 0;
     }
 }
 

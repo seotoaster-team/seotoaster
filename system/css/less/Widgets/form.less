@@ -439,96 +439,91 @@ textarea{
 //==================================================
 input.icon{
     & ~ [class*="icon-"]{
-        color  : @gray-light;
+        color : darken(@gray-light, 20%);
         cursor : pointer;
         .icon-size(42px);
 
         &:hover{
-            color : darken(@gray-light, 10%);
+            color : darken(@gray-light, 30%);
         }
     }
 
-    & ~ input{
-        border-color : transparent;
-
-        &:empty ~ .icon-facebook{
-        }
-    }
+    &~input{ border-color : transparent; }
 
     &:checked{
-        & ~ input{
+        &~input{
             border-color : @input-border-color;
         }
     }
 
     &.facebook{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #3b5a99;
+            color : @facebook;
         }
 
         &:checked ~ input:focus{
-            border-color : #3b5a99;
-            .box-shadow(0 0 3px #3b5a99);
+            border-color : @facebook;
+            .box-shadow(0 0 3px @facebook);
         }
     }
     &.twitter{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #1aa8e0;
+            color : @twitter;
         }
 
         &:checked ~ input:focus{
-            border-color : #1aa8e0;
-            .box-shadow(0 0 3px #1aa8e0);
+            border-color : @twitter;
+            .box-shadow(0 0 3px @twitter);
         }
     }
     &.linkedin{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #4875b5;
+            color : @linkedin;
         }
 
         &:checked ~ input:focus{
-            border-color : #4875b5;
-            .box-shadow(0 0 3px #4875b5);
+            border-color : @linkedin;
+            .box-shadow(0 0 3px @linkedin);
         }
     }
     &.rss{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #FE9900;
+            color : @rss;
         }
 
         &:checked ~ input:focus{
-            border-color : #FE9900;
-            .box-shadow(0 0 3px #FE9900);
+            border-color : @rss;
+            .box-shadow(0 0 3px @rss);
         }
     }
     &.gplus{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #ca3e2d;
+            color : @gplus;
         }
 
         &:checked ~ input:focus{
-            border-color : #ca3e2d;
-            .box-shadow(0 0 3px #ca3e2d);
+            border-color : @gplus;
+            .box-shadow(0 0 3px @gplus);
         }
     }
     &.youtube{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #c7453f;
+            color : @youtube;
         }
 
         &:checked ~ input:focus{
-            border-color : #c7453f;
-            .box-shadow(0 0 3px #c7453f);
+            border-color : @youtube;
+            .box-shadow(0 0 3px @youtube);
         }
     }
     &.pinterest{
         &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : #bd3137;
+            color : @pinterest;
         }
 
         &:checked ~ input:focus{
-            border-color : #bd3137;
-            .box-shadow(0 0 3px #bd3137);
+            border-color : @pinterest;
+            .box-shadow(0 0 3px @pinterest);
         }
     }
 }

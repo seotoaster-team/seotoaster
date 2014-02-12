@@ -24,7 +24,7 @@ $(function() {
 			//$('#ajax_msg').html(response.responseText).fadeIn('slow').fadeOut('slow');
 			pcountEl.text((el.prop('checked') ? parseInt(pcountEl.text()) + 1 : parseInt(pcountEl.text()) - 1)) ;
 		})
-	})
+	});
 
 });
 
@@ -33,5 +33,5 @@ function loadFaList() {
 		$('#fa-list').html(response.faList);
 		$('#fa-name').val('');
 		checkboxRadio();
-	})
+	});
 }

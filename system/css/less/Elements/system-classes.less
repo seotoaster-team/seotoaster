@@ -31,7 +31,7 @@
 
 .fixed{
     position : fixed !important;
-    z-index: 100;
+    z-index  : 100;
 
     &.top{ top : 0; }
     &.left{ left : 0; }
@@ -56,39 +56,57 @@
 // Helper classes
 //==================================================
 //--- Position
-.position-list(none, top);
-.position-list(none, bottom);
-.position-list(none, right, 2);
-.position-list(none, left, 2);
+    .position-list(none, top)
+;
+    .position-list(none, bottom)
+;
+    .position-list(none, right, 2)
+;
+    .position-list(none, left, 2)
+;
 
 //--- Margin
-.margin-list(20px);
-.margin-list(50px, top);
-.margin-list(5em, top, 0.25);
-.margin-list(50px, bottom);
-.margin-list(5em, bottom, 0.25);
-.margin-list(10%, right, 1);
-.margin-list(10%, left, 1);
+    .margin-list(20px)
+;
+    .margin-list(50px, top)
+;
+    .margin-list(5em, top, 0.25)
+;
+    .margin-list(50px, bottom)
+;
+    .margin-list(5em, bottom, 0.25)
+;
+    .margin-list(10%, right, 1)
+;
+    .margin-list(10%, left, 1)
+;
 
 .ml-grid{ margin-left : @grid-margin-width / 2; }
 .mr-grid{ margin-right : @grid-margin-width / 2; }
 
 //--- Padding
-.padding-list(10px);
-.padding-list(50px, top);
-.padding-list(50px, bottom);
-.padding-list(10%, right, 2);
-.padding-list(10%, left, 2);
+    .padding-list(10px)
+;
+    .padding-list(50px, top)
+;
+    .padding-list(50px, bottom)
+;
+    .padding-list(10%, right, 2)
+;
+    .padding-list(10%, left, 2)
+;
 
 //--- Height
-.height-list(500px, 50);
+    .height-list(500px, 50)
+;
 
 //--- Width
-.width-list(100%, 5);
+    .width-list(100%, 5)
+;
 
 // -- color bg
 .body-bg{
-    background: @body-bg;
+    background : @body-bg;
 }
 .activate-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
     .primary-bg{ background-color : @primary-bg; }
@@ -109,17 +127,12 @@
     .activate-color-red(@activate-alternate-style-color-red);
     .activate-color-blue(@activate-alternate-style-color-blue);
 }
-.activate-color(@activate-alternate-style-color, @activate-alternate-style);
+    .activate-color(@activate-alternate-style-color, @activate-alternate-style)
+;
 
 // Social Links
 //==================================================
 .activate-list-social-links(@activate) when (@activate = true){
-    @facebook : #3B5A99;
-    @twitter  : #1AA8E0;
-    @gplus    : #CA3E2D;
-    @rss      : #FE9900;
-    @linkedin : #4875B5;
-    @youtube  : #B72D24;
 
     .social-links{
         .hide-text;
@@ -193,7 +206,8 @@
         }
     }
 }
-.activate-generator-links(@activate-list-social-links, @activate-toaster-icons);
+    .activate-generator-links(@activate-list-social-links, @activate-toaster-icons)
+;
 
 .activate-list-testimonials(@activate) when (@activate = true){
     .list-testimonials{
@@ -250,7 +264,8 @@
         }
     }
 }
-.activate-list-testimonials(@activate-list-testimonials);
+    .activate-list-testimonials(@activate-list-testimonials)
+;
 
 // Table classes
 //==================================================
@@ -274,10 +289,10 @@
 .scroll{
     overflow   : auto;
     max-height : 100%;
-//    min-height : 100%;
+    //    min-height : 100%;
 
     &.scroll-left{
-        direction:rtl;
+        direction : rtl;
         &>*{ direction : ltr; }
     }
 }
@@ -323,39 +338,26 @@
     bottom     : 0;
     width      : 350px;
     z-index    : 100;
-    .transition;
+    display    : none;
     .box-shadow(0 0 25px @gray);
 
-    &.show{
-
-        &:before{
-            content  : '';
-            position : fixed;
-            top      : 0;
-            left     : 0;
-            right    : 0;
-            bottom   : 0;
-            z-index  : -1;
-            .rgba(#fff, 0.5);
-        }
-    }
+//    &:before{
+//        content  : '';
+//        position : fixed;
+//        top      : 0;
+//        left     : 0;
+//        right    : 0;
+//        bottom   : 0;
+//        z-index  : -1;
+//        .rgba(#fff, 0.5);
+//    }
 }
 .show-right{
-    left  : auto;
-    right : -400px;
-
-    &.show{
-        right : 0 !important;
-    }
+    right : 0;
 }
 
 .show-left{
-    right : auto;
-    left  : -400px;
-
-    &.show{
-        left : 0 !important;
-    }
+    left : 0;
 }
 
 .or{

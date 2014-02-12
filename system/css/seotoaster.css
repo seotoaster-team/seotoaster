@@ -320,7 +320,6 @@ blockquote.info a,
 }
 ul,
 ol {
-  margin-bottom: 1.5em;
   padding-left: 2.5em;
 }
 ul ol,
@@ -468,73 +467,6 @@ dl.horizontal dd {
 .list-arrow > li:hover:before {
   color: #31b0d5;
 }
-.list-count-sign {
-  list-style-type: none;
-  counter-reset: list;
-  padding-left: 0;
-}
-.list-count-sign > li {
-  margin-bottom: 0.5em;
-  padding-left: 3em;
-  line-height: 2em;
-}
-.list-count-sign > li:before {
-  display: inline-block;
-  vertical-align: middle;
-  counter-increment: list;
-  content: counter(list);
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  background-color: #fafafa;
-  margin-left: -3em;
-  margin-right: 1em;
-  -webkit-transition: background-color 0.5s ease;
-  -moz-transition: background-color 0.5s ease;
-  -ms-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
-  -webkit-border-radius: 10em;
-  -moz-border-radius: 10em;
-  -ms-border-radius: 10em;
-  border-radius: 10em;
-}
-.list-count-sign > li:hover:before {
-  background: #31b0d5;
-  color: #ffffff;
-}
-.list-icon-sign {
-  list-style-type: none;
-  counter-reset: list;
-  padding-left: 0;
-}
-.list-icon-sign > li {
-  margin-bottom: 0.5em;
-  padding-left: 3em;
-  line-height: 2em;
-  display: list-item;
-}
-.list-icon-sign > li:before {
-  display: inline-block;
-  vertical-align: middle;
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  background-color: #fafafa;
-  margin-left: -3em;
-  margin-right: 1em;
-  -webkit-transition: background-color 0.5s ease;
-  -moz-transition: background-color 0.5s ease;
-  -ms-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
-  -webkit-border-radius: 10em;
-  -moz-border-radius: 10em;
-  -ms-border-radius: 10em;
-  border-radius: 10em;
-}
-.list-icon-sign > li:hover:before {
-  background: #31b0d5;
-  color: #ffffff;
-}
 .list-title {
   background: #aaaaaa;
   color: #ffffff;
@@ -586,7 +518,7 @@ ol.items-list .list-row > * {
   overflow: hidden;
   text-align: center;
   padding: 2px;
-  background: transparent;
+  background: #ffffff;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -2213,9 +2145,9 @@ body {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  margin-top: 0;
-  padding: 15px 0 10px;
-  height: 55px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  height: 30px;
   line-height: 30px;
 }
 [class*="content"].grid_12 + .footer {
@@ -2226,10 +2158,9 @@ body {
 .footer [type="button"] {
   margin-top: 0 !important;
 }
-[class*="content-"] .footer {
+[class*="content"] > .footer {
   background: #ffffff;
-  padding-bottom: 0;
-  height: 45px;
+  margin-bottom: 0;
 }
 .page-preview {
   -webkit-box-shadow: 0 1px 1px #bbbbbb;
@@ -2857,7 +2788,7 @@ select option {
   left: 50%;
 }
 input.icon ~ [class*="icon-"] {
-  color: #eaeaea;
+  color: #b7b7b7;
   cursor: pointer;
   width: 42px;
   height: 42px;
@@ -2868,7 +2799,7 @@ input.icon ~ [class*="icon-"]:before {
   font-size: 42px;
 }
 input.icon ~ [class*="icon-"]:hover {
-  color: #d1d1d1;
+  color: #9e9e9e;
 }
 input.icon ~ input {
   border-color: transparent;
@@ -2911,10 +2842,10 @@ input.icon.linkedin:checked ~ input:focus {
 }
 input.icon.rss:checked ~ [class*="icon-"],
 input.icon.rss ~ input.filled ~ [class*="icon-"] {
-  color: #FE9900;
+  color: #fe9900;
 }
 input.icon.rss:checked ~ input:focus {
-  border-color: #FE9900;
+  border-color: #fe9900;
   -webkit-box-shadow: 0 0 3px #fe9900;
   -moz-box-shadow: 0 0 3px #fe9900;
   -ms-box-shadow: 0 0 3px #fe9900;
@@ -2933,25 +2864,25 @@ input.icon.gplus:checked ~ input:focus {
 }
 input.icon.youtube:checked ~ [class*="icon-"],
 input.icon.youtube ~ input.filled ~ [class*="icon-"] {
-  color: #c7453f;
+  color: #b72d24;
 }
 input.icon.youtube:checked ~ input:focus {
-  border-color: #c7453f;
-  -webkit-box-shadow: 0 0 3px #c7453f;
-  -moz-box-shadow: 0 0 3px #c7453f;
-  -ms-box-shadow: 0 0 3px #c7453f;
-  box-shadow: 0 0 3px #c7453f;
+  border-color: #b72d24;
+  -webkit-box-shadow: 0 0 3px #b72d24;
+  -moz-box-shadow: 0 0 3px #b72d24;
+  -ms-box-shadow: 0 0 3px #b72d24;
+  box-shadow: 0 0 3px #b72d24;
 }
 input.icon.pinterest:checked ~ [class*="icon-"],
 input.icon.pinterest ~ input.filled ~ [class*="icon-"] {
-  color: #bd3137;
+  color: #b72d24;
 }
 input.icon.pinterest:checked ~ input:focus {
-  border-color: #bd3137;
-  -webkit-box-shadow: 0 0 3px #bd3137;
-  -moz-box-shadow: 0 0 3px #bd3137;
-  -ms-box-shadow: 0 0 3px #bd3137;
-  box-shadow: 0 0 3px #bd3137;
+  border-color: #b72d24;
+  -webkit-box-shadow: 0 0 3px #b72d24;
+  -moz-box-shadow: 0 0 3px #b72d24;
+  -ms-box-shadow: 0 0 3px #b72d24;
+  box-shadow: 0 0 3px #b72d24;
 }
 .message,
 .smoke-base .dialog {
@@ -3191,15 +3122,18 @@ input.icon.pinterest:checked ~ input:focus {
   box-shadow: 0 0 100px #a8c4ce;
 }
 .smoke-base .dialog-inner {
-  font-size: 1.5em;
+  font-size: 1.25em;
   padding: 12px 18px;
+}
+.smoke-base .dialog-inner p {
+  margin: 0 0 0.5em;
 }
 .smoke-base .form-errors {
   max-height: 210px;
   overflow: auto;
 }
 .smoke-base .dialog-buttons {
-  margin-top: 10px;
+  margin-top: 2em;
   font-size: 14px;
 }
 .smoke-base .dialog-buttons button {
@@ -3497,9 +3431,7 @@ input.icon.pinterest:checked ~ input:focus {
 .ui-dialog {
   font-size: 14px;
   background-color: #ffffff;
-  position: absolute;
   padding: 0;
-  z-index: 1002;
 }
 .ui-dialog .ui-dialog-titlebar {
   background: #eaeaea;
@@ -3619,14 +3551,6 @@ input.icon.pinterest:checked ~ input:focus {
   body>[aria-describedby="toasterPopup"][style*="width: 480px;"] {
     margin-left: 0 !important;
   }
-}
-.ui-overlay + .ui-widget-content {
-  background: #ffffff;
-  z-index: 1001;
-  -webkit-box-shadow: 3px 3px 10px #000000;
-  -moz-box-shadow: 3px 3px 10px #000000;
-  -ms-box-shadow: 3px 3px 10px #000000;
-  box-shadow: 3px 3px 10px #000000;
 }
 .ui-datepicker {
   z-index: 100 !important;
@@ -4254,11 +4178,6 @@ input.icon.pinterest:checked ~ input:focus {
 #frm-page #teaser-text {
   height: 130px;
 }
-#falist {
-  background: #ffffff;
-  right: -400px;
-  width: 350px;
-}
 .featured-link .icon-tags {
   background: #fafafa;
   padding: 7px;
@@ -4679,11 +4598,6 @@ input.icon.pinterest:checked ~ input:focus {
 #silos-list .list-row {
   line-height: 1.428571429;
   text-align: left;
-}
-#listpages {
-  background: #FFF;
-  right: -400px;
-  width: 350px;
 }
 #frm_template [for="template-content"] {
   background: #aaaaaa;

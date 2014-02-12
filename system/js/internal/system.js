@@ -188,7 +188,8 @@ $(function(){
     //publishPages();
     checkboxRadio();
     $doc.on('click', '.closebutton .hide', function(){
-        $('.show-left.show, .show-right.show').removeClass('show');
+        $('.show-left').hide("slide", { direction: "left"});
+        $('.show-right').hide("slide", { direction: "right"});
         return false;
     });
 });
@@ -262,11 +263,11 @@ $doc.on('click', '.tabs-nav-wrap .arrow', function(){
     var $nav = $(this).nextAll('.ui-tabs-nav');
     var navScroll = $nav.scrollLeft();
     if($(this).hasClass('left')){
-        $nav.animate({
+        $nav.stop().animate({
             scrollLeft : navScroll-200
         });
     }else if($(this).hasClass('right')){
-        $nav.animate({
+        $nav.stop().animate({
             scrollLeft : navScroll+200
         });
     }

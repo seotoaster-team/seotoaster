@@ -322,6 +322,39 @@ button[disabled], html input[disabled]{
     z-index  : 1001;
 }
 
+.ui-dialog[aria-describedby="toasterPopup"]{
+    position    : fixed;
+    z-index     : 1002;
+    border      : none;
+    top         : 0 !important;
+    bottom      : 0 !important;
+    left        : 0 !important;
+    right       : 0 !important;
+    margin      : auto !important;
+    padding     : 0;
+    line-height : 0;
+    background  : @dialog-bg;
+    font-size   : @font-size-base;
+    .box-shadow(3px 3px 10px #000);
+
+    iframe{
+        background-image    : url("../images/spinner.gif");
+        background-position : center center;
+        background-repeat   : no-repeat;
+    }
+
+    &.screen-expand{
+        height    : 100% !important;
+        min-width : 960px;
+    }
+}
+
+.ui-overlay+.ui-widget-content{
+    background : @body-bg;
+    z-index    : 1001;
+    .box-shadow(3px 3px 10px #000);
+}
+
 // Grid System
 //==================================================
 @import "Elements/grid";

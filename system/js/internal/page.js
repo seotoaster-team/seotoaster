@@ -13,7 +13,7 @@ $(function () {
         var templateId = $(this).parent().find('input[name="template-id"]').val();
         $('#templateId').val(templateId).change();
         $('#curr-template').text(templateId);
-        $('#templatelist').removeClass('show');
+        $('#templatelist').hide("slide", { direction: "right"});
     }).on('click', 'input.menu-selector',function (e) { // main menu radio click
         checkMenu($(e.currentTarget).attr('id'), selectedOpt);
     }).on('click', '#toggle-optimized', function() { // optimized checkbox click

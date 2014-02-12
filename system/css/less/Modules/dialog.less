@@ -1,9 +1,7 @@
 .ui-dialog{
     font-size        : @font-size-base;
     background-color : @body-bg;
-    position         : absolute;
     padding          : 0;
-    z-index          : 1002;
 
     .ui-dialog-titlebar{
         background  : @header-bg;
@@ -114,10 +112,4 @@
     (~'body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"]'){
         margin-left : 0 !important;
     }
-}
-
-.ui-overlay+.ui-widget-content{
-    background : @body-bg;
-    z-index    : 1001;
-    .box-shadow(3px 3px 10px #000);
 }

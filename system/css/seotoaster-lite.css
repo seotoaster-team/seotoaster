@@ -320,7 +320,6 @@ blockquote.info a,
 }
 ul,
 ol {
-  margin-bottom: 1.5em;
   padding-left: 2.5em;
 }
 ul ol,
@@ -468,73 +467,6 @@ dl.horizontal dd {
 .list-arrow > li:hover:before {
   color: #31b0d5;
 }
-.list-count-sign {
-  list-style-type: none;
-  counter-reset: list;
-  padding-left: 0;
-}
-.list-count-sign > li {
-  margin-bottom: 0.5em;
-  padding-left: 3em;
-  line-height: 2em;
-}
-.list-count-sign > li:before {
-  display: inline-block;
-  vertical-align: middle;
-  counter-increment: list;
-  content: counter(list);
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  background-color: #fafafa;
-  margin-left: -3em;
-  margin-right: 1em;
-  -webkit-transition: background-color 0.5s ease;
-  -moz-transition: background-color 0.5s ease;
-  -ms-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
-  -webkit-border-radius: 10em;
-  -moz-border-radius: 10em;
-  -ms-border-radius: 10em;
-  border-radius: 10em;
-}
-.list-count-sign > li:hover:before {
-  background: #31b0d5;
-  color: #ffffff;
-}
-.list-icon-sign {
-  list-style-type: none;
-  counter-reset: list;
-  padding-left: 0;
-}
-.list-icon-sign > li {
-  margin-bottom: 0.5em;
-  padding-left: 3em;
-  line-height: 2em;
-  display: list-item;
-}
-.list-icon-sign > li:before {
-  display: inline-block;
-  vertical-align: middle;
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  background-color: #fafafa;
-  margin-left: -3em;
-  margin-right: 1em;
-  -webkit-transition: background-color 0.5s ease;
-  -moz-transition: background-color 0.5s ease;
-  -ms-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
-  -webkit-border-radius: 10em;
-  -moz-border-radius: 10em;
-  -ms-border-radius: 10em;
-  border-radius: 10em;
-}
-.list-icon-sign > li:hover:before {
-  background: #31b0d5;
-  color: #ffffff;
-}
 .list-title {
   background: #aaaaaa;
   color: #ffffff;
@@ -586,7 +518,7 @@ ol.items-list .list-row > * {
   overflow: hidden;
   text-align: center;
   padding: 2px;
-  background: transparent;
+  background: #ffffff;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -2213,9 +2145,9 @@ body {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  margin-top: 0;
-  padding: 15px 0 10px;
-  height: 55px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  height: 30px;
   line-height: 30px;
 }
 [class*="content"].grid_12 + .footer {
@@ -2226,10 +2158,9 @@ body {
 .footer [type="button"] {
   margin-top: 0 !important;
 }
-[class*="content-"] .footer {
+[class*="content"] > .footer {
   background: #ffffff;
-  padding-bottom: 0;
-  height: 45px;
+  margin-bottom: 0;
 }
 .page-preview {
   -webkit-box-shadow: 0 1px 1px #bbbbbb;

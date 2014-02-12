@@ -109,18 +109,15 @@
 		$('#h1').focus();
 		$('#templateId').val() ? $('#curr-template').text($('#templateId').val()) :'';
 		$(document).on('click', '#curr-template', function(){
-			$('#templatelist').addClass('show');
+			$('#templatelist').show("slide", { direction: "right"});
 			if(!$('#templatelist').find('.content').length){
 				showTemplatesList();
 			}
 		}).on('click', '.featured', function(){
-				$('#falist').addClass('show');
-			}).on('click', '.show~#frm-page', function(e) {
-				$('#templatelist, #falist').removeClass('show');
-				return false;
-			});
+            $('#falist').show("slide", { direction: "right"});
+        });
 	})
 </script>
 
-<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
-<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>
+<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/page.min.js'); ?>
+<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.min.js'); ?>

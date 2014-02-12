@@ -14,3 +14,17 @@
     @import "Widgets/form";
 }
 .activate-form(@activate-widget-form);
+
+// Modules Styles
+//==================================================
+.activate-modules(@activate) when (@activate = true){
+    @import "Packages/modules";
+}
+.activate-modules(@activate-modules);
+
+// Animation
+//==================================================
+.activate-animate(@activate) when (@activate = true){
+    @import "Packages/animate-custom";
+}
+.activate-animate(@activate-animate);
