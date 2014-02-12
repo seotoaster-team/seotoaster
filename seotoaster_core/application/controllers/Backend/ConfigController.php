@@ -33,16 +33,20 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$isSuperAdminLogged = ($loggedUser->getRoleId() === Tools_Security_Acl::ROLE_SUPERADMIN);
 		$this->view->isSuperAdmin = $isSuperAdminLogged;
 
-		if (!$isSuperAdminLogged) {
-			$configForm->removeElement('suLogin');
-			$configForm->removeElement('suPassword');
-		} else {
-			//initializing current superadmin user
-			$userTable = new Application_Model_DbTable_User();
-			$userMapper = Application_Model_Mappers_UserMapper::getInstance();
-		}
+		if ($this->getRequest()->isPost()) {
+            if (!$isSuperAdminLogged) {
+                $configForm->removeElement('suLogin');
+                $configForm->removeElement('suPassword');
+                $configForm->removeElement('canonicalScheme');
+                $configForm->removeElement('recapthaPublicKey');
+                $configForm->removeElement('recapthaPrivateKey');
+            }
+            else {
+                //initializing current superadmin user
+                $userTable  = new Application_Model_DbTable_User();
+                $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+            }
 
-		if ($this->getRequest()->isPost()){
 			if ($configForm->isValid($this->getRequest()->getParams())){
 				//proccessing language changing
 				$selectedLang = $languageSelect->getValue();
