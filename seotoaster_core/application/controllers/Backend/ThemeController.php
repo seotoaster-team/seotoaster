@@ -249,10 +249,11 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
         $cssTree = array();
         foreach ($cssFiles as $file) {
-            // don't show concat.css for editing
-            if (strtolower(basename($file)) == Widgets_Concatcss_Concatcss::FILENAME) {
+            // don't show concat css for editing
+            if (preg_match('/'.MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX.'[a-zA-Z0-9]+\.css/i', strtolower(basename($file)))) {
                 continue;
             }
+
             preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', Tools_System_Tools::normalizePath($file), $sequences);
             $subfolders = $currentThemeName . '/' . $sequences[1][0];
             $files = array();
