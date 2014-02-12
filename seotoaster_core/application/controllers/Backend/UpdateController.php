@@ -285,8 +285,9 @@ class Backend_UpdateController extends Zend_Controller_Action
         if ($this->_session->nextStep === 7) {
             $this->_session->nextStep = 1;
             unlink($this->_tmpPath . self::PACK_NAME);
-            foreach (glob($this->_websitePath . 'zend_cache---*') as $filename) {
-                unlink($filename);
+            $caches =glob($this->_websitePath . 'zend_cache---*');
+            foreach ($caches as $cache) {
+                unlink($cache);
             }
             return $this->_helper->response->success(
                 array('status' => 0, 'message' => $this->_helper->language->translate('Success!'))
