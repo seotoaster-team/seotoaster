@@ -336,28 +336,42 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
         $zip = new ZipArchive();
         if ($action === 'compress') {
-            $exclude = array('tmp', 'cache', 'media', 'previews', 'themes');
+            $filesForBackup = array(
+                $source . 'favicon.ico',
+                $source . 'feeds',
+                $source . '.htaccess',
+                $source . 'index.php',
+                $source . '_install',
+                $source . 'plugins',
+                $source . 'robots.txt',
+                $source . 'seotoaster_core',
+                $source . 'system',
+                $source . 'version.txt'
+            );
             if (!$zip->open($destination . $name, ZIPARCHIVE::CREATE)) {
                 return false;
             }
-            $source = str_replace('\\', '/', realpath($source));
-            if (is_dir($source) === true) {
-                $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
-                foreach ($files as $file) {
-                    if (!in_array($file, $exclude)) {
+            foreach ($filesForBackup as $source) {
+                $source = str_replace('\\', '/', realpath($source));
+                if (is_dir($source) === true) {
+                    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+                    foreach ($files as $file) {
                         $file = str_replace('\\', '/', realpath($file));
                         if (is_dir($file) === true) {
-                            $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                            $zip->addEmptyDir(str_replace($this->_websitePath, '', $file . '/'));
                         } else {
                             if (is_file($file) === true) {
-                                $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                                $zip->addFromString(
+                                    str_replace($this->_websitePath, '', $file),
+                                    file_get_contents($file)
+                                );
                             }
                         }
                     }
-                }
-            } else {
-                if (is_file($source) === true) {
-                    $zip->addFromString(basename($source), file_get_contents($source));
+                } else {
+                    if (is_file($source) === true) {
+                        $zip->addFromString(basename($source), file_get_contents($source));
+                    }
                 }
             }
             $zip->close();
