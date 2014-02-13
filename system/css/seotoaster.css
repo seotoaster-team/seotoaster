@@ -5097,6 +5097,11 @@ select option {
   text-decoration: none;
 }
 .readme-content {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
   height: 450px !important;
 }
 #new-post #newslog-frm-newpost #teaser-text {
