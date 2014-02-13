@@ -352,7 +352,7 @@ textarea{
             line-height   : @btn-height-base;
             background    : @input-border-color;
             text-align    : center;
-            color         : #fff;
+            color         : #fff !important;
             .transition(all, 0.3s);
 
             .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
@@ -378,9 +378,7 @@ textarea{
                 .activate-font-size-large(@activate-alternate-style-size-large);
                 .activate-font-size-small(@activate-alternate-style-size-small);
 
-                option{
-                    color : @text-color;
-                }
+                option{ color : @text-color; }
             }
             .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
         }
@@ -398,23 +396,27 @@ textarea{
             .filled, :checked~input{border-color : @rss;}
             *:checked{
                 &~label, &~.label{ background : @rss; }
+                &~[class*="icon-"]{ color : @rss; }
             }
         }
         &.gplus{
             .filled, :checked~input{border-color : @gplus;}
             *:checked{
                 &~label, &~.label{ background : @gplus; }
+                &~[class*="icon-"]{ color : @gplus; }
             }
         }
         &.twitter{
             .filled, :checked~input{border-color : @twitter;}
             *:checked{
                 &~label, &~.label{ background : @twitter; }
+                &~[class*="icon-"]{ color : @twitter; }
             }
         }
         &.youtube{
             .filled, :checked~input{border-color : @youtube;}
             *:checked{
+                &~[class*="icon-"]{ color : @youtube; }
                 &~label, &~.label{ background : @youtube; }
             }
         }
@@ -422,12 +424,21 @@ textarea{
             .filled, :checked~input{border-color : @linkedin;}
             *:checked{
                 &~label, &~.label{ background : @linkedin; }
+                &~[class*="icon-"]{ color : @linkedin; }
             }
         }
         &.facebook{
             .filled, :checked~input{border-color : @facebook;}
             *:checked{
                 &~label, &~.label{ background : @facebook; }
+                &~[class*="icon-"]{ color : @facebook; }
+            }
+        }
+        &.pinterest{
+            .filled, :checked~input{border-color : @pinterest;}
+            *:checked{
+                &~label, &~.label{ background : @pinterest; }
+                &~[class*="icon-"]{ color : @pinterest; }
             }
         }
     }
@@ -469,96 +480,3 @@ textarea{
     }
 }
 .activate-search(@activate-widget-search);
-
-// Social button with checkbox
-//==================================================
-input.icon{
-    & ~ [class*="icon-"]{
-        color : darken(@gray-light, 20%);
-        cursor : pointer;
-        .icon-size(42px);
-
-        &:hover{
-            color : darken(@gray-light, 30%);
-        }
-    }
-
-    &~input{ border-color : transparent; }
-
-    &:checked{
-        &~input{
-            border-color : @input-border-color;
-        }
-    }
-
-    &.facebook{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @facebook;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @facebook;
-            .box-shadow(0 0 3px @facebook);
-        }
-    }
-    &.twitter{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @twitter;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @twitter;
-            .box-shadow(0 0 3px @twitter);
-        }
-    }
-    &.linkedin{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @linkedin;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @linkedin;
-            .box-shadow(0 0 3px @linkedin);
-        }
-    }
-    &.rss{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @rss;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @rss;
-            .box-shadow(0 0 3px @rss);
-        }
-    }
-    &.gplus{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @gplus;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @gplus;
-            .box-shadow(0 0 3px @gplus);
-        }
-    }
-    &.youtube{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @youtube;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @youtube;
-            .box-shadow(0 0 3px @youtube);
-        }
-    }
-    &.pinterest{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @pinterest;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @pinterest;
-            .box-shadow(0 0 3px @pinterest);
-        }
-    }
-}

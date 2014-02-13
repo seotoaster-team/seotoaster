@@ -383,7 +383,7 @@ select option {
   line-height: 30px;
   background: #cccccc;
   text-align: center;
-  color: #fff;
+  color: #fff !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -429,6 +429,9 @@ select option {
 .labeled.rss *:checked ~ .label {
   background: #fe9900;
 }
+.labeled.rss *:checked ~ [class*="icon-"] {
+  color: #fe9900;
+}
 .labeled.gplus .filled,
 .labeled.gplus :checked ~ input {
   border-color: #ca3e2d;
@@ -436,6 +439,9 @@ select option {
 .labeled.gplus *:checked ~ label,
 .labeled.gplus *:checked ~ .label {
   background: #ca3e2d;
+}
+.labeled.gplus *:checked ~ [class*="icon-"] {
+  color: #ca3e2d;
 }
 .labeled.twitter .filled,
 .labeled.twitter :checked ~ input {
@@ -445,9 +451,15 @@ select option {
 .labeled.twitter *:checked ~ .label {
   background: #1aa8e0;
 }
+.labeled.twitter *:checked ~ [class*="icon-"] {
+  color: #1aa8e0;
+}
 .labeled.youtube .filled,
 .labeled.youtube :checked ~ input {
   border-color: #b72d24;
+}
+.labeled.youtube *:checked ~ [class*="icon-"] {
+  color: #b72d24;
 }
 .labeled.youtube *:checked ~ label,
 .labeled.youtube *:checked ~ .label {
@@ -461,6 +473,9 @@ select option {
 .labeled.linkedin *:checked ~ .label {
   background: #4875b5;
 }
+.labeled.linkedin *:checked ~ [class*="icon-"] {
+  color: #4875b5;
+}
 .labeled.facebook .filled,
 .labeled.facebook :checked ~ input {
   border-color: #3b5a99;
@@ -468,6 +483,20 @@ select option {
 .labeled.facebook *:checked ~ label,
 .labeled.facebook *:checked ~ .label {
   background: #3b5a99;
+}
+.labeled.facebook *:checked ~ [class*="icon-"] {
+  color: #3b5a99;
+}
+.labeled.pinterest .filled,
+.labeled.pinterest :checked ~ input {
+  border-color: #b72d24;
+}
+.labeled.pinterest *:checked ~ label,
+.labeled.pinterest *:checked ~ .label {
+  background: #b72d24;
+}
+.labeled.pinterest *:checked ~ [class*="icon-"] {
+  color: #b72d24;
 }
 .checkbox_radio-wrap {
   display: inline-block;
@@ -590,103 +619,6 @@ select option {
 }
 [type="checkbox"].switcher:checked ~ .checkbox_radio span {
   left: 50%;
-}
-input.icon ~ [class*="icon-"] {
-  color: #b7b7b7;
-  cursor: pointer;
-  width: 42px;
-  height: 42px;
-  line-height: 42px;
-  font-size: 0 !important;
-}
-input.icon ~ [class*="icon-"]:before {
-  font-size: 42px;
-}
-input.icon ~ [class*="icon-"]:hover {
-  color: #9e9e9e;
-}
-input.icon ~ input {
-  border-color: transparent;
-}
-input.icon:checked ~ input {
-  border-color: #cccccc;
-}
-input.icon.facebook:checked ~ [class*="icon-"],
-input.icon.facebook ~ input.filled ~ [class*="icon-"] {
-  color: #3b5a99;
-}
-input.icon.facebook:checked ~ input:focus {
-  border-color: #3b5a99;
-  -webkit-box-shadow: 0 0 3px #3b5a99;
-  -moz-box-shadow: 0 0 3px #3b5a99;
-  -ms-box-shadow: 0 0 3px #3b5a99;
-  box-shadow: 0 0 3px #3b5a99;
-}
-input.icon.twitter:checked ~ [class*="icon-"],
-input.icon.twitter ~ input.filled ~ [class*="icon-"] {
-  color: #1aa8e0;
-}
-input.icon.twitter:checked ~ input:focus {
-  border-color: #1aa8e0;
-  -webkit-box-shadow: 0 0 3px #1aa8e0;
-  -moz-box-shadow: 0 0 3px #1aa8e0;
-  -ms-box-shadow: 0 0 3px #1aa8e0;
-  box-shadow: 0 0 3px #1aa8e0;
-}
-input.icon.linkedin:checked ~ [class*="icon-"],
-input.icon.linkedin ~ input.filled ~ [class*="icon-"] {
-  color: #4875b5;
-}
-input.icon.linkedin:checked ~ input:focus {
-  border-color: #4875b5;
-  -webkit-box-shadow: 0 0 3px #4875b5;
-  -moz-box-shadow: 0 0 3px #4875b5;
-  -ms-box-shadow: 0 0 3px #4875b5;
-  box-shadow: 0 0 3px #4875b5;
-}
-input.icon.rss:checked ~ [class*="icon-"],
-input.icon.rss ~ input.filled ~ [class*="icon-"] {
-  color: #fe9900;
-}
-input.icon.rss:checked ~ input:focus {
-  border-color: #fe9900;
-  -webkit-box-shadow: 0 0 3px #fe9900;
-  -moz-box-shadow: 0 0 3px #fe9900;
-  -ms-box-shadow: 0 0 3px #fe9900;
-  box-shadow: 0 0 3px #fe9900;
-}
-input.icon.gplus:checked ~ [class*="icon-"],
-input.icon.gplus ~ input.filled ~ [class*="icon-"] {
-  color: #ca3e2d;
-}
-input.icon.gplus:checked ~ input:focus {
-  border-color: #ca3e2d;
-  -webkit-box-shadow: 0 0 3px #ca3e2d;
-  -moz-box-shadow: 0 0 3px #ca3e2d;
-  -ms-box-shadow: 0 0 3px #ca3e2d;
-  box-shadow: 0 0 3px #ca3e2d;
-}
-input.icon.youtube:checked ~ [class*="icon-"],
-input.icon.youtube ~ input.filled ~ [class*="icon-"] {
-  color: #b72d24;
-}
-input.icon.youtube:checked ~ input:focus {
-  border-color: #b72d24;
-  -webkit-box-shadow: 0 0 3px #b72d24;
-  -moz-box-shadow: 0 0 3px #b72d24;
-  -ms-box-shadow: 0 0 3px #b72d24;
-  box-shadow: 0 0 3px #b72d24;
-}
-input.icon.pinterest:checked ~ [class*="icon-"],
-input.icon.pinterest ~ input.filled ~ [class*="icon-"] {
-  color: #b72d24;
-}
-input.icon.pinterest:checked ~ input:focus {
-  border-color: #b72d24;
-  -webkit-box-shadow: 0 0 3px #b72d24;
-  -moz-box-shadow: 0 0 3px #b72d24;
-  -ms-box-shadow: 0 0 3px #b72d24;
-  box-shadow: 0 0 3px #b72d24;
 }
 .message,
 .smoke-base .dialog {
