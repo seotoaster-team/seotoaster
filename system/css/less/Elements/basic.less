@@ -315,5 +315,11 @@ body{
 }
 
 .plupload{
+    cursor : pointer;
     display : none;
+
+    &+form{
+        cursor  : text;
+        z-index : 999999;
+    }
 }

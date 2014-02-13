@@ -803,11 +803,6 @@ button,
   cursor: pointer;
   position: relative;
   text-decoration: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -2240,7 +2235,12 @@ body {
   color: #dddddd;
 }
 .plupload {
+  cursor: pointer;
   display: none;
+}
+.plupload + form {
+  cursor: text;
+  z-index: 999999;
 }
 form:after,
 .form:after {
@@ -3523,32 +3523,32 @@ input.icon.pinterest:checked ~ input:focus {
   background-position: 16px 16px;
 }
 @media only screen and (max-height: 560px) {
-  body>[aria-describedby="toasterPopup"][style*="height: 560px;"] {
+  body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"] {
     margin-top: 0 !important;
   }
 }
 @media only screen and (max-height: 480px) {
-  body>[aria-describedby="toasterPopup"][style*="height: 480px;"] {
+  body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-medium-height};"] {
     margin-top: 0 !important;
   }
 }
 @media only screen and (max-height: 360px) {
-  body>[aria-describedby="toasterPopup"][style*="height: 360px;"] {
+  body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-small-height};"] {
     margin-top: 0 !important;
   }
 }
 @media only screen and (max-width: 960px) {
-  body>[aria-describedby="toasterPopup"][style*="width: 960px;"] {
+  body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-base-width};"] {
     margin-left: 0 !important;
   }
 }
 @media only screen and (max-width: 720px) {
-  body>[aria-describedby="toasterPopup"][style*="width: 720px;"] {
+  body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-medium-width};"] {
     margin-left: 0 !important;
   }
 }
 @media only screen and (max-width: 480px) {
-  body>[aria-describedby="toasterPopup"][style*="width: 480px;"] {
+  body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"] {
     margin-left: 0 !important;
   }
 }
