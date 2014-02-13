@@ -392,14 +392,50 @@ textarea{
                 background : @input-border-color-focus;
             }
         }
+
+        // Social Filed
+        &.rss{
+            .filled, :checked~input{border-color : @rss;}
+            *:checked{
+                &~label, &~.label{ background : @rss; }
+            }
+        }
+        &.gplus{
+            .filled, :checked~input{border-color : @gplus;}
+            *:checked{
+                &~label, &~.label{ background : @gplus; }
+            }
+        }
+        &.twitter{
+            .filled, :checked~input{border-color : @twitter;}
+            *:checked{
+                &~label, &~.label{ background : @twitter; }
+            }
+        }
+        &.youtube{
+            .filled, :checked~input{border-color : @youtube;}
+            *:checked{
+                &~label, &~.label{ background : @youtube; }
+            }
+        }
+        &.linkedin{
+            .filled, :checked~input{border-color : @linkedin;}
+            *:checked{
+                &~label, &~.label{ background : @linkedin; }
+            }
+        }
+        &.facebook{
+            .filled, :checked~input{border-color : @facebook;}
+            *:checked{
+                &~label, &~.label{ background : @facebook; }
+            }
+        }
     }
 }
-    .activate-form-labeled(@activate-alternate-style-form-labeled, @activate-alternate-style)
-;
+.activate-form-labeled(@activate-alternate-style-form-labeled, @activate-alternate-style);
 
 // -- Checkbox & Radio field style
-    .checkboxRadioStyle()
-;
+.checkboxRadioStyle();
 
 //	Search form
 //==================================================
@@ -432,8 +468,7 @@ textarea{
         }
     }
 }
-    .activate-search(@activate-widget-search)
-;
+.activate-search(@activate-widget-search);
 
 // Social button with checkbox
 //==================================================

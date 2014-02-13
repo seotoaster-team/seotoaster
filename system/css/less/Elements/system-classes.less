@@ -109,13 +109,11 @@
     .activate-color-red(@activate-alternate-style-color-red);
     .activate-color-blue(@activate-alternate-style-color-blue);
 }
-    .activate-color(@activate-alternate-style-color, @activate-alternate-style)
-;
+.activate-color(@activate-alternate-style-color, @activate-alternate-style);
 
 // Social Links
 //==================================================
 .activate-list-social-links(@activate) when (@activate = true){
-
     .social-links{
         .hide-text;
 
@@ -156,8 +154,39 @@
         }
     }
 }
-    .activate-list-social-links(@activate-list-social-links)
-;
+.activate-list-social-links(@activate-list-social-links);
+
+// Social Field
+//==================================================
+.activate-list-social-field(@activate) when (@activate = true){
+    .social-field{
+        .labeled{
+            float  : left;
+            margin : 0;
+            cursor: pointer;
+
+            &+.labeled{
+                margin-left : @grid-margin-width / 2;
+            }
+
+            [class*="icon-"]{
+                float      : left;
+                .icon-size(@btn-height-base);
+            }
+
+            input{
+                width       : 0;
+                margin-left : -@padding-base-horizontal * 2;
+            }
+
+            :checked~input{
+                margin-left : 0;
+                width       : 242px;
+            }
+        }
+    }
+}
+.activate-list-social-field(@activate-list-social-links);
 
 // Change style for Generator Links
 //==================================================
@@ -188,8 +217,7 @@
         }
     }
 }
-    .activate-generator-links(@activate-list-social-links, @activate-toaster-icons)
-;
+.activate-generator-links(@activate-list-social-links, @activate-toaster-icons);
 
 .activate-list-testimonials(@activate) when (@activate = true){
     .list-testimonials{
@@ -246,8 +274,7 @@
         }
     }
 }
-    .activate-list-testimonials(@activate-list-testimonials)
-;
+.activate-list-testimonials(@activate-list-testimonials);
 
 // Table classes
 //==================================================

@@ -421,6 +421,54 @@ select option {
 .labeled select:focus ~ .label {
   background: #31b0d5;
 }
+.labeled.rss .filled,
+.labeled.rss :checked ~ input {
+  border-color: #fe9900;
+}
+.labeled.rss *:checked ~ label,
+.labeled.rss *:checked ~ .label {
+  background: #fe9900;
+}
+.labeled.gplus .filled,
+.labeled.gplus :checked ~ input {
+  border-color: #ca3e2d;
+}
+.labeled.gplus *:checked ~ label,
+.labeled.gplus *:checked ~ .label {
+  background: #ca3e2d;
+}
+.labeled.twitter .filled,
+.labeled.twitter :checked ~ input {
+  border-color: #1aa8e0;
+}
+.labeled.twitter *:checked ~ label,
+.labeled.twitter *:checked ~ .label {
+  background: #1aa8e0;
+}
+.labeled.youtube .filled,
+.labeled.youtube :checked ~ input {
+  border-color: #b72d24;
+}
+.labeled.youtube *:checked ~ label,
+.labeled.youtube *:checked ~ .label {
+  background: #b72d24;
+}
+.labeled.linkedin .filled,
+.labeled.linkedin :checked ~ input {
+  border-color: #4875b5;
+}
+.labeled.linkedin *:checked ~ label,
+.labeled.linkedin *:checked ~ .label {
+  background: #4875b5;
+}
+.labeled.facebook .filled,
+.labeled.facebook :checked ~ input {
+  border-color: #3b5a99;
+}
+.labeled.facebook *:checked ~ label,
+.labeled.facebook *:checked ~ .label {
+  background: #3b5a99;
+}
 .checkbox_radio-wrap {
   display: inline-block;
   vertical-align: middle;
