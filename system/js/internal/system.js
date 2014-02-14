@@ -275,6 +275,8 @@ $doc.on('click', '.tabs-nav-wrap .arrow', function(){
 ///////// checkbox & radio button //////////////
 function checkboxRadio(){
     $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function(){
+        $(':radio').addClass('radio-upgrade filed-upgrade');
+        $(':checkbox').addClass('checkbox-upgrade filed-upgrade');
         if(!$(this).closest('.btn-set').length){
             var dataClass = $(this).data('label-class') ? $(this).data('label-class') : '';
             if($(this).parent('label').length){

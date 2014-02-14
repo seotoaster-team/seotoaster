@@ -10,7 +10,7 @@
     .activate-size(@size, @type);
     .activate-border(@btn-border-width);
     .activate-transition(@activate-button-transition);
-    .button-color(@color, @background, @border, true, true);
+    .button-color(@color, @background, @border, true);
 
     &:not(.icon){
         .text-overflow;
@@ -50,7 +50,7 @@
 
 // Button size
 //==================================================
-.button-size-larger(@activate: @activate-alternate-style-size-larger, @activate2: @activate-alternate-style-size, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.button-size-larger(@activate: @activate-alternate-style-button-size-larger, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
     height : @btn-height-larger;
 
     .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
@@ -69,7 +69,7 @@
     .border-radius(@btn-larger-border-radius);
 }
 
-.button-size-large(@activate: @activate-alternate-style-size-large, @activate2: @activate-alternate-style-size, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.button-size-large(@activate: @activate-alternate-style-button-size-large, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
     height : @btn-height-large;
 
     .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
@@ -107,7 +107,7 @@
     .border-radius(@btn-border-radius);
 }
 
-.button-size-small(@activate: @activate-alternate-style-size-small, @activate2: @activate-alternate-style-size, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.button-size-small(@activate: @activate-alternate-style-button-size-small, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
     height : @btn-height-small;
 
     .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
@@ -126,7 +126,7 @@
     .border-radius(@btn-small-border-radius);
 }
 
-.icon-size-larger(@activate: @activate-alternate-style-size-larger, @activate2: @activate-alternate-style-size, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.icon-size-larger(@activate: @activate-alternate-style-button-size-larger, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
     .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
         .icon-size(@icon-size-larger);
         padding : (@btn-height-larger - @icon-size-larger - @btn-border-width * 2) / 2;
@@ -150,7 +150,7 @@
     .icon-unit();
 }
 
-.icon-size-large(@activate: @activate-alternate-style-size-large, @activate2: @activate-alternate-style-size, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.icon-size-large(@activate: @activate-alternate-style-button-size-large, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
     .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
         .icon-size(@icon-size-large);
         padding : (@btn-height-large - @icon-size-large - @btn-border-width * 2) / 2;
@@ -198,7 +198,7 @@
     .icon-unit();
 }
 
-.icon-size-small(@activate: @activate-alternate-style-size-small, @activate2: @activate-alternate-style-size, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.icon-size-small(@activate: @activate-alternate-style-button-size-small, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
     .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
         .icon-size(@icon-size-small);
         padding : (@btn-height-small - @icon-size-small - @btn-border-width * 2) / 2;
@@ -224,7 +224,7 @@
 
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
-.link-color(@color, @activate: true, @activate2: @activate-alternate-style-color, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.link-color(@color, @eachColor: true) when (@eachColor = true){
     color            : @color;
     background-color : transparent;
     .activate-border(@activate) when (@activate > 0){
@@ -246,14 +246,15 @@
     }
     .activate-hover(@activate-hover);
 
-    &.disabled, &[disabled]{
+//    &.disabled,
+    &[disabled]{
         color           : desaturate(@color, 30%);
         text-decoration : none;
         .box-shadow(none);
     }
 }
 
-.link-color(@color, @color-hover, @activate: true, @activate2: @activate-alternate-style-color, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
     color            : @color;
     background-color : transparent;
     .activate-border(@activate) when (@activate > 0){
@@ -275,14 +276,15 @@
     }
     .activate-hover(@activate-hover);
 
-    &.disabled, &[disabled]{
+//    &.disabled,
+    &[disabled]{
         color           : desaturate(@color, 30%);
         text-decoration : none;
         .box-shadow(none);
     }
 }
 
-.button-color( @color, @background, @border, @activate: true, @activate2: @activate-alternate-style-color, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.button-color( @color, @background, @border, @eachColor: true) when (@eachColor = true){
     color            : @color;
     background-color : @background;
     .box-shadow(none, @input-shadow-focus);
@@ -318,7 +320,8 @@
     }
     .activate-hover(@activate-hover);
 
-    &.disabled, &[disabled]{
+//    &.disabled,
+    &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
         color            : desaturate(@color, 30%);
         background-color : desaturate(@background, 30%);
@@ -330,7 +333,7 @@
     }
 }
 
-.button-color( @color, @background, @border, @color2, @background2, @border2, @activate: true, @activate2: @activate-alternate-style-color, @activate3: @activate-alternate-style) when (@activate = true) and (@activate2 = true) and (@activate3 = true){
+.button-color( @color, @background, @border, @color2, @background2, @border2, @eachColor: true, @inverse: true) when (iscolor(@color2)) and (@eachColor = true) and  (@inverse = true){
     color            : @color;
     background-color : @background;
     text-decoration  : none;
@@ -367,7 +370,8 @@
     }
     .activate-hover(@activate-hover);
 
-    &.disabled, &[disabled]{
+//    &.disabled,
+    &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
         color            : desaturate(@color, 30%);
         background-color : @background;

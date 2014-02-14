@@ -1,4 +1,4 @@
-@import "Base/variables";
+@import "base/variables";
 // Table of Content
 //==================================================
 //	Lists Styles
@@ -11,20 +11,20 @@
 // Form Styles
 //==================================================
 .activate-form(@activate) when (@activate = true){
-    @import "Widgets/form";
+    @import "widgets/form";
 }
 .activate-form(@activate-widget-form);
 
 // Modules Styles
 //==================================================
 .activate-modules(@activate) when (@activate = true){
-    @import "Packages/modules";
+    @import "packages/modules";
 }
 .activate-modules(@activate-modules);
 
 // Animation
 //==================================================
 .activate-animate(@activate) when (@activate = true){
-    @import "Packages/animate-custom";
+    @import "packages/animate-custom";
 }
 .activate-animate(@activate-animate);

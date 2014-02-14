@@ -1,4 +1,4 @@
-@import "Base/variables";
+@import "base/variables";
 
 // Table of Content
 //==================================================
@@ -10,7 +10,7 @@
 
 //  Fonts
 //==================================================
-@import "Elements/fonts";
+@import "elements/fonts";
 
 // Reset & Basics
 //==================================================
@@ -357,18 +357,18 @@ button[disabled], html input[disabled]{
 
 // Grid System
 //==================================================
-@import "Elements/grid";
+@import "elements/grid";
 
 //  Toaster ICON
 //==================================================
 .activate-toaster-icon(@activate) when ( @activate = true){
-@import "Elements/toaster-icons";
+@import "elements/toaster-icons";
 }
     .activate-toaster-icon(@activate-toaster-icons);
 
 // System classes
 //==================================================
 .activate-system-classes(@activate) when ( @activate = true){
-    @import "Elements/system-classes";
+    @import "elements/system-classes";
 }
 .activate-system-classes(@activate-system-classes);
