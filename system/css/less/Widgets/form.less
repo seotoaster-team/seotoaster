@@ -157,7 +157,6 @@ select, textarea, input{
 
     &.notvalid{
         border-color : @brand-red;
-        color        : @brand-red;
         &:focus{
             .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
         }
@@ -218,27 +217,27 @@ select, textarea, input{
 input{
     height : @btn-height-base;
 
-    .activate-font-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+    .activate-field-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.larger{
             height  : @btn-height-larger;
             padding : @padding-larger-vertical;
         }
     }
-    .activate-font-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+    .activate-field-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.large{
             height  : @btn-height-large;
             padding : @padding-large-vertical;
         }
     }
-    .activate-font-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+    .activate-field-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.small{
             height  : @btn-height-small;
             padding : @padding-small-vertical;
         }
     }
-    .activate-font-size-larger();
-    .activate-font-size-large();
-    .activate-font-size-small();
+    .activate-field-size-larger();
+    .activate-field-size-large();    .activate-field-size-small();
+
 }
 
 select{
@@ -246,30 +245,30 @@ select{
     line-height : @btn-height-base - @padding-base-vertical;
     padding     : @padding-base-vertical / 2 @padding-base-vertical;
 
-    .activate-font-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+    .activate-field-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.larger{
             height      : @btn-height-larger;
             line-height : @btn-height-larger - @padding-larger-vertical;
             padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
         }
     }
-    .activate-font-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+    .activate-field-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.large{
             height      : @btn-height-large;
             line-height : @btn-height-large - @padding-large-vertical;
             padding     : @padding-large-vertical / 2 @padding-large-vertical;
         }
     }
-    .activate-font-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+    .activate-field-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.small{
             height      : @btn-height-small;
             line-height : @btn-height-small - @padding-small-vertical;
             padding     : @padding-small-vertical / 2 @padding-small-vertical;
         }
     }
-    .activate-font-size-larger();
-    .activate-font-size-large();
-    .activate-font-size-small();
+    .activate-field-size-larger();
+    .activate-field-size-large();
+    .activate-field-size-small();
 
     option{
         color : @text-color;
@@ -462,16 +461,13 @@ textarea{
 
         input{
 
-            &[type="text"]{
-                .border-radius(@input-border-radius 0 0 @input-border-radius);
-            }
+            &[type="text"]{ }
 
             &[type="submit"]{
                 width         : 100%;
                 padding-left  : 0;
                 padding-right : 0;
                 margin        : 0;
-                .border-radius(0 @input-border-radius @input-border-radius 0);
             }
         }
     }

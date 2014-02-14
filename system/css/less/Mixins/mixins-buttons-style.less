@@ -39,12 +39,12 @@
 .activate-type(@type) when (@type = false){ .box-sizing(); }
 .activate-type(@type) when (@type = icon){ .box-sizing(content-box); }
 
-.activate-border(@activate) when (@activate > 0){
+.activate-border(@value) when (@value > 0){
     border-width : @btn-border-width;
     border-style : solid;
 }
 
-.activate-transition(@activate) when (@activate = true){
+.activate-transition(@value) when (@value = true){
     .transition(background, 0.3s);
 }
 
@@ -227,18 +227,18 @@
 .link-color(@color, @eachColor: true) when (@eachColor = true){
     color            : @color;
     background-color : transparent;
-    .activate-border(@activate) when (@activate > 0){
+    .activate-border(@value) when (@value > 0){
         border : none;
     }
     .activate-border(@btn-border-width);
 
-    .activate-hover(@activate) when (@activate = true){
+    .activate-hover(@value) when (@value = true){
         &:hover, &:active{
             color : darken(@color, 30%);
             .box-shadow(none);
         }
     }
-    .activate-hover(@activate) when (@activate = false){
+    .activate-hover(@value) when (@value = false){
         &.touch{
             color : darken(@color, 30%);
             .box-shadow(none);
@@ -257,18 +257,18 @@
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
     color            : @color;
     background-color : transparent;
-    .activate-border(@activate) when (@activate > 0){
+    .activate-border(@value) when (@value > 0){
         border : none;
     }
     .activate-border(@btn-border-width);
 
-    .activate-hover(@activate) when (@activate = true){
+    .activate-hover(@value) when (@value = true){
         &:hover, &:active{
             color : @color-hover;
             .box-shadow(none);
         }
     }
-    .activate-hover(@activate) when (@activate = false){
+    .activate-hover(@value) when (@value = false){
         &.touch{
             color : @color-hover;
             .box-shadow(none);
@@ -288,16 +288,16 @@
     color            : @color;
     background-color : @background;
     .box-shadow(none, @input-shadow-focus);
-    .activate-border(@activate) when (@activate > 0){
+    .activate-border(@value) when (@value > 0){
         border-color : @border;
     }
     .activate-border(@btn-border-width);
 
-    .activate-hover(@activate) when (@activate = true){
+    .activate-hover(@value) when (@value = true){
         &:hover, &:active{
             color            : @color;
             background-color : darken(@background, 10%);
-            .activate-border(@activate) when (@activate > 0){
+            .activate-border(@value) when (@value > 0){
                 border-color : darken(@border, 10%);
             }
             .activate-border(@btn-border-width);
@@ -307,11 +307,11 @@
             .box-shadow(0.2rem 0.2rem 0.2rem darken(@background, 25%) inset, @activate-button-box-shadow);
         }
     }
-    .activate-hover(@activate) when (@activate = false){
+    .activate-hover(@value) when (@value = false){
         &.touch, input:checked+&{
             color            : @color;
             background-color : darken(@background, 10%);
-            .activate-border(@activate) when (@activate > 0){
+            .activate-border(@value) when (@value > 0){
                 border-color : darken(@border, 10%);
             }
             .activate-border(@btn-border-width);
@@ -326,7 +326,7 @@
         color            : desaturate(@color, 30%);
         background-color : desaturate(@background, 30%);
         text-decoration  : none;
-        .activate-border(@activate) when (@activate > 0){
+        .activate-border(@value) when (@value > 0){
             border-color : desaturate(@border, 30%);
         }
         .activate-border(@btn-border-width);
@@ -338,16 +338,16 @@
     background-color : @background;
     text-decoration  : none;
     .box-shadow(none, @input-shadow-focus);
-    .activate-border(@activate) when (@activate > 0){
+    .activate-border(@value) when (@value > 0){
         border-color : @border;
     }
     .activate-border(@btn-border-width);
 
-    .activate-hover(@activate) when (@activate = true){
+    .activate-hover(@value) when (@value = true){
         &:hover, &:active{
             color            : @color2;
             background-color : @background2;
-            .activate-border(@activate) when (@activate > 0){
+            .activate-border(@value) when (@value > 0){
                 border-color : @border2;
             }
             .activate-border(@btn-border-width);
@@ -357,11 +357,11 @@
             .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset, @activate-button-box-shadow);
         }
     }
-    .activate-hover(@activate) when (@activate = false){
+    .activate-hover(@value) when (@value = false){
         &.touch, input:checked+&{
             color            : @color2;
             background-color : @background2;
-            .activate-border(@activate) when (@activate > 0){
+            .activate-border(@value) when (@value > 0){
                 border-color : @border2;
             }
             .activate-border(@btn-border-width);
@@ -376,7 +376,7 @@
         color            : desaturate(@color, 30%);
         background-color : @background;
         text-decoration  : none;
-        .activate-border(@activate) when (@activate > 0){
+        .activate-border(@value) when (@value > 0){
             border-color : @border;
         }
         .activate-border(@btn-border-width);
@@ -388,7 +388,7 @@
 .button-3d(@color, @background, @border) {
     .box-shadow(~'0 0.3em 0 0 @{border}, 0 0.3em 0 0.15em @{gray-dark}');
 
-    .activate-hover(@activate) when (@activate = true){
+    .activate-hover(@value) when (@value = true){
         &:hover{
             background : darken(@background, 3%);
         }
@@ -399,7 +399,7 @@
             .box-shadow(0 0 0 0.15em @gray-dark);
         }
     }
-    .activate-hover(@activate) when (@activate = false){
+    .activate-hover(@value) when (@value = false){
         &.touch{
             top        : 0.3em;
             background : @background;
