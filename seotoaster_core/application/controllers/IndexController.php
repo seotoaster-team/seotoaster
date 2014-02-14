@@ -105,16 +105,26 @@ class IndexController extends Zend_Controller_Action {
 
         $pageData = $page->toArray();
 
-        //Parsing page content and saving it to the cache
-        if($pageContent === null) {
-
+        // Parsing page content and saving it to the cache
+        if ($pageContent === null) {
             $themeData     = Zend_Registry::get('theme');
+            $websitePath   = $this->_helper->website->getPath();
+            $currentTheme  = $this->_config->getConfig('currentTheme');
             $parserOptions = array(
                 'websiteUrl'   => $this->_helper->website->getUrl(),
-                'websitePath'  => $this->_helper->website->getPath(),
-                'currentTheme' => $this->_config->getConfig('currentTheme'),
+                'websitePath'  => $websitePath,
+                'currentTheme' => $currentTheme,
                 'themePath'    => $themeData['path'],
             );
+
+            // if developerMode = 1, parsing template directly from files
+            if ((bool) $this->_config->getConfig('enableDeveloperMode')) {
+                $filePath = $websitePath.$themeData['path'].$currentTheme.DIRECTORY_SEPARATOR.$page->getTemplateId().'.html';
+                if (file_exists($filePath)) {
+                    $page->setContent(file_get_contents($filePath));
+                }
+            }
+
             $parser      = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
             $pageContent = $parser->parse();
 

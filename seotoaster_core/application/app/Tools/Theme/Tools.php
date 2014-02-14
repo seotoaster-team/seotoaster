@@ -8,6 +8,8 @@
  */
 class Tools_Theme_Tools {
 
+    const FOLDER_CSS = 'css/';
+
 	public static $requiredFiles = array(
 		'index.html',
 		'default.html',
@@ -15,6 +17,12 @@ class Tools_Theme_Tools {
 		'style.css',
 		'content.css'
 	);
+
+    public static $protectedTemplates = array(
+        'index',
+        'default',
+        'category'
+    );
 
 	public static function dump($table, $query) {
 		$dbAdapter = Zend_Registry::get('dbAdapter');
@@ -94,9 +102,107 @@ class Tools_Theme_Tools {
         $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $themesConfig  = Zend_Registry::get('theme');
         $themesPath    = $themesConfig['path'].$configHelper->getConfig('currentTheme').DIRECTORY_SEPARATOR;
-        $filePath      = $websiteHelper->getPath().$themesPath.MagicSpaces_Concatcss_Concatcss::FOLDER_CSS.'content.css';
-        $folderCssPath = (is_file($filePath)) ? MagicSpaces_Concatcss_Concatcss::FOLDER_CSS : '';
+        $filePath      = $websiteHelper->getPath().$themesPath.self::FOLDER_CSS.'content.css';
+        $folderCssPath = (is_file($filePath)) ? self::FOLDER_CSS : '';
 
         return $websiteHelper->getUrl().$themesPath.$folderCssPath.'content.css';
+    }
+
+    public static function applyTemplates($themeName) {
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $themesConfig  = Zend_Registry::get('theme');
+        $themePath     = $websiteHelper->getPath().$themesConfig['path'].$themeName.DIRECTORY_SEPARATOR;
+        $themeFiles    = glob($themePath. '{,mobile/}*.html', GLOB_BRACE);
+
+        if ($themeFiles !== false) {
+            $themeFiles = array_map(function ($file) use ($themePath) {
+                return str_replace($themePath, '', $file);
+            }, $themeFiles);
+        }
+
+        $errors         = array();
+        $languageHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('language');
+        // Check we are not missing any required template
+        foreach (self::$protectedTemplates as $template) {
+            if (!in_array($template.'.html', $themeFiles)) {
+                array_push($errors, $languageHelper->translate('Theme missing template: ') . $template);
+            }
+        }
+
+        if (!empty($errors)) {
+            throw new Exception(join('<br />', $errors));
+        }
+
+        // Trying to get theme.ini file with templates presets
+        try {
+            $themeConfig = parse_ini_string(
+                Tools_Filesystem_Tools::getFile($themePath . '/' . Tools_Template_Tools::THEME_CONFIGURATION_FILE)
+            );
+        }
+        catch (Exception $e) {
+            $themeConfig = false;
+        }
+
+        $templateTypeTable = new Application_Model_DbTable_TemplateType();
+        $templateMapper    = Application_Model_Mappers_TemplateMapper::getInstance();
+        // This will remove all templates except system required. @see $protectedTemplates
+        $templateMapper->clearTemplates();
+        foreach ($themeFiles as $templateFile) {
+            $templateName = preg_replace(
+                array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
+                array('_', ''),
+                $templateFile
+            );
+            $template     = $templateMapper->find($templateName);
+            if (!$template instanceof Application_Model_Models_Template) {
+                $template = new Application_Model_Models_Template();
+                $template->setName($templateName);
+            }
+
+            // Checking if we have template type in theme.ini or page meet mobile template naming convention
+            if (is_array($themeConfig) && !empty($themeConfig) && array_key_exists($templateName, $themeConfig)) {
+                $templateType = $themeConfig[$templateName];
+            }
+            elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
+                $templateType = Application_Model_Models_Template::TYPE_MOBILE;
+            }
+
+            if (isset($templateType)) {
+                // Checking if we have this type in db or adding it
+                $checkTypeExists = $templateTypeTable->find($templateType);
+                if (!$checkTypeExists->count()) {
+                    $checkTypeExists = $templateTypeTable->createRow(array(
+                        'id'    => $templateType,
+                        'title' => ucfirst(preg_replace('/^type/ui', '', $templateType)).' Template'
+                     ));
+                    $checkTypeExists->save();
+                }
+                unset($checkTypeExists);
+
+                $template->setType($templateType);
+            }
+
+            // Getting template content
+            try {
+                $template->setContent(Tools_Filesystem_Tools::getFile($themePath.DIRECTORY_SEPARATOR.$templateFile));
+            }
+            catch (Exceptions_SeotoasterException $e) {
+                array_push($errors, 'Can\'t read template file: ' . $templateName);
+            }
+
+            // Saving template to db
+            $templateMapper->save($template);
+            unset($template, $templateName);
+        }
+        unset($templateTypeTable);
+
+        // Updating config table
+        Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
+
+        if (!empty($errors)) {
+            throw new Exception(join('<br />', $errors));
+        }
+
+        return true;
     }
 }

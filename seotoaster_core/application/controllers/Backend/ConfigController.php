@@ -47,14 +47,23 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $userMapper = Application_Model_Mappers_UserMapper::getInstance();
             }
 
-			if ($configForm->isValid($this->getRequest()->getParams())){
+			if ($configForm->isValid($this->getRequest()->getParams())) {
 				//proccessing language changing
 				$selectedLang = $languageSelect->getValue();
 				if ($selectedLang != $this->_helper->language->getCurrentLanguage()) {
 					$this->_helper->language->setLanguage($selectedLang);
                     $languageSelect->setMultiOptions($this->_helper->language->getLanguages(false));
 				}
-				if ( $isSuperAdminLogged ) {
+				if ($isSuperAdminLogged) {
+                    if (!((bool) $configForm->getElement('enableDeveloperMode')->getValue())) {
+                        try {
+                            Tools_Theme_Tools::applyTemplates($this->_helper->config->getConfig('currentTheme'));
+                        }
+                        catch (Exception $e) {
+                            $this->_error($e->getMessage());
+                        }
+                    }
+
 					$newPass	= $configForm->getElement('suPassword')->getValue();
 					$newLogin	= $configForm->getElement('suLogin')->getValue();
 					$adminDataModified = false;

@@ -8,8 +8,6 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
     const DEFAULT_CSS_NAME       = 'style.css';
 
-    private $_protectedTemplates = array('index', 'default', 'category');
-
     private $_websiteConfig      = null;
 
     private $_themeConfig        = null;
@@ -85,7 +83,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 if (!empty($originalName) && null !== ($template = $mapper->find($originalName))) {
                     $status = 'update';
                     // avoid renaming of system protected templates
-                    if (!in_array($template->getName(), $this->_protectedTemplates)) {
+                    if (!in_array($template->getName(), Tools_Theme_Tools::$protectedTemplates)) {
                         $template->setOldName($originalName);
                         $template->setName($templateData['name']);
                     } else {
@@ -96,7 +94,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 } else {
                     $status = 'new';
                     //if ID missing and name is not exists and name is not system protected - creating new template
-                    if (in_array($templateData['name'], $this->_protectedTemplates) ||
+                    if (in_array($templateData['name'], Tools_Theme_Tools::$protectedTemplates) ||
                         null !== $mapper->find($templateData['name']) ) {
                         $this->_helper->response->response($this->_translator->translate('Template with such name already exists'), true);
                     }
@@ -311,7 +309,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                     $this->_helper->response->response($this->_translator->translate('Template not found'), true);
                     return true;
                 }
-                $this->view->protectedTemplates = $this->_protectedTemplates;
+                $this->view->protectedTemplates = Tools_Theme_Tools::$protectedTemplates;
                 $this->view->types = $this->_sortTemplates($types);
                 echo $this->view->render($this->getViewScript('templateslist'));
             } else {
@@ -366,7 +364,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
             $templateId = $this->getRequest()->getPost('id');
             if ($templateId) {
                 $template = $mapper->find($templateId);
-                if ($template instanceof Application_Model_Models_Template && !in_array($template->getName(), $this->_protectedTemplates)) {
+                if ($template instanceof Application_Model_Models_Template && !in_array($template->getName(), Tools_Theme_Tools::$protectedTemplates)) {
                     $result = $mapper->delete($template);
                     if ($result) {
                         $currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig('currentTheme'));

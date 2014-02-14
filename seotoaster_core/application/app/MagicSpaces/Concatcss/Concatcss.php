@@ -3,8 +3,6 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     const FILE_NAME_PREFIX  = 'concat_';
 
-    const FOLDER_CSS        = 'css/';
-
     private $_disableForRoles = array(
         Tools_Security_Acl::ROLE_SUPERADMIN,
         Tools_Security_Acl::ROLE_ADMIN
@@ -33,19 +31,31 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private $_cacheTags     = array();
 
+    private $_cacheWeek     = Helpers_Action_Cache::CACHE_WEEK;
+
     protected function _init() {
         parent::_init();
 
         if (!empty($this->_toasterData)) {
             $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'].'/';
             $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 10);
-            $this->_folderСssPath = (is_dir($this->_themeFullPath.self::FOLDER_CSS)) ? $this->_themeFullPath.self::FOLDER_CSS : $this->_themeFullPath;
+            $folderСssPath        = $this->_themeFullPath.Tools_Theme_Tools::FOLDER_CSS;
+            $this->_folderСssPath = (is_dir($folderСssPath)) ? $folderСssPath : $this->_themeFullPath;
         }
     }
 
     protected function _run() {
-        $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        if (!$this->_isBrowserIe() || empty($this->_toasterData) || in_array($currentRole, $this->_disableForRoles)) {
+        $currentRole   = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        $developerMode = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig(
+            'enableDeveloperMode'
+        );
+
+        // Disable of the compressor for the role admin/superadmin, version IE < 9, and when activated developerMode = 1
+        if (empty($this->_toasterData)
+            || (bool) $developerMode
+            || !$this->_isBrowserIe()
+            || in_array($currentRole, $this->_disableForRoles)
+        ) {
             return $this->_spaceContent;
         }
 
@@ -68,10 +78,16 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
                 $filePath = $this->_generatorFiles();
                 try {
-                    $this->_cache->save($this->_cacheId, $filePath, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
+                    $this->_cache->save(
+                        $this->_cacheId,
+                        $filePath,
+                        $this->_cachePrefix,
+                        $this->_cacheTags,
+                        $this->_cacheWeek
+                    );
                 }
                 catch (Exceptions_SeotoasterException $ste) {
-                    return $this->_spaceContent.'<!-- '.$ste->getMessage().' -->';
+                    return $ste->getMessage();
                 }
             }
             elseif ($filePath === false) {
@@ -82,31 +98,37 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             $filePath = $this->_generatorFiles();
         }
 
-        return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.'" rel="stylesheet" type="text/css" media="screen"/>';
+        $fileLink = $this->_toasterData['websiteUrl'].$filePath;
+
+        return '<link href="'.$fileLink.'" rel="stylesheet" type="text/css" media="screen"/>';
     }
 
     private function _isBrowserIe($notBelowVersion = 9) {
         $version = false;
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            $agent = $_SERVER['HTTP_USER_AGENT'];
 
-            if (preg_match('/MSIE/i', $userAgent) && !preg_match('/Opera/i', $userAgent)) {
-                $userBrowser = 'MSIE';
-                $matches     = array();
+            if (preg_match('/MSIE/i', $agent) && !preg_match('/Opera/i', $agent)) {
+                $browser = 'MSIE';
+                $data    = array();
 
-                preg_match_all('#(?<browser>Version|'.$userBrowser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#', $userAgent, $matches);
+                preg_match_all(
+                    '#(?<browser>Version|'.$browser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#',
+                    $agent,
+                    $data
+                );
 
-                if (isset($matches['browser']) && count($matches['browser']) != 1) {
-                    if (isset($matches['version'][0]) && strripos($userAgent, 'Version') < strripos($userAgent, $userBrowser)) {
-                        $version = $matches['version'][0];
+                if (isset($data['browser']) && count($data['browser']) != 1) {
+                    if (isset($data['version'][0]) && strripos($agent, 'Version') < strripos($agent, $browser)) {
+                        $version = $data['version'][0];
                     }
-                    elseif (isset($matches['version'][1])) {
-                        $version = $matches['version'][1];
+                    elseif (isset($data['version'][1])) {
+                        $version = $data['version'][1];
                     }
                 }
-                elseif (isset($matches['version'][0])) {
-                    $version = $matches['version'][0];
+                elseif (isset($data['version'][0])) {
+                    $version = $data['version'][0];
                 }
             }
         }
@@ -132,9 +154,10 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             return array();
         }
 
-        $cssOrder = array();
+        $cssOrder  = array();
+        $folderCss = Tools_Theme_Tools::FOLDER_CSS;
         foreach ($this->_cssOrder as $key => $val) {
-            $cssOrder[$key] = (in_array(self::FOLDER_CSS.$val, $files)) ? self::FOLDER_CSS.$val : $val;
+            $cssOrder[$key] = (in_array($folderCss.$val, $files)) ? $folderCss.$val : $val;
         }
 
         $files = array_unique($files);
@@ -146,19 +169,19 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     }
 
     private function _addCss($cssPath) {
-        $cssContent = '';
+        $content = '';
 
         if (file_exists($cssPath)) {
             $fileName   = explode('/', $cssPath);
             $fileName   = strtoupper(end($fileName));
             $compressor = new CssMin();
 
-            $cssContent .= "/**** ".$fileName." start ****/\n";
-            $cssContent .= $compressor->run(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
-            $cssContent .= "\n/**** ".$fileName." end ****/\n";
+            $content .= "/**** ".$fileName." start ****/\n";
+            $content .= $compressor->run(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
+            $content .= "\n/**** ".$fileName." end ****/\n";
         }
 
-        return $cssContent;
+        return $content;
     }
 
     private function _generatorFiles() {
