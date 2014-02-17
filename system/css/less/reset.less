@@ -184,6 +184,11 @@ textarea{
 [type="checkbox"], [type="radio"]{
     padding : 0;
     border  : none;
+    height  : auto;
+
+    &:focus{
+        .box-shadow(none, @input-shadow-focus);
+    }
 }
 
 // Make multiple select elements height not fixed
