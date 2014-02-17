@@ -1,0 +1,43 @@
+.carousel{
+    position  : relative;
+    max-width : 100%;
+    .user-select();
+
+    .carousel-clip{
+        overflow : hidden;
+        height   : 100%;
+    }
+
+    .carousel-wrap{
+        .inline-block-wrap(top, ~'.carousel-item');
+        min-width : 100%;
+    }
+
+    .carousel-btn{
+        position : absolute;
+        top      : -24px;
+        padding  : @padding-small-vertical;
+        color    : #fff;
+        .rgba(#000, 0.5);
+        .icon-size(12px);
+
+        .activate-hover(@activate) when (@activate = true){
+        &:hover{
+            background : @primary-bg;
+        }
+        }
+        .activate-hover(@activate) when (@activate = false){
+            &.touch{
+                background : @primary-bg;
+            }
+        }
+        .activate-hover(@activate-hover);
+
+        &.prev{
+            right : 24px;
+        }
+        &.next{
+            right : 0;
+        }
+    }
+}

@@ -393,35 +393,6 @@ select option{color:#333333;}
 [id*="-filelist"] .ui-widget .ui-state-highlight,[id*="-filelist"] .ui-widget .ui-state-error{overflow:hidden;margin-bottom:0.2em;font-size:0.85em;padding:0 4px;height:18px;line-height:18px;}[id*="-filelist"] .ui-widget .ui-state-highlight p,[id*="-filelist"] .ui-widget .ui-state-error p{margin:0;position:relative;z-index:5;max-width:93%;color:rgba(0, 0, 0, 0.7);height:16px;line-height:16px;display:inline-block;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}[id*="-filelist"] .ui-widget .ui-state-highlight p+.ui-progressbar,[id*="-filelist"] .ui-widget .ui-state-error p+.ui-progressbar{margin:-18px -4px 0;}
 [id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon,[id*="-filelist"] .ui-widget .ui-state-error .ui-icon{width:14px;height:14px;line-height:14px;font-size:0;float:right;margin-top:2px;color:#3498db;}[id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon:before,[id*="-filelist"] .ui-widget .ui-state-error .ui-icon:before{font-size:14px;}
 [id*="-filelist"] .ui-widget .ui-state-highlight .ui-icon-alert,[id*="-filelist"] .ui-widget .ui-state-error .ui-icon-alert{color:#e74c3c;}
-.chosen-select{width:100%;}
-.chosen-select-deselect{width:100%;}
-.chosen-container{position:relative;padding:0 6px;min-width:100%;min-height:30px;border-width:1px;border-style:solid;border-color:#cccccc;background-color:#ffffff;color:#377d98;line-height:29px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;display:inline-block;vertical-align:middle;-webkit-transition:all 0.3s ease;-moz-transition:all 0.3s ease;-ms-transition:all 0.3s ease;transition:all 0.3s ease;}.chosen-container.chosen-container-active{border-color:#31b0d5;-webkit-box-shadow:0 0 3px #31b0d5;-moz-box-shadow:0 0 3px #31b0d5;-ms-box-shadow:0 0 3px #31b0d5;box-shadow:0 0 3px #31b0d5;}
-.chosen-container>*{line-height:1.428571429;}
-.chosen-container.chosen-container-multi{cursor:text;}
-.chosen-container .chosen-single{line-height:28px;max-height:28px;display:block;color:#377d98;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.chosen-container .chosen-single:before{float:right;font-family:'toaster-icons';content:'\e0b7';font-size:16px;}
-.chosen-container input{color:inherit;}
-.chosen-container ul{margin:0;padding:0;list-style:none;}
-.chosen-container .chosen-drop{background-color:#ffffff;border-style:solid;border-width:1px;border-color:#cccccc;border-top-color:#31b0d5;position:absolute;top:100%;left:-2000px;z-index:500;width:100%;}.chosen-with-drop.chosen-container .chosen-drop{left:-1px;right:0;}
-.chosen-container .chosen-search{padding:6px;}.chosen-container .chosen-search input{padding-right:30px;}
-.chosen-container .chosen-search:after{color:#eaeaea;vertical-align:middle;font-family:'toaster-icons';content:'\e077';font-size:16px;margin-left:-24px;}
-.chosen-container .chosen-results{max-height:300px;overflow:auto;}.chosen-container .chosen-results li{color:#eaeaea;cursor:pointer;padding:6px 12px;}.chosen-container .chosen-results li:hover{background:#fafafa;color:#333333;}
-.chosen-container .chosen-results .group-result{font-style:italic;color:#31b0d5;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;padding:4px 8px;}.chosen-container .chosen-results .group-result:before{font-family:'toaster-icons';content:' \e0c1';font-style:normal;}
-.chosen-container .chosen-results .active-result{color:#333333;}.chosen-container .chosen-results .active-result em{color:#31b0d5;}
-.chosen-container .chosen-results .result-selected{background:#fafafa;padding:6px 12px;}.chosen-container .chosen-results .result-selected:before{color:#31b0d5;float:right;font-family:'toaster-icons';content:'\e0a5';font-size:16px;}
-.chosen-container .chosen-results .result-selected:hover{background:#fafafa;color:inherit;}
-.chosen-container .chosen-results .disabled-result{background:#fafafa;color:#eaeaea;padding:6px 12px;}.chosen-container .chosen-results .disabled-result:before{color:#eaeaea;float:right;font-family:'toaster-icons';content:'\e0a9';font-size:16px;}
-.chosen-container .chosen-results .no-results{padding:6px 12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.chosen-container .chosen-choices{font-size:0.85em;margin-top:0.25em;}.chosen-container .chosen-choices:after{content:"";clear:both;display:block;overflow:hidden;visibility:hidden;height:0;}
-.chosen-container .chosen-choices>*{float:left;}
-.chosen-container .chosen-choices .search-choice{background:#eaeaea;color:#ffffff;padding:0 6px;margin:0 0.25em 0.25em 0;height:23px;line-height:23px;}
-.chosen-container .chosen-choices .search-field input{border:none;height:auto;padding:3px 6px;}
-.chosen-container .search-choice-close{margin-left:5px;color:#e74c3c;font-size:10px;}.chosen-container .search-choice-close:before{font-family:'toaster-icons';content:'\e0a2';}
-.chosen-container .search-choice-close:hover{color:#d62c1a;}
-.chosen-container.chosen-rtl{direction:rtl;}.chosen-container.chosen-rtl .disabled-result:before,.chosen-container.chosen-rtl .result-selected:before,.chosen-container.chosen-rtl .chosen-single:before{float:left;}
-.chosen-container.chosen-rtl .search-choice-close{float:left;margin-left:0;margin-right:5px;}
-.chosen-container.chosen-rtl .chosen-choices>*{float:right;}
-.chosen-container .chosen-search{padding:6px;}.chosen-container .chosen-search input{padding-right:30px;}
-.chosen-container .chosen-search:after{color:#eaeaea;vertical-align:middle;font-family:'toaster-icons';content:'\e077';font-size:16px;margin-left:-24px;}
 .ui-effects-transfer{border:1px dashed #666666;}
 #meta-description{height:85px;}.ie #meta-description{height:83px;}
 .navigation .ui-buttonset,.navigation .btn-set{display:block;margin-top:-1px;}.navigation .ui-buttonset .ui-button,.navigation .btn-set .ui-button,.navigation .ui-buttonset .btn,.navigation .btn-set .btn{background:transparent;border-top:1px solid transparent;font-weight:normal;margin:0;color:#59a5c3;}.navigation .ui-buttonset .ui-button:active,.navigation .btn-set .ui-button:active,.navigation .ui-buttonset .btn:active,.navigation .btn-set .btn:active{-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;box-shadow:none;}
