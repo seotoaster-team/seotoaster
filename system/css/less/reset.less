@@ -1,25 +1,23 @@
 @import "base/variables";
-
-// Table of Content
-//==================================================
-//	Reset & Basics
-//	Reset Form
-//	Grid system
-//  Reset for all navigation items, related-products
-//==================================================
-
-//  Fonts
-//==================================================
+    // Table of Content
+    //==================================================
+    //	Reset & Basics
+    //	Reset Form
+    //	Grid system
+    //  Reset for all navigation items, related-products
+    //==================================================
+    //  Fonts
+    //==================================================
 @import "elements/fonts";
 
 // Reset & Basics
 //==================================================
 *{
-    margin         : 0;
-    padding        : 0;
-    outline        : none;
+    margin                      : 0;
+    padding                     : 0;
+    outline                     : none;
     border                      : none;
-    background     : transparent;
+    background                  : transparent;
     vertical-align              : baseline;
     -webkit-touch-callout       : none; //если надо, то запрещаем выделение текста
     -webkit-tap-highlight-color : rgba(0, 0, 0, 0); //убираем фон подсветки ссылок и кнопок
@@ -42,9 +40,9 @@ div, p{
     }
 }
 body{
-    font-family              : sans-serif;
-    -webkit-text-size-adjust : 100%;
-    -ms-text-size-adjust     : 100%;
+    font-family                 : sans-serif;
+    -webkit-text-size-adjust    : 100%;
+    -ms-text-size-adjust        : 100%;
     //-webkit-font-smoothing      : antialiased; // Fix for webkit rendering
     -webkit-font-smoothing      : subpixel-antialiased !important;
     -webkit-backface-visibility : hidden;
@@ -129,14 +127,14 @@ img{
 // Reset Form
 //==================================================
 fieldset{
-//    border  : 0;
-//    margin  : 0;
-//    padding : 0;
+    //    border  : 0;
+    //    margin  : 0;
+    //    padding : 0;
 
     legend{
-        line-height : 1;
-//        border      : 0;
-//        padding     : 0;
+        line-height                    : 1;
+        //        border      : 0;
+        //        padding     : 0;
         -webkit-margin-bottom-collapse : separate;
     }
 }
@@ -222,86 +220,6 @@ button[disabled], html input[disabled]{
     }
 }
 
-// Reset for all navigation items, related-products
-//==================================================
-//fix for Safari 3
-.activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
-    ::i-block-chrome, .main_menu,
-    ::i-block-chrome, .listpages,
-    ::i-block-chrome, .listcategories,
-    ::i-block-chrome, .featureditem,
-    ::i-block-chrome, .search-results,
-    ::i-block-chrome, .relatedpages,
-    ::i-block-chrome, .listxrss,
-    ::i-block-chrome, .related-products{
-        display : table;
-    }
-}
-    .activate(@webkit, webkit);
-//fix for Opera
-.activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) {
-    noindex:-o-prefocus, .main_menu,
-    noindex:-o-prefocus, .listpages,
-    noindex:-o-prefocus, .listcategories,
-    noindex:-o-prefocus, .featureditem,
-    noindex:-o-prefocus, .search-results,
-    noindex:-o-prefocus, .relatedpages,
-    noindex:-o-prefocus, .listxrss,
-    noindex:-o-prefocus, .related-products{
-        word-spacing : -0.3em;
-        li{
-            word-spacing : normal;
-        }
-    }
-}
-    .activate(@opera, o);
-
-.static_menu, .static_menu li, .main_menu, .main_menu li, .main_menu ul, .main_menu ul li, .sitemap, .sitemap li,
-.listpages, .listpages li, .listcategories, .listcategories li, .featureditem, .featureditem li, .featureapage, .relatedpages, .relatedpages li,
-.listxrss, .listxrss li, .search-results, .search-results li, .img_gallery, .img_gallery li, .related-products, .related-products li{
-    margin          : 0;
-    padding         : 0;
-    list-style-type : none;
-    .box-sizing;
-    .clearfix;
-}
-.static_menu a, .main_menu a, .sitemap a{
-    color : inherit;
-}
-.listpages li, .listcategories li, .featureditem li, .featureapage, .search-results li, .relatedpages li, .listxrss li, .related-products li{
-    position : relative;
-
-    &>a{
-        display : block;
-
-        &.page-teaser-image{
-            position : relative;
-
-            img{
-                width : 100%;
-            }
-        }
-
-        &.page-title{
-            display     : block;
-            margin      : 0 0 0.25em;
-            font-size   : @font-size-large;
-            font-family : @font-family-headings;
-            line-height : 1;
-        }
-    }
-}
-.listpages li span, .listcategories li span, .featureditem li span, .featureapage p, .search-results li span, .relatedpages li span, .listxrss li p, .related-products .product-description{
-    display  : block;
-    overflow : hidden;
-    margin   : 0;
-
-    &:empty{
-        display : none;
-        margin  : 0;
-    }
-}
-
 // Overlays
 .ui-widget-overlay{
     position   : fixed;
@@ -323,16 +241,20 @@ button[disabled], html input[disabled]{
 }
 
 .ui-dialog[aria-describedby="toasterPopup"]{
+    // Reset style for system dialogs
+    max-width   : none;
+    border      : none;
+    padding     : 0;
+    line-height : 0;
+
+    // Style for system dialogs
     position    : fixed;
     z-index     : 1002;
-    border      : none;
     top         : 0 !important;
     bottom      : 0 !important;
     left        : 0 !important;
     right       : 0 !important;
     margin      : auto !important;
-    padding     : 0;
-    line-height : 0;
     background  : @dialog-bg;
     font-size   : @font-size-base;
     .box-shadow(3px 3px 10px #000);
@@ -364,11 +286,13 @@ button[disabled], html input[disabled]{
 .activate-toaster-icon(@activate) when ( @activate = true){
 @import "elements/toaster-icons";
 }
-    .activate-toaster-icon(@activate-toaster-icons);
+    .activate-toaster-icon(@activate-toaster-icons)
+;
 
 // System classes
 //==================================================
 .activate-system-classes(@activate) when ( @activate = true){
-    @import "elements/system-classes";
+@import "elements/system-classes";
 }
-.activate-system-classes(@activate-system-classes);
+    .activate-system-classes(@activate-system-classes)
+;
