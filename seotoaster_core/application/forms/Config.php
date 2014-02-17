@@ -163,13 +163,14 @@ class Application_Form_Config extends Zend_Form {
 		return $this;
 	}
 
-	public function getShowProtectedPagesInMenu() {
+	public function getMemPagesInMenu() {
 		return $this->_showProtectedPagesInMenu;
 	}
 
-	public function setShowProtectedPagesInMenu($showProtectedPagesInMenu) {
+	public function setMemPagesInMenu($showProtectedPagesInMenu) {
 		$this->_showProtectedPagesInMenu = $showProtectedPagesInMenu;
-		return this;
+        $this->getElement('memPagesInMenu')->setValue($showProtectedPagesInMenu);
+		return $this;
 	}
 
 	public function setSmtpPort($smtpPort) {
