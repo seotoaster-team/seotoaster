@@ -96,19 +96,7 @@
 }
 .activate-color(@activate-alternate-style-color, @activate-alternate-style);
 
-.activate-font-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-    .activate-font-size-larger(@activate) when (@activate = true){
-        .larger{ font-size : @font-size-larger; }
-    }
-    .activate-font-size-large(@activate) when (@activate = true){
-        .large{ font-size : @font-size-large; }
-    }
-    .activate-font-size-small(@activate) when (@activate = true){
-        .small{ font-size : @font-size-small; }
-        .mini{ font-size : @font-size-mini; }
-    }
-    .activate-font-size-larger(@activate-alternate-style-size-larger);
-    .activate-font-size-large(@activate-alternate-style-size-large);
-    .activate-font-size-small(@activate-alternate-style-size-small);
-}
-.activate-font-size(@activate-alternate-style-size, @activate-alternate-style);
+.larger{ font-size : @font-size-larger; }
+.large{ font-size : @font-size-large; }
+.small{ font-size : @font-size-small; }
+.mini{ font-size : @font-size-mini; }

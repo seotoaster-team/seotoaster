@@ -157,7 +157,6 @@ select, textarea, input{
 
     &.notvalid{
         border-color : @brand-red;
-        color        : @brand-red;
         &:focus{
             .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
         }
@@ -218,30 +217,27 @@ select, textarea, input{
 input{
     height : @btn-height-base;
 
-    .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        .activate-font-size-larger(@activate) when (@activate = true){
-            &.larger{
-                height  : @btn-height-larger;
-                padding : @padding-larger-vertical;
-            }
+    .activate-field-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+        &.larger{
+            height  : @btn-height-larger;
+            padding : @padding-larger-vertical;
         }
-        .activate-font-size-large(@activate) when (@activate = true){
-            &.large{
-                height  : @btn-height-large;
-                padding : @padding-large-vertical;
-            }
-        }
-        .activate-font-size-small(@activate) when (@activate = true){
-            &.small{
-                height  : @btn-height-small;
-                padding : @padding-small-vertical;
-            }
-        }
-        .activate-font-size-larger(@activate-alternate-style-size-larger);
-        .activate-font-size-large(@activate-alternate-style-size-large);
-        .activate-font-size-small(@activate-alternate-style-size-small);
     }
-    .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
+    .activate-field-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+        &.large{
+            height  : @btn-height-large;
+            padding : @padding-large-vertical;
+        }
+    }
+    .activate-field-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+        &.small{
+            height  : @btn-height-small;
+            padding : @padding-small-vertical;
+        }
+    }
+    .activate-field-size-larger();
+    .activate-field-size-large();    .activate-field-size-small();
+
 }
 
 select{
@@ -249,100 +245,44 @@ select{
     line-height : @btn-height-base - @padding-base-vertical;
     padding     : @padding-base-vertical / 2 @padding-base-vertical;
 
-    .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        .activate-font-size-larger(@activate) when (@activate = true){
-            &.larger{
-                height      : @btn-height-larger;
-                line-height : @btn-height-larger - @padding-larger-vertical;
-                padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
-            }
-        }
-        .activate-font-size-large(@activate) when (@activate = true){
-            &.large{
-                height      : @btn-height-large;
-                line-height : @btn-height-large - @padding-large-vertical;
-                padding     : @padding-large-vertical / 2 @padding-large-vertical;
-            }
-        }
-        .activate-font-size-small(@activate) when (@activate = true){
-            &.small{
-                height      : @btn-height-small;
-                line-height : @btn-height-small - @padding-small-vertical;
-                padding     : @padding-small-vertical / 2 @padding-small-vertical;
-            }
-        }
-        .activate-font-size-larger(@activate-alternate-style-size-larger);
-        .activate-font-size-large(@activate-alternate-style-size-large);
-        .activate-font-size-small(@activate-alternate-style-size-small);
-
-        option{
-            color : @text-color;
+    .activate-field-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+        &.larger{
+            height      : @btn-height-larger;
+            line-height : @btn-height-larger - @padding-larger-vertical;
+            padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
         }
     }
-    .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
+    .activate-field-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+        &.large{
+            height      : @btn-height-large;
+            line-height : @btn-height-large - @padding-large-vertical;
+            padding     : @padding-large-vertical / 2 @padding-large-vertical;
+        }
+    }
+    .activate-field-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+        &.small{
+            height      : @btn-height-small;
+            line-height : @btn-height-small - @padding-small-vertical;
+            padding     : @padding-small-vertical / 2 @padding-small-vertical;
+        }
+    }
+    .activate-field-size-larger();
+    .activate-field-size-large();
+    .activate-field-size-small();
+
+    option{
+        color : @text-color;
+    }
 }
 
 textarea{
     //min-height : 3em;
 }
 
-.activate-form-labeled(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+.activate-form-labeled(@activate : @activate-alternate-style-form-labeled) when (@activate = true){
     .labeled{
         position : relative;
         .clearfix;
-
-        &.icon{
-            input, select, textarea{
-
-                &:focus~[class*="icon-"]{
-                    .opacity(1);
-                }
-            }
-
-            [class*="icon-"]{
-                position : absolute;
-                margin   : auto;
-                top      : 0;
-                bottom   : 0;
-                z-index  : 2;
-                .opacity();
-                .icon-size(@font-size-base);
-            }
-
-            &.right{
-                [class*="icon-"]{
-                    right : (@padding-base-vertical * 2) - (@font-size-base / 2);
-                }
-
-                input, textarea{
-                    padding-right : @padding-base-vertical * 4;
-                }
-
-                select{
-                    padding-right : @padding-base-vertical * 6;
-
-                    &~[class*="icon-"]{
-                        right : (@padding-base-vertical * 4) - (@font-size-base / 2);
-                    }
-                }
-            }
-
-            &.left{
-                [class*="icon-"]{
-                    left : (@padding-base-vertical * 2) - (@font-size-base / 2);
-                }
-                input, textarea{
-                    padding-left : @padding-base-vertical * 4;
-                }
-            }
-
-            &.top{
-                [class*="icon-"]{
-                    margin : 0;
-                    top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
-                }
-            }
-        }
 
         //        label:not(.nolabeled), .label:not(.nolabeled){
         label, .label{
@@ -352,37 +292,32 @@ textarea{
             line-height   : @btn-height-base;
             background    : @input-border-color;
             text-align    : center;
-            color         : #fff;
+            color         : #fff !important;
             .transition(all, 0.3s);
 
-            .activate-style-size(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-                .activate-font-size-larger(@activate) when (@activate = true){
-                    &.larger{
-                        height  : @btn-height-larger;
-                        padding : @padding-larger-vertical 0;
-                    }
-                }
-                .activate-font-size-large(@activate) when (@activate = true){
-                    &.large{
-                        height  : @btn-height-large;
-                        padding : @padding-large-vertical 0;
-                    }
-                }
-                .activate-font-size-small(@activate) when (@activate = true){
-                    &.small{
-                        height  : @btn-height-small;
-                        padding : @padding-small-vertical 0;
-                    }
-                }
-                .activate-font-size-larger(@activate-alternate-style-size-larger);
-                .activate-font-size-large(@activate-alternate-style-size-large);
-                .activate-font-size-small(@activate-alternate-style-size-small);
-
-                option{
-                    color : @text-color;
+            .activate-font-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+                &.larger{
+                    height  : @btn-height-larger;
+                    padding : @padding-larger-vertical 0;
                 }
             }
-            .activate-style-size(@activate-alternate-style-size, @activate-alternate-style);
+            .activate-font-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+                &.large{
+                    height  : @btn-height-large;
+                    padding : @padding-large-vertical 0;
+                }
+            }
+            .activate-font-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
+                &.small{
+                    height  : @btn-height-small;
+                    padding : @padding-small-vertical 0;
+                }
+            }
+            .activate-font-size-larger();
+            .activate-font-size-large();
+            .activate-font-size-small();
+
+            option{ color : @text-color; }
         }
 
         input:focus, select:focus{
@@ -393,46 +328,118 @@ textarea{
             }
         }
 
-        // Social Filed
-        &.rss{
-            .filled, :checked~input{border-color : @rss;}
-            *:checked{
-                &~label, &~.label{ background : @rss; }
+        .activate-form-labeled-icon(@activate : @activate-alternate-style-form-labeled-icon) when (@activate = true){
+            &.icon{
+                input, select, textarea{
+
+                    &:focus~[class*="icon-"]{
+                        .opacity(1);
+                    }
+                }
+
+                [class*="icon-"]{
+                    position : absolute;
+                    margin   : auto;
+                    top      : 0;
+                    bottom   : 0;
+                    z-index  : 2;
+                    .opacity();
+                    .icon-size(@font-size-base);
+                }
+
+                &.right{
+                    [class*="icon-"]{
+                        right : (@padding-base-vertical * 2) - (@font-size-base / 2);
+                    }
+
+                    input, textarea{
+                        padding-right : @padding-base-vertical * 4;
+                    }
+
+                    select{
+                        padding-right : @padding-base-vertical * 6;
+
+                        &~[class*="icon-"]{
+                            right : (@padding-base-vertical * 4) - (@font-size-base / 2);
+                        }
+                    }
+                }
+
+                &.left{
+                    [class*="icon-"]{
+                        left : (@padding-base-vertical * 2) - (@font-size-base / 2);
+                    }
+                    input, textarea{
+                        padding-left : @padding-base-vertical * 4;
+                    }
+                }
+
+                &.top{
+                    [class*="icon-"]{
+                        margin : 0;
+                        top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
+                    }
+                }
             }
         }
-        &.gplus{
-            .filled, :checked~input{border-color : @gplus;}
-            *:checked{
-                &~label, &~.label{ background : @gplus; }
+        .activate-form-labeled-icon();
+
+        .activate-form-labeled-social(@activate : @activate-alternate-style-form-labeled-social) when (@activate = true){
+            // Social Filed
+            &.rss{
+                .filled, :checked~input{border-color : @rss;}
+                *:checked{
+                    &~label, &~.label{ background : @rss; }
+                    &~[class*="icon-"]{ color : @rss; }
+                }
+            }
+            &.gplus{
+                .filled, :checked~input{border-color : @gplus;}
+                *:checked{
+                    &~label, &~.label{ background : @gplus; }
+                    &~[class*="icon-"]{ color : @gplus; }
+                }
+            }
+            &.twitter{
+                .filled, :checked~input{border-color : @twitter;}
+                *:checked{
+                    &~label, &~.label{ background : @twitter; }
+                    &~[class*="icon-"]{ color : @twitter; }
+                }
+            }
+            &.youtube{
+                .filled, :checked~input{border-color : @youtube;}
+                *:checked{
+                    &~[class*="icon-"]{ color : @youtube; }
+                    &~label, &~.label{ background : @youtube; }
+                }
+            }
+            &.linkedin{
+                .filled, :checked~input{border-color : @linkedin;}
+                *:checked{
+                    &~label, &~.label{ background : @linkedin; }
+                    &~[class*="icon-"]{ color : @linkedin; }
+                }
+            }
+            &.facebook{
+                .filled, :checked~input{border-color : @facebook;}
+                *:checked{
+                    &~label, &~.label{ background : @facebook; }
+                    &~[class*="icon-"]{ color : @facebook; }
+                }
+            }
+            &.pinterest{
+                .filled, :checked~input{border-color : @pinterest;}
+                *:checked{
+                    &~label, &~.label{ background : @pinterest; }
+                    &~[class*="icon-"]{ color : @pinterest; }
+                }
             }
         }
-        &.twitter{
-            .filled, :checked~input{border-color : @twitter;}
-            *:checked{
-                &~label, &~.label{ background : @twitter; }
-            }
-        }
-        &.youtube{
-            .filled, :checked~input{border-color : @youtube;}
-            *:checked{
-                &~label, &~.label{ background : @youtube; }
-            }
-        }
-        &.linkedin{
-            .filled, :checked~input{border-color : @linkedin;}
-            *:checked{
-                &~label, &~.label{ background : @linkedin; }
-            }
-        }
-        &.facebook{
-            .filled, :checked~input{border-color : @facebook;}
-            *:checked{
-                &~label, &~.label{ background : @facebook; }
-            }
-        }
+        .activate-form-labeled-social();
     }
 }
-.activate-form-labeled(@activate-alternate-style-form-labeled, @activate-alternate-style);
+.activate-form-labeled();
 
 // -- Checkbox & Radio field style
 .checkboxRadioStyle();
@@ -454,111 +461,15 @@ textarea{
 
         input{
 
-            &[type="text"]{
-                .border-radius(@input-border-radius 0 0 @input-border-radius);
-            }
+            &[type="text"]{ }
 
             &[type="submit"]{
                 width         : 100%;
                 padding-left  : 0;
                 padding-right : 0;
                 margin        : 0;
-                .border-radius(0 @input-border-radius @input-border-radius 0);
             }
         }
     }
 }
 .activate-search(@activate-widget-search);
-
-// Social button with checkbox
-//==================================================
-input.icon{
-    & ~ [class*="icon-"]{
-        color : darken(@gray-light, 20%);
-        cursor : pointer;
-        .icon-size(42px);
-
-        &:hover{
-            color : darken(@gray-light, 30%);
-        }
-    }
-
-    &~input{ border-color : transparent; }
-
-    &:checked{
-        &~input{
-            border-color : @input-border-color;
-        }
-    }
-
-    &.facebook{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @facebook;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @facebook;
-            .box-shadow(0 0 3px @facebook);
-        }
-    }
-    &.twitter{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @twitter;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @twitter;
-            .box-shadow(0 0 3px @twitter);
-        }
-    }
-    &.linkedin{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @linkedin;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @linkedin;
-            .box-shadow(0 0 3px @linkedin);
-        }
-    }
-    &.rss{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @rss;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @rss;
-            .box-shadow(0 0 3px @rss);
-        }
-    }
-    &.gplus{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @gplus;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @gplus;
-            .box-shadow(0 0 3px @gplus);
-        }
-    }
-    &.youtube{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @youtube;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @youtube;
-            .box-shadow(0 0 3px @youtube);
-        }
-    }
-    &.pinterest{
-        &:checked ~ [class*="icon-"], & ~ input.filled ~ [class*="icon-"]{
-            color : @pinterest;
-        }
-
-        &:checked ~ input:focus{
-            border-color : @pinterest;
-            .box-shadow(0 0 3px @pinterest);
-        }
-    }
-}

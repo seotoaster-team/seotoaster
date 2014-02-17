@@ -51,10 +51,12 @@ $(function() {
 					//console.log('loading...');
 				},
 				success : function(images) {
-					$('#images_small').find('h3').replaceWith(images.small);
-					$('#images_medium').find('h3').replaceWith(images.medium);
-					$('#images_large').find('h3').replaceWith(images.large);
-					$('#images_original').find('h3').replaceWith(images.original);
+					$('#images_small').find('.images-preview').replaceWith(images.small);
+					$('#images_medium').find('.images-preview').replaceWith(images.medium);
+					$('#images_large').find('.images-preview').replaceWith(images.large);
+					$('#images_original').find('.images-preview').replaceWith(images.original);
+
+
 				},
 				error: function() {
 					//console.log('error');

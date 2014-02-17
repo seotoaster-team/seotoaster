@@ -1,4 +1,3 @@
-var $doc = $(document);
 $(function(){
     var currentUrl = decodeURI(window.location.href);
     if(currentUrl && typeof currentUrl!='undefined'){
@@ -10,7 +9,7 @@ $(function(){
     /**
      * Seotoaster popup dialog
      */
-    $doc.on('click', 'a.tpopup', function(e){
+    $(document).on('click', 'a.tpopup', function(e){
         if(!loginCheck()){
             return;
         }
@@ -56,7 +55,7 @@ $(function(){
         }).parent().css({height : pheight+'px'});
     });
     //seotoaster delete item link
-    $doc.on('click', 'a._tdelete', function(){
+    $(document).on('click', 'a._tdelete', function(){
         var el = this;
         var url = $(this).attr('href');
         var callback = $(this).data('callback');
@@ -83,7 +82,7 @@ $(function(){
         }, {classname : "error", 'ok' : 'Yes', 'cancel' : 'No'});
     });
     //seotoaster ajax form submiting
-    $doc.on('submit', 'form._fajax', function(e){
+    $(document).on('submit', 'form._fajax', function(e){
         e.preventDefault();
         var donotCleanInputs = [
             '#h1', '#header-title', '#url', '#nav-name', '#meta-description', '#meta-keywords', '#teaser-text'
@@ -123,7 +122,7 @@ $(function(){
                                     $field.parent().prop('title', errorMessage).addClass('notvalid');
                                 }else{
                                     var fieldId =  $field.prop('id');
-                                    $doc.find('[for="'+ fieldId +'"]').prop('title', errorMessage).addClass('notvalid');
+                                    $(document).find('[for="'+ fieldId +'"]').prop('title', errorMessage).addClass('notvalid');
                                 }
                             }else{
                                 $field.prop('title', errorMessage);
@@ -136,7 +135,7 @@ $(function(){
                                     $field.parent().tooltip('destroy').removeAttr('title', '').removeClass('notvalid');
                                 }else{
                                     var fieldId =  $field.prop('id');
-                                    $doc.find('[for="'+ fieldId +'"]').tooltip('destroy').removeAttr('title', '').removeClass('notvalid');
+                                    $(document).find('[for="'+ fieldId +'"]').tooltip('destroy').removeAttr('title', '').removeClass('notvalid');
                                 }
                             }else{
                                 $field.tooltip('destroy').removeClass('notvalid').removeAttr('title');
@@ -160,7 +159,7 @@ $(function(){
         })
     });
     //seotoaster edit item link
-    $doc.on('click', 'a._tedit', function(e){
+    $(document).on('click', 'a._tedit', function(e){
         e.preventDefault();
         var handleUrl = $(this).data('url');
         if(!handleUrl || handleUrl=='undefined'){
@@ -187,21 +186,21 @@ $(function(){
     }
     //publishPages();
     checkboxRadio();
-    $doc.on('click', '.closebutton .hide', function(){
+    $(document).on('click', '.closebutton .hide', function(){
         $('.show-left').hide("slide", { direction: "left"});
         $('.show-right').hide("slide", { direction: "right"});
         return false;
     });
 });
 ///////// Full screen //////////////
-$doc.on('click', '.screen-size', function(e){
+$(document).on('click', '.screen-size', function(e){
     var name = $(this).data('size');
     $('.closebutton').toggleClass('hidden');
     $(this).toggleClass('icon-expand icon-turn').toggleClass('inverse-info inverse-error');
     $('#'+name+', .'+name).toggleClass('full-screen');
 });
 ///////// Full screen //////////////
-$doc.on('click', '#screen-expand', function(e){
+$(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('icon-expand icon-turn');
     var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
     popup.toggleClass('screen-expand');
@@ -255,11 +254,11 @@ function showTooltip(el, addClass, position){
 }
 
 ///////// Show/Hide 'cropped' options //////////////
-$doc.on('click', '[name="useImage"]', function(){
+$(document).on('click', '[name="useImage"]', function(){
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
 ///////// Scrolling navigation Tabs //////////////
-$doc.on('click', '.tabs-nav-wrap .arrow', function(){
+$(document).on('click', '.tabs-nav-wrap .arrow', function(){
     var $nav = $(this).nextAll('.ui-tabs-nav');
     var navScroll = $nav.scrollLeft();
     if($(this).hasClass('left')){
@@ -274,18 +273,23 @@ $doc.on('click', '.tabs-nav-wrap .arrow', function(){
 });
 ///////// checkbox & radio button //////////////
 function checkboxRadio(){
-    $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function(){
-        if(!$(this).closest('.btn-set').length){
-            var dataClass = $(this).data('label-class') ? $(this).data('label-class') : '';
-            if($(this).parent('label').length){
-                !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
-            }else{
-                !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap '+ dataClass +'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap '+$(this).data('label-class')+'"></label>').after('<span class="checkbox_radio"><span></span></span>');
+    if($('.seotoaster').length){
+        $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function(){
+            $(':radio').addClass('radio-upgrade filed-upgrade');
+            $(':checkbox').addClass('checkbox-upgrade filed-upgrade');
+            if(!$(this).closest('.btn-set').length){
+                var dataClass = $(this).data('label-class') ? $(this).data('label-class') : '';
+                if($(this).parent('label').length){
+                    !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
+                }else{
+                    !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap '+ dataClass +'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap '+$(this).data('label-class')+'"></label>').after('<span class="checkbox_radio"><span></span></span>');
+                }
             }
-        }
-        $(this).addClass('processed');
-    });
+            $(this).addClass('processed');
+        });
+    }
 }
+
 function loginCheck(){
     if($.cookie('PHPSESSID')===null){
         showModalMessage('Session expired', 'Your session is expired! Please, login again', function(){

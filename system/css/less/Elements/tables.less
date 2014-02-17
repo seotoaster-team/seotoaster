@@ -29,23 +29,21 @@ table{
 
     // Nesting
     table{
-        background-color : @body-bg;
+        background-color : #fff;
     }
 
-    .activate-style-size(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-        &.small{
-            th, td{
-                padding : 5px;
-            }
-        }
-
-        &.large{
-            th, td{
-                padding : @padding-large-vertical;
-            }
+    &.small{
+        th, td{
+            padding : 5px;
         }
     }
-.activate-style-size(@activate-alternate-style-size, @activate-alternate-style);}
+
+    &.large{
+        th, td{
+            padding : @padding-large-vertical;
+        }
+    }
+}
 
 // BORDERED VERSION
 //==================================================
@@ -215,7 +213,7 @@ table{
         }
     }
 }
-    .activate-table-responsive(@activate-responsive);
+.activate-table-responsive(@activate-responsive);
 
 //  Table scroll
 //==================================================

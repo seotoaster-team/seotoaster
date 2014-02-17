@@ -6,7 +6,7 @@
         margin      : 0;
         padding     : 0;
     }
-    [type="checkbox"], [type="radio"]{
+    .filed-upgrade{
         height   : auto;
         position : absolute;
         .opacity(0);
@@ -48,7 +48,7 @@
         }
     }
 
-    [type="radio"]{
+    .radio-upgrade{
         &~.checkbox_radio{
             .border-radius(10em);
 
@@ -71,7 +71,7 @@
         }
     }
 
-    [type="checkbox"]{
+    .checkbox-upgrade{
         &~.checkbox_radio{
             &:before{
                 content   : '\e013';
@@ -89,56 +89,59 @@
             }
         }
 
-        &.switcher{
-            &~.checkbox_radio{
-                overflow : hidden;
-                position : relative;
-                width    : 4em;
-                height   : 1.25em;
-
-                &:before, &:after{
-                    position    : static;
-                    font-family : @font-family-text;
-                    font-size   : @font-size-mini;
-                    line-height : @font-size-mini * 2.5;
-                    font-weight : bold;
-                    width       : 50%;
-                    text-align  : center;
-                    float       : left;
-                    margin      : 0;
-                }
-
-                &:before{
-                    content : "ON" !important;
-                    color   : @brand-green;
-                }
-
-                &:after{
-                    content : "OFF" !important;
-                    color   : @brand-red;
-                }
-
-                span{
-                    .transition(all, 0.3s);
-                    .box-sizing();
-                    background : @input-border-color;
-                    position   : absolute;
-                    border     : 1px solid @input-bg;
-                    z-index    : 5;
-                    left       : 0;
-                    top        : 0;
-                    bottom     : 0;
-                    width      : 50%;
-                }
-            }
-
-            &:checked{
+        .activate-switcher(@activate) when (@activate = true){
+            &.switcher{
                 &~.checkbox_radio{
+                    overflow : hidden;
+                    position : relative;
+                    width    : 4em;
+                    height   : 1.25em;
+
+                    &:before, &:after{
+                        position    : static;
+                        font-family : @font-family-text;
+                        font-size   : @font-size-mini;
+                        line-height : @font-size-mini * 2.5;
+                        font-weight : bold;
+                        width       : 50%;
+                        text-align  : center;
+                        float       : left;
+                        margin      : 0;
+                    }
+
+                    &:before{
+                        content : "ON" !important;
+                        color   : @brand-green;
+                    }
+
+                    &:after{
+                        content : "OFF" !important;
+                        color   : @brand-red;
+                    }
+
                     span{
-                        left : 50%;
+                        .transition(all, 0.3s);
+                        .box-sizing();
+                        background : @input-border-color;
+                        position   : absolute;
+                        border     : 1px solid @input-bg;
+                        z-index    : 5;
+                        left       : 0;
+                        top        : 0;
+                        bottom     : 0;
+                        width      : 50%;
+                    }
+                }
+
+                &:checked{
+                    &~.checkbox_radio{
+                        span{
+                            left : 50%;
+                        }
                     }
                 }
             }
         }
+        .activate-switcher(@activate-switcher-style);
     }
 }

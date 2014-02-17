@@ -3,8 +3,8 @@
 .font-face(@fontname, @fontfile, @fontweight : normal, @fontstyle: normal) {
     @font-face{
         font-family : "@{fontname}";
-        src         : url("../fonts/@{fontfile}.eot");
-        src         : url("../fonts/@{fontfile}.eot?#iefix") format("embedded-opentype"), url("../fonts/@{fontfile}.svg#@{fontname}") format("svg"), url("../fonts/@{fontfile}.woff") format("woff"), url("../fonts/@{fontfile}.ttf") format("truetype");
+        src         : url("@{fontfile}.eot");
+        src         : url("@{fontfile}.eot?#iefix") format("embedded-opentype"), url("@{fontfile}.svg#@{fontname}") format("svg"), url("@{fontfile}.woff") format("woff"), url("@{fontfile}.ttf") format("truetype");
         font-weight : @fontweight;
         font-style  : @fontstyle;
     }
@@ -26,31 +26,17 @@
     .grid(@grid, @prefix, @num-column + 1, false);
     .activate-grid-element(@switch);
 }
-.grid-mobile(@response : @activate-responsive, @adaptive : @activate-adaptive) when (@response = true), (@adaptive = true){
-    .type-of-development(@activate : @activate-responsive) when (@activate = true){
-        @responsive-size-mobile-over : @responsive-size-mobile + 1;
-        @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
-            .t-hide{ display : none; }
-            .grid(@grid-columns-tablet, t-);
-        }
-
-        @media only screen and (max-width : @responsive-size-mobile){
-            .m-hide{ display : none; }
-            .grid(@grid-columns-mobile, m-);
-        }
+.grid-mobile(@response : @activate-responsive) when (@response = true){
+    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+    @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
+        .t-hide{ display : none; }
+        .grid(@grid-columns-tablet, t-);
     }
-    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true) and (@activate2 = false){
-        .tablet{
-            .t-hide{ display : none; }
-            .grid(@grid-columns-tablet, t-);
-        }
 
-        .mobile{
-            .m-hide{ display : none; }
-            .grid(@grid-columns-mobile, m-);
-        }
+    @media only screen and (max-width : @responsive-size-mobile){
+        .m-hide{ display : none; }
+        .grid(@grid-columns-mobile, m-);
     }
-    .type-of-development();
 }
 
 .activate-grid-element(@activate) when (@activate = true){
@@ -251,7 +237,7 @@
     }
     .activate-style-switch(@style-switch);
 
-    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true), (@activate2 = true){
+    .type-of-development(@activate : @activate-responsive) when (@activate = true){
         .grid-elements-tablet(@tablet-column, @margin, @full);
         .grid-elements-mobile(@mobile-column, @margin, @full);
     }
@@ -276,7 +262,7 @@
         margin-left : 0;
     }
 
-    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true), (@activate2 = true){
+    .type-of-development(@activate : @activate-responsive) when (@activate = true){
         .grid-elements-tablet(@tablet-column, @margin, @full);
         .grid-elements-mobile(@mobile-column, @margin, @full);
     }
@@ -287,12 +273,7 @@
     width       : 100%;
     margin-left : 0;
 
-    .activate-style-switch(@activate) when (@activate = true){
-        .box-sizing;
-    }
-    .activate-style-switch(@style-switch);
-
-    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true), (@activate2 = true){
+    .type-of-development(@activate : @activate-responsive) when (@activate = true){
         .grid-elements-tablet(@tablet-column, @margin, @full);
         .grid-elements-mobile(@mobile-column, @margin, @full);
     }
@@ -300,32 +281,16 @@
 }
 
 .grid-elements-tablet(@tablet-column, @margin, @full) when (@tablet-column > 0){
-    //    .type-of-development(@activate : @activate-responsive) when (@activate = true){
     @responsive-size-mobile-over : @responsive-size-mobile + 1;
     @media only screen and (max-width : @responsive-size-tablet) and  (min-width : @responsive-size-mobile-over){
         .grid-elements(@tablet-column, @margin, @full, 0, 0, false);
     }
-    //    }
-    //    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true) and (@activate2 = false){
-    //        .tablet &{
-    //            .grid-elements(@tablet-column, @margin, @full, 0, 0, false);
-    //        }
-    //    }
-    //    .type-of-development();
 }
 
 .grid-elements-mobile(@mobile-column, @margin, @full) when (@mobile-column > 0){
-    //    .type-of-development(@activate : @activate-responsive) when (@activate = true){
     @media only screen and (max-width : @responsive-size-mobile){
         .grid-elements(@mobile-column, @margin, @full, 0, 0, false);
     }
-    //    }
-    //    .type-of-development(@activate : @activate-adaptive, @activate2 : @activate-responsive) when (@activate = true) and (@activate2 = false){
-    //        .mobile &{
-    //            .grid-elements(@mobile-column, @margin, @full, 0, 0, false);
-    //        }
-    //    }
-    //    .type-of-development();
 }
 
 // Icon size
@@ -334,7 +299,7 @@
     width       : @size;
     height      : @size;
     line-height : @size;
-    font-size   : 0 !important;
+    font-size   : 0;
 
     &:before{
         font-size : @size;

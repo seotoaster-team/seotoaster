@@ -13,7 +13,6 @@
 
 // Responsive (MediaQueries)
 @activate-responsive                    : false;
-@activate-adaptive                      : false;
 @activate-hover                         : true;
 
 //Toaster icons
@@ -22,26 +21,51 @@
 // Alternate Style (color, size, type) FOR=> Buttons, Alert, Progressbar, Range, Form input, Link, Table
 @activate-alternate-style               : true;
 
-// Alternate Style => SIZE
-@activate-alternate-style-size          : true;
-    @activate-alternate-style-size-larger : true;
-    @activate-alternate-style-size-large  : true;
-    @activate-alternate-style-size-small  : true;
+    // Alternate Style => GLOBAL COLOR
+    @activate-alternate-style-color         : true;
+        @activate-alternate-style-color-red    : true;
+        @activate-alternate-style-color-blue   : true;
+        @activate-alternate-style-color-green  : true;
+        @activate-alternate-style-color-orange : true;
+        @activate-alternate-style-color-gray   : true;
 
-// Alternate Style => COLOR
-@activate-alternate-style-color         : true;
-    @activate-alternate-style-color-red    : true;
-    @activate-alternate-style-color-blue   : true;
-    @activate-alternate-style-color-green  : true;
-    @activate-alternate-style-color-orange : true;
-    @activate-alternate-style-color-gray   : true;
-
-// Alternate Style => LABELED
+// Alternate Style => Field form
 @activate-alternate-style-form-labeled  : true;
+    @activate-alternate-style-form-labeled-icon   : true;
+    @activate-alternate-style-form-labeled-social : true;
+
+// Alternate Style => FIELD SIZE
+@activate-alternate-style-field-size  : true;
+    @activate-alternate-style-field-size-larger : true;
+    @activate-alternate-style-field-size-large  : true;
+    @activate-alternate-style-field-size-small  : true;
 
 // Alternate Style => BUTTON TYPE
-@activate-alternate-style-button   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
-    @activate-alternate-style-button-3d   : false;
+@activate-alternate-style-button-type   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
+    @activate-alternate-style-button-type-icon  : true;
+    @activate-alternate-style-button-type-link  : true;
+    @activate-alternate-style-button-type-block : true;
+    @activate-alternate-style-button-type-group : true;
+    @activate-alternate-style-button-type-3d    : false;
+
+// Alternate Style => BUTTON COLOR
+@activate-alternate-style-button-color         : true;
+    @activate-alternate-style-button-color-red    : true;
+    @activate-alternate-style-button-color-blue   : true;
+    @activate-alternate-style-button-color-green  : true;
+    @activate-alternate-style-button-color-orange : true;
+
+    @activate-alternate-style-button-color-red-inverse     : true;
+    @activate-alternate-style-button-color-blue-inverse    : true;
+    @activate-alternate-style-button-color-green-inverse   : true;
+    @activate-alternate-style-button-color-orange-inverse  : true;
+    @activate-alternate-style-button-color-primary-inverse : true;
+
+// Alternate Style => BUTTON SIZE
+@activate-alternate-style-button-size  : true;
+    @activate-alternate-style-button-size-larger : true;
+    @activate-alternate-style-button-size-large  : true;
+    @activate-alternate-style-button-size-small  : true;
 
 // Alternate Style => IMAGES
 @activate-alternate-style-images        : false; // .img-thumbnail, .img-circle, .img-rounded
@@ -58,6 +82,7 @@
 
 // Style for Checkbox and Radio
 @activate-checkbox-radio-style          : true;
+    @activate-switcher-style            : true;
 
 // Connection / Disconnection system-classes.less
 @activate-system-classes                : true;
@@ -80,35 +105,24 @@
 @activate-module-scrollbar              : false;
 
 // Connection / Disconnection TOASTER WIDGETS OR each individually
-@activate-widget-directupload           : false;
 @activate-widget-form                   : true; // hide/show all styles for form components
-@activate-widget-form-builder           : false; // style for form created with help builder form (http://www.seosamba.com/free-form-maker/)
-@activate-widget-gallery                : false;
-@activate-widget-breadcrumbs            : false;
-@activate-widget-LP-LC                  : false; // List Pages, List Categories
-@activate-widget-FA-FP-RP               : false; // FeaturedArea, FeaturedPage & RelatedPage
-@activate-widget-FA-FP-RP-LP-LC-sidebar : false; // FeaturedArea, FeaturedPage & RelatedPage
-@activate-widget-menu-main              : false;
-@activate-widget-menu-static            : false;
-@activate-widget-news-list              : false;
-@activate-widget-rss                    : false;
 @activate-widget-search                 : false; // Search form and Saerch results
-@activate-widget-sitemap                : false;
-@activate-widget-slider                 : false; // Slider cycle and toaster Image Rotator
 
 // Activate class for reset element
 @activate-reset-style                   : true;
 
 // Activate alternative classes for list
-@activate-list-unstyled                 : true;
-@activate-list-inline                   : true;
-@activate-list-bordered                 : true;
-@activate-list-tags                     : true;
-@activate-list-arrow                    : true;
-@activate-list-count-sign               : false;
-@activate-list-icon-sign                : false;
-@activate-list-testimonials             : false; // styles are in system-classes.less, check that was included
-@activate-list-social-links             : true; // styles are in system-classes.less, check that was included
+@activate-lists-classes                 : true;
+    @activate-list-unstyled                 : true;
+    @activate-list-inline                   : true;
+    @activate-list-bordered                 : true;
+    @activate-list-tags                     : true;
+    @activate-list-arrow                    : true;
+    @activate-list-images                   : true;
+    @activate-list-count-sign               : false;
+    @activate-list-icon-sign                : false;
+    @activate-list-testimonials             : false; // styles are in system-classes.less, check that was included
+    @activate-list-social-links             : true; // styles are in system-classes.less, check that was included
 
 // Animate CSS3. DEMO => https://daneden.me/animate/
 @activate-animate                       : false;

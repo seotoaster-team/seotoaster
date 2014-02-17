@@ -1,4 +1,4 @@
-@import "Base/variables";
+@import "base/variables";
 // Table of Content
 //==================================================
 //	Typography Styles
@@ -14,37 +14,37 @@
 
 // Typography Styles
 //==================================================
-@import "Elements/typography";
+@import "elements/typography";
 
 // Basic Styles
 //==================================================
-@import "Elements/basic";
+@import "elements/basic";
 
 // Form Styles
 //==================================================
 .activate-form(@activate) when (@activate = true){
-    @import "Widgets/form";
+    @import "widgets/form";
 }
 .activate-form(@activate-widget-form);
 
 // Modules Styles
 //==================================================
 .activate-modules(@activate) when (@activate = true){
-    @import "Packages/modules";
+    @import "packages/modules";
 }
 .activate-modules(@activate-modules);
 
 // Animation
 //==================================================
 .activate-animate(@activate) when (@activate = true){
-    @import "Packages/animate-custom";
+    @import "packages/animate-custom";
 }
 .activate-animate(@activate-animate);
 
 // Control Panel Elements Styles
 //==================================================
-@import "Packages/control_panel";
+@import "packages/control_panel";
 
 // Basic Widgets and Plugins
 //==================================================
-@import "Packages/widgets_plugins";
+@import "packages/widgets_plugins";
