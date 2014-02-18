@@ -128,9 +128,7 @@ class IndexController extends Zend_Controller_Action {
             $parser      = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
             $pageContent = $parser->parse();
 
-            unset($parser);
-            unset($themeData);
-            //$this->_helper->cache->save($page->getUrl(), $pageContent, 'page_');
+            unset($parser, $themeData);
         }
 
     	$pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);

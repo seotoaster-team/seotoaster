@@ -8,7 +8,9 @@
  */
 class Tools_Theme_Tools {
 
-    const FOLDER_CSS = 'css/';
+    const FOLDER_CSS             = 'css/';
+
+    const DEFAULT_TYPE_TEMPLATE  = 'typeregular';
 
 	public static $requiredFiles = array(
 		'index.html',
@@ -165,6 +167,9 @@ class Tools_Theme_Tools {
             }
             elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
                 $templateType = Application_Model_Models_Template::TYPE_MOBILE;
+            }
+            else {
+                $templateType = self::DEFAULT_TYPE_TEMPLATE;
             }
 
             if (isset($templateType)) {

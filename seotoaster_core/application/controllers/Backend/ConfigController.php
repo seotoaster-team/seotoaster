@@ -55,12 +55,15 @@ class Backend_ConfigController extends Zend_Controller_Action {
                     $languageSelect->setMultiOptions($this->_helper->language->getLanguages(false));
 				}
 				if ($isSuperAdminLogged) {
-                    if (!((bool) $configForm->getElement('enableDeveloperMode')->getValue())) {
+                    // Update modified templates in developer mode
+                    if (!((bool) $configForm->getElement('enableDeveloperMode')->getValue())
+                        && (bool) $this->_helper->config->getConfig('enableDeveloperMode')
+                    ) {
                         try {
                             Tools_Theme_Tools::applyTemplates($this->_helper->config->getConfig('currentTheme'));
                         }
                         catch (Exception $e) {
-                            $this->_error($e->getMessage());
+                            $e->getMessage();
                         }
                     }
 
