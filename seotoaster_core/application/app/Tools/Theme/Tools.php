@@ -10,8 +10,6 @@ class Tools_Theme_Tools {
 
     const FOLDER_CSS             = 'css/';
 
-    const DEFAULT_TYPE_TEMPLATE  = 'typeregular';
-
 	public static $requiredFiles = array(
 		'index.html',
 		'default.html',
@@ -169,7 +167,7 @@ class Tools_Theme_Tools {
                 $templateType = Application_Model_Models_Template::TYPE_MOBILE;
             }
             else {
-                $templateType = self::DEFAULT_TYPE_TEMPLATE;
+                $templateType = Application_Model_Models_Template::TYPE_REGULAR;
             }
 
             if (isset($templateType)) {
