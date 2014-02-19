@@ -23,6 +23,7 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
         $showMemberPages = (boolean) $configHelper->getConfig('memPagesInMenu');
         $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
         $flatPages       = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
+        $nomenuPages     = Application_Model_Mappers_PageMapper::getInstance()->fetchAllNoMenuPages();
         foreach($pages as $key => $page) {
             if($page['parentId'] == 0) {
                 if((bool)$page['protected'] && !$isAllowed && !$showMemberPages) {
@@ -39,8 +40,13 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
                 }
             }
         }
-        $this->_view->pages      = $pagesList;
-        $this->_view->flatPages  = $flatPages;
+        $this->_view->pages        = $pagesList;
+        $this->_view->flatPages    = $flatPages;
+        if(isset($this->_options[0])) {
+            if($this->_options[0] == 'nomenuPages') {
+        $this->_view->nomenuPages  = $nomenuPages;
+            }
+        }
         $newslogPlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('newslog');
         if($newslogPlugin instanceof Application_Model_Models_Plugin){
             if($newslogPlugin->getStatus() == Application_Model_Models_Plugin::ENABLED){

@@ -41,3 +41,17 @@
         <?php endif;?>
     </ul>
 <?php endif; ?>
+    <!-- nomenu pages here -->
+<?php if(!empty($this->nomenuPages)): ?>
+    <ul class="sitemap">
+        <?php foreach ($this->nomenuPages as $key => $page): ?>
+            <?php $page = $page->toArray(); ?>
+            <li class="page">
+                <a title="<?php echo isset($page['optimizedH1']) ? $page['optimizedH1'] : $page['h1']; ?>"
+                   href="<?php echo $this->websiteUrl . (isset($page['optimizedUrl']) ? $page['optimizedUrl'] : $page['url']); ?>">
+                    <?php echo (isset($page['optimizedNavName']) ? $page['optimizedNavName'] : $page['navName']) ; ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
