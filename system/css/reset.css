@@ -1,9 +1,8 @@
-@font-face{font-family:"toaster-icons";src:url("../fonts/icons/toaster-icons.eot");src:url("../fonts/icons/toaster-icons.eot?#iefix") format("embedded-opentype"),url("../fonts/icons/toaster-icons.svg#toaster-icons") format("svg"),url("../fonts/icons/toaster-icons.woff") format("woff"),url("../fonts/icons/toaster-icons.ttf") format("truetype");font-weight:normal;font-style:normal;}*{margin:0;padding:0;outline:none;border:none;background:transparent;vertical-align:baseline;-webkit-touch-callout:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);-webkit-text-size-adjust:none;}
-.reset-style{width:auto;height:auto;background:transparent;border:0 none;color:inherit;font-family:inherit;font-size:100%;font-style:inherit;font-weight:inherit;margin:0;position:static;padding:0;vertical-align:baseline;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;box-shadow:none;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;border-radius:0;-webkit-transition:none 0.5s ease;-moz-transition:none 0.5s ease;-ms-transition:none 0.5s ease;transition:none 0.5s ease;}.reset-style:hover,.reset-style:focus{-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;box-shadow:none;}
+*{margin:0;padding:0;outline:none;border:none;background:transparent;vertical-align:baseline;-webkit-touch-callout:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);-webkit-text-size-adjust:none;}
 ::-moz-selection{background:#31b0d5;color:#ffffff;}
 ::selection{background:#31b0d5;color:#ffffff;}
 div:empty,p:empty{margin:0;}
-body{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-font-smoothing:subpixel-antialiased !important;-webkit-backface-visibility:hidden;-moz-backface-visibility:visible;-ms-backface-visibility:hidden;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+body{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-font-smoothing:subpixel-antialiased !important;-webkit-backface-visibility:hidden;-moz-backface-visibility:visible;-ms-backface-visibility:hidden;}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
 audio,canvas,video{display:inline-block;vertical-align:middle;}
 audio:not([controls]){display:none;height:0;}
