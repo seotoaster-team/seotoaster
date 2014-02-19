@@ -9,26 +9,15 @@
 // Footer Style
 //==================================================
 
-// Overlays
-.ui-widget-overlay{
-    position   : fixed;
-    left       : 0;
-    right      : 0;
-    top        : 0;
-    bottom     : 0;
-    z-index    : 1000;
-    background : #000;
-    .opacity(0.5);
-
-    &~.ui-widget-overlay{
-        display : none;
-    }
+.reset-style{
+    .reset-style;
 }
 
 body{
     font-family : @font-family-text;
     line-height : @line-height;
     color       : @text-color;
+    .user-select();
 }
 
 .seotoaster{
