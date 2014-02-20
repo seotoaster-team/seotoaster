@@ -156,7 +156,7 @@
     @name : e(`(function(){ var a = "@{width}"; return a.replace('%', '')}())`);
 
     .result(@w, @n) {
-        .w@{n}{ width : @w; }
+        .w@{n}{ width : @w !important; }
     }
     .result(@width, @name);
     .width-list(@width - @step, @step);
@@ -165,7 +165,7 @@
     @name : e(`(function(){ var a = "@{height}"; return a.replace('%', '')}())`);
 
     .result(@h, @n) {
-        .h@{n}{ height : @h; }
+        .h@{n}{ height : @h !important; }
     }
     .result(@height, @name);
     .height-list(@height - @step, @step);

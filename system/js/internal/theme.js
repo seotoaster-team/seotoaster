@@ -51,9 +51,6 @@ $(function() {
 	$(document).on('click', '#listpages-btn', function(e){
 		e.preventDefault();
 		$('#listpages').show("slide", { direction: "right"});
-	}).on('click', '.closebutton .hide, .show~#frm_template', function(e) {
-		$('#templatelist, #listpages').hide("slide", { direction: "right"});
-		return false;
 	});
 
     $(document).on('click', '#listtemplates-btn', function(e){
