@@ -1,11 +1,15 @@
 @import "base/variables";
-// Table of Content
-//==================================================
-//	Reset & Basics
-//	Reset Form
-//	Grid system
-//  Reset for all navigation items, related-products
-//==================================================
+    // Table of Content
+    //==================================================
+    //	Reset & Basics
+    //	Reset Form
+    //	Grid system
+    //  Reset for all navigation items, related-products
+    //==================================================
+
+    //  Fonts
+    //==================================================
+@import "elements/fonts";
 
 // Reset & Basics
 //==================================================
@@ -19,6 +23,9 @@
     -webkit-touch-callout       : none; //если надо, то запрещаем выделение текста
     -webkit-tap-highlight-color : rgba(0, 0, 0, 0); //убираем фон подсветки ссылок и кнопок
     -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
+}
+.reset-style{
+    .reset-style;
 }
 ::-moz-selection{
     background : @text-select-bg;
@@ -42,6 +49,7 @@ body{
     -webkit-backface-visibility : hidden;
     -moz-backface-visibility    : visible;
     -ms-backface-visibility     : hidden;
+    .user-select();
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
     display : block;
@@ -218,59 +226,38 @@ button[disabled], html input[disabled]{
     }
 }
 
-// Overlays
-.ui-widget-overlay{
-    position   : fixed;
-    top        : 0;
-    right      : 0;
-    bottom     : 0;
-    left       : 0;
-    z-index    : 1000;
-    background : #000;
-    .opacity(0.5);
+// Grid System
+//==================================================
+@import "elements/grid";
 
-    &~.ui-widget-overlay{
-        display : none;
-    }
-}
-.ui-dialog{
-    position : fixed;
-    z-index  : 1001;
 
-    &[aria-describedby="toasterPopup"]{
-        // Reset style for system dialogs
-        max-width   : none;
-        border      : none;
-        padding     : 0;
-        line-height : 0;
+//--- Position
+.position-list(none, top);
+.position-list(none, bottom);
+.position-list(none, right, 2);
+.position-list(none, left, 2);
 
-        // Style for system dialogs
-        position    : fixed;
-        z-index     : 1002;
-        top         : 0 !important;
-        bottom      : 0 !important;
-        left        : 0 !important;
-        right       : 0 !important;
-        margin      : auto !important;
-        background  : @dialog-bg;
-        font-size   : @font-size-base;
-        .box-shadow(3px 3px 10px #000);
+////--- Margin
+.margin-list(20px);
+.margin-list(50px, top);
+.margin-list(5em, top, 0.25);
+.margin-list(50px, bottom);
+.margin-list(5em, bottom, 0.25);
+.margin-list(10%, right, 1);
+.margin-list(10%, left, 1);
 
-        iframe{
-            background-image    : url("../images/spinner.gif");
-            background-position : center center;
-            background-repeat   : no-repeat;
-        }
+.ml-grid{ margin-left : @grid-margin-width / 2; }
+.mr-grid{ margin-right : @grid-margin-width / 2; }
 
-        &.screen-expand{
-            height    : 100% !important;
-            min-width : 960px;
-        }
-    }
-}
+////--- Padding
+.padding-list(10px);
+.padding-list(50px, top);
+.padding-list(50px, bottom);
+.padding-list(10%, right, 2);
+.padding-list(10%, left, 2);
 
-.ui-overlay+.ui-widget-content{
-    background : @body-bg;
-    z-index    : 1001;
-    .box-shadow(3px 3px 10px #000);
-}
+//--- Height
+.height-list(500px, 50);
+
+//--- Width
+.width-list(100%, 5);
