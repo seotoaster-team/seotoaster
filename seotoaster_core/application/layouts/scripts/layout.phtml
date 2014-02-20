@@ -23,14 +23,14 @@
                 ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-plugins.css', 'screen', 'lt IE 9')
                 ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-lite.css', 'screen', 'lt IE 9')
                 ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css', 'screen', 'lt IE 9')
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css');
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
+                ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
         }else{
             $this->headLink()
                 ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
                 ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-cp.css');
+//                ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
         }
-        $this->headLink()
-            ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
         ?>
 
 		<?php endif; ?>

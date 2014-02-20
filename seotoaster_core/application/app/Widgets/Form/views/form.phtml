@@ -42,7 +42,7 @@
     </p>
 <?php endif; ?>
 
-<?php echo $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
+<?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
 <script type="text/javascript">
     $(function() {
         var form = $('#<?php echo $this->formId; ?>');
