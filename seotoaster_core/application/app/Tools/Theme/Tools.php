@@ -133,21 +133,23 @@ class Tools_Theme_Tools {
             throw new Exception(join('<br />', $errors));
         }
 
-        // Trying to get theme.ini file with templates presets
-        try {
-            $themeConfig = parse_ini_string(
-                Tools_Filesystem_Tools::getFile($themePath . '/' . Tools_Template_Tools::THEME_CONFIGURATION_FILE)
-            );
-        }
-        catch (Exception $e) {
-            $themeConfig = false;
-        }
-
-        $templateTypeTable = new Application_Model_DbTable_TemplateType();
-        $templateMapper    = Application_Model_Mappers_TemplateMapper::getInstance();
         // This will remove all templates except system required. @see $protectedTemplates
-        $templateMapper->clearTemplates();
-        foreach ($themeFiles as $templateFile) {
+        Application_Model_Mappers_TemplateMapper::getInstance()->clearTemplates();
+
+        self::addTemplates($themePath, $themeFiles);
+
+        // Updating config table
+        Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
+
+        return true;
+    }
+
+    public static function addTemplates($themePath, $filesName = array()) {
+        $themeConfig       = self::getDataOfThemeIni($themePath);
+        $templateMapper    = Application_Model_Mappers_TemplateMapper::getInstance();
+        $templateTypeTable = new Application_Model_DbTable_TemplateType();
+
+        foreach ($filesName as $templateFile) {
             $templateName = preg_replace(
                 array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
                 array('_', ''),
@@ -177,7 +179,7 @@ class Tools_Theme_Tools {
                     $checkTypeExists = $templateTypeTable->createRow(array(
                         'id'    => $templateType,
                         'title' => ucfirst(preg_replace('/^type/ui', '', $templateType)).' Template'
-                     ));
+                    ));
                     $checkTypeExists->save();
                 }
                 unset($checkTypeExists);
@@ -199,13 +201,42 @@ class Tools_Theme_Tools {
         }
         unset($templateTypeTable);
 
-        // Updating config table
-        Application_Model_Mappers_ConfigMapper::getInstance()->save(array('currentTheme' => $themeName));
-
         if (!empty($errors)) {
             throw new Exception(join('<br />', $errors));
         }
+    }
 
-        return true;
+    public static function getDataOfThemeIni($themePath) {
+        // Trying to get theme.ini file with templates presets
+        try {
+            $themeConfig = parse_ini_string(
+                Tools_Filesystem_Tools::getFile(
+                    $themePath.DIRECTORY_SEPARATOR.Tools_Template_Tools::THEME_CONFIGURATION_FILE
+                )
+            );
+        }
+        catch (Exception $e) {
+            $themeConfig = array();
+        }
+
+        return $themeConfig;
+    }
+
+    public static function  updateTypeInThemeIni($themePath, $templateName, $templateType) {
+        $themeIniConfig = new Zend_Config(self::getDataOfThemeIni($themePath), true);
+        $themeIniConfig->{$templateName} = $templateType;
+
+        if (!empty($themeIniConfig)) {
+            try {
+                $iniWriter = new Zend_Config_Writer_Ini(array(
+                    'config'   => $themeIniConfig,
+                    'filename' => $themePath.DIRECTORY_SEPARATOR.Tools_Template_Tools::THEME_CONFIGURATION_FILE
+                 ));
+                $iniWriter->write();
+            }
+            catch (Exception $e) {
+                Tools_System_Tools::debugMode() && error_log($e->getMessage());
+            }
+        }
     }
 }

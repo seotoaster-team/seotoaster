@@ -103,12 +103,13 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 $template->setType($templateData['templateType']);
 
                 // saving/updating template in db
-                $result = $mapper->save($template);
+                $result           = $mapper->save($template);
+                $currentThemePath = realpath($this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme);
                 if ($result) {
+                    Tools_Theme_Tools::updateTypeInThemeIni($currentThemePath, $templateData['name'], $templateData['templateType']);
                     $this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
                 }
-                // saving to file in theme folder
-                $currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
+                // saving to file in theme folder;
                 $filepath = $currentThemePath . DIRECTORY_SEPARATOR;
 
                 if ($isMobileTemplate) {
@@ -293,18 +294,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
             }
             $currentTheme = $this->_helper->config->getConfig('currentTheme');
-            //get template preview image
-            $templatePreviewDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme . DIRECTORY_SEPARATOR . $this->_themeConfig['templatePreview'];
-            if ($templatePreviewDir && is_dir($templatePreviewDir)) {
-                $tmplImages = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
-            } else {
-                $tmplImages = array();
-            }
-
-            $types = $mapper->fetchAllTypes();
+            $types        = $mapper->fetchAllTypes();
             if (array_key_exists($listtemplates, array_merge($types, array('all' => 'all')))) {
                 $template = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
-                $this->view->templates = $this->_getTemplateListByType($listtemplates, $tmplImages, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
+                $this->view->templates = $this->_getTemplateListByType($listtemplates, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
                 if (empty($this->view->templates) || !$this->view->templates) {
                     $this->_helper->response->response($this->_translator->translate('Template not found'), true);
                     return true;
@@ -313,21 +306,42 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 $this->view->types = $this->_sortTemplates($types);
                 echo $this->view->render($this->getViewScript('templateslist'));
             } else {
-                $template = $mapper->find($listtemplates);
-                if ($template instanceof Application_Model_Models_Template) {
-                    $template = array(
-                        'id'       => $template->getId(),
-                        'name'     => $template->getName(),
-                        'fullName' => $template->getName(),
-                        'type'     => $template->getType(),
-                        'content'  => $template->getContent(),
-                        'preview'  => isset($tmplImages[$template->getName()]) ?
-                            $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $tmplImages[$template->getName()] :
-                            'system/images/no_preview.png'
-                    );
-                    $this->_helper->response->response($template, true);
-                } else {
-                    //$response = array('done'=> false);
+                // Enable editing directly from the template file
+                if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
+                    $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
+                    $currentTemplate  = $currentThemePath.DIRECTORY_SEPARATOR.$listtemplates.'.html';
+                    if (file_exists($currentTemplate)) {
+                        $themeConfig  = Tools_Theme_Tools::getDataOfThemeIni($currentThemePath);
+                        $templateName = preg_replace(
+                            array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
+                            array('_', ''),
+                            $listtemplates
+                        );
+
+                        $template = array(
+                            'name'     => $templateName,
+                            'fullName' => $templateName,
+                            'type'     =>(!empty($themeConfig) && isset($themeConfig[$templateName])) ?
+                                $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR,
+                            'content'  => Tools_Filesystem_Tools::getFile($currentTemplate)
+                        );
+
+                        $this->_helper->response->response($template, true);
+                    }
+                }
+                elseif (($template = $mapper->find($listtemplates)) !== null
+                    && $template instanceof Application_Model_Models_Template
+                ) {
+                        $template = array(
+                            'name'     => $template->getName(),
+                            'fullName' => $template->getName(),
+                            'type'     => $template->getType(),
+                            'content'  => $template->getContent()
+                        );
+
+                        $this->_helper->response->response($template, true);
+                    }
+                else {
                     $this->_helper->response->response($this->_translator->translate('Template not found'), true);
                 }
             }
@@ -336,22 +350,56 @@ class Backend_ThemeController extends Zend_Controller_Action {
         }
     }
 
-    private function _getTemplateListByType($type, $tmplImages, $currentTheme, $currTemplate = '') {
-        $where = (($type != 'all') ? "type = '" . $type . "'" : null);
-        $templates = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll($where);
+    private function _getTemplateListByType($type, $currentTheme, $currentTemplate = '') {
         $templateList = array();
-        foreach ($templates as $template) {
-            array_push($templateList, array(
-                'id'            => $template->getId(),
-                'type'          => $template->getType(),
-                'name'          => $template->getName(),
-                'fullName'      => $template->getName(),
-                'isCurrent'     => ($template->getName() == $currTemplate) ? true : false,
-                'content'       => $template->getContent(),
-                'preview_image' => isset($tmplImages[$template->getName()]) ? $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $tmplImages[$template->getName()] : false, //'system/images/no_preview.png'
-                'pagesCount'    => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
-            ));
+
+        // Gets the templates list from the current theme folder
+        if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
+            $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
+            $themeConfig      = Tools_Theme_Tools::getDataOfThemeIni($currentThemePath);
+            $scanDir          = scandir($currentThemePath);
+
+            foreach ($scanDir as $file) {
+                if (preg_match('/\.(html)/', $file)) {
+                    $templateName = preg_replace(
+                        array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
+                        array('_', ''),
+                        $file
+                    );
+
+                    $templateType = (!empty($themeConfig) && isset($themeConfig[$templateName])) ?
+                        $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR;
+                    if ($type != 'all' && $type != $templateType) {
+                        continue;
+                    }
+
+                    array_push($templateList, array(
+                        'type'       => $templateType,
+                        'name'       => $templateName,
+                        'fullName'   => $templateName,
+                        'isCurrent'  => ($templateName == $currentTemplate) ? true : false,
+                        'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($templateName)
+                    ));
+                }
+            }
         }
+        //Gets the templates list from the database
+        else {
+            $templates = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll(
+                ($type != 'all') ? "type = '$type''" : null
+            );
+
+            foreach ($templates as $template) {
+                array_push($templateList, array(
+                    'type'       => $template->getType(),
+                    'name'       => $template->getName(),
+                    'fullName'   => $template->getName(),
+                    'isCurrent'  => ($template->getName() == $currentTemplate) ? true : false,
+                    'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
+                ));
+            }
+        }
+
         return $templateList;
     }
 
