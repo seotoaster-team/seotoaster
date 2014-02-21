@@ -20,9 +20,6 @@
         <?php
         if(empty($this->bodyTag)){
             $this->headLink()
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-plugins.css', 'screen', 'lt IE 9')
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-lite.css', 'screen', 'lt IE 9')
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css', 'screen', 'lt IE 9')
                 ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
                 ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
         }else{
@@ -49,8 +46,7 @@
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/ie/ie-pack.js');
+			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js');
 		?>
 
 		<?php $this->headScript()->setAllowArbitraryAttributes(true)
