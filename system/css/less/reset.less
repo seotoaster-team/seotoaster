@@ -230,6 +230,22 @@ button[disabled], html input[disabled]{
 //==================================================
 @import "elements/grid";
 
+// Overlays
+.ui-widget-overlay{
+    position   : fixed;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    left       : 0;
+    z-index    : 1000;
+    background : #000;
+    .opacity(0.5);
+
+    &~.ui-widget-overlay{
+        display : none;
+    }
+}
+
 
 //--- Position
 .position-list(none, top);
