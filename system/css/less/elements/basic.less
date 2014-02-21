@@ -292,7 +292,7 @@ body{
 
     [id*="teaser-uploader-filelist"]{
         display : none;
-    }
+    }s
 
     &:hover{
         img[src*="noimage.png"]{
@@ -308,11 +308,16 @@ body{
 }
 
 .plupload{
-    cursor : pointer;
-    display : none;
+    &.html5{
+        margin-top : -0.75em;
+    }
+
+    input{
+        height : 100%;
+        cursor : pointer;
+    }
 
     &+form{
-        cursor  : text;
         z-index : 999999;
     }
 }

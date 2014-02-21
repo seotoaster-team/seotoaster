@@ -8,13 +8,6 @@
     border-radius : @state-border-radius;
     .alert-color(@state-green-text, @state-green-bg, @state-green-border, true, true);
 
-    .close{
-        position : absolute;
-        top      : 0;
-        right    : 0;
-        color    : inherit;
-    }
-
     a{
         text-decoration : underline;
 
@@ -70,6 +63,19 @@
         .rgba(#fff, 0.5);
     }
 
+    .close{
+        position : absolute;
+        top      : 0;
+        right    : 0;
+        color    : inherit;
+        cursor   : pointer;
+        .icon-size(16px);
+
+        &:hover{
+            color : @brand-red;
+        }
+    }
+
     .dialog{
         position      : fixed;
         z-index       : 101;
@@ -83,22 +89,7 @@
         overflow      : auto;
         font-size     : @font-size-large;
         text-align    : center;
-        border        : 1px solid;
-        border-radius : @state-border-radius;
         .box-shadow(0 0 100px desaturate(@state-green-border, 10%));
-
-        .close{
-            .icon-size(16px);
-            cursor   : pointer;
-            position : absolute;
-            top      : 0;
-            right    : 0;
-            color    : inherit;
-
-            &:hover{
-                color : @brand-red;
-            }
-        }
 
         // Alternate styles
         // -------------------------
