@@ -38,7 +38,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
         if (!empty($this->_toasterData)) {
             $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'].'/';
-            $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 10);
+            $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 14);
             $folderСssPath        = $this->_themeFullPath.Tools_Theme_Tools::FOLDER_CSS;
             $this->_folderСssPath = (is_dir($folderСssPath)) ? $folderСssPath : $this->_themeFullPath;
         }
@@ -69,12 +69,10 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             }
 
             if (null === ($filePath = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
-                $cssTag = array();
-                foreach ($this->_getCssFiles() as $file) {
-                    $cssTag[] = preg_replace('/[^\w\d_]/', '', basename($file));
-                }
-                $this->_cacheTags   = array_merge($this->_cacheTags, $cssTag);
                 $this->_cacheTags[] = $this->_toasterData['templateId'];
+                foreach ($this->_getFilesCss() as $file) {
+                    $this->_cacheTags[] = preg_replace('/[^\w\d_]/', '', basename($file));
+                }
 
                 $content = $this->_getContent();
                 if (trim($content) == '') {
@@ -149,7 +147,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    private function _getCssFiles() {
+    private function _getFilesCss() {
         $cssToTemplate = array();
         preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
 
@@ -167,10 +165,10 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             return array();
         }
 
-        $cssOrder  = array();
-        $folderCss = Tools_Theme_Tools::FOLDER_CSS;
+        $cssOrder = array();
         foreach ($this->_cssOrder as $key => $val) {
-            $cssOrder[$key] = (in_array($folderCss.$val, $files)) ? $folderCss.$val : $val;
+            $cssOrder[$key] =
+                (in_array(Tools_Theme_Tools::FOLDER_CSS.$val, $files)) ? Tools_Theme_Tools::FOLDER_CSS.$val : $val;
         }
 
         $files = array_unique($files);
@@ -181,33 +179,27 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return $files;
     }
 
-    private function _addCss($cssPath) {
-        $content = '';
+    private function _getContent() {
+        $content    = '';
+        $compressor = new CssMin();
 
-        if (file_exists($cssPath)) {
-            $fileName   = explode('/', $cssPath);
-            $fileName   = strtoupper(end($fileName));
-            $compressor = new CssMin();
+        foreach ($this->_getFilesCss() as $file) {
+            if (!file_exists($this->_themeFullPath.$file)) {
+                continue;
+            }
 
+            $fileName = explode('/', $this->_themeFullPath.$file);
+            $fileName = strtoupper(end($fileName));
             $content .= "/**** ".$fileName." start ****/\n";
-            $content .= $compressor->run(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
+            $content .= $compressor->run(
+                preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($this->_themeFullPath.$file))
+            );
             $content .= "\n/**** ".$fileName." end ****/\n";
         }
 
         return $content;
     }
-    
-    private function _getContent() {
-        $files   = $this->_getCssFiles();
-        $content = '';
 
-        foreach ($files as $file) {
-            $content .= $this->_addCss($this->_themeFullPath.$file);
-        }
-        
-        return $content;
-    }
-    
     private function _createFile($content) {
         $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
 
