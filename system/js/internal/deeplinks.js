@@ -2,8 +2,6 @@ $(function() {
 
 	$('#urlType-label').hide();
 
-	//$('#deeplink-massdel-run').button();
-
 	loadDeeplinksList();
 
 	var urlDropDown = $('#url');

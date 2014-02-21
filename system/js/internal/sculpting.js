@@ -37,6 +37,11 @@ $(function () {
     })
 });
 
+sculptingCallback = function() {
+    $('#silo-name').val('');
+    loadSculptingData();
+};
+
 var loadSculptingData = function () {
     showSpinner();
     $.getJSON($('#website_url').val() + 'backend/backend_seo/loadsculptingdata', function (response) {
