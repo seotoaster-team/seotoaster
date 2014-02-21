@@ -17,4 +17,6 @@
         }, 'json');
     });
 </script>
-<div class="ajax-content <?php echo md5($this->name . $this->type); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif"></div>
+<div class="ajax-content <?php echo md5($this->name.$this->type).($this->isPublished ? '' : ' unpublished'); ?>">
+    <img src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif">
+</div>
