@@ -61,6 +61,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
                     ) {
                         try {
                             Tools_Theme_Tools::applyTemplates($this->_helper->config->getConfig('currentTheme'));
+                            $this->_helper->cache->clean(false, false, array('concatcss'));
                         }
                         catch (Exception $e) {
                             $e->getMessage();

@@ -310,8 +310,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
                     $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
                     $currentTemplate  = $currentThemePath.DIRECTORY_SEPARATOR.$listtemplates.'.html';
+
                     if (file_exists($currentTemplate)) {
-                        $themeConfig  = Tools_Theme_Tools::getDataOfThemeIni($currentThemePath);
+                        $themeConfig  = Tools_Theme_Tools::getThemeIniData($currentThemePath);
                         $templateName = preg_replace(
                             array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
                             array('_', ''),
@@ -356,7 +357,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
         // Gets the templates list from the current theme folder
         if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
             $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
-            $themeConfig      = Tools_Theme_Tools::getDataOfThemeIni($currentThemePath);
+            $themeConfig      = Tools_Theme_Tools::getThemeIniData($currentThemePath);
             $scanDir          = scandir($currentThemePath);
 
             foreach ($scanDir as $file) {

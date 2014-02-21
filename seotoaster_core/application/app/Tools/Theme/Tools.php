@@ -145,7 +145,7 @@ class Tools_Theme_Tools {
     }
 
     public static function addTemplates($themePath, $filesName = array()) {
-        $themeConfig       = self::getDataOfThemeIni($themePath);
+        $themeConfig       = self::getThemeIniData($themePath);
         $templateMapper    = Application_Model_Mappers_TemplateMapper::getInstance();
         $templateTypeTable = new Application_Model_DbTable_TemplateType();
 
@@ -206,32 +206,32 @@ class Tools_Theme_Tools {
         }
     }
 
-    public static function getDataOfThemeIni($themePath) {
+    public static function getThemeIniData($themePath) {
         // Trying to get theme.ini file with templates presets
         try {
-            $themeConfig = parse_ini_string(
+            $themeIniConfig = parse_ini_string(
                 Tools_Filesystem_Tools::getFile(
                     $themePath.DIRECTORY_SEPARATOR.Tools_Template_Tools::THEME_CONFIGURATION_FILE
                 )
             );
         }
         catch (Exception $e) {
-            $themeConfig = array();
+            $themeIniConfig = array();
         }
 
-        return $themeConfig;
+        return $themeIniConfig;
     }
 
-    public static function  updateTypeInThemeIni($themePath, $templateName, $templateType) {
-        $themeIniConfig = new Zend_Config(self::getDataOfThemeIni($themePath), true);
-        $themeIniConfig->{$templateName} = $templateType;
+    public static function  updateTypeInThemeIni($themePath, $name, $type) {
+        $themeIniConfig = new Zend_Config(self::getThemeIniData($themePath), true);
+        $themeIniConfig->{$name} = $type;
 
         if (!empty($themeIniConfig)) {
             try {
                 $iniWriter = new Zend_Config_Writer_Ini(array(
                     'config'   => $themeIniConfig,
                     'filename' => $themePath.DIRECTORY_SEPARATOR.Tools_Template_Tools::THEME_CONFIGURATION_FILE
-                 ));
+                ));
                 $iniWriter->write();
             }
             catch (Exception $e) {

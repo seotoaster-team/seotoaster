@@ -29,7 +29,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private $_cachePrefix   = 'magicspaces_';
 
-    private $_cacheTags     = array();
+    private $_cacheTags     = array('concatcss');
 
     private $_cacheWeek     = Helpers_Action_Cache::CACHE_WEEK;
 
@@ -70,13 +70,18 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
             if (null === ($filePath = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
                 $cssTag = array();
-                foreach ($this->_getTemplateFiles() as $file) {
+                foreach ($this->_getCssFiles() as $file) {
                     $cssTag[] = preg_replace('/[^\w\d_]/', '', basename($file));
                 }
                 $this->_cacheTags   = array_merge($this->_cacheTags, $cssTag);
                 $this->_cacheTags[] = $this->_toasterData['templateId'];
 
-                $filePath = $this->_generatorFiles();
+                $content = $this->_getContent();
+                if (trim($content) == '') {
+                    return $this->_spaceContent;
+                }
+                $filePath = $this->_createFile($content);
+
                 try {
                     $this->_cache->save(
                         $this->_cacheId,
@@ -91,11 +96,19 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
                 }
             }
             elseif ($filePath === false) {
-                $filePath = $this->_generatorFiles();
+                $content = $this->_getContent();
+                if (trim($content) == '') {
+                    return $this->_spaceContent;
+                }
+                $filePath = $this->_createFile($content);
             }
         }
         else {
-            $filePath = $this->_generatorFiles();
+            $content = $this->_getContent();
+            if (trim($content) == '') {
+                return $this->_spaceContent;
+            }
+            $filePath = $this->_createFile($content);
         }
 
         $fileLink = $this->_toasterData['websiteUrl'].$filePath;
@@ -136,7 +149,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    private function _getTemplateFiles() {
+    private function _getCssFiles() {
         $cssToTemplate = array();
         preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
 
@@ -183,15 +196,19 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
         return $content;
     }
-
-    private function _generatorFiles() {
-        $files   = $this->_getTemplateFiles();
+    
+    private function _getContent() {
+        $files   = $this->_getCssFiles();
         $content = '';
-        
+
         foreach ($files as $file) {
             $content .= $this->_addCss($this->_themeFullPath.$file);
         }
-
+        
+        return $content;
+    }
+    
+    private function _createFile($content) {
         $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
 
         try {
