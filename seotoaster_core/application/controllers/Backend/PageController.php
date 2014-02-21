@@ -132,12 +132,16 @@ class Backend_PageController extends Zend_Controller_Action {
                 }
 
                 if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
+                    // Add template if not in the database
                     if (null === Application_Model_Mappers_TemplateMapper::getInstance()->find($page->getTemplateId())) {
                         $themesConfig = Zend_Registry::get('theme');
                         $themePath = $this->_helper->website->getPath().$themesConfig['path'].$this->_helper->config->getConfig('currentTheme');
                         Tools_Theme_Tools::addTemplates($themePath, array($page->getTemplateId().'.html'));
-                        $templateType = Application_Model_Models_Template::TYPE_REGULAR;
-                        Tools_Theme_Tools::updateTypeInThemeIni($themePath, $page->getTemplateId(), $templateType);
+                        Tools_Theme_Tools::updateTypeInThemeIni(
+                            $themePath,
+                            $page->getTemplateId(),
+                            Application_Model_Models_Template::TYPE_REGULAR
+                        );
                     }
                 }
 

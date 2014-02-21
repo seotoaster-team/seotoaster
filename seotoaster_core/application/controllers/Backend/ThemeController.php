@@ -322,7 +322,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                         $template = array(
                             'name'     => $templateName,
                             'fullName' => $templateName,
-                            'type'     =>(!empty($themeConfig) && isset($themeConfig[$templateName])) ?
+                            'type'     => (!empty($themeConfig) && isset($themeConfig[$templateName])) ?
                                 $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR,
                             'content'  => Tools_Filesystem_Tools::getFile($currentTemplate)
                         );
@@ -409,29 +409,40 @@ class Backend_ThemeController extends Zend_Controller_Action {
      */
     public function deletetemplateAction() {
         if ($this->getRequest()->isPost()) {
-            $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
-            $templateId = $this->getRequest()->getPost('id');
-            if ($templateId) {
-                $template = $mapper->find($templateId);
-                if ($template instanceof Application_Model_Models_Template && !in_array($template->getName(), Tools_Theme_Tools::$protectedTemplates)) {
-                    $result = $mapper->delete($template);
-                    if ($result) {
-                        $currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig('currentTheme'));
-                        $filename = $currentThemePath . DIRECTORY_SEPARATOR;
+            if ($templateId = $this->getRequest()->getPost('id')) {
+                $mapper           = Application_Model_Mappers_TemplateMapper::getInstance();
+                $template         = $mapper->find($templateId);
+                $currentThemePath = realpath(
+                    $this->_websiteConfig['path'].$this->_themeConfig['path'].$this->_helper->config->getConfig(
+                        'currentTheme'
+                    )
+                );
+
+                if ($template instanceof Application_Model_Models_Template
+                    && !in_array($template->getName(), Tools_Theme_Tools::$protectedTemplates)
+                ) {
+                    if ($mapper->delete($template)) {
                         if ($template->getType() === Application_Model_Models_Template::TYPE_MOBILE
                             && preg_match('~^mobile_~', $template->getName())
                         ) {
-                            $filename .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getName());
+                            $filename = preg_replace('~^mobile_~', 'mobile'.DIRECTORY_SEPARATOR, $template->getName());
                         } else {
-                            $filename .= $template->getName();
+                            $filename = $template->getName();
                         }
-                        $filename .= '.html';
-                        Tools_Filesystem_Tools::deleteFile($filename);
+
+                        Tools_Filesystem_Tools::deleteFile($currentThemePath.DIRECTORY_SEPARATOR.$filename.'.html');
                         $status = $this->_translator->translate('Template deleted.');
                     } else {
                         $status = $this->_translator->translate('Can\'t delete template or template doesn\'t exists.');
                     }
                     $this->_helper->response->response($status, false);
+                }
+                elseif ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
+                    $templatePath = $currentThemePath.DIRECTORY_SEPARATOR.$templateId.'.html';
+                    if (file_exists($templatePath)) {
+                        Tools_Filesystem_Tools::deleteFile($templatePath);
+                        $this->_helper->response->response($this->_translator->translate('Template deleted.'), false);
+                    }
                 }
             }
             $this->_helper->response->response($this->_translator->translate('Template doesn\'t exists'), false);

@@ -55,7 +55,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
                     $languageSelect->setMultiOptions($this->_helper->language->getLanguages(false));
 				}
 				if ($isSuperAdminLogged) {
-                    // Update modified templates in developer mode
+                    // Update modified templates in developer mode and clean concatcss cache
                     if (!((bool) $configForm->getElement('enableDeveloperMode')->getValue())
                         && (bool) $this->_helper->config->getConfig('enableDeveloperMode')
                     ) {
