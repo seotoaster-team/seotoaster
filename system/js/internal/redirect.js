@@ -10,6 +10,7 @@ $(function() {
 			$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
 		}
 	});
+
 	$('.redirect-massdel').on('click', function() {
 		if(!$('.redirect-massdel').not(':checked').length) {
 			$('#massdell-main').attr('checked', true);
@@ -18,9 +19,11 @@ $(function() {
 			$('#massdell-main').attr('checked', false);
 		}
 	});
+
 	$('#massdell-main').click(function() {
 		$('.redirect-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
 	});
+
 	$('#massdel-run').click(function() {
 		var ids = [];
 		$('.redirect-massdel:checked').each(function() {

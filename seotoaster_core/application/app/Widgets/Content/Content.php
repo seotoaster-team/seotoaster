@@ -30,16 +30,19 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             return $this->_view->render('ajax.phtml');
         }
 
-        //$this->_container = $this->_find();
-        $content          = ($this->_container === null) ? '' : $this->_container->getContent();
-
-        if(Tools_Security_Acl::isAllowed($this)) {
+        $isPublished = $this->_checkPublished();
+        $content     = ($this->_container === null) ? '' : $this->_container->getContent();
+        if (Tools_Security_Acl::isAllowed($this)) {
             $content .= $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT);
             if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor')){
-                $content = '<div class="container-wrapper '. ($this->_checkPublished() ? '' : 'unpublished') .'">' . $content . '</div>';
-            } elseif(!$this->_checkPublished()) {
+                $content = '<div class="container-wrapper '. ($isPublished ? '' : 'unpublished') .'">' . $content . '</div>';
+            }
+            elseif(!$isPublished) {
                 $content = '<div class="unpublished">' . $content . '</div>';
             }
+        }
+        else {
+            $content = (!$isPublished) ? '' : $content;
         }
 
         return $content;
@@ -69,7 +72,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             }
         }
 
-        return $this->_container->getPublished();
+        return (bool) $this->_container->getPublished();
     }
     
 	/**
