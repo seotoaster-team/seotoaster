@@ -1,5 +1,5 @@
 <form action="" method="post" class="grid_12" style="text-align: center; margin-top: 10px;">
-	<div id="language" class="seotoaster" id="#seotoaster">
+	<div id="language" class="seotoaster" id="seotoaster">
 	<?php foreach($this->langs as $locale => $flag): ?>
 	<input type="radio" name="lang" value="<?php echo $locale;?>" id="lang-<?php echo $locale;?>"
 		   <?php echo $this->translate()->getLocale() === $locale ? 'checked="checked"' : '' ; ?>

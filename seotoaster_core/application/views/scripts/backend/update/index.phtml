@@ -1,0 +1,67 @@
+<script type="text/javascript">
+    function update() {
+        var url = '<?php echo $this->websiteUrl ?>backend/backend_update/update';
+        var $subBtn = $("input[type=submit]");
+        if ($('input[type=checkbox]').is(':checked')) {
+            url = url + '/withoutBackup/true';
+        }
+        $subBtn.attr("disabled", "disabled");
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            timeout: 60000,
+            success: function (response) {
+                if (!response.error) {
+                    if(!$('#progress').length){
+                        $('#news').attr('id', 'progress');
+                        $('#progress').empty();
+                    }
+                    $('#progress').find('li:last').find('img').replaceWith('<i class="icon-checkmark-3 success mr2"></i>');
+                    $('#progress').append('<li><img class="mr2" src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif" alt="spinner"/>' + response.responseText.message + '</li>');
+
+                    if (response.responseText.status == 0) {
+                        $('#progress').find('li:last').find('img').replaceWith('<i class="icon-checkmark-3 success mr2"></i>');
+                        $('.current-version').text('<?php echo $this->remoteVersion; ?>');
+                        $subBtn.removeAttr("disabled");
+                        return;
+                    }
+                    update();
+                } else {
+                    $subBtn.removeAttr("disabled");
+                    $subBtn.val('Continue');
+                    showMessage(response.responseText.message, true);
+                }
+            },
+            error: function (err) {
+                showMessage(err, true);
+            }
+        });
+    }
+    $(function () {
+        $('#update').submit(function (e) {
+            e.preventDefault();
+            update();
+        });
+    });
+</script>
+<div class="seotoaster container">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
+    <div class="content-footer update-form grid_12">
+        <p class="message info">This is a beta version of the updater. Use at your own risk. You should create database dump before you start.</p>
+        <p class="grid_6 mt10px text-center"><i class="icon-notice icon16 error"></i> Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
+        <p class="grid_6 mt10px text-center"><i class="icon-check icon16 success"></i> Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
+        <ul id="news" class="grid_12 mt15px mb0px list-bordered h350px scroll">
+            <?php if (is_array($this->whatIsNew)) : ?>
+                <?php foreach ($this->whatIsNew as $news) : ?>
+                    <li><i class="icon-pencil-2 gray mr2"></i><?php echo $news ?></li>
+                <?php endforeach ?>
+            <?php endif ?>
+        </ul>
+    </div>
+    <div class="footer grid_12">
+        <form id="update" action="<?php echo $this->websiteUrl ?>backend/backend_update/update" method="get">
+            <label class="fl-left">Without backup: <input type ="checkbox" name="withoutBackup" value = "true"></label>
+            <input type="submit" name="update" value="<?php echo $this->translate('Update'); ?>">
+        </form>
+    </div>
+</div>

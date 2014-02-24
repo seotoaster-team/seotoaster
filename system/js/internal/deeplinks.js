@@ -2,21 +2,20 @@ $(function() {
 
 	$('#urlType-label').hide();
 
-	//$('#deeplink-massdel-run').button();
-
 	loadDeeplinksList();
 
 	var urlDropDown = $('#url');
 	var urlLabel    = $('#url-label').find('label');
-	$('#urlType-0').click(function() {
-		$('#url').replaceWith(urlDropDown);
-	})
-	$('#urlType-1').click(function(){
-		$('#url').replaceWith('<input type="text" id="url" name="url" value="http://" />');
-	})
+	$('#urlType').click(function() {
+		if($(this).prop('checked')){
+			$('#url').replaceWith(urlDropDown);
+		}else{
+			$('#url').replaceWith('<input type="text" id="url" name="url" value="http://" />');
+		}
+	});
 
 	$('#chk-all').click(function() {
-		 $('.deeplink-massdel').attr('checked', ($(this).attr('checked')) ? true : false);
+		 $('.deeplink-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
 	})
 
 	 $('.deeplink-massdel').on('click', function() {
@@ -29,6 +28,7 @@ $(function() {
 	 })
 
 	$('#deeplink-massdel-run').click(function() {
+        showSpinner();
 		var ids = [];
 		$('.deeplink-massdel:checked').each(function() {
 			ids.push($(this).attr('id'));
@@ -64,5 +64,6 @@ function loadDeeplinksList() {
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loaddeeplinkslist/', function(response) {
 		$('#deeplinks-list').html(response.deeplinksList);
 		hideSpinner();
+		checkboxRadio();
 	})
 }

@@ -30,7 +30,7 @@ class Application_Form_Form extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Textarea(array(
 			'id'       => 'code',
 			'name'     => 'code',
-			'label'    => 'Form code*',
+			'label'    => 'Form code',
 			'value'    => $this->_code,
             'cols'     => '45',
 			'rows'     => '4',
@@ -41,7 +41,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'contact-mail',
 			'name'       => 'contactEmail',
-			'label'      => 'Contact mail*',
+			'label'      => 'Contact mail',
 			'value'      => $this->_contactEmail,
 			'required'   => true,
 			'filters'    => array('StringTrim')
@@ -57,11 +57,11 @@ class Application_Form_Form extends Zend_Form {
 		)));
 
         //new Zend_Validate_Alnum(array('allowWhiteSpace' => true))
-        
+
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'reply-from',
 			'name'       => 'replyFrom',
-			'label'      => 'Auto reply from email*',
+			'label'      => 'Auto reply from email',
 			'value'      => $this->_replyFrom,
 			'required'   => true,
 			'filters'    => array('StringTrim'),
@@ -80,7 +80,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'success-message',
 			'name'     => 'messageSuccess',
-			'label'    => 'Success Message*',
+			'label'    => 'Success Message',
 			'value'    => $this->_successMessage,
 			'required' => true,
 			'filters'  => array('StringTrim')
@@ -98,7 +98,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'reply-subject',
 			'name'     => 'replySubject',
-			'label'    => 'Auto reply subject*',
+			'label'    => 'Auto reply subject',
 			'value'    => $this->_replySubject,
 			'required' => true,
 			'filters'  => array('StringTrim'),
@@ -137,8 +137,11 @@ class Application_Form_Form extends Zend_Form {
 			'value' => $this->_id
 		)));
 
-        $this->addElement('submit', 'submit', array(
-			'label' => 'Save'
+        $this->addElement('button', 'submit', array(
+			'label' => '<span class="icon-save"></span> Save',
+            'type'  => 'submit',
+            'class' => 'grid_3',
+            'escape'=> false
 		));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));

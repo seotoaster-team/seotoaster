@@ -16,15 +16,22 @@ class Backend_PageController extends Zend_Controller_Action {
         }
         $this->view->websiteUrl = $this->_helper->website->getUrl();
 
-        $this->_helper->AjaxContext()->addActionContexts(array(
+        if ('' == $this->getRequest()->getParam('format', '')) {
+            $this->getRequest()->setParam('format', 'json');
+        }
+
+        /* @var Zend_Controller_Action_Helper_ContextSwitch $contextSwitch */
+        $this->_helper->contextSwitch
+            ->addContext('html', array('suffix' => 'html', 'headers' => array('Content-Type' => 'text/html')))
+            ->addActionContexts(array(
             'edit404page'      => 'json',
             'rendermenu'       => 'json',
-            'listpages'        => 'json',
+            'listpages'        => array('json', 'html'),
             'publishpages'     => 'json',
             'checkforsubpages' => 'json',
             'toggleoptimized'  => 'json'
-        ))->initContext('json');
-
+            ))
+            ->initContext();
     }
 
     public function pageAction() {
@@ -136,7 +143,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 exit;
             }
             $messages = array_merge($pageForm->getMessages(), $messages);
-            $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($messages, get_class($pageForm)));
+            $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($messages));
             exit;
         }
 
@@ -327,8 +334,6 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     public function linkslistAction() {
-        //external_link_list_url
-
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 

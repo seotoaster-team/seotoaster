@@ -31,21 +31,25 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private $_cachePrefix   = 'magicspaces_';
 
-    private $_cacheTags     = array();
+    private $_cacheTags     = array('concatcss');
+
+    private $_cacheWeek     = Helpers_Action_Cache::CACHE_WEEK;
 
     protected function _init() {
         parent::_init();
 
         if (!empty($this->_toasterData)) {
             $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'].'/';
-            $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 10);
-            $this->_folderСssPath = (is_dir($this->_themeFullPath.self::FOLDER_CSS)) ? $this->_themeFullPath.self::FOLDER_CSS : $this->_themeFullPath;
+            $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 14);
+            $folderСssPath        = $this->_themeFullPath.self::FOLDER_CSS;
+            $this->_folderСssPath = (is_dir($folderСssPath)) ? $folderСssPath : $this->_themeFullPath;
         }
     }
 
     protected function _run() {
         $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        if (!$this->_isBrowserIe() || empty($this->_toasterData) || in_array($currentRole, $this->_disableForRoles)) {
+        // Disable of the compressor for the role admin/superadmin, version IE < 9
+        if (empty($this->_toasterData) || !$this->_isBrowserIe() || in_array($currentRole, $this->_disableForRoles)) {
             return $this->_spaceContent;
         }
 
@@ -59,54 +63,77 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
             }
 
             if (null === ($filePath = $this->_cache->load($this->_cacheId, $this->_cachePrefix))) {
-                $cssTag = array();
-                foreach ($this->_getTemplateFiles() as $file) {
-                    $cssTag[] = preg_replace('/[^\w\d_]/', '', basename($file));
-                }
-                $this->_cacheTags   = array_merge($this->_cacheTags, $cssTag);
                 $this->_cacheTags[] = $this->_toasterData['templateId'];
+                foreach ($this->_getFilesCss() as $file) {
+                    $this->_cacheTags[] = preg_replace('/[^\w\d_]/', '', basename($file));
+                }
 
-                $filePath = $this->_generatorFiles();
+                $content = $this->_getContent();
+                if (trim($content) == '') {
+                    return $this->_spaceContent;
+                }
+                $filePath = $this->_createFile($content);
+
                 try {
-                    $this->_cache->save($this->_cacheId, $filePath, $this->_cachePrefix, $this->_cacheTags, Helpers_Action_Cache::CACHE_WEEK);
+                    $this->_cache->save(
+                        $this->_cacheId,
+                        $filePath,
+                        $this->_cachePrefix,
+                        $this->_cacheTags,
+                        $this->_cacheWeek
+                    );
                 }
                 catch (Exceptions_SeotoasterException $ste) {
-                    return $this->_spaceContent.'<!-- '.$ste->getMessage().' -->';
+                    return $ste->getMessage();
                 }
             }
             elseif ($filePath === false) {
-                $filePath = $this->_generatorFiles();
+                $content = $this->_getContent();
+                if (trim($content) == '') {
+                    return $this->_spaceContent;
+                }
+                $filePath = $this->_createFile($content);
             }
         }
         else {
-            $filePath = $this->_generatorFiles();
+            $content = $this->_getContent();
+            if (trim($content) == '') {
+                return $this->_spaceContent;
+            }
+            $filePath = $this->_createFile($content);
         }
 
-        return '<link href="'.$this->_toasterData['websiteUrl'].$filePath.'" rel="stylesheet" type="text/css" media="screen"/>';
+        $fileLink = $this->_toasterData['websiteUrl'].$filePath;
+
+        return '<link href="'.$fileLink.'" rel="stylesheet" type="text/css" media="screen"/>';
     }
 
     private function _isBrowserIe($notBelowVersion = 9) {
         $version = false;
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            $agent = $_SERVER['HTTP_USER_AGENT'];
 
-            if (preg_match('/MSIE/i', $userAgent) && !preg_match('/Opera/i', $userAgent)) {
-                $userBrowser = 'MSIE';
-                $matches     = array();
+            if (preg_match('/MSIE/i', $agent) && !preg_match('/Opera/i', $agent)) {
+                $browser = 'MSIE';
+                $data    = array();
 
-                preg_match_all('#(?<browser>Version|'.$userBrowser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#', $userAgent, $matches);
+                preg_match_all(
+                    '#(?<browser>Version|'.$browser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#',
+                    $agent,
+                    $data
+                );
 
-                if (isset($matches['browser']) && count($matches['browser']) != 1) {
-                    if (isset($matches['version'][0]) && strripos($userAgent, 'Version') < strripos($userAgent, $userBrowser)) {
-                        $version = $matches['version'][0];
+                if (isset($data['browser']) && count($data['browser']) != 1) {
+                    if (isset($data['version'][0]) && strripos($agent, 'Version') < strripos($agent, $browser)) {
+                        $version = $data['version'][0];
                     }
-                    elseif (isset($matches['version'][1])) {
-                        $version = $matches['version'][1];
+                    elseif (isset($data['version'][1])) {
+                        $version = $data['version'][1];
                     }
                 }
-                elseif (isset($matches['version'][0])) {
-                    $version = $matches['version'][0];
+                elseif (isset($data['version'][0])) {
+                    $version = $data['version'][0];
                 }
             }
         }
@@ -114,7 +141,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    private function _getTemplateFiles() {
+    private function _getFilesCss() {
         $cssToTemplate = array();
         preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
 
@@ -145,30 +172,28 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return $files;
     }
 
-    private function _addCss($cssPath) {
-        $cssContent = '';
+    private function _getContent() {
+        $content    = '';
+        $compressor = new CssMin();
 
-        if (file_exists($cssPath)) {
-            $fileName   = explode('/', $cssPath);
-            $fileName   = strtoupper(end($fileName));
-            $compressor = new CssMin();
+        foreach ($this->_getFilesCss() as $file) {
+            if (!file_exists($this->_themeFullPath.$file)) {
+                continue;
+            }
 
-            $cssContent .= "/**** ".$fileName." start ****/\n";
-            $cssContent .= $compressor->run(preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($cssPath)));
-            $cssContent .= "\n/**** ".$fileName." end ****/\n";
+            $fileName = explode('/', $this->_themeFullPath.$file);
+            $fileName = strtoupper(end($fileName));
+            $content .= "/**** ".$fileName." start ****/\n";
+            $content .= $compressor->run(
+                preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($this->_themeFullPath.$file))
+            );
+            $content .= "\n/**** ".$fileName." end ****/\n";
         }
 
-        return $cssContent;
+        return $content;
     }
 
-    private function _generatorFiles() {
-        $files   = $this->_getTemplateFiles();
-        $content = '';
-        
-        foreach ($files as $file) {
-            $content .= $this->_addCss($this->_themeFullPath.$file);
-        }
-
+    private function _createFile($content) {
         $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
 
         try {

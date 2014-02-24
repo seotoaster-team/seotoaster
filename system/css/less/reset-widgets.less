@@ -1,0 +1,82 @@
+@import "base/variables";
+
+// Plugins list
+//==================================================
+.plugins-list{
+    overflow: auto;
+    height : 392px;
+
+    .plugin-item{
+        position : relative;
+        float    : left;
+        width    : 18%;
+        margin   : 2% 1% 0;
+        padding  : 0;
+        overflow : hidden;
+        .box-shadow(4px 4px 3px #bbb);
+
+        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5){
+            margin-top: 1%;
+        }
+
+        &:hover{
+            .readme-plugin, .del-plugin{
+                .opacity(1);
+            }
+
+            .plugin-name{
+                //background : rgba(255, 255, 255, 0.9);
+                //color      : @text-color;
+            }
+        }
+
+        .readme-plugin, .del-plugin{
+            z-index    : 7;
+            text-align : center;
+            .opacity(0);
+        }
+
+        .readme-plugin{
+            color : #fff;
+        }
+
+        .del-plugin{
+            color : #f44645;
+        }
+
+        .plugin-name{
+            position   : relative;
+            z-index    : 5;
+            background : #2d82a3;
+            margin     : 0;
+            color      : #fff;
+            padding    : @padding-small-vertical 0 @padding-small-vertical @padding-small-horizontal;
+            .transition;
+            .text-overflow;
+            .box-shadow(0 1px 10px #206887);
+        }
+        .plugin-image{
+            height   : 129px;
+            overflow : hidden;
+            position : relative;
+        }
+        .plugin-control{
+            .button-color(@btn-red-color, desaturate(@btn-red-bg, 25%), desaturate(@btn-red-border, 25%));
+
+            &.block{
+                .button-color(@btn-green-color, @btn-green-bg, @btn-green-border);
+            }
+        }
+        .plugin-endis{
+            .button-color(#fff, #2d81a2, #2d81a2);
+
+            &.disable{
+                .button-color(darken(@gray-light, 40%), darken(@gray-light, 10%), @gray-light);
+            }
+        }
+    }
+}
+
+// ... Styles
+//==================================================
+

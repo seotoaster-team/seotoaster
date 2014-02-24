@@ -1,43 +1,62 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="tab_content">
-	<select name="adminselectimgfolder" id="adminselectimgfolder">
-		<option value="0" selected="selected"><?php echo $this->translate('select folder'); ?></option>
+<div class="tab_content">
+	<select id="adminselectimgfolder" class="grid_7 alpha omega" name="adminselectimgfolder">
+		<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>
 		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
 			<?php foreach ($this->imageFolders as $folder): ?>
 				<option value="<?php echo $folder; ?>"><?php echo $folder; ?></option>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</select>
-	<div id="selector">
+    <a id="upload_things_button" class="grid_5 alpha omega tpopup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
+	<div id="selector" class="mt10px grid_12 alpha omega">
 		<div id="borderfortoolbar">
 			<div id="adminthingsviewer">
-				<div id="small" class="button"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span></div>
-				<div id="images_small" class="show_div"><h3 style="text-align: center;"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_small"></span></div>
+				<div id="images_small" class="show_div">
+                    <span class="title hidden"><?php echo $this->translate('Small'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
+                    <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
+                </div>
 
-				<div id="medium" class="button"><?php echo $this->translate('Medium'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['medium']; ?>px)</span></div>
-				<div id="images_medium" class="show_div"><h3 style="text-align: center;"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="medium"><?php echo $this->translate('Medium'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['medium']; ?>px)</span><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_medium"></span></div>
+				<div id="images_medium" class="show_div">
+                    <span class="title hidden"><?php echo $this->translate('Medium'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
+                    <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
+                </div>
 
-				<div id="large" class="button" ><?php echo $this->translate('Large'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['large']; ?>px)</span></div>
-				<div id="images_large" class="show_div"><h3 style="text-align: center;"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="large"><?php echo $this->translate('Large'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['large']; ?>px)</span><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_large"></span></div>
+				<div id="images_large" class="show_div">
+                    <span class="title hidden"><?php echo $this->translate('Large'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
+                    <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
+                </div>
 
-				<div id="original" class="button"><?php echo $this->translate('Original'); ?></div>
-				<div id="images_original" class="show_div"><h3 style="text-align: center;"><?php echo $this->translate('Please, select a folder'); ?></h3></div>
+				<div id="original"><?php echo $this->translate('Original'); ?><span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="images_original"></span></div>
+				<div id="images_original" class="show_div">
+                    <span class="title hidden"><?php echo $this->translate('Original'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
+                    <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
+                </div>
 
-				<div id="files" class="button"><?php echo $this->translate('Files'); ?></div>
+				<div id="files"><?php echo $this->translate('Files'); ?></div>
 				<div id="list_files" class="show_div"></div>
-
-				<div id="upload_things_button" class="button">
-					<a style="padding: 0px;" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="504" data-pwidth="480" href="javascript:;" class="tpopup"><?php echo $this->translate('Upload Things'); ?></a>
-				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<?php $this->jQuery()->addJavascript('$(function() {$(\'#adminthingsviewer\').accordion({heightStyle: "content", navigation: true, collapsible: true, active: false})});'); ?>
 <script type="text/javascript">
 	$(function() {
+        $('#adminthingsviewer').accordion({
+            heightStyle: "content",
+            navigation: true,
+            collapsible: true,
+            active: false,
+            beforeActivate: function( event, ui ) {
+                if($(event.toElement).hasClass('screen-size')){
+                    return false;
+                }
+            }
+        });
 		$(document).on('change', '#adminselectimgfolder', function() {
 			if($(this).val() != 0) {
-				var el = $('#upload_things_button a');
+				var el = $('#upload_things_button');
 				var dataUrl = el.data('url').replace(/folder\/.*/, '') + 'folder/' + $(this).val() + '/';
 				el.data('url', dataUrl);
 			}
@@ -52,6 +71,10 @@
 				    });
 			    }
 		    });
+		}).on('click', '.full-screen .list-images a', function(e) {
+            $('.closebutton').removeClass('hidden');
+            $('.screen-size').removeClass('icon-turn inverse-error').addClass('icon-expand inverse-info');
+            $('.show_div').removeClass('full-screen');
 		});
 	})
 </script>

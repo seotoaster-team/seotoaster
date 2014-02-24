@@ -1,63 +1,47 @@
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>
-<div class="seotoaster container_12 h570 rounded3px <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? '' : 'refreshOnClose'; ?>">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => $this->templateForm->getElement('id')->getValue() == ''?'Add template':'Edit template', 'helpSection' => $this->helpSection)); ?>
+<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/internal/theme.min.js' ); ?>
+<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
+<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js' ); ?>
+<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/external/aceajax/mode-html.js' ); ?>
+<div class="seotoaster container <?php echo ( $this->templateForm->getElement( 'id' )->getValue() == '' ) ? '' : 'refreshOnClose'; ?>">
+	<?php echo $this->partial( 'admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+        'headerText' => $this->templateForm->getElement( 'id' )->getValue() == '' ? 'Add template' : 'Edit template',
+        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon-expand btn link icon inverse-warning" href="javascript:;"></a></div>',
+        'helpSection' => $this->helpSection ) ); ?>
+    <!--	<a class="tpopup listpages btn link" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="--><?php //echo $this->websiteUrl; ?><!--backend/backend_page/listpages/template/--><?php //echo $this->templateForm->getElement('name')->getValue(); ?><!--">[--><?php //echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?><!--]</a>-->
+	<div class="content">
+		<div id="templatelist" class="show-right"></div>
+		<div id="listpages" class="show-right"></div>
+        <?php $this->templateForm->setAction( $this->url() ); ?>
+        <form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId(); ?>" method="<?php echo $this->templateForm->getMethod(); ?>" class="grid_12">
+			<div class="grid_4 alpha">
+				<?php echo $this->templateForm->getElement( 'name' ); ?>
+			</div>
+			<div class="grid_4 alpha mt0px">
+				<?php echo $this->templateForm->getElement( 'templateType' ); ?>
+			</div>
+			<div id="other-listpages" class="grid_2 alpha mt2em">
+			<?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
+                <a id="listpages-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate( 'Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' ); ?>
+                                                                                 ]</a>
 
-	<div id="templatelist" class="h580 ui-helper-hidden" style="z-index: 99; overflow: hidden; width: 100%; margin-top: -42px;"></div>
-	<?php $this->templateForm->setAction($this->url()); ?>
-	<form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId();?>" method="<?php echo $this->templateForm->getMethod();?>">
+                <?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 574)); ?>
+            <?php endif; ?>
+			</div>
+            <?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
+            <div id="other-templates" class="grid_2 alpha omega mt2em">
+				<a id="listtemplates-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
+			</div>
+            <?php endif; ?>
+            <div class="grid_12 alpha omega">
+				<div id="edittemplate" class="" style="height: 390px">
+					<?php echo $this->templateForm->getElement( 'content' )->renderViewHelper(); ?>
+				</div>
+			</div>
 
-			<div class="grid_5">
-				<?php echo $this->templateForm->getElement('name'); ?>
-			</div>
-			<div class="grid_4">
-				<?php echo $this->templateForm->getElement('templateType'); ?>
-			</div>
-		<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-			<div class="grid_3" id="other-templates">
-				<a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate('Edit other templates');?> ]</a>
-			</div>
-		<?php endif; ?>
-            <div class="clear"></div>
-            <div class="grid_9 mt10px"><?php echo $this->templateForm->getElement('content')->renderLabel(); ?>
-			<div id="edittemplate">
-				<?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
-			</div>
-            </div>
-
-
-		<div class="grid_3 h430">
-			<div class="mt30px mb10px textcentered img-teaser">
-				<img id="template_preview" src="<?php echo $this->websiteUrl . (($this->templatePreview) ? $this->templatePreview : 'system/images/no_preview.png'); ?>" alt="<?php echo $this->translate('Template preview'); ?>" />
-			</div>
-			<div style="text-align: center">
-				<div id="template-preview-uploader-filelist" class="ui-helper-hidden"></div>
-				<?php
-								$previewUploader = $this->toasterUploader(
-									array(
-										'id'      => 'template-preview-uploader',
-										'caller'  => 'templatePreview',
-										'caption' => $this->translate('Upload image')
-									)
-								);
-								echo $previewUploader;
-							?>
-			</div>
-			<div style="text-align: center;" class="mt30px">
-				<?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-					<a class="tpopup listpages" href="javascript:;" data-pwidth="480" data-pheight="574" data-url="<?php echo $this->websiteUrl; ?>backend/backend_page/listpages/template/<?php echo $this->templateForm->getElement('name')->getValue(); ?>">[<?php echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?>]</a>
-
-					<?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 574)); ?>
-				<?php endif; ?>
-			</div>
-		</div>
-
-		<?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
-<!--		<div class="grid_3 textcentered  mt15px">-->
-			<?php echo $this->templateForm->getElement('submit'); ?>
-<!--		</div>-->
-		<?php echo $this->templateForm->getElement('pageId'); ?>
-	</form>
+            <?php echo $this->templateForm->getElement( 'submit' ); ?>
+            <?php echo $this->templateForm->getElement( 'id' )->setDecorators( array( 'ViewHelper' ) ); ?>
+            <?php echo $this->templateForm->getElement( 'pageId' ); ?>
+		</form>
+	</div>
 </div>
+

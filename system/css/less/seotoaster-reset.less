@@ -1,0 +1,196 @@
+@import "base/variables";
+
+.unpublished{
+    border: 1px dashed @brand-red;
+}
+
+.ui-helper-hidden{ display : none; }
+
+// Overlays
+.ui-widget-overlay{
+    position   : fixed;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    left       : 0;
+    z-index    : 1000;
+    background : #000;
+    .opacity(0.5);
+
+    &~.ui-widget-overlay{
+        display : none;
+    }
+}
+.ui-dialog{
+    position : fixed;
+    z-index  : 1001;
+
+    &[aria-describedby="toasterPopup"]{
+        // Reset style for system dialogs
+        max-width   : none;
+        border      : none;
+        padding     : 0;
+        line-height : 0;
+
+        // Style for system dialogs
+        position    : fixed;
+        z-index     : 1002;
+        top         : 0 !important;
+        bottom      : 0 !important;
+        left        : 0 !important;
+        right       : 0 !important;
+        margin      : auto !important;
+        background  : @dialog-bg;
+        font-size   : @font-size-base;
+        .box-shadow(3px 3px 10px #000);
+
+        iframe{
+            background-image    : url("../images/spinner.gif");
+            background-position : center center;
+            background-repeat   : no-repeat;
+        }
+
+        &.screen-expand{
+            height    : 100% !important;
+            min-width : 960px;
+        }
+    }
+}
+
+.ui-overlay+.ui-widget-content{
+    background : @body-bg;
+    z-index    : 1001;
+    .box-shadow(3px 3px 10px #000);
+}
+
+// Control Panel
+//==================================================
+#seotoaster-cpanel{
+    width      : 200px;
+    position   : absolute;
+    right      : 5px;
+    top        : 0;
+    z-index    : 1001;
+    background : @body-bg;
+    .box-shadow(0 0 10px @gray-dark);
+
+    *{
+        /*Reset style*/
+        .reset-style();
+        /*end reset*/
+    }
+
+    &:hover{
+        z-index : 1005;
+    }
+
+    &>*{
+        background : #fff;
+        position   : relative;
+        width      : 200px;
+    }
+
+    #showhide a{
+        text-decoration : none;
+        background      : @cpanel-header-bg;
+        color           : @cpanel-header-color;
+        font-size       : 11pt;
+        padding         : @padding-base-vertical @padding-base-horizontal;
+        font-weight     : bold;
+        text-align      : center;
+        display         : block;
+    }
+
+    #seotoaster-logowrap{
+        background : #fff;
+        text-align : center;
+
+        img{ max-width : 200px; }
+
+        #system-version{
+            font-family   : tahoma, geneva, verdana, sans-serif !important;
+            font-size     : 7px !important;
+            text-align    : right;
+            padding-right : 5px;
+        }
+    }
+
+    #cpanelul{
+        margin : 0;
+
+        li{
+            list-style : none;
+            margin     : 0;
+            a{
+                display         : block;
+                text-decoration : none;
+                text-decoration : none;
+                font-size       : 16px;
+                padding         : @padding-small-vertical @padding-small-horizontal;
+            }
+            .ui-accordion-header{
+                background  : @cpanel-header-bg;
+                margin      : 0 0 1px;
+                font-weight : bold;
+                color       : @cpanel-header-color;
+
+                &:hover{
+                    background : @cpanel-header-bg-hover;
+                    color      : @cpanel-header-color-hover;
+                }
+
+                &.ui-accordion-header-active{
+                    background : @cpanel-header-bg-active;
+                    color      : @cpanel-header-color-active;
+                }
+            }
+            .ui-accordion-content{
+                margin  : 0;
+                padding : 0;
+                border  : none;
+
+                li+li{
+                    border-top : 1px dashed @gray-light;
+                }
+
+                a{
+                    background : none;
+                    color      : @link-color;
+
+                    &:hover{
+                        color : @link-color-hover;
+                    }
+                }
+
+                .cpanelsubtitle{
+                    padding    : @padding-base-vertical @padding-base-horizontal;
+                    background : @cpanel-subtitle-bg;
+                }
+            }
+        }
+    }
+
+    #logoutul{
+        margin : 0;
+        li{
+            list-style : none;
+            margin     : 0;
+            a{
+                display         : block;
+                font-weight     : bold;
+                text-decoration : none;
+                font-size       : 16px;
+                color           : @gray-light;
+                background      : @cpanel-header-bg;
+                padding         : @padding-base-vertical @padding-base-horizontal;
+                &:hover{
+                    background : desaturate(@brand-red, 20%);
+                }
+            }
+        }
+    }
+}
+
+// Alert Styles
+//==================================================
+@import "modules/alert-for-page"; // http://smoke-js.com/

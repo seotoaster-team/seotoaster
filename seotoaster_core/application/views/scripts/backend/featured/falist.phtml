@@ -1,12 +1,15 @@
 <?php if(isset($this->faeaturedAreas) && is_array($this->faeaturedAreas)): ?>
+
 	<?php foreach($this->faeaturedAreas as $fa): ?>
 		<div class="list-row">
-			<div class="grid_6 list-row-item">
-				<?php echo $fa->getName(); ?>&nbsp;(<span class="pcount-<?php echo $fa->getId(); ?>"><?php echo sizeof($fa->getPages()); ?></span>)</div>
-			<div class="grid_4 list-row-item"><input type="checkbox" name="addPageToFa" id="<?php echo $fa->getId(); ?>" class="add-page" <?php echo (in_array($fa->getId(), $this->currentFareasIds)) ? 'checked="checked"' : ''; ?>/></div>
-			<div class="grid_2 list-row-item">
-				<a data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" class="del-fa _tdelete" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+			<div class="grid_11 list-row-item">
+				<input type="checkbox" name="addPageToFa" id="<?php echo $fa->getId(); ?>" class="add-page" <?php echo (in_array($fa->getId(), $this->currentFareasIds)) ? 'checked="checked"' : ''; ?>/>
+				<?php echo $fa->getName(); ?>&nbsp;(<span class="pcount-<?php echo $fa->getId(); ?>"><?php echo sizeof($fa->getPages()); ?></span>)
+			</div>
+			<div class="grid_1 text-center list-row-item">
+				<a class="del-fa _tdelete icon-remove error" data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"></a>
 			</div>
 		</div>
 	<?php endforeach; ?>
+
 <?php endif; ?>

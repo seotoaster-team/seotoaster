@@ -1,0 +1,279 @@
+@import "base/variables";
+    // Table of Content
+    //==================================================
+    //	Reset & Basics
+    //	Reset Form
+    //	Grid system
+    //  Reset for all navigation items, related-products
+    //==================================================
+
+    //  Fonts
+    //==================================================
+@import "elements/fonts";
+
+// Reset & Basics
+//==================================================
+*{
+    margin                      : 0;
+    padding                     : 0;
+    outline                     : none;
+    border                      : none;
+    background                  : transparent;
+    vertical-align              : baseline;
+    -webkit-touch-callout       : none; //если надо, то запрещаем выделение текста
+    -webkit-tap-highlight-color : rgba(0, 0, 0, 0); //убираем фон подсветки ссылок и кнопок
+    -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
+}
+.reset-style{
+    .reset-style;
+}
+::-moz-selection{
+    background : @text-select-bg;
+    color      : @text-select-color;
+}
+::selection{
+    background : @text-select-bg;
+    color      : @text-select-color;
+}
+div, p{
+    &:empty{
+        margin : 0;
+    }
+}
+body{
+    font-family                 : sans-serif;
+    -webkit-text-size-adjust    : 100%;
+    -ms-text-size-adjust        : 100%;
+    //-webkit-font-smoothing      : antialiased; // Fix for webkit rendering
+    -webkit-font-smoothing      : subpixel-antialiased !important;
+    -webkit-backface-visibility : hidden;
+    -moz-backface-visibility    : visible;
+    -ms-backface-visibility     : hidden;
+    .user-select();
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
+    display : block;
+}
+audio, canvas, video{
+    .inline-block;
+}
+audio:not([controls]){
+    display : none;
+    height  : 0;
+}
+blockquote, q{
+    quotes : none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after{
+    content : '';
+    content : none;
+}
+em{
+    font-style : italic;
+}
+strong{
+    font-weight : bold;
+}
+small{
+    font-size : 0.8em;
+}
+[hidden], body [class*="hidden"]{
+    display : none;
+}
+table{
+    border-spacing  : 0;
+    border-collapse : collapse;
+    word-break      : break-all
+}
+a:focus, [type="checkbox"]:focus, [type="radio"]:focus, *:focus{
+    outline : none;
+}
+a, [type="submit"], [type="button"], button, [type="checkbox"], [type="radio"]{ cursor : pointer; }
+img, [type="submit"], [type="button"], button, [type="checkbox"], [type="radio"]{ vertical-align : middle; }
+img{
+    max-width : 100%;
+    height    : auto;
+}
+.fb-like-box{
+    &>span, iframe{
+        position : relative !important;
+        width    : 100% !important;
+        height   : auto !important;
+    }
+}
+.generator-links, .tpopup{
+    &, &:hover{
+        img{
+            width  : auto !important;
+            border : none !important;
+            .box-shadow(none);
+        }
+    }
+}
+.gmaps{
+    max-width : 100%;
+    img{ max-width : none; }
+}
+
+[contenteditable="true"]{
+    .box-sizing;
+    background : @input-bg;
+    border     : @input-border-width solid @input-border-color;
+    cursor     : text;
+    font-size  : @font-size-small;
+    padding    : @padding-mini-vertical @padding-mini-horizontal;
+}
+
+// Reset Form
+//==================================================
+fieldset{
+    //    border  : 0;
+    //    margin  : 0;
+    //    padding : 0;
+
+    legend{
+        line-height                    : 1;
+        //        border      : 0;
+        //        padding     : 0;
+        -webkit-margin-bottom-collapse : separate;
+    }
+}
+input, select, textarea, button{
+    max-width   : 100%;
+    width       : 100%;
+    font-size   : 100%;
+    font-family : inherit;
+    .box-sizing;
+    .placeholder();
+}
+button, input{
+    &::-moz-focus-inner{
+        padding : 0;
+        border  : 0;
+    }
+}
+
+// Reset width of input images, buttons, radios, checkboxes
+[type="file"],
+[type="image"],
+[type="submit"],
+[type="reset"],
+[type="button"],
+[type="radio"],
+[type="checkbox"]{
+    width : auto; // Override of generic input selector
+}
+[type="file"]{
+    border  : none;
+    padding : 0;
+}
+
+textarea{
+    vertical-align : top;
+    line-height    : normal;
+    .resize();
+}
+
+[type="search"]{
+    -webkit-appearance : textfield;
+    &::-webkit-search-cancel-button, &::-webkit-search-decoration{
+        -webkit-appearance : none;
+    }
+}
+
+[type="checkbox"], [type="radio"]{
+    padding : 0;
+    border  : none;
+    height  : auto;
+
+    &:focus{
+        .box-shadow(none, @input-shadow-focus);
+    }
+}
+
+// Make multiple select elements height not fixed
+select[multiple],
+select[size]{
+    height : auto;
+}
+
+// Fix optgroup Firefox bug per https://github.com/twitter/bootstrap/issues/7611
+select optgroup{
+    font-style  : inherit;
+    font-size   : inherit;
+    font-family : inherit;
+}
+
+[type="button"], [type="submit"], button{
+    width  : auto;
+    border : none;
+}
+button, [type="button"], [type="reset"], [type="submit"]{
+    cursor             : pointer;
+    -webkit-appearance : button;
+
+    &:focus{
+        .box-shadow(none, @input-shadow-focus);
+    }
+}
+button[disabled], html input[disabled]{
+    cursor : default;
+}
+.btn, button, [type="submit"], [type="button"]{
+    a{
+        color : inherit;
+    }
+}
+
+// Grid System
+//==================================================
+@import "elements/grid";
+
+// Overlays
+.ui-widget-overlay{
+    position   : fixed;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    left       : 0;
+    z-index    : 1000;
+    background : #000;
+    .opacity(0.5);
+
+    &~.ui-widget-overlay{
+        display : none;
+    }
+}
+
+
+//--- Position
+.position-list(none, top);
+.position-list(none, bottom);
+.position-list(none, right, 2);
+.position-list(none, left, 2);
+
+////--- Margin
+.margin-list(20px);
+.margin-list(50px, top);
+.margin-list(5em, top, 0.25);
+.margin-list(50px, bottom);
+.margin-list(5em, bottom, 0.25);
+.margin-list(10%, right, 1);
+.margin-list(10%, left, 1);
+
+.ml-grid{ margin-left : @grid-margin-width / 2; }
+.mr-grid{ margin-right : @grid-margin-width / 2; }
+
+////--- Padding
+.padding-list(10px);
+.padding-list(50px, top);
+.padding-list(50px, bottom);
+.padding-list(10%, right, 2);
+.padding-list(10%, left, 2);
+
+//--- Height
+.height-list(500px, 50);
+
+//--- Width
+.width-list(100%, 5);

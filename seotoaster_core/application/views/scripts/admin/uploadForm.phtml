@@ -1,5 +1,9 @@
 <div id="<?php echo $this->formId; ?>" >
-	<button style="cursor:pointer;" id="<?php echo $this->formId; ?>-pickfiles" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></button>
+<?php if ($this->formType == 'dragdrop'): ?>
+    <div style="cursor:pointer;" id="<?php echo $this->formId; ?>-dragdrop" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></div>
+<?php else: ?>
+    <button style="cursor:pointer;" id="<?php echo $this->formId; ?>-pickfiles" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></button>
+<?php endif; ?>
 </div>
 <?php
 $jsValName = 'js'.str_replace(' ','',ucwords(str_replace('-', ' ', $this->formId)));
@@ -34,6 +38,11 @@ if (!$this->disableResize) {
         'quality' => $this->config['imgQuality']
     );
 }
+if ($this->formType == 'dragdrop') {
+    $pluploadOptions['dragdrop'] = true;
+    $pluploadOptions['drop_element'] = $this->formId . '-dragdrop';
+    $pluploadOptions['browse_button'] = $this->formId . '-dragdrop';
+}
 
 if (!empty($this->filters)) {
     $pluploadOptions['filters'] = $this->filters;
@@ -58,7 +67,7 @@ if (!empty($this->filters)) {
 	<?php echo $jsValName; ?>.bind('FilesAdded', function(up, files) {
 		$.each(files, function(i, file) {
 			$('#<?php echo $this->formId; ?>-filelist').prepend(
-                '<div class="ui-widget"><div class="ui-state-highlight ui-corner-all" id="' + file.id + '"><p>' +
+                '<div class="ui-widget"><div class="ui-state-highlight" id="' + file.id + '"><p>' +
                 file.name + ' (' + plupload.formatSize(file.size) + ')</p><div class="pbar"></div>' +
             '</div></div>');
 			$('#' + file.id + " .pbar").progressbar({value: 0})
@@ -74,7 +83,7 @@ if (!empty($this->filters)) {
 			if (folder != '0' && folder != '') {
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': folder};
 			} else {
-				smoke.signal('<?php echo $this->translate('No folder specified'); ?>');
+				showMessage('<?php echo $this->translate('No folder specified'); ?>', true);
 
 				$.each(files, function(i, file) {
 					<?php echo $jsValName; ?>.removeFile(file);
@@ -106,7 +115,7 @@ if (!empty($this->filters)) {
 	});
 
     <?php echo $jsValName; ?>.bind('Error', function(up, err) {
-		$('#<?php echo $this->formId; ?>-filelist').prepend('<div class="ui-widget"><div class="ui-state-error ui-corner-all">'+
+		$('#<?php echo $this->formId; ?>-filelist').prepend('<div class="ui-widget"><div class="ui-state-error">'+
                      (err.file ? err.file.name : "") + ": " + err.message +
 					 '<span class="ui-icon ui-icon-alert"></span></div></div>'
 					 );
@@ -128,7 +137,7 @@ if (!empty($this->filters)) {
 			$('#' + file.id).html('<p><strong>' +file.name+'</strong>'
 			+ errorMessage.replace("'file'", file.name) + '<span class="ui-icon ui-icon-alert"></span></p>' );
 		} else {
-			$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check ui-corner-all"></span>');
+			$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check"></span>');
 		}
 		<?php if ($this->caller == 'themes') : ?>
 		if (response.error !== false){

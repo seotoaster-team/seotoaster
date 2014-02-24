@@ -1,0 +1,50 @@
+@import "base/variables";
+// Table of Content
+//==================================================
+//	Typography Styles
+//	Basic Styles
+//	Lists Styles
+//	Form Styles
+//	Buttons Styles
+//	Tables Styles
+//	Modules Styles
+//	Control Panel Styles
+//	Basic Widgets and Plugins
+//==================================================
+
+// Typography Styles
+//==================================================
+@import "elements/typography";
+
+// Basic Styles
+//==================================================
+@import "elements/basic";
+
+// Form Styles
+//==================================================
+.activate-form(@activate) when (@activate = true){
+    @import "widgets/form";
+}
+.activate-form(@activate-widget-form);
+
+// Modules Styles
+//==================================================
+.activate-modules(@activate) when (@activate = true){
+    @import "packages/modules";
+}
+.activate-modules(@activate-modules);
+
+// Animation
+//==================================================
+.activate-animate(@activate) when (@activate = true){
+    @import "packages/animate-custom";
+}
+.activate-animate(@activate-animate);
+
+// Control Panel Elements Styles
+//==================================================
+@import "packages/control_panel";
+
+// Basic Widgets and Plugins
+//==================================================
+@import "packages/widgets_plugins";

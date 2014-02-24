@@ -1,0 +1,116 @@
+// Table of Content
+//==================================================
+//	Modules Carousel Styles
+//  Modules Alert Styles = http://smoke-js.com/
+//  Modules Accordion Styles
+//  Modules Tabs Styles
+//  Modules Dialog Styles
+//  Modules Datepicker Styles
+//  Modules Autocomplete Styles
+//  Modules Toltips Styles
+//  Modules Range Styles
+//  Modules Progressbar Styles
+//	Scrollbar Styles
+//==================================================
+
+// Carousel Styles
+//==================================================
+.activate-carousel(@activate : @activate-module-carousel) when (@activate = true){
+@import "../modules/carousel";
+}
+    .activate-carousel;
+
+// Alert Styles
+//==================================================
+.activate-alert(@activate : @activate-module-alert) when (@activate = true){
+@import "../modules/alert"; // http://smoke-js.com/
+}
+    .activate-alert;
+
+// Modules Accordion Styles
+//==================================================
+.activate-accordion(@activate : @activate-module-accordion) when (@activate = true){
+@import "../modules/accordion";
+}
+    .activate-accordion;
+
+// Modules Tabs Styles
+//==================================================
+.activate-tabs(@activate : @activate-module-tabs) when (@activate = true){
+@import "../modules/tabs";
+}
+    .activate-tabs;
+
+// Modules Dialog Styles
+//==================================================
+.activate-dialog(@activate : @activate-module-dialog) when (@activate = true){
+@import "../modules/dialog";
+}
+    .activate-dialog;
+
+// Modules Datepicker Styles
+//==================================================
+.activate-datepicker(@activate : @activate-module-datepicker) when (@activate = true){
+@import "../modules/datepicker";
+}
+    .activate-datepicker;
+
+// Modules Datepicker Styles
+//==================================================
+.activate-autocomplete(@activate : @activate-module-autocomplete) when (@activate = true){
+@import "../modules/autocomplete";
+}
+    .activate-autocomplete;
+
+// Modules Toltips Styles
+//==================================================
+.activate-tooltips(@activate : @activate-module-tooltips) when (@activate = true){
+@import "../modules/tooltips";
+}
+.activate-tooltips(@activate : @activate-module-tooltips) when (@activate = false){
+    .ui-tooltip{
+        display: none;
+    }
+}
+    .activate-tooltips;
+
+// Modules Slider (range) Styles
+//==================================================
+.activate-range(@activate : @activate-module-range) when (@activate = true){
+@import "../modules/range";
+}
+    .activate-range;
+
+// Modules Progressbar Styles
+//==================================================
+.activate-progressbar(@activate : @activate-module-progressbar) when (@activate = true){
+@import "../modules/progressbar";
+}
+    .activate-progressbar;
+
+// Modules Chosen Styles
+//==================================================
+.activate-chosen(@activate : @activate-module-chosen) when (@activate = true){
+@import "../modules/chosen";
+}
+    .activate-chosen;
+
+// Modules Chosen Styles
+//==================================================
+.activate-scrollbar(@activate : @activate-module-scrollbar) when (@activate = true){
+@import "../modules/scrollbars";
+}
+    .activate-scrollbar;
+
+// Pagination Styles
+//==================================================
+.activate-pagination(@activate : @activate-module-pagination) when (@activate = true){
+    // TODO create style for pagination
+}
+    .activate-pagination;
+
+// UI effects transfer
+//==================================================
+.ui-effects-transfer{
+    border: 1px dashed @gray;
+}

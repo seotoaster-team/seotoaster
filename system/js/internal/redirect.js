@@ -3,12 +3,14 @@ $(function() {
 	//$('#massdel-run').button();
 	reloadRedirectsList();
 	var toUrlDropDown = $('#to-url');
-	$('#urlType-0').click(function() {
-		$('#to-url').replaceWith(toUrlDropDown);
+	$('#urlType').click(function() {
+		if($(this).prop('checked')){
+			$('#to-url').replaceWith(toUrlDropDown);
+		}else{
+			$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
+		}
 	});
-	$('#urlType-1').click(function(){
-		$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
-	});
+
 	$('.redirect-massdel').on('click', function() {
 		if(!$('.redirect-massdel').not(':checked').length) {
 			$('#massdell-main').attr('checked', true);
@@ -17,9 +19,11 @@ $(function() {
 			$('#massdell-main').attr('checked', false);
 		}
 	});
+
 	$('#massdell-main').click(function() {
 		$('.redirect-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
 	});
+
 	$('#massdel-run').click(function() {
 		var ids = [];
 		$('.redirect-massdel:checked').each(function() {
@@ -58,5 +62,6 @@ function reloadRedirectsList() {
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/', function(response) {
 		hideSpinner();
 		$('#redirects-list').html(response.redirectsList);
-	})
+		checkboxRadio();
+	});
 }
