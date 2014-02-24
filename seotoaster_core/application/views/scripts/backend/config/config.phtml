@@ -1,6 +1,8 @@
 <script type="text/javascript">
     $(function() {
-        $('#tabs').tabs();
+        $('#tabs').tabs().submit(function(){
+            showSpinner($(this));
+        });
     });
 </script>
 <div class="seotoaster container">
@@ -119,6 +121,6 @@
                 </p>
             </div>
         <?php endif; ?>
+        <?php echo $this->configForm->getElement('submit')->renderViewHelper(); ?>
     </form>
-    <div class="grid_12 footer"><?php echo $this->configForm->getElement('submit')->renderViewHelper(); ?></div>
 </div>
