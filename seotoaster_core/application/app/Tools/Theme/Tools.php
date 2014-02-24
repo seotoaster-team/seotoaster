@@ -145,6 +145,8 @@ class Tools_Theme_Tools {
     }
 
     public static function addTemplates($themePath, $filesName = array()) {
+        $themePath         = rtrim($themePath, DIRECTORY_SEPARATOR);
+        $errors            = array();
         $themeConfig       = self::getThemeIniData($themePath);
         $templateMapper    = Application_Model_Mappers_TemplateMapper::getInstance();
         $templateTypeTable = new Application_Model_DbTable_TemplateType();
@@ -207,6 +209,7 @@ class Tools_Theme_Tools {
     }
 
     public static function getThemeIniData($themePath) {
+        $themePath = rtrim($themePath, DIRECTORY_SEPARATOR);
         // Trying to get theme.ini file with templates presets
         try {
             $themeIniConfig = parse_ini_string(
@@ -223,6 +226,7 @@ class Tools_Theme_Tools {
     }
 
     public static function  updateThemeIni($themePath, $key, $val) {
+        $themePath      = rtrim($themePath, DIRECTORY_SEPARATOR);
         $themeIniConfig = new Zend_Config(self::getThemeIniData($themePath), true);
         $themeIniConfig->{$key} = $val;
 
