@@ -28,6 +28,8 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 
 	protected $_cacheTags      = array();
 
+    protected $_cacheLifeTime  = Helpers_Action_Cache::CACHE_WEEK;
+
     /**
      * Instance of the Zend_Translate
      *
@@ -65,7 +67,12 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 			if(null === ($content = $this->_loadFromCache())) {
 				try {
 					$content = $this->_load();
-					$this->_cache->save($this->_cacheId, $content, $this->_cachePrefix, is_array($this->_cacheTags) ? $this->_cacheTags : array());
+					$this->_cache->save(
+                        $this->_cacheId,
+                        $content, $this->_cachePrefix,
+                        is_array($this->_cacheTags) ? $this->_cacheTags : array(),
+                        $this->_cacheLifeTime
+                    );
 				}
 				catch (Exceptions_SeotoasterException $ste) {
 					$content = $ste->getMessage();
