@@ -195,6 +195,11 @@ $(function(){
         $('.show-right').hide("slide", { direction: "right"});
         return false;
     });
+
+    $(document).ajaxStop(function(){
+        hideSpinner();
+        checkboxRadio();
+    });
 });
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
