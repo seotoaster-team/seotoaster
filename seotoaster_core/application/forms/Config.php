@@ -341,7 +341,7 @@ class Application_Form_Config extends Zend_Form {
 			'name'  => 'submit',
 			'type'  => 'submit',
 			'label' => 'Save',
-            'class' => 'icon-save',
+            'class' => 'icon-save mr-grid',
             'ignore' => true,
 			'escape'=> false
 		)));
