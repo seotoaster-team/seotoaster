@@ -361,7 +361,6 @@ class Application_Form_Config extends Zend_Form {
         )));
 
 		$this->addElement(new Zend_Form_Element_Button(array(
-			'form'  => 'tabs',
 			'name'  => 'submit',
 			'type'  => 'submit',
 			'label' => 'Save',

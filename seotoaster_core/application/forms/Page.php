@@ -134,7 +134,7 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'extraOptions',
 			'id'           => 'page-options',
-			'class'        => 'grid_9 alpha omega',
+			'class'        => 'grid_8 alpha omega',
 			'multiOptions' => array_merge(array('0' => 'Select an option'), Tools_Page_Tools::getPageOptions(true)),
 			'registerInArrayValidator' => false,
 			'value' => $this->_pageOption
@@ -174,10 +174,9 @@ class Application_Form_Page extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'updatePage',
 			'id'    => 'update-page',
-			'form'  => 'frm-page',
 			'type'  => 'submit',
 			'value' => 'Save page',
-			'class' => 'icon-save',
+			'class' => 'icon-save mr-grid',
 			'label' => 'Save page',
 			'escape'=> false
 		)));

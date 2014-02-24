@@ -38,7 +38,7 @@
 			<div id="fa-list" class="grid_12 items-list"></div>
 		</div>
 	</div>
-	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content-footer">
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content">
 		<fieldset class="grid_6 mb0px">
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
@@ -72,7 +72,7 @@
                 <div class="grid_8 alpha omega mb10px">
 					<a id="curr-template" for="templateId" href="#"><?php echo $this->translate('Select template');?></a>
 				</div>
-				<label class="grid_3 alpha omega mt5px"> <?php echo $this->translate('This page is'); ?></label>
+				<label class="grid_4 alpha omega mt5px"> <?php echo $this->translate('This page is'); ?></label>
 				<?php echo $this->pageForm->getElement('extraOptions'); ?>
 			</div>
 		</fieldset>
@@ -98,11 +98,8 @@
 		<?php echo $this->pageForm->getElement('optimized'); ?>
 		<?php echo $this->pageForm->getElement('publishAt'); ?>
 		<?php echo $this->pageForm->getElement('pageType'); ?>
-	</form>
-
-    <div class="footer grid_12">
         <?php echo $this->pageForm->getElement('updatePage'); ?>
-    </div>
+	</form>
 </div>
 <script type="text/javascript">
 	$(function() {
