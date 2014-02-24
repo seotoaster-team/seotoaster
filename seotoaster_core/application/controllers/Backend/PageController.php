@@ -137,7 +137,7 @@ class Backend_PageController extends Zend_Controller_Action {
                         $themesConfig = Zend_Registry::get('theme');
                         $themePath = $this->_helper->website->getPath().$themesConfig['path'].$this->_helper->config->getConfig('currentTheme');
                         Tools_Theme_Tools::addTemplates($themePath, array($page->getTemplateId().'.html'));
-                        Tools_Theme_Tools::updateTypeInThemeIni(
+                        Tools_Theme_Tools::updateThemeIni(
                             $themePath,
                             $page->getTemplateId(),
                             Application_Model_Models_Template::TYPE_REGULAR

@@ -222,9 +222,9 @@ class Tools_Theme_Tools {
         return $themeIniConfig;
     }
 
-    public static function  updateTypeInThemeIni($themePath, $name, $type) {
+    public static function  updateThemeIni($themePath, $key, $val) {
         $themeIniConfig = new Zend_Config(self::getThemeIniData($themePath), true);
-        $themeIniConfig->{$name} = $type;
+        $themeIniConfig->{$key} = $val;
 
         if (!empty($themeIniConfig)) {
             try {
