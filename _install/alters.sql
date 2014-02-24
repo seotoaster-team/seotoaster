@@ -1,4 +1,4 @@
---21/11/2013
+-- 21/11/2013
 -- Main menu template type
 -- version: 2.1.0
 INSERT INTO `template_type` (`id`, `title`) VALUES ('typemenu', 'Menu');
@@ -20,6 +20,12 @@ CREATE TABLE IF NOT EXISTS `user_attributes` (
 ALTER TABLE `optimized` ADD `seo_intro` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL AFTER `teaser_text` ,
 ADD `seo_intro_target` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL AFTER `seo_intro`;
 
+-- 29/01/2014
+-- reCAPTCHA refactoring
+-- version: 2.1.3
+UPDATE `config` SET `name` = 'recaptchaPublicKey' WHERE `name` = 'recapthaPublicKey';
+UPDATE `config` SET `name` = 'recaptchaPrivateKey' WHERE `name` = 'recapthaPrivateKey';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.1.3' WHERE `name`='version';
+UPDATE `config` SET `value`='2.1.4' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

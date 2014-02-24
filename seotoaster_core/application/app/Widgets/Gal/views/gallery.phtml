@@ -1,23 +1,27 @@
-<?php if(isset($this->images) && is_array($this->images) && !empty($this->images)): ?>
-	<ul class="img_gallery">
-		<?php foreach ($this->images as $image): ?>
-			<?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
-			<li class="gallery_image" style="width: <?php echo $size[0]; ?>px;">
-				<a class="gall" href="<?php echo $this->original . $image['name']; ?>" data-fancybox-group="<?php echo $this->folder; ?>" title="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>">
-					<img src="<?php echo $image['path']; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>" width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>" />
-				</a>
-				<?php if($this->useCaption): ?>
-					<p class="image_caption"><?php echo Tools_System_Tools::cutExtension($image['name']); ?></p>
-				<?php endif; ?>
-			</li>
-		<?php endforeach; ?>
-	</ul>
+<?php if (isset($this->images) && is_array($this->images) && !empty($this->images)): ?>
+    <ul class="img_gallery">
+        <?php foreach ($this->images as $image): ?>
+            <?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
+            <li class="gallery_image" style="width: <?php echo $size[0]; ?>px;">
+                <a class="gall" href="<?php echo $this->original . $image['name']; ?>"
+                   data-fancybox-group="<?php echo $this->folder; ?>"
+                   title="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>">
+                    <img src="<?php echo $image['path']; ?>"
+                         alt="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>"
+                         width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
+                </a>
+                <?php if ($this->useCaption): ?>
+                    <p class="image_caption"><?php echo Tools_System_Tools::cutExtension($image['name']); ?></p>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 
 <script type="text/javascript">
-	$("a[data-fancybox-group=<?php echo $this->folder; ?>]").fancybox({
-        'transitionIn'		: 'none',
-        'transitionOut'		: 'none',
-        'titlePosition' 	: 'over'
-	});
+    $("a[data-fancybox-group=<?php echo $this->folder; ?>]").fancybox({
+        'transitionIn': 'none',
+        'transitionOut': 'none',
+        'titlePosition': 'over'
+    });
 </script>

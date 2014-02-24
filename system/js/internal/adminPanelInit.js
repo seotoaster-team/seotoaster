@@ -19,11 +19,15 @@ $(function() {
 
 
 	$('#cpanelul').accordion({
-        heightStyle: 'content'
+        heightStyle: 'content',
+		icons: null
 	});
 
 	if($.cookie('currSectionOpen')) {
-		$('#cpanelul').accordion({active: parseInt($.cookie('currSectionOpen'))});
+		$('#cpanelul').accordion({
+			active: parseInt($.cookie('currSectionOpen')),
+			icons: null
+		});
 	}
 
 	$(document).on('click', '#cpanelul li', function() {
@@ -47,7 +51,7 @@ $(function() {
 				window.location.href = responseText.notFoundUrl;
 			}
 			else {
-				smoke.alert('Sorry, but you don\'t have the 404 error page You can create a page and assign it as 404 error page Use the checkbox on the create/update page screen.', {'classname':'errors'});
+				smoke.alert($('#edit404-errorMsg').html(), {'classname':'errors'});
 			}
 		});
 	});
@@ -61,7 +65,7 @@ $(function() {
 		if(isCategory) {
 			$.getJSON(websiteUrl + 'backend/backend_page/checkforsubpages/pid/' + pageId, function(response) {
 				if(response.responseText.subpages) {
-					smoke.alert(response.responseText.message, {'classname':'errors'});
+					smoke.alert(response.responseText.message, {'classname':'error'});
 					return false;
 				} else {
 					showDelConfirm();
@@ -94,11 +98,11 @@ function showDelConfirm() {
 						top.location.href = websiteUrl;
 					}
 					else {
-						smoke.alert(response.responseText.body, {'classname':'errors'});
+						smoke.alert(response.responseText.body, {'classname':'error'});
 					}
 
 				}
 			})
 		}
-	}, {'classname':'errors', 'ok':'Yes', 'cancel':'No'});
+	}, {'classname':'error', 'ok':'Yes', 'cancel':'No'});
 }

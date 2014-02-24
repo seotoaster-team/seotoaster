@@ -1,0 +1,255 @@
+#links{
+    text-align     : right;
+    text-transform : uppercase;
+    font-size      : @font-size-mini;
+    vertical-align : middle;
+    margin-bottom  : 0.5em;
+
+    a{
+        border-left : 1px solid @gray;
+        padding     : 0 @padding-small-horizontal / 2;
+
+        &:first-child{
+            border : none;
+        }
+    }
+}
+#frm_content{
+    background : @body-bg;
+
+    #content_ifr{
+        height: 100% !important;
+    }
+}
+
+#edit-content{
+    background : @body-bg;
+
+    .above-editor-links, #tabs{
+        .transition();
+    }
+
+    #tabs{
+        background : @body-bg;
+        padding    : 0;
+        height     : 455px;
+
+        .ui-tabs-panel{
+            padding : 5px;
+
+            .ui-accordion-header{
+                font-size : @font-size-base;
+            }
+
+            .ui-accordion-content{
+                padding : 5px;
+            }
+
+        }
+
+        #tabs-frag-1{
+            .ui-accordion-header{
+                .screen-size{
+                    display    : none;
+                    margin-top : 2px;
+                }
+
+                &.ui-accordion-header-active{
+                    .screen-size{
+                        display : block;
+                    }
+                }
+            }
+            .ui-accordion-content{
+                max-height : 189px;
+            }
+        }
+
+        #tabs-frag-2{
+            .ui-accordion-content{
+                max-height : 197px;
+            }
+        }
+    }
+
+    #adminthingsviewer{
+        //        #upload_things_button.ui-accordion-header{
+        //            font-weight : bold;
+        //            text-align  : center;
+        //
+        //            a{
+        //                display : block;
+        //
+        //                [class*="icon-"]{
+        //                    margin-top : -3px;
+        //                }
+        //            }
+        //
+        //            &:hover{
+        //                background : darken(@gray-light, 10%);
+        //            }
+        //
+        //            .ui-accordion-header-icon{
+        //                display : none;
+        //            }
+        //        }
+
+        .ui-accordion-content{
+            position : relative;
+
+            p{
+                margin : 0;
+            }
+
+            &.show_div{
+
+                .list-images{
+                    margin   : -5px;
+                    //height   : 184px;
+                    overflow : auto;
+
+                    a{
+                        width  : 31%;
+                        margin : 1%;
+
+                        img{ }
+                    }
+                }
+
+                &.full-screen{
+
+                    .title{
+                        display     : block;
+                        text-align  : center;
+                        position    : fixed;
+                        line-height : @header-height;
+                        width       : 50%;
+                        margin      : auto;
+                        top         : 0px;
+                        left        : 0;
+                        right       : 0;
+                        font-size   : @font-size-large;
+                        color       : @header-color;
+                    }
+
+                    .list-images{
+                        height : @tpopup-base-height - @header-height - 10px *2;
+                    }
+
+                    a{
+                        width  : 9%;
+                        margin : 0.5%;
+                    }
+                }
+            }
+        }
+    }
+
+    #widgets_maker{
+        .ui-accordion-header{
+            img{
+                margin-top   : -7px;
+                margin-right : 10px;
+            }
+        }
+    }
+
+    #frm_content{
+        #content{
+            height : 435px;
+        }
+
+        #content_widgets_text{
+            padding : 0 @padding-small-horizontal;
+            width   : auto;
+        }
+    }
+}
+
+// Products tab
+//===========================================================
+#filters{
+    .chzn-choices{
+        padding-right : 26px;
+    }
+
+    &>label{
+        position   : absolute;
+        top        : 0;
+        right      : 0px;
+
+        &:after, &:before{
+            content      : '';
+            display      : block;
+            width        : 8px;
+            height       : 15px;
+            border-right : 1px dashed @input-border-color;
+        }
+
+        &:before{
+            border-top : 1px dashed @input-border-color;
+        }
+
+        &:after{
+            border-bottom : 1px dashed @input-border-color;
+        }
+    }
+}
+
+#product-products{
+    background : @body-bg;
+    padding    : @padding-base-vertical;
+    overflow   : auto;
+    height     : 275px;
+
+    .productlisting{
+        position      : relative;
+        float         : left;
+        margin-top    : .75%;
+        margin-bottom : .75%;
+        text-align    : center;
+        .grid-elements(6, 1.5, true);
+        .transition;
+        .background(0);
+
+        &:hover{
+            background : @gray-light;
+        }
+
+        span{
+            display   : block;
+            font-size : @font-size-small;
+        }
+
+        .brand{
+            color       : @gray;
+            font-weight : bold;
+            background  : @gray-light;
+            padding     : @padding-mini-vertical @padding-mini-horizontal;
+            .text-overflow();
+        }
+
+        .image{
+            height      : 75px;
+            line-height : 75px;
+            overflow    : hidden;
+
+            img{
+//                width : 100%;
+            }
+        }
+
+        .name{
+            height   : @font-size-base * unit(@font-size-small) * @line-height * 2;
+            padding  : @padding-small-vertical;
+            overflow : hidden;
+        }
+
+        .sku{
+            color      : @gray;
+            text-align : right;
+            padding    : @padding-mini-vertical @padding-mini-horizontal;
+            background : @gray-light;
+        }
+    }
+}

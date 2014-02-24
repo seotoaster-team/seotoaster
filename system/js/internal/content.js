@@ -25,7 +25,7 @@ $(function() {
 			type       : 'post',
 			dataType   : 'json',
 			data       : elements,
-			beforeSend : showSpinner,
+			beforeSend : showSpinner(),
 			success : function() {
 				localStorage.removeItem(generateStorageKey());
 				top.location.reload();
@@ -51,10 +51,12 @@ $(function() {
 					//console.log('loading...');
 				},
 				success : function(images) {
-					$('#images_small').html(images.small);
-					$('#images_medium').html(images.medium);
-					$('#images_large').html(images.large);
-					$('#images_original').html(images.original);
+					$('#images_small').find('.images-preview').replaceWith(images.small);
+					$('#images_medium').find('.images-preview').replaceWith(images.medium);
+					$('#images_large').find('.images-preview').replaceWith(images.large);
+					$('#images_original').find('.images-preview').replaceWith(images.original);
+
+
 				},
 				error: function() {
 					//console.log('error');
@@ -102,6 +104,15 @@ $(function() {
 
 	$('#toogletinymce').click(function() {
 		var editorId = 'content';
+        $('#tabs').tabs({active : 0}).toggleClass('hidden');
+
+        if($('#tabs.grid_8').length){
+            $('#tabs').toggleClass('grid_4 grid_8');
+            $('.above-editor-links').toggleClass('grid_12 grid_4');
+        }else{
+            $('.above-editor-links').toggleClass('grid_12 grid_8');
+        }
+
 		if(!tinyMCE.getInstanceById(editorId)) {
 			$(this).text('SHOW HTML');
 			tinyMCE.execCommand('mceAddControl', false, editorId);
@@ -109,6 +120,7 @@ $(function() {
 		else {
 			$(this).text('SHOW EDITOR');
 			tinyMCE.execCommand('mceRemoveControl', false, editorId);
+
 		}
 	});
 

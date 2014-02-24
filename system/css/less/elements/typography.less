@@ -1,0 +1,114 @@
+// Table of Content
+//==================================================
+//	Links
+//	Heading
+//	Blockquotes
+//  Toaster icon
+//  Custom classes
+//==================================================
+
+// Links
+//==================================================
+a{
+    color           : @link-color;
+    text-decoration : none;
+}
+a:visited{
+    //color : @link-color-visited;
+}
+.activate-hover(@activate) when (@activate = true){
+    a:hover{
+        color : @link-color-hover
+    }
+    a:active{
+        color : @link-color-active;
+    }
+}
+.activate-hover(@activate) when (@activate = false){
+    a.touch{
+        color : @link-color-active;
+    }
+}
+.activate-hover(@activate-hover);
+
+// Heading
+//==================================================
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6{
+    margin-top    : 1.5em;
+    margin-bottom : 0.5em;
+    color         : @heading-color;
+    font-weight   : @heading-weight;
+    font-family   : @font-family-headings;
+
+    &:first-child{ margin-top : 0; }
+
+    .slide .description &{ color : @slider-heading-color; }
+
+    footer &{
+        color : @footer-heading-color;
+    }
+
+    &:empty{
+        display : none;
+    }
+}
+h1, .h1{ font-size : 2em; }
+h2, .h2{ font-size : 1.5em; }
+h3, .h3{ font-size : 1.25em; }
+h4, .h4{ font-size : 1em; }
+h5, .h5{ font-size : 0.875em; }
+h6, .h6{ font-size : 0.75em; }
+
+.subheader{
+    color     : @subheading-color;
+    font-size : @font-size-small;
+}
+
+p{
+    &+p{ margin-top : 1.5em; }
+
+    img{ margin : 0; }
+}
+
+//  Custom Classes
+//==================================================
+@import "helper-classes";
+
+//	Blockquotes
+//==================================================
+@import "blockquotes";
+
+// Lists Styles
+//==================================================
+@import "lists";
+
+// Tables Styles
+//==================================================
+@import "tables";
+
+// Images Styles
+//==================================================
+@import "images";
+
+// Buttons Styles
+//==================================================
+@import "buttons";
+
+// Divider Styles
+//==================================================
+@import "divider";
+
+//  Toaster ICON
+//==================================================
+.activate-toaster-icon(@activate) when ( @activate = true){
+    @import "toaster-icons";
+}
+.activate-toaster-icon(@activate-toaster-icons);
+
+// System classes
+//==================================================
+.activate-system-classes(@activate) when ( @activate = true){
+    @import "system-classes";
+}
+.activate-system-classes(@activate-system-classes);

@@ -1,19 +1,27 @@
-<div class="header" style="overflow:hidden;">
-	<div class="closebutton">
-		<span class="help"><?php echo $this->toasterHelp(isset($this->helpSection) ? $this->helpSection : ''); ?></span>
-		<span class="close"><?php echo $this->translate('Close'); ?></span>
-	</div>
-	<?php echo (isset($this->headerText) ? $this->translate($this->headerText) : ''); ?>
-	<?php if(isset($this->innerHeaderHtml) && $this->innerHeaderHtml): ?>
-		<?php echo $this->innerHeaderHtml; ?>
-	<?php endif; ?>
-	<?php if(isset($this->pluginsSpace) && is_array($this->pluginsSpace) && !empty ($this->pluginsSpace)): ?>
-		<div class="pluginspace">
-			<?php foreach($this->pluginsSpace as $pluginEditorTop): ?>
-				<div class="<?php echo (isset($pluginEditorTop['title']) ? $pluginEditorTop['title']: ''); ?>">
-					<?php echo(isset($pluginEditorTop['code']) ? $pluginEditorTop['code'] : ''); ?>
-				</div>
-			<?php endforeach; ?>
-		</div>
-	<?php endif; ?>
+<?php if (!empty($this->headerText) || !empty($this->innerHeaderHtml)): ?>
+<div class="header">
+<?php endif;?>
+
+<div class="closebutton">
+	<?php echo $this->toasterHelp(isset($this->helpSection) ? $this->helpSection : ''); ?>
+    <a class="close icon-close" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
 </div>
+
+<?php echo (isset($this->headerText) ? $this->translate($this->headerText) : ''); ?>
+<?php if(isset($this->innerHeaderHtml) && $this->innerHeaderHtml): ?>
+	<?php echo $this->innerHeaderHtml; ?>
+<?php endif; ?>
+
+<?php if(isset($this->pluginsSpace) && is_array($this->pluginsSpace) && !empty ($this->pluginsSpace)): ?>
+	<div class="pluginspace">
+		<?php foreach($this->pluginsSpace as $pluginEditorTop): ?>
+			<div class="<?php echo (isset($pluginEditorTop['title']) ? $pluginEditorTop['title']: ''); ?>">
+				<?php echo(isset($pluginEditorTop['code']) ? $pluginEditorTop['code'] : ''); ?>
+			</div>
+		<?php endforeach; ?>
+	</div>
+<?php endif; ?>
+
+<?php if (!empty($this->headerText) || !empty($this->innerHeaderHtml)): ?>
+</div>
+<?php endif;?>

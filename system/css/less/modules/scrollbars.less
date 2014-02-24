@@ -1,0 +1,64 @@
+// Custom scrollbars for Internet Explorer
+//==================================================
+html, body{
+    scrollbar-base-color        : @scrollbar-bg;
+    scrollbar-3dlight-color     : @scrollbar-slider-button-bg;
+    scrollbar-shadow-color      : @scrollbar-slider-button-bg;
+    scrollbar-highlight-color   : @scrollbar-slider-button-bg;
+    scrollbar-track-color       : @scrollbar-bg;
+    scrollbar-arrow-color       : @scrollbar-slider-button-bg;
+    scrollbar-dark-shadow-color : @scrollbar-slider-button-bg;
+}
+
+// Custom scrollbars for Chrome
+//==================================================
+::-webkit-scrollbar{
+    width      : @scrollbar-size;
+    background : @scrollbar-bg;
+}
+::-webkit-scrollbar-button{
+    background-color : @scrollbar-slider-button-bg;
+    display          : none;
+}
+::-webkit-scrollbar-track{
+    background-color : @scrollbar-bg;
+}
+::-webkit-scrollbar-track-piece{
+    background-color : @scrollbar-bg;
+}
+::-webkit-scrollbar-thumb{
+    background-color : @scrollbar-slider-button-bg;
+}
+::-webkit-scrollbar-corner{
+    background-color : lighten(@scrollbar-bg, 5%);
+}
+::-webkit-resizer{
+    background-color : @scrollbar-resize-color;
+}
+
+// Custom scrollbars for Firefox
+//==================================================
+@-moz-document url-prefix('http://'),url-prefix('https://'){
+    scrollbar{
+        -moz-appearance : none !important;
+        background      : @scrollbar-bg !important;
+        width           : @scrollbar-size;
+    }
+    thumb, scrollbarbutton{
+        -moz-appearance  : none !important;
+        background-color : @scrollbar-slider-button-bg !important;
+    }
+
+    thumb:hover, scrollbarbutton:hover{
+        -moz-appearance  : none !important;
+        background-color : darken(@scrollbar-slider-button-bg, 5%) !important;
+    }
+
+    scrollbarbutton{
+        display : none !important;
+    }
+
+    scrollbar[orient="vertical"]{
+        min-width : 15px !important;
+    }
+}

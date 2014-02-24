@@ -1,11 +1,15 @@
 <?php if(!empty($this->deeplinks)): ?>
 	<?php foreach($this->deeplinks as $deeplink): ?>
-		<div class="deeplink-row">
-			<div class="grid_0_5"><input type="checkbox" id="<?php echo $deeplink->getId(); ?>" name="massdell[<?php echo $deeplink->getId(); ?>]" class="deeplink-massdel" /></div>
-			<div class="grid_4"><?php echo $deeplink->getName(); ?></div>
-			<div class="grid_5"><?php echo ($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $this->websiteUrl . $deeplink->getUrl() : $deeplink->getUrl(); ?></div>
-			<div class="grid_1"><?php echo ($deeplink->getNofollow()) ? $this->translate('No follow') : $this->translate('Follow'); ?></div>
-			<div class="grid_1" style="text-align: center"><a class="remove-deeplink _tdelete" data-callback="loadDeeplinksList" data-url="<?php echo $this->toasterLink('seo', 'removedeeplink', '', '', true)?>" data-eid="<?php echo $deeplink->getId(); ?>" href="javascript:;"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a></div>
+		<div class="deeplink-row list-row">
+			<div class="grid_1 mr0 ml0 text-center">
+				<input type="checkbox" id="<?php echo $deeplink->getId(); ?>" name="massdell[<?php echo $deeplink->getId(); ?>]" class="deeplink-massdel" />
+			</div>
+			<div class="list-row-item grid_3 alpha omega ml-grid mr-grid"><?php echo $deeplink->getName(); ?></div>
+			<div class="list-row-item grid_6 alpha omega ml-grid"><?php echo ($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $this->websiteUrl . $deeplink->getUrl() : $deeplink->getUrl(); ?></div>
+			<div class="grid_1 alpha omega text-center"><?php echo ($deeplink->getNofollow()) ? $this->translate('No follow') : $this->translate('Follow'); ?></div>
+			<div class="grid_1 omega ml0 text-center">
+				<a class="remove-deeplink _tdelete" data-callback="loadDeeplinksList" data-url="<?php echo $this->toasterLink('seo', 'removedeeplink', '', '', true)?>" data-eid="<?php echo $deeplink->getId(); ?>" href="javascript:;"><span class="icon-remove link error"></span></a>
+			</div>
 		</div>
 	<?php endforeach; ?>
 <?php endif; ?>

@@ -10,7 +10,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 	public function  init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)) {
-			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+			$this->redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
 		$this->view->websiteUrl  = $this->_helper->website->getUrl();
 		$this->_websiteConfig	 = Zend_Registry::get('website');
@@ -58,11 +58,12 @@ class Backend_ConfigController extends Zend_Controller_Action {
 					$newPass	= $configForm->getElement('suPassword')->getValue();
 					$newLogin	= $configForm->getElement('suLogin')->getValue();
 					$adminDataModified = false;
+                    // checking if there is new su password
 					if (!empty($newPass) && md5($newPass) !== $loggedUser->getPassword() ){
 						$loggedUser->setPassword($newPass);
 						$adminDataModified = true;
 					}
-
+                    // checking if su email has been changed
 					if ($newLogin != $loggedUser->getEmail()) {
 						$usersWithSuchEmail = $userTable->fetchAll( $userTable->getAdapter()->quoteInto('email = ?', $newLogin) );
 						if (! $usersWithSuchEmail->count() ) {
@@ -136,27 +137,10 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		$this->view->configForm = $configForm;
-
-		$triggers = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getTriggers(true);
-		$this->view->triggers = array_combine($triggers, $triggers);
-		array_unshift($this->view->triggers,  'select trigger');
-		$recipients = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
-		$this->view->recipients = array_combine($recipients, $recipients);
-		array_unshift($this->view->recipients,  'select recipient');
-
-		$templates = Application_Model_Mappers_TemplateMapper::getInstance()->findByType(Application_Model_Models_Template::TYPE_MAIL);
-		$this->view->templates = array('select template');
-		if (!empty($templates)){
-			foreach ($templates as $tmpl) {
-				$this->view->templates[$tmpl->getName()] = $tmpl->getName();
-			}
-		}
-
-		$this->view->actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
 	}
 
     /**
-     * Action for alter mail messasge before sending
+     * Action for alter mail message before sending
      *
      * @return bool
      * @throws Exceptions_SeotoasterException

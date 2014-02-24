@@ -14,7 +14,8 @@ class Application_Form_Css extends Zend_Form {
 
 		$this->addElement('select', 'cssname', array(
 			'required'	=> true,
-			'id'		=> 'csslist'
+			'id'		=> 'csslist',
+			'class'		=> 'w70'
 		));
         $this->getElement('cssname')->setDisableTranslator(true);
 
@@ -23,16 +24,17 @@ class Application_Form_Css extends Zend_Form {
 			'required'	 => true,
 			'allowEmpty' => true,
 			'spellcheck' => 'false',
-			'value'		 => $this->_content,
-			'class'		 => array('h420'),
-			'style'		 => 'font-family: monospace;font-weight:normal;font-size:12px;'
+			'value'		 => $this->_content
 		));
 
-		$this->addElement('submit', 'submit', array(
-			'class'		=> array('formsubmit'),
-			'ignore'	=> true,
-			'label'		=> 'Save CSS'
-		));
+		$this->addElement(new Zend_Form_Element_Button(array(
+			'type'   => 'submit',
+			'name'   => 'submit',
+			'label'  => '<span class="icon-save"></span> Save CSS',
+			'class'  => array('formsubmit'),
+			'ignore' => true,
+			'escape' => false
+		)));
 
 		$this->setDecorators(array('ViewScript'))
 			->setElementDecorators(array('ViewHelper'))

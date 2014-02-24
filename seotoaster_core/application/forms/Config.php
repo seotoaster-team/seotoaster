@@ -26,8 +26,8 @@ class Application_Form_Config extends Zend_Form {
 	protected $_mediaServers;
 	protected $_inlineEditor;
 	protected $_canonicalScheme;
-    protected $_recapthaPublicKey;
-    protected $_recapthaPrivateKey;
+    protected $_recaptchaPublicKey;
+    protected $_recaptchaPrivateKey;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -163,13 +163,14 @@ class Application_Form_Config extends Zend_Form {
 		return $this;
 	}
 
-	public function getShowProtectedPagesInMenu() {
+	public function getMemPagesInMenu() {
 		return $this->_showProtectedPagesInMenu;
 	}
 
-	public function setShowProtectedPagesInMenu($showProtectedPagesInMenu) {
+	public function setMemPagesInMenu($showProtectedPagesInMenu) {
 		$this->_showProtectedPagesInMenu = $showProtectedPagesInMenu;
-		return this;
+        $this->getElement('memPagesInMenu')->setValue($showProtectedPagesInMenu);
+		return $this;
 	}
 
 	public function setSmtpPort($smtpPort) {
@@ -192,24 +193,24 @@ class Application_Form_Config extends Zend_Form {
 		return $this->_smtpSsl;
 	}
     
-    public function setRecapthaPublicKey($recapthaPublicKey) {
-		$this->_recapthaPublicKey = $recapthaPublicKey;
-		$this->getElement('recapthaPublicKey')->setValue($recapthaPublicKey);
+    public function setRecaptchaPublicKey($recaptchaPublicKey) {
+		$this->_recaptchaPublicKey = $recaptchaPublicKey;
+		$this->getElement(Tools_System_Tools::RECAPTCHA_PUBLIC_KEY)->setValue($recaptchaPublicKey);
 		return $this;
 	}
 
-	public function getRecapthaPublicKey() {
-		return $this->_recapthaPublicKey;
+	public function getRecaptchaPublicKey() {
+		return $this->_recaptchaPublicKey;
 	}
     
-    public function setRecapthaPrivateKey($recapthaPrivateKey) {
-		$this->_recapthaPrivateKey = $recapthaPrivateKey;
-		$this->getElement('recapthaPrivateKey')->setValue($recapthaPrivateKey);
+    public function setRecaptchaPrivateKey($recaptchaPrivateKey) {
+		$this->_recaptchaPrivateKey = $recaptchaPrivateKey;
+		$this->getElement(Tools_System_Tools::RECAPTCHA_PRIVATE_KEY)->setValue($recaptchaPrivateKey);
 		return $this;
 	}
 
-	public function getRecapthaPrivateKey() {
-		return $this->_recapthaPrivateKey;
+	public function getRecaptchaPrivateKey() {
+		return $this->_recaptchaPrivateKey;
 	}
 
 	public function init() {
@@ -222,7 +223,7 @@ class Application_Form_Config extends Zend_Form {
 			->setElementDecorators(array(
 				'ViewHelper',
 				'Label',
-				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => array('grid_12','mt5px') ))
+				new Zend_Form_Decorator_HtmlTag(array('tag' => 'div', 'class' => 'grid_12 mt10px'))
 				))
 			->setElementFilters(array('StringTrim', 'StripTags'));
 
@@ -238,13 +239,13 @@ class Application_Form_Config extends Zend_Form {
 			'validators' => array(new Zend_Validate_EmailAddress())
 		));*/
         
-        $this->addElement('text', 'recapthaPublicKey', array(
-			'value' => $this->_recapthaPublicKey,
+        $this->addElement('text', Tools_System_Tools::RECAPTCHA_PUBLIC_KEY, array(
+			'value' => $this->_recaptchaPublicKey,
 			'label' => 'reCAPTCHA public key'
 		));
         
-        $this->addElement('text', 'recapthaPrivateKey', array(
-			'value' => $this->_recapthaPrivateKey,
+        $this->addElement('text', Tools_System_Tools::RECAPTCHA_PRIVATE_KEY, array(
+			'value' => $this->_recaptchaPrivateKey,
 			'label' => 'reCAPTCHA private Key'
 		));
 
@@ -282,10 +283,12 @@ class Application_Form_Config extends Zend_Form {
 		$this->addElement('text', 'smtpLogin', array(
 			'value' => $this->_smtpLogin,
 			'label' => 'SMTP Login',
+            'autocomplete' => 'off'
 		));
 		$this->addElement('password', 'smtpPassword', array(
 			'value'  => $this->_smtpPassword,
 			'label'  => 'SMTP Password',
+            'autocomplete' => 'off',
 			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
@@ -334,9 +337,14 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Member pages in menu?',
 		)));
 
-		$this->addElement('submit', 'submit', array(
-			'label' => 'Done'
-		));
+		$this->addElement(new Zend_Form_Element_Button(array(
+			'name'  => 'submit',
+			'type'  => 'submit',
+			'label' => 'Save',
+            'class' => 'icon-save',
+            'ignore' => true,
+			'escape'=> false
+		)));
 
 		$this->addElement('checkbox', 'mediaServers', array(
 			'value' => $this->_mediaServers,

@@ -304,7 +304,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 			$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 			$cid              = intval($this->getRequest()->getParam('cid'));
 			$categoryPage     = ($cid != Application_Model_Models_Page::IDCATEGORY_DEFAULT) ? $pageMapper->find($cid) : $cid;
-			$siloRelatedPages = $pageMapper->findByParentId(($categoryPage instanceof Application_Model_Models_Page) ? $categoryPage->getId() : $categoryPage);
+            $siloRelatedPages = $pageMapper->findByParentId(
+                    ($categoryPage instanceof Application_Model_Models_Page) ? $categoryPage->getId() : $categoryPage
+            );
 			if($categoryPage === null) {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
 			}
@@ -314,12 +316,19 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$silo             = $siloMapper->findByName(($categoryPage instanceof Application_Model_Models_Page) ? $categoryPage->getNavName() : $this->_helper->language->translate('Without category'));
 					$silo             = ($silo instanceof Application_Model_Models_Silo) ? $silo : new Application_Model_Models_Silo();
 					if($categoryPage instanceof Application_Model_Models_Page) {
+                        $relatedPages = array($categoryPage);
+                        if (is_array($siloRelatedPages) && !empty($siloRelatedPages)) {
+                            $relatedPages = array_merge($siloRelatedPages, $relatedPages);
+                        }
 						$silo->setName($categoryPage->getNavName())
-							->setRelatedPages(array_merge($siloRelatedPages, array($categoryPage)));
+							->setRelatedPages($relatedPages);
+                        unset($relatedPages);
 					}
 					else {
-						$silo->setName($this->_helper->language->translate('Without category'))
-							->setRelatedPages($siloRelatedPages);
+						$silo->setName($this->_helper->language->translate('Without category'));
+                        if (!empty($siloRelatedPages)) {
+                            $silo->setRelatedPages($siloRelatedPages);
+                        }
 					}
 					$siloId = $siloMapper->save($silo);
 					if($siloId) {

@@ -51,20 +51,35 @@ class LoginController extends Zend_Controller_Action {
 					$this->_memberRedirect(false);
 				}
 
-				$this->_checkRedirect(false, 'There is no user with such login and password.');
+				$this->_checkRedirect(false, array('email' => 'There is no user with such login and password.'));
 			}
 			else {
-				$this->_checkRedirect(false, 'Login should be a valid email address');
+				$this->_checkRedirect(false, array('email' => 'Login should be a valid email address'));
 			}
 		}
 		else {
 			//getting available system translations
             $this->view->languages = $this->_helper->language->getLanguages();
 			//getting messages
+            $errorMessages = $this->_helper->flashMessenger->getMessages();
+            if (!empty($errorMessages)) {
+                foreach ($errorMessages as $message) {
+                    foreach ($message as $elementName => $msg) {
+                        $loginForm->getElement($elementName)->setAttribs(array('class' => 'notvalid', 'title' => $msg));
+                    }
+                }
+            }
 			$this->view->messages   = $this->_helper->flashMessenger->getMessages();
 			//unset url redirect set from any login widget
 			unset($this->_helper->session->redirectUserTo);
-			$this->view->loginForm  = $loginForm;
+            $loginForm->removeDecorator('HtmlTag');
+            $loginForm->setElementDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    'Label',
+                    array('HtmlTag', array('tag' => 'p'))
+            ));
+            $this->view->loginForm  = $loginForm;
 		}
 	}
 
@@ -134,10 +149,10 @@ class LoginController extends Zend_Controller_Action {
 				foreach($messages as $messageData) {
 					if(is_array($messageData)) {
 						array_walk($messageData, function($msg) use($flashMessanger) {
-							$flashMessanger->addMessage($msg);
+							$flashMessanger->addMessage(array('email' => $msg));
 						});
 					} else {
-						$flashMessanger->addMessage($messageData);
+						$flashMessanger->addMessage(array('email' => $messageData));
 					}
 				}
 				if(isset($this->_helper->session->retrieveRedirect)){
@@ -148,12 +163,30 @@ class LoginController extends Zend_Controller_Action {
                 return $this->redirect($this->_helper->website->getUrl() . 'login/retrieve/');
 			}
 		}
-		$this->view->messages = $this->_helper->flashMessenger->getMessages();
+        $errorMessages = $this->_helper->flashMessenger->getMessages();
+        if (!empty($errorMessages)) {
+            foreach ($errorMessages as $message) {
+                foreach ($message as $elementName => $msg) {
+                    $form->getElement($elementName)->setAttribs(array('class' => 'notvalid', 'title' => $msg));
+                }
+            }
+        }
+        $passResetMsg = $this->_helper->flashMessenger->getMessages('passreset');
+        if (!empty($passResetMsg)) {
+            $this->view->retrieveSuccessMessage = join($passResetMsg, PHP_EOL);
+        }
+        $form->removeDecorator('HtmlTag');
+        $form->setElementDecorators(array(
+                'ViewHelper',
+                'Errors',
+                'Label',
+                array('HtmlTag', array('tag' => 'p'))
+        ));
 		$this->view->form     = $form;
 	}
 
 	public function passwordresetAction() {
-		//cehck the get string for the tokens http://mytoaster.com/login/reset/email/myemail@mytoaster.com/token/adadajqwek123klajdlkasdlkq2e3
+		//check the get string for the tokens http://mytoaster.com/login/reset/email/myemail@mytoaster.com/token/adadajqwek123klajdlkasdlkq2e3
 		$error = false;
 		$form  = new Application_Form_PasswordReset();
 		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);

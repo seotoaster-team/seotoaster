@@ -1,0 +1,278 @@
+// BASELINE STYLES
+//==================================================
+table{
+    width            : 100%;
+    background-color : @table-bg;
+
+    th, td{
+        padding        : @padding-base-vertical;
+        border-top     : 1px solid @table-border-color;
+        vertical-align : middle;
+    }
+
+    th{
+        border-top     : 0;
+        vertical-align : bottom;
+        text-align     : left;
+    }
+
+    td{
+        &:first-child{
+            vertical-align : top;
+        }
+    }
+
+    // Account for multiple tbody instances
+    tbody+tbody{
+        border-top : 2px solid @table-border-color;
+    }
+
+    // Nesting
+    table{
+        background-color : #fff;
+    }
+
+    &.small{
+        th, td{
+            padding : 5px;
+        }
+    }
+
+    &.large{
+        th, td{
+            padding : @padding-large-vertical;
+        }
+    }
+}
+
+// BORDERED VERSION
+//==================================================
+.activate-table-bordered(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .table-bordered{
+        border          : 1px solid @table-border-color;
+        border-collapse : separate; // Done so we can round those corners!
+        border-left     : 0;
+
+        tr > th,
+        tr > td{
+            border-left : 1px solid @table-border-color;
+        }
+    }
+}
+.activate-table-bordered(@activate-alternate-style-tables-bordered, @activate-alternate-style);
+
+// ZEBRA-STRIPING
+//==================================================
+// Default zebra-stripe styles (alternating gray and transparent backgrounds)
+.activate-table-striped(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .table-striped{
+        tr > td{
+            border-top : 0;
+        }
+        tr:nth-child(even) > td{
+            background-color : @table-row-bg;
+        }
+    }
+}
+.activate-table-striped(@activate-alternate-style-tables-striped, @activate-alternate-style);
+
+// HOVER EFFECT
+//==================================================
+// Placed here since it has to come after the potential zebra striping
+.activate-table-hover(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .table-hover{
+        tr{
+            .activate-hover(@activate) when (@activate = true){
+            &:hover > td{
+                background-color : @table-row-bg-hover;
+            }
+            }
+            .activate-hover(@activate) when (@activate = false){
+                &.touch > td{
+                    background-color : @table-row-bg-hover;
+                }
+            }
+            .activate-hover(@activate-hover);
+            .activate(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+                .activate-hover(@activate) when (@activate = true){
+                    > .green:hover,
+                &.green:hover > td{
+                    background-color : darken(@state-green-bg, 5%);
+                    border-color     : darken(@state-green-border, 5%);
+                }
+                    > .red:hover,
+                &.red:hover > td{
+                    background-color : darken(@state-red-bg, 5%);
+                    border-color     : darken(@state-red-border, 5%);
+                }
+                    > .orange:hover,
+                &.orange:hover > td{
+                    background-color : darken(@state-orange-bg, 5%);
+                    border-color     : darken(@state-orange-border, 5%);
+                }
+                    > .blue:hover,
+                &.blue:hover > td{
+                    background-color : darken(@state-blue-bg, 5%);
+                    border-color     : darken(@state-blue-border, 5%);
+                }
+            }
+                .activate-hover(@activate) when (@activate = false){
+                    > .green.touch,
+                    &.green.touch > td{
+                        background-color : darken(@state-green-bg, 5%);
+                        border-color     : darken(@state-green-border, 5%);
+                    }
+                    > .red.touch,
+                    &.red.touch > td{
+                        background-color : darken(@state-red-bg, 5%);
+                        border-color     : darken(@state-red-border, 5%);
+                    }
+                    > .orange.touch,
+                    &.orange.touch > td{
+                        background-color : darken(@state-orange-bg, 5%);
+                        border-color     : darken(@state-orange-border, 5%);
+                    }
+                    > .blue.touch,
+                    &.blue.touch > td{
+                        background-color : darken(@state-blue-bg, 5%);
+                        border-color     : darken(@state-blue-border, 5%);
+                    }
+                }
+                .activate-hover(@activate-hover);
+            }
+            .activate(@activate-alternate-style-color, @activate-alternate-style);
+        }
+    }
+}
+.activate-table-hover(@activate-alternate-style-tables-hover, @activate-alternate-style);
+
+// TABLE BACKGROUNDS
+// -----------------
+// Exact selectors below required to override .table-striped
+.activate-style-color(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    table{
+        tr{
+            > .primary,
+            &.primary > td{
+                color            : @text-color;
+                background-color : @state-primary-bg;
+                border-color     : @state-primary-border;
+                border-bottom    : 1px solid @state-primary-border;
+            }
+            > .green,
+            &.green > td{
+                color            : @text-color;
+                background-color : @state-green-bg;
+                border-color     : @state-green-border;
+                border-bottom    : 1px solid @state-green-border;
+            }
+            > .red,
+            &.red > td{
+                color            : @text-color;
+                background-color : @state-red-bg;
+                border-color     : @state-red-border;
+                border-bottom    : 1px solid @state-red-border;
+            }
+            > .orange,
+            &.orange > td{
+                color            : @text-color;
+                background-color : @state-orange-bg;
+                border-color     : @state-orange-border;
+                border-bottom    : 1px solid @state-orange-border;
+            }
+            > .blue,
+            &.blue > td{
+                color            : @text-color;
+                background-color : @state-blue-bg;
+                border-color     : @state-blue-border;
+                border-bottom    : 1px solid @state-blue-border;
+            }
+        }
+    }
+}
+.activate-style-color(@activate-alternate-style-color, @activate-alternate-style);
+
+//  Table responsive
+//==================================================
+.activate-table-responsive(@activate) when ( @activate = true){
+    .table-head{
+        display       : none;
+    }
+    @media only screen and (max-width : @responsive-size-mobile){
+        thead, th{
+            display : none;
+        }
+        td{
+            display : block;
+        }
+        .table-head{
+            display       : block;
+            color         : @brand-primary;
+            border-bottom : 1px dashed @gray-light;
+            margin-bottom : 0.5em;
+        }
+    }
+}
+.activate-table-responsive(@activate-responsive);
+
+//  Table scroll
+//==================================================
+.table-scroll{
+    overflow : auto;
+    position : relative;
+    display  : block;
+
+    thead{
+        background-color : @header-inner-bg;
+        color            : @header-inner-color;
+        display          : block;
+    }
+
+    tbody{
+        display  : block;
+        overflow : auto;
+    }
+
+    tr{
+        display  : block;
+        overflow : hidden;
+    }
+
+    th, td{
+        .box-sizing;
+        //padding-left  : 0;
+        //padding-right : 0;
+    }
+}
+
+// DataTable
+//==================================================
+.dataTables_wrapper{
+    float : left;
+    width : 100%;
+
+    .dataTables_filter{
+        //margin-bottom : 12px;
+
+        label{
+            width   : 30%;
+            display : block;
+
+            input{
+                width : 75%;
+            }
+        }
+    }
+
+    .dataTable{
+        .sorting, .sorting_asc, .sorting_desc{
+            cursor : pointer;
+
+            &:after{
+                font-size   : 10px;
+                margin-left : 3px;
+                top         : -1px;
+            }
+        }
+    }
+}

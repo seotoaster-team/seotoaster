@@ -1,16 +1,18 @@
-<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css', 'helpSection' => $this->helpSection)); ?>
+<div class="seotoaster container">
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
+        'headerText' => $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'),
+        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon-expand btn link icon inverse-warning" href="javascript:;"></a></div>',
+        'helpSection' => $this->helpSection)); ?>
 
-	<?php
-		$this->editcssForm->setAction($this->url());
-	?>
-	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
-		<div class="grid_8">&nbsp;</div>
-        <div class="grid_4 alpha"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
-		<div class="clearfix"></div>
-        <div class="h425" id="editor"><?php echo $this->editcssForm->getElement('content'); ?></div>
-        <div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
-	</form>
+	<div class="content grid_12">
+		<?php
+			$this->editcssForm->setAction($this->url());
+		?>
+		<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
+			<div id="editor" class="grid_12 alpha omega h450px"><?php echo $this->editcssForm->getElement('content'); ?></div>
+			<?php echo $this->editcssForm->getElement('submit'); ?>
+		</form>
+	</div>
 
 </div>
 
@@ -22,7 +24,7 @@
 $(function() {
     var textarea = $('#csscontent').detach();
     textarea.insertBefore('#editor');
-    var editor  = ace.edit("editor");
+    window.editor  = ace.edit("editor");
     editor.setTheme("ace/theme/crimson_editor");
     var CSSMode = require("ace/mode/css").Mode;
     editor.getSession().setMode(new CSSMode());

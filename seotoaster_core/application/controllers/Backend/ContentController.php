@@ -255,10 +255,10 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$imagesPath  = $this->_websiteData['path'] . $this->_websiteData['media'] . $folderName;
 			try {
                 $imagesData  = array(
-                    'small'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL),
-                    'medium'   => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM),
-                    'large'    => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_LARGE), $imagesPath, $folderName, self::IMG_CONTENTTYPE_LARGE),
-                    'original' => $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_ORIGINAL)
+                    'small'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL) . '</div>',
+                    'medium'   => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM) . '</div>',
+                    'large'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_LARGE), $imagesPath, $folderName, self::IMG_CONTENTTYPE_LARGE) . '</div>',
+                    'original' => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_ORIGINAL) . '</div>'
                 );
             }
             catch(Exceptions_SeotoasterException $se) {
@@ -293,7 +293,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
 				$imageElement   = htmlspecialchars('<a class="_lbox" href="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '"><img border="0" alt="'. str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
 				$imagesContent .= '<a href="javascript:;" onmousedown="$(\'#content\').tinymce().execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
-				$imagesContent .= '<img title="' . $image . '" style="vertical-align:top; margin: 0px 0px 4px 4px;" border="0" width="80" src="' . $srcPath . '/product/' . $image .'" /></a>';
+				$imagesContent .= '<img title="' . $image . '" border="0" width="80" src="' . $srcPath . '/product/' . $image .'" /></a>';
 			}
 			return $imagesContent;
 		}

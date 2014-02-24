@@ -1,9 +1,7 @@
-<div class="seotoaster container_12 rounded3px">
+<div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => 'Edit header', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12">
-		<?php
-			$this->contentForm->setAction($this->url());
-			echo $this->contentForm;
-		?>
-	</div>
+    <?php
+        $this->contentForm->setAction($this->url());
+        echo $this->contentForm;
+    ?>
 </div>

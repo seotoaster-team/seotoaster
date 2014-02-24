@@ -1,70 +1,65 @@
-<div class="seotoaster container_12 w450 h590 rounded3px">
+<div class="seotoaster container">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties', 'helpSection' => $this->helpSection)); ?>
-    <form class="_fajax _reload" data-norefresh="1" id="formWidget" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
-			<div class="grid_6">
-				<?php echo $this->formForm->getElement('code')->renderLabel(); ?>
-				<?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>
-			</div>
-			<div class="grid_6">
-				<?php echo $this->formForm->getElement('trackingCode')->renderLabel(); ?>
-				<?php echo $this->formForm->getElement('trackingCode')->renderViewHelper(); ?>
-			</div>
-            <div class="grid_12 alpha">
-                <?php if(isset($this->trackingPageUrl)):?>
-                    <a style="font-size: 11px; float:right;" target="_blank" href="<?php echo $this->websiteUrl.$this->trackingPageUrl;?>"><?php echo $this->websiteUrl.$this->trackingPageUrl;?></a>
-                <?php else:?>
-                    <div class="grid_5">
-                        <span style="font-size: 11px; float:right; color:#cd5c5c; margin-top: 10px;">[<?php echo $this->translate('Create a success page');?>]</span>
-                    </div>
-                    <div class="grid_7">
-                        <select name="thankyouTemplate">
-                            <option value="select"><?php echo $this->translate('select template');?></option>
-                            <?php foreach($this->regularTemplates as $regularTemplate):?>
-                                <option value="<?php echo $regularTemplate->getName();?>"><?php echo $regularTemplate->getName();?></option>
-                            <?php endforeach;?>
-                        </select>
-                    </div>    
-                <?php endif;?>
-            </div>
-			<div class="grid_12"><?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?></div>
-			<div class="grid_12"><?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?></div>
-            <div class="grid_12"><?php echo $this->formForm->getElement('replyFromName')->renderLabel(); ?></div>
-			<div class="grid_12"><?php echo $this->formForm->getElement('replyFromName')->renderViewHelper(); ?></div>
-			<div class="grid_12"><?php echo $this->formForm->getElement('replyFrom')->renderLabel(); ?></div>
-			<div class="grid_12"><?php echo $this->formForm->getElement('replyFrom')->renderViewHelper(); ?></div>
-			<div class="grid_6">
-                <?php echo $this->formForm->getElement('replySubject')->renderLabel(); ?>
-			    <?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?>
-            </div>
-			<div class="grid_6" style="position: relative;">
-                <?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?>
-			    <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
-            </div>
-            <div class="grid_12"><?php echo $this->formForm->getElement('replyText')->renderLabel(); ?></div>
-            <div class="grid_12"><?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?></div>
-			<div class="grid_6">
-                <?php echo $this->formForm->getElement('messageSuccess')->renderLabel(); ?>
-			    <?php echo $this->formForm->getElement('messageSuccess')->renderViewHelper(); ?>
-            </div>
-			<div class="grid_6">
-                <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
-			    <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
-            </div>
-            <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />
-		<div class="grid_12 mt5px"><?php echo $this->formForm->getElement('submit')->renderViewHelper();?></div>
+    <form id="formWidget" class="_fajax _reload condensed content-auto" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
+        <p id="form-code" class="grid_6 mt0px">
+            <span class="screen-size icon-expand btn icon link inverse-info fl-right" data-size="form-code"></span>
+            <?php echo $this->formForm->getElement('code')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_6 mt0px">
+            <?php echo $this->formForm->getElement('trackingCode')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('trackingCode')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_12">
+            <?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_12">
+            <?php echo $this->formForm->getElement('replyFromName')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('replyFromName')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_12">
+            <?php echo $this->formForm->getElement('replyFrom')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('replyFrom')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_6">
+            <?php echo $this->formForm->getElement('replySubject')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_6">
+            <?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_12">
+            <?php echo $this->formForm->getElement('replyText')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_6">
+            <?php echo $this->formForm->getElement('messageSuccess')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('messageSuccess')->renderViewHelper(); ?>
+        </p>
+        <p class="grid_6">
+            <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
+            <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
+        </p>
+        <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />
 		<?php echo $this->formForm->getElement('name')->renderViewHelper(); ?>
 		<?php echo $this->formForm->getElement('id')->renderViewHelper(); ?>
-     </form>
+        <div class="grid_9 mt15px">
+        <?php if(isset($this->trackingPageUrl)):?>
+            <a class="btn link mt5px" target="_blank" href="<?php echo $this->websiteUrl.$this->trackingPageUrl;?>">[ <?php echo $this->translate('Show the success page');?> ]</a>
+        <?php else:?>
+            <label class="grid_6 alpha omega gray mt5px">
+                [ <?php echo $this->translate('Create a success page');?> ]
+            </label>
+            <select class="grid_5 alpha omega" name="thankyouTemplate">
+                <option value="select"><?php echo $this->translate('select template');?></option>
+                <?php foreach($this->regularTemplates as $regularTemplate):?>
+                    <option value="<?php echo $regularTemplate->getName();?>"><?php echo $regularTemplate->getName();?></option>
+                <?php endforeach;?>
+            </select>
+        <?php endif;?>
+        </div>
+        <?php echo $this->formForm->getElement('submit')->renderViewHelper();?>
+    </form>
 </div>
-
-<style>
-    #tracking-code{
-        height: 70px;
-    }
-    #code{
-        height: 70px;
-    }
-    #reply-text{
-        height: 35px;
-    }
-</style>

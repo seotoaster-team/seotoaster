@@ -1,69 +1,32 @@
-<div class="header" style="overflow:hidden;">
-	<div class="closebutton-list">
-		<span class="close-list"><?php echo $this->translate('Close'); ?></span>
+<div class="header">
+	<div class="closebutton">
+		<a class="hide icon-chevron-right" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
 	</div>
-	<div id="filters" class="tpllistfilter">
-		<?php if(isset($this->types) && $this->types): ?>
-            <?php foreach($this->types as $name => $title): ?>
-                <a href="javascript:;" class="lnk-filter" id="<?php echo $name; ?>"><?php echo $this->translate($title); ?></a> |
-            <?php endforeach; ?>
-        <?php endif; ?>
-		<a href="javascript:;" class="lnk-filter" id="all"><?php echo $this->translate('All'); ?></a>
-	</div>
+	<?php echo $this->translate('Select template'); ?>
 </div>
-<script type="text/javascript">
-	$(function(){
-		$('#lnk-back').click(function(){
-			$('#templatelist').slideUp();
-		})
-	})
-</script>
-<div style="overflow-y: scroll;" class="h520">
-<?php foreach ($this->templates as $template) : ?>
-<div class="grid_2 template_item <?php echo ((isset($template['isCurrent']) && $template['isCurrent']) ? 'curr-template' : ''); ?>" title="<?php echo sprintf($this->translate('%s template'), $template['fullName']); ?>">
-	<div class="template_preview">
-		<div>
-			<?php if($template['preview_image']): ?>
-				<img src="<?php echo $this->websiteUrl.$template['preview_image']; ?>" alt="<?php echo $template['name']; ?>" style="z-index:1;width:125px;"/>
-			<?php else: ?>
-		     	<div style="margin-top: 20px;padding: 0 5px; font-size: 24px;"><?php echo ucfirst($template['name']); ?></div><br/>
-                <span>(<?php echo $this->translate('used %s times', $template['pagesCount']); ?>)</span>
-			<?php endif; ?>
-		</div>
-		<div class="template_name">
-			<?php echo Tools_Text_Tools::cutText($template['name'], 10); ?>
+<div class="content">
+<?php foreach ($this->types as $type => $caption ) : ?>
+<?php
+	$templates = array_filter($this->templates, function($tmpl)use($type){ return $tmpl['type'] === $type; });
+	if (empty($templates)) continue;
+?>
+	<div class="grid_12 template_header"><?php echo $caption; ?></div>
+	<div class="template_group grid_12">
+		<?php foreach ($templates as $template) : ?>
+		<div class="template_item <?php echo ((isset($template['isCurrent']) && $template['isCurrent']) ? 'curr-template' : ''); ?>" title="<?php echo sprintf($this->translate('%s template'), $template['fullName']); ?>">
 			<?php if (!in_array($template['name'], $this->protectedTemplates)): ?>
-			<div class="template_delete"><img style="vertical-align:middle;" src="<?php echo $this->websiteUrl;?>/system/images/delete.png" alt="<?php echo $this->translate('Delete');?>" /></div>
+				<span class="template_delete icon-remove icon16" title="<?php echo $this->translate('Delete');?>" />
 			<?php endif; ?>
+            <?php if (isset($template['isCurrent']) && $template['isCurrent']): ?>
+                <span class="template-check icon-check icon16"/></span>
+            <?php endif; ?>
+			<div class="template_name">
+				<?php echo ucfirst($template['name']); ?><br>
+	            <span class="subheader">(<?php echo $this->translate('used %s times', $template['pagesCount']); ?>)</span>
+			</div>
+			<?php echo $this->formHidden('template-id', $template['name'], array('id' => 'template-id-'.$template['name'])); ?>
 		</div>
-		<?php echo $this->formHidden('template-id', $template['name'], array('id' => 'template-id-'.$template['name'])); ?>
+		<?php endforeach; ?>
 	</div>
-</div>
 <?php endforeach; ?>
 </div>
-
-<script type="text/javascript">
-	(function($){
-		$('.lnk-filter').click(function() {
-			var tplType = $(this).attr('id');
-			$.post(
-				$('#website_url').val()+'backend/backend_theme/gettemplate/',
-				{'listtemplates':tplType, 'pageId' : $('#pageId').val()},
-				function(response) {
-					try {
-						responseObject = $.parseJSON(response);
-						$('.h520').html('<div style="text-align: center;">Oops, ' + responseObject.responseText + '. Looks like you do not have any template of this type</div>');
-					}
-					catch(err) {
-						$('#templatelist').html(response);
-					}
-				}
-			);
-		});
-
-		$('.closebutton-list').click(function() {
-			$(this).parents('div#templatelist').fadeOut();
-		})
-
-	})(jQuery);
-</script>

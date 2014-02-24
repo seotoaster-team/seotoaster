@@ -18,6 +18,7 @@ class Application_Form_Silo extends Zend_Form {
 			'label'    => 'Silo name',
 			'value'    => $this->_name,
 			'required' => true,
+            'class' => 'grid_9 alpha omega',
 			'filters'  => array('StringTrim')
 		)));
 
@@ -25,9 +26,13 @@ class Application_Form_Silo extends Zend_Form {
 			'name'  => 'addSilo',
 			'id'    => 'add-silo',
 			'value' => 'Add silo',
-			'class' => 'blue-btn',
+			'class' => 'grid_3 alpha omega mt0px',
 			'label' => 'Add silo'
 		)));
+
+		$this->setElementDecorators(array('ViewHelper', 'Label'));
+
+		$this->getElement('addSilo')->setDecorators(array('ViewHelper'));
 
 	}
 

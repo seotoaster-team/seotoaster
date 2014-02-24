@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SearchController
  *
@@ -102,7 +103,4 @@ class SearchController extends Zend_Controller_Action {
             )
         );
     }
-
-
-
 }
