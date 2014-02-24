@@ -320,11 +320,13 @@ textarea{
             option{ color : @text-color; }
         }
 
-        input:focus, select:focus{
-            .box-shadow(none, @input-shadow-focus) !important;
+        &:not(.icon){
+            input:focus, select:focus{
+                .box-shadow(none, @input-shadow-focus);
 
-            &~label, &~.label{
-                background : @input-border-color-focus;
+                &~label, &~.label{
+                    background : @input-border-color-focus;
+                }
             }
         }
 
