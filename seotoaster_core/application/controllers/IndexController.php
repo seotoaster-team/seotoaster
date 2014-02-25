@@ -145,6 +145,10 @@ class IndexController extends Zend_Controller_Action {
 
 		preg_match('~(<body[^\>]*>)(.*)</body>~usi', $pageContent, $body);
 
+        // setting default charset
+        if ($this->view->doctype()->isHtml5()) {
+            $this->view->headMeta()->setCharset('utf-8');
+        }
 		$this->_extendHead($pageContent);
 
 		$this->view->placeholder('seo')->exchangeArray($seoData);
