@@ -56,6 +56,18 @@ $(function() {
 		});
 	});
 
+    // Clean all cache
+    $('#cleancache').on('click', function() {
+        $.get($('#website_url').val() + 'backend/backend_content/cleancache/', function(response) {
+            if (response.error == 0) {
+                showMessage(response.responseText, false, 2500);
+            }
+            else {
+                showMessage(response.responseText, true);
+            }
+        });
+    });
+
 	//admin panel delete this page link
 	$('#del-this-page').click(function() {
 		var pageId     = $('#del-page-id').val();

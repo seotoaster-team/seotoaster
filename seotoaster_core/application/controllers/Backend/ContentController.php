@@ -41,6 +41,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 		$this->_helper->AjaxContext()->addActionContext('loadfiles', 'json')->initContext('json');
 		$this->_helper->AjaxContext()->addActionContext('refreshfolders', 'json')->initContext('json');
+        $this->_helper->AjaxContext()->addActionContext('cleancache', 'json')->initContext('json');
 	}
 
 	public function addAction() {
@@ -317,5 +318,19 @@ class Backend_ContentController extends Zend_Controller_Action {
 		$websiteData = Zend_Registry::get('website');
 		$this->_helper->response->success(Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . $websiteData['media']));
 	}
+
+    /**
+     * Clear all cache
+     * Called in adminPanelInit.min.js
+     */
+    public function cleancacheAction() {
+        try {
+            $this->_helper->cache->clean();
+            $this->_helper->response->success($this->_helper->language->translate('The entire cache has been cleaned.'));
+        }
+        catch (Exceptions_SeotoasterException $ste) {
+            $this->_helper->response->fail($ste->getMessage());
+        }
+    }
 }
 
