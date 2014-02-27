@@ -4,15 +4,13 @@
         'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon-expand btn link icon inverse-warning" href="javascript:;"></a></div>',
         'helpSection' => $this->helpSection)); ?>
 
-	<div class="content grid_12">
-		<?php
-			$this->editcssForm->setAction($this->url());
-		?>
-		<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
-			<div id="editor" class="grid_12 alpha omega h450px"><?php echo $this->editcssForm->getElement('content'); ?></div>
-			<?php echo $this->editcssForm->getElement('submit'); ?>
-		</form>
-	</div>
+    <?php
+        $this->editcssForm->setAction($this->url());
+    ?>
+    <form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
+        <div id="editor" class="h450px"><?php echo $this->editcssForm->getElement('content'); ?></div>
+        <?php echo $this->editcssForm->getElement('submit'); ?>
+    </form>
 
 </div>
 
