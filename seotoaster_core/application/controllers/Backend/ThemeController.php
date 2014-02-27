@@ -36,33 +36,34 @@ class Backend_ThemeController extends Zend_Controller_Action {
      * and saves edited template
      */
     public function templateAction() {
-        $templateForm = new Application_Form_Template();
-        $templateName = $this->getRequest()->getParam('id');
-        $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
-        $currentTheme = $this->_helper->config->getConfig('currentTheme');
+        $templateForm     = new Application_Form_Template();
+        $templateName     = $this->getRequest()->getParam('id');
+        $mapper           = Application_Model_Mappers_TemplateMapper::getInstance();
+        $currentTheme     = $this->_helper->config->getConfig('currentTheme');
+        $currentThemePath = realpath($this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme);
         if (!$this->getRequest()->isPost()) {
             $templateForm->getElement('pageId')->setValue($this->getRequest()->getParam('pid'));
             if ($templateName) {
                 $template = $mapper->find($templateName);
                 if ($template instanceof Application_Model_Models_Template) {
-                    $templateForm->getElement('content')->setValue($template->getContent());
+                    $templateContent = $template->getContent();
+                    // If developerMode = 1, get template content from the template file
+                    if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
+                        $currentTemplatePath = $currentThemePath.DIRECTORY_SEPARATOR .$templateName.'.html';
+                        if (file_exists($currentTemplatePath)) {
+                            $templateContent = Tools_Filesystem_Tools::getFile($currentTemplatePath);
+                        }
+                    }
+
+                    $templateForm->getElement('content')->setValue($templateContent);
                     $templateForm->getElement('name')->setValue($template->getName());
                     $templateForm->getElement('id')->setValue($template->getName());
                     $templateForm->getElement('templateType')->setValue($template->getType());
                     $this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
                 }
-                //get template preview image
-                try {
-                    $templatePreviewDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme . DIRECTORY_SEPARATOR . $this->_themeConfig['templatePreview'];
-                    $images = Tools_Filesystem_Tools::findFilesByExtension($templatePreviewDir, '(jpg|gif|png)', false, true, false);
-                    if (isset($images[$template->getName()])) {
-                        $this->view->templatePreview = $this->_themeConfig['path'] . $currentTheme . '/' . $this->_themeConfig['templatePreview'] . $images[$template->getName()];
-                    }
-                } catch (Exceptions_SeotoasterException $se) {
-                    $this->view->templatePreview = 'system/images/no_preview.png';
-                }
             }
-        } else {
+        }
+        else {
             if ($templateForm->isValid($this->getRequest()->getPost())) {
                 $templateData = $templateForm->getValues();
                 $originalName = $templateData['id'];
@@ -103,9 +104,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 $template->setType($templateData['templateType']);
 
                 // saving/updating template in db
-                $result           = $mapper->save($template);
-                $currentThemePath = realpath($this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme);
-                if ($result) {
+                if ($result = $mapper->save($template)) {
                     Tools_Theme_Tools::updateThemeIni($currentThemePath, $templateData['name'], $templateData['templateType']);
                     $this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
                 }
@@ -308,10 +307,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
             } else {
                 // Enable editing directly from the template file
                 if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
-                    $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
-                    $currentTemplate  = $currentThemePath.DIRECTORY_SEPARATOR.$listtemplates.'.html';
+                    $currentThemePath    = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
+                    $currentTemplatePath = $currentThemePath.DIRECTORY_SEPARATOR.$listtemplates.'.html';
 
-                    if (file_exists($currentTemplate)) {
+                    if (file_exists($currentTemplatePath)) {
                         $themeConfig  = Tools_Theme_Tools::getThemeIniData($currentThemePath);
                         $templateName = preg_replace(
                             array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
@@ -324,7 +323,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                             'fullName' => $templateName,
                             'type'     => (!empty($themeConfig) && isset($themeConfig[$templateName])) ?
                                 $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR,
-                            'content'  => Tools_Filesystem_Tools::getFile($currentTemplate)
+                            'content'  => Tools_Filesystem_Tools::getFile($currentTemplatePath)
                         );
 
                         $this->_helper->response->response($template, true);
