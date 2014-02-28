@@ -1,5 +1,16 @@
 @import "base/variables";
 
+//  Fonts
+//==================================================
+@import "elements/fonts";
+
+//  Toaster ICON
+//==================================================
+.activate-toaster-icon(@activate) when ( @activate = true){
+    @import "elements/toaster-icons";
+}
+.activate-toaster-icon(@activate-toaster-icons);
+
 // Modules Styles
 //==================================================
 .activate-modules(@activate) when (@activate = true){

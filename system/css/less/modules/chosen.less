@@ -1,9 +1,9 @@
-.chosen-select{ width : 100%; }
-.chosen-select-deselect{ width : 100%; }
+.chzn-select{ width : 100%; }
+.chzn-select-deselect{ width : 100%; }
 
 // Base
 // ------------------------------------------
-.chosen-container{
+.chzn-container{
     position         : relative;
     padding          : 0 @padding-base-vertical;
     min-width        : 100%;
@@ -19,7 +19,7 @@
     .border-radius(@input-border-radius);
     .transition(all, 0.3s);
 
-    &.chosen-container-active{
+    &.chzn-container-active{
         border-color : @input-border-color-focus;
         .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
     }
@@ -28,11 +28,11 @@
         line-height : @line-height;
     }
 
-    &.chosen-container-single{ }
+    &.chzn-container-single{ }
 
-    &.chosen-container-multi{ cursor : text; }
+    &.chzn-container-multi{ cursor : text; }
 
-    .chosen-single{
+    .chzn-single{
         line-height : @btn-height-base - @input-border-width * 2;
         max-height  : @btn-height-base - @input-border-width * 2;
         display     : block;
@@ -58,7 +58,7 @@
         list-style : none;
     }
 
-    .chosen-drop{
+    .chzn-drop{
         background-color : @input-bg;
         border-style     : solid;
         border-width     : @input-border-width;
@@ -70,13 +70,13 @@
         z-index          : 500;
         width            : 100%;
 
-        .chosen-with-drop&{
+        .chzn-with-drop&{
             left  : -@input-border-width;
             right : 0;
         }
     }
 
-    .chosen-search{
+    .chzn-search{
         padding : @padding-base-vertical;
 
         input{
@@ -93,7 +93,7 @@
         }
     }
 
-    .chosen-results{
+    .chzn-results{
         max-height : 300px;
         overflow   : auto;
 
@@ -167,7 +167,7 @@
         }
     }
 
-    .chosen-choices{
+    .chzn-choices{
         font-size  : @font-size-small;
         margin-top : 0.25em;
         .clearfix;
@@ -209,10 +209,10 @@
         }
     }
 
-    &.chosen-rtl{
+    &.chzn-rtl{
         direction : rtl;
 
-        .disabled-result, .result-selected, .chosen-single{
+        .disabled-result, .result-selected, .chzn-single{
             &:before{
                 float : left;
             }
@@ -224,12 +224,12 @@
             margin-right : 5px;
         }
 
-        .chosen-choices>*{
+        .chzn-choices>*{
             float : right;
         }
     }
 
-    .chosen-search{
+    .chzn-search{
         padding : @padding-base-vertical;
 
         input{
