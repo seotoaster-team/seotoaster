@@ -119,9 +119,10 @@ class IndexController extends Zend_Controller_Action {
 
             // if developerMode = 1, parsing template directly from files
             if ((bool) $this->_config->getConfig('enableDeveloperMode')) {
-                $filePath = $websitePath.$themeData['path'].$currentTheme.DIRECTORY_SEPARATOR.$page->getTemplateId().'.html';
+                $filePath = $websitePath.$themeData['path'].$currentTheme.DIRECTORY_SEPARATOR.$page->getTemplateId()
+                    .'.html';
                 if (file_exists($filePath)) {
-                    $page->setContent(file_get_contents($filePath));
+                    $page->setContent(Tools_Filesystem_Tools::getFile($filePath));
                 }
             }
 

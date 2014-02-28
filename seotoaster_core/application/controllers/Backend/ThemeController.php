@@ -94,10 +94,21 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
                 } else {
                     $status = 'new';
+                    if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
+                        $currentTemplatePath = $currentThemePath.DIRECTORY_SEPARATOR .$templateData['name'].'.html';
+                        if (file_exists($currentTemplatePath)) {
+                            $status = 'addedDb';
+                        }
+                    }
+
                     //if ID missing and name is not exists and name is not system protected - creating new template
-                    if (in_array($templateData['name'], Tools_Theme_Tools::$protectedTemplates) ||
-                        null !== $mapper->find($templateData['name']) ) {
-                        $this->_helper->response->response($this->_translator->translate('Template with such name already exists'), true);
+                    if (in_array($templateData['name'], Tools_Theme_Tools::$protectedTemplates)
+                        || null !== $mapper->find($templateData['name'])
+                    ) {
+                        $this->_helper->response->response(
+                            $this->_translator->translate('Template with such name already exists'),
+                            true
+                        );
                     }
                     $template = new Application_Model_Models_Template($templateData);
                 }
