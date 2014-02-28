@@ -26,13 +26,13 @@
 <script id="imageContainerTemplate" type="text/x-jquery-tmpl">
     <div class="file-container grid_3">
         <img src="${src}" alt="${name}" title="${name}" />
-        <input type="checkbox" class="toremove" name="removeImages[]" value="${name}" />
+        <input type="checkbox" class="toremove hidden" name="removeImages[]" value="${name}" />
     </div>
 </script>
 <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
     <div class="file-container">
         <label data-type="${name}">${name}</label>
-        <input type="checkbox" class="toremove toremove-file" name="removeFiles[]" value="${name}" />
+        <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
     </div>
 </script>
 <script id="errorMsgTemplate" type="text/x-jquery-tmpl">

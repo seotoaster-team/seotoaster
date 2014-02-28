@@ -84,7 +84,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 $this->_view->prepopName    = $this->_prepopName;
                 $this->_view->prepopContent = $this->_prepopContent;
                 return $this->_view->render('prepopLink.phtml');
-            }else{
+            }
+            elseif ($this->_readonly) {
+                return $this->_prepopContent;
+            }
+            else {
                 return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
             }
         }
