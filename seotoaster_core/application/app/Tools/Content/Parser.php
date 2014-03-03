@@ -146,7 +146,11 @@ class Tools_Content_Parser {
     private function _runMagicSpaces() {
         $this->_iteration++;
 
-        preg_match_all('~{([\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
+        preg_match_all(
+            '~{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs',
+            $this->_content,
+            $spacesFound
+        );
         $spacesFound = array_filter($spacesFound);
 
         if (!empty($spacesFound) && isset($spacesFound[1])) {
