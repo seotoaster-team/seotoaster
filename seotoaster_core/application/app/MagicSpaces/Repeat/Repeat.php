@@ -1,4 +1,7 @@
 <?php
+/**
+ * Repeats content with replacement tag on number of the current iteration
+ */
 class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract {
 
     protected function _run() {
