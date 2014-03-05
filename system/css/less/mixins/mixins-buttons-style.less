@@ -5,10 +5,11 @@
     cursor          : pointer;
     position        : relative;
     text-decoration : none;
-//    .user-select();
+    border-width    : @btn-border-width;
+    border-style    : solid;
     .activate-type(@type);
     .activate-size(@size, @type);
-    .activate-border(@btn-border-width);
+//    .activate-border(@btn-border-width);
     .activate-transition(@activate-button-transition);
     .button-color(@color, @background, @border, true);
 
@@ -246,7 +247,7 @@
     }
     .activate-hover(@activate-hover);
 
-//    &.disabled,
+    //    &.disabled,
     &[disabled]{
         color           : desaturate(@color, 30%);
         text-decoration : none;
@@ -276,7 +277,7 @@
     }
     .activate-hover(@activate-hover);
 
-//    &.disabled,
+    //    &.disabled,
     &[disabled]{
         color           : desaturate(@color, 30%);
         text-decoration : none;
@@ -320,7 +321,7 @@
     }
     .activate-hover(@activate-hover);
 
-//    &.disabled,
+    //    &.disabled,
     &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
         color            : desaturate(@color, 30%);
@@ -370,7 +371,7 @@
     }
     .activate-hover(@activate-hover);
 
-//    &.disabled,
+    //    &.disabled,
     &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
         color            : desaturate(@color, 30%);
