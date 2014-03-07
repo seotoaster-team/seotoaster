@@ -145,7 +145,8 @@ body{
 .content-small, .content-small-footer{
     position   : static;
     background : @body-bg;
-    margin-top : @content-margin-top;
+    margin-top : 0 !important;
+    border-top : @content-margin-top solid #fff;
     clear      : both;
     .box-sizing();
     .clearfix();
@@ -178,7 +179,8 @@ body{
     }
 }
 .content, .content-medium, .content-small, .content-auto{
-    margin-bottom : @content-margin-bottom;
+    margin-bottom : 0 !important;
+    border-bottom : @content-margin-bottom solid #fff;
 }
 .content, .with-content>.ui-tabs-panel{
     height : @tpopup-base-height - @header-height - @content-margin-top - @content-margin-bottom;

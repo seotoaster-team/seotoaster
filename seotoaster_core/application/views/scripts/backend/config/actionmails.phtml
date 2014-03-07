@@ -40,24 +40,26 @@
                     <div class="trigger-title mt0px">
                         <?php echo $this->translate('When'); ?> <strong>${title}</strong><br />
                     </div>
-					<div>
+					<p>
 						<?php echo $this->formLabel('recipients', 'send an e-mail to', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formSelect('actions[${index}][recipient]', '${sendto}', array('class' => 'grid_8'), $this->recipients); ?>
-					</div>
-					<div>
+					</p>
+					<p>
 						<?php echo $this->formLabel('mailTemplates', 'use template', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formSelect('actions[${index}][template]', null, array('class' => 'grid_8'), $this->mailTemplates); ?>
-					</div>
-					<?php //echo $this->formLabel('message', 'with message'); ?>
-					<?php //echo $this->formTextarea('actions[${index}][message]', '${message}', array('rows' => 5, 'cols' => 30)); ?>
-					<div>
+					</p>
+					<p>
+                        <?php echo $this->formLabel('message', 'with message', array('class' => 'grid_4 mt5px')); ?>
+                        <?php echo $this->formTextarea('actions[${index}][message]', '${message}', array('rows' => 4, 'class' => 'grid_8')); ?>
+                    </p>
+					<p>
 						<?php echo $this->formLabel('from', 'from', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][from]', '${from}', array('class' => 'grid_8')); ?>
-					</div>
-					<div>
+					</p>
+					<p>
 						<?php echo $this->formLabel('subject', 'with subject', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][subject]', '${subject}', array('class' => 'grid_8')); ?>
-					</div>
+					</p>
                 </fieldset>
             {{/if}}
         {{/each}}
