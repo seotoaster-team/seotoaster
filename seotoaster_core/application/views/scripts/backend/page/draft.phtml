@@ -1,7 +1,7 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => $this->translate('Manage drafts (') . Tools_Page_Tools::getDraftPagesCount() . ')', 'helpSection' => $this->helpSection)); ?>
 
-    <ol class="grid_12 items-list content">
+    <ol class="grid_12 items-list content scroll">
     <?php if($this->draftPages && is_array($this->draftPages)): ?>
         <?php foreach($this->draftPages as $number => $draftPage): ?>
             <li class="list-row">
