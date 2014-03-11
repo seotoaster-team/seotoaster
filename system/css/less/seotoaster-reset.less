@@ -128,22 +128,29 @@
         }
     }
 
-    #cpanelul{
+    ul{
         margin : 0;
 
         li{
             list-style : none;
-            margin     : 0;
+
             a{
+                margin          : 0 0 1px;
+                padding         : @padding-small-vertical @padding-small-horizontal;
                 display         : block;
                 text-decoration : none;
-                text-decoration : none;
                 font-size       : 16px;
-                padding         : @padding-small-vertical @padding-small-horizontal;
+                font-weight     : bold;
+                color           : @gray-light;
+                background      : @cpanel-header-bg;
+
+                &.logout:hover{
+                    background : desaturate(@brand-red, 20%);
+                }
             }
+
             .ui-accordion-header{
                 background  : @cpanel-header-bg;
-                margin      : 0 0 1px;
                 font-weight : bold;
                 color       : @cpanel-header-color;
 
@@ -167,8 +174,9 @@
                 }
 
                 a{
-                    background : none;
-                    color      : @link-color;
+                    background  : none;
+                    color       : @link-color;
+                    font-weight : normal;
 
                     &:hover{
                         color : @link-color-hover;
@@ -178,28 +186,6 @@
                 .cpanelsubtitle{
                     padding    : @padding-base-vertical @padding-base-horizontal;
                     background : @cpanel-subtitle-bg;
-                }
-            }
-        }
-    }
-
-    .menu-links{
-        margin : 0;
-        li{
-            list-style : none;
-            margin     : 0;
-
-            a{
-                display         : block;
-                font-weight     : bold;
-                text-decoration : none;
-                font-size       : 16px;
-                color           : @gray-light;
-                background      : @cpanel-header-bg;
-                padding         : @padding-base-vertical @padding-base-horizontal;
-
-                &.logout:hover{
-                    background : desaturate(@brand-red, 20%);
                 }
             }
         }
