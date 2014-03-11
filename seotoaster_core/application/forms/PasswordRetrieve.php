@@ -11,7 +11,7 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 
 		$this->setAttribs(array(
 			'id'     => 'password-retrive',
-			'class'  => 'grid_12 mt20px mb20px',
+//			'class'  => 'grid_12 mt20px mb20px',
 			'method' => Zend_Form::METHOD_POST
 		));
 
