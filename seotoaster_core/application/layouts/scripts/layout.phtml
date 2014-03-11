@@ -1,70 +1,61 @@
 <?php echo $this->doctype(); ?>
+
 <!--[if IE 7 ]><html class="ie ie7" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
-<!--[if !(IE)]><!--> <html lang="<?php echo $this->htmlLang; ?>"> <!--<![endif]-->
-	<head>
-		<?php echo $this->headTitle();?>
+<!--[if !(IE)]><!-->
+<html lang="<?php echo $this->htmlLang; ?>">
+<!--<![endif]-->
+    <head>
+<?php echo $this->headMeta()->setIndent(8); ?>
 
-		<?php if($this->doctype()->isHtml5()) $this->headMeta()->setCharset('utf-8'); ?>
-		<?php echo $this->headMeta(); ?>
-
-		<?php if(!preg_match('~<link rel="canonical" href=".*"[\s/]*>~is', $this->head)): ?>
-		<link rel="canonical" href="<?php echo $this->canonicalUrl; ?>" >
-		<?php endif; ?>
-
-		<?php $this->jQuery()->enable(); ?>
-		<?php $this->jQuery()->uiEnable(); ?>
+        <?php echo $this->headTitle(); ?>
 
         <?php
-            $this->headLink()
-                ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
-                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css');
-        ?>
+        // link and script block start
+        //adding canonical link
 
-		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
-            <?php
-                if(empty($this->bodyTag)){
-                    $this->headLink()
-                        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
-                        ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
-                }else{
-                    $this->headLink()
-                        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-reset.css');
-                }
-            ?>
-		<?php endif; ?>
+        $this->headLink()->setIndent(8)
+            ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
+            ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css');
 
-		<?php
-//		if (APPLICATION_ENV === 'production') {
+        $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
+
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+            if (empty($this->bodyTag)) {
+                $this->headLink()
+                    ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
+                    ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
+            } else {
+                $this->headLink()
+                    ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-reset.css');
+            }
+        }
+
 		if (isset($this->minify) && $this->minify === true) {
 			echo Tools_System_Minify::minify($this->headLink(), false);
 		} else {
 			echo $this->headLink();
 		}
-		?>
 
-		<?php
 		$this->jQuery()
+            ->uiEnable()
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js');
-		?>
 
-		<?php $this->headScript()->setAllowArbitraryAttributes(true)
-			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js'); ?>
+        $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js');
 
-		<?php
         echo $this->jQuery();
-//		if (APPLICATION_ENV === 'production') {
 		if (isset($this->minify) && $this->minify === true)  {
 			echo Tools_System_Minify::minify($this->headScript());
 		} else {
 			echo $this->headScript();
 		}
-		?>
-		<?php
+        // link and script block end
+
 		echo $this->placeholder('misc');
 		echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
 		?>
@@ -87,6 +78,6 @@
              */
             echo $this->placeholder('plugins');
         ?>
-	</body>
-</html>
 
+    </body>
+</html>
