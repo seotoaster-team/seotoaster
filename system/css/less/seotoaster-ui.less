@@ -1,5 +1,23 @@
 @import "base/variables";
 
+@activate-module-carousel               : false;
+@activate-module-alert                  : true;
+@activate-module-accordion              : true;
+@activate-module-tabs                   : true;
+@activate-module-dialog                 : true;
+@activate-module-datepicker             : true;
+@activate-module-autocomplete           : true;
+@activate-module-tooltips               : true;
+    @activate-module-tooltips-color-red    : true;
+    @activate-module-tooltips-color-blue   : true;
+    @activate-module-tooltips-color-green  : true;
+    @activate-module-tooltips-color-orange : true;
+@activate-module-range                  : true;
+@activate-module-progressbar            : true;
+@activate-module-chosen                 : false;
+@activate-module-pagination             : false;
+@activate-module-scrollbar              : false;
+
 // Overlays
 .ui-widget-overlay{
     position   : fixed;
@@ -28,7 +46,7 @@
 .activate-toaster-icon(@activate-toaster-icons);
 
 .btn, button, [type="submit"]{
-    background-image: none !important;
+    background-image: none;
     .button();
 }
 
