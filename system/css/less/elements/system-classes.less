@@ -78,7 +78,8 @@
     .activate-color-red(@activate-alternate-style-color-red);
     .activate-color-blue(@activate-alternate-style-color-blue);
 }
-.activate-color(@activate-alternate-style-color, @activate-alternate-style);
+    .activate-color(@activate-alternate-style-color, @activate-alternate-style)
+;
 
 // Social Links
 //==================================================
@@ -123,7 +124,8 @@
         }
     }
 }
-.activate-list-social-links(@activate-list-social-links);
+    .activate-list-social-links(@activate-list-social-links)
+;
 
 // Social Field
 //==================================================
@@ -132,14 +134,14 @@
         .labeled{
             float  : left;
             margin : 0;
-            cursor: pointer;
+            cursor : pointer;
 
             &+.labeled{
                 margin-left : @grid-margin-width / 2;
             }
 
             [class*="icon-"]{
-                float      : left;
+                float : left;
                 .icon-size(@btn-height-base);
             }
 
@@ -155,7 +157,8 @@
         }
     }
 }
-.activate-list-social-field(@activate-social-fields);
+    .activate-list-social-field(@activate-social-fields)
+;
 
 // Change style for Generator Links
 //==================================================
@@ -186,7 +189,8 @@
         }
     }
 }
-.activate-generator-links(@activate-list-social-links, @activate-toaster-icons);
+    .activate-generator-links(@activate-list-social-links, @activate-toaster-icons)
+;
 
 .activate-list-testimonials(@activate) when (@activate = true){
     .list-testimonials{
@@ -243,7 +247,8 @@
         }
     }
 }
-.activate-list-testimonials(@activate-list-testimonials);
+    .activate-list-testimonials(@activate-list-testimonials)
+;
 
 // Table classes
 //==================================================
@@ -318,6 +323,10 @@
     z-index    : 100;
     display    : none;
     .box-shadow(0 0 25px @gray);
+
+    &.w100{
+        width : 100%;
+    }
 }
 .show-right{
     right : 0;

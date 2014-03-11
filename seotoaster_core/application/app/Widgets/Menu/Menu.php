@@ -127,6 +127,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
             $menuHtml = '<ul>';
         }
 
+        $i = 0;
         foreach ($pages as $k => $page) {
             $menuItemTemplate = $template;
             $dictionary['$page:preview'] = '<img class="page-teaser-image" src="' . Tools_Page_Tools::getPreview(
@@ -155,7 +156,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                 $menuItemTemplate = preg_replace('~{(submenu|ifpages)}.*{/(submenu|ifpages)}~siuU', '', $template);
             }
 
-            $menuHtml .= '<li class="' . ($parentCategoryPage === null ? 'category cat-' . ($k + 1) : 'page') . '">';
+            $menuHtml .= '<li class="' . ($parentCategoryPage === null ? 'category cat-' . ($i++) : 'page') . '">';
             $menuHtml .= $entityParser->setDictionary($dictionary)->parse($menuItemTemplate);
             $menuHtml .= '</li>';
         }
