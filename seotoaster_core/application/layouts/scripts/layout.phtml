@@ -9,19 +9,19 @@
     <head>
 <?php echo $this->headMeta()->setIndent(8); ?>
 
-        <?php echo $this->headTitle();?>
-
-        <link rel="canonical" href="<?php echo $this->canonicalUrl; ?>">
+        <?php echo $this->headTitle(); ?>
 
         <?php
-        $this->headLink()
+        // link and script block start
+        //adding canonical link
+
+        $this->headLink()->setIndent(8)
             ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
             ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css');
-        ?>
 
-		<?php
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) ||
-            Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED,$this->roleId)) {
+        $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
+
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
             if (empty($this->bodyTag)) {
                 $this->headLink()
                     ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
@@ -31,37 +31,31 @@
                     ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-reset.css');
             }
         }
-        ?>
 
-		<?php
 		if (isset($this->minify) && $this->minify === true) {
 			echo Tools_System_Minify::minify($this->headLink(), false);
 		} else {
 			echo $this->headLink();
 		}
-		?>
 
-		<?php
 		$this->jQuery()
             ->uiEnable()
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
 			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js');
-		?>
 
-		<?php $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js'); ?>
+        $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js');
 
-		<?php
         echo $this->jQuery();
 		if (isset($this->minify) && $this->minify === true)  {
 			echo Tools_System_Minify::minify($this->headScript());
 		} else {
 			echo $this->headScript();
 		}
-		?>
-		<?php
+        // link and script block end
+
 		echo $this->placeholder('misc');
 		echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
 		?>
