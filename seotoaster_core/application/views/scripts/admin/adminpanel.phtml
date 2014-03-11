@@ -127,10 +127,12 @@
             <?php endif; ?>
             <!-- /output plugins additional menus -->
         <?php endif; ?>
-
 	</ul>
 	<?php endif; ?>
     <ul class="menu-links">
+        <li>
+            <a href="javascript:;" id="cleancache" title="<?php echo $this->translate('Clean cache'); ?>"><?php echo $this->translate('CLEAN CACHE'); ?></a>
+        </li>
         <li>
 			<a class="logout" href="<?php echo $this->websiteUrl; ?>logout/" title="Logout"><?php echo $this->translate('LOGOUT'); ?></a>
          </li>
