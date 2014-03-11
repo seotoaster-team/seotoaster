@@ -58,6 +58,8 @@ $(function() {
 
     // Clean all cache
     $('#cleancache').on('click', function() {
+        showMessage('Clearing cache...', false);
+
         $.get($('#website_url').val() + 'backend/backend_content/cleancache/', function(response) {
             if (response.error == 0) {
                 showMessage(response.responseText, false, 2500);
