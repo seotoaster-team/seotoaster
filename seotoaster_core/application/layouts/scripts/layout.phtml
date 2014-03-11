@@ -18,7 +18,8 @@
 
         <?php
             $this->headLink()
-                ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css');
+                ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
+                ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css');
         ?>
 
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED) || Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED, $this->roleId)): ?>
@@ -29,7 +30,6 @@
                         ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
                 }else{
                     $this->headLink()
-                        ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css')
                         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-reset.css');
                 }
             ?>
