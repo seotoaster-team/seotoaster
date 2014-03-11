@@ -283,7 +283,7 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
 ///////// checkbox & radio button //////////////
 function checkboxRadio(){
     if($('.seotoaster').length && !$('.ie8').length){
-        $('input:checkbox, input:radio').not('.processed, .icon, .hidden').each(function(){
+        $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
             $(':radio').addClass('radio-upgrade filed-upgrade');
             $(':checkbox').addClass('checkbox-upgrade filed-upgrade');
             if(!$(this).closest('.btn-set').length){

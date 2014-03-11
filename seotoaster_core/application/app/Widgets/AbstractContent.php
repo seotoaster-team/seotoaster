@@ -16,7 +16,7 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 	protected $_cachePrefix = 'content_';
 
     protected function _generateAdminControl($width = 0, $height = 0, $hint = '') {
-        if(in_array(self::OPTION_READONLY, $this->_options)) {
+        if (end($this->_options) == self::OPTION_READONLY) {
             return false;
         }
         $controlIcon = 'editadd';

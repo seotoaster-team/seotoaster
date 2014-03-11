@@ -1,14 +1,14 @@
 @import "base/variables";
-    // Table of Content
-    //==================================================
-    //	Reset & Basics
-    //	Reset Form
-    //	Grid system
-    //  Reset for all navigation items, related-products
-    //==================================================
+// Table of Content
+//==================================================
+//	Reset & Basics
+//	Reset Form
+//	Grid system
+//  Reset for all navigation items, related-products
+//==================================================
 
-    //  Fonts
-    //==================================================
+//  Fonts
+//==================================================
 @import "elements/fonts";
 
 // Reset & Basics
@@ -230,23 +230,6 @@ button[disabled], html input[disabled]{
 //==================================================
 @import "elements/grid";
 
-// Overlays
-.ui-widget-overlay{
-    position   : fixed;
-    top        : 0;
-    right      : 0;
-    bottom     : 0;
-    left       : 0;
-    z-index    : 1000;
-    background : #000;
-    .opacity(0.5);
-
-    &~.ui-widget-overlay{
-        display : none;
-    }
-}
-
-
 //--- Position
 .position-list(none, top);
 .position-list(none, bottom);
@@ -262,8 +245,8 @@ button[disabled], html input[disabled]{
 .margin-list(10%, right, 1);
 .margin-list(10%, left, 1);
 
-.ml-grid{ margin-left : @grid-margin-width / 2; }
-.mr-grid{ margin-right : @grid-margin-width / 2; }
+.ml-grid{ margin-left : @grid-margin-width / 2 !important; }
+.mr-grid{ margin-right : @grid-margin-width / 2 !important; }
 
 ////--- Padding
 .padding-list(10px);
@@ -277,3 +260,19 @@ button[disabled], html input[disabled]{
 
 //--- Width
 .width-list(100%, 5);
+
+// Overlays
+.ui-widget-overlay{
+    position   : fixed;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    left       : 0;
+    z-index    : 1000;
+    background : #000;
+    .opacity(0.5);
+
+    &~.ui-widget-overlay{
+        display : none;
+    }
+}

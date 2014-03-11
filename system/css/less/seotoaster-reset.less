@@ -1,7 +1,20 @@
 @import "base/variables";
 
 .unpublished{
-    border: 1px dashed @brand-red;
+    border : 1px dashed @brand-red;
+}
+
+.container-wrapper{
+    padding : @padding-small-vertical;
+
+    &:hover{
+        outline : 1px dashed @gray;
+    }
+}
+
+.ui-button, .btn{
+    .button();
+    border : none;
 }
 
 .ui-helper-hidden{ display : none; }
@@ -170,11 +183,12 @@
         }
     }
 
-    #logoutul{
+    .menu-links{
         margin : 0;
         li{
             list-style : none;
             margin     : 0;
+
             a{
                 display         : block;
                 font-weight     : bold;
@@ -183,7 +197,8 @@
                 color           : @gray-light;
                 background      : @cpanel-header-bg;
                 padding         : @padding-base-vertical @padding-base-horizontal;
-                &:hover{
+
+                &.logout:hover{
                     background : desaturate(@brand-red, 20%);
                 }
             }
@@ -193,4 +208,5 @@
 
 // Alert Styles
 //==================================================
-@import "modules/alert-for-page"; // http://smoke-js.com/
+@import "modules/alert-for-page";
+// http://smoke-js.com/
