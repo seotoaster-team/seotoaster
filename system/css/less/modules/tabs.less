@@ -11,7 +11,7 @@
     cursor : pointer;
 }
 
-.ui-tabs-nav:not([class*="list-"]){
+.ui-tabs-nav{
     background    : @tabs-nav-bg;
     font-size     : 0;
     margin-bottom : 0;
@@ -119,6 +119,10 @@
         border-top : 0;
         position   : relative;
         z-index    : 1;
+    }
+
+    .ui-tabs-vertical &{
+        clear : none;
     }
 }
 

@@ -135,29 +135,26 @@
             list-style : none;
 
             a{
-                margin          : 0 0 1px;
+                margin-top      : 1px;
                 padding         : @padding-small-vertical @padding-small-horizontal;
                 display         : block;
                 text-decoration : none;
                 font-size       : 16px;
                 font-weight     : bold;
-                color           : @gray-light;
+                color       : @cpanel-header-color;
                 background      : @cpanel-header-bg;
 
                 &.logout:hover{
                     background : desaturate(@brand-red, 20%);
                 }
-            }
-
-            .ui-accordion-header{
-                background  : @cpanel-header-bg;
-                font-weight : bold;
-                color       : @cpanel-header-color;
 
                 &:hover{
                     background : @cpanel-header-bg-hover;
                     color      : @cpanel-header-color-hover;
                 }
+            }
+
+            .ui-accordion-header{
 
                 &.ui-accordion-header-active{
                     background : @cpanel-header-bg-active;
