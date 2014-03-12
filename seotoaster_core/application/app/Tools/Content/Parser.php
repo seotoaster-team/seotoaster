@@ -19,6 +19,11 @@ class Tools_Content_Parser {
 
 	private $_iteration = 0;
 
+    /* Full page cache start */
+
+    /* Full page cache end */
+
+
 	public function  __construct($content = null, $pageData = null, $options = null) {
 		if(null !== $content) {
 			$this->_content = $content;
@@ -39,6 +44,18 @@ class Tools_Content_Parser {
 		$this->_changeMedia();
         $this->_iteration = 0;
 		$this->_runMagicSpaces();
+
+        $a = Helpers_Action_Cache::TAG_FULLPAGE;
+        $b = md5($this->_pageData['url']);
+        $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+        $this->_cache->save(
+            md5($this->_pageData['url']),
+            $this->_content,
+            Helpers_Action_Cache::PREFIX_FULLPAGE,
+            array(Helpers_Action_Cache::TAG_FULLPAGE),
+            Helpers_Action_Cache::CACHE_WEEK
+        );
+
 		return $this->_content;
 	}
 
