@@ -71,23 +71,29 @@ class Backend_PluginController extends Zend_Controller_Action {
             $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
             $plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
             $miscData     = Zend_Registry::get('misc');
-            $statusFile   = ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) ? Application_Model_Models_Plugin::INSTALL_FILE_NAME : Application_Model_Models_Plugin::UNINSTALL_FILE_NAME;
-            $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
 
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+                $statusFile = Application_Model_Models_Plugin::INSTALL_FILE_NAME;
+                $observerAction = Tools_Plugins_GarbageCollector::CLEAN_ONCREATE;
+            } else {
+                $statusFile = Application_Model_Models_Plugin::UNINSTALL_FILE_NAME;
+                $observerAction = Tools_Plugins_GarbageCollector::CLEAN_ONDELETE;
+            }
+
+            $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
             if (file_exists($sqlFilePath)) {
                 try {
                     $sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
                     if (strlen($sqlFileContent)) {
-                        //@todo change unsafe explode in next line
                         $queries = Tools_System_SqlSplitter::split($sqlFileContent);
                         if (is_array($queries) && !empty ($queries)) {
                             $dbAdapter = Zend_Registry::get('dbAdapter');
                             try {
-                                array_walk($queries, function($query, $key, $adapter) {
+                                array_walk($queries, function($query) use ($dbAdapter) {
                                     if(strlen(trim($query))) {
-                                        $adapter->query($query);
+                                        $dbAdapter->query($query);
                                     }
-                                }, $dbAdapter);
+                                });
                             }
                             catch (Exception $e) {
                                 error_log($e->getMessage());
@@ -102,9 +108,11 @@ class Backend_PluginController extends Zend_Controller_Action {
                 }
             }
 
-            $plugin->registerObserver(new Tools_Plugins_GarbageCollector(
-                array('action' => $statusFile)
-            ));
+            $plugin->registerObserver(
+                new Tools_Plugins_GarbageCollector(
+                    array('action' => $observerAction)
+                )
+            );
 
             if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
                 $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
@@ -123,17 +131,25 @@ class Backend_PluginController extends Zend_Controller_Action {
         }
     }
 
-	public function triggerAction() {
-		if($this->getRequest()->isPost()) {
-			$plugin                   = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
-			$plugin->registerObserver(
-				new Tools_Plugins_GarbageCollector(array('action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE))
-			);
-			$this->view->responseText = Application_Model_Mappers_PluginMapper::getInstance()->save($plugin->setStatus(($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? Application_Model_Models_Plugin::DISABLED : Application_Model_Models_Plugin::ENABLED));
-			$this->view->buttonText   = ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) ? 'Disable' : 'Enable';
-			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
-		}
-	}
+    public function triggerAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $plugin = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
+            $plugin->registerObserver(
+                new Tools_Plugins_GarbageCollector(array('action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE))
+            );
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED) {
+                $plugin->setStatus(Application_Model_Models_Plugin::DISABLED);
+                $buttonText = 'Enable';
+            } else {
+                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
+                $buttonText = 'Disable';
+            }
+            $this->view->responseText = Application_Model_Mappers_PluginMapper::getInstance()->save($plugin);
+            $this->view->buttonText = $buttonText;
+            $this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
+        }
+    }
 
 	public function deleteAction() {
 		if($this->getRequest()->isPost()) {
