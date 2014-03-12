@@ -29,7 +29,7 @@ class Tools_System_Minify {
                 continue;
             }
             $path = str_replace($websiteHelper->getUrl(), '', $css->href);
-            if (!file_exists($websiteHelper->getPath() . $path)) {
+            if (!is_file($websiteHelper->getPath().$path) || !file_exists($websiteHelper->getPath().$path)) {
                 continue;
             }
             $hash = sha1_file($websiteHelper->getPath() . $path);
