@@ -96,7 +96,6 @@
 				<?php endif; ?>
                 <li><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Plugins'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                 <li><?php echo $this->toasterLink('backend_update', 'index', $this->translate('Update'), false, false, array('width' => '480', 'height' => '560')); ?></li>
-                <li><a href="javascript:;" id="cleancache" title="<?php echo $this->translate('Clean cache'); ?>"><?php echo $this->translate('Clean cache'); ?></a></li>
 			<?php if(isset($this->additionalMenu) && isset($this->additionalMenu['OTHER']) && isset($this->additionalMenu['OTHER']['items'])): ?>
 			<?php foreach($this->additionalMenu['OTHER']['items'] as $item):?>
 				<?php echo $this->toasterAdminpanelItem($item); ?>
@@ -127,10 +126,12 @@
             <?php endif; ?>
             <!-- /output plugins additional menus -->
         <?php endif; ?>
-
 	</ul>
 	<?php endif; ?>
     <ul class="menu-links">
+        <li>
+            <a href="javascript:;" id="cleancache" title="<?php echo $this->translate('Clean cache'); ?>"><?php echo $this->translate('CLEAN CACHE'); ?></a>
+        </li>
         <li>
 			<a class="logout" href="<?php echo $this->websiteUrl; ?>logout/" title="Logout"><?php echo $this->translate('LOGOUT'); ?></a>
          </li>
