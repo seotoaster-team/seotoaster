@@ -136,7 +136,8 @@ function saveCategoriesOrder() {
 }
 
 function removeMarks(elements){
-        if(elements.length !== 'undefined' && elements.length > 1){
+    if(elements !== 'undefined'){
+        if(elements.length > 1){
             $.each(elements,function(key,el){
                 $(el).removeClass("selected");
                 $(el).find("input[type='checkbox']").attr("checked", false);
@@ -145,6 +146,5 @@ function removeMarks(elements){
             $(elements).removeClass("selected");
             $(elements).find("input[type='checkbox']").attr("checked", false);
         }
-
-
+    }
 }
