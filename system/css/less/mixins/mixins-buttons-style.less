@@ -227,7 +227,7 @@
 // and disabled options for all buttons
 .link-color(@color, @eachColor: true) when (@eachColor = true){
     color            : @color;
-    background-color : transparent;
+    background-color : transparent !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
@@ -257,7 +257,7 @@
 
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
     color            : @color;
-    background-color : transparent;
+    background-color : transparent !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
