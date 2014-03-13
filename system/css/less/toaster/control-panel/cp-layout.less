@@ -27,6 +27,7 @@
 .ace_editor{
     position : relative !important;
     width    : 100%;
+    margin   : 0;
 
     .ace_gutter{
 
@@ -53,7 +54,7 @@
 }
 #themes-uploader, #themes-uploader-filelist{
     overflow    : hidden;
-    max-height      : 40px;
+    max-height  : 40px;
     line-height : 40px;
 }
 #themes-list{
@@ -64,18 +65,11 @@
 
     .themebox{
         .background(0);
+        overflow      : hidden;
         position      : relative;
         float         : left;
-        .grid-elements(6, 2, true);
         margin-bottom : 2%;
-
-        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6){
-            margin-top : 0;
-        }
-
-        &:nth-child(6n+1){
-            margin-left : 0.1%;
-        }
+        .grid-elements(6, 2, true);
 
         &:hover{
             background : @gray-light;
@@ -83,16 +77,22 @@
             .lnk-download, .lnk-current, .lnk-delete, .apply-button{
                 .opacity(1);
             }
+
+            .theme-preview-img img{
+                .opacity(0.5);
+            }
         }
 
         .lnk-download, .lnk-current, .lnk-delete, .apply-button{
             .opacity(0);
             .transition();
         }
+
         .lnk-download{
             position : absolute;
             top      : 0;
             left     : 0;
+            z-index  : 5;
 
             &:hover{
                 &+.download-options{
@@ -100,12 +100,12 @@
                 }
             }
             &+.download-options{
-                overflow   : hidden;
-                position   : absolute;
-                top        : -100px;
-                left       : 0;
-                right      : 0;
-                z-index    : 1;
+                overflow : hidden;
+                position : absolute;
+                top      : -100px;
+                left     : 0;
+                right    : 0;
+                z-index  : 10;
                 .transition();
 
                 &:hover{
@@ -123,7 +123,7 @@
             position : absolute;
             top      : 0;
             right    : 0;
-            z-index  : 0;
+            z-index  : 5;
         }
 
         .lnk-current:hover{
@@ -137,8 +137,10 @@
         }
         .theme-preview-img{
             height      : 138px;
-            //line-height : 138px;
+            line-height : 138px;
             overflow    : hidden;
+            text-align  : center;
+            background  : #fff;
         }
         .apply-button{
             position : absolute;

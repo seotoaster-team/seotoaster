@@ -11,12 +11,9 @@ $(function() {
 
 	//seotoaster admin panel cookie
 	if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') == 1) {
-		$('#cpanelul').hide();
-		$('#logoutul').hide();
-		$('#seotoaster-logowrap').hide();
+		$('#cpanelul, .menu-links, #seotoaster-logowrap').hide();
 		$('#showhide > a').text('Expand menu'); //.addClass('rounded-bottom');
 	}
-
 
 	$('#cpanelul').accordion({
         heightStyle: 'content',
