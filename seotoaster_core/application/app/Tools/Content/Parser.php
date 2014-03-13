@@ -11,22 +11,18 @@ class Tools_Content_Parser {
 
     const OPTIONS_SEPARATOR  = ':';
 
-	private $_pageData  = null;
+	private $_pageData       = null;
 
-	private $_content   = null;
+	private $_content        = null;
 
-	private $_options   = array();
+	private $_options        = array();
 
-	private $_iteration = 0;
-
-    /* Full page cache start */
-
-    /* Full page cache end */
-
+	private $_iteration      = 0;
 
 	public function  __construct($content = null, $pageData = null, $options = null) {
 		if(null !== $content) {
-			$this->_content = $content;
+			$this->_content         = $content;
+            $this->_fullPageContent = $content;
 		}
 		if(null !== $pageData) {
 			$this->_pageData = $pageData;
@@ -45,14 +41,20 @@ class Tools_Content_Parser {
         $this->_iteration = 0;
 		$this->_runMagicSpaces();
 
-        $a = Helpers_Action_Cache::TAG_FULLPAGE;
-        $b = md5($this->_pageData['url']);
         $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+
+
+        $fullPageData = array(
+            'content'       => $this->_fullPageContent,
+            'pageData'      => $this->_pageData,
+            'parserOptions' => $this->_options
+        );
+
         $this->_cache->save(
             md5($this->_pageData['url']),
-            $this->_content,
+            $fullPageData,
             Helpers_Action_Cache::PREFIX_FULLPAGE,
-            array(Helpers_Action_Cache::TAG_FULLPAGE),
+            array(Helpers_Action_Cache::TAG_FULLPAGE, $this->_pageData['url']),
             Helpers_Action_Cache::CACHE_WEEK
         );
 
@@ -109,13 +111,17 @@ class Tools_Content_Parser {
 		}
 		foreach ($widgets as $widgetData) {
 			try {
-				$widget = Tools_Factory_WidgetFactory::createWidget($widgetData['name'], $widgetData['options'], array_merge($this->_pageData, $this->_options));
-				$replacement = (is_object($widget)) ? $widget->render() : $widget;
+                $widget = Tools_Factory_WidgetFactory::createWidget(
+                    $widgetData['name'],
+                    $widgetData['options'],
+                    array_merge($this->_pageData, $this->_options)
+                );
+                $replacement = (is_object($widget)) ? $widget->render() : $widget;
 			}
 			catch (Exceptions_SeotoasterException $se) {
 				$replacement = $se->getMessage() . ' Can not load widget: <b>' . $widgetData['name'] . '</b>';
 			}
-			$this->_replace($replacement, $widgetData['name'], $widgetData['options']);
+			$this->_replace($replacement, $widgetData, $widget);
 		}
 		$this->_parse();
 	}
@@ -165,12 +171,14 @@ class Tools_Content_Parser {
                 }
 
 				try {
-                    $this->_content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
+                    $content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
                         $spaceName,
                         $this->_content,
                         array_merge($this->_pageData, $this->_options),
                         $parameters
                     )->run();
+                    $this->_fullPageContent = $content;
+                    $this->_content = $content;
 				}
 				catch (Exception $e) {
 					Tools_System_Tools::debugMode() && error_log($e->getMessage());
@@ -184,12 +192,20 @@ class Tools_Content_Parser {
 		}
 	}
 
-	private function _replace($replacement, $name, $options = array()) {
+	private function _replace($replacement, $widgetData, $widgetObj) {
 		$optString = '';
-		if(!empty($options)) {
-			$optString = ':' . implode(':', $options);
+		if (!empty($widgetData['options'])) {
+			$optString = self::OPTIONS_SEPARATOR.implode(self::OPTIONS_SEPARATOR, $widgetData['options']);
 		}
-		$this->_content = str_replace('{$' . $name . $optString . '}', $replacement, $this->_content);
+
+		$this->_content = str_replace('{$'.$widgetData['name'].$optString.'}', $replacement, $this->_content);
+
+        if ($widgetObj->getCacheable() === true) {
+            $this->_fullPageContent = str_replace(
+                '{$'.$widgetData['name'].$optString.'}',
+                $replacement,
+                $this->_fullPageContent
+            );
+        }
 	}
 }
-

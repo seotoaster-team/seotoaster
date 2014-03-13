@@ -34,6 +34,21 @@ class IndexController extends Zend_Controller_Action {
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
 		$pageCacheKey = md5($pageUrl);
+
+        $pageFull = $this->_helper->cache->load(
+            $pageUrl == '' ? md5('index.html') : $pageCacheKey,
+            Helpers_Action_Cache::PREFIX_FULLPAGE
+        );
+
+        if ($pageFull !== null) {
+            $pageFull['pageData']['content'] = $pageFull['content'];
+            $parser      = new Tools_Content_Parser($pageFull['content'], $pageFull['pageData'], $pageFull['parserOptions']);
+            $pageContent = $parser->parse();
+
+            $this->_complete($pageContent,  $pageFull['pageData'], $pageFull['parserOptions']);
+        }
+        else {
+
         if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
             $page = $this->_helper->cache->load($pageCacheKey, 'pagedata_');
         }
@@ -122,6 +137,7 @@ class IndexController extends Zend_Controller_Action {
 
 		// Finalize page generation routine
 		$this->_complete($pageContent, $pageData, $parserOptions);
+        }
 	}
 
 

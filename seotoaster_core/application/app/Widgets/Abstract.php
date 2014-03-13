@@ -60,6 +60,9 @@ abstract class Widgets_Abstract  implements Zend_Acl_Resource_Interface {
 		return Tools_Security_Acl::RESOURCE_WIDGETS;
 	}
 
+    public function getCacheable() {
+        return $this->_cacheable;
+    }
 
 	public function render() {
 		$content = null;

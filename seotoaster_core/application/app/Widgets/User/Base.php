@@ -25,6 +25,8 @@ class Widgets_User_Base extends Widgets_Abstract {
 
     protected $_cacheable = false;
 
+    protected $_cacheableFull = false;
+
     protected $_editableMode = false;
 
     protected function _init() {
