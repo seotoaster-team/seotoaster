@@ -444,47 +444,62 @@ class Tools_Plugins_Tools {
 		return $route;
 	}
 
-	public static function findAvialablePlugins() {
+    /**
+     * @deprecated
+     */
+    public static function findAvialablePlugins() {
+        return self::findAvailablePlugins();
+    }
+
+    /**
+     * Return list of available plugins
+     * @return array List of plugins
+     */
+    public static function findAvailablePlugins()
+    {
+        $website = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+        $misc = Zend_Registry::get('misc');
+        $pluginsPath = $website->getPath() . $misc['pluginsPath'];
+        $pluginsDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($pluginsPath);
+        $plugins = array();
+        if (!empty ($pluginsDirs)) {
+            foreach ($pluginsDirs as $pluginDir) {
+                $fullPluginPath = $pluginsPath . DIRECTORY_SEPARATOR . $pluginDir . DIRECTORY_SEPARATOR;
+
+                // check if plugin is bundle, then do not show in the plugin management screen
+                if (is_file($fullPluginPath . '.bundle')) {
+                    continue;
+                }
+
+                if (is_readable($fullPluginPath . 'readme.txt')
+                    && is_readable($fullPluginPath . ucfirst($pluginDir) . '.php')
+                ) {
+                    $plugins[] = $pluginDir;
+                }
+
+            }
+        }
+        return $plugins;
+    }
+
+    /**
+     * Find preview file url for plugin
+     * @param $pluginName Plugin name
+     * @return bool|string Plugin preview URL. False if nothing found
+     */
+    public static function findPluginPreview($pluginName) {
 		$website     = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$misc        = Zend_Registry::get('misc');
-		$pluginsPath = $website->getPath() . $misc['pluginsPath'];
-		$pluginsDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($pluginsPath);
-		$plugins     = array();
-		if(!empty ($pluginsDirs)) {
-			foreach ($pluginsDirs as $pluginDir) {
-                // TODO: refactor
-				$required = array(
-					'readme.txt',
-					ucfirst($pluginDir) . '.php'
-				);
-				$pluginDirContent = Tools_Filesystem_Tools::scanDirectory($pluginsPath . '/' . $pluginDir, false, false);
+        $files = glob(
+            $website->getPath() . $misc['pluginsPath'] . $pluginName . DIRECTORY_SEPARATOR . 'preview.{png,jpg,jpeg,gif}',
+            GLOB_BRACE
+        );
 
-				// check if plugin is bundle, then do not show in the plugin management screen
-				if(in_array('.bundle', $pluginDirContent)) {
-					continue;
-				}
+        if (!empty($files)) {
+            $preview = str_replace($website->getPath(), $website->getUrl(), reset($files));
+            return $preview;
+        }
 
-				if($required == (array_intersect($required, $pluginDirContent))) {
-					$plugins[] = $pluginDir;
-				}
-			}
-		}
-		return $plugins;
-	}
-
-	public static function findPluginPreview($pluginName) {
-		$website     = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
-		$misc        = Zend_Registry::get('misc');
-		$pluginsPath = $website->getPath() . $misc['pluginsPath'] . $pluginName;
-		$files       = Tools_Filesystem_Tools::scanDirectory($pluginsPath, false, false);
-		array_walk($files, function($file) {
-			if(preg_match('~^preview\.(jpg|gif|png)$~ui', $file)) {
-				Zend_Registry::set('previewFile', $file);
-			}
-		});
-		if(Zend_Registry::isRegistered('previewFile')) {
-			return $website->getUrl() . $misc['pluginsPath'] . $pluginName . '/' .Zend_Registry::get('previewFile');
-		}
 		return false;
 	}
 
