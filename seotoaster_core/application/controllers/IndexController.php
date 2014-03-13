@@ -12,7 +12,6 @@ class IndexController extends Zend_Controller_Action {
 		$page          = null;
 		$pageContent   = null;
 
-        // @todo move it to separate method?
         $currentUser = $this->_helper->session->getCurrentUser();
 
 	    // tracking referer
@@ -26,21 +25,7 @@ class IndexController extends Zend_Controller_Action {
 		// Getting requested url. If url is not specified - get index.html
 		$pageUrl = $this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE);
 
-        // Mobile switch
-        if ($this->_request->isGet() && $this->_request->has('mobileSwitch')) {
-            $showMobile = filter_var($this->_request->getParam('mobileSwitch'), FILTER_SANITIZE_NUMBER_INT);
-            if (!is_null($showMobile)) {
-                $this->_helper->session->mobileSwitch = (bool) $showMobile;
-            }
-        }
-
-        if (!isset($showMobile) && isset($this->_helper->session->mobileSwitch)) {
-            $showMobile = $this->_helper->session->mobileSwitch;
-        } else {
-            $showMobile = $this->_helper->mobile->isMobile();
-        }
-
-		// Trying to do canonic redirects
+		// Trying to do canonical redirects
 		$this->_helper->page->doCanonicalRedirect($pageUrl);
 
 		//Check if 301 redirect is present for requested page then do it
@@ -66,7 +51,6 @@ class IndexController extends Zend_Controller_Action {
 
 		// If page doesn't exists in the system - show 404 page
 		if($page === null) {
-			//@todo move to separate method
 			//show 404 page and exit
 
 			$page = Application_Model_Mappers_PageMapper::getInstance()->find404Page();
@@ -84,23 +68,34 @@ class IndexController extends Zend_Controller_Action {
 		}
 
         //if requested page is not allowed - redirect to the signup landing page
-        if(!Tools_Security_Acl::isAllowed($page)) {
+        if (!Tools_Security_Acl::isAllowed($page)) {
             $signupLanding = Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_SIGNUPLAND);
             $this->_helper->redirector->gotoUrl(($signupLanding instanceof Application_Model_Models_Page) ? $this->_helper->website->getUrl() . $signupLanding->getUrl() : $this->_helper->website->getUrl());
         }
 
-        //Check if page caching is allowed for current user
-        /*if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE, $currentUser)) {
-            $pageContent = $this->_helper->cache->load($pageUrl, 'page_');
-        }*/
-
-        // Mobile detect
-        if ((bool) $this->_config->getConfig('enableMobileTemplates') && $showMobile === true) {
-            $mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId());
-            if (null !== ($mobileTemplate)) {
-                $page->setTemplateId($mobileTemplate->getName())->setContent($mobileTemplate->getContent());
+        // Mobile switch
+        if ((bool) $this->_config->getConfig('enableMobileTemplates')) {
+            if ($this->_request->isGet() && $this->_request->has('mobileSwitch')) {
+                $showMobile = filter_var($this->_request->getParam('mobileSwitch'), FILTER_SANITIZE_NUMBER_INT);
+                if (!is_null($showMobile)) {
+                    $this->_helper->session->mobileSwitch = (bool) $showMobile;
+                }
             }
-            unset($mobileTemplate);
+
+            if (!isset($showMobile) && isset($this->_helper->session->mobileSwitch)) {
+                $showMobile = $this->_helper->session->mobileSwitch;
+            } else {
+                $showMobile = $this->_helper->mobile->isMobile();
+            }
+
+            // Mobile detect
+            if ($showMobile === true) {
+                $mobileTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find('mobile_'.$page->getTemplateId());
+                if (null !== ($mobileTemplate)) {
+                    $page->setTemplateId($mobileTemplate->getName())->setContent($mobileTemplate->getContent());
+                }
+                unset($mobileTemplate);
+            }
         }
 
         $pageData = $page->toArray();
@@ -154,6 +149,10 @@ class IndexController extends Zend_Controller_Action {
 
 		preg_match('~(<body[^\>]*>)(.*)</body>~usi', $pageContent, $body);
 
+        // setting default charset
+        if ($this->view->doctype()->isHtml5()) {
+            $this->view->headMeta()->setCharset('utf-8');
+        }
 		$this->_extendHead($pageContent);
 
 		$this->view->placeholder('seo')->exchangeArray($seoData);
@@ -289,7 +288,7 @@ class IndexController extends Zend_Controller_Action {
             if (!$this->getRequest()->isXmlHttpRequest()){
 
                 if ( !empty($referer) && parse_url($referer, PHP_URL_HOST) === $originUrl ) {
-                    $this->_redirect($this->getRequest()->getServer('HTTP_REFERER'));
+                    $this->redirect($this->getRequest()->getServer('HTTP_REFERER'));
                 }
             } else {
                 $this->view->result = $result;

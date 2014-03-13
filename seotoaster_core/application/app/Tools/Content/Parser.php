@@ -11,13 +11,13 @@ class Tools_Content_Parser {
 
     const OPTIONS_SEPARATOR  = ':';
 
-	private $_pageData  = null;
+	private $_pageData       = null;
 
-	private $_content   = null;
+	private $_content        = null;
 
-	private $_options   = array();
+	private $_options        = array();
 
-	private $_iteration = 0;
+	private $_iteration      = 0;
 
 	public function  __construct($content = null, $pageData = null, $options = null) {
 		if(null !== $content) {
@@ -134,6 +134,7 @@ class Tools_Content_Parser {
 		return $widgets;
 	}
 
+
     private function _runRepeat() {
         preg_match_all('~{(repeat+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
         $spacesFound = array_filter($spacesFound);
@@ -164,7 +165,7 @@ class Tools_Content_Parser {
 
     private function _renderMagicSpaces($spacesFound = array()) {
         foreach ($spacesFound as $spaceName) {
-            //if any parameters passed
+            // If any parameters passed
             $parameters = explode(self::OPTIONS_SEPARATOR, $spaceName);
             if (is_array($parameters)) {
                 $spaceName = array_shift($parameters);
@@ -188,7 +189,7 @@ class Tools_Content_Parser {
 	private function _replace($replacement, $name, $options = array()) {
 		$optString = '';
 		if(!empty($options)) {
-			$optString = ':' . implode(':', $options);
+			$optString = self::OPTIONS_SEPARATOR. implode(self::OPTIONS_SEPARATOR, $options);
 		}
 		$this->_content = str_replace('{$' . $name . $optString . '}', $replacement, $this->_content);
 	}
