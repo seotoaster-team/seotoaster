@@ -1,6 +1,6 @@
 ul, ol{
-//    margin-bottom : 1.5em;
-    padding-left  : 2.5em;
+    //    margin-bottom : 1.5em;
+    padding-left : 2.5em;
 
     ol, ul{
         margin    : 0.3em 0 1em;
@@ -66,7 +66,7 @@ dl{
 
 .activate-lists-classes(@activate) when (@activate = true){
     .activate-list-unstyled(@activate) when (@activate = true){
-    .list-unstyled{
+        .list-unstyled{
             list-style-type : none;
             padding-left    : 0;
         }
@@ -74,7 +74,7 @@ dl{
     .activate-list-unstyled(@activate-list-unstyled);
 
     .activate-list-inline(@activate) when (@activate = true){
-    .list-inline{
+        .list-inline{
             list-style-type : none;
             padding-left    : 0;
 
@@ -87,7 +87,7 @@ dl{
     .activate-list-inline(@activate-list-inline);
 
     .activate-list-bordered(@activate) when (@activate = true){
-    .list-bordered{
+        .list-bordered{
             list-style-type : none;
             padding-left    : 0;
 
@@ -97,6 +97,7 @@ dl{
                 padding-top    : @padding-base-vertical;
                 padding-bottom : @padding-base-vertical;
                 position       : relative;
+                .box-sizing();
 
                 &[class*='active']{
                     padding-left : 10px;
@@ -134,7 +135,7 @@ dl{
             margin-bottom   : 0;
 
             &>li{
-                float  : left;
+                float      : left;
                 margin     : 1% 0 0;
                 padding    : @padding-mini-vertical;
                 background : @gray-light;
@@ -168,7 +169,7 @@ dl{
     .activate-list-tags(@activate-list-tags);
 
     .activate-list-arrow(@activate) when (@activate = true){
-    .list-arrow{
+        .list-arrow{
             list-style-type : none;
             padding-left    : 0;
 
@@ -181,7 +182,7 @@ dl{
                     content        : '>';
                     margin-left    : -1em;
                     .activate-toaster-icon(@toaster-icons : @activate-toaster-icons) when ( @toaster-icons = true){
-                        font-family : 'toaster-icons';
+                        font-family : 'system-icons';
                         content     : '\e0c3';
                     }
                     .activate-toaster-icon;
@@ -204,7 +205,7 @@ dl{
     .activate-list-arrow(@activate-list-arrow);
 
     .activate-list-count-sign(@activate) when (@activate = true){
-    .list-count-sign{
+        .list-count-sign{
             list-style-type : none;
             counter-reset   : list;
             padding-left    : 0;
@@ -251,7 +252,7 @@ dl{
     .activate-list-count-sign(@activate-list-count-sign);
 
     .activate-list-icon-sign(@activate) when (@activate = true){
-    .list-icon-sign{
+        .list-icon-sign{
             list-style-type : none;
             counter-reset   : list;
             padding-left    : 0;
@@ -339,7 +340,6 @@ dl{
         }
     }
 
-
     .activate-list-images(@activate) when (@activate = true){
         .list-images{
             font-size       : 0;
@@ -368,7 +368,8 @@ dl{
     }
     .activate-list-images(@activate-list-images);
 }
-.activate-lists-classes(@activate-lists-classes);
+    .activate-lists-classes(@activate-lists-classes)
+;
 
 // Paginator
 //======================================================

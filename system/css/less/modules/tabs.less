@@ -11,7 +11,7 @@
     cursor : pointer;
 }
 
-.ui-tabs-nav:not([class*="list-"]){
+.ui-tabs-nav{
     background    : @tabs-nav-bg;
     font-size     : 0;
     margin-bottom : 0;
@@ -46,8 +46,6 @@
     li{
         .inline-block();
         font-size   : @font-size-base;
-        margin      : 0;
-        padding     : 0;
         background  : @tabs-nav-li-bg;
         color       : @tabs-nav-li-color;
         white-space : nowrap;
@@ -56,13 +54,6 @@
 
         &>*{
             .inline-block();
-        }
-
-        .ui-tabs-anchor{
-            .text-overflow;
-            padding         : @padding-base-vertical @padding-base-horizontal;
-            text-decoration : none;
-            color           : inherit;
         }
 
         &:hover{
@@ -105,6 +96,28 @@
             }
         }
     }
+
+    .ui-tabs-anchor{
+        .text-overflow;
+        padding         : @padding-base-vertical @padding-base-horizontal;
+        text-decoration : none;
+        color           : inherit;
+    }
+
+    &.list-bordered{
+        background   : transparent;
+        padding      : 0 5px 0 0;
+
+        li{
+            &, &:hover{
+                background : transparent;
+            }
+        }
+
+        .ui-tabs-anchor{
+            padding : 0;
+        }
+    }
 }
 
 .ui-tabs-panel{
@@ -119,6 +132,10 @@
         border-top : 0;
         position   : relative;
         z-index    : 1;
+    }
+
+    .ui-tabs-vertical &{
+        clear : none;
     }
 }
 
