@@ -32,7 +32,7 @@
     #tabs{
         background : @body-bg;
         padding    : 0;
-        height     : 455px;
+        height     : 450px;
 
         .ui-tabs-panel{
             padding : 5px;
@@ -61,13 +61,13 @@
                 }
             }
             .ui-accordion-content{
-                max-height : 189px;
+                max-height : 187px;
             }
         }
 
         #tabs-frag-2{
             .ui-accordion-content{
-                max-height : 197px;
+                max-height : 194px;
             }
         }
     }
@@ -201,55 +201,6 @@
     padding    : @padding-base-vertical;
     overflow   : auto;
     height     : 275px;
-
-    .productlisting{
-        position      : relative;
-        float         : left;
-        margin-top    : .75%;
-        margin-bottom : .75%;
-        text-align    : center;
-        .grid-elements(6, 1.5, true);
-        .transition;
-        .background(0);
-
-        &:hover{
-            background : @gray-light;
-        }
-
-        span{
-            display   : block;
-            font-size : @font-size-small;
-        }
-
-        .brand{
-            color       : @gray;
-            font-weight : bold;
-            background  : @gray-light;
-            padding     : @padding-mini-vertical @padding-mini-horizontal;
-            .text-overflow();
-        }
-
-        .image{
-            height      : 75px;
-            line-height : 75px;
-            overflow    : hidden;
-
-            img{
-//                width : 100%;
-            }
-        }
-
-        .name{
-            height   : @font-size-base * unit(@font-size-small) * @line-height * 2;
-            padding  : @padding-small-vertical;
-            overflow : hidden;
-        }
-
-        .sku{
-            color      : @gray;
-            text-align : right;
-            padding    : @padding-mini-vertical @padding-mini-horizontal;
-            background : @gray-light;
-        }
-    }
 }
+
+@import "../../../../../plugins/shopping/web/css/less/product-list";

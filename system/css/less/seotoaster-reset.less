@@ -1,7 +1,20 @@
 @import "base/variables";
 
 .unpublished{
-    border: 1px dashed @brand-red;
+    border : 1px dashed @brand-red;
+}
+
+.container-wrapper{
+    padding : @padding-small-vertical;
+
+    &:hover{
+        outline : 1px dashed @gray;
+    }
+}
+
+.ui-button, .btn{
+    .button();
+    border : none;
 }
 
 .ui-helper-hidden{ display : none; }
@@ -115,29 +128,33 @@
         }
     }
 
-    #cpanelul{
+    ul{
         margin : 0;
 
         li{
             list-style : none;
-            margin     : 0;
+
             a{
+                margin-top      : 1px;
+                padding         : @padding-small-vertical @padding-small-horizontal;
                 display         : block;
                 text-decoration : none;
-                text-decoration : none;
                 font-size       : 16px;
-                padding         : @padding-small-vertical @padding-small-horizontal;
-            }
-            .ui-accordion-header{
-                background  : @cpanel-header-bg;
-                margin      : 0 0 1px;
-                font-weight : bold;
+                font-weight     : bold;
                 color       : @cpanel-header-color;
+                background      : @cpanel-header-bg;
+
+                &.logout:hover{
+                    background : desaturate(@brand-red, 20%);
+                }
 
                 &:hover{
                     background : @cpanel-header-bg-hover;
                     color      : @cpanel-header-color-hover;
                 }
+            }
+
+            .ui-accordion-header{
 
                 &.ui-accordion-header-active{
                     background : @cpanel-header-bg-active;
@@ -154,8 +171,9 @@
                 }
 
                 a{
-                    background : none;
-                    color      : @link-color;
+                    background  : none;
+                    color       : @link-color;
+                    font-weight : normal;
 
                     &:hover{
                         color : @link-color-hover;
@@ -169,28 +187,9 @@
             }
         }
     }
-
-    #logoutul{
-        margin : 0;
-        li{
-            list-style : none;
-            margin     : 0;
-            a{
-                display         : block;
-                font-weight     : bold;
-                text-decoration : none;
-                font-size       : 16px;
-                color           : @gray-light;
-                background      : @cpanel-header-bg;
-                padding         : @padding-base-vertical @padding-base-horizontal;
-                &:hover{
-                    background : desaturate(@brand-red, 20%);
-                }
-            }
-        }
-    }
 }
 
 // Alert Styles
 //==================================================
-@import "modules/alert-for-page"; // http://smoke-js.com/
+@import "modules/alert-for-page";
+// http://smoke-js.com/

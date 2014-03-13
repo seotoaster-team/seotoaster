@@ -21,7 +21,7 @@
 			</div>
 			<div id="other-listpages" class="grid_2 alpha mt2em">
 			<?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
-                <a id="listpages-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate( 'Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' ); ?>
+                <a id="listpages-btn" href="javascript:;">[ <?php echo $this->translate( 'Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' ); ?>
                                                                                  ]</a>
 
                 <?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 574)); ?>
@@ -29,11 +29,11 @@
 			</div>
             <?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
             <div id="other-templates" class="grid_2 alpha omega mt2em">
-				<a id="listtemplates-btn" class="btn block link" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
+				<a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
 			</div>
             <?php endif; ?>
             <div class="grid_12 alpha omega">
-				<div id="edittemplate" class="" style="height: 390px">
+				<div id="edittemplate" class="" style="height: 385px">
 					<?php echo $this->templateForm->getElement( 'content' )->renderViewHelper(); ?>
 				</div>
 			</div>

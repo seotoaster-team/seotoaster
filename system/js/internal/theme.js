@@ -80,7 +80,11 @@ function showTemplateList(e){
                 $templateList.html(html).find('.content').accordion({
 					heightStyle: 'content',
 					header : '.template_header',
-					collapsible: true
+					collapsible: true,
+                    icons          : {
+                        "header"       : "icon-arrow-right",
+                        "activeHeader" : "icon-arrow-down"
+                    } // or false
 				});
 				var templateName = $('#template_id').val();
 				$('.template_item').removeClass('curr-template').find('.template-check').remove();

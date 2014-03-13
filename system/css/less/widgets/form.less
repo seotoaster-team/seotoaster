@@ -114,7 +114,7 @@ form, .form{
 
     label{
         display       : block;
-        margin-bottom : 0.25em;
+        margin-bottom : 0.235em;
         color         : @label-color;
 
         &.notvalid:before{
@@ -129,7 +129,7 @@ form, .form{
 .notvalid{
     color : @brand-red !important;
     &:before{
-        font-family  : 'toaster-icons';
+        font-family  : 'system-icons';
         content      : "\f06a";
         margin-right : 5px;
     }
@@ -389,52 +389,80 @@ textarea{
         .activate-form-labeled-social(@activate : @activate-alternate-style-form-labeled-social) when (@activate = true){
             // Social Filed
             &.rss{
-                .filled, :checked~input{border-color : @rss;}
+                :checked~input{border-color : @rss;}
                 *:checked{
                     &~label, &~.label{ background : @rss; }
                     &~[class*="icon-"]{ color : @rss; }
                 }
+                &.filled{
+                    label, .label{ background : @rss; }
+                    [class*="icon-"]{ color : @rss; }
+                }
             }
             &.gplus{
-                .filled, :checked~input{border-color : @gplus;}
+                :checked~input{border-color : @gplus;}
                 *:checked{
                     &~label, &~.label{ background : @gplus; }
                     &~[class*="icon-"]{ color : @gplus; }
                 }
+                &.filled{
+                    label, .label{ background : @gplus; }
+                    [class*="icon-"]{ color : @gplus; }
+                }
             }
             &.twitter{
-                .filled, :checked~input{border-color : @twitter;}
+                :checked~input{border-color : @twitter;}
                 *:checked{
                     &~label, &~.label{ background : @twitter; }
                     &~[class*="icon-"]{ color : @twitter; }
                 }
+                &.filled{
+                    label, .label{ background : @twitter; }
+                    [class*="icon-"]{ color : @twitter; }
+                }
             }
             &.youtube{
-                .filled, :checked~input{border-color : @youtube;}
+                :checked~input{border-color : @youtube;}
                 *:checked{
                     &~[class*="icon-"]{ color : @youtube; }
                     &~label, &~.label{ background : @youtube; }
                 }
+                &.filled{
+                    label, .label{ background : @youtube; }
+                    [class*="icon-"]{ color : @youtube; }
+                }
             }
             &.linkedin{
-                .filled, :checked~input{border-color : @linkedin;}
+                :checked~input{border-color : @linkedin;}
                 *:checked{
                     &~label, &~.label{ background : @linkedin; }
                     &~[class*="icon-"]{ color : @linkedin; }
                 }
+                &.filled{
+                    label, .label{ background : @linkedin; }
+                    [class*="icon-"]{ color : @linkedin; }
+                }
             }
             &.facebook{
-                .filled, :checked~input{border-color : @facebook;}
+                :checked~input{border-color : @facebook;}
                 *:checked{
                     &~label, &~.label{ background : @facebook; }
                     &~[class*="icon-"]{ color : @facebook; }
                 }
+                &.filled{
+                    label, .label{ background : @facebook; }
+                    [class*="icon-"]{ color : @facebook; }
+                }
             }
             &.pinterest{
-                .filled, :checked~input{border-color : @pinterest;}
+                :checked~input{border-color : @pinterest;}
                 *:checked{
                     &~label, &~.label{ background : @pinterest; }
                     &~[class*="icon-"]{ color : @pinterest; }
+                }
+                &.filled{
+                    label, .label{ background : @pinterest; }
+                    [class*="icon-"]{ color : @pinterest; }
                 }
             }
         }

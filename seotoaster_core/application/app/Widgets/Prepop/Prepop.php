@@ -31,10 +31,17 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected $_cacheable         = false;
 
     protected function _init() {
-        if(end($this->_options) == 'static') {
+        $this->_readonly = false;
+        if (end($this->_options) == self::OPTION_READONLY) {
+            $this->_readonly = true;
+            unset($this->_options[array_search(self::OPTION_READONLY, $this->_options)]);
+        }
+
+        if (in_array('static', $this->_options)) {
             $this->_type = Application_Model_Models_Container::TYPE_PREPOPSTATIC;
-            unset($this->_options[array_search(end($this->_options), $this->_options)]);
-        } else {
+            unset($this->_options[array_search('static', $this->_options)]);
+        }
+        else {
             $this->_type = Application_Model_Models_Container::TYPE_PREPOP;
         }
 
@@ -64,8 +71,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
         }
-        // user role should be a member at least to be able to edit
-        if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+        // User role should be a member or not only for reading at least to be able to edit
+        if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) || $this->_readonly) {
             if($this->_options[0] == self::TYPE_CHECKBOX) {
                 $translator           = $this->_translator;
                 $this->_prepopContent = implode('&nbsp;', array_map(function($option) use($translator) {
@@ -77,7 +84,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 $this->_view->prepopName    = $this->_prepopName;
                 $this->_view->prepopContent = $this->_prepopContent;
                 return $this->_view->render('prepopLink.phtml');
-            }else{
+            }
+            elseif ($this->_readonly) {
+                return $this->_prepopContent;
+            }
+            else {
                 return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
             }
         }

@@ -33,9 +33,10 @@
 
         .ui-dialog-titlebar-close{
             vertical-align : middle;
-            .link-color(@gray-dark, @brand-red);
 
-            &:hover{}
+            &:hover{
+                color: @brand-red;
+            }
 
             .ui-icon-closethick{
                 .icon-size(13px);
@@ -58,7 +59,7 @@
         text-align       : left;
         border-width     : 1px 0 0 0;
         background-image : none;
-        padding          : (@footer-height - @btn-height-base - 10px) (@grid-margin-width / 2) 10px;
+        padding          : @padding-base-vertical (@grid-margin-width / 2) 10px;
 
         .ui-dialog-buttonset{
             float : right;
