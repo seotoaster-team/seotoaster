@@ -10,7 +10,7 @@
 			<div class="grid_9"><?php echo $this->translate('Name'); ?></div>
 			<div class="grid_2" style="text-align:right;"><?php echo $this->translate('Action'); ?></div>
 		</div>
-		<div id="silos-list" class="grid_12 items-list"></div>
+		<div id="silos-list" class="grid_12 items-list scroll"></div>
 	</div>
 	<div class="grid_12 footer">
 <!--		<button id="mass-del">Delete selected</button>-->
@@ -25,7 +25,7 @@
 
 		$('.check-all-silos').click(function() {
 			$('.rem-silos').prop('checked', ($(this).prop('checked')) ? true : false);
-		})
+		});
 
 		$('#mass-del').click(function() {
 			var silosIds= [];

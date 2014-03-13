@@ -1,12 +1,14 @@
 <?php if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)): ?>
     <?php if($this->errors !== null && is_array($this->errors)): ?>
         <?php foreach($this->errors as $error): ?>
-            <?php echo $error; ?>
+            <?php if(!isset($error['email'])): ?>
+                <?php  echo $error; ?>
+            <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
     <?php
-        $this->signupForm->setAction($this->websiteUrl . 'backend/signup/signup/');
-        echo $this->signupForm;
+    $this->signupForm->setAction($this->websiteUrl . 'backend/signup/signup/');
+    echo $this->signupForm;
     ?>
 <?php else: ?>
     <p>You have to be logged out to see the sign-up form</p>
