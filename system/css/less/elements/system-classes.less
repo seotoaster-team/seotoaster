@@ -142,12 +142,13 @@
 
             [class*="icon-"]{
                 float : left;
-                .icon-size(@btn-height-base);
+                .button-icon-size(@icon-size-larger);
             }
 
             input{
                 width       : 0;
                 margin-left : -@padding-base-horizontal * 2;
+                float       : left;
             }
 
             :checked~input{
@@ -167,7 +168,7 @@
         .generator-links{
             .icon-size(@icon-size-small);
             .inline-block(bottom);
-            .button-color(@btn-blue-color, @btn-blue-bg, @btn-blue-border);
+            .button-color(@button-blue-color, @button-blue-bg, @button-blue-border);
             padding     : @padding-mini-vertical;
             position    : relative;
             border-left : 2px solid #FFF;
@@ -313,21 +314,21 @@
     background-position : center center;
     background-repeat   : no-repeat;
 
-//    &:before{
-//        position    : absolute;
-//        top         : -140px;
-//        left        : 0;
-//        bottom      : 0;
-//        right       : 0;
-//        margin      : auto;
-//        font-family : 'system-icons';
-//        content     : "\e054";
-//        color       : #bbb;
-//        font-size   : 100px;
-//        width       : 1em;
-//        height      : 1em;
-//        line-height : 1em;
-//    }
+    //    &:before{
+    //        position    : absolute;
+    //        top         : -140px;
+    //        left        : 0;
+    //        bottom      : 0;
+    //        right       : 0;
+    //        margin      : auto;
+    //        font-family : 'system-icons';
+    //        content     : "\e054";
+    //        color       : #bbb;
+    //        font-size   : 100px;
+    //        width       : 1em;
+    //        height      : 1em;
+    //        line-height : 1em;
+    //    }
 }
 
 .show-right, .show-left{
