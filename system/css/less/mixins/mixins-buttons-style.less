@@ -9,7 +9,7 @@
     border-style    : solid;
     .activate-type(@type);
     .activate-size(@size, @type);
-//    .activate-border(@btn-border-width);
+    //    .activate-border(@btn-border-width);
     .activate-transition(@activate-button-transition);
     .button-color(@color, @background, @border, true);
 
@@ -226,8 +226,8 @@
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 .link-color(@color, @eachColor: true) when (@eachColor = true){
-    color            : @color;
-    background-color : transparent !important;
+    color      : @color;
+    background : none !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
@@ -256,8 +256,8 @@
 }
 
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
-    color            : @color;
-    background-color : transparent !important;
+    color      : @color;
+    background : none !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
