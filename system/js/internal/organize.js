@@ -35,50 +35,54 @@ $(function() {
         stop    : saveCategoriesOrder
     });
 
+    $('.move').each(function(){
+        $(this).click(function(e) {
+            if(e.ctrlKey) {
+                $(this).toggleClass('selected');
+                if($(this).find("input[type='checkbox']").prop("checked")){
+                    $(this).find("input[type='checkbox']").prop("checked", false);
+                } else{
+                    $(this).find("input[type='checkbox']").prop("checked", true);
+                }
+
+            }
+        });
+    });
     $('.organise').on('click', '.page-remove', function(e){
-        $(this).parent().parent().toggleClass('selected');
+        e.stopImmediatePropagation();
+        $(this).closest('.move').toggleClass('selected');
     })
 
-//    $('.organise').on('mousedown', '.move', function(e){
-//        e.preventDefault;
-//        e.stopPropagation;
-//        $(this).addClass('selected');
-//        $(this).find("input[type='checkbox']").attr("checked", true);
-//    })
-
-    $('.organise').sortable({
-        connectWith : '.organise',
-        delay: 150, //prevent accidental drag when trying to select
-        helper : function(e,item){
-            var elements = item.parent().children('.selected').clone();
-            removeMarks(elements);
-            item.data('multidrag', elements).siblings('.selected').remove();
-            var helper = $('<li/>');
-            return helper.append(elements);
-        },
-        receive: function(e,ui) {
-            var elements = ui.item.data('multidrag');
-            ui.item.after(elements).remove();
-
-            var pages = [];
-            $(this).find('li').each(function() {
-                pages.push($(this).attr('id'));
-            });
-            renewedData = {
-                act        : 'renew',
-                menu       : $(this).parent().data('menu'),
-                categoryId : $(this).parent().attr('id'),
-                pages      : pages
+    $('.organise').each(function(){
+        $(this).sortable({
+            connectWith : '.organise',
+            placeholder: 'placeholder',
+            start: function(ui,e) {
+                var selected = e.item.siblings(".selected");
+                var item = e.item;
+                selected.appendTo(item);
+            },
+            receive: function(ui,e){
+                var pages = [];
+                $(this).find('li').each(function() {
+                    pages.push($(this).attr('id'));
+                });
+                renewedData = {
+                    act        : 'renew',
+                    menu       : $(this).parent().data('menu'),
+                    categoryId : $(this).parent().attr('id'),
+                    pages      : pages
+                }
+                $.post($('#website_url').val() + 'backend/backend_page/organize/', renewedData);
+            },
+            stop: function(ui, e){
+                var finded = e.item.find(".selected");
+                e.item.after(finded);
+                saveCategoriesOrder();
             }
-            $.post($('#website_url').val() + 'backend/backend_page/organize/', renewedData)
-        },
-        stop: function(e, ui){
-            var elements = ui.item.data('multidrag');
-            removeMarks(elements);
-            ui.item.after(elements).remove();
-            saveCategoriesOrder();
-        }
+        });
     });
+
 
 
     $('.collapse-all').click(function() {
@@ -109,10 +113,6 @@ function saveCategoriesOrder() {
         $(this).find('.ranking').html('#' + ++rankins);
         ordered.push($(this).attr('id'));
         $(this).find('.organise li').each(function() {
-            if($(this).hasClass('selected')){
-                console.log('this.class',$(this).attr("class"));
-                $(this).removeClass('selected')
-            }
             ordered.push($(this).attr('id'));
         })
     });
