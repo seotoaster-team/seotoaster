@@ -19,16 +19,18 @@ class Tools_Content_Parser {
 
 	private $_iteration      = 0;
 
-	public function  __construct($content = null, $pageData = null, $options = null) {
-		if(null !== $content) {
+    private $_excludeCacheableWidgets = false;
+
+	public function __construct($content = null, $pageData = null, $options = null) {
+		if (null !== $content) {
 			$this->_content         = $content;
             $this->_fullPageContent = $content;
 		}
-		if(null !== $pageData) {
+		if (null !== $pageData) {
 			$this->_pageData = $pageData;
 		}
-		if(null !== $options) {
-			if(!is_array($options)) {
+		if (null !== $options) {
+			if (!is_array($options)) {
 				throw new Exceptions_SeotoasterException('Parser options should be an array');
 			}
 			$this->_options = $options;
@@ -41,22 +43,22 @@ class Tools_Content_Parser {
         $this->_iteration = 0;
 		$this->_runMagicSpaces();
 
-        $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+        if ((bool) Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableFullPageCache')) {
+            $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+            $fullPageData = array(
+                'content'       => $this->_fullPageContent,
+                'pageData'      => $this->_pageData,
+                'parserOptions' => $this->_options
+            );
 
-
-        $fullPageData = array(
-            'content'       => $this->_fullPageContent,
-            'pageData'      => $this->_pageData,
-            'parserOptions' => $this->_options
-        );
-
-        $this->_cache->save(
-            md5($this->_pageData['url']),
-            $fullPageData,
-            Helpers_Action_Cache::PREFIX_FULLPAGE,
-            array(Helpers_Action_Cache::TAG_FULLPAGE, $this->_pageData['url']),
-            Helpers_Action_Cache::CACHE_WEEK
-        );
+            $this->_cache->save(
+                md5($this->_pageData['url']),
+                $fullPageData,
+                Helpers_Action_Cache::PREFIX_FULLPAGE,
+                array(Helpers_Action_Cache::TAG_FULLPAGE, $this->_pageData['url']),
+                Helpers_Action_Cache::CACHE_WEEK
+            );
+        }
 
 		return $this->_content;
 	}
@@ -101,14 +103,14 @@ class Tools_Content_Parser {
 		return $this->_content;
 	}
 
-	private function _parse() {
+	private function _parse($excludeCacheableWidgets = false) {
 		$this->_iteration++;
-		$replacement = '';
-		$widgets = $this->_findWidgets();
 
-		if(empty($widgets) || ($this->_iteration >= self::PARSE_DEEP)) {
+		$widgets = $this->_findWidgets();
+		if (empty($widgets) || ($this->_iteration >= self::PARSE_DEEP)) {
 			return;
 		}
+
 		foreach ($widgets as $widgetData) {
 			try {
                 $widget = Tools_Factory_WidgetFactory::createWidget(
@@ -119,47 +121,70 @@ class Tools_Content_Parser {
                 $replacement = (is_object($widget)) ? $widget->render() : $widget;
 			}
 			catch (Exceptions_SeotoasterException $se) {
-				$replacement = $se->getMessage() . ' Can not load widget: <b>' . $widgetData['name'] . '</b>';
+				$replacement = $se->getMessage().' Can not load widget: <b>'.$widgetData['name'].'</b>';
 			}
-			$this->_replace($replacement, $widgetData, $widget);
+
+
+            if ($excludeCacheableWidgets === true && $widget->getCacheable() === true) {
+                continue;
+            }
+
+			$this->_replace($replacement, $widgetData);
 		}
+
 		$this->_parse();
 	}
 
 	private function _changeMedia() {
-		$webPathToTheme = $this->_options['websiteUrl'] . $this->_options['themePath'] . rawurlencode($this->_options['currentTheme']);
-		$this->_content = preg_replace('~["\']+/*(mobile/)?images/(.*)["\']~Usui', $webPathToTheme . '/$1images/$2', $this->_content);
-		$this->_content = preg_replace('~(<link.*?href=")(\/{0,1}[A-Za-z0-9.\/_\-]+\.css[a-z0-9=\?]*)(".*?>)~Uu','$1' . $webPathToTheme . '/$2' . '$3' , $this->_content);
-		$this->_content = preg_replace('~(<script.*?src=")(\/{0,1}[A-Za-z0-9-\/_.\-]+\.js)(".*?>)~ui', '$1' . $webPathToTheme . '/$2' . '$3' , $this->_content);
+		$webPathToTheme = $this->_options['websiteUrl'].$this->_options['themePath']
+            .rawurlencode($this->_options['currentTheme']);
+		$this->_content = preg_replace(
+            '~["\']+/*(mobile/)?images/(.*)["\']~Usui',
+            $webPathToTheme.'/$1images/$2',
+            $this->_content
+        );
+		$this->_content = preg_replace(
+            '~(<link.*?href=")(\/{0,1}[A-Za-z0-9.\/_\-]+\.css[a-z0-9=\?]*)(".*?>)~Uu',
+            '$1'.$webPathToTheme.'/$2'.'$3',
+            $this->_content
+        );
+		$this->_content = preg_replace(
+            '~(<script.*?src=")(\/{0,1}[A-Za-z0-9-\/_.\-]+\.js)(".*?>)~ui',
+            '$1'.$webPathToTheme.'/$2'.'$3',
+            $this->_content
+        );
 
-		$favicoPath = $this->_options['themePath'] . $this->_options['currentTheme'] . '/favicon.ico';
-		if(file_exists($favicoPath)) {
-			$this->_content = preg_replace('~href="\/favicon.ico"~Uus', 'href="' . $webPathToTheme . '/favicon.ico"', $this->_content);
+		$favicoPath = $this->_options['themePath'].$this->_options['currentTheme'].'/favicon.ico';
+		if (file_exists($favicoPath)) {
+			$this->_content = preg_replace(
+                '~href="\/favicon.ico"~Uus',
+                'href="'.$webPathToTheme.'/favicon.ico"',
+                $this->_content
+            );
 		}
 	}
 
 	private function _findWidgets() {
-		$widgets = array();
-		//[\w\s\-:,\p{L}\p{M}\p{P}\?\&=~+@#\&\/\>\<]
 		preg_match_all('/{\$([\w]+:*[^{}]*)}/ui', $this->_content, $found);
-		if(!empty ($found) && isset($found[1])) {
-			foreach($found[1] as $widgetString) {
-				$expWidgetString = explode(':', $widgetString);
-				$widgetName = array_shift($expWidgetString);
-				$widgetOptions = ($expWidgetString) ? $expWidgetString : array();
-				$widgets[] = array(
-					'name'    => $widgetName,
-					'options' => $widgetOptions
+
+        $widgets = array();
+		if (!empty($found) && isset($found[1])) {
+			foreach ($found[1] as $widgetString) {
+				$expWidgetString = explode(self::OPTIONS_SEPARATOR, $widgetString);
+				$widgets[]       = array(
+					'name'    => array_shift($expWidgetString),
+					'options' => ($expWidgetString) ? $expWidgetString : array()
 				);
 			}
 		}
+
 		return $widgets;
 	}
 
 	private function _runMagicSpaces() {
         $this->_iteration++;
 
-		preg_match_all('~{([\w]+' . self::OPTIONS_SEPARATOR . '*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
+		preg_match_all('~{([\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
         $spacesFound = array_filter($spacesFound);
 
 		if (!empty($spacesFound) && isset($spacesFound[1])) {
@@ -178,7 +203,7 @@ class Tools_Content_Parser {
                         $parameters
                     )->run();
                     $this->_fullPageContent = $content;
-                    $this->_content = $content;
+                    $this->_content         = $content;
 				}
 				catch (Exception $e) {
 					Tools_System_Tools::debugMode() && error_log($e->getMessage());
@@ -192,20 +217,12 @@ class Tools_Content_Parser {
 		}
 	}
 
-	private function _replace($replacement, $widgetData, $widgetObj) {
+	private function _replace($replacement, $widgetData) {
 		$optString = '';
 		if (!empty($widgetData['options'])) {
 			$optString = self::OPTIONS_SEPARATOR.implode(self::OPTIONS_SEPARATOR, $widgetData['options']);
 		}
 
 		$this->_content = str_replace('{$'.$widgetData['name'].$optString.'}', $replacement, $this->_content);
-
-        if ($widgetObj->getCacheable() === true) {
-            $this->_fullPageContent = str_replace(
-                '{$'.$widgetData['name'].$optString.'}',
-                $replacement,
-                $this->_fullPageContent
-            );
-        }
 	}
 }
