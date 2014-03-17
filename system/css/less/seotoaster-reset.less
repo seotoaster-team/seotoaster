@@ -1,5 +1,11 @@
 @import "base/variables";
 
+.reset-style{
+    &, *{
+        .reset-style;
+    }
+}
+
 .unpublished{
     border : 1px dashed @brand-red;
 }

@@ -99,8 +99,8 @@
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 .link-color(@color, @eachColor: true) when (@eachColor = true){
-    color            : @color;
-    background-color : transparent !important;
+    color      : @color;
+    background : transparent;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
@@ -129,8 +129,8 @@
 }
 
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
-    color            : @color;
-    background-color : transparent !important;
+    color      : @color;
+    background : transparent;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
@@ -159,8 +159,8 @@
 }
 
 .button-color( @color, @background, @border, @eachColor: true) when (@eachColor = true){
-    color            : @color;
-    background-color : @background;
+    color      : @color;
+    background : @background;
     .box-shadow(none, @input-shadow-focus);
     .activate-border(@value) when (@value > 0){
         border-color : @border;
@@ -169,8 +169,8 @@
 
     .activate-hover(@value) when (@value = true){
         &:hover, &:active{
-            color            : @color;
-            background-color : darken(@background, 10%);
+            color      : @color;
+            background : darken(@background, 10%);
             .activate-border(@value) when (@value > 0){
                 border-color : darken(@border, 10%);
             }
@@ -183,8 +183,8 @@
     }
     .activate-hover(@value) when (@value = false){
         &.touch, input:checked+&{
-            color            : @color;
-            background-color : darken(@background, 10%);
+            color      : @color;
+            background : darken(@background, 10%);
             .activate-border(@value) when (@value > 0){
                 border-color : darken(@border, 10%);
             }
@@ -197,9 +197,9 @@
     //    &.disabled,
     &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
-        color            : desaturate(@color, 30%);
-        background-color : desaturate(@background, 30%);
-        text-decoration  : none;
+        color           : desaturate(@color, 30%);
+        background      : desaturate(@background, 30%);
+        text-decoration : none;
         .activate-border(@value) when (@value > 0){
             border-color : desaturate(@border, 30%);
         }
@@ -208,9 +208,9 @@
 }
 
 .button-color( @color, @background, @border, @color2, @background2, @border2, @eachColor: true, @inverse: true) when (iscolor(@color2)) and (@eachColor = true) and  (@inverse = true){
-    color            : @color;
-    background-color : @background;
-    text-decoration  : none;
+    color           : @color;
+    background      : @background;
+    text-decoration : none;
     .box-shadow(none, @input-shadow-focus);
     .activate-border(@value) when (@value > 0){
         border-color : @border;
@@ -219,8 +219,8 @@
 
     .activate-hover(@value) when (@value = true){
         &:hover, &:active{
-            color            : @color2;
-            background-color : @background2;
+            color      : @color2;
+            background : @background2;
             .activate-border(@value) when (@value > 0){
                 border-color : @border2;
             }
@@ -233,8 +233,8 @@
     }
     .activate-hover(@value) when (@value = false){
         &.touch, input:checked+&{
-            color            : @color2;
-            background-color : @background2;
+            color      : @color2;
+            background : @background2;
             .activate-border(@value) when (@value > 0){
                 border-color : @border2;
             }
@@ -247,9 +247,9 @@
     //    &.disabled,
     &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
-        color            : desaturate(@color, 30%);
-        background-color : @background;
-        text-decoration  : none;
+        color           : desaturate(@color, 30%);
+        background      : @background;
+        text-decoration : none;
         .activate-border(@value) when (@value > 0){
             border-color : @border;
         }

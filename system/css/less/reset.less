@@ -25,7 +25,9 @@
     -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
 }
 .reset-style{
-    .reset-style;
+    &, *{
+        .reset-style;
+    }
 }
 ::-moz-selection{
     background : @text-select-bg;
