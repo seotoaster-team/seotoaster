@@ -33,7 +33,10 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract
      */
     public function routeStartup(Zend_Controller_Request_Abstract $request)
     {
+        // register plugins to include path
         Tools_Plugins_Tools::registerPluginsIncludePath();
+        // register plugins translations
+        Tools_Plugins_Tools::registerPluginsTranslations();
         //trigger plugins before router starts
         $this->_callPlugins(self::BEFOREROUTER_METHOD);
     }
@@ -78,33 +81,34 @@ class Plugins_Plugin extends Zend_Controller_Plugin_Abstract
     private function _callPlugins($method)
     {
         $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins();
+        $pluginPath = Tools_Plugins_Tools::getPluginsPath();
+        $websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
         if (is_array($enabledPlugins) && !empty ($enabledPlugins)) {
             array_walk(
                 $enabledPlugins,
-                function ($plugin, $key, $data) {
+                function ($plugin) use ($method, $websiteUrl, $pluginPath) {
                     try {
-                        $name = ucfirst($plugin->getName());
-                        Tools_Factory_PluginFactory::validate($name);
-                        $reflection = new Zend_Reflection_Class($name);
+                        $name = $plugin->getName();
+                        $pluginBootstrap = $pluginPath.$name.DIRECTORY_SEPARATOR.ucfirst($name).'.php';
+                        if (is_readable($pluginBootstrap)) {
+                            require_once $pluginBootstrap;
+                        }
+                        $reflection = new Zend_Reflection_Class(ucfirst($name));
 
-                        if ($reflection->hasMethod($data['method'])) {
+                        if ($reflection->hasMethod($method)) {
                             $pluginInstance = Tools_Factory_PluginFactory::createPlugin(
                                 $plugin->getName(),
                                 array(),
-                                array('websiteUrl' => $data['websiteUrl'])
+                                array('websiteUrl' => $websiteUrl)
                             );
-                            $pluginInstance->$data['method']();
+                            $pluginInstance->$method();
                         }
 
                     } catch (Exceptions_SeotoasterException $se) {
                         error_log($se->getMessage());
                         error_log($se->getTraceAsString());
                     }
-                },
-                array(
-                    'method' => $method,
-                    'websiteUrl' => Zend_Controller_Action_HelperBroker::getStaticHelper('Website')->getUrl()
-                )
+                }
             );
         }
     }

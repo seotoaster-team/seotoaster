@@ -6,6 +6,13 @@ class Tools_Plugins_Tools {
 
     const LOADER_EXTENSION = 'IonCube Loader';
 
+    const PLUGIN_TRANSLATIONS_CACHE_ID = 'plugin_translation';
+
+    /**
+     * @var string Path to plugins
+     */
+    private static $_pluginsPath;
+
 	public static function fetchPluginsMenu($userRole = null) {
 		$additionalMenu = array();
 		$enabledPlugins = self::getEnabledPlugins();
@@ -259,13 +266,16 @@ class Tools_Plugins_Tools {
 		return $enabledPlugins;
 	}
 
-    public static function loaderCanExec($name) {
-        if(!extension_loaded(self::LOADER_EXTENSION)) {
-            $pluginsData = self::_initValues();
-            if(file_exists($pluginsData['pluginsDirPath'] . $name . '/.toasted')) {
-                return false;
-            }
-            return true;
+    /**
+     * Checks if plugins can be executed.
+     * To prevent fatal error on calling encoded plugins when proper loader extension is not installed
+     * @param $name Plugin name
+     * @return bool
+     */
+    public static function loaderCanExec($name)
+    {
+        if (!extension_loaded(self::LOADER_EXTENSION)) {
+            return !file_exists(self::getPluginsPath() . $name . DIRECTORY_SEPARATOR . '.toasted');
         }
         return true;
     }
@@ -447,7 +457,8 @@ class Tools_Plugins_Tools {
     /**
      * @deprecated
      */
-    public static function findAvialablePlugins() {
+    public static function findAvialablePlugins()
+    {
         return self::findAvailablePlugins();
     }
 
@@ -542,7 +553,7 @@ class Tools_Plugins_Tools {
                             }
                         }
                         catch (Zend_Config_Exception $zce) {
-                            //Zend_Debug::dump($zce->getMessage()); die(); //development
+                            error_log($zce->getMessage());
                             continue; //production
                         }
                     }
@@ -553,19 +564,95 @@ class Tools_Plugins_Tools {
         return $path;
     }
 
-	public static function registerPluginsIncludePath($force = false){
-		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
+    /**
+     * Register include path for all enabled plugins
+     * @param bool $force Force reload include path if true given
+     */
+    public static function registerPluginsIncludePath($force = false)
+    {
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
 
-		if ($force) {
-			$cacheHelper->clean(null, null, array('plugins'));
-		}
+        if ($force) {
+            $cacheHelper->clean(null, null, array('plugins'));
+        }
 
-		if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_')) || $force){
-			$pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
-			$cacheHelper->save('includePath', $pluginIncludePath, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_LONG);
-		}
-		if (!empty($pluginIncludePath)){
-            set_include_path(implode(PATH_SEPARATOR,$pluginIncludePath).PATH_SEPARATOR.get_include_path());
-		}
-	}
+        if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_')) || $force) {
+            $pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
+            $cacheHelper->save(
+                'includePath',
+                $pluginIncludePath,
+                'plugins_',
+                array('plugins'),
+                Helpers_Action_Cache::CACHE_LONG
+            );
+        }
+        if (!empty($pluginIncludePath)) {
+            set_include_path(implode(PATH_SEPARATOR, $pluginIncludePath) . PATH_SEPARATOR . get_include_path());
+        }
+    }
+
+    /**
+     * Register plugins translation files into toasters translator
+     * Method find for all enabled plugins language files for current language. Combine them in one array and cache
+     */
+    public static function registerPluginsTranslations()
+    {
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
+
+        $translate = Zend_Registry::get('Zend_Translate'); /** @var $translate Zend_Translate_Adapter_Array */
+
+        $locale = $translate->getLocale();
+
+        $cacheId = self::PLUGIN_TRANSLATIONS_CACHE_ID . '_' . $locale;
+        $pluginsTranslations = $cacheHelper->load($cacheId, 'plugins_');
+
+        if (null === $pluginsTranslations) {
+            $plugins = self::getEnabledPlugins();
+
+            $pluginsPath = self::getPluginsPath();
+            $pluginsTranslations = array();
+            foreach ($plugins as $plugin) {
+                $lngFile = $pluginsPath.$plugin->getName().DIRECTORY_SEPARATOR.'system/languages/'.$locale.'.lng';
+                if (is_readable($lngFile)) {
+                    $langArray = require($lngFile);
+                    if (!empty($langArray)) {
+                        $pluginsTranslations = array_merge($pluginsTranslations, $langArray);
+                    }
+                }
+            }
+            $pluginsTranslations = array_filter($pluginsTranslations);
+            $cacheHelper->save(
+                $cacheId,
+                $pluginsTranslations,
+                'plugins_',
+                array('plugins', self::PLUGIN_TRANSLATIONS_CACHE_ID),
+                Helpers_Action_Cache::CACHE_LONG * 10
+            );
+        }
+
+        if (!empty($pluginsTranslations)) {
+            $translate->addTranslation(
+                array(
+                    'content' => $pluginsTranslations,
+                    'locale'  => $locale,
+                    'reload'  => true
+                )
+            );
+        }
+    }
+
+    /**
+     * Returns path to plugins folder
+     * @return string Path to plugins folder
+     */
+    public static function getPluginsPath()
+    {
+        if (empty(self::$_pluginsPath)) {
+            $websiteData = Zend_Registry::get('website');
+            $miscData = Zend_Registry::get('misc');
+            self::$_pluginsPath = $websiteData['path'] . $miscData['pluginsPath'];
+        }
+
+        return self::$_pluginsPath;
+    }
 }
