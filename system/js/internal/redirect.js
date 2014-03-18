@@ -62,6 +62,6 @@ function reloadRedirectsList() {
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/', function(response) {
 		hideSpinner();
 		$('#redirects-list').html(response.redirectsList);
-		checkboxRadio();
+		checkboxRadioStyle();
 	});
 }

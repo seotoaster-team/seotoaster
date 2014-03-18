@@ -64,6 +64,6 @@ function loadDeeplinksList() {
 	$.getJSON($('#website_url').val() + 'backend/backend_seo/loaddeeplinkslist/', function(response) {
 		$('#deeplinks-list').html(response.deeplinksList);
 		hideSpinner();
-		checkboxRadio();
+		checkboxRadioStyle();
 	})
 }

@@ -32,6 +32,6 @@ function loadFaList() {
 	$.getJSON($('#website_url').val() + 'backend/backend_featured/loadfalist/pid/' + $('#pageId').val() , function(response) {
 		$('#fa-list').html(response.faList);
 		$('#fa-name').val('');
-		checkboxRadio();
+		checkboxRadioStyle();
 	});
 }
