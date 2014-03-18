@@ -21,33 +21,34 @@
         .ui-draggable&{
             cursor : move;
         }
+    }
 
-        .ui-dialog-title{
-            max-width      : 90%;
-            text-transform : capitalize;
-            .text-overflow;
+    .ui-dialog-title{
+        max-width      : 90%;
+        text-transform : capitalize;
+        .text-overflow;
+    }
+
+    .ui-dialog-titlebar-close{
+        position : absolute;
+        top      : 0;
+        bottom   : 0;
+        right    : @padding-large-vertical;
+        margin   : auto;
+        padding  : 0;
+        border   : none;
+        .link-color(@header-color, @brand-red);
+        .box-sizing(content-box);
+        .icon-size(13px);
+
+        .ui-icon-closethick{
         }
 
-        .ui-dialog-titlebar-close{
-            position : absolute;
-            top      : 0;
-            bottom   : 0;
-            right    : @padding-large-vertical;
-            margin   : auto;
-            padding  : 0;
-            border   : none;
-            .link-color(@header-color, @brand-red);
-            .box-sizing(content-box);
-            .icon-size(13px);
-
-            .ui-icon-closethick{
-            }
-
-            .ui-button-text{
-                display : none;
-            }
+        .ui-button-text{
+            display : none;
         }
     }
+
     .ui-dialog-content{
         position   : relative;
         border     : 0;
