@@ -7,13 +7,13 @@
     position         : relative;
     padding          : 0 @padding-base-vertical;
     min-width        : 100%;
-    min-height       : @btn-height-base;
+    min-height       : @button-height-base;
     border-width     : @input-border-width;
     border-style     : solid;
     border-color     : @input-border-color;
     background-color : @input-bg;
     color            : @input-color;
-    line-height      : @btn-height-base - @input-border-width;
+    line-height      : @button-height-base - @input-border-width;
     .box-sizing();
     .inline-block();
     .border-radius(@input-border-radius);
@@ -33,8 +33,8 @@
     &.chosen-container-multi{ cursor : text; }
 
     .chosen-single{
-        line-height : @btn-height-base - @input-border-width * 2;
-        max-height  : @btn-height-base - @input-border-width * 2;
+        line-height : @button-height-base - @input-border-width * 2;
+        max-height  : @button-height-base - @input-border-width * 2;
         display     : block;
         color       : @input-color;
         .text-overflow;
@@ -181,8 +181,8 @@
             color       : @primary-color;
             padding     : 0 @padding-mini-horizontal;
             margin      : 0 0.25em 0.25em 0;
-            height      : @btn-height-small;
-            line-height : @btn-height-small;
+            height      : @button-height-small;
+            line-height : @button-height-small;
         }
 
         .search-field{

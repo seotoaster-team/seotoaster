@@ -15,38 +15,38 @@
 
         // Warning appears as orange
         &.warning{
-            .button-color(@btn-orange-color, @btn-orange-bg, @btn-orange-border, @activate-alternate-style-button-color-orange);
+            .button-color(@button-orange-color, @button-orange-bg, @button-orange-border, @activate-alternate-style-button-color-orange);
         }
 
         &.inverse-warning{
-            .button-color(@gray, @gray-light, @gray-light, @btn-orange-color, @btn-orange-bg, @btn-orange-border, @activate-alternate-style-button-color-orange, @activate-alternate-style-button-color-orange-inverse);
+            .button-color(@gray, @gray-light, @gray-light, @button-orange-color, @button-orange-bg, @button-orange-border, @activate-alternate-style-button-color-orange, @activate-alternate-style-button-color-orange-inverse);
         }
 
         // Danger and red appear as red
         &.error{
-            .button-color(@btn-red-color, @btn-red-bg, @btn-red-border, @activate-alternate-style-button-color-red);
+            .button-color(@button-red-color, @button-red-bg, @button-red-border, @activate-alternate-style-button-color-red);
         }
 
         &.inverse-error{
-            .button-color(@gray, @gray-light, @gray-light, @btn-red-color, @btn-red-bg, @btn-red-border, @activate-alternate-style-button-color-red, @activate-alternate-style-button-color-red-inverse);
+            .button-color(@gray, @gray-light, @gray-light, @button-red-color, @button-red-bg, @button-red-border, @activate-alternate-style-button-color-red, @activate-alternate-style-button-color-red-inverse);
         }
 
         // Success appears as green
         &.success{
-            .button-color(@btn-green-color, @btn-green-bg, @btn-green-border, @activate-alternate-style-button-color-green);
+            .button-color(@button-green-color, @button-green-bg, @button-green-border, @activate-alternate-style-button-color-green);
         }
 
         &.inverse-success{
-            .button-color(@gray, @gray-light, @gray-light, @btn-green-color, @btn-green-bg, @btn-green-border, @activate-alternate-style-button-color-green, @activate-alternate-style-button-color-green-inverse);
+            .button-color(@gray, @gray-light, @gray-light, @button-green-color, @button-green-bg, @button-green-border, @activate-alternate-style-button-color-green, @activate-alternate-style-button-color-green-inverse);
         }
 
         // Info appears as blue
         &.info{
-            .button-color(@btn-blue-color, @btn-blue-bg, @btn-blue-border, @activate-alternate-style-button-color-blue);
+            .button-color(@button-blue-color, @button-blue-bg, @button-blue-border, @activate-alternate-style-button-color-blue);
         }
 
         &.inverse-info{
-            .button-color(@gray, @gray-light, @gray-light, @btn-blue-color, @btn-blue-bg, @btn-blue-border, @activate-alternate-style-button-color-blue, @activate-alternate-style-button-color-blue-inverse);
+            .button-color(@gray, @gray-light, @gray-light, @button-blue-color, @button-blue-bg, @button-blue-border, @activate-alternate-style-button-color-blue, @activate-alternate-style-button-color-blue-inverse);
         }
     }
     .activate-button-color();
@@ -90,7 +90,7 @@
         {
             &.ui-button-icon-only, &.icon{
                 .box-sizing(content-box);
-                .icon-size-base();
+                .button-icon-size();
 
                 &:before{ margin : 0; }
 
@@ -100,13 +100,13 @@
                 }
 
                 &.larger{
-                    .icon-size-larger();
+                    .button-icon-size(@icon-size-larger);
                 }
                 &.large{
-                    .icon-size-large();
+                    .button-icon-size(@icon-size-large);
                 }
                 &.small{
-                    .icon-size-small();
+                    .button-icon-size(@icon-size-small);
                 }
             }
         }
@@ -120,7 +120,7 @@
             &.link{
                 font-weight : normal;
                 padding     : 0;
-                //height      : auto;
+                height      : auto;
                 .link-color(@link-color, true);
 
                 .activate-hover(@activate) when (@activate = true){
@@ -190,7 +190,7 @@
     when (@button3D = true) and (@globalTypeButton = true)
     {
         &.btn-3d{
-            .button-3d(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+            .button-3d(@button-primary-color, @button-primary-bg, @button-primary-border);
         }
     }
 .activate-button-3d();
@@ -201,7 +201,7 @@
     .ui-buttonset, .btn-set{
         font-size    : 0;
         display      : inline-block;
-        border-width : @btn-border-width;
+        border-width : @button-border-width;
         border-style : solid;
         border-color : @primary-bg;
         width        : auto;

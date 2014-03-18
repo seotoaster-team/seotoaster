@@ -189,7 +189,7 @@ $(function(){
         });
     }
     //publishPages();
-    checkboxRadio();
+    checkboxRadioStyle();
     $(document).on('click', '.closebutton .hide', function(){
         $('.show-left').hide("slide", { direction: "left"});
         $('.show-right').hide("slide", { direction: "right"});
@@ -198,7 +198,7 @@ $(function(){
 
     $(document).ajaxStop(function(){
         hideSpinner();
-        checkboxRadio();
+        checkboxRadioStyle();
     });
 });
 ///////// Full screen //////////////
@@ -281,7 +281,7 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
     }
 });
 ///////// checkbox & radio button //////////////
-function checkboxRadio(){
+function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
         $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
             $(':radio').addClass('radio-upgrade filed-upgrade');

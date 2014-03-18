@@ -70,6 +70,15 @@
 @font-size-small      : 0.85em;
 @font-size-mini       : 0.75em;
 
+// Icons size
+//==================================================
+@icon-size-larger : 24px;
+@icon-size-large  : 19px;
+@icon-size-base   : 16px;
+@icon-size-small  : 11px;
+
+@social-icon-size : 20px;
+
 // Grid Base
 //==================================================
 //Width for container
@@ -232,49 +241,40 @@
 @table-border-color : darken(@gray-light, 5%);
 // table and cell border
 
-// Icons size
-//==================================================
-@icon-size-larger : 24px;
-@icon-size-large  : 19px;
-@icon-size-base   : 16px;
-@icon-size-small  : 11px;
-
-@social-icon-size : 20px;
-
 // Buttons
 //==================================================
-@btn-line-height           : 1.33;
-@btn-border-width          : 0;
+@button-line-height           : 1.33;
+@button-border-width          : 0;
 
-@btn-height-base           : floor(@font-size-base * unit(@btn-line-height) + @padding-base-vertical * 2 + @btn-border-width * 2);
-@btn-height-larger         : floor(unit(@font-size-larger) * @font-size-base * unit(@btn-line-height) + @padding-larger-vertical * 2 + @btn-border-width * 2);
-@btn-height-large          : floor(unit(@font-size-large) * @font-size-base * unit(@btn-line-height) + @padding-large-vertical * 2 + @btn-border-width * 2);
-@btn-height-small          : floor(unit(@font-size-small) * @font-size-base * unit(@btn-line-height) + @padding-small-vertical * 2 + @btn-border-width * 2);
+@button-height-base           : floor(@font-size-base * unit(@button-line-height) + @padding-base-vertical * 2 + @button-border-width * 2);
+@button-height-larger         : floor(unit(@font-size-larger) * @font-size-base * unit(@button-line-height) + @padding-larger-vertical * 2 + @button-border-width * 2);
+@button-height-large          : floor(unit(@font-size-large) * @font-size-base * unit(@button-line-height) + @padding-large-vertical * 2 + @button-border-width * 2);
+@button-height-small          : floor(unit(@font-size-small) * @font-size-base * unit(@button-line-height) + @padding-small-vertical * 2 + @button-border-width * 2);
 
-@btn-border-radius         : 0;
-@btn-larger-border-radius  : @btn-border-radius * 2;
-@btn-large-border-radius   : @btn-border-radius * 1.5;
-@btn-small-border-radius   : @btn-border-radius * .5;
+@button-border-radius         : 0;
+@button-larger-border-radius  : @button-border-radius * 2;
+@button-large-border-radius   : @button-border-radius * 1.5;
+@button-small-border-radius   : @button-border-radius * .5;
 
-@btn-primary-color         : @primary-color;
-@btn-primary-bg            : @primary-bg;
-@btn-primary-border        : darken(@btn-primary-bg, 10%);
+@button-primary-color         : @primary-color;
+@button-primary-bg            : @primary-bg;
+@button-primary-border        : darken(@button-primary-bg, 10%);
 
-@btn-green-color           : #fff;
-@btn-green-bg              : @brand-green;
-@btn-green-border          : darken(@btn-green-bg, 10%);
+@button-green-color           : #fff;
+@button-green-bg              : @brand-green;
+@button-green-border          : darken(@button-green-bg, 10%);
 
-@btn-orange-color          : #fff;
-@btn-orange-bg             : @brand-orange;
-@btn-orange-border         : darken(@btn-orange-bg, 10%);
+@button-orange-color          : #fff;
+@button-orange-bg             : @brand-orange;
+@button-orange-border         : darken(@button-orange-bg, 10%);
 
-@btn-red-color             : #fff;
-@btn-red-bg                : @brand-red;
-@btn-red-border            : darken(@btn-red-bg, 10%);
+@button-red-color             : #fff;
+@button-red-bg                : @brand-red;
+@button-red-border            : darken(@button-red-bg, 10%);
 
-@btn-blue-color            : #fff;
-@btn-blue-bg               : @brand-blue;
-@btn-blue-border           : darken(@btn-blue-bg, 10%);
+@button-blue-color            : #fff;
+@button-blue-bg               : @brand-blue;
+@button-blue-border           : darken(@button-blue-bg, 10%);
 
 // Forms
 //==================================================
