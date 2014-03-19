@@ -1,0 +1,48 @@
+// Font size
+//==================================================
+@button-font-size-larger : round(unit(@font-size-larger * @font-size-base, px));
+@button-font-size-large  : round(unit(@font-size-large * @font-size-base, px));
+@button-font-size-base   : @font-size-base;
+@button-font-size-small  : round(unit(@font-size-small * @font-size-base, px));
+
+.font-size-variable(@font : @font-size-base, @font-size : @font-size-larger) when not (ispixel(@font)) and not (ispixel(@font-size)){
+    @button-font-size-larger : round(unit(@font-size-larger * 16 * @font-size-base, px));
+}
+.font-size-variable(@font : @font-size-base, @font-size : @font-size-large) when not (ispixel(@font)) and not (ispixel(@font-size)){
+    @button-font-size-large  : round(unit(@font-size-large * 16 * @font-size-base, px));
+}
+.font-size-variable(@font : @font-size-base, @font-size : @font-size-base) when not (ispixel(@font)) and not (ispixel(@font-size)){
+    @button-font-size-base   : round(unit(16 * @font-size-base, px));
+}
+.font-size-variable(@font : @font-size-base, @font-size : @font-size-small) when not (ispixel(@font)) and not (ispixel(@font-size)){
+    @button-font-size-small  : round(unit(@font-size-small * 16 * @font-size-base, px));
+}
+.font-size-variable();
+
+// Paddings size
+//==================================================
+@button-padding-larger-vertical   : @padding-larger-vertical;
+@button-padding-large-vertical    : @padding-large-vertical;
+@button-padding-base-vertical     : @padding-base-vertical;
+@button-padding-small-vertical    : @padding-small-vertical;
+
+.padding-size-variable(@font : @font-size-base, @padding : @padding-larger-vertical) when not (ispixel(@font)) and not (ispixel(@padding)){
+    @button-padding-larger-vertical : round(unit(@padding-larger-vertical * 16 * @font-size-base, px));
+}
+.padding-size-variable(@font : @font-size-base, @padding : @padding-large-vertical) when not (ispixel(@font)) and not (ispixel(@padding)){
+    @button-padding-large-vertical : round(unit(@padding-large-vertical * 16 * @font-size-base, px));
+}
+.padding-size-variable(@font : @font-size-base, @padding : @padding-base-vertical) when not (ispixel(@font)) and not (ispixel(@padding)){
+    @button-padding-base-vertical : round(unit(@padding-base-vertical * 16 * @font-size-base, px));
+}
+.padding-size-variable(@font : @font-size-base, @padding : @padding-small-vertical) when not (ispixel(@font)) and not (ispixel(@padding)){
+    @button-padding-small-vertical : round(unit(@padding-small-vertical * 16 * @font-size-base, px));
+}
+.padding-size-variable();
+
+// Button height
+//==================================================
+@button-height-larger : floor(@button-font-size-larger * unit(@button-line-height) + @button-padding-larger-vertical * 2 + @button-border-width * 2);
+@button-height-large  : floor(@button-font-size-large * unit(@button-line-height) + @button-padding-large-vertical * 2 + @button-border-width * 2);
+@button-height-base   : floor(@button-font-size-base * unit(@button-line-height) + @button-padding-base-vertical * 2 + @button-border-width * 2);
+@button-height-small  : floor(@button-font-size-small * unit(@button-line-height) + @button-padding-small-vertical * 2 + @button-border-width * 2);

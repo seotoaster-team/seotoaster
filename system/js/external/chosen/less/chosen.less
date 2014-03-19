@@ -1,4 +1,5 @@
 @import "../../../../css/less/base/variables";
+
 .chzn-select{ width : 100%; }
 .chzn-select-deselect{ width : 100%; }
 
@@ -6,18 +7,18 @@
 // ------------------------------------------
 .chzn-container{
     position         : relative;
-    padding          : 0 @padding-base-vertical;
-    min-width        : 100%;
-    min-height       : @btn-height-base;
+    padding          : 0 @padding-small-vertical;
+    width            : 100%;
+    min-height       : @button-height-base;
     border-width     : @input-border-width;
     border-style     : solid;
     border-color     : @input-border-color;
     background-color : @input-bg;
     color            : @input-color;
-    line-height      : @btn-height-base - @input-border-width;
-    .box-sizing();
+    line-height      : @button-height-base - @input-border-width;
     .inline-block();
     .border-radius(@input-border-radius);
+    .box-sizing();
     .transition(all, 0.3s);
 
     &.chzn-container-active{
@@ -34,23 +35,23 @@
     &.chzn-container-multi{ cursor : text; }
 
     .chzn-single{
-        line-height : @btn-height-base - @input-border-width * 2;
-        max-height  : @btn-height-base - @input-border-width * 2;
+        line-height : @button-height-base - @input-border-width * 2;
+        max-height  : @button-height-base - @input-border-width * 2;
         display     : block;
         color       : @input-color;
         .text-overflow;
 
         &:before{
             float       : right;
-            font-family : 'toaster-icons';
+            font-family : 'system-icons';
             content     : '\e01b';
-            font-size   : 16px;
+            font-size   : @icon-size-base;
         }
     }
 
     input{
         color : inherit;
-        //border : none;
+        .box-shadow(none);
     }
 
     ul{
@@ -85,11 +86,11 @@
         }
 
         &:after{
-            color          : @gray-light;
+            color          : @input-color;
             vertical-align : middle;
-            font-family    : 'toaster-icons';
+            font-family    : 'system-icons';
             content        : '\f002';
-            font-size      : 16px;
+            font-size      : @icon-size-base;
             margin-left    : -24px;
         }
     }
@@ -99,13 +100,12 @@
         overflow   : auto;
 
         li{
-            color   : @gray-light;
+            color   : @text-color;
             cursor  : pointer;
             padding : @padding-base-vertical @padding-base-horizontal;
 
             &:hover{
                 background : @gray-lighter;
-                color      : @gray-dark;
             }
         }
 
@@ -116,8 +116,8 @@
             padding     : @padding-small-vertical @padding-small-horizontal;
 
             &:before{
-                font-family : 'toaster-icons';
-                content     : ' \f107';
+                font-family : 'system-icons';
+                content     : ' \e0c1';
                 font-style  : normal;
             }
         }
@@ -137,14 +137,9 @@
             &:before{
                 color       : @brand-primary;
                 float       : right;
-                font-family : 'toaster-icons';
+                font-family : 'system-icons';
                 content     : '\e013';
-                font-size   : 16px;
-            }
-
-            &:hover{
-                background : @gray-lighter;
-                color      : inherit;
+                font-size   : @icon-size-base;
             }
         }
 
@@ -156,9 +151,9 @@
             &:before{
                 color       : @gray-light;
                 float       : right;
-                font-family : 'toaster-icons';
-                content     : '\e03f';
-                font-size   : 16px;
+                font-family : 'system-icons';
+                content     : '\e0a9';
+                font-size   : @icon-size-base;
             }
         }
 
@@ -171,7 +166,7 @@
     .chzn-choices{
         font-size  : @font-size-small;
         margin-top : 0.25em;
-        .clearfix;
+        .clearfix();
 
         &>*{
             float : left;
@@ -179,11 +174,11 @@
 
         .search-choice{
             background  : @gray-light;
-            color       : @primary-color;
+            color       : @text-color;
             padding     : 0 @padding-mini-horizontal;
             margin      : 0 0.25em 0.25em 0;
-            height      : @btn-height-small;
-            line-height : @btn-height-small;
+            height      : @button-height-small;
+            line-height : @button-height-small;
         }
 
         .search-field{
@@ -202,9 +197,10 @@
         font-size   : 10px;
 
         &:before{
-            font-family : 'toaster-icons';
-            content     : '\f057';
+            font-family : 'system-icons';
+            content     : '\e026';
         }
+
         &:hover{
             color : darken(@brand-red, 10%);
         }
@@ -240,9 +236,9 @@
         &:after{
             color          : @gray-light;
             vertical-align : middle;
-            font-family    : 'toaster-icons';
+            font-family    : 'system-icons';
             content        : '\f002';
-            font-size      : 16px;
+            font-size      : @icon-size-base;
             margin-left    : -24px;
         }
     }

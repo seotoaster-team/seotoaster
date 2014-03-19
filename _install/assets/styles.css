@@ -1,4 +1,4 @@
-.container_12{
+.container {
 	width:960px;
 	margin:0 auto;
 }
@@ -38,6 +38,7 @@ header #language{
 	margin-left:70px;
 }
 header #language label{
+    display: inline;
     background: #aaa;
     border: medium none;
     border-radius: 0;
@@ -65,7 +66,6 @@ header #language label:hover{
 
 }
 header #language span{
-    font-size: 0;
     padding: 6px 5px;
 }
 .title-step{

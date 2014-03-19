@@ -18,7 +18,11 @@
     background : @body-bg;
 
     #content_ifr{
-        height: 100% !important;
+        height : 100% !important;
+    }
+
+    #content_tbl{
+        max-height : 430px;
     }
 }
 
@@ -67,32 +71,12 @@
 
         #tabs-frag-2{
             .ui-accordion-content{
-                max-height : 194px;
+                max-height : 193px;
             }
         }
     }
 
     #adminthingsviewer{
-        //        #upload_things_button.ui-accordion-header{
-        //            font-weight : bold;
-        //            text-align  : center;
-        //
-        //            a{
-        //                display : block;
-        //
-        //                [class*="icon-"]{
-        //                    margin-top : -3px;
-        //                }
-        //            }
-        //
-        //            &:hover{
-        //                background : darken(@gray-light, 10%);
-        //            }
-        //
-        //            .ui-accordion-header-icon{
-        //                display : none;
-        //            }
-        //        }
 
         .ui-accordion-content{
             position : relative;
@@ -105,7 +89,6 @@
 
                 .list-images{
                     margin   : -5px;
-                    //height   : 184px;
                     overflow : auto;
 
                     a{
@@ -156,7 +139,7 @@
 
     #frm_content{
         #content{
-            height : 435px;
+            height : 430px;
         }
 
         #content_widgets_text{
@@ -164,35 +147,43 @@
             width   : auto;
         }
     }
+
+    .chzn-container{
+        &.chzn-container-multi{
+            .chzn-choices{
+                height     : 50px;
+                overflow   : auto;
+            }
+        }
+    }
 }
 
 // Products tab
 //===========================================================
+#conditional{
+    margin-bottom : 0;
+    margin-top    : 0.65em;
+    padding-left  : 5px;
+
+    &:after, &:before{
+        content      : '';
+        display      : block;
+        width        : 8px;
+        height       : 15px;
+        border-right : 1px dashed @input-border-color;
+    }
+
+    &:before{
+        border-top : 1px dashed @input-border-color;
+    }
+
+    &:after{
+        border-bottom : 1px dashed @input-border-color;
+    }
+}
 #filters{
     .chzn-choices{
         padding-right : 26px;
-    }
-
-    &>label{
-        position   : absolute;
-        top        : 0;
-        right      : 0px;
-
-        &:after, &:before{
-            content      : '';
-            display      : block;
-            width        : 8px;
-            height       : 15px;
-            border-right : 1px dashed @input-border-color;
-        }
-
-        &:before{
-            border-top : 1px dashed @input-border-color;
-        }
-
-        &:after{
-            border-bottom : 1px dashed @input-border-color;
-        }
     }
 }
 
@@ -200,7 +191,7 @@
     background : @body-bg;
     padding    : @padding-base-vertical;
     overflow   : auto;
-    height     : 275px;
+    height     : 271px;
 }
 
 @import "../../../../../plugins/shopping/web/css/less/product-list";

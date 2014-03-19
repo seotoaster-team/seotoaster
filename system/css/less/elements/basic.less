@@ -137,45 +137,35 @@ body{
 
 @content-margin-top    : 15px;
 @content-margin-bottom : 10px;
-@footer-height         : @btn-height-base + @content-margin-top + @content-margin-bottom;
+@footer-height         : @button-height-base + @content-margin-top + @content-margin-bottom;
 
-.content-auto,
-.content, .content-footer,
-.content-medium, .content-medium-footer,
-.content-small, .content-small-footer{
-    position   : static;
-    background : @body-bg;
-    margin-top : 0 !important;
-    border-top : @content-margin-top solid #fff;
-    clear      : both;
-    .box-sizing(content-box);
-    .clearfix();
-
-    &.screen-expand{
-        height : auto !important;
-    }
-
-    &.wrap{
-        overflow : hidden;
-    }
-
-    .ui-tabs &.ui-tabs-panel{
-        padding : 10px @grid-margin-width / 2 0;
-    }
-}
-.with-content, .with-content-footer{
-
-    &>.ui-tabs-panel{
+.seotoaster{
+    .content-auto,
+    .content, .content-footer,
+    .content-medium, .content-medium-footer,
+    .content-small, .content-small-footer,
+    .with-content>.ui-tabs-panel, .with-content-footer>.ui-tabs-panel{
         position       : static;
         background     : @body-bg;
-        margin-top     : @content-margin-top;
+        margin-top     : 0 !important;
         padding-top    : 0;
         padding-bottom : 0;
+        border-top     : @content-margin-top solid #fff !important;
         clear          : both;
-        width          : 100%;
-        float          : left;
         .box-sizing();
         .clearfix();
+
+        &.screen-expand{
+            height : auto !important;
+        }
+
+        &.wrap{
+            overflow : hidden;
+        }
+
+        .ui-tabs &.ui-tabs-panel{
+            padding : 10px @grid-margin-width / 2 0;
+        }
     }
 }
 .content, .content-medium, .content-small, .content-auto{
@@ -183,30 +173,30 @@ body{
     border-bottom : @content-margin-bottom solid #fff;
 }
 .content, .with-content>.ui-tabs-panel{
-    height : @tpopup-base-height - @header-height - @content-margin-top - @content-margin-bottom;
+    height : @tpopup-base-height - @header-height;
 }
 .content-footer, .with-content-footer>.ui-tabs-panel{
-    height : @tpopup-base-height - @header-height - @footer-height - @content-margin-top;
+    height : @tpopup-base-height - @header-height - @footer-height;
 }
 .content-medium{
-    height : @tpopup-medium-height - @header-height - @content-margin-top - @content-margin-bottom;
+    height : @tpopup-medium-height - @header-height;
 }
 .content-medium-footer{
-    height : @tpopup-medium-height - @header-height - @footer-height - @content-margin-top;
+    height : @tpopup-medium-height - @header-height - @footer-height;
 }
 .content-small{
-    height : @tpopup-small-height - @header-height - @content-margin-top - @content-margin-bottom;
+    height : @tpopup-small-height - @header-height;
 }
 .content-small-footer{
-    height : @tpopup-small-height - @header-height - @footer-height - @content-margin-top;
+    height : @tpopup-small-height - @header-height - @footer-height;
 }
 .footer{
     .box-sizing;
     clear         : both;
-    margin-top    : @content-margin-top;
-    margin-bottom : @content-margin-bottom;
-    height        : @btn-height-base;
-    line-height   : @btn-height-base;
+    margin-top    : @content-margin-top !important;
+    margin-bottom : @content-margin-bottom !important;
+    height        : @button-height-base;
+    line-height   : @button-height-base;
 
     [class*="content"].grid_12+&{
         padding-left  : @grid-margin-width / 2;
@@ -219,7 +209,7 @@ body{
 
     [class*="content"]>&{
         background    : @body-bg;
-        margin-bottom : 0;
+        margin-bottom : 0 !important;
     }
 }
 

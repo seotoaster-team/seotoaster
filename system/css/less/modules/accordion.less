@@ -18,7 +18,7 @@
         }
 
         a{
-//            color : inherit;
+            color : inherit;
         }
 
         .activate-hover(@activate) when (@activate = true){
@@ -34,7 +34,7 @@
             }
         }
         .activate-hover(@activate-hover);
-
+        .chzn-choices
         &.ui-accordion-header-active{
             color      : @accordion-header-color-active;
             background : @accordion-header-bg-active;
@@ -46,7 +46,7 @@
             .inline-block;
             margin-left  : -@padding-base-horizontal / 2;
             margin-right : @padding-base-horizontal / 2;
-            .icon-size(16px);
+            .icon-size(@icon-size-base);
         }
     }
 

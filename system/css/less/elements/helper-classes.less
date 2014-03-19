@@ -25,6 +25,13 @@
         }
         .activate-hover(@activate-hover);
     }
+    a.inverse{
+        color : @gray;
+
+        &:hover{
+            color : @primary-bg;
+        }
+    }
     .activate-color-green(@activate) when (@activate = true){
         .success{
             color : @brand-green;
@@ -39,6 +46,13 @@
                 }
             }
             .activate-hover(@activate-hover);
+        }
+        a.inverse-success{
+            color : @gray;
+
+            &:hover{
+                color : @brand-green;
+            }
         }
     }
     .activate-color-orange(@activate) when (@activate = true){
@@ -56,6 +70,13 @@
             }
             .activate-hover(@activate-hover);
         }
+        a.inverse-warning{
+            color : @gray;
+
+            &:hover{
+                color : @brand-orange;
+            }
+        }
     }
     .activate-color-red(@activate) when (@activate = true){
         .error{
@@ -72,6 +93,13 @@
             }
             .activate-hover(@activate-hover);
         }
+        a.inverse-error{
+            color : @gray;
+
+            &:hover{
+                color : @brand-red;
+            }
+        }
     }
     .activate-color-blue(@activate) when (@activate = true){
         .info{
@@ -87,6 +115,13 @@
                 }
             }
             .activate-hover(@activate-hover);
+        }
+        a.inverse-info{
+            color : @gray;
+
+            &:hover{
+                color : @brand-blue;
+            }
         }
     }
     .activate-color-green(@activate-alternate-style-color-green);

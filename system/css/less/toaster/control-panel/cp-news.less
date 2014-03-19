@@ -44,6 +44,10 @@
 
             &:hover{
                 background : @gray-light;
+
+                .news-item-delete{
+                    display : block;
+                }
             }
 
             .news-item-img{
@@ -66,6 +70,14 @@
                 font-weight : bold;
                 font-size   : @font-size-mini;
                 color       : @gray;
+            }
+            .news-item-delete{
+                position   : absolute;
+                top        : 0;
+                right      : 0;
+                padding    : 5px;
+                background : @gray-light;
+                display    : none;
             }
         }
     }
