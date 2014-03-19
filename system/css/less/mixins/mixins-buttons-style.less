@@ -36,7 +36,7 @@
 .activate-size(@size, @type) when (@size = base) and (@type = icon){ .button-icon-size(); }
 .activate-size(@size, @type) when (@size = small) and (@type = icon){ .button-icon-size(@icon-size-small); }
 
-//.activate-type(@type) when (@type = false){ .box-sizing(); }
+.activate-type(@type) when (@type = false){ .box-sizing(); }
 .activate-type(@type) when (@type = icon){ .box-sizing(content-box); }
 
 .activate-border(@value) when (@value > 0){
@@ -100,7 +100,7 @@
 // and disabled options for all buttons
 .link-color(@color, @eachColor: true) when (@eachColor = true){
     color      : @color;
-    background : transparent;
+    background : transparent !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
@@ -130,7 +130,7 @@
 
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
     color      : @color;
-    background : transparent;
+    background : transparent !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
