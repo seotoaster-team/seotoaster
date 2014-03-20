@@ -27,5 +27,5 @@ UPDATE `config` SET `name` = 'recaptchaPublicKey' WHERE `name` = 'recapthaPublic
 UPDATE `config` SET `name` = 'recaptchaPrivateKey' WHERE `name` = 'recapthaPrivateKey';
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.1.4' WHERE `name`='version';
+UPDATE `config` SET `value`='2.2.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
