@@ -6,7 +6,6 @@ $(function() {
             ui.panel.addClass('plugins-list h425');
             ui.ajaxSettings.dataFilter = function(data) {
                 ui.panel.html($.parseJSON(data).pluginsList);
-                $('.plugin-item a.plugin-control, .plugin-item a.plugin-endis').button();
             };
             ui.jqXHR.done(function(){});
         }
@@ -46,7 +45,6 @@ $(function() {
 function pluginCallback() {
 	$.getJSON($('#website_url').val() + 'backend/backend_plugin/list/', function(response) {
 		$('.plugins-list').html(response.pluginsList);
-		$('a.plugin-control, a.plugin-endis').button();
 	})
 }
 

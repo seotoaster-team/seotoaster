@@ -34,6 +34,17 @@
     }
 }
 
+[aria-describedby="toasterPopup"]{
+    position    : fixed !important;
+    right       : 0 !important;
+    left        : 0 !important;
+    line-height : 0 !important;
+    margin      : auto !important;
+    padding     : auto !important;
+    border      : none !important;
+    max-width   : none !important;
+}
+
 //  Fonts
 //==================================================
 @import "elements/fonts";
@@ -41,7 +52,7 @@
 //  Toaster ICON
 //==================================================
 .activate-toaster-icon(@activate) when ( @activate = true){
-    @import "elements/toaster-icons";
+//    @import "elements/toaster-icons";
 }
 .activate-toaster-icon(@activate-toaster-icons);
 

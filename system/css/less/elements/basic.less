@@ -193,8 +193,8 @@ body{
 .footer{
     .box-sizing;
     clear         : both;
-    margin-top    : @content-margin-top;
-    margin-bottom : @content-margin-bottom;
+    margin-top    : @content-margin-top !important;
+    margin-bottom : @content-margin-bottom !important;
     height        : @button-height-base;
     line-height   : @button-height-base;
 
@@ -209,7 +209,7 @@ body{
 
     [class*="content"]>&{
         background    : @body-bg;
-        margin-bottom : 0;
+        margin-bottom : 0 !important;
     }
 }
 
