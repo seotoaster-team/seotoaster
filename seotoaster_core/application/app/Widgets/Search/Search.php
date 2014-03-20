@@ -35,8 +35,9 @@ class Widgets_Search_Search extends Widgets_Abstract {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Not enough parameters'));
 		}
 
-		$rendererName = '_renderSearch' . ucfirst(array_shift($this->_options));
+		$rendererName = '_renderSearch' . ucfirst($this->_options[0]);
 		if(method_exists($this, $rendererName)) {
+            array_shift($this->_options);
 			return $this->$rendererName($this->_options);
 		}
 
