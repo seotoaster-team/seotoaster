@@ -33,7 +33,7 @@
         }
 
 		if (isset($this->minify) && $this->minify === true) {
-			echo Tools_System_Minify::minify($this->headLink(), false);
+			echo Tools_System_Minify::minify($this->headLink(), true);
 		} else {
 			echo $this->headLink();
 		}
@@ -50,8 +50,9 @@
 
         echo $this->jQuery();
 		if (isset($this->minify) && $this->minify === true)  {
-			echo Tools_System_Minify::minify($this->headScript());
-		} else {
+			echo Tools_System_Minify::minify($this->headScript(), true);
+		}
+        else {
 			echo $this->headScript();
 		}
         // link and script block end
