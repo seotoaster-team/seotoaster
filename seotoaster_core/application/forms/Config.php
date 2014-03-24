@@ -36,6 +36,13 @@ class Application_Form_Config extends Zend_Form {
 	 */
 	protected $_showProtectedPagesInMenu = true;
 
+    /**
+     * Enable minification css and js files
+     *
+     * @var boolean
+     */
+    protected $_enableMinify             = false;
+
 	public function getMediaServers() {
 		return $this->_mediaServers;
 	}
@@ -172,6 +179,16 @@ class Application_Form_Config extends Zend_Form {
         $this->getElement('memPagesInMenu')->setValue($showProtectedPagesInMenu);
 		return $this;
 	}
+
+    public function getEnableMinify() {
+        return $this->_enableMinify;
+    }
+
+    public function setEnableMinify($enableMinify) {
+        $this->_enableMinify = $enableMinify;
+        $this->getElement('enableMinify')->setValue($enableMinify);
+        return $this;
+    }
 
 	public function setSmtpPort($smtpPort) {
 		$this->_smtpPort = $smtpPort;
@@ -336,6 +353,12 @@ class Application_Form_Config extends Zend_Form {
 			'value' => $this->_showProtectedPagesInMenu,
 			'label' => 'Member pages in menu?',
 		)));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'enableMinify',
+            'value' => $this->_enableMinify,
+            'label' => 'Enable assets minification (css/js)?',
+        )));
 
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'submit',
