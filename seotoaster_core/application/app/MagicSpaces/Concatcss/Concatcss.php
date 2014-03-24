@@ -49,7 +49,9 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
     protected function _run() {
         $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
         // Disable of the compressor for the role admin/superadmin, version IE < 9
-        if (empty($this->_toasterData) || !$this->_isBrowserIe() || in_array($currentRole, $this->_disableForRoles)) {
+        if (empty($this->_toasterData)
+            || !Tools_System_Tools::isBrowserIe()
+            || in_array($currentRole, $this->_disableForRoles)) {
             return $this->_spaceContent;
         }
 
@@ -108,39 +110,6 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return '<link href="'.$fileLink.'" rel="stylesheet" type="text/css" media="screen"/>';
     }
 
-    private function _isBrowserIe($notBelowVersion = 9) {
-        $version = false;
-
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $agent = $_SERVER['HTTP_USER_AGENT'];
-
-            if (preg_match('/MSIE/i', $agent) && !preg_match('/Opera/i', $agent)) {
-                $browser = 'MSIE';
-                $data    = array();
-
-                preg_match_all(
-                    '#(?<browser>Version|'.$browser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#',
-                    $agent,
-                    $data
-                );
-
-                if (isset($data['browser']) && count($data['browser']) != 1) {
-                    if (isset($data['version'][0]) && strripos($agent, 'Version') < strripos($agent, $browser)) {
-                        $version = $data['version'][0];
-                    }
-                    elseif (isset($data['version'][1])) {
-                        $version = $data['version'][1];
-                    }
-                }
-                elseif (isset($data['version'][0])) {
-                    $version = $data['version'][0];
-                }
-            }
-        }
-
-        return ($version && intval($version) < $notBelowVersion) ? false : true;
-    }
-
     private function _getFilesCss() {
         $cssToTemplate = array();
         preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
@@ -183,11 +152,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
             $fileName = explode('/', $this->_themeFullPath.$file);
             $fileName = strtoupper(end($fileName));
-            $content .= "/**** ".$fileName." start ****/\n";
+            $content .= '/**** '.$fileName.' start ****/'.PHP_EOL;
             $content .= $compressor->run(
                 preg_replace('~\@charset\s\"utf-8\"\;~Ui', '', file_get_contents($this->_themeFullPath.$file))
             );
-            $content .= "\n/**** ".$fileName." end ****/\n";
+            $content .= PHP_EOL.'/**** '.$fileName.' end ****/'.PHP_EOL;
         }
 
         return $content;

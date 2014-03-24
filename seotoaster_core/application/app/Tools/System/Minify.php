@@ -17,6 +17,11 @@ class Tools_System_Minify {
     }
 
     public static function minifyCss($cssList, $concat = false) {
+        // Detect version IE < 9
+        if (!Tools_System_Tools::isBrowserIe()) {
+            return $cssList;
+        }
+
         $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         $cacheHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
         if (null === ($hashStack = $cacheHelper->load(strtolower(__CLASS__), ''))) {
@@ -54,6 +59,7 @@ class Tools_System_Minify {
                 if ((bool) preg_match('/'.$concatCssPrefix.'[a-zA-Z0-9]+\.css/i', $path) === false) {
                     $cssContent = $compressor->run($cssContent);
                 }
+
                 $hashStack[$path] = array(
                     'hash'    => $hash,
                     'content' => $cssContent
@@ -78,7 +84,7 @@ class Tools_System_Minify {
 
         if (isset($concatCss) && !empty($concatCss)) {
             $cname      = sha1($concatCss).'.concat.min.css';
-            $concatPath = $websiteHelper->getPath() . $websiteHelper->getTmp().$cname;
+            $concatPath = $websiteHelper->getPath().$websiteHelper->getTmp().$cname;
 
             if (!file_exists($concatPath) || sha1_file($concatPath) !== sha1($concatCss)) {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatCss);

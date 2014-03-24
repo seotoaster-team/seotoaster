@@ -296,5 +296,42 @@ class Tools_System_Tools {
         finfo_close($finfo);
         return $mime;
     }
-}
 
+    /**
+     * Detect version browser internet explorer.
+     *
+     * @return bool
+     */
+    public static function isBrowserIe($notBelowVersion = 9) {
+        $version = false;
+
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $agent = $_SERVER['HTTP_USER_AGENT'];
+
+            if (preg_match('/MSIE/i', $agent) && !preg_match('/Opera/i', $agent)) {
+                $browser = 'MSIE';
+                $data    = array();
+
+                preg_match_all(
+                    '#(?<browser>Version|'.$browser.'|other)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#',
+                    $agent,
+                    $data
+                );
+
+                if (isset($data['browser']) && count($data['browser']) != 1) {
+                    if (isset($data['version'][0]) && strripos($agent, 'Version') < strripos($agent, $browser)) {
+                        $version = $data['version'][0];
+                    }
+                    elseif (isset($data['version'][1])) {
+                        $version = $data['version'][1];
+                    }
+                }
+                elseif (isset($data['version'][0])) {
+                    $version = $data['version'][0];
+                }
+            }
+        }
+
+        return ($version && intval($version) < $notBelowVersion) ? false : true;
+    }
+}
