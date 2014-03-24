@@ -24,7 +24,8 @@ class Tools_System_Minify {
 
         $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         $cacheHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
-        if (null === ($hashStack = $cacheHelper->load(strtolower(__CLASS__), ''))) {
+        $cacheKey      = strtolower(__CLASS__.'_'.__FUNCTION__);
+        if (null === ($hashStack = $cacheHelper->load($cacheKey, ''))) {
             $hashStack = array();
         }
 
@@ -32,18 +33,19 @@ class Tools_System_Minify {
         $compressor      = new CssMin();
         $concatCssPrefix = MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX;
         foreach ($container->getArrayCopy() as $css) {
-            if (preg_match('/^https?:\/\//', $css->href) != false
-                && strpos($css->href, $websiteHelper->getUrl()) !== 0) {
+            if ((bool) preg_match('/^https?:\/\//', $css->href) !== false
+                && strpos($css->href, $websiteHelper->getUrl()) !== 0
+            ) {
                 continue;
             }
 
             $path = str_replace($websiteHelper->getUrl(), '', $css->href);
+            // Check file exists
             if (!is_file($websiteHelper->getPath().$path) || !file_exists($websiteHelper->getPath().$path)) {
                 continue;
             }
 
-            $hash = sha1_file($websiteHelper->getPath().$path);
-            if (!$hash) {
+            if (!($hash = sha1_file($websiteHelper->getPath().$path))) {
                 continue;
             }
 
@@ -93,7 +95,7 @@ class Tools_System_Minify {
             $cssList->setStylesheet($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
         }
 
-        $cacheHelper->save(strtolower(__CLASS__), $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
+        $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
 
         return $cssList;
     }
@@ -101,7 +103,8 @@ class Tools_System_Minify {
     public static function minifyJs($jsList, $concat = false) {
         $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         $cacheHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
-        if (null === ($hashStack = $cacheHelper->load(strtolower(__CLASS__), ''))) {
+        $cacheKey      = strtolower(__CLASS__.'_'.__FUNCTION__);
+        if (null === ($hashStack = $cacheHelper->load($cacheKey, ''))) {
             $hashStack = array();
         }
 
@@ -113,8 +116,8 @@ class Tools_System_Minify {
                     continue;
                 }
 
-                // Check file exists
                 $path = str_replace($websiteHelper->getUrl(), '', $js->attributes['src']);
+                // Check file exists
                 if (!is_file($websiteHelper->getPath().$path) || !file_exists($websiteHelper->getPath().$path)) {
                     continue;
                 }
@@ -152,15 +155,16 @@ class Tools_System_Minify {
 
             }
             elseif (!empty($js->source)) {
-                $contentSource = $js->source;
+                $jsContent = $js->source;
                 if (!isset($js->attributes['nominify'])) {
-                    $contentSource = JSMin::minify($contentSource);
-                    $js->source    = $contentSource;
+                    $jsContent  = JSMin::minify($jsContent);
+                    $js->source = $jsContent;
                 }
                 if ($concat) {
-                    $concatJs = isset($concatJs) ? $concatJs.PHP_EOL."/* Source JS */".PHP_EOL.$contentSource
-                        : "/* Source JS */".PHP_EOL.$contentSource;
+                    $concatJs = isset($concatJs) ? $concatJs.PHP_EOL."/* Source JS */".PHP_EOL.$jsContent
+                        : "/* Source JS */".PHP_EOL.$jsContent;
                 }
+                unset($jsContent);
             }
         }
 
@@ -176,7 +180,7 @@ class Tools_System_Minify {
             $jsList->appendFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
         }
 
-        $cacheHelper->save(strtolower(__CLASS__), $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
+        $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
 
         return $jsList;
     }
