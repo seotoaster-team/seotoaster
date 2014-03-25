@@ -3,21 +3,18 @@
 // Plugins list
 //==================================================
 .plugins-list{
-    overflow: auto;
-    height : 392px;
+    overflow : auto;
+    height   : 392px;
 
     .plugin-item{
-        position : relative;
-        float    : left;
-        width    : 18%;
-        margin   : 2% 1% 0;
-        padding  : 0;
-        overflow : hidden;
+        position      : relative;
+        float         : left;
+        margin-top    : 1%;
+        margin-bottom : 1%;
+        padding       : 0;
+        overflow      : hidden;
         .box-shadow(4px 4px 3px #bbb);
-
-        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5){
-            margin-top: 1%;
-        }
+        .grid-elements(5, 2, true);
 
         &:hover{
             .readme-plugin, .del-plugin{
@@ -25,8 +22,6 @@
             }
 
             .plugin-name{
-                //background : rgba(255, 255, 255, 0.9);
-                //color      : @text-color;
             }
         }
 
@@ -34,6 +29,7 @@
             z-index    : 7;
             text-align : center;
             .opacity(0);
+            .transition;
         }
 
         .readme-plugin{
@@ -51,7 +47,6 @@
             margin     : 0;
             color      : #fff;
             padding    : @padding-small-vertical 0 @padding-small-vertical @padding-small-horizontal;
-            .transition;
             .text-overflow;
             .box-shadow(0 1px 10px #206887);
         }
@@ -61,10 +56,10 @@
             position : relative;
         }
         .plugin-control{
-            .button-color(@btn-red-color, desaturate(@btn-red-bg, 25%), desaturate(@btn-red-border, 25%));
+            .button-color(@button-red-color, desaturate(@button-red-bg, 25%), desaturate(@button-red-border, 25%));
 
             &.block{
-                .button-color(@btn-green-color, @btn-green-bg, @btn-green-border);
+                .button-color(@button-green-color, @button-green-bg, @button-green-border);
             }
         }
         .plugin-endis{

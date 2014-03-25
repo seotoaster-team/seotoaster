@@ -1,15 +1,17 @@
 <?php if(($this->userRole == Tools_Security_Acl::ROLE_GUEST) || $this->userRole == Tools_Security_Acl::ROLE_SUPERADMIN): ?>
-	<?php if (count($this->messages)) : ?>
-		<ul id="messages" class="ui-state-error w350">
-			<?php foreach ($this->messages as $message) : ?>
-				<li><?php echo $this->translate($this->escape($message)); ?></li>
-			<?php endforeach; ?>
-		</ul>
-	<?php endif; ?>
-	<?php
-		$this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');
-		echo $this->loginForm;
-	?>
+    <?php if (isset($this->messages)) : ?>
+        <ul id="messages" class="ui-state-error w350">
+            <?php foreach ($this->messages as $message) : ?>
+                <?php if(!isset($message[0])): ?>
+                    <li><?php echo $message['email']; ?></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+    <?php
+    $this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');
+    echo $this->loginForm;
+    ?>
     <a href="javascript:;" title="<?php echo $this->translate('Forgot password?'); ?>" class="forgot-password"> <?php echo $this->translate('Forgot password?'); ?></a>
     <div class="retrieveFormBlock" style="display: none">
         <?php echo $this->retrieveForm;?>

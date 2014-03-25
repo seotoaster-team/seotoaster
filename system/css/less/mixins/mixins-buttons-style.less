@@ -1,15 +1,14 @@
-.button(@color : @btn-primary-color, @background : @btn-primary-bg, @border : @btn-primary-border, @size : base, @type : false) {
+.button(@color : @button-primary-color, @background : @button-primary-bg, @border : @button-primary-border, @size : base, @type : false){
     .inline-block();
     margin-bottom   : 0; // For input.btn
     text-align      : center;
     cursor          : pointer;
     position        : relative;
     text-decoration : none;
-    border-width    : @btn-border-width;
-    border-style    : solid;
+    .user-select();
     .activate-type(@type);
     .activate-size(@size, @type);
-//    .activate-border(@btn-border-width);
+    .activate-border(@button-border-width);
     .activate-transition(@activate-button-transition);
     .button-color(@color, @background, @border, true);
 
@@ -32,16 +31,16 @@
 .activate-size(@size, @type) when (@size = base) and (@type = false){ .button-size-base(); }
 .activate-size(@size, @type) when (@size = small) and (@type = false){ .button-size-small(); }
 
-.activate-size(@size, @type) when (@size = larger) and (@type = icon){ .icon-size-larger(); }
-.activate-size(@size, @type) when (@size = large) and (@type = icon){ .icon-size-large(); }
-.activate-size(@size, @type) when (@size = base) and (@type = icon){ .icon-size-base(); }
-.activate-size(@size, @type) when (@size = small) and (@type = icon){ .icon-size-small(); }
+.activate-size(@size, @type) when (@size = larger) and (@type = icon){ .button-icon-size(@icon-size-larger); }
+.activate-size(@size, @type) when (@size = large) and (@type = icon){ .button-icon-size(@icon-size-large); }
+.activate-size(@size, @type) when (@size = base) and (@type = icon){ .button-icon-size(); }
+.activate-size(@size, @type) when (@size = small) and (@type = icon){ .button-icon-size(@icon-size-small); }
 
 .activate-type(@type) when (@type = false){ .box-sizing(); }
 .activate-type(@type) when (@type = icon){ .box-sizing(content-box); }
 
 .activate-border(@value) when (@value > 0){
-    border-width : @btn-border-width;
+    border-width : @button-border-width;
     border-style : solid;
 }
 
@@ -51,187 +50,61 @@
 
 // Button size
 //==================================================
-.button-size-larger(@activate: @activate-alternate-style-button-size-larger, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
-    height : @btn-height-larger;
+.button-size(@button-font-size, @button-padding-vertical, @button-padding-horizontal, @button-border-radius : @button-border-radius){
+    @button-height : floor(@button-font-size * unit(@button-line-height) + @button-padding-vertical * 2 + @button-border-width * 2);
+    height      : @button-height;
+    padding     : @button-padding-vertical @button-padding-horizontal;
+    font-size   : @button-font-size;
+    line-height : @button-height - @button-padding-vertical * 2 - @button-border-width * 2;
+    .border-radius(@button-border-radius);
+}
 
-    .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
-        padding     : @padding-larger-vertical @padding-larger-horizontal;
-        line-height : @btn-height-larger - @padding-larger-vertical * 2 - @btn-border-width * 2;
-    }
-    .button-unit(@unit : @font-size-base) when (isem(@unit)), (ispercentage(@unit)){
-        padding     : unit(@padding-larger-vertical / 16 * @font-size-base, em) @padding-larger-horizontal;
-        line-height : @btn-height-larger - unit(@padding-larger-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit(@unit : @font-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)){
-        padding     : unit(@padding-larger-vertical / 16 * @font-size-base, rem) @padding-larger-horizontal;
-        line-height : @btn-height-larger - unit(@padding-larger-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit();
-    .border-radius(@btn-larger-border-radius);
+.button-size-larger(@activate: @activate-alternate-style-button-size-larger, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
+    height      : @button-height-larger;
+    padding     : @button-padding-larger-vertical @padding-larger-horizontal;
+    font-size   : @button-font-size-larger;
+    line-height : @button-height-larger - @button-padding-larger-vertical * 2 - @button-border-width * 2;
+    .border-radius(@button-larger-border-radius);
 }
 
 .button-size-large(@activate: @activate-alternate-style-button-size-large, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
-    height : @btn-height-large;
-
-    .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
-        padding     : @padding-large-vertical @padding-large-horizontal;
-        line-height : @btn-height-large - @padding-large-vertical * 2 - @btn-border-width * 2;
-    }
-    .button-unit(@unit : @font-size-base) when (isem(@unit)), (ispercentage(@unit)){
-        padding     : unit(@padding-large-vertical / 16 * @font-size-base, em) @padding-large-horizontal;
-        line-height : @btn-height-large - unit(@padding-large-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit(@unit : @font-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)){
-        padding     : unit(@padding-large-vertical / 16 * @font-size-base, rem) @padding-large-horizontal;
-        line-height : @btn-height-large - unit(@padding-large-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit();
-    .border-radius(@btn-large-border-radius);
+    height      : @button-height-large;
+    padding     : @button-padding-large-vertical @padding-large-horizontal;
+    font-size   : @button-font-size-large;
+    line-height : @button-height-large - @button-padding-large-vertical * 2 - @button-border-width * 2;
+    .border-radius(@button-large-border-radius);
 }
 
 .button-size-base() {
-    height : @btn-height-base;
-
-    .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
-        padding     : @padding-base-vertical @padding-base-horizontal;
-        line-height : @btn-height-base - @padding-base-vertical * 2 - @btn-border-width * 2;
-    }
-    .button-unit(@unit : @font-size-base) when (isem(@unit)), (ispercentage(@unit)){
-        padding     : unit(@padding-base-vertical / 16 * @font-size-base, em) @padding-base-horizontal;
-        line-height : @btn-height-base - unit(@padding-base-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit(@unit : @font-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)){
-        padding     : unit(@padding-base-vertical / 16 * @font-size-base, rem) @padding-base-horizontal;
-        line-height : @btn-height-base - unit(@padding-base-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit();
-    .border-radius(@btn-border-radius);
+    height      : @button-height-base;
+    padding     : @button-padding-base-vertical @padding-base-horizontal;
+    font-size   : @button-font-size-base;
+    line-height : @button-height-base - @button-padding-base-vertical * 2 - @button-border-width * 2;
+    .border-radius(@button-border-radius);
 }
 
 .button-size-small(@activate: @activate-alternate-style-button-size-small, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
-    height : @btn-height-small;
-
-    .button-unit(@unit : @font-size-base) when (ispixel(@unit)){
-        padding     : @padding-small-vertical @padding-small-horizontal;
-        line-height : @btn-height-small - @padding-small-vertical * 2 - @btn-border-width * 2;
-    }
-    .button-unit(@unit : @font-size-base) when (isem(@unit)), (ispercentage(@unit)){
-        padding     : unit(@padding-small-vertical / 16 * @font-size-base, em) @padding-small-horizontal;
-        line-height : @btn-height-small - unit(@padding-small-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit(@unit : @font-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)){
-        padding     : unit(@padding-small-vertical / 16 * @font-size-base, rem) @padding-small-horizontal;
-        line-height : @btn-height-small - unit(@padding-small-vertical / 16 * @font-size-base) * 2 - unit(@btn-border-width / 16 * @font-size-base) * 2;
-    }
-    .button-unit();
-    .border-radius(@btn-small-border-radius);
+    height      : @button-height-small;
+    padding     : @button-padding-small-vertical @padding-small-horizontal;
+    font-size   : @button-font-size-small;
+    line-height : @button-height-small - @button-padding-small-vertical * 2 - @button-border-width * 2;
+    .border-radius(@button-small-border-radius);
 }
 
-.icon-size-larger(@activate: @activate-alternate-style-button-size-larger, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(@icon-size-larger);
-        padding : (@btn-height-larger - @icon-size-larger - @btn-border-width * 2) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-larger / 16, em));
-        padding : (@btn-height-larger - unit(@icon-size-larger / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-larger / 16, rem));
-        padding : (@btn-height-larger - unit(@icon-size-larger / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-larger), em));
-        padding : (@btn-height-larger - unit(@icon-size-larger) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-larger), rem));
-        padding : (@btn-height-larger - unit(@icon-size-larger) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit();
-}
-
-.icon-size-large(@activate: @activate-alternate-style-button-size-large, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(@icon-size-large);
-        padding : (@btn-height-large - @icon-size-large - @btn-border-width * 2) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-large / 16, em));
-        padding : (@btn-height-large - unit(@icon-size-large / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-large / 16, rem));
-        padding : (@btn-height-large - unit(@icon-size-large / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-large), em));
-        padding : (@btn-height-large - unit(@icon-size-large) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-large), rem));
-        padding : (@btn-height-large - unit(@icon-size-large) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit();
-}
-
-.icon-size-base() {
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(@icon-size-base);
-        padding : (@btn-height-base - @icon-size-base - @btn-border-width * 2) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-base / 16, em));
-        padding : (@btn-height-base - unit(@icon-size-base / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-base / 16, rem));
-        padding : (@btn-height-base - unit(@icon-size-base / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-base), em));
-        padding : (@btn-height-base - unit(@icon-size-base) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-base), rem));
-        padding : (@btn-height-base - unit(@icon-size-base) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit();
-}
-
-.icon-size-small(@activate: @activate-alternate-style-button-size-small, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (ispixel(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(@icon-size-small);
-        padding : (@btn-height-small - @icon-size-small - @btn-border-width * 2) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-small / 16, em));
-        padding : (@btn-height-small - unit(@icon-size-small / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and (ispixel(@unit-icon)){
-        .icon-size(unit(@icon-size-small / 16, rem));
-        padding : (@btn-height-small - unit(@icon-size-small / 16) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when (isem(@unit)), (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-small), em));
-        padding : (@btn-height-small - unit(@icon-size-small) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit(@unit : @font-size-base, @unit-icon : @icon-size-base) when not (isem(@unit)) and  not (ispixel(@unit)) and  not (ispercentage(@unit)) and not (ispixel(@unit-icon)){
-        .icon-size(unit(unit(@icon-size-small), rem));
-        padding : (@btn-height-small - unit(@icon-size-small) - (unit(@btn-border-width / 16 * @font-size-base) * 2)) / 2;
-    }
-    .icon-unit();
+.button-icon-size(@icon-size : @icon-size-base) {
+    .icon-size(@icon-size);
+    padding : (@button-height-base - @icon-size - @button-border-width * 2) / 2;
 }
 
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 .link-color(@color, @eachColor: true) when (@eachColor = true){
-    color            : @color;
-    background-color : transparent;
+    color      : @color;
+    background : transparent !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
-    .activate-border(@btn-border-width);
+    .activate-border(@button-border-width);
 
     .activate-hover(@value) when (@value = true){
         &:hover, &:active{
@@ -256,12 +129,12 @@
 }
 
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
-    color            : @color;
-    background-color : transparent;
+    color      : @color;
+    background : transparent !important;
     .activate-border(@value) when (@value > 0){
         border : none;
     }
-    .activate-border(@btn-border-width);
+    .activate-border(@button-border-width);
 
     .activate-hover(@value) when (@value = true){
         &:hover, &:active{
@@ -286,22 +159,22 @@
 }
 
 .button-color( @color, @background, @border, @eachColor: true) when (@eachColor = true){
-    color            : @color;
-    background-color : @background;
+    color      : @color;
+    background : @background;
     .box-shadow(none, @input-shadow-focus);
     .activate-border(@value) when (@value > 0){
         border-color : @border;
     }
-    .activate-border(@btn-border-width);
+    .activate-border(@button-border-width);
 
     .activate-hover(@value) when (@value = true){
         &:hover, &:active{
-            color            : @color;
-            background-color : darken(@background, 10%);
+            color      : @color;
+            background : darken(@background, 10%);
             .activate-border(@value) when (@value > 0){
                 border-color : darken(@border, 10%);
             }
-            .activate-border(@btn-border-width);
+            .activate-border(@button-border-width);
         }
 
         &:active{
@@ -310,12 +183,12 @@
     }
     .activate-hover(@value) when (@value = false){
         &.touch, input:checked+&{
-            color            : @color;
-            background-color : darken(@background, 10%);
+            color      : @color;
+            background : darken(@background, 10%);
             .activate-border(@value) when (@value > 0){
                 border-color : darken(@border, 10%);
             }
-            .activate-border(@btn-border-width);
+            .activate-border(@button-border-width);
             .box-shadow(0.2rem 0.2rem 0.2rem darken(@background, 25%) inset, @activate-button-box-shadow);
         }
     }
@@ -324,34 +197,34 @@
     //    &.disabled,
     &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
-        color            : desaturate(@color, 30%);
-        background-color : desaturate(@background, 30%);
-        text-decoration  : none;
+        color           : desaturate(@color, 30%);
+        background      : desaturate(@background, 30%);
+        text-decoration : none;
         .activate-border(@value) when (@value > 0){
             border-color : desaturate(@border, 30%);
         }
-        .activate-border(@btn-border-width);
+        .activate-border(@button-border-width);
     }
 }
 
 .button-color( @color, @background, @border, @color2, @background2, @border2, @eachColor: true, @inverse: true) when (iscolor(@color2)) and (@eachColor = true) and  (@inverse = true){
-    color            : @color;
-    background-color : @background;
-    text-decoration  : none;
+    color           : @color;
+    background      : @background;
+    text-decoration : none;
     .box-shadow(none, @input-shadow-focus);
     .activate-border(@value) when (@value > 0){
         border-color : @border;
     }
-    .activate-border(@btn-border-width);
+    .activate-border(@button-border-width);
 
     .activate-hover(@value) when (@value = true){
         &:hover, &:active{
-            color            : @color2;
-            background-color : @background2;
+            color      : @color2;
+            background : @background2;
             .activate-border(@value) when (@value > 0){
                 border-color : @border2;
             }
-            .activate-border(@btn-border-width);
+            .activate-border(@button-border-width);
         }
 
         &:active{
@@ -360,12 +233,12 @@
     }
     .activate-hover(@value) when (@value = false){
         &.touch, input:checked+&{
-            color            : @color2;
-            background-color : @background2;
+            color      : @color2;
+            background : @background2;
             .activate-border(@value) when (@value > 0){
                 border-color : @border2;
             }
-            .activate-border(@btn-border-width);
+            .activate-border(@button-border-width);
             .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset, @activate-button-box-shadow);
         }
     }
@@ -374,13 +247,13 @@
     //    &.disabled,
     &[disabled]{
         .box-shadow(none, @activate-button-box-shadow);
-        color            : desaturate(@color, 30%);
-        background-color : @background;
-        text-decoration  : none;
+        color           : desaturate(@color, 30%);
+        background      : @background;
+        text-decoration : none;
         .activate-border(@value) when (@value > 0){
             border-color : @border;
         }
-        .activate-border(@btn-border-width);
+        .activate-border(@button-border-width);
     }
 }
 

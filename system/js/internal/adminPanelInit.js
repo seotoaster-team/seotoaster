@@ -11,12 +11,9 @@ $(function() {
 
 	//seotoaster admin panel cookie
 	if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') == 1) {
-		$('#cpanelul').hide();
-		$('#logoutul').hide();
-		$('#seotoaster-logowrap').hide();
+		$('#cpanelul, .menu-links, #seotoaster-logowrap').hide();
 		$('#showhide > a').text('Expand menu'); //.addClass('rounded-bottom');
 	}
-
 
 	$('#cpanelul').accordion({
         heightStyle: 'content',
@@ -35,13 +32,12 @@ $(function() {
 	});
 
 
-
 	$('#showhide > a').click(function() {
 		$.cookie('hideAdminPanel', ($.cookie('hideAdminPanel') == 1) ? 0 : 1);
 		$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Expand menu' : 'Collapse menu'); //.toggleClass('rounded-bottom');
 		$('#cpanelul, #seotoaster-logowrap').slideToggle();
 		$('.menu-links').toggle();
-	})
+	});
 
 	//admin panel edit 404 page click
 	$('#edit404').click(function(){

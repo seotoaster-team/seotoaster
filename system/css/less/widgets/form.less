@@ -79,7 +79,7 @@ form, .form{
     // -- Buttons
     [type="submit"]{
         float      : right;
-        margin-top : @footer-height - @btn-height-base - 10px;
+        margin-top : @footer-height - @button-height-base - 10px;
 
         &:hover{
         }
@@ -129,7 +129,7 @@ form, .form{
 .notvalid{
     color : @brand-red !important;
     &:before{
-        font-family  : 'toaster-icons';
+        font-family  : 'system-icons';
         content      : "\f06a";
         margin-right : 5px;
     }
@@ -215,23 +215,23 @@ select, textarea, input{
 }
 
 input{
-    height : @btn-height-base;
+    height : @button-height-base;
 
     .activate-field-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.larger{
-            height  : @btn-height-larger;
+            height  : @button-height-larger;
             padding : @padding-larger-vertical;
         }
     }
     .activate-field-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.large{
-            height  : @btn-height-large;
+            height  : @button-height-large;
             padding : @padding-large-vertical;
         }
     }
     .activate-field-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.small{
-            height  : @btn-height-small;
+            height  : @button-height-small;
             padding : @padding-small-vertical;
         }
     }
@@ -241,28 +241,28 @@ input{
 }
 
 select{
-    height      : @btn-height-base;
-    line-height : @btn-height-base - @padding-base-vertical;
+    height      : @button-height-base;
+    line-height : @button-height-base - @padding-base-vertical;
     padding     : @padding-base-vertical / 2 @padding-base-vertical;
 
     .activate-field-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.larger{
-            height      : @btn-height-larger;
-            line-height : @btn-height-larger - @padding-larger-vertical;
+            height      : @button-height-larger;
+            line-height : @button-height-larger - @padding-larger-vertical;
             padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
         }
     }
     .activate-field-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.large{
-            height      : @btn-height-large;
-            line-height : @btn-height-large - @padding-large-vertical;
+            height      : @button-height-large;
+            line-height : @button-height-large - @padding-large-vertical;
             padding     : @padding-large-vertical / 2 @padding-large-vertical;
         }
     }
     .activate-field-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
         &.small{
-            height      : @btn-height-small;
-            line-height : @btn-height-small - @padding-small-vertical;
+            height      : @button-height-small;
+            line-height : @button-height-small - @padding-small-vertical;
             padding     : @padding-small-vertical / 2 @padding-small-vertical;
         }
     }
@@ -288,8 +288,8 @@ textarea{
         label, .label{
             margin-top    : 0;
             margin-bottom : 0;
-            height        : @btn-height-base;
-            line-height   : @btn-height-base;
+            height        : @button-height-base;
+            line-height   : @button-height-base;
             background    : @input-border-color;
             text-align    : center;
             color         : #fff !important;
@@ -297,19 +297,19 @@ textarea{
 
             .activate-font-size-larger(@activate: @activate-alternate-style-field-size-larger, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
                 &.larger{
-                    height  : @btn-height-larger;
+                    height  : @button-height-larger;
                     padding : @padding-larger-vertical 0;
                 }
             }
             .activate-font-size-large(@activate: @activate-alternate-style-field-size-large, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
                 &.large{
-                    height  : @btn-height-large;
+                    height  : @button-height-large;
                     padding : @padding-large-vertical 0;
                 }
             }
             .activate-font-size-small(@activate: @activate-alternate-style-field-size-small, @activate2: @activate-alternate-style-field-size) when (@activate = true) and (@activate2 = true){
                 &.small{
-                    height  : @btn-height-small;
+                    height  : @button-height-small;
                     padding : @padding-small-vertical 0;
                 }
             }

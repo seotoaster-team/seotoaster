@@ -25,7 +25,9 @@
     -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
 }
 .reset-style{
-    .reset-style;
+    &, *{
+        .reset-style;
+    }
 }
 ::-moz-selection{
     background : @text-select-bg;
@@ -49,7 +51,6 @@ body{
     -webkit-backface-visibility : hidden;
     -moz-backface-visibility    : visible;
     -ms-backface-visibility     : hidden;
-    .user-select();
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
     display : block;

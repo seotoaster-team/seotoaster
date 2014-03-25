@@ -124,7 +124,11 @@ function showTemplatesList() {
         $('#templatelist').html(response).find('.content').accordion({
             heightStyle: 'content',
             header: '.template_header',
-            collapsible: true
+            collapsible: true,
+            icons          : {
+                "header"       : "icon-arrow-right",
+                "activeHeader" : "icon-arrow-down"
+            } // or false
         });
         $('#templatelist .template_group').css({
             'max-height': $('#templatelist .content').height() - ($('#templatelist .template_header').outerHeight(true) + 2) * $('#templatelist .template_header').length

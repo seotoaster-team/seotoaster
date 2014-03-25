@@ -1,35 +1,39 @@
+SET NAMES utf8;
 SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `config`;
-CREATE TABLE IF NOT EXISTS `config` (
+CREATE TABLE `config` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `config` (`name`, `value`) VALUES
-('currentTheme', 'default'),
-('imgSmall', '250'),
-('imgMedium', '350'),
-('imgLarge', '500'),
-('useSmtp', '0'),
-('smtpHost', ''),
-('smtpLogin', ''),
-('smtpPassword', ''),
-('language', 'us'),
-('teaserSize', '200'),
-('smtpPort', ''),
-('memPagesInMenu', '1'),
-('mediaServers', '0'),
-('smtpSsl', '0'),
-('codeEnabled', '0'),
-('inlineEditor', '0'),
-('recapthaPublicKey', '6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
-('recapthaPrivateKey', '6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
-('enableMobileTemplates', '1');
+('currentTheme',	'default'),
+('imgSmall',	'250'),
+('imgMedium',	'350'),
+('imgLarge',	'500'),
+('useSmtp',	'0'),
+('smtpHost',	''),
+('smtpLogin',	''),
+('smtpPassword',	''),
+('language',	'us'),
+('teaserSize',	'200'),
+('smtpPort',	''),
+('memPagesInMenu',	'1'),
+('mediaServers',	'0'),
+('smtpSsl',	'0'),
+('codeEnabled',	'0'),
+('inlineEditor',	'0'),
+('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
+('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
+('enableMobileTemplates',	'1'),
+('adminEmail',	'admin@cms.loc.com'),
+('version',	'2.2.0');
 
 DROP TABLE IF EXISTS `container`;
-CREATE TABLE IF NOT EXISTS `container` (
+CREATE TABLE `container` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `container_type` int(10) unsigned NOT NULL,
   `page_id` int(11) unsigned DEFAULT NULL,
@@ -40,11 +44,13 @@ CREATE TABLE IF NOT EXISTS `container` (
   PRIMARY KEY (`id`),
   KEY `indPublished` (`published`),
   KEY `indContainerType` (`container_type`),
-  KEY `indPageId` (`page_id`)
+  KEY `indPageId` (`page_id`),
+  CONSTRAINT `container_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `deeplink`;
-CREATE TABLE IF NOT EXISTS `deeplink` (
+CREATE TABLE `deeplink` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `page_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -56,11 +62,13 @@ CREATE TABLE IF NOT EXISTS `deeplink` (
   KEY `indName` (`name`),
   KEY `indType` (`type`),
   KEY `indUrl` (`url`),
-  KEY `indDplPageId` (`page_id`)
+  KEY `indDplPageId` (`page_id`),
+  CONSTRAINT `deeplink_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `email_triggers`;
-CREATE TABLE IF NOT EXISTS `email_triggers` (
+CREATE TABLE `email_triggers` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `enabled` enum('0','1') COLLATE utf8_unicode_ci NOT NULL,
   `trigger_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -69,17 +77,17 @@ CREATE TABLE IF NOT EXISTS `email_triggers` (
   KEY `trigger_name` (`trigger_name`),
   KEY `observer` (`observer`),
   KEY `enabled` (`enabled`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUES
-(1, '1', 't_feedbackform', 'Tools_Mail_SystemMailWatchdog'),
-(2, '1', 't_passwordreset', 'Tools_Mail_SystemMailWatchdog'),
-(3, '1', 't_passwordchange', 'Tools_Mail_SystemMailWatchdog'),
-(4, '1', 't_membersignup', 'Tools_Mail_SystemMailWatchdog'),
-(5, '1', 't_systemnotification', 'Tools_Mail_SystemMailWatchdog');
+(1,	'1',	't_feedbackform',	'Tools_Mail_SystemMailWatchdog'),
+(2,	'1',	't_passwordreset',	'Tools_Mail_SystemMailWatchdog'),
+(3,	'1',	't_passwordchange',	'Tools_Mail_SystemMailWatchdog'),
+(4,	'1',	't_membersignup',	'Tools_Mail_SystemMailWatchdog'),
+(5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog');
 
 DROP TABLE IF EXISTS `email_triggers_actions`;
-CREATE TABLE IF NOT EXISTS `email_triggers_actions` (
+CREATE TABLE `email_triggers_actions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `trigger` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `template` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -90,34 +98,39 @@ CREATE TABLE IF NOT EXISTS `email_triggers_actions` (
   PRIMARY KEY (`id`),
   KEY `trigger` (`trigger`),
   KEY `template` (`template`),
-  KEY `recipient` (`recipient`)
+  KEY `recipient` (`recipient`),
+  CONSTRAINT `email_triggers_actions_ibfk_1` FOREIGN KEY (`trigger`) REFERENCES `email_triggers` (`trigger_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `email_triggers_actions_ibfk_2` FOREIGN KEY (`recipient`) REFERENCES `email_triggers_recipient` (`recipient`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `email_triggers_actions_ibfk_3` FOREIGN KEY (`template`) REFERENCES `template` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `email_triggers_recipient`;
-CREATE TABLE IF NOT EXISTS `email_triggers_recipient` (
+CREATE TABLE `email_triggers_recipient` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recipient` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Recipient Name',
   PRIMARY KEY (`id`),
   KEY `recipient` (`recipient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `email_triggers_recipient` (`id`, `recipient`) VALUES
-(4, 'admin'),
-(3, 'copywriter'),
-(1, 'guest'),
-(2, 'member'),
-(5, 'superadmin');
+(4,	'admin'),
+(3,	'copywriter'),
+(1,	'guest'),
+(2,	'member'),
+(5,	'superadmin');
 
 DROP TABLE IF EXISTS `featured_area`;
-CREATE TABLE IF NOT EXISTS `featured_area` (
+CREATE TABLE `featured_area` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(164) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `indName` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `form`;
-CREATE TABLE IF NOT EXISTS `form` (
+CREATE TABLE `form` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `code` text COLLATE utf8_unicode_ci NOT NULL,
@@ -133,33 +146,38 @@ CREATE TABLE IF NOT EXISTS `form` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `form_page_conversion`;
-CREATE TABLE IF NOT EXISTS `form_page_conversion` (
+CREATE TABLE `form_page_conversion` (
   `page_id` int(10) unsigned NOT NULL,
   `form_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `conversion_code` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`page_id`,`form_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `link_container`;
-CREATE TABLE IF NOT EXISTS `link_container` (
+CREATE TABLE `link_container` (
   `id_container` int(10) unsigned NOT NULL,
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id_container`,`link`),
   KEY `indContainerId` (`id_container`),
-  KEY `indLink` (`link`)
+  KEY `indLink` (`link`),
+  CONSTRAINT `FK_link_container` FOREIGN KEY (`id_container`) REFERENCES `container` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `observers_queue`;
-CREATE TABLE IF NOT EXISTS `observers_queue` (
+CREATE TABLE `observers_queue` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `observable` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Observable Class Name',
   `observer` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Observer Class Name',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `optimized`;
-CREATE TABLE IF NOT EXISTS `optimized` (
+CREATE TABLE `optimized` (
   `page_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to page table',
   `url` tinytext COLLATE utf8_unicode_ci,
   `h1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -169,16 +187,22 @@ CREATE TABLE IF NOT EXISTS `optimized` (
   `meta_description` text COLLATE utf8_unicode_ci,
   `meta_keywords` text COLLATE utf8_unicode_ci,
   `teaser_text` text COLLATE utf8_unicode_ci,
+  `seo_intro` text COLLATE utf8_unicode_ci,
+  `seo_intro_target` text COLLATE utf8_unicode_ci,
   `status` enum('tweaked','on') COLLATE utf8_unicode_ci DEFAULT NULL,
   `seo_rule_id` int(10) DEFAULT NULL,
   `url_rule_id` int(10) DEFAULT NULL,
   UNIQUE KEY `page_id` (`page_id`),
   KEY `h1` (`h1`),
-  KEY `status` (`status`)
+  KEY `status` (`status`),
+  KEY `nav_name` (`nav_name`),
+  KEY `url` (`url`(30)),
+  CONSTRAINT `optimized_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `page`;
-CREATE TABLE IF NOT EXISTS `page` (
+CREATE TABLE `page` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `template_id` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
@@ -215,32 +239,38 @@ CREATE TABLE IF NOT EXISTS `page` (
   KEY `draft` (`draft`),
   KEY `news` (`news`),
   KEY `nav_name` (`nav_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `page` (`id`, `template_id`, `parent_id`, `nav_name`, `meta_description`, `meta_keywords`, `header_title`, `h1`, `url`, `teaser_text`, `last_update`, `is_404page`, `show_in_menu`, `order`, `weight`, `silo_id`, `targeted_key_phrase`, `protected`, `system`, `draft`, `publish_at`, `news`, `err_login_landing`, `mem_landing`, `signup_landing`, `checkout`, `preview_image`) VALUES
-(1, 'index', 0, 'Home', '', '', 'Home', 'Home', 'index.html', '', '2012-06-20 11:30:39', '0', '1', 0, 0, NULL, '', '0', '0', '0', NULL, '0', '0', '0', '0', '0', NULL);
+(1,	'index',	0,	'Home',	'',	'',	'Home',	'Home',	'index.html',	'',	'2012-06-20 11:30:39',	'0',	'1',	0,	0,	NULL,	'',	'0',	'0',	'0',	NULL,	'0',	'0',	'0',	'0',	'0',	NULL);
 
 DROP TABLE IF EXISTS `page_fa`;
-CREATE TABLE IF NOT EXISTS `page_fa` (
+CREATE TABLE `page_fa` (
   `page_id` int(10) unsigned NOT NULL,
   `fa_id` int(10) unsigned NOT NULL,
   `order` int(10) unsigned NOT NULL,
   PRIMARY KEY (`page_id`,`fa_id`),
   KEY `indPageId` (`page_id`),
   KEY `indFaId` (`fa_id`),
-  KEY `indOrder` (`order`)
+  KEY `indOrder` (`order`),
+  CONSTRAINT `FK_page_fa` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `page_fa_ibfk_1` FOREIGN KEY (`fa_id`) REFERENCES `featured_area` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `page_has_option`;
-CREATE TABLE IF NOT EXISTS `page_has_option` (
+CREATE TABLE `page_has_option` (
   `page_id` int(10) unsigned NOT NULL,
   `option_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`page_id`,`option_id`),
-  KEY `option_id` (`option_id`)
+  KEY `option_id` (`option_id`),
+  CONSTRAINT `page_has_option_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `page_has_option_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `page_option` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `page_option`;
-CREATE TABLE IF NOT EXISTS `page_option` (
+CREATE TABLE `page_option` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `title` tinytext COLLATE utf8_unicode_ci NOT NULL,
   `context` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'In which context this option is used. E.g. option_newsindex used in News system context',
@@ -250,15 +280,15 @@ CREATE TABLE IF NOT EXISTS `page_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `page_option` (`id`, `title`, `context`, `active`) VALUES
-('option_404page', 'Our error 404 "Not found" page', 'Seotoaster pages', 1),
-('option_member_landing', 'Where members land after logging-in', 'Seotoaster membership', 1),
-('option_member_loginerror', 'Our membership login error page', 'Seotoaster membership', 1),
-('option_member_signuplanding', 'Where members land after signed-up', 'Seotoaster membership', 1),
-('option_protected', 'Accessible only to logged-in members', 'Seotoaster pages', 1),
-('option_search', 'Search landing page', 'Seotoaster pages', 1);
+('option_404page',	'Our error 404 \"Not found\" page',	'Seotoaster pages',	1),
+('option_member_landing',	'Where members land after logging-in',	'Seotoaster membership',	1),
+('option_member_loginerror',	'Our membership login error page',	'Seotoaster membership',	1),
+('option_member_signuplanding',	'Where members land after signed-up',	'Seotoaster membership',	1),
+('option_protected',	'Accessible only to logged-in members',	'Seotoaster pages',	1),
+('option_search',	'Search landing page',	'Seotoaster pages',	1);
 
 DROP TABLE IF EXISTS `password_reset_log`;
-CREATE TABLE IF NOT EXISTS `password_reset_log` (
+CREATE TABLE `password_reset_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `token_hash` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Password reset token. Unique hash string.',
   `user_id` int(10) unsigned NOT NULL,
@@ -271,8 +301,9 @@ CREATE TABLE IF NOT EXISTS `password_reset_log` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `plugin`;
-CREATE TABLE IF NOT EXISTS `plugin` (
+CREATE TABLE `plugin` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` enum('enabled','disabled') COLLATE utf8_unicode_ci DEFAULT 'disabled',
@@ -281,10 +312,11 @@ CREATE TABLE IF NOT EXISTS `plugin` (
   PRIMARY KEY (`id`),
   KEY `indName` (`name`),
   KEY `indStatus` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `redirect`;
-CREATE TABLE IF NOT EXISTS `redirect` (
+CREATE TABLE `redirect` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `page_id` int(10) unsigned DEFAULT NULL,
   `from_url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -294,11 +326,13 @@ CREATE TABLE IF NOT EXISTS `redirect` (
   PRIMARY KEY (`id`),
   KEY `indPageId` (`page_id`),
   KEY `indFromUrl` (`from_url`),
-  KEY `indToUrl` (`to_url`)
+  KEY `indToUrl` (`to_url`),
+  CONSTRAINT `FK_redirect` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `seo_data`;
-CREATE TABLE IF NOT EXISTS `seo_data` (
+CREATE TABLE `seo_data` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `seo_top` longtext COLLATE utf8_unicode_ci,
   `seo_bottom` longtext COLLATE utf8_unicode_ci,
@@ -306,37 +340,46 @@ CREATE TABLE IF NOT EXISTS `seo_data` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `silo`;
-CREATE TABLE IF NOT EXISTS `silo` (
+CREATE TABLE `silo` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indName` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 DROP TABLE IF EXISTS `template`;
-CREATE TABLE IF NOT EXISTS `template` (
+CREATE TABLE `template` (
   `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `content` longtext COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`),
-  KEY `type` (`type`)
+  KEY `type` (`type`),
+  CONSTRAINT `template_ibfk_1` FOREIGN KEY (`type`) REFERENCES `template_type` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `template` (`name`, `content`, `type`) VALUES
+('category',	'<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n    <title>{$page:title}</title>\n    <meta name=\"keywords\" content=\"{$meta:keywords}\"/>\n    <meta name=\"description\" content=\"{$meta:description}\"/>\n    <meta name=\"generator\" content=\"seotoaster\"/>\n\n    <link href=\"reset.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n    <link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n    <link href=\"content.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n\n    <!--[if IE]>\n    <script src=\"html5.js\" type=\"text/javascript\"></script>\n    <![endif]-->\n\n</head>\n\n<body>\n<div class=\"container_12\">\n    <header>\n        <div class=\"grid_3\">\n            <div class=\"logo\">\n                <a href=\"{$website:url}\" title=\"{$page:h1}\" class=\"logo\">\n                    <img src=\"images/logo-small.jpg\" width=\"110\" alt=\"seotoaster\">\n                </a>\n            </div>\n        </div>\n        <div class=\"grid_9\">\n            <h2 class=\"mt30px mb20px xlarge\"><strong>Welcome to SEOTOASTER V2 !</strong></h2>\n            <nav>{$menu:main}</nav>\n        </div>\n    </header>\n    <hr/>\n    <aside class=\"grid_3\">\n    <h2>Flat menu</h2>\n    {$menu:flat}\n    </aside>\n    <section class=\"grid_9\">\n        <h1>{$page:h1}</h1>\n        <article>\n            <h3>Header widgets</h3>\n            {$header:header}\n            {$header:header1:static}\n        </article>\n        <article>\n            <h3>Content widgets</h3>\n            {$content:header}\n            {$content:header1:static}\n        </article>\n        <article>\n            <h3>Image Only widget</h3>\n            {$imageonly:photo:200}\n        </article>\n        <article>\n            <h3>Gallery Only widget</h3>\n            {$galleryonly:uniq_name}\n        </article>\n        <article>\n            <h3>Text Only widget</h3>\n            {$textonly:uniq_name}\n        </article>\n        <article>\n            <h3>Featured Area Only widget</h3>\n            {$featuredonly:name}\n        </article>\n        <article>\n            <h3>DirectUpload widget</h3>\n            {$directupload:foldername:imagename:100::crop}\n        </article>\n    </section>\n    <hr/>\n    <footer class=\"mt10px\">\n        <p>Powered by Free &amp; Open Source Ecommerce Website Builder <a href=\"http://www.seotoaster.com\" target=\"_blank\">SEOTOASTER</a>, Courtesy of <a href=\"http://www.seosamba.com\" target=\"_blank\">SEO Samba</a>.</p>\n    </footer>\n</div>\n{$content:newContent}\n</body>\n</html>',	'typeregular'),
+('default',	'<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n    <title>{$page:title}</title>\n    <meta name=\"keywords\" content=\"{$meta:keywords}\"/>\n    <meta name=\"description\" content=\"{$meta:description}\"/>\n    <meta name=\"generator\" content=\"seotoaster\"/>\n\n    <link href=\"reset.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n    <link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n    <link href=\"content.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n\n    <!--[if IE]>\n    <script src=\"html5.js\" type=\"text/javascript\"></script>\n    <![endif]-->\n\n</head>\n\n<body>\n<div class=\"container_12\">\n    <header>\n        <div class=\"grid_3\">\n            <div class=\"logo\">\n                <a href=\"{$website:url}\" title=\"{$page:h1}\" class=\"logo\">\n                    <img src=\"images/logo-small.jpg\" width=\"110\" alt=\"seotoaster\">\n                </a>\n            </div>\n        </div>\n        <div class=\"grid_9\">\n            <h2 class=\"mt30px mb20px xlarge\"><strong>Welcome to SEOTOASTER V2 !</strong></h2>\n            <nav>{$menu:main}</nav>\n        </div>\n    </header>\n    <hr/>\n    <aside class=\"grid_3\">\n    <h2>Flat menu</h2>\n    {$menu:flat}\n    </aside>\n    <section class=\"grid_9\">\n        <h1>{$page:h1}</h1>\n        <article>\n            <h3>Header widgets</h3>\n            {$header:header}\n            {$header:header1:static}\n        </article>\n        <article>\n            <h3>Content widgets</h3>\n            {$content:header}\n            {$content:header1:static}\n        </article>\n        <article>\n            <h3>Image Only widget</h3>\n            {$imageonly:photo:200}\n        </article>\n        <article>\n            <h3>Gallery Only widget</h3>\n            {$galleryonly:uniq_name}\n        </article>\n        <article>\n            <h3>Text Only widget</h3>\n            {$textonly:uniq_name}\n        </article>\n        <article>\n            <h3>FeaturedArea Only widget</h3>\n            {$featuredonly:name}\n        </article>\n        <article>\n            <h3>DirectUpload widget</h3>\n            {$directupload:foldername:imagename:100::crop}\n        </article>\n    </section>\n    <hr/>\n    <footer class=\"mt10px\">\n        <p>Powered by Free &amp; Open Source Ecommerce Website Builder <a href=\"http://www.seotoaster.com\" target=\"_blank\">SEOTOASTER</a>, Courtesy of <a href=\"http://www.seosamba.com\" target=\"_blank\">SEO Samba</a>.</p>\n    </footer>\n</div>\n{$content:newContent}\n</body>\n</html>',	'typeregular'),
+('index',	'<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n    <title>{$page:title}</title>\n    <meta name=\"keywords\" content=\"{$meta:keywords}\"/>\n    <meta name=\"description\" content=\"{$meta:description}\"/>\n    <meta name=\"generator\" content=\"seotoaster\"/>\n\n    <link href=\"reset.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n    <link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n    <link href=\"content.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"/>\n\n    <!--[if IE]>\n    <script src=\"html5.js\" type=\"text/javascript\"></script>\n    <![endif]-->\n\n</head>\n\n<body>\n<div class=\"container_12\">\n\n    <header>\n        <div class=\"grid_4\">\n            <h1 class=\"logo\">\n                <a href=\"{$website:url}\" title=\"{$page:h1}\" class=\"logo\">\n                    <img src=\"images/logo-small.jpg\" width=\"215\" height=\"275\" alt=\"seotoaster\">\n                </a>\n            </h1>\n        </div>\n\n        <div class=\"grid_8\">\n            <h2 class=\"mt40px mb50px xlarge\">Congratulations,<br/>you have successfully installed<br/><strong>SEOTOASTER\n                V2 !</strong></h2>\n\n            <div class=\"log_in\">Now log into your admin console at <a href=\"{$website:url}go\">{$website:url}go</a></div>\n        </div>\n    </header>\n    {adminonly}\n    <script>\n        $(document).ready(function () {\n            $(\'.log_in\').hide();\n        });\n    </script>\n    <section>\n        <h3><span class=\"number\">1</span>Hit the ground running: get your website on the map now</h3>\n\n        <p>Complete the website ID [WID] card below. It\'s a great time saver, and when you use one of our free premium\n            themes your information shows up in <strong>all the right places</strong> throughout your website.</p>\n\n        <p>In addition, SEOTOASTER build a kml file to help <strong>search engines and geolocation services locate your\n            business </strong>while plug-ins work better and provide you with a pre-built <strong>mobile\n            version</strong> of your website for instance.</p>\n        <hr/>\n\n        {$plugin:widcard:landing}\n        <h3 id=\"step2\" class=\"mt10px\"><span class=\"number\">2</span>Look like a million bucks: download a FREE premium\n            theme</h3>\n        <iframe id=\"themesList\" scrolling-y=\"yes\" frameborder=\"0\" style=\"width: 100%; height: 660px;\" runat=\"server\"\n                src=\"http://www.seotoaster.com/themes-for-mojo.html\" allowtransparency=\"true\"></iframe>\n        <h3 class=\"mt10px\"><span class=\"number\">3</span>Use the easy-to-follow assembly instructions</h3>\n        <a class=\"_lbox\" title=\"1 click themes\" href=\"images/how-to-add-theme/1-click-themes-big.jpg\"><img\n                src=\"images/how-to-add-theme/1-click-themes.jpg\" border=\"0\" alt=\"1 click themes\" width=\"315\"\n                height=\"221\"/></a>\n        <a class=\"_lbox\" title=\"2 upload theme\" href=\"images/how-to-add-theme/2-upload-theme-big.jpg\"><img\n                src=\"images/how-to-add-theme/2-upload-theme.jpg\" border=\"0\" alt=\"2 upload theme\" width=\"315\"\n                height=\"221\"/></a>\n        <a class=\"_lbox\" title=\"3 select theme\" href=\"images/how-to-add-theme/3-select-theme-big.jpg\"><img\n                src=\"images/how-to-add-theme/3-select-theme.jpg\" border=\"0\" alt=\"3 select theme\" width=\"315\"\n                height=\"221\"/></a>\n\n        <h3 class=\"mt40px\"><span class=\"number\">4</span>Explore the plug-ins marketplace: buy or lease it\'s up to you !\n        </h3>\n        <iframe id=\"themesList\" scrolling-y=\"yes\" frameborder=\"0\" style=\"width: 100%; height: 700px;\" runat=\"server\"\n                src=\"http://www.seotoaster.com/plugins-for-mojo.html\" allowtransparency=\"true\"></iframe>\n    </section>\n    {/adminonly}\n    <hr/>\n    <footer class=\"mt10px\">\n        <p>Powered by Free &amp; Open Source Ecommerce Website Builder <a href=\"http://www.seotoaster.com\"\n                                                                          target=\"_blank\">SEOTOASTER</a>, Courtesy of <a\n                href=\"http://www.seosamba.com\" target=\"_blank\">SEO Samba</a>.</p></footer>\n</div>\n{$content:newContent}\n</body>\n</html>',	'typeregular');
+
 DROP TABLE IF EXISTS `template_type`;
-CREATE TABLE IF NOT EXISTS `template_type` (
+CREATE TABLE `template_type` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Template type name: For example ''quote'', ''regularpage'', etc...',
   `title` tinytext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Alias for the template "Product listing", etc...',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `template_type` (`id`, `title`) VALUES
-('typeregular', 'Regular page'),
-('typemail', 'E-mail sending'),
-('typemobile', 'Mobile page');
+('typemail',	'E-mail sending'),
+('typemenu',	'Menu'),
+('typemobile',	'Mobile page'),
+('typeregular',	'Regular page');
 
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(35) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'user password',
@@ -350,35 +393,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-ALTER TABLE `container`
-  ADD CONSTRAINT `container_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE `deeplink`
-  ADD CONSTRAINT `deeplink_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE;
+DROP TABLE IF EXISTS `user_attributes`;
+CREATE TABLE `user_attributes` (
+  `user_id` int(10) unsigned NOT NULL,
+  `attribute` tinytext COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`user_id`,`attribute`(20)),
+  CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-ALTER TABLE `email_triggers_actions`
-  ADD CONSTRAINT `email_triggers_actions_ibfk_1` FOREIGN KEY (`trigger`) REFERENCES `email_triggers` (`trigger_name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `email_triggers_actions_ibfk_2` FOREIGN KEY (`recipient`) REFERENCES `email_triggers_recipient` (`recipient`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `email_triggers_actions_ibfk_3` FOREIGN KEY (`template`) REFERENCES `template` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
-
-ALTER TABLE `link_container`
-  ADD CONSTRAINT `FK_link_container` FOREIGN KEY (`id_container`) REFERENCES `container` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `optimized`
-  ADD CONSTRAINT `optimized_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `page_fa`
-  ADD CONSTRAINT `FK_page_fa` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_fa_ibfk_1` FOREIGN KEY (`fa_id`) REFERENCES `featured_area` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `page_has_option`
-  ADD CONSTRAINT `page_has_option_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_has_option_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `page_option` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `redirect`
-  ADD CONSTRAINT `FK_redirect` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `template`
-  ADD CONSTRAINT `template_ibfk_1` FOREIGN KEY (`type`) REFERENCES `template_type` (`id`) ON DELETE CASCADE;

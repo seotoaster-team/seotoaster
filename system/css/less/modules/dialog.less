@@ -2,7 +2,7 @@
     font-size        : @font-size-base;
     background-color : @body-bg;
     padding          : 0;
-    z-index  : 1001;
+    z-index          : 1001;
 
     .ui-dialog-titlebar{
         background  : @header-bg;
@@ -13,7 +13,6 @@
         height      : 40px;
         padding     : 0 @grid-margin-width/2;
         font-size   : @font-size-large;
-        text-align  : right;
 
         &>*{
             font-size : @font-size-base;
@@ -22,35 +21,39 @@
         .ui-draggable&{
             cursor : move;
         }
+    }
 
-        .ui-dialog-title{
-            float          : left;
-            max-width      : 90%;
-            text-transform : capitalize;
-            font-size      : inherit;
-            .text-overflow;
+    .ui-dialog-title{
+        max-width      : 90%;
+        text-transform : capitalize;
+        .text-overflow;
+    }
+
+    .ui-dialog-titlebar-close{
+        position : absolute;
+        top      : 0;
+        bottom   : 0;
+        right    : @padding-large-vertical;
+        margin   : auto;
+        padding  : 0;
+        border   : none;
+        .link-color(@header-color, @brand-red);
+        .box-sizing(content-box);
+        .icon-size(13px);
+
+        .ui-icon-closethick{
         }
 
-        .ui-dialog-titlebar-close{
-            vertical-align : middle;
-            .link-color(@gray-dark, @brand-red);
-
-            &:hover{}
-
-            .ui-icon-closethick{
-                .icon-size(13px);
-            }
-
-            .ui-button-text{
-                display : none;
-            }
+        .ui-button-text{
+            display : none;
         }
     }
+
     .ui-dialog-content{
         position   : relative;
         border     : 0;
         padding    : 0 @grid-margin-width/2;
-        background : @body-bg;
+        background : @dialog-content-bg;
         overflow   : auto;
     }
     .ui-dialog-buttonpane{

@@ -1,14 +1,14 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
         'headerText' => $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'),
-        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon-expand btn link icon inverse-warning" href="javascript:;"></a></div>',
+        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 icon-expand inverse-warning" href="javascript:;"></a></div>',
         'helpSection' => $this->helpSection)); ?>
 
 		<?php
 			$this->editcssForm->setAction($this->url());
 		?>
     <form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
-        <div id="editor" style="height: 440px;"><?php echo $this->editcssForm->getElement('content'); ?></div>
+        <div id="editor" style="height: 450px;"><?php echo $this->editcssForm->getElement('content'); ?></div>
         <?php echo $this->editcssForm->getElement('submit'); ?>
     </form>
 
