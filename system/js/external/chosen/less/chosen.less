@@ -1,11 +1,14 @@
 @import "../../../../css/less/base/variables";
 
-.chzn-select{ width : 100%; }
-.chzn-select-deselect{ width : 100%; }
+//@chosen-prefix : chosen; // new version
+@chosen-prefix : chzn; // old version
+
+.@{chosen-prefix}-select{ width : 100%; }
+.@{chosen-prefix}-select-deselect{ width : 100%; }
 
 // Base
 // ------------------------------------------
-.chzn-container{
+.@{chosen-prefix}-container{
     position         : relative;
     padding          : 0 @padding-small-vertical;
     width            : 100% !important;
@@ -21,7 +24,7 @@
     .box-sizing();
     .transition(all, 0.3s);
 
-    &.chzn-container-active{
+    &.@{chosen-prefix}-container-active{
         border-color : @input-border-color-focus;
         .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
     }
@@ -30,11 +33,11 @@
         line-height : @line-height;
     }
 
-    &.chzn-container-single{ }
+    &.@{chosen-prefix}-container-single{ }
 
-    &.chzn-container-multi{ cursor : text; }
+    &.@{chosen-prefix}-container-multi{ cursor : text; }
 
-    .chzn-single{
+    .@{chosen-prefix}-single{
         line-height : @button-height-base - @input-border-width * 2;
         max-height  : @button-height-base - @input-border-width * 2;
         display     : block;
@@ -60,7 +63,7 @@
         list-style : none;
     }
 
-    .chzn-drop{
+    .@{chosen-prefix}-drop{
         background-color : @input-bg;
         border-style     : solid;
         border-width     : @input-border-width;
@@ -72,13 +75,13 @@
         z-index          : 500;
         width            : 100%;
 
-        .chzn-with-drop&{
+        .@{chosen-prefix}-with-drop&{
             left  : -@input-border-width;
             right : 0;
         }
     }
 
-    .chzn-search{
+    .@{chosen-prefix}-search{
         padding : @padding-base-vertical;
 
         input{
@@ -95,7 +98,7 @@
         }
     }
 
-    .chzn-results{
+    .@{chosen-prefix}-results{
         max-height : 300px;
         overflow   : auto;
 
@@ -163,9 +166,9 @@
         }
     }
 
-    .chzn-choices{
+    .@{chosen-prefix}-choices{
         font-size  : @font-size-small;
-        margin-top : 0.25em;
+//        margin-top : 0.25em;
         .clearfix();
 
         &>*{
@@ -206,10 +209,10 @@
         }
     }
 
-    &.chzn-rtl{
+    &.@{chosen-prefix}-rtl{
         direction : rtl;
 
-        .disabled-result, .result-selected, .chzn-single{
+        .disabled-result, .result-selected, .@{chosen-prefix}-single{
             &:before{
                 float : left;
             }
@@ -221,12 +224,12 @@
             margin-right : 5px;
         }
 
-        .chzn-choices>*{
+        .@{chosen-prefix}-choices>*{
             float : right;
         }
     }
 
-    .chzn-search{
+    .@{chosen-prefix}-search{
         padding : @padding-base-vertical;
 
         input{
