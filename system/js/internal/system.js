@@ -263,7 +263,7 @@ function showTooltip(el, addClass, position){
 }
 
 ///////// Show/Hide 'cropped' options //////////////
-$(document).on('click', '[name="useImage"]', function(){
+$(document).on('click', '[name="useImage"]:checkbox', function(){
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
 ///////// Scrolling navigation Tabs //////////////
@@ -282,21 +282,21 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
 });
 ///////// checkbox & radio button //////////////
 function checkboxRadioStyle(){
-    if($('.seotoaster').length && !$('.ie8').length){
-        $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
-            $(':radio').addClass('radio-upgrade filed-upgrade');
-            $(':checkbox').addClass('checkbox-upgrade filed-upgrade');
-            if(!$(this).closest('.btn-set').length){
-                var dataClass = $(this).data('label-class') ? $(this).data('label-class') : '';
-                if($(this).parent('label').length){
-                    !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
-                }else{
-                    !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap '+ dataClass +'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap '+$(this).data('label-class')+'"></label>').after('<span class="checkbox_radio"><span></span></span>');
-                }
-            }
-            $(this).addClass('processed');
-        });
-    }
+//    if($('.seotoaster').length && !$('.ie8').length){
+//        $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
+//            $(':radio').addClass('radio-upgrade filed-upgrade');
+//            $(':checkbox').addClass('checkbox-upgrade filed-upgrade');
+//            if(!$(this).closest('.btn-set').length){
+//                var dataClass = $(this).data('label-class') ? $(this).data('label-class') : '';
+//                if($(this).parent('label').length){
+//                    !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
+//                }else{
+//                    !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap '+ dataClass +'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap '+$(this).data('label-class')+'"></label>').after('<span class="checkbox_radio"><span></span></span>');
+//                }
+//            }
+//            $(this).addClass('processed');
+//        });
+//    }
 }
 
 function loginCheck(){
