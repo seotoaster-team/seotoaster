@@ -19,12 +19,9 @@ class Tools_Content_Parser {
 
 	private $_iteration      = 0;
 
-    private $_excludeCacheableWidgets = false;
-
 	public function __construct($content = null, $pageData = null, $options = null) {
 		if (null !== $content) {
-			$this->_content         = $content;
-            $this->_fullPageContent = $content;
+			$this->_content = $content;
 		}
 		if (null !== $pageData) {
 			$this->_pageData = $pageData;
@@ -38,27 +35,34 @@ class Tools_Content_Parser {
 	}
 
 	public function parse() {
+        // Full page cache
+        if ((bool) Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableFullPageCache')) {
+            $cache    = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+            $cacheKey = ($this->_pageData['url'] == 'index.html') ? md5('') : md5($this->_pageData['url']);
+            if (null === $cache->load($cacheKey, Helpers_Action_Cache::PREFIX_FULLPAGE)) {
+                $this->_parse(true);
+                $fullPageData = array(
+                    'content'  => $this->_content,
+                    'pageData' => $this->_pageData,
+                    'options'  => $this->_options
+                );
+
+                $cache->save(
+                    $cacheKey,
+                    $fullPageData,
+                    Helpers_Action_Cache::PREFIX_FULLPAGE,
+                    array(Helpers_Action_Cache::TAG_FULLPAGE, $this->_pageData['url']),
+                    Helpers_Action_Cache::CACHE_WEEK
+                );
+
+                $this->_iteration = 0;
+            }
+        }
+
 		$this->_parse();
 		$this->_changeMedia();
         $this->_iteration = 0;
 		$this->_runMagicSpaces();
-
-        if ((bool) Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableFullPageCache')) {
-            $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
-            $fullPageData = array(
-                'content'       => $this->_fullPageContent,
-                'pageData'      => $this->_pageData,
-                'parserOptions' => $this->_options
-            );
-
-            $this->_cache->save(
-                md5($this->_pageData['url']),
-                $fullPageData,
-                Helpers_Action_Cache::PREFIX_FULLPAGE,
-                array(Helpers_Action_Cache::TAG_FULLPAGE, $this->_pageData['url']),
-                Helpers_Action_Cache::CACHE_WEEK
-            );
-        }
 
 		return $this->_content;
 	}
@@ -103,7 +107,7 @@ class Tools_Content_Parser {
 		return $this->_content;
 	}
 
-	private function _parse($excludeCacheableWidgets = false) {
+	private function _parse($excludeNonCacheableWidgets = false) {
 		$this->_iteration++;
 
 		$widgets = $this->_findWidgets();
@@ -125,14 +129,14 @@ class Tools_Content_Parser {
 			}
 
 
-            if ($excludeCacheableWidgets === true && $widget->getCacheable() === true) {
+            if ($excludeNonCacheableWidgets === true && $widget->getCacheable() === false) {
                 continue;
             }
 
 			$this->_replace($replacement, $widgetData);
 		}
 
-		$this->_parse();
+		$this->_parse($excludeNonCacheableWidgets);
 	}
 
 	private function _changeMedia() {
@@ -196,14 +200,12 @@ class Tools_Content_Parser {
                 }
 
 				try {
-                    $content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
+                    $this->_content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
                         $spaceName,
                         $this->_content,
                         array_merge($this->_pageData, $this->_options),
                         $parameters
                     )->run();
-                    $this->_fullPageContent = $content;
-                    $this->_content         = $content;
 				}
 				catch (Exception $e) {
 					Tools_System_Tools::debugMode() && error_log($e->getMessage());

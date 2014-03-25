@@ -36,17 +36,18 @@ class IndexController extends Zend_Controller_Action {
 		$pageCacheKey = md5($pageUrl);
 
         // Full page cache
-        $pageFull = $this->_helper->cache->load(
-            ($pageUrl == '') ? md5('index.html') : $pageCacheKey,
-            Helpers_Action_Cache::PREFIX_FULLPAGE
-        );
-
-        if ((bool) $this->_config->getConfig('enableFullPageCache') && $pageFull !== null) {
-            $pageFull['pageData']['content'] = $pageFull['content'];
-            $parser      = new Tools_Content_Parser($pageFull['content'], $pageFull['pageData'], $pageFull['parserOptions']);
+        if ((bool)$this->_config->getConfig('enableFullPageCache')
+            &&
+            ($fullPageData = $this->_helper->cache->load($pageCacheKey, Helpers_Action_Cache::PREFIX_FULLPAGE)) !== null
+        ) {
+            $parser      = new Tools_Content_Parser(
+                $fullPageData['content'],
+                $fullPageData['pageData'],
+                $fullPageData['options']
+            );
             $pageContent = $parser->parse();
 
-            $this->_complete($pageContent,  $pageFull['pageData'], $pageFull['parserOptions']);
+            $this->_complete($pageContent,  $fullPageData['pageData'], $fullPageData['options']);
         }
         else {
             if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
