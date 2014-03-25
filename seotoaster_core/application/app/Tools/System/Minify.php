@@ -22,7 +22,6 @@ class Tools_System_Minify {
             return $cssList;
         }
 
-        $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         $cacheHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
         $cacheKey      = strtolower(__CLASS__.'_'.__FUNCTION__);
         if (null === ($hashStack = $cacheHelper->load($cacheKey, ''))) {
@@ -32,6 +31,7 @@ class Tools_System_Minify {
         $container       = $cssList->getContainer();
         $compressor      = new CssMin();
         $concatCssPrefix = MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX;
+        $websiteHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         foreach ($container->getArrayCopy() as $css) {
             if ((bool) preg_match('/^https?:\/\//', $css->href) !== false
                 && strpos($css->href, $websiteHelper->getUrl()) !== 0
@@ -101,14 +101,14 @@ class Tools_System_Minify {
     }
 
     public static function minifyJs($jsList, $concat = false) {
-        $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         $cacheHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
         $cacheKey      = strtolower(__CLASS__.'_'.__FUNCTION__);
         if (null === ($hashStack = $cacheHelper->load($cacheKey, ''))) {
             $hashStack = array();
         }
 
-        $container = $jsList->getContainer();
+        $container     = $jsList->getContainer();
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         foreach ($container->getArrayCopy() as $js) {
             if (isset($js->attributes['src'])) {
                 // Ignore file if file from remote
@@ -136,7 +136,6 @@ class Tools_System_Minify {
                         'hash'    => $hash,
                         'content' => $jsContent
                     );
-                    unset($jsContent);
 
                     Tools_Filesystem_Tools::saveFile(
                         $websiteHelper->getPath().$websiteHelper->getTmp().$hash.'.min.js',
@@ -156,16 +155,26 @@ class Tools_System_Minify {
             }
             elseif (!empty($js->source)) {
                 $jsContent = $js->source;
-                if (!isset($js->attributes['nominify'])) {
-                    $jsContent  = JSMin::minify($jsContent);
-                    $js->source = $jsContent;
+                $hash      = md5($jsContent);
+                $path      = 'source_'.$hash;
+                if (!isset($hashStack[$path]) || $hashStack[$path]['hash'] !== $hash) {
+                    if (!isset($js->attributes['nominify'])) {
+                        $jsContent  = JSMin::minify($jsContent);
+                        $js->source = $jsContent;
+                    }
+                    
+                    $hashStack[$path] = array(
+                        'hash'    => $hash,
+                        'content' => $jsContent
+                    );
                 }
                 if ($concat) {
-                    $concatJs = isset($concatJs) ? $concatJs.PHP_EOL."/* Source JS */".PHP_EOL.$jsContent
-                        : "/* Source JS */".PHP_EOL.$jsContent;
+                    $concatJs = isset($concatJs)
+                        ? $concatJs.PHP_EOL."/* Source JS */".PHP_EOL.$hashStack[$path]['content']
+                        : "/* Source JS */".PHP_EOL.$hashStack[$path]['content'];
                 }
-                unset($jsContent);
             }
+            unset($jsContent);
         }
 
         if (isset($concatJs)) {
