@@ -80,8 +80,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg)$~', $files));
 
 		if(!empty ($pagePreviews)) {
-			//return '<a href="' . $websiteHelper->getUrl() . $this->_toasterOptions['url'] . '" title="' . $this->_toasterOptions['h1'] . '"><img src="' . $websiteHelper->getUrl() . $websiteHelper->getPreview() . $pagePreviews[0] . '" alt="'  . $pageHelper->clean($this->_toasterOptions['url']) . '" /></a>';
-			return '<img class="page-teaser-image" src="' . $websiteHelper->getUrl() . $websiteHelper->getPreview() . $pagePreviews[0] . '" alt="'  . $pageHelper->clean($this->_toasterOptions['url']) . '" />';
+            $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
+                : $websiteHelper->getPreview();
+
+			return '<img class="page-teaser-image" src="'.$websiteHelper->getUrl().$path.$pagePreviews[0].'" alt="'.$pageHelper->clean($this->_toasterOptions['url']).'" />';
 		}
 		return;
 	}
@@ -109,6 +111,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
 				'alias'   => $translator->translate('Current page teaser image'),
 				'option' => 'page:preview'
 			),
+            array(
+                'alias'   => $translator->translate('Current page teaser image cropped'),
+                'option' => 'page:preview:crop'
+            ),
 			array(
 				'alias'   => $translator->translate('Current page teaser text'),
 				'option' => 'page:teaser'
