@@ -36,18 +36,20 @@ class IndexController extends Zend_Controller_Action {
 		$pageCacheKey = md5($pageUrl);
 
         // Full page cache
-        if ((bool)$this->_config->getConfig('enableFullPageCache')
+        if ((bool) $this->_config->getConfig('enableFullPageCache')
             &&
             ($fullPageData = $this->_helper->cache->load($pageCacheKey, Helpers_Action_Cache::PREFIX_FULLPAGE)) !== null
         ) {
-            $parser      = new Tools_Content_Parser(
-                $fullPageData['content'],
+            $parser        = new Tools_Content_Parser(
+                $fullPageData['pageData']['content'],
                 $fullPageData['pageData'],
                 $fullPageData['options']
             );
-            $pageContent = $parser->parse();
-
-            $this->_complete($pageContent,  $fullPageData['pageData'], $fullPageData['options']);
+            $pageContent   = $parser->parse();
+            unset($parser);
+            $page          = $fullPageData['page'];
+            $pageData      = $fullPageData['pageData'];
+            $parserOptions = $fullPageData['options'];
         }
         else {
             if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
@@ -126,21 +128,45 @@ class IndexController extends Zend_Controller_Action {
                     'currentTheme' => $this->_config->getConfig('currentTheme'),
                     'themePath'    => $themeData['path'],
                 );
-                $parser      = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
+
+                $pageContent = $page->getContent();
+
+                // Full page cache
+                if ((bool) $this->_config->getConfig('enableFullPageCache')) {
+                    $parser              = new Tools_Content_Parser($pageContent, $pageData, $parserOptions);
+                    $pageContent         = $parser->parseWidgets(true);
+                    $pageData['content'] = $pageContent;
+                    unset($parser);
+
+                    $this->_helper->cache->save(
+                        $pageCacheKey,
+                        array('page' => $page, 'pageData' => $pageData, 'options' => $parserOptions),
+                        Helpers_Action_Cache::PREFIX_FULLPAGE,
+                        array(Helpers_Action_Cache::TAG_FULLPAGE),
+                        Helpers_Action_Cache::CACHE_WEEK
+                    );
+                }
+
+                $parser      = new Tools_Content_Parser($pageContent, $pageData, $parserOptions);
                 $pageContent = $parser->parse();
 
-                unset($parser);
-                unset($themeData);
-                //$this->_helper->cache->save($page->getUrl(), $pageContent, 'page_');
+                unset($parser, $themeData);
             }
-
-            $pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
-
-            // Finalize page generation routine
-            $this->_complete($pageContent, $pageData, $parserOptions);
         }
+
+        $pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
+
+        // Finalize page generation routine
+        $this->_complete($pageContent, $pageData, $parserOptions);
 	}
 
+    private function _cachingPage($page, $pageData, $parserOptions) {
+        $parser              = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
+        $pageData['content'] = $parser->parseWidgets(true);
+        unset($parser);
+
+        return array('page' => $page, 'pageData' => $pageData, 'options' => $parserOptions);
+    }
 
 	private function _complete($pageContent, $pageData, $parserOptions) {
 		$head    = '';

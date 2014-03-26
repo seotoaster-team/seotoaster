@@ -35,30 +35,6 @@ class Tools_Content_Parser {
 	}
 
 	public function parse() {
-        // Full page cache
-        if ((bool) Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableFullPageCache')) {
-            $cache    = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
-            $cacheKey = ($this->_pageData['url'] == 'index.html') ? md5('') : md5($this->_pageData['url']);
-            if (null === $cache->load($cacheKey, Helpers_Action_Cache::PREFIX_FULLPAGE)) {
-                $this->_parse(true);
-                $fullPageData = array(
-                    'content'  => $this->_content,
-                    'pageData' => $this->_pageData,
-                    'options'  => $this->_options
-                );
-
-                $cache->save(
-                    $cacheKey,
-                    $fullPageData,
-                    Helpers_Action_Cache::PREFIX_FULLPAGE,
-                    array(Helpers_Action_Cache::TAG_FULLPAGE, $this->_pageData['url']),
-                    Helpers_Action_Cache::CACHE_WEEK
-                );
-
-                $this->_iteration = 0;
-            }
-        }
-
 		$this->_parse();
 		$this->_changeMedia();
         $this->_iteration = 0;
@@ -66,6 +42,12 @@ class Tools_Content_Parser {
 
 		return $this->_content;
 	}
+
+    public function parseWidgets($excludeNonCacheableWidgets = false) {
+        $this->_parse($excludeNonCacheableWidgets);
+
+        return $this->_content;
+    }
 
 	public function getPageData() {
 		return $this->_pageData;
