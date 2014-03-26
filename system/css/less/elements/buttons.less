@@ -94,11 +94,6 @@
 
                 &:before{ margin : 0; }
 
-                &[class*="grid_"]{
-                    padding-left  : 0;
-                    padding-right : 0;
-                }
-
                 &.larger{
                     .button-icon-size(@icon-size-larger);
                 }
@@ -229,6 +224,8 @@
         }
 
         [type="radio"], [type="checkbox"]{
+            opacity  : 0;
+            position : absolute;
 
             &+.ui-button, &+.btn{
 
