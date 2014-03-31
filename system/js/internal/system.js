@@ -266,6 +266,9 @@ function showTooltip(el, addClass, position){
 $(document).on('click', '[name="useImage"]:checkbox', function(){
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
+$(document).on('click', '.cropped-img input:checkbox', function(){
+    $(this).closest('form').find('.crop-size').fadeToggle();
+});
 ///////// Scrolling navigation Tabs //////////////
 $(document).on('click', '.tabs-nav-wrap .arrow', function(){
     var $nav = $(this).nextAll('.ui-tabs-nav');
