@@ -34,13 +34,14 @@ class Widgets_Search_Search extends Widgets_Abstract {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Not enough parameters'));
 		}
-        $optionsArray = $this->_options;
-		$rendererName = '_renderSearch' . ucfirst(array_shift($this->_options));
+
+		$rendererName = '_renderSearch' . ucfirst($this->_options[0]);
 		if(method_exists($this, $rendererName)) {
+            array_shift($this->_options);
 			return $this->$rendererName($this->_options);
 		}
 
-        return $this->_renderSearchComplex($optionsArray);
+        return $this->_renderSearchComplex();
 	}
 
     /**
@@ -222,15 +223,19 @@ class Widgets_Search_Search extends Widgets_Abstract {
 //		return $data;
 //	}
 
-    private function _renderSearchComplex($optionsArray){
-        if(isset($optionsArray[0])){
-            if($optionsArray[0] == 'select' && isset($optionsArray[1])){
-                $prepopSearchName =  $optionsArray[1];
-            }else{
-                $prepopSearchName = $optionsArray[0];
+    private function _renderSearchComplex()
+    {
+        if (!empty($this->_options[0])) {
+            if ($this->_options[0] === 'select' && empty($this->_options[1])) {
+                $prepopSearchName = $this->_options[1];
+            } else {
+                $prepopSearchName = $this->_options[0];
             }
-            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerName($prepopSearchName, true);
-            if($prepopWithNameList){
+            $prepopWithNameList = Application_Model_Mappers_ContainerMapper::getInstance()->findByContainerName(
+                $prepopSearchName,
+                true
+            );
+            if ($prepopWithNameList) {
                 $this->_view->prepopName = $prepopSearchName;
                 $this->_view->prepopWithNameList = $prepopWithNameList;
                 return $this->_view->render('searchForm.phtml');
