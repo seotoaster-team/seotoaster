@@ -14,10 +14,14 @@
             autoHeight: false
         });
         $(document).on('click', '.apply-widget', function () {
-            var error = false;
-            var widgetForm = $(this).closest('form');
-            var widgetHtml = '{$' + widgetForm.data('name');
+            var error      = false,
+                widgetForm = $(this).closest('form'),
+                widgetHtml = '{$' + widgetForm.data('name');
+
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
+                if ($(this).hasClass('ignore-empty-val') && $(this).val() == '') {
+                    return;
+                }
                 if ($(this).attr('type') == 'checkbox' && !$(this).prop('checked')) {
                     if ($(this).hasClass('allowzero')) {
                         widgetHtml += ':0';
