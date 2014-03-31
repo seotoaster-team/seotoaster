@@ -42,13 +42,16 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
             .DIRECTORY_SEPARATOR;
 
         // Changing the image to fit the size
-        if ($useCrop
-            && isset($this->_options[4], $this->_options[5])
-            && is_numeric($this->_options[4])
-            && is_numeric($this->_options[5])
-        ) {
-            $width      = $this->_options[4];
-            $height     = $this->_options[5];
+        if ($useCrop && isset($this->_options[2]) && ($this->_options[2] != '1' || $this->_options[2] != '0')) {
+            if (strpos($this->_options[2], 'x')) {
+                $cropOptions = explode('x', $this->_options[2]);
+                $width       = $cropOptions[0];
+                $height      = $cropOptions[1];
+            }
+            else {
+                $width       = $this->_options[2];
+                $height      = $this->_options[2];
+            }
             $galFolder .= $width.'-'.$height.DIRECTORY_SEPARATOR;
         }
         else {
