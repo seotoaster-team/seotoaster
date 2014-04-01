@@ -36,6 +36,13 @@ class Application_Form_Config extends Zend_Form {
 	 */
 	protected $_showProtectedPagesInMenu = true;
 
+    /**
+     * Enable Developer mode
+     *
+     * @var boolean
+     */
+    protected $_enableDeveloperMode      = false;
+
 	public function getMediaServers() {
 		return $this->_mediaServers;
 	}
@@ -172,6 +179,16 @@ class Application_Form_Config extends Zend_Form {
         $this->getElement('memPagesInMenu')->setValue($showProtectedPagesInMenu);
 		return $this;
 	}
+
+    public function getEnableDeveloperMode() {
+        return $this->_enableDeveloperMode;
+    }
+
+    public function setEnableDeveloperMode($enableDeveloperMode) {
+        $this->_enableDeveloperMode = $enableDeveloperMode;
+        $this->getElement('enableDeveloperMode')->setValue($enableDeveloperMode);
+        return $this;
+    }
 
 	public function setSmtpPort($smtpPort) {
 		$this->_smtpPort = $smtpPort;
@@ -336,6 +353,12 @@ class Application_Form_Config extends Zend_Form {
 			'value' => $this->_showProtectedPagesInMenu,
 			'label' => 'Member pages in menu?',
 		)));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'enableDeveloperMode',
+            'value' => $this->_enableDeveloperMode,
+            'label' => 'Enable developer mode?',
+        )));
 
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'submit',

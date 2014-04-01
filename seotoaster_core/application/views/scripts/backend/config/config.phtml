@@ -32,8 +32,8 @@
             <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('imgLarge')->renderViewHelper(); ?></div>
             <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('teaserSize')->renderLabel(); ?></div>
             <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('teaserSize')->renderViewHelper(); ?></div>
-            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?></div>
-            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?><?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?></div>
+            <div class="grid_6 mt10px"><?php echo $this->configForm->getElement('enableDeveloperMode')->renderLabel(); ?><?php echo $this->configForm->getElement('enableDeveloperMode')->renderViewHelper(); ?></div>
 
             <?php echo $this->configForm->getElement('adminEmail'); ?>
             <?php echo $this->configForm->getElement('superadminLogin'); ?>
