@@ -32,11 +32,24 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if(strtolower($this->_options[0]) == 'conversioncode'){
             return $this->_conversionCode($this->_options);
         }
-
+        $recaptchaStyle = 'custom';
+        $buttonLabel = "Send";
         $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
 
 		$useCaptcha   = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
         $useRecaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
+        if($useRecaptcha && isset($this->_options[2])){
+            $recaptchaStyle = $this->_options[2];
+        }
+        if(isset($this->_options[3])){
+            //recaptcha exist
+            $buttonLabel = $this->_options[3];
+        } elseif(isset($this->_options[1]) && $this->_options[1] != "recaptcha" && $this->_options[1] != ""){
+            //no recaptcha but keep the value for submit button
+            $buttonLabel = $this->_options[1];
+        }
+
+
         $uploadLimitSize = (is_numeric(end($this->_options)) ? end($this->_options) : self::UPLOAD_LIMIT_SIZE);
         $formMapper   = Application_Model_Mappers_FormMapper::getInstance();
         $pageMapper   = Application_Model_Mappers_PageMapper::getInstance(); 
@@ -50,7 +63,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
                 $formMapper->save($form);
             }
             if($useRecaptcha){
-                $recaptchaTheme = 'red';
+                $recaptchaTheme = $recaptchaStyle;
                 $recaptchaWidgetId = uniqid('recaptcha_widget_');
                 if(isset($this->_options[2])){
                     $recaptchaTheme = $this->_options[2];
@@ -93,6 +106,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $this->_view->pageId            = $this->_toasterOptions['id'];
 		$this->_view->websiteTmp        = $this->_websiteHelper->getTmp();
         $this->_view->formUrl           = $this->_toasterOptions['url'];
+        $this->_view->buttonValue       = $buttonLabel;
 		return $this->_view->render('form.phtml');
 	}
 
