@@ -13,6 +13,17 @@
             <?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
         </label>
     </p>
+    <p>
+        <label class="pointer hidden">
+            <span class="grid_5 alpha"><?php echo $this->translate('Recaptcha style'); ?></span>
+            <?php echo $this->formSelect('formsCaptchastyle', null, array('id' => 'form-captcha-style', 'class' => 'grid_7 alpha omega small'),
+                array('custom' => 'custom', 'red' => 'red', 'white' => 'white'));?>
+        </label>
+    </p>
+    <p class="mt5px">
+        <?php echo $this->formLabel('forms-submitlabel', $this->translate('Submit label'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formText('formsSubmitlabel', '', array('id' => 'forms-submit-label', 'class' => 'grid_7 alpha omega small')); ?>
+    </p>
     <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget-forms block small')); ?>
 </form>
 <script type="text/javascript">
@@ -27,9 +38,19 @@
 			formsSelect.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a form'); ?></option>')
 		});
 
+        $("#forms-captcha").change(function(){
+            if(this.checked){
+                $("#form-captcha-style").closest('label.pointer').fadeIn('slow')
+            } else {
+                $("#form-captcha-style").closest('label.pointer').fadeOut('slow');
+            }
+        })
+
 		$(document).on('click', '.apply-widget-forms', function() {
-			var widgetForm = $(this).closest('form');
+            var recaptchaStyle = "";
+            var widgetForm = $(this).closest('form');
 			var widgetHtml = '{$' + widgetForm.data('name');
+
 			if($('#forms-newname').val().trim() != '') {
 				widgetHtml += ':' + $('#forms-newname').val()
 			} else if($('#forms-existing').val() != 0) {
@@ -39,8 +60,19 @@
                 $('#forms-newname').addClass('error');
 				widgetHtml = '';
 			}
+
+                recaptchaStyle = $("#form-captcha-style option:selected").text();
+
 			if(widgetHtml != '') {
-				widgetHtml += ($('#forms-captcha').prop('checked') ? ':recaptcha}' : '}');
+                if($('#forms-captcha').prop('checked')){
+                    widgetHtml += ':recaptcha:' + recaptchaStyle ;
+                }
+
+                if($("#forms-submit-label").val().length != 0){
+                    widgetHtml += ":" + $("#forms-submit-label").val() + "}";
+                } else{
+                    widgetHtml += "}";
+                }
 				$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, widgetHtml);
 			}
 		});
