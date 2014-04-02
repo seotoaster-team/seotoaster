@@ -43,7 +43,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract {
 
         // Changing the image to fit the size
         if ($useCrop && isset($this->_options[2]) && ($this->_options[2] != '1' || $this->_options[2] != '0')) {
-            if (strpos($this->_options[2], 'x')) {
+            if (strpos($this->_options[2], 'x') !== false) {
                 $cropOptions = explode('x', $this->_options[2]);
                 $width       = $cropOptions[0];
                 $height      = $cropOptions[1];

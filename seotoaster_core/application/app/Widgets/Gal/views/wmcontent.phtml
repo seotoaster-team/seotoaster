@@ -33,6 +33,7 @@
 </form>
 <script type="text/javascript">
     $(function () {
+        // Generation widget from form options
         $(document).on('click', '#applyWidgetGal', function() {
             var widgetForm = $(this).closest('form'),
                 widgetHtml = '{$'+widgetForm.data('name'),
