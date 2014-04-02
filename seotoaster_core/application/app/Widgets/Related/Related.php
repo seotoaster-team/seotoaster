@@ -13,14 +13,15 @@ class Widgets_Related_Related extends Widgets_Abstract
 
     const REL_MAX_REZULT  = '5';
 
-    const REL_USEIMAGE    = false;
-
     protected function _init()
     {
         parent::_init();
         $this->_view             = new Zend_View(array('scriptPath' => dirname(__FILE__).'/views'));
         $website                 = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $this->_view->websiteUrl = $website->getUrl();
+        $this->useImage          = false;
+        $this->cropParams        = array();
+        $this->cropSizeSubfolder = '';
         array_push($this->_cacheTags, __CLASS__);
     }
 
@@ -40,10 +41,41 @@ class Widgets_Related_Related extends Widgets_Abstract
                 }
             }
         }
-        //$this->_view->descLength = (isset($this->_options[1])) ? $this->_options[1] : self::REL_DESC_LENGTH;
-        $this->_view->descLength = self::REL_DESC_LENGTH;
-        $this->_view->useImg     = (isset($this->_options[2])) ? $this->_options[2] : self::REL_USEIMAGE;
-        $this->_view->related    = ($this->_options[1] >= sizeof($related)) ? $related
+
+        // Image output options
+        if (isset($this->_options[2]) && ($this->_options[2] == 'img' || $this->_options[2] == 'imgc')) {
+            $this->useImage = $this->_options[2];
+        }
+        elseif (isset($this->_options[2]) && strpos($this->_options[2], 'imgc-') !== false) {
+            preg_match('/^imgc-([0-9]+)x?([0-9]*)/i', $this->_options[2], $this->cropParams);
+            if (isset($this->cropParams[1], $this->cropParams[2])
+                && is_numeric($this->cropParams[1])
+                && $this->cropParams[2] == ''
+            ) {
+                $this->cropParams[2] = $this->cropParams[1];
+            }
+            unset($this->cropParams[0]);
+            $this->useImage = 'imgc';
+        }
+
+        if (!empty($this->cropParams)) {
+            $this->cropSizeSubfolder = implode($this->cropParams, '-').DIRECTORY_SEPARATOR;
+        }
+
+        // Create a folder crop-size subfolder
+        if ($this->useImage == 'imgc' && $this->cropSizeSubfolder != '') {
+            $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+            $pathPreview   = $websiteHelper->getPath().$websiteHelper->getPreviewCrop().$this->cropSizeSubfolder;
+            if (!is_dir($pathPreview)) {
+                Tools_Filesystem_Tools::mkDir($pathPreview);
+            }
+        }
+
+        $this->_view->useImage          = $this->useImage;
+        $this->_view->cropParams        = $this->cropParams;
+        $this->_view->cropSizeSubfolder = $this->cropSizeSubfolder;
+        $this->_view->descLength        = self::REL_DESC_LENGTH;
+        $this->_view->related = ($this->_options[1] >= sizeof($related)) ? $related
             : array_slice($related, 0, $this->_options[1]);
 
         return $this->_view->render('related.phtml');

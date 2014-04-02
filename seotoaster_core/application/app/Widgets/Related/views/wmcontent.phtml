@@ -14,8 +14,79 @@
         </label>
 	    <label class="cropped-img hidden grid_6 omega pointer">
             <?php echo $this->translate('Cropped'); ?>
-            <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped')); ?>
+            <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped', 'class' => 'crop allowzero')); ?>
         </label>
 	</p>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
+    <div class="mt5px crop-size hidden">
+        <p class="clearfix">
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Width'); ?></label>
+            <?php echo $this->formText('galWidth', null, array('class' => 'gal-width grid_7 omega small alpha')); ?>
+        </p>
+        <p class="mt5px clearfix">
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Height'); ?></label>
+            <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_7 omega small alpha')); ?>
+        </p>
+    </div>
+    <?php echo $this->formSubmit('applyWidgetRelated', 'Apply', array('class' => 'block small')); ?>
 </form>
+<script type="text/javascript">
+    $(function() {
+        // Generation widget from form options
+        $(document).on('click', '#applyWidgetRelated', function() {
+            var error      = false,
+                widgetForm = $(this).closest('form'),
+                widgetHtml = '{$' + widgetForm.data('name'),
+                cropOption = ':imgc';
+
+            widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
+                if ($(this).hasClass('crop') && $(this).prop('checked')) {
+                    widgetHtml = widgetHtml.replace(':img', '');
+                    return;
+                }
+
+                if ($(this).hasClass('gal-width')) {
+                    if ($(this).val()) {
+                        cropOption = cropOption+'-'+$(this).val();
+                        return;
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+                if ($(this).hasClass('gal-height')) {
+                    if ($(this).val() && cropOption != ':imgc') {
+                        widgetHtml += cropOption+'x'+$(this).val();
+                        return;
+                    }
+                    else {
+                        widgetHtml += cropOption
+                        return;
+                    }
+                }
+
+                if ($(this).attr('type') == 'checkbox' && !$(this).prop('checked')) {
+                    if ($(this).hasClass('allowzero')) {
+                        widgetHtml += ':0';
+                    }
+                    return;
+                }
+
+                if ($(this).hasClass('validate')) {
+                    if (!$(this).val() || $(this).val() == 0) {
+                        $(this).addClass('error');
+                        error = true;
+                    }
+                }
+
+                if (!error) {
+                    widgetHtml += ':' + $(this).val();
+                }
+            });
+            if (!error) {
+                widgetHtml += '}';
+                $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widgetHtml);
+            }
+        });
+    });
+</script>
