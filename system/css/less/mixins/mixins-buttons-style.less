@@ -91,9 +91,24 @@
     .border-radius(@button-small-border-radius);
 }
 
-.button-icon-size(@icon-size : @icon-size-base) {
+.button-icon-size(@icon-size : @icon-size-base, @button-size : base, @icon-padding : 0) {
     .icon-size(@icon-size);
-    padding : (@button-height-base - @icon-size - @button-border-width * 2) / 2;
+    .button-padding(@size) when (@size = larger){
+        padding : (@button-height-larger - @icon-size - @button-border-width * 2) / 2;
+    }
+    .button-padding(@size) when (@size = large){
+        padding : (@button-height-large - @icon-size - @button-border-width * 2) / 2;
+    }
+    .button-padding(@size) when (@size = base){
+        padding : (@button-height-base - @icon-size - @button-border-width * 2) / 2;
+    }
+    .button-padding(@size) when (@size = small){
+        padding : (@button-height-small - @icon-size - @button-border-width * 2) / 2;
+    }
+    .button-padding(@size) when (@size = false){
+        padding : @icon-padding;
+    }
+    .button-padding(@button-size);
 }
 
 // Easily pump out default styles, as well as :hover, :focus, :active,
