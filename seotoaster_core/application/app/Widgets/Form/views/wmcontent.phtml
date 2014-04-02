@@ -15,7 +15,8 @@
     </p>
     <p>
         <label class="pointer hidden">
-            <?php echo $this->formSelect('formsCaptchastyle', null, array('id' => 'form-captcha-style'),
+            <span class="grid_5 alpha"><?php echo $this->translate('Recaptcha style'); ?></span>
+            <?php echo $this->formSelect('formsCaptchastyle', null, array('id' => 'form-captcha-style', 'class' => 'grid_7 alpha omega small'),
                 array('custom' => 'custom', 'red' => 'red', 'white' => 'white'));?>
         </label>
     </p>
