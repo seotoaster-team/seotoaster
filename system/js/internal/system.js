@@ -263,8 +263,16 @@ function showTooltip(el, addClass, position){
 }
 
 ///////// Show/Hide 'cropped' options //////////////
-$(document).on('click', '[name="useImage"]:checkbox', function(){
-    $(this).closest('form').find('.cropped-img').fadeToggle();
+$(document).on('click', '[name="useImage"]:checkbox', function() {
+    var form       = $(this).closest('form'),
+        croppedImg = form.find('.cropped-img');
+
+    croppedImg.fadeToggle(function() {
+        if (!croppedImg.is(':visible')) {
+            croppedImg.find('input:checkbox').prop('checked', false);
+            form.find('.crop-size').fadeToggle();
+        }
+    });
 });
 $(document).on('click', '.cropped-img input:checkbox', function(){
     $(this).closest('form').find('.crop-size').fadeToggle();
