@@ -45,9 +45,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         // Changing the image to fit the size
         if ($useCrop && isset($this->_options[2]) && $this->_options[2] != '1') {
             if (strpos($this->_options[2], 'x') !== false) {
-                $cropOptions = explode('x', $this->_options[2]);
-                $width       = $cropOptions[0];
-                $height      = $cropOptions[1];
+                list($width, $height) = explode('x', $this->_options[2]);
             }
             else {
                 $width  = $this->_options[2];
@@ -69,7 +67,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         foreach ($sourceImages as $key => $image) {
             if (is_file($galFolder . $image)) {
                 $imgInfo = getimagesize($galFolder.$image);
-                if ($imgInfo[0] != $width) {
+                if ($imgInfo[0] != $width && ($imgInfo[1] != $height || $height != 'auto')) {
                     Tools_Image_Tools::resizeByParameters(
                         $pathFileOriginal.$image,
                         $width,
