@@ -59,7 +59,7 @@ class Backend_FormController extends Zend_Controller_Action {
 			}
 		}
 		$formName           = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
-        $submitButtonValue  = filter_var($this->getRequest()->getParam('buttonvalue'),FILTER_SANITIZE_STRING);
+
         $pageId             = $this->getRequest()->getParam('pageId');
         $trackingPageName   = 'form-'.$formName.'-thank-you';
         $trackingPageUrl    = $this->_helper->page->filterUrl($trackingPageName);
@@ -75,7 +75,7 @@ class Backend_FormController extends Zend_Controller_Action {
             $formForm->getElement('trackingCode')->setValue($conversionCode[0]->getConversionCode());
         }
 		$formForm->getElement('name')->setValue($formName);
-        $formForm->getElement('submit')->setValue($submitButtonValue);
+        
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		if($form !== null) {
 			$formForm->populate($form->toArray());
