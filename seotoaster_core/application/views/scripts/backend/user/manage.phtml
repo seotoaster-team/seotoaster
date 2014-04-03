@@ -33,7 +33,10 @@
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
-
+        <form class="grid_6 alpha" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+            <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
+            <button class="grid_3 alpha omega mt0px icon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
+        </form>
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
 		<table class="sortable table-striped table-scroll block mt20px" id="users-list">

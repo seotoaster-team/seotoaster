@@ -66,11 +66,24 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $by = filter_var($this->getParam('by', 'last_login'), FILTER_SANITIZE_STRING);
         $order = filter_var($this->getParam('order', 'DESC'), FILTER_SANITIZE_STRING);
+        $searchKey = filter_var($this->getParam('key'), FILTER_SANITIZE_STRING);
+
         if (!in_array($order, array('ASC', 'DESC'))) {
             $order = 'DESC';
         }
 
         $select = $select->order($by . ' ' . $order);
+
+        $paginatorOrderLink = '/by/' . $by . '/order/' . $order;
+        if (!empty($searchKey)) {
+            $select->where('email LIKE ?', '%'.$searchKey.'%')
+                ->orWhere('full_name LIKE ?', '%'.$searchKey.'%')
+                ->orWhere('role_id LIKE ?', '%'.$searchKey.'%')
+                ->orWhere('last_login LIKE ?', '%'.$searchKey.'%')
+                ->orWhere('ipaddress LIKE ?', '%'.$searchKey.'%');
+            $paginatorOrderLink .= '/key/' . $searchKey;
+        }
+
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
         $users = $adapter->getItems($offset, 10);
         $userPaginator = new Zend_Paginator($adapter);
@@ -80,7 +93,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $pager = $this->view->paginationControl($userPaginator, 'Sliding', 'backend/user/pager.phtml',
             array(
                 'urlData' => $this->_websiteUrl . 'backend/backend_user/manage',
-                'order'   => '/by/' . $by . '/order/' . $order
+                'order'   => $paginatorOrderLink
             )
         );
 
@@ -89,7 +102,13 @@ class Backend_UserController extends Zend_Controller_Action {
         } else {
             $order = 'DESC';
         }
-        $this->view->order = $order;
+
+        if (!empty($searchKey)){
+            $this->view->order = $order . '/key/' . $searchKey;
+        } else {
+            $this->view->order = $order;
+        }
+        $this->view->key = $searchKey;
         $this->view->pager = $pager;
         $this->view->users = $users;
         $this->view->helpSection = 'users';
