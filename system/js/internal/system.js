@@ -270,12 +270,18 @@ $(document).on('click', '[name="useImage"]:checkbox', function() {
     croppedImg.fadeToggle(function() {
         if (!croppedImg.is(':visible')) {
             croppedImg.find('input:checkbox').prop('checked', false);
+            form.find('.crop-size input:text').val('');
             form.find('.crop-size').fadeToggle();
         }
     });
 });
-$(document).on('click', '.cropped-img input:checkbox', function(){
-    $(this).closest('form').find('.crop-size').fadeToggle();
+$(document).on('click', '.cropped-img input:checkbox', function() {
+    var cropSize = $(this).closest('form').find('.crop-size');
+    cropSize.fadeToggle(function() {
+        if (!cropSize.is(':visible')) {
+            cropSize.find('input:text').val('');
+        }
+    });
 });
 ///////// Scrolling navigation Tabs //////////////
 $(document).on('click', '.tabs-nav-wrap .arrow', function(){
