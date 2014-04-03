@@ -32,7 +32,10 @@ class Tools_Image_Tools {
 		}
 	}
 
-	public static function resize(
+    /**
+     * @deprecated use the method resizeByParameters()
+     */
+    public static function resize(
         $pathFile,
         $newWidth,
         $saveProportion = true,
@@ -43,6 +46,19 @@ class Tools_Image_Tools {
         return self::resizeByParameters($pathFile, $newWidth, 'auto', $saveProportion, $destination, $crop, $fixRotate);
 	}
 
+    /**
+     * Produces resize images by parameters
+     *
+     * @param        $pathFile
+     * @param        $newWidth
+     * @param string $newHeight
+     * @param bool   $saveProportion
+     * @param null   $destination
+     * @param bool   $crop
+     * @param bool   $fixRotate
+     *
+     * @return bool|string
+     */
     public static function resizeByParameters(
         $pathFile,
         $newWidth,
