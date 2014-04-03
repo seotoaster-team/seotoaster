@@ -65,7 +65,8 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         $websiteData = ($mediaServersAllowed) ? Zend_Registry::get('website') : null;
         $sourcePart  = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
         foreach ($sourceImages as $key => $image) {
-            if (is_file($galFolder . $image)) {
+            // Update image
+            if (is_file($galFolder.$image)) {
                 $imgInfo = getimagesize($galFolder.$image);
                 if ($imgInfo[0] != $width && ($imgInfo[1] != $height || $height != 'auto')) {
                     Tools_Image_Tools::resizeByParameters(
@@ -78,6 +79,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
                     );
                 }
             }
+            // Create image
             else {
                 Tools_Image_Tools::resizeByParameters(
                     $pathFileOriginal.$image,
