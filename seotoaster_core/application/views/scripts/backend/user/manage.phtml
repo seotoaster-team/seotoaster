@@ -33,7 +33,7 @@
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
-        <form class="grid_6 alpha" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+        <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="grid_3 alpha omega mt0px icon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
@@ -44,23 +44,23 @@
 				<tr>
 					<th>
                         <?php echo $this->translate('E-mail'); ?>
-                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>"></a>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->orderParam; ?>"></a>
                     </th>
 					<th>
                         <?php echo $this->translate('Full name'); ?>
-                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/full_name/order/<?php echo $this->order; ?>"></a>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/full_name/order/<?php echo $this->orderParam; ?>"></a>
                     </th>
                     <th>
                         <?php echo $this->translate('Role'); ?>
-                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/role_id/order/<?php echo $this->order; ?>"></a>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/role_id/order/<?php echo $this->orderParam; ?>"></a>
                     </th>
                     <th>
                         <?php echo $this->translate('Last login'); ?>
-                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->order; ?>"></a>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->orderParam; ?>"></a>
                     </th>
                     <th>
                         <?php echo $this->translate('Ip address'); ?>
-                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/ipaddress/order/<?php echo $this->order; ?>"></a>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/ipaddress/order/<?php echo $this->orderParam; ?>"></a>
                     </th>
                     <th class="text-center"><?php echo $this->translate('Actions'); ?></th>
 				</tr>
@@ -93,7 +93,10 @@
         $(document).on('click', '#add-user-link, ._tedit',function(){
             $('#add-user').show("slide", { direction: "right"});
         });
+        $('#export-users').click(function() {
+            $('#expusrs').submit();
+        });
+        $('a[href*="by/<?php echo $this->by ;?>/order/asc"].icon-sort').addClass('icon-sort-down');
+        $('a[href*="by/<?php echo $this->by ;?>/order/desc"].icon-sort').addClass('icon-sort-up');
 	})
 </script>
-<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.min.js'); ?>

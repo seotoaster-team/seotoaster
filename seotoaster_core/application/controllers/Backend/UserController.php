@@ -65,11 +65,11 @@ class Backend_UserController extends Zend_Controller_Action {
         $select = $this->_zendDbTable->getAdapter()->select()->from('user');
 
         $by = filter_var($this->getParam('by', 'last_login'), FILTER_SANITIZE_STRING);
-        $order = filter_var($this->getParam('order', 'DESC'), FILTER_SANITIZE_STRING);
+        $order = filter_var($this->getParam('order', 'desc'), FILTER_SANITIZE_STRING);
         $searchKey = filter_var($this->getParam('key'), FILTER_SANITIZE_STRING);
 
-        if (!in_array($order, array('ASC', 'DESC'))) {
-            $order = 'DESC';
+        if (!in_array($order, array('asc', 'desc'))) {
+            $order = 'desc';
         }
 
         $select = $select->order($by . ' ' . $order);
@@ -79,7 +79,7 @@ class Backend_UserController extends Zend_Controller_Action {
             $select->where('email LIKE ?', '%'.$searchKey.'%')
                 ->orWhere('full_name LIKE ?', '%'.$searchKey.'%')
                 ->orWhere('role_id LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('last_login LIKE ?', '%'.$searchKey.'%')
+                ->orWhere('last_login LIKE ?', '%'. date("Y-m-d", strtotime($searchKey)).'%')
                 ->orWhere('ipaddress LIKE ?', '%'.$searchKey.'%');
             $paginatorOrderLink .= '/key/' . $searchKey;
         }
@@ -97,17 +97,20 @@ class Backend_UserController extends Zend_Controller_Action {
             )
         );
 
-        if ($order === 'DESC') {
-            $order = 'ASC';
+        if ($order === 'desc') {
+            $order = 'asc';
         } else {
-            $order = 'DESC';
+            $order = 'desc';
         }
 
         if (!empty($searchKey)){
-            $this->view->order = $order . '/key/' . $searchKey;
+            $this->view->orderParam = $order . '/key/' . $searchKey;
         } else {
-            $this->view->order = $order;
+            $this->view->orderParam = $order;
         }
+
+        $this->view->by = $by;
+        $this->view->order = $order;
         $this->view->key = $searchKey;
         $this->view->pager = $pager;
         $this->view->users = $users;

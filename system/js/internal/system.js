@@ -4,7 +4,7 @@ $(function(){
         var $currentLink = $("a[href='"+currentUrl+"']");
         $currentLink.addClass('current');
         if($currentLink.closest('.page').length){
-            $currentLink.closest('.category').children().addClass('current');
+            $currentLink.closest('.category').addClass('current');
         }
         if(currentUrl==$('#website_url').val()){
             $("a[href='"+$('#website_url').val()+"index.html']").addClass('current');
