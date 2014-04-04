@@ -1,21 +1,27 @@
-<div id="<?php echo $this->uniq; ?>" class="rotator">
+<div id="widget-rotator-<?php echo $this->uniq; ?>">
+    <div id="<?php echo $this->uniq; ?>"
+         data-cycle-slides="> div.slide"
+        <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+         class="rotator">
+        <?php if($this->prevnext): ?>
+            <div class="cycle-prev"></div>
+            <div class="cycle-next"></div>
+        <?php endif;?>
+        <?php if (!empty($this->files)): ?>
+            <?php foreach ($this->files as $key => $image): ?>
+                <div class="slide">
+                    <?php $size = getimagesize('media/' . $this->folder . $image); ?>
+                    <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
+                    <?php if ($this->content): ?>
+                    <div class="slide-text">{$header:<?php echo $this->rotatorId; ?>_content_<?php echo substr(md5($image), 0, 10); ?>:static}</div>
+                    <?php endif ?>
+                </div>
+            <?php endforeach; ?>
 
-    <?php if($this->pager): ?>
-        <div class="cycle-pager"></div>
-    <?php endif;?>
-    <?php if($this->prevnext): ?>
-        <div class="cycle-prev"></div>
-        <div class="cycle-next"></div>
-    <?php endif;?>
-	<?php if (!empty($this->files)): ?>
-        <?php foreach ($this->files as $image): ?>
-            <?php $size = getimagesize('media/' . $this->folder . $image); ?>
-            <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
-        <?php endforeach; ?>
-
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <div id="pager-<?php echo $this->uniq; ?>"></div>
 </div>
-
 <?php if ($this->slideShow): ?>
     <script type="text/javascript">
         $(function () {
@@ -36,7 +42,6 @@
         });
     </script>
 <?php endif; ?>
-
 <style type="text/css">
 	div#<?php echo $this->uniq; ?>.rotator{
         max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
@@ -64,4 +69,29 @@
     .cycle-prev:hover, .cycle-next:hover { opacity: .7; filter: alpha(opacity=70) }
 
     .disabled { opacity: .5; filter:alpha(opacity=50); }
+
+    div#<?php echo $this->uniq; ?> .slide-text {
+        color: white;
+        background: black;
+        opacity: .6;
+        filter: alpha(opacity=60);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+    }
+    #pager-<?php echo $this->uniq; ?> div#<?php echo $this->uniq; ?> {
+        text-align: center;
+        width: 100%;
+        z-index: 500;
+        top: 10px;
+        overflow: hidden;
+    }
+    #pager-<?php echo $this->uniq; ?> span {
+        font-size: 50px;
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        color: #ddd;
+    }
 </style>

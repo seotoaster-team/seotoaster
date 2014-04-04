@@ -5,8 +5,8 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
-
+class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract
+{
 	/**
 	 * Default swap time in seconds
 	 *
@@ -56,7 +56,8 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 
 	private $_websiteHelper     = null;
 
-	protected function  _init() {
+	protected function  _init()
+    {
 		parent::_init();
 		$this->_view = new Zend_View(array(
 			'scriptPath' => dirname(__FILE__) . '/views'
@@ -65,7 +66,8 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 	}
 
-	protected function _load() {
+	protected function _load()
+    {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify folder.'));
 		}
@@ -99,21 +101,23 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
             $this->_view->files = (array)$files[array_rand($files)];
         }
         //$this->_view->files        = ($this->_view->slideShow) ? $files : $files[0];
-		$this->_view->folder       = $this->_options[0] . '/'. $imageFolder . '/';
-		$this->_view->effect       = (isset($this->_options[5]) && $this->_options[5]) ? $this->_options[5] : self::DEFAULT_SWAP_EFFECT;
-        $this->_view->pager        = (isset($this->_options[6]) && $this->_options[6] !== 0) ? $this->_options[6] : 0;
-        $this->_view->prevnext        = (isset($this->_options[7]) && $this->_options[7] !== 0) ? $this->_options[6] : 0;
+        $this->_view->rotatorId = substr($this->_options[0], 0, 10);
+		$this->_view->folder    = $this->_options[0].DIRECTORY_SEPARATOR.$imageFolder.DIRECTORY_SEPARATOR;
+		$this->_view->effect    = (isset($this->_options[5]) && $this->_options[5]) ? $this->_options[5] : self::DEFAULT_SWAP_EFFECT;
+        $this->_view->pager     = (isset($this->_options[6]) && $this->_options[6] == 1) ? true : false;
+        $this->_view->prevnext  = (isset($this->_options[7]) && $this->_options[7] == 1) ? true : false;
+        $this->_view->content   = (isset($this->_options[8]) && $this->_options[8] == 1) ? true : false;
+
 		return $this->_view->render('rotator.phtml');
 	}
 
 
-	public static function getWidgetMakerContent() {
-		$translator = Zend_Registry::get('Zend_Translate');
-		$view       = new Zend_View(array(
-			'scriptPath' => dirname(__FILE__) . '/views'
-		));
+	public static function getWidgetMakerContent()
+    {
+		$translator    = Zend_Registry::get('Zend_Translate');
+		$view          = new Zend_View(array('scriptPath' => dirname(__FILE__).'/views'));
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		$data = array(
+		$data          = array(
 			'title'   => $translator->translate('Image rotator'),
 			'content' => $view->render('wmcontent.phtml'),
 			'icons'   => array(
@@ -121,10 +125,7 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 			)
 		);
 
-		unset($view);
-		unset($translator);
+		unset($view, $translator);
 		return $data;
 	}
-
 }
-
