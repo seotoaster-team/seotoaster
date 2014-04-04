@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Imgrotator {$imgrotator:folder:slideshow/notslideshow:time(if slideshow):maxwidth:maxheight:effect:pager}
+ * Imgrotator {$imgrotator:folder:slideshow/notslideshow:time(if slideshow):maxwidth:maxheight:effect:pager:prevnext}
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
@@ -102,6 +102,7 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract {
 		$this->_view->folder       = $this->_options[0] . '/'. $imageFolder . '/';
 		$this->_view->effect       = (isset($this->_options[5]) && $this->_options[5]) ? $this->_options[5] : self::DEFAULT_SWAP_EFFECT;
         $this->_view->pager        = (isset($this->_options[6]) && $this->_options[6] !== 0) ? $this->_options[6] : 0;
+        $this->_view->prevnext        = (isset($this->_options[7]) && $this->_options[7] !== 0) ? $this->_options[6] : 0;
 		return $this->_view->render('rotator.phtml');
 	}
 

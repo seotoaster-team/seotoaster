@@ -3,6 +3,10 @@
     <?php if($this->pager): ?>
         <div class="cycle-pager"></div>
     <?php endif;?>
+    <?php if($this->prevnext): ?>
+        <div class="cycle-prev"></div>
+        <div class="cycle-next"></div>
+    <?php endif;?>
 	<?php if (!empty($this->files)): ?>
         <?php foreach ($this->files as $image): ?>
             <?php $size = getimagesize('media/' . $this->folder . $image); ?>
@@ -51,4 +55,12 @@
     }
     .cycle-pager span.cycle-pager-active { color: #D69746;}
     .cycle-pager > * { cursor: pointer;}
+
+    /* prev / next links */
+    .cycle-prev, .cycle-next { position: absolute; top: 0; width: 30%; opacity: 0; filter: alpha(opacity=0); z-index: 800; height: 100%; cursor: pointer; }
+    .cycle-prev { left: 0;  background: url(http://malsup.github.com/images/left.png) 50% 50% no-repeat;}
+    .cycle-next { right: 0; background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;}
+    .cycle-prev:hover, .cycle-next:hover { opacity: .7; filter: alpha(opacity=70) }
+
+    .disabled { opacity: .5; filter:alpha(opacity=50); }
 </style>

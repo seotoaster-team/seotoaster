@@ -31,6 +31,12 @@
             <?php echo $this->formCheckbox('rotatorPager', null, array('id' => 'rotator-pager', 'class' => 'wmc-input allowzero')); ?>
         </label>
     </p>
+    <p class="mt5px">
+        <label class="pointer">
+            <span class="grid_5 alpha"><?php echo $this->translate('Prev/Next'); ?></span>
+            <?php echo $this->formCheckbox('rotatorPrevnext', null, array('id' => 'rotator-prevnext', 'class' => 'wmc-input allowzero')); ?>
+        </label>
+    </p>
     <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
 </form>
 <script type="text/javascript">
