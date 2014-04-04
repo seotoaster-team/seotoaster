@@ -1,4 +1,8 @@
 <div id="<?php echo $this->uniq; ?>" class="rotator">
+
+    <?php if($this->pager): ?>
+        <div class="cycle-pager"></div>
+    <?php endif;?>
 	<?php if (!empty($this->files)): ?>
         <?php foreach ($this->files as $image): ?>
             <?php $size = getimagesize('media/' . $this->folder . $image); ?>
@@ -37,4 +41,14 @@
         z-index    : 13;
         overflow   : hidden;
     }
+    /* pager */
+    .cycle-pager {
+        text-align: center; width: 100%; z-index: 500; position: absolute; top: 10px; overflow: hidden;
+    }
+    .cycle-pager span {
+        font-family: arial; font-size: 50px; width: 16px; height: 16px;
+        display: inline-block; color: #ddd; cursor: pointer;
+    }
+    .cycle-pager span.cycle-pager-active { color: #D69746;}
+    .cycle-pager > * { cursor: pointer;}
 </style>

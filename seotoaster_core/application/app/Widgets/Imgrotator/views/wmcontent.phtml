@@ -25,6 +25,12 @@
         <?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'grid_7 alpha omega small'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
     </p>
+    <p class="mt5px">
+        <label class="pointer">
+            <span class="grid_5 alpha"><?php echo $this->translate('Pager'); ?></span>
+            <?php echo $this->formCheckbox('rotatorPager', null, array('id' => 'rotator-pager', 'class' => 'wmc-input allowzero')); ?>
+        </label>
+    </p>
     <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
 </form>
 <script type="text/javascript">
