@@ -31,7 +31,8 @@
                     autoHeight: 0
                 });
             }, timeout);
-
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'; ?>');
+            $.fn.cycle.defaults.swipe = true;
         });
     </script>
 <?php endif; ?>
