@@ -10,7 +10,7 @@
         <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha mt0-25em max-res-row')); ?>
         <?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'grid_7 alpha omega small max-res-row')); ?>
     </p>
-    <p class="mt5px">
+    <p class="mt5px maxchars">
         <?php echo $this->formLabel('featured-item-maxchars', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formText('featuredItemMaxchars', Widgets_Featured_Featured::AREA_DESC_LENGTH, array('id' => 'featured-item-maxchars', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
@@ -95,7 +95,7 @@
             var error      = false,
                 widgetForm = $(this).closest('form'),
                 widgetHtml = '{$' + widgetForm.data('name'),
-                cropOption = ':imgc';
+                cropOption = '::imgc';
 
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).hasClass('crop') && $(this).prop('checked')) {

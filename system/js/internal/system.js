@@ -276,7 +276,10 @@ $(document).on('click', '[name="useImage"]:checkbox', function() {
     });
 });
 $(document).on('click', '.cropped-img input:checkbox', function() {
-    var cropSize = $(this).closest('form').find('.crop-size');
+    var form     = $(this).closest('form'),
+        cropSize = form.find('.crop-size');
+
+    form.find('.maxchars').fadeToggle();
     cropSize.fadeToggle(function() {
         if (!cropSize.is(':visible')) {
             cropSize.find('input:text').val('');
