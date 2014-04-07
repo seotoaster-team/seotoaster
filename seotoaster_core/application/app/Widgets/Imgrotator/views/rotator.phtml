@@ -1,7 +1,7 @@
 <div id="widget-rotator-<?php echo $this->uniq; ?>">
     <div id="<?php echo $this->uniq; ?>"
          data-cycle-slides="> div.slide"
-        <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+         <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
          class="rotator">
         <?php if($this->prevnext): ?>
             <div class="cycle-prev"></div>
@@ -13,14 +13,15 @@
                     <?php $size = getimagesize('media/' . $this->folder . $image); ?>
                     <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
                     <?php if ($this->content): ?>
-                    <div class="slide-text">{$header:<?php echo $this->rotatorId; ?>_content_<?php echo substr(md5($image), 0, 10); ?>:static}</div>
+                    <div class="slide-text"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).':static}'; ?></div>
                     <?php endif ?>
                 </div>
             <?php endforeach; ?>
-
         <?php endif; ?>
     </div>
+    <?php if ($this->pager): ?>
     <div id="pager-<?php echo $this->uniq; ?>"></div>
+    <?php endif; ?>
 </div>
 <?php if ($this->slideShow): ?>
     <script type="text/javascript">
@@ -62,25 +63,28 @@
         z-index    : 13;
         overflow   : hidden;
     }
-    /* pager */
-    .cycle-pager {
-        text-align: center; width: 100%; z-index: 500; position: absolute; top: 10px; overflow: hidden;
+    .cycle-prev, .cycle-next {
+        position: absolute;
+        top: 0;
+        width: 30%;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        z-index: 800;
+        height: 100%;
+        cursor: pointer;
     }
-    .cycle-pager span {
-        font-family: arial; font-size: 50px; width: 16px; height: 16px;
-        display: inline-block; color: #ddd; cursor: pointer;
+    .cycle-prev {
+        left: 0;
+        background: url(http://malsup.github.com/images/left.png) 50% 50% no-repeat;
     }
-    .cycle-pager span.cycle-pager-active { color: #D69746;}
-    .cycle-pager > * { cursor: pointer;}
-
-    /* prev / next links */
-    .cycle-prev, .cycle-next { position: absolute; top: 0; width: 30%; opacity: 0; filter: alpha(opacity=0); z-index: 800; height: 100%; cursor: pointer; }
-    .cycle-prev { left: 0;  background: url(http://malsup.github.com/images/left.png) 50% 50% no-repeat;}
-    .cycle-next { right: 0; background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;}
-    .cycle-prev:hover, .cycle-next:hover { opacity: .7; filter: alpha(opacity=70) }
-
-    .disabled { opacity: .5; filter:alpha(opacity=50); }
-
+    .cycle-next {
+        right: 0;
+        background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
+    }
+    .cycle-prev:hover, .cycle-next:hover {
+        opacity: .7;
+        filter: alpha(opacity=70)
+    }
     div#<?php echo $this->uniq; ?> .slide-text {
         color: white;
         background: black;
