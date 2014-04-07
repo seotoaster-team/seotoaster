@@ -9,6 +9,7 @@
     background : @body-bg;
 
     .ui-datepicker-header{
+        position   : relative;
         background : @datepicker-header-bg;
         color      : @datepicker-header-color;
         font-size  : @datepicker-header-size;
@@ -16,11 +17,12 @@
         text-align : center;
 
         >a{
-            position   : absolute;
-            top        : 0;
-            background : @datepicker-arrow-bg;
-            color      : @datepicker-arrow-color;
-            padding    : (@datepicker-header-height - @datepicker-arrow-size) / 2;
+            position        : absolute;
+            top             : 0;
+            background      : @datepicker-arrow-bg;
+            color           : @datepicker-arrow-color;
+            padding         : (@datepicker-header-height - @datepicker-arrow-size) / 2;
+            text-decoration : none;
             .icon-size(@datepicker-arrow-size);
 
             span{ display : none; }

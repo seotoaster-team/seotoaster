@@ -1,16 +1,32 @@
-<?php if(!empty($this->plugins)): ?>
-	<?php foreach($this->plugins as $plugin): ?>
-		<div class="plugin-item">
-			<p class="plugin-name">
-				<span class="grid_8 alpha omega"><?php echo ucfirst($plugin->getName()); ?></span>
-				<a class="readme-plugin grid_2 alpha omega btn link icon icon-book" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"></a>
-				<a class="del-plugin _tdelete grid_2 alpha omega btn link icon error icon-close" data-url="<?php echo $this->toasterLink('backend_plugin', 'delete', '', null, true); ?>" data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" href="javascript:;"></a>
-			</p>
-			<div class="plugin-image">
-				<img src="<?php echo $plugin->getPreview(); ?>" alt="<?php echo $plugin->getName(); ?> preview" />
-			</div>
-			<a class="plugin-control btn small <?php echo ($plugin->getId()) ? 'grid_6 alpha omega' : 'block' ; ?>" id="<?php echo $plugin->getName(); ?>" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>" title="<?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install') ; ?>"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate('Install'); ?></a>
-			<a class="plugin-endis btn small grid_6 alpha omega <?php echo (($plugin->getId()) ? (($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? '' : 'disable') : 'hidden'); ?>" id="endis-<?php echo $plugin->getName(); ?>" data-name="<?php echo $plugin->getName(); ?>" href="javascript:;"><?php echo ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? $this->translate('Disable') : $this->translate('Enable'); ?></a>
-		</div>
-	<?php endforeach; ?>
+<?php if (!empty($this->plugins)): ?>
+    <?php foreach ($this->plugins as $plugin): ?>
+        <div class="plugin-item">
+            <p class="plugin-name text-right">
+                <span class="grid_8 alpha omega text-left"><?php echo ucfirst($plugin->getName()); ?></span>
+                <a class="readme-plugin icon16 icon-info-2" href="javascript:;"
+                   data-name="<?php echo $plugin->getName(); ?>" id="<?php echo $plugin->getName(); ?>"></a>
+                <a class="del-plugin _tdelete icon14 icon-close"
+                   data-url="<?php echo $this->toasterLink('backend_plugin', 'delete', '', null, true); ?>"
+                   data-eid="<?php echo $plugin->getName(); ?>" data-callback="pluginCallback" href="javascript:;"></a>
+            </p>
+
+            <div class="plugin-image">
+                <img src="<?php echo $plugin->getPreview(); ?>" alt="<?php echo $plugin->getName(); ?> preview"/>
+            </div>
+            <a class="plugin-control btn small <?php echo ($plugin->getId()) ? 'grid_6 alpha omega' : 'block'; ?>"
+               id="<?php echo $plugin->getName(); ?>" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>"
+               title="<?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate(
+                   'Install'
+               ); ?>"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate(
+                    'Install'
+                ); ?></a>
+            <a class="plugin-endis btn small grid_6 alpha omega <?php echo(($plugin->getId()) ? (($plugin->getStatus(
+                ) == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? '' : 'disable') : 'hidden'); ?>"
+               id="endis-<?php echo $plugin->getName(); ?>" data-name="<?php echo $plugin->getName(); ?>"
+               href="javascript:;"><?php echo ($plugin->getStatus(
+                    ) == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? $this->translate(
+                    'Disable'
+                ) : $this->translate('Enable'); ?></a>
+        </div>
+    <?php endforeach; ?>
 <?php endif; ?>

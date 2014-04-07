@@ -1,84 +1,80 @@
 <?php echo $this->doctype(); ?>
-
 <!--[if IE 7 ]><html class="ie ie7" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if !(IE)]><!-->
 <html lang="<?php echo $this->htmlLang; ?>">
 <!--<![endif]-->
-    <head>
-<?php echo $this->headMeta()->setIndent(8); ?>
+<head>
+    <?php echo $this->headMeta()->setIndent(8); ?>
+    <?php echo $this->headTitle(); ?>
+    <?php
+    // link and script block start
+    // adding canonical link
+    $this->headLink()->setIndent(8)
+        ->prependStylesheet($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.css')
+        ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css');
 
-        <?php echo $this->headTitle(); ?>
+    $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
 
-        <?php
-        // link and script block start
-        //adding canonical link
-
-        $this->headLink()->setIndent(8)
-            ->prependStylesheet($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.css')
-            ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css');
-
-        $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
-
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-            if (empty($this->bodyTag)) {
-                $this->headLink()
-                    ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
-                    ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
-            } else {
-                $this->headLink()
-                    ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-reset.css');
-            }
+    if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+        if (empty($this->bodyTag)) {
+            $this->headLink()
+                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css')
+                ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
         }
-
-		if (isset($this->minify) && $this->minify === true) {
-			echo Tools_System_Minify::minify($this->headLink(), true);
-		} else {
-			echo $this->headLink();
-		}
-
-		$this->jQuery()
-            ->uiEnable()
-			->addJavascriptFile($this->websiteUrl . 'system/js/external/fancybox/jquery.fancybox.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
-			->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js');
-
-        $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-			->prependFile($this->websiteUrl . 'system/js/internal/system.min.js');
-
-        echo $this->jQuery();
-		if (isset($this->minify) && $this->minify === true)  {
-			echo Tools_System_Minify::minify($this->headScript(), true);
-		}
         else {
-			echo $this->headScript();
-		}
-        // link and script block end
+            $this->headLink()->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
+        }
+    }
 
-		echo $this->placeholder('misc');
-		echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
-		?>
-	</head>
-	<?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
-		<?php echo isset($this->placeholder('seo')->seoTop) ? $this->placeholder('seo')->seoTop: ''; ?>
-		<?php echo $this->layout()->content; ?>
-		<?php echo isset($this->placeholder('seo')->seoBottom) ? $this->placeholder('seo')->seoBottom: ''; ?>
-		<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
-		<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
-		<?php if(isset($this->sculptingReplacement)): ?>
-			<!-- PRSCULPTING -->
-			<script type="text/javascript" charset="utf-8">$(function() {var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;$.each(sculptingReplacement, function() {$('span.' + this.id).replaceWith(this.repl);})});</script>
-			<!-- /PRSCULPTING -->
-		<?php endif; ?>
+    if (isset($this->minify) && $this->minify === true) {
+	    echo Tools_System_Minify::minify($this->headLink(), true);
+	}
+    else {
+	    echo $this->headLink();
+	}
 
-        <?php
-            /**
-             * Plugins additional content
-             */
-            echo $this->placeholder('plugins');
-        ?>
+    $this->jQuery()
+        ->uiEnable()
+        ->addJavascriptFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.js')
+        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+        ->addJavascriptFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js');
 
-    </body>
+    echo $this->jQuery();
+
+    $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+        ->prependFile($this->websiteUrl.'system/js/internal/system.min.js');
+
+	if (isset($this->minify) && $this->minify === true)  {
+        echo Tools_System_Minify::minify($this->headScript(), true);
+	}
+    else {
+	    echo $this->headScript();
+	}
+    // link and script block end
+
+    echo $this->placeholder('misc');
+    echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
+    ?>
+</head>
+<?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
+<?php echo isset($this->placeholder('seo')->seoTop) ? $this->placeholder('seo')->seoTop: ''; ?>
+<?php echo $this->layout()->content; ?>
+<?php echo isset($this->placeholder('seo')->seoBottom) ? $this->placeholder('seo')->seoBottom: ''; ?>
+<input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
+<input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
+<?php if(isset($this->sculptingReplacement)): ?>
+    <!-- PRSCULPTING -->
+    <script type="text/javascript" charset="utf-8">$(function() {var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;$.each(sculptingReplacement, function() {$('span.' + this.id).replaceWith(this.repl);})});</script>
+    <!-- /PRSCULPTING -->
+<?php endif; ?>
+<?php
+/**
+ * Plugins additional content
+ */
+echo $this->placeholder('plugins');
+?>
+</body>
 </html>

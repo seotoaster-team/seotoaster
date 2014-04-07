@@ -263,7 +263,7 @@ function showTooltip(el, addClass, position){
 }
 
 ///////// Show/Hide 'cropped' options //////////////
-$(document).on('click', '[name="useImage"]', function(){
+$(document).on('click', '[name="useImage"]:checkbox', function(){
     $(this).closest('form').find('.cropped-img').fadeToggle();
 });
 ///////// Scrolling navigation Tabs //////////////
@@ -284,14 +284,23 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
         $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
-            $(':radio').addClass('radio-upgrade filed-upgrade');
-            $(':checkbox').addClass('checkbox-upgrade filed-upgrade');
+            var id = $(this).prop('id');
+            if(!id.length){
+                id = 'chr-'+Math.floor((Math.random()*100)+1);
+                $(this).prop('id', id);
+            }
+            if($(this).is(':radio')){
+                $(this).addClass('radio-upgrade filed-upgrade');
+            }else{
+                $(this).addClass('checkbox-upgrade filed-upgrade');
+            }
             if(!$(this).closest('.btn-set').length){
-                var dataClass = $(this).data('label-class') ? $(this).data('label-class') : '';
-                if($(this).parent('label').length){
+                var $parent = $(this).parent('label');
+                if($parent.length){
+                    $parent.prop('for', id);
                     !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
                 }else{
-                    !$(this).hasClass('switcher') ? $(this).wrap('<label class="checkbox_radio-wrap '+ dataClass +'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap '+$(this).data('label-class')+'"></label>').after('<span class="checkbox_radio"><span></span></span>');
+                    !$(this).hasClass('switcher') ? $(this).wrap('<label for="'+id+'" class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"><span></span></span>');
                 }
             }
             $(this).addClass('processed');

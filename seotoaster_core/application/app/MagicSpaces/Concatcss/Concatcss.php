@@ -1,9 +1,7 @@
 <?php
-class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
-
+class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
+{
     const FILE_NAME_PREFIX  = 'concat_';
-
-    const FOLDER_CSS        = 'css/';
 
     private $_disableForRoles = array(
         Tools_Security_Acl::ROLE_SUPERADMIN,
@@ -35,23 +33,31 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
 
     private $_cacheWeek     = Helpers_Action_Cache::CACHE_WEEK;
 
-    protected function _init() {
+    protected function _init()
+    {
         parent::_init();
 
         if (!empty($this->_toasterData)) {
             $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'].'/';
             $this->_fileCode      = substr(md5($this->_toasterData['templateId']), 0, 14);
-            $folderСssPath        = $this->_themeFullPath.self::FOLDER_CSS;
+            $folderСssPath        = $this->_themeFullPath.Tools_Theme_Tools::FOLDER_CSS;
             $this->_folderСssPath = (is_dir($folderСssPath)) ? $folderСssPath : $this->_themeFullPath;
         }
     }
 
-    protected function _run() {
-        $currentRole = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        // Disable of the compressor for the role admin/superadmin, version IE < 9
+    protected function _run()
+    {
+        $currentRole   = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        $developerMode = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig(
+            'enableDeveloperMode'
+        );
+
+        // Disable of the compressor for the role admin/superadmin, version IE < 9, and when activated developerMode = 1
         if (empty($this->_toasterData)
+            || (bool) $developerMode
             || !Tools_System_Tools::isBrowserIe()
-            || in_array($currentRole, $this->_disableForRoles)) {
+            || in_array($currentRole, $this->_disableForRoles)
+        ) {
             return $this->_spaceContent;
         }
 
@@ -110,7 +116,13 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return '<link href="'.$fileLink.'" rel="stylesheet" type="text/css" media="screen"/>';
     }
 
-    private function _getFilesCss() {
+    /**
+     * Returns a list of files in the current template
+     *
+     * @return array
+     */
+    private function _getFilesCss()
+    {
         $cssToTemplate = array();
         preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
 
@@ -123,14 +135,22 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return (isset($this->_params[0]) && $this->_params[0] == 'sort') ? $this->_sortCss($files) : $files;
     }
 
-    private function _sortCss($files) {
+    /**
+     * Sorts files in correspondence to $ _cssOrder
+     *
+     * @param $files
+     * @return array
+     */
+    private function _sortCss($files)
+    {
         if (empty($files)) {
             return array();
         }
 
         $cssOrder = array();
         foreach ($this->_cssOrder as $key => $val) {
-            $cssOrder[$key] = (in_array(self::FOLDER_CSS.$val, $files)) ? self::FOLDER_CSS.$val : $val;
+            $cssOrder[$key] =
+                (in_array(Tools_Theme_Tools::FOLDER_CSS.$val, $files)) ? Tools_Theme_Tools::FOLDER_CSS.$val : $val;
         }
 
         $files = array_unique($files);
@@ -141,7 +161,13 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return $files;
     }
 
-    private function _getContent() {
+    /**
+     * Returns unified content
+     *
+     * @return string
+     */
+    private function _getContent()
+    {
         $content    = '';
         $compressor = new CssMin();
 
@@ -162,7 +188,14 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract {
         return $content;
     }
 
-    private function _createFile($content) {
+    /**
+     * Save the file, returns file path
+     *
+     * @param $content
+     * @return mixed|string
+     */
+    private function _createFile($content)
+    {
         $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileCode.'.css';
 
         try {

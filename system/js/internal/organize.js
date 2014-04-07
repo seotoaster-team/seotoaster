@@ -35,23 +35,54 @@ $(function() {
         stop    : saveCategoriesOrder
     });
 
-    $('.organise').sortable({
-        connectWith : '.organise',
-        receive: function() {
-            var pages = [];
-            $(this).find('li').each(function() {
-                pages.push($(this).attr('id'));
-            });
-            renewedData = {
-                act        : 'renew',
-                menu       : $(this).parent().data('menu'),
-                categoryId : $(this).parent().attr('id'),
-                pages      : pages
+    $('.move').each(function(){
+        $(this).click(function(e) {
+            if(e.ctrlKey) {
+                $(this).toggleClass('selected');
+                if($(this).find("input[type='checkbox']").prop("checked")){
+                    $(this).find("input[type='checkbox']").prop("checked", false);
+                } else{
+                    $(this).find("input[type='checkbox']").prop("checked", true);
+                }
+
             }
-            $.post($('#website_url').val() + 'backend/backend_page/organize/', renewedData)
-        },
-        stop: saveCategoriesOrder
+        });
     });
+    $('.organise').on('click', '.page-remove', function(e){
+        e.stopImmediatePropagation();
+        $(this).closest('.move').toggleClass('selected');
+    })
+
+    $('.organise').each(function(){
+        $(this).sortable({
+            connectWith : '.organise',
+            placeholder: 'placeholder',
+            start: function(ui,e) {
+                var selected = e.item.siblings(".selected");
+                var item = e.item;
+                selected.appendTo(item);
+            },
+            receive: function(ui,e){
+                var pages = [];
+                $(this).find('li').each(function() {
+                    pages.push($(this).attr('id'));
+                });
+                renewedData = {
+                    act        : 'renew',
+                    menu       : $(this).parent().data('menu'),
+                    categoryId : $(this).parent().attr('id'),
+                    pages      : pages
+                }
+                $.post($('#website_url').val() + 'backend/backend_page/organize/', renewedData);
+            },
+            stop: function(ui, e){
+                var finded = e.item.find(".selected");
+                e.item.after(finded);
+                saveCategoriesOrder();
+            }
+        });
+    });
+
 
 
     $('.collapse-all').click(function() {
@@ -86,17 +117,34 @@ function saveCategoriesOrder() {
         })
     });
 
-    $.ajax({
-        type: 'post',
-        url : $('#website_url').val() + 'backend/backend_page/organize/',
-        data: {act: 'save', ordered: ordered},
-        dataType: 'json',
-        beforeSend: function() {
-            showSpinner();
-        },
-        success: function(response) {
-            hideSpinner();
-            showMessage(response.responseText, response.error);
+
+        $.ajax({
+            type: 'post',
+            url : $('#website_url').val() + 'backend/backend_page/organize/',
+            data: {act: 'save', ordered: ordered},
+            dataType: 'json',
+            beforeSend: function() {
+                showSpinner();
+            },
+            success: function(response) {
+                hideSpinner();
+                showMessage(response.responseText, response.error);
+            }
+        })
+
+
+}
+
+function removeMarks(elements){
+    if(elements !== 'undefined'){
+        if(elements.length > 1){
+            $.each(elements,function(key,el){
+                $(el).removeClass("selected");
+                $(el).find("input[type='checkbox']").attr("checked", false);
+            })
+        } else {
+            $(elements).removeClass("selected");
+            $(elements).find("input[type='checkbox']").attr("checked", false);
         }
-    })
+    }
 }

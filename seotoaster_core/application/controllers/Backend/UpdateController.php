@@ -425,11 +425,11 @@ class Backend_UpdateController extends Zend_Controller_Action
             $select = $dbAdapter->select()->from('shopping_config', array('value'))->where('name = ?', 'version');
             $dbVersion = $dbAdapter->fetchRow($select);
             $storeAlters = $this->_getFileContent(
-                $this->_newToasterPath . '_install/store-alters.sql',
+                $this->_newToasterPath . 'plugins/shopping/system/store-alters.sql',
                 '-- version: ' . $dbVersion['value']
             );
             $revertStoreAlters = $this->_getFileContent(
-                $this->_newToasterPath . '_install/revert-store-alters.sql',
+                $this->_newToasterPath . 'plugins/shopping/system/revert-store-alters.sql',
                 '-- version: ' . $dbVersion['value']
             );
         }

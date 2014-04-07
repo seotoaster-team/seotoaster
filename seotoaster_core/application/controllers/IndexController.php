@@ -23,7 +23,7 @@ class IndexController extends Zend_Controller_Action {
 	    }
 
 		// Getting requested url. If url is not specified - get index.html
-		$pageUrl = $this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE);
+		$pageUrl = filter_var($this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE), FILTER_SANITIZE_STRING);
 
 		// Trying to do canonical redirects
 		$this->_helper->page->doCanonicalRedirect($pageUrl);
@@ -100,22 +100,31 @@ class IndexController extends Zend_Controller_Action {
 
         $pageData = $page->toArray();
 
-        //Parsing page content and saving it to the cache
-        if($pageContent === null) {
-
+        // Parsing page content and saving it to the cache
+        if ($pageContent === null) {
             $themeData     = Zend_Registry::get('theme');
+            $websitePath   = $this->_helper->website->getPath();
+            $currentTheme  = $this->_config->getConfig('currentTheme');
             $parserOptions = array(
                 'websiteUrl'   => $this->_helper->website->getUrl(),
-                'websitePath'  => $this->_helper->website->getPath(),
-                'currentTheme' => $this->_config->getConfig('currentTheme'),
+                'websitePath'  => $websitePath,
+                'currentTheme' => $currentTheme,
                 'themePath'    => $themeData['path'],
             );
+
+            // if developerMode = 1, parsing template directly from files
+            if ((bool) $this->_config->getConfig('enableDeveloperMode')) {
+                $filePath = $websitePath.$themeData['path'].$currentTheme.DIRECTORY_SEPARATOR.$page->getTemplateId()
+                    .'.html';
+                if (file_exists($filePath)) {
+                    $page->setContent(Tools_Filesystem_Tools::getFile($filePath));
+                }
+            }
+
             $parser      = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
             $pageContent = $parser->parse();
 
-            unset($parser);
-            unset($themeData);
-            //$this->_helper->cache->save($page->getUrl(), $pageContent, 'page_');
+            unset($parser, $themeData);
         }
 
     	$pageContent = $this->_pageRunkSculptingDemand($page, $pageContent);
