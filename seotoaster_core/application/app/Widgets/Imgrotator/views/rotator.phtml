@@ -39,6 +39,17 @@
             }, timeout);
             $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'; ?>');
             $.fn.cycle.defaults.swipe = true;
+            <?php if($this->effect == 'shuffle'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'; ?>');
+            <?php elseif($this->effect == 'flipHorz' || $this->effect == 'flipVert'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.flip.min.js'; ?>');
+            <?php elseif($this->effect == 'tileSlide' || $this->effect == 'tileBlind'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'; ?>');
+            <?php elseif($this->effect == 'carousel'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.carousel.min.js'; ?>');
+            <?php elseif($this->effect == 'scrollVert'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'; ?>');
+            <?php endif; ?>
         });
     </script>
 <?php endif; ?>
