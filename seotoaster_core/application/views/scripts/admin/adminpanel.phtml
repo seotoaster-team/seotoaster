@@ -89,7 +89,7 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('OTHER'); ?></span></a>
 			<ul>
-				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '720', 'height' => '360')); ?></li>
+				<li><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Manage config'), false, false, array('width' => '720', 'height' => '370')); ?></li>
                 <li><?php echo $this->toasterLink('backend_config', 'actionmails', $this->translate('Action e-mails'), false, false, array('width' => '960', 'height' => '560')); ?></li>
 				<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
 					<li><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '960', 'height' => '560')); ?></li>
@@ -130,10 +130,10 @@
 	<?php endif; ?>
     <ul class="menu-links">
         <li>
-            <a href="javascript:;" id="cleancache" title="<?php echo $this->translate('Clean cache'); ?>"><?php echo $this->translate('CLEAN CACHE'); ?></a>
+            <a href="javascript:;" id="cleancache"><?php echo $this->translate('CLEAN CACHE'); ?></a>
         </li>
         <li>
-			<a class="logout" href="<?php echo $this->websiteUrl; ?>logout/" title="Logout"><?php echo $this->translate('LOGOUT'); ?></a>
+			<a class="logout" href="<?php echo $this->websiteUrl; ?>logout/"><?php echo $this->translate('LOGOUT'); ?></a>
          </li>
     </ul>
     <span id="edit404-errorMsg" style="display: none">
