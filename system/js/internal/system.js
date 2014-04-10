@@ -263,8 +263,28 @@ function showTooltip(el, addClass, position){
 }
 
 ///////// Show/Hide 'cropped' options //////////////
-$(document).on('click', '[name="useImage"]:checkbox', function(){
-    $(this).closest('form').find('.cropped-img').fadeToggle();
+$(document).on('click', '[name="useImage"]:checkbox', function() {
+    var form       = $(this).closest('form'),
+        croppedImg = form.find('.cropped-img');
+
+    croppedImg.fadeToggle(function() {
+        if (!croppedImg.is(':visible')) {
+            croppedImg.find('input:checkbox').prop('checked', false);
+            form.find('.crop-size input:text').val('');
+            form.find('.crop-size').fadeToggle();
+        }
+    });
+});
+$(document).on('click', '.cropped-img input:checkbox', function() {
+    var form     = $(this).closest('form'),
+        cropSize = form.find('.crop-size');
+
+    form.find('.maxchars').fadeToggle();
+    cropSize.fadeToggle(function() {
+        if (!cropSize.is(':visible')) {
+            cropSize.find('input:text').val('');
+        }
+    });
 });
 ///////// Scrolling navigation Tabs //////////////
 $(document).on('click', '.tabs-nav-wrap .arrow', function(){
