@@ -7,6 +7,17 @@
  */
 class Backend_UserController extends Zend_Controller_Action {
 
+    /**
+     * @var Helpers_Action_Session
+     */
+    private $_websiteHelper = null;
+    /**
+     * @var Zend_Db_Table
+     */
+    private $_zendDbTable;
+
+    private $_websiteUrl;
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
@@ -18,6 +29,9 @@ class Backend_UserController extends Zend_Controller_Action {
 			'load'   => 'json'
 		))->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
+        $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $this->_websiteUrl = $this->_websiteHelper->getUrl();
+        $this->_zendDbTable = new Zend_Db_Table();
 	}
 
 	public function manageAction() {
@@ -41,13 +55,45 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 		}
-        $this->view->helpSection = 'users';
-		$this->view->userForm    = $userForm;
-	}
 
-	public function listAction() {
-		$this->view->users     = Application_Model_Mappers_UserMapper::getInstance()->fetchAll();
-		$this->view->usersList = $this->view->render('backend/user/list.phtml');
+        $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
+        $offset = 0;
+        if ($pnum) {
+            $offset = 10 * ($pnum - 1);
+        }
+
+        $select = $this->_zendDbTable->getAdapter()->select()->from('user');
+
+        $by = filter_var($this->getParam('by', 'last_login'), FILTER_SANITIZE_STRING);
+        $order = filter_var($this->getParam('order', 'DESC'), FILTER_SANITIZE_STRING);
+        if (!in_array($order, array('ASC', 'DESC'))) {
+            $order = 'DESC';
+        }
+
+        $select = $select->order($by . ' ' . $order);
+        $adapter = new Zend_Paginator_Adapter_DbSelect($select);
+        $users = $adapter->getItems($offset, 10);
+        $userPaginator = new Zend_Paginator($adapter);
+        $userPaginator->setCurrentPageNumber($pnum);
+        $userPaginator->setItemCountPerPage(10);
+
+        $pager = $this->view->paginationControl($userPaginator, 'Sliding', 'backend/user/pager.phtml',
+            array(
+                'urlData' => $this->_websiteUrl . 'backend/backend_user/manage',
+                'order'   => '/by/' . $by . '/order/' . $order
+            )
+        );
+
+        if ($order === 'DESC') {
+            $order = 'ASC';
+        } else {
+            $order = 'DESC';
+        }
+        $this->view->order = $order;
+        $this->view->pager = $pager;
+        $this->view->users = $users;
+        $this->view->helpSection = 'users';
+        $this->view->userForm = $userForm;
 	}
 
 	public function deleteAction() {
@@ -110,9 +156,7 @@ class Backend_UserController extends Zend_Controller_Action {
 					$this->getResponse()->sendResponse();
 				}
 				exit;
-               //$this->_helper->response->success($this->_helper->language->translate('Users list exported'));
             }
-            //$this->_helper->response->fail($this->_helper->language->translate('Cannot export users list.'));
         }
     }
 }

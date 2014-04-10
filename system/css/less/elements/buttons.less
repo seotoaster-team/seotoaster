@@ -92,16 +92,21 @@
                 .box-sizing(content-box);
                 .button-icon-size();
 
-                &:before{ margin : 0; }
+                &:before{ margin : 0 !important; }
+
+                &[class*="grid_"]{
+                    padding-left  : 0 !important;
+                    padding-right : 0 !important;
+                }
 
                 &.larger{
-                    .button-icon-size(@icon-size-larger);
+                    .button-icon-size(@icon-size-larger, larger);
                 }
                 &.large{
-                    .button-icon-size(@icon-size-large);
+                    .button-icon-size(@icon-size-large, large);
                 }
                 &.small{
-                    .button-icon-size(@icon-size-small);
+                    .button-icon-size(@icon-size-small, small);
                 }
             }
         }

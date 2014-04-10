@@ -14,12 +14,12 @@
 //==================================================
 .grid (@grid : @grid-columns, @prefix : ~'', @num-column : 1, @switch : true) when (@grid >= @num-column){
     .@{prefix}grid_@{num-column}{
-        width : round(percentage((@num-column / @grid)) - @grid-margin-width, 3);
+        width : round(percentage((@num-column / @grid)) - @grid-margin-width, 3) !important;
         &.alpha, &.omega{
-            width : round(percentage(@num-column / @grid) - @grid-margin-width / 2, 3);
+            width : round(percentage(@num-column / @grid) - @grid-margin-width / 2, 3) !important;
         }
         &.alpha.omega{
-            width : round(percentage(@num-column / @grid), 3);
+            width : round(percentage(@num-column / @grid), 3) !important;
         }
     }
 

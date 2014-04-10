@@ -13,26 +13,17 @@
     list-style   : none;
 
     .ui-menu-item{
-        margin  : 0;
-        padding : @padding-mini-vertical;
-        cursor  : pointer;
+        margin : 0;
 
         a{
-            color : inherit;
-        }
+            display : block;
+            color   : inherit;
+            padding : @padding-mini-vertical;
 
-        .activate-hover(@activate) when (@activate = true){
-            &:hover{
+            &:hover, &.ui-state-focus{
                 color      : @autocomplete-item-color-hover;
                 background : @autocomplete-item-bg-hover;
             }
         }
-        .activate-hover(@activate) when (@activate = false){
-            &.touch{
-                color      : @autocomplete-item-color-hover;
-                background : @autocomplete-item-bg-hover;
-            }
-        }
-        .activate-hover(@activate-hover);
     }
 }

@@ -5,7 +5,7 @@
         'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'
 
     )); ?>
-	<div class="content grid_12">
+	<div class="content-footer grid_12">
 		<div id="add-user" class="show-right">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
@@ -36,22 +36,54 @@
 
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
-		<table class="sortable table-striped table-scroll block mt20px" id="users-list">
-			<thead class="block">
-				<tr class="block wrap">
-					<th><?php echo $this->translate('E-mail'); ?></th>
-					<th><?php echo $this->translate('Full name'); ?></th>
-					<th><?php echo $this->translate('Role'); ?></th>
-					<th><?php echo $this->translate('Last login'); ?></th>
-					<th><?php echo $this->translate('Ip address'); ?></th>
-					<th class="text-center"><?php echo $this->translate('Actions'); ?></th>
+		<table id="users-list" class="table-striped mt20px">
+			<thead>
+				<tr>
+					<th>
+                        <?php echo $this->translate('E-mail'); ?>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>"></a>
+                    </th>
+					<th>
+                        <?php echo $this->translate('Full name'); ?>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/full_name/order/<?php echo $this->order; ?>"></a>
+                    </th>
+                    <th>
+                        <?php echo $this->translate('Role'); ?>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/role_id/order/<?php echo $this->order; ?>"></a>
+                    </th>
+                    <th>
+                        <?php echo $this->translate('Last login'); ?>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->order; ?>"></a>
+                    </th>
+                    <th>
+                        <?php echo $this->translate('Ip address'); ?>
+                        <a class="icon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/ipaddress/order/<?php echo $this->order; ?>"></a>
+                    </th>
+                    <th class="text-center"><?php echo $this->translate('Actions'); ?></th>
 				</tr>
 			</thead>
-			<tbody class="block h400px">
-                <span class="spinner"></span>
+			<tbody>
+            <?php if(!empty($this->users)): ?>
+                <?php foreach($this->users as $user): ?>
+                    <tr class="user-row">
+                        <td class="user-row-item"><?php echo $user['email']; ?></td>
+                        <td class="user-row-item"><?php echo $user['full_name']; ?></td>
+                        <td class="user-row-item"><?php echo $this->translate(ucfirst($user['role_id'])); ?></td>
+                        <td class="user-row-item"><?php echo intval($user['last_login']) ? date('Y-m-d', strtotime($user['last_login'])) : '-'; ?></td>
+                        <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
+                        <td class="user-row-item text-center">
+                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit icon-pencil"></a>
+                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error icon-remove" href="javascript:;"></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
 			</tbody>
 		</table>
 	</div>
+    <div class="footer grid_12 text-right">
+        <?php echo $this->pager; ?>
+    </div>
 </div>
 <script type="text/javascript">
 	$(function() {
@@ -60,5 +92,5 @@
         });
 	})
 </script>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>
+<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/users.min.js'); ?>
