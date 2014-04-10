@@ -274,12 +274,37 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
         $this->_mailer->setMailFrom($this->_options['from'])
             ->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('User change attr'))
-            ->setMailTo($user->getEmail())
             ->setBody($this->_prepareEmailBody())
             ->setSubject($subject);
         $this->_entityParser->objectToDictionary($user);
         $this->_entityParser->addToDictionary($user->getAttributes());
         $this->_mailer->setBody($this->_entityParser->parse($this->_mailer->getBody()));
+        switch ($this->_options['recipient']) {
+            case self::RECIPIENT_ADMIN:
+                $adminBccArray = array();
+                $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+                $where = $userMapper->getDbTable()->getAdapter()->quoteInto("role_id = ?", Tools_Security_Acl::ROLE_ADMIN);
+                $admins = $userMapper->fetchAll($where);
+                if(!empty($admins)){
+                    foreach($admins as $key=>$admin){
+                        if($key == 0){
+                            $this->_mailer->setMailTo($admin->getEmail());
+                        }else{
+                            array_push($adminBccArray, $admin->getEmail());
+                        }
+                    }
+                    if(!empty($adminBccArray)){
+                        $this->_mailer->setMailBcc($adminBccArray);
+                    }
+                    }else{
+                        return;
+                    }
+                break;
+            case self::RECIPIENT_SUPERADMIN:
+                $superAdmin = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN);
+                $this->_mailer->setMailTo($superAdmin->getEmail());
+                break;
+        }
         return $this->_mailer->send();
     }
 
