@@ -27,6 +27,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	const TRIGGER_PASSWORDRESET     = 't_passwordreset';
 
     /**
+     * User change atttibutes
+     *
+     */
+    const TRIGGER_USERCHANGEATTR     = 't_userchangeattr';
+
+    /**
      * Password change trigger. Launches sending of mails
      */
     const TRIGGER_PASSWORDCHANGE    = 't_passwordchange';
@@ -262,6 +268,21 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	           ->setSubject($subject);
         return $this->_mailer->send();
     }
+
+    protected function _sendTuserchangeattrMail(Application_Model_Models_User $user) {
+        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('User attribute changed'):$this->_options['subject'];
+
+        $this->_mailer->setMailFrom($this->_options['from'])
+            ->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('User change attr'))
+            ->setMailTo($user->getEmail())
+            ->setBody($this->_prepareEmailBody())
+            ->setSubject($subject);
+        $this->_entityParser->objectToDictionary($user);
+        $this->_entityParser->addToDictionary($user->getAttributes());
+        $this->_mailer->setBody($this->_entityParser->parse($this->_mailer->getBody()));
+        return $this->_mailer->send();
+    }
+
 
     protected function _sendTsystemnotificationMail() {
 

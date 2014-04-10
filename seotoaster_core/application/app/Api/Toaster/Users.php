@@ -91,6 +91,10 @@ class Api_Toaster_Users extends Api_Service_Abstract
                 }
                 $user->setPassword(false);
                 Application_Model_Mappers_UserMapper::getInstance()->save($user);
+                $mailWatchdog = new Tools_Mail_Watchdog(array(
+                    'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_USERCHANGEATTR,
+                ));
+                $mailWatchdog->notify($user);
                 return array('status' => 'ok');
             }
         }

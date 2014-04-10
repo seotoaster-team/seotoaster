@@ -1,5 +1,5 @@
 <?php if(($this->userRole == Tools_Security_Acl::ROLE_GUEST) || $this->userRole == Tools_Security_Acl::ROLE_SUPERADMIN): ?>
-    <?php if (isset($this->messages)) : ?>
+    <?php if (!empty($this->messages)) : ?>
         <ul id="messages" class="ui-state-error w350">
             <?php foreach ($this->messages as $message) : ?>
                 <?php if(!isset($message[0])): ?>

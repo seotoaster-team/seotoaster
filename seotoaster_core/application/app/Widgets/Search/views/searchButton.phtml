@@ -1,15 +1,15 @@
 <?php $formId = uniqid('search-btn-'); ?>
 <input id="<?php echo $formId; ?>" type="button" name="searchButton" class="searchButton" value="Search"/>
 <script type="text/javascript">
-    $('#<?php echo $formId; ?>').on('click', function() {
-        var urlAction = "<?php echo $this->websiteUrl; ?>backend/search/complexSearch/";
-        var searchValues = [];
-        var containerNames = [];
+    $('#<?php echo $formId; ?>').on('click', function () {
+        var urlAction = "<?php echo $this->websiteUrl; ?>backend/search/complexSearch/",
+            searchValues = [],
+            containerNames = [];
         $('select.searchParams option:selected').each(function () {
-             searchValues.push($(this).val());
+            searchValues.push($(this).val());
         });
         $('select.searchParams').each(function () {
-             containerNames.push($(this).attr('name'));
+            containerNames.push($(this).attr('name'));
         });
         $.ajax({
             type: "POST",
@@ -17,16 +17,17 @@
             dataType: "json",
             data: {
                 searchValues: searchValues,
-                containerNames:containerNames,
+                containerNames: containerNames,
                 resultsPageId:<?php echo $this->pageResultsPage;?>
-                
+
             },
-            success: function(data){
-               var url = data.redirect;
-               window.location = url;
+            success: function (data) {
+                if (data.redirect !== 'undefined') {
+                    window.location = data.redirect;
+                }
             }
-            
+
         });
-        return false; 
+        return false;
     });
 </script>
