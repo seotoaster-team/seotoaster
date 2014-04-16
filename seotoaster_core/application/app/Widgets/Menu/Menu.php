@@ -125,7 +125,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
             $menuHtml = '<ul>';
         }
 
-        $i = 0;
+        $i = 1;
         foreach ($pages as $k => $page) {
             $menuItemTemplate = $template;
             $dictionary['$page:preview'] = '<img class="page-teaser-image" src="' . Tools_Page_Tools::getPreview(
