@@ -146,6 +146,9 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_response = $front->getResponse();
 		unset($front);
 
+        // init translator
+        $this->_translator = Zend_Registry::get('Zend_Translate');
+
 		// setting up view
 		$this->_view = new Zend_View();
 		$this->_websiteUrl = $this->_websiteHelper->getUrl();
@@ -159,7 +162,7 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
 		// runing init routines
 		$this->_initAcl();
-		$this->_initTranslator();
+//		$this->_initTranslator();
 		$this->_init();
 	}
 
@@ -167,10 +170,12 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
 	}
 
-	protected function _initTranslator() {
-		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+    /**
+     * @deprecated
+     */
+    protected function _initTranslator() {
 		$this->_translator = Zend_Registry::get('Zend_Translate');
-		$langsPath = $websiteHelper->getPath() . 'plugins/' . strtolower(get_called_class()) . '/' . $this->_languagesPath;
+		$langsPath = $this->_websiteHelper->getPath() . 'plugins/' . strtolower(get_called_class()) . '/' . $this->_languagesPath;
 		if (is_dir($langsPath) && is_readable($langsPath)) {
 			$locale = Zend_Registry::get('Zend_Locale');
 			if (!file_exists($langsPath . $locale->getLanguage() . '.lng')) {

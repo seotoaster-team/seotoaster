@@ -26,6 +26,12 @@ ADD `seo_intro_target` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFA
 UPDATE `config` SET `name` = 'recaptchaPublicKey' WHERE `name` = 'recapthaPublicKey';
 UPDATE `config` SET `name` = 'recaptchaPrivateKey' WHERE `name` = 'recapthaPrivateKey';
 
+-- 07/04/2014
+-- Add unique index into email_triggers
+-- version: 2.2.0
+ALTER TABLE `email_triggers` ADD UNIQUE INDEX(`trigger_name`, `observer`);
+
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.2.0' WHERE `name`='version';
+UPDATE `config` SET `value`='2.2.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

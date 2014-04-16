@@ -6,6 +6,13 @@ class Tools_Plugins_Tools {
 
     const LOADER_EXTENSION = 'IonCube Loader';
 
+    const PLUGIN_TRANSLATIONS_CACHE_ID = 'plugin_translation';
+
+    /**
+     * @var string Path to plugins
+     */
+    private static $_pluginsPath;
+
 	public static function fetchPluginsMenu($userRole = null) {
 		$additionalMenu = array();
 		$enabledPlugins = self::getEnabledPlugins();
@@ -159,29 +166,6 @@ class Tools_Plugins_Tools {
     }
 
 
-	/**
-	 * @deprecated
-	 */
-	private static function _processPluginMenuItem(&$item, $index, $plugin) {
-		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-		if (is_string($item)){
-			$item = strtr($item, array(
-				'{url}' => $websiteHelper->getUrl(), '\''    => '"'
-			));
-		} elseif (is_array($item)) {
-			$item = array_merge(
-				array(
-					'run'       => 'index',
-					'name'      => $plugin->getName(),
-					'width'     => null,
-					'height'    => null
-				),
-				$item
-			);
-		}
-		return $item;
-	}
-
 	public static function getWidgetmakerContent() {
 		return self::_getData('getWidgetMakerContent');
 	}
@@ -251,51 +235,6 @@ class Tools_Plugins_Tools {
         return false;
     }
 
-	public static function fetchPluginsRoutes() {
-		$routes         = array();
-		$enabledPlugins = self::getEnabledPlugins();
-		if(is_array($enabledPlugins) && !empty ($enabledPlugins)) {
-			$routesPath  = is_file(APPLICATION_PATH . '/configs/'.SITE_NAME.'.routes.xml') ? APPLICATION_PATH . '/configs/'.SITE_NAME.'.routes.xml' : APPLICATION_PATH . '/configs/routes.xml' ;
-			if(file_exists($routesPath)) {
-				$routes = new Zend_Config_Xml($routesPath);
-				$routes = $routes->toArray();
-			}
-			$miscData       = Zend_Registry::get('misc');
-			$websiteData    = Zend_Registry::get('website');
-			$pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
-			foreach ($enabledPlugins as $plugin) {
-				if($plugin instanceof Application_Model_Models_Plugin) {
-					$pluginConfigPath = $pluginDirPath . $plugin->getName() . '/config/config.ini';
-					if(file_exists($pluginConfigPath)) {
-						try {
-							$configIni = new Zend_Config_Ini($pluginConfigPath);
-							if(!isset($configIni->route)) {
-								continue;
-							}
-							$pluginRoute = self::_formatPluginRoute($configIni->route->toArray(), $plugin->getName());
-							if(!empty($routes)) {
-								if(!array_key_exists($pluginRoute['name'], $routes['routes'])) {
-									$routes['routes'][$pluginRoute['name']] = $pluginRoute['data'];
-								}
-							}
-						}
-						catch (Zend_Config_Exception $zce) {
-							//Zend_Debug::dump($zce->getMessage()); die(); //development
-							continue; //production
-						}
-					}
-				}
-			}
-			$writer = new Zend_Config_Writer_Xml();
-			$writer->setConfig(new Zend_Config($routes));
-			try {
-				$writer->write($routesPath);
-			}
-			catch (Zend_Config_Exception $zce) {
-				//Zend_Debug::dump($zce->getMessage());
-			}
-		}
-	}
 
 	public static function getEnabledPlugins($namesOnly = false) {
 		$cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
@@ -305,13 +244,17 @@ class Tools_Plugins_Tools {
 			$enabledPlugins = Application_Model_Mappers_PluginMapper::getInstance()->findEnabled();
 
             // if we do not have the proper encoder loaded we have to exclude plugins that, requires that encoder, from enabled
-            if(!extension_loaded(self::LOADER_EXTENSION)) {
-                $pluginsData = self::_initValues();
-                foreach($enabledPlugins as $key => $plugin) {
-                    if(file_exists($pluginsData['pluginsDirPath'] . $plugin->getName() . '/.toasted')) {
-                        unset($enabledPlugins[$key]);
+            if (!extension_loaded(self::LOADER_EXTENSION)) {
+                $miscData         = Zend_Registry::get('misc');
+                $websiteData      = Zend_Registry::get('website');
+                $pluginsPath = $websiteData['path'] . $miscData['pluginsPath'];
+                unset($miscData, $websiteData);
+                $enabledPlugins = array_filter(
+                    $enabledPlugins,
+                    function ($plugin) use ($pluginsPath) {
+                        return !file_exists($pluginsPath . $plugin->getName() . '/.toasted');
                     }
-                }
+                );
             }
 
             if($namesOnly) {
@@ -323,13 +266,16 @@ class Tools_Plugins_Tools {
 		return $enabledPlugins;
 	}
 
-    public static function loaderCanExec($name) {
-        if(!extension_loaded(self::LOADER_EXTENSION)) {
-            $pluginsData = self::_initValues();
-            if(file_exists($pluginsData['pluginsDirPath'] . $name . '/.toasted')) {
-                return false;
-            }
-            return true;
+    /**
+     * Checks if plugins can be executed.
+     * To prevent fatal error on calling encoded plugins when proper loader extension is not installed
+     * @param $name Plugin name
+     * @return bool
+     */
+    public static function loaderCanExec($name)
+    {
+        if (!extension_loaded(self::LOADER_EXTENSION)) {
+            return !file_exists(self::getPluginsPath() . $name . DIRECTORY_SEPARATOR . '.toasted');
         }
         return true;
     }
@@ -361,49 +307,125 @@ class Tools_Plugins_Tools {
     }
 
 	private static function _initValues() {
-		$routesPath  = APPLICATION_PATH . '/configs/' . SITE_NAME . 'routes.xml';
-		$routes      = array();
-        if(file_exists($routesPath)) {
-			$routes = new Zend_Config_Xml($routesPath);
-			$routes = $routes->toArray();
-		}
-		$miscData         = Zend_Registry::get('misc');
-		$websiteData      = Zend_Registry::get('website');
-		return array(
-			'routesPath'     => $routesPath,
-			'routes'         => $routes,
-			'pluginsDirPath' => $websiteData['path'] . $miscData['pluginsPath']
-		);
+        $routesFile = APPLICATION_PATH . '/configs/' . SITE_NAME . '.routes.xml';
+        if (!is_file($routesFile)) {
+            $routesFile = APPLICATION_PATH . '/configs/routes.xml';
+        }
+        $routes = array();
+        if (file_exists($routesFile)) {
+            $routes = new Zend_Config_Xml($routesFile, 'routes');
+            $routes = $routes->toArray();
+        }
+        $miscData = Zend_Registry::get('misc');
+        $websiteData = Zend_Registry::get('website');
+        return array(
+            'routesPath'     => $routesFile,
+            'routes'         => $routes,
+            'pluginsDirPath' => $websiteData['path'] . $miscData['pluginsPath']
+        );
 	}
 
-	public static function removePluginRoute($pluginName) {
-		$routesData = self::_initValues();
-		$pluginConfigPath = $routesData['pluginsDirPath'] . $pluginName . '/config/config.ini';
-		$routes           = $routesData['routes'];
-		if(!file_exists($pluginConfigPath)) {
-			return;
-		}
-		try {
-			$configIni = new Zend_Config_Ini($pluginConfigPath);
-			if(!isset($configIni->route)) {
-				return;
-			}
-			$pluginRoute = self::_formatPluginRoute($configIni->route->toArray(), $pluginName);
-			if(!empty($routes)) {
-				if(array_key_exists($pluginRoute['name'], $routes['routes'])) {
-					unset($routes['routes'][$pluginRoute['name']]);
-					$writer = new Zend_Config_Writer_Xml();
-					$writer->setConfig(new Zend_Config($routes));
-					$writer->write($routesData['routesPath']);
-				}
-			}
-		}
-		catch (Zend_Config_Exception $zce) {
-			return;
-		}
+    /**
+     * Register routes in routes.xml for given plugin(s)
+     * @param $plugins array|Application_Model_Models_Plugin|string Accept plugin name, plugin model or array with plugin models
+     */
+    public static function registerPluginRoute($plugins)
+    {
+        if (!is_array($plugins)) {
+            $plugins = array($plugins);
+        }
+
+        $routesData = self::_initValues();
+        $routesUpdated = false;
+
+        foreach ($plugins as $plugin) {
+            if ($plugin instanceof Application_Model_Models_Plugin) {
+                $pluginName = $plugin->getName();
+            } elseif (is_string($plugin)) {
+                $pluginName = strtolower($plugin);
+            } else {
+                continue;
+            }
+
+            $pluginConfigPath = $routesData['pluginsDirPath'] . $pluginName . '/config/config.ini';
+            if (!file_exists($pluginConfigPath)) {
+                continue;
+            }
+
+            try {
+                $route = new Zend_Config_Ini($pluginConfigPath, 'route');
+
+                if ($route !== null && !array_key_exists($pluginName, $routesData['routes'])) {
+                    $pluginRoute = self::_formatPluginRoute($route->toArray(), $pluginName);
+
+                    $routesData['routes'][$pluginRoute['name']] = $pluginRoute['data'];
+
+                    $routesUpdated = $routesUpdated || true;
+                }
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+            }
+        }
+
+        if ($routesUpdated) {
+            $writer = new Zend_Config_Writer_Xml();
+            $writer->setConfig(new Zend_Config(array('routes' => $routesData['routes'])));
+            $writer->write($routesData['routesPath']);
+        }
+    }
+
+    /**
+     * Remove registered routes for given plugin(s)
+     * @param $plugins array|Application_Model_Models_Plugin|string Accept plugin name, plugin model or array with plugin models
+     */
+    public static function removePluginRoute($plugins) {
+        if (!is_array($plugins)) {
+            $plugins = array($plugins);
+        }
+
+        $routesData = self::_initValues();
+        $routesUpdated = false;
+
+        foreach ($plugins as $plugin) {
+            if ($plugin instanceof Application_Model_Models_Plugin) {
+                $pluginName = $plugin->getName();
+            } elseif (is_string($plugin)) {
+                $pluginName = strtolower($plugin);
+            } else {
+                continue;
+            }
+
+            $pluginConfigPath = $routesData['pluginsDirPath'] . $pluginName . '/config/config.ini';
+            if (!file_exists($pluginConfigPath)) {
+                continue;
+            }
+
+            try {
+                $route = new Zend_Config_Ini($pluginConfigPath, 'route');
+                if ($route === null) {
+                    continue;
+                }
+                $pluginRoute = self::_formatPluginRoute($route->toArray(), $pluginName);
+                if (!empty($routesData['routes']) && array_key_exists($pluginRoute['name'], $routesData['routes'])) {
+                    unset($routesData['routes'][$pluginRoute['name']]);
+                    $routesUpdated = $routesUpdated || true;
+                }
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+            }
+        }
+
+        if ($routesUpdated) {
+            $writer = new Zend_Config_Writer_Xml();
+            $writer->setConfig(new Zend_Config(array('routes' => $routesData['routes'])));
+            $writer->write($routesData['routesPath']);
+        }
 	}
 
-	public static function removePluginsRoutes() {
+    /**
+     * Remove all registered routes for all enabled plugins
+     */
+    public static function removePluginsRoutes() {
 		$enabledPlugins = self::getEnabledPlugins();
 		foreach ($enabledPlugins as $plugin) {
 			self::removePluginRoute($plugin->getName());
@@ -432,46 +454,63 @@ class Tools_Plugins_Tools {
 		return $route;
 	}
 
-	public static function findAvialablePlugins() {
+    /**
+     * @deprecated
+     */
+    public static function findAvialablePlugins()
+    {
+        return self::findAvailablePlugins();
+    }
+
+    /**
+     * Return list of available plugins
+     * @return array List of plugins
+     */
+    public static function findAvailablePlugins()
+    {
+        $website = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+        $misc = Zend_Registry::get('misc');
+        $pluginsPath = $website->getPath() . $misc['pluginsPath'];
+        $pluginsDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($pluginsPath);
+        $plugins = array();
+        if (!empty ($pluginsDirs)) {
+            foreach ($pluginsDirs as $pluginDir) {
+                $fullPluginPath = $pluginsPath . DIRECTORY_SEPARATOR . $pluginDir . DIRECTORY_SEPARATOR;
+
+                // check if plugin is bundle, then do not show in the plugin management screen
+                if (is_file($fullPluginPath . '.bundle')) {
+                    continue;
+                }
+
+                if (is_readable($fullPluginPath . 'readme.txt')
+                    && is_readable($fullPluginPath . ucfirst($pluginDir) . '.php')
+                ) {
+                    $plugins[] = $pluginDir;
+                }
+
+            }
+        }
+        return $plugins;
+    }
+
+    /**
+     * Find preview file url for plugin
+     * @param $pluginName Plugin name
+     * @return bool|string Plugin preview URL. False if nothing found
+     */
+    public static function findPluginPreview($pluginName) {
 		$website     = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
 		$misc        = Zend_Registry::get('misc');
-		$pluginsPath = $website->getPath() . $misc['pluginsPath'];
-		$pluginsDirs = Tools_Filesystem_Tools::scanDirectoryForDirs($pluginsPath);
-		$plugins     = array();
-		if(!empty ($pluginsDirs)) {
-			foreach ($pluginsDirs as $pluginDir) {
-				$required = array(
-					'readme.txt',
-					ucfirst($pluginDir) . '.php'
-				);
-				$pluginDirContent = Tools_Filesystem_Tools::scanDirectory($pluginsPath . '/' . $pluginDir, false, false);
+        $files = glob(
+            $website->getPath() . $misc['pluginsPath'] . $pluginName . DIRECTORY_SEPARATOR . 'preview.{png,jpg,jpeg,gif}',
+            GLOB_BRACE
+        );
 
-				// check if plugin is bundle, then do not show in the plugin managment screen
-				if(in_array('.bundle', $pluginDirContent)) {
-					continue;
-				}
+        if (!empty($files)) {
+            $preview = str_replace($website->getPath(), $website->getUrl(), reset($files));
+            return $preview;
+        }
 
-				if($required == (array_intersect($required, $pluginDirContent))) {
-					$plugins[] = $pluginDir;
-				}
-			}
-		}
-		return $plugins;
-	}
-
-	public static function findPluginPreview($pluginName) {
-		$website     = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
-		$misc        = Zend_Registry::get('misc');
-		$pluginsPath = $website->getPath() . $misc['pluginsPath'] . $pluginName;
-		$files       = Tools_Filesystem_Tools::scanDirectory($pluginsPath, false, false);
-		array_walk($files, function($file) {
-			if(preg_match('~^preview\.(jpg|gif|png)$~ui', $file)) {
-				Zend_Registry::set('previewFile', $file);
-			}
-		});
-		if(Zend_Registry::isRegistered('previewFile')) {
-			return $website->getUrl() . $misc['pluginsPath'] . $pluginName . '/' .Zend_Registry::get('previewFile');
-		}
 		return false;
 	}
 
@@ -514,7 +553,7 @@ class Tools_Plugins_Tools {
                             }
                         }
                         catch (Zend_Config_Exception $zce) {
-                            //Zend_Debug::dump($zce->getMessage()); die(); //development
+                            error_log($zce->getMessage());
                             continue; //production
                         }
                     }
@@ -525,20 +564,95 @@ class Tools_Plugins_Tools {
         return $path;
     }
 
-	public static function registerPluginsIncludePath($force = false){
-		$cacheHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
+    /**
+     * Register include path for all enabled plugins
+     * @param bool $force Force reload include path if true given
+     */
+    public static function registerPluginsIncludePath($force = false)
+    {
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
 
-		if ($force) {
-			$cacheHelper->clean(null, null, array('plugins'));
-		}
+        if ($force) {
+            $cacheHelper->clean(null, null, array('plugins'));
+        }
 
-		if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_')) || $force){
-			$pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
-			$cacheHelper->save('includePath', $pluginIncludePath, 'plugins_', array('plugins'), Helpers_Action_Cache::CACHE_NORMAL);
-		}
-		if (!empty($pluginIncludePath)){
-            set_include_path(implode(PATH_SEPARATOR,$pluginIncludePath).PATH_SEPARATOR.get_include_path());
-		}
-	}
+        if (null === ($pluginIncludePath = $cacheHelper->load('includePath', 'plugins_')) || $force) {
+            $pluginIncludePath = Tools_Plugins_Tools::fetchPluginsIncludePath();
+            $cacheHelper->save(
+                'includePath',
+                $pluginIncludePath,
+                'plugins_',
+                array('plugins'),
+                Helpers_Action_Cache::CACHE_LONG
+            );
+        }
+        if (!empty($pluginIncludePath)) {
+            set_include_path(implode(PATH_SEPARATOR, $pluginIncludePath) . PATH_SEPARATOR . get_include_path());
+        }
+    }
+
+    /**
+     * Register plugins translation files into toasters translator
+     * Method find for all enabled plugins language files for current language. Combine them in one array and cache
+     */
+    public static function registerPluginsTranslations()
+    {
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache')->init();
+
+        $translate = Zend_Registry::get('Zend_Translate'); /** @var $translate Zend_Translate_Adapter_Array */
+
+        $locale = $translate->getLocale();
+
+        $cacheId = self::PLUGIN_TRANSLATIONS_CACHE_ID . '_' . $locale;
+        $pluginsTranslations = $cacheHelper->load($cacheId, 'plugins_');
+
+        if (null === $pluginsTranslations) {
+            $plugins = self::getEnabledPlugins();
+
+            $pluginsPath = self::getPluginsPath();
+            $pluginsTranslations = array();
+            foreach ($plugins as $plugin) {
+                $lngFile = $pluginsPath.$plugin->getName().DIRECTORY_SEPARATOR.'system/languages/'.$locale.'.lng';
+                if (is_readable($lngFile)) {
+                    $langArray = require($lngFile);
+                    if (!empty($langArray)) {
+                        $pluginsTranslations = array_merge($pluginsTranslations, $langArray);
+                    }
+                }
+            }
+            $pluginsTranslations = array_filter($pluginsTranslations);
+            $cacheHelper->save(
+                $cacheId,
+                $pluginsTranslations,
+                'plugins_',
+                array('plugins', self::PLUGIN_TRANSLATIONS_CACHE_ID),
+                Helpers_Action_Cache::CACHE_LONG * 10
+            );
+        }
+
+        if (!empty($pluginsTranslations)) {
+            $translate->addTranslation(
+                array(
+                    'content' => $pluginsTranslations,
+                    'locale'  => $locale,
+                    'reload'  => true
+                )
+            );
+        }
+    }
+
+    /**
+     * Returns path to plugins folder
+     * @return string Path to plugins folder
+     */
+    public static function getPluginsPath()
+    {
+        if (empty(self::$_pluginsPath)) {
+            $websiteData = Zend_Registry::get('website');
+            $miscData = Zend_Registry::get('misc');
+            self::$_pluginsPath = $websiteData['path'] . $miscData['pluginsPath'];
+        }
+
+        return self::$_pluginsPath;
+    }
 }
-

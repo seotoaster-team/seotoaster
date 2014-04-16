@@ -12,11 +12,37 @@
     <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem">
         <?php foreach($this->faPages as $page): ?>
             <li>
-                <?php if($this->useImage): ?>
-                <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreview($page, (($this->useImage == 'img') ? false : true))); ?>" /></a>
+                <?php if ($this->useImage): ?>
+                    <?php
+                    $infoPreview = Tools_Page_Tools::getPreviewFilePath($page->getId(), (($this->useImage == 'img') ? false : true), $this->cropSizeSubfolder);
+                    // Image exists
+                    if ($infoPreview['fullPath'] != '' && $infoPreview['fileName'] != '') {
+                        $src = $this->websiteUrl.$infoPreview['previewPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
+                    }
+                    // Cropped image
+                    elseif ($this->useImage == 'imgc' && $infoPreview['fullPath'] == '' && $infoPreview['fileName'] != '') {
+                        $src        = $this->websiteUrl.$infoPreview['previewPath'].$infoPreview['fileName'];
+                        $cropStatus = Tools_Image_Tools::resizeByParameters(
+                            $infoPreview['sitePath'].$infoPreview['previewPath'].$infoPreview['fileName'],
+                            $this->cropParams[1],
+                            $this->cropParams[2],
+                            true,
+                            $infoPreview['sitePath'].$infoPreview['previewPath'].$infoPreview['sizeSubfolder'],
+                            true
+                        );
+                        if ($cropStatus === true) {
+                            $src = $this->websiteUrl.$infoPreview['previewPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
+                        }
+                    }
+                    // No image
+                    else {
+                        $src = $this->websiteUrl.'system/images/noimage.png';
+                    }
+                    ?>
+                    <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl.$page->getUrl()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape($src); ?>" /></a>
                 <?php endif; ?>
-                <a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  strip_tags($page->getH1()); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
-	            <?php if($this->faPageDescriptionLength): ?>
+                <a href="<?php echo $this->escape($this->websiteUrl.$page->getUrl()); ?>" title="<?php echo strip_tags($page->getH1()); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
+	            <?php if ($this->faPageDescriptionLength): ?>
                 <span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
                 <?php endif;?>
             </li>

@@ -6,19 +6,77 @@
     <p class="mt5px">
 	    <?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'grid_5 alpha mt0-25em')); ?>
 	    <?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'grid_7 alpha omega small')); ?>
-        <?php //echo $this->formSelect('galThumbUnit', '', array('id' => 'gal-thumb-unit', 'class' => 'grid_3 omega small')); ?>
     </p>
     <p class="mt5px">
-        <label class="pointer">
+        <label class="pointer cropped-img">
             <span class="grid_5 alpha"><?php echo $this->translate('Crop image'); ?></span>
-            <?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop')); ?>
+            <?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop', 'class' => 'crop allowzero')); ?>
         </label>
     </p>
+    <div class="mt5px crop-size hidden">
+        <p class="clearfix">
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Width'); ?></label>
+            <?php echo $this->formText('galWidth', null, array('class' => 'gal-width grid_7 omega small alpha')); ?>
+        </p>
+        <p class="mt5px clearfix">
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Height'); ?></label>
+            <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_7 omega small alpha')); ?>
+        </p>
+    </div>
     <p class="mt5px">
         <label class="pointer">
             <span class="grid_5 alpha"><?php echo $this->translate('Caption'); ?></span>
-            <?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption')); ?>
+            <?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption', 'class' => 'allowzero')); ?>
         </label>
     </p>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
+    <?php echo $this->formSubmit('applyWidgetGal', 'Apply', array('class' => 'block small')); ?>
 </form>
+<script type="text/javascript">
+    $(function () {
+        // Generation widget from form options
+        $(document).on('click', '#applyWidgetGal', function() {
+            var widgetForm = $(this).closest('form'),
+                widgetHtml = '{$'+widgetForm.data('name'),
+                cropOption = ':1';
+
+            widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function() {
+                if ($(this).hasClass('crop') && $(this).prop('checked')) {
+                    return;
+                }
+
+                if ($(this).hasClass('gal-width')) {
+                    if ($(this).val()) {
+                        cropOption = ':'+$(this).val();
+                        return;
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+                if ($(this).hasClass('gal-height')) {
+                    if ($(this).val() && cropOption != ':1') {
+                        widgetHtml += cropOption+'x'+$(this).val();
+                        return;
+                    }
+                    else {
+                        widgetHtml += cropOption
+                        return;
+                    }
+                }
+
+                if ($(this).attr('type') == 'checkbox' && !$(this).prop('checked')) {
+                    if ($(this).hasClass('allowzero')) {
+                        widgetHtml += ':0';
+                    }
+                    return;
+                }
+
+                widgetHtml += ':' + $(this).val();
+            });
+
+            widgetHtml += '}';
+            $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widgetHtml);
+        });
+    });
+</script>

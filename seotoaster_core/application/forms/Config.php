@@ -5,7 +5,8 @@
  *
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
-class Application_Form_Config extends Zend_Form {
+class Application_Form_Config extends Zend_Form
+{
 	private $_name = 'configForm';
 
 	protected $_currentTheme;
@@ -36,184 +37,259 @@ class Application_Form_Config extends Zend_Form {
 	 */
 	protected $_showProtectedPagesInMenu = true;
 
+    /**
+     * Enable minification css and js files
+     *
+     * @var boolean
+     */
+    protected $_enableMinify             = false;
+
+     /**
+     * Enable Developer mode
+     *
+     * @var boolean
+     */
+    protected $_enableDeveloperMode      = false;
+
 	public function getMediaServers() {
 		return $this->_mediaServers;
 	}
 
-	public function setMediaServers($_mediaServers) {
+	public function setMediaServers($_mediaServers)
+    {
 		$this->_mediaServers = $_mediaServers;
 		$this->getElement('mediaServers')->setValue($this->_mediaServers);
 	}
 
-	public function getCurrentTheme() {
+	public function getCurrentTheme()
+    {
 		return $this->_currentTheme;
 	}
 
-	public function setCurrentTheme($_currentTheme) {
+	public function setCurrentTheme($_currentTheme)
+    {
 		$this->_currentTheme = $_currentTheme;
 		$this->getElement('currentTheme')->setValue($this->_currentTheme);
 	}
 
-	public function getImgSmall() {
+	public function getImgSmall()
+    {
 		return $this->_imgSmall;
 	}
 
-	public function setImgSmall($_imgSmall) {
+	public function setImgSmall($_imgSmall)
+    {
 		$this->_imgSmall = $_imgSmall;
 		$this->getElement('imgSmall')->setValue($this->_imgSmall);
 	}
 
-	public function getImgMedium() {
+	public function getImgMedium()
+    {
 		return $this->_imgMedium;
 	}
 
-	public function setImgMedium($_imgMedium) {
+	public function setImgMedium($_imgMedium)
+    {
 		$this->_imgMedium = $_imgMedium;
 		$this->getElement('imgMedium')->setValue($this->_imgMedium);
 	}
 
-	public function getImgLarge() {
+	public function getImgLarge()
+    {
 		return $this->_imgLarge;
 	}
 
-	public function setImgLarge($_imgLarge) {
+	public function setImgLarge($_imgLarge)
+    {
 		$this->_imgLarge = $_imgLarge;
 		$this->getElement('imgLarge')->setValue($this->_imgLarge);
 	}
 
-	/*public function getAdminEmail() {
+	/*public function getAdminEmail()
+	{
 		return $this->_adminEmail;
 	}
 
-	public function setAdminEmail($_adminEmail) {
+	public function setAdminEmail($_adminEmail)
+	{
 		$this->_adminEmail = $_adminEmail;
 		$this->getElement('adminEmail')->setValue($this->_adminEmail);
 	}*/
 
-	public function getUseSmtp() {
+	public function getUseSmtp()
+    {
 		return $this->_useSmtp;
 	}
 
-	public function setUseSmtp($_useSmtp) {
+	public function setUseSmtp($_useSmtp)
+    {
 		$this->_useSmtp = $_useSmtp;
 		$this->getElement('useSmtp')->setValue($this->_useSmtp);
 	}
 
-	public function getSmtpHost() {
+	public function getSmtpHost()
+    {
 		return $this->_smtpHost;
 	}
 
-	public function setSmtpHost($_smtpHost) {
+	public function setSmtpHost($_smtpHost)
+    {
 		$this->_smtpHost = $_smtpHost;
 		$this->getElement('smtpHost')->setValue($this->_smtpHost);
 	}
 
-	public function getSmtpLogin() {
+	public function getSmtpLogin()
+    {
 		return $this->_smtpLogin;
 	}
 
-	public function setSmtpLogin($_smtpLogin) {
+	public function setSmtpLogin($_smtpLogin)
+    {
 		$this->_smtpLogin = $_smtpLogin;
 		$this->getElement('smtpLogin')->setValue($this->_smtpLogin);
 	}
 
-	public function getSmtpPassword() {
+	public function getSmtpPassword()
+    {
 		return $this->_smtpPassword;
 	}
 
-	public function setSmtpPassword($_smtpPassword) {
+	public function setSmtpPassword($_smtpPassword)
+    {
 		$this->_smtpPassword = $_smtpPassword;
 		$this->getElement('smtpPassword')->setValue($this->_smtpPassword);
 	}
 
-	public function getLanguage() {
+	public function getLanguage()
+    {
 		return $this->_language;
 	}
 
-	public function setLanguage($_language) {
+	public function setLanguage($_language)
+    {
 		$this->_language = $_language;
 		$this->getElement('language')->setValue($this->_language);
 	}
 
-	public function getSuLogin() {
+	public function getSuLogin()
+    {
 		return $this->_suLogin;
 	}
 
-	public function setSuLogin($_suLogin) {
+	public function setSuLogin($_suLogin)
+    {
 		$this->_suLogin = $_suLogin;
 		$this->getElement('suLogin')->setValue($this->_suLogin);
 	}
 
-	public function getSuPassword() {
+	public function getSuPassword()
+    {
 		return $this->_suPassword;
 	}
 
-	public function setSuPassword($_suPassword) {
+	public function setSuPassword($_suPassword)
+    {
 		$this->_suPassword = $_suPassword;
 		$this->getElement('suPassword')->setValue($this->_suPassword);
 	}
 
-	public function getTeaserSize() {
+	public function getTeaserSize()
+    {
 		return $this->_teaserSize;
 	}
 
-	public function setTeaserSize($teaserSize) {
+	public function setTeaserSize($teaserSize)
+    {
 		$this->_teaserSize = $teaserSize;
 		$this->getElement('teaserSize')->setValue($this->_teaserSize);
 		return $this;
 	}
 
-	public function getMemPagesInMenu() {
+	public function getMemPagesInMenu()
+    {
 		return $this->_showProtectedPagesInMenu;
 	}
 
-	public function setMemPagesInMenu($showProtectedPagesInMenu) {
+	public function setMemPagesInMenu($showProtectedPagesInMenu)
+    {
 		$this->_showProtectedPagesInMenu = $showProtectedPagesInMenu;
         $this->getElement('memPagesInMenu')->setValue($showProtectedPagesInMenu);
 		return $this;
 	}
 
-	public function setSmtpPort($smtpPort) {
+    public function getEnableMinify()
+    {
+        return $this->_enableMinify;
+    }
+
+    public function setEnableMinify($enableMinify)
+    {
+        $this->_enableMinify = $enableMinify;
+        $this->getElement('enableMinify')->setValue($enableMinify);
+    }
+
+    public function getEnableDeveloperMode()
+    {
+        return $this->_enableDeveloperMode;
+    }
+
+    public function setEnableDeveloperMode($enableDeveloperMode)
+    {
+        $this->_enableDeveloperMode = $enableDeveloperMode;
+        $this->getElement('enableDeveloperMode')->setValue($enableDeveloperMode);
+        return $this;
+    }
+
+	public function setSmtpPort($smtpPort)
+    {
 		$this->_smtpPort = $smtpPort;
 		$this->getElement('smtpPort')->setValue($smtpPort);
 		return $this;
 	}
 
-	public function getSmtpPort() {
+	public function getSmtpPort()
+    {
 		return $this->_smtpPort;
 	}
 
-	public function setSmtpSsl($smtpSsl) {
+	public function setSmtpSsl($smtpSsl)
+    {
 		$this->_smtpSsl = $smtpSsl;
 		$this->getElement('smtpSsl')->setValue($smtpSsl);
 		return $this;
 	}
 
-	public function getSmtpSsl() {
+	public function getSmtpSsl()
+    {
 		return $this->_smtpSsl;
 	}
-    
-    public function setRecaptchaPublicKey($recaptchaPublicKey) {
+
+    public function setRecaptchaPublicKey($recaptchaPublicKey)
+    {
 		$this->_recaptchaPublicKey = $recaptchaPublicKey;
 		$this->getElement(Tools_System_Tools::RECAPTCHA_PUBLIC_KEY)->setValue($recaptchaPublicKey);
 		return $this;
 	}
 
-	public function getRecaptchaPublicKey() {
+	public function getRecaptchaPublicKey()
+    {
 		return $this->_recaptchaPublicKey;
 	}
-    
-    public function setRecaptchaPrivateKey($recaptchaPrivateKey) {
+
+    public function setRecaptchaPrivateKey($recaptchaPrivateKey)
+    {
 		$this->_recaptchaPrivateKey = $recaptchaPrivateKey;
 		$this->getElement(Tools_System_Tools::RECAPTCHA_PRIVATE_KEY)->setValue($recaptchaPrivateKey);
 		return $this;
 	}
 
-	public function getRecaptchaPrivateKey() {
+	public function getRecaptchaPrivateKey()
+    {
 		return $this->_recaptchaPrivateKey;
 	}
 
-	public function init() {
+	public function init()
+    {
 		$this->setName($this->_name)
 			->setMethod(Zend_FORM::METHOD_POST)
 			->setDecorators(array(
@@ -238,12 +314,12 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Admin Email',
 			'validators' => array(new Zend_Validate_EmailAddress())
 		));*/
-        
+
         $this->addElement('text', Tools_System_Tools::RECAPTCHA_PUBLIC_KEY, array(
 			'value' => $this->_recaptchaPublicKey,
 			'label' => 'reCAPTCHA public key'
 		));
-        
+
         $this->addElement('text', Tools_System_Tools::RECAPTCHA_PRIVATE_KEY, array(
 			'value' => $this->_recaptchaPrivateKey,
 			'label' => 'reCAPTCHA private Key'
@@ -337,6 +413,18 @@ class Application_Form_Config extends Zend_Form {
 			'label' => 'Member pages in menu?',
 		)));
 
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'enableMinify',
+            'value' => $this->_enableMinify,
+            'label' => 'Enable assets minification (css/js)?'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'enableDeveloperMode',
+            'value' => $this->_enableDeveloperMode,
+            'label' => 'Enable developer mode?'
+        )));
+
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'submit',
 			'type'  => 'submit',
@@ -366,7 +454,8 @@ class Application_Form_Config extends Zend_Form {
 		));
 	}
 
-	public function proccessErrors() {
+	public function proccessErrors()
+    {
 		$errors = $this->getErrors();
 		$isAnyErrors = false;
 		foreach ($errors as $element => $errorsArray) {
@@ -379,23 +468,26 @@ class Application_Form_Config extends Zend_Form {
 		return $isAnyErrors;
 	}
 
-	public function setInlineEditor($inlineEditor) {
+	public function setInlineEditor($inlineEditor)
+    {
 		$this->_inlineEditor = $inlineEditor;
 		$this->getElement('inlineEditor')->setValue($this->_inlineEditor);
 		return $this;
 	}
 
-	public function getInlineEditor() {
+	public function getInlineEditor()
+    {
 		return $this->_inlineEditor;
 	}
 
-	public function setCanonicalScheme($canonicalScheme) {
+	public function setCanonicalScheme($canonicalScheme)
+    {
 		$this->_canonicalScheme = $canonicalScheme;
 		return $this;
 	}
 
-	public function getCanonicalScheme() {
+	public function getCanonicalScheme()
+    {
 		return $this->_canonicalScheme;
 	}
-
 }

@@ -10,7 +10,7 @@
         <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha mt0-25em max-res-row')); ?>
         <?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'grid_7 alpha omega small max-res-row')); ?>
     </p>
-    <p class="mt5px">
+    <p class="mt5px maxchars">
         <?php echo $this->formLabel('featured-item-maxchars', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formText('featuredItemMaxchars', Widgets_Featured_Featured::AREA_DESC_LENGTH, array('id' => 'featured-item-maxchars', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
@@ -21,16 +21,26 @@
         </label>
 	    <label class="cropped-img hidden grid_6 omega pointer">
             <?php echo $this->translate('Cropped'); ?>
-            <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped')); ?>
+            <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped', 'class' => 'crop')); ?>
         </label>
 	</p>
+    <div class="mt5px crop-size hidden">
+        <p class="clearfix">
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Width'); ?></label>
+            <?php echo $this->formText('galWidth', null, array('class' => 'gal-width grid_7 omega small alpha')); ?>
+        </p>
+        <p class="mt5px clearfix">
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Height'); ?></label>
+            <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_7 omega small alpha')); ?>
+        </p>
+    </div>
     <p class="mt5px">
         <label class="max-res-row grid_6 alpha omega suffix_6 pointer">
             <span class="grid_10 alpha omega"><?php echo $this->translate('Random'); ?></span>
-            <?php echo $this->formCheckbox('random', null, array('id' => 'random')); ?>
+            <?php echo $this->formCheckbox('random', null, array('id' => 'random', 'class' => 'allowzero')); ?>
         </label>
 	</p>
-	<?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget block small')); ?>
+	<?php echo $this->formSubmit('applyWidgetFeatured', 'Apply', array('class' => 'block small')); ?>
 </form>
 
 <script type="text/javascript">
@@ -79,6 +89,63 @@
 		    featured.itemsHolder.removeClass('error');
 	    });
 	    featured.setType(featured._TYPE_AREA).load();
-    });
 
+        // Generation widget from form options
+        $(document).on('click', '#applyWidgetFeatured', function() {
+            var error      = false,
+                widgetForm = $(this).closest('form'),
+                widgetHtml = '{$' + widgetForm.data('name'),
+                cropOption = '::imgc';
+
+            widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
+                if ($(this).hasClass('crop') && $(this).prop('checked')) {
+                    widgetHtml = widgetHtml.replace(':img', '');
+                    return;
+                }
+
+                if ($(this).hasClass('gal-width')) {
+                    if ($(this).val()) {
+                        cropOption = cropOption+'-'+$(this).val();
+                        return;
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+                if ($(this).hasClass('gal-height')) {
+                    if ($(this).val() && cropOption != ':imgc') {
+                        widgetHtml += cropOption+'x'+$(this).val();
+                        return;
+                    }
+                    else {
+                        widgetHtml += cropOption
+                        return;
+                    }
+                }
+
+                if ($(this).attr('type') == 'checkbox' && !$(this).prop('checked')) {
+                    if ($(this).hasClass('allowzero')) {
+                        widgetHtml += ':0';
+                    }
+                    return;
+                }
+
+                if ($(this).hasClass('validate')) {
+                    if (!$(this).val() || $(this).val() == 0) {
+                        $(this).addClass('error');
+                        error = true;
+                    }
+                }
+
+                if (!error) {
+                    widgetHtml += ':' + $(this).val();
+                }
+            });
+            if (!error) {
+                widgetHtml += '}';
+                $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widgetHtml);
+            }
+        });
+    });
 </script>

@@ -5,13 +5,13 @@
  */
 class Zend_View_Helper_ToasterFrame extends Zend_View_Helper_Abstract {
 
-    const REMOTE_URL = 'http://www.seotoaster.com/';
+    const REMOTE_URL = 'www.seotoaster.com/';
 
     public function toasterFrame($pageUrl = 'index.html', $params = array()) {
         //defaults
         $params = $this->_initDefaults($params);
         return '<iframe
-                    src="' . self::REMOTE_URL . $pageUrl . '"
+                    src="//' . self::REMOTE_URL . $pageUrl . '"
                     width="' . $params['width'] . '"
                     height="' . $params['height'] . '"
                     frameborder="' . intval($params['frameborder']) . '"

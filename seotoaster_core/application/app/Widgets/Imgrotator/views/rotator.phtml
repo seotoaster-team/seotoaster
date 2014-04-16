@@ -1,13 +1,28 @@
-<div id="<?php echo $this->uniq; ?>" class="rotator">
-	<?php if (!empty($this->files)): ?>
-        <?php foreach ($this->files as $image): ?>
-            <?php $size = getimagesize('media/' . $this->folder . $image); ?>
-            <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
-        <?php endforeach; ?>
-
+<div id="widget-rotator-<?php echo $this->uniq; ?>">
+    <div id="<?php echo $this->uniq; ?>"
+         data-cycle-slides="> div.slide"
+         <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+         class="rotator">
+        <?php if($this->prevnext): ?>
+            <div class="cycle-prev"></div>
+            <div class="cycle-next"></div>
+        <?php endif;?>
+        <?php if (!empty($this->files)): ?>
+            <?php foreach ($this->files as $key => $image): ?>
+                <div class="slide">
+                    <?php $size = getimagesize('media/' . $this->folder . $image); ?>
+                    <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
+                    <?php if ($this->content): ?>
+                    <div class="slide-text"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).':static}'; ?></div>
+                    <?php endif ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <?php if ($this->pager): ?>
+    <div id="pager-<?php echo $this->uniq; ?>"></div>
     <?php endif; ?>
 </div>
-
 <?php if ($this->slideShow): ?>
     <script type="text/javascript">
         $(function () {
@@ -23,18 +38,60 @@
                     autoHeight: 0
                 });
             }, timeout);
-
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'; ?>');
+            $.fn.cycle.defaults.swipe = true;
+            <?php if($this->effect == 'shuffle'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'; ?>');
+            <?php elseif($this->effect == 'flipHorz' || $this->effect == 'flipVert'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.flip.min.js'; ?>');
+            <?php elseif($this->effect == 'tileSlide' || $this->effect == 'tileBlind'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'; ?>');
+            <?php elseif($this->effect == 'carousel'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.carousel.min.js'; ?>');
+            <?php elseif($this->effect == 'scrollVert'): ?>
+            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'; ?>');
+            <?php endif; ?>
         });
     </script>
 <?php endif; ?>
-
 <style type="text/css">
 	div#<?php echo $this->uniq; ?>.rotator{
         max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
         max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
-        padding    : 0;
-        margin     : 0;
         z-index    : 13;
         overflow   : hidden;
     }
+    .cycle-prev, .cycle-next {
+        cursor: pointer;
+        height: 50px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        z-index: 101;
+    }
+    .cycle-prev {
+        left: 0;
+        background: url(http://malsup.github.com/images/left.png) 50% 50% no-repeat;
+    }
+    .cycle-next {
+        right: 0;
+        background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
+    }
+
+    div#<?php echo $this->uniq; ?> .slide-text {
+        color: white;
+        background: black;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+    #pager-<?php echo $this->uniq; ?> div#<?php echo $this->uniq; ?> {
+        text-align: center;
+        width: 100%;
+        z-index: 500;
+        top: 10px;
+        overflow: hidden;
+    }
+
 </style>

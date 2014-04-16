@@ -11,13 +11,13 @@ class Tools_Content_Parser {
 
     const OPTIONS_SEPARATOR  = ':';
 
-	private $_pageData  = null;
+	private $_pageData       = null;
 
-	private $_content   = null;
+	private $_content        = null;
 
-	private $_options   = array();
+	private $_options        = array();
 
-	private $_iteration = 0;
+	private $_iteration      = 0;
 
 	public function  __construct($content = null, $pageData = null, $options = null) {
 		if(null !== $content) {
@@ -35,6 +35,7 @@ class Tools_Content_Parser {
 	}
 
 	public function parse() {
+        $this->_runRepeat();
 		$this->_parse();
 		$this->_changeMedia();
         $this->_iteration = 0;
@@ -133,46 +134,63 @@ class Tools_Content_Parser {
 		return $widgets;
 	}
 
-	private function _runMagicSpaces() {
-        $this->_iteration++;
 
-		preg_match_all('~{([\w]+' . self::OPTIONS_SEPARATOR . '*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
+    private function _runRepeat() {
+        preg_match_all('~{(repeat+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
         $spacesFound = array_filter($spacesFound);
 
-		if (!empty($spacesFound) && isset($spacesFound[1])) {
-			foreach ($spacesFound[1] as $spaceName) {
-                //if any parameters passed
-                $parameters = explode(self::OPTIONS_SEPARATOR, $spaceName);
-                if (is_array($parameters)) {
-                    $spaceName = array_shift($parameters);
-                }
+        if (!empty($spacesFound) && isset($spacesFound[1])) {
+            $this->_renderMagicSpaces($spacesFound[1]);
+        }
+    }
 
-				try {
-                    $this->_content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
-                        $spaceName,
-                        $this->_content,
-                        array_merge($this->_pageData, $this->_options),
-                        $parameters
-                    )->run();
-				}
-				catch (Exception $e) {
-					Tools_System_Tools::debugMode() && error_log($e->getMessage());
-					continue;
-				}
-			}
+    private function _runMagicSpaces() {
+        $this->_iteration++;
+
+        preg_match_all(
+            '~{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs',
+            $this->_content,
+            $spacesFound
+        );
+        $spacesFound = array_filter($spacesFound);
+
+        if (!empty($spacesFound) && isset($spacesFound[1])) {
+            $this->_renderMagicSpaces($spacesFound[1]);
 
             if ($this->_iteration <= self::PARSE_DEEP) {
                 $this->_runMagicSpaces();
             }
-		}
-	}
+        }
+    }
+
+    private function _renderMagicSpaces($spacesFound = array()) {
+        foreach ($spacesFound as $spaceName) {
+            // If any parameters passed
+            $parameters = explode(self::OPTIONS_SEPARATOR, $spaceName);
+            if (is_array($parameters)) {
+                $spaceName = array_shift($parameters);
+            }
+
+            try {
+                $this->_content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
+                    $spaceName,
+                    $this->_content,
+                    array_merge($this->_pageData, $this->_options),
+                    $parameters
+                )->run();
+            }
+            catch (Exception $e) {
+                Tools_System_Tools::debugMode() && error_log($e->getMessage());
+                continue;
+            }
+        }
+    }
 
 	private function _replace($replacement, $name, $options = array()) {
 		$optString = '';
 		if(!empty($options)) {
-			$optString = ':' . implode(':', $options);
+			$optString = self::OPTIONS_SEPARATOR. implode(self::OPTIONS_SEPARATOR, $options);
 		}
 		$this->_content = str_replace('{$' . $name . $optString . '}', $replacement, $this->_content);
 	}
 }
-

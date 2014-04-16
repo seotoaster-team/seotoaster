@@ -29,12 +29,12 @@
             <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
         <?php endif;?>
         <input type="hidden" name="uploadLimitSize" value="<?php echo $this->uploadLimitSize;?>"/>
-        <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+        <input type="submit" name="submit" value="<?php echo $this->translate($this->buttonValue);?>" />
     </form>
 <?php endif; ?>
 <?php if($this->allowMidification): ?>
     <p class="form-controls">
-        <a class="tpopup" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
+        <a class="tpopup" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
         <a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Build your form now'); ?></a> |
         <?php if($this->form): ?>
             <a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
