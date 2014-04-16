@@ -58,20 +58,17 @@
 	div#<?php echo $this->uniq; ?>.rotator{
         max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
         max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
-        padding    : 0;
-        margin     : 0;
         z-index    : 13;
         overflow   : hidden;
     }
     .cycle-prev, .cycle-next {
-        position: absolute;
-        top: 0;
-        width: 30%;
-        opacity: 0;
-        filter: alpha(opacity=0);
-        z-index: 800;
-        height: 100%;
         cursor: pointer;
+        height: 50px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        z-index: 101;
     }
     .cycle-prev {
         left: 0;
@@ -81,19 +78,13 @@
         right: 0;
         background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
     }
-    .cycle-prev:hover, .cycle-next:hover {
-        opacity: .7;
-        filter: alpha(opacity=70)
-    }
+
     div#<?php echo $this->uniq; ?> .slide-text {
         color: white;
         background: black;
-        opacity: .6;
-        filter: alpha(opacity=60);
         position: absolute;
         bottom: 0;
         width: 100%;
-        padding: 10px;
     }
     #pager-<?php echo $this->uniq; ?> div#<?php echo $this->uniq; ?> {
         text-align: center;
@@ -102,11 +93,5 @@
         top: 10px;
         overflow: hidden;
     }
-    #pager-<?php echo $this->uniq; ?> span {
-        font-size: 50px;
-        width: 16px;
-        height: 16px;
-        display: inline-block;
-        color: #ddd;
-    }
+
 </style>
