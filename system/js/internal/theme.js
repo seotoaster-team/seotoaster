@@ -56,10 +56,7 @@ $(function() {
     $(document).on('click', '#listtemplates-btn', function(e){
         e.preventDefault();
         var $templateList =  $('#templatelist');
-        $templateList.show("slide", { direction: "right"}).find('.content').accordion("refresh");
-        $templateList.find('.template_group').css({
-            'max-height' : $templateList.height() - $templateList.find('.header').outerHeight(true) - ($templateList.find('.content').outerHeight(true) - $templateList.find('.content').height()) - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
-        });
+        $templateList.show("slide", { direction : "right"});
     });
 
     $('textarea').on('keydown', function(e) {
@@ -75,20 +72,28 @@ function showTemplateList(e){
 	if(!$templateList.find('.content').length || e == 'update'){
 		$.post(
 			$('#website_url').val()+'backend/backend_theme/gettemplate/',
-			{'listtemplates':'all', 'pageId' : $('#pageId').val()},
+			{
+                listtemplates : 'all',
+                pageId        : $('#pageId').val(),
+                beforeSend    : showSpinner('#templatelist')
+            },
 			function(html){
                 $templateList.html(html).find('.content').accordion({
-					heightStyle: 'content',
-					header : '.template_header',
-					collapsible: true,
-                    icons          : {
+                    heightStyle : 'content',
+                    header      : '.template_header',
+                    collapsible : true,
+                    icons       : {
                         "header"       : "icon-arrow-right",
                         "activeHeader" : "icon-arrow-down"
                     } // or false
-				});
-				var templateName = $('#template_id').val();
-				$('.template_item').removeClass('curr-template').find('.template-check').remove();
-				$('.template_item').has('input[value="'+ templateName +'"]').addClass('curr-template').find('.template_name').before('<span class="template-check icon-check icon16"/></span>');
+                });
+                var templateName = $('#template_id').val();
+                $('.template_item').removeClass('curr-template').find('.template-check').remove();
+                $('.template_item').has('input[value="'+ templateName +'"]').addClass('curr-template').find('.template_name').before('<span class="template-check icon-check icon16"/></span>');
+                $templateList.find('.template_group').css({
+                    'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
+                });
+                hideSpinner();
 			},
 			'html'
 		);
