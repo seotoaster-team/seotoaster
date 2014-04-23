@@ -27,6 +27,10 @@ class Api_Toaster_Users extends Api_Service_Abstract
         ),
         Tools_Security_Acl::ROLE_USER => array(
             'allow' => array('get', 'put')
+        ),
+        // TODO: Think about interaction with roles for shopping
+        Tools_Security_Acl::ROLE_GUEST => array(
+            'allow' => array('get', 'put')
         )
     );
 
