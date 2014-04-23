@@ -129,9 +129,11 @@
 	</ul>
 	<?php endif; ?>
     <ul class="menu-links">
+        <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
         <li>
             <a href="javascript:;" id="cleancache"><?php echo $this->translate('CLEAN CACHE'); ?></a>
         </li>
+        <?php endif; ?>
         <li>
 			<a class="logout" href="<?php echo $this->websiteUrl; ?>logout/"><?php echo $this->translate('LOGOUT'); ?></a>
          </li>

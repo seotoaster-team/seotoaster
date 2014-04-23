@@ -324,12 +324,16 @@ class Backend_ContentController extends Zend_Controller_Action {
      * Called in adminPanelInit.min.js
      */
     public function cleancacheAction() {
-        try {
-            $this->_helper->cache->clean();
-            $this->_helper->response->success($this->_helper->language->translate('The entire cache has been cleaned.'));
-        }
-        catch (Exceptions_SeotoasterException $ste) {
-            $this->_helper->response->fail($ste->getMessage());
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+            try {
+                $this->_helper->cache->clean();
+                $this->_helper->response->success(
+                    $this->_helper->language->translate('The entire cache has been cleaned.')
+                );
+            }
+            catch (Exceptions_SeotoasterException $ste) {
+                $this->_helper->response->fail($ste->getMessage());
+            }
         }
     }
 }
