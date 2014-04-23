@@ -26,7 +26,7 @@ $(function () {
                     showMessage(response.responseText, true);
                 } else {
                     var readmeDialog;
-                    readmeDialog = $('<div id="' + pluginName + '-readme">', {"class": "readme-content content-footer"})
+                    readmeDialog = $('<div id="' + pluginName + '-readme" class="readme-content content-footer">')
                         .html(response.responseText);
 
                     readmeDialog.dialog({
