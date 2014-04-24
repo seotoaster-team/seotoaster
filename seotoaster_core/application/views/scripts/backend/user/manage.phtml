@@ -98,5 +98,8 @@
         });
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].icon-sort').addClass('icon-sort-down');
         $('a[href*="by/<?php echo $this->by ;?>/order/desc"].icon-sort').addClass('icon-sort-up');
-	})
+	});
+    function userCallback() {
+        location.reload();
+    }
 </script>
