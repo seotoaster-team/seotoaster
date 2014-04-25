@@ -306,7 +306,7 @@ function checkboxRadioStyle(){
         $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
             var id = $(this).prop('id');
             if(!id.length){
-                id = 'chr-'+Math.floor((Math.random()*100)+1);
+                id = 'chr-'+Math.floor((Math.random()*100000)+1);
                 $(this).prop('id', id);
             }
             if($(this).is(':radio')){
