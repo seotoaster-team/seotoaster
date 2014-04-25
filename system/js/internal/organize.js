@@ -2,7 +2,7 @@ $(function() {
     $('#mass-del').click(function() {
         var pagesIds = [];
         $('.page-remove:checked').each(function() {
-            pagesIds.push($(this).parent().attr('id'));
+            pagesIds.push($(this).closest('li').attr('id'));
         });
         if(!pagesIds.length) {
             showMessage('Select at least one item please', true);
