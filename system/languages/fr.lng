@@ -1098,7 +1098,7 @@
     'form submitted' => 'formulaire a été envoyé',
     'New' => 'Nouveau',
     'Billing info'=>'Infos facturation',
-    'Delete this page'=>'Supprimer ce page',
+    'Delete this page'=>'Supprimer cette page',
     'Draft' => 'Brouillons',
     'Create a news post' => 'Créer un billet',
     'Organize news' => 'Organiser les billets',
