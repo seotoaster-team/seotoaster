@@ -85,14 +85,16 @@ function showTemplateList(e){
                     icons       : {
                         "header"       : "icon-arrow-right",
                         "activeHeader" : "icon-arrow-down"
-                    } // or false
+                    }, // or false
+                    create: function( event, ui ) {
+                        $templateList.find('.template_group').css({
+                            'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
+                        });
+                    }
                 });
                 var templateName = $('#template_id').val();
                 $('.template_item').removeClass('curr-template').find('.template-check').remove();
                 $('.template_item').has('input[value="'+ templateName +'"]').addClass('curr-template').find('.template_name').before('<span class="template-check icon-check icon16"/></span>');
-                $templateList.find('.template_group').css({
-                    'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
-                });
                 hideSpinner();
 			},
 			'html'
