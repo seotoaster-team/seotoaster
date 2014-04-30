@@ -57,6 +57,9 @@ $(function() {
         e.preventDefault();
         var $templateList =  $('#templatelist');
         $templateList.show("slide", { direction : "right"});
+        $templateList.find('.template_group').css({
+            'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
+        });
     });
 
     $('textarea').on('keydown', function(e) {
@@ -87,6 +90,7 @@ function showTemplateList(e){
                         "activeHeader" : "icon-arrow-down"
                     }, // or false
                     create: function( event, ui ) {
+                        console.log($templateList.find('.template_header:last').outerHeight(true));
                         $templateList.find('.template_group').css({
                             'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
                         });
