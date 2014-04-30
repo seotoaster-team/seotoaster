@@ -26,12 +26,10 @@
 	</p>
     <div class="mt5px crop-size hidden">
         <p class="clearfix">
-            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Width'); ?></label>
-            <?php echo $this->formText('galWidth', null, array('class' => 'gal-width grid_7 omega small alpha')); ?>
-        </p>
-        <p class="mt5px clearfix">
-            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Height'); ?></label>
-            <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_7 omega small alpha')); ?>
+            <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Size'); ?></label>
+            <?php echo $this->formText('galWidth', null, array('class' => 'gal-width grid_3 alpha omega small', 'placeholder' => $this->translate('Width'))); ?>
+            <span class="mt0-25em grid_1 alpha omega text-center">X</span>
+            <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_3 alpha omega small', 'placeholder' => $this->translate('Height'))); ?>
         </p>
     </div>
     <p class="mt5px">
@@ -95,7 +93,7 @@
             var error      = false,
                 widgetForm = $(this).closest('form'),
                 widgetHtml = '{$' + widgetForm.data('name'),
-                cropOption = '::imgc';
+                cropOption = ':imgc';
 
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).hasClass('crop') && $(this).prop('checked')) {
