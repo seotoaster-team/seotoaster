@@ -19,6 +19,10 @@ class SignupController extends Zend_Controller_Action {
 		$this->_helper->viewRenderer->setNoRender(true);
 		if($this->getRequest()->isPost()) {
 			$signupForm = new Application_Form_Signup();
+            $data = $signupForm->getValues();
+            if($data['token'] == ''){
+                $signupForm->removeElement('verification');
+            }
 			if($signupForm->isValid($this->getRequest()->getParams())) {
 				//save new user
 				$user = new Application_Model_Models_User($signupForm->getValues());

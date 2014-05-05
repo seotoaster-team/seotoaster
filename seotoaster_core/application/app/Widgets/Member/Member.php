@@ -12,6 +12,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected $_translator      = false;
 
+    protected $_option_nocaptcha = 'nocaptcha';
+
 	protected function  _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
@@ -58,7 +60,14 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	}
 
     protected function _renderMemberSignup() {
-		$this->_view->signupForm       = new Application_Form_Signup();
+        $signupForm = $this->_view->signupForm       = new Application_Form_Signup();
+        if(in_array($this->_option_nocaptcha,$this->_options)) {
+            $signupForm->removeElement('verification');
+            $signupForm->addElement('text','token',array(
+                    'value' => '',
+                    'class' => 'hidden',
+                    'id'    => 'token'));
+        }
 		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
 		$errorMessages                 = $flashMessenger->getMessages();
 		$this->_session->signupPageUrl = $this->_toasterOptions['url'];
