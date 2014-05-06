@@ -12,7 +12,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected $_translator      = false;
 
-    protected $_option_nocaptcha = 'nocaptcha';
+    const  OPTION_NOCAPTCHA = 'nocaptcha';
 
 	protected function  _init() {
 		parent::_init();
@@ -61,7 +61,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected function _renderMemberSignup() {
         $signupForm = $this->_view->signupForm       = new Application_Form_Signup();
-        if(in_array($this->_option_nocaptcha,$this->_options)) {
+        if(in_array(self::OPTION_NOCAPTCHA,$this->_options)) {
             $signupForm->removeElement('verification');
             $signupForm->addElement('text','token',array(
                     'value' => '',
