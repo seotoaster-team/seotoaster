@@ -47,7 +47,10 @@ class Widgets_Mobile_Mobile extends Widgets_Abstract {
             $mobileSwitch = $this->_mobileHelper->isMobile() ? 0 : 1;
         }
 
-        $thisPageUrl = $this->_toasterOptions['websiteUrl'].$this->_toasterOptions['url'];
+        $thisPageUrl = $this->_toasterOptions['websiteUrl'];
+        if ($this->_toasterOptions['url'] !== 'index.html') {
+            $thisPageUrl .= $this->_toasterOptions['url'];
+        }
         $cssClass    = ($mobileSwitch == 1) ? ' full' : ' mobile';
         $textLink    = ($mobileSwitch == 1) ? $this->_translator->translate('Go to mobile site') : $this->_translator->translate('Go to full site');
         $content     = '<a class="widgets-mobile-switch'.$cssClass.'" href="'.$thisPageUrl.'?mobileSwitch='.$mobileSwitch.'" title="'.$textLink.'">'.$textLink.'</a>';
