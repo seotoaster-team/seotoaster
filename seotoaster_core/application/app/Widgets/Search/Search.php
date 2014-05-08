@@ -124,7 +124,6 @@ class Widgets_Search_Search extends Widgets_Abstract {
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
-                $searchTerm = Zend_Search_Lucene_Search_QueryParser::parse($searchTerm, 'utf-8');
                 try{
                     $hits = $toasterSearchIndex->find($searchTerm);
                 } catch (Exception $e) {

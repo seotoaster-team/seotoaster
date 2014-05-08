@@ -19,6 +19,9 @@ class Tools_Search_Tools {
 		if (self::$_index instanceof Zend_Search_Lucene_Interface){
 			return self::$_index;
 		}
+        Zend_Search_Lucene_Analysis_Analyzer::setDefault(
+            new Zend_Search_Lucene_Analysis_Analyzer_Common_TextNum_CaseInsensitive()
+        );
 		$searchIndexPath = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
 
         if (!is_dir($searchIndexPath)) {
