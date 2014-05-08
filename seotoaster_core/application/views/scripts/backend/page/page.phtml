@@ -49,13 +49,13 @@
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
 		</fieldset>
 		<fieldset class="grid_6 navigation mb2em">
-			<legend class="h2"><?php echo $this->translate('Navigation'); ?></legend>
+			<legend class="h2 required"><?php echo $this->translate('Navigation'); ?></legend>
 			<div class="btn-set mt0px">
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
 			</div>
 			<div class="grid_12 alpha omega cl-both background mt0px">
 				<?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
-				<div class="menu-info mt5px required">Please select menu for this page</div>
+				<div class="menu-info mt5px">Please select menu for this page</div>
 			</div>
 		</fieldset>
 		<fieldset class="grid_6 settings mb1-75em">

@@ -40,7 +40,13 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageId      = $this->getRequest()->getParam('id');
         $mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
-        $page = ($pageId) ? $mapper->find($pageId) : new Application_Model_Models_Page();
+        if ($pageId) {
+            // search page by id
+            $page = $mapper->find($pageId);
+        } else {
+            // load new page
+            $page = new Application_Model_Models_Page(array('showInMenu' => Application_Model_Models_Page::IN_MAINMENU));
+        }
 
         if(!$this->getRequest()->isPost()) {
             $pageForm->getElement('pageCategory')->addMultiOptions($this->_getMenuOptions($page));
