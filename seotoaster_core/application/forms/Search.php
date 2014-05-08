@@ -22,7 +22,7 @@ class Application_Form_Search extends Zend_Form {
             'label'    => '',
             'value'    => $this->_search,
             'required' => true,
-            'filters'  => array(new Zend_Filter_StringTrim(), new Zend_Filter_Alnum(true)),
+            'filters'  => array(new Zend_Filter_StringTrim()),
             'validators' => array(
                 new Zend_Validate_StringLength(array('min' => 3))
             )

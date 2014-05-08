@@ -88,8 +88,8 @@ class Widgets_Search_Search extends Widgets_Abstract {
         $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
         if ($request->has('search')) {
-            $searchTerm = filter_var($request->getParam('search'), FILTER_SANITIZE_STRING);
-            if (!preg_match('/^[\p{L}]{3}/u', $searchTerm)) {
+            $searchTerm = strip_tags($request->getParam('search'));
+            if (mb_strlen($searchTerm) < 3) {
                 return sprintf($this->_translator->translate('Search error "%s". The request string should have more than 3 letters.'), $searchTerm);
             }
             $this->_view->urlData = array('search' => $searchTerm);
@@ -121,15 +121,15 @@ class Widgets_Search_Search extends Widgets_Abstract {
         if ($searchForm->getElement('search')->isValid($searchTerm)){
             $searchTerm = $searchForm->getElement('search')->getValue();
             $this->_view->pagerData = array('search' => $searchTerm);
-            if (mb_strpos($searchTerm, ' ') === false) {
-                $searchTerm = trim($searchTerm, '*') . '*';
-            }
             if (null === ($searchResults = $this->_cache->load($searchTerm, strtolower(__CLASS__)))){
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT*10);
-                $pattern = new Zend_Search_Lucene_Index_Term($searchTerm);
-                $searchTerm = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
-                $hits = $toasterSearchIndex->find($searchTerm);
+                $searchTerm = Zend_Search_Lucene_Search_QueryParser::parse($searchTerm, 'utf-8');
+                try{
+                    $hits = $toasterSearchIndex->find($searchTerm);
+                } catch (Exception $e) {
+                    throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                }
                 $cacheTags = array('search_'.$searchTerm);
                 $searchResults = array_map(function($hit) use (&$cacheTags) {
                         array_push($cacheTags, 'pageid_' . $hit->pageId);
