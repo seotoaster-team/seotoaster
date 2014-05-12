@@ -81,9 +81,9 @@ $(function() {
 				error: function() {
 					listFiles.html('Unable to load files list');
 				}
-			})
+			});
 		//}
-	})
+	});
 
 	$('#widgets').click(function(){
 		var widgetsMaker = $('#widgets_maker');
@@ -100,29 +100,29 @@ $(function() {
 				}
 			})
 		}
-	})
-
-	$('#toogletinymce').click(function() {
-		var editorId = 'content';
-        $('#tabs').tabs({active : 0}).toggleClass('hidden');
-
-        if($('#tabs.grid_8').length){
-            $('#tabs').toggleClass('grid_4 grid_8');
-            $('.above-editor-links').toggleClass('grid_12 grid_4');
-        }else{
-            $('.above-editor-links').toggleClass('grid_12 grid_8');
-        }
-
-		if(!tinyMCE.getInstanceById(editorId)) {
-			$(this).text('SHOW HTML');
-			tinyMCE.execCommand('mceAddControl', false, editorId);
-		}
-		else {
-			$(this).text('SHOW EDITOR');
-			tinyMCE.execCommand('mceRemoveControl', false, editorId);
-
-		}
 	});
+
+//	$('#toogletinymce').click(function() {
+//		var editorId = 'content';
+//        $('#tabs').tabs({active : 0}).toggleClass('hidden');
+//
+//        if($('#tabs.grid_8').length){
+//            $('#tabs').toggleClass('grid_4 grid_8');
+//            $('.above-editor-links').toggleClass('grid_12 grid_4');
+//        }else{
+//            $('.above-editor-links').toggleClass('grid_12 grid_8');
+//        }
+//
+//		if(!tinyMCE.getInstanceById(editorId)) {
+//			$(this).text('SHOW HTML');
+//			tinyMCE.execCommand('mceAddControl', false, editorId);
+//		}
+//		else {
+//			$(this).text('SHOW EDITOR');
+//			tinyMCE.execCommand('mceRemoveControl', false, editorId);
+//
+//		}
+//	});
 
 	var restoredContent = localStorage.getItem(generateStorageKey());
 	if(restoredContent !== null) {
@@ -132,7 +132,7 @@ $(function() {
 			localStorage.removeItem(generateStorageKey());
 		}, 'success');
 	}
-})
+});
 
 function dispatchEditorKeyup(editor, event) {
     if(editor.keyUpTimer === null) {

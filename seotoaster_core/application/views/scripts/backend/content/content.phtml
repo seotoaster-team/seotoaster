@@ -24,7 +24,7 @@
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <a id="toogletinymce" href="javascript:;"><?php echo $this->translate('SHOW HTML'); ?></a>
+<!--                <a id="toogletinymce" href="javascript:;">--><?php //echo $this->translate('SHOW HTML'); ?><!--</a>-->
             </div>
     
             <form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
@@ -53,9 +53,8 @@
         <?php echo $this->contentForm->getElement('submit'); ?>
     </div>
 </div>
-
 <?php
-    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/jquery.tinymce.js');
+    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/tinymce.min.js');
     $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js');
     $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.min.js');
 ?>
