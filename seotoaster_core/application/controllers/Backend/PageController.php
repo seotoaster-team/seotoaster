@@ -372,14 +372,9 @@ class Backend_PageController extends Zend_Controller_Action {
                 if ($page->getExtraOption(Application_Model_Models_Page::OPT_404PAGE)) {
                     continue;
                 }
-                array_push($links, array($page->getH1(), $this->_helper->website->getUrl() . $page->getUrl()));
+                array_push($links, array('title'=>$page->getH1(), 'value'=>$this->_helper->website->getUrl() . $page->getUrl()));
             }
-            $externalLinksContent = sprintf('var tinyMCELinkList = %s;', json_encode($links));
-            $this->getResponse()->setRawHeader('Content-type: text/javascript')
-                ->setRawHeader('pragma: no-cache')
-                ->setRawHeader('expires: 0')
-                ->setBody($externalLinksContent)
-                ->sendResponse();
+            $this->getResponse()->setBody(Zend_Json::encode($links));
         }
     }
 
