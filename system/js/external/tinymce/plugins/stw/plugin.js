@@ -20,7 +20,6 @@ tinymce.PluginManager.add('stw', function(editor, url) {
                         }
                         widgetList.push(newWidget)
                     }
-                    self.refresh;
                 }
             },
             dataType: 'json'
@@ -45,14 +44,4 @@ tinymce.PluginManager.add('stw', function(editor, url) {
             button = this;
         }
     });
-
-    self.refresh = function() {
-        //remove existing menu if it is already rendered
-        if(button.menu){
-            button.menu.remove();
-            button.menu = null;
-        }
-
-        button.settings.values = button.settings.menu = getValues();
-    };
 });
