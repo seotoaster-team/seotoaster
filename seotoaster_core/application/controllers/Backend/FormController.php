@@ -65,7 +65,7 @@ class Backend_FormController extends Zend_Controller_Action {
         $trackingPageUrl    = $this->_helper->page->filterUrl($trackingPageName);
         $trackingPageExist  = $pageMapper->findByUrl($trackingPageUrl);
         if(!empty($trackingPageExist)){
-            $trackingPageResultUrl = $trackingPageUrl;
+            $this->view->trackingPageUrl = $trackingPageUrl;
         }
 		$form          = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
 		$mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
@@ -80,7 +80,6 @@ class Backend_FormController extends Zend_Controller_Action {
 		if($form !== null) {
 			$formForm->populate($form->toArray());
 		}
-        $this->view->trackingPageUrl = $trackingPageResultUrl;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
