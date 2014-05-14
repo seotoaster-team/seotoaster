@@ -41,7 +41,7 @@
 			var searchWidget = '{$search:form:' + $('#search-results').val() + '}<br /><br />======== <strong>CODE TO INSERT IN "'
 				+ $('#search-results option:selected').text() + '" page ONLY(remove from here)</strong>  ========  <br/>'
 				+ '{$search:results' + (imgType) + '}';
-			$('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, searchWidget);
+			tinymce.activeEditor.execCommand('mceInsertContent',false, searchWidget);
 		});
 	});
 </script>

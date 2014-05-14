@@ -12,20 +12,20 @@
             'helpSection'     => $this->helpSection
         ));
     ?>
-    <div class="content-footer wrap">
+    <div class="content-footer">
         <div class="grid_8 above-editor-links">
-            <div id="links">
+<!--            <div id="links">-->
                 <!-- $pluginEditorLink -->
-                <?php if(isset($this->pluginsEditorLinks) && is_array($this->pluginsEditorLinks) && !empty ($this->pluginsEditorLinks)): ?>
-                    <?php foreach($this->pluginsEditorLinks as $pluginEditorLink): ?>
-                        <?php echo $pluginEditorLink['link']; ?>
-                        <?php if(isset($pluginEditorLink['script'])): ?>
-                            <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); ?>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php /*if(isset($this->pluginsEditorLinks) && is_array($this->pluginsEditorLinks) && !empty ($this->pluginsEditorLinks)): */?>
+                    <?php /*foreach($this->pluginsEditorLinks as $pluginEditorLink): */?>
+                        <?php /*echo $pluginEditorLink['link']; */?>
+                        <?php /*if(isset($pluginEditorLink['script'])): */?>
+                            <?php /*$this->jQuery()->addJavascriptFile($this->websiteUrl . $pluginEditorLink['script']); */?>
+                        <?php /*endif; */?>
+                    <?php /*endforeach; */?>
+                <?php /*endif;*/ ?>
 <!--                <a id="toogletinymce" href="javascript:;">--><?php //echo $this->translate('SHOW HTML'); ?><!--</a>-->
-            </div>
+<!--            </div>-->
     
             <form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
                 <?php echo $this->contentForm->getElement('content'); ?>

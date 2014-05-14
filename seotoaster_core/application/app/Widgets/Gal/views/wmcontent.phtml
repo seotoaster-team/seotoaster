@@ -74,7 +74,7 @@
             });
 
             widgetHtml += '}';
-            $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, widgetHtml);
+            tinymce.activeEditor.execCommand('mceInsertContent', false, widgetHtml);
         });
     });
 </script>

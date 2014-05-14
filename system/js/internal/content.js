@@ -144,7 +144,7 @@ function dispatchEditorKeyup(editor, event) {
 }
 
 function insertFileLink(fileName) {
-	$('#content').tinymce().execCommand(
+    tinymce.activeEditor.execCommand(
 		'mceInsertContent',
 		false,
 		'<a href="' + $('#website_url').val() + 'media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
