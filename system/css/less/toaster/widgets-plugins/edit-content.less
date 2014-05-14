@@ -156,24 +156,26 @@
     }
 }
 
-.mce-toolbar-grp{
+.mce-edit-area{
 
-    &+.mce-edit-area{
+    iframe{
+        height : 380px !important;
 
-        .hidden&{
-            border : none !important;
+        .mce-fullscreen{
+            height : 493px !important;
         }
 
-        iframe{
-            height : 380px !important;
-
-            .hidden&{
-                height : 448px !important;
-            }
+        .hidden.mce-toolbar-grp+&{
+            height : 448px !important;
         }
+
     }
 
+    .hidden.mce-toolbar-grp+&{
+        border : none !important;
+    }
 }
+
 // Products tab
 //===========================================================
 #conditional{
