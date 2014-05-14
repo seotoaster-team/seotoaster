@@ -21,8 +21,13 @@ $(document).ready(function(){
         fontsize_formats        : "8px 10px 12px 14px 18px 24px 36px",
         block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
         link_list               : websiteUrl+'backend/backend_page/linkslist/',
-        setup                   : function(editor){
-            editor.on("blur", function(){
+        setup                   : function(ed){
+            var keyTime = null;
+            ed.on('keyup', function(ed, e) {
+                //@see content.js for this function
+                dispatchEditorKeyup(ed, e, keyTime);
+            });
+            ed.on("blur", function(){
                 this.save();
             });
         }

@@ -127,6 +127,7 @@ $(function() {
 	var restoredContent = localStorage.getItem(generateStorageKey());
 	if(restoredContent !== null) {
 		showConfirm('We have found content that has not been saved! Restore?', function() {
+            tinymce.activeEditor.setContent(restoredContent);
 			$('#content').val(restoredContent);
 		}, function() {
 			localStorage.removeItem(generateStorageKey());
@@ -134,11 +135,12 @@ $(function() {
 	}
 });
 
-function dispatchEditorKeyup(editor, event) {
-    if(editor.keyUpTimer === null) {
-	    editor.keyUpTimer = setTimeout(function() {
-		    localStorage.setItem(generateStorageKey(), editor.getContent());
-		    editor.keyUpTimer = null;
+function dispatchEditorKeyup(editor, event, keyTime) {
+    var keyTimer = keyTime;
+    if(keyTimer === null) {
+        keyTimer = setTimeout(function() {
+		    localStorage.setItem(generateStorageKey(), tinymce.activeEditor.getContent());
+            keyTimer = null;
 	    }, 1000)
     }
 }
