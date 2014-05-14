@@ -23,6 +23,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
 			$this->_cacheable = false;
 		}
         $this->_cacheTags = array(self::WFORM_CACHE_TAG);
+        Zend_Layout::getMvcInstance()->getView()->headScript()->appendFile(
+            $this->_websiteHelper->getUrl() . 'system/js/external/sisyphus/sisyphus.min.js'
+        );
     }
     protected function _load() {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
