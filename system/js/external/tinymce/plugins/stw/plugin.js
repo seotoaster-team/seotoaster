@@ -1,5 +1,4 @@
 tinymce.PluginManager.add('stw', function(editor, url) {
-    var self = this, button;
 
     function getValues() {
         var widgetList = new Array();
@@ -21,6 +20,13 @@ tinymce.PluginManager.add('stw', function(editor, url) {
                         widgetList.push(newWidget)
                     }
                 }
+                //remove existing menu if it is already rendered
+                if(button.menu){
+                    button.menu.remove();
+                    button.menu = null;
+                }
+
+                button.settings.values = button.settings.menu = widgetList;
             },
             dataType: 'json'
         });
