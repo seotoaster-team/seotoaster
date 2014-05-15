@@ -150,7 +150,8 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		}
 
 		$this->view->faPages = $featuredArea->getPages();
-		$this->view->faId = $faId;
+        $this->view->faName = $featuredArea->getName();
+        $this->view->faId = $faId;
 	}
 
 	public function deleteAction() {
