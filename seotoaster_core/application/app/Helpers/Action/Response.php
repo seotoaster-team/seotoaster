@@ -51,7 +51,8 @@ class Helpers_Action_Response extends Zend_Controller_Action_Helper_Abstract {
 		));
 		$response = $this->getResponse();
 		$response->setHttpResponseCode($code)
-			->setBody($responseData);
+			->setBody($responseData)
+            ->setHeader('Content-Type', 'application/json', true);
 
 		if($headers) {
 			if(is_array($headers) && !empty ($headers)){
