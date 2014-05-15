@@ -23,7 +23,7 @@ class SignupController extends Zend_Controller_Action {
             $pageId = $formData['PageId'];
             $key = md5('signup'.$pageId);
             if(isset($this->_helper->session->$key)) {
-                if(isset($formData['token']) && $formData['token'] == ''){
+                if(isset($formData['token']) && $formData['token'] === ''){
                     $signupForm->removeElement('verification');
                 }
                 unset($this->_helper->session->$key);
