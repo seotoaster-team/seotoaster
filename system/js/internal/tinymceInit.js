@@ -11,7 +11,19 @@ $(document).ready(function(){
         convert_urls            : false,
         relative_urls           : false,
         statusbar               : false,
-        content_css             : $('#content_css').val(),
+        content_css             : $('#reset_css').val()+','+$('#content_css').val(),
+        importcss_file_filter   : "content.css",
+        importcss_groups : [
+            {title : 'Button styles', filter : /^(.btn*|button\.)/},
+            {title : 'Table styles', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
+            {title : 'List styles', filter : /^(.list*|ul\.|ol\.)/},
+            {title : 'Image styles', filter : /^(.image*|img\.)/},
+            {title : 'Block quote styles', filter : /^(blockquote\.)/},
+            {title : 'Primary colors', filter : /^(\.primary*|\.green|\.blue|\.orange|\.red|\.color*)/},
+            {title : 'Size classes', filter : /^(\.larger|\.large|\.small|\.mini|\.size*)/},
+            {title : 'Other styles'}
+        ],
+        importcss_merge_classes: true,
         plugins                 : [
             "advlist lists link image charmap", "visualblocks code fullscreen", "media table paste importcss textcolor stw"
         ],

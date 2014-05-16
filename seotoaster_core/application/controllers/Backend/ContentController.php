@@ -164,6 +164,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 					'medium' => $this->_helper->config->getConfig('imgMedium'),
 					'large'  => $this->_helper->config->getConfig('imgLarge')
 				);
+                $this->view->linkResetCss     = Tools_Theme_Tools::urlResetCss();
                 $this->view->linkContentCss     = Tools_Theme_Tools::urlContentCss();
 				$this->view->pluginsEditorLinks = $this->_loadPluginsEditorLinks();
 				$this->view->pluginsEditorTop   = $this->_loadPluginsEditorTop();
