@@ -38,8 +38,11 @@
                     else {
                         $src = $this->websiteUrl.'system/images/noimage.png';
                     }
+                    $imgData = getimagesize($src);
+                    $width = $imgData[0];
+                    $height = $imgData[1];
                     ?>
-                    <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl.$page->getUrl()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape($src); ?>" /></a>
+                    <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl.$page->getUrl()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape($src); ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>"/></a>
                 <?php endif; ?>
                 <a href="<?php echo $this->escape($this->websiteUrl.$page->getUrl()); ?>" title="<?php echo strip_tags($page->getH1()); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
 	            <?php if ($this->faPageDescriptionLength): ?>
