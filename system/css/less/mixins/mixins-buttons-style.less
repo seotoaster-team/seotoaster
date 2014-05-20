@@ -1,29 +1,16 @@
-.button(@color : @button-primary-color, @background : @button-primary-bg, @border : @button-primary-border, @size : base, @type : false){
-    .inline-block();
+.button(@color : @button-primary-color, @background : @button-primary-bg, @border : @button-primary-border, @size : base, @type : false) {
     margin-bottom   : 0; // For input.btn
     text-align      : center;
     cursor          : pointer;
     position        : relative;
     text-decoration : none;
-    .user-select();
+    //    .user-select();
+    .inline-block();
     .activate-type(@type);
     .activate-size(@size, @type);
     .activate-border(@button-border-width);
-    .activate-transition(@activate-button-transition);
+    .activate-transition(@button-transition);
     .button-color(@color, @background, @border, true);
-
-    &:not(.icon){
-        .text-overflow;
-    }
-
-    &[class*="grid_"]{
-        padding-left  : 0;
-        padding-right : 0;
-    }
-
-    &[class*="icon-"]:not(:empty):before{
-        margin-right : 5px;
-    }
 }
 
 .activate-size(@size, @type) when (@size = larger) and (@type = false){ .button-size-larger(); }
@@ -50,7 +37,7 @@
 
 // Button size
 //==================================================
-.button-size(@button-font-size, @button-padding-vertical, @button-padding-horizontal, @button-border-radius : @button-border-radius){
+.button-size(@button-font-size, @button-padding-vertical, @button-padding-horizontal, @button-border-radius : @button-border-radius) {
     @button-height : floor(@button-font-size * unit(@button-line-height) + @button-padding-vertical * 2 + @button-border-width * 2);
     height      : @button-height;
     padding     : @button-padding-vertical @button-padding-horizontal;
@@ -59,7 +46,7 @@
     .border-radius(@button-border-radius);
 }
 
-.button-size-larger(@activate: @activate-alternate-style-button-size-larger, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
+.button-size-larger(@activate: @button-size-larger, @activate2: @button-sizes) when (@activate = true) and (@activate2 = true){
     height      : @button-height-larger;
     padding     : @button-padding-larger-vertical @padding-larger-horizontal;
     font-size   : @button-font-size-larger;
@@ -67,7 +54,7 @@
     .border-radius(@button-larger-border-radius);
 }
 
-.button-size-large(@activate: @activate-alternate-style-button-size-large, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
+.button-size-large(@activate: @button-size-large, @activate2: @button-sizes) when (@activate = true) and (@activate2 = true){
     height      : @button-height-large;
     padding     : @button-padding-large-vertical @padding-large-horizontal;
     font-size   : @button-font-size-large;
@@ -83,7 +70,7 @@
     .border-radius(@button-border-radius);
 }
 
-.button-size-small(@activate: @activate-alternate-style-button-size-small, @activate2: @activate-alternate-style-button-size) when (@activate = true) and (@activate2 = true){
+.button-size-small(@activate: @button-size-small, @activate2: @button-sizes) when (@activate = true) and (@activate2 = true){
     height      : @button-height-small;
     padding     : @button-padding-small-vertical @padding-small-horizontal;
     font-size   : @button-font-size-small;
@@ -121,19 +108,10 @@
     }
     .activate-border(@button-border-width);
 
-    .activate-hover(@value) when (@value = true){
-        &:hover, &:active{
-            color : darken(@color, 30%);
-            .box-shadow(none);
-        }
+    &:hover, &:active{
+        color : darken(@color, 30%);
+        .box-shadow(none);
     }
-    .activate-hover(@value) when (@value = false){
-        &.touch{
-            color : darken(@color, 30%);
-            .box-shadow(none);
-        }
-    }
-    .activate-hover(@activate-hover);
 
     //    &.disabled,
     &[disabled]{
@@ -151,19 +129,10 @@
     }
     .activate-border(@button-border-width);
 
-    .activate-hover(@value) when (@value = true){
-        &:hover, &:active{
-            color : @color-hover;
-            .box-shadow(none);
-        }
+    &:hover, &:active{
+        color : @color-hover;
+        .box-shadow(none);
     }
-    .activate-hover(@value) when (@value = false){
-        &.touch{
-            color : @color-hover;
-            .box-shadow(none);
-        }
-    }
-    .activate-hover(@activate-hover);
 
     //    &.disabled,
     &[disabled]{
@@ -182,36 +151,22 @@
     }
     .activate-border(@button-border-width);
 
-    .activate-hover(@value) when (@value = true){
-        &:hover, &:active{
-            color      : @color;
-            background : darken(@background, 10%);
-            .activate-border(@value) when (@value > 0){
-                border-color : darken(@border, 10%);
-            }
-            .activate-border(@button-border-width);
+    &:hover, &:active{
+        color      : @color;
+        background : darken(@background, 10%);
+        .activate-border(@value) when (@value > 0){
+            border-color : darken(@border, 10%);
         }
+        .activate-border(@button-border-width);
+    }
 
-        &:active{
-            .box-shadow(0.2rem 0.2rem 0.2rem darken(@background, 25%) inset, @activate-button-box-shadow);
-        }
+    &:active{
+        .box-shadow(0.2rem 0.2rem 0.2rem darken(@background, 25%) inset, @button-box-shadow);
     }
-    .activate-hover(@value) when (@value = false){
-        &.touch, input:checked+&{
-            color      : @color;
-            background : darken(@background, 10%);
-            .activate-border(@value) when (@value > 0){
-                border-color : darken(@border, 10%);
-            }
-            .activate-border(@button-border-width);
-            .box-shadow(0.2rem 0.2rem 0.2rem darken(@background, 25%) inset, @activate-button-box-shadow);
-        }
-    }
-    .activate-hover(@activate-hover);
 
     //    &.disabled,
     &[disabled]{
-        .box-shadow(none, @activate-button-box-shadow);
+        .box-shadow(none, @button-box-shadow);
         color           : desaturate(@color, 30%);
         background      : desaturate(@background, 30%);
         text-decoration : none;
@@ -232,36 +187,22 @@
     }
     .activate-border(@button-border-width);
 
-    .activate-hover(@value) when (@value = true){
-        &:hover, &:active{
-            color      : @color2;
-            background : @background2;
-            .activate-border(@value) when (@value > 0){
-                border-color : @border2;
-            }
-            .activate-border(@button-border-width);
+    &:hover, &:active{
+        color      : @color2;
+        background : @background2;
+        .activate-border(@value) when (@value > 0){
+            border-color : @border2;
         }
+        .activate-border(@button-border-width);
+    }
 
-        &:active{
-            .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset, @activate-button-box-shadow);
-        }
+    &:active{
+        .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset, @button-box-shadow);
     }
-    .activate-hover(@value) when (@value = false){
-        &.touch, input:checked+&{
-            color      : @color2;
-            background : @background2;
-            .activate-border(@value) when (@value > 0){
-                border-color : @border2;
-            }
-            .activate-border(@button-border-width);
-            .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset, @activate-button-box-shadow);
-        }
-    }
-    .activate-hover(@activate-hover);
 
     //    &.disabled,
     &[disabled]{
-        .box-shadow(none, @activate-button-box-shadow);
+        .box-shadow(none, @button-box-shadow);
         color           : desaturate(@color, 30%);
         background      : @background;
         text-decoration : none;
@@ -277,23 +218,13 @@
 .button-3d(@color, @background, @border) {
     .box-shadow(~'0 0.3em 0 0 @{border}, 0 0.3em 0 0.15em @{gray-dark}');
 
-    .activate-hover(@value) when (@value = true){
-        &:hover{
-            background : darken(@background, 3%);
-        }
+    &:hover{
+        background : darken(@background, 3%);
+    }
 
-        &:active{
-            top        : 0.25em;
-            background : @background;
-            .box-shadow(0 0 0 0.15em @gray-dark);
-        }
+    &:active{
+        top        : 0.25em;
+        background : @background;
+        .box-shadow(0 0 0 0.15em @gray-dark);
     }
-    .activate-hover(@value) when (@value = false){
-        &.touch{
-            top        : 0.3em;
-            background : @background;
-            .box-shadow(0 0 0 0.15em @gray-dark);
-        }
-    }
-    .activate-hover(@activate-hover);
 }

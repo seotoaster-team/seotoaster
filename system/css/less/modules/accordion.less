@@ -22,21 +22,12 @@
             color : inherit;
         }
 
-        .activate-hover(@activate) when (@activate = true){
-            &:hover{
-                color      : @accordion-header-color-hover;
-                background : @accordion-header-bg-hover;
-            }
+        &:hover{
+            color      : @accordion-header-color-hover;
+            background : @accordion-header-bg-hover;
         }
-        .activate-hover(@activate) when (@activate = false){
-            &.touch{
-                color      : @accordion-header-color-hover;
-                background : @accordion-header-bg-hover;
-            }
-        }
-        .activate-hover(@activate-hover);
-        .chzn-choices
-        &.ui-accordion-header-active{
+
+        .chzn-choices &.ui-accordion-header-active{
             color      : @accordion-header-color-active;
             background : @accordion-header-bg-active;
         }

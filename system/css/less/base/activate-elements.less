@@ -12,239 +12,235 @@
 @activate-pie                           : false;
 
 // Responsive (MediaQueries)
-@activate-responsive                    : false;
-@activate-hover                         : true;
+@responsive                    : false;
 
 //Toaster icons
-@activate-toaster-icons                 : true;
+@toaster-icons                 : true;
 
 // Alternate Style (color, size, type) FOR=> Buttons, Alert, Progressbar, Range, Form input, Link, Table
-@activate-alternate-style               : true;
+@alternate-style               : true;
 
     // Alternate Style => GLOBAL COLOR
-    @activate-alternate-style-color         : true;
-        @activate-alternate-style-color-red    : true;
-        @activate-alternate-style-color-blue   : true;
-        @activate-alternate-style-color-green  : true;
-        @activate-alternate-style-color-orange : true;
-        @activate-alternate-style-color-gray   : true;
+    @colors         : true;
+        @color-red    : true;
+        @color-blue   : true;
+        @color-green  : true;
+        @color-orange : true;
+        @color-gray   : true;
 
 // Alternate Style => Field form
-@activate-alternate-style-form-labeled  : true;
-    @activate-alternate-style-form-labeled-icon   : true;
-    @activate-alternate-style-form-labeled-social : true;
+@form-labeled  : true;
+    @form-labeled-icon   : true;
+    @form-labeled-social : true;
 
 // Alternate Style => FIELD SIZE
-@activate-alternate-style-field-size  : true;
-    @activate-alternate-style-field-size-larger : true;
-    @activate-alternate-style-field-size-large  : true;
-    @activate-alternate-style-field-size-small  : true;
+@field-sizes  : true;
+    @field-size-larger : true;
+    @field-size-large  : true;
+    @field-size-small  : true;
 
 // Alternate Style => BUTTON TYPE
-@activate-alternate-style-button-type   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
-    @activate-alternate-style-button-type-icon  : true;
-    @activate-alternate-style-button-type-link  : true;
-    @activate-alternate-style-button-type-block : true;
-    @activate-alternate-style-button-type-group : true;
-    @activate-alternate-style-button-type-3d    : false;
+@button-types   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
+    @button-type-icon  : true;
+    @button-type-link  : true;
+    @button-type-block : true;
+    @button-type-group : true;
+    @button-type-3d    : false;
 
 // Alternate Style => BUTTON COLOR
-@activate-alternate-style-button-color         : true;
-    @activate-alternate-style-button-color-red    : true;
-    @activate-alternate-style-button-color-blue   : true;
-    @activate-alternate-style-button-color-green  : true;
-    @activate-alternate-style-button-color-orange : true;
+@button-colors         : true;
+    @button-color-red    : true;
+    @button-color-blue   : true;
+    @button-color-green  : true;
+    @button-color-orange : true;
 
-    @activate-alternate-style-button-color-red-inverse     : true;
-    @activate-alternate-style-button-color-blue-inverse    : true;
-    @activate-alternate-style-button-color-green-inverse   : true;
-    @activate-alternate-style-button-color-orange-inverse  : true;
-    @activate-alternate-style-button-color-primary-inverse : true;
+    @button-color-red-inverse     : true;
+    @button-color-blue-inverse    : true;
+    @button-color-green-inverse   : true;
+    @button-color-orange-inverse  : true;
+    @button-color-primary-inverse : true;
 
 // Alternate Style => BUTTON SIZE
-@activate-alternate-style-button-size  : true;
-    @activate-alternate-style-button-size-larger : true;
-    @activate-alternate-style-button-size-large  : true;
-    @activate-alternate-style-button-size-small  : true;
+@button-sizes  : true;
+    @button-size-larger : true;
+    @button-size-large  : true;
+    @button-size-small  : true;
 
 // Alternate Style => IMAGES
-@activate-alternate-style-images        : false; // .img-thumbnail, .img-circle, .img-rounded
+@images-style        : false; // .img-thumbnail, .img-circle, .img-rounded
 
 // Alternate Style => TABLES
-@activate-alternate-style-tables        : true; // .table-bordered, .table-striped, .table-hover
-    @activate-alternate-style-tables-bordered : @activate-alternate-style-tables; // .table-bordered
-    @activate-alternate-style-tables-striped  : @activate-alternate-style-tables; // .table-striped
-    @activate-alternate-style-tables-hover    : @activate-alternate-style-tables; // .table-hover
+@tables-style        : true; // .table-bordered, .table-striped, .table-hover
+    @tables-bordered : @tables-style; // .table-bordered
+    @tables-striped  : @tables-style; // .table-striped
+    @tables-hover    : @tables-style; // .table-hover
 
 // Style for Button
-@activate-button-transition             : true;
-@activate-button-box-shadow             : true;
+@button-transition             : true;
+@button-box-shadow             : true;
 
 // Style for Checkbox and Radio
-@activate-checkbox-radio-style          : true;
-    @activate-switcher-style            : true;
+@checkbox-radio-style          : true;
+    @switcher-style            : true;
 
 // Connection / Disconnection system-classes.less
-@activate-system-classes                : true;
+@system-classes                : true;
 
 // Connection / Disconnection modules.less OR each individually
-@activate-modules                       : true;
+@modules                       : true;
 
-@activate-module-carousel               : false;
-@activate-module-alert                  : true;
-@activate-module-accordion              : true;
-@activate-module-tabs                   : true;
-@activate-module-dialog                 : true;
-@activate-module-datepicker             : true;
-@activate-module-autocomplete           : true;
-@activate-module-tooltips               : true;
-    @activate-module-tooltips-color-red    : true;
-    @activate-module-tooltips-color-blue   : true;
-    @activate-module-tooltips-color-green  : true;
-    @activate-module-tooltips-color-orange : true;
-@activate-module-range                  : false;
-@activate-module-progressbar            : true;
-@activate-module-chosen                 : false;
-@activate-module-pagination             : false;
-@activate-module-scrollbar              : false;
+@module-carousel               : false;
+@module-alert                  : true;
+@module-accordion              : true;
+@module-tabs                   : true;
+@module-dialog                 : true;
+@module-datepicker             : true;
+@module-autocomplete           : true;
+@module-tooltips               : true;
+    @module-tooltips-color-red    : true;
+    @module-tooltips-color-blue   : true;
+    @module-tooltips-color-green  : true;
+    @module-tooltips-color-orange : true;
+@module-range                  : false;
+@module-progressbar            : true;
+@module-chosen                 : false;
+@module-pagination             : false;
+@module-scrollbar              : false;
 
 // Connection / Disconnection TOASTER WIDGETS OR each individually
-@activate-widget-form                   : true; // hide/show all styles for form components
-@activate-widget-search                 : false; // Search form and Saerch results
-
-// Activate class for reset element
-@activate-reset-style                   : true;
+@widget-form                   : true; // hide/show all styles for form components
+@widget-search                 : false; // Search form and Saerch results
 
 // Activate alternative classes for list
-@activate-lists-classes                 : true;
-    @activate-list-unstyled                 : true;
-    @activate-list-inline                   : true;
-    @activate-list-bordered                 : true;
-    @activate-list-tags                     : true;
-    @activate-list-arrow                    : true;
-    @activate-list-images                   : true;
-    @activate-list-count-sign               : false;
-    @activate-list-icon-sign                : false;
-    @activate-list-testimonials             : false; // styles are in system-classes.less, check that was included
-    @activate-list-social-links             : false; // styles are in system-classes.less, check that was included
+@lists-classes                 : true;
+    @list-unstyled                 : true;
+    @list-inline                   : true;
+    @list-bordered                 : true;
+    @list-tags                     : true;
+    @list-arrow                    : true;
+    @list-images                   : true;
+    @list-count-sign               : false;
+    @list-icon-sign                : false;
+    @list-testimonials             : false; // styles are in system-classes.less, check that was included
+    @list-social-links             : false; // styles are in system-classes.less, check that was included
 
-@activate-social-fields            : false; // styles are in system-classes.less, check that was included
+@social-fields            : false; // styles are in system-classes.less, check that was included
 
 // Animate CSS3. DEMO => https://daneden.me/animate/
-@activate-animate                       : false;
+@animation                       : false;
 
-@activate-animate-rotate                : true;
-@activate-animate-flash                 : true;
-@activate-animate-shake                 : true;
-@activate-animate-bounce                : true;
-@activate-animate-tada                  : true;
-@activate-animate-swing                 : true;
-@activate-animate-wobble                : true;
-@activate-animate-wiggle                : true;
-@activate-animate-pulse                 : true;
-@activate-animate-flip                  : true;
-@activate-animate-flipInX               : true;
-@activate-animate-flipOutX              : true;
-@activate-animate-flipInY               : true;
-@activate-animate-flipOutY              : true;
-@activate-animate-fadeIn                : true;
-@activate-animate-fadeInUp              : true;
-@activate-animate-fadeInDown            : true;
-@activate-animate-fadeInLeft            : true;
-@activate-animate-fadeInRight           : true;
-@activate-animate-fadeInUpBig           : true;
-@activate-animate-fadeInDownBig         : true;
-@activate-animate-fadeInLeftBig         : true;
-@activate-animate-fadeInRightBig        : true;
-@activate-animate-fadeOut               : true;
-@activate-animate-fadeOutUp             : true;
-@activate-animate-fadeOutDown           : true;
-@activate-animate-fadeOutLeft           : true;
-@activate-animate-fadeOutRight          : true;
-@activate-animate-fadeOutUpBig          : true;
-@activate-animate-fadeOutDownBig        : true;
-@activate-animate-fadeOutLeftBig        : true;
-@activate-animate-fadeOutRightBig       : true;
-@activate-animate-bounceIn              : true;
-@activate-animate-bounceInUp            : true;
-@activate-animate-bounceInDown          : true;
-@activate-animate-bounceInLeft          : true;
-@activate-animate-bounceInRight         : true;
-@activate-animate-bounceOut             : true;
-@activate-animate-bounceOutUp           : true;
-@activate-animate-bounceOutDown         : true;
-@activate-animate-bounceOutLeft         : true;
-@activate-animate-bounceOutRight        : true;
-@activate-animate-rotateIn              : true;
-@activate-animate-rotateInUpLeft        : true;
-@activate-animate-rotateInDownLeft      : true;
-@activate-animate-rotateInUpRight       : true;
-@activate-animate-rotateInDownRight     : true;
-@activate-animate-rotateOut             : true;
-@activate-animate-rotateOutUpLeft       : true;
-@activate-animate-rotateOutDownLeft     : true;
-@activate-animate-rotateOutUpRight      : true;
-@activate-animate-rotateOutDownRight    : true;
-@activate-animate-lightSpeedIn          : true;
-@activate-animate-lightSpeedOut         : true;
-@activate-animate-hinge                 : true;
-@activate-animate-rollIn                : true;
-@activate-animate-rollOut               : true;
-@activate-animate-magic                 : true;
-@activate-animate-twisterInDown         : true;
-@activate-animate-twisterInUp           : true;
-@activate-animate-swap                  : true;
-@activate-animate-puffIn                : true;
-@activate-animate-puffOut               : true;
-@activate-animate-vanishIn              : true;
-@activate-animate-vanishOut             : true;
-@activate-animate-openDownLeft          : true;
-@activate-animate-openDownRight         : true;
-@activate-animate-openUpLeft            : true;
-@activate-animate-openUpRight           : true;
-@activate-animate-openDownLeftReturn    : true;
-@activate-animate-openDownRightReturn   : true;
-@activate-animate-openUpLeftReturn      : true;
-@activate-animate-openUpRightReturn     : true;
-@activate-animate-perspectiveDown       : true;
-@activate-animate-perspectiveUp         : true;
-@activate-animate-perspectiveLeft       : true;
-@activate-animate-perspectiveRight      : true;
-@activate-animate-perspectiveDownReturn : true;
-@activate-animate-perspectiveUpReturn   : true;
-@activate-animate-perspectiveLeftReturn : true;
-@activate-animate-perspectiveRightReturn: true;
-@activate-animate-openDownLeftOut       : true;
-@activate-animate-openDownRightOut      : true;
-@activate-animate-openUpLeftOut         : true;
-@activate-animate-openUpRightOut        : true;
-@activate-animate-rotateDown            : true;
-@activate-animate-rotateUp              : true;
-@activate-animate-rotateLeft            : true;
-@activate-animate-rotateRight           : true;
-@activate-animate-slideDown             : true;
-@activate-animate-slideUp               : true;
-@activate-animate-slideLeft             : true;
-@activate-animate-slideRight            : true;
-@activate-animate-slideDownReturn       : true;
-@activate-animate-slideUpReturn         : true;
-@activate-animate-slideLeftReturn       : true;
-@activate-animate-slideRightReturn      : true;
-@activate-animate-swashOut              : true;
-@activate-animate-swashIn               : true;
-@activate-animate-foolishOut            : true;
-@activate-animate-foolishIn             : true;
-@activate-animate-holeOut               : true;
-@activate-animate-tinRightOut           : true;
-@activate-animate-tinLeftOut            : true;
-@activate-animate-tinUpOut              : true;
-@activate-animate-tinDownOut            : true;
-@activate-animate-tinRightIn            : true;
-@activate-animate-tinLeftIn             : true;
-@activate-animate-tinUpIn               : true;
-@activate-animate-tinDownIn             : true;
-@activate-animate-bombRightOut          : true;
-@activate-animate-bombLeftOut           : true;
+@animate-rotate                : true;
+@animate-flash                 : true;
+@animate-shake                 : true;
+@animate-bounce                : true;
+@animate-tada                  : true;
+@animate-swing                 : true;
+@animate-wobble                : true;
+@animate-wiggle                : true;
+@animate-pulse                 : true;
+@animate-flip                  : true;
+@animate-flipInX               : true;
+@animate-flipOutX              : true;
+@animate-flipInY               : true;
+@animate-flipOutY              : true;
+@animate-fadeIn                : true;
+@animate-fadeInUp              : true;
+@animate-fadeInDown            : true;
+@animate-fadeInLeft            : true;
+@animate-fadeInRight           : true;
+@animate-fadeInUpBig           : true;
+@animate-fadeInDownBig         : true;
+@animate-fadeInLeftBig         : true;
+@animate-fadeInRightBig        : true;
+@animate-fadeOut               : true;
+@animate-fadeOutUp             : true;
+@animate-fadeOutDown           : true;
+@animate-fadeOutLeft           : true;
+@animate-fadeOutRight          : true;
+@animate-fadeOutUpBig          : true;
+@animate-fadeOutDownBig        : true;
+@animate-fadeOutLeftBig        : true;
+@animate-fadeOutRightBig       : true;
+@animate-bounceIn              : true;
+@animate-bounceInUp            : true;
+@animate-bounceInDown          : true;
+@animate-bounceInLeft          : true;
+@animate-bounceInRight         : true;
+@animate-bounceOut             : true;
+@animate-bounceOutUp           : true;
+@animate-bounceOutDown         : true;
+@animate-bounceOutLeft         : true;
+@animate-bounceOutRight        : true;
+@animate-rotateIn              : true;
+@animate-rotateInUpLeft        : true;
+@animate-rotateInDownLeft      : true;
+@animate-rotateInUpRight       : true;
+@animate-rotateInDownRight     : true;
+@animate-rotateOut             : true;
+@animate-rotateOutUpLeft       : true;
+@animate-rotateOutDownLeft     : true;
+@animate-rotateOutUpRight      : true;
+@animate-rotateOutDownRight    : true;
+@animate-lightSpeedIn          : true;
+@animate-lightSpeedOut         : true;
+@animate-hinge                 : true;
+@animate-rollIn                : true;
+@animate-rollOut               : true;
+@animate-magic                 : true;
+@animate-twisterInDown         : true;
+@animate-twisterInUp           : true;
+@animate-swap                  : true;
+@animate-puffIn                : true;
+@animate-puffOut               : true;
+@animate-vanishIn              : true;
+@animate-vanishOut             : true;
+@animate-openDownLeft          : true;
+@animate-openDownRight         : true;
+@animate-openUpLeft            : true;
+@animate-openUpRight           : true;
+@animate-openDownLeftReturn    : true;
+@animate-openDownRightReturn   : true;
+@animate-openUpLeftReturn      : true;
+@animate-openUpRightReturn     : true;
+@animate-perspectiveDown       : true;
+@animate-perspectiveUp         : true;
+@animate-perspectiveLeft       : true;
+@animate-perspectiveRight      : true;
+@animate-perspectiveDownReturn : true;
+@animate-perspectiveUpReturn   : true;
+@animate-perspectiveLeftReturn : true;
+@animate-perspectiveRightReturn: true;
+@animate-openDownLeftOut       : true;
+@animate-openDownRightOut      : true;
+@animate-openUpLeftOut         : true;
+@animate-openUpRightOut        : true;
+@animate-rotateDown            : true;
+@animate-rotateUp              : true;
+@animate-rotateLeft            : true;
+@animate-rotateRight           : true;
+@animate-slideDown             : true;
+@animate-slideUp               : true;
+@animate-slideLeft             : true;
+@animate-slideRight            : true;
+@animate-slideDownReturn       : true;
+@animate-slideUpReturn         : true;
+@animate-slideLeftReturn       : true;
+@animate-slideRightReturn      : true;
+@animate-swashOut              : true;
+@animate-swashIn               : true;
+@animate-foolishOut            : true;
+@animate-foolishIn             : true;
+@animate-holeOut               : true;
+@animate-tinRightOut           : true;
+@animate-tinLeftOut            : true;
+@animate-tinUpOut              : true;
+@animate-tinDownOut            : true;
+@animate-tinRightIn            : true;
+@animate-tinLeftIn             : true;
+@animate-tinUpIn               : true;
+@animate-tinDownIn             : true;
+@animate-bombRightOut          : true;
+@animate-bombLeftOut           : true;
 
 // Activate effects styles
-@activate-grayscale : false;
+@grayscale : false;

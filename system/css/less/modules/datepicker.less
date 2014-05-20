@@ -39,21 +39,11 @@
                 span{ }
             }
 
-            .activate-hover(@activate) when (@activate = true){
                 &:hover{
                     background : darken(@datepicker-arrow-bg, 5%);
 
                     span{ }
                 }
-            }
-            .activate-hover(@activate) when (@activate = false){
-                &.touch{
-                    background : darken(@datepicker-arrow-bg, 5%);
-
-                    span{ }
-                }
-            }
-            .activate-hover(@activate-hover);
         }
 
         >.ui-datepicker-title{
@@ -117,17 +107,9 @@
                     border      : none;
                     .border-radius(0);
 
-                    .activate-hover(@activate) when (@activate = true){
                         &:hover{
                             background : @state-primary-bg;
                         }
-                    }
-                    .activate-hover(@activate) when (@activate = false){
-                        &.touch{
-                            background : @state-primary-bg;
-                        }
-                    }
-                    .activate-hover(@activate-hover);
                 }
 
                 &.ui-datepicker-current-day a{

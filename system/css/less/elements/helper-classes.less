@@ -1,4 +1,4 @@
-.activate-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
+.activate-color() when (@colors = true) and (@alternate-style = true){
     .gray-darker{ color : @gray-darker; }
     .gray-dark{ color : @gray-dark; }
     .gray{ color : @gray; }
@@ -11,125 +11,56 @@
     .gray-light-bg{ background : @gray-light; }
     .gray-lighter-bg{ background : @gray-lighter; }
 
-    .primary{
-        color : @primary-bg;
-        .activate-hover(@activate) when (@activate = true){
-            a&:hover{
-                color : darken(@primary-bg, 15%);
-            }
-        }
-        .activate-hover(@activate) when (@activate = false){
-            a&.touch{
-                color : darken(@primary-bg, 15%);
-            }
-        }
-        .activate-hover(@activate-hover);
-    }
     a.inverse{
         color : @gray;
+    }
 
-        &:hover{
-            color : @primary-bg;
+    .primary{
+        color : @primary-bg;
+
+        a&:hover{
+            color : darken(@primary-bg, 15%);
         }
     }
-    .activate-color-green(@activate) when (@activate = true){
+    .activate-color() when (@color-green = true){
         .success{
             color : @brand-green;
-            .activate-hover(@activate) when (@activate = true){
-                a&:hover{
-                    color : darken(@brand-green, 15%);
-                }
-            }
-            .activate-hover(@activate) when (@activate = false){
-                a&.touch{
-                    color : darken(@brand-green, 15%);
-                }
-            }
-            .activate-hover(@activate-hover);
-        }
-        a.inverse-success{
-            color : @gray;
 
-            &:hover{
-                color : @brand-green;
+            a&:hover{
+                color : darken(@brand-green, 15%);
             }
         }
     }
-    .activate-color-orange(@activate) when (@activate = true){
+    .activate-color() when (@color-orange = true){
         .warning{
             color : @brand-orange;
-            .activate-hover(@activate) when (@activate = true){
-                a&:hover{
-                    color : darken(@brand-orange, 15%);
-                }
-            }
-            .activate-hover(@activate) when (@activate = false){
-                a&.touch{
-                    color : darken(@brand-orange, 15%);
-                }
-            }
-            .activate-hover(@activate-hover);
-        }
-        a.inverse-warning{
-            color : @gray;
 
-            &:hover{
-                color : @brand-orange;
+            a&:hover{
+                color : darken(@brand-orange, 15%);
             }
         }
     }
-    .activate-color-red(@activate) when (@activate = true){
+    .activate-color() when (@color-red = true){
         .error{
             color : @brand-red;
-            .activate-hover(@activate) when (@activate = true){
-                a&:hover{
-                    color : darken(@brand-red, 15%);
-                }
-            }
-            .activate-hover(@activate) when (@activate = false){
-                a&.touch{
-                    color : darken(@brand-red, 15%);
-                }
-            }
-            .activate-hover(@activate-hover);
-        }
-        a.inverse-error{
-            color : @gray;
 
-            &:hover{
-                color : @brand-red;
+            a&:hover{
+                color : darken(@brand-red, 15%);
             }
         }
     }
-    .activate-color-blue(@activate) when (@activate = true){
+    .activate-color() when (@color-blue = true){
         .info{
             color : @brand-blue;
-            .activate-hover(@activate) when (@activate = true){
-                a&:hover{
-                    color : darken(@brand-blue, 15%);
-                }
-            }
-            .activate-hover(@activate) when (@activate = false){
-                a&.touch{
-                    color : darken(@brand-blue, 15%);
-                }
-            }
-            .activate-hover(@activate-hover);
-        }
-        a.inverse-info{
-            color : @gray;
 
-            &:hover{
-                color : @brand-blue;
+            a&:hover{
+                color : darken(@brand-blue, 15%);
             }
         }
     }
-    .activate-color-green(@activate-alternate-style-color-green);
-    .activate-color-orange(@activate-alternate-style-color-orange);
-    .activate-color-red(@activate-alternate-style-color-red);
-    .activate-color-blue(@activate-alternate-style-color-blue);
+    .activate-color();
 }
-.activate-color(@activate-alternate-style-color, @activate-alternate-style);
+.activate-color();
 
 .larger{ font-size : @font-size-larger; }
 .large{ font-size : @font-size-large; }

@@ -205,7 +205,7 @@ $(function(){
 $(document).on('click', '.screen-size', function(e){
     var name = $(this).data('size');
     $('.closebutton').toggleClass('hidden');
-    $(this).toggleClass('icon-expand icon-turn').toggleClass('inverse-info inverse-error');
+    $(this).toggleClass('icon-expand icon-turn').toggleClass('info error');
     $('#'+name+', .'+name).toggleClass('full-screen');
 });
 ///////// Full screen //////////////

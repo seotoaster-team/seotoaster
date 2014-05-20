@@ -21,17 +21,9 @@
         .rgba(#000, 0.5);
         .icon-size(12px);
 
-        .activate-hover(@activate) when (@activate = true){
         &:hover{
             background : @primary-bg;
         }
-        }
-        .activate-hover(@activate) when (@activate = false){
-            &.touch{
-                background : @primary-bg;
-            }
-        }
-        .activate-hover(@activate-hover);
 
         &.prev{
             right : 24px;

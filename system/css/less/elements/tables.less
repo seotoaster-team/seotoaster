@@ -64,7 +64,8 @@ table{
         }
     }
 }
-.activate-table-bordered(@activate-alternate-style-tables-bordered, @activate-alternate-style);
+    .activate-table-bordered(@tables-bordered, @alternate-style)
+;
 
 // ZEBRA-STRIPING
 //==================================================
@@ -79,7 +80,8 @@ table{
         }
     }
 }
-.activate-table-striped(@activate-alternate-style-tables-striped, @activate-alternate-style);
+    .activate-table-striped(@tables-striped, @alternate-style)
+;
 
 // HOVER EFFECT
 //==================================================
@@ -87,69 +89,36 @@ table{
 .activate-table-hover(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
     .table-hover{
         tr{
-            .activate-hover(@activate) when (@activate = true){
             &:hover > td{
                 background-color : @table-row-bg-hover;
             }
-            }
-            .activate-hover(@activate) when (@activate = false){
-                &.touch > td{
-                    background-color : @table-row-bg-hover;
-                }
-            }
-            .activate-hover(@activate-hover);
             .activate(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-                .activate-hover(@activate) when (@activate = true){
-                    > .green:hover,
+                > .green:hover,
                 &.green:hover > td{
                     background-color : darken(@state-green-bg, 5%);
                     border-color     : darken(@state-green-border, 5%);
                 }
-                    > .red:hover,
+                > .red:hover,
                 &.red:hover > td{
                     background-color : darken(@state-red-bg, 5%);
                     border-color     : darken(@state-red-border, 5%);
                 }
-                    > .orange:hover,
+                > .orange:hover,
                 &.orange:hover > td{
                     background-color : darken(@state-orange-bg, 5%);
                     border-color     : darken(@state-orange-border, 5%);
                 }
-                    > .blue:hover,
+                > .blue:hover,
                 &.blue:hover > td{
                     background-color : darken(@state-blue-bg, 5%);
                     border-color     : darken(@state-blue-border, 5%);
                 }
             }
-                .activate-hover(@activate) when (@activate = false){
-                    > .green.touch,
-                    &.green.touch > td{
-                        background-color : darken(@state-green-bg, 5%);
-                        border-color     : darken(@state-green-border, 5%);
-                    }
-                    > .red.touch,
-                    &.red.touch > td{
-                        background-color : darken(@state-red-bg, 5%);
-                        border-color     : darken(@state-red-border, 5%);
-                    }
-                    > .orange.touch,
-                    &.orange.touch > td{
-                        background-color : darken(@state-orange-bg, 5%);
-                        border-color     : darken(@state-orange-border, 5%);
-                    }
-                    > .blue.touch,
-                    &.blue.touch > td{
-                        background-color : darken(@state-blue-bg, 5%);
-                        border-color     : darken(@state-blue-border, 5%);
-                    }
-                }
-                .activate-hover(@activate-hover);
-            }
-            .activate(@activate-alternate-style-color, @activate-alternate-style);
+            .activate(@colors, @alternate-style);
         }
     }
 }
-.activate-table-hover(@activate-alternate-style-tables-hover, @activate-alternate-style);
+.activate-table-hover(@tables-hover, @alternate-style);
 
 // TABLE BACKGROUNDS
 // -----------------
@@ -195,13 +164,14 @@ table{
         }
     }
 }
-.activate-style-color(@activate-alternate-style-color, @activate-alternate-style);
+    .activate-style-color(@colors, @alternate-style)
+;
 
 //  Table responsive
 //==================================================
 .activate-table-responsive(@activate) when ( @activate = true){
     .table-head{
-        display       : none;
+        display : none;
     }
     @media only screen and (max-width : @responsive-size-mobile){
         thead, th{
@@ -218,7 +188,8 @@ table{
         }
     }
 }
-.activate-table-responsive(@activate-responsive);
+    .activate-table-responsive(@responsive)
+;
 
 //  Table scroll
 //==================================================

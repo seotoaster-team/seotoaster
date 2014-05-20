@@ -61,7 +61,7 @@
     .activate(@w3c, w3c);
 }
 
-.animated(@activate : @activate-animate) when (@activate = true){//The animation-fill-mode property specifies what values are applied by the animation outside the time it is executing. Value: none/forwards/backwards/both.
+.animated(@activate : @animation) when (@activate = true){//The animation-fill-mode property specifies what values are applied by the animation outside the time it is executing. Value: none/forwards/backwards/both.
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-fill-mode : both; }
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-fill-mode : both; }
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-fill-mode : both; }
@@ -79,7 +79,7 @@
     }
 }
 
-.animate-repeat(@activate : @activate-animate) when (@activate = true){//The animation-iteration-count property defines how many times an animation should be played. Value: n/infinite.
+.animate-repeat(@activate : @animation) when (@activate = true){//The animation-iteration-count property defines how many times an animation should be played. Value: n/infinite.
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-animation-iteration-count : infinite; }
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-animation-iteration-count : infinite; }
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ms) { -ms-animation-iteration-count : infinite; }
@@ -107,7 +107,7 @@
 
 // Attention seekers
 //=============================================
-.activate-animate-flash(@activate : @activate-animate, @activate2 : @activate-animate-flash) when (@activate = true) and (@activate2 = true){
+.activate-animate-flash(@activate : @animation, @activate2 : @animate-flash) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes flash{
             0%, 50%, 100%{ opacity : 1; }
@@ -124,7 +124,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounce(@activate : @activate-animate, @activate2 : @activate-animate-bounce) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounce(@activate : @animation, @activate2 : @animate-bounce) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounce{
             0%, 20%, 50%, 80%, 100%{ -webkit-transform : translateY(0); }
@@ -143,7 +143,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-shake(@activate : @activate-animate, @activate2 : @activate-animate-shake) when (@activate = true) and (@activate2 = true){
+.activate-animate-shake(@activate : @animation, @activate2 : @animate-shake) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes shake{
             0%, 100%{ -webkit-transform : translateX(0); }
@@ -162,7 +162,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tada(@activate : @activate-animate, @activate2 : @activate-animate-tada) when (@activate = true) and (@activate2 = true){
+.activate-animate-tada(@activate : @animation, @activate2 : @animate-tada) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tada{
             0%{ -webkit-transform : scale(1); }
@@ -185,7 +185,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-swing(@activate : @activate-animate, @activate2 : @activate-animate-swing) when (@activate = true) and (@activate2 = true){
+.activate-animate-swing(@activate : @animation, @activate2 : @animate-swing) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes swing{
             20%, 40%, 60%, 80%, 100%{ -webkit-transform-origin : top center; }
@@ -209,7 +209,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-wobble(@activate : @activate-animate, @activate2 : @activate-animate-wobble) when (@activate = true) and (@activate2 = true){
+.activate-animate-wobble(@activate : @animation, @activate2 : @animate-wobble) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes wobble{
             0%{ -webkit-transform : translateX(0%); }
@@ -236,7 +236,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-wiggle(@activate : @activate-animate, @activate2 : @activate-animate-wiggle) when (@activate = true) and (@activate2 = true){
+.activate-animate-wiggle(@activate : @animation, @activate2 : @animate-wiggle) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes wiggle{
             0%{ -webkit-transform : skewX(9deg); }
@@ -271,7 +271,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-pulse(@activate : @activate-animate, @activate2 : @activate-animate-pulse) when (@activate = true) and (@activate2 = true){
+.activate-animate-pulse(@activate : @animation, @activate2 : @animate-pulse) when (@activate = true) and (@activate2 = true){
 
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes pulse{
@@ -293,7 +293,7 @@
 
 // Flippers
 //=============================================
-.activate-animate-flip(@activate : @activate-animate, @activate2 : @activate-animate-flip) when (@activate = true) and (@activate2 = true){
+.activate-animate-flip(@activate : @animation, @activate2 : @animate-flip) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes flip{
             0%{
@@ -345,7 +345,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-flipInX(@activate : @activate-animate, @activate2 : @activate-animate-flipInX) when (@activate = true) and (@activate2 = true){
+.activate-animate-flipInX(@activate : @animation, @activate2 : @animate-flipInX) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes flipInX{
             0%{
@@ -391,7 +391,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-flipOutX(@activate : @activate-animate, @activate2 : @activate-animate-flipOutX) when (@activate = true) and (@activate2 = true){
+.activate-animate-flipOutX(@activate : @animation, @activate2 : @animate-flipOutX) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes flipOutX{
             0%{
@@ -420,7 +420,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-flipInY(@activate : @activate-animate, @activate2 : @activate-animate-flipInY) when (@activate = true) and (@activate2 = true){
+.activate-animate-flipInY(@activate : @animation, @activate2 : @animate-flipInY) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes flipInY{
             0%{
@@ -466,7 +466,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-flipOutY(@activate : @activate-animate, @activate2 : @activate-animate-flipOutY) when (@activate = true) and (@activate2 = true){
+.activate-animate-flipOutY(@activate : @animation, @activate2 : @animate-flipOutY) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes flipOutY{
             0%{
@@ -497,7 +497,7 @@
 
 // Fading entrances
 //=============================================
-.activate-animate-fadeIn(@activate : @activate-animate, @activate2 : @activate-animate-fadeIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeIn(@activate : @animation, @activate2 : @animate-fadeIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeIn{
             0%{ opacity : 0; }
@@ -514,7 +514,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInUp(@activate : @activate-animate, @activate2 : @activate-animate-fadeInUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInUp(@activate : @animation, @activate2 : @animate-fadeInUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInUp{
             0%{
@@ -545,7 +545,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInDown(@activate : @activate-animate, @activate2 : @activate-animate-fadeInDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInDown(@activate : @animation, @activate2 : @animate-fadeInDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInDown{
             0%{
@@ -576,7 +576,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInLeft(@activate : @activate-animate, @activate2 : @activate-animate-fadeInLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInLeft(@activate : @animation, @activate2 : @animate-fadeInLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInLeft{
             0%{
@@ -607,7 +607,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInRight(@activate : @activate-animate, @activate2 : @activate-animate-fadeInRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInRight(@activate : @animation, @activate2 : @animate-fadeInRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInRight{
             0%{
@@ -638,7 +638,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInUpBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInUpBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInUpBig(@activate : @animation, @activate2 : @animate-fadeInUpBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInUpBig{
             0%{
@@ -669,7 +669,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInDownBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInDownBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInDownBig(@activate : @animation, @activate2 : @animate-fadeInDownBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInDownBig{
             0%{
@@ -700,7 +700,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInLeftBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInLeftBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInLeftBig(@activate : @animation, @activate2 : @animate-fadeInLeftBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInLeftBig{
             0%{
@@ -730,7 +730,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeInRightBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeInRightBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeInRightBig(@activate : @animation, @activate2 : @animate-fadeInRightBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeInRightBig{
             0%{
@@ -764,7 +764,7 @@
 
 // Fading exits
 //=============================================
-.activate-animate-fadeOut(@activate : @activate-animate, @activate2 : @activate-animate-fadeOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOut(@activate : @animation, @activate2 : @animate-fadeOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOut{
             0%{ opacity : 1; }
@@ -781,7 +781,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutUp(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutUp(@activate : @animation, @activate2 : @animate-fadeOutUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutUp{
             0%{
@@ -811,7 +811,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutDown(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutDown(@activate : @animation, @activate2 : @animate-fadeOutDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutDown{
             0%{
@@ -842,7 +842,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutLeft(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutLeft(@activate : @animation, @activate2 : @animate-fadeOutLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutLeft{
             0%{
@@ -873,7 +873,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutRight(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutRight(@activate : @animation, @activate2 : @animate-fadeOutRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutRight{
             0%{
@@ -904,7 +904,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutUpBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutUpBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutUpBig(@activate : @animation, @activate2 : @animate-fadeOutUpBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutUpBig{
             0%{
@@ -935,7 +935,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutDownBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutDownBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutDownBig(@activate : @animation, @activate2 : @animate-fadeOutDownBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutDownBig{
             0%{
@@ -966,7 +966,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutLeftBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutLeftBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutLeftBig(@activate : @animation, @activate2 : @animate-fadeOutLeftBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutLeftBig{
             0%{
@@ -997,7 +997,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-fadeOutRightBig(@activate : @activate-animate, @activate2 : @activate-animate-fadeOutRightBig) when (@activate = true) and (@activate2 = true){
+.activate-animate-fadeOutRightBig(@activate : @animation, @activate2 : @animate-fadeOutRightBig) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes fadeOutRightBig{
             0%{
@@ -1030,7 +1030,7 @@
 
 // Bouncing entrances
 //=============================================
-.activate-animate-bounceIn(@activate : @activate-animate, @activate2 : @activate-animate-bounceIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceIn(@activate : @animation, @activate2 : @animate-bounceIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceIn{
             0%{
@@ -1077,7 +1077,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceInUp(@activate : @activate-animate, @activate2 : @activate-animate-bounceInUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceInUp(@activate : @animation, @activate2 : @animate-bounceInUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceInUp{
             0%{
@@ -1123,7 +1123,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceInDown(@activate : @activate-animate, @activate2 : @activate-animate-bounceInDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceInDown(@activate : @animation, @activate2 : @animate-bounceInDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceInDown{
             0%{
@@ -1170,7 +1170,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceInLeft(@activate : @activate-animate, @activate2 : @activate-animate-bounceInLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceInLeft(@activate : @animation, @activate2 : @animate-bounceInLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceInLeft{
             0%{
@@ -1217,7 +1217,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceInRight(@activate : @activate-animate, @activate2 : @activate-animate-bounceInRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceInRight(@activate : @animation, @activate2 : @animate-bounceInRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceInRight{
             0%{
@@ -1267,7 +1267,7 @@
 
 // Bouncing exits
 //=============================================
-.activate-animate-bounceOut(@activate : @activate-animate, @activate2 : @activate-animate-bounceOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceOut(@activate : @animation, @activate2 : @animate-bounceOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceOut{
             0%{
@@ -1314,7 +1314,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceOutUp(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceOutUp(@activate : @animation, @activate2 : @animate-bounceOutUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceOutUp{
             0%{
@@ -1353,7 +1353,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceOutDown(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceOutDown(@activate : @animation, @activate2 : @animate-bounceOutDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceOutDown{
             0%{
@@ -1392,7 +1392,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceOutLeft(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceOutLeft(@activate : @animation, @activate2 : @animate-bounceOutLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceOutLeft{
             0%{
@@ -1431,7 +1431,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bounceOutRight(@activate : @activate-animate, @activate2 : @activate-animate-bounceOutRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-bounceOutRight(@activate : @animation, @activate2 : @animate-bounceOutRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bounceOutRight{
             0%{
@@ -1473,7 +1473,7 @@
 
 // Rotating entrances
 //=============================================
-.activate-animate-rotateIn(@activate : @activate-animate, @activate2 : @activate-animate-rotateIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateIn(@activate : @animation, @activate2 : @animate-rotateIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateIn{
             0%{
@@ -1507,7 +1507,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateInUpLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateInUpLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateInUpLeft(@activate : @animation, @activate2 : @animate-rotateInUpLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateInUpLeft{
             0%{
@@ -1542,7 +1542,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateInDownLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateInDownLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateInDownLeft(@activate : @animation, @activate2 : @animate-rotateInDownLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateInDownLeft{
             0%{
@@ -1577,7 +1577,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateInUpRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateInUpRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateInUpRight(@activate : @animation, @activate2 : @animate-rotateInUpRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateInUpRight{
             0%{
@@ -1612,7 +1612,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateInDownRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateInDownRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateInDownRight(@activate : @animation, @activate2 : @animate-rotateInDownRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateInDownRight{
             0%{
@@ -1650,7 +1650,7 @@
 
 // Rotating exits
 //=============================================
-.activate-animate-rotateOut(@activate : @activate-animate, @activate2 : @activate-animate-rotateOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateOut(@activate : @animation, @activate2 : @animate-rotateOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateOut{
             0%{
@@ -1685,7 +1685,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateOutUpLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutUpLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateOutUpLeft(@activate : @animation, @activate2 : @animate-rotateOutUpLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateOutUpLeft{
             0%{
@@ -1720,7 +1720,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateOutDownLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutDownLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateOutDownLeft(@activate : @animation, @activate2 : @animate-rotateOutDownLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateOutDownLeft{
             0%{
@@ -1755,7 +1755,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateOutUpRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutUpRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateOutUpRight(@activate : @animation, @activate2 : @animate-rotateOutUpRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateOutUpRight{
             0%{
@@ -1790,7 +1790,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateOutDownRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateOutDownRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateOutDownRight(@activate : @animation, @activate2 : @animate-rotateOutDownRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateOutDownRight{
             0%{
@@ -1828,7 +1828,7 @@
 
 // Lightspeed
 //=============================================
-.activate-animate-lightSpeedIn(@activate : @activate-animate, @activate2 : @activate-animate-lightSpeedIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-lightSpeedIn(@activate : @animation, @activate2 : @animate-lightSpeedIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes lightSpeedIn{
             0%{ -webkit-transform : translateX(100%) skewX(-30deg); opacity : 0; }
@@ -1861,7 +1861,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-lightSpeedOut(@activate : @activate-animate, @activate2 : @activate-animate-lightSpeedOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-lightSpeedOut(@activate : @animation, @activate2 : @animate-lightSpeedOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes lightSpeedOut{
             0%{ -webkit-transform : translateX(0%) skewX(0deg); opacity : 1; }
@@ -1887,7 +1887,7 @@
 
 // Specials
 //=============================================
-.activate-animate-hinge(@activate : @activate-animate, @activate2 : @activate-animate-hinge) when (@activate = true) and (@activate2 = true){
+.activate-animate-hinge(@activate : @animation, @activate2 : @animate-hinge) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes hinge{
             0%{ -webkit-transform : rotate(0); -webkit-transform-origin : top left; -webkit-animation-timing-function : ease-in-out; }
@@ -1930,7 +1930,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rollIn(@activate : @activate-animate, @activate2 : @activate-animate-rollIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-rollIn(@activate : @animation, @activate2 : @animate-rollIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rollIn{
             0%{ opacity : 0; -webkit-transform : translateX(-100%) rotate(-120deg); }
@@ -1953,7 +1953,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rollOut(@activate : @activate-animate, @activate2 : @activate-animate-rollOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-rollOut(@activate : @animation, @activate2 : @animate-rollOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rollOut{
             0%{
@@ -1987,7 +1987,7 @@
 
 // Other
 //=============================================
-.activate-animate-rotate(@activate : @activate-animate, @activate2 : @activate-animate-rotate) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotate(@activate : @animation, @activate2 : @animate-rotate) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotate{
             0%{
@@ -2018,7 +2018,7 @@
     .activate(@w3c, w3c);
 }
 // Magic css3 animations
-.activate-animate-magic(@activate : @activate-animate, @activate2 : @activate-animate-magic) when (@activate = true) and (@activate2 = true){
+.activate-animate-magic(@activate : @animation, @activate2 : @animate-magic) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes magic{
             0% {
@@ -2052,7 +2052,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-twisterInDown(@activate : @activate-animate, @activate2 : @activate-animate-twisterInDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-twisterInDown(@activate : @animation, @activate2 : @animate-twisterInDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes twisterInDown{
             0% {
@@ -2096,7 +2096,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-twisterInUp(@activate : @activate-animate, @activate2 : @activate-animate-twisterInUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-twisterInUp(@activate : @animation, @activate2 : @animate-twisterInUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes twisterInUp{
             0% {
@@ -2140,7 +2140,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-swap(@activate : @activate-animate, @activate2 : @activate-animate-swap) when (@activate = true) and (@activate2 = true){
+.activate-animate-swap(@activate : @animation, @activate2 : @animate-swap) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes swap{
             0% {
@@ -2176,7 +2176,7 @@
 }
 // Bling
 //=============================================
-.activate-animate-puffIn(@activate : @activate-animate, @activate2 : @activate-animate-puffIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-puffIn(@activate : @animation, @activate2 : @animate-puffIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes puffIn{
             0% {
@@ -2211,7 +2211,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-puffOut(@activate : @activate-animate, @activate2 : @activate-animate-puffOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-puffOut(@activate : @animation, @activate2 : @animate-puffOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes puffOut{
             0% {
@@ -2245,7 +2245,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-vanishIn(@activate : @activate-animate, @activate2 : @activate-animate-vanishIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-vanishIn(@activate : @animation, @activate2 : @animate-vanishIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes vanishIn{
             0% {
@@ -2280,7 +2280,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-vanishOut(@activate : @activate-animate, @activate2 : @activate-animate-vanishOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-vanishOut(@activate : @animation, @activate2 : @animate-vanishOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes vanishOut{
             0% {
@@ -2317,7 +2317,7 @@
 }
 //Static Effects
 //=============================================
-.activate-animate-openDownLeft(@activate : @activate-animate, @activate2 : @activate-animate-openDownLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-openDownLeft(@activate : @animation, @activate2 : @animate-openDownLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openDownLeft{
             0% {
@@ -2351,7 +2351,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openDownRight(@activate : @activate-animate, @activate2 : @activate-animate-openDownRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-openDownRight(@activate : @animation, @activate2 : @animate-openDownRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openDownRight{
             0% {
@@ -2385,7 +2385,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openUpLeft(@activate : @activate-animate, @activate2 : @activate-animate-openUpLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-openUpLeft(@activate : @animation, @activate2 : @animate-openUpLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openUpLeft{
             0% {
@@ -2419,7 +2419,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openUpRight(@activate : @activate-animate, @activate2 : @activate-animate-openUpRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-openUpRight(@activate : @animation, @activate2 : @animate-openUpRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openUpRight{
             0% {
@@ -2453,7 +2453,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openDownLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-openDownLeftReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-openDownLeftReturn(@activate : @animation, @activate2 : @animate-openDownLeftReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openDownLeftReturn{
             0% {
@@ -2487,7 +2487,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openDownRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-openDownRightReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-openDownRightReturn(@activate : @animation, @activate2 : @animate-openDownRightReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openDownRightReturn{
             0% {
@@ -2521,7 +2521,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openUpLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-openUpLeftReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-openUpLeftReturn(@activate : @animation, @activate2 : @animate-openUpLeftReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openUpLeftReturn{
             0% {
@@ -2555,7 +2555,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openUpRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-openUpRightReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-openUpRightReturn(@activate : @animation, @activate2 : @animate-openUpRightReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openUpRightReturn{
             0% {
@@ -2591,7 +2591,7 @@
 }
 //Perspective
 //=============================================
-.activate-animate-perspectiveDown(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveDown(@activate : @animation, @activate2 : @animate-perspectiveDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveDown{
             0% {
@@ -2621,7 +2621,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveUp(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveUp(@activate : @animation, @activate2 : @animate-perspectiveUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveUp{
             0% {
@@ -2651,7 +2651,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveLeft(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveLeft(@activate : @animation, @activate2 : @animate-perspectiveLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveLeft{
             0% {
@@ -2681,7 +2681,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveRight(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveRight(@activate : @animation, @activate2 : @animate-perspectiveRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveRight{
             0% {
@@ -2711,7 +2711,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveDownReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveDownReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveDownReturn(@activate : @animation, @activate2 : @animate-perspectiveDownReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveDownReturn{
             0% {
@@ -2741,7 +2741,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveUpReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveUpReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveUpReturn(@activate : @animation, @activate2 : @animate-perspectiveUpReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveUpReturn{
             0% {
@@ -2771,7 +2771,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveLeftReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveLeftReturn(@activate : @animation, @activate2 : @animate-perspectiveLeftReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveLeftReturn{
             0% {
@@ -2801,7 +2801,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-perspectiveRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-perspectiveRightReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-perspectiveRightReturn(@activate : @animation, @activate2 : @animate-perspectiveRightReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes perspectiveRightReturn{
             0% {
@@ -2833,7 +2833,7 @@
 }
 // Static Effects Out
 //=============================================
-.activate-animate-openDownLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-openDownLeftOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-openDownLeftOut(@activate : @animation, @activate2 : @animate-openDownLeftOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openDownLeftOut{
             0% {
@@ -2869,7 +2869,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openDownRightOut(@activate : @activate-animate, @activate2 : @activate-animate-openDownRightOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-openDownRightOut(@activate : @animation, @activate2 : @animate-openDownRightOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openDownRightOut{
             0% {
@@ -2907,7 +2907,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openUpLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-openUpLeftOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-openUpLeftOut(@activate : @animation, @activate2 : @animate-openUpLeftOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openUpLeftOut{
             0% {
@@ -2945,7 +2945,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-openUpRightOut(@activate : @activate-animate, @activate2 : @activate-animate-openUpRightOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-openUpRightOut(@activate : @animation, @activate2 : @animate-openUpRightOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes openUpRightOut{
             0% {
@@ -2985,7 +2985,7 @@
 }
 // Rotate
 //=============================================
-.activate-animate-rotateDown(@activate : @activate-animate, @activate2 : @activate-animate-rotateDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateDown(@activate : @animation, @activate2 : @animate-rotateDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateDown{
             0% {
@@ -3017,7 +3017,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateUp(@activate : @activate-animate, @activate2 : @activate-animate-rotateUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateUp(@activate : @animation, @activate2 : @animate-rotateUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateUp{
             0% {
@@ -3049,7 +3049,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateLeft(@activate : @activate-animate, @activate2 : @activate-animate-rotateLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateLeft(@activate : @animation, @activate2 : @animate-rotateLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateLeft{
             0% {
@@ -3081,7 +3081,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-rotateRight(@activate : @activate-animate, @activate2 : @activate-animate-rotateRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-rotateRight(@activate : @animation, @activate2 : @animate-rotateRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes rotateRight{
             0% {
@@ -3115,7 +3115,7 @@
 }
 // Slide
 //=============================================
-.activate-animate-slideDown(@activate : @activate-animate, @activate2 : @activate-animate-slideDown) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideDown(@activate : @animation, @activate2 : @animate-slideDown) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideDown{
             0% {
@@ -3146,7 +3146,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideUp(@activate : @activate-animate, @activate2 : @activate-animate-slideUp) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideUp(@activate : @animation, @activate2 : @animate-slideUp) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideUp{
             0% {
@@ -3177,7 +3177,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideLeft(@activate : @activate-animate, @activate2 : @activate-animate-slideLeft) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideLeft(@activate : @animation, @activate2 : @animate-slideLeft) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideLeft{
             0% {
@@ -3208,7 +3208,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideRight(@activate : @activate-animate, @activate2 : @activate-animate-slideRight) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideRight(@activate : @animation, @activate2 : @animate-slideRight) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideRight{
             0% {
@@ -3239,7 +3239,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideDownReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideDownReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideDownReturn(@activate : @animation, @activate2 : @animate-slideDownReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideDownReturn{
             0% {
@@ -3270,7 +3270,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideUpReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideUpReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideUpReturn(@activate : @animation, @activate2 : @animate-slideUpReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideUpReturn{
             0% {
@@ -3301,7 +3301,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideLeftReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideLeftReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideLeftReturn(@activate : @animation, @activate2 : @animate-slideLeftReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideLeftReturn{
             0% {
@@ -3332,7 +3332,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-slideRightReturn(@activate : @activate-animate, @activate2 : @activate-animate-slideRightReturn) when (@activate = true) and (@activate2 = true){
+.activate-animate-slideRightReturn(@activate : @animation, @activate2 : @animate-slideRightReturn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes slideRightReturn{
             0% {
@@ -3365,7 +3365,7 @@
 }
 // Math
 //=============================================
-.activate-animate-swashOut(@activate : @activate-animate, @activate2 : @activate-animate-swashOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-swashOut(@activate : @animation, @activate2 : @animate-swashOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes swashOut{
             0% {
@@ -3411,7 +3411,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-swashIn(@activate : @activate-animate, @activate2 : @activate-animate-swashIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-swashIn(@activate : @animation, @activate2 : @animate-swashIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes swashIn{
             0% {
@@ -3455,7 +3455,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-foolishOut(@activate : @activate-animate, @activate2 : @activate-animate-foolishOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-foolishOut(@activate : @animation, @activate2 : @animate-foolishOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes foolishOut{
             0% {
@@ -3537,7 +3537,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-foolishIn(@activate : @activate-animate, @activate2 : @activate-animate-foolishIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-foolishIn(@activate : @animation, @activate2 : @animate-foolishIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes foolishIn{
             0% {
@@ -3619,7 +3619,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-holeOut(@activate : @activate-animate, @activate2 : @activate-animate-holeOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-holeOut(@activate : @animation, @activate2 : @animate-holeOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes holeOut{
             0% {
@@ -3655,7 +3655,7 @@
 }
 // Tin
 //=============================================
-.activate-animate-tinRightOut(@activate : @activate-animate, @activate2 : @activate-animate-tinRightOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinRightOut(@activate : @animation, @activate2 : @animate-tinRightOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinRightOut{
             0%, 20%, 40%, 50% {
@@ -3693,7 +3693,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-tinLeftOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinLeftOut(@activate : @animation, @activate2 : @animate-tinLeftOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinLeftOut{
             0%, 20%, 40%, 50% {
@@ -3731,7 +3731,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinUpOut(@activate : @activate-animate, @activate2 : @activate-animate-tinUpOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinUpOut(@activate : @animation, @activate2 : @animate-tinUpOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinUpOut{
             0%, 20%, 40%, 50% {
@@ -3770,7 +3770,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinDownOut(@activate : @activate-animate, @activate2 : @activate-animate-tinDownOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinDownOut(@activate : @animation, @activate2 : @animate-tinDownOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinDownOut{
             0%, 20%, 40%, 50% {
@@ -3809,7 +3809,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinRightIn(@activate : @activate-animate, @activate2 : @activate-animate-tinRightIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinRightIn(@activate : @animation, @activate2 : @animate-tinRightIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinRightIn{
             0% {
@@ -3849,7 +3849,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinLeftIn(@activate : @activate-animate, @activate2 : @activate-animate-tinLeftIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinLeftIn(@activate : @animation, @activate2 : @animate-tinLeftIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinLeftIn{
             0% {
@@ -3889,7 +3889,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinUpIn(@activate : @activate-animate, @activate2 : @activate-animate-tinUpIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinUpIn(@activate : @animation, @activate2 : @animate-tinUpIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinUpIn{
             0% {
@@ -3929,7 +3929,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-tinDownIn(@activate : @activate-animate, @activate2 : @activate-animate-tinDownIn) when (@activate = true) and (@activate2 = true){
+.activate-animate-tinDownIn(@activate : @animation, @activate2 : @animate-tinDownIn) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes tinDownIn{
             0% {
@@ -3971,7 +3971,7 @@
 }
 // Bomb
 //=============================================
-.activate-animate-bombRightOut(@activate : @activate-animate, @activate2 : @activate-animate-bombRightOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-bombRightOut(@activate : @animation, @activate2 : @animate-bombRightOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bombRightOut{
             0% {
@@ -4020,7 +4020,7 @@
     .activate(@webkit, webkit);
     .activate(@w3c, w3c);
 }
-.activate-animate-bombLeftOut(@activate : @activate-animate, @activate2 : @activate-animate-bombLeftOut) when (@activate = true) and (@activate2 = true){
+.activate-animate-bombLeftOut(@activate : @animation, @activate2 : @animate-bombLeftOut) when (@activate = true) and (@activate2 = true){
     .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
         @-webkit-keyframes bombLeftOut{
             0% {
@@ -4071,7 +4071,7 @@
 }
 //// Other
 //=============================================
-//.activate-animate-ANIMATION_NAME(@activate : @activate-animate, @activate2 : @activate-animate-ANIMATION_NAME) when (@activate = true) and (@activate2 = true){
+//.activate-animate-ANIMATION_NAME(@activate : @animation, @activate2 : @animate-ANIMATION_NAME) when (@activate = true) and (@activate2 = true){
 //    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
 //    }
 //    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) {

@@ -26,7 +26,7 @@
     .grid(@grid, @prefix, @num-column + 1, false);
     .activate-grid-element(@switch);
 }
-.grid-mobile(@response : @activate-responsive) when (@response = true){
+.grid-mobile(@response : @responsive) when (@response = true){
     @responsive-size-mobile-over : @responsive-size-mobile + 1;
     @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
         .t-hide{ display : none; }
@@ -237,7 +237,7 @@
     }
     .activate-style-switch(@style-switch);
 
-    .type-of-development(@activate : @activate-responsive) when (@activate = true){
+    .type-of-development(@activate : @responsive) when (@activate = true){
         .grid-elements-tablet(@tablet-column, @margin, @full);
         .grid-elements-mobile(@mobile-column, @margin, @full);
     }
@@ -262,7 +262,7 @@
         margin-left : 0;
     }
 
-    .type-of-development(@activate : @activate-responsive) when (@activate = true){
+    .type-of-development(@activate : @responsive) when (@activate = true){
         .grid-elements-tablet(@tablet-column, @margin, @full);
         .grid-elements-mobile(@mobile-column, @margin, @full);
     }
@@ -273,7 +273,7 @@
     width       : 100%;
     margin-left : 0;
 
-    .type-of-development(@activate : @activate-responsive) when (@activate = true){
+    .type-of-development(@activate : @responsive) when (@activate = true){
         .grid-elements-tablet(@tablet-column, @margin, @full);
         .grid-elements-mobile(@mobile-column, @margin, @full);
     }

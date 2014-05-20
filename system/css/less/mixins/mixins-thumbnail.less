@@ -3,34 +3,20 @@
 .thumbnail-state(@radius: @thumbnail-border-radius, @border-width: @thumbnail-border-width, @border-color: @thumbnail-border-color, @background: @thumbnail-bg) {
     position   : relative;
     cursor     : pointer;
-//    overflow   : hidden;
     text-align : center;
     padding    : @thumbnail-padding;
     background : @background;
-//    .transition(all, 0.3s);
     .border-radius(@radius);
     .activate-border(@activate) when (@activate > 0){
         border : @border-width solid @border-color;
     }
     .activate-border(@border-width);
 
-    .activate-hover(@activate) when (@activate = true){
-        &:hover{
-            .activate-border(@activate) when (@activate > 0){
-                border-color : @thumbnail-color-hover;
-            }
-            .activate-border(@border-width);
-            .box-shadow(3px 3px 3px @thumbnail-color-hover, @thumbnail-shadow-hover);
+    &:hover{
+        .activate-border(@activate) when (@activate > 0){
+            border-color : @thumbnail-color-hover;
         }
+        .activate-border(@border-width);
+        .box-shadow(3px 3px 3px @thumbnail-color-hover, @thumbnail-shadow-hover);
     }
-    .activate-hover(@activate) when (@activate = false){
-        &.touch{
-            .activate-border(@activate) when (@activate > 0){
-                border-color : @thumbnail-color-hover;
-            }
-            .activate-border(@border-width);
-            .box-shadow(3px 3px 3px @thumbnail-color-hover, @thumbnail-shadow-hover);
-        }
-    }
-    .activate-hover(@activate-hover);
 }
