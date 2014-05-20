@@ -135,6 +135,9 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                 $dictionary['$page:category:name'] = $parentCategoryPage['h1'];
             }
             foreach ($page as $prop => $item) {
+                if (is_array($item)) {
+                    continue;
+                }
                 if ($prop === 'url') {
                     $item = $website->getUrl() . $item;
                 }
