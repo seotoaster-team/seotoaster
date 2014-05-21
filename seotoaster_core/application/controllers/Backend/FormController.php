@@ -14,18 +14,22 @@ class Backend_FormController extends Zend_Controller_Action {
         'refreshcaptcha'
 	);
 
-    public function init() {
-		parent::init();
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed()) {
-			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
-		}
-    	$this->view->websiteUrl = $this->_helper->website->getUrl();
-        $this->_helper->AjaxContext()->addActionContexts(array(
-			'manageform'  => 'json',
-			'delete'  => 'json',
-			'loadforms'   => 'json',
-			'receiveform' => 'json'
-		))->initContext('json');
+    public function init()
+    {
+        parent::init();
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+            $this->view->websiteUrl = $this->_helper->website->getUrl();
+            $this->_helper->AjaxContext()->addActionContexts(
+                array(
+                    'manageform' => 'json',
+                    'delete' => 'json',
+                    'loadforms' => 'json',
+                    'receiveform' => 'json'
+                )
+            )->initContext('json');
+        } else {
+            $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
+        }
     }
 
     public function manageformAction() {
