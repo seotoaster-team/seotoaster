@@ -1,22 +1,22 @@
 @import "base/variables";
 
-@activate-module-carousel               : false;
-@activate-module-alert                  : true;
-@activate-module-accordion              : true;
-@activate-module-tabs                   : true;
-@activate-module-dialog                 : true;
-@activate-module-datepicker             : true;
-@activate-module-autocomplete           : true;
-@activate-module-tooltips               : true;
-    @activate-module-tooltips-color-red    : true;
-    @activate-module-tooltips-color-blue   : true;
-    @activate-module-tooltips-color-green  : true;
-    @activate-module-tooltips-color-orange : true;
-@activate-module-range                  : true;
-@activate-module-progressbar            : true;
-@activate-module-chosen                 : false;
-@activate-module-pagination             : false;
-@activate-module-scrollbar              : false;
+@module-carousel               : false;
+@module-alert                  : true;
+@module-accordion              : true;
+@module-tabs                   : true;
+@module-dialog                 : true;
+@module-datepicker             : true;
+@module-autocomplete           : true;
+@module-tooltips               : true;
+    @module-tooltips-color-red    : true;
+    @module-tooltips-color-blue   : true;
+    @module-tooltips-color-green  : true;
+    @module-tooltips-color-orange : true;
+@module-range                  : true;
+@module-progressbar            : true;
+@module-chosen                 : false;
+@module-pagination             : false;
+@module-scrollbar              : false;
 
 // Overlays
 .ui-widget-overlay{
@@ -54,7 +54,7 @@
 .activate-toaster-icon(@activate) when ( @activate = true){
 //    @import "elements/toaster-icons";
 }
-.activate-toaster-icon(@activate-toaster-icons);
+.activate-toaster-icon(@toaster-icons);
 
 .btn, button, [type="submit"]{
     background-image: none;
@@ -66,4 +66,4 @@
 .activate-modules(@activate) when (@activate = true){
     @import "packages/modules";
 }
-.activate-modules(@activate-modules);
+.activate-modules(@modules);

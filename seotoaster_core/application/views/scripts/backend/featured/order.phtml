@@ -1,5 +1,5 @@
 <div class="seotoaster container refreshOnClose">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Order featured area pages', 'helpSection' => 'fa')); ?>
+	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Order ' . $this->faName .  ' pages', 'helpSection' => 'fa')); ?>
 	<?php if (isset($this->faPages) && is_array($this->faPages) && !empty($this->faPages)): ?>
 		<ol id="fa-pages-list" class="grid_12 items-list content scroll">
 			<?php foreach ($this->faPages as $key => $page): ?>

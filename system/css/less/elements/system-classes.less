@@ -12,11 +12,18 @@
 .align-middle{ vertical-align : middle; }
 .align-bottom{ vertical-align : bottom; }
 
+.ws-nowrap{ white-space : nowrap; }
+.ws-normal{ white-space : normal; }
+
 .text-light{ font-weight : 300; }
 .text-normal{ font-weight : normal; }
 .text-medium{ font-weight : 500; }
 .text-bold{ font-weight : bold; }
 .text-italic{ font-style : italic; }
+
+.lh-small{ line-height : 1; }
+.lh-medium{ line-height : @line-height * .85; }
+.lh-large{ line-height : @line-height * 1.25; }
 
 .cl-none{ clear : none; }
 .cl-both{ clear : both; }
@@ -28,6 +35,12 @@
 .wrap{ overflow : hidden; }
 .block{ display : block; }
 .word-break{ word-break : break-all; }
+[class*="hidden"]{ display : none; }
+
+.pointer{ cursor : pointer; }
+.help{ cursor : help; }
+
+.scroll{ overflow : auto; }
 
 .fixed{
     position : fixed !important;
@@ -48,7 +61,6 @@
 .fs48{ font-size : 48px !important; }
 .fs64{ font-size : 64px !important; }
 
-.pointer{ cursor : pointer; }
 .text-overflow{
     .text-overflow();
 }
@@ -73,12 +85,12 @@
     .activate-color-blue(@activate) when (@activate = true){
         .blue-bg{ background-color : @brand-blue; }
     }
-    .activate-color-green(@activate-alternate-style-color-green);
-    .activate-color-orange(@activate-alternate-style-color-orange);
-    .activate-color-red(@activate-alternate-style-color-red);
-    .activate-color-blue(@activate-alternate-style-color-blue);
+    .activate-color-green(@color-green);
+    .activate-color-orange(@color-orange);
+    .activate-color-red(@color-red);
+    .activate-color-blue(@color-blue);
 }
-    .activate-color(@activate-alternate-style-color, @activate-alternate-style)
+    .activate-color(@colors, @alternate-style)
 ;
 
 // Social Links
@@ -100,31 +112,18 @@
             color       : #FFF;
             padding     : @padding-base-vertical;
 
-            .activate-hover(@activate) when (@activate = true){
-                &:hover{
-                    &.rss{ background : darken(@rss, 10%); }
-                    &.gplus{ background : darken(@gplus, 10%); }
-                    &.twitter{ background : darken(@twitter, 10%); }
-                    &.youtube{ background : darken(@youtube, 10%); }
-                    &.linkedin{ background : darken(@linkedin, 10%); }
-                    &.facebook{ background : darken(@facebook, 10%); }
-                }
+            &:hover{
+                &.rss{ background : darken(@rss, 10%); }
+                &.gplus{ background : darken(@gplus, 10%); }
+                &.twitter{ background : darken(@twitter, 10%); }
+                &.youtube{ background : darken(@youtube, 10%); }
+                &.linkedin{ background : darken(@linkedin, 10%); }
+                &.facebook{ background : darken(@facebook, 10%); }
             }
-            .activate-hover(@activate) when (@activate = false){
-                &.touch{
-                    &.rss{ background : darken(@rss, 10%); }
-                    &.gplus{ background : darken(@gplus, 10%); }
-                    &.twitter{ background : darken(@twitter, 10%); }
-                    &.youtube{ background : darken(@youtube, 10%); }
-                    &.linkedin{ background : darken(@linkedin, 10%); }
-                    &.facebook{ background : darken(@facebook, 10%); }
-                }
-            }
-            .activate-hover(@activate-hover);
         }
     }
 }
-    .activate-list-social-links(@activate-list-social-links)
+    .activate-list-social-links(@list-social-links)
 ;
 
 // Social Field
@@ -158,7 +157,7 @@
         }
     }
 }
-    .activate-list-social-field(@activate-social-fields)
+    .activate-list-social-field(@social-fields)
 ;
 
 // Change style for Generator Links
@@ -190,7 +189,7 @@
         }
     }
 }
-    .activate-generator-links(@activate-list-social-links, @activate-toaster-icons)
+    .activate-generator-links(@list-social-links, @toaster-icons)
 ;
 
 .activate-list-testimonials(@activate) when (@activate = true){
@@ -248,7 +247,7 @@
         }
     }
 }
-    .activate-list-testimonials(@activate-list-testimonials)
+    .activate-list-testimonials(@list-testimonials)
 ;
 
 // Table classes

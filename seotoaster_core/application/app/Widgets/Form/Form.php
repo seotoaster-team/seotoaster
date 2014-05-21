@@ -6,6 +6,8 @@ class Widgets_Form_Form extends Widgets_Abstract {
 
     const UPLOAD_LIMIT_SIZE = 10;
 
+    const WITHOUT_CACHE = 'withoutcache';
+
 	private $_websiteHelper   = null;
 
 	protected function _init() {
@@ -22,7 +24,13 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if (is_array($this->_options) && isset($this->_options[0]) && strtolower($this->_options[0]) === 'conversioncode') {
 			$this->_cacheable = false;
 		}
+        if(is_array($this->_options) && isset($this->_options[0]) && in_array(self::WITHOUT_CACHE, $this->_options)){
+            $this->_cacheable = false;
+        }
         $this->_cacheTags = array(self::WFORM_CACHE_TAG);
+        Zend_Layout::getMvcInstance()->getView()->headScript()->appendFile(
+            $this->_websiteHelper->getUrl() . 'system/js/external/sisyphus/sisyphus.min.js'
+        );
     }
     protected function _load() {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {

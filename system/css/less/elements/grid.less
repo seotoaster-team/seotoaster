@@ -17,18 +17,18 @@
     }
 }
 
-[class*=" grid_"], [class^="grid_"]{
+[class*=" grid_"], [class^="grid_"], [class*="-grid_"]{
     display      : inline;
     float        : left;
     position     : relative;
+    width        : 100% - @grid-margin-width;
     margin-left  : (@grid-margin-width / 2);
     margin-right : (@grid-margin-width / 2);
     .box-sizing();
 }
 
 .grid();
-.grid-mobile();
 
 .clearfix{
-    .clearfix;
+    .clearfix();
 }

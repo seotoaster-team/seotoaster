@@ -19,19 +19,19 @@
     // Alternate styles
     // -------------------------
     &.success{
-        .alert-color(@state-green-text, @state-green-bg, @state-green-border, @activate-alternate-style-color-green);
+        .alert-color(@state-green-text, @state-green-bg, @state-green-border, @color-green);
     }
     &.warning{
-        .alert-color(@state-orange-text, @state-orange-bg, @state-orange-border, @activate-alternate-style-color-orange);
+        .alert-color(@state-orange-text, @state-orange-bg, @state-orange-border, @color-orange);
     }
     &.error{
-        .alert-color(@state-red-text, @state-red-bg, @state-red-border, @activate-alternate-style-color-red);
+        .alert-color(@state-red-text, @state-red-bg, @state-red-border, @color-red);
     }
     &.info{
-        .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border, @activate-alternate-style-color-blue);
+        .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border, @color-blue);
     }
     &.gray{
-        .alert-color(@gray, @gray-lighter, @gray-light, @activate-alternate-style-color-gray);
+        .alert-color(@gray, @gray-lighter, @gray-light, @color-gray);
     }
 
     // Block alerts
@@ -92,16 +92,16 @@
         // Alternate styles
         // -------------------------
         &.success{
-            .box-shadow(0 0 100px desaturate(@state-green-border, 10%), @activate-alternate-style-color-green);
+            .box-shadow(0 0 100px desaturate(@state-green-border, 10%), @color-green);
         }
         &.warning{
-            .box-shadow(0 0 100px desaturate(@state-orange-border, 10%), @activate-alternate-style-color-orange);
+            .box-shadow(0 0 100px desaturate(@state-orange-border, 10%), @color-orange);
         }
         &.error{
-            .box-shadow(0 0 100px desaturate(@state-red-border, 10%), @activate-alternate-style-color-red);
+            .box-shadow(0 0 100px desaturate(@state-red-border, 10%), @color-red);
         }
         &.info{
-            .box-shadow(0 0 100px desaturate(@state-blue-border, 10%), @activate-alternate-style-color-blue);
+            .box-shadow(0 0 100px desaturate(@state-blue-border, 10%), @color-blue);
         }
     }
 

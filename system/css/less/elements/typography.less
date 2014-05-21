@@ -16,20 +16,12 @@ a{
 a:visited{
     //color : @link-color-visited;
 }
-.activate-hover(@activate) when (@activate = true){
     a:hover{
         color : @link-color-hover
     }
     a:active{
         color : @link-color-active;
     }
-}
-.activate-hover(@activate) when (@activate = false){
-    a.touch{
-        color : @link-color-active;
-    }
-}
-.activate-hover(@activate-hover);
 
 // Heading
 //==================================================
@@ -104,11 +96,11 @@ p{
 .activate-toaster-icon(@activate) when ( @activate = true){
     @import "toaster-icons";
 }
-.activate-toaster-icon(@activate-toaster-icons);
+.activate-toaster-icon(@toaster-icons);
 
 // System classes
 //==================================================
 .activate-system-classes(@activate) when ( @activate = true){
     @import "system-classes";
 }
-.activate-system-classes(@activate-system-classes);
+.activate-system-classes(@system-classes);

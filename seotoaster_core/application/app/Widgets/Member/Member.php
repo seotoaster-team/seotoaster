@@ -60,13 +60,20 @@ class Widgets_Member_Member extends Widgets_Abstract {
 	}
 
     protected function _renderMemberSignup() {
+        $pageId = $this->_toasterOptions['id'];
         $signupForm = $this->_view->signupForm       = new Application_Form_Signup();
+        $signupForm->addElement('text','PageId',array(
+                'value' => $pageId,
+                'class' => 'hidden',
+                'id'    => 'PageId'));
         if(in_array(self::OPTION_NOCAPTCHA,$this->_options)) {
             $signupForm->removeElement('verification');
             $signupForm->addElement('text','token',array(
                     'value' => '',
                     'class' => 'hidden',
                     'id'    => 'token'));
+            $key = md5('signup'.$pageId);
+            $this->_session->$key = $key;
         }
 		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
 		$errorMessages                 = $flashMessenger->getMessages();

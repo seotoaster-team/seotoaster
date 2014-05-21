@@ -327,17 +327,20 @@ class Application_Form_Config extends Zend_Form
 
 		$this->addElement('text', 'imgSmall', array(
 			'value' => $this->_imgSmall,
-			'label' => 'Small Image Size',
-			'validators' => array(new Zend_Validate_Int())
+			'title' => 'Small Image Size',
+            'class' => 'grid_4 alpha',
+            'validators' => array(new Zend_Validate_Int())
 		));
 		$this->addElement('text', 'imgMedium', array(
 			'value' => $this->_imgMedium,
-			'label' => 'Medium Image Size',
+			'title' => 'Medium Image Size',
+            'class' => 'grid_4',
 			'validators' => array(new Zend_Validate_Int())
 		));
 		$this->addElement('text', 'imgLarge', array(
 			'value' => $this->_imgLarge,
-			'label' => 'Large Image Size',
+			'title' => 'Large Image Size',
+            'class' => 'grid_4 omega',
 			'validators' => array(new Zend_Validate_Int())
 		));
 
@@ -410,7 +413,7 @@ class Application_Form_Config extends Zend_Form
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
 			'name'  => 'memPagesInMenu',
 			'value' => $this->_showProtectedPagesInMenu,
-			'label' => 'Member pages in menu?',
+			'label' => 'Member pages in menu?'
 		)));
 
         $this->addElement(new Zend_Form_Element_Checkbox(array(
@@ -452,6 +455,8 @@ class Application_Form_Config extends Zend_Form
 				Zend_Controller_Request_Http::SCHEME_HTTPS => 'https'
 			)
 		));
+
+        $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
 
 	public function proccessErrors()

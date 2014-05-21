@@ -10,7 +10,7 @@ img[style*="float: right"], img[style*="float:right"]{
 }
 
 img{
-    .activate-style-image(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
+    .activate-style-image() when (@images-style = true) and (@alternate-style = true){
         .img-thumbnail &, &.img-thumbnail{
             .thumbnail-state();
         }
@@ -21,7 +21,7 @@ img{
             .border-radius(@border-radius-base);
         }
     }
-    .activate-style-image(@activate-alternate-style-images, @activate-alternate-style);
+    .activate-style-image();
 }
 
 [class*="caption"]{
