@@ -57,7 +57,7 @@ $(function() {
         e.preventDefault();
         var $templateList =  $('#templatelist');
         $templateList.show("slide", { direction : "right"});
-        $templateList.find('.template_group').css({
+        $templateList.find('.template_group').css('max-height','none').css({
             'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
         });
     });
