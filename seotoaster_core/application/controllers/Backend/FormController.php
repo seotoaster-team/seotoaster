@@ -17,19 +17,21 @@ class Backend_FormController extends Zend_Controller_Action {
     public function init()
     {
         parent::init();
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
-            $this->view->websiteUrl = $this->_helper->website->getUrl();
-            $this->_helper->AjaxContext()->addActionContexts(
-                array(
-                    'manageform' => 'json',
-                    'delete' => 'json',
-                    'loadforms' => 'json',
-                    'receiveform' => 'json'
-                )
-            )->initContext('json');
-        } else {
+        if (!Tools_Security_Acl::isAllowed(
+            Tools_Security_Acl::RESOURCE_CONTENT
+        ) && !Tools_Security_Acl::isActionAllowed(Tools_Security_Acl::RESOURCE_CONTENT)
+        ) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
         }
+        $this->view->websiteUrl = $this->_helper->website->getUrl();
+        $this->_helper->AjaxContext()->addActionContexts(
+            array(
+                'manageform' => 'json',
+                'delete' => 'json',
+                'loadforms' => 'json',
+                'receiveform' => 'json'
+            )
+        )->initContext('json');
     }
 
     public function manageformAction() {
