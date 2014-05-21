@@ -17,6 +17,8 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
 	protected $_message;
 
+    protected $_smsText;
+
     protected $_from    = '';
 
     protected $_subject = '';
@@ -31,6 +33,17 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 	public function getMessage() {
 		return $this->_message;
 	}
+
+    public function setSmsText($smsText) {
+        if($this->_service === self::SERVICE_TYPE_SMS) {
+            $this->setMessage($smsText);
+        }
+        return $this;
+    }
+
+    public function getSmsText() {
+        return $this->_smsText;
+    }
 
 	public function setRecipient($recipient) {
 		$this->_recipient = $recipient;
@@ -81,6 +94,10 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
     public function getService() {
         return $this->_service;
+    }
+
+    public function unsetSmsTextProperty() {
+        unset($this->_smsText);
     }
 
 }
