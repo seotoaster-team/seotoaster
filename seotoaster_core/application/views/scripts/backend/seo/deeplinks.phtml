@@ -24,8 +24,7 @@
 		<div id="deeplinks-list" class="grid_12 items-list"></div>
 	</div>
 	<div class="grid_12 footer">
-<!--		<button class="mdel-button" id="deeplink-massdel-run">--><?php //echo $this->translate('Delete selected'); ?><!--</button>-->
-		<a href="javascript:;" class="delete-selected btn link error" id="deeplink-massdel-run">[ Delete selected ]</a>
+		<a href="javascript:;" id="deeplink-massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</dv>
 </div>

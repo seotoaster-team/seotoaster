@@ -20,8 +20,7 @@
 		<div id="redirects-list" class="grid_12 items-list"></div>
 	</div>
 	<div class="grid_12 footer">
-<!--	<button class="mdel-button" id="massdel-run">--><?php //echo $this->translate('Delete selected'); ?><!--</button>-->
-		<a href="javascript:;" class="delete-selected btn link error" id="massdel-run">[ Delete selected ]</a>
+		<a href="javascript:;" id="massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</dv>
 </div>
