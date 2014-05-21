@@ -48,7 +48,7 @@
                     {{else}}
                         <?php echo $this->formHidden('actions[${index}][service]', 'email', array('class' => 'grid_8')); ?>
                     {{/if}}
-					<div>
+					<p>
 						<?php echo $this->formLabel('recipients', 'send to', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formSelect('actions[${index}][recipient]', '${sendto}', array('class' => 'grid_8'), $this->recipients); ?>
 					</p>
@@ -56,6 +56,10 @@
 						<?php echo $this->formLabel('mailTemplates', 'use template', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formSelect('actions[${index}][template]', null, array('class' => 'grid_8'), $this->mailTemplates); ?>
 					</p>
+                    <p class="{{if serviceName == 'sms'}}hidden {{/if}}">
+                        <?php echo $this->formLabel('message', 'with message', array('class' => 'grid_4 mt5px')); ?>
+                        <?php echo $this->formTextarea('actions[${index}][message]', '${message}', array('rows' => 4, 'class' => 'grid_8')); ?>
+                    </p>
 					<p>
 						<?php echo $this->formLabel('from', 'from', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][from]', '${from}', array('class' => 'grid_8')); ?>
@@ -63,11 +67,11 @@
 					<p>
 						<?php echo $this->formLabel('subject', 'with subject', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][subject]', '${subject}', array('class' => 'grid_8')); ?>
-					</div>
+					</p>
                     {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber'}}
                     <p class="{{if serviceName != 'sms'}}hidden {{/if}}">
-                        <?php echo $this->formLabel('message', 'insert plain text message only', array('class' => 'grid_4 mt5px')); ?>
-                        <?php echo $this->formTextarea('actions[${index}][message]', '', array('class' => 'grid_8', 'placeholder' => 'SMS are text only', 'rows' => '5')); ?>
+                        <?php echo $this->formLabel('smsText', 'insert plain text message only', array('class' => 'grid_4 mt5px')); ?>
+                        <?php echo $this->formTextarea('actions[${index}][smsText]', '', array('class' => 'grid_8', 'placeholder' => 'SMS are text only', 'rows' => '5')); ?>
                     </p>
                     {{/if}}
                 </fieldset>
@@ -147,17 +151,21 @@
                 $trigger.remove();
             }
         }).on('change', 'select[id*="service"]', function() {
-            var templateEl = $(this).parent().nextAll('div').find('[id*="template"]');
-            var fromEl = $(this).parent().nextAll('div').find('[id*="from"]');
-            var subjectEl = $(this).parent().nextAll('div').find('[id*="subject"]');
-            var messageEl  = $(this).parent().nextAll('div').find('[id*="message"]');
-            var recipientEl  = $(this).parent().nextAll('div').find('[id*="recipient"]');
+            var rootEl = $(this).parent().nextAll('p');
+            var templateEl = rootEl.find('[id*="template"]');
+            var fromEl = rootEl.find('[id*="from"]');
+            var subjectEl = rootEl.find('[id*="subject"]');
+            var messageEl  = rootEl.find('[id*="message"]');
+            var smsTextEl  = rootEl.find('[id*="smsText"]');
+            var recipientEl  = rootEl.find('[id*="recipient"]');
             var recipientIndex = $('[value="customer"]', recipientEl).index();
             if($(this).val() === 'sms') {
                 $(templateEl).closest('p').addClass('hidden');
                 $(fromEl).closest('p').addClass('hidden');
                 $(subjectEl).closest('p').addClass('hidden');
-                $(messageEl).closest('p').removeClass('hidden');
+                $(messageEl).closest('p').addClass('hidden');
+                $(smsTextEl).closest('p').removeClass('hidden');
+                /*Hide all recipients except client*/
                 $('option:eq('+recipientIndex+')', recipientEl).prop("selected", "selected");
                 $('option:gt('+recipientIndex+')',recipientEl).hide();
                 $('option:lt('+recipientIndex+')',recipientEl).hide();
@@ -166,7 +174,8 @@
                 $(templateEl).closest('p').removeClass('hidden');
                 $(fromEl).closest('p').removeClass('hidden');
                 $(subjectEl).closest('p').removeClass('hidden');
-                $(messageEl).closest('p').addClass('hidden');
+                $(messageEl).closest('p').removeClass('hidden');
+                $(smsTextEl).closest('p').addClass('hidden');
                 $('option:gt('+recipientIndex+')',recipientEl).show();
                 $('option:lt('+recipientIndex+')',recipientEl).show();
             }
@@ -201,12 +210,15 @@
                                 var recipientIndex = $('select[name*=recipient] option[value="customer"]', action).index();
                                 $('select[name*=recipient] option:gt('+recipientIndex+')', action).hide();
                                 $('select[name*=recipient] option:lt('+recipientIndex+')', action).hide();
+                                $('textarea[name*=smsText]', action).val(item.message);
+
+                            }else {
+                                $('textarea[name*=message]', action).val(item.message);
                             }
                             $('select[name*=service]', action).val(item.service);
 							$('select[name*=trigger]', action).val(item.trigger);
 							$('select[name*=recipient]', action).val(item.recipient);
 							$('select[name*=template]', action).val(item.template);
-							$('textarea[name*=message]', action).val(item.message);
 							$('input[name*=from]', action).val(item.from);
 							$('input[name*=subject]', action).val(item.subject);
 							$(triggerHolder).prepend(action);
