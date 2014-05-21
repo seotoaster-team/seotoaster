@@ -41,10 +41,10 @@
                         <?php echo $this->translate('When'); ?> <strong>${title}</strong><br />
                     </div>
                     {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber'}}
-                    <div>
+                    <p>
                         <?php echo $this->formLabel('recipients', 'send', array('class' => 'grid_4 mt5px')); ?>
                         <?php echo $this->formSelect('actions[${index}][service]', '${sendto}', array('class' => 'grid_8'), $this->services); ?>
-                    </div>
+                    </p>
                     {{else}}
                         <?php echo $this->formHidden('actions[${index}][service]', 'email', array('class' => 'grid_8')); ?>
                     {{/if}}
