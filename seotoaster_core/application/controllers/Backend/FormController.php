@@ -7,29 +7,25 @@
 class Backend_FormController extends Zend_Controller_Action {
 
     const FORM_THANKYOU_PAGE = 'option_formthankyoupage';
-    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx';
+    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt';
 
 	public static $_allowedActions = array(
 		'receiveform',
         'refreshcaptcha'
 	);
 
-    public function init()
-    {
-        parent::init();
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
-            $this->view->websiteUrl = $this->_helper->website->getUrl();
-            $this->_helper->AjaxContext()->addActionContexts(
-                array(
-                    'manageform' => 'json',
-                    'delete' => 'json',
-                    'loadforms' => 'json',
-                    'receiveform' => 'json'
-                )
-            )->initContext('json');
-        } else {
-            $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
-        }
+    public function init() {
+		parent::init();
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed()) {
+			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+		}
+    	$this->view->websiteUrl = $this->_helper->website->getUrl();
+        $this->_helper->AjaxContext()->addActionContexts(array(
+			'manageform'  => 'json',
+			'delete'  => 'json',
+			'loadforms'   => 'json',
+			'receiveform' => 'json'
+		))->initContext('json');
     }
 
     public function manageformAction() {
