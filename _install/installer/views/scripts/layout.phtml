@@ -1,5 +1,10 @@
 <?php echo $this->doctype(); ?>
-<html lang="en">
+<!--[if IE 7 ]><html class="ie ie7" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="<?php echo $this->htmlLang; ?>">
+<!--<![endif]-->
 	<head>
 		<?php echo $this->headMeta()->setCharset('utf-8'); ?>
 		
@@ -7,8 +12,7 @@
 		<?php echo $this->headTitle(); ?>
 		
 		<?php $this->headLink()->appendStylesheet('../system/css/reset.css'); ?>
-		<?php $this->headLink()->appendStylesheet('../system/css/grid.css'); ?>
-		<?php $this->headLink()->appendStylesheet('../system/uithemes/seotoasterui/seotoasterui.css'); ?>
+		<?php $this->headLink()->appendStylesheet('../system/css/seotoaster-ui.css'); ?>
 		<?php $this->headLink()->appendStylesheet('assets/styles.css'); ?>
 
 		<?php echo $this->headLink(); ?>
