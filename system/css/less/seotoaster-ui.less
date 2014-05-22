@@ -1,23 +1,5 @@
 @import "base/variables";
 
-@module-carousel               : false;
-@module-alert                  : true;
-@module-accordion              : true;
-@module-tabs                   : true;
-@module-dialog                 : true;
-@module-datepicker             : true;
-@module-autocomplete           : true;
-@module-tooltips               : true;
-    @module-tooltips-color-red    : true;
-    @module-tooltips-color-blue   : true;
-    @module-tooltips-color-green  : true;
-    @module-tooltips-color-orange : true;
-@module-range                  : true;
-@module-progressbar            : true;
-@module-chosen                 : false;
-@module-pagination             : false;
-@module-scrollbar              : false;
-
 // Overlays
 .ui-widget-overlay{
     position   : fixed;
@@ -44,17 +26,6 @@
     border      : none !important;
     max-width   : none !important;
 }
-
-//  Fonts
-//==================================================
-@import "elements/fonts";
-
-//  Toaster ICON
-//==================================================
-.activate-toaster-icon(@activate) when ( @activate = true){
-//    @import "elements/toaster-icons";
-}
-.activate-toaster-icon(@toaster-icons);
 
 .btn, button, [type="submit"]{
     background-image: none;

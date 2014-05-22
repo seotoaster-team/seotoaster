@@ -1,0 +1,34 @@
+.paginator, .dataTables_paginate{
+    color       : @gray-light;
+    font-size   : @font-size-small;
+    cursor      : default;
+    line-height : 1;
+    .inline-block();
+
+    *{
+        .inline-block;
+        border  : 1px solid @gray-light;
+        padding : @padding-small-vertical @padding-small-horizontal;
+        margin  : 0 0.1em;
+    }
+
+    &.page{
+        cursor       : pointer;
+        border-color : @gray-light;
+
+        &:hover{
+            background : @gray-light;
+            color      : @gray;
+        }
+
+        &.selected{
+            background   : @primary-bg;
+            color        : @primary-color;
+            border-color : @primary-bg;
+        }
+    }
+
+    :first-child, :last-child{
+        font-weight : bold;
+    }
+}

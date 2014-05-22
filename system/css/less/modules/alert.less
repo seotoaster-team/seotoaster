@@ -1,11 +1,10 @@
 // Alert and Message styles
 // -------------------------
-.message,
-.smoke-base .dialog{
-    position      : relative;
-    padding       : @padding-base-vertical @padding-base-horizontal;
-    border        : 1px solid;
-    border-radius : @state-border-radius;
+.message{
+    position : relative;
+    padding  : @padding-base-vertical @padding-base-horizontal;
+    border   : 1px solid;
+    .border-radius(@state-border-radius);
     .alert-color(@state-green-text, @state-green-bg, @state-green-border, true, true);
 
     a{
@@ -75,33 +74,36 @@
     }
 
     .dialog{
-        position      : fixed;
-        z-index       : 1001;
-        top           : 25%;
-        left          : 0;
-        right         : 0;
-        margin        : 0 auto;
-        width         : 100%;
-        max-width     : @grid-container-width * 0.75;
-        max-height    : 50%;
-        overflow      : auto;
-        font-size     : @font-size-large;
-        text-align    : center;
-        .box-shadow(0 0 100px desaturate(@state-green-border, 10%));
+        position   : fixed;
+        z-index    : 1001;
+        top        : 25%;
+        left       : 0;
+        right      : 0;
+        margin     : 0 auto;
+        width      : 100%;
+        max-width  : @grid-container-width * 0.75;
+        max-height : 50%;
+        overflow   : auto;
+        font-size  : @font-size-large;
+        text-align : center;
+        background : #fff;
+        border     : 1px solid #ddd;
+        .border-radius(@state-border-radius);
+        .box-shadow(0 0 15px #ccc);
 
         // Alternate styles
         // -------------------------
         &.success{
-            .box-shadow(0 0 100px desaturate(@state-green-border, 10%), @color-green);
+            color : @brand-green;
         }
         &.warning{
-            .box-shadow(0 0 100px desaturate(@state-orange-border, 10%), @color-orange);
+            color : @brand-orange;
         }
         &.error{
-            .box-shadow(0 0 100px desaturate(@state-red-border, 10%), @color-red);
+            color : @brand-red;
         }
         &.info{
-            .box-shadow(0 0 100px desaturate(@state-blue-border, 10%), @color-blue);
+            color : @brand-blue;
         }
     }
 
@@ -113,11 +115,11 @@
     }
 
     .dialog-prompt{
-        margin-top: 0.75em;
+        margin-top : 0.75em;
         .clearfix;
 
         input, select, textarea{
-            float: none;
+            float : none;
         }
     }
 
@@ -127,7 +129,7 @@
     }
 
     .dialog-buttons{
-        margin-top : 2em;
+        margin-top : 1em;
         font-size  : @font-size-base;
 
         button{
