@@ -36,10 +36,10 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
         $content = ($this->_container === null) ? '' : $this->_container->getContent();
         if (Tools_Security_Acl::isAllowed($this)) {
             $content .= $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT);
-            if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor')){
+            if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor') && !in_array('readonly',$this->_options)){
                 $content = '<div class="container-wrapper '. ($isPublished ? '' : 'unpublished') .'">' . $content . '</div>';
             }
-            elseif(!$isPublished) {
+            elseif(!$isPublished && !in_array('readonly',$this->_options)) {
                 $content = '<div class="unpublished">' . $content . '</div>';
             }
         }

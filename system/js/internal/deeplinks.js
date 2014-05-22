@@ -34,6 +34,7 @@ $(function() {
 			ids.push($(this).attr('id'));
 		});
 		if(!ids.length) {
+            hideSpinner();
 			showMessage('Select at least one item, please', true);
 			return false;
 		}

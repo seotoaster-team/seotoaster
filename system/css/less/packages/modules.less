@@ -105,9 +105,9 @@
 // Pagination Styles
 //==================================================
 .activate-pagination(@activate : @module-pagination) when (@activate = true){
-// TODO create style for pagination
+    @import "../modules/paginator";
 }
-.activate-pagination;
+.activate-pagination();
 
 // UI effects transfer
 //==================================================

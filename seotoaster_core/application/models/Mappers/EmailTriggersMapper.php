@@ -22,10 +22,13 @@ class Application_Model_Mappers_EmailTriggersMapper extends Application_Model_Ma
 
 		if ($model->getId()){
 			$data = $model->toArray();
+            unset($data['smsText']);
 			unset($data['id']);
 			$this->getDbTable()->update($data, array('id = ?' => $model->getId()));
 		} else {
-			$this->getDbTable()->insert($model->toArray());
+            $triggerAction = $model->toArray();
+            unset($triggerAction['smsText']);
+			$this->getDbTable()->insert($triggerAction);
 		}
 	}
 
