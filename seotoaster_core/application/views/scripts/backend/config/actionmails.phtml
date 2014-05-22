@@ -70,8 +70,8 @@
 					</p>
                     {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber'}}
                     <p class="{{if serviceName != 'sms'}}hidden {{/if}}">
-                        <?php echo $this->formLabel('smsText', 'insert plain text message only', array('class' => 'grid_4 mt5px')); ?>
-                        <?php echo $this->formTextarea('actions[${index}][smsText]', '', array('class' => 'grid_8', 'placeholder' => 'SMS are text only', 'rows' => '5')); ?>
+                        <?php echo $this->formLabel('smsText', 'insert plain text message only', array('class' => 'grid_12')); ?>
+                        <?php echo $this->formTextarea('actions[${index}][smsText]', '', array('class' => 'grid_12', 'placeholder' => 'SMS are text only', 'rows' => '5', 'style' => 'height:172px;')); ?>
                     </p>
                     {{/if}}
                 </fieldset>
