@@ -6,6 +6,11 @@ $(function() {
         $('#tabs-frag-2').empty().load($('#website_url').val() + 'backend/backend_content/loadwidgetmaker/');
     });
 
+    $(document).on('click', '[aria-label="Fullscreen"]', function() {
+        var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
+        popup.toggleClass('screen-expand');
+    });
+
     $('#btn-submit').click(function(){
         $('#frm_content').submit();
     });

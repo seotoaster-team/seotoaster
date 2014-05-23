@@ -159,13 +159,8 @@
 
 .mce-edit-area{
 
-    iframe{
+    iframe[style*="height: 4"]{
         height : 380px !important;
-
-        .mce-fullscreen &{
-            height        : 438px !important;
-            border-bottom : 1px solid #ccc;
-        }
 
         .hidden.mce-toolbar-grp+&{
             height : 448px !important;
@@ -175,6 +170,20 @@
 
     .hidden.mce-toolbar-grp+&{
         border : none !important;
+    }
+}
+
+.mce-fullscreen{
+    iframe{
+        border-bottom  : 1px solid #ccc;
+        padding-bottom : @content-margin-top + @content-margin-bottom + @button-height-base;
+    }
+    .footer{
+        position : fixed;
+        z-index  : 100;
+        bottom   : 0;
+        left     : 0;
+        right    : 0;
     }
 }
 
