@@ -51,10 +51,10 @@ class LoginController extends Zend_Controller_Action {
 					$this->_memberRedirect(false);
 				}
 
-				$this->_checkRedirect(false, array('email' => 'There is no user with such login and password.'));
+				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
 			}
 			else {
-				$this->_checkRedirect(false, array('email' => 'Login should be a valid email address'));
+				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Login should be a valid email address')));
 			}
 		}
 		else {

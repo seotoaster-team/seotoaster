@@ -794,6 +794,7 @@
     'OR' => 'OU',
     'Next'=>'Suivant',
     'Let me in' => 'Entrez',
+    'Sign Up' => 'S\'inscrire',
     'First Name' => 'Prénom',
     'Last Name' => 'Nom',
     'Company'   => 'Organisation',
