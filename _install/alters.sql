@@ -37,6 +37,8 @@ ALTER TABLE `email_triggers` ADD UNIQUE INDEX(`trigger_name`, `observer`);
 -- version 2.2.1
 ALTER TABLE `email_triggers_actions` ADD `service` ENUM( 'email', 'sms' ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL AFTER `id`;
 
+UPDATE `email_triggers_actions` SET `service` = 'email' WHERE `service` IS NULL;
+
 INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUES
 (null, '1', 'store_neworder', 'Tools_AppsSmsWatchdog'),
 (null, '1', 'store_trackingnumber', 'Tools_AppsSmsWatchdog');

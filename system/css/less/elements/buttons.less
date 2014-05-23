@@ -21,8 +21,8 @@
     }
 
     &[class*="grid_"]{
-        padding-left  : 0;
-        padding-right : 0;
+        padding-left  : 0 !important;
+        padding-right : 0 !important;
     }
 }
 
@@ -211,15 +211,14 @@
 .activate-type-button-group() when (@button-types = true) and (@alternate-style = true){
     .ui-buttonset, .btn-set{
         font-size    : 0;
-        display      : inline-block;
         border-width : @button-border-width;
         border-style : solid;
         border-color : @primary-bg;
         width        : auto;
         float        : none;
+        .inline-block();
 
         .ui-button, .btn{
-            font-size   : @font-size-base;
             margin-left : 1px;
 
             &:first-child{
