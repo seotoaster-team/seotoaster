@@ -6,6 +6,11 @@ $(function() {
         $('#tabs-frag-2').empty().load($('#website_url').val() + 'backend/backend_content/loadwidgetmaker/');
     });
 
+    $(document).on('click', '[aria-label="Fullscreen"]', function() {
+        var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
+        popup.toggleClass('screen-expand');
+    });
+
     $('#btn-submit').click(function(){
         $('#frm_content').submit();
     });
@@ -81,9 +86,9 @@ $(function() {
 				error: function() {
 					listFiles.html('Unable to load files list');
 				}
-			})
+			});
 		//}
-	})
+	});
 
 	$('#widgets').click(function(){
 		var widgetsMaker = $('#widgets_maker');
@@ -100,51 +105,53 @@ $(function() {
 				}
 			})
 		}
-	})
-
-	$('#toogletinymce').click(function() {
-		var editorId = 'content';
-        $('#tabs').tabs({active : 0}).toggleClass('hidden');
-
-        if($('#tabs.grid_8').length){
-            $('#tabs').toggleClass('grid_4 grid_8');
-            $('.above-editor-links').toggleClass('grid_12 grid_4');
-        }else{
-            $('.above-editor-links').toggleClass('grid_12 grid_8');
-        }
-
-		if(!tinyMCE.getInstanceById(editorId)) {
-			$(this).text('SHOW HTML');
-			tinyMCE.execCommand('mceAddControl', false, editorId);
-		}
-		else {
-			$(this).text('SHOW EDITOR');
-			tinyMCE.execCommand('mceRemoveControl', false, editorId);
-
-		}
 	});
+
+//	$('#toogletinymce').click(function() {
+//		var editorId = 'content';
+//        $('#tabs').tabs({active : 0}).toggleClass('hidden');
+//
+//        if($('#tabs.grid_8').length){
+//            $('#tabs').toggleClass('grid_4 grid_8');
+//            $('.above-editor-links').toggleClass('grid_12 grid_4');
+//        }else{
+//            $('.above-editor-links').toggleClass('grid_12 grid_8');
+//        }
+//
+//		if(!tinyMCE.getInstanceById(editorId)) {
+//			$(this).text('SHOW HTML');
+//			tinyMCE.execCommand('mceAddControl', false, editorId);
+//		}
+//		else {
+//			$(this).text('SHOW EDITOR');
+//			tinyMCE.execCommand('mceRemoveControl', false, editorId);
+//
+//		}
+//	});
 
 	var restoredContent = localStorage.getItem(generateStorageKey());
 	if(restoredContent !== null) {
 		showConfirm('We have found content that has not been saved! Restore?', function() {
+            tinymce.activeEditor.setContent(restoredContent);
 			$('#content').val(restoredContent);
 		}, function() {
 			localStorage.removeItem(generateStorageKey());
 		}, 'success');
 	}
-})
+});
 
-function dispatchEditorKeyup(editor, event) {
-    if(editor.keyUpTimer === null) {
-	    editor.keyUpTimer = setTimeout(function() {
-		    localStorage.setItem(generateStorageKey(), editor.getContent());
-		    editor.keyUpTimer = null;
+function dispatchEditorKeyup(editor, event, keyTime) {
+    var keyTimer = keyTime;
+    if(keyTimer === null) {
+        keyTimer = setTimeout(function() {
+		    localStorage.setItem(generateStorageKey(), tinymce.activeEditor.getContent());
+            keyTimer = null;
 	    }, 1000)
     }
 }
 
 function insertFileLink(fileName) {
-	$('#content').tinymce().execCommand(
+    tinymce.activeEditor.execCommand(
 		'mceInsertContent',
 		false,
 		'<a href="' + $('#website_url').val() + 'media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'

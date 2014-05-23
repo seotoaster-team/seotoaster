@@ -1,40 +1,48 @@
 $(document).ready(function(){
     var websiteUrl = $('#website_url').val();
 
-    $('textarea.tinymce').tinymce({
-        // general settings
-        script_url             : websiteUrl + 'system/js/external/tinymce/tiny_mce_gzip.php',
-        theme                  : 'advanced',
-        width                  : '100%',
-        height                 : 425,
-        plugins                : 'preview,fullscreen,media,paste,stw',
-        convert_urls           : false,
-        relative_urls          : false,
-        entity_encoding        : 'raw',
-        content_css            : $('#content_css').val(),
-        external_link_list_url : websiteUrl + 'backend/backend_page/linkslist/',
-        forced_root_block      : 'p',
-        valid_elements         : '*[*]',
-        extended_valid_elements: 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]',
-
-        // buttons
-        theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,styleselect,formatselect,fontsizeselect,forecolor,backcolor,link,unlink',
-		theme_advanced_buttons2 : 'image,|,widgets,|,pastetext,removeformat,charmap,hr',
-
-        // theme advanced related settings
-        theme_advanced_blockformats       : 'div,blockquote,p,address,pre,h2,h3,h4,h5,h6',
-		theme_advanced_toolbar_location   : 'top',
-		theme_advanced_toolbar_align      : 'left',
-        theme_advanced_resizing           : false,
-        theme_advanced_statusbar_location : 'none',
-
-        // setup hook
-        setup : function(ed) {
-			ed.keyUpTimer = null;
-			ed.onKeyUp.add(function(ed, e) {
-				//@see content.js for this function
-				dispatchEditorKeyup(ed, e);
-			});
-		}
+    tinymce.init({
+        script_url              : websiteUrl+'system/js/external/tinymce/tinymce.gzip.php',
+        selector                : "textarea.tinymce",
+        skin                    : 'seotoaster',
+        width                   : '100%',
+        menubar                 : false,
+        resize                  : false,
+        convert_urls            : false,
+        relative_urls           : false,
+        statusbar               : false,
+        content_css             : $('#reset_css').val()+','+$('#content_css').val(),
+        importcss_file_filter   : "content.css",
+        importcss_groups : [
+            {title : 'Button styles', filter : /^(.btn*|button\.)/},
+            {title : 'Table styles', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
+            {title : 'List styles', filter : /^(.list*|ul\.|ol\.)/},
+            {title : 'Image styles', filter : /^(.image*|img\.)/},
+            {title : 'Block quote styles', filter : /^(blockquote\.)/},
+            {title : 'Primary colors', filter : /^(\.primary*|\.green|\.blue|\.orange|\.red|\.color*)/},
+            {title : 'Size classes', filter : /^(\.larger|\.large|\.small|\.mini|\.size*)/},
+            {title : 'Other styles'}
+        ],
+        importcss_merge_classes: true,
+        plugins                 : [
+            "advlist lists link image charmap", "visualblocks code fullscreen", "media table paste importcss textcolor stw"
+        ],
+        importcss_merge_classes : true,
+        toolbar1                : "bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | forecolor backcolor | link image media table | pastetext removeformat",
+        toolbar2                : "stw | styleselect | formatselect | fontsizeselect | hr charmap | visualblocks code fullscreen",
+        fontsize_formats        : "8px 10px 12px 14px 18px 24px 36px",
+        block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
+        link_list               : websiteUrl+'backend/backend_page/linkslist/',
+        image_advtab            : true,
+        setup                   : function(ed){
+            var keyTime = null;
+            ed.on('change', function(ed, e){
+                //@see content.js for this function
+                dispatchEditorKeyup(ed, e, keyTime);
+            });
+            ed.on("blur", function(){
+                this.save();
+            });
+        }
     });
 });

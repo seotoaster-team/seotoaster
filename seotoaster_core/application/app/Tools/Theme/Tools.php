@@ -108,6 +108,17 @@ class Tools_Theme_Tools {
         return $websiteHelper->getUrl().$themesPath.$folderCssPath.'content.css';
     }
 
+    public static function urlResetCss() {
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $themesConfig  = Zend_Registry::get('theme');
+        $themesPath    = $themesConfig['path'].$configHelper->getConfig('currentTheme').DIRECTORY_SEPARATOR;
+        $filePath      = $websiteHelper->getPath().$themesPath.self::FOLDER_CSS.'reset.css';
+        $folderCssPath = (is_file($filePath)) ? self::FOLDER_CSS : '';
+
+        return $websiteHelper->getUrl().$themesPath.$folderCssPath.'reset.css';
+    }
+
     public static function applyTemplates($themeName) {
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $themesConfig  = Zend_Registry::get('theme');
