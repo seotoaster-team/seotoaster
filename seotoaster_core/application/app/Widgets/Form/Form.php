@@ -65,11 +65,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $pageHelper = new Helpers_Action_Page();
         $pageHelper->init();
 
+        $captchaStatus = 0;
 		if($useCaptcha || $useRecaptcha) {
-			if($form != null){
-                $form->setCaptcha(1);
-                $formMapper->save($form);
-            }
+            $captchaStatus = 1;
             if($useRecaptcha){
                 $recaptchaTheme = $recaptchaStyle;
                 $recaptchaWidgetId = uniqid('recaptcha_widget_');
@@ -88,6 +86,10 @@ class Widgets_Form_Form extends Widgets_Abstract {
                 $this->_view->captchaId = Tools_System_Tools::generateCaptcha();
             }
 		}
+        if($form != null){
+            $form->setCaptcha($captchaStatus);
+            $formMapper->save($form);
+        }
         if(isset($sessionHelper->toasterFormError)){
             $this->_view->toasterFormError = $sessionHelper->toasterFormError;
             unset($sessionHelper->toasterFormError);
