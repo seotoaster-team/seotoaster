@@ -25,12 +25,9 @@
         else {
             $src = $this->websiteUrl.'system/images/noimage.png';
         }
-        $imgData = getimagesize($src);
-        $width = $imgData[0];
-        $height = $imgData[1];
         ?>
 		<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
-			<img src="<?php echo $src; ?>" alt="<?php echo $this->page->getH1(); ?>"  width="<?php echo $width; ?>" height="<?php echo $height; ?>"/>
+			<img src="<?php echo $src; ?>" alt="<?php echo $this->page->getH1(); ?>" />
 		</a>
 	<?php endif; ?>
     <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>" class="page-title"><?php echo $this->page->getNavName(); ?></a>

@@ -82,8 +82,8 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		if(!empty ($pagePreviews)) {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
-            $src =  $websiteHelper->getUrl().$path.$pagePreviews[0]; $imgData = getimagesize($src); $width = $imgData[0]; $height = $imgData[1];
-			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['url']).'" width="'.$width.'" height="'.$height.'"/>';
+            $src =  $websiteHelper->getUrl().$path.$pagePreviews[0];
+			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['url']).'" />';
 		}
 		return;
 	}
