@@ -1,20 +1,19 @@
 .paginator, .dataTables_paginate{
-    color       : @gray-light;
+    color       : @gray;
     font-size   : @font-size-small;
     cursor      : default;
     line-height : 1;
-    .inline-block();
+//    .inline-block();
 
-    *{
+    a, span{
         .inline-block;
-        border  : 1px solid @gray-light;
+        border  : 1px solid #bbb;
         padding : @padding-small-vertical @padding-small-horizontal;
         margin  : 0 0.1em;
     }
 
-    &.page{
+    .page{
         cursor       : pointer;
-        border-color : @gray-light;
 
         &:hover{
             background : @gray-light;
