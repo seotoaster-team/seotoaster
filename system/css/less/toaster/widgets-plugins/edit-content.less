@@ -72,6 +72,10 @@
     #tabs-frag-2{
         .ui-accordion-content{
             max-height : 195px;
+
+            .mce-fullscreen &{
+                max-height : none;
+            }
         }
     }
 }
@@ -139,7 +143,6 @@
 
 #frm_content{
     #content{
-//        height : 430px;
     }
 
     #content_widgets_text{
@@ -161,23 +164,74 @@
 
     iframe{
         height : 380px !important;
-
-        .hidden.mce-toolbar-grp+&{
-            height : 448px !important;
-        }
-
     }
 
-    .hidden.mce-toolbar-grp+&{
+    .hidden.mce-toolbar-grp+.mce-edit-area{
         border : none !important;
+
+        iframe{
+            height : 448px !important;
+        }
     }
 }
 
 .mce-fullscreen{
-    iframe{
-        border-bottom  : 1px solid #ccc;
-        padding-bottom : @content-margin-top + @content-margin-bottom + @button-height-base;
+
+    .mce-edit-area{
+        border-bottom-width : 1px !important;
+        position            : absolute;
+        top                 : 66px;
+        left                : 0;
+        right               : 0;
+        bottom              : 0;
     }
+
+    .mce-toolbar-grp{
+        display : block;
+    }
+
+    iframe{
+        height : 100% !important;
+    }
+
+    #tabs{
+        margin   : 0;
+        position : fixed;
+        top      : 0;
+        right    : -(round(percentage((4 / @grid-columns)) - @grid-margin-width / 2, 3));
+        bottom   : 0;
+        height   : auto !important;
+        z-index  : 101;
+        .transition();
+
+        &.grid_8{
+            right : -(round(percentage((8 / @grid-columns)) - @grid-margin-width / 2, 3));
+        }
+
+        &:before{
+            content     : "\e02d";
+            font-family : 'system-icons';
+            font-size   : 24px;
+            position    : absolute;
+            top         : @header-height + 10px;
+            right       : 100%;
+            padding     : @padding-small-vertical 0;
+            background  : #fafafa;
+            border      : 1px solid #ddd;
+            .border-radius(@border-radius-base 0 0 @border-radius-base);
+            .box-shadow(0 0 10px #ccc);
+        }
+
+        &:hover{
+            right : 0;
+            .box-shadow(0 0 10px #ccc);
+        }
+
+        .full-screen&{
+            right : -(round(percentage((4 / @grid-columns)) - @grid-margin-width / 2, 3));
+        }
+    }
+
     .footer{
         position : fixed;
         z-index  : 100;
