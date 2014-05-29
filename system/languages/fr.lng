@@ -1118,5 +1118,6 @@
     'Required fields are missing! Please fill all fields marked with *' => 'Veuillez noter que tous les champs marqués d&#8242;une * sont obligatoires',
     'Enter the words from picture' => 'Entrez le captcha',
     'Edit this form' => 'Modifier cette forme',
-    'Build your form now' => ' Construire votre forme maintenant'
+    'Build your form now' => ' Construire votre forme maintenant',
+    'Notes' => 'Commentaires'
 );?>
