@@ -10,7 +10,6 @@
 // ------------------------------------------
 .@{chosen-prefix}-container{
     position         : relative;
-    padding          : 0 @padding-small-vertical;
     width            : 100% !important;
     min-height       : @button-height-base;
     border-width     : @input-border-width;
@@ -27,6 +26,11 @@
     &.@{chosen-prefix}-container-active{
         border-color : @input-border-color-focus;
         .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
+    }
+
+    *{
+        margin  : 0;
+        padding : 0;
     }
 
     &>*{
@@ -58,8 +62,6 @@
     }
 
     ul{
-        margin     : 0;
-        padding    : 0;
         list-style : none;
     }
 
@@ -167,8 +169,8 @@
     }
 
     .@{chosen-prefix}-choices{
-        font-size  : @font-size-small;
-//        margin-top : 0.25em;
+        font-size : @font-size-small;
+        //        margin-top : 0.25em;
         .clearfix();
 
         &>*{
@@ -178,13 +180,14 @@
         .search-choice{
             background  : @gray-light;
             color       : @text-color;
+            margin      : 0.25em;
             padding     : 0 @padding-mini-horizontal;
-            margin      : 0 0.25em 0.25em 0;
             height      : @button-height-small;
             line-height : @button-height-small;
         }
 
         .search-field{
+            margin      : 0.25em;
 
             input{
                 border  : none;
