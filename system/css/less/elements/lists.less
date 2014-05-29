@@ -174,7 +174,7 @@ dl{
                         margin-left    : -1em;
                         .activate-toaster-icon() when (@toaster-icons = true){
                             font-family : 'system-icons';
-                            content     : '\e0c3';
+                            content     : '\e01a';
                         }
                         .activate-toaster-icon() when (@toaster-icons = false){
                             content : '>';
@@ -196,7 +196,7 @@ dl{
 
                 &>li{
                     margin-bottom : 0.5em;
-                    padding-left  : 3em;
+                    padding-left  : 2em;
                     line-height   : 2em;
 
                     &:before{
@@ -207,10 +207,13 @@ dl{
                         height            : 2em;
                         text-align        : center;
                         background-color  : @gray-lighter;
-                        margin-left       : -3em;
-                        margin-right      : 1em;
+                        margin-left       : -2em;
                         .transition(background-color, 0.5s);
                         .border-radius(10em);
+
+                        ul, li{
+                            line-height: @line-height;
+                        }
                     }
 
                     &:hover{
