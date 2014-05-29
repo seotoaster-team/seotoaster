@@ -209,13 +209,13 @@
         }
 
         &:before{
-            content     : "\e02d";
+            content     : "\e012";
             font-family : 'system-icons';
             font-size   : 24px;
             position    : absolute;
             top         : @header-height + 10px;
             right       : 100%;
-            padding     : @padding-small-vertical 0;
+            padding     : @padding-small-vertical @padding-base-horizontal;
             background  : #fafafa;
             border      : 1px solid #ddd;
             .border-radius(@border-radius-base 0 0 @border-radius-base);
