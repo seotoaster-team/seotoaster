@@ -264,20 +264,3 @@
     }
 }
 .activate-type-button-group();
-
-// Specificity overrides
-input[type="submit"], input[type="reset"], input[type="button"]{
-    &.block{
-        width : 100%;
-    }
-}
-
-//	User button
-// --------------------------------------------------
-[type="submit"], .save-and-close, #save-btn{
-    float : right;
-
-    .content-footer.grid_12+footer &, .content-medium-footer.grid_12+footer &, .content-small-footer.grid_12+footer &{
-        margin-right : @grid-margin-width / 2;
-    }
-}
