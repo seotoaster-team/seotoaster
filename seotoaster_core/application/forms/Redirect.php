@@ -56,11 +56,11 @@ class Application_Form_Redirect extends Zend_Form {
 		)));
         $this->getElement('toUrl')->setDisableTranslator(true);
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addRedirect',
 			'id'    => 'add-redirect',
 			'value' => 'Add redirect',
-			'class' => 'grid_2 omega',
+			'class' => 'btn icon-plus grid_2 omega',
 			'label' => 'Add redirect'
 		)));
 

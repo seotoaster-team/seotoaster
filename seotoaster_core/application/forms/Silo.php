@@ -22,11 +22,11 @@ class Application_Form_Silo extends Zend_Form {
 			'filters'  => array('StringTrim')
 		)));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addSilo',
 			'id'    => 'add-silo',
 			'value' => 'Add silo',
-			'class' => 'grid_3 alpha omega mt0px',
+			'class' => 'btn icon-plus grid_3 alpha omega mt0px',
 			'label' => 'Add silo'
 		)));
 

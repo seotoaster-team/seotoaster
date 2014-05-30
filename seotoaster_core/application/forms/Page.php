@@ -176,7 +176,7 @@ class Application_Form_Page extends Zend_Form {
 			'id'    => 'update-page',
 			'type'  => 'submit',
 			'value' => 'Save page',
-			'class' => 'icon-save mr-grid',
+			'class' => 'btn icon-save mr-grid',
 			'label' => 'Save page',
 			'escape'=> false
 		)));

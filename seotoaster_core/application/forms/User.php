@@ -102,9 +102,9 @@ class Application_Form_User extends Zend_Form {
 			'id'     => 'save-user',
 			'value'  => 'Save user',
 			'type'   => 'submit',
-			'class'  => 'mr-grid mt20px',
+			'class'  => 'btn icon-save mr-grid mt20px',
 			'ignore' => true,
-			'label'  => '<span class="icon-save"></span> Save user',
+			'label'  => 'Save user',
 			'escape' => false
 		)));
 

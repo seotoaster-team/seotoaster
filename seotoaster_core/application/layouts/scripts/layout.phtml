@@ -13,16 +13,15 @@
     // adding canonical link
     $this->headLink()->setIndent(8)
         ->prependStylesheet($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.css')
-        ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css');
+        ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
+        ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
 
     $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
 
     if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
         if (empty($this->bodyTag)) {
             $this->headLink()
-                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css')
-                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
-                ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
+                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css');
         }
         else {
             $this->headLink()->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');

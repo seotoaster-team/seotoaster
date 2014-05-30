@@ -2,7 +2,7 @@
 <?php if ($this->formType == 'dragdrop'): ?>
     <div style="cursor:pointer;" id="<?php echo $this->formId; ?>-dragdrop" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></div>
 <?php else: ?>
-    <button style="cursor:pointer;" id="<?php echo $this->formId; ?>-pickfiles" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></button>
+    <button class="btn" style="cursor:pointer;" id="<?php echo $this->formId; ?>-pickfiles" data-url="<?php echo $this->actionUrl;?>" ><?php echo $this->translate($this->buttonCaption); ?></button>
 <?php endif; ?>
 </div>
 <?php

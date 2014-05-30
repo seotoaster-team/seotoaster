@@ -21,9 +21,9 @@
 			</div>
 		</form>
 	</div>
-	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions')); ?>
+	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions', 'class' => 'btn icon-save')); ?>
     <div class="footer grid_12">
-        <button id="save-actions" name="saveActions" type="submit" value="Save changes"><span class="icon-save"></span> Save changes</button>
+        <button id="save-actions" class="btn icon-save" name="saveActions" type="submit"><?php echo $this->translate('Save changes'); ?></button>
     </div>
 
 <script id="triggerActionTemplate" type="text/x-jquery-tmpl">

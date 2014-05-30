@@ -61,7 +61,7 @@
     <div class="footer grid_12">
         <form id="update" action="<?php echo $this->websiteUrl ?>backend/backend_update/update" method="get">
             <label class="fl-left">Without backup: <input type ="checkbox" name="withoutBackup" value = "true"></label>
-            <input type="submit" name="update" value="<?php echo $this->translate('Update'); ?>">
+            <button class="btn icon-refresh" type="submit" name="update"><?php echo $this->translate('Update'); ?></button>
         </form>
     </div>
 </div>

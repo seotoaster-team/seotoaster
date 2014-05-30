@@ -138,9 +138,9 @@ class Application_Form_Form extends Zend_Form {
 		)));
 
         $this->addElement('button', 'submit', array(
-			'label' => '<span class="icon-save"></span> Save',
+			'label' => 'Save',
             'type'  => 'submit',
-            'class' => 'grid_3',
+            'class' => 'btn icon-save grid_3',
             'escape'=> false
 		));
 

@@ -55,7 +55,7 @@ class Application_Form_PasswordReset extends Zend_Form {
 			array('HtmlTag', array('tag' => 'div'))
 		));
 
-		$this->addElement(new Zend_Form_Element_Submit(array(
+		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'   => 'reset',
 			'ignore' => true,
 			'label'  => 'Reset'

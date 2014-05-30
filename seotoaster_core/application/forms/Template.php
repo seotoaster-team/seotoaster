@@ -63,8 +63,8 @@ class Application_Form_Template extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'   => 'submit',
 			'type'   => 'submit',
-			'label'  => '<span class="icon-save"></span> Save changes',
-			'class'  => array('formsubmit', 'mt15px'),
+			'label'  => 'Save changes',
+			'class'  => 'btn icon-save formsubmit mt15px',
 			'ignore' => true,
 			'escape' => false
 		)));

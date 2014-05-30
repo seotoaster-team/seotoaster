@@ -20,9 +20,9 @@ class Application_Form_Container extends Zend_Form {
 
 		$this->addElement('button', 'submit', array(
 			'id'     => 'btn-submit',
-            'label' => '<span class="icon-save"></span> Save content',
+            'label' => 'Save content',
             'type'  => 'submit',
-			'class'  => 'formsubmit',
+			'class'  => 'formsubmit btn icon-save',
 			'ignore' => true,
             'escape'=> false
 		));

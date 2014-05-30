@@ -28,7 +28,7 @@
 			<form id="frm-featured-area" action="<?php echo $this->websiteUrl . '/backend/backend_featured/featured/id/' . $this->pageForm->getElement('pageId')->getValue() . '/pid/' . $this->pageForm->getElement('pageId')->getValue() ?>" method="post" data-callback="loadFaList" class="_fajax grid_12 form-inline">
                 <label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
                 <input id="fa-name" class="grid_11 alpha omega" type="text" name="name" value="">
-				<button id="add-featured-area" class="btn icon icon-plus grid_1 alpha omega mt0px" type="submit" name="addFeaturedArea" value="<?php echo $this->translate('Add page tag'); ?>"></button>
+				<button id="add-featured-area" class="btn icon icon-plus grid_1 alpha omega mt0px" type="submit" name="addFeaturedArea"><?php echo $this->translate('Add page tag'); ?></button>
 			</form>
 			<div class="header-inner grid_12 mt1em">
 				<div class="grid_12 list-row-item">
