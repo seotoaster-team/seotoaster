@@ -25,7 +25,8 @@ class Application_Form_Login extends Zend_Form {
 		$this->addElement('submit', 'submit', array(
 			'label'  => 'Let me in',
 			'ignore' => true,
-			'id'     => 'submit'
+			'id'     => 'submit',
+			'class'  => 'btn'
 		));
 
 		$this->getElement('submit')->removeDecorator('DtDdWrapper');
