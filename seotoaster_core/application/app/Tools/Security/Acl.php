@@ -73,10 +73,14 @@ class Tools_Security_Acl {
 	 *
 	 * @return bool
 	 */
-	public static function isActionAllowed() {
-		if(self::isAllowed(self::RESOURCE_ADMINPANEL)) {
-			return true;
-		}
+	public static function isActionAllowed($resource = false) {
+        if ($resource) {
+            if (self::isAllowed($resource)) {
+                return true;
+            }
+        } elseif (self::isAllowed(self::RESOURCE_ADMINPANEL)) {
+            return true;
+        }
 		$controller          = Zend_Controller_Front::getInstance()->getRequest()->getParam('controller');
 		$controllerClassName = implode('_', array_map(function($part) {
 			return ucfirst($part);

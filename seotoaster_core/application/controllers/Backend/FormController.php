@@ -16,7 +16,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
     public function init() {
 		parent::init();
-		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed()) {
+		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && !Tools_Security_Acl::isActionAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
 			$this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
 		}
     	$this->view->websiteUrl = $this->_helper->website->getUrl();
