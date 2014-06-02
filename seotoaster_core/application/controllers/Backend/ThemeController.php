@@ -7,6 +7,7 @@
 class Backend_ThemeController extends Zend_Controller_Action {
 
     const DEFAULT_CSS_NAME       = 'style.css';
+    const DEFAULT_JS_NAME       = 'scripts.js';
 
     private $_websiteConfig      = null;
 
@@ -246,6 +247,84 @@ class Backend_ThemeController extends Zend_Controller_Action {
     }
 
     /**
+     * Method return form for editing css files for current theme
+     * and saves css file content
+     */
+    public function editjsAction() {
+        $jsFiles = $this->_buildJSFileList();
+        $defaultJS = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(self::DEFAULT_JS_NAME, current($jsFiles));
+
+        $editjsForm = new Application_Form_JS();
+        $editjsForm->getElement('jsname')->setMultiOptions($jsFiles);
+        $editjsForm->getElement('jsname')->setValue(self::DEFAULT_JS_NAME);
+
+        //checking, if form was submited via POST then
+        if ($this->getRequest()->isPost()) {
+            $postParams = $this->getRequest()->getParams();
+            if (isset($postParams['getjs']) && !empty ($postParams['getjs'])) {
+                $jsName = $postParams['getjs'];
+                try {
+                    $this->_minimizationJS($jsName);
+                    $content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName);
+                    $this->_helper->response->response($content, false);
+                } catch (Exceptions_SeotoasterException $e) {
+                    $this->_helper->response->response($e->getMessage(), true);
+                }
+            } else {
+                if (is_string($postParams['content']) && empty($postParams['content'])) {
+                    $editjsForm->getElement('content')->setRequired(false);
+                }
+                if ($editjsForm->isValid($postParams)) {
+                    $jsName = $postParams['jsname'];
+                    try {
+                        $this->_minimizationJS($jsName);
+                        Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName, $postParams['content']);
+                        $this->_helper->response->response($this->_translator->translate('JS saved'), false);
+                    } catch (Exceptions_SeotoasterException $e) {
+                        $this->_helper->response->response($e->getMessage(), true);
+                    }
+                }
+            }
+            $this->_helper->response->response($this->_translator->translate('Undefined error'), true);
+        } else {
+            try {
+                $editjsForm->getElement('content')->setValue(Tools_Filesystem_Tools::getFile($defaultJS));
+                $editjsForm->getElement('jsname')->setValue(array_search(self::DEFAULT_JS_NAME, current($jsFiles)));
+            } catch (Exceptions_SeotoasterException $e) {
+                $this->view->errorMessage = $e->getMessage();
+            }
+        }
+        $this->view->helpSection = 'editjs';
+        $this->view->editjsForm = $editjsForm;
+    }
+
+    private function _minimizationJS($jsName){
+        if (isset($postParams['jsminification']) && !empty($postParams['jsminification'])) {
+            if($postParams['jsminification'] === 'minify') {
+                $jsPath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName;
+                $jsContent = Tools_Filesystem_Tools::getFile($jsPath);
+                $jsContent = JSMin::minify($jsContent);
+                Tools_Filesystem_Tools::saveFile(str_replace('.js', '.min.js', $jsPath), $jsContent);
+            }
+            if($postParams['jsminification'] === 'combine') {
+                $jsContentCombine = '';
+                $jsParentDirName = basename(dirname($jsName));
+                $jsPath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . dirname($jsName);
+                $jsList = scandir($jsPath);
+                if(is_array($jsList)) {
+                    foreach($jsList as $jsFile) {
+                        if ((bool) preg_match('/\.js$/', $jsFile) === true) {
+                            $jsContent = Tools_Filesystem_Tools::getFile($jsPath .'/'. $jsFile);
+                            $jsContentCombine .= JSMin::minify($jsContent);
+                        }
+                    }
+                }
+                Tools_Filesystem_Tools::saveFile(dirname($jsPath) .'/'. $jsParentDirName . '.min.js', $jsContentCombine);
+            }
+        }
+    }
+
+    /**
      * Method build a list of css files for current theme
      * with subdirectories
      * @return <type>
@@ -278,6 +357,37 @@ class Backend_ThemeController extends Zend_Controller_Action {
         }
 
         return $cssTree;
+    }
+
+    /**
+     * Method build a list of js files for current theme
+     * with subdirectories
+     * @return <type>
+     */
+    private function _buildJSFileList() {
+        $currentThemeName = $this->_helper->config->getConfig('currentTheme');
+        $currentThemePath = Tools_System_Tools::normalizePath(realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName));
+
+        $jsFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'js', true);
+        $jsFiles = array_filter(preg_replace('~.*(min).js.*~', '', $jsFiles));
+        $jsTree = array();
+
+        foreach ($jsFiles as $file) {
+            preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.js)$~i', Tools_System_Tools::normalizePath($file), $sequences);
+            $subfolders = $currentThemeName . '/' . $sequences[1][0];
+            $files = array();
+            foreach ($sequences[2] as $key => $value) {
+                $files[$subfolders . $value] = $value;
+            }
+
+            if (!array_key_exists($subfolders, $jsTree)) {
+                $jsTree[$subfolders] = array();
+            }
+            $jsTree[$subfolders] = array_merge($jsTree[$subfolders], $files);
+
+        }
+
+        return $jsTree;
     }
 
     private function _sortTemplates($templates = array()) {
