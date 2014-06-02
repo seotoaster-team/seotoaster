@@ -264,7 +264,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
             if (isset($postParams['getjs']) && !empty ($postParams['getjs'])) {
                 $jsName = $postParams['getjs'];
                 try {
-                    $this->_minimizationJS($jsName);
+                    $this->_minimizationJS($jsName, $postParams);
                     $content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName);
                     $this->_helper->response->response($content, false);
                 } catch (Exceptions_SeotoasterException $e) {
@@ -277,7 +277,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 if ($editjsForm->isValid($postParams)) {
                     $jsName = $postParams['jsname'];
                     try {
-                        $this->_minimizationJS($jsName);
+                        $this->_minimizationJS($jsName, $postParams);
                         Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName, $postParams['content']);
                         $this->_helper->response->response($this->_translator->translate('JS saved'), false);
                     } catch (Exceptions_SeotoasterException $e) {
@@ -298,7 +298,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
         $this->view->editjsForm = $editjsForm;
     }
 
-    private function _minimizationJS($jsName){
+    private function _minimizationJS($jsName, $postParams){
         if (isset($postParams['jsminification']) && !empty($postParams['jsminification'])) {
             if($postParams['jsminification'] === 'minify') {
                 $jsPath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName;
@@ -307,19 +307,17 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 Tools_Filesystem_Tools::saveFile(str_replace('.js', '.min.js', $jsPath), $jsContent);
             }
             if($postParams['jsminification'] === 'combine') {
-                $jsContentCombine = '';
+                $jsContentCombine = null;
                 $jsParentDirName = basename(dirname($jsName));
                 $jsPath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . dirname($jsName);
-                $jsList = scandir($jsPath);
+                $jsList = glob($jsPath . DIRECTORY_SEPARATOR . '*.js');
                 if(is_array($jsList)) {
                     foreach($jsList as $jsFile) {
-                        if ((bool) preg_match('/\.js$/', $jsFile) === true) {
-                            $jsContent = Tools_Filesystem_Tools::getFile($jsPath .'/'. $jsFile);
-                            $jsContentCombine .= JSMin::minify($jsContent);
-                        }
+                        $jsContent = Tools_Filesystem_Tools::getFile($jsFile);
+                        $jsContentCombine .= JSMin::minify($jsContent);
                     }
                 }
-                Tools_Filesystem_Tools::saveFile(dirname($jsPath) .'/'. $jsParentDirName . '.min.js', $jsContentCombine);
+                Tools_Filesystem_Tools::saveFile(dirname($jsPath) . DIRECTORY_SEPARATOR . $jsParentDirName . '.min.js', $jsContentCombine);
             }
         }
     }
