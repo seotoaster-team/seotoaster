@@ -83,7 +83,8 @@ class Application_Form_Deeplink extends Zend_Form {
 			'id'    => 'add-deeplink',
 			'class' => 'btn icon-plus grid_2 omega',
 			'value' => 'Add deeplink',
-			'label' => 'Add deeplink'
+			'label' => 'Add deeplink',
+            'type'  => 'submit'
 		)));
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));

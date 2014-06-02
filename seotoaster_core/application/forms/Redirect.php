@@ -61,7 +61,8 @@ class Application_Form_Redirect extends Zend_Form {
 			'id'    => 'add-redirect',
 			'value' => 'Add redirect',
 			'class' => 'btn icon-plus grid_2 omega',
-			'label' => 'Add redirect'
+			'label' => 'Add redirect',
+            'type'  => 'submit'
 		)));
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));

@@ -27,7 +27,8 @@ class Application_Form_Silo extends Zend_Form {
 			'id'    => 'add-silo',
 			'value' => 'Add silo',
 			'class' => 'btn icon-plus grid_3 alpha omega mt0px',
-			'label' => 'Add silo'
+			'label' => 'Add silo',
+            'type'  => 'submit'
 		)));
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
