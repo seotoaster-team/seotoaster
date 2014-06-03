@@ -69,7 +69,7 @@ dl{
         list-style-type : none;
         padding-left    : 0;
     }
-    ul{
+    ul, ol{
         .activate-list-inline() when (@list-inline = true){
             &.list-inline{
                 zoom : 1;
@@ -208,6 +208,7 @@ dl{
                         text-align        : center;
                         background-color  : @gray-lighter;
                         margin-left       : -2em;
+                        margin-right      : 0.5em;
                         .transition(background-color, 0.5s);
                         .border-radius(10em);
 

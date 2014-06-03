@@ -1,11 +1,11 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage Page Rank Sculpting', 'helpSection' => $this->helpSection)); ?>
-	<div class="content-footer grid_12">
+	<div class="content-footer">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->url(); ?>" class="_fajax grid_12 mb15px form-inline" data-callback="sculptingCallback">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
 		</form>
-		<div id="sculpting-list" class="cl-both clearfix pr2 pl2"></div>
+		<div id="sculpting-list" class="cl-both clearfix"></div>
 	</div>
 	<div class="grid_12 footer" id="button-wrapper">
 		<a id="manage-silos" class="tpopup btn link info" data-pwidth="480" data-pheight="560" href="javascript:;" data-url="<?php echo $this->websiteUrl;?>backend/backend_seo/managesilos/">[ <?php echo $this->translate('Manage silos'); ?> ]</a>

@@ -190,7 +190,7 @@ body{
 .content-small-footer{
     height : @tpopup-small-height - @header-height - @footer-height;
 }
-.footer{
+.footer, footer{
     .box-sizing;
     clear         : both;
     margin-top    : @content-margin-top !important;
@@ -198,10 +198,10 @@ body{
     height        : @button-height-base;
     line-height   : @button-height-base;
 
-    [class*="content"].grid_12+&{
-        padding-left  : @grid-margin-width / 2;
-        padding-right : @grid-margin-width / 2;
-    }
+//    [class*="content"].grid_12+&{
+//        padding-left  : @grid-margin-width / 2;
+//        padding-right : @grid-margin-width / 2;
+//    }
 
     [type="submit"], [type="button"]{
         margin-top : 0 !important;
@@ -328,8 +328,4 @@ input[type="submit"], input[type="reset"], input[type="button"]{
 // --------------------------------------------------
 [type="submit"], .save-and-close, #save-btn{
     float : right;
-
-    .content-footer.grid_12+footer &, .content-medium-footer.grid_12+footer &, .content-small-footer.grid_12+footer &{
-        margin-right : @grid-margin-width / 2;
-    }
 }

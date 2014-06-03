@@ -3,20 +3,18 @@
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12 content-footer">
 		<form id="removeForm" class="">
-			<div class="grid_8">
+			<div class="grid_8 alpha">
 			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>
 			</div>
-            <label id="check-all-label" class="btn link grid_4"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
-			<div class="grid_12 mt15px">
-				<div id="filebrowser">
-					<ul>
-						<li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
-						<li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
-					</ul>
-					<div id="filebrowser-images" class="filebrowser-zone list-images"></div>
-					<div id="filebrowser-files" class="filebrowser-zone"></div>
-				</div>
-			</div>
+            <label id="check-all-label" class="btn link grid_4 omega"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
+            <div id="filebrowser" class="grid_12 alpha omega mt15px">
+                <ul>
+                    <li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>
+                    <li><a href="#filebrowser-files" ><?php echo $this->translate('Files');?></a></li>
+                </ul>
+                <div id="filebrowser-images" class="filebrowser-zone list-images"></div>
+                <div id="filebrowser-files" class="filebrowser-zone"></div>
+            </div>
 		</form>
 	</div>
 	<div class="grid_12 footer">
