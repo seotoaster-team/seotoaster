@@ -38,8 +38,6 @@ $(document).ready(function(){
             ed.on('change', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);
-            });
-            ed.on("blur", function(){
                 this.save();
             });
         }
