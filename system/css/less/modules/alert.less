@@ -84,7 +84,6 @@
         max-width  : @grid-container-width * 0.75;
         max-height : 50%;
         overflow   : auto;
-        font-size  : @font-size-large;
         text-align : center;
         background : #fff;
         border     : 1px solid #ddd;
@@ -94,22 +93,30 @@
         // Alternate styles
         // -------------------------
         &.success{
-            color : @brand-green;
+            color        : @brand-green;
+            border-color : @brand-green;
         }
         &.warning{
-            color : @brand-orange;
+            color        : @brand-orange;
+            border-color : @brand-orange;
         }
         &.error{
-            color : @brand-red;
+            color        : @brand-red;
+            border-color : @brand-red;
         }
         &.info{
-            color : @brand-blue;
+            color        : @brand-blue;
+            border-color : @brand-blue;
         }
     }
 
     .dialog-inner{
         font-size : @font-size-large;
         padding   : @padding-larger-vertical @padding-larger-horizontal;
+
+        *{
+            color : inherit;
+        }
 
         p{ margin : 0 0 0.5em; }
     }
@@ -135,7 +142,7 @@
         button{
             float  : none;
             margin : 0 @padding-small-horizontal;
-            .button-color(@button-green-color, @button-green-bg, @button-green-border);
+            .button(@button-green-color, @button-green-bg, @button-green-border);
 
             &.cancel{
                 .button-color(@button-red-color, @button-red-bg, @button-red-border);

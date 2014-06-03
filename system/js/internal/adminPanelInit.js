@@ -74,7 +74,7 @@ $(function() {
 		if(isCategory) {
 			$.getJSON(websiteUrl + 'backend/backend_page/checkforsubpages/pid/' + pageId, function(response) {
 				if(response.responseText.subpages) {
-					smoke.alert(response.responseText.message, {'classname':'error'});
+					smoke.alert(response.responseText.message, function(e){}, {'classname':'warning'});
 					return false;
 				} else {
 					showDelConfirm();
