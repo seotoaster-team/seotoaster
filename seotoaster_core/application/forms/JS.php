@@ -29,6 +29,16 @@ class Application_Form_JS extends Zend_Form {
             )
 		));
 
+		$this->addElement('checkbox', 'jsminify', array(
+			'id'		=> 'jsminify',
+            'label'     => 'Compress only'
+ 		));
+
+		$this->addElement('checkbox', 'jscombine', array(
+			'id'		=> 'jscombine',
+            'label'     => 'Combine and compress all js files'
+		));
+
 		$this->addElement('textarea', 'content', array(
 			'id'		 => 'jscontent',
 			'required'	 => true,

@@ -1,12 +1,24 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
-        'headerText' => $this->editjsForm->getElement('jsname')->removeDecorator('DtDdWrapper') . $this->editjsForm->getElement('jsminification')->removeDecorator('DtDdWrapper'),
+        'headerText' => $this->editjsForm->getElement('jsname')->removeDecorator('DtDdWrapper'),
         'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 icon-expand warning inverse" href="javascript:;"></a></div>',
         'helpSection' => $this->helpSection)); ?>
     <?php $this->editjsForm->setAction($this->url()); ?>
     <form action="<?php echo $this->editjsForm->getAction(); ?>" id="<?php echo $this->editjsForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editjsForm->getMethod(); ?>">
         <div id="editor" style="height: 450px;"><?php echo $this->editjsForm->getElement('content'); ?></div>
-        <?php echo $this->editjsForm->getElement('submit'); ?>
+        <div class="footer">
+            <label class="grid_3 pointer">
+                <?php echo $this->editjsForm->getElement('jsminify'); ?>
+                <?php echo $this->editjsForm->getElement('jsminify')->getLabel(); ?>
+                <i class="icon-info-sign icon16 info tooltip" title="Compress JavaScript file"></i>
+            </label>
+            <label class="grid_4 pointer">
+                <?php echo $this->editjsForm->getElement('jscombine'); ?>
+                <?php echo $this->editjsForm->getElement('jscombine')->getLabel(); ?>
+                <i class="icon-info-sign icon16 info tooltip" title="Combines to single(one) JavaScript files with name of folder they are located."></i>
+            </label>
+            <?php echo $this->editjsForm->getElement('submit'); ?>
+        </div>
     </form>
 </div>
 
@@ -25,13 +37,15 @@ $(function() {
     editor.getSession().setValue(textarea.hide().val());
     editor.getSession().setUseWrapMode(true);
 
+    $('.tooltip').tooltip();
+
 	$('#jslist').focus();
 	$('#editjsform').on('submit', function(){
         var jsContent = editor.getSession().getValue();
 		$.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
-			data: {jsname : $("#jslist").val(), jsminification : $("#jsminification").val(), content : jsContent},
+			data: {jsname : $("#jslist").val(), jsminify : $("#jsminify").prop('checked'), jscombine : $("#jscombine").prop('checked'), content : jsContent},
 			dataType: 'json',
 			success: function(response){
 				hideSpinner();
@@ -47,9 +61,9 @@ $(function() {
 		})
 		return false;
 	});
-    
+
     $('#jslist').on('change',function(){
-        $("#jsminification").val('')
+        $("#jsminify, #jscombine").prop('checked', false);
 		$.ajax({
 			url: '<?php echo $this->websiteUrl; ?>backend/backend_theme/editjs/',
 			type: 'POST',
