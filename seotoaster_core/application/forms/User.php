@@ -97,12 +97,11 @@ class Application_Form_User extends Zend_Form {
 			'value' => $this->_id
 		)));
 
-		$this->addElement(new Zend_Form_Element_Button(array(
+		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'   => 'saveUser',
 			'id'     => 'save-user',
 			'value'  => 'Save user',
-			'type'   => 'submit',
-			'class'  => 'btn icon-save mr-grid mt20px',
+			'class'  => 'btn',
 			'ignore' => true,
 			'label'  => 'Save user',
 			'escape' => false
