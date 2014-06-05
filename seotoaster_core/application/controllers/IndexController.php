@@ -168,9 +168,22 @@ class IndexController extends Zend_Controller_Action {
 		if ('' === ($canonicalScheme = $this->_config->getConfig('canonicalScheme'))){
 			$canonicalScheme = $this->getRequest()->getScheme();
 		}
-        $this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST).parse_url($parserOptions['websiteUrl'], PHP_URL_PATH).($pageData['url'] !== Helpers_Action_Website::DEFAULT_PAGE ? $pageData['url'] : '');
 
-        $this->view->pageData = $pageData;
+        // Is news-index page
+        if (!empty($pageData['extraOptions'])
+            && in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))
+            && in_array(Newslog::OPTION_PAGE_INDEX, $pageData['extraOptions'])
+        ) {
+            $url = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+            $url = trim($url, '/').'/';
+        }
+        else {
+            $url = ($pageData['url'] !== Helpers_Action_Website::DEFAULT_PAGE) ? $pageData['url'] : '';
+        }
+        $this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST)
+            .parse_url($parserOptions['websiteUrl'], PHP_URL_PATH).$url;
+
+        $this->view->pageData     = $pageData;
         if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
 			unset($pageData['content']);
 			$body[1] .= $this->_helper->admin->renderAdminPanel($this->_helper->session->getCurrentUser()->getRoleId());

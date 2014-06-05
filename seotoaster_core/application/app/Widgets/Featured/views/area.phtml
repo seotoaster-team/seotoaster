@@ -18,8 +18,8 @@
 
                 // Is news-index page
                 if (!empty($extraOptions)
-                    && in_array(Newslog::OPTION_PAGE_INDEX, $extraOptions)
                     && in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))
+                    && in_array(Newslog::OPTION_PAGE_INDEX, $extraOptions)
                 ) {
                     $url = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
                     $url = trim($url, '/').'/';
