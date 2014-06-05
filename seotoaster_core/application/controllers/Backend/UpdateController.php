@@ -38,7 +38,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         $this->_session = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
         $this->view->websiteUrl = $this->_helper->website->getUrl();
 
-        if ($this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_SUPERADMIN) {
+        if ($this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_SUPERADMIN && $this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_ADMIN) {
             $this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
         }
 
