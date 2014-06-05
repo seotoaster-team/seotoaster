@@ -17,14 +17,14 @@ body{
     font-family : @font-family-text;
     line-height : @line-height;
     color       : @text-color;
-//    .user-select();
+    //    .user-select();
 }
 
 .seotoaster{
     //background : @body-bg;
     color     : @text-color;
     font-size : @font-size-base;
-//    .user-select();
+    //    .user-select();
 
     &.go-form{
         margin-top : 15%;
@@ -198,10 +198,10 @@ body{
     height        : @button-height-base;
     line-height   : @button-height-base;
 
-//    [class*="content"].grid_12+&{
-//        padding-left  : @grid-margin-width / 2;
-//        padding-right : @grid-margin-width / 2;
-//    }
+    //    [class*="content"].grid_12+&{
+    //        padding-left  : @grid-margin-width / 2;
+    //        padding-right : @grid-margin-width / 2;
+    //    }
 
     [type="submit"], [type="button"]{
         margin-top : 0 !important;
@@ -283,7 +283,11 @@ body{
     }
 
     [id*="teaser-uploader-filelist"]{
-        display : none;
+        //        display : none;
+        top        : auto;
+        height     : 20px;
+        text-align : left;
+        overflow   : hidden;
     }
 
     &:hover{
@@ -315,7 +319,6 @@ body{
         z-index : 999999;
     }
 }
-
 
 // Specificity overrides
 input[type="submit"], input[type="reset"], input[type="button"]{
