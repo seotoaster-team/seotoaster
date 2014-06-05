@@ -9,11 +9,13 @@
                 $url = $page->getUrl();
                 // Path news page
                 if (isset($this->newsPageUrlPath)) {
-                    if (in_array(Newslog::OPTION_PAGE_DEFAULT, $page->getExtraOptions()) || $page->getNews() == 1) {
-                        $url = $this->newsPageUrlPath.'/'.$url;
-                    }
-                    elseif (in_array(Newslog::OPTION_PAGE_INDEX, $page->getExtraOptions())) {
+                    if (in_array(Newslog::OPTION_PAGE_INDEX, $page->getExtraOptions())) {
                         $url = $this->newsPageUrlPath.'/';
+                    }
+                    elseif (in_array(Newslog::OPTION_PAGE_DEFAULT, $page->getExtraOptions())
+                        || $page->getNews() === '1'
+                    ) {
+                        $url = $this->newsPageUrlPath.'/'.$url;
                     }
                 }
                 ?>
