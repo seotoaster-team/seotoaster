@@ -3,7 +3,7 @@
         $('#tabs').tabs().submit(function(){
             showSpinner($(this));
         });
-        $('input[title]').tooltip({
+        $('input[title], .tooltip').tooltip({
             track: true
         });
     });
@@ -37,13 +37,13 @@
             <div class="grid_5">
                 <?php echo $this->configForm->getElement('memPagesInMenu')->renderLabel(); ?>
             </div>
-            <div class="grid_7">
+            <div class="grid_1">
                 <?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?>
             </div>
-            <div class="grid_5 cl-both">
+            <div class="grid_5 text-right">
                 <?php echo $this->configForm->getElement('enableMinify')->renderLabel(); ?>
             </div>
-            <div class="grid_7">
+            <div class="grid_1">
                 <?php echo $this->configForm->getElement('enableMinify')->renderViewHelper(); ?>
             </div>
             <div class="grid_5 cl-both">
@@ -52,6 +52,11 @@
             <div class="grid_7">
                 <?php echo $this->configForm->getElement('enableDeveloperMode')->renderViewHelper(); ?>
             </div>
+            <?php if($this->configForm->getElement('enableDeveloperMode')->getValue()): ?>
+            <p class="warning message grid_12">
+                <?php echo '<strong>' . $this->translate("Attention!") . '</strong> '. $this->translate("When enabled \"Developer mode\" disables some functionality that speeds up your sites. Do not forget to turn off the \"Developer mode\" after work."); ?>
+            </p>
+            <?php endif; ?>
 
             <?php echo $this->configForm->getElement('currentTheme'); ?>
             <?php echo $this->configForm->getElement('adminEmail'); ?>
