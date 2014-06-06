@@ -47,6 +47,8 @@ class IndexController extends Zend_Controller_Action {
         if($page instanceof Application_Model_Models_Page) {
             $cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
             $this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));
+            $tpl  =  Application_Model_Mappers_TemplateMapper::getInstance()->find($page->getTemplateId());
+            $this->view->tplType = $tpl->getType();
         }
 
 		// If page doesn't exists in the system - show 404 page

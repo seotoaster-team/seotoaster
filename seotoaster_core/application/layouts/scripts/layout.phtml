@@ -11,7 +11,7 @@
     <?php
     // link and script block start
     // adding canonical link
-    if ($this->pageData['templateId'] !== 'email') {
+    if ($this->tplType !== 'typemail') {
         $this->headLink()->setIndent(8)
             ->prependStylesheet($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.css')
             ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
