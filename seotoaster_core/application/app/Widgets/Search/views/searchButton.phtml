@@ -1,5 +1,5 @@
 <?php $formId = uniqid('search-btn-'); ?>
-<input id="<?php echo $formId; ?>" type="button" name="searchButton" class="searchButton" value="Search"/>
+<input id="<?php echo $formId; ?>" type="button" name="searchButton" class="searchButton" value="<?php echo $this->translate('Search');?>"/>
 <script type="text/javascript">
     $('#<?php echo $formId; ?>').on('click', function () {
         var urlAction = "<?php echo $this->websiteUrl; ?>backend/search/complexSearch/",
