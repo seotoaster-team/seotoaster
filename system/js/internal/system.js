@@ -366,6 +366,12 @@ function showSpinner(e){
 function hideSpinner(){
     $('.spinner').remove();
 }
+function showLoader(e){
+    $('body').append('<div class="seotoaster-loader">Loading...</div>');
+}
+function hideLoader(e){
+    $('.seotoaster-loader').remove();
+}
 function publishPages(){
     if(!top.$('#__tpopup').length){
         $.get($('#website_url').val()+'backend/backend_page/publishpages/');

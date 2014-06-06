@@ -81,7 +81,7 @@ small{
 table{
     border-spacing  : 0;
     border-collapse : collapse;
-//    word-break      : break-all
+    //    word-break      : break-all
 }
 a:focus, [type="checkbox"]:focus, [type="radio"]:focus, *:focus{
     outline : none;
@@ -221,4 +221,17 @@ button[disabled], html input[disabled]{
     a{
         color : inherit;
     }
+}
+.seotoaster-loader{
+    position   : fixed;
+    left       : 2px;
+    right      : 2px;
+    top        : 2px;
+    z-index    : 1000;
+    padding    : 10px 0;
+    text-align : center;
+    font-size  : 32px;
+    color      : #fff;
+    background : @brand-primary;
+    .opacity(0.9);
 }

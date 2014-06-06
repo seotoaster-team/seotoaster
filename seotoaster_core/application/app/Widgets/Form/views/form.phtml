@@ -64,10 +64,10 @@
                     url      : form.attr('action'),
                     type     : 'post',
                     data     : form.serialize(),
-                    beforeSend: showSpinner(),
+                    beforeSend: showLoader(),
                     dataType :'json',
                     success  : function(response) {
-                        hideSpinner();
+                        hideLoader();
                         if(response.error) {
 
                         } else {
