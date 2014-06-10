@@ -19,6 +19,7 @@ $(document).ready(function(){
             {title : 'List styles', filter : /^(.list*|ul\.|ol\.)/},
             {title : 'Image styles', filter : /^(.image*|img\.)/},
             {title : 'Block quote styles', filter : /^(blockquote\.)/},
+            {title : 'Separator styles', filter : /^(hr\.)/},
             {title : 'Primary colors', filter : /^(\.primary*|\.green|\.blue|\.orange|\.red|\.color*)/},
             {title : 'Size classes', filter : /^(\.larger|\.large|\.small|\.mini|\.size*)/},
             {title : 'Other styles'}
