@@ -215,9 +215,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     public function fetchAllNomenuPages()
     {
         $where = sprintf(
-            "show_in_menu = '%s' AND parent_id = %d",
+            "show_in_menu = '%s' AND parent_id = %d AND news != '%s'",
             Application_Model_Models_Page::IN_NOMENU,
-            Application_Model_Models_Page::IDCATEGORY_DEFAULT
+            Application_Model_Models_Page::IDCATEGORY_DEFAULT,
+            Application_Model_Models_Page::IS_NEWS_PAGE
         );
         return $this->fetchAll($where);
     }

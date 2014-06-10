@@ -28,6 +28,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	//const CONTEXT_NEWS         = 'news';
 
+    const IS_NEWS_PAGE         = '1';
+
 	protected $_templateId        = '';
 
 	protected $_parentId          = 0;
