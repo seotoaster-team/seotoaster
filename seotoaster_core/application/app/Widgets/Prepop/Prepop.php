@@ -18,8 +18,10 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     const TYPE_RADIO        = 'radio';
 
-    const OPTIONS_SEPARATOR = '|';
-    
+    const OPTIONS_SEPARATOR = ',';
+
+    const OPTIONS_SEPARATOR_OLD = '|';
+
     const OPTION_LINKS      = 'links';
 
     protected $_prepopName        = '';
@@ -155,7 +157,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     private function _generateSelectOptions() {
-        $selectOptions = explode(self::OPTIONS_SEPARATOR, array_shift($this->_options));
+        if(!empty($this->_options[0]) && strpos($this->_options[0], '|') !== FALSE){
+            $selectOptions = explode(self::OPTIONS_SEPARATOR_OLD, array_shift($this->_options));
+        }else{
+            $selectOptions = explode(self::OPTIONS_SEPARATOR, array_shift($this->_options));
+        }
         $arrayValues   = (!is_array($selectOptions)) ? array() : array_map(function($value) {
             return trim($value);
         }, array_values($selectOptions));
