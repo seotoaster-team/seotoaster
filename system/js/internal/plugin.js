@@ -39,7 +39,7 @@ $(function () {
                         show: 'clip',
                         hide: 'clip',
                         buttons: [
-                            {text: "Okay", click: function () {
+                            {text: "Okay", class: 'btn', click: function () {
                                 $(this).dialog("close");
                             }}
                         ]

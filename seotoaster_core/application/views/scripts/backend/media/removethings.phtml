@@ -3,10 +3,10 @@
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12 content-footer">
 		<form id="removeForm" class="">
-			<div class="grid_8 alpha">
+			<div class="grid_7 alpha">
 			<?php echo $this->formSelect('folder', null, null, $this->listFolders); ?>
 			</div>
-            <label id="check-all-label" class="btn link grid_4 omega"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
+            <label id="check-all-label" class="btn link grid_5 omega"><input type="checkbox" id="check-all" class="processed"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
             <div id="filebrowser" class="grid_12 alpha omega mt15px">
                 <ul>
                     <li><a href="#filebrowser-images" ><?php echo $this->translate('Images');?></a></li>

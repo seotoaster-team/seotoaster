@@ -1,6 +1,6 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage silos')); ?>
-	<div class="content-footer grid_12">
+	<div class="content-footer">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12 mb15px form-inline" data-callback="siloslist">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
@@ -8,12 +8,12 @@
 		<div class="grid_12 list-title">
 			<div class="grid_1"><input type="checkbox" name="chckAllSilos" class="check-all-silos" /></div>
 			<div class="grid_9"><?php echo $this->translate('Name'); ?></div>
-			<div class="grid_2" style="text-align:right;"><?php echo $this->translate('Action'); ?></div>
+			<div class="grid_2 text-center"><?php echo $this->translate('Action'); ?></div>
 		</div>
 		<div id="silos-list" class="grid_12 items-list scroll"></div>
 	</div>
 	<div class="grid_12 footer">
-		<a href="javascript:;" id="mass-del" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected');?> ]</a>
+		<a href="javascript:;" id="mass-del" class="delete-selected btn block error"><?php echo $this->translate('Delete selected');?></a>
 	</dv>
 </div>
 
