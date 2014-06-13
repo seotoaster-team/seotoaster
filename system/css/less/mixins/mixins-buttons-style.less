@@ -112,13 +112,6 @@
         color : darken(@color, 30%);
         .box-shadow(none);
     }
-
-    //    &.disabled,
-    &[disabled]{
-        color           : desaturate(@color, 30%);
-        text-decoration : none;
-        .box-shadow(none);
-    }
 }
 
 .link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
@@ -131,13 +124,6 @@
 
     &:hover, &:active{
         color : @color-hover;
-        .box-shadow(none);
-    }
-
-    //    &.disabled,
-    &[disabled]{
-        color           : desaturate(@color, 30%);
-        text-decoration : none;
         .box-shadow(none);
     }
 }
@@ -159,22 +145,6 @@
         }
         .activate-border(@button-border-width);
     }
-
-    &:active{
-        .box-shadow(0.2rem 0.2rem 0.2rem darken(@background, 25%) inset, @button-box-shadow);
-    }
-
-    //    &.disabled,
-    &[disabled]{
-        .box-shadow(none, @button-box-shadow);
-        color           : desaturate(@color, 30%);
-        background      : desaturate(@background, 30%);
-        text-decoration : none;
-        .activate-border(@value) when (@value > 0){
-            border-color : desaturate(@border, 30%);
-        }
-        .activate-border(@button-border-width);
-    }
 }
 
 .button-color( @color, @background, @border, @color2, @background2, @border2, @eachColor: true, @inverse: true) when (iscolor(@color2)) and (@eachColor = true) and  (@inverse = true){
@@ -192,22 +162,6 @@
         background : @background2;
         .activate-border(@value) when (@value > 0){
             border-color : @border2;
-        }
-        .activate-border(@button-border-width);
-    }
-
-    &:active{
-        .box-shadow(0.2rem 0.2rem 0.4rem darken(@background2, 25%) inset, @button-box-shadow);
-    }
-
-    //    &.disabled,
-    &[disabled]{
-        .box-shadow(none, @button-box-shadow);
-        color           : desaturate(@color, 30%);
-        background      : @background;
-        text-decoration : none;
-        .activate-border(@value) when (@value > 0){
-            border-color : @border;
         }
         .activate-border(@button-border-width);
     }
