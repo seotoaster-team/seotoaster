@@ -20,8 +20,8 @@ $(document).ready(function(){
             {title : 'Image styles', filter : /^(.image*|img\.)/},
             {title : 'Block quote styles', filter : /^(blockquote\.)/},
             {title : 'Separator styles', filter : /^(hr\.)/},
-            {title : 'Primary colors', filter : /^(\.primary*|\.green|\.blue|\.orange|\.red|\.color*)/},
-            {title : 'Size classes', filter : /^(\.larger|\.large|\.small|\.mini|\.size*)/},
+            {title : 'Primary colors', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
+            {title : 'Size classes', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
             {title : 'Other styles'}
         ],
         importcss_merge_classes: true,
