@@ -15,10 +15,16 @@ img{
             .thumbnail-state();
         }
         .img-circle &, &.img-circle{
-            .thumbnail-state(500px);
+            .border-radius(500px);
         }
         .img-rounded &, &.img-rounded{
             .border-radius(@border-radius-base);
+        }
+        .img-leaflet-right &, &.img-leaflet-right{
+            .border-radius(50% 0);
+        }
+        .img-leaflet-left &, &.img-leaflet-left{
+            .border-radius(0 50%);
         }
     }
     .activate-style-image();
