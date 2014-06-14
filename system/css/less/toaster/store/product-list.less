@@ -1,0 +1,108 @@
+.productlisting{
+    position      : relative;
+    float         : left;
+    margin-top    : .75%;
+    margin-bottom : .75%;
+    text-align    : center;
+    .grid-elements(8, 1.5, true);
+    .transition;
+    .background(0);
+
+    #product-products &{
+        .grid-elements(6, 1.5, true);
+    }
+
+    &.show-list{
+        height      : 158px;
+        line-height : 158px;
+        color       : darken(@gray-light, 10%);
+
+        span{
+            .inline-block;
+        }
+
+        &:hover{
+            color : @gray;
+        }
+    }
+
+    &:hover{
+        background : @gray-light;
+
+        .image{
+            margin-bottom : round(@font-size-base * unit(@font-size-small) * @line-height * 2 + @padding-small-vertical * 2);
+        }
+
+        .name{
+            height   : auto;
+            position : absolute;
+            top      : 1.75em;
+            bottom   : 1.75em;
+            left     : 0;
+            right    : 0;
+            z-index  : 10;
+            color    : @gray-dark;
+            overflow : auto;
+            .rgba(#fff, .95);
+        }
+    }
+
+    span{
+        display   : block;
+        font-size : @font-size-small;
+    }
+
+    [class*="icon-"]{
+        position : absolute;
+        top      : 1px;
+        right    : 3px;
+
+        &+.brand{
+            padding-right : @font-size-small * 2;
+        }
+    }
+
+    .brand{
+        color       : @gray;
+        font-weight : bold;
+        background  : @gray-light;
+        padding     : @padding-mini-vertical @padding-mini-horizontal;
+        .text-overflow();
+    }
+
+    .image{
+        height      : 75px;
+        line-height : 75px;
+        overflow    : hidden;
+
+        img{
+            //width : 100%;
+        }
+    }
+
+    .name{
+        height   : round(@font-size-base * unit(@font-size-small) * @line-height * 2);
+        padding  : @padding-small-vertical;
+        overflow : hidden;
+    }
+
+    .sku{
+        color      : @gray;
+        text-align : right;
+        padding    : @padding-mini-vertical @padding-mini-horizontal;
+        background : @gray-light;
+        font-size  : .75em;
+        .text-overflow();
+
+        #product-list &{
+            padding-left : 10px;
+        }
+    }
+
+    .checkbox-del{
+        margin-top  : -19px;
+        float       : left;
+        margin-left : 1px;
+        line-height : 1;
+    }
+}

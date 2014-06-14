@@ -126,7 +126,7 @@
 
 // Social Field
 //==================================================
-.activate-list-social-field(@activate) when (@activate = true){
+.list-social-field(@width-field : 240px) when (@social-fields = true){
     .social-field{
         .labeled{
             float  : left;
@@ -134,7 +134,7 @@
             cursor : pointer;
 
             &+.labeled{
-                margin-left : @grid-margin-width / 2;
+                margin-left : 5px;
             }
 
             [class*="icon-"]{
@@ -150,12 +150,11 @@
 
             :checked~input{
                 margin-left : 0;
-                width       : 240px;
+                width       : @width-field;
             }
         }
     }
 }
-.activate-list-social-field(@social-fields);
 
 // Change style for Generator Links
 //==================================================
