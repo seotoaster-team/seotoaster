@@ -1,11 +1,11 @@
-<div id="widget-rotator-<?php echo $this->uniq; ?>">
+<div id="widget-<?php echo $this->uniq; ?>" class="rotator">
     <div id="<?php echo $this->uniq; ?>"
          data-cycle-slides="> div.slide"
          <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
-         class="rotator">
+         <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>>
         <?php if($this->prevnext): ?>
-            <div class="cycle-prev"></div>
-            <div class="cycle-next"></div>
+            <div class="action-button cycle-prev"></div>
+            <div class="action-button cycle-next"></div>
         <?php endif;?>
         <?php if (!empty($this->files)): ?>
             <?php foreach ($this->files as $key => $image): ?>
@@ -13,14 +13,14 @@
                     <?php $size = getimagesize('media/' . $this->folder . $image); ?>
                     <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
                     <?php if ($this->content): ?>
-                    <div class="slide-text"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).':static}'; ?></div>
+                    <div class="slide-description"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).':static}'; ?></div>
                     <?php endif ?>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
     <?php if ($this->pager): ?>
-    <div id="pager-<?php echo $this->uniq; ?>"></div>
+    <div id="pager-<?php echo $this->uniq; ?>" class="cycle-pager"></div>
     <?php endif; ?>
 </div>
 <?php if ($this->slideShow): ?>
@@ -35,7 +35,8 @@
                 $('#<?php echo $this->uniq; ?>').cycle({
                     fx: '<?php echo $this->effect; ?>',
                     speed: <?php echo $this->swapTime * 1000; ?>,
-                    autoHeight: 0
+                    autoHeight: 0,
+                    maxZ : 10
                 });
             }, timeout);
             $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'; ?>');
@@ -55,20 +56,19 @@
     </script>
 <?php endif; ?>
 <style type="text/css">
-	div#<?php echo $this->uniq; ?>.rotator{
+	div#widget-<?php echo $this->uniq; ?>.rotator{
         max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
         max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
-        z-index    : 13;
         overflow   : hidden;
     }
-    .cycle-prev, .cycle-next {
+    .action-button {
         cursor: pointer;
         height: 50px;
         margin-top: -25px;
         position: absolute;
         top: 50%;
         width: 50px;
-        z-index: 101;
+        z-index: 20;
     }
     .cycle-prev {
         left: 0;
@@ -77,21 +77,6 @@
     .cycle-next {
         right: 0;
         background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
-    }
-
-    div#<?php echo $this->uniq; ?> .slide-text {
-        color: white;
-        background: black;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
-    #pager-<?php echo $this->uniq; ?> div#<?php echo $this->uniq; ?> {
-        text-align: center;
-        width: 100%;
-        z-index: 500;
-        top: 10px;
-        overflow: hidden;
     }
 
 </style>
