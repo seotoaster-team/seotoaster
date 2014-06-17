@@ -10,6 +10,31 @@
     }
 }
 
+// Column-grid system
+//==================================================
+.column(){
+    .column-list();
+}
+.column-list(@column : @columns, @prefix : ~'', @num-column : 1, @full-width : false) when (@column >= @num-column) and (@full-width = false){
+    .@{prefix}column_@{num-column}>*:not(.column-none){
+        width : round((100% / @num-column) - @column-margin-width, 3);
+    }
+    .column-list(@column, @prefix, @num-column + 1, false);
+}
+.column-list(@column : @columns, @prefix : ~'', @num-column : 1, @full-width : true) when (@column >= @num-column) and (@full-width = true){
+    .full-width{
+        &.@{prefix}column_@{num-column}>*:not(.column-none){
+            width : round((100% / @num-column) - @column-margin-width + (@column-margin-width / @num-column), 3);
+
+            @num : ~'@{num-column}n + 1';
+            &:nth-child(@{num}){
+                margin-left : 0 !important;
+            }
+        }
+    }
+    .column-list(@column, @prefix, @num-column + 1, true);
+}
+
 // Grid system
 //==================================================
 .grid (@grid : @grid-columns, @prefix : ~'', @num-column : 1, @switch : true) when (@grid >= @num-column){
@@ -29,19 +54,19 @@
 .grid-mobile(@response : @responsive) when (@response = true){
     @responsive-size-mobile-over : @responsive-size-mobile + 1;
     @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
-        .t-hide{ display : none; }
+        .t-hide{ display : none !important; }
         .grid(@grid-columns-tablet, t-);
     }
 
     @media only screen and (max-width : @responsive-size-mobile){
-        .m-hide{ display : none; }
+        .m-hide{ display : none !important; }
         .grid(@grid-columns-mobile, m-);
     }
 }
 
 .activate-grid-element(@activate) when (@activate = true){
-    .@{prefix}alpha{ margin-left : 0; }
-    .@{prefix}omega{ margin-right : 0; }
+    .@{prefix}alpha{ margin-left : 0 !important; }
+    .@{prefix}omega{ margin-right : 0 !important; }
     .prefix(@grid, @prefix, @num-column);
     .suffix(@grid, @prefix, @num-column);
     .push(@grid, @prefix, @num-column);
@@ -50,9 +75,9 @@
 
 .prefix(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
     .@{prefix}prefix_@{num-column}{
-        margin-left : round(percentage(@num-column / @grid) + @grid-margin-width / 2, 2);
+        margin-left : round(percentage(@num-column / @grid) + @grid-margin-width / 2, 2) !important;
         &.alpha{
-            margin-left : round(percentage(@num-column / @grid), 2);
+            margin-left : round(percentage(@num-column / @grid), 2) !important;
         }
     }
     .prefix(@grid, @prefix, @num-column + 1);
@@ -60,9 +85,9 @@
 
 .suffix(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
     .@{prefix}suffix_@{num-column}{
-        margin-right : round(percentage(@num-column / @grid) + @grid-margin-width / 2, 2);
+        margin-right : round(percentage(@num-column / @grid) + @grid-margin-width / 2, 2) !important;
         &.omega{
-            margin-right : round(percentage(@num-column / @grid), 2);
+            margin-right : round(percentage(@num-column / @grid), 2) !important;
         }
     }
     .suffix(@grid, @prefix, @num-column + 1);
@@ -70,14 +95,14 @@
 
 .pull(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
     .@{prefix}pull_@{num-column}{
-        left : round(percentage(@num-column / @grid) * -1, 2);
+        left : round(percentage(@num-column / @grid) * -1, 2) !important;
     }
     .pull(@grid, @prefix, @num-column + 1);
 }
 
 .push(@grid : @grid-columns, @prefix : ~'', @num-column) when (@grid > @num-column){
     .@{prefix}push_@{num-column}{
-        left : round(percentage(@num-column / @grid), 2);
+        left : round(percentage(@num-column / @grid), 2) !important;
     }
     .push(@grid, @prefix, @num-column + 1);
 }
