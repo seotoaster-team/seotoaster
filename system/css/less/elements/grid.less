@@ -31,6 +31,8 @@
 // COLUMN LIST CSS
 //==================================================
 [class*=" column_"], [class^="column_"], [class*="-column_"]{
+    .clearfix();
+
     &>*:not(.column-none){
         float        : left;
         width        : 100% - @column-margin-width;
