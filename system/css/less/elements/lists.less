@@ -124,13 +124,13 @@ dl{
         .activate-list-bordered();
 
         .activate-list-tags() when (@list-tags = true){
-            .list-tags{
+            &.list-tags{
                 margin-bottom : 0;
 
                 &>li{
                     float      : left;
-                    margin     : 1% 0 0;
-                    padding    : @padding-mini-vertical;
+                    margin     : 1% 0 0 3px;
+                    padding    : @padding-mini-vertical @padding-mini-horizontal;
                     background : @gray-light;
                     cursor     : pointer;
                     .text-overflow;

@@ -1,33 +1,62 @@
-// GRID CSS
-//==================================================
 .container{
-    width        : @grid-container-width;
-    max-width    : 100%;
+    position     : relative;
     margin-left  : auto;
     margin-right : auto;
 
-    &:after{
-        content : "";
-        clear   : both;
-        display    : block;
-        overflow   : hidden;
-        visibility : hidden;
-        width      : 0;
-        height     : 0;
+    .activate-container-style() when (@responsive = false) and not (@grid-container-width = 100%){
+        width : @grid-container-width;
     }
+    .activate-container-style() when (@responsive = true) and not (@grid-container-width = 100%){
+        width     : 90%;
+        max-width : @grid-container-width;
+    }
+    .activate-container-style();
+    .clearfix();
 }
 
+// GRID CSS
+//==================================================
 [class*=" grid_"], [class^="grid_"], [class*="-grid_"]{
     display      : inline;
     float        : left;
     position     : relative;
     width        : 100% - @grid-margin-width;
-    margin-left  : (@grid-margin-width / 2);
-    margin-right : (@grid-margin-width / 2);
+    margin-left  : (@grid-margin-width / 2) !important;
+    margin-right : (@grid-margin-width / 2) !important;
     .box-sizing();
 }
 
 .grid();
+
+// COLUMN LIST CSS
+//==================================================
+[class*=" column_"], [class^="column_"], [class*="-column_"]{
+    &>*:not(.column-none){
+        float        : left;
+        width        : 100% - @column-margin-width;
+        margin-left  : (@column-margin-width / 2) !important;
+        margin-right : (@column-margin-width / 2) !important;
+    }
+
+    &.inline-block{
+        font-size : 0;
+
+        &>*{
+            float     : none;
+            font-size : @font-size-base;
+            .inline-block(top);
+        }
+    }
+
+    &.full-width{
+
+        &>*:not(.column-none){
+            margin-left  : @column-margin-width !important;
+            margin-right : 0 !important;
+        }
+    }
+}
+.column();
 
 .clearfix{
     .clearfix();
