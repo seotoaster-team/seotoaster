@@ -1,7 +1,8 @@
 @import "../../../../css/less/base/variables";
 
 //@chosen-prefix : chosen; // new version
-@chosen-prefix : chzn; // old version
+@chosen-prefix : chzn;
+// old version
 
 .@{chosen-prefix}-select{ width : 100%; }
 .@{chosen-prefix}-select-deselect{ width : 100%; }
@@ -20,7 +21,6 @@
     line-height      : @button-height-base - @input-border-width;
     .inline-block();
     .border-radius(@input-border-radius);
-    .box-sizing();
     .transition(all, 0.3s);
 
     &.@{chosen-prefix}-container-active{
@@ -33,7 +33,7 @@
         padding : 0;
     }
 
-    &>*{
+    & > *{
         line-height : @line-height;
     }
 
@@ -173,7 +173,7 @@
         //        margin-top : 0.25em;
         .clearfix();
 
-        &>*{
+        & > *{
             float : left;
         }
 
@@ -187,7 +187,7 @@
         }
 
         .search-field{
-            margin      : 0.25em;
+            margin : 0.25em;
 
             input{
                 border  : none;
@@ -200,11 +200,11 @@
     .search-choice-close{
         margin-left : 5px;
         color       : @brand-error;
-        font-size   : 10px;
 
         &:before{
-            font-family : 'system-icons';
-            content     : '\e026';
+            font-family    : 'system-icons';
+            content        : '\e026';
+            vertical-align : baseline;
         }
 
         &:hover{
@@ -227,7 +227,7 @@
             margin-right : 5px;
         }
 
-        .@{chosen-prefix}-choices>*{
+        .@{chosen-prefix}-choices > *{
             float : right;
         }
     }
