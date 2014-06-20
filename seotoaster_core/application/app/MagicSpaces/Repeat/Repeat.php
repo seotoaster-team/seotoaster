@@ -14,6 +14,13 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_separatorOrder = ',';
 
+    protected function _init()
+    {
+        $this->_qty     = 0;
+        $this->_replace = '';
+        $this->_order   = array();
+    }
+
     /**
      * @return string
      */
@@ -23,7 +30,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             return $this->_spaceContent;
         }
 
-        list($qty, $replace) = $this->_params;
+        list($qty, $this->_replace) = $this->_params;
         if (isset($this->_params[2])) {
             $order = ($this->_params[2]);
         }
@@ -46,31 +53,12 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             }
         };
 
-        if ((int) $qty > $this->_iterationLimit) {
-            $qty = $this->_iterationLimit;
-        }
+        $this->_qty = ((int) $qty > $this->_iterationLimit) ? $this->_iterationLimit : $qty;
         if (isset($order)) {
-            $order = explode($this->_separatorOrder, preg_replace('/\s/', '', $order));
+            $this->_order = explode($this->_separatorOrder, preg_replace('/\s/', '', $order));
         }
 
-        $orderContent = array();
-        $content      = '';
-        for ($i = 1; $i <= $qty; $i++) {
-            $val = str_replace($replace, $i, $this->_spaceContent);
-
-            if (isset($order) && (false !== ($key = array_search($i, $order)))) {
-                $orderContent[$key] = $val;
-                continue;
-            }
-            $content .= $val;
-        }
-
-        if (!empty($orderContent)) {
-            ksort($orderContent);
-            $content = implode('', $orderContent).$content;
-        }
-
-        return $this->_getEditLink().$content;
+        return $this->_getEditLink().$this->_getContent();
     }
 
     /**
@@ -91,5 +79,32 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
         }
 
         return $editLink;
+    }
+
+    /**
+     * Returns prepared content
+     *
+     * @return string
+     */
+    private function _getContent()
+    {
+        $orderContent = array();
+        $content      = '';
+        for ($i = 1; $i <= $this->_qty; $i++) {
+            $val = str_replace($this->_replace, $i, $this->_spaceContent);
+
+            if (!empty($this->_order) && (false !== ($key = array_search($i, $this->_order)))) {
+                $orderContent[$key] = $val;
+                continue;
+            }
+            $content .= $val;
+        }
+
+        if (!empty($orderContent)) {
+            ksort($orderContent);
+            $content = implode('', $orderContent).$content;
+        }
+
+        return $content;
     }
 }
