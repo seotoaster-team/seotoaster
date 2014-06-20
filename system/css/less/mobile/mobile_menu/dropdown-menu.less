@@ -1,0 +1,68 @@
+// Example code for dropdown menu
+//<input id="dropdown-menu" class="hidden dropdown-switch" type="checkbox"> - checkbox for show/hide menu
+//<label for="dropdown-menu" class="mobile-overlay dropdown-label d-hide"></label> - overlay for dropdown menu
+//<label for="dropdown-menu" class="btn icon large icon-list3 dropdown-btn d-hide"></label> - button for dropdown menu
+
+@dropdown-bg                : @primary-bg;
+@dropdown-color             : @primary-color;
+@dropdown-width             : 300px;
+@dropdown-margin-vertical   : 10px;
+@dropdown-margin-horizontal : 5px;
+
+.dropdown-menu{
+    background : @dropdown-bg !important;
+    color      : @dropdown-color !important;
+    position   : fixed;
+    z-index    : @top-block-zindex - 1;
+    width      : @dropdown-width;
+    max-width  : 90%;
+    max-height : 70%;
+    display    : none;
+    border     : 2px solid darken(@dropdown-bg, 5%);
+    margin     : 0 !important;
+    overflow   : auto;
+    .box-shadow(0 2px 10px @gray-dark);
+
+    &.open{
+        display : block;
+    }
+
+    &.center{
+        top    : 0;
+        bottom : 0;
+        left   : 0;
+        right  : 0;
+        margin : auto !important;
+    }
+
+    &.top{
+        top    : @top-block-height + 3;
+        bottom : auto;
+    }
+
+    &.bottom{
+        bottom : @bottom-block-height + 3;
+        top    : auto;
+    }
+
+    &.right{
+        right : @dropdown-margin-horizontal;
+        left  : auto;
+    }
+
+    &.left{
+        left  : @dropdown-margin-horizontal;
+        right : auto;
+    }
+}
+
+.dropdown-btn{
+//    .button(@button-primary-color, @button-primary-bg, @button-primary-border, base, icon);
+//
+//    &:hover{
+//        background : darken(@brand-primary, 5%);
+//    }
+//    &.active{
+//        background : darken(@brand-primary, 5%);
+//    }
+}

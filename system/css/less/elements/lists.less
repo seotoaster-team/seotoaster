@@ -1,5 +1,6 @@
 ul, ol{
     //    margin-bottom : 1.5em;
+    margin       : 0;
     padding-left : 2.5em;
 
     ol, ul{
@@ -14,9 +15,13 @@ ul, ol{
     }
 
     &.small{
-        &>li{
+        & > li{
             padding : @padding-mini-vertical @padding-mini-horizontal;
         }
+    }
+
+    &:first-child{
+        margin-top : 0;
     }
 
 }
@@ -45,7 +50,7 @@ dl{
     dd{
         margin-bottom : 0.75em;
 
-        &+dd{
+        & + dd{
             margin-top : -0.5em;
         }
     }
@@ -74,7 +79,7 @@ dl{
             &.list-inline{
                 zoom : 1;
 
-                &>li{
+                & > li{
                     .inline-block(top);
                     margin : 0 0.5em;
                 }
@@ -86,13 +91,12 @@ dl{
             &.list-bordered{
                 zoom : 1;
 
-                &>li{
+                & > li{
                     border-bottom  : 1px dashed @hr-color;
                     margin         : 0;
                     padding-top    : @padding-base-vertical;
                     padding-bottom : @padding-base-vertical;
                     position       : relative;
-                    .box-sizing();
 
                     &[class*='active']{
                         padding-left : 10px;
@@ -127,7 +131,7 @@ dl{
             &.list-tags{
                 margin-bottom : 0;
 
-                &>li{
+                & > li{
                     float       : left;
                     margin      : 1% 0 0 3px;
                     padding     : @padding-small-vertical;
@@ -135,7 +139,10 @@ dl{
                     cursor      : pointer;
                     line-height : 1;
                     .text-overflow;
-                    .box-sizing();
+
+                    & > *{
+                        line-height : normal;
+                    }
 
                     &:hover, &.active, &.tag-current{
                         background : darken(@gray-light, 10%);
@@ -150,13 +157,12 @@ dl{
                     &.active, &.tag-current{
                     }
 
-                    [class*="icon-"].fl-right{
-                        margin-top : 0.15em;
-                    }
-
-                    [class*="remove"], [class*="close"]{
-                        font-size : 0.85em;
-                    }
+                    //                    [class*="icon-"].fl-right{
+                    //                        margin-top : 3px;
+                    //                    }
+                    //                    [class*="remove"], [class*="close"]{
+                    //                        font-size : 0.85em;
+                    //                    }
                 }
             }
         }
@@ -166,7 +172,7 @@ dl{
             &.list-arrow{
                 zoom : 1;
 
-                &>li{
+                & > li{
                     padding-left : 1em;
 
                     &:before{
@@ -195,7 +201,7 @@ dl{
             &.list-count-sign{
                 counter-reset : list;
 
-                &>li{
+                & > li{
                     margin-bottom : 0.5em;
                     padding-left  : 2em;
                     line-height   : 2em;
@@ -214,7 +220,7 @@ dl{
                         .border-radius(10em);
 
                         ul, li{
-                            line-height: @line-height;
+                            line-height : @line-height;
                         }
                     }
 
@@ -233,7 +239,7 @@ dl{
             &.list-icon-sign{
                 counter-reset : list;
 
-                &>li{
+                & > li{
                     margin-bottom : 0.5em;
                     padding-left  : 3em;
                     line-height   : 2em;
@@ -283,7 +289,7 @@ dl{
         list-style : none;
         max-width  : 100%;
 
-        &+.list-row{
+        & + .list-row{
             margin-top : 2px;
         }
 
@@ -302,7 +308,7 @@ dl{
     ol& .list-row{
         padding : 0;
 
-        &>*{
+        & > *{
             padding : @padding-small-vertical @padding-small-horizontal;
         }
     }
@@ -314,13 +320,12 @@ dl{
         list-style-type : none;
         margin-bottom   : 0;
 
-        &>*{
+        & > *{
             .inline-block(top);
             .thumbnail-state(0);
             height      : 80px;
             line-height : 74px;
             margin      : @grid-margin-width / 4;
-            .box-sizing();
 
             img{
                 width      : auto;
@@ -328,7 +333,7 @@ dl{
             }
         }
 
-        &>img{
+        & > img{
             height      : auto;
             line-height : normal;
         }

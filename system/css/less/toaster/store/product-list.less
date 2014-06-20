@@ -3,6 +3,7 @@
     margin-top    : .75%;
     margin-bottom : .75%;
     text-align    : center;
+    overflow      : hidden;
     .transition;
     .background(0);
 
@@ -24,14 +25,15 @@
         background : @gray-light;
 
         .image{
-            margin-bottom : round(@font-size-base * unit(@font-size-small) * @line-height * 2 + @padding-small-vertical * 2);
+            height      : 117px;
+            line-height : 117px;
         }
 
         .name{
             height   : auto;
             position : absolute;
             top      : 1.75em;
-            bottom   : 1.75em;
+            bottom   : 1.6em;
             left     : 0;
             right    : 0;
             z-index  : 10;
@@ -51,7 +53,7 @@
         top      : 1px;
         right    : 3px;
 
-        &+.brand{
+        & + .brand{
             padding-right : @font-size-small * 2;
         }
     }
@@ -65,8 +67,8 @@
     }
 
     .image{
-        height      : 75px;
-        line-height : 75px;
+        height      : 92px;
+        line-height : 92px;
         overflow    : hidden;
 
         img{
@@ -75,9 +77,10 @@
     }
 
     .name{
-        height   : round(@font-size-base * unit(@font-size-small) * @line-height * 2);
+        height   : round(@font-size-base * unit(@font-size-small) * @line-height);
         padding  : @padding-small-vertical;
         overflow : hidden;
+        .box-sizing(content-box);
     }
 
     .sku{
@@ -94,9 +97,8 @@
     }
 
     .checkbox-del{
-        margin-top  : -19px;
+        margin-top  : -18px;
         float       : left;
-        margin-left : 1px;
         line-height : 1;
     }
 }

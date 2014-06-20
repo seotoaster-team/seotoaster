@@ -3,7 +3,7 @@ $(function () {
     $('#plugintab').tabs({
         active: 0,
         beforeLoad: function (event, ui) {
-            ui.panel.addClass('plugins-list h425');
+            ui.panel.addClass('plugins-list h425 column_5 full-width');
             ui.ajaxSettings.dataFilter = function (data) {
                 ui.panel.html($.parseJSON(data).pluginsList);
             };

@@ -6,15 +6,15 @@
     padding    : 0;
     width      : @datepicker-width;
     border     : 1px solid @datepicker-border-color;
-    background : @body-bg;
+    background : @datepicker-bg;
 
     .ui-datepicker-header{
-        position   : relative;
         background : @datepicker-header-bg;
         color      : @datepicker-header-color;
         font-size  : @datepicker-header-size;
         height     : @datepicker-header-height;
         text-align : center;
+        position   : relative;
 
         >a{
             position        : absolute;
@@ -53,6 +53,7 @@
 
             select{
                 width : 49%;
+                height : auto;
                 float : left;
 
                 &+select{
@@ -69,6 +70,7 @@
     //Table
     .ui-datepicker-calendar{
         width : 100%;
+        border : none;
 
         td, th{
             padding        : 0;

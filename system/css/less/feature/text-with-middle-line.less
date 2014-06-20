@@ -1,0 +1,35 @@
+//text-wrap
+@wrap-line-bg      : @content-bg;
+@wrap-line-color   : @brand-primary;
+@wrap-line-length  : 0; // length lines (max 25%)
+@wrap-line-weight  : 1px; // line thickness
+@padding-vertical  : 0;
+@padding-horizontal: @padding-base-horizontal;
+
+.text-line{
+    position      : relative;
+    text-align    : center;
+    margin-bottom : 1.5em;
+    
+    & > *{
+        margin     : 0;
+        background : @wrap-line-bg;
+        position   : relative;
+        z-index    : 1;
+        .inline-block(middle);
+        padding    : @padding-vertical @padding-horizontal;
+    }
+    
+    &:after{
+        content          : '';
+        position         : absolute;
+        z-index          : 0;
+        left             : @wrap-line-length;
+        right            : @wrap-line-length;
+        top              : 0;
+        bottom           : 0;
+        margin           : auto;
+        height           : @wrap-line-weight;
+        background-color : @wrap-line-color;
+    }
+}

@@ -14,32 +14,43 @@
 // Responsive (MediaQueries)
 @responsive                    : false;
 
+// Mobile menu
+@menu-google-style   : true;
+@menu-dropdown-style : true;
+
 //Toaster icons
 @toaster-icons                 : true;
 
-// Alternate Style (color, size, type) FOR=> Buttons, Alert, Progressbar, Range, Form input, Link, Table
-@alternate-style               : true;
+// GLOBAL COLOR
+@colors         : true;
+    @color-error   : true;
+    @color-info    : true;
+    @color-success : true;
+    @color-warning : true;
+    @color-inverse : true;
 
-    // Alternate Style => GLOBAL COLOR
-    @colors         : true;
-        @color-red    : true;
-        @color-blue   : true;
-        @color-green  : true;
-        @color-orange : true;
-        @color-gray   : true;
+// GLOBAL SIZE
+@sizes  : true;
+    @size-larger : true;
+    @size-large  : true;
+    @size-small  : true;
 
-// Alternate Style => Field form
+// FIELD FORM
 @form-labeled  : true;
     @form-labeled-icon   : true;
     @form-labeled-social : true;
 
-// Alternate Style => FIELD SIZE
-@field-sizes  : true;
-    @field-size-larger : true;
-    @field-size-large  : true;
-    @field-size-small  : true;
+// FIELD SIZE
+@field-sizes  : @sizes;
+    @field-size-larger : @size-larger;
+    @field-size-large  : @size-large;
+    @field-size-small  : @size-small;
 
-// Alternate Style => BUTTON TYPE
+// Style with social elements
+@social-fields : true;
+@social-links  : true;
+
+// BUTTON TYPE
 @button-types   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
     @button-type-icon  : true;
     @button-type-link  : true;
@@ -47,37 +58,41 @@
     @button-type-group : true;
     @button-type-3d    : false;
 
-// Alternate Style => BUTTON COLOR
-@button-colors         : true;
-    @button-color-red    : true;
-    @button-color-blue   : true;
-    @button-color-green  : true;
-    @button-color-orange : true;
+// BUTTON COLOR
+@button-colors : @colors;
+    @button-color-error   : @color-error;
+    @button-color-info    : @color-info;
+    @button-color-success : @color-success;
+    @button-color-warning : @color-warning;
 
-    @button-color-red-inverse     : true;
-    @button-color-blue-inverse    : true;
-    @button-color-green-inverse   : true;
-    @button-color-orange-inverse  : true;
-    @button-color-primary-inverse : true;
+    @button-color-inverse : @color-inverse;
 
-// Alternate Style => BUTTON SIZE
-@button-sizes  : true;
-    @button-size-larger : true;
-    @button-size-large  : true;
-    @button-size-small  : true;
-
-// Alternate Style => IMAGES
-@images-style        : false; // .img-thumbnail, .img-circle, .img-rounded
-
-// Alternate Style => TABLES
-@tables-style        : true; // .table-bordered, .table-striped, .table-hover
-    @tables-bordered : @tables-style; // .table-bordered
-    @tables-striped  : @tables-style; // .table-striped
-    @tables-hover    : @tables-style; // .table-hover
+// BUTTON SIZE
+@button-sizes  : @sizes;
+    @button-size-larger : @size-larger;
+    @button-size-large  : @size-large;
+    @button-size-small  : @size-small;
 
 // Style for Button
 @button-transition             : true;
 @button-box-shadow             : true;
+
+// IMAGES
+@images-style : true; // .img-thumbnail, .img-circle, .img-rounded
+
+// TABLES
+@blockquote-styles : true; // .table-bordered, .table-striped, .table-hover
+    @blockquote-noquotes : true; // .noquotes
+    @blockquote-onequote : true; // .onequote
+    @blockquote-cloud    : true; // .cloud
+    @blockquote-cloud-border-right    : true; // .cloud
+    @blockquote-cloud-border-left    : true; // .cloud
+
+// TABLES
+@table-styles : true; // .table-bordered, .table-striped, .table-hover
+    @table-bordered : true; // .table-bordered
+    @table-striped  : true; // .table-striped
+    @table-hover    : true; // .table-hover
 
 // Style for Checkbox and Radio
 @checkbox-radio-style          : true;
@@ -97,10 +112,6 @@
 @module-datepicker             : true;
 @module-autocomplete           : true;
 @module-tooltips               : true;
-    @module-tooltips-color-red    : true;
-    @module-tooltips-color-blue   : true;
-    @module-tooltips-color-green  : true;
-    @module-tooltips-color-orange : true;
 @module-range                  : true;
 @module-progressbar            : true;
 @module-chosen                 : false;
@@ -121,13 +132,24 @@
     @list-images                   : true;
     @list-count-sign               : true;
     @list-icon-sign                : false;
-    @list-testimonials             : false; // styles are in system-classes.less, check that was included
-    @list-social-links             : false; // styles are in system-classes.less, check that was included
+    @list-testimonials             : false;
+    @list-social-links             : false;
 
-@social-fields            : false; // styles are in system-classes.less, check that was included
+@badges-classes : true;
+    @badge-colors : @colors;
+        @badge-error   : @color-error;
+        @badge-info    : @color-info;
+        @badge-success : @color-success;
+        @badge-warning : @color-warning;
+        @badge-inverse : @color-inverse;
+
+    @badges-type : true;
+        @badge-square        : true;
+        @badge-leaflet-right : true;
+        @badge-leaflet-left  : true;
 
 // Animate CSS3. DEMO => https://daneden.me/animate/
-@animation                       : false;
+@animation : false;
 
 @animate-rotate                : true;
 @animate-flash                 : true;

@@ -14,6 +14,11 @@
         min-height    : 0; // support: IE7
         .clearfix;
 
+        &:hover{
+            color      : @accordion-header-color-hover;
+            background : @accordion-header-bg-hover;
+        }
+
         &:first-child{
             margin-top : 0;
         }
@@ -22,12 +27,7 @@
             color : inherit;
         }
 
-        &:hover{
-            color      : @accordion-header-color-hover;
-            background : @accordion-header-bg-hover;
-        }
-
-        .chzn-choices &.ui-accordion-header-active{
+        &.ui-accordion-header-active{
             color      : @accordion-header-color-active;
             background : @accordion-header-bg-active;
         }

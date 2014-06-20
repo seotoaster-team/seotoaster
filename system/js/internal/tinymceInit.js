@@ -36,7 +36,7 @@ $(document).ready(function(){
         image_advtab            : true,
         setup                   : function(ed){
             var keyTime = null;
-            ed.on('change', function(ed, e){
+            ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);
                 this.save();

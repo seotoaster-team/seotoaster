@@ -6,23 +6,17 @@
 //	Grid system
 //  Reset for all navigation items, related-products
 //==================================================
+@import "base/normalize";
 
 // Reset & Basics
 //==================================================
 *{
-    margin                      : 0;
-    padding                     : 0;
-    outline                     : none;
-    border                      : none;
-    background                  : transparent;
-    vertical-align              : baseline;
     -webkit-touch-callout       : none; //если надо, то запрещаем выделение текста
     -webkit-tap-highlight-color : rgba(0, 0, 0, 0); //убираем фон подсветки ссылок и кнопок
     -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
-}
-.reset-style{
-    &, *{
-        .reset-style;
+
+    &, &:before, &:after{
+        .box-sizing();
     }
 }
 ::-moz-selection{
@@ -33,30 +27,15 @@
     background : @text-select-bg;
     color      : @text-select-color;
 }
-div, p{
-    &:empty{
-        margin : 0;
-    }
-}
+
 body{
-    font-family                 : sans-serif;
-    -webkit-text-size-adjust    : 100%;
-    -ms-text-size-adjust        : 100%;
     //-webkit-font-smoothing      : antialiased; // Fix for webkit rendering
     -webkit-font-smoothing      : subpixel-antialiased !important;
     -webkit-backface-visibility : hidden;
     -moz-backface-visibility    : visible;
     -ms-backface-visibility     : hidden;
-}
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
-    display : block;
-}
-audio, canvas, video{
-    .inline-block;
-}
-audio:not([controls]){
-    display : none;
-    height  : 0;
+    -ms-touch-action            : manipulation;
+    touch-action                : manipulation;
 }
 blockquote, q{
     quotes : none;
@@ -66,18 +45,7 @@ q:before, q:after{
     content : '';
     content : none;
 }
-em{
-    font-style : italic;
-}
-strong{
-    font-weight : bold;
-}
-small{
-    font-size : 0.8em;
-}
-[hidden], body [class*="hidden"]{
-    display : none;
-}
+em{ font-style : italic; }
 table{
     border-spacing  : 0;
     border-collapse : collapse;
@@ -87,70 +55,63 @@ a:focus, [type="checkbox"]:focus, [type="radio"]:focus, *:focus{
     outline : none;
 }
 a, [type="submit"], [type="button"], button, [type="checkbox"], [type="radio"]{ cursor : pointer; }
-img, [type="submit"], [type="button"], button, [type="checkbox"], [type="radio"]{ vertical-align : middle; }
+img, [type="checkbox"], [type="radio"]{ vertical-align : middle; }
 img{
     max-width : 100%;
     height    : auto;
 }
+
 .fb-like-box{
-    &>span, iframe{
+    & > span, iframe{
         position : relative !important;
         width    : 100% !important;
-        height   : auto !important;
+        //        height   : auto !important;
     }
 }
-.generator-links, .tpopup{
-    &, &:hover{
-        img{
-            width  : auto !important;
-            border : none !important;
-            .box-shadow(none);
-        }
-    }
+.mobile iframe{
+    width : 100%;
+}
+.gall{
+    .inline-block;
 }
 .gmaps{
     max-width : 100%;
     img{ max-width : none; }
 }
 
+.ltr{
+    direction    : ltr;
+    unicode-bidi : bidi-override;
+}
+
+.rtl{
+    direction    : rtl;
+    unicode-bidi : bidi-override;
+}
+
 [contenteditable="true"]{
-    .box-sizing;
+    .inline-block();
     background : @input-bg;
     border     : @input-border-width solid @input-border-color;
     cursor     : text;
-    font-size  : @font-size-small;
     padding    : @padding-mini-vertical @padding-mini-horizontal;
 }
 
-// Reset Form
-//==================================================
-fieldset{
-    //    border  : 0;
-    //    margin  : 0;
-    //    padding : 0;
-
-    legend{
-        line-height                    : 1;
-        //        border      : 0;
-        //        padding     : 0;
-        -webkit-margin-bottom-collapse : separate;
-    }
+//// Reset Form
+////==================================================
+dl, dt, dd{
+    margin : 0;
 }
 input, select, textarea, button{
     max-width   : 100%;
     width       : 100%;
     font-family : inherit;
-    .box-sizing;
+    font-weight : normal;
     .placeholder();
 }
-button, input{
-    &::-moz-focus-inner{
-        padding : 0;
-        border  : 0;
-    }
-}
-
-// Reset width of input images, buttons, radios, checkboxes
+//
+//// Reset width of input images, buttons, radios, checkboxes
+button,
 [type="file"],
 [type="image"],
 [type="submit"],
@@ -164,18 +125,14 @@ button, input{
     border  : none;
     padding : 0;
 }
+[type="color"]{
+    padding : 0;
+}
 
 textarea{
     vertical-align : top;
     line-height    : normal;
     .resize();
-}
-
-[type="search"]{
-    -webkit-appearance : textfield;
-    &::-webkit-search-cancel-button, &::-webkit-search-decoration{
-        -webkit-appearance : none;
-    }
 }
 
 [type="checkbox"], [type="radio"]{
@@ -184,7 +141,7 @@ textarea{
     height  : auto;
 
     &:focus{
-        .box-shadow(none, @input-shadow-focus);
+        .box-shadow(none, @input-shadow-focus) !important;
     }
 }
 
@@ -201,26 +158,22 @@ select optgroup{
     font-family : inherit;
 }
 
-[type="button"], [type="submit"], button{
-    width  : auto;
-    border : none;
-}
 button, [type="button"], [type="reset"], [type="submit"]{
-    cursor             : pointer;
     -webkit-appearance : button;
 
     &:focus{
         .box-shadow(none, @input-shadow-focus);
     }
 }
-button[disabled], html input[disabled]{
+
+[disabled]{
     cursor : default;
 }
-.btn, button, [type="submit"], [type="button"]{
-    a{
-        color : inherit;
-    }
+
+.reset-style{
+    .reset-style;
 }
+
 .seotoaster-loader{
     position   : fixed;
     left       : 2px;
@@ -233,4 +186,31 @@ button[disabled], html input[disabled]{
     color      : #fff;
     background : @brand-primary;
     .opacity(0.9);
+}
+
+// Overlays
+.ui-widget-overlay{
+    position   : fixed;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    left       : 0;
+    z-index    : 1000;
+    background : #000;
+    .opacity(0.5);
+
+    & ~ .ui-widget-overlay{
+        display : none;
+    }
+}
+
+[aria-describedby="toasterPopup"]{
+    position    : fixed !important;
+    right       : 0 !important;
+    left        : 0 !important;
+    line-height : 0 !important;
+    margin      : auto !important;
+    padding     : auto !important;
+    border      : none !important;
+    max-width   : none !important;
 }

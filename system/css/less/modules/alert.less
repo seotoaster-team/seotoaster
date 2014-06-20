@@ -5,7 +5,7 @@
     padding  : @padding-base-vertical @padding-base-horizontal;
     border   : 1px solid;
     .border-radius(@state-border-radius);
-    .alert-color(@state-green-text, @state-green-bg, @state-green-border, true, true);
+    .alert-color(@state-green-color, @state-green-bg, @state-green-border);
 
     a{
         text-decoration : underline;
@@ -17,35 +17,39 @@
 
     // Alternate styles
     // -------------------------
-    &.success{
-        .alert-color(@state-green-text, @state-green-bg, @state-green-border, @color-green);
+    &.success when (@color-success = true) and (@colors = true){
+//        .alert-color(@brand-green, #fff, @brand-green, @color-green);
+        .alert-color(@state-green-color, @state-green-bg, @state-green-border);
     }
-    &.warning{
-        .alert-color(@state-orange-text, @state-orange-bg, @state-orange-border, @color-orange);
+    &.warning when (@color-warning = true) and (@colors = true){
+//        .alert-color(@brand-orange, #fff, @brand-orange, @color-orange);
+        .alert-color(@state-orange-color, @state-orange-bg, @state-orange-border);
     }
-    &.error{
-        .alert-color(@state-red-text, @state-red-bg, @state-red-border, @color-red);
+    &.error when (@color-error = true) and (@colors = true){
+//        .alert-color(@brand-red, #fff, @brand-red, @color-red);
+        .alert-color(@state-red-color, @state-red-bg, @state-red-border);
     }
-    &.info{
-        .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border, @color-blue);
+    &.info when (@color-info = true) and (@colors = true){
+//        .alert-color(@brand-blue, #fff, @brand-blue, @color-blue);
+        .alert-color(@state-blue-color, @state-blue-bg, @state-blue-border);
     }
     &.gray{
-        .alert-color(@gray, @gray-lighter, @gray-light, @color-gray);
+        .alert-color(@gray, @gray-lighter, @gray-light);
     }
 
     // Block alerts
     // -------------------------
-    &.alert-block{
+    .block{
         padding-top    : 15px;
         padding-bottom : 15px;
     }
 }
 
 .ui-state-error{
-    .alert-color(@state-red-text, @state-red-bg, @state-red-border);
+    .alert-color(@state-red-color, @state-red-bg, @state-red-border);
 }
 .ui-state-highlight{
-    .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border);
+    .alert-color(@state-blue-color, @state-blue-bg, @state-blue-border);
 }
 
 .smoke-base{
@@ -60,30 +64,17 @@
         .rgba(#fff, 0.5);
     }
 
-    .close{
-        position : absolute;
-        top      : 0;
-        right    : 0;
-        color    : inherit;
-        cursor   : pointer;
-        .icon-size(16px);
-
-        &:hover{
-            color : @brand-red;
-        }
-    }
-
     .dialog{
+        overflow    : auto;
         position   : fixed;
         z-index    : 1001;
+        width       : 100%;
+        max-width   : @grid-container-width * 0.75;
+        max-height  : 50%;
         top        : 25%;
         left       : 0;
         right      : 0;
         margin     : 0 auto;
-        width      : 100%;
-        max-width  : @grid-container-width * 0.75;
-        max-height : 50%;
-        overflow   : auto;
         text-align : center;
         background : #fff;
         border     : 1px solid #ddd;
@@ -92,21 +83,21 @@
 
         // Alternate styles
         // -------------------------
-        &.success{
-            color        : @brand-green;
-            border-color : @brand-green;
+        &.success when (@color-success = true) and (@colors = true){
+            color        : @brand-success;
+            border-color : @brand-success;
         }
-        &.warning{
-            color        : @brand-orange;
-            border-color : @brand-orange;
+        &.warning when (@color-warning = true) and (@colors = true){
+            color        : @brand-warning;
+            border-color : @brand-warning;
         }
-        &.error{
-            color        : @brand-red;
-            border-color : @brand-red;
+        &.error when (@color-error = true) and (@colors = true){
+            color        : @brand-error;
+            border-color : @brand-error;
         }
-        &.info{
-            color        : @brand-blue;
-            border-color : @brand-blue;
+        &.info when (@color-info = true) and (@colors = true){
+            color        : @brand-info;
+            border-color : @brand-info;
         }
     }
 
@@ -150,8 +141,8 @@
         }
     }
 }
+
 .message{
     display     : block;
     border-left : 3px solid;
-    .box-sizing();
 }

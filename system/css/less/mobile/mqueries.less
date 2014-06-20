@@ -1,0 +1,67 @@
+//================================================\\
+//************** Divece orientation **************\\
+//================================================\\
+@media only screen and (orientation:portrait){
+}
+
+@media only screen and (orientation:landscape){
+}
+
+//================================================\\
+//*************** Divece screen size *************\\
+//================================================\\
+
+//***** Bigger than Desktop site size *****\\
+@responsive-size-desktop-above : (@responsive-size-desktop + 1);
+@media only screen and (min-width : @responsive-size-desktop-above){
+}
+
+//***** Tablet Portrait *****\\
+@media only screen and (max-width : @responsive-size-desktop){
+}
+
+//***** All Mobile Sizes *****\\
+@media only screen and (max-width : @responsive-size-tablet){
+
+    #slider{
+        .description-slider{
+            display : none;
+        }
+    }
+}
+
+//***** Just Mobile Landscape *****\\
+@media only screen and (max-width : @responsive-size-tablet) and (orientation:landscape){
+}
+
+//***** Just Mobile Portrait *****\\
+@media only screen and (max-width : @responsive-size-mobile){
+
+    .captcha{
+        &, img{
+            width : 100%;
+        }
+    }
+
+    [type="submit"], [type="button"]{
+        width        : 100%;
+        margin-right : 0;
+        margin-left  : 0;
+    }
+}
+
+//***** Just Small Phone *****\\
+@media only screen and (max-width : @responsive-size-phone){
+}
+
+//================================================\\
+//************** Divece pixel ratio **************\\
+//================================================\\
+@media screen and (-webkit-min-device-pixel-ratio: 1.3){
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.5){
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2){
+}
