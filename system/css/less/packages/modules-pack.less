@@ -15,99 +15,87 @@
 
 // Carousel Styles
 //==================================================
-.activate-carousel(@activate : @module-carousel) when (@activate = true){
+.activate-module() when (@module-carousel = true){
     @import "../modules/carousel";
 }
-.activate-carousel;
 
 // Alert Styles
 //==================================================
-.activate-alert(@activate : @module-alert) when (@activate = true){
+.activate-module() when (@module-alert = true){
     @import "../modules/alert"; // http://smoke-js.com/
 }
-.activate-alert;
 
 // Modules Accordion Styles
 //==================================================
-.activate-accordion(@activate : @module-accordion) when (@activate = true){
+.activate-module() when (@module-accordion = true){
     @import "../modules/accordion";
 }
-.activate-accordion;
 
 // Modules Tabs Styles
 //==================================================
-.activate-tabs(@activate : @module-tabs) when (@activate = true){
+.activate-module() when (@module-tabs = true){
     @import "../modules/tabs";
 }
-.activate-tabs;
 
 // Modules Dialog Styles
 //==================================================
-.activate-dialog(@activate : @module-dialog) when (@activate = true){
+.activate-module() when (@module-dialog = true){
     @import "../modules/dialog";
 }
-.activate-dialog;
 
 // Modules Datepicker Styles
 //==================================================
-.activate-datepicker(@activate : @module-datepicker) when (@activate = true){
+.activate-module() when (@module-datepicker = true){
     @import "../modules/datepicker";
 }
-.activate-datepicker;
 
 // Modules Datepicker Styles
 //==================================================
-.activate-autocomplete(@activate : @module-autocomplete) when (@activate = true){
+.activate-module() when (@module-autocomplete = true){
     @import "../modules/autocomplete";
 }
-.activate-autocomplete;
 
 // Modules Toltips Styles
 //==================================================
-.activate-tooltips(@activate : @module-tooltips) when (@activate = true){
+.activate-module() when (@module-tooltips = true){
     @import "../modules/tooltips";
 }
-.activate-tooltips(@activate : @module-tooltips) when (@activate = false){
+.activate-module() when (@module-tooltips = false){
     .ui-tooltip{
         display: none;
     }
 }
-.activate-tooltips;
 
 // Modules Slider (range) Styles
 //==================================================
-.activate-range(@activate : @module-range) when (@activate = true){
+.activate-module() when (@module-range = true){
     @import "../modules/range";
 }
-.activate-range;
 
 // Modules Progressbar Styles
 //==================================================
-.activate-progressbar(@activate : @module-progressbar) when (@activate = true){
+.activate-module() when (@module-progressbar = true){
     @import "../modules/progressbar";
 }
-.activate-progressbar;
 
 // Modules Chosen Styles
 //==================================================
-.activate-chosen(@activate : @module-chosen) when (@activate = true){
+.activate-module() when (@module-chosen = true){
     @import "../modules/chosen";
 }
-.activate-chosen;
 
 // Modules Chosen Styles
 //==================================================
-.activate-scrollbar(@activate : @module-scrollbar) when (@activate = true){
+.activate-module() when (@module-scrollbar = true){
     @import "../modules/scrollbars";
 }
-.activate-scrollbar;
 
 // Pagination Styles
 //==================================================
-.activate-pagination(@activate : @module-pagination) when (@activate = true){
+.activate-module() when (@module-pagination = true){
     @import "../modules/paginator";
 }
-.activate-pagination();
+.activate-module;
 
 // UI effects transfer
 //==================================================

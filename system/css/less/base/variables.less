@@ -108,10 +108,10 @@
 // Brand Color
 //==================================================
 @brand-primary : #31B0D5;
-@brand-green   : #2ECC71;
-@brand-blue    : #3498DB;
-@brand-orange  : #E67E22;
-@brand-red     : #E74C3C;
+@brand-success : #2ECC71;
+@brand-info    : #3498DB;
+@brand-warning : #E67E22;
+@brand-error   : #E74C3C;
 
 // Social Color
 //==================================================
@@ -140,7 +140,6 @@
 
 // variables for Header
 @header-bg               : @gray-light;
-//@header-bg               : darken(@gray-light, 10%);
 @header-color            : @gray;
 @header-height           : 40px;
 
@@ -216,24 +215,24 @@
 //==================================================
 @state-border-radius  : 0;
 
-@state-primary-text   : @brand-primary;
-@state-primary-bg     : lighten(desaturate(@state-primary-text, 30%), 35%);
+@state-primary-bg     : lighten(desaturate(@state-primary-color, 30%), 35%);
+@state-primary-color  : @brand-primary;
 @state-primary-border : darken(@state-primary-bg, 15%);
 
 @state-green-bg     : #D8EFC1;
-@state-green-text   : #79985B;
+@state-green-color    : #79985B;
 @state-green-border : #B4D892;
 
 @state-blue-bg        : #B8E1F1;
-@state-blue-text      : #52889B;
+@state-blue-color     : #52889B;
 @state-blue-border    : #A1C7D5;
 
 @state-orange-bg     : #FEEBB7;
-@state-orange-text   : #B49133;
+@state-orange-color   : #B49133;
 @state-orange-border : #E7D195;
 
 @state-red-bg       : #F9BCC3;
-@state-red-text     : #B76973;
+@state-red-color      : #B76973;
 @state-red-border   : #F09DA7;
 
 // Tables
@@ -252,34 +251,26 @@
 @button-line-height           : 1.33;
 @button-border-width          : 0;
 
-@button-height-base           : floor(@font-size-base * unit(@button-line-height) + @padding-base-vertical * 2 + @button-border-width * 2);
-@button-height-larger         : floor(unit(@font-size-larger) * @font-size-base * unit(@button-line-height) + @padding-larger-vertical * 2 + @button-border-width * 2);
-@button-height-large          : floor(unit(@font-size-large) * @font-size-base * unit(@button-line-height) + @padding-large-vertical * 2 + @button-border-width * 2);
-@button-height-small          : floor(unit(@font-size-small) * @font-size-base * unit(@button-line-height) + @padding-small-vertical * 2 + @button-border-width * 2);
+@button-border-radius         : 0; //Enter in ems
 
-@button-border-radius         : 0;
-@button-larger-border-radius  : @button-border-radius * 2;
-@button-large-border-radius   : @button-border-radius * 1.5;
-@button-small-border-radius   : @button-border-radius * .5;
-
-@button-primary-color         : @primary-color;
 @button-primary-bg            : @primary-bg;
+@button-primary-color         : @primary-color;
 @button-primary-border        : darken(@button-primary-bg, 10%);
 
-@button-green-color           : #fff;
-@button-green-bg              : @brand-green;
+@button-green-bg              : @brand-success;
+@button-green-color           : #FFF;
 @button-green-border          : darken(@button-green-bg, 10%);
 
-@button-orange-color          : #fff;
-@button-orange-bg             : @brand-orange;
+@button-orange-bg             : @brand-warning;
+@button-orange-color          : #FFF;
 @button-orange-border         : darken(@button-orange-bg, 10%);
 
-@button-red-color             : #fff;
-@button-red-bg                : @brand-red;
+@button-red-bg                : @brand-error;
+@button-red-color             : #FFF;
 @button-red-border            : darken(@button-red-bg, 10%);
 
-@button-blue-color            : #fff;
-@button-blue-bg               : @brand-blue;
+@button-blue-bg               : @brand-info;
+@button-blue-color            : #FFF;
 @button-blue-border           : darken(@button-blue-bg, 10%);
 
 // Forms
@@ -306,7 +297,8 @@
 //==================================================
 @slider-height         : 350px;
 @slider-button-size    : 18px;
-@slider-heading-color  : @gray-lighter; // color headings in slide description
+// color headings in slide description
+@slider-heading-color  : @gray-lighter;
 
 // Thumbnails
 //==================================================
@@ -321,8 +313,8 @@
 @thumbnail-color-hover     : @gray;
 
 @thumbnail-caption-bg      : @primary-bg;
-@thumbnail-caption-opacity : 0.8;
 @thumbnail-caption-color   : @primary-color;
+@thumbnail-caption-opacity : 0.8;
 
 // Breadcrumbs
 //==================================================
@@ -388,19 +380,21 @@
 // JQuery Modules Dialog = http://jqueryui.com/dialog/
 //=============================================================
 @dialog-bg           : @body-bg;
-@dialog-border-width : 1px;
 @dialog-border-color : darken(@primary-bg, 5%);
+@dialog-border-width : 0px;
 
-@dialog-header-bg    : @primary-bg;
-@dialog-header-color : @primary-color;
+@dialog-header-bg    : @header-bg;
+@dialog-header-color : @header-color;
 
 @dialog-content-bg   : transparent;
 
+@dialog-resizable    : false;
+
 // JQuery Modules Datepicker = http://jqueryui.com/datepicker/
 //==================================================
-@datepicker-width             : 210px;
 @datepicker-bg                : @body-bg;
 @datepicker-border-color      : #ddd;
+@datepicker-width             : 210px;
 
 @datepicker-header-bg         : @header-bg;
 @datepicker-header-color      : @header-color;
@@ -413,7 +407,7 @@
 
 @datepicker-week-bg           : @datepicker-header-bg;
 @datepicker-week-color        : @datepicker-header-color;
-@datepicker-week-end-color    : desaturate(@brand-red, 20%);
+@datepicker-week-end-color    : desaturate(@brand-error, 20%);
 @datepicker-week-box-size     : 30px;
 @datepicker-week-font-size    : 10px;
 
@@ -438,7 +432,11 @@
 //=============================================================
 @tooltip-bg    : #000;
 @tooltip-color : #fff;
+@tooltip-border-color : @tooltip-bg;
+@tooltip-border-width : 0;
 @tooltip-width : 300px;
+// and need to change the value in the function functionPack => showTooltip (), variable arrowWidth
+@tooltip-arrow-width  : 9px;
 
 // JQuery Modules Slider (range) = http://jqueryui.com/slider/
 //=============================================================
@@ -464,4 +462,4 @@
 
 // Mixin
 //==================================================
-@import "mixins";
+@import "mixins-pack";

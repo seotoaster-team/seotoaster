@@ -1,40 +1,141 @@
-blockquote, .blockquote, .seo-tip{
-    font-size     : @font-size-base;
-    color         : @gray;
-    font-style    : italic;
-    background    : @gray-lighter;
-    margin-bottom : 1.5em;
-    padding       : 0.75em 1.5em;
-    border-left   : 3px solid @gray;
+blockquote{
+    margin    : 2em 0;
+    padding   : 0.25em 2.5em;
+    color     : lighten(@text-color, 10%);
+    font-size : @font-size-large;
+    position  : relative;
 
-    p, ul, ol{
-        margin : 0;
-
-        &+p, &+ul, &+ol{
-            margin-top : 0.5em;
+    &:before, &:after{
+        position    : absolute;
+        color       : @gray-light;
+        font-size   : 2em;
+        .activate-icon-quote() when ( @toaster-icons = true){
+            font-family : 'toaster-icons';
         }
+        .activate-icon-quote();
+        line-height : 1em;
     }
-    li{
-        margin-left   : 1em;
+
+    &:after{
+        right  : 0;
+        bottom : -0.25em;
+        .activate-icon-quote() when ( @toaster-icons = false){
+            content : "\201c";
+        }
+        .activate-icon-quote() when ( @toaster-icons = true){
+            content : "\e074";
+            //content : "\e076"; // variant 2
+        }
+        .activate-icon-quote();
+    }
+
+    &:before{
+        left : 0;
+        top  : -0.25em;
+        .activate-icon-quote() when ( @toaster-icons = false){
+            content : "\201e";
+        }
+        .activate-icon-quote() when ( @toaster-icons = true){
+            content : "\e073";
+            //content : "\e075"; // variant 2
+        }
+        .activate-icon-quote();
+    }
+
+    p{
         margin-bottom : 0;
 
-        &+li{
-            margin-top : 0.5em;
+        & + p{
+            margin-top : 15px;
+        }
+
+    }
+
+    &.noquotes{
+        border-left : 2px solid @gray-light;
+        padding     : .5em 1em;
+
+        &:before, &:after{
+            content : '';
         }
     }
 
-    // Alternate styles
-    // -------------------------
-    &.success{
-        .alert-color(@state-green-text, @state-green-bg, @state-green-border, @color-green);
+    &.onequote{
+        padding-left  : 2em;
+        padding-right : 2em;
+        &:before{
+            top       : -0.45em;
+            font-size : 5em;
+            .opacity(0.2);
+        }
+        &:after{
+            content : '';
+        }
     }
-    &.warning{
-        .alert-color(@state-orange-text, @state-orange-bg, @state-orange-border, @color-orange);
-    }
-    &.error{
-        .alert-color(@state-red-text, @state-red-bg, @state-red-border, @color-red);
-    }
-    &.info{
-        .alert-color(@state-blue-text, @state-blue-bg, @state-blue-border, @color-blue);
+
+    &.cloud{
+        padding          : 1em;
+        background-color : @gray-lighter;
+        .border-radius(5px);
+        .arrow-border(top-right, center, @gray-lighter);
+
+        @indent: 100px;
+        @border-width: 1px;
+
+        &:before{
+            content      : '';
+        }
+
+        &.border{
+            @border-width: 1px;
+            background-color : @body-bg;
+            padding          : 1em;
+            border           : @border-width solid @gray-lighter;
+            .border-radius(@border-radius-small);
+
+            &:before{
+                z-index      : 1;
+                position     : absolute;
+                top          : 100%;
+                left         : 0;
+                right        : 0;
+                border-width : 9px;
+                border-style : solid;
+                border-color : @body-bg @body-bg transparent transparent;
+                margin       : auto;
+                width        : 0;
+                height       : 0;
+            }
+        }
+
+        &.right{
+
+            &:after{
+                left  : auto;
+                right : @indent;
+            }
+
+            &:before{
+                left   : auto;
+                right  : @indent + @border-width;
+            }
+        }
+
+        &.left{
+
+            &:after{
+                left               : @indent;
+                right              : auto;
+                border-right-color : transparent;
+                border-left-color  : @gray-lighter;
+            }
+
+            &:before{
+                left               : @indent + @border-width;
+                right              : auto;
+                border-right-color : transparent;
+                border-left-color  : @body-bg;
+            }
+        }
     }
 }

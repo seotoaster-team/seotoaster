@@ -37,31 +37,42 @@
 
 // Grid system
 //==================================================
-.grid (@grid : @grid-columns, @prefix : ~'', @num-column : 1, @switch : true) when (@grid >= @num-column){
-    .@{prefix}grid_@{num-column}{
-        width : round(percentage((@num-column / @grid)) - @grid-margin-width, 3) !important;
-        &.alpha, &.omega{
-            width : round(percentage(@num-column / @grid) - @grid-margin-width / 2, 3) !important;
+.grid(){
+    .activate-responsive(@activate : @responsive) when (@activate = true){
+        @responsive-size-tablet-over : (@responsive-size-tablet + 1);
+        @media only screen and (min-width : @responsive-size-tablet-over){
+            .d-hide{ display : none !important; }
+            .grid-list();
         }
-        &.alpha.omega{
-            width : round(percentage(@num-column / @grid), 3) !important;
-        }
-    }
-
-    .grid(@grid, @prefix, @num-column + 1, false);
-    .activate-grid-element(@switch);
-}
-.grid-mobile(@response : @responsive) when (@response = true){
-    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+        @responsive-size-mobile-over : (@responsive-size-mobile + 1);
     @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
         .t-hide{ display : none !important; }
-        .grid(@grid-columns-tablet, t-);
+            .grid-list(@grid-columns-tablet, t-);
     }
 
     @media only screen and (max-width : @responsive-size-mobile){
         .m-hide{ display : none !important; }
-        .grid(@grid-columns-mobile, m-);
+            .grid-list(@grid-columns-mobile, m-);
     }
+
+}
+    .activate-responsive(@activate : @responsive) when (@activate = false){
+        .grid-list();
+    }
+    .activate-responsive();
+}
+.grid-list(@grid : @grid-columns, @prefix : ~'', @num-column : 1, @switch : true) when (@grid >= @num-column){
+    .@{prefix}grid_@{num-column}{
+        width : round(percentage((@num-column / @grid)) - @grid-margin-width, 3);
+        &.@{prefix}alpha, &.@{prefix}omega{
+            width : round(percentage(@num-column / @grid) - @grid-margin-width / 2, 3);
+        }
+        &.@{prefix}alpha.@{prefix}omega{
+            width : round(percentage(@num-column / @grid), 3);
+        }
+    }
+    .grid-list(@grid, @prefix, @num-column + 1, false);
+    .activate-grid-element(@switch);
 }
 
 .activate-grid-element(@activate) when (@activate = true){
@@ -222,7 +233,7 @@
 
     @{el}{
         .inline-block(@valign);
-        .font-size-unit(@unit : @font-size-base) when (isem(@unit)){ font-size : @font-size-base * 16; }
+        .font-size-unit(@unit : @font-size-base) when (isem(@unit)) and (ispercentage(@unit)){ font-size : @font-size-base * 16; }
         .font-size-unit(@unit : @font-size-base) when not (isem(@unit)){ font-size : @font-size-base; }
         .font-size-unit();
     }
@@ -256,7 +267,6 @@
     width : (100% / @num-column) - @margin;
 
     .activate-style-switch(@activate) when (@activate = true){
-        .box-sizing;
         margin-left  : unit(@margin / 2, ~"%") !important;
         margin-right : unit(@margin / 2, ~"%");
     }
@@ -274,9 +284,6 @@
     margin-left  : unit(@margin, ~"%");
     margin-right : 0;
 
-    .activate-style-switch(@activate) when (@activate = true){
-        .box-sizing;
-    }
     .activate-style-switch(@activate) when (@activate = false){
         &:nth-child(n){ margin-left : unit(@margin, ~"%"); }
     }
@@ -306,7 +313,7 @@
 }
 
 .grid-elements-tablet(@tablet-column, @margin, @full) when (@tablet-column > 0){
-    @responsive-size-mobile-over : @responsive-size-mobile + 1;
+    @responsive-size-mobile-over : (@responsive-size-mobile + 1);
     @media only screen and (max-width : @responsive-size-tablet) and  (min-width : @responsive-size-mobile-over){
         .grid-elements(@tablet-column, @margin, @full, 0, 0, false);
     }
@@ -320,14 +327,50 @@
 
 // Icon size
 //==================================================
-.icon-size(@size) when (@size > 0){
+.icon-size(@size) when (@size > 0) and not(isem(@size)) and not(ispercentage(@size)){
     width       : @size;
     height      : @size;
     line-height : @size;
     font-size   : 0;
+    .box-sizing(content-box);
 
     &:before{
         font-size : @size;
+    }
+}
+.icon-size(@size) when (@size > 0) and (isem(@size)), (ispercentage(@size)){
+    width       : 1em;
+    height      : 1em;
+    line-height : 1;
+    font-size   : @size;
+}
+
+// Social Field
+//==================================================
+.social-field(@width : 240px) when (@social-fields = true){
+    .social-field .labeled{
+        float  : left;
+        margin : 0;
+        cursor : pointer;
+
+        &+.labeled{
+            margin-left : 5px;
+        }
+
+        [class*="icon-"]{
+            float : left;
+            .icon-size(@button-height-base);
+        }
+
+        input{
+            width       : 0;
+            margin-left : -@padding-base-horizontal * 2;
+        }
+
+        :checked~input{
+            margin-left : 0;
+            width       : @width;
+        }
     }
 }
 
@@ -341,6 +384,8 @@
 // ClearFix
 //==================================================
 .clearfix() {
+    *zoom: 1;
+
     &:after{
         content    : "";
         clear      : both;
@@ -349,4 +394,31 @@
         visibility : hidden;
         height     : 0;
     }
+}
+
+
+// Flexbox Layout http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+//==================================================
+.flexbox() {
+    display : -webkit-box;
+    display : -moz-box;
+    display : -ms-flexbox;
+    display : -webkit-flex;
+    display : flex;
+}
+
+.flex(@values) {
+    -webkit-box-flex : @values;
+    -moz-box-flex    : @values;
+    -webkit-flex     : @values;
+    -ms-flex         : @values;
+    flex             : @values;
+}
+
+.order(@val) {
+    -webkit-box-ordinal-group : @val;
+    -moz-box-ordinal-group    : @val;
+    -ms-flex-order            : @val;
+    -webkit-order             : @val;
+    order                     : @val;
 }

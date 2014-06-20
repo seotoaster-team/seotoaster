@@ -1,6 +1,41 @@
 hr{
     clear      : both;
     margin     : 0.75em 0 2em;
-    height     : @hr-size;
-    background : @hr-color;
+    border-width : @hr-size;
+    border-color : @hr-color;
+    line-height : 0;
+    .activate-padding() when (@hr-size > 1px){
+        padding-top: @hr-size / 2;
+    }
+    .activate-padding();
+
+    // With text
+    &:before{
+        content     : attr(title);
+        top         : -0.5em;
+        position    : relative;
+        line-height : 1;
+        color       : @hr-color;
+        background  : @content-bg;
+        margin      : 0 15px;
+        padding     : 0px .75em;
+        .inline-block();
+    }
+
+    &.left{ text-align : left; }
+    &.right{ text-align : right; }
+    &.center{ text-align : center; }
+
+    // Divider circle
+    &.circle{
+        text-align : center;
+
+        &:before{
+            padding    : .5em;
+            background : @hr-color;
+            color      : #fff;
+            top        : -1em;
+            .border-radius(2em);
+        }
+    }
 }

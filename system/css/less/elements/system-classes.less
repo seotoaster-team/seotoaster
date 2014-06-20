@@ -61,6 +61,21 @@
 .fs48{ font-size : 48px !important; }
 .fs64{ font-size : 64px !important; }
 
+.inherit{
+    color      : inherit;
+    background : inherit;
+}
+.inherit-bg{
+    background : inherit;
+}
+.inherit-color{
+    color : inherit;
+
+    a&:hover{
+        color: @link-color;
+    }
+}
+
 .text-overflow{
     .text-overflow();
 }
@@ -71,30 +86,10 @@
 .body-bg{
     background : @body-bg;
 }
-.activate-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-    .primary-bg{ background-color : @primary-bg; }
-    .activate-color-green(@activate) when (@activate = true){
-        .green-bg{ background-color : @brand-green; }
-    }
-    .activate-color-orange(@activate) when (@activate = true){
-        .orange-bg{ background-color : @brand-orange; }
-    }
-    .activate-color-red(@activate) when (@activate = true){
-        .red-bg{ background-color : @brand-red; }
-    }
-    .activate-color-blue(@activate) when (@activate = true){
-        .blue-bg{ background-color : @brand-blue; }
-    }
-    .activate-color-green(@color-green);
-    .activate-color-orange(@color-orange);
-    .activate-color-red(@color-red);
-    .activate-color-blue(@color-blue);
-}
-.activate-color(@colors, @alternate-style);
 
 // Social Links
 //==================================================
-.activate-list-social-links(@activate) when (@activate = true){
+.social-links() when (@social-links = true){
     .social-links{
         .hide-text;
 
@@ -105,11 +100,33 @@
         .linkedin{ background : @linkedin; }
         .facebook{ background : @facebook; }
 
+        .inverse{
+            background: none !important;
+
+            &.rss{ color : @rss; }
+            &.gplus{ color : @gplus; }
+            &.twitter{ color : @twitter; }
+            &.youtube{ color : @youtube; }
+            &.linkedin{ color : @linkedin; }
+            &.facebook{ color : @facebook; }
+        }
+
         a[class*="icon-"]{
-            .icon-size(@social-icon-size);
             margin-left : 5px;
             color       : #FFF;
-            padding     : @padding-base-vertical;
+            .button-icon-size(@social-icon-size);
+
+            &.inverse{
+
+            &:hover{
+                    &.rss{ color : darken(@rss, 10%); }
+                    &.gplus{ color : darken(@gplus, 10%); }
+                    &.twitter{ color : darken(@twitter, 10%); }
+                    &.youtube{ color : darken(@youtube, 10%); }
+                    &.linkedin{ color : darken(@linkedin, 10%); }
+                    &.facebook{ color : darken(@facebook, 10%); }
+                }
+            }
 
             &:hover{
                 &.rss{ background : darken(@rss, 10%); }
@@ -120,129 +137,95 @@
                 &.facebook{ background : darken(@facebook, 10%); }
             }
         }
-    }
-}
-.activate-list-social-links(@list-social-links);
 
-// Social Field
-//==================================================
-.list-social-field(@width-field : 240px) when (@social-fields = true){
-    .social-field{
-        .labeled{
-            float  : left;
-            margin : 0;
-            cursor : pointer;
+        .inverse{
+            background: none !important;
 
-            &+.labeled{
-                margin-left : 5px;
+            &.rss{ color : @rss; }
+            &.gplus{ color : @gplus; }
+            &.twitter{ color : @twitter; }
+            &.youtube{ color : @youtube; }
+            &.linkedin{ color : @linkedin; }
+            &.facebook{ color : @facebook; }
+
+            &:hover{
+                &.rss{ color : darken(@rss, 10%); }
+                &.gplus{ color : darken(@gplus, 10%); }
+                &.twitter{ color : darken(@twitter, 10%); }
+                &.youtube{ color : darken(@youtube, 10%); }
+                &.linkedin{ color : darken(@linkedin, 10%); }
+                &.facebook{ color : darken(@facebook, 10%); }
             }
-
-            [class*="icon-"]{
-                float : left;
-                .button-icon-size(@icon-size-larger);
             }
-
-            input{
-                width       : 0;
-                margin-left : -@padding-base-horizontal * 2;
-                float       : left;
-            }
-
-            :checked~input{
-                margin-left : 0;
-                width       : @width-field;
             }
         }
-    }
-}
+.social-links();
 
 // Change style for Generator Links
 //==================================================
-.activate-generator-links(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-    .gl-change{
+.gl-change when (@social-links = true) and (@toaster-icons = true){
+    font-size : 0;
+
+    a, :before{ font-size : @font-size-base; }
+
         .generator-links{
-            .icon-size(@icon-size-small);
-            .inline-block(bottom);
-            .button-color(@button-blue-color, @button-blue-bg, @button-blue-border);
-            padding     : @padding-mini-vertical;
+        .inline-block();
+        .icon-size(@icon-size-small) !important;
+        .button-color(@button-blue-color, @button-blue-bg, @button-blue-border);
+        padding  : @padding-small-vertical !important;
             position    : relative;
-            border-left : 2px solid #FFF;
-            border-top  : 2px solid #FFF;
-            margin      : 0 0 -2px -(@icon-size-small + @padding-mini-vertical * 2);
 
             img{
                 display : none !important;
             }
 
             &:before{
-                font-family : 'system-icons';
+            font-family : 'toaster-icons';
                 content     : "\e008";
             }
-        }
 
-        a+.generator-links:before{
+        &+.generator-links{
+            margin-left : 1px;
+
+            &:before{
             content : "\e095";
         }
     }
 }
-.activate-generator-links(@list-social-links, @toaster-icons);
 
-.activate-list-testimonials(@activate) when (@activate = true){
-    .list-testimonials{
-        list-style-type : none;
+    a.icon+.generator-links:before{
+        content : "\e095";
+        border-left    : 2px solid #FFF;
+        border-top     : 2px solid #FFF;
+        margin         : 0 0 -2px -(@icon-size-small + @padding-mini-vertical * 2);
+        vertical-align : bottom;
+    }
 
-        &:not([class*="grid_"]){
-            margin-left : 0;
+    .btn~.generator-links{
+        vertical-align : top;
         }
 
-        .item{
-            position  : relative;
-            margin    : 0 0 3.5em;
-            border    : 1px solid @gray-light;
-            padding   : @padding-large-vertical;
-            font-size : @font-size-small;
-            .box-sizing();
-
-            p{
-                margin : 0.5em 0 0;
-
-                &:first-child{
-                    margin : 0;
+    .btn+.generator-links{
+        &+.generator-links{
+            &~.generator-links{
+                top  : (@icon-size-small + @padding-small-vertical * 2);
+                left : -(@icon-size-small + @padding-small-vertical * 2 + 1) * 2;
                 }
             }
-
-            .author{
-                position : absolute;
-                left     : 0;
-                right    : 0;
-                top      : 100%;
-                padding  : 5px 5px 5px 50px;
-                color    : @brand-primary;
-
-                &>*{
-                    color : @text-color;
                 }
 
-                &:after, &:before{
-                    content      : "";
-                    position     : absolute;
-                    top          : 0;
-                    left         : 11px;
-                    border-style : solid;
-                    border-width : 15px;
-                    border-color : #fff #fff transparent transparent;
-                }
+    &.color{
+        .generator-links{
+            padding : @padding-small-vertical;
+            border  : 1px dashed #fff;
+            .icon-size(@icon-size-base);
 
                 &:before{
-                    left         : 10px;
-                    border-width : 16px;
-                    border-color : @gray-light @gray-light transparent transparent;
+                content : "\e00a";
                 }
             }
         }
     }
-}
-.activate-list-testimonials(@list-testimonials);
 
 // Table classes
 //==================================================

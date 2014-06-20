@@ -5,7 +5,6 @@
     background  : @progressbar-bg;
     text-align  : left;
     line-height : @progressbar-size;
-    .box-sizing;
 
     .ui-progressbar-value{
         height     : 100%;
@@ -32,54 +31,39 @@
 
     // Alternate progressbar
     // --------------------------------------------------
-    .activate(@activate) when (@activate = true){
-        .activate-color-green(@activate) when (@activate = true){
-            &.success{
+    &.success when (@color-success = true) and (@colors = true){
                 background   : @state-green-bg;
                 border-color : @state-green-border;
 
                 .ui-progressbar-value{
-                    background : @state-green-text;
+            background : @state-green-color;
                 }
             }
-        }
-        .activate-color-orange(@activate) when (@activate = true){
-            &.warning{
+    &.warning when (@color-warning = true) and (@colors = true){
                 background   : @state-orange-bg;
                 border-color : @state-orange-border;
 
                 .ui-progressbar-value{
-                    background : @state-orange-text;
+            background : @state-orange-color;
                 }
             }
-        }
-        .activate-color-red(@activate) when (@activate = true){
-            &.error{
+    &.error when (@color-error = true) and (@colors = true){
                 background   : @state-red-bg;
                 border-color : @state-red-border;
 
                 .ui-progressbar-value{
-                    background : @state-red-text;
+            background : @state-red-color;
                 }
             }
-        }
-        .activate-color-blue(@activate) when (@activate = true){
-            &.info{
+    &.info when (@color-info = true) and (@colors = true){
                 background   : @state-blue-bg;
                 border-color : @state-blue-border;
 
                 .ui-progressbar-value{
-                    background : @state-blue-text;
+            background : @state-blue-color;
                 }
             }
         }
-        .activate-color-green(@color-green);
-        .activate-color-orange(@color-orange);
-        .activate-color-red(@color-red);
-        .activate-color-blue(@color-blue);
-    }
-    .activate(@alternate-style);
-}
 
 [id*="-filelist"]{
     .ui-widget{
@@ -95,7 +79,7 @@
                 margin      : 0;
                 position    : relative;
                 z-index     : 5;
-                max-width   : 89%;
+                max-width   : 88%;
                 color       : rgba(0, 0, 0, 0.7);
                 height      : @progressbar-size - 2;
                 line-height : @progressbar-size - 2;
@@ -111,11 +95,11 @@
                 .icon-size(@font-size-base);
                 float      : right;
                 margin-top : 2px;
-                color      : @brand-blue;
+                color      : @brand-info;
             }
 
             .ui-icon-alert{
-                color : @brand-red;
+                color : @brand-error;
             }
         }
     }

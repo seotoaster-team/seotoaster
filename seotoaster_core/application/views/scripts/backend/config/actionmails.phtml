@@ -11,7 +11,7 @@
 				<p>
 					<?php echo $this->translate('Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.'); ?>
 				</p>
-				<ul class="actions-list list-unstyled">
+				<ul class="actions-list list-unstyled column_4 full-width">
 					<?php foreach($this->actionsOptions as $trigger):?>
 						<?php if ($trigger != $this->translate('Select event area') ): ?>
 							<li><span class="action-preview icon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($trigger));?>"></span><span class="action-name"><?php echo $trigger;?></span></li>

@@ -3,7 +3,6 @@
     text-align : left;
     background : @range-bg;
     border     : 1px solid @range-border-color;
-    .box-sizing;
 
     .ui-slider-handle{
         position   : absolute;
@@ -41,69 +40,54 @@
 
     // Alternate slider / range
     //========================================
-    .activate(@activate) when (@activate = true){
-        .activate-color-green(@activate) when (@activate = true){
-            &.success{
-                background   : @state-green-bg;
-                border-color : @state-green-border;
+    &.success when (@color-success = true) and (@colors = true){
+        background   : @state-green-bg;
+        border-color : @state-green-border;
 
-                .ui-slider-handle{
-                    background : darken(@state-green-text, 10%);
-                }
-
-                .ui-slider-range{
-                    background : @state-green-text;
-                }
-            }
+        .ui-slider-handle{
+            background : darken(@state-green-color, 10%);
         }
-        .activate-color-orange(@activate) when (@activate = true){
-            &.warning{
-                background   : @state-orange-bg;
-                border-color : @state-orange-border;
 
-                .ui-slider-handle{
-                    background : darken(@state-orange-text, 10%);
-                }
-
-                .ui-slider-range{
-                    background : @state-orange-text;
-                }
-            }
+        .ui-slider-range{
+            background : @state-green-color;
         }
-        .activate-color-red(@activate) when (@activate = true){
-            &.error{
-                background   : @state-red-bg;
-                border-color : @state-red-border;
-
-                .ui-slider-handle{
-                    background : darken(@state-red-text, 10%);
-                }
-
-                .ui-slider-range{
-                    background : @state-red-text;
-                }
-            }
-        }
-        .activate-color-blue(@activate) when (@activate = true){
-            &.info{
-                background   : @state-blue-bg;
-                border-color : @state-blue-border;
-
-                .ui-slider-handle{
-                    background : darken(@state-blue-text, 10%);
-                }
-
-                .ui-slider-range{
-                    background : @state-blue-text;
-                }
-            }
-        }
-        .activate-color-green(@color-green);
-        .activate-color-orange(@color-orange);
-        .activate-color-red(@color-red);
-        .activate-color-blue(@color-blue);
     }
-    .activate(@alternate-style);
+    &.warning when (@color-warning = true) and (@colors = true){
+        background   : @state-orange-bg;
+        border-color : @state-orange-border;
+
+        .ui-slider-handle{
+            background : darken(@state-orange-color, 10%);
+        }
+
+        .ui-slider-range{
+            background : @state-orange-color;
+        }
+    }
+    &.error when (@color-error = true) and (@colors = true){
+        background   : @state-red-bg;
+        border-color : @state-red-border;
+
+        .ui-slider-handle{
+            background : darken(@state-red-color, 10%);
+        }
+
+        .ui-slider-range{
+            background : @state-red-color;
+        }
+    }
+    &.info when (@color-info = true) and (@colors = true){
+        background   : @state-blue-bg;
+        border-color : @state-blue-border;
+
+        .ui-slider-handle{
+            background : darken(@state-blue-color, 10%);
+        }
+
+        .ui-slider-range{
+            background : @state-blue-color;
+        }
+    }
 }
 
 .ui-slider-horizontal{

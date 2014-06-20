@@ -7,13 +7,13 @@
 .icon48{ .icon-size(48px) !important; }
 .icon64{ .icon-size(64px) !important; }
 
-[class*="icon-"]{
+[class*="icon-"], [class^=" icon-"]{
     .inline-block;
     position : relative;
 }
 
 .toaster-icon,
-[class^="icon-"]:before, [class*=" icon-"]:before, [data-icon]:before,
+[class*="icon-"]:before, [class^=" icon-"]:before, [data-icon]:before,
 [class^="ui-icon-"]:before, [class*=" ui-icon-"]:before,
 .sorting:after, .sorting_asc:after, .sorting_desc:after,
 .ui-datepicker-prev:before, .ui-datepicker-next:before, .ui-dialog:before, .ui-accordion-header-icon:before, .ui-dialog-titlebar-close:before,

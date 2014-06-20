@@ -114,7 +114,7 @@ body{
     }
 
     .help{
-        .link-color(@gray, @brand-blue);
+        .link-color(@gray, @brand-info);
         .icon-size(14px) !important;
         margin-right : 5px;
 
@@ -130,7 +130,7 @@ body{
     }
 
     .close, .hide{
-        .link-color(@gray, @brand-red);
+        .link-color(@gray, @brand-error);
         &:hover{ }
     }
 }
@@ -152,15 +152,10 @@ body{
         padding-bottom : 0;
         border-top     : @content-margin-top solid #fff !important;
         clear          : both;
-        .box-sizing();
         .clearfix();
 
         &.screen-expand{
             height : auto !important;
-        }
-
-        &.wrap{
-            overflow : hidden;
         }
 
         .ui-tabs &.ui-tabs-panel{
@@ -191,7 +186,6 @@ body{
     height : @tpopup-small-height - @header-height - @footer-height;
 }
 .footer, footer{
-    .box-sizing;
     clear         : both;
     margin-top    : @content-margin-top !important;
     margin-bottom : @content-margin-bottom !important;
@@ -216,7 +210,6 @@ body{
 // -- Page preview
 .page-preview{
     .box-shadow(0 1px 1px #BBB);
-    .box-sizing();
     border           : 1px solid rgba(0, 0, 0, 0);
     padding          : 0;
     background       : #FFF;
@@ -227,7 +220,7 @@ body{
     border-top-color : #EEE;
 
     &.error{
-        border-color : @brand-red;
+        border-color : @brand-error;
     }
 
     img{

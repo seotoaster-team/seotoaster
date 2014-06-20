@@ -6,6 +6,10 @@
     background : @tooltip-bg;
     color      : @tooltip-color;
     font-size  : 12px;
+    .tooltip-border() when (@tooltip-border-width > 0){
+        border : @tooltip-border-width solid @tooltip-border-color;
+    }
+    .tooltip-border();
 
     .ui-tooltip-content{ }
 
@@ -13,7 +17,7 @@
         position     : absolute;
         width        : 0;
         height       : 0;
-        border-width : 10px;
+        border-width : @tooltip-arrow-width;
         border-style : solid;
         border-color : transparent;
         margin       : auto;
@@ -23,7 +27,7 @@
             right               : 0;
             bottom              : 100%;
             border-top-width    : 0;
-            border-bottom-color : @tooltip-bg;
+            border-bottom-color : @tooltip-border-color;
         }
 
         &.bottom{
@@ -31,7 +35,7 @@
             right               : 0;
             top                 : 100%;
             border-bottom-width : 0;
-            border-top-color    : @tooltip-bg;
+            border-top-color    : @tooltip-border-color;
         }
 
         &.left{
@@ -39,7 +43,7 @@
             bottom             : 0;
             right              : 100%;
             border-left-width  : 0;
-            border-right-color : @tooltip-bg;
+            border-right-color : @tooltip-border-color;
         }
 
         &.right{
@@ -47,13 +51,38 @@
             bottom             : 0;
             left               : 100%;
             border-right-width : 0;
-            border-left-color  : @tooltip-bg;
+            border-left-color  : @tooltip-border-color;
         }
     }
 
-    &.error{
-        background : @state-red-bg;
-        color      : @state-red-text;
+    &.success when (@color-success = true) and (@colors = true){
+        background   : @state-green-bg;
+        color        : @state-green-color;
+        border-color : @state-green-border;
+
+        .arrow{
+            &.left{ border-right-color : @state-green-bg; }
+            &.right{ border-left-color : @state-green-bg; }
+            &.top{ border-bottom-color : @state-green-bg; }
+            &.bottom{ border-top-color : @state-green-bg; }
+        }
+    }
+    &.warning when (@color-warning = true) and (@colors = true){
+        background   : @state-orange-bg;
+        color        : @state-orange-color;
+        border-color : @state-orange-border;
+
+        .arrow{
+            &.left{ border-right-color : @state-orange-bg; }
+            &.right{ border-left-color : @state-orange-bg; }
+            &.top{ border-bottom-color : @state-orange-bg; }
+            &.bottom{ border-top-color : @state-orange-bg; }
+        }
+    }
+    &.error when (@color-error = true) and (@colors = true){
+        background   : @state-red-bg;
+        color        : @state-red-color;
+        border-color : @state-red-border;
 
         .arrow{
             &.left{ border-right-color : @state-red-bg; }
@@ -62,10 +91,10 @@
             &.bottom{ border-top-color : @state-red-bg; }
         }
     }
-
-    &.info{
-        background : @state-blue-bg;
-        color      : @state-blue-text;
+    &.info when (@color-info = true) and (@colors = true){
+        background   : @state-blue-bg;
+        color        : @state-blue-color;
+        border-color : @state-blue-border;
 
         .arrow{
             &.left{ border-right-color : @state-blue-bg; }

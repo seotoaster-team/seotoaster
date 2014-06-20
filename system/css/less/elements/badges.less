@@ -1,0 +1,45 @@
+.badge{
+    background  : @primary-bg;
+    color       : @primary-color;
+    min-width   : 10px;
+    padding     : 3px 6px;
+    font-size   : @font-size-small;
+    font-weight : bold;
+    line-height : 1;
+    white-space : nowrap;
+    text-align  : center;
+    .inline-block(baseline);
+    .border-radius(@border-radius-large);
+
+    &.success, &.info, &.error, &.warning{
+        & when (@badge-colors){
+            color : #fff;
+        }
+    }
+    &.success when (@badge-success) and (@badge-colors){
+        background : @brand-success;
+    }
+    &.info when (@badge-info) and (@badge-colors){
+        background : @brand-info;
+    }
+    &.error when (@badge-error) and (@badge-colors){
+        background : @brand-error;
+    }
+    &.warning when (@badge-warning) and (@badge-colors){
+        background : @brand-warning;
+    }
+    &.inverse when (@badge-inverse) and (@badge-colors){
+        background : @primary-color;
+        color      : @primary-bg;
+    }
+
+    &.square when (@badge-square) and (@badges-type = true){
+        .border-radius(0, true);
+    }
+    &.leaflet-right when (@badge-leaflet-right) and (@badges-type = true){
+        .border-radius(@border-radius-large 0);
+    }
+    &.leaflet-left when (@badge-leaflet-left) and (@badges-type = true){
+        .border-radius(0 @border-radius-large);
+    }
+}

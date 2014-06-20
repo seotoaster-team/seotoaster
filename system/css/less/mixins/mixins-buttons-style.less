@@ -1,4 +1,4 @@
-.button(@color : @button-primary-color, @background : @button-primary-bg, @border : @button-primary-border, @size : base, @type : false) {
+.button(@color : @button-primary-color, @background : @button-primary-bg, @border : @button-primary-border, @size : base) {
     margin-bottom   : 0; // For input.btn
     text-align      : center;
     cursor          : pointer;
@@ -6,164 +6,90 @@
     text-decoration : none;
     //    .user-select();
     .inline-block();
-    .activate-type(@type);
-    .activate-size(@size, @type);
-    .activate-border(@button-border-width);
-    .activate-transition(@button-transition);
-    .button-color(@color, @background, @border, true);
+    .button-size(@size);
+    .activate-border();
+    .button-color(@color, @background, @border);
+    .border-radius(@button-border-radius);
+
+    &:hover{
+        .activate-transition(@button-transition);
+    }
 }
 
-.activate-size(@size, @type) when (@size = larger) and (@type = false){ .button-size-larger(); }
-.activate-size(@size, @type) when (@size = large) and (@type = false){ .button-size-large(); }
-.activate-size(@size, @type) when (@size = base) and (@type = false){ .button-size-base(); }
-.activate-size(@size, @type) when (@size = small) and (@type = false){ .button-size-small(); }
-
-.activate-size(@size, @type) when (@size = larger) and (@type = icon){ .button-icon-size(@icon-size-larger); }
-.activate-size(@size, @type) when (@size = large) and (@type = icon){ .button-icon-size(@icon-size-large); }
-.activate-size(@size, @type) when (@size = base) and (@type = icon){ .button-icon-size(); }
-.activate-size(@size, @type) when (@size = small) and (@type = icon){ .button-icon-size(@icon-size-small); }
-
-.activate-type(@type) when (@type = false){ .box-sizing(); }
-.activate-type(@type) when (@type = icon){ .box-sizing(content-box); }
-
-.activate-border(@value) when (@value > 0){
+.activate-border() when (@button-border-width > 0){
     border-width : @button-border-width;
     border-style : solid;
+}
+.activate-border() when (@button-border-width = 0){
+    border : none;
 }
 
 .activate-transition(@value) when (@value = true){
     .transition(background, 0.3s);
 }
+.activate-transition(@value) when (@value = false){
+    .transition(none);
+}
 
 // Button size
 //==================================================
-.button-size(@button-font-size, @button-padding-vertical, @button-padding-horizontal, @button-border-radius : @button-border-radius) {
+.button-size(@button-font-size, @button-padding-vertical, @button-padding-horizontal, @button-border-width : @button-border-width) when (isnumber(@button-font-size)){
     @button-height : floor(@button-font-size * unit(@button-line-height) + @button-padding-vertical * 2 + @button-border-width * 2);
     height      : @button-height;
     padding     : @button-padding-vertical @button-padding-horizontal;
     font-size   : @button-font-size;
     line-height : @button-height - @button-padding-vertical * 2 - @button-border-width * 2;
-    .border-radius(@button-border-radius);
 }
-
-.button-size-larger(@activate: @button-size-larger, @activate2: @button-sizes) when (@activate = true) and (@activate2 = true){
-    height      : @button-height-larger;
-    padding     : @button-padding-larger-vertical @padding-larger-horizontal;
-    font-size   : @button-font-size-larger;
-    line-height : @button-height-larger - @button-padding-larger-vertical * 2 - @button-border-width * 2;
-    .border-radius(@button-larger-border-radius);
-}
-
-.button-size-large(@activate: @button-size-large, @activate2: @button-sizes) when (@activate = true) and (@activate2 = true){
-    height      : @button-height-large;
-    padding     : @button-padding-large-vertical @padding-large-horizontal;
-    font-size   : @button-font-size-large;
-    line-height : @button-height-large - @button-padding-large-vertical * 2 - @button-border-width * 2;
-    .border-radius(@button-large-border-radius);
-}
-
-.button-size-base() {
-    height      : @button-height-base;
-    padding     : @button-padding-base-vertical @padding-base-horizontal;
-    font-size   : @button-font-size-base;
-    line-height : @button-height-base - @button-padding-base-vertical * 2 - @button-border-width * 2;
-    .border-radius(@button-border-radius);
-}
-
-.button-size-small(@activate: @button-size-small, @activate2: @button-sizes) when (@activate = true) and (@activate2 = true){
-    height      : @button-height-small;
-    padding     : @button-padding-small-vertical @padding-small-horizontal;
-    font-size   : @button-font-size-small;
-    line-height : @button-height-small - @button-padding-small-vertical * 2 - @button-border-width * 2;
-    .border-radius(@button-small-border-radius);
+.button-size(@size : base) when (iskeyword(@size)), (isstring(@size)){
+    @button-height             : 'button-height-@{size}';
+    @button-padding-vertical   : 'button-padding-@{size}-vertical';
+    @button-padding-horizontal : 'padding-@{size}-horizontal';
+    @button-font-size          : 'button-font-size-@{size}';
+    height      : @@button-height;
+    padding     : @@button-padding-vertical @@button-padding-horizontal;
+    font-size   : @@button-font-size;
+    line-height : @@button-height - @@button-padding-vertical * 2 - @button-border-width * 2;
 }
 
 .button-icon-size(@icon-size : @icon-size-base, @button-size : base, @icon-padding : 0) {
-    .icon-size(@icon-size);
-    .button-padding(@size) when (@size = larger){
-        padding : (@button-height-larger - @icon-size - @button-border-width * 2) / 2;
+    @button-height : 'button-height-@{button-size}';
+
+    .button-padding() when not (@button-size = false){
+        padding : (@@button-height - @icon-size - @button-border-width * 2) / 2;
     }
-    .button-padding(@size) when (@size = large){
-        padding : (@button-height-large - @icon-size - @button-border-width * 2) / 2;
-    }
-    .button-padding(@size) when (@size = base){
-        padding : (@button-height-base - @icon-size - @button-border-width * 2) / 2;
-    }
-    .button-padding(@size) when (@size = small){
-        padding : (@button-height-small - @icon-size - @button-border-width * 2) / 2;
-    }
-    .button-padding(@size) when (@size = false){
+    .button-padding() when (@button-size = false){
         padding : @icon-padding;
     }
-    .button-padding(@button-size);
+    .button-padding();
+    .icon-size(@icon-size);
 }
 
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
-.link-color(@color, @eachColor: true) when (@eachColor = true){
-    color      : @color;
-    background : transparent !important;
-    .activate-border(@value) when (@value > 0){
-        border : none;
-    }
-    .activate-border(@button-border-width);
+.link-color(@color : @link-color, @color-hover : darken(@color, 30%)) {
+    color : @color;
 
-    &:hover, &:active{
-        color : darken(@color, 30%);
-        .box-shadow(none);
-    }
-}
-
-.link-color(@color, @color-hover, @eachColor: true, @inverse: true) when (iscolor(@color-hover)) and  (@eachColor = true) and (@inverse = true){
-    color      : @color;
-    background : transparent !important;
-    .activate-border(@value) when (@value > 0){
-        border : none;
-    }
-    .activate-border(@button-border-width);
-
-    &:hover, &:active{
+    &:hover{
         color : @color-hover;
-        .box-shadow(none);
     }
 }
 
-.button-color( @color, @background, @border, @eachColor: true) when (@eachColor = true){
-    color      : @color;
-    background : @background;
-    .box-shadow(none, @input-shadow-focus);
-    .activate-border(@value) when (@value > 0){
+.button-color(@color, @background, @border, @color2 : @color, @background2 : darken(@background, 10%), @border2 : darken(@border, 10%)) {
+    color            : @color;
+    background-color : @background;
+    text-decoration  : none;
+    .activate-border() when (@button-border-width > 0){
         border-color : @border;
     }
-    .activate-border(@button-border-width);
+    .activate-border();
 
     &:hover, &:active{
-        color      : @color;
-        background : darken(@background, 10%);
-        .activate-border(@value) when (@value > 0){
-            border-color : darken(@border, 10%);
-        }
-        .activate-border(@button-border-width);
-    }
-}
-
-.button-color( @color, @background, @border, @color2, @background2, @border2, @eachColor: true, @inverse: true) when (iscolor(@color2)) and (@eachColor = true) and  (@inverse = true){
-    color           : @color;
-    background      : @background;
-    text-decoration : none;
-    .box-shadow(none, @input-shadow-focus);
-    .activate-border(@value) when (@value > 0){
-        border-color : @border;
-    }
-    .activate-border(@button-border-width);
-
-    &:hover, &:active{
-        color      : @color2;
-        background : @background2;
-        .activate-border(@value) when (@value > 0){
+        color            : @color;
+        background-color : @background2;
+        .activate-border() when (@button-border-width > 0){
             border-color : @border2;
         }
-        .activate-border(@button-border-width);
+        .activate-border();
     }
 }
 
@@ -177,8 +103,7 @@
     }
 
     &:active{
-        top        : 0.25em;
-        background : @background;
+        top : 0.25em;
         .box-shadow(0 0 0 0.15em @gray-dark);
     }
 }

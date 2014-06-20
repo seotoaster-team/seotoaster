@@ -13,23 +13,45 @@
         min-width : 100%;
     }
 
-    .carousel-btn{
-        position : absolute;
-        top      : -24px;
-        padding  : @padding-small-vertical;
-        color    : #fff;
-        .rgba(#000, 0.5);
-        .icon-size(12px);
+    &:hover{
+        .carousel-btn{
+            display : block;
+        }
+    }
 
-        &:hover{
-            background : @primary-bg;
+    .carousel-btn{
+        .rgba(#fff, 0.75);
+        position  : absolute;
+        top       : 0;
+        bottom    : 0;
+        margin    : auto;
+        width     : 3em;
+        display   : none;
+        font-size : @font-size-base;
+
+        &:before{
+            font-family : 'toaster-icons';
+            position    : absolute;
+            left        : 0;
+            top         : 0;
+            bottom      : 0;
+            margin      : auto;
+            .icon-size(3em);
         }
 
         &.prev{
-            right : 24px;
+            left : 0;
+
+            &:before{
+                content : "\e0c5";
+            }
         }
         &.next{
             right : 0;
+
+            &:before{
+                content : "\e0c6";
+            }
         }
     }
 }

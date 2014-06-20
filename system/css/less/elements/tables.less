@@ -28,7 +28,7 @@ table{
     }
 
     // Account for multiple tbody instances
-    tbody+tbody{
+    tbody + tbody{
         border-top : 2px solid @table-border-color;
     }
 
@@ -37,23 +37,9 @@ table{
         background-color : #fff;
     }
 
-    &.small{
-        th, td{
-            padding : 5px;
-        }
-    }
-
-    &.large{
-        th, td{
-            padding : @padding-large-vertical;
-        }
-    }
-}
-
-// BORDERED VERSION
-//==================================================
-.activate-table-bordered(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-    .table-bordered{
+    // BORDERED VERSION
+    //==================================================
+    &.table-bordered when (@table-bordered = true){
         border          : 1px solid @table-border-color;
         border-collapse : separate; // Done so we can round those corners!
         border-left     : 0;
@@ -63,133 +49,138 @@ table{
             border-left : 1px solid @table-border-color;
         }
     }
-}
-    .activate-table-bordered(@tables-bordered, @alternate-style)
-;
 
-// ZEBRA-STRIPING
-//==================================================
-// Default zebra-stripe styles (alternating gray and transparent backgrounds)
-.activate-table-striped(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-    .table-striped{
+    // ZEBRA-STRIPING
+    //==================================================
+    // Default zebra-stripe styles (alternating gray and transparent backgrounds)
+    &.table-striped when (@table-striped = true){
         tr > td{
             border-top : 0;
         }
-        tr:nth-child(even) > td{
+        & > tr:nth-child(even) > td, tbody tr:nth-child(odd) > td{
             background-color : @table-row-bg;
         }
     }
-}
-    .activate-table-striped(@tables-striped, @alternate-style)
-;
 
-// HOVER EFFECT
-//==================================================
-// Placed here since it has to come after the potential zebra striping
-.activate-table-hover(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-    .table-hover{
+    // HOVER EFFECT
+    //==================================================
+    // Placed here since it has to come after the potential zebra striping
+    &.table-hover when (@table-hover = true){
         tr{
             &:hover > td{
                 background-color : @table-row-bg-hover;
             }
-            .activate(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-                > .green:hover,
-                &.green:hover > td{
+
+            .activate() when ( @colors = true){
+                > .success:hover,
+                &.success:hover > td{
                     background-color : darken(@state-green-bg, 5%);
                     border-color     : darken(@state-green-border, 5%);
                 }
-                > .red:hover,
-                &.red:hover > td{
+                > .error:hover,
+                &.error:hover > td{
                     background-color : darken(@state-red-bg, 5%);
                     border-color     : darken(@state-red-border, 5%);
                 }
-                > .orange:hover,
-                &.orange:hover > td{
+                > .warning:hover,
+                &.warning:hover > td{
                     background-color : darken(@state-orange-bg, 5%);
                     border-color     : darken(@state-orange-border, 5%);
                 }
-                > .blue:hover,
-                &.blue:hover > td{
+                > .info:hover,
+                &.info:hover > td{
                     background-color : darken(@state-blue-bg, 5%);
                     border-color     : darken(@state-blue-border, 5%);
                 }
             }
-            .activate(@colors, @alternate-style);
+            .activate();
+        }
+    }
+
+    //  Table responsive
+    //==================================================
+    &.responsive when ( @responsive = true){
+
+        .table-head{
+            display : none;
+        }
+
+        @media only screen and (max-width : @responsive-size-tablet){
+            thead, th{
+                display : none;
+            }
+            td{
+                display : block;
+            }
+            .table-head{
+                display       : block;
+                color         : @brand-primary;
+                border-bottom : 1px dashed @gray-light;
+                margin-bottom : 0.5em;
+            }
+        }
+    }
+
+    &.small{
+        zoom : 1;
+
+        th, td{
+            padding : 5px;
+        }
+    }
+
+    &.large{
+        zoom : 1;
+
+        th, td{
+            padding : @padding-large-vertical;
+        }
+    }
+
+    &.larger{
+        zoom : 1;
+
+        th, td{
+            padding : @padding-large-vertical;
         }
     }
 }
-.activate-table-hover(@tables-hover, @alternate-style);
 
 // TABLE BACKGROUNDS
 // -----------------
 // Exact selectors below required to override .table-striped
-.activate-style-color(@activate, @activate2) when ( @activate = true) and ( @activate2 = true){
-    table{
-        tr{
-            > .primary,
-            &.primary > td{
-                color            : @text-color;
-                background-color : @state-primary-bg;
-                border-color     : @state-primary-border;
-                border-bottom    : 1px solid @state-primary-border;
-            }
-            > .green,
-            &.green > td{
-                color            : @text-color;
-                background-color : @state-green-bg;
-                border-color     : @state-green-border;
-                border-bottom    : 1px solid @state-green-border;
-            }
-            > .red,
-            &.red > td{
-                color            : @text-color;
-                background-color : @state-red-bg;
-                border-color     : @state-red-border;
-                border-bottom    : 1px solid @state-red-border;
-            }
-            > .orange,
-            &.orange > td{
-                color            : @text-color;
-                background-color : @state-orange-bg;
-                border-color     : @state-orange-border;
-                border-bottom    : 1px solid @state-orange-border;
-            }
-            > .blue,
-            &.blue > td{
-                color            : @text-color;
-                background-color : @state-blue-bg;
-                border-color     : @state-blue-border;
-                border-bottom    : 1px solid @state-blue-border;
-            }
-        }
+tr, td{
+    &.primary when (@colors = true){
+        color            : @text-color;
+        background-color : @state-primary-bg;
+        border-color     : @state-primary-border;
+        border-bottom    : 1px solid @state-primary-border;
+    }
+    &.success when (@color-success = true) and (@colors = true){
+        color            : @text-color;
+        background-color : @state-green-bg;
+        border-color     : @state-green-border;
+        border-bottom    : 1px solid @state-green-border;
+    }
+    &.error when (@color-error = true) and (@colors = true){
+        color            : @text-color;
+        background-color : @state-red-bg;
+        border-color     : @state-red-border;
+        border-bottom    : 1px solid @state-red-border;
+    }
+    &.warning when (@color-warning = true) and (@colors = true){
+        color            : @text-color;
+        background-color : @state-orange-bg;
+        border-color     : @state-orange-border;
+        border-bottom    : 1px solid @state-orange-border;
+    }
+    &.info when (@color-info = true) and (@colors = true){
+        color            : @text-color;
+        background-color : @state-blue-bg;
+        border-color     : @state-blue-border;
+        border-bottom    : 1px solid @state-blue-border;
     }
 }
-    .activate-style-color(@colors, @alternate-style)
-;
-
-//  Table responsive
-//==================================================
-.activate-table-responsive(@activate) when ( @activate = true){
-    .table-head{
-        display : none;
-    }
-    @media only screen and (max-width : @responsive-size-mobile){
-        thead, th{
-            display : none;
-        }
-        td{
-            display : block;
-        }
-        .table-head{
-            display       : block;
-            color         : @brand-primary;
-            border-bottom : 1px dashed @gray-light;
-            margin-bottom : 0.5em;
-        }
-    }
-}
-    .activate-table-responsive(@responsive)
-;
 
 //  Table scroll
 //==================================================
@@ -215,7 +206,6 @@ table{
     }
 
     th, td{
-        .box-sizing;
         //padding-left  : 0;
         //padding-right : 0;
     }

@@ -4,19 +4,20 @@
 //	Search form
 //==================================================
 
+// [type="text"], [type="password"], [type="email"], [type="search"], [type="tel"], [type="url"], [type="date"], [type="datetime"], [type="datetime-local"], [type="time"], [type="month"], [type="week"], [type="number"]
+
 //	Custom style
 //==================================================
 form, .form{
-    .clearfix;
+    .clearfix();
 
     p{
         margin : 0
     }
 
     &, fieldset{
-        &>p, &>div{
+        & > p, & > div{
             margin-top : 0.65em;
-            .box-sizing;
             .clearfix;
 
             &:first-child{
@@ -27,14 +28,19 @@ form, .form{
 
     &.condensed{
         &, fieldset{
-            &>p, &>div{
+            & > p, & > div{
                 margin-top : .5em;
             }
         }
     }
 
     fieldset{
+        padding : 0;
+        border  : none;
         legend{
+            padding     : 0;
+            border      : 0;
+            line-height : 1;
         }
     }
 
@@ -47,7 +53,7 @@ form, .form{
             float      : left;
             text-align : center;
 
-            #left &, #right &{
+            .sidebar &{
                 width : 100% !important;
             }
         }
@@ -58,7 +64,7 @@ form, .form{
             font-weight : normal;
             font-size   : @font-size-small;
 
-            #left &, #right &{
+            .sidebar &{
                 width : 100%;
             }
         }
@@ -68,7 +74,7 @@ form, .form{
             font-size   : @font-size-small;
             padding-top : 1em;
 
-            a+a{
+            a + a{
                 border-left  : 1px solid @gray;
                 padding-left : 1em;
                 margin-left  : 1em;
@@ -87,7 +93,7 @@ form, .form{
 
     &.form-inline{
         &, fieldset{
-            &>p, &>div{
+            & > p, & > div{
                 margin-top : 0;
             }
         }
@@ -123,11 +129,11 @@ form, .form{
 }
 
 .required:after{
-    color   : @brand-red;
+    color   : @brand-error;
     content : ' *';
 }
 .notvalid{
-    color : @brand-red !important;
+    color : @brand-error !important;
     &:before{
         font-family  : 'system-icons';
         content      : "\f06a";
@@ -143,11 +149,13 @@ select, textarea, input{
     background-color : @input-bg;
     color            : @input-color;
     vertical-align   : middle;
+    max-width        : 100%;
+    width            : 100%;
     .border-radius(@input-border-radius);
-    .activate-transition(@activate) when (@activate = true){
+    .activate-transition() when (@button-transition = true){
         .transition(all, 0.3s);
     }
-    .activate-transition(@button-transition);
+    .activate-transition();
 
     //    &:focus:not([type="submit"]):not([type="button"]){
     &:focus{
@@ -156,55 +164,40 @@ select, textarea, input{
     }
 
     &.notvalid{
-        border-color : @brand-red;
+        border-color : @brand-error;
         &:focus{
-            .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
+            .box-shadow(0 0 3px @brand-error, @input-shadow-focus);
         }
     }
 
-    .activate-style-color(@activate, @activate2) when (@activate = true) and (@activate2 = true){
-        .activate-color-green(@activate) when (@activate = true){
-            &.success{
-                border-color : @brand-green;
-                color        : @brand-green;
-                &:focus{
-                    .box-shadow(0 0 3px @brand-green, @input-shadow-focus);
-                }
-            }
+    &.success when (@color-success = true) and (@colors = true){
+        border-color : @brand-success;
+        color        : @brand-success;
+        &:focus{
+            .box-shadow(0 0 3px @brand-success, @input-shadow-focus);
         }
-        .activate-color-orange(@activate) when (@activate = true){
-            &.warning{
-                border-color : @brand-orange;
-                color        : @brand-orange;
-                &:focus{
-                    .box-shadow(0 0 3px @brand-orange, @input-shadow-focus);
-                }
-            }
-        }
-        .activate-color-red(@activate) when (@activate = true){
-            &.error{
-                border-color : @brand-red;
-                color        : @brand-red;
-                &:focus{
-                    .box-shadow(0 0 3px @brand-red, @input-shadow-focus);
-                }
-            }
-        }
-        .activate-color-blue(@activate) when (@activate = true){
-            &.info{
-                border-color : @brand-blue;
-                color        : @brand-blue;
-                &:focus{
-                    .box-shadow(0 0 2px @brand-blue, @input-shadow-focus);
-                }
-            }
-        }
-        .activate-color-green(@color-green);
-        .activate-color-orange(@color-orange);
-        .activate-color-red(@color-red);
-        .activate-color-blue(@color-blue);
     }
-    .activate-style-color(@colors, @alternate-style);
+    &.warning when (@color-warning = true) and (@colors = true){
+        border-color : @brand-warning;
+        color        : @brand-warning;
+        &:focus{
+            .box-shadow(0 0 3px @brand-warning, @input-shadow-focus);
+        }
+    }
+    &.error when (@color-error = true) and (@colors = true){
+        border-color : @brand-error;
+        color        : @brand-error;
+        &:focus{
+            .box-shadow(0 0 3px @brand-error, @input-shadow-focus);
+        }
+    }
+    &.info when (@color-info = true) and (@colors = true){
+        border-color : @brand-info;
+        color        : @brand-info;
+        &:focus{
+            .box-shadow(0 0 2px @brand-info, @input-shadow-focus);
+        }
+    }
 
     &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit, &.noedit:focus{
         border-color : darken(@input-bg-disabled, 10%) !important;
@@ -217,27 +210,18 @@ select, textarea, input{
 input{
     height : @button-height-base;
 
-    .activate-field-size-larger(@activate: @field-size-larger, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-        &.larger{
-            height  : @button-height-larger;
-            padding : @padding-larger-vertical;
-        }
+    &.larger when (@field-size-larger = true) and (@field-sizes = true){
+        height  : @button-height-larger;
+        padding : @padding-larger-vertical;
     }
-    .activate-field-size-large(@activate: @field-size-large, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-        &.large{
-            height  : @button-height-large;
-            padding : @padding-large-vertical;
-        }
+    &.large when (@field-size-large = true) and (@field-sizes = true){
+        height  : @button-height-large;
+        padding : @padding-large-vertical;
     }
-    .activate-field-size-small(@activate: @field-size-small, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-        &.small{
-            height  : @button-height-small;
-            padding : @padding-small-vertical;
-        }
+    &.small when (@field-size-small = true) and (@field-sizes = true){
+        height  : @button-height-small;
+        padding : @padding-small-vertical;
     }
-    .activate-field-size-larger();
-    .activate-field-size-large();    .activate-field-size-small();
-
 }
 
 select{
@@ -245,30 +229,21 @@ select{
     line-height : @button-height-base - @padding-base-vertical;
     padding     : @padding-base-vertical / 2 @padding-base-vertical;
 
-    .activate-field-size-larger(@activate: @field-size-larger, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-        &.larger{
-            height      : @button-height-larger;
-            line-height : @button-height-larger - @padding-larger-vertical;
-            padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
-        }
+    &.larger when (@field-size-larger = true) and (@field-sizes = true){
+        height      : @button-height-larger;
+        line-height : @button-height-larger - @padding-larger-vertical;
+        padding     : @padding-larger-vertical / 2 @padding-larger-vertical;
     }
-    .activate-field-size-large(@activate: @field-size-large, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-        &.large{
-            height      : @button-height-large;
-            line-height : @button-height-large - @padding-large-vertical;
-            padding     : @padding-large-vertical / 2 @padding-large-vertical;
-        }
+    &.large when (@field-size-large = true) and (@field-sizes = true){
+        height      : @button-height-large;
+        line-height : @button-height-large - @padding-large-vertical;
+        padding     : @padding-large-vertical / 2 @padding-large-vertical;
     }
-    .activate-field-size-small(@activate: @field-size-small, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-        &.small{
-            height      : @button-height-small;
-            line-height : @button-height-small - @padding-small-vertical;
-            padding     : @padding-small-vertical / 2 @padding-small-vertical;
-        }
+    &.small when (@field-size-small = true) and (@field-sizes = true){
+        height      : @button-height-small;
+        line-height : @button-height-small - @padding-small-vertical;
+        padding     : @padding-small-vertical / 2 @padding-small-vertical;
     }
-    .activate-field-size-larger();
-    .activate-field-size-large();
-    .activate-field-size-small();
 
     option{
         color : @text-color;
@@ -279,227 +254,208 @@ textarea{
     //min-height : 3em;
 }
 
-.activate-form-labeled(@activate : @form-labeled) when (@activate = true){
-    .labeled{
-        position : relative;
-        .clearfix;
+.labeled when (@form-labeled = true){
+    position : relative;
+    .clearfix();
 
-        //        label:not(.nolabeled), .label:not(.nolabeled){
-        label, .label{
-            margin-top    : 0;
-            margin-bottom : 0;
-            height        : @button-height-base;
-            line-height   : @button-height-base;
-            background    : @input-border-color;
-            text-align    : center;
-            color         : #fff !important;
-            .transition(all, 0.3s);
+    label, .label{
+        margin-top    : 0;
+        margin-bottom : 0;
+        height        : @button-height-base;
+        line-height   : @button-height-base;
+        background    : @input-border-color;
+        text-align    : center;
+        color         : #fff !important;
+        .transition(all, 0.3s);
 
-            .activate-font-size-larger(@activate: @field-size-larger, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-                &.larger{
-                    height  : @button-height-larger;
-                    padding : @padding-larger-vertical 0;
-                }
-            }
-            .activate-font-size-large(@activate: @field-size-large, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-                &.large{
-                    height  : @button-height-large;
-                    padding : @padding-large-vertical 0;
-                }
-            }
-            .activate-font-size-small(@activate: @field-size-small, @activate2: @field-sizes) when (@activate = true) and (@activate2 = true){
-                &.small{
-                    height  : @button-height-small;
-                    padding : @padding-small-vertical 0;
-                }
-            }
-            .activate-font-size-larger();
-            .activate-font-size-large();
-            .activate-font-size-small();
-
-            option{ color : @text-color; }
+        &.larger when (@field-size-larger = true) and (@field-sizes = true){
+            height  : @button-height-larger;
+            padding : @padding-larger-vertical 0;
+        }
+        &.large when (@field-size-large = true) and (@field-sizes = true){
+            height  : @button-height-large;
+            padding : @padding-large-vertical 0;
+        }
+        &.small when (@field-size-small = true) and (@field-sizes = true){
+            height  : @button-height-small;
+            padding : @padding-small-vertical 0;
         }
 
-        &:not(.icon){
-            input:focus, select:focus{
-                .box-shadow(none, @input-shadow-focus);
-
-                &~label, &~.label{
-                    background : @input-border-color-focus;
-                }
-            }
-        }
-
-        .activate-form-labeled-icon(@activate : @form-labeled-icon) when (@activate = true){
-            &.icon{
-                input, select, textarea{
-
-                    &:focus~[class*="icon-"]{
-                        .opacity(1);
-                    }
-                }
-
-                [class*="icon-"]{
-                    position : absolute;
-                    margin   : auto;
-                    top      : 0;
-                    bottom   : 0;
-                    z-index  : 2;
-                    .opacity();
-                    .icon-size(@font-size-base);
-                }
-
-                &.right{
-                    [class*="icon-"]{
-                        right : (@padding-base-vertical * 2) - (@font-size-base / 2);
-                    }
-
-                    input, textarea{
-                        padding-right : @padding-base-vertical * 4;
-                    }
-
-                    select{
-                        padding-right : @padding-base-vertical * 6;
-
-                        &~[class*="icon-"]{
-                            right : (@padding-base-vertical * 4) - (@font-size-base / 2);
-                        }
-                    }
-                }
-
-                &.left{
-                    [class*="icon-"]{
-                        left : (@padding-base-vertical * 2) - (@font-size-base / 2);
-                    }
-                    input, textarea{
-                        padding-left : @padding-base-vertical * 4;
-                    }
-                }
-
-                &.top{
-                    [class*="icon-"]{
-                        margin : 0;
-                        top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
-                    }
-                }
-            }
-        }
-        .activate-form-labeled-icon();
-
-        .activate-form-labeled-social(@activate : @form-labeled-social) when (@activate = true){
-            // Social Filed
-            &.rss{
-                :checked~input{border-color : @rss;}
-                *:checked{
-                    &~label, &~.label{ background : @rss; }
-                    &~[class*="icon-"]{ color : @rss; }
-                }
-                &.filled{
-                    label, .label{ background : @rss; }
-                    [class*="icon-"]{ color : @rss; }
-                }
-            }
-            &.gplus{
-                :checked~input{border-color : @gplus;}
-                *:checked{
-                    &~label, &~.label{ background : @gplus; }
-                    &~[class*="icon-"]{ color : @gplus; }
-                }
-                &.filled{
-                    label, .label{ background : @gplus; }
-                    [class*="icon-"]{ color : @gplus; }
-                }
-            }
-            &.twitter{
-                :checked~input{border-color : @twitter;}
-                *:checked{
-                    &~label, &~.label{ background : @twitter; }
-                    &~[class*="icon-"]{ color : @twitter; }
-                }
-                &.filled{
-                    label, .label{ background : @twitter; }
-                    [class*="icon-"]{ color : @twitter; }
-                }
-            }
-            &.youtube{
-                :checked~input{border-color : @youtube;}
-                *:checked{
-                    &~[class*="icon-"]{ color : @youtube; }
-                    &~label, &~.label{ background : @youtube; }
-                }
-                &.filled{
-                    label, .label{ background : @youtube; }
-                    [class*="icon-"]{ color : @youtube; }
-                }
-            }
-            &.linkedin{
-                :checked~input{border-color : @linkedin;}
-                *:checked{
-                    &~label, &~.label{ background : @linkedin; }
-                    &~[class*="icon-"]{ color : @linkedin; }
-                }
-                &.filled{
-                    label, .label{ background : @linkedin; }
-                    [class*="icon-"]{ color : @linkedin; }
-                }
-            }
-            &.facebook{
-                :checked~input{border-color : @facebook;}
-                *:checked{
-                    &~label, &~.label{ background : @facebook; }
-                    &~[class*="icon-"]{ color : @facebook; }
-                }
-                &.filled{
-                    label, .label{ background : @facebook; }
-                    [class*="icon-"]{ color : @facebook; }
-                }
-            }
-            &.pinterest{
-                :checked~input{border-color : @pinterest;}
-                *:checked{
-                    &~label, &~.label{ background : @pinterest; }
-                    &~[class*="icon-"]{ color : @pinterest; }
-                }
-                &.filled{
-                    label, .label{ background : @pinterest; }
-                    [class*="icon-"]{ color : @pinterest; }
-                }
-            }
-        }
-        .activate-form-labeled-social();
+        option{ color : @text-color; }
     }
+
+    &:not(.icon){
+        input:focus, select:focus{
+            .box-shadow(none, @input-shadow-focus);
+
+            & ~ label, & ~ .label{
+                background : @input-border-color-focus;
+            }
+        }
+    }
+
+    &.icon when (@form-labeled-icon = true){
+        input, select, textarea{
+
+            &:focus ~ [class*="icon-"]{
+                .opacity(1);
+            }
+        }
+
+        [class*="icon-"]{
+            position : absolute;
+            margin   : auto;
+            top      : 0;
+            bottom   : 0;
+            z-index  : 2;
+            .opacity();
+            .icon-size(@font-size-base);
+        }
+
+        &.right{
+            [class*="icon-"]{
+                right : (@padding-base-vertical * 2) - (@font-size-base / 2);
+            }
+
+            input, textarea{
+                padding-right : @padding-base-vertical * 4;
+            }
+
+            select{
+                padding-right : @padding-base-vertical * 6;
+
+                & ~ [class*="icon-"]{
+                    right : (@padding-base-vertical * 4) - (@font-size-base / 2);
+                }
+            }
+        }
+
+        &.left{
+            [class*="icon-"]{
+                left : (@padding-base-vertical * 2) - (@font-size-base / 2);
+            }
+            input, textarea{
+                padding-left : @padding-base-vertical * 4;
+            }
+        }
+
+        &.top{
+            [class*="icon-"]{
+                margin : 0;
+                top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
+            }
+        }
+    }
+
+    .activate-form-labeled-social() when (@form-labeled-social = true){
+        // Social Filed
+        &.rss{
+            :checked ~ input{ border-color : @rss; }
+            *:checked{
+                & ~ label, & ~ .label{ background : @rss; }
+                & ~ [class*="icon-"]{ color : @rss; }
+            }
+            &.filled{
+                label, .label{ background : @rss; }
+                [class*="icon-"]{ color : @rss; }
+            }
+        }
+        &.gplus{
+            :checked ~ input{ border-color : @gplus; }
+            *:checked{
+                & ~ label, & ~ .label{ background : @gplus; }
+                & ~ [class*="icon-"]{ color : @gplus; }
+            }
+            &.filled{
+                label, .label{ background : @gplus; }
+                [class*="icon-"]{ color : @gplus; }
+            }
+        }
+        &.twitter{
+            :checked ~ input{ border-color : @twitter; }
+            *:checked{
+                & ~ label, & ~ .label{ background : @twitter; }
+                & ~ [class*="icon-"]{ color : @twitter; }
+            }
+            &.filled{
+                label, .label{ background : @twitter; }
+                [class*="icon-"]{ color : @twitter; }
+            }
+        }
+        &.youtube{
+            :checked ~ input{ border-color : @youtube; }
+            *:checked{
+                & ~ [class*="icon-"]{ color : @youtube; }
+                & ~ label, & ~ .label{ background : @youtube; }
+            }
+            &.filled{
+                label, .label{ background : @youtube; }
+                [class*="icon-"]{ color : @youtube; }
+            }
+        }
+        &.linkedin{
+            :checked ~ input{ border-color : @linkedin; }
+            *:checked{
+                & ~ label, & ~ .label{ background : @linkedin; }
+                & ~ [class*="icon-"]{ color : @linkedin; }
+            }
+            &.filled{
+                label, .label{ background : @linkedin; }
+                [class*="icon-"]{ color : @linkedin; }
+            }
+        }
+        &.facebook{
+            :checked ~ input{ border-color : @facebook; }
+            *:checked{
+                & ~ label, & ~ .label{ background : @facebook; }
+                & ~ [class*="icon-"]{ color : @facebook; }
+            }
+            &.filled{
+                label, .label{ background : @facebook; }
+                [class*="icon-"]{ color : @facebook; }
+            }
+        }
+        &.pinterest{
+            :checked ~ input{ border-color : @pinterest; }
+            *:checked{
+                & ~ label, & ~ .label{ background : @pinterest; }
+                & ~ [class*="icon-"]{ color : @pinterest; }
+            }
+            &.filled{
+                label, .label{ background : @pinterest; }
+                [class*="icon-"]{ color : @pinterest; }
+            }
+        }
+    }
+    .activate-form-labeled-social();
 }
-.activate-form-labeled();
 
 // -- Checkbox & Radio field style
 .checkboxRadioStyle();
 
 //	Search form
 //==================================================
-.activate-search(@activate) when (@activate = true){
-    #search-form{
-        p{
-            float  : left;
-            width  : 30%;
-            margin : 0;
+#search-form when (@widget-search = true){
+    p{
+        float  : left;
+        width  : 30%;
+        margin : 0;
 
-            &:first-child{
-                width : 70%;
-            }
-
+        &:first-child{
+            width : 70%;
         }
 
-        input{
+    }
 
-            &[type="text"]{ }
+    input{
 
-            &[type="submit"]{
-                width         : 100%;
-                padding-left  : 0;
-                padding-right : 0;
-                margin        : 0;
-            }
+        &[type="text"]{ }
+
+        &[type="submit"]{
+            width         : 100%;
+            padding-left  : 0;
+            padding-right : 0;
+            margin        : 0;
         }
     }
 }
-.activate-search(@widget-search);

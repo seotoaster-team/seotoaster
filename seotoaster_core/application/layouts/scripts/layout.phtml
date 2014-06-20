@@ -22,10 +22,10 @@
     if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
         if (empty($this->bodyTag)) {
             $this->headLink()
-                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css');
+                ->appendStylesheet($this->websiteUrl.'system/css/seotoaster.css');
         }
         else {
-            $this->headLink()->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
+            $this->headLink()->appendStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
         }
     }
 
@@ -39,10 +39,16 @@
     $this->jQuery()
         ->uiEnable()
         ->addJavascriptFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.js')
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js')
         ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
         ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
         ->addJavascriptFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js');
+
+    $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
+    if($device->isTablet() || $device->isMobile()){
+        $this->jQuery()
+            ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
+
+    }
 
     echo $this->jQuery();
 

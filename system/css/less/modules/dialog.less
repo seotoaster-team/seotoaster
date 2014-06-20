@@ -1,20 +1,24 @@
 .ui-dialog{
     font-size        : @font-size-base;
-    background-color : @body-bg;
     padding          : 0;
+    border-width     : @dialog-border-width;
+    border-style     : solid;
+    border-color     : @dialog-border-color;
+    background-color : @dialog-bg;
     z-index          : 1001;
-
+    //    .box-shadow(4px 4px 4px @gray-dark);
+    // Title bar
     .ui-dialog-titlebar{
-        background  : @header-bg;
-        color       : @header-color;
+        font-size   : @font-size-large;
+        background  : @dialog-header-bg;
+        color       : @dialog-header-color;
         position    : relative;
-        overflow    : hidden;
         line-height : 40px;
         height      : 40px;
         padding     : 0 @grid-margin-width/2;
-        font-size   : @font-size-large;
+        overflow    : hidden;
 
-        &>*{
+        & > *{
             font-size : @font-size-base;
         }
 
@@ -30,15 +34,15 @@
     }
 
     .ui-dialog-titlebar-close{
-        position : absolute;
-        top      : 0;
-        bottom   : 0;
-        right    : @padding-large-vertical;
-        margin   : auto;
-        padding  : 0;
-        border   : none;
-        .link-color(@header-color, @brand-red);
-        .box-sizing(content-box);
+        position   : absolute;
+        top        : 0;
+        bottom     : 0;
+        right      : @padding-large-vertical;
+        margin     : auto;
+        padding    : 0;
+        border     : none;
+        background : transparent;
+        .link-color(@dialog-header-color, @brand-error);
         .icon-size(13px);
 
         .ui-icon-closethick{
@@ -49,6 +53,7 @@
         }
     }
 
+    // Content
     .ui-dialog-content{
         position   : relative;
         border     : 0;
@@ -56,6 +61,8 @@
         background : @dialog-content-bg;
         overflow   : auto;
     }
+
+    // Buttons
     .ui-dialog-buttonpane{
         overflow         : hidden;
         text-align       : left;
@@ -72,47 +79,104 @@
             cursor : pointer;
         }
     }
-    .ui-resizable-se{
-        width               : 12px;
-        height              : 12px;
-        right               : -5px;
-        bottom              : -5px;
-        background-position : 16px 16px;
-    }
 }
 
+.dialog-resizable() when (@dialog-resizable = true){
+    .ui-resizable-handle{
+        position  : absolute;
+        font-size : 0.1px;
+        display   : block;
+    }
+    .ui-resizable-n{
+        cursor : n-resize;
+        height : 7px;
+        width  : 100%;
+        top    : -5px;
+        left   : 0;
+    }
+    .ui-resizable-e{
+        cursor : e-resize;
+        width  : 7px;
+        right  : -5px;
+        top    : 0;
+        height : 100%;
+    }
+    .ui-resizable-s{
+        cursor : s-resize;
+        height : 7px;
+        width  : 100%;
+        bottom : -5px;
+        left   : 0;
+    }
+    .ui-resizable-w{
+        cursor : w-resize;
+        width  : 7px;
+        left   : -5px;
+        top    : 0;
+        height : 100%;
+    }
+    .ui-resizable-se{
+        width  : 12px;
+        height : 12px;
+        right  : -5px;
+        bottom : -5px;
+    }
+    .ui-resizable-sw{
+        cursor : sw-resize;
+        width  : 9px;
+        height : 9px;
+        left   : -5px;
+        bottom : -5px;
+    }
+    .ui-resizable-ne{
+        cursor : ne-resize;
+        width  : 9px;
+        height : 9px;
+        right  : -5px;
+        top    : -5px;
+    }
+    .ui-resizable-nw{
+        cursor : nw-resize;
+        width  : 9px;
+        height : 9px;
+        left   : -5px;
+        top    : -5px;
+    }
+}
+.dialog-resizable();
+
 @media only screen and (max-height : @tpopup-base-height){
-    body>[aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"]{
+    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"]{
         margin-top : 0 !important;
     }
 }
 
 @media only screen and (max-height : @tpopup-medium-height){
-    body>[aria-describedby="toasterPopup"][style*="height: @{tpopup-medium-height};"]{
+    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-medium-height};"]{
         margin-top : 0 !important;
     }
 }
 
 @media only screen and (max-height : @tpopup-small-height){
-    body>[aria-describedby="toasterPopup"][style*="height: @{tpopup-small-height};"]{
+    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-small-height};"]{
         margin-top : 0 !important;
     }
 }
 
 @media only screen and (max-width : @tpopup-base-width){
-    body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-base-width};"]{
+    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-base-width};"]{
         margin-left : 0 !important;
     }
 }
 
 @media only screen and (max-width : @tpopup-medium-width){
-    body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-medium-width};"]{
+    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-medium-width};"]{
         margin-left : 0 !important;
     }
 }
 
 @media only screen and (max-width : @tpopup-small-width){
-    body>[aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"]{
+    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"]{
         margin-left : 0 !important;
     }
 }
