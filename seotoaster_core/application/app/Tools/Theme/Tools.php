@@ -164,7 +164,7 @@ class Tools_Theme_Tools {
 
         foreach ($filesName as $templateFile) {
             $templateName = preg_replace(
-                array('/\\'.DIRECTORY_SEPARATOR.'/', '/\.html/'),
+                array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
                 array('_', ''),
                 $templateFile
             );
@@ -178,7 +178,7 @@ class Tools_Theme_Tools {
             if (is_array($themeConfig) && !empty($themeConfig) && array_key_exists($templateName, $themeConfig)) {
                 $templateType = $themeConfig[$templateName];
             }
-            elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '', $templateFile)) {
+            elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
                 $templateType = Application_Model_Models_Template::TYPE_MOBILE;
             }
             else {
