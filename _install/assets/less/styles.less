@@ -1,7 +1,14 @@
 @import "../../../system/css/less/base/variables";
 
+////--- Margin
+.margin-list(50px, top);
+
 // Grid System
 //==================================================
+*{
+    margin  : 0;
+    padding : 0;
+}
 .container{
     position : relative;
     width    : 960px;
@@ -36,6 +43,7 @@ header img.logo{
     margin-left : 80px;
 }
 header h1{
+    margin         : 0;
     font-size      : 50px;
     text-transform : lowercase;
     text-align     : center;
@@ -220,7 +228,7 @@ form input[type="checkbox"]{
     width        : auto;
     margin-right : 15px;
 }
-form input[type="checkbox"]+label{
+form input[type="checkbox"] + label{
     overflow  : hidden;
     font-size : 18px;
 }
