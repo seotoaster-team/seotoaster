@@ -23,6 +23,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector
         $this->_cleanOptimized();
         $this->_cleanCachedPageData();
         $this->_resetSearchIndexRenewFlag();
+        $this->_deletePreviewSubfolderCrop();
     }
 
     protected function _runOnDelete()
@@ -34,6 +35,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector
         $this->_cleanCachedPageData();
         $this->_resetSearchIndexRenewFlag();
         $this->_deletePreview();
+        $this->_deletePreviewSubfolderCrop();
     }
 
     /**
@@ -121,8 +123,8 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector
         $cacheHelper->clean(false, false, $tags);
     }
 
-    /*
-     * Deleted preview from folders and subfolders
+    /**
+     * Deleted preview from folders previews and crop
      */
     private function _deletePreview()
     {
@@ -142,7 +144,28 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector
             if (is_file($path.$previewCropPath.$imageName)) {
                 array_push($remove, $path.$previewCropPath.$imageName);
             }
+        }
+        else {
+            error_log('Not a folder:'.$path.$previewCropPath);
+        }
 
+        // Remove preview
+        $this->_deleteFile($remove);
+    }
+
+    /**
+     * Deleted preview from subfolders crop
+     */
+    private function _deletePreviewSubfolderCrop()
+    {
+        $websiteHelper   = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $path            = $websiteHelper->getPath();
+        $previewCropPath = $websiteHelper->getPreviewCrop();
+        $imageName       = $this->_object->getPreviewImage();
+
+        // Mark files for deletion
+        $remove = array();
+        if (is_dir($path.$previewCropPath)) {
             // Checking cropped images to remove file
             $subFolders = scandir($path.$previewCropPath);
             $subFolders = array_splice($subFolders, 2);
@@ -155,20 +178,27 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector
                     array_push($remove, $filePath);
                 }
             }
-
-            // Remove preview
-            foreach ($remove as $file) {
-                try {
-                    Tools_Filesystem_Tools::deleteFile($file);
-                }
-                catch (Exceptions_SeotoasterException $e) {
-                    error_log($file.': '.$e->getMessage());
-                }
-            }
         }
         else {
             error_log('Not a folder:'.$path.$previewCropPath);
         }
+
+        // Remove preview
+        $this->_deleteFile($remove);
+    }
+
+    /**
+     * @param array $files
+     */
+    private function _deleteFile($files = array())
+    {
+        foreach ($files as $file) {
+            try {
+                Tools_Filesystem_Tools::deleteFile($file);
+            }
+            catch (Exceptions_SeotoasterException $e) {
+                error_log($file.': '.$e->getMessage());
+            }
+        }
     }
 }
-
