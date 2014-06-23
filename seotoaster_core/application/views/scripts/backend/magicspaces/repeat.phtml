@@ -1,6 +1,6 @@
-<div class="seotoaster container">
+<div class="seotoaster container refreshOnClose">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit repeat')); ?>
-    <form class="content-auto _reload" action="<?php echo $this->configRepeat->getAction(); ?>" method="<?php echo $this->configRepeat->getMethod(); ?>">
+    <form class="content-auto" action="<?php echo $this->configRepeat->getAction(); ?>" method="<?php echo $this->configRepeat->getMethod(); ?>">
         <div class="grid_2">
             <label><?php echo $this->translate('Quantity'); ?></label>
             <?php echo $this->configRepeat->getElement('quantity'); ?>
