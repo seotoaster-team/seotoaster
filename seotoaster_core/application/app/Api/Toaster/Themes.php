@@ -372,7 +372,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			}
 			unset($queryList, $pagesIDs);
 
-			if (!empty($data)) {
+			if (!empty($data) && is_dir($themePath)) {
 				$exportData = new Zend_Config($data);
 				$themeDataFile = new Zend_Config_Writer_Json(array(
 					'config'   => $exportData,
