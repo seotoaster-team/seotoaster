@@ -1,18 +1,14 @@
-<div class="seotoaster container refreshOnClose">
+<div class="seotoaster container">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit repeat')); ?>
-    <div class="grid_12 content">
-        <form action="<?php echo $this->configRepeat->getAction(); ?>" method="<?php echo $this->configRepeat->getMethod(); ?>">
-            <div class="grid_2">
-                <label><?php echo $this->translate('Quantity'); ?></label>
-                <?php echo $this->configRepeat->getElement('quantity'); ?>
-            </div>
-            <div class="grid_10 mt0px">
-                <label><?php echo $this->translate('Order'); ?></label>
-                <?php echo $this->configRepeat->getElement('orderContent'); ?>
-            </div>
-            <div class="footer grid_12">
-                <?php echo $this->configRepeat->getElement('submit')->renderViewHelper(); ?>
-            </div>
-        </form>
-    </div>
+    <form class="content-auto _reload" action="<?php echo $this->configRepeat->getAction(); ?>" method="<?php echo $this->configRepeat->getMethod(); ?>">
+        <div class="grid_2">
+            <label><?php echo $this->translate('Quantity'); ?></label>
+            <?php echo $this->configRepeat->getElement('quantity'); ?>
+        </div>
+        <div class="grid_10 mt0px">
+            <label><?php echo $this->translate('Order'); ?></label>
+            <?php echo $this->configRepeat->getElement('orderContent'); ?>
+        </div>
+        <?php echo $this->configRepeat->getElement('submit')->renderViewHelper(); ?>
+    </form>
 </div>

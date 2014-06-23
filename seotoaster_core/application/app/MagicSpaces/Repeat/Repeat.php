@@ -8,7 +8,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_popupWidth     = '480';
 
-    protected $_popupHeighth   = '170';
+    protected $_popupHeighth   = '163';
 
     protected $_iterationLimit = 100;
 
@@ -74,8 +74,8 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             $editLink      = '<a class="tpopup generator-links" data-pwidth="'.$this->_popupWidth.'" data-pheight="'
                 .$this->_popupHeighth.'" title="'.$translator->translate('Edit').'" href="javascript:;" data-url="'
                 .$this->_toasterData['websiteUrl'].'backend/backend_content/editrepeat/pageId/'
-                .$this->_toasterData['id'].'/repeatName/'.$this->_params[0].'">'.$translator->translate('Edit repeat')
-                .'</a>';
+                .$this->_toasterData['id'].'/repeatName/'.$this->_params[0].'">'.$translator->translate('Edit repeat') .'- <em>'. $this->_params[0]
+                .'</em></a>';
         }
 
         return $editLink;
