@@ -247,8 +247,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
     }
 
     /**
-     * Method return form for editing css files for current theme
-     * and saves css file content
+     * Method return form for editing js files for current theme
+     * and saves js file content
      */
     public function editjsAction() {
         $jsFiles = $this->_buildJSFileList();
