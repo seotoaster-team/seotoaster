@@ -367,7 +367,8 @@ function hideSpinner(){
     $('.spinner').remove();
 }
 function showLoader(e){
-    $('body').append('<div class="seotoaster-loader">Loading...</div>');
+    var value = e ? "Loading..." : e;
+    $('body').append('<div class="seotoaster-loader">'+ value +'</div>');
 }
 function hideLoader(e){
     $('.seotoaster-loader').remove();
