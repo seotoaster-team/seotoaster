@@ -311,7 +311,7 @@ class Backend_ThemeController extends Zend_Controller_Action {
             $jsList = glob($jsPath . DIRECTORY_SEPARATOR . '*.js');
             if(is_array($jsList)) {
                 foreach($jsList as $jsFile) {
-                    $jsContent = $postParams['content'];
+                    $jsContent = file_get_contents($jsFile,true);
                     $jsContentCombine .= JSMin::minify($jsContent);
                 }
             }
