@@ -46,10 +46,16 @@
             <div class="grid_1">
                 <?php echo $this->configForm->getElement('enableMinify')->renderViewHelper(); ?>
             </div>
-            <div class="grid_5 cl-both">
+            <div class="grid_5">
+                <?php echo $this->configForm->getElement('controlPanelStatus')->renderLabel(); ?>
+            </div>
+            <div class="grid_1">
+                <?php echo $this->configForm->getElement('controlPanelStatus')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_5 text-right">
                 <?php echo $this->configForm->getElement('enableDeveloperMode')->renderLabel(); ?>
             </div>
-            <div class="grid_7">
+            <div class="grid_1">
                 <?php echo $this->configForm->getElement('enableDeveloperMode')->renderViewHelper(); ?>
             </div>
             <?php if($this->configForm->getElement('enableDeveloperMode')->getValue()): ?>

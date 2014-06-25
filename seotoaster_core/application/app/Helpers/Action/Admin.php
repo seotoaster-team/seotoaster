@@ -12,6 +12,9 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
 	}
 
 	public function renderAdminPanel($userRole = null) {
+        if ($userRole === Tools_Security_Acl::ROLE_MEMBER && (bool) Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('controlPanelStatus')) {
+            return;
+        }
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$userRole = preg_replace('/[^\w\d_]/', '', $userRole);
 		if(!$additionalMenu = $this->_cache->load('admin_addmenu', $userRole)) {

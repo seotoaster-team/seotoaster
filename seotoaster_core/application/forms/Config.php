@@ -51,6 +51,12 @@ class Application_Form_Config extends Zend_Form
      */
     protected $_enableDeveloperMode      = false;
 
+    /**
+     *  Show or hide control panel from members
+     * @var bool
+     */
+    protected $_controlPanelStatus       = false;
+
 	public function getMediaServers() {
 		return $this->_mediaServers;
 	}
@@ -226,6 +232,18 @@ class Application_Form_Config extends Zend_Form
     {
         $this->_enableMinify = $enableMinify;
         $this->getElement('enableMinify')->setValue($enableMinify);
+    }
+
+    public function getControlPanelStatus()
+    {
+        return $this->_controlPanelStatus;
+    }
+
+    public function setControlPanelStatus($controlPanelStatus)
+    {
+        $this->_controlPanelStatus = $controlPanelStatus;
+        $this->getElement('controlPanelStatus')->setValue($controlPanelStatus);
+        return $this;
     }
 
     public function getEnableDeveloperMode()
@@ -420,6 +438,12 @@ class Application_Form_Config extends Zend_Form
             'name'  => 'enableMinify',
             'value' => $this->_enableMinify,
             'label' => 'Enable assets minification (css/js)?'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'controlPanelStatus',
+            'value' => $this->_controlPanelStatus,
+            'label' => 'Hide Control Panel from members?'
         )));
 
         $this->addElement(new Zend_Form_Element_Checkbox(array(
