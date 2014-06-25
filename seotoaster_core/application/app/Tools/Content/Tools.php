@@ -49,6 +49,7 @@ class Tools_Content_Tools {
 
 
 	public static function proccessFormMessagesIntoHtml($messages, $formClassName = '') {
+        $translator       = Zend_Registry::get('Zend_Translate');
 		$form = ($formClassName) ? new $formClassName() : null;
 		$html = '<ul class="form-errors list-unstyled">';
 		foreach ($messages as $element => $messageData) {
@@ -56,7 +57,7 @@ class Tools_Content_Tools {
 			$html .= '<li><span class="error-title">' . (($form) ? $form->getElement($element)->getLabel() : $element) . '</span>';
 			$html .= '<ul class="list-unstyled text-italic">';
 			foreach ($errMessages as $message) {
-				$html .= '<li>' . $message . '</li>';
+				$html .= '<li>' . $translator->translate($message) . '</li>';
 			}
 			$html .= '</ul>';
 			$html .= '</li>';
