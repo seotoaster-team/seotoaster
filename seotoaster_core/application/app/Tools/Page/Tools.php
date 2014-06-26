@@ -50,24 +50,28 @@ class Tools_Page_Tools
      */
     public static function getPreviewFilePath($pageId, $croped = false, $cropSizeSubfolder = '')
     {
-        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-        $pathPreview   = ($croped) ? $websiteHelper->getPreviewCrop() : $websiteHelper->getPreview();
-        $page          = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
-        $infoPreview   = array(
-            'sitePath'      => $websiteHelper->getPath(),
-            'previewPath'   => $pathPreview,
-            'sizeSubfolder' => $cropSizeSubfolder,
-            'fileName'      => '',
-            'fullPath'      => ''
+        $websiteHelper     = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $cropSizeSubfolder = ($croped && !empty($cropSizeSubfolder)) ? trim($cropSizeSubfolder, '/').'/' : '';
+        $infoPreview       = array(
+            'sitePath'        => $websiteHelper->getPath(),
+            'previewPath'     => $websiteHelper->getPreview(),
+            'previewCropPath' => $websiteHelper->getPreviewCrop(),
+            'sizeSubfolder'   => $cropSizeSubfolder,
+            'fileName'        => '',
+            'path'            => '',
+            'fullPath'        => ''
         );
+        $pathPreview = ($croped) ? $websiteHelper->getPreviewCrop() : $websiteHelper->getPreview();
         if ($croped && $cropSizeSubfolder != '') {
             $pathPreview .= $cropSizeSubfolder;
         }
+        $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
         if ($page instanceof Application_Model_Models_Page) {
             $infoPreview['fileName'] = $page->getPreviewImage();
-            $pathFile                = $websiteHelper->getPath().$pathPreview.$page->getPreviewImage();
-            if (is_readable($pathFile)) {
-                $infoPreview['fullPath'] = $pathFile;
+            $fullPath                = $websiteHelper->getPath().$pathPreview.$page->getPreviewImage();
+            if (is_file($fullPath) && is_readable($fullPath)) {
+                $infoPreview['path']     = $pathPreview.$page->getPreviewImage();
+                $infoPreview['fullPath'] = $fullPath;
             }
         }
 

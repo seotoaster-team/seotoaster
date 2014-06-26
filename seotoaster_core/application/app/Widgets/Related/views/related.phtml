@@ -4,33 +4,37 @@
 			<li>
 				<?php if ($this->useImage): ?>
                     <?php
-                    $infoPreview = Tools_Page_Tools::getPreviewFilePath($relatedPage->getId(), (($this->useImage == 'img') ? false : true), $this->cropSizeSubfolder);
+                    $infoPreview = Tools_Page_Tools::getPreviewFilePath(
+                        $relatedPage->getId(),
+                        (($this->useImage == 'img') ? false : true),
+                        $this->cropSizeSubfolder
+                    );
                     // Image exists
-                    if ($infoPreview['fullPath'] != '' && $infoPreview['fileName'] != '') {
-                        $src = $this->websiteUrl.$infoPreview['previewPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
+                    if (!empty($infoPreview['fullPath'])) {
+                        $path = $infoPreview['path'];
                     }
                     // Cropped image
-                    elseif ($this->useImage == 'imgc' && $infoPreview['fullPath'] == '' && $infoPreview['fileName'] != '') {
-                        $src        = $this->websiteUrl.$infoPreview['previewPath'].$infoPreview['fileName'];
+                    elseif ($this->useImage == 'imgc' && !empty($infoPreview['fileName'])) {
+                        $path       = $infoPreview['previewPath'].$infoPreview['fileName'];
                         $cropStatus = Tools_Image_Tools::resizeByParameters(
                             $infoPreview['sitePath'].$infoPreview['previewPath'].$infoPreview['fileName'],
                             $this->cropParams[1],
                             $this->cropParams[2],
                             true,
-                            $infoPreview['sitePath'].$infoPreview['previewPath'].$infoPreview['sizeSubfolder'],
+                            $infoPreview['sitePath'].$infoPreview['previewCropPath'].$infoPreview['sizeSubfolder'],
                             true
                         );
                         if ($cropStatus === true) {
-                            $src = $this->websiteUrl.$infoPreview['previewPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
+                            $path = $infoPreview['previewCropPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
                         }
                     }
                     // No image
                     else {
-                        $src = $this->websiteUrl.'system/images/noimage.png';
+                        $path = 'system/images/noimage.png';
                     }
                     ?>
 					<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>">
-						<img src="<?php echo $src; ?>" alt="<?php echo $relatedPage->getH1(); ?>" />
+						<img src="<?php echo $this->websiteUrl.$path; ?>" alt="<?php echo $relatedPage->getH1(); ?>" />
 					</a>
 				<?php endif; ?>
 				<a href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>" class="page-title"><?php echo $relatedPage->getNavName(); ?></a>
