@@ -16,20 +16,18 @@
 			<div class="grid_4 alpha">
 				<?php echo $this->templateForm->getElement( 'name' ); ?>
 			</div>
-			<div class="grid_3 alpha omega mt0px">
+			<div class="fl-left mt0px">
 				<?php echo $this->templateForm->getElement( 'templateType' ); ?>
 			</div>
-			<div id="other-listpages" class="grid_2 omega text-right mt2em">
-			<?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
+            <?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
+            <div id="other-templates" class="fl-right mt2em">
+				<a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
+			</div>
+            <div id="other-listpages" class="wrap text-center mt2em">
                 <a id="listpages-btn" href="javascript:;">
                     [ <?php echo $this->translate( 'Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' ); ?> ]
                 </a>
                 <?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 560)); ?>
-            <?php endif; ?>
-			</div>
-            <?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
-            <div id="other-templates" class="grid_3 alpha omega text-right mt2em">
-				<a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
 			</div>
             <?php endif; ?>
             <div class="grid_12 alpha omega">
