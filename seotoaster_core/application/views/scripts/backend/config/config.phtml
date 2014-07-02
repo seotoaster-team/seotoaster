@@ -96,9 +96,9 @@
                 <div><?php echo $this->configForm->getElement('suPassword'); ?></div>
             </fieldset>
             <fieldset id="advanced-config" class="content-small-footer pr0 pl0">
-                <div class="grid_4 omega mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
-                <div class="grid_2 mt0px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
-                <div class="grid_6 alpha mt5px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></div>
+                <div class="fl-left ml-grid mr-grid mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
+                <div class="fl-left mr1 mt0px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
+                <div class="wrap mt5px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></div>
 
                 <div class="cl-both grid_6 mt20px">
                     <div class="grid_7 alpha">
