@@ -35,6 +35,7 @@
 .wrap{ overflow : hidden; }
 .block{ display : block; }
 .word-break{ word-break : break-all; }
+.hide, .ui-helper-hidden{ display : none; }
 
 .pointer{ cursor : pointer; }
 .help{ cursor : help; }
@@ -71,7 +72,7 @@
     color : inherit;
 
     a&:hover{
-        color: @link-color;
+        color : @link-color;
     }
 }
 
@@ -100,7 +101,7 @@
         .facebook{ background : @facebook; }
 
         .inverse{
-            background: none !important;
+            background : none !important;
 
             &.rss{ color : @rss; }
             &.gplus{ color : @gplus; }
@@ -117,7 +118,7 @@
 
             &.inverse{
 
-            &:hover{
+                &:hover{
                     &.rss{ color : darken(@rss, 10%); }
                     &.gplus{ color : darken(@gplus, 10%); }
                     &.twitter{ color : darken(@twitter, 10%); }
@@ -138,7 +139,7 @@
         }
 
         .inverse{
-            background: none !important;
+            background : none !important;
 
             &.rss{ color : @rss; }
             &.gplus{ color : @gplus; }
@@ -155,9 +156,9 @@
                 &.linkedin{ color : darken(@linkedin, 10%); }
                 &.facebook{ color : darken(@facebook, 10%); }
             }
-            }
-            }
         }
+    }
+}
 .social-links();
 
 // Change style for Generator Links
@@ -167,51 +168,51 @@
 
     a, :before{ font-size : @font-size-base; }
 
-        .generator-links{
+    .generator-links{
         .inline-block();
         .icon-size(@icon-size-small) !important;
         .button-color(@button-blue-color, @button-blue-bg, @button-blue-border);
         padding  : @padding-small-vertical !important;
-            position    : relative;
+        position : relative;
 
-            img{
-                display : none !important;
-            }
+        img{
+            display : none !important;
+        }
 
-            &:before{
+        &:before{
             font-family : 'toaster-icons';
-                content     : "\e008";
-            }
+            content     : "\e008";
+        }
 
-        &+.generator-links{
+        & + .generator-links{
             margin-left : 1px;
 
             &:before{
-            content : "\e095";
+                content : "\e095";
+            }
         }
     }
-}
 
-    a.icon+.generator-links:before{
-        content : "\e095";
+    a.icon + .generator-links:before{
+        content        : "\e095";
         border-left    : 2px solid #FFF;
         border-top     : 2px solid #FFF;
         margin         : 0 0 -2px -(@icon-size-small + @padding-mini-vertical * 2);
         vertical-align : bottom;
     }
 
-    .btn~.generator-links{
+    .btn ~ .generator-links{
         vertical-align : top;
-        }
+    }
 
-    .btn+.generator-links{
-        &+.generator-links{
-            &~.generator-links{
+    .btn + .generator-links{
+        & + .generator-links{
+            & ~ .generator-links{
                 top  : (@icon-size-small + @padding-small-vertical * 2);
                 left : -(@icon-size-small + @padding-small-vertical * 2 + 1) * 2;
-                }
             }
-                }
+        }
+    }
 
     &.color{
         .generator-links{
@@ -219,12 +220,12 @@
             border  : 1px dashed #fff;
             .icon-size(@icon-size-base);
 
-                &:before{
+            &:before{
                 content : "\e00a";
-                }
             }
         }
     }
+}
 
 // Table classes
 //==================================================
@@ -252,7 +253,7 @@
 
     &.scroll-left{
         direction : rtl;
-        &>*{ direction : ltr; }
+        & > *{ direction : ltr; }
     }
 }
 .background{
@@ -394,7 +395,7 @@
     height     : auto !important;
     background : @body-bg;
 
-    .header~&, .header~* &{
+    .header ~ &, .header ~ * &{
         top : @header-height;
     }
 }
