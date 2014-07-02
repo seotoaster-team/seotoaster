@@ -9,25 +9,30 @@ img[style*="float: right"], img[style*="float:right"]{
     margin-left : 15px;
 }
 
-img{
-    .activate-style-image() when (@images-style = true){
-        .img-thumbnail &, &.img-thumbnail{
-            .thumbnail-state();
-        }
-        .img-circle &, &.img-circle{
-            .border-radius(500px);
-        }
-        .img-rounded &, &.img-rounded{
-            .border-radius(@border-radius-base);
-        }
-        .img-leaflet-right &, &.img-leaflet-right{
-            .border-radius(50% 0);
-        }
-        .img-leaflet-left &, &.img-leaflet-left{
-            .border-radius(0 50%);
-        }
+.img-thumbnail when (@image-thumbnail = true) and (@images-style = true){
+    & img, img&{
+        .thumbnail-state();
     }
-    .activate-style-image();
+}
+.img-circle when (@image-circle = true) and (@images-style = true){
+    & img, img&{
+        .border-radius(50em);
+    }
+}
+.img-rounded when (@image-rounded = true) and (@images-style = true){
+    & img, img&{
+        .border-radius(@border-radius-base);
+    }
+}
+.img-leaflet-right when (@image-leaflet-right = true) and (@images-style = true){
+    & img, img&{
+        .border-radius(50% 0);
+    }
+}
+.img-leaflet-left when (@image-leaflet-left = true) and (@images-style = true){
+    & img, img&{
+        .border-radius(0 50%);
+    }
 }
 
 [class*="caption"]{

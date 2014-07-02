@@ -26,10 +26,10 @@ $(document).ready(function(){
         ],
         importcss_merge_classes: true,
         plugins                 : [
-            "advlist lists link image charmap", "visualblocks code fullscreen", "media table paste importcss textcolor stw"
+            "advlist lists link anchor image charmap", "visualblocks code fullscreen", "media table paste importcss textcolor stw"
         ],
-        toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify | bullist numlist forecolor backcolor | link unlink image media table hr fullscreen",
-        toolbar2                : "stw | styleselect | formatselect | fontsizeselect | pastetext charmap | visualblocks code removeformat",
+        toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify | bullist numlist forecolor backcolor | link unlink anchor image media table hr",
+        toolbar2                : "stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen",
         fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
         block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Cite=cite;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
         link_list               : websiteUrl+'backend/backend_page/linkslist/',
