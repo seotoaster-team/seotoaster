@@ -35,17 +35,18 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 			),
 		)));
 
-		$this->setElementDecorators(array(
-			'ViewHelper',
-			'Label',
-			array('HtmlTag', array('tag' => 'p'))
-		));
-
         $this->addElement('submit', 'submit', array(
 			'name'   => 'retrieve',
 			'ignore' => true,
-			'label'  => 'Retrieve'
+			'label'  => 'Retrieve',
+			'class'  => 'btn'
 		));
+
+        $this->setElementDecorators(array(
+            'ViewHelper',
+            'Label',
+            array('HtmlTag', array('tag' => 'p'))
+        ));
 
         $this->getElement('submit')->removeDecorator('DtDdWrapper');
         $this->getElement('submit')->removeDecorator('Label');

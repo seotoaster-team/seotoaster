@@ -64,10 +64,16 @@
                     url      : form.attr('action'),
                     type     : 'post',
                     data     : form.serialize(),
-                    beforeSend: showLoader(),
+                    beforeSend: function() {
+                        $(form).find(':submit').addClass('load').prop({
+                            'disabled' : true
+                        })
+                    },
                     dataType :'json',
                     success  : function(response) {
-                        hideLoader();
+                        $(form).find(':submit').removeClass('load').prop({
+                            'disabled' : false
+                        })
                         if(response.error) {
 
                         } else {

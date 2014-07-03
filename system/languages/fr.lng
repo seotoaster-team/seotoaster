@@ -1120,5 +1120,6 @@
     'Enter the words from picture' => 'Entrez le captcha',
     'Edit this form' => 'Modifier cette forme',
     'Build your form now' => ' Construire votre forme maintenant',
-    'Notes' => 'Commentaires'
+    'Notes' => 'Commentaires',
+    'Hide Control Panel from members?' => 'Masquer le panneau de contrôle de membres?'
 );?>

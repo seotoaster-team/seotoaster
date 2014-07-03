@@ -11,9 +11,17 @@
 //	Control Panel Styles
 //	Basic Widgets and Plugins
 //==================================================
+
+*{
+    &, &:before, &:after{
+        .box-sizing();
+    }
+}
+
 //  Fonts
 //==================================================
 @import "elements/fonts";
+
 // Grid System
 //==================================================
 @import "elements/grid";

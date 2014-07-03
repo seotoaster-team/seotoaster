@@ -6,3 +6,14 @@
     @import "packages/modules-pack";
 }
 .activate-modules();
+
+// -- Buttons
+[type="submit"]{
+    &.load{
+        .transition(none) !important;
+        background-image    : url('../images/ajax-loader-small.gif') !important;
+        background-position : 50% 50% !important;
+        background-repeat   : no-repeat !important;
+        color               : transparent !important;
+    }
+}
