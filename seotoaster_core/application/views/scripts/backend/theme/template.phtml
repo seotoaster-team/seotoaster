@@ -1,45 +1,70 @@
-<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/internal/theme.min.js' ); ?>
-<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
-<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js' ); ?>
-<?php $this->jQuery()->addJavascriptFile( $this->websiteUrl . 'system/js/external/aceajax/mode-html.js' ); ?>
-<div class="seotoaster container <?php echo ( $this->templateForm->getElement( 'id' )->getValue() == '' ) ? '' : 'refreshOnClose'; ?>">
-	<?php echo $this->partial( 'admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
-        'headerText' => $this->templateForm->getElement( 'id' )->getValue() == '' ? 'Add template' : 'Edit template',
-        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 icon-expand warning inverse" href="javascript:;"></a></div>',
-        'helpSection' => $this->helpSection ) ); ?>
-    <!--	<a class="tpopup listpages btn link" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="--><?php //echo $this->websiteUrl; ?><!--backend/backend_page/listpages/template/--><?php //echo $this->templateForm->getElement('name')->getValue(); ?><!--">[--><?php //echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?><!--]</a>-->
-	<div class="content">
-		<div id="templatelist" class="show-right"></div>
-		<div id="listpages" class="show-right"></div>
-        <?php $this->templateForm->setAction( $this->url() ); ?>
-        <form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId(); ?>" method="<?php echo $this->templateForm->getMethod(); ?>" class="grid_12">
-			<div class="grid_4 alpha">
-				<?php echo $this->templateForm->getElement( 'name' ); ?>
-			</div>
-			<div class="fl-left mt0px">
-				<?php echo $this->templateForm->getElement( 'templateType' ); ?>
-			</div>
-            <?php if($this->templateForm->getElement( 'id' )->getValue() != ''): ?>
-            <div id="other-templates" class="fl-right mt2em">
-				<a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate( 'Edit other templates' ); ?> ]</a>
-			</div>
-            <div id="other-listpages" class="wrap text-center mt2em">
-                <a id="listpages-btn" href="javascript:;">
-                    [ <?php echo $this->translate( 'Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>' ); ?> ]
-                </a>
-                <?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 560)); ?>
-			</div>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.min.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>
+<div class="seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
+    : 'refreshOnClose'; ?>">
+    <?php echo $this->partial(
+        'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array(
+            'headerText'      =>
+                $this->templateForm->getElement('id')->getValue() == '' ? 'Add template' : 'Edit template',
+            'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 icon-expand warning inverse" href="javascript:;"></a></div>',
+            'helpSection'     => $this->helpSection
+        )
+    ); ?>
+    <!--	<a class="tpopup listpages btn link" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="-->
+    <?php //echo $this->websiteUrl; ?><!--backend/backend_page/listpages/template/-->
+    <?php //echo $this->templateForm->getElement('name')->getValue(); ?><!--">[-->
+    <?php //echo $this->translate('Used in %s pages', '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'); ?><!--]</a>-->
+    <div class="content">
+        <div id="templatelist" class="show-right"></div>
+        <div id="listpages" class="show-right"></div>
+        <?php $this->templateForm->setAction($this->url()); ?>
+        <form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId(); ?>"
+              method="<?php echo $this->templateForm->getMethod(); ?>" class="grid_12">
+            <div class="grid_4 alpha">
+                <?php echo $this->templateForm->getElement('name'); ?>
+            </div>
+            <div class="fl-left mt0px">
+                <?php echo $this->templateForm->getElement('templateType'); ?>
+            </div>
+            <?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
+                <div id="other-templates" class="fl-right mt2em">
+                    <a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate(
+                            'Edit other templates'
+                        ); ?> ]</a>
+                </div>
+                <div id="other-listpages" class="wrap text-center mt2em">
+                    <a id="listpages-btn" href="javascript:;">
+                        [ <?php echo $this->translate(
+                            'Used in %s pages',
+                            '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'
+                        ); ?> ]
+                    </a>
+                    <?php //echo $this->toasterLink('backend_page', 'listpages', '[Used in <span id=\"\">' . $this->pagesUsingTemplate . '</span> pages]', 'template/' . $this->templateForm->getElement('name')->getValue(), false, array('width' => 480, 'height' => 560)); ?>
+                </div>
             <?php endif; ?>
             <div class="grid_12 alpha omega">
-				<div id="edittemplate" class="" style="height: 385px">
-					<?php echo $this->templateForm->getElement( 'content' )->renderViewHelper(); ?>
-				</div>
-			</div>
+                <div id="edittemplate" class="" style="height: 385px">
+                    <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
+                </div>
+            </div>
+            <span class="clearfix"></span>
 
-            <?php echo $this->templateForm->getElement( 'submit' ); ?>
-            <?php echo $this->templateForm->getElement( 'id' )->setDecorators( array( 'ViewHelper' ) ); ?>
-            <?php echo $this->templateForm->getElement( 'pageId' ); ?>
-		</form>
-	</div>
+            <div class="footer">
+                <?php echo $this->templateForm->getElement('shortcuts'); ?>
+                <?php echo $this->templateForm->getElement('submit'); ?>
+            </div>
+            <?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
+            <?php echo $this->templateForm->getElement('pageId'); ?>
+        </form>
+    </div>
 </div>
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#useful-shortcuts').on('change', function () {
+            editor.insert(this.value);
+        })
+    })
+</script>
