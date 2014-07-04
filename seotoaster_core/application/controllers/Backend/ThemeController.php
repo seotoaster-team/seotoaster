@@ -1,23 +1,26 @@
 <?php
+
 /**
  * Controller for all stuff that belongs to theme, template, css.
  *
  */
+class Backend_ThemeController extends Zend_Controller_Action
+{
 
-class Backend_ThemeController extends Zend_Controller_Action {
+    const DEFAULT_CSS_NAME = 'style.css';
+    const DEFAULT_JS_NAME = 'scripts.js';
 
-    const DEFAULT_CSS_NAME       = 'style.css';
-    const DEFAULT_JS_NAME       = 'scripts.js';
+    private $_websiteConfig = null;
 
-    private $_websiteConfig      = null;
+    private $_themeConfig = null;
 
-    private $_themeConfig        = null;
+    private $_templatesOrder
+        = array(
+            'typeregular' => ''
+        );
 
-    private $_templatesOrder     = array(
-        'typeregular' => ''
-    );
-
-    public function init() {
+    public function init()
+    {
         parent::init();
         if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_THEMES)) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
@@ -26,9 +29,11 @@ class Backend_ThemeController extends Zend_Controller_Action {
         $this->_websiteConfig = Zend_Registry::get('website');
         $this->_themeConfig = Zend_Registry::get('theme');
         $this->_translator = Zend_Registry::get('Zend_Translate');
-        $this->_helper->AjaxContext()->addActionContexts(array(
-            'pagesviatemplate' => 'json',
-        ))->initContext('json');
+        $this->_helper->AjaxContext()->addActionContexts(
+            array(
+                'pagesviatemplate' => 'json',
+            )
+        )->initContext('json');
 
     }
 
@@ -36,12 +41,13 @@ class Backend_ThemeController extends Zend_Controller_Action {
      * Method returns template editing screen
      * and saves edited template
      */
-    public function templateAction() {
-        $templateForm     = new Application_Form_Template();
-        $templateName     = $this->getRequest()->getParam('id');
-        $mapper           = Application_Model_Mappers_TemplateMapper::getInstance();
-        $currentTheme     = $this->_helper->config->getConfig('currentTheme');
-        $currentThemePath = realpath($this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme);
+    public function templateAction()
+    {
+        $templateForm = new Application_Form_Template();
+        $templateName = $this->getRequest()->getParam('id');
+        $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+        $currentTheme = $this->_helper->config->getConfig('currentTheme');
+        $currentThemePath = realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme);
         if (!$this->getRequest()->isPost()) {
             $templateForm->getElement('pageId')->setValue($this->getRequest()->getParam('pid'));
             if ($templateName) {
@@ -49,30 +55,33 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 if ($template instanceof Application_Model_Models_Template) {
                     $templateContent = $template->getContent();
                     // If developerMode = 1, get template content from the template file
-                    if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
-                        $currentTemplatePath = $currentThemePath.DIRECTORY_SEPARATOR .$templateName.'.html';
+                    if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
+                        $currentTemplatePath = $currentThemePath . DIRECTORY_SEPARATOR . $templateName . '.html';
                         if (file_exists($currentTemplatePath)) {
                             $templateContent = Tools_Filesystem_Tools::getFile($currentTemplatePath);
                         }
                     }
-
                     $templateForm->getElement('content')->setValue($templateContent);
                     $templateForm->getElement('name')->setValue($template->getName());
                     $templateForm->getElement('id')->setValue($template->getName());
                     $templateForm->getElement('templateType')->setValue($template->getType());
+                    $templateForm->getElement('shortcuts');
                     $this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
                 }
             }
-        }
-        else {
+        } else {
             if ($templateForm->isValid($this->getRequest()->getPost())) {
                 $templateData = $templateForm->getValues();
                 $originalName = $templateData['id'];
 
-                if ($templateData['templateType'] === Application_Model_Models_Template::TYPE_MOBILE ||
-                    preg_match('~^mobile_~', $templateData['name'])) {
+                if ($templateData['templateType'] === Application_Model_Models_Template::TYPE_MOBILE
+                    || preg_match(
+                        '~^mobile_~',
+                        $templateData['name']
+                    )
+                ) {
                     $isMobileTemplate = true;
-                    $templateData['name'] = 'mobile_'.preg_replace('~^mobile_~', '', $templateData['name']);
+                    $templateData['name'] = 'mobile_' . preg_replace('~^mobile_~', '', $templateData['name']);
                     $templateData['templateType'] = Application_Model_Models_Template::TYPE_MOBILE;
                 } else {
                     $isMobileTemplate = false;
@@ -95,8 +104,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
                 } else {
                     $status = 'new';
-                    if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
-                        $currentTemplatePath = $currentThemePath.DIRECTORY_SEPARATOR .$templateData['name'].'.html';
+                    if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
+                        $currentTemplatePath
+                            = $currentThemePath . DIRECTORY_SEPARATOR . $templateData['name'] . '.html';
                         if (file_exists($currentTemplatePath)) {
                             $status = 'addedDb';
                         }
@@ -117,8 +127,16 @@ class Backend_ThemeController extends Zend_Controller_Action {
 
                 // saving/updating template in db
                 if ($result = $mapper->save($template)) {
-                    Tools_Theme_Tools::updateThemeIni($currentThemePath, $templateData['name'], $templateData['templateType']);
-                    $this->_helper->cache->clean(false, false, array(preg_replace('/[^\w\d_]/', '', $template->getName())));
+                    Tools_Theme_Tools::updateThemeIni(
+                        $currentThemePath,
+                        $templateData['name'],
+                        $templateData['templateType']
+                    );
+                    $this->_helper->cache->clean(
+                        false,
+                        false,
+                        array(preg_replace('/[^\w\d_]/', '', $template->getName()))
+                    );
                 }
                 // saving to file in theme folder;
                 $filepath = $currentThemePath . DIRECTORY_SEPARATOR;
@@ -140,7 +158,11 @@ class Backend_ThemeController extends Zend_Controller_Action {
                     if ($status === 'update' && ($template->getOldName() !== $template->getName())) {
                         $oldFilename = $currentThemePath . DIRECTORY_SEPARATOR;
                         if ($isMobileTemplate) {
-                            $oldFilename .= preg_replace('~^mobile_~', 'mobile' . DIRECTORY_SEPARATOR, $template->getOldName());
+                            $oldFilename .= preg_replace(
+                                '~^mobile_~',
+                                'mobile' . DIRECTORY_SEPARATOR,
+                                $template->getOldName()
+                            );
                         } else {
                             $oldFilename .= $template->getOldName();
                         }
@@ -155,7 +177,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 } catch (Exceptions_SeotoasterException $e) {
                     Tools_System_Tools::debugMode() && error_log($e->getMessage());
                 }
-                $this->_helper->cache->clean(Helpers_Action_Cache::KEY_PLUGINTABS, Helpers_Action_Cache::PREFIX_PLUGINTABS);
+                $this->_helper->cache->clean(
+                    Helpers_Action_Cache::KEY_PLUGINTABS,
+                    Helpers_Action_Cache::PREFIX_PLUGINTABS
+                );
 
                 $this->_helper->response->response($status, false);
 
@@ -167,7 +192,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
                         'isEmpty'              => 'Template name field can\'t be empty.',
                         'notAlnum'             => 'Template name contains characters which are non alphabetic and no digits',
                         'stringLengthTooLong'  => 'Template name field is too long.',
-                        'stringLengthTooShort' => 'Template name field is too short.'),
+                        'stringLengthTooShort' => 'Template name field is too short.'
+                    ),
                     'content' => array(
                         'isEmpty' => 'Content can\'t be empty.'
                     )
@@ -193,9 +219,13 @@ class Backend_ThemeController extends Zend_Controller_Action {
      * Method return form for editing css files for current theme
      * and saves css file content
      */
-    public function editcssAction() {
+    public function editcssAction()
+    {
         $cssFiles = $this->_buildCssFileList();
-        $defaultCss = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(self::DEFAULT_CSS_NAME, current($cssFiles));
+        $defaultCss = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(
+                self::DEFAULT_CSS_NAME,
+                current($cssFiles)
+            );
 
         $editcssForm = new Application_Form_Css();
         $editcssForm->getElement('cssname')->setMultiOptions($cssFiles);
@@ -207,7 +237,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
             if (isset($postParams['getcss']) && !empty ($postParams['getcss'])) {
                 $cssName = $postParams['getcss'];
                 try {
-                    $content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName);
+                    $content = Tools_Filesystem_Tools::getFile(
+                        $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName
+                    );
                     $this->_helper->response->response($content, false);
                 } catch (Exceptions_SeotoasterException $e) {
                     $this->_helper->response->response($e->getMessage(), true);
@@ -219,13 +251,20 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 if ($editcssForm->isValid($postParams)) {
                     $cssName = $postParams['cssname'];
                     try {
-                        Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName, $postParams['content']);
+                        Tools_Filesystem_Tools::saveFile(
+                            $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $cssName,
+                            $postParams['content']
+                        );
                         $params = array(
                             'websiteUrl'   => $this->_helper->website->getUrl(),
                             'themePath'    => $this->_websiteConfig['path'] . $this->_themeConfig['path'],
                             'currentTheme' => $this->_helper->config->getConfig('currentTheme')
                         );
-                        $concatCss = Tools_Factory_WidgetFactory::createWidget('Concatcss', array('refresh' => true), $params);
+                        $concatCss = Tools_Factory_WidgetFactory::createWidget(
+                            'Concatcss',
+                            array('refresh' => true),
+                            $params
+                        );
                         $concatCss->render();
                         $this->_helper->response->response($this->_translator->translate('CSS saved'), false);
                     } catch (Exceptions_SeotoasterException $e) {
@@ -250,9 +289,13 @@ class Backend_ThemeController extends Zend_Controller_Action {
      * Method return form for editing js files for current theme
      * and saves js file content
      */
-    public function editjsAction() {
+    public function editjsAction()
+    {
         $jsFiles = $this->_buildJSFileList();
-        $defaultJS = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(self::DEFAULT_JS_NAME, current($jsFiles));
+        $defaultJS = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . array_search(
+                self::DEFAULT_JS_NAME,
+                current($jsFiles)
+            );
 
         $editjsForm = new Application_Form_JS();
         $editjsForm->getElement('jsname')->setMultiOptions($jsFiles);
@@ -264,7 +307,9 @@ class Backend_ThemeController extends Zend_Controller_Action {
             if (isset($postParams['getjs']) && !empty ($postParams['getjs'])) {
                 $jsName = $postParams['getjs'];
                 try {
-                    $content = Tools_Filesystem_Tools::getFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName);
+                    $content = Tools_Filesystem_Tools::getFile(
+                        $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName
+                    );
                     $this->_helper->response->response($content, false);
                 } catch (Exceptions_SeotoasterException $e) {
                     $this->_helper->response->response($e->getMessage(), true);
@@ -276,7 +321,10 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 if ($editjsForm->isValid($postParams)) {
                     $jsName = $postParams['jsname'];
                     try {
-                        Tools_Filesystem_Tools::saveFile($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName, $postParams['content']);
+                        Tools_Filesystem_Tools::saveFile(
+                            $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName,
+                            $postParams['content']
+                        );
                         $this->_minimizationJS($jsName, $postParams);
                         $this->_helper->response->response($this->_translator->translate('JS saved'), false);
                     } catch (Exceptions_SeotoasterException $e) {
@@ -297,47 +345,63 @@ class Backend_ThemeController extends Zend_Controller_Action {
         $this->view->editjsForm = $editjsForm;
     }
 
-    private function _minimizationJS($jsName, $postParams){
-        if($postParams['jsminify'] === 'true' && $postParams['jscombine'] === 'false') {
+    private function _minimizationJS($jsName, $postParams)
+    {
+        if ($postParams['jsminify'] === 'true' && $postParams['jscombine'] === 'false') {
             $jsPath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $jsName;
             $jsContent = $postParams['content'];
             $jsContent = JSMin::minify($jsContent);
             Tools_Filesystem_Tools::saveFile(str_replace('.js', '.min.js', $jsPath), $jsContent);
         }
-        if($postParams['jscombine'] === 'true') {
+        if ($postParams['jscombine'] === 'true') {
             $jsContentCombine = null;
             $jsParentDirName = basename(dirname($jsName));
             $jsPath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . dirname($jsName);
             $jsList = glob($jsPath . DIRECTORY_SEPARATOR . '*.js');
-            if(is_array($jsList)) {
-                foreach($jsList as $jsFile) {
-                    $jsContent = file_get_contents($jsFile,true);
+            if (is_array($jsList)) {
+                foreach ($jsList as $jsFile) {
+                    $jsContent = file_get_contents($jsFile, true);
                     $jsContentCombine .= JSMin::minify($jsContent);
                 }
             }
-            Tools_Filesystem_Tools::saveFile(dirname($jsPath) . DIRECTORY_SEPARATOR . $jsParentDirName . '.min.js', $jsContentCombine);
+            Tools_Filesystem_Tools::saveFile(
+                dirname($jsPath) . DIRECTORY_SEPARATOR . $jsParentDirName . '.min.js',
+                $jsContentCombine
+            );
         }
     }
 
     /**
      * Method build a list of css files for current theme
      * with subdirectories
+     *
      * @return <type>
      */
-    private function _buildCssFileList() {
+    private function _buildCssFileList()
+    {
         $currentThemeName = $this->_helper->config->getConfig('currentTheme');
-        $currentThemePath = Tools_System_Tools::normalizePath(realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName));
+        $currentThemePath = Tools_System_Tools::normalizePath(
+            realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName)
+        );
 
         $cssFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'css', true);
 
         $cssTree = array();
         foreach ($cssFiles as $file) {
             // don't show concat css for editing
-            if (preg_match('/'.MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX.'[a-zA-Z0-9]+\.css/i', strtolower(basename($file)))) {
+            if (preg_match(
+                '/' . MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX . '[a-zA-Z0-9]+\.css/i',
+                strtolower(basename($file))
+            )
+            ) {
                 continue;
             }
 
-            preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i', Tools_System_Tools::normalizePath($file), $sequences);
+            preg_match_all(
+                '~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.css)$~i',
+                Tools_System_Tools::normalizePath($file),
+                $sequences
+            );
             $subfolders = $currentThemeName . '/' . $sequences[1][0];
             $files = array();
             foreach ($sequences[2] as $key => $value) {
@@ -357,18 +421,26 @@ class Backend_ThemeController extends Zend_Controller_Action {
     /**
      * Method build a list of js files for current theme
      * with subdirectories
+     *
      * @return <type>
      */
-    private function _buildJSFileList() {
+    private function _buildJSFileList()
+    {
         $currentThemeName = $this->_helper->config->getConfig('currentTheme');
-        $currentThemePath = Tools_System_Tools::normalizePath(realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName));
+        $currentThemePath = Tools_System_Tools::normalizePath(
+            realpath($this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentThemeName)
+        );
 
         $jsFiles = Tools_Filesystem_Tools::findFilesByExtension($currentThemePath, 'js', true);
         $jsFiles = array_filter(preg_replace('~.*(min).js.*~', '', $jsFiles));
         $jsTree = array();
 
         foreach ($jsFiles as $file) {
-            preg_match_all('~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.js)$~i', Tools_System_Tools::normalizePath($file), $sequences);
+            preg_match_all(
+                '~^' . $currentThemePath . '/([a-zA-Z0-9-_\s/.]+/)*([a-zA-Z0-9-_\s.]+\.js)$~i',
+                Tools_System_Tools::normalizePath($file),
+                $sequences
+            );
             $subfolders = $currentThemeName . '/' . $sequences[1][0];
             $files = array();
             foreach ($sequences[2] as $key => $value) {
@@ -385,21 +457,24 @@ class Backend_ThemeController extends Zend_Controller_Action {
         return $jsTree;
     }
 
-    private function _sortTemplates($templates = array()) {
+    private function _sortTemplates($templates = array())
+    {
         if (empty($templates)) {
             return array();
         }
         $sortTemplates = array_intersect_key($templates, $this->_templatesOrder);
-        $allTemplates  = array_diff_key($templates, $this->_templatesOrder);
+        $allTemplates = array_diff_key($templates, $this->_templatesOrder);
 
         return array_merge($sortTemplates, $allTemplates);
     }
 
     /**
      * Method returns list of templates or template content if id given in params (AJAX)
+     *
      * @return html || json
      */
-    public function gettemplateAction() {
+    public function gettemplateAction()
+    {
         if ($this->getRequest()->isPost()) {
             $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
             $listtemplates = $this->getRequest()->getParam('listtemplates');
@@ -409,10 +484,16 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
             }
             $currentTheme = $this->_helper->config->getConfig('currentTheme');
-            $types        = $mapper->fetchAllTypes();
+            $types = $mapper->fetchAllTypes();
             if (array_key_exists($listtemplates, array_merge($types, array('all' => 'all')))) {
-                $template = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find($page->getTemplateId()) : $mapper->find($listtemplates);
-                $this->view->templates = $this->_getTemplateListByType($listtemplates, $currentTheme, ($template instanceof Application_Model_Models_Template) ? $template->getName() : '');
+                $template = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find(
+                    $page->getTemplateId()
+                ) : $mapper->find($listtemplates);
+                $this->view->templates = $this->_getTemplateListByType(
+                    $listtemplates,
+                    $currentTheme,
+                    ($template instanceof Application_Model_Models_Template) ? $template->getName() : ''
+                );
                 if (empty($this->view->templates) || !$this->view->templates) {
                     $this->_helper->response->response($this->_translator->translate('Template not found'), true);
                     return true;
@@ -422,14 +503,14 @@ class Backend_ThemeController extends Zend_Controller_Action {
                 echo $this->view->render($this->getViewScript('templateslist'));
             } else {
                 // Enable editing directly from the template file
-                if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
-                    $currentThemePath    = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
-                    $currentTemplatePath = $currentThemePath.DIRECTORY_SEPARATOR.$listtemplates.'.html';
+                if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
+                    $currentThemePath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme;
+                    $currentTemplatePath = $currentThemePath . DIRECTORY_SEPARATOR . $listtemplates . '.html';
 
                     if (file_exists($currentTemplatePath)) {
-                        $themeConfig  = Tools_Theme_Tools::getThemeIniData($currentThemePath);
+                        $themeConfig = Tools_Theme_Tools::getThemeIniData($currentThemePath);
                         $templateName = preg_replace(
-                            array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
+                            array('~' . DIRECTORY_SEPARATOR . '~', '~\.html$~'),
                             array('_', ''),
                             $listtemplates
                         );
@@ -438,26 +519,24 @@ class Backend_ThemeController extends Zend_Controller_Action {
                             'name'     => $templateName,
                             'fullName' => $templateName,
                             'type'     => (!empty($themeConfig) && isset($themeConfig[$templateName])) ?
-                                $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR,
+                                    $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR,
                             'content'  => Tools_Filesystem_Tools::getFile($currentTemplatePath)
                         );
 
                         $this->_helper->response->response($template, true);
                     }
-                }
-                elseif (($template = $mapper->find($listtemplates)) !== null
+                } elseif (($template = $mapper->find($listtemplates)) !== null
                     && $template instanceof Application_Model_Models_Template
                 ) {
-                        $template = array(
-                            'name'     => $template->getName(),
-                            'fullName' => $template->getName(),
-                            'type'     => $template->getType(),
-                            'content'  => $template->getContent()
-                        );
+                    $template = array(
+                        'name'     => $template->getName(),
+                        'fullName' => $template->getName(),
+                        'type'     => $template->getType(),
+                        'content'  => $template->getContent()
+                    );
 
-                        $this->_helper->response->response($template, true);
-                    }
-                else {
+                    $this->_helper->response->response($template, true);
+                } else {
                     $this->_helper->response->response($this->_translator->translate('Template not found'), true);
                 }
             }
@@ -466,19 +545,20 @@ class Backend_ThemeController extends Zend_Controller_Action {
         }
     }
 
-    private function _getTemplateListByType($type, $currentTheme, $currentTemplate = '') {
+    private function _getTemplateListByType($type, $currentTheme, $currentTemplate = '')
+    {
         $templateList = array();
 
         // Gets the templates list from the current theme folder
-        if ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
-            $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
-            $themeConfig      = Tools_Theme_Tools::getThemeIniData($currentThemePath);
-            $scanDir          = scandir($currentThemePath);
+        if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
+            $currentThemePath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme;
+            $themeConfig = Tools_Theme_Tools::getThemeIniData($currentThemePath);
+            $scanDir = scandir($currentThemePath);
 
             foreach ($scanDir as $file) {
                 if (preg_match('/\.(html)/', $file)) {
                     $templateName = preg_replace(
-                        array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
+                        array('~' . DIRECTORY_SEPARATOR . '~', '~\.html$~'),
                         array('_', ''),
                         $file
                     );
@@ -489,30 +569,35 @@ class Backend_ThemeController extends Zend_Controller_Action {
                         continue;
                     }
 
-                    array_push($templateList, array(
-                        'type'       => $templateType,
-                        'name'       => $templateName,
-                        'fullName'   => $templateName,
-                        'isCurrent'  => ($templateName == $currentTemplate) ? true : false,
-                        'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($templateName)
-                    ));
+                    array_push(
+                        $templateList,
+                        array(
+                            'type'       => $templateType,
+                            'name'       => $templateName,
+                            'fullName'   => $templateName,
+                            'isCurrent'  => ($templateName == $currentTemplate) ? true : false,
+                            'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($templateName)
+                        )
+                    );
                 }
             }
-        }
-        //Gets the templates list from the database
+        } //Gets the templates list from the database
         else {
             $templates = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll(
                 ($type != 'all') ? "type = '$type''" : null
             );
 
             foreach ($templates as $template) {
-                array_push($templateList, array(
-                    'type'       => $template->getType(),
-                    'name'       => $template->getName(),
-                    'fullName'   => $template->getName(),
-                    'isCurrent'  => ($template->getName() == $currentTemplate) ? true : false,
-                    'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
-                ));
+                array_push(
+                    $templateList,
+                    array(
+                        'type'       => $template->getType(),
+                        'name'       => $template->getName(),
+                        'fullName'   => $template->getName(),
+                        'isCurrent'  => ($template->getName() == $currentTemplate) ? true : false,
+                        'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
+                    )
+                );
             }
         }
 
@@ -522,13 +607,14 @@ class Backend_ThemeController extends Zend_Controller_Action {
     /**
      * Method which delete template (AJAX)
      */
-    public function deletetemplateAction() {
+    public function deletetemplateAction()
+    {
         if ($this->getRequest()->isPost()) {
             if ($templateId = $this->getRequest()->getPost('id')) {
-                $mapper           = Application_Model_Mappers_TemplateMapper::getInstance();
-                $template         = $mapper->find($templateId);
+                $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
+                $template = $mapper->find($templateId);
                 $currentThemePath = realpath(
-                    $this->_websiteConfig['path'].$this->_themeConfig['path'].$this->_helper->config->getConfig(
+                    $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $this->_helper->config->getConfig(
                         'currentTheme'
                     )
                 );
@@ -540,20 +626,25 @@ class Backend_ThemeController extends Zend_Controller_Action {
                         if ($template->getType() === Application_Model_Models_Template::TYPE_MOBILE
                             && preg_match('~^mobile_~', $template->getName())
                         ) {
-                            $filename = preg_replace('~^mobile_~', 'mobile'.DIRECTORY_SEPARATOR, $template->getName());
+                            $filename = preg_replace(
+                                '~^mobile_~',
+                                'mobile' . DIRECTORY_SEPARATOR,
+                                $template->getName()
+                            );
                         } else {
                             $filename = $template->getName();
                         }
 
-                        Tools_Filesystem_Tools::deleteFile($currentThemePath.DIRECTORY_SEPARATOR.$filename.'.html');
+                        Tools_Filesystem_Tools::deleteFile(
+                            $currentThemePath . DIRECTORY_SEPARATOR . $filename . '.html'
+                        );
                         $status = $this->_translator->translate('Template deleted.');
                     } else {
                         $status = $this->_translator->translate('Can\'t delete template or template doesn\'t exists.');
                     }
                     $this->_helper->response->response($status, false);
-                }
-                elseif ((bool) $this->_helper->config->getConfig('enableDeveloperMode')) {
-                    $templatePath = $currentThemePath.DIRECTORY_SEPARATOR.$templateId.'.html';
+                } elseif ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
+                    $templatePath = $currentThemePath . DIRECTORY_SEPARATOR . $templateId . '.html';
                     if (file_exists($templatePath)) {
                         Tools_Filesystem_Tools::deleteFile($templatePath);
                         $this->_helper->response->response($this->_translator->translate('Template deleted.'), false);
@@ -564,7 +655,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
         }
     }
 
-    public function themesAction() {
+    public function themesAction()
+    {
         $this->view->helpSection = 'themes';
     }
 
@@ -572,21 +664,24 @@ class Backend_ThemeController extends Zend_Controller_Action {
      * @deprecated Use put action of the themes rest-service. Will be removed in 2.0.7
      *
      */
-    public function applythemeAction() {
+    public function applythemeAction()
+    {
     }
 
     /**
      * @deprecated Use get action of the themes rest-service. Will be removed in 2.0.7
      *
      */
-    public function downloadthemeAction() {
+    public function downloadthemeAction()
+    {
     }
 
     /**
      * @deprecated Use delete action of the themes rest-service. Will be removed in 2.0.7
      *
      */
-    public function deletethemeAction() {
+    public function deletethemeAction()
+    {
     }
 
     /**
@@ -594,7 +689,8 @@ class Backend_ThemeController extends Zend_Controller_Action {
      *
      * @deprecated  Will be removed in 2.0.7
      */
-    private function _saveThemeInDatabase($themeName) {
+    private function _saveThemeInDatabase($themeName)
+    {
         return false;
     }
 
@@ -602,10 +698,12 @@ class Backend_ThemeController extends Zend_Controller_Action {
      * Returns amount of pages using specific template
      *
      */
-    public function pagesviatemplateAction() {
+    public function pagesviatemplateAction()
+    {
         $templateName = $this->getRequest()->getParam('template', '');
         if ($templateName) {
             $this->view->pagesUsingTemplate = Tools_Page_Tools::getPagesCountByTemplate($templateName);
         }
     }
+
 }
