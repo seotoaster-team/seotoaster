@@ -510,7 +510,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                     if (file_exists($currentTemplatePath)) {
                         $themeConfig = Tools_Theme_Tools::getThemeIniData($currentThemePath);
                         $templateName = preg_replace(
-                            array('~' . DIRECTORY_SEPARATOR . '~', '~\.html$~'),
+                            array('/\\'.DIRECTORY_SEPARATOR.'/', '/\.html/'),
                             array('_', ''),
                             $listtemplates
                         );
@@ -558,7 +558,7 @@ class Backend_ThemeController extends Zend_Controller_Action
             foreach ($scanDir as $file) {
                 if (preg_match('/\.(html)/', $file)) {
                     $templateName = preg_replace(
-                        array('~' . DIRECTORY_SEPARATOR . '~', '~\.html$~'),
+                        array('/\\'.DIRECTORY_SEPARATOR.'/', '/\.html/'),
                         array('_', ''),
                         $file
                     );
