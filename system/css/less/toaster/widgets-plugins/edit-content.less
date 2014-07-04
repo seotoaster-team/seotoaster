@@ -64,14 +64,14 @@
             }
         }
         .ui-accordion-content{
-            max-height : 189px;
+            max-height : 202px;
             overflow-y : scroll;
         }
     }
 
     #tabs-frag-2{
         .ui-accordion-content{
-            max-height : 195px;
+            max-height : 207px;
 
             .mce-fullscreen &{
                 max-height : none;
@@ -166,7 +166,7 @@
         height : 380px !important;
     }
 
-    .hidden.mce-toolbar-grp+.mce-edit-area{
+    .mce-toolbar-grp[style="display: none;"]+.mce-edit-area{
         border : none !important;
 
         iframe{
@@ -274,7 +274,7 @@
     background : @body-bg;
     padding    : 0 @padding-base-vertical;
     overflow   : auto;
-    height     : 274px;
+    height     : 271px;
 }
 
 @import "../store/product-list";

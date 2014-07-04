@@ -21,7 +21,7 @@
                     'Install'
                 ); ?></a>
             <a class="plugin-endis btn small grid_6 alpha omega <?php echo(($plugin->getId()) ? (($plugin->getStatus(
-                ) == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? '' : 'disable') : 'hidden'); ?>"
+                ) == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? '' : 'disable') : 'hide'); ?>"
                id="endis-<?php echo $plugin->getName(); ?>" data-name="<?php echo $plugin->getName(); ?>"
                href="javascript:;"><?php echo ($plugin->getStatus(
                     ) == Application_Model_Models_Plugin::ENABLED && $plugin->getId()) ? $this->translate(
