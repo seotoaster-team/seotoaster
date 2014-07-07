@@ -26,39 +26,39 @@ a.inverse{
     }
 }
 .success when (@color-success = true) and (@colors = true){
-            color : @brand-success;
+    color : @brand-success;
 
-            a&:hover{
-                color : darken(@brand-success, 15%);
-            }
-        }
+    a&:hover{
+        color : darken(@brand-success, 15%);
+    }
+}
 .warning when (@color-warning = true) and (@colors = true){
-            color : @brand-warning;
+    color : @brand-warning;
 
-            a&:hover{
-                color : darken(@brand-warning, 15%);
-            }
-        }
+    a&:hover{
+        color : darken(@brand-warning, 15%);
+    }
+}
 .error when (@color-error = true) and (@colors = true){
-            color : @brand-error;
+    color : @brand-error;
 
-            a&:hover{
-                color : darken(@brand-error, 15%);
-            }
-        }
+    a&:hover{
+        color : darken(@brand-error, 15%);
+    }
+}
 .info when (@color-info = true) and (@colors = true){
-            color : @brand-info;
+    color : @brand-info;
 
-            a&:hover{
-                color : darken(@brand-info, 15%);
-            }
-        }
+    a&:hover{
+        color : darken(@brand-info, 15%);
+    }
+}
 
 // Default backgound color
 .primary-bg when (@colors = true){
     background-color : @primary-bg;
     color            : @primary-color;
-    }
+}
 .success-bg when (@color-success = true) and (@colors = true){
     background-color : @brand-success;
     color            : #fff;
@@ -82,7 +82,7 @@ a.inverse{
 .mini when (@size-small = true) and (@sizes = true){ font-size : @font-size-mini; }
 
 code{
-    padding        : 1px 5px;
-    background     : #eee;
-    color          : @brand-error;
+    padding    : 1px 5px;
+    background : #eee;
+    color      : @brand-error;
 }
