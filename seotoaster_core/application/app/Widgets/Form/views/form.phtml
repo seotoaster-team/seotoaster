@@ -55,10 +55,16 @@
         <?php if(isset($this->toasterFormError)):?>
             showMessage('<?php echo addslashes($this->toasterFormError);?>', true);
         <?php endif;?>
+
         $(document).on('submit', '#<?php echo $this->formId; ?>', function(e) {
+            var valid = validateRequired('<?php echo $this->formId; ?>');
             if($(form).find('input[type="file"]').length>0){
                 return true;
-            }else{
+            } else if( !valid ){
+                showMessage('Fill in the required fields', true);
+                return false;
+            }
+            else{
                 e.preventDefault();
                 $.ajax({
                     url      : form.attr('action'),
@@ -67,10 +73,11 @@
                     beforeSend: function() {
                         $(form).find(':submit').addClass('load').prop({
                             'disabled' : true
-                        })
+                        });
                     },
                     dataType :'json',
                     success  : function(response) {
+                        console.log('Form send');
                         $(form).find(':submit').removeClass('load').prop({
                             'disabled' : false
                         })
@@ -112,6 +119,79 @@
                 })
             }
         });
+
+        function validateRequired(forID){
+            var validation = false;
+            $.each($('#' + forID+ ' .required'), function(){
+                switch(this.type) {
+                    case 'password':
+                        if ($(this).val().length < 1) {
+                            $(this).addClass('notvalid');
+                        } else{
+                            $(this).removeClass('notvalid');
+                        }
+                        break;
+//                    case 'select-multiple':
+//                        break;
+                    case 'select-one':
+                        if ($(this).val().length < 1) {
+                            $(this).addClass('notvalid');
+                        } else{
+                            $(this).removeClass('notvalid');
+                        }
+                        break;
+                    case 'text':
+                        if ($(this).val().length < 1) {
+                            $(this).addClass('notvalid');
+                        } else{
+                            $(this).removeClass('notvalid');
+                        }
+                        break;
+                    case 'textarea':
+                        if ($(this).val().length < 1) {
+                            $(this).addClass('notvalid');
+                        } else{
+                            $(this).removeClass('notvalid');
+                        }
+                        break;
+                    case 'checkbox':
+                        if ($(this).is(':checked')) {
+                            $(this).removeClass('notvalid');
+                        } else{
+                            $(this).addClass('notvalid');
+                        }
+                        break;
+                    case 'radio':
+                        if ($(this).val().length < 1) {
+                            $(this).addClass('notvalid');
+                        } else{
+                            $(this).removeClass('notvalid');
+                        }
+                        break;
+                }
+
+//                if ($(this).is(":text, :password")  || $(this).is("textarea")){
+//                    if ($(this).val().length < 1) {
+//                        $(this).addClass('notvalid').css('border', '1px solid red');
+//                    } else{
+//                        $(this).removeClass('notvalid').css('border', '0px');
+//                    }
+//                } else if($(this).is(":checkbox")){
+//                    if ($(this).is(':checked')) {
+//                        $(this).removeClass('notvalid').css('border', '0px');
+//                    } else{
+//                        $(this).addClass('notvalid').css('border', '1px solid red');
+//                    }
+//                } else if($(this).is('select')){
+//
+//                }
+                //todo added validation to radio buttons
+            });
+
+            if($('#' + forID + ' .notvalid').length < 1) validation = true;
+
+            return validation;
+        }
 
     });
 </script>
