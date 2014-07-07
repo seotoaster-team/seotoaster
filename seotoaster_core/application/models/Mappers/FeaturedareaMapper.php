@@ -138,19 +138,22 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
         return $entries;
     }
 
-    private function _findFarowPages($faRow) {
-		$faPages = array();
-		$rowsPageFeaturedarea = $faRow->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
-		foreach ($rowsPageFeaturedarea as $key => $rowPageFa) {
-			$order           = array_key_exists($rowPageFa->order, $faPages) ? (array_search(end($faPages), $faPages)) + 1 : $rowPageFa->order;
-            $page            = Application_Model_Mappers_PageMapper::getInstance()->find($rowPageFa->page_id);
-            if($page->getSystem()) {
-                continue;
+    private function _findFarowPages($faRow)
+    {
+        $faPages              = array();
+        $rowsPageFeaturedarea = $faRow->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
+        $pageMapper           = Application_Model_Mappers_PageMapper::getInstance();
+        foreach ($rowsPageFeaturedarea as $rowPageFa) {
+            $page = $pageMapper->find($rowPageFa->page_id);
+            if (!(bool)$page->getSystem()) {
+                $order = array_key_exists($rowPageFa->order, $faPages) ? (array_search(end($faPages), $faPages)) + 1
+                    : $rowPageFa->order;
+                $faPages[$order] = $page;
             }
-			$faPages[$order] = Application_Model_Mappers_PageMapper::getInstance()->find($rowPageFa->page_id);
-		}
-		return $faPages;
-	}
+        }
+
+        return $faPages;
+    }
 
 	public function findAreasByPageId($pageId, $loadPages = false) {
 		$pageDbTable = new Application_Model_DbTable_Page();

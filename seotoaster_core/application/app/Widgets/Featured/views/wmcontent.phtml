@@ -19,12 +19,12 @@
             <span class="grid_10 alpha omega"><?php echo $this->translate('Use image'); ?></span>
 		    <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'use-image')); ?>
         </label>
-	    <label class="cropped-img hidden grid_6 omega pointer">
+	    <label class="cropped-img hide grid_6 omega pointer">
             <?php echo $this->translate('Cropped'); ?>
             <?php echo $this->formCheckbox('cropped', 'imgc', array('id' => 'use-image-cropped', 'class' => 'crop')); ?>
         </label>
 	</p>
-    <div class="mt5px crop-size hidden">
+    <div class="mt5px crop-size hide">
         <p class="clearfix">
             <label class="mt0-25em grid_5 alpha"><?php echo $this->translate('Size'); ?></label>
             <?php echo $this->formText('galWidth', null, array('class' => 'gal-width grid_3 alpha omega small', 'placeholder' => $this->translate('Width'))); ?>
