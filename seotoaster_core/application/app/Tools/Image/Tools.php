@@ -221,7 +221,7 @@ class Tools_Image_Tools {
             if (!is_dir($destination)) {
                 Tools_Filesystem_Tools::mkDir($destination);
             }
-            $pathFile = $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($pathFile);
+            $pathFile = $destination . Tools_Filesystem_Tools::basename($pathFile);
         }
 
         if (!isset($sessionHelper->imageQuality)) {
