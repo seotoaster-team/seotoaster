@@ -163,6 +163,11 @@
                     }
                 }
             });
+            $('.notvalid').on('blur', function(){
+                if ($(this).val().length < 1){
+                    $(this).removeClass('notvalid');
+                }
+            });
 
             if ($('#' + forID + ' .notvalid').length < 1) validation = true;
 
