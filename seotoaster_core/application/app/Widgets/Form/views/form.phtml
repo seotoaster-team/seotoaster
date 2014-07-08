@@ -135,52 +135,32 @@
         function validateRequired(forID) {
             var validation = false;
             $.each($('#' + forID + ' .required'), function () {
-                switch (this.type) {
-                    case 'password':
-                        if ($(this).val().length < 1) {
-                            $(this).addClass('notvalid');
-                        } else {
-                            $(this).removeClass('notvalid');
-                        }
-                        break;
-                    //todo added validation to radio buttons
-//                    case 'select-multiple':
-//                        break;
-                    case 'select-one':
-                        if ($(this).val().length < 1) {
-                            $(this).addClass('notvalid');
-                        } else {
-                            $(this).removeClass('notvalid');
-                        }
-                        break;
-                    case 'text':
-                        if ($(this).val().length < 1) {
-                            $(this).addClass('notvalid');
-                        } else {
-                            $(this).removeClass('notvalid');
-                        }
-                        break;
-                    case 'textarea':
-                        if ($(this).val().length < 1) {
-                            $(this).addClass('notvalid');
-                        } else {
-                            $(this).removeClass('notvalid');
-                        }
-                        break;
-                    case 'checkbox':
+                if ($(this).is('input') || $(this).is('textarea')) {
+                    if ($(this).not(':input[type=button], :input[type=submit], :input[type=reset], :input[type=checkbox]') && $(this).val().length < 1) {
+                        $(this).addClass('notvalid');
+                    } else if ($(this).is(':checkbox') || $(this).is(':radio')) {
                         if ($(this).is(':checked')) {
                             $(this).removeClass('notvalid');
                         } else {
                             $(this).addClass('notvalid');
                         }
-                        break;
-                    case 'radio':
+                    } else {
+                        $(this).removeClass('notvalid');
+                    }
+                } else if ($(this).is('select')) {
+                    if (this.type == 'select-one') {
                         if ($(this).val().length < 1) {
                             $(this).addClass('notvalid');
                         } else {
                             $(this).removeClass('notvalid');
                         }
-                        break;
+                    } else if (this.type == 'select-multiple') {
+                        if ($(this).val() == null) {
+                            $(this).addClass('notvalid');
+                        } else {
+                            $(this).removeClass('notvalid');
+                        }
+                    }
                 }
             });
 
