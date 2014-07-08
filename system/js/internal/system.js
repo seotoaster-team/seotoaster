@@ -190,7 +190,7 @@ $(function(){
     }
     //publishPages();
     checkboxRadioStyle();
-    $(document).on('click', '.closebutton .hide', function(){
+    $(document).on('click', '.closebutton .hide-block', function(){
         $('.show-left').hide("slide", { direction: "left"});
         $('.show-right').hide("slide", { direction: "right"});
         return false;
@@ -204,7 +204,7 @@ $(function(){
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
     var name = $(this).data('size');
-    $('.closebutton').toggleClass('hidden');
+    $('.closebutton').toggle();
     $(this).toggleClass('icon-expand icon-turn');
     $('body, #'+name+', .'+name).toggleClass('full-screen');
 });

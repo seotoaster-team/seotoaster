@@ -20,7 +20,7 @@
 		<div class="header">
 			<div class="closebutton">
 				<?php echo $this->toasterHelp('fa'); ?>
-				<a class="hide icon-chevron-right" href="javascript:;" title="Close"></a>
+				<a class="hide-block icon-chevron-right" href="javascript:;" title="Close"></a>
 			</div>
 			<?php echo $this->translate('Tag a page | Create a tag'); ?>
 		</div>
@@ -80,7 +80,7 @@
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
-				<span class="icon-folder-upload hidden"><?php echo $this->translate('Upload an image');?></span>
+				<span class="icon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
 				<?php
 					$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
 					echo $uploader;
