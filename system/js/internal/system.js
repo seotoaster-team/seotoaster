@@ -402,9 +402,7 @@ function showMailMessageEdit(trigger, callback){
         'trigger' : trigger
     }, function(response){
         $(msgEditScreen).remove();
-        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg"></textarea>').val(response.responseText).css({
-            width     : '555px',
-            height    : '155px',
+        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(response.responseText).css({
             resizable : "none"
         }));
         $('#trigger-msg').val(response.responseText);
@@ -412,7 +410,6 @@ function showMailMessageEdit(trigger, callback){
             modal     : true,
             title     : 'Edit mail message before sending',
             width     : 600,
-            height    : 300,
             resizable : false,
             show      : 'clip',
             hide      : 'clip',
@@ -426,8 +423,6 @@ function showMailMessageEdit(trigger, callback){
                     }
                 }
             ]
-        }).parent().css({
-                background : '#DAE8ED'
-            });
+        });
     }, 'json');
 }
