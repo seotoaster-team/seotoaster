@@ -19,7 +19,9 @@
 }
 
 .btn-toaster, .ui-button{
+    text-decoration : none;
     .button();
+    .box-sizing();
     .box-shadow(none, @input-shadow-focus);
 
     &:not(.icon){
@@ -28,7 +30,7 @@
 
     &.disabled, &[disabled]{
         background-color : @gray-light !important;
-        cursor     : not-allowed, default !important;
+        cursor           : not-allowed, default !important;
         .box-shadow(~'none !important', @button-box-shadow);
     }
 
