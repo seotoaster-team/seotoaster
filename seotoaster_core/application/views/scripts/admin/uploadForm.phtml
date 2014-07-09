@@ -15,6 +15,7 @@ switch ($this->caller){
 	case 'pagePreview':
 		$maxWidth  = ($this->teaserSize) ? $this->teaserSize : $this->config['pageTeaserSize'];
 //		$maxHeight = ($this->teaserSize) ? $this->teaserSize : $this->config['pageTeaserSize'];
+        $maxHeight = 'none';
 		break;
 	default:
 		$maxWidth = $this->config['imgMaxWidth'];
