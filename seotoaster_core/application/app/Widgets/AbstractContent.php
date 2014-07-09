@@ -13,8 +13,6 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
 
     protected $_container   = null;
 
-	protected $_cachePrefix = 'content_';
-
     protected function _generateAdminControl($width = 0, $height = 0, $hint = '') {
         if (end($this->_options) == self::OPTION_READONLY) {
             return false;
@@ -51,7 +49,8 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract {
         }
 
 		array_push($this->_cacheTags, preg_replace('/[^\w\d_]/', '', $contentId));
-		$this->_cacheId = $contentId .$separator. Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
+        $this->_cacheId = 'page-'.$this->_pageId.'-'.$roleId.'-lifeTime-'.$this->_cacheLifeTime;
 	}
 
     protected function _find() {

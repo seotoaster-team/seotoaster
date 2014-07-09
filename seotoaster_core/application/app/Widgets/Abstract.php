@@ -36,7 +36,7 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
      *
      * @var mixed|Zend_Translate
      */
-    protected $_translator = null;
+    protected $_translator     = null;
 
     public function __construct($options = null, $toasterOptions = array())
     {
@@ -76,23 +76,34 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
     {
         if ($this->_cacheable) {
             $data = $this->_loadFromCache();
-            if (isset($data[$this->_widgetId])) {
-                $content = $data[$this->_widgetId];
+            if (isset($data['widgets'][$this->_widgetId])) {
+                $content = $data['widgets'][$this->_widgetId];
             }
             else {
-                if ($data === null) {
-                    $data = array();
-                }
                 try {
-                    $data[$this->_widgetId] = $this->_load();
+                    if ($data === null) {
+                        $data = array(
+                            'tags'    => array(),
+                            'widgets' => array()
+                        );
+                    }
+
+                    if (is_array($this->_cacheTags) && !empty($this->_cacheTags)) {
+                        $data['tags'] = array_merge(
+                            $data['tags'],
+                            (!empty($data['tags'])) ? array_diff($this->_cacheTags, $data['tags']) : $this->_cacheTags
+                        );
+                    }
+
+                    $data['widgets'][$this->_widgetId] = $this->_load();
                     $this->_cache->save(
                         $this->_cacheId,
                         $data,
                         $this->_cachePrefix,
-                        is_array($this->_cacheTags) ? $this->_cacheTags : array(),
+                        $data['tags'],
                         $this->_cacheLifeTime
                     );
-                    $content = $data[$this->_widgetId];
+                    $content = $data['widgets'][$this->_widgetId];
                 }
                 catch (Exceptions_SeotoasterException $ste) {
                     $content = $ste->getMessage();
