@@ -8,12 +8,35 @@
 .activate-modules();
 
 // -- Buttons
-[type="submit"]{
-    &.load{
+[type="submit"], [type="button"], button, .btn-toaster, .ui-button{
+    &.btn-load{
         .transition(none) !important;
         background-image    : url('../images/ajax-loader-small.gif') !important;
         background-position : 50% 50% !important;
         background-repeat   : no-repeat !important;
         color               : transparent !important;
+    }
+}
+
+.btn-toaster, .ui-button{
+    .button();
+    .box-shadow(none, @input-shadow-focus);
+
+    &:not(.icon){
+        .text-overflow;
+    }
+
+    &.disabled, &[disabled]{
+        background-color : @gray-light !important;
+        cursor     : not-allowed, default !important;
+        .box-shadow(~'none !important', @button-box-shadow);
+    }
+
+    &:before{
+        margin-right : 5px;
+    }
+
+    &:active{
+        .box-shadow(0.2em 0.2em 0.3em rgba(0, 0, 0, .3) inset, @button-box-shadow);
     }
 }
