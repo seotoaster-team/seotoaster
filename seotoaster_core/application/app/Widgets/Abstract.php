@@ -40,19 +40,20 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     public function __construct($options = null, $toasterOptions = array())
     {
-        $this->_options = $options;
+        $this->_options        = $options;
         $this->_toasterOptions = $toasterOptions;
 
         if ($this->_cacheable === true) {
             $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
             $this->_cache     = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
             $this->_widgetId  = strtolower(get_called_class());
-            $this->_widgetId .= (!empty($this->_options) ? '-' . implode('-', $this->_options) : '');
+            $this->_widgetId .= (!empty($this->_options) ? '-'.implode('-', $this->_options) : '');
 
             if (isset($toasterOptions['id'])) {
                 $this->_cacheId = 'page-'.$toasterOptions['id'].'-'.$roleId;
-            } else {
-                $this->_cacheId = 'widget-' . $this->_widgetId.'-'.$roleId;
+            }
+            else {
+                $this->_cacheId = 'widget-'.$this->_widgetId.'-'.$roleId;
             }
             $this->_cacheId .= '-lifeTime-'.$this->_cacheLifeTime;
         }
