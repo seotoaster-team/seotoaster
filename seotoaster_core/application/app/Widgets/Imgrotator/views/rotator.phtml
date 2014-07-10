@@ -1,45 +1,41 @@
 <?php if ($this->slideShow): ?>
-    <div id="widget-<?php echo $this->uniq; ?>" class="rotator slider">
-        <div id="<?php echo $this->uniq; ?>"
-             data-cycle-slides="> div.slide"
-             <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
-             <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+    <div id="<?php echo $this->uniq; ?>" class="rotator slider"
+        data-cycle-slides="> div.slide"
+        <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+        <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
         >
-            <?php if($this->prevnext): ?>
-                <div class="action-button cycle-prev"></div>
-                <div class="action-button cycle-next"></div>
-            <?php endif;?>
-            <?php if (!empty($this->files)): ?>
-                <?php foreach ($this->files as $key => $image): ?>
-                    <div class="slide">
-                        <?php $size = getimagesize('media/' . $this->folder . $image); ?>
-                        <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
-                        <?php if ($this->content): ?>
-                            <div class="slide-description"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).':static}'; ?></div>
-                        <?php endif ?>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+        <?php if($this->prevnext): ?>
+            <div class="action-button cycle-prev"></div>
+            <div class="action-button cycle-next"></div>
+        <?php endif;?>
+        <?php if (!empty($this->files)): ?>
+            <?php foreach ($this->files as $key => $image): ?>
+                <div class="slide">
+                    <?php $size = getimagesize('media/' . $this->folder . $image); ?>
+                    <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
+                    <?php if ($this->content): ?>
+                        <div class="slide-description"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).'}'; ?></div>
+                    <?php endif ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
         <?php if ($this->pager): ?>
             <div id="pager-<?php echo $this->uniq; ?>" class="cycle-pager"></div>
         <?php endif; ?>
     </div>
 <?php else : ?>
-    <div id="widget-<?php echo $this->uniq; ?>" class="rotator">
-        <div id="<?php echo $this->uniq; ?>">
-            <?php if (!empty($this->files)): ?>
-                <?php foreach ($this->files as $key => $image): ?>
-                    <div class="slide">
-                        <?php $size = getimagesize('media/' . $this->folder . $image); ?>
-                        <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
-                        <?php if ($this->content): ?>
-                            <div class="slide-description"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).':static}'; ?></div>
-                        <?php endif ?>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+    <div id="<?php echo $this->uniq; ?>" class="rotator">
+        <?php if (!empty($this->files)): ?>
+            <?php foreach ($this->files as $key => $image): ?>
+                <div class="slide">
+                    <?php $size = getimagesize('media/' . $this->folder . $image); ?>
+                    <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
+                    <?php if ($this->content): ?>
+                        <div class="slide-description"><?php echo '{$header:'.$this->rotatorId.'_content_'.substr(md5($image), 0, 10).'}'; ?></div>
+                    <?php endif ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 <?php endif; ?>
 <?php if ($this->slideShow): ?>
@@ -76,12 +72,27 @@
 <?php endif; ?>
 
 <style type="text/css">
-	div#widget-<?php echo $this->uniq; ?>.rotator{
+	#<?php echo $this->uniq; ?>.rotator{
         max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
         max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
         overflow   : hidden;
+        position   : relative;
     }
-<?php if ($this->slideShow): ?>
+    .slide-description{
+        padding    : 10px 16px;
+        color      : #fff;
+        background : rgba(0, 0, 0, 0.5);
+        -ms-filter : "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#80000000', EndColorStr='#80000000')";
+        filter     : progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#80000000', EndColorStr='#80000000');
+        zoom       : 1 !important
+    }
+    .rotator img ~ .slide-description{
+        position : absolute;
+        right    : 0;
+        bottom   : 0;
+        left     : 0;
+    }
+    <?php if ($this->slideShow): ?>
     .action-button {
         cursor: pointer;
         height: 50px;
@@ -99,5 +110,5 @@
         right: 0;
         background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
     }
-<?php endif; ?>
+    <?php endif; ?>
 </style>
