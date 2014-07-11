@@ -3,40 +3,40 @@
         <?php echo $this->formLabel('rotator-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt0-25em')); ?>
         <?php echo $this->formSelect('rotatorFolders', null, array('id' => 'rotator-folders', 'class' => 'grid_7 alpha omega small folders')); ?>
     </p>
-    <p class="mt5px">
+    <p class="mt5px grid_6 alpha omega">
         <label class="pointer">
-            <span class="grid_5 alpha"><?php echo $this->translate('Slide show'); ?></span>
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Slide show'); ?></span>
             <?php echo $this->formCheckbox('rotatorSlideshow', null, array('id' => 'rotator-slideshow', 'class' => 'wmc-input allowzero')); ?>
         </label>
     </p>
-    <p class="mt5px">
-        <?php echo $this->formLabel('rotator-interval', $this->translate('Rotate time'), array('class' => 'grid_5 alpha mt0-25em')); ?>
-        <?php echo $this->formText('rotatorInterval', Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME, array('id' => 'rotator-interval', 'class' => 'grid_7 alpha omega small')); ?>
+    <p class="mt5px slider-field grid_6 alpha omega text-right">
+        <?php echo $this->formLabel('rotator-interval', $this->translate('Rotate time'), array('class' => 'grid_9 alpha')); ?>
+        <?php echo $this->formText('rotatorInterval', Widgets_Imgrotator_Imgrotator::DEFAULT_SWAP_TIME, array('id' => 'rotator-interval', 'class' => 'grid_3 alpha omega small text-center', 'disabled' => 'true')); ?>
     </p>
-    <p class="mt5px">
-        <?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. width'), array('class' => 'grid_5 alpha mt0-25em')); ?>
-        <?php echo $this->formText('rotatorThumbWidth', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH, array('id' => 'rotator-thumb-width', 'class' => 'grid_7 alpha omega small')); ?>
+    <span class="clearfix"></span>
+    <p class="mt0-5em">
+        <?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. size'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formText('rotatorThumbWidth', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH, array('id' => 'rotator-thumb-width', 'class' => 'grid_3 alpha omega small')); ?>
+        <span class="grid_1 alpha omega text-center">X</span>
+        <?php echo $this->formText('rotatorThumbHeight', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT, array('id' => 'rotator-thumb-height', 'class' => 'grid_3 alpha omega small')); ?>
     </p>
-    <p class="mt5px">
-        <?php echo $this->formLabel('rotator-thumb-height', $this->translate('Max. height'), array('class' => 'grid_5 alpha mt0-25em')); ?>
-        <?php echo $this->formText('rotatorThumbHeight', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT, array('id' => 'rotator-thumb-height', 'class' => 'grid_7 alpha omega small')); ?>
-    </p>
-    <p class="mt5px">
+    <p class="mt5px slider-field">
         <?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'grid_5 alpha mt0-25em')); ?>
-        <?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'grid_7 alpha omega small'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
+        <?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'grid_7 alpha omega small', 'disabled' => 'true'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
     </p>
-    <p class="mt5px">
+    <p class="mt5px slider-field grid_6 alpha omega">
         <label class="pointer">
-            <span class="grid_5 alpha"><?php echo $this->translate('Pager'); ?></span>
-            <?php echo $this->formCheckbox('rotatorPager', null, array('id' => 'rotator-pager', 'class' => 'wmc-input allowzero')); ?>
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Pager'); ?></span>
+            <?php echo $this->formCheckbox('rotatorPager', null, array('id' => 'rotator-pager', 'class' => 'wmc-input allowzero', 'disabled' => 'true')); ?>
         </label>
     </p>
-    <p class="mt5px">
+    <p class="mt5px slider-field grid_6 alpha omega text-right wrap">
         <label class="pointer">
-            <span class="grid_5 alpha"><?php echo $this->translate('Prev/Next'); ?></span>
-            <?php echo $this->formCheckbox('rotatorPrevnext', null, array('id' => 'rotator-prevnext', 'class' => 'wmc-input allowzero')); ?>
+            <span class="grid_10 alpha"><?php echo $this->translate('Prev/Next'); ?></span>
+            <?php echo $this->formCheckbox('rotatorPrevnext', null, array('id' => 'rotator-prevnext', 'class' => 'wmc-input allowzero', 'disabled' => 'true')); ?>
         </label>
     </p>
+    <span class="clearfix"></span>
     <p class="mt5px">
         <label class="pointer">
             <span class="grid_5 alpha"><?php echo $this->translate('Content'); ?></span>
@@ -47,8 +47,18 @@
 </form>
 <script type="text/javascript">
 	$(function() {
-		$(document).on('blur', '#rotator-thumb-width', function() {
-			$('#rotator-thumb-height').val($(this).val());
-		});
-	});
+        $(document).on('blur', '#rotator-thumb-width', function() {
+            $('#rotator-thumb-height').val($(this).val());
+        }).on('change', '#rotator-slideshow', function(){
+                var filedSlider = $('#imgrotator-widget-form').find('.slider-field input, .slider-field select');
+                if(filedSlider.is(':disabled')){
+                    filedSlider.prop('disabled', false);
+                }else{
+                    filedSlider.prop({
+                        'disabled': true,
+                        'checked': false
+                    }).not('input').val('none');
+                }
+            });
+    });
 </script>

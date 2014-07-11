@@ -21,6 +21,8 @@ $(document).ready(function(){
             {title : 'Image styles', filter : /^(.image*|img\.)/},
             {title : 'Block quote styles', filter : /^(blockquote\.)/},
             {title : 'Separator styles', filter : /^(hr\.)/},
+            {title : 'Message styles', filter : /^(\.message*)/},
+            {title : 'Badge styles', filter : /^(\.badge*)/},
             {title : 'Primary colors', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
             {title : 'Size classes', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
             {title : 'Other styles'}
