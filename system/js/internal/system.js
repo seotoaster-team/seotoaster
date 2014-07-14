@@ -426,3 +426,24 @@ function showMailMessageEdit(trigger, callback){
         });
     }, 'json');
 }
+
+// Show or hide CPanel and systems buttons when pressing hot keys
+
+document.onkeydown = khandle;
+
+// http://learn.javascript.ru/keyboard-events
+/*
+* ctrl+alt+K => hide CPanel
+* shift+ctrl+alt+K => hide systems buttons(.generator-links, .tpopup, .form-controls)
+ */
+function khandle(e) {
+    e = e || event;
+
+    if(e.keyCode == 75 && e.ctrlKey && e.altKey && !e.shiftKey){
+        $('#seotoaster-cpanel').toggle();
+    }
+
+    if(e.keyCode == 75 && e.ctrlKey && e.altKey && e.shiftKey){
+        $('.generator-links, .tpopup, .form-controls').toggle();
+    }
+}
