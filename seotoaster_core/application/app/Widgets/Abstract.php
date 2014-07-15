@@ -53,7 +53,7 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
                 $this->_cacheId = 'page-'.$toasterOptions['id'].'-'.$roleId;
             }
             else {
-                $this->_cacheId = 'widget-'.$this->_widgetId.'-'.$roleId;
+                $this->_cacheId = strtolower(get_called_class()).'-'.$roleId;
             }
             $this->_cacheId .= '-lifeTime-'.$this->_cacheLifeTime;
         }
