@@ -87,6 +87,47 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract {
 	}
 
     /**
+     * Update data to cache
+     * @param        $cacheId       Unique cache identifier
+     * @param        $key           Unique key
+     * @param        $data          Content to be cached
+     * @param string $cachePrefix   Prefix for cache id
+     * @param array  $tags          Cache tags
+     * @param string $lifeTime      Lifetime for cache record
+     * @return array/boolean        Array if no problem
+     */
+    public function update(
+        $cacheId,
+        $key,
+        $data,
+        $cachePrefix = '',
+        $tags = array(),
+        $lifeTime = self::CACHE_FLASH
+    ) {
+        if (($cacheData = $this->load($cacheId, $cachePrefix)) === null) {
+            $cacheData = array(
+                'tags' => array(),
+                'data' => array()
+            );
+        }
+        if (is_array($tags) && !empty($tags)) {
+            $cacheData['tags'] = array_merge(
+                $cacheData['tags'],
+                (!empty($cacheData['tags'])) ? array_diff($tags, $cacheData['tags']) : $tags
+            );
+        }
+        $cacheData['data'][$key] = $data;
+        $statys = $this->_cache->save(
+            $cacheData,
+            $this->_makeCacheId($cacheId, $cachePrefix),
+            $this->_sanitizeTags($cacheData['tags']),
+            $lifeTime
+        );
+
+        return ($statys) ? $cacheData : $statys;
+    }
+
+    /**
      * Remove cache matching id, prefix or tags
      * @param string $cacheId cache id to remove
      * @param string $cachePrefix cache prefix to remove

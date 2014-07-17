@@ -29,6 +29,8 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     protected $_cacheLifeTime  = Helpers_Action_Cache::CACHE_WEEK;
 
+    protected $_cacheData      = array();
+
     protected $_widgetId       = null;
 
     /**
@@ -75,35 +77,38 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
     public function render()
     {
         if ($this->_cacheable) {
-            $data = $this->_loadFromCache();
-            if (isset($data['widgets'][$this->_widgetId])) {
-                $content = $data['widgets'][$this->_widgetId];
+            $this->_cacheData = $this->_loadFromCache();
+            if (isset($this->_cacheData['data'][$this->_widgetId])) {
+                $content = $this->_cacheData['data'][$this->_widgetId];
             }
             else {
                 try {
-                    if ($data === null) {
-                        $data = array(
-                            'tags'    => array(),
-                            'widgets' => array()
+                    $content = $this->_load();
+
+                    if ($this->_cacheData === null) {
+                        $this->_cacheData = array(
+                            'tags' => array(),
+                            'data' => array()
                         );
                     }
 
                     if (is_array($this->_cacheTags) && !empty($this->_cacheTags)) {
-                        $data['tags'] = array_merge(
-                            $data['tags'],
-                            (!empty($data['tags'])) ? array_diff($this->_cacheTags, $data['tags']) : $this->_cacheTags
+                        $this->_cacheData['tags'] = array_merge(
+                            $this->_cacheData['tags'],
+                            (!empty($this->_cacheData['tags']))
+                                ? array_diff($this->_cacheTags,  $this->_cacheData['tags'])
+                                : $this->_cacheTags
                         );
                     }
 
-                    $data['widgets'][$this->_widgetId] = $this->_load();
+                    $this->_cacheData['data'][$this->_widgetId] = $content;
                     $this->_cache->save(
                         $this->_cacheId,
-                        $data,
+                        $this->_cacheData,
                         $this->_cachePrefix,
-                        $data['tags'],
+                        $this->_cacheData['tags'],
                         $this->_cacheLifeTime
                     );
-                    $content = $data['widgets'][$this->_widgetId];
                 }
                 catch (Exceptions_SeotoasterException $ste) {
                     $content = $ste->getMessage();
