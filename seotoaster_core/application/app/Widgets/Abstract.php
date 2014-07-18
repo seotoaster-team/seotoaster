@@ -49,15 +49,15 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
             $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
             $this->_cache     = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
             $this->_widgetId  = strtolower(get_called_class());
-            $this->_widgetId .= (!empty($this->_options) ? '-'.implode('-', $this->_options) : '');
+            $this->_widgetId .= (!empty($this->_options) ? '_'.implode('_', $this->_options) : '');
 
             if (isset($toasterOptions['id'])) {
-                $this->_cacheId = 'page-'.$toasterOptions['id'].'-'.$roleId;
+                $this->_cacheId = 'page_'.$toasterOptions['id'].'_'.$roleId;
             }
             else {
-                $this->_cacheId = strtolower(get_called_class()).'-'.$roleId;
+                $this->_cacheId = strtolower(get_called_class()).'_'.$roleId;
             }
-            $this->_cacheId .= '-lifeTime-'.$this->_cacheLifeTime;
+            $this->_cacheId .= '_lifeTime_'.$this->_cacheLifeTime;
         }
 
         $this->_translator = Zend_Registry::get('Zend_Translate');

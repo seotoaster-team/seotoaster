@@ -26,7 +26,7 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract
         }
 
         $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
-        $this->_cacheId = 'page-'.$this->_pageId.'-'.$roleId.'-lifeTime-'.$this->_cacheLifeTime;
+        $this->_cacheId = 'page_'.$this->_pageId.'_'.$roleId.'_lifeTime_'.$this->_cacheLifeTime;
         $contentId      = $this->_name.'_'.$this->_type.'_pid_'.$this->_pageId;
         array_push($this->_cacheTags, preg_replace('/[^\w\d_]/', '', $contentId));
     }
