@@ -447,3 +447,57 @@ function khandle(e) {
         $('.generator-links, .tpopup, .form-controls').toggle();
     }
 }
+
+// Dynamical systems generator-links (add/edit content and add/edit header)
+function addGeneralLinks(name, type){
+    var websiteUrl = $('#website_url').val(),
+        pageId = $('#page_id').val(),
+        pageUrl = window.location.href.replace(websiteUrl, ''),
+        $contentLinks = $('<a class="tpopup generator-links" data-pwidth="960" href="javascript:;"></a>'),
+        data = {
+            page       : pageUrl,
+            pid        : pageId,
+            type       : type,
+            name       : name,
+            action     : 'index',
+            controller : 'index',
+            co         : 'index'
+        };
+
+    switch(type){
+        case 1: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-content.png" alt="edit content"/>')
+            .data({pheight: 560, pwidth: 960})
+            .attr('title', 'Click to edit content');
+            break;
+        case 2: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-static-content.png" alt="edit static content"/>')
+            .data({pheight: 560, pwidth: 960})
+            .attr('title', 'Click to edit static content');
+            break;
+        case 3: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-header.png" alt="edit header"/>')
+            .data({pheight: 140, pwidth: 600})
+            .attr('title', 'Click to edit header');
+            break;
+        case 4: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-static-header.png" alt="edit static header"/>')
+            .data({pheight: 140, pwidth: 600})
+            .attr('title', 'Click to edit static header');
+            break;
+        default : return false;
+    }
+
+    $.get(websiteUrl + 'api/toaster/containers/', data, function(resp){
+        var content = $('.ajax-test');
+        content.empty();
+        if(typeof resp!=='undefined'){
+            if(resp[name].length > 0){
+                $contentLinks.data({
+                    url : websiteUrl+ 'backend/backend_content/edit/name/' + name + '/containerType/' + type + '/pageId/' + pageId
+                });
+            }else{
+                $contentLinks.data({
+                    url : websiteUrl+ 'backend/backend_content/add/containerType/' + type + '/containerName/' + name + '/pageId/' + pageId
+                });
+            }
+            content.html(resp[name]).append($contentLinks);
+        }
+    }, 'json');
+}
