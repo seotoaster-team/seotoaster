@@ -7,17 +7,19 @@
  */
 class Widgets_Search_Search extends Widgets_Abstract
 {
+    const INDEX_FOLDER        = 'search';
 
-    const INDEX_FOLDER = 'search';
-    const PAGE_OPTION_SEARCH = 'option_search';
+    const PAGE_OPTION_SEARCH  = 'option_search';
+
     const SEARCH_LIMIT_RESULT = 20;
 
-    const OPTION_SORT_RECENT = 'sort-recent';
+    const OPTION_SORT_RECENT  = 'sort-recent';
 
     const INDEX_LOCK_CACHE_ID = 'buildingindex';
-    const INDEX_CACHE_PREFIX = 'search_index';
 
-    private $_websiteHelper = null;
+    const INDEX_CACHE_PREFIX  = 'search_index';
+
+    private $_websiteHelper   = null;
 
     protected function _init()
     {
@@ -158,14 +160,16 @@ class Widgets_Search_Search extends Widgets_Abstract
 
     private function _searchResultsByTerm($searchTerm)
     {
-
         $searchForm = new Application_Form_Search();
-
         if ($searchForm->getElement('search')->isValid($searchTerm)) {
-            $searchTerm = $searchForm->getElement('search')->getValue();
+            $searchTerm             = $searchForm->getElement('search')->getValue();
             $this->_view->pagerData = array('search' => $searchTerm);
-            $cacheId = md5($searchTerm . implode(',', $this->_options));
-            if (null === ($searchResults = $this->_cache->load($cacheId, strtolower(__CLASS__)))) {
+            $cacheId                = strtolower(__FUNCTION__);
+            $key                    = md5($searchTerm.implode(',', $this->_options));
+            $cachePrefix            = strtolower(__CLASS__);
+            if (null === ($searchResults = $this->_cache->load($cacheId, $cachePrefix))
+                || !isset($searchResults['data'][$key])
+            ) {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
                 try {
@@ -178,7 +182,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                 } catch (Exception $e) {
                     throw new Exceptions_SeotoasterWidgetException($e->getMessage());
                 }
-                $cacheTags = array('search_' . $searchTerm);
+                $cacheTags     = array('search_' . $searchTerm);
                 $searchResults = array_map(
                     function ($hit) use (&$cacheTags) {
                         array_push($cacheTags, 'pageid_' . $hit->pageId);
@@ -201,18 +205,24 @@ class Widgets_Search_Search extends Widgets_Abstract
                     },
                     $hits
                 );
+
                 $searchResults = array_filter($searchResults);
                 array_merge($this->_cacheTags, $cacheTags);
-                $this->_cache->save(
+                $this->_cache->update(
                     $cacheId,
+                    $key,
                     $searchResults,
-                    strtolower(__CLASS__),
+                    $cachePrefix,
                     $this->_cacheTags,
-                    Helpers_Action_Cache::CACHE_LONG
+                    Helpers_Action_Cache::CACHE_SHORT
                 );
+
+                return $searchResults;
             }
-            return $searchResults;
-        } else {
+
+            return $searchResults['data'][$key];
+        }
+        else {
             $msg = $searchForm->getElement('search')->getMessages();
             $error = $this->_translator->translate('Search error. ' . implode(PHP_EOL, $msg));
             throw new Exceptions_SeotoasterWidgetException($error);
