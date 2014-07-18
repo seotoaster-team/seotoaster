@@ -449,7 +449,7 @@ function khandle(e) {
 }
 
 // Dynamical systems generator-links (add/edit content and add/edit header)
-function addGeneralLinks(name, type){
+function addGeneralLinks(name, type, element, empty){
     var websiteUrl = $('#website_url').val(),
         pageId = $('#page_id').val(),
         pageUrl = window.location.href.replace(websiteUrl, ''),
@@ -485,8 +485,7 @@ function addGeneralLinks(name, type){
     }
 
     $.get(websiteUrl + 'api/toaster/containers/', data, function(resp){
-        var content = $('.ajax-test');
-        content.empty();
+        empty ? $(element).empty() : '';
         if(typeof resp!=='undefined'){
             if(resp[name].length > 0){
                 $contentLinks.data({
@@ -497,7 +496,7 @@ function addGeneralLinks(name, type){
                     url : websiteUrl+ 'backend/backend_content/add/containerType/' + type + '/containerName/' + name + '/pageId/' + pageId
                 });
             }
-            content.html(resp[name]).append($contentLinks);
+            $(element).append(resp[name]).append($contentLinks);
         }
     }, 'json');
 }
