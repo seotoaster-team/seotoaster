@@ -449,11 +449,21 @@ function khandle(e) {
 }
 
 // Dynamical systems generator-links (add/edit content and add/edit header)
-function addGeneralLinks(name, type, element, empty){
+/*
+* name = Container name
+* type :
+*   TYPE_REGULARCONTENT = 1
+*   TYPE_STATICCONTENT  = 2
+*   TYPE_REGULARHEADER  = 3
+*   TYPE_STATICHEADER   = 4
+*   TYPE_CODE           = 5
+ */
+function addGeneralLinks(name, type, readonly, callback){
     var websiteUrl = $('#website_url').val(),
         pageId = $('#page_id').val(),
         pageUrl = window.location.href.replace(websiteUrl, ''),
-        $contentLinks = $('<a class="tpopup generator-links" data-pwidth="960" href="javascript:;"></a>'),
+        loginCheck = $('.generator-links').length,
+        $contentLinks = $('<a class="tpopup generator-links" href="javascript:;"></a>'),
         data = {
             page       : pageUrl,
             pid        : pageId,
@@ -465,38 +475,80 @@ function addGeneralLinks(name, type, element, empty){
         };
 
     switch(type){
-        case 1: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-content.png" alt="edit content"/>')
-            .data({pheight: 560, pwidth: 960})
-            .attr('title', 'Click to edit content');
+        case 1:
+            $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-content.png" alt="edit content"/>')
+                .attr({
+                    'data-pheight' : 560,
+                    'data-pwidth'  : 960,
+                    'title'        : 'Click to edit content'
+                });
             break;
-        case 2: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-static-content.png" alt="edit static content"/>')
-            .data({pheight: 560, pwidth: 960})
-            .attr('title', 'Click to edit static content');
+        case 2:
+            $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-static-content.png" alt="edit static content"/>')
+                .attr({
+                    'data-pheight' : 560,
+                    'data-pwidth'  : 960,
+                    'title'        : 'Click to edit static content'
+                });
             break;
-        case 3: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-header.png" alt="edit header"/>')
-            .data({pheight: 140, pwidth: 600})
-            .attr('title', 'Click to edit header');
+        case 3:
+            $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-header.png" alt="edit header"/>')
+                .attr({
+                    'data-pheight' : 140,
+                    'data-pwidth'  : 600,
+                    'title'        : 'Click to edit header'
+                });
             break;
-        case 4: $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-static-header.png" alt="edit static header"/>')
-            .data({pheight: 140, pwidth: 600})
-            .attr('title', 'Click to edit static header');
+        case 4:
+            $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-static-header.png" alt="edit static header"/>')
+                .attr({
+                    'data-pheight' : 140,
+                    'data-pwidth'  : 600,
+                    'title'        : 'Click to edit static header'
+                });
+            break;
+        case 5:
+            $contentLinks.append('<img width="26" height="26" src="' + websiteUrl + 'system/images/editadd-code.png" alt="edit static header"/>')
+                .attr({
+                    'data-pheight' : 560,
+                    'data-pwidth'  : 960,
+                    'title'        : 'Click to edit code'
+                });
             break;
         default : return false;
     }
 
-    $.get(websiteUrl + 'api/toaster/containers/', data, function(resp){
-        empty ? $(element).empty() : '';
-        if(typeof resp!=='undefined'){
-            if(resp[name].length > 0){
-                $contentLinks.data({
-                    url : websiteUrl+ 'backend/backend_content/edit/name/' + name + '/containerType/' + type + '/pageId/' + pageId
-                });
-            }else{
-                $contentLinks.data({
-                    url : websiteUrl+ 'backend/backend_content/add/containerType/' + type + '/containerName/' + name + '/pageId/' + pageId
-                });
+    $.ajax({
+        url     : websiteUrl+'api/toaster/containers/',
+        type    : 'get',
+        data    : data,
+        async   : false,
+        success : function(resp){
+            if(typeof resp!=='undefined'){
+                if(loginCheck != 0 && !readonly){
+                    if(resp[name].length > 0){
+                        $contentLinks.attr({
+                            'data-url' : websiteUrl+ 'backend/backend_content/edit/name/' + name + '/containerType/' + type + '/pageId/' + pageId
+                        });
+                    }else{
+                        $contentLinks.attr({
+                            'data-url' : websiteUrl+ 'backend/backend_content/add/containerType/' + type + '/containerName/' + name + '/pageId/' + pageId
+                        });
+                    }
+                    $content = resp[name] + $contentLinks[0].outerHTML; // return string
+    //                $content = $.parseHTML(resp[name] + $contentLinks[0].outerHTML); // return html
+                }else if(loginCheck == 0 || readonly){
+                    $content = resp[name]; // return string
+                }
             }
-            $(element).append(resp[name]).append($contentLinks);
         }
-    }, 'json');
+    });
+
+
+    if (callback && typeof(callback) === "function") {
+        callback($contentLinks, websiteUrl, data);
+    }
+
+    return $content;
+
 }
