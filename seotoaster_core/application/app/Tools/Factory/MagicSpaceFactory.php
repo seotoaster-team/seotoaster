@@ -24,8 +24,8 @@ class Tools_Factory_MagicSpaceFactory {
 		$incPath = explode(PATH_SEPARATOR, get_include_path());
 		if(is_array($incPath) && !empty($incPath)) {
 			foreach($incPath as $path) {
-				$magicSpacesDir = $path . '/MagicSpaces/' . $name;
-				if(is_dir($magicSpacesDir) && file_exists($magicSpacesDir . '/' . $name . '.php')) {
+				$magicSpacesDir = $path.DIRECTORY_SEPARATOR.'MagicSpaces'.DIRECTORY_SEPARATOR.$name;
+				if (is_dir($magicSpacesDir) && file_exists($magicSpacesDir.DIRECTORY_SEPARATOR.$name.'.php')) {
 					return true;
 				}
 			}
