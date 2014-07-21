@@ -11,6 +11,7 @@ $(document).ready(function(){
         convert_urls            : false,
         relative_urls           : false,
         statusbar               : false,
+        allow_script_urls       : true,
         content_css             : $('#reset_css').val()+','+$('#content_css').val(),
         importcss_file_filter   : "content.css",
         importcss_groups : [
@@ -20,6 +21,8 @@ $(document).ready(function(){
             {title : 'Image styles', filter : /^(.image*|img\.)/},
             {title : 'Block quote styles', filter : /^(blockquote\.)/},
             {title : 'Separator styles', filter : /^(hr\.)/},
+            {title : 'Message styles', filter : /^(\.message*)/},
+            {title : 'Badge styles', filter : /^(\.badge*)/},
             {title : 'Primary colors', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
             {title : 'Size classes', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
             {title : 'Other styles'}
@@ -34,6 +37,10 @@ $(document).ready(function(){
         block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Cite=cite;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
         link_list               : websiteUrl+'backend/backend_page/linkslist/',
         image_advtab            : true,
+        extended_valid_elements : "a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
+                                +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
+                                +"|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev|"
+                                +"style|tabindex|title|target|type]",
         setup                   : function(ed){
             var keyTime = null;
             ed.on('change blur keyup', function(ed, e){

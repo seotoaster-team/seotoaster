@@ -2,7 +2,7 @@
 	<input type="checkbox" id="published" <?php echo ($this->published) ? 'checked="checked"' : ''; ?> name="published" value="<?php echo ($this->published) ? '1' : '0'; ?>" />
 	<?php echo $this->translate($this->publishedLabel);?>
 </label>
-<span id="publish-later" class="fl-left hidden ml3">&nbsp;&nbsp;<?php echo $this->translate($this->publishAtLabel);?>:&nbsp;&nbsp;
+<span id="publish-later" class="fl-left hide ml3">&nbsp;&nbsp;<?php echo $this->translate($this->publishAtLabel);?>:&nbsp;&nbsp;
 	<?php echo $this->datePicker(
 		'datepicker',
 		((intval($this->publishAt)) ? date('M j, Y', strtotime($this->publishAt)) : ''),
