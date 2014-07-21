@@ -34,7 +34,8 @@ class Widgets_Search_Search extends Widgets_Abstract
         if (in_array('results', $this->_options)) {
             $this->_cacheable = false;
         }
-        $this->_cachePrefix = strtolower(__CLASS__) . '_';
+
+        $this->_cacheId = strtolower(__CLASS__).'_lifeTime_'.$this->_cacheLifeTime;
         array_push($this->_cacheTags, strtolower(__CLASS__));
     }
 
