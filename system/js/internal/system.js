@@ -190,7 +190,7 @@ $(function(){
     }
     //publishPages();
     checkboxRadioStyle();
-    $(document).on('click', '.closebutton .hide', function(){
+    $(document).on('click', '.closebutton .hide-block', function(){
         $('.show-left').hide("slide", { direction: "left"});
         $('.show-right').hide("slide", { direction: "right"});
         return false;
@@ -204,7 +204,7 @@ $(function(){
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
     var name = $(this).data('size');
-    $('.closebutton').toggleClass('hidden');
+    $('.closebutton').toggle();
     $(this).toggleClass('icon-expand icon-turn');
     $('body, #'+name+', .'+name).toggleClass('full-screen');
 });
@@ -367,10 +367,12 @@ function hideSpinner(){
     $('.spinner').remove();
 }
 function showLoader(e){
+    $(event.target).addClass('btn-load').attr('disabled', 'true');
     var value = typeof e==='undefined' ? "Loading..." : e;
     $('body').append('<div class="seotoaster-loader">'+ value +'</div>');
 }
 function hideLoader(e){
+    $('.btn-load').removeClass('btn-load').removeAttr('disabled', 'false');
     $('.seotoaster-loader').remove();
 }
 function publishPages(){
@@ -400,9 +402,7 @@ function showMailMessageEdit(trigger, callback){
         'trigger' : trigger
     }, function(response){
         $(msgEditScreen).remove();
-        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg"></textarea>').val(response.responseText).css({
-            width     : '555px',
-            height    : '155px',
+        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(response.responseText).css({
             resizable : "none"
         }));
         $('#trigger-msg').val(response.responseText);
@@ -410,7 +410,6 @@ function showMailMessageEdit(trigger, callback){
             modal     : true,
             title     : 'Edit mail message before sending',
             width     : 600,
-            height    : 300,
             resizable : false,
             show      : 'clip',
             hide      : 'clip',
@@ -424,8 +423,6 @@ function showMailMessageEdit(trigger, callback){
                     }
                 }
             ]
-        }).parent().css({
-                background : '#DAE8ED'
-            });
+        });
     }, 'json');
 }
