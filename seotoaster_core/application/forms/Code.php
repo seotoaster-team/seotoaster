@@ -21,9 +21,8 @@ class Application_Form_Code extends Application_Form_Container {
 		$this->addElement('textarea', 'content', array(
 			'id'       => 'content',
 			'cols'     => '85',
-			'rows'     => '30',
-			'class'    => 'code-content',
-			'style'    => 'height: 220px; font-family: Arial monospace; width: 458px;',
+			'rows'     => '27',
+			'class'    => 'code-content tinymce',
 			'value'    => $this->_content,
 			'filters'  => array('StringTrim')
 		));
@@ -34,23 +33,12 @@ class Application_Form_Code extends Application_Form_Container {
 
 		parent::init();
 
-		$this->addElement('submit', 'submit', array(
-			'id'     => 'btn-submit',
-			'label'  => 'Save content',
-			'class'  => 'formsubmit',
-			'style'  => 'margin: 10px 0px',
-			'ignore' => true
-		));
-
-		$this->removeDecorator('DtDdWrapper');
-		$this->removeDecorator('DlWrapper');
-
-		$this->getElement('submit')->setDecorators(array(
+		$this->getElement('content')->setDecorators(array(
 			'ViewHelper',
             'Errors',
 			array(
 				array('data' => 'HtmlTag'),
-				array('tag' => 'div')
+				array('tag' => 'div', 'id' => 'edit_code', 'style' => "height: 450px")
 			)
 		));
 	}

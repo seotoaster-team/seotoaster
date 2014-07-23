@@ -28,7 +28,7 @@ class Application_Form_Robots extends Zend_Form
                 'name'  => 'updateRobots',
                 'id'    => 'update-robots',
                 'label' => 'Save robots.txt',
-                'class' => 'btn formsubmit icon-save',
+                'class' => 'btn formsubmit ticon-save',
             ))
         );
 

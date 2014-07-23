@@ -16,12 +16,12 @@ a{
 a:visited{
     //color : @link-color-visited;
 }
-    a:hover{
-        color : @link-color-hover
-    }
-    a:active{
-        color : @link-color-active;
-    }
+a:hover{
+    color : @link-color-hover
+}
+a:active{
+    color : @link-color-active;
+}
 
 // Heading
 //==================================================
@@ -58,8 +58,8 @@ h6, .h6{ font-size : 0.75em; }
 }
 
 p{
-    margin-top    : 0;
-    &+p{ margin-top : 1.5em; }
+    margin-top : 0;
+    & + p{ margin-top : 1.5em; }
 
     img{ margin : 0; }
 }
@@ -86,7 +86,15 @@ p{
 
 // Divider Styles
 //==================================================
-@import "divider";
+@import "separator";
+
+// Badges Styles
+//==================================================
+@import "badges";
+
+// Message Styles
+//==================================================
+@import "message";
 
 // System classes
 //==================================================

@@ -1,8 +1,10 @@
 .container{
-    position     : relative;
-    margin-left  : auto;
-    margin-right : auto;
+    position : relative;
 
+    .activate-container-style() when not (@grid-container-width = 100%){
+        margin-left  : auto;
+        margin-right : auto;
+    }
     .activate-container-style() when (@responsive = false) and not (@grid-container-width = 100%){
         width : @grid-container-width;
     }
@@ -31,7 +33,7 @@
 [class*=" column_"], [class^="column_"], [class*="-column_"]{
     .clearfix();
 
-    &>*:not(.column-none){
+    & > *:not(.column-none){
         float        : left;
         width        : 100% - @column-margin-width;
         margin-left  : (@column-margin-width / 2) !important;
@@ -41,7 +43,7 @@
     &.inline-block{
         font-size : 0;
 
-        &>*{
+        & > *{
             float     : none;
             font-size : @font-size-base;
             .inline-block(top);
@@ -50,11 +52,13 @@
 
     &.full-width{
 
-        &>*:not(.column-none){
+        & > *:not(.column-none){
             margin-left  : @column-margin-width !important;
             margin-right : 0 !important;
         }
     }
+
+    & > br{ display : none; }
 }
 .column();
 

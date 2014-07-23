@@ -89,56 +89,48 @@
 
 // Social Links
 //==================================================
-.social-links() when (@social-links = true){
-    .social-links{
-        .hide-text;
+.social-links when (@social-links = true){
+    .hide-text;
 
-        .rss{ background : @rss; }
-        .gplus{ background : @gplus; }
-        .twitter{ background : @twitter; }
-        .youtube{ background : @youtube; }
-        .linkedin{ background : @linkedin; }
-        .facebook{ background : @facebook; }
+    .rss{ background : @rss; }
+    .gplus{ background : @gplus; }
+    .twitter{ background : @twitter; }
+    .youtube{ background : @youtube; }
+    .linkedin{ background : @linkedin; }
+    .facebook{ background : @facebook; }
 
-        .inverse{
-            background : none !important;
+    a[class*="ticon-"]{
+        margin-left : 5px;
+        color       : #FFF;
+        .inline-block();
+        .button-icon-size(@social-icon-size);
+        .box-sizing(content-box);
 
-            &.rss{ color : @rss; }
-            &.gplus{ color : @gplus; }
-            &.twitter{ color : @twitter; }
-            &.youtube{ color : @youtube; }
-            &.linkedin{ color : @linkedin; }
-            &.facebook{ color : @facebook; }
+        &:hover{
+            &.rss{ background : darken(@rss, 10%); }
+            &.gplus{ background : darken(@gplus, 10%); }
+            &.twitter{ background : darken(@twitter, 10%); }
+            &.youtube{ background : darken(@youtube, 10%); }
+            &.linkedin{ background : darken(@linkedin, 10%); }
+            &.facebook{ background : darken(@facebook, 10%); }
         }
 
-        a[class*="icon-"]{
-            margin-left : 5px;
-            color       : #FFF;
-            .button-icon-size(@social-icon-size);
-
-            &.inverse{
-
-                &:hover{
-                    &.rss{ color : darken(@rss, 10%); }
-                    &.gplus{ color : darken(@gplus, 10%); }
-                    &.twitter{ color : darken(@twitter, 10%); }
-                    &.youtube{ color : darken(@youtube, 10%); }
-                    &.linkedin{ color : darken(@linkedin, 10%); }
-                    &.facebook{ color : darken(@facebook, 10%); }
-                }
-            }
+        &.inherit when (@social-links-inherit = true){
+            color      : inherit;
+            background : inherit;
 
             &:hover{
-                &.rss{ background : darken(@rss, 10%); }
-                &.gplus{ background : darken(@gplus, 10%); }
-                &.twitter{ background : darken(@twitter, 10%); }
-                &.youtube{ background : darken(@youtube, 10%); }
-                &.linkedin{ background : darken(@linkedin, 10%); }
-                &.facebook{ background : darken(@facebook, 10%); }
+                color : #fff;
+                &.rss{ background : @rss; }
+                &.gplus{ background : @gplus; }
+                &.twitter{ background : @twitter; }
+                &.youtube{ background : @youtube; }
+                &.linkedin{ background : @linkedin; }
+                &.facebook{ background : @facebook; }
             }
         }
 
-        .inverse{
+        &.inverse when (@social-links-inverse = true){
             background : none !important;
 
             &.rss{ color : @rss; }
@@ -159,7 +151,6 @@
         }
     }
 }
-.social-links();
 
 // Change style for Generator Links
 //==================================================
@@ -170,8 +161,9 @@
 
     .generator-links{
         .inline-block();
+        .box-sizing(content-box);
         .icon-size(@icon-size-small) !important;
-        .button-color(@button-blue-color, @button-blue-bg, @button-blue-border);
+        .button-color(@button-info-color, @button-info-bg, @button-info-border);
         padding  : @padding-small-vertical !important;
         position : relative;
 
@@ -267,12 +259,12 @@
 .move{
     cursor : url("../images/openhand.cur"), default;
 
-    &.icon-move, & .icon-move{
+    &.ticon-move, & .ticon-move{
         color : darken(@gray-lighter, 15%);
     }
 
     &:hover{
-        &.icon-move, & .icon-move{
+        &.ticon-move, & .ticon-move{
             color : darken(@gray-light, 30%);
         }
     }
@@ -374,7 +366,7 @@
         padding  : 5px;
     }
 
-    &.icon-turn{
+    &.ticon-turn{
         position : fixed;
         right    : 2%;
         top      : @header-height / 2 - 8px;

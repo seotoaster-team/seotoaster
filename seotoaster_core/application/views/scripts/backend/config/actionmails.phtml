@@ -14,16 +14,16 @@
 				<ul class="actions-list list-unstyled column_4 full-width">
 					<?php foreach($this->actionsOptions as $trigger):?>
 						<?php if ($trigger != $this->translate('Select event area') ): ?>
-							<li><span class="action-preview icon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($trigger));?>"></span><span class="action-name"><?php echo $trigger;?></span></li>
+							<li><span class="action-preview ticon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($trigger));?>"></span><span class="action-name"><?php echo $trigger;?></span></li>
 						<?php endif; ?>
 					<?php endforeach;?>
 				</ul>
 			</div>
 		</form>
 	</div>
-	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions', 'class' => 'btn icon-save')); ?>
+	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions', 'class' => 'btn ticon-save')); ?>
     <div class="footer grid_12">
-        <button id="save-actions" class="btn icon-save" name="saveActions" type="submit"><?php echo $this->translate('Save changes'); ?></button>
+        <button id="save-actions" class="btn ticon-save" name="saveActions" type="submit"><?php echo $this->translate('Save changes'); ?></button>
     </div>
 
 <script id="triggerActionTemplate" type="text/x-jquery-tmpl">
@@ -35,7 +35,7 @@
                         <?php echo $this->formHidden('actions[${index}][id]', '${triggerId}'); ?>
                         <?php echo $this->formHidden('actions[${index}][delete]', 'false'); ?>
                     {{/if}}
-                    <span class="icon-close btn icon link error" style="float:right; cursor:pointer;"></span>
+                    <span class="ticon-close btn icon link error" style="float:right; cursor:pointer;"></span>
                     <?php echo $this->formHidden('actions[${index}][trigger]', '${name}'); ?>
                     <div class="trigger-title mt0px">
                         <?php echo $this->translate('When'); ?> <strong>${title}</strong><br />
@@ -82,8 +82,8 @@
 
 <script type="text/x-jquery-tmpl" id="triggersTabs">
     <div class="tabs-nav-wrap">
-        <span class="arrow left icon-arrow-left-3"></span>
-        <span class="arrow right icon-arrow-right-3"></span>
+        <span class="arrow left ticon-arrow-left3"></span>
+        <span class="arrow right ticon-arrow-right3"></span>
         <ul id="triggers-tabs-holder" class="header">
             {{each(key, trigger) triggers}}
                 {{if key == currentTrigger }}
@@ -98,7 +98,7 @@
         {{if key == currentTrigger }}
             {{each(name, data) trigger}}
                 <div id="${key}-triegger-${name.replace(/\s+/g, '-')}" class="tabs-contents">
-                    <span class="new-trigger-action icon-plus-sign text-center" data-trigger-name="${name}">
+                    <span class="new-trigger-action ticon-plus-sign text-center" data-trigger-name="${name}">
 						<?php //echo $this->translate('Add a recipient'); ?>
 					</span>
                 </div>
@@ -141,7 +141,7 @@
                     showMessage(response.responseText);
                 }
             });
-        }).on('click', '.icon-close', function(){
+        }).on('click', '.ticon-close', function(){
             var $trigger = $(this).closest('fieldset');
             var id = $trigger.find('input[name*=id]');
             if(id.length){

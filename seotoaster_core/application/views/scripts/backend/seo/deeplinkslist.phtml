@@ -8,7 +8,7 @@
 			<div class="list-row-item grid_6 alpha omega ml-grid"><?php echo ($deeplink->getType() == Application_Model_Models_Deeplink::TYPE_INTERNAL) ? $this->websiteUrl . $deeplink->getUrl() : $deeplink->getUrl(); ?></div>
 			<div class="grid_1 alpha omega text-center"><?php echo ($deeplink->getNofollow()) ? $this->translate('No follow') : $this->translate('Follow'); ?></div>
 			<div class="grid_1 omega ml0 text-center">
-				<a class="remove-deeplink _tdelete icon-remove error icon16" data-callback="loadDeeplinksList" data-url="<?php echo $this->toasterLink('seo', 'removedeeplink', '', '', true)?>" data-eid="<?php echo $deeplink->getId(); ?>" href="javascript:;"></a>
+				<a class="remove-deeplink _tdelete ticon-remove error icon16" data-callback="loadDeeplinksList" data-url="<?php echo $this->toasterLink('seo', 'removedeeplink', '', '', true)?>" data-eid="<?php echo $deeplink->getId(); ?>" href="javascript:;"></a>
 			</div>
 		</div>
 	<?php endforeach; ?>

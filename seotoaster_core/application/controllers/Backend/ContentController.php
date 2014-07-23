@@ -62,7 +62,16 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function editAction() {
 		if(!$this->getRequest()->isPost()) {
-			$container = Application_Model_Mappers_ContainerMapper::getInstance()->find($this->getRequest()->getParam('id'));
+            $container = Application_Model_Mappers_ContainerMapper::getInstance();
+            if ($this->getRequest()->getParam('id')) {
+                $container = $container->find(
+                    $this->getRequest()->getParam('id')
+                );
+            } else {
+                $container = $container->findByName(
+                    $this->getRequest()->getParam('name'), $this->getRequest()->getParam('pageId'), $this->getRequest()->getParam('containerType')
+                );
+            }
 			if(null === $container) {
 				throw new Exceptions_SeotoasterException('Container loading failed.');
 			}

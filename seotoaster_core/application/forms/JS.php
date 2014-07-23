@@ -51,7 +51,7 @@ class Application_Form_JS extends Zend_Form {
 			'type'   => 'submit',
 			'name'   => 'submit',
 			'label'  => 'Save JS',
-			'class'  => 'formsubmit btn icon-save',
+			'class'  => 'formsubmit btn ticon-save',
 			'ignore' => true,
 			'escape' => false
 		)));

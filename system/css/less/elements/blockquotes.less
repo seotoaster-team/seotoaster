@@ -51,7 +51,7 @@ blockquote{
 
     }
 
-    &.noquotes{
+    &.noquotes when (@blockquote-noquotes = true) and (@blockquote-styles = true){
         border-left : 2px solid @gray-light;
         padding     : .5em 1em;
 
@@ -60,7 +60,7 @@ blockquote{
         }
     }
 
-    &.onequote{
+    &.onequote when (@blockquote-onequote = true) and (@blockquote-styles = true){
         padding-left  : 2em;
         padding-right : 2em;
         &:before{
@@ -73,7 +73,7 @@ blockquote{
         }
     }
 
-    &.cloud{
+    &.cloud when (@blockquote-cloud = true) and (@blockquote-styles = true){
         padding          : 1em;
         background-color : @gray-lighter;
         .border-radius(5px);
@@ -86,7 +86,7 @@ blockquote{
             content      : '';
         }
 
-        &.border{
+        &.border when (@blockquote-cloud-border = true) and (@blockquote-styles = true){
             @border-width: 1px;
             background-color : @body-bg;
             padding          : 1em;
@@ -108,7 +108,7 @@ blockquote{
             }
         }
 
-        &.right{
+        &.right when (@blockquote-cloud-right = true) and (@blockquote-styles = true){
 
             &:after{
                 left  : auto;
@@ -121,7 +121,7 @@ blockquote{
             }
         }
 
-        &.left{
+        &.left when (@blockquote-cloud-left = true) and (@blockquote-styles = true){
 
             &:after{
                 left               : @indent;

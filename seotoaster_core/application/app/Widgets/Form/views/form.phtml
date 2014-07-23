@@ -1,10 +1,13 @@
-<?php if($this->form): ?>
-	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
-		<?php echo $this->form->getCode(); ?>
-		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
-        <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
-        <input style="display: none;" type="text" id="<?php echo md5($this->form->getName().$this->form->getId()); ?>" name="<?php echo md5($this->form->getName().$this->form->getId()); ?>" value="" data-secur="smart"/>
-		<?php if($this->useRecaptcha && $this->recaptchaCode) : ?>
+<?php if ($this->form): ?>
+    <form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>"
+          action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post'
+          enctype="multipart/form-data">
+        <?php echo $this->form->getCode(); ?>
+        <input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>"/>
+        <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>"/>
+        <input style="display: none;" type="text" id="<?php echo md5($this->form->getName() . $this->form->getId()); ?>"
+               name="<?php echo md5($this->form->getName() . $this->form->getId()); ?>" value="" data-secur="smart"/>
+        <?php if ($this->useRecaptcha && $this->recaptchaCode) : ?>
             <?php
             if ($this->customRecaptcha) {
                 echo $this->partial(
@@ -16,102 +19,160 @@
             }
             ?>
         <?php endif; ?>
-        <?php if($this->useCaptcha):?>
+        <?php if ($this->useCaptcha): ?>
             <div class="captcha">
-                <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
-                <label class="captcha_label"><?php echo $this->translate('Enter the words from picture');?></label>
-                <input class="captcha_field" type="text" name="captcha" value="" />
-                <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
-           </div>
+                <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png'; ?>"/>
+                <label class="captcha_label"><?php echo $this->translate('Enter the words from picture'); ?></label>
+                <input class="captcha_field" type="text" name="captcha" value=""/>
+                <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>"/>
+            </div>
         <?php endif; ?>
         <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
-        <?php if($this->trackingConversionUrl):?>
-            <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
-        <?php endif;?>
-        <input type="hidden" name="uploadLimitSize" value="<?php echo $this->uploadLimitSize;?>"/>
-        <input type="submit" name="submit" value="<?php echo $this->translate($this->buttonValue);?>"/>
+        <?php if ($this->trackingConversionUrl): ?>
+            <input type="hidden" name="conversionPageUrl"
+                   value="<?php echo $this->websiteUrl . $this->trackingConversionUrl; ?>"/>
+        <?php endif; ?>
+        <input type="hidden" name="uploadLimitSize" value="<?php echo $this->uploadLimitSize; ?>"/>
+        <input type="submit" name="submit" value="<?php echo $this->translate($this->buttonValue); ?>"/>
     </form>
 <?php endif; ?>
-<?php if($this->allowMidification): ?>
+<?php if ($this->allowMidification): ?>
     <p class="form-controls">
-        <a class="tpopup" href="javascript:;" data-pwidth="480" data-pheight="560" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
-        <a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Build your form now'); ?></a> |
-        <?php if($this->form): ?>
-            <a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+        <a class="tpopup" href="javascript:;" data-pwidth="480" data-pheight="560"
+           data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>"
+           title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
+        <a href="http://www.seosamba.com/free-form-maker/" target="_blank"
+           title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate(
+                'Build your form now'
+            ); ?></a> |
+        <?php if ($this->form): ?>
+            <a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/"
+               data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;"
+               title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img
+                    src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
         <?php endif; ?>
     </p>
 <?php endif; ?>
 
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         var form = $('#<?php echo $this->formId; ?>');
-        if($(form).find('input[type="file"]').length>0){
-            $('#<?php echo $this->formId; ?>').sisyphus( {timeout: 1, excludeFields: $('#<?php echo $this->formId; ?> input[type="hidden"], #recaptcha_response_field')});
+        if ($(form).find('input[type="file"]').length > 0) {
+            $('#<?php echo $this->formId; ?>').sisyphus({timeout: 1, excludeFields: $('#<?php echo $this->formId; ?> input[type="hidden"], #recaptcha_response_field')});
         }
         <?php if(isset($this->toasterFormSuccess)):?>
-            showMessage('<?php echo addslashes($this->toasterFormSuccess);?>');
-            form[0].reset();
+        showMessage('<?php echo addslashes($this->toasterFormSuccess);?>');
+        form[0].reset();
         <?php endif;?>
         <?php if(isset($this->toasterFormError)):?>
-            showMessage('<?php echo addslashes($this->toasterFormError);?>', true);
+        showMessage('<?php echo addslashes($this->toasterFormError);?>', true);
         <?php endif;?>
-        $(document).on('submit', '#<?php echo $this->formId; ?>', function(e) {
-            if($(form).find('input[type="file"]').length>0){
+
+        $(document).on('submit', '#<?php echo $this->formId; ?>', function (e) {
+            var valid = validateRequired('<?php echo $this->formId; ?>');
+            if ($(form).find('input[type="file"]').length > 0) {
                 return true;
-            }else{
+            } else if (!valid) {
+                showMessage('Fill in the required fields', true);
+                return false;
+            }
+            else {
                 e.preventDefault();
                 $.ajax({
-                    url      : form.attr('action'),
-                    type     : 'post',
-                    data     : form.serialize(),
-                    beforeSend: function() {
+                    url: form.attr('action'),
+                    type: 'post',
+                    data: form.serialize(),
+                    beforeSend: function () {
                         $(form).find(':submit').addClass('load').prop({
-                            'disabled' : true
-                        })
+                            'disabled': true
+                        });
                     },
-                    dataType :'json',
-                    success  : function(response) {
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response);
                         $(form).find(':submit').removeClass('load').prop({
-                            'disabled' : false
+                            'disabled': false
                         })
-                        if(response.error) {
+                        if (response.error) {
 
                         } else {
                             <?php if($this->trackingConversionUrl):?>
-                                location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
-                                return false;
+                            location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
+                            return false;
                             <?php endif;?>
-                            $(form).find(':input').each(function() {
-                                switch(this.type) {
+                            $(form).find(':input').each(function () {
+                                switch (this.type) {
                                     case 'password':
                                     case 'select-multiple':
                                     case 'select-one':
                                     case 'text':
                                     case 'textarea':
                                         $(this).val('');
-                                    break;
+                                        break;
                                     case 'checkbox':
                                     case 'radio':
                                         this.checked = false;
-                                    break;
+                                        break;
                                 }
                             });
 
                         }
                         <?php if($this->useCaptcha):?>
-                                $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
-                                    $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
-                                    $('.captcha-id').val(response);
-                                }, 'json');
+                        $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function (response) {
+                            $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
+                            $('.captcha-id').val(response);
+                        }, 'json');
                         <?php endif;?>
                         <?php if($this->useRecaptcha):?>
-                            Recaptcha.reload();
+                        Recaptcha.reload();
                         <?php endif;?>
                         showMessage(response.responseText, response.error);
                     }
                 })
             }
         });
+
+        function validateRequired(forID) {
+            var validation = false;
+            $.each($('#' + forID + ' .required'), function () {
+                if ($(this).is('input') || $(this).is('textarea')) {
+                    if ($(this).not(':input[type=button], :input[type=submit], :input[type=reset], :input[type=checkbox]') && $(this).val().length < 1) {
+                        $(this).addClass('notvalid');
+                    } else if ($(this).is(':checkbox') || $(this).is(':radio')) {
+                        if ($(this).is(':checked')) {
+                            $(this).removeClass('notvalid');
+                        } else {
+                            $(this).addClass('notvalid');
+                        }
+                    } else {
+                        $(this).removeClass('notvalid');
+                    }
+                } else if ($(this).is('select')) {
+                    if (this.type == 'select-one') {
+                        if ($(this).val().length < 1) {
+                            $(this).addClass('notvalid');
+                        } else {
+                            $(this).removeClass('notvalid');
+                        }
+                    } else if (this.type == 'select-multiple') {
+                        if ($(this).val() == null) {
+                            $(this).addClass('notvalid');
+                        } else {
+                            $(this).removeClass('notvalid');
+                        }
+                    }
+                }
+            });
+            $('.notvalid').on('blur', function(){
+                if ($(this).val().length < 1){
+                    $(this).removeClass('notvalid');
+                }
+            });
+
+            if ($('#' + forID + ' .notvalid').length < 1) validation = true;
+
+            return validation;
+        }
 
     });
 </script>

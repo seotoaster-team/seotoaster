@@ -57,7 +57,7 @@
         }
     }
 
-    &>* ul{
+    & > * ul{
         width      : auto;
         position   : static;
         display    : none;
@@ -82,7 +82,7 @@
         display : block;
         border  : none;
 
-        &+li{
+        & + li{
             border-top : 1px solid @nav-drop-down-list-bg-current;
         }
 
@@ -130,6 +130,7 @@
 .sub-menu-btn{
     color      : @primary-color;
     background : @primary-bg;
+    .box-sizing(content-box);
     .button-icon-size(@icon-size-large, large, ((@menu-height - @icon-size-large) / 2));
 
     &:hover{
