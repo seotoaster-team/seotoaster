@@ -8,7 +8,7 @@
  */
 class Tools_Theme_Tools {
 
-    const FOLDER_CSS             = 'css/';
+    const FOLDER_CSS             = 'css';
 
 	public static $requiredFiles = array(
 		'index.html',
@@ -102,8 +102,8 @@ class Tools_Theme_Tools {
         $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $themesConfig  = Zend_Registry::get('theme');
         $themesPath    = $themesConfig['path'].$configHelper->getConfig('currentTheme').DIRECTORY_SEPARATOR;
-        $filePath      = $websiteHelper->getPath().$themesPath.self::FOLDER_CSS.'content.css';
-        $folderCssPath = (is_file($filePath)) ? self::FOLDER_CSS : '';
+        $filePath      = $websiteHelper->getPath().$themesPath.self::FOLDER_CSS.DIRECTORY_SEPARATOR.'content.css';
+        $folderCssPath = (is_file($filePath)) ? self::FOLDER_CSS.DIRECTORY_SEPARATOR : '';
 
         return $websiteHelper->getUrl().$themesPath.$folderCssPath.'content.css';
     }
@@ -113,8 +113,8 @@ class Tools_Theme_Tools {
         $configHelper  = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $themesConfig  = Zend_Registry::get('theme');
         $themesPath    = $themesConfig['path'].$configHelper->getConfig('currentTheme').DIRECTORY_SEPARATOR;
-        $filePath      = $websiteHelper->getPath().$themesPath.self::FOLDER_CSS.'reset.css';
-        $folderCssPath = (is_file($filePath)) ? self::FOLDER_CSS : '';
+        $filePath      = $websiteHelper->getPath().$themesPath.self::FOLDER_CSS.DIRECTORY_SEPARATOR.'reset.css';
+        $folderCssPath = (is_file($filePath)) ? self::FOLDER_CSS.DIRECTORY_SEPARATOR : '';
 
         return $websiteHelper->getUrl().$themesPath.$folderCssPath.'reset.css';
     }
