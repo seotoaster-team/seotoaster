@@ -75,8 +75,10 @@
                         <td class="user-row-item"><?php echo intval($user['last_login']) ? date('Y-m-d', strtotime($user['last_login'])) : '-'; ?></td>
                         <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
                         <td class="user-row-item text-center">
+                        <?php if($user['role_id'] !== 'superadmin'): ?>
                             <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit icon-pencil"></a>
                             <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error icon-remove" href="javascript:;"></a>
+                        <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -91,6 +93,7 @@
 <script type="text/javascript">
 	$(function() {
         $(document).on('click', '#add-user-link, ._tedit',function(){
+            $('#frm-user')[0].reset();
             $('#add-user').show("slide", { direction: "right"});
         });
         $('#export-users').click(function() {
