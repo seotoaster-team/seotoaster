@@ -160,42 +160,37 @@ select, textarea, input{
     //    &:focus:not([type="submit"]):not([type="button"]){
     &:focus{
         border-color : @input-border-color-focus;
-        .box-shadow(0 0 3px @input-border-color-focus, @input-shadow-focus);
-    }
-
-    &.notvalid{
-        border-color : @brand-error;
-        &:focus{
-            .box-shadow(0 0 3px @brand-error, @input-shadow-focus);
-        }
+        .box-shadow(0 0 @input-shadow-size @input-border-color-focus, @input-shadow-focus);
     }
 
     &.success when (@color-success = true) and (@colors = true){
         border-color : @brand-success;
         color        : @brand-success;
         &:focus{
-            .box-shadow(0 0 3px @brand-success, @input-shadow-focus);
+            .box-shadow(0 0 @input-shadow-size @brand-success, @input-shadow-focus);
         }
     }
     &.warning when (@color-warning = true) and (@colors = true){
         border-color : @brand-warning;
         color        : @brand-warning;
         &:focus{
-            .box-shadow(0 0 3px @brand-warning, @input-shadow-focus);
+            .box-shadow(0 0 @input-shadow-size @brand-warning, @input-shadow-focus);
         }
     }
-    &.error when (@color-error = true) and (@colors = true){
-        border-color : @brand-error;
-        color        : @brand-error;
-        &:focus{
-            .box-shadow(0 0 3px @brand-error, @input-shadow-focus);
+    &.error, &.notvalid{
+        & when (@color-error = true) and (@colors = true){
+            border-color : @brand-error;
+            color        : @brand-error;
+            &:focus{
+                .box-shadow(0 0 @input-shadow-size @brand-error, @input-shadow-focus);
+            }
         }
     }
     &.info when (@color-info = true) and (@colors = true){
         border-color : @brand-info;
         color        : @brand-info;
         &:focus{
-            .box-shadow(0 0 2px @brand-info, @input-shadow-focus);
+            .box-shadow(0 0 @input-shadow-size @brand-info, @input-shadow-focus);
         }
     }
 
@@ -286,7 +281,7 @@ textarea{
 
     &:not(.icon){
         input:focus, select:focus{
-            .box-shadow(none, @input-shadow-focus);
+            .box-shadow(none, @input-shadow-focus) !important;
 
             & ~ label, & ~ .label{
                 background : @input-border-color-focus;
@@ -297,12 +292,12 @@ textarea{
     &.icon when (@form-labeled-icon = true){
         input, select, textarea{
 
-            &:focus ~ [class*="icon-"]{
+            &:focus ~ [class*="ticon-"]{
                 .opacity(1);
             }
         }
 
-        [class*="icon-"]{
+        [class*="ticon-"]{
             position : absolute;
             margin   : auto;
             top      : 0;
@@ -313,7 +308,7 @@ textarea{
         }
 
         &.right{
-            [class*="icon-"]{
+            [class*="ticon-"]{
                 right : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
 
@@ -324,14 +319,14 @@ textarea{
             select{
                 padding-right : @padding-base-vertical * 6;
 
-                & ~ [class*="icon-"]{
+                & ~ [class*="ticon-"]{
                     right : (@padding-base-vertical * 4) - (@font-size-base / 2);
                 }
             }
         }
 
         &.left{
-            [class*="icon-"]{
+            [class*="ticon-"]{
                 left : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
             input, textarea{
@@ -340,7 +335,7 @@ textarea{
         }
 
         &.top{
-            [class*="icon-"]{
+            [class*="ticon-"]{
                 margin : 0;
                 top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
@@ -350,85 +345,88 @@ textarea{
     .activate-form-labeled-social() when (@form-labeled-social = true){
         // Social Filed
         &.rss{
-            :checked ~ input{ border-color : @rss; }
-            *:checked{
+            :checked ~ input, input:focus{ border-color : @rss; }
+            *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @rss; }
-                & ~ [class*="icon-"]{ color : @rss; }
+                & ~ [class*="ticon-"]{ color : @rss; }
             }
             &.filled{
                 label, .label{ background : @rss; }
-                [class*="icon-"]{ color : @rss; }
+                [class*="ticon-"]{ color : @rss; }
             }
         }
         &.gplus{
-            :checked ~ input{ border-color : @gplus; }
-            *:checked{
+            :checked ~ input, input:focus{ border-color : @gplus; }
+            *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @gplus; }
-                & ~ [class*="icon-"]{ color : @gplus; }
+                & ~ [class*="ticon-"]{ color : @gplus; }
             }
             &.filled{
                 label, .label{ background : @gplus; }
-                [class*="icon-"]{ color : @gplus; }
+                [class*="ticon-"]{ color : @gplus; }
             }
         }
         &.twitter{
-            :checked ~ input{ border-color : @twitter; }
-            *:checked{
+            :checked ~ input, input:focus{ border-color : @twitter; }
+            *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @twitter; }
-                & ~ [class*="icon-"]{ color : @twitter; }
+                & ~ [class*="ticon-"]{ color : @twitter; }
             }
             &.filled{
                 label, .label{ background : @twitter; }
-                [class*="icon-"]{ color : @twitter; }
+                [class*="ticon-"]{ color : @twitter; }
             }
         }
         &.youtube{
-            :checked ~ input{ border-color : @youtube; }
-            *:checked{
-                & ~ [class*="icon-"]{ color : @youtube; }
+            :checked ~ input, input:focus{ border-color : @youtube; }
+            *:checked, *:focus{
+                & ~ [class*="ticon-"]{ color : @youtube; }
                 & ~ label, & ~ .label{ background : @youtube; }
             }
             &.filled{
                 label, .label{ background : @youtube; }
-                [class*="icon-"]{ color : @youtube; }
+                [class*="ticon-"]{ color : @youtube; }
             }
         }
         &.linkedin{
-            :checked ~ input{ border-color : @linkedin; }
-            *:checked{
+            :checked ~ input, input:focus{ border-color : @linkedin; }
+            *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @linkedin; }
-                & ~ [class*="icon-"]{ color : @linkedin; }
+                & ~ [class*="ticon-"]{ color : @linkedin; }
             }
             &.filled{
                 label, .label{ background : @linkedin; }
-                [class*="icon-"]{ color : @linkedin; }
+                [class*="ticon-"]{ color : @linkedin; }
             }
         }
         &.facebook{
-            :checked ~ input{ border-color : @facebook; }
-            *:checked{
+            :checked ~ input, input:focus{ border-color : @facebook; }
+            *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @facebook; }
-                & ~ [class*="icon-"]{ color : @facebook; }
+                & ~ [class*="ticon-"]{ color : @facebook; }
             }
             &.filled{
                 label, .label{ background : @facebook; }
-                [class*="icon-"]{ color : @facebook; }
+                [class*="ticon-"]{ color : @facebook; }
             }
         }
         &.pinterest{
-            :checked ~ input{ border-color : @pinterest; }
-            *:checked{
+            :checked ~ input, input:focus{ border-color : @pinterest; }
+            *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @pinterest; }
-                & ~ [class*="icon-"]{ color : @pinterest; }
+                & ~ [class*="ticon-"]{ color : @pinterest; }
             }
             &.filled{
                 label, .label{ background : @pinterest; }
-                [class*="icon-"]{ color : @pinterest; }
+                [class*="ticon-"]{ color : @pinterest; }
             }
         }
     }
     .activate-form-labeled-social();
 }
+
+// -- Social field style
+//.social-field(@width : 250px);
 
 // -- Checkbox & Radio field style
 .checkboxRadioStyle();
@@ -449,7 +447,9 @@ textarea{
 
     input{
 
-        &[type="text"]{ }
+        &[type="text"]{
+            border-color : @brand-primary;
+        }
 
         &[type="submit"]{
             width         : 100%;

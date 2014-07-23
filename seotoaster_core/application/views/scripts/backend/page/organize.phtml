@@ -14,14 +14,14 @@
                 <div class="category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
 					<div class="catmove">
                         <input class="check-all" type="checkbox" title="Check all"/>&nbsp;
-                        <a href="javascript:;" class="collapse-all icon-arrow-up" title="<?php echo $collapseTitle; ?>"></a>
+                        <a href="javascript:;" class="collapse-all ticon-arrow-up" title="<?php echo $collapseTitle; ?>"></a>
                         <?php echo $this->toasterLink('backend_page', 'page', $treeData['category']->getNavName(), 'id/' . $treeData['category']->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
                     </div>
 					<ul class="organise list-bordered">
 						<?php if(isset($treeData['pages']) && is_array($treeData['pages'])): ?>
                             <?php foreach ($treeData['pages'] as $page): ?>
 								<li id="<?php echo $page->getId(); ?>" class="move">
-                                    <i class="icon-move icon16 fl-right ml2"></i>
+                                    <i class="ticon-move icon16 fl-right ml2"></i>
                                     <input type="checkbox" name="remove[]" class="page-remove" />&nbsp;
                                     <?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
 								</li>
@@ -38,13 +38,13 @@
             <div class="catmove">
                 <input class="check-all" type="checkbox" title="Check all"/>&nbsp;
                 <span title="<?php echo $this->translate('Static menu'); ?>"><?php echo $this->translate('Static menu'); ?></span>
-                <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
+                <a href="javascript:;" class="collapse-all ticon-arrow-up" title="collapse all"></a>
             </div>
 			<ul class="organise list-bordered">
 				<?php if(isset($this->staticMenu)): ?>
                     <?php foreach ($this->staticMenu as $page): ?>
                         <li id="<?php echo $page->getId(); ?>" class="move">
-                            <i class="icon-move icon16 fl-right ml2"></i>
+                            <i class="ticon-move icon16 fl-right ml2"></i>
 							<input type="checkbox" name="remove[]" class="page-remove" />&nbsp;
                             <?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
 						</li>
@@ -59,13 +59,13 @@
             <div class="catmove">
                 <input class="check-all" type="checkbox" title="Check all"/>&nbsp;
                 <span title="<?php echo $this->translate('No menu');?>"><?php echo $this->translate('No menu');?></span>
-                <a href="javascript:;" class="collapse-all icon-arrow-up" title="collapse all"></a>
+                <a href="javascript:;" class="collapse-all ticon-arrow-up" title="collapse all"></a>
             </div>
 			<ul class="organise list-bordered">
 				<?php if(isset($this->noMenu)): ?>
                     <?php foreach ($this->noMenu as $page): ?>
 							<li id="<?php echo $page->getId(); ?>" class="move">
-								<div class="icon-move icon16 fl-right"></div>
+								<div class="ticon-move icon16 fl-right"></div>
 							<input type="checkbox" name="remove[]" class="page-remove" />&nbsp;
                             <?php echo $this->toasterLink('backend_page', 'page', $page->getNavName(), 'id/' . $page->getId(), false, array('width' => '960', 'height' => '560'), false); ?>
 						</li>

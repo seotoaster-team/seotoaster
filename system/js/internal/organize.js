@@ -87,17 +87,17 @@ $(function() {
 
     $('.collapse-all').click(function() {
         $(this).parent().next().slideToggle();
-        $(this).toggleClass('icon-arrow-up icon-arrow-down');
+        $(this).toggleClass('ticon-arrow-up ticon-arrow-down');
     });
 
     $('#collapse-global').click(function() {
         $('.organise').slideUp();
-        $('.collapse-all').removeClass('icon-arrow-up').addClass('icon-arrow-down');
+        $('.collapse-all').removeClass('ticon-arrow-up').addClass('ticon-arrow-down');
     });
 
     $('#expand-global').click(function() {
         $('.organise').slideDown();
-        $('.collapse-all').removeClass('icon-arrow-down').addClass('icon-arrow-up');
+        $('.collapse-all').removeClass('ticon-arrow-down').addClass('ticon-arrow-up');
     });
 
     $('.check-all').click(function() {

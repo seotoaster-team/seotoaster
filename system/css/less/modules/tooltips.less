@@ -55,52 +55,64 @@
         }
     }
 
-    &.success when (@color-success = true) and (@colors = true){
-        background   : @state-green-bg;
-        color        : @state-green-color;
-        border-color : @state-green-border;
+    &.success when (@tooltip-color-success = true) and (@tooltip-colors = true){
+        background : @state-success-bg;
+        color      : @state-success-color;
+        .tooltip-border() when (@tooltip-border-width > 0){
+            border-color : @state-success-border;
+        }
+        .tooltip-border();
 
         .arrow{
-            &.left{ border-right-color : @state-green-bg; }
-            &.right{ border-left-color : @state-green-bg; }
-            &.top{ border-bottom-color : @state-green-bg; }
-            &.bottom{ border-top-color : @state-green-bg; }
+            &.left{ border-right-color : @state-success-bg; }
+            &.right{ border-left-color : @state-success-bg; }
+            &.top{ border-bottom-color : @state-success-bg; }
+            &.bottom{ border-top-color : @state-success-bg; }
         }
     }
-    &.warning when (@color-warning = true) and (@colors = true){
-        background   : @state-orange-bg;
-        color        : @state-orange-color;
-        border-color : @state-orange-border;
+    &.warning when (@tooltip-color-warning = true) and (@tooltip-colors = true){
+        background : @state-warning-bg;
+        color      : @state-warning-color;
+        .tooltip-border() when (@tooltip-border-width > 0){
+            border-color : @state-warning-border;
+        }
+        .tooltip-border();
 
         .arrow{
-            &.left{ border-right-color : @state-orange-bg; }
-            &.right{ border-left-color : @state-orange-bg; }
-            &.top{ border-bottom-color : @state-orange-bg; }
-            &.bottom{ border-top-color : @state-orange-bg; }
+            &.left{ border-right-color : @state-warning-bg; }
+            &.right{ border-left-color : @state-warning-bg; }
+            &.top{ border-bottom-color : @state-warning-bg; }
+            &.bottom{ border-top-color : @state-warning-bg; }
         }
     }
-    &.error when (@color-error = true) and (@colors = true){
-        background   : @state-red-bg;
-        color        : @state-red-color;
-        border-color : @state-red-border;
+    &.error when (@tooltip-color-error = true) and (@tooltip-colors = true){
+        background : @state-error-bg;
+        color      : @state-error-color;
+        .tooltip-border() when (@tooltip-border-width > 0){
+            border-color : @state-error-border;
+        }
+        .tooltip-border();
 
         .arrow{
-            &.left{ border-right-color : @state-red-bg; }
-            &.right{ border-left-color : @state-red-bg; }
-            &.top{ border-bottom-color : @state-red-bg; }
-            &.bottom{ border-top-color : @state-red-bg; }
+            &.left{ border-right-color : @state-error-bg; }
+            &.right{ border-left-color : @state-error-bg; }
+            &.top{ border-bottom-color : @state-error-bg; }
+            &.bottom{ border-top-color : @state-error-bg; }
         }
     }
-    &.info when (@color-info = true) and (@colors = true){
-        background   : @state-blue-bg;
-        color        : @state-blue-color;
-        border-color : @state-blue-border;
+    &.info when (@tooltip-color-info = true) and (@tooltip-colors = true){
+        background : @state-info-bg;
+        color      : @state-info-color;
+        .tooltip-border() when (@tooltip-border-width > 0){
+            border-color : @state-info-border;
+        }
+        .tooltip-border();
 
         .arrow{
-            &.left{ border-right-color : @state-blue-bg; }
-            &.right{ border-left-color : @state-blue-bg; }
-            &.top{ border-bottom-color : @state-blue-bg; }
-            &.bottom{ border-top-color : @state-blue-bg; }
+            &.left{ border-right-color : @state-info-bg; }
+            &.right{ border-left-color : @state-info-bg; }
+            &.top{ border-bottom-color : @state-info-bg; }
+            &.bottom{ border-top-color : @state-info-bg; }
         }
     }
 }

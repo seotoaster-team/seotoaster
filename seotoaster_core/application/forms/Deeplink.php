@@ -81,7 +81,7 @@ class Application_Form_Deeplink extends Zend_Form {
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addDeeplink',
 			'id'    => 'add-deeplink',
-			'class' => 'btn icon-plus grid_2 omega',
+			'class' => 'btn ticon-plus grid_2 omega',
 			'value' => 'Add deeplink',
 			'label' => 'Add deeplink',
             'type'  => 'submit'

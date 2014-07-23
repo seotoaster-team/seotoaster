@@ -205,12 +205,12 @@ $(function(){
 $(document).on('click', '.screen-size', function(e){
     var name = $(this).data('size');
     $('.closebutton').toggle();
-    $(this).toggleClass('icon-expand icon-turn');
+    $(this).toggleClass('ticon-expand ticon-turn');
     $('body, #'+name+', .'+name).toggleClass('full-screen');
 });
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
-    $(this).toggleClass('icon-expand icon-turn');
+    $(this).toggleClass('ticon-expand ticon-turn');
     var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');

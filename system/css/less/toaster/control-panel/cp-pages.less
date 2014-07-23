@@ -39,11 +39,11 @@
         margin-top : -1px;
 
         .ui-button, .btn{
-            background  : transparent;
-            border-top  : 1px solid transparent;
-            font-size   : @font-size-base;
-            margin      : 0;
-            color       : @link-color;
+            background : transparent;
+            border-top : 1px solid transparent;
+            font-size  : @font-size-base;
+            margin     : 0;
+            color      : @link-color;
 
             &:active{
                 .box-shadow(none);
@@ -55,7 +55,7 @@
             &.ui-state-active, .active{
             }
 
-            [class^="icon-"], [class*=" icon-"]{
+            [class^="ticon-"], [class*=" ticon-"]{
                 color        : transparent;
                 margin-top   : -2px;
                 margin-right : 5%;
@@ -63,19 +63,19 @@
         }
 
         [type="radio"], [type="checkbox"]{
-            &+.ui-button, &+.btn{
+            & + .ui-button, & + .btn{
 
                 &:first-child{
                 }
 
-                [class^="icon-"], [class*=" icon-"]{
+                [class^="ticon-"], [class*=" ticon-"]{
                 }
             }
 
         }
 
         [type="radio"]:checked, [type="checkbox"]:checked{
-            &+.ui-button, &+.btn{
+            & + .ui-button, & + .btn{
                 background : @gray-lighter;
                 color      : @text-color;
                 border-top : 1px solid #eee;
@@ -84,13 +84,13 @@
                 &:first-child{
                 }
 
-                [class^="icon-"], [class*=" icon-"]{
+                [class^="ticon-"], [class*=" ticon-"]{
                     color : #AAA;
                 }
             }
 
         }
-        &+div{
+        & + div{
             height     : 50px;
             border-top : none;
 
@@ -119,7 +119,7 @@
 }
 .featured-link{
 
-    .icon-tags{
+    .ticon-tags{
         background : @gray-lighter;
         padding    : 7px;
         color      : #A9A9A9;
@@ -225,10 +225,10 @@
 
         &.curr-template{
             border-top  : none;
-            border-left : 2px solid darken(@state-blue-border, 15%);
-            background  : @state-blue-bg;
+            border-left : 2px solid darken(@state-info-border, 15%);
+            background  : @state-info-bg;
 
-            &+.template_item{
+            & + .template_item{
                 border-top : none;
             }
 
@@ -308,7 +308,7 @@
         }
 
         .page{
-            width : 150px;
+            max-width : 150px;
             .inline-block();
             .text-overflow();
         }
@@ -332,7 +332,6 @@
             color     : @gray;
             font-size : @font-size-mini;
             padding   : @padding-small-vertical @padding-small-horizontal;
-
             .text-overflow();
 
             .checkbox{

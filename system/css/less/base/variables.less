@@ -47,10 +47,11 @@
 
 // Responsive
 //==================================================
-@responsive-size-desktop  : 1024px;
-@responsive-size-tablet   : 768px;
-@responsive-size-mobile   : 480px;
-@responsive-size-phone    : 320px;
+@responsive-size-big-screen : 1200px;
+@responsive-size-desktop    : 1024px;
+@responsive-size-tablet     : 768px;
+@responsive-size-mobile     : 480px;
+@responsive-size-phone      : 320px;
 
 @responsive-column-tablet : 2;
 @responsive-column-mobile : 1;
@@ -127,11 +128,11 @@
 // IS USED BY DEFAULT for: @nav-bg, @state-primary (alerts, message, table coloring, datepicker, progressbar, range), @btn-primary, @tabs-nav-li-bg, @dialog-header-bg, @text-select-bg
 @primary-bg              : @brand-primary;
 //the color of the text relative to the main site colors
-@primary-color           : #fff;
+@primary-color           : #FFF;
 
 // Scaffolding
 //==================================================
-@body-bg                 : #fff;
+@body-bg                 : #FFF;
 @text-color              : @gray-dark;
 @line-height             : 1.428571429;
 
@@ -203,9 +204,10 @@
 @padding-mini-vertical     : 2px;
 @padding-mini-horizontal   : 6px;
 
-@border-radius-base        : 5px;
-@border-radius-large       : 7px;
-@border-radius-small       : 3px;
+@border-radius-small       : 0.25em;
+@border-radius-base        : 0.5em;
+@border-radius-large       : 0.75em;
+@border-radius-larger      : 1.25em;
 
 @hr-size                   : 1px;
 @hr-color                  : @gray-light;
@@ -215,25 +217,25 @@
 //==================================================
 @state-border-radius  : 0;
 
-@state-primary-bg     : lighten(desaturate(@state-primary-color, 30%), 35%);
-@state-primary-color  : @brand-primary;
-@state-primary-border : darken(@state-primary-bg, 15%);
+@state-primary-bg     : lighten(softlight(@brand-primary, #FFF), 25%);
+@state-primary-color  : average(@brand-primary, #000);
+@state-primary-border : darken(@state-primary-bg, 10%);
 
-@state-green-bg     : #D8EFC1;
-@state-green-color    : #79985B;
-@state-green-border : #B4D892;
+@state-success-bg     : lighten(softlight(@brand-success, #FFF), 25%);
+@state-success-color  : average(@brand-success, #000);
+@state-success-border : darken(@state-success-bg, 10%);
 
-@state-blue-bg        : #B8E1F1;
-@state-blue-color     : #52889B;
-@state-blue-border    : #A1C7D5;
+@state-info-bg        : lighten(softlight(@brand-info, #FFF), 25%);
+@state-info-color     : average(@brand-info, #000);
+@state-info-border    : darken(@state-info-bg, 10%);
 
-@state-orange-bg     : #FEEBB7;
-@state-orange-color   : #B49133;
-@state-orange-border : #E7D195;
+@state-warning-bg     : lighten(softlight(@brand-warning, #FFF), 25%);
+@state-warning-color  : average(@brand-warning, #000);
+@state-warning-border : darken(@state-warning-bg, 10%);
 
-@state-red-bg       : #F9BCC3;
-@state-red-color      : #B76973;
-@state-red-border   : #F09DA7;
+@state-error-bg       : lighten(softlight(@brand-error, #FFF), 25%);
+@state-error-color    : average(@brand-error, #000);
+@state-error-border   : darken(@state-error-bg, 10%);
 
 // Tables
 //==================================================
@@ -248,30 +250,31 @@
 
 // Buttons
 //==================================================
-@button-line-height           : 1.33;
-@button-border-width          : 0;
+@button-line-height    : 1.33;
 
-@button-border-radius         : 0; //Enter in ems
+@button-border-width   : 0;
 
-@button-primary-bg            : @primary-bg;
-@button-primary-color         : @primary-color;
-@button-primary-border        : darken(@button-primary-bg, 10%);
+@button-border-radius  : 0; //Enter in ems
 
-@button-green-bg              : @brand-success;
-@button-green-color           : #FFF;
-@button-green-border          : darken(@button-green-bg, 10%);
+@button-primary-bg     : @primary-bg;
+@button-primary-color  : @primary-color;
+@button-primary-border : softlight(@primary-bg, #000);
 
-@button-orange-bg             : @brand-warning;
-@button-orange-color          : #FFF;
-@button-orange-border         : darken(@button-orange-bg, 10%);
+@button-success-bg     : @brand-success;
+@button-success-color  : #FFF;
+@button-success-border : softlight(@brand-success, #000);
 
-@button-red-bg                : @brand-error;
-@button-red-color             : #FFF;
-@button-red-border            : darken(@button-red-bg, 10%);
+@button-warning-bg     : @brand-warning;
+@button-warning-color  : #FFF;
+@button-warning-border : softlight(@brand-warning, #000);
 
-@button-blue-bg               : @brand-info;
-@button-blue-color            : #FFF;
-@button-blue-border           : darken(@button-blue-bg, 10%);
+@button-error-bg       : @brand-error;
+@button-error-color    : #FFF;
+@button-error-border   : softlight(@brand-error, #000);
+
+@button-info-bg        : @brand-info;
+@button-info-color     : #FFF;
+@button-info-border    : softlight(@brand-info, #000);
 
 // Forms
 //==================================================
@@ -284,12 +287,14 @@
 
 @input-border-width       : 1px;
 @input-border-color       : #ccc;
-@input-border-color-focus : @primary-bg;//border color and shadow in focus
-@input-border-radius      : 0px;
+//border color and shadow in focus
+@input-border-color-focus : @primary-bg;
+@input-border-radius      : 0;
+//Do you need a shadow on focus? (true / false)
+@input-shadow-focus       : true;
+@input-shadow-size        : 5px;
 
-@input-shadow-focus       : true;//Do you need a shadow on focus? (true / false)
-
-@input-color-placeholder  : #ccc;
+@input-color-placeholder  : #CCC;
 
 @checkbox-radio-width     : 16px;
 
@@ -309,7 +314,8 @@
 @thumbnail-border-color    : @gray-light;
 @thumbnail-border-radius   : 0;
 
-@thumbnail-shadow-hover    : true;//Do you need a shadow on hover? (true / false)
+//Do you need a shadow on hover? (true / false)
+@thumbnail-shadow-hover    : true;
 @thumbnail-color-hover     : @gray;
 
 @thumbnail-caption-bg      : @primary-bg;
@@ -392,8 +398,8 @@
 
 // JQuery Modules Datepicker = http://jqueryui.com/datepicker/
 //==================================================
-@datepicker-bg                : @body-bg;
-@datepicker-border-color      : #ddd;
+@datepicker-bg                : #fff;
+@datepicker-border-color      : #DDD;
 @datepicker-width             : 210px;
 
 @datepicker-header-bg         : @header-bg;
@@ -416,10 +422,10 @@
 @datepicker-day-box-size      : 30px;
 @datepicker-day-font-size     : @font-size-mini;
 
-@datepicker-today-bg          : lighten(@primary-bg, 25%);
-@datepicker-today-color       : @datepicker-header-color;
-@datepicker-current-day-bg    : lighten(@datepicker-header-bg, 5%);
-@datepicker-current-day-color : @datepicker-week-color;
+@datepicker-today-bg          : @state-primary-bg;
+@datepicker-today-color       : @state-primary-color;
+@datepicker-current-day-bg    : @gray-light;
+@datepicker-current-day-color : @gray;
 
 // JQuery Modules Autocomplete = http://jqueryui.com/autocomplete/
 //=============================================================
@@ -441,17 +447,17 @@
 // JQuery Modules Slider (range) = http://jqueryui.com/slider/
 //=============================================================
 @range-size         : 16px;
-@range-bg           : #fff;
-@range-border-color : @input-border-color;
-@range-range-bg     : @gray-light;
-@range-handle-bg    : @gray;
+@range-bg           : #FFF;
+@range-value        : @state-primary-bg;
+@range-border-color : @state-primary-border;
+@range-handle-bg    : @state-primary-color;
 
 // JQuery Modules Progressbar = http://jqueryui.com/progressbar/
 //=============================================================
 @progressbar-size         : 18px;
-@progressbar-bg           : #fff;
-@progressbar-border-color : darken(@primary-bg, 15%);
-@progressbar-range-bg     : @primary-bg;
+@progressbar-bg           : #FFF;
+@progressbar-value        : @brand-primary;
+@progressbar-border-color : @input-border-color;
 
 // ScrollBars = http://codemug.com/html/custom-scrollbars-using-css/
 //=============================================================

@@ -24,6 +24,7 @@
             padding         : (@datepicker-header-height - @datepicker-arrow-size) / 2;
             text-decoration : none;
             .icon-size(@datepicker-arrow-size);
+            .box-sizing(content-box);
 
             span{ display : none; }
 
@@ -110,7 +111,7 @@
                     .border-radius(0);
 
                         &:hover{
-                            background : @state-primary-bg;
+                        background : @gray-light;
                         }
                 }
 

@@ -18,7 +18,7 @@
         z-index    : 1;
         display    : block;
         border     : 0;
-        background : @range-range-bg;
+        background : @range-value;
 
         &.ui-slider-range-min{
             left   : 0;
@@ -40,52 +40,49 @@
 
     // Alternate slider / range
     //========================================
-    &.success when (@color-success = true) and (@colors = true){
-        background   : @state-green-bg;
-        border-color : @state-green-border;
+    &.success when (@range-color-success = true) and (@range-colors = true){
+        border-color : @state-success-border;
 
         .ui-slider-handle{
-            background : darken(@state-green-color, 10%);
+            background : @state-success-color;
         }
 
         .ui-slider-range{
-            background : @state-green-color;
+            background : @state-success-bg;
         }
     }
-    &.warning when (@color-warning = true) and (@colors = true){
-        background   : @state-orange-bg;
-        border-color : @state-orange-border;
+    &.warning when (@range-color-warning = true) and (@range-colors = true){
+        border-color : @state-warning-border;
 
         .ui-slider-handle{
-            background : darken(@state-orange-color, 10%);
+            background : @state-warning-color;
         }
 
         .ui-slider-range{
-            background : @state-orange-color;
+            background : @state-warning-bg;
         }
     }
-    &.error when (@color-error = true) and (@colors = true){
-        background   : @state-red-bg;
-        border-color : @state-red-border;
+    &.error when (@range-color-error = true) and (@range-colors = true){
+        background   : @state-error-bg;
+        border-color : @state-error-border;
 
         .ui-slider-handle{
-            background : darken(@state-red-color, 10%);
+            background : @state-error-color;
         }
 
         .ui-slider-range{
-            background : @state-red-color;
+            background : @state-error-bg;
         }
     }
-    &.info when (@color-info = true) and (@colors = true){
-        background   : @state-blue-bg;
-        border-color : @state-blue-border;
+    &.info when (@range-color-info = true) and (@range-colors = true){
+        border-color : @state-info-border;
 
         .ui-slider-handle{
-            background : darken(@state-blue-color, 10%);
+            background : @state-info-color;
         }
 
         .ui-slider-range{
-            background : @state-blue-color;
+            background : @state-info-bg;
         }
     }
 }

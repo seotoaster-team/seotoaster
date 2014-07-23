@@ -12,20 +12,37 @@
 
 // Column-grid system
 //==================================================
-.column(){
-    .column-list();
+.column() {
+    .activate-responsive(@activate : @responsive) when (@activate = true){
+        @responsive-size-tablet-over : (@responsive-size-tablet + 1);
+        @media only screen and (min-width : @responsive-size-tablet-over){
+            .column-list();
+        }
+        @responsive-size-mobile-over : (@responsive-size-mobile + 1);
+        @media only screen and (max-width : @responsive-size-tablet) and (min-width : @responsive-size-mobile-over){
+            .column-list(@columns-tablet, t-);
+        }
+
+        @media only screen and (max-width : @responsive-size-mobile){
+            .column-list(@columns-mobile, m-);
+        }
+
+    }
+    .activate-responsive(@activate : @responsive) when (@activate = false){
+        .column-list();
+    }
+    .activate-responsive();
 }
 .column-list(@column : @columns, @prefix : ~'', @num-column : 1, @full-width : false) when (@column >= @num-column) and (@full-width = false){
-    .@{prefix}column_@{num-column}>*:not(.column-none){
+    .@{prefix}column_@{num-column} > *:not(.column-none){
         width : round((100% / @num-column) - @column-margin-width, 3);
     }
     .column-list(@column, @prefix, @num-column + 1, false);
 }
 .column-list(@column : @columns, @prefix : ~'', @num-column : 1, @full-width : true) when (@column >= @num-column) and (@full-width = true){
     .full-width{
-        &.@{prefix}column_@{num-column}>*:not(.column-none){
+        &.@{prefix}column_@{num-column} > *:not(.column-none){
             width : round((100% / @num-column) - @column-margin-width + (@column-margin-width / @num-column), 3);
-
             @num : ~'@{num-column}n + 1';
             &:nth-child(@{num}){
                 margin-left : 0 !important;
@@ -37,25 +54,29 @@
 
 // Grid system
 //==================================================
-.grid(){
+.grid() {
     .activate-responsive(@activate : @responsive) when (@activate = true){
+        .b-visible, .d-visible, .t-visible, .m-visible{ display : none !important; }
         @responsive-size-tablet-over : (@responsive-size-tablet + 1);
         @media only screen and (min-width : @responsive-size-tablet-over){
+            .d-visible{ display : block !important; }
             .d-hide{ display : none !important; }
             .grid-list();
         }
         @responsive-size-mobile-over : (@responsive-size-mobile + 1);
-    @media only screen and (max-width : @responsive-size-tablet) and (min-width: @responsive-size-mobile-over){
-        .t-hide{ display : none !important; }
+        @media only screen and (max-width : @responsive-size-tablet) and (min-width : @responsive-size-mobile-over){
+            .t-visible{ display : block !important; }
+            .t-hide{ display : none !important; }
             .grid-list(@grid-columns-tablet, t-);
-    }
+        }
 
-    @media only screen and (max-width : @responsive-size-mobile){
-        .m-hide{ display : none !important; }
+        @media only screen and (max-width : @responsive-size-mobile){
+            .m-visible{ display : block !important; }
+            .m-hide{ display : none !important; }
             .grid-list(@grid-columns-mobile, m-);
-    }
+        }
 
-}
+    }
     .activate-responsive(@activate : @responsive) when (@activate = false){
         .grid-list();
     }
@@ -258,68 +279,43 @@
 
 // CSS3 support in ie
 //==================================================
-.pie(@pie : @activate-pie) when (@pie = true){
+.pie() when (@activate-pie = true){
     behavior : url('../js/system/PIE.php');
 }
 
 // -- Grid Elements
-.grid-elements(@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@margin = 0), (@full = false){
-    width : (100% / @num-column) - @margin;
-
-    .activate-style-switch(@activate) when (@activate = true){
-        margin-left  : unit(@margin / 2, ~"%") !important;
+.grid-elements(@num-column, @margin : @grid-margin-width, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@num-column > 0){
+    .activate-style-switch() when (@style-switch = true) and (@full = false){
+        margin-left  : unit(@margin / 2, ~"%");
         margin-right : unit(@margin / 2, ~"%");
     }
-    .activate-style-switch(@style-switch);
-
-    .type-of-development(@activate : @responsive) when (@activate = true){
-        .grid-elements-tablet(@tablet-column, @margin, @full);
-        .grid-elements-mobile(@mobile-column, @margin, @full);
+    .activate-style-switch() when (@style-switch = true) and (@full = true){
+        margin-left  : unit(@margin, ~"%");
+        margin-right : 0;
     }
-    .type-of-development();
+    .active-full-width() when (@full = false){
+        width : (100% / @num-column) - @margin;
+    }
+    .active-full-width() when (@full = true){
+        width : (100% / @num-column) - @margin + (@margin / @num-column);
+
+        &:nth-child(n) when (@style-switch = false) and not (@num-column = 1){ margin-left : unit(@margin, ~"%"); }
+
+        @num : ~'@{num-column}n + 1';
+        &:nth-child(@{num}) when (@full = true){
+            margin-left : 0;
+        }
+    }
+    .active-full-width();
+    .activate-style-switch();
+    .grid-elements-device(@tablet-column, @mobile-column, @margin, @full);
 }
 
-.grid-elements(@num-column, @margin, @full, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@num-column > 1) and (@full = true) and (@margin > 0){
-    width        : (100% / @num-column) - @margin + (@margin / @num-column);
-    margin-left  : unit(@margin, ~"%");
-    margin-right : 0;
-
-    .activate-style-switch(@activate) when (@activate = false){
-        &:nth-child(n){ margin-left : unit(@margin, ~"%"); }
-    }
-    .activate-style-switch(@style-switch);
-
-    @num : ~'@{num-column}n + 1';
-    &:nth-child(@{num}){
-        margin-left : 0;
-    }
-
-    .type-of-development(@activate : @responsive) when (@activate = true){
-        .grid-elements-tablet(@tablet-column, @margin, @full);
-        .grid-elements-mobile(@mobile-column, @margin, @full);
-    }
-    .type-of-development();
-}
-
-.grid-elements (@num-column, @margin, @full: false, @tablet-column : @responsive-column-tablet, @mobile-column : @responsive-column-mobile, @style-switch : true) when (@num-column = 1) and (@full = true){
-    width       : 100%;
-    margin-left : 0;
-
-    .type-of-development(@activate : @responsive) when (@activate = true){
-        .grid-elements-tablet(@tablet-column, @margin, @full);
-        .grid-elements-mobile(@mobile-column, @margin, @full);
-    }
-    .type-of-development();
-}
-
-.grid-elements-tablet(@tablet-column, @margin, @full) when (@tablet-column > 0){
+.grid-elements-device(@tablet-column, @mobile-column, @margin, @full) when (@responsive = true){
     @responsive-size-mobile-over : (@responsive-size-mobile + 1);
     @media only screen and (max-width : @responsive-size-tablet) and  (min-width : @responsive-size-mobile-over){
         .grid-elements(@tablet-column, @margin, @full, 0, 0, false);
     }
-}
-
-.grid-elements-mobile(@mobile-column, @margin, @full) when (@mobile-column > 0){
     @media only screen and (max-width : @responsive-size-mobile){
         .grid-elements(@mobile-column, @margin, @full, 0, 0, false);
     }
@@ -332,7 +328,6 @@
     height      : @size;
     line-height : @size;
     font-size   : 0;
-    .box-sizing(content-box);
 
     &:before{
         font-size : @size;
@@ -358,7 +353,7 @@
                 margin-left : 5px;
             }
 
-            [class*="icon-"]{
+            [class*="ticon-"]{
                 float       : left;
                 font-size   : 0;
                 width       : @size;
@@ -366,7 +361,8 @@
                 line-height : @size;
 
                 &:before{
-                    font-size : @size - @padding * 2;
+                    vertical-align : middle;
+                    font-size      : @size - @padding * 2;
                 }
             }
 
@@ -393,7 +389,7 @@
 // ClearFix
 //==================================================
 .clearfix() {
-    *zoom: 1;
+    *zoom : 1;
 
     &:after{
         content    : "";
@@ -404,7 +400,6 @@
         height     : 0;
     }
 }
-
 
 // Flexbox Layout http://css-tricks.com/snippets/css/a-guide-to-flexbox/
 //==================================================

@@ -22,7 +22,7 @@ class Application_Form_Container extends Zend_Form {
 			'id'     => 'btn-submit',
             'label' => 'Save content',
             'type'  => 'submit',
-			'class'  => 'formsubmit btn icon-save',
+			'class'  => 'formsubmit btn ticon-save',
 			'ignore' => true,
             'escape'=> false
 		));

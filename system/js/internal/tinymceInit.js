@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function(){
     var websiteUrl = $('#website_url').val();
 
     tinymce.init({
@@ -14,22 +14,23 @@ $(document).ready(function(){
         allow_script_urls       : true,
         content_css             : $('#reset_css').val()+','+$('#content_css').val(),
         importcss_file_filter   : "content.css",
+        importcss_selector_filter: /^(?!\.h1|\.h2|\.h3|\.h4|\.h5|\.h6|\.social-links*|\.callout*|\.callout*|\.panel*|.icon-*|\.icon12|\.icon14|\.icon16|\.icon18|\.icon24|\.icon32|\.icon48|\.toaster-icon|hr\.)/,
         importcss_groups : [
-            {title : 'Button styles', filter : /^(.btn*|button\.)/},
-            {title : 'Table styles', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
-            {title : 'List styles', filter : /^(.list*|ul\.|ol\.)/},
-            {title : 'Image styles', filter : /^(.image*|img\.)/},
-            {title : 'Block quote styles', filter : /^(blockquote\.)/},
-            {title : 'Separator styles', filter : /^(hr\.)/},
-            {title : 'Message styles', filter : /^(\.message*)/},
-            {title : 'Badge styles', filter : /^(\.badge*)/},
-            {title : 'Primary colors', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
-            {title : 'Size classes', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
+            {title : 'Button', filter : /^(.btn*|button\.)/},
+            {title : 'Table', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
+            {title : 'List', filter : /^(.list*|ul\.|ol\.)/},
+            {title : 'Image', filter : /^(.image*|img\.)/},
+            {title : 'Blockquote', filter : /^(blockquote\.)/},
+            {title : 'Separator', filter : /^(hr\.)/},
+            {title : 'Message', filter : /^(\.message*)/},
+            {title : 'Badge', filter : /^(\.badge*)/},
+            {title : 'Color', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
+            {title : 'Size', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
             {title : 'Other styles'}
         ],
         importcss_merge_classes: true,
         plugins                 : [
-            "advlist lists link anchor image charmap", "visualblocks code fullscreen", "media table paste importcss textcolor stw"
+            "advlist lists link anchor image charmap visualblocks code fullscreen media table paste importcss textcolor stw"
         ],
         toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify | bullist numlist forecolor backcolor | link unlink anchor image media table hr",
         toolbar2                : "stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen",

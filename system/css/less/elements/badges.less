@@ -1,15 +1,16 @@
-.badge{
+.badge when (@badges){
     background  : @primary-bg;
     color       : @primary-color;
-    min-width   : 10px;
-    padding     : 3px 6px;
+    min-width   : 1em;
+    padding     : @padding-small-vertical;
     font-size   : @font-size-small;
     font-weight : bold;
-    line-height : 1;
+    line-height : 1em;
     white-space : nowrap;
     text-align  : center;
     .inline-block(baseline);
-    .border-radius(@border-radius-large);
+    .border-radius(1em);
+    .box-sizing(content-box);
 
     &.success, &.info, &.error, &.warning{
         & when (@badge-colors){
@@ -19,14 +20,14 @@
     &.success when (@badge-success) and (@badge-colors){
         background : @brand-success;
     }
-    &.info when (@badge-info) and (@badge-colors){
-        background : @brand-info;
+    &.warning when (@badge-warning) and (@badge-colors){
+        background : @brand-warning;
     }
     &.error when (@badge-error) and (@badge-colors){
         background : @brand-error;
     }
-    &.warning when (@badge-warning) and (@badge-colors){
-        background : @brand-warning;
+    &.info when (@badge-info) and (@badge-colors){
+        background : @brand-info;
     }
     &.inverse when (@badge-inverse) and (@badge-colors){
         background : @primary-color;

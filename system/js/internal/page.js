@@ -69,8 +69,8 @@ function showTemplatesList() {
             header: '.template_header',
             collapsible: true,
             icons: {
-                "header": "icon-arrow-right",
-                "activeHeader": "icon-arrow-down"
+                "header": "ticon-arrow-right",
+                "activeHeader": "ticon-arrow-down"
             } // or false
         });
         $templateList.find('.template_group').css({
