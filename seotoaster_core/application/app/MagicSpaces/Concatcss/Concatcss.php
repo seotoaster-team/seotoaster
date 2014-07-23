@@ -1,37 +1,41 @@
 <?php
+
+/**
+ * Concatenate css into one file and minify css code
+ */
 class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
 {
-    const FILE_NAME_PREFIX    = 'concat_';
+    const FILE_NAME_PREFIX       = 'concat_';
 
-    private $_disableForRoles = array(
+    protected  $_disableForRoles = array(
         Tools_Security_Acl::ROLE_SUPERADMIN,
         Tools_Security_Acl::ROLE_ADMIN
     );
 
-    private $_cssOrder        = array(
+    protected $_cssOrder         = array(
         'reset.css',
         'content.css',
         'nav.css',
         'style.css'
     );
 
-    private $_themeFullPath   = '';
+    protected $_themeFullPath    = '';
 
-    private $_fileId          = '';
+    protected $_fileId           = '';
 
-    private $_folderСssPath   = '';
+    protected $_folderСssPath    = '';
 
-    private $_cacheable       = true;
+    protected $_cacheable        = true;
 
-    private $_cache           = null;
+    protected $_cache            = null;
 
-    private $_cacheId         = null;
+    protected $_cacheId          = null;
 
-    private $_cachePrefix     = 'magicspaces_';
+    protected $_cachePrefix      = 'magicspaces_';
 
-    private $_cacheTags       = array('concatcss');
+    protected $_cacheTags        = array('concatcss');
 
-    protected $_cacheLifeTime = Helpers_Action_Cache::CACHE_WEEK;
+    protected $_cacheLifeTime    = Helpers_Action_Cache::CACHE_WEEK;
 
     protected function _init()
     {
@@ -113,14 +117,13 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
      */
     private function _getFilesCss()
     {
-        $cssToTemplate = array();
-        preg_match_all('/<link.*href="([^"]*\.css)".*>/', $this->_spaceContent, $cssToTemplate);
-
         $files = array();
-        foreach ($cssToTemplate[1] as $file) {
-            $link    = explode($this->_toasterData['websiteUrl'].$this->_themeFullPath.'/', rawurldecode($file));
-            $files[] = end($link);
-        }
+        preg_match_all(
+            '/<link.*href=".*\/(?:('.Tools_Theme_Tools::FOLDER_CSS.'\/.*\.css)|.*\/(.*\.css))".*>/',
+            $this->_spaceContent,
+            $files
+        );
+        $files = array_filter(array_merge($files[1], $files[2]));
 
         return (isset($this->_params[0]) && $this->_params[0] == 'sort') ? $this->_sortCss($files) : $files;
     }
