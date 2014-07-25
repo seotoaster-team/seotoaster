@@ -12,6 +12,8 @@ $(function(){
         relative_urls           : false,
         statusbar               : false,
         allow_script_urls       : true,
+        force_p_newlines        : true,
+        forced_root_block       : false,
         content_css             : $('#reset_css').val()+','+$('#content_css').val(),
         importcss_file_filter   : "content.css",
         importcss_selector_filter: /^(?!\.h1|\.h2|\.h3|\.h4|\.h5|\.h6|\.social-links*|\.callout*|\.callout*|\.panel*|.icon-*|\.icon12|\.icon14|\.icon16|\.icon18|\.icon24|\.icon32|\.icon48|\.toaster-icon|hr\.)/,

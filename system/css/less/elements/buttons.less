@@ -12,8 +12,11 @@
     }
 
     &.disabled, &[disabled]{
-        background-color : @gray-light !important;
-        cursor           : not-allowed, default !important;
+        border-color     : @gray-light !important;
+        color            : @gray-light !important;
+        background-color : @gray-lighter !important;
+        cursor           : default !important;
+        cursor           : not-allowed !important;
         .box-shadow(~'none !important', @button-box-shadow);
     }
 
