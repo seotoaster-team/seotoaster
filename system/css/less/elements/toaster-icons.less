@@ -14,8 +14,11 @@
 [class*="ticon-"], [class^=" ticon-"]{
     //    .inline-block;
     position : relative;
-}
 
+    &:before{
+        font-family : 'system-icons' !important;
+    }
+}
 .toaster-icon,
 [class*="ticon-"]:before, [class^=" ticon-"]:before, [data-icon]:before,
 [class^="ui-icon-"]:before, [class*=" ui-icon-"]:before,
