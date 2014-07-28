@@ -29,6 +29,8 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     protected $_cacheLifeTime  = Helpers_Action_Cache::CACHE_WEEK;
 
+    protected $_cacheData      = array();
+
     protected $_widgetId       = null;
 
     /**
@@ -36,25 +38,26 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
      *
      * @var mixed|Zend_Translate
      */
-    protected $_translator = null;
+    protected $_translator     = null;
 
     public function __construct($options = null, $toasterOptions = array())
     {
-        $this->_options = $options;
+        $this->_options        = $options;
         $this->_toasterOptions = $toasterOptions;
 
         if ($this->_cacheable === true) {
             $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
             $this->_cache     = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
             $this->_widgetId  = strtolower(get_called_class());
-            $this->_widgetId .= (!empty($this->_options) ? '-' . implode('-', $this->_options) : '');
+            $this->_widgetId .= (!empty($this->_options) ? '_'.implode('_', $this->_options) : '');
 
             if (isset($toasterOptions['id'])) {
-                $this->_cacheId = 'page-'.$toasterOptions['id'].'-'.$roleId;
-            } else {
-                $this->_cacheId = 'widget-' . $this->_widgetId.'-'.$roleId;
+                $this->_cacheId = 'page_'.$toasterOptions['id'].'_'.$roleId;
             }
-            $this->_cacheId .= '-lifeTime-'.$this->_cacheLifeTime;
+            else {
+                $this->_cacheId = strtolower(get_called_class()).'_'.$roleId;
+            }
+            $this->_cacheId .= '_lifeTime_'.$this->_cacheLifeTime;
         }
 
         $this->_translator = Zend_Registry::get('Zend_Translate');
@@ -74,24 +77,38 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
     public function render()
     {
         if ($this->_cacheable) {
-            $data = $this->_loadFromCache();
-            if (isset($data[$this->_widgetId])) {
-                $content = $data[$this->_widgetId];
+            $this->_cacheData = $this->_loadFromCache();
+            if (isset($this->_cacheData['data'][$this->_widgetId])) {
+                $content = $this->_cacheData['data'][$this->_widgetId];
             }
             else {
-                if ($data === null) {
-                    $data = array();
-                }
                 try {
-                    $data[$this->_widgetId] = $this->_load();
+                    $content = $this->_load();
+
+                    if ($this->_cacheData === null) {
+                        $this->_cacheData = array(
+                            'tags' => array(),
+                            'data' => array()
+                        );
+                    }
+
+                    if (is_array($this->_cacheTags) && !empty($this->_cacheTags)) {
+                        $this->_cacheData['tags'] = array_merge(
+                            $this->_cacheData['tags'],
+                            (!empty($this->_cacheData['tags']))
+                                ? array_diff($this->_cacheTags,  $this->_cacheData['tags'])
+                                : $this->_cacheTags
+                        );
+                    }
+
+                    $this->_cacheData['data'][$this->_widgetId] = $content;
                     $this->_cache->save(
                         $this->_cacheId,
-                        $data,
+                        $this->_cacheData,
                         $this->_cachePrefix,
-                        is_array($this->_cacheTags) ? $this->_cacheTags : array(),
+                        $this->_cacheData['tags'],
                         $this->_cacheLifeTime
                     );
-                    $content = $data[$this->_widgetId];
                 }
                 catch (Exceptions_SeotoasterException $ste) {
                     $content = $ste->getMessage();

@@ -56,6 +56,7 @@ news.template    = "news"
 cache.frontend.lifetime                = "7200"
 cache.frontend.automatic_serialization = 1
 cache.frontend.ignore_user_abort       = 1
+cache.backend.hashed_directory_level   = 3
 cache.backend.cache_dir                = "cache/"
 
 [misc]
