@@ -36,7 +36,7 @@ class Application_Form_Featured extends Zend_Form {
 			'id'    => 'add-featured-area',
 			'value' => 'Add page tag',
 			'type'  => 'submit',
-			'class' => 'btn block transparent mt10px icon-plus',
+			'class' => 'btn block transparent mt10px ticon-plus',
 			'escape'=> false
 		)));
 

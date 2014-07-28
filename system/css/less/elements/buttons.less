@@ -4,6 +4,7 @@
 // Core styles
 .btn{
     .button();
+    .user-select();
     .box-shadow(none, @input-shadow-focus);
 
     &:not(.icon){
@@ -11,8 +12,11 @@
     }
 
     &.disabled, &[disabled]{
-        background : @gray-light !important;
-        cursor     : not-allowed, default !important;
+        border-color     : @gray-light !important;
+        color            : @gray-light !important;
+        background-color : @gray-lighter !important;
+        cursor           : default !important;
+        cursor           : not-allowed !important;
         .box-shadow(~'none !important', @button-box-shadow);
     }
 
@@ -49,22 +53,22 @@
 
     // Warning appears as orange
     &.warning when (@button-color-warning = true) and (@button-colors = true){
-        .button-color(@button-orange-color, @button-orange-bg, @button-orange-border);
+        .button-color(@button-warning-color, @button-warning-bg, @button-warning-border);
     }
 
     // Danger and red appear as red
     &.error when (@button-color-error = true) and (@button-colors = true){
-        .button-color(@button-red-color, @button-red-bg, @button-red-border);
+        .button-color(@button-error-color, @button-error-bg, @button-error-border);
     }
 
     // Success appears as green
     &.success when (@button-color-success = true) and (@button-colors = true){
-        .button-color(@button-green-color, @button-green-bg, @button-green-border);
+        .button-color(@button-success-color, @button-success-bg, @button-success-border);
     }
 
     // Info appears as blue
     &.info when (@button-color-info = true) and (@button-colors = true){
-        .button-color(@button-blue-color, @button-blue-bg, @button-blue-border);
+        .button-color(@button-info-color, @button-info-bg, @button-info-border);
     }
 
     // Inverse button appears as gray => primary
@@ -108,6 +112,7 @@
             font-size : 0;
 
             &:before{
+                vertical-align : middle;
                 font-size : @icon-size-base;
                 margin    : 0;
             }
@@ -185,8 +190,127 @@
         }
     }
 
+    &.outline, &.outline-bg{
+        & when (@button-type-outline = true), (@button-type-outline-bg = true) and (@button-types = true){
+            .activate-border() when (@button-border-width = 0) and (@button-border-width < 2){
+                border      : 2px solid;
+                line-height : @button-line-height-base - 4;
+            }
+            .activate-border();
+            .box-shadow(none, @button-box-shadow);
+
+            // Button Sizes
+            // --------------------------------------------------
+            &.larger when (@button-size-larger = true) and (@button-sizes = true) and (@button-border-width = 0) and (@button-border-width < 2){
+                line-height : @button-line-height-larger - 4;
+            }
+            &.large when (@button-size-large = true) and (@button-sizes = true) and (@button-border-width = 0) and (@button-border-width < 2){
+                line-height : @button-line-height-large - 4;
+            }
+            &.small when (@button-size-small = true) and (@button-sizes = true) and (@button-border-width = 0) and (@button-border-width < 2){
+                line-height : @button-line-height-small - 4;
+            }
+        }
+    }
+    &.outline when (@button-type-outline = true) and (@button-types = true){
+        .button-color(@brand-primary, transparent, @brand-primary);
+
+        // Alternate buttons
+        // --------------------------------------------------
+        // Inverse button appears as gray => primary
+        &.inverse when (@button-color-inverse = true) and (@button-colors = true){
+            &:hover, &:active{
+                color : @brand-primary;
+            }
+        }
+        // Warning appears as orange
+        &.warning when (@button-color-warning = true) and (@button-colors = true){
+            .button-color(@brand-warning, transparent, @brand-warning);
+        }
+
+        // Danger and error appear as red
+        &.error when (@button-color-error = true) and (@button-colors = true){
+            .button-color(@brand-error, transparent, @brand-error);
+        }
+
+        // Success appears as green
+        &.success when (@button-color-success = true) and (@button-colors = true){
+            .button-color(@brand-success, transparent, @brand-success);
+        }
+
+        // Info appears as blue
+        &.info when (@button-color-info = true) and (@button-colors = true){
+            .button-color(@brand-info, transparent, @brand-info);
+        }
+
+        //Inverse color
+        &.inverse when (@button-color-inverse = true) and (@button-colors = true){
+            color        : @gray-light;
+            border-color : @gray-light;
+        }
+    }
+
+    &.outline-bg when (@button-type-outline-bg = true) and (@button-types = true){
+        .button-color(@brand-primary, transparent, @brand-primary, @button-primary-color, @button-primary-bg, @button-primary-bg);
+
+        // Alternate buttons
+        // --------------------------------------------------
+        // Inverse button appears as gray => primary
+        &.inverse when (@button-color-inverse = true) and (@button-colors = true){
+            &:hover, &:active{
+                color : @brand-primary;
+            }
+        }
+        // Warning appears as orange
+        &.warning when (@button-color-warning = true) and (@button-colors = true){
+            .button-color(@brand-warning, transparent, @brand-warning, @button-warning-color, @button-warning-bg, @button-warning-bg);
+        }
+
+        // Danger and error appear as red
+        &.error when (@button-color-error = true) and (@button-colors = true){
+            .button-color(@brand-error, transparent, @brand-error, @button-error-color, @button-error-bg, @button-error-bg);
+        }
+
+        // Success appears as green
+        &.success when (@button-color-success = true) and (@button-colors = true){
+            .button-color(@brand-success, transparent, @brand-success, @button-success-color, @button-success-bg, @button-success-bg);
+        }
+
+        // Info appears as blue
+        &.info when (@button-color-info = true) and (@button-colors = true){
+            .button-color(@brand-info, transparent, @brand-info, @button-info-color, @button-info-bg, @button-info-bg);
+        }
+
+        //Inverse color
+        &.inverse when (@button-color-inverse = true) and (@button-colors = true){
+            color        : @gray-light;
+            border-color : @gray-light;
+        }
+    }
+
     &.btn-3d when (@button-type-3d = true) and (@button-types = true){
-        .button-3d(@button-primary-color, @button-primary-bg, @button-primary-border);
+        .button-3d(@button-primary-border);
+        .border-radius(@border-radius-small);
+
+        // Warning appears as orange
+        &.warning when (@button-color-warning = true) and (@button-colors = true){
+            .button-3d(@button-warning-border);
+    }
+
+        // Danger and error appear as red
+        &.error when (@button-color-error = true) and (@button-colors = true){
+            .button-3d(@button-error-border);
+}
+
+        // Success appears as green
+        &.success when (@button-color-success = true) and (@button-colors = true){
+            .button-3d(@button-success-border);
+        }
+
+        // Info appears as blue
+        &.info when (@button-color-info = true) and (@button-colors = true){
+            .button-3d(@button-info-border);
+        }
     }
 }
 
@@ -219,7 +343,7 @@
                 &:first-child{
                 }
 
-                [class^="icon-"], [class*=" icon-"]{
+                [class^="ticon-"], [class*=" ticon-"]{
                 }
             }
         }
@@ -230,7 +354,7 @@
                 &:first-child{
                 }
 
-                [class^="icon-"], [class*=" icon-"]{
+                [class^="ticon-"], [class*=" ticon-"]{
                 }
             }
 

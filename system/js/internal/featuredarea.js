@@ -6,7 +6,7 @@ $(function() {
         showSpinner("#fa-list");
 		var chckbx = $('#fa-list [type=checkbox]:checked');
 
-		$('.featured-link').html((chckbx.length) ? '<span class="icon-tags icon14"></span> Page was added ' + chckbx.length + ' times in <a class="featured" href="javascript:;" title="tags">tags</a>' : '<span class="icon-tags icon14"></span> <a class="featured" href="javascript:;" title="tags">Add a page to a tags</a>');
+		$('.featured-link').html((chckbx.length) ? '<span class="ticon-tags icon14"></span> Page was added ' + chckbx.length + ' times in <a class="featured" href="javascript:;" title="tags">tags</a>' : '<span class="ticon-tags icon14"></span> <a class="featured" href="javascript:;" title="tags">Add a page to a tags</a>');
 
 		var pageId     = $('#pageId').val();
 		var faId       = $(this).attr('id');

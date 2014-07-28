@@ -62,7 +62,7 @@
                         font-size   : 78px;
                         color       : darken(@gray-light, 20%);
 
-                        &.icon-remarketing{
+                        &.ticon-remarketing{
                             font-size : 100px;
                         }
                     }
@@ -119,7 +119,7 @@
                 margin-top : 1%;
             }
 
-            .icon-close{
+            .ticon-close{
                 position : absolute;
                 top      : 5px;
                 right    : 5px;
@@ -167,7 +167,7 @@
 }
 
 #users-list{
-    .icon-sort{
+    .ticon-sort{
         color : inherit;
     }
 }
@@ -248,10 +248,10 @@
             }
         }
         .plugin-control{
-            .button-color(@button-red-color, desaturate(@button-red-bg, 25%), desaturate(@button-red-border, 25%));
+            .button-color(@button-error-color, desaturate(@button-error-bg, 25%), desaturate(@button-error-border, 25%));
 
             &.block{
-                .button-color(@button-green-color, @button-green-bg, @button-green-border);
+                .button-color(@button-success-color, @button-success-bg, @button-success-border);
             }
         }
         .plugin-endis{

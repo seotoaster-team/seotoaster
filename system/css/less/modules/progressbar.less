@@ -8,7 +8,7 @@
 
     .ui-progressbar-value{
         height     : 100%;
-        background : @progressbar-range-bg;
+        background : @progressbar-value;
     }
 
     .label{
@@ -31,39 +31,39 @@
 
     // Alternate progressbar
     // --------------------------------------------------
-    &.success when (@color-success = true) and (@colors = true){
-                background   : @state-green-bg;
-                border-color : @state-green-border;
+    &.success when (@progressbar-color-success = true) and (@progressbar-colors = true){
+        background   : @state-success-bg;
+        border-color : @state-success-border;
 
-                .ui-progressbar-value{
-            background : @state-green-color;
-                }
-            }
-    &.warning when (@color-warning = true) and (@colors = true){
-                background   : @state-orange-bg;
-                border-color : @state-orange-border;
-
-                .ui-progressbar-value{
-            background : @state-orange-color;
-                }
-            }
-    &.error when (@color-error = true) and (@colors = true){
-                background   : @state-red-bg;
-                border-color : @state-red-border;
-
-                .ui-progressbar-value{
-            background : @state-red-color;
-                }
-            }
-    &.info when (@color-info = true) and (@colors = true){
-                background   : @state-blue-bg;
-                border-color : @state-blue-border;
-
-                .ui-progressbar-value{
-            background : @state-blue-color;
-                }
-            }
+        .ui-progressbar-value{
+            background : @state-success-color;
         }
+    }
+    &.warning when (@progressbar-color-warning = true) and (@progressbar-colors = true){
+        background   : @state-warning-bg;
+        border-color : @state-warning-border;
+
+        .ui-progressbar-value{
+            background : @state-warning-color;
+        }
+    }
+    &.error when (@progressbar-color-error = true) and (@progressbar-colors = true){
+        background   : @state-error-bg;
+        border-color : @state-error-border;
+
+        .ui-progressbar-value{
+            background : @state-error-color;
+        }
+    }
+    &.info when (@progressbar-color-info = true) and (@progressbar-colors = true){
+        background   : @state-info-bg;
+        border-color : @state-info-border;
+
+        .ui-progressbar-value{
+            background : @state-info-color;
+        }
+    }
+}
 
 [id*="-filelist"]{
     .ui-widget{

@@ -416,10 +416,11 @@ class IndexController extends Zend_Controller_Action {
 		$appIni = file_get_contents(APPLICATION_PATH.'/resourses/application.ini.default');
 
 		$replacements = array(
+			'{directory_separator}' => DIRECTORY_SEPARATOR,
 			'{websiteurl}'      => $this->_session->websiteUrl,
-			//'{websitepath}'     => INSTALL_PATH . DIRECTORY_SEPARATOR,
+			'{websitepath}'     => INSTALL_PATH . DIRECTORY_SEPARATOR,
             //force change directory separator in the config (to avoid problems on windows)
-            '{websitepath}'     => str_replace('\\', '/', INSTALL_PATH) . '/',
+//            '{websitepath}'     => str_replace('\\', '/', INSTALL_PATH) . '/',
 			'{adapter}'         => $this->_session->dbinfo['adapter'],
 			'{host}'            => $this->_session->dbinfo['params']['host'],
 			'{username}'        => $this->_session->dbinfo['params']['username'],

@@ -6,19 +6,13 @@
     @backgroundMs     : e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-ms-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-ms-radial-gradient").replace(/,\s* \d*(px|%) \d*(px|%)/,", circle").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
     @backgroundOpera  : e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-o-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-o-radial-gradient").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");})()`);
     @backgroundW3C    : e(`(function(){var a,b,c,d,e;a="@{arguments}",b=null,c=a.split(/,(?=\s*(?:linear|radial))/g),d=c.length,e=0;while(e<d){try{"".trim(),b=!0}catch(f){b=!1}b&&(c[e]=c[e].trim()),e++}return c.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = ie9) { background-image : @background; }
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = webkit) { background-image : @background; }
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = moz) { background-image : @background; }
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = ie) { background-image : @background; }
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = o) { background-image : @background; }
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = w3c) { background-image : @background; }
-    .activate(@backgroundSVG, @ie9, ie9);
-    .activate(@backgroundWebkit, @webkit, webkit);
-    .activate(@backgroundMoz, @moz, moz);
-    .activate(@backgroundOpera, @opera, o);
-    .activate(@backgroundW3C, @ie, ie);
-    .activate(@backgroundW3C, @w3c, w3c);
-    .activate(@backgroundW3C, @ie8, ie8);
+    .activate() when (@ie9 = true) and (@ie = true) { background-image : @backgroundSVG; }
+    .activate() when (@webkit = true){ background-image : @backgroundWebkit; }
+    .activate() when (@moz = true){ background-image : @backgroundMoz; }
+    .activate() when (@ie = true){ background-image : @backgroundMs; }
+    .activate() when (@opera = true){ background-image : @backgroundOpera; }
+    .activate() when (@w3c = true){ background-image : @backgroundW3C; }
+    .activate();
 }
 .gradient-horizontal(...) {
     @backgroundWebkit: e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-webkit-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-webkit-radial-gradient").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
@@ -39,7 +33,7 @@
     // IE10+
     .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = ie) { background-image : -ms-linear-gradient(left, @background); }
     // ie 8
-    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = ie8) {
+    .activate(@background, @activate, @activate2) when (@activate = true) and (@activate2 = ie8) and not (@activate-pie = true) {
         @color-one       : e(`(function(){var a, b; a = "@{background}", b = a.indexOf(' '); return a.substring(0, b);}())`);
         @color-two       : e(`(function(){var a, b, c; a = "@{background}", b = a.lastIndexOf(',') + 2, c = a.lastIndexOf(' '); return a.substring(b, c);}())`);
         filter : e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@color-one,@color-two));
@@ -96,127 +90,89 @@
 
 // -- Box Sizing
 .box-sizing(@box-sizing:border-box) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-box-sizing : @box-sizing; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-box-sizing : @box-sizing; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-box-sizing : @box-sizing; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-box-sizing : @box-sizing; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { box-sizing : @box-sizing; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-box-sizing : @box-sizing; }
+    .activate() when (@moz = true){ -moz-box-sizing : @box-sizing; }
+    .activate() when (@ie = true){ -ms-box-sizing : @box-sizing; }
+    .activate() when (@opera = true){ -o-box-sizing : @box-sizing; }
+    .activate() when (@w3c = true){ box-sizing : @box-sizing; }
+    .activate();
 }
 
 // -- Content Columns
 .content-columns(@column-count, @column-gap: @grid-margin-width) when (@column-count > 0){
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-column-count : @column-count; -webkit-column-gap : @column-gap; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-column-count : @column-count; -moz-column-gap : @column-gap; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-column-count : @column-count; -ms-column-gap : @column-gap; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-column-count : @column-count; -o-column-gap : @column-gap; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { column-count : @column-count; column-gap : @column-gap; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-column-count : @column-count; -webkit-column-gap : @column-gap; }
+    .activate() when (@moz = true){ -moz-column-count : @column-count; -moz-column-gap : @column-gap; }
+    .activate() when (@ie = true){ -ms-column-count : @column-count; -ms-column-gap : @column-gap; }
+    .activate() when (@opera = true){ -o-column-count : @column-count; -o-column-gap : @column-gap; }
+    .activate() when (@w3c = true){ column-count : @column-count; column-gap : @column-gap; }
+    .activate();
 }
 // -- Border Radius
 .border-radius(@radius, @important : false) when not (@radius = 0), (@important = true){
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-border-radius : @radius; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-border-radius : @radius; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-border-radius : @radius; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-border-radius : @radius; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { border-radius : @radius; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-border-radius : @radius; }
+    .activate() when (@moz = true){ -moz-border-radius : @radius; }
+    .activate() when (@ie = true){ -ms-border-radius : @radius; }
+    .activate() when (@opera = true){ -o-border-radius : @radius; }
+    .activate() when (@w3c = true){ border-radius : @radius; }
+    .activate();
     .pie;
 }
 
 // -- Box Shadow
 .box-shadow(@shadow, @shadow-switcher : true) when (@shadow-switcher = true){
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { box-shadow : @shadow; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
-    .pie;
-}
-.box-shadow(@shadow, @shadow-switcher : true, @important : false) when (@shadow-switcher = true) and (@important = true){
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-box-shadow : @shadow; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { box-shadow : @shadow; }
-    .activate(@webkit, webkit) !important;
-    .activate(@moz, moz) !important;
-    .activate(@opera, o) !important;
-    .activate(@ie, ie) !important;
-    .activate(@w3c, w3c) !important;
+    .activate() when (@webkit = true){ -webkit-box-shadow : @shadow; }
+    .activate() when (@moz = true){ -moz-box-shadow : @shadow; }
+    .activate() when (@ie = true){ -ms-box-shadow : @shadow; }
+    .activate() when (@opera = true){ -o-box-shadow : @shadow; }
+    .activate() when (@w3c = true){ box-shadow : @shadow; }
+    //    .activate() when (@ie = true) and (@ie8 = true), (@ie7 = true) and not (@activate-pie = true){
+    //        @offX      : extract(@shadow, 1);
+    //        @offY      : extract(@shadow, 2);
+    //        @n         : length(@shadow);
+    //        @color     : extract(@shadow, @n);
+    //        filter : e(%("progid:DXImageTransform.Microsoft.dropshadow(offX='%d', offY='%d', color='%d'))",@offX,@offY,@color));
+    //    }
+    .activate();
     .pie;
 }
 
 // -- Backface Visibility
 .backface-visibility(@visibility) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-backface-visibility : @visibility; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-backface-visibility : @visibility; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-backface-visibility : @visibility; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-backface-visibility : @visibility; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { backface-visibility : @visibility; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-backface-visibility : @visibility; }
+    .activate() when (@moz = true){ -moz-backface-visibility : @visibility; }
+    .activate() when (@ie = true){ -ms-backface-visibility : @visibility; }
+    .activate() when (@opera = true){ -o-backface-visibility : @visibility; }
+    .activate() when (@w3c = true){ backface-visibility : @visibility; }
+    .activate();
 }
 
 // Transformations
 //==================================================
 .transition(@property:all, @time:0.5s, @timing-function: ease) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-transition : @property @time @timing-function; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-transition : @property @time @timing-function; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-transition : @property @time @timing-function; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-transition : @property @time @timing-function; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { transition : @property @time @timing-function; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-transition : @property @time @timing-function; }
+    .activate() when (@moz = true){ -moz-transition : @property @time @timing-function; }
+    .activate() when (@ie = true){ -ms-transition : @property @time @timing-function; }
+    .activate() when (@opera = true){ -o-transition : @property @time @timing-function; }
+    .activate() when (@w3c = true){ transition : @property @time @timing-function; }
+    .activate();
 }
 
 .transform(@transform) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-transform : @transform; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-transform : @transform; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-transform : @transform; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-transform : @transform; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { transform : @transform; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-transform : @transform; }
+    .activate() when (@moz = true){ -moz-transform : @transform; }
+    .activate() when (@ie = true){ -ms-transform : @transform; }
+    .activate() when (@opera = true){ -o-transform : @transform; }
+    .activate() when (@w3c = true){ transform : @transform; }
+    .activate();
 }
 
 .transform-origin(@transform-origin) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-transform-origin : @transform-origin; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-transform-origin : @transform-origin; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-transform-origin : @transform-origin; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-transform-origin : @transform-origin; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { transform-origin : @transform-origin; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-transform-origin : @transform-origin; }
+    .activate() when (@moz = true){ -moz-transform-origin : @transform-origin; }
+    .activate() when (@ie = true){ -ms-transform-origin : @transform-origin; }
+    .activate() when (@opera = true){ -o-transform-origin : @transform-origin; }
+    .activate() when (@w3c = true){ transform-origin : @transform-origin; }
+    .activate();
 }
 
 .rotate(...) {
@@ -254,36 +210,30 @@
 // Placeholder text
 //==================================================
 .placeholder(@color: @input-color-placeholder) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) {
+    .activate() when (@webkit = true){
         &::-webkit-input-placeholder{ color : @color; }
     }
     // Safari and Chrome
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) {
+    .activate() when (@moz = true){
         // Firefox 4-18
         &:-moz-placeholder{ color : @color; }
         // Firefox 19+
         &::-moz-placeholder{ color : @color; }
     }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) {
+    .activate() when (@ie = true){
         &:-ms-input-placeholder{ color : @color; }
     }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@ie, ie);
+    .activate();
 }
 
 // User select
 // For selecting text on the page
 //==================================================
 .user-select(@select:none) {
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = webkit) { -webkit-user-select : @select; -khtml-user-select : @select; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = moz) { -moz-user-select : @select; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = ie) { -ms-user-select : @select; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = o) { -o-user-select : @select; }
-    .activate(@activate, @activate2) when (@activate = true) and (@activate2 = w3c) { user-select : @select; }
-    .activate(@webkit, webkit);
-    .activate(@moz, moz);
-    .activate(@opera, o);
-    .activate(@ie, ie);
-    .activate(@w3c, w3c);
+    .activate() when (@webkit = true){ -webkit-user-select : @select; -khtml-user-select : @select; }
+    .activate() when (@moz = true){ -moz-user-select : @select; }
+    .activate() when (@ie = true){ -ms-user-select : @select; }
+    .activate() when (@opera = true){ -o-user-select : @select; }
+    .activate() when (@w3c = true){ user-select : @select; }
+    .activate();
 }

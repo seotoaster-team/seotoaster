@@ -31,7 +31,7 @@ class Application_Form_Css extends Zend_Form {
 			'type'   => 'submit',
 			'name'   => 'submit',
 			'label'  => 'Save CSS',
-			'class'  => 'btn icon-save formsubmit',
+			'class'  => 'btn ticon-save formsubmit',
 			'ignore' => true,
 			'escape' => false
 		)));

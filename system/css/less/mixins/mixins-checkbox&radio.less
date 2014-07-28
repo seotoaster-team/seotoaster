@@ -13,7 +13,7 @@
         .transition(none);
         .opacity(0);
 
-        &~.checkbox_radio{
+        & ~ .checkbox_radio{
             .inline-block;
             .box-sizing(content-box);
             font-size        : @checkbox-radio-width !important;
@@ -35,13 +35,13 @@
         }
 
         &:disabled{
-            &~.checkbox_radio{
+            & ~ .checkbox_radio{
                 background   : @input-bg-disabled !important;
                 border-color : darken(@input-bg-disabled, 10%) !important;
             }
 
             &:checked{
-                &~.checkbox_radio{
+                & ~ .checkbox_radio{
                     &:before{
                         color      : darken(@input-bg-disabled, 30%) !important;
                         background : darken(@input-bg-disabled, 30%) !important;
@@ -52,7 +52,7 @@
     }
 
     .radio-upgrade{
-        &~.checkbox_radio{
+        & ~ .checkbox_radio{
             .border-radius(10em);
 
             &:before{
@@ -64,7 +64,7 @@
         }
 
         &:checked{
-            &~.checkbox_radio{
+            & ~ .checkbox_radio{
                 border-color : @primary-bg;
 
                 &:before{
@@ -75,7 +75,7 @@
     }
 
     .checkbox-upgrade{
-        &~.checkbox_radio{
+        & ~ .checkbox_radio{
             &:before{
                 content   : '\e013';
                 color     : transparent;
@@ -85,7 +85,7 @@
         }
 
         &:checked{
-            &~.checkbox_radio{
+            & ~ .checkbox_radio{
                 &:before{
                     color : @primary-bg;
                 }
@@ -94,7 +94,7 @@
 
         .activate-switcher(@activate) when (@activate = true){
             &.switcher{
-                &~.checkbox_radio{
+                & ~ .checkbox_radio{
                     overflow : hidden;
                     position : relative;
                     width    : 4em;
@@ -124,6 +124,7 @@
 
                     span{
                         .transition(all, 0.3s);
+                        .box-sizing();
                         background : @input-border-color;
                         position   : absolute;
                         border     : 1px solid @input-bg;
@@ -136,7 +137,7 @@
                 }
 
                 &:checked{
-                    &~.checkbox_radio{
+                    & ~ .checkbox_radio{
                         span{
                             left : 50%;
                         }

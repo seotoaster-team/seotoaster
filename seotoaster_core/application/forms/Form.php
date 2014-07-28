@@ -140,7 +140,7 @@ class Application_Form_Form extends Zend_Form {
         $this->addElement('button', 'submit', array(
 			'label' => 'Save',
             'type'  => 'submit',
-            'class' => 'btn icon-save grid_3',
+            'class' => 'btn ticon-save grid_3',
             'escape'=> false
 		));
 

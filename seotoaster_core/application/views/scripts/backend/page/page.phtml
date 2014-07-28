@@ -20,7 +20,7 @@
 		<div class="header">
 			<div class="closebutton">
 				<?php echo $this->toasterHelp('fa'); ?>
-				<a class="hide-block icon-chevron-right" href="javascript:;" title="Close"></a>
+				<a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
 			</div>
 			<?php echo $this->translate('Tag a page | Create a tag'); ?>
 		</div>
@@ -28,7 +28,7 @@
 			<form id="frm-featured-area" action="<?php echo $this->websiteUrl . '/backend/backend_featured/featured/id/' . $this->pageForm->getElement('pageId')->getValue() . '/pid/' . $this->pageForm->getElement('pageId')->getValue() ?>" method="post" data-callback="loadFaList" class="_fajax grid_12 form-inline">
                 <label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
                 <input id="fa-name" class="grid_11 alpha omega" type="text" name="name" value="">
-				<button id="add-featured-area" class="btn icon icon-plus grid_1 alpha omega mt0px" type="submit" name="addFeaturedArea"><?php echo $this->translate('Add page tag'); ?></button>
+				<button id="add-featured-area" class="btn icon ticon-plus grid_1 alpha omega mt0px" type="submit" name="addFeaturedArea"><?php echo $this->translate('Add page tag'); ?></button>
 			</form>
 			<div class="header-inner grid_12 mt1em">
 				<div class="grid_12 list-row-item">
@@ -61,7 +61,7 @@
 		<fieldset class="grid_6 settings mb1-75em">
 			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
 			<div class="grid_8 alpha omega text-right featured-link mt0px">
-				<span class="icon-tags icon14"></span>
+				<span class="ticon-tags icon14"></span>
 				<?php
 					echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Tag this page') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
 				?>
@@ -80,7 +80,7 @@
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
-				<span class="icon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
+				<span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
 				<?php
 					$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
 					echo $uploader;

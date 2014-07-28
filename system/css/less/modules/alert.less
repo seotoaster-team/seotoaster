@@ -1,57 +1,5 @@
 // Alert and Message styles
 // -------------------------
-.message{
-    position : relative;
-    padding  : @padding-base-vertical @padding-base-horizontal;
-    border   : 1px solid;
-    .border-radius(@state-border-radius);
-    .alert-color(@state-green-color, @state-green-bg, @state-green-border);
-
-    a{
-        text-decoration : underline;
-
-        &:hover{
-            text-decoration : none;
-        }
-    }
-
-    // Alternate styles
-    // -------------------------
-    &.success when (@color-success = true) and (@colors = true){
-//        .alert-color(@brand-green, #fff, @brand-green, @color-green);
-        .alert-color(@state-green-color, @state-green-bg, @state-green-border);
-    }
-    &.warning when (@color-warning = true) and (@colors = true){
-//        .alert-color(@brand-orange, #fff, @brand-orange, @color-orange);
-        .alert-color(@state-orange-color, @state-orange-bg, @state-orange-border);
-    }
-    &.error when (@color-error = true) and (@colors = true){
-//        .alert-color(@brand-red, #fff, @brand-red, @color-red);
-        .alert-color(@state-red-color, @state-red-bg, @state-red-border);
-    }
-    &.info when (@color-info = true) and (@colors = true){
-//        .alert-color(@brand-blue, #fff, @brand-blue, @color-blue);
-        .alert-color(@state-blue-color, @state-blue-bg, @state-blue-border);
-    }
-    &.gray{
-        .alert-color(@gray, @gray-lighter, @gray-light);
-    }
-
-    // Block alerts
-    // -------------------------
-    .block{
-        padding-top    : 15px;
-        padding-bottom : 15px;
-    }
-}
-
-.ui-state-error{
-    .alert-color(@state-red-color, @state-red-bg, @state-red-border);
-}
-.ui-state-highlight{
-    .alert-color(@state-blue-color, @state-blue-bg, @state-blue-border);
-}
-
 .smoke-base{
 
     .smokebg{
@@ -65,39 +13,44 @@
     }
 
     .dialog{
-        overflow    : auto;
+        overflow   : auto;
         position   : fixed;
         z-index    : 1001;
-        width       : 100%;
-        max-width   : @grid-container-width * 0.75;
-        max-height  : 50%;
+        width      : 100%;
+        max-width  : @grid-container-width * 0.75;
+        max-height : 50%;
         top        : 25%;
         left       : 0;
         right      : 0;
         margin     : 0 auto;
         text-align : center;
-        background : #fff;
-        border     : 1px solid #ddd;
+        border     : 1px solid;
         .border-radius(@state-border-radius);
         .box-shadow(0 0 15px #ccc);
+        .alert-color(@state-primary-color, #fff, #ddd);
 
         // Alternate styles
         // -------------------------
-        &.success when (@color-success = true) and (@colors = true){
-            color        : @brand-success;
-            border-color : @brand-success;
+        &.success when (@alert-color-success = true) and (@alert-colors = true){
+            .alert-color(@state-success-color, #fff, @state-success-border);
         }
-        &.warning when (@color-warning = true) and (@colors = true){
-            color        : @brand-warning;
-            border-color : @brand-warning;
+        &.warning when (@alert-color-warning = true) and (@alert-colors = true){
+            .alert-color(@state-warning-color, #fff, @state-warning-border);
         }
-        &.error when (@color-error = true) and (@colors = true){
-            color        : @brand-error;
-            border-color : @brand-error;
+        &.error when (@alert-color-error = true) and (@alert-colors = true){
+            .alert-color(@state-error-color, #fff, @state-error-border);
         }
-        &.info when (@color-info = true) and (@colors = true){
-            color        : @brand-info;
-            border-color : @brand-info;
+        &.info when (@alert-color-info = true) and (@alert-colors = true){
+            .alert-color(@state-info-color, #fff, @state-info-border);
+        }
+
+        li{
+            margin     : 0;
+            list-style : none;
+
+            & + li{
+                margin-top : 0.5em;
+            }
         }
     }
 
@@ -133,16 +86,20 @@
         button{
             float  : none;
             margin : 0 @padding-small-horizontal;
-            .button(@button-green-color, @button-green-bg, @button-green-border);
+            .button();
+            .border-radius(@button-border-radius);
+            .button-color(@button-success-color, @button-success-bg, @button-success-border);
 
             &.cancel{
-                .button-color(@button-red-color, @button-red-bg, @button-red-border);
+                .button-color(@button-error-color, @button-error-bg, @button-error-border);
             }
         }
     }
 }
 
-.message{
-    display     : block;
-    border-left : 3px solid;
+.ui-state-error{
+    .alert-color(@state-error-color, @state-error-bg, @state-error-border);
+}
+.ui-state-highlight{
+    .alert-color(@state-info-color, @state-info-bg, @state-info-border);
 }

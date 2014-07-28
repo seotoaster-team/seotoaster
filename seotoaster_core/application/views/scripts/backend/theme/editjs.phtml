@@ -1,7 +1,7 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
         'headerText' => $this->editjsForm->getElement('jsname')->removeDecorator('DtDdWrapper'),
-        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 icon-expand warning inverse" href="javascript:;"></a></div>',
+        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
         'helpSection' => $this->helpSection)); ?>
     <?php $this->editjsForm->setAction($this->url()); ?>
     <form action="<?php echo $this->editjsForm->getAction(); ?>" id="<?php echo $this->editjsForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editjsForm->getMethod(); ?>">
@@ -10,12 +10,12 @@
             <label class="grid_3 pointer">
                 <?php echo $this->editjsForm->getElement('jsminify'); ?>
                 <?php echo $this->editjsForm->getElement('jsminify')->getLabel(); ?>
-                <i class="icon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Compress JavaScript file.'); ?>"></i>
+                <i class="ticon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Compress JavaScript file.'); ?>"></i>
             </label>
             <label class="grid_4 pointer">
                 <?php echo $this->editjsForm->getElement('jscombine'); ?>
                 <?php echo $this->editjsForm->getElement('jscombine')->getLabel(); ?>
-                <i class="icon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Combines to single(one) JavaScript files with name of folder they are located.'); ?>"></i>
+                <i class="ticon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Combines to single(one) JavaScript files with name of folder they are located.'); ?>"></i>
             </label>
             <?php echo $this->editjsForm->getElement('submit'); ?>
         </div>

@@ -14,6 +14,39 @@
 // Responsive (MediaQueries)
 @responsive                    : false;
 
+// Connection / Disconnection modules.less OR each individually
+@modules : true;
+    @module-carousel     : false;
+    @module-alert        : true;
+    @module-accordion    : true;
+    @module-tabs         : true;
+    @module-dialog       : true;
+    @module-datepicker   : true;
+    @module-autocomplete : true;
+    @module-tooltips     : true;
+    @module-range        : true;
+    @module-progressbar  : true;
+    @module-chosen       : false;
+    @module-pagination   : true;
+    @module-scrollbar    : false;
+
+// Connection / Disconnection TOASTER WIDGETS OR each individually
+@widget-directupload           : false;
+@widget-form                   : true; // hide/show all styles for form components
+@widget-form-builder           : false; // style for form created with help builder form (http://www.seosamba.com/free-form-maker/)
+@widget-gallery                : false;
+@widget-breadcrumbs            : false;
+@widget-LP-LC                  : false; // List Pages, List Categories
+@widget-FA-FP-RP               : false; // FeaturedArea, FeaturedPage & RelatedPage
+@widget-FA-FP-RP-LP-LC-sidebar : false; // FeaturedArea, FeaturedPage, RelatedPage, List Pages & List Categories in sidebar
+@widget-menu-main              : false;
+@widget-menu-static            : false;
+@widget-news-list              : false;
+@widget-rss                    : false;
+@widget-search                 : false; // Search form and Search results
+@widget-sitemap                : false;
+@widget-slider                 : false; // Slider cycle and toaster Image Rotator
+
 // Mobile menu
 @menu-google-style   : true;
 @menu-dropdown-style : true;
@@ -23,10 +56,10 @@
 
 // GLOBAL COLOR
 @colors         : true;
-    @color-error   : true;
-    @color-info    : true;
     @color-success : true;
     @color-warning : true;
+    @color-error   : true;
+    @color-info    : true;
     @color-inverse : true;
 
 // GLOBAL SIZE
@@ -49,22 +82,25 @@
 // Style with social elements
 @social-fields : true;
 @social-links  : true;
+    @social-links-inverse  : true;
+    @social-links-inherit  : true;
 
 // BUTTON TYPE
 @button-types   : true; // .link, .btn-set, .icon, alternate styles(3d button, )
     @button-type-icon  : true;
     @button-type-link  : true;
+    @button-type-outline    : false;
+    @button-type-outline-bg : false;
     @button-type-block : true;
     @button-type-group : true;
     @button-type-3d    : false;
 
 // BUTTON COLOR
 @button-colors : @colors;
-    @button-color-error   : @color-error;
-    @button-color-info    : @color-info;
     @button-color-success : @color-success;
     @button-color-warning : @color-warning;
-
+    @button-color-error   : @color-error;
+    @button-color-info    : @color-info;
     @button-color-inverse : @color-inverse;
 
 // BUTTON SIZE
@@ -92,47 +128,14 @@
     @image-leaflet-right : true; // .img-leaflet-right
     @image-leaflet-left  : true; // .img-leaflet-left
 
-// TABLES
-@blockquote-styles : true; // .table-bordered, .table-striped, .table-hover
+// BLOCK QUOTES
+@blockquote-styles : true;
     @blockquote-noquotes : true; // .noquotes
     @blockquote-onequote : true; // .onequote
     @blockquote-cloud    : true; // .cloud
-    @blockquote-cloud-border-right    : true; // .cloud
-    @blockquote-cloud-border-left    : true; // .cloud
-
-// TABLES
-@table-styles : true; // .table-bordered, .table-striped, .table-hover
-    @table-bordered : true; // .table-bordered
-    @table-striped  : true; // .table-striped
-    @table-hover    : true; // .table-hover
-
-// Style for Checkbox and Radio
-@checkbox-radio-style          : true;
-    @switcher-style            : true;
-
-// Connection / Disconnection system-classes.less
-@system-classes                : true;
-
-// Connection / Disconnection modules.less OR each individually
-@modules                       : true;
-
-@module-carousel               : false;
-@module-alert                  : true;
-@module-accordion              : true;
-@module-tabs                   : true;
-@module-dialog                 : true;
-@module-datepicker             : true;
-@module-autocomplete           : true;
-@module-tooltips               : true;
-@module-range                  : true;
-@module-progressbar            : true;
-@module-chosen                 : false;
-@module-pagination             : true;
-@module-scrollbar              : false;
-
-// Connection / Disconnection TOASTER WIDGETS OR each individually
-@widget-form                   : true; // hide/show all styles for form components
-@widget-search                 : false; // Search form and Saerch results
+        @blockquote-cloud-border : true; // .cloud with .border
+        @blockquote-cloud-right  : true; // .cloud with .right
+        @blockquote-cloud-left   : true; // .cloud with .left
 
 // Activate alternative classes for list
 @lists-classes                 : true;
@@ -145,24 +148,73 @@
     @list-count-sign               : true;
     @list-icon-sign                : false;
     @list-testimonials             : false;
-    @list-social-links             : false;
+    @list-bullet                   : false;
 
-@badges-classes : true;
+@badges : true;
     @badge-colors : @colors;
-        @badge-error   : @color-error;
-        @badge-info    : @color-info;
         @badge-success : @color-success;
         @badge-warning : @color-warning;
+        @badge-error   : @color-error;
+        @badge-info    : @color-info;
         @badge-inverse : @color-inverse;
 
-    @badges-type : true;
+    @badges-type : false;
         @badge-square        : true;
         @badge-leaflet-right : true;
         @badge-leaflet-left  : true;
 
-// Animate CSS3. DEMO => https://daneden.me/animate/
-@animation : false;
+// TABLES
+@table-styles : true; // .table-bordered, .table-striped, .table-hover
+    @table-bordered : true; // .table-bordered
+    @table-striped  : true; // .table-striped
+    @table-hover    : true; // .table-hover
+    @table-colors   : @colors;
+        @table-success : @color-success;
+        @table-warning : @color-warning;
+        @table-error   : @color-error;
+        @table-info    : @color-info;
 
+// ALERTS
+@alert-colors : @colors;
+    @alert-color-success : @color-success;
+    @alert-color-warning : @color-warning;
+    @alert-color-error   : @color-error;
+    @alert-color-info    : @color-info;
+
+// RANGE
+@range-colors : @colors;
+    @range-color-success : @color-success;
+    @range-color-warning : @color-warning;
+    @range-color-error   : @color-error;
+    @range-color-info    : @color-info;
+
+// PROGRESSBAR
+@progressbar-colors : @colors;
+    @progressbar-color-success : @color-success;
+    @progressbar-color-warning : @color-warning;
+    @progressbar-color-error   : @color-error;
+    @progressbar-color-info    : @color-info;
+
+// TOOLTIPS
+@tooltip-colors : @colors;
+    @tooltip-color-success : @color-success;
+    @tooltip-color-warning : @color-warning;
+    @tooltip-color-error   : @color-error;
+    @tooltip-color-info    : @color-info;
+
+// Style for Checkbox and Radio
+@checkbox-radio-style          : true;
+    @switcher-style            : true;
+
+// Connection / Disconnection system-classes.less
+@system-classes                : true;
+
+// Feature styles
+@news-list-timeLine         : true;
+@widget-menu-main-fullWidth : true;
+@text-with-middle-line      : true;
+
+// Animate CSS3. DEMO => https://daneden.me/animate/
 @animate-rotate                : true;
 @animate-flash                 : true;
 @animate-shake                 : true;

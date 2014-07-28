@@ -1,0 +1,25 @@
+// Message styles
+// -------------------------
+.message{
+    display           : block;
+    padding           : @padding-base-vertical @padding-base-horizontal;
+    border            : 1px solid;
+    border-left-width : 3px;
+    .border-radius(@state-border-radius);
+    .alert-color(@state-primary-color, @state-primary-bg, @state-primary-border);
+
+    // Alternate styles
+    // -------------------------
+    &.success when (@alert-color-success = true) and (@alert-colors = true){
+        .alert-color(@state-success-color, @state-success-bg, @state-success-border);
+    }
+    &.warning when (@alert-color-warning = true) and (@alert-colors = true){
+        .alert-color(@state-warning-color, @state-warning-bg, @state-warning-border);
+    }
+    &.error when (@alert-color-error = true) and (@alert-colors = true){
+        .alert-color(@state-error-color, @state-error-bg, @state-error-border);
+    }
+    &.info when (@alert-color-info = true) and (@alert-colors = true){
+        .alert-color(@state-info-color, @state-info-bg, @state-info-border);
+    }
+}
