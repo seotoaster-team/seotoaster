@@ -1,0 +1,21 @@
+<phpunit bootstrap="./application/bootstrap.php" colors="true">
+    <testsuite name="Seotoaster">
+            <directory>./</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../seotoaster_core/application/</directory>
+            <exclude>
+                <file>../seotoaster_core/application/Bootstrap.php</file>
+               <directory suffix=".phtml">../seotoaster_core/application</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="./log/report" charset="UTF-8"
+               yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
+        <log type="testdox-html" target="./log/testdox.html"/>
+    </logging>
+</phpunit>

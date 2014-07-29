@@ -16,7 +16,7 @@ error.log
 .zfproject.xml
 nbproject/*
 system/coreinfo.php
-tests/*
+tests/log/*
 robots.txt
 tmp/*
 !tmp/.gitignore

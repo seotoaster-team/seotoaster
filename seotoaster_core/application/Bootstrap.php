@@ -191,10 +191,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $locale = (isset($session->locale)) ? $session->locale : Zend_Registry::get('Zend_Locale');
 
         $session->locale = $locale;
+        $website = Zend_Registry::get('website');
 
         $translator = new Zend_Translate(array(
             'adapter' => 'array',
-            'content' => 'system/languages/',
+            'content' => $website['path'].'system/languages/',
             'scan'    => Zend_Translate::LOCALE_FILENAME,
             'locale'  => $locale->getLanguage(),
             'ignore'  => array('.'),
