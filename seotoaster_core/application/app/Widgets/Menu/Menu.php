@@ -10,9 +10,9 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
     private $_menuTemplate = null;
 
     protected function  _init() {
-        $this->_cacheTags = array(__CLASS__);
-        $this->_cacheId = strtolower(__CLASS__) . (!empty($this->_options) ? '-' . implode('-', $this->_options) : '');
-        $this->_view = new Zend_View(array(
+        $this->_cacheTags = array(strtolower(__CLASS__));
+        $this->_cacheId   = strtolower(__CLASS__).'_lifeTime_'.$this->_cacheLifeTime;
+        $this->_view      = new Zend_View(array(
             'scriptPath' => dirname(__FILE__) . '/views'
         ));
     }
