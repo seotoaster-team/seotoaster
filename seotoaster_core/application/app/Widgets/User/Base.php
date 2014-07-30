@@ -45,6 +45,10 @@ class Widgets_User_Base extends Widgets_Abstract {
             throw new Exceptions_SeotoasterWidgetException('No options provided');
         }
 
+        if (in_array('readonly', $this->_options)) {
+            $this->_view->readonly = $this->_options[1];
+            unset($this->_options[1]);
+        }
         if (is_numeric(reset($this->_options))) {
             $userId = array_shift($this->_options);
             $this->_user = Application_Model_Mappers_UserMapper::getInstance()->find($userId);

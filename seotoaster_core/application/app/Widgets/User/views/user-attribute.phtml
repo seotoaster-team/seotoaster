@@ -1,4 +1,7 @@
-<input type="text" class="user-attribute"
-       data-uid="<?php echo $this->userId; ?>"
-       data-attribute="<?php echo $this->attribute; ?>"
-       value="<?php echo $this->value; ?>" />
+<?php if(isset($this->readonly)):?>
+    <?php echo $this->value;?>
+<?php else : echo "<input type='text' class='user-attribute'
+       data-uid=".$this->userId."
+       data-attribute=".$this->attribute."
+       value=".$this->value.">"; ?>
+<?php endif; ?>
