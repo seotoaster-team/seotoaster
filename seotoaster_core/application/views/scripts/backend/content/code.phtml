@@ -1,14 +1,14 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => 'Edit code')); ?>
-		<?php
-			$this->contentForm->setAction($this->url());
-			echo $this->contentForm;
-		?>
-	</div>
+    <?php
+        $this->contentForm->setAction($this->url());
+        echo $this->contentForm;
+    ?>
+</div>
 <script type="text/javascript">
     $(function () {
-        var textarea = $('#content').hide().detach();
-        textarea.insertBefore('#editor');
+        var textarea = $('textarea#content').hide().detach();
+        textarea.insertBefore('#edit_code');
         window.editor = ace.edit("edit_code");
         editor.setTheme("ace/theme/crimson_editor");
         var HTMLMode = require("ace/mode/html").Mode;
@@ -16,6 +16,11 @@
         editor.getSession().setValue(textarea.val());
         editor.getSession().setUseWrapMode(true);
         editor.setShowPrintMargin(false);
+
+        $('.ace_text-input').on('blur', function(){
+            var codeContent = editor.getSession().getValue();
+            textarea.val(codeContent)
+        })
     })
 </script>
 <?php
