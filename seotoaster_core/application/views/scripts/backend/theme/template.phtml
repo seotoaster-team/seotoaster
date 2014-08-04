@@ -9,7 +9,7 @@
         array(
             'headerText'      =>
                 $this->templateForm->getElement('id')->getValue() == '' ? 'Add template' : 'Edit template',
-            'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 icon-expand warning inverse" href="javascript:;"></a></div>',
+            'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
             'helpSection'     => $this->helpSection
         )
     ); ?>
@@ -49,12 +49,10 @@
                 <div id="edittemplate" class="" style="height: 385px">
                     <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
                 </div>
-            </div>
-            <span class="clearfix"></span>
-
-            <div class="footer">
-                <?php echo $this->templateForm->getElement('shortcuts'); ?>
-                <?php echo $this->templateForm->getElement('submit'); ?>
+                <div class="footer">
+                    <?php echo $this->templateForm->getElement('shortcuts'); ?>
+                    <?php echo $this->templateForm->getElement('submit'); ?>
+                </div>
             </div>
             <?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
             <?php echo $this->templateForm->getElement('pageId'); ?>
