@@ -106,7 +106,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
     {
         $files = array();
         preg_match_all(
-            '/<link.*href=".*\/'.$this->_toasterData['currentTheme'].'\/(.*\.css)".*>/',
+            '/<link.*href=".*\/'.str_replace(' ', '%20', $this->_toasterData['currentTheme']).'\/(.*\.css)".*>/',
             $this->_spaceContent,
             $files
         );
