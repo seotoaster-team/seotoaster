@@ -5,46 +5,33 @@
  */
 class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
 {
-    const FILE_NAME_PREFIX       = 'concat_';
+    const FILE_NAME_PREFIX      = 'concat_';
 
-    protected  $_disableForRoles = array(
+    protected $_disableForRoles = array(
         Tools_Security_Acl::ROLE_SUPERADMIN,
         Tools_Security_Acl::ROLE_ADMIN
     );
 
-    protected $_cssOrder         = array(
-        'reset.css',
-        'content.css',
-        'nav.css',
-        'style.css'
-    );
+    protected $_cacheable       = true;
 
-    protected $_themeFullPath    = '';
+    protected $_cache           = null;
 
-    protected $_fileId           = '';
+    protected $_cacheId         = null;
 
-    protected $_folderСssPath    = '';
+    protected $_cachePrefix     = 'magicspaces_';
 
-    protected $_cacheable        = true;
+    protected $_cacheTags       = array('concatcss');
 
-    protected $_cache            = null;
-
-    protected $_cacheId          = null;
-
-    protected $_cachePrefix      = 'magicspaces_';
-
-    protected $_cacheTags        = array('concatcss');
-
-    protected $_cacheLifeTime    = Helpers_Action_Cache::CACHE_WEEK;
+    protected $_cacheLifeTime   = Helpers_Action_Cache::CACHE_WEEK;
 
     protected function _init()
     {
         parent::_init();
 
         $this->_themeFullPath = $this->_toasterData['themePath'].$this->_toasterData['currentTheme'];
-        $this->_fileId = substr(md5($this->_toasterData['templateId']), 0, 14);
-        $folderСssPath = $this->_themeFullPath.DIRECTORY_SEPARATOR.Tools_Theme_Tools::FOLDER_CSS.DIRECTORY_SEPARATOR;
-        $this->_folderСssPath = (is_dir($folderСssPath)) ? $folderСssPath : $this->_themeFullPath.DIRECTORY_SEPARATOR;
+        $this->_fileId        = substr(md5($this->_toasterData['templateId']), 0, 14);
+        $this->_folderСssPath = $this->_themeFullPath.DIRECTORY_SEPARATOR.Tools_Theme_Tools::FOLDER_CSS
+            .DIRECTORY_SEPARATOR;
     }
 
     protected function _run()
@@ -119,40 +106,12 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
     {
         $files = array();
         preg_match_all(
-            '/<link.*href=".*\/(?:('.Tools_Theme_Tools::FOLDER_CSS.'\/.*\.css)|.*\/(.*\.css))".*>/',
+            '/<link.*href=".*\/'.$this->_toasterData['currentTheme'].'\/(.*\.css)".*>/',
             $this->_spaceContent,
             $files
         );
-        $files = array_filter(array_merge($files[1], $files[2]));
 
-        return (isset($this->_params[0]) && $this->_params[0] == 'sort') ? $this->_sortCss($files) : $files;
-    }
-
-    /**
-     * Sorts files in correspondence to $ _cssOrder
-     *
-     * @param $files
-     * @return array
-     */
-    private function _sortCss($files)
-    {
-        if (empty($files)) {
-            return array();
-        }
-
-        $cssOrder = array();
-        foreach ($this->_cssOrder as $key => $val) {
-            $cssOrder[$key] = (in_array(Tools_Theme_Tools::FOLDER_CSS.DIRECTORY_SEPARATOR.$val, $files))
-                ? Tools_Theme_Tools::FOLDER_CSS.DIRECTORY_SEPARATOR.$val
-                : $val;
-        }
-
-        $files = array_unique($files);
-        $othersThemeCss  = array_diff($files, $cssOrder);
-        $defaultThemeCss = array_intersect($cssOrder, $files);
-        $files = array_merge($defaultThemeCss, $othersThemeCss);
-
-        return $files;
+        return $files[1];
     }
 
     /**
@@ -170,13 +129,18 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
                 continue;
             }
 
-            $fileName = strtoupper(basename($this->_themeFullPath.DIRECTORY_SEPARATOR.$file));
+            $cssContent = file_get_contents($this->_themeFullPath.DIRECTORY_SEPARATOR.$file);
+            if (dirname($file) == '.') {
+                $cssContent = preg_replace('/url\([\'"]?([^)\'"]*)[\'"]?\)/', 'url("../${1}")', $cssContent);
+            }
+
+            $fileName = strtoupper($file);
             $content .= '/**** '.$fileName.' start ****/'.PHP_EOL;
             $content .= $compressor->run(
                 preg_replace(
                     '~\@charset\s\"utf-8\"\;~Ui',
                     '',
-                    file_get_contents($this->_themeFullPath.DIRECTORY_SEPARATOR.$file)
+                    $cssContent
                 )
             );
             $content .= PHP_EOL.'/**** '.$fileName.' end ****/'.PHP_EOL;
@@ -193,6 +157,10 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
      */
     private function _createFile($content)
     {
+        if (!is_dir($this->_folderСssPath)){
+            Tools_Filesystem_Tools::mkDir($this->_folderСssPath);
+        }
+
         $filePath = $this->_folderСssPath.self::FILE_NAME_PREFIX.$this->_fileId.'.css';
 
         try {
