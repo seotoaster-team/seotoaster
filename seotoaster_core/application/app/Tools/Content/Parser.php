@@ -19,6 +19,8 @@ class Tools_Content_Parser
 
     private $_iteration     = 0;
 
+    private $_device;
+
     public function  __construct($content = null, $pageData = null, $options = null)
     {
         if (null !== $content) {
@@ -33,6 +35,7 @@ class Tools_Content_Parser
             }
             $this->_options  = $options;
         }
+        $this->_device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
     }
 
     public function parse()
@@ -40,6 +43,9 @@ class Tools_Content_Parser
         $this->_runRepeats();
         $this->_runWidgets();
         $this->_changeMedia();
+        if ($this->_device->isMobile()) {
+            $this->_mobileMedia();
+        }
         $this->_iteration = 0;
         $this->_runMagicSpaces();
         return $this->_content;
@@ -146,6 +152,22 @@ class Tools_Content_Parser
                 'href="'.$webPathToTheme.'/favicon.ico"',
                 $this->_content
             );
+        }
+    }
+
+    private function _mobileMedia()
+    {
+        $tablet = $this->_device->isTablet();
+        if ($tablet) {
+            preg_match_all('`<*img[^>]*src*=*["\']\S*/(original)/[^"\']*"`ui', $this->_content, $matches);
+            $imgFolder = Tools_Image_Tools::FOLDER_LARGE;
+        } else {
+            preg_match_all('`<*img[^>]*src*=*["\']\S*/(original|large)/[^"\']*"`ui', $this->_content, $matches);
+            $imgFolder = Tools_Image_Tools::FOLDER_MEDIUM;
+        }
+        if(count($matches) >= 1) {
+            $newSrcPaths = str_replace( $matches[1], $imgFolder, $matches[0]);
+            $this->_content = str_replace($matches[0], $newSrcPaths, $this->_content);
         }
     }
 
