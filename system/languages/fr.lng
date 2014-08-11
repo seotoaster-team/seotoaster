@@ -1041,7 +1041,7 @@
     'Member area sign-up box' => 'Boîte d\'inscription de l\'Espace Clients',
     'Member area login box' => 'Boîte de connexion de l\'Espace Clients',
     'Member area logout button' => 'Bouton de  déconnexion de l\'Espace Clients',
-    'Flat menu' => 'Menu simple',
+    'Flat Menu' => 'Menu Simple',
     'Product editproduct' => 'Produit : Modifier le produit',
     'Product id' => 'Produit : ID',
     'Product name' => 'Produit : Nom',
