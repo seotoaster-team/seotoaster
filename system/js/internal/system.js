@@ -366,9 +366,10 @@ function showSpinner(e){
 function hideSpinner(){
     $('.spinner').remove();
 }
-function showLoader(e){
-    $(event.target).addClass('btn-load').attr('disabled', 'true');
-    var value = typeof e==='undefined' ? "Loading..." : e;
+function showLoader(text){
+    var event = document.activeElement;
+    $(event).addClass('btn-load').attr('disabled', 'true');
+    var value = typeof text==='undefined' ? "Loading..." : text;
     $('body').append('<div class="seotoaster-loader">'+ value +'</div>');
 }
 function hideLoader(e){
