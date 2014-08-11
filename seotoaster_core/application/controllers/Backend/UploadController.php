@@ -105,19 +105,13 @@ class Backend_UploadController extends Zend_Controller_Action {
 		if ($res !== true) {
 			return array('name' => $themeArchive['file']['name'], 'error' => 'Can\'t open zip file');
 		}
-		$zipStat = array();
-		for ($i = 0; $i < $zip->numFiles; $i++){
-			$zipStat[] = $zip->statIndex($i);
-		}
 
-		$zipContent = array_map(function($file){ return $file['name']; }, $zipStat);
-		unset($zipStat);
-
-		$themeName = str_replace('.zip', '', $themeArchive['file']['name']);
-		$destinationDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'].$themeName;
-
-		$isValid = $this->_validateTheme($zipContent);
-		if (empty($isValid)){
+		$themeName      = str_replace('.zip', '', $themeArchive['file']['name']);
+        $themeName      = strtolower(trim(preg_replace('/[^a-zA-Z0-9&\/]/', '-', $themeName), '-'));
+		$destinationDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName;
+		$isValid        = $this->_validateTheme($zip);
+		if (empty($isValid['error'])) {
+            $zip = $isValid['zip'];
 			try {
 				if (is_dir($destinationDir)) {
 					Tools_Filesystem_Tools::deleteDir($destinationDir);
@@ -130,12 +124,12 @@ class Backend_UploadController extends Zend_Controller_Action {
 				error_log($e->getMessage());
 			}
 		} else {
-			$status = array('name' => $themeArchive['file']['name'], 'error' => $isValid);
+			$status = array('name' => $themeArchive['file']['name'], 'error' => $isValid['error']);
 		}
 
 		$zip->close();
-		if (file_exists($tmpFolder . '/' . $themeName . '.zip')) {
-			Tools_Filesystem_Tools::deleteFile($tmpFolder . '/' . $themeName . '.zip');
+		if (file_exists($tmpFolder.DIRECTORY_SEPARATOR .$themeArchive['file']['name'])) {
+			Tools_Filesystem_Tools::deleteFile($tmpFolder.DIRECTORY_SEPARATOR.$themeArchive['file']['name']);
 		}
 
 		return isset($status) ? $status : array(
@@ -152,27 +146,72 @@ class Backend_UploadController extends Zend_Controller_Action {
 	 * @param type $themeFolder
 	 * @return mixed true if valid array with error description if not valid
 	 */
-	private function _validateTheme($themeContent) {
-		$errors = array();
+	private function _validateTheme($zip)
+    {
+		$data = array(
+            'zip'  => $zip,
+            'error'=> array(),
+        );
 
-		if (!is_array($themeContent) || empty($themeContent)) {
-			array_push($errors, $this->view->translate('Your theme directory is empty.'));
-		}
+        $themeContent            = array();
+        $errorDirectorySeparator = false;
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $file     = $zip->statIndex($i);
+            $fileName = $file['name'];
 
+            // Discrepancy system directory separator
+            if (strpos($fileName, '\\') && DIRECTORY_SEPARATOR != '\\') {
+                $errorDirectorySeparator = true;
+                $fileName                = str_replace('\\', DIRECTORY_SEPARATOR, $fileName);
+
+                $zip->renameIndex($i, $fileName);
+            }
+            elseif (strpos($fileName, '/') && DIRECTORY_SEPARATOR != '/') {
+                $errorDirectorySeparator = true;
+                $fileName                = str_replace('/', DIRECTORY_SEPARATOR, $fileName);
+
+                $zip->renameIndex($i, $fileName);
+            }
+
+            $themeContent[] = $fileName;
+        }
+
+        if (!is_array($themeContent) || empty($themeContent)) {
+            array_push($data['error'], $this->view->translate('Your theme directory is empty.'));
+        }
+
+        // Set updated data, if $errorDirectorySeparator = true
+        if ($errorDirectorySeparator) {
+            $zip->close();
+
+            $themeArchive = $this->_uploadHandler->getFileInfo();
+            if (($res = $zip->open($themeArchive['file']['tmp_name'])) !== true) {
+                array_push($data['error'], $this->view->translate('Can\'t open zip file.'));
+
+                return $data;
+            }
+
+            $data['zip'] = $zip;
+        }
+
+        // Checed required files
 		foreach (Tools_Theme_Tools::$requiredFiles as $file) {
-           if ('css' == pathinfo($file, PATHINFO_EXTENSION)) {
-               if (!in_array($file, $themeContent)) {
-                   if (!in_array(Tools_Theme_Tools::FOLDER_CSS.DIRECTORY_SEPARATOR.$file, $themeContent)) {
-                        array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
-                   }
-               }
-           }
-           elseif (!in_array($file, $themeContent)) {
-                array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
-           }
+            if ('css' == pathinfo($file, PATHINFO_EXTENSION)) {
+                if (in_array($file, $themeContent)) {
+                    continue;
+                }
+                if (in_array(Tools_Theme_Tools::FOLDER_CSS.DIRECTORY_SEPARATOR.$file, $themeContent)) {
+                    continue;
+                }
+
+                array_push($data['error'], $this->view->translate("File %s doesn't exists.", $file));
+            }
+            elseif (!in_array($file, $themeContent)) {
+                array_push($data['error'], $this->view->translate("File %s doesn't exists.", $file));
+            }
 		}
 
-		return $errors;
+		return $data;
 	}
 
 	/**
