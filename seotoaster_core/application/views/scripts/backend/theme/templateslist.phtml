@@ -20,9 +20,8 @@
             <?php if (isset($template['isCurrent']) && $template['isCurrent']): ?>
                 <span class="template-check ticon-check icon16"/></span>
             <?php endif; ?>
-			<div class="template_name">
+			<div class="template_name" <?php echo  ((int) $template['pagesCount'] >= 1) ? 'title="' . sprintf($this->translate('%s template'), $template['fullName']) . ' - ' . $this->translate('used %s times', $template['pagesCount']) . '"' : ''?>>
 				<?php echo ucfirst($template['name']); ?><br>
-	            <span class="subheader">(<?php echo $this->translate('used %s times', $template['pagesCount']); ?>)</span>
 			</div>
 			<?php echo $this->formHidden('template-id', $template['name'], array('id' => 'template-id-'.$template['name'])); ?>
 		</div>
