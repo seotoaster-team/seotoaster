@@ -52,7 +52,7 @@ class Tools_Theme_Tools {
 		$zip = new ZipArchive();
 		$destinationFile = $websiteHelper->getPath() . $websiteHelper->getTmp() . $themeName . '.zip';
 
-		$themePath = $websiteHelper->getPath() . $themesConfig['path'] . $themeName;
+		$themePath = $websiteHelper->getPath() . $themesConfig['path'] . $themeName . DIRECTORY_SEPARATOR;
 
 		if (true === ($zip->open($destinationFile, ZIPARCHIVE::CREATE))) {
 			$themeFiles = Tools_Filesystem_Tools::scanDirectory($themePath, true, true);

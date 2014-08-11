@@ -162,7 +162,7 @@ class Backend_UploadController extends Zend_Controller_Action {
 		foreach (Tools_Theme_Tools::$requiredFiles as $file) {
            if ('css' == pathinfo($file, PATHINFO_EXTENSION)) {
                if (!in_array($file, $themeContent)) {
-                   if (!in_array(Tools_Theme_Tools::FOLDER_CSS.DIRECTORY_SEPARATOR.$file, $themeContent)) {
+                   if (!in_array(Tools_Theme_Tools::FOLDER_CSS.'/'.$file, $themeContent)) {
                         array_push($errors, $this->view->translate("File %s doesn't exists.", $file));
                    }
                }
