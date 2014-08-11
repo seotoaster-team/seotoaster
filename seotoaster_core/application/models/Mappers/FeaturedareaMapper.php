@@ -77,21 +77,21 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		$featuredArea = new $this->_model($row->toArray());
 
 		if($loadPages) {
-			$featuredArea->setPages($this->_findFarowPages($row));
+			$featuredArea->setPages($this->_findFarowPages($featuredArea));
 		}
 
 		return $featuredArea;
 	}
 
 	public function findByName($name, $loadPages = true) {
-		$row     = $this->getDbTable()->fetchAll($this->getDbTable()->getAdapter()->quoteInto("name=?", $name))->current();
-		if($row === null) {
+		$row = $this->getDbTable()->fetchRow($this->getDbTable()->getAdapter()->quoteInto('name = ?', $name));
+		if ($row === null) {
 			return null;
 		}
-		$featuredArea = new $this->_model($row->toArray());
 
-		if($loadPages) {
-			$featuredArea->setPages($this->_findFarowPages($row));
+		$featuredArea = new $this->_model($row->toArray());
+		if ($loadPages) {
+			$featuredArea->setPages($this->_findFarowPages($featuredArea));
 		}
 
 		return $featuredArea;
@@ -138,18 +138,19 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
         return $entries;
     }
 
-    private function _findFarowPages($faRow)
+    private function _findFarowPages($faModel)
     {
-        $faPages              = array();
-        $rowsPageFeaturedarea = $faRow->findDependentRowset('Application_Model_DbTable_PageFeaturedarea');
-        $pageMapper           = Application_Model_Mappers_PageMapper::getInstance();
-        foreach ($rowsPageFeaturedarea as $rowPageFa) {
-            $page = $pageMapper->find($rowPageFa->page_id);
-            if (!(bool)$page->getSystem()) {
-                $order = array_key_exists($rowPageFa->order, $faPages) ? (array_search(end($faPages), $faPages)) + 1
-                    : $rowPageFa->order;
-                $faPages[$order] = $page;
-            }
+        $faPageDbTable = new Application_Model_DbTable_PageFeaturedarea();
+        $pageIds = $faPageDbTable->getAdapter()->fetchCol(
+            $faPageDbTable->select()->where('fa_id = ?', $faModel->getId())->order('order ASC')
+        );
+        unset($faPageDbTable);
+
+        $faPages = array();
+        if (!empty($pageIds)) {
+            $pageIds = implode(',', $pageIds);
+            $faPages = Application_Model_Mappers_PageMapper::getInstance()
+                ->fetchAll('id IN ('.$pageIds.") AND system = '0'", array('FIELD(id, '.$pageIds.')'));
         }
 
         return $faPages;
@@ -165,7 +166,7 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 			foreach ($areasRowset as $row) {
 				$farea =  new $this->_model($row->toArray());
 				if($loadPages) {
-					$farea->setPages($this->_findFarowPages($row));
+					$farea->setPages($this->_findFarowPages($farea));
 				}
 				$areas[] = $farea;
 			}

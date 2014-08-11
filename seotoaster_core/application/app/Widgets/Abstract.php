@@ -52,12 +52,12 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
             $this->_widgetId .= (!empty($this->_options) ? '_'.implode('_', $this->_options) : '');
 
             if (isset($toasterOptions['id'])) {
-                $this->_cacheId = 'page_'.$toasterOptions['id'].'_'.$roleId;
+                $this->_cacheId = 'page_'.$toasterOptions['id'];
             }
             else {
-                $this->_cacheId = strtolower(get_called_class()).'_'.$roleId;
+                $this->_cacheId = strtolower(get_called_class());
             }
-            $this->_cacheId .= '_lifeTime_'.$this->_cacheLifeTime;
+            $this->_cacheId .= '_'.$roleId.'_lifeTime_'.$this->_cacheLifeTime;
         }
 
         $this->_translator = Zend_Registry::get('Zend_Translate');

@@ -116,14 +116,14 @@ class Helpers_Action_Cache extends Zend_Controller_Action_Helper_Abstract
             );
         }
         $cacheData['data'][$key] = $data;
-        $statys = $this->_cache->save(
+        $status = $this->_cache->save(
             $cacheData,
             $this->_makeCacheId($cacheId, $cachePrefix),
             $this->_sanitizeTags($cacheData['tags']),
             $lifeTime
         );
 
-        return ($statys) ? $cacheData : $statys;
+        return ($status) ? $cacheData : $status;
     }
 
     /**
