@@ -18,7 +18,7 @@ class Tools_Filesystem_Tools {
 	 */
 	public static function scanDirectory($path, $incFilePath = false, $recursively = true) {
 		$foundFiles = array();
-		$path       = (string)trim($path = (substr($path, strlen($path)-1) == DIRECTORY_SEPARATOR) ? $path : $path . DIRECTORY_SEPARATOR);
+		$path       = (string)trim($path = (substr($path, strlen($path)-1) == DIRECTORY_SEPARATOR) ? $path : $path . '/');
 		if(!$path) {
 			throw new Exceptions_SeotoasterException('Scaning directory: path to the directrory is empty.');
 		}
@@ -29,6 +29,7 @@ class Tools_Filesystem_Tools {
 		$files = array();
 		if(is_array($foundFiles) && !empty ($foundFiles)) {
 			foreach ($foundFiles as $key => $file) {
+                if($file === '.git' || $file === '.idea'){ continue; }
 				if(in_array($file, self::$_excludedFiles)) {
 					unset($foundFiles[$key]);
 					continue;
