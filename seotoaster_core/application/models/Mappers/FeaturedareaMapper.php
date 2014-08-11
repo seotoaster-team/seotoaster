@@ -61,14 +61,13 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 					'order'   => $order
 				));
 				$result = $row->save();
-                $order = $order + 1; 
+                $order = $order + 1;
 			}
 			unset($faPageDbTable);
 		}
 	}
 
 	public function find($id, $loadPages = true) {
-		$faPages = array();
 		$result  = $this->getDbTable()->find($id);
 		if(0 == count($result)) {
 			return null;
