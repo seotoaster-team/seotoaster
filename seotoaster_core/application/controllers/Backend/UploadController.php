@@ -115,8 +115,8 @@ class Backend_UploadController extends Zend_Controller_Action
         }
 
         $themeName      = str_replace('.zip', '', $themeArchive['file']['name']);
-        $themeName      = strtolower(trim(preg_replace('/[^a-zA-Z0-9&\/]/', '-', $themeName), '-'));
-        $destinationDir = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $themeName;
+        $themeName      = strtolower(trim(preg_replace('/[^a-zA-Z0-9]/', '-', $themeName), '-'));
+        $destinationDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName;
         $isValid        = $this->_validateTheme($zip);
         if (empty($isValid['error'])) {
             $zip = $isValid['zip'];
@@ -126,7 +126,9 @@ class Backend_UploadController extends Zend_Controller_Action
                 }
                 $unzipped = $zip->extractTo($destinationDir);
                 if ($unzipped !== true) {
-                    $status = array('name' => $themeArchive['file']['name'], 'error' => 'Can\'t extract zip file to tmp directory');
+                    $status = array(
+                        'name'  => $themeArchive['file']['name'],
+                        'error' => 'Can\'t extract zip file to tmp directory');
                 }
             }
             catch (Exception $e) {
@@ -170,13 +172,13 @@ class Backend_UploadController extends Zend_Controller_Action
             $fileName = $file['name'];
 
             // Discrepancy system directory separator
-            if (strpos($fileName, '\\') && DIRECTORY_SEPARATOR != '\\') {
+            if (strpos($fileName, '\\') && DIRECTORY_SEPARATOR !== '\\') {
                 $errorDirectorySeparator = true;
                 $fileName                = str_replace('\\', DIRECTORY_SEPARATOR, $fileName);
 
                 $zip->renameIndex($i, $fileName);
             }
-            elseif (strpos($fileName, '/') && DIRECTORY_SEPARATOR != '/') {
+            elseif (strpos($fileName, '/') && DIRECTORY_SEPARATOR !== '/') {
                 $errorDirectorySeparator = true;
                 $fileName                = str_replace('/', DIRECTORY_SEPARATOR, $fileName);
 
@@ -215,7 +217,8 @@ class Backend_UploadController extends Zend_Controller_Action
                 }
 
                 array_push($data['error'], $this->view->translate("File %s doesn't exists.", $file));
-            } elseif (!in_array($file, $themeContent)) {
+            }
+            elseif (!in_array($file, $themeContent)) {
                 array_push($data['error'], $this->view->translate("File %s doesn't exists.", $file));
             }
         }
