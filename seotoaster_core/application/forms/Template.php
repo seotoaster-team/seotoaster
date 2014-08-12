@@ -99,7 +99,7 @@ class Application_Form_Template extends Zend_Form
                 'name'   => 'submit',
                 'type'   => 'submit',
                 'label'  => 'Save changes',
-                'class'  => 'btn icon-save formsubmit mt15px',
+                'class'  => 'btn ticon-save formsubmit mt15px',
                 'ignore' => true,
                 'escape' => false
             ))

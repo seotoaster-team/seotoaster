@@ -22,8 +22,8 @@ class Tools_System_Minify {
             return $cssList;
         }
 
-        $cacheHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
-        $cacheKey      = strtolower(__CLASS__.'_'.__FUNCTION__);
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('cache');
+        $cacheKey    = strtolower(__CLASS__.'_'.__FUNCTION__);
         if (null === ($hashStack = $cacheHelper->load($cacheKey, ''))) {
             $hashStack = array();
         }
@@ -32,14 +32,15 @@ class Tools_System_Minify {
         $compressor      = new CssMin();
         $concatCssPrefix = MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX;
         $websiteHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
+        $concatCss       = '';
         foreach ($container->getArrayCopy() as $css) {
-            if ((bool) preg_match('/^https?:\/\//', $css->href) !== false
-                && strpos($css->href, $websiteHelper->getUrl()) !== 0
+            if ((bool)preg_match('/^https?:\/\//', $css->href) !== false
+                && (bool)strpos($css->href, $websiteHelper->getUrl()) !== false
             ) {
                 continue;
             }
 
-            $path = str_replace($websiteHelper->getUrl(), '', $css->href);
+            $path = str_replace($websiteHelper->getUrl(), '', str_replace('%20', ' ', $css->href));
             // Check file exists
             if (!is_file($websiteHelper->getPath().$path) || !file_exists($websiteHelper->getPath().$path)) {
                 continue;
@@ -57,8 +58,8 @@ class Tools_System_Minify {
                     $cssContent
                 );
 
-                // Ignoring files generated magic space concatcss
-                if ((bool) preg_match('/'.$concatCssPrefix.'[a-zA-Z0-9]+\.css/i', $path) === false) {
+                // Ignoring minify files created by magicspace concatcss
+                if ((bool)preg_match('/'.$concatCssPrefix.'[a-zA-Z0-9]+\.css/i', $path) === false) {
                     $cssContent = $compressor->run($cssContent);
                 }
 
@@ -79,8 +80,8 @@ class Tools_System_Minify {
                     .Tools_Filesystem_Tools::basename($path);
             }
             else {
-                $concatCss = isset($concatCss) ? $concatCss.PHP_EOL."/* $path */".PHP_EOL.$hashStack[$path]['content'] 
-                    : "/* $path */".PHP_EOL.$hashStack[$path]['content'];
+                $concatCss .= '/**** '.strtoupper($path).' start ****/'.PHP_EOL.$hashStack[$path]['content'].PHP_EOL
+                    .'/**** '.strtoupper($path).' end ****/'.PHP_EOL;
             }
         }
 
@@ -93,6 +94,10 @@ class Tools_System_Minify {
             }
 
             $cssList->setStylesheet($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
+
+            if (isset($addThemeConcatCss)) {
+                $cssList->appendStylesheet($addThemeConcatCss);
+            }
         }
 
         $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);

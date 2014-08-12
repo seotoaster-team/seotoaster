@@ -51,7 +51,7 @@ a.generator-links.plugin{
     background : #000;
     .opacity(0.5);
 
-    &~.ui-widget-overlay{
+    & ~ .ui-widget-overlay{
         display : none;
     }
 }
@@ -86,7 +86,7 @@ a.generator-links.plugin{
     }
 }
 
-.ui-overlay+.ui-widget-content{
+.ui-overlay + .ui-widget-content{
     background : @body-bg;
     z-index    : 1001;
     .box-shadow(3px 3px 10px #000);
@@ -95,6 +95,7 @@ a.generator-links.plugin{
 // Control Panel
 //==================================================
 #seotoaster-cpanel{
+    text-align : left;
     width      : 200px;
     position   : absolute;
     right      : 5px;
@@ -114,7 +115,7 @@ a.generator-links.plugin{
         z-index : 1005;
     }
 
-    &>*{
+    & > *{
         background : #fff;
         position   : relative;
         width      : 200px;
@@ -183,7 +184,7 @@ a.generator-links.plugin{
                 padding : 0;
                 border  : none;
 
-                li+li{
+                li + li{
                     border-top : 1px dashed @gray-light;
                 }
 
