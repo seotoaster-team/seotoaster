@@ -29,17 +29,21 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
 		else {
 			$this->getDbTable()->update($data, array('id = ?' => $id));
 		}
+        $this->updateToUrl($redirect->getPageId(), $redirect->getToUrl(), $redirect->getDomainTo());
 	}
 
-	public function fetchRedirectMap() {
-		$redirectMap = array();
-		$redirects   = $this->fetchAll();
-		if(!empty($redirects)) {
-			foreach ($redirects as $redirect) {
-				$redirectMap[$redirect->getDomainFrom() . $redirect->getFromUrl()] = $redirect->getdomainTo() . $redirect->getToUrl();
-			}
-		}
-		return $redirectMap;
+	public function fetchRedirectMap($pageUrl) {
+		$redirect = $this->getDbTable()->getAdapter()->fetchRow(
+            $this->getDbTable()->getAdapter()->select()->from('redirect', '*')->where(
+                $this->getDbTable()->getAdapter()->quoteInto("from_url = ?", $pageUrl)
+            )
+        );
+		if(!empty($redirect)) {
+            $redirect = new Application_Model_Models_Redirect($redirect);
+            return $redirect;
+		}else {
+            return null;
+        }
 	}
 
 	public function delete(Application_Model_Models_Redirect $redirect) {
@@ -59,5 +63,15 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
 		$where = sprintf("%s AND %s", $fromUrl, $toUrl);
 		return $this->getDbTable()->delete($where);
 	}
+
+    public function updateToUrl($pageId, $toUrl, $domainTo) {
+        if(!empty($pageId)) {
+            $data = array(
+                "to_url" => $toUrl,
+                "domain_to" => $domainTo
+            );
+            $this->getDbTable()->update($data, array('page_id = ?' => $pageId));
+        }
+    }
 }
 
