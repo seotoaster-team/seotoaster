@@ -166,7 +166,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 				$this->_exportTheme(null, true, true);
 
 				if (file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_DATA_FILE)) {
-					$this->_applySql($themeName);
+			        $this->_applySql($themeName);
 				}
 
 				// applying media content
@@ -266,14 +266,24 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			}
 
 			if (!empty($themeData)) {
-				foreach ($themeData as $table => $data) {
+                $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
+                $isShoppingEnable = array_search('shopping',$enabledPlugins);
+                $isNewslogEnable  = array_search('newslog',$enabledPlugins);
+                foreach ($themeData as $table => $data) {
 					if (empty($data)) {
 						continue;
 					} else {
-                        if($table == 'template_type')
-                           continue;
-                        else
-						   $dbAdapter->delete($table);
+                        if($table == 'template_type'){
+                            if(!$isNewslogEnable){
+                                $where = $dbAdapter->quoteInto('id IN (?)', array('type_news', 'type_news_list'));
+                                $dbAdapter->delete($table, $where);
+                            } else if(!$isShoppingEnable) {
+                                $where = $dbAdapter->quoteInto('id IN (?)', array('typecheckout', 'typeproduct', 'typelisting'));
+                                $dbAdapter->delete($table, $where);
+                            }
+                        } else {
+                            $dbAdapter->delete($table);
+                        }
 					}
 					foreach ($data as $row) {
 						try {
