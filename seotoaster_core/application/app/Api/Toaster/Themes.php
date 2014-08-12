@@ -53,7 +53,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		'page_option'     => 'SELECT * FROM `page_option`;',
 		'page_has_option' => 'SELECT * FROM `page_has_option` WHERE page_id IN (?) ;',
 		'form'            => 'SELECT * FROM `form`;',
-		'template_type'   => 'SELECT * FROM `template_type`;'
+		'template_type'   => 'SELECT * FROM `template_type`;',
+        'newslog'         => 'SELECT * FROM `plugin_newslog_news`;'
 	);
 
 	/**
@@ -269,7 +270,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 					if (empty($data)) {
 						continue;
 					} else {
-						$dbAdapter->delete($table);
+                        if($table == 'template_type')
+                           continue;
+                        else
+						   $dbAdapter->delete($table);
 					}
 					foreach ($data as $row) {
 						try {
@@ -319,7 +323,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			// and for media files
 			$mediaFiles = array();
 
-			// fetching index page and main menu pages
+			// fetching index page and main menu pages and news pages
 			$pagesSqlWhere = "SELECT * FROM `page` WHERE system = '0' AND draft = '0' AND (
 			url = 'index.html' OR (parent_id = '0' AND show_in_menu = '1') OR (parent_id = '-1' AND show_in_menu = '2')
 		    OR (parent_id = '0' OR parent_id IN (SELECT DISTINCT `page`.`id` FROM `page` WHERE (parent_id = '0') AND (system = '0') AND (show_in_menu = '1')) )
@@ -378,7 +382,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 					'config'   => $exportData,
 					'filename' => $themePath . self::THEME_DATA_FILE
 				));
-				$themeDataFile->write();
+                $themeDataFile->write();
 			}
 
 			// exporting list of media files

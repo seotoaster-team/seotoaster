@@ -7,7 +7,7 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	protected $_model   = 'Application_Model_Models_Template';
 
 	protected $_defaultTemplates = array(
-		'index', 'default', 'category', 'news'
+		'index', 'default', 'category', 'news', 'news list'
 	);
 
 	/**
@@ -64,9 +64,8 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 	 * @return mixed
 	 */
 	public function clearTemplates(){
-		return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
+        return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
 	}
-
 
     public function fetchAllTypes() {
         $dbTable = new Application_Model_DbTable_TemplateType();
