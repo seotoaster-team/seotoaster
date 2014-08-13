@@ -21,7 +21,7 @@
                 <span class="template-check ticon-check icon16"/></span>
             <?php endif; ?>
 			<div class="template_name" <?php echo  ((int) $template['pagesCount'] >= 1) ? 'title="' . sprintf($this->translate('%s template'), $template['fullName']) . ' - ' . $this->translate('used %s times', $template['pagesCount']) . '"' : ''?>>
-				<?php echo ucfirst($template['name']); ?><br>
+				<?php echo ucfirst($template['name']); ?>
 			</div>
 			<?php echo $this->formHidden('template-id', $template['name'], array('id' => 'template-id-'.$template['name'])); ?>
 		</div>
