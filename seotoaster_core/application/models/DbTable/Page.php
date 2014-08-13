@@ -107,7 +107,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
         $row = $this->getAdapter()->fetchRow($select);
 
-        if(!$row || !is_array($row) || !isset($row['id']) || ($row['id'] === null)) {
+        if(!$row || !is_array($row) || !isset($row['id']) || ($row['id'] === null) || ($pageUrl !== Helpers_Action_Website::DEFAULT_PAGE && $pageUrl !== $row['url'])) {
             return null;
         }
 
