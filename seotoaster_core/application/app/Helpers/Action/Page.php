@@ -72,10 +72,13 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
      * @param $pageUrl string
      */
     public function do301Redirect($pageUrl) {
-		$redirectMap = array();
+		$redirectMap = $this->_cache->load('toaster_301redirects', '301redirects');
+        if (!is_array($redirectMap)) {
+            $redirectMap = array();
+        }
 		$this->_redirector->setCode(301);
 
-		if(($redirectMap = $this->_cache->load('toaster_301redirects', '301redirects')) === null || !isset($redirectMap[$this->_website->getUrl() . $pageUrl])) {
+		if($redirectMap === null || !isset($redirectMap[$this->_website->getUrl() . $pageUrl])) {
             if(!in_array($this->_website->getUrl() . $pageUrl, $redirectMap)) {
                 $redirect = Application_Model_Mappers_RedirectMapper::getInstance()->fetchRedirectMap($pageUrl);
                 if($redirect !== null) {
