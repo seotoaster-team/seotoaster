@@ -30,17 +30,13 @@
     }
 
     if (isset($this->minify) && $this->minify === true) {
-	    echo Tools_System_Minify::minify($this->headLink(), true);
-	}
+        echo Tools_System_Minify::minify($this->headLink(), true);
+    }
     else {
-	    echo $this->headLink();
-	}
-
+        echo $this->headLink();
+    }
     $this->jQuery()
         ->uiEnable()
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.js')
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
         ->addJavascriptFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js');
 
     $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
@@ -49,22 +45,27 @@
             ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
 
     }
-
     echo $this->jQuery();
 
     $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
         ->prependFile($this->websiteUrl.'system/js/internal/system.js');
 
-	if (isset($this->minify) && $this->minify === true)  {
+    if (isset($this->minify) && $this->minify === true)  {
         echo Tools_System_Minify::minify($this->headScript(), true);
-	}
+    }
     else {
-	    echo $this->headScript();
-	}
+        echo $this->headScript();
+    }
     // link and script block end
-
     echo $this->placeholder('misc');
     echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
+
+    $this->inlineScript()->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+        ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+        ->appendFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.js');
+    if (isset($this->minify) && $this->minify === true)  {
+        echo Tools_System_Minify::minify($this->inlineScript(), true);
+    }
     ?>
 </head>
 <?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
@@ -85,5 +86,6 @@
  */
 echo $this->placeholder('plugins');
 ?>
+<?php echo $this->inlineScript(); ?>
 </body>
 </html>
