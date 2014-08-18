@@ -119,7 +119,11 @@ class Application_Form_Template extends Zend_Form
         $allowedWidgets = Tools_Widgets_Tools::getAllowedOptions();
         foreach ($allowedWidgets as $allowedWidget) {
             foreach ($allowedWidget as $key => $options) {
-                $widgetList['{$' . $options['option'] . '}'] = $options['alias'];
+                if(isset($options['group'])){
+                    $widgetList[$options['group']]['{$' . $options['option'] . '}'] = $options['alias'];
+                }else{
+                    $widgetList['System Shortcuts']['{$' . $options['option'] . '}'] = $options['alias'];
+                }
 
             }
         }

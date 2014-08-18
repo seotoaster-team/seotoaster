@@ -12,6 +12,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
     protected function  _init() {
         $this->_cacheTags = array(strtolower(__CLASS__));
         $this->_cacheId   = strtolower(__CLASS__).'_lifeTime_'.$this->_cacheLifeTime;
+        $this->_widgetId  .= '-role-'.Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
         $this->_view      = new Zend_View(array(
             'scriptPath' => dirname(__FILE__) . '/views'
         ));

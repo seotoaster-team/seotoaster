@@ -64,7 +64,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
         $signupForm = $this->_view->signupForm       = new Application_Form_Signup();
         $signupForm->addElement('text','PageId',array(
                 'value' => $pageId,
-                'class' => 'hide',
+                'class' => 'hidden',
                 'id'    => 'PageId'));
         if(in_array(self::OPTION_NOCAPTCHA,$this->_options)) {
             $signupForm->removeElement('verification');
