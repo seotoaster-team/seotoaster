@@ -54,7 +54,7 @@ class Tools_System_Minify {
                 $cssContent = Tools_Filesystem_Tools::getFile($path);
                 $cssContent = preg_replace(
                     '/url\([\'"]?([^)\'"]*)[\'"]?\)/',
-                    'url("../'.dirname($path).DIRECTORY_SEPARATOR.'${1}")',
+                    'url("../'.dirname($path).'/${1}")',
                     $cssContent
                 );
 
