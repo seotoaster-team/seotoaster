@@ -131,7 +131,13 @@ class Tools_Image_Tools {
                     }
                 }
                 else {
-                    copy($pathFile, $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($pathFile));
+                    if (!is_dir($destination)) {
+                        Tools_Filesystem_Tools::mkDir($destination);
+                    }
+                    Tools_Filesystem_Tools::copy(
+                        $pathFile,
+                        $destination.DIRECTORY_SEPARATOR.Tools_Filesystem_Tools::basename($pathFile)
+                    );
                 }
             }
             return true;
