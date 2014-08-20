@@ -40,7 +40,7 @@
 	<div class="content">
 		<!-- uploader -->
 		<div  class="grid_12">
-			<div class="grid_5 alpha">
+			<div class="grid_3 alpha">
 				<?php echo $this->toasterUploader(array(
 						'id'      => 'themes-uploader',
 						'filters' => array('zip'),
@@ -49,9 +49,13 @@
 					));
 				?>
 			</div>
-			<div class="grid_7 omega">
+			<div class="grid_6">
 				<div id="themes-uploader-filelist"></div>
 			</div>
+            <div class="grid_3 alpha omega fl-right text-right action-db">
+                <button class="btn export-db ticon-box-add grid_6 alpha" data-href="<?php echo $this->websiteUrl;?>api/toaster/themes/exportDb/1" title="<?php echo $this->translate('Export SQL to Json');?>">Export SQL</button>
+                <button class="btn import-db ticon-box-remove grid_6 omega" data-href="<?php echo $this->websiteUrl;?>api/toaster/themes/importDb/1" title="<?php echo $this->translate('Import SQL to Json');?>">Import SQL</button>
+            </div>
 		</div>
 
 		<!-- main part -->
@@ -59,6 +63,21 @@
         </div>
 	</div>
 </div>
+<script>
+    $(function(){
+        $('.action-db button').click(function(){
+            var url = $(this).data('href');
+            $.ajax({
+                type     : "GET",
+                dataType : 'json',
+                url      : url,
+                success  : function(data){
+                    showMessage(data.responseText, 'success');
+                }
+            });
+        })
+    });
+</script>
 
 <?php
     $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/require/require.min.js', null, array(
