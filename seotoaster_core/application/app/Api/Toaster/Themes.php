@@ -98,15 +98,16 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 */
 	public function getAction() {
 
-        if($this->_request->getParam('exportDb', false)){
+        if($this->_request->getParam('exportBackup', false)){
             $themeName = $this->_configHelper->getConfig('currentTheme');
             $themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . DIRECTORY_SEPARATOR;
 
             // exporting theme
-            $this->_exportSqlToJson($themePath);
+            $this->_exportTheme($themeName, true, true);
+//            $this->_exportSqlToJson($themePath);
             return array('responseText' => $this->_translator->translate('Done!'));
         }
-        if($this->_request->getParam('importDb', false)){
+        if($this->_request->getParam('importBackup', false)){
             $themeName = $this->_configHelper->getConfig('currentTheme');
 
             // exporting theme
