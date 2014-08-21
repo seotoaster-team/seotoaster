@@ -52,6 +52,10 @@
         padding       : 5px;
         margin-bottom : 2%;
 
+        #edit-content &{
+            cursor: default;
+        }
+
         &:hover{
             background : @gray-light;
 
@@ -64,6 +68,11 @@
             overflow    : hidden;
             height      : 90px;
             line-height : 90px;
+
+            #edit-content &{
+                height      : 45px;
+                line-height : 45px;
+            }
 
             img{
                 height : 100%;
