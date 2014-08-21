@@ -9,7 +9,7 @@
     <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
         <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order') . ' - <em>' . $this->faName . '</em>';?></a>
     <?php endif; ?>
-    <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem">
+    <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem <?php echo $this->listClass; ?>">
         <?php foreach($this->faPages as $page): ?>
             <li>
                 <?php

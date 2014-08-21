@@ -115,6 +115,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->faPages = $featuredArea->getPages();
         $this->_view->faId    = $featuredArea->getId();
         $this->_view->faName  = $featuredArea->getName();
+        $class                = current(preg_grep('/class=*/', $params));
+        $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;
 
@@ -146,6 +148,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
 
         $this->_view->page       = $page;
+        $class                   = current(preg_grep('/class=*/', $params));
+        $this->_view->listClass  = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         $this->_view->descLength = (isset($params[1]) && is_numeric($params[1])) ? intval($params[1])
             : self::AREA_DESC_LENGTH;
         array_push($this->_cacheTags, 'pageid_'.$page->getId());

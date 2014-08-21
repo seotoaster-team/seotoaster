@@ -30,12 +30,15 @@ class Widgets_List_List extends Widgets_Abstract {
 		$this->_view->categoriesList = Application_Model_Mappers_PageMapper::getInstance()->findByParentId(0);
         $this->_view->useImage       = (in_array('img', $this->_options) || in_array('imgc', $this->_options)) ? true : false;
         $this->_view->crop           = (in_array('imgc', $this->_options) || in_array('crop', $this->_options)) ? true : false;
+        $class                       = current(preg_grep('/class=*/', $this->_options));
+        $this->_view->listClass      = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
 		$this->_addCacheTags($this->_view->categoriesList);
 		return $this->_view->render('categories.phtml');
 	}
 
 	private function _renderPagesList() {
-        if(isset($this->_options[1]) && $this->_options[1] !== 'img' && $this->_options[1] !== 'imgc' && $this->_options[1] !== 'crop' && $this->_options[1] !== 'ajax'){
+        $key = key(preg_grep('/class=*/', $this->_options));
+        if(isset($this->_options[1]) && $this->_options[1] !== 'img' && $this->_options[1] !== 'imgc' && $this->_options[1] !== 'crop' && $this->_options[1] !== 'ajax' && $key !== 1){
             $categoryName = $this->_options[1];
         } else{
             $categoryName = $this->_toasterOptions['navName'];
@@ -43,6 +46,8 @@ class Widgets_List_List extends Widgets_Abstract {
         $this->_view->pagesList = $this->_findPagesListByCategoryName($categoryName);
         $this->_view->useImage  = (in_array('img', $this->_options) || in_array('imgc', $this->_options)) ? true : false;
         $this->_view->crop      = (in_array('imgc', $this->_options) || in_array('crop', $this->_options)) ? true : false;
+        $class                  = current(preg_grep('/class=*/', $this->_options));
+        $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         if(end($this->_options) == 'ajax') {
             $this->_view->ajax = true;
             $this->_view->categoryName = $categoryName;

@@ -1,6 +1,6 @@
 <?php if(isset($this->pagesList)): ?>
     <?php if($this->ajax) :?>
-        <ul class="listpages <?php echo md5($this->categoryName); ?>">
+        <ul class="listpages <?php echo md5($this->categoryName); ?> <?php echo $this->listClass; ?>">
             <li>Please wait...</li>
         </ul>
         <script type="text/javascript">
@@ -23,7 +23,7 @@
             });
         </script>
     <?php else: ?>
-	<ul class="listpages">
+	<ul class="listpages <?php echo $this->listClass; ?>">
 		<?php foreach ($this->pagesList as $page):  ?>
 			<li>
 				<?php if($this->useImage): ?>
