@@ -93,6 +93,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                         $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
                         $dependentPlugins = explode(PHP_EOL, $pluginDependencyContent);
                         $missingPlugins = array_diff($dependentPlugins, $enabledPlugins);
+                        $missingPlugins = array_filter($missingPlugins);
                         if (!empty($missingPlugins)) {
                             $missingPluginError = $this->_helper->language->translate('Plugins that should be installed first').' ';
                             foreach ($missingPlugins as $plug) {
