@@ -40,6 +40,7 @@
 	<div class="content">
 		<!-- uploader -->
 		<div  class="grid_12">
+            <button class="btn icon backup ticon-menu2 fl-left mr1" title="<?php echo $this->translate('Create or apply backup current theme');?>">Backup theme</button>
 			<div class="grid_3 alpha">
 				<?php echo $this->toasterUploader(array(
 						'id'      => 'themes-uploader',
@@ -52,10 +53,6 @@
 			<div class="grid_6">
 				<div id="themes-uploader-filelist"></div>
 			</div>
-            <div class="grid_4 alpha omega fl-right text-right action-db">
-                <button class="btn export-db ticon-box-add grid_6 alpha" data-href="<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1" title="<?php echo $this->translate('Export Backup');?>">Export Backup</button>
-                <button class="btn import-db ticon-box-remove grid_6 omega" data-href="<?php echo $this->websiteUrl;?>api/toaster/themes/importBackup/1" title="<?php echo $this->translate('Import Backup');?>">Import Backup</button>
-            </div>
 		</div>
 
 		<!-- main part -->
@@ -65,15 +62,31 @@
 </div>
 <script>
     $(function(){
-        $('.action-db button').click(function(){
-            var url = $(this).data('href');
-            $.ajax({
-                type     : "GET",
-                dataType : 'json',
-                url      : url,
-                success  : function(data){
-                    showMessage(data.responseText, 'success');
+        $('.backup').click(function(){
+            smoke.quiz("<?php echo $this->translate('Create or apply backup current theme');?>", function(e){
+                var url;
+                if(!e){
+                    return false;
                 }
+                if(e == "<?php echo $this->translate('Create backup');?>"){
+                    url = '<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1';
+                }
+                if(e == "<?php echo $this->translate('Upload backup');?>"){
+                    url = '<?php echo $this->websiteUrl;?>api/toaster/themes/importBackup/1';
+                }
+                $.ajax({
+                    type     : "GET",
+                    dataType : 'json',
+                    url      : url,
+                    success  : function(data){
+                        showMessage(data.responseText, false);
+                    }
+                });
+            }, {
+                button_1       : "<?php echo $this->translate('Create backup');?>",
+                button_2       : "<?php echo $this->translate('Apply backup');?>",
+                button_cancel  : "<?php echo $this->translate('Cancel');?>",
+                reverseButtons : true
             });
         })
     });
