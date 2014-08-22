@@ -10,6 +10,8 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	const UNINSTALL_FILE_NAME = 'uninstall.sql';
 
+    const DEPENDENCY_FILE_NAME = 'dependency.txt';
+
 	protected $_name    = '';
 
 	protected $_status  = '';

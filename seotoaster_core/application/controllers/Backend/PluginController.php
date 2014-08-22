@@ -84,6 +84,28 @@ class Backend_PluginController extends Zend_Controller_Action {
                 $observerAction = Tools_Plugins_GarbageCollector::CLEAN_ONDELETE;
             }
 
+            if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
+                $pluginDependencyFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] .
+                    $plugin->getName() . '/system/' . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
+                if (file_exists($pluginDependencyFilePath)) {
+                    $pluginDependencyContent = Tools_Filesystem_Tools::getFile($pluginDependencyFilePath);
+                    if (!empty($pluginDependencyContent)) {
+                        $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
+                        $dependentPlugins = explode(PHP_EOL, $pluginDependencyContent);
+                        $missingPlugins = array_diff($dependentPlugins, $enabledPlugins);
+                        $missingPlugins = array_filter($missingPlugins);
+                        if (!empty($missingPlugins)) {
+                            $missingPluginError = $this->_helper->language->translate('Plugins that should be installed first').' ';
+                            foreach ($missingPlugins as $plug) {
+                                $missingPluginError .= $plug . ', ';
+                            }
+                            $this->_helper->response->fail(rtrim($missingPluginError, ', '));
+                        }
+                    }
+
+                }
+            }
+
             $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
             if (file_exists($sqlFilePath)) {
                 try {
@@ -118,13 +140,13 @@ class Backend_PluginController extends Zend_Controller_Action {
                 )
             );
 
-            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == null) {
                 $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
                 $pluginMapper->save($plugin);
                 $this->view->buttonText  = 'Uninstall';
                 $this->view->endisButton = true;
             }
-            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != NULL) {
+            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != null) {
                 $pluginMapper->delete($plugin);
                 $this->view->buttonText = 'Install';
                 $this->view->endisButton = false;
