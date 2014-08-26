@@ -106,6 +106,18 @@ class Backend_PluginController extends Zend_Controller_Action {
                 }
             }
 
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == null) {
+                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
+                $pluginMapper->save($plugin);
+                $this->view->buttonText  = 'Uninstall';
+                $this->view->endisButton = true;
+            }
+            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != null) {
+                $pluginMapper->delete($plugin);
+                $this->view->buttonText = 'Install';
+                $this->view->endisButton = false;
+            }
+            
             $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
             if (file_exists($sqlFilePath)) {
                 try {
@@ -140,17 +152,6 @@ class Backend_PluginController extends Zend_Controller_Action {
                 )
             );
 
-            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == null) {
-                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
-                $pluginMapper->save($plugin);
-                $this->view->buttonText  = 'Uninstall';
-                $this->view->endisButton = true;
-            }
-            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != null) {
-                $pluginMapper->delete($plugin);
-                $this->view->buttonText = 'Install';
-                $this->view->endisButton = false;
-            }
 
             $this->_helper->cache->clean(null, null, array('plugins'));
             $this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
