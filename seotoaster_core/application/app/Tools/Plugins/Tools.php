@@ -615,7 +615,7 @@ class Tools_Plugins_Tools {
                 $lngFile = $pluginsPath.$plugin->getName().DIRECTORY_SEPARATOR.'system/languages/'.$locale.'.lng';
                 if (is_readable($lngFile)) {
                     $langArray = require($lngFile);
-                    if (!empty($langArray)) {
+                    if (!empty($langArray) && is_array($langArray)) {
                         $pluginsTranslations = array_merge($pluginsTranslations, $langArray);
                     }
                 }
