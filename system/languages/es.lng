@@ -149,7 +149,7 @@
      '<strong>Optional but recommended:</strong>' => '<strong>Opcional pero recomendado:</strong>',
      'We\'ve detected that your web server is not equipped with the Ion Cube encryption loader. Don\'t settle for less than the entire Seotoaster experience! Seotoaster uses IonCube to encrypt great time-saving plug-ins available on the marketplace, get your website instantly setup with free real-time web analytics, create a KML file so that your local business can be found online. It is free and easy to download and install IonCube. Do it or contact your web host to do it for you.' => 'Hemos detectado que su servidor web no tiene la encriptación IonCube loader. Disfrute de toda la experiencia con SEO Toaster! SEO Toaster utiliza IonCube para cifrar los plug-ins disponibles en el mercado que permiten ahorrar tiempo. Estos le permiten configurar su sitio web con Web Analytics libre, crear un archivo KML para que su negocio se pueda encontrar en línea. Puede descargar e instalar el software fácil y gratuitamente. Hágalo o comuníquese con su proveedor de alojamiento web para que lo haga por usted.',
      'download and install IonCube loader' => 'descargar e instalar IonCube loader',
-     'Web server' => 'Servidor Web:',
+     'Web server' => 'Servidor Web',
      'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache 2, Nginx. Cualquier servidor que soporte PHP (no testeado).',
      '<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> o posterior',
      '<strong>PDO</strong> extension for PHP' => 'Extensiones <strong>PDO</strong> para PHP',
