@@ -56,8 +56,8 @@
        'Did you know? You can turn seotoaster into a mean and scalable online marketing machine once hooked up to the marketing automation platform <a href="http://www.seosamba.com/" target="_blank" title="SEO Samba">SEO Samba</a>.<br />SEO Samba mass optimize your websites for great search engine performances, enables you to run free and paid plug-ins, access networked content, as well as free statistics for your site. <a href="http://www.seotoaster.com/internet-marketing-services.html" target="_blank" title="More information about seosamba here">Check some other features here.</a>' => 'Você sabia? Você pode transformar seotoaster em uma média e escalável máquina de marketing on-line, uma vez ligado à plataforma de automação de marketing SEO Samba.',
        'Toast it!' => 'Toast TI!',
        'Seotoaster installed' => 'SEOTOASTER INSTALADO',
-       'Get ready to toast:'   => 'Prepare-se para o brinde:',
        'Log into your toaster here' => 'Entrar na sua torradeira aqui:',
+       'Get ready to toast:'   => 'Prepare-se para o brinde:',
        'You must remove the <b>&#147;install&#148;</b> folder in order to access your software.' => 'Você deve remover a pasta <b>&#147;install&#148;</b>, a fim de acessar o seu software.',
        'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Preencha as informações da empresa, ou site de cartões de identificação como gostamos de chamá-lo, a fim de facilitar o seu site de indexação com motores de busca.',
 ); ?>

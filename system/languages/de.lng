@@ -57,8 +57,7 @@ return array(
     'Yes, I want my FREE SEO Samba account, the statistics and the plugins. Email my account token to me.' => 'Ja, ich möchte meinen kostenlosen SEO Samba-Konto, die Statistiken und die Plugins. E-Mail an meine Kontotoken für mich.',
     'I already have my token, here it is.' => 'Ich habe bereits meine Token, hier ist es.',
     'Did you know? You can turn seotoaster into a mean and scalable online marketing machine once hooked up to the marketing automation platform <a href="http://www.seosamba.com/" target="_blank" title="SEO Samba">SEO Samba</a>.<br />SEO Samba mass optimize your websites for great search engine performances, enables you to run free and paid plug-ins, access networked content, as well as free statistics for your site. <a href="http://www.seotoaster.com/internet-marketing-services.html" target="_blank" title="More information about seosamba here">Check some other features here.</a>' => 'Wussten Sie? Sie können seotoaster in einen Mittelwert und skalierbare Online-Marketing-Maschine einmal bis zur Marketing-Automation-Plattform SEO Samba süchtig machen.',
-    'Toast it!' => 'Toast TI!',
-	'<h2 class="mt40px mb50px xlarge">Congratulations,<br />you have succesfully installed<br /><strong>SEOTOASTER V2 !</strong></h2>' =>
+    '<h2 class="mt40px mb50px xlarge">Congratulations,<br />you have succesfully installed<br /><strong>SEOTOASTER V2 !</strong></h2>' =>
 	'<h2 class="mt40px mb50px xlarge">Gratulation,<br /><strong>SEOTOASTER V2 !</strong>wurde erfolgreich installiert<br /></h2>',
 	'Toast It!'                                       => 'Fertig',
 	'Seotoaster installed' => 'SEOTOASTER INSTALLIERT',
