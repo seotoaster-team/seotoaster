@@ -6,7 +6,7 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 
 	protected $_model   = 'Application_Model_Models_Plugin';
 
-	public function save($plugin) {
+	public function save($plugin , $notify = true) {
 		if(!$plugin instanceof Application_Model_Models_Plugin) {
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_Plugin instance');
 		}
@@ -23,7 +23,9 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 		else {
 			$status = $this->getDbTable()->update($data, array('id = ?' => $plugin->getId()));
 		}
-		$plugin->notifyObservers();
+        if ($notify === true) {
+		    $plugin->notifyObservers();
+        }
 		return  $status;
 	}
 

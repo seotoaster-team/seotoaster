@@ -23,15 +23,15 @@ class Backend_PluginController extends Zend_Controller_Action {
 	}
 
 
-	public function pluginAction() {
-		$this->view->plugins     = $this->_getPreparedPlugins();
+    public function pluginAction() {
+        $this->view->plugins     = $this->_getPreparedPlugins();
         $this->view->helpSection = 'plugins';
-	}
+    }
 
-	public function listAction() {
-		$this->view->plugins     = $this->_getPreparedPlugins();
-		$this->view->pluginsList = $this->view->render('backend/plugin/list.phtml');
-	}
+    public function listAction() {
+        $this->view->plugins     = $this->_getPreparedPlugins();
+        $this->view->pluginsList = $this->view->render('backend/plugin/list.phtml');
+    }
 
     public function readmeAction()
     {
@@ -106,16 +106,8 @@ class Backend_PluginController extends Zend_Controller_Action {
                 }
             }
 
-            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == null) {
-                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
-                $pluginMapper->save($plugin);
-                $this->view->buttonText  = 'Uninstall';
-                $this->view->endisButton = true;
-            }
-            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != null) {
-                $pluginMapper->delete($plugin);
-                $this->view->buttonText = 'Install';
-                $this->view->endisButton = false;
+            if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
+                $pluginId = intval($pluginMapper->save($plugin, false));
             }
 
             $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
@@ -153,6 +145,18 @@ class Backend_PluginController extends Zend_Controller_Action {
                 )
             );
 
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
+                $plugin->setId($pluginId);
+                $pluginMapper->save($plugin);
+                $this->view->buttonText  = 'Uninstall';
+                $this->view->endisButton = true;
+            }
+            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != NULL) {
+                $pluginMapper->delete($plugin);
+                $this->view->buttonText = 'Install';
+                $this->view->endisButton = false;
+            }
 
             $this->_helper->cache->clean(null, null, array('plugins'));
             $this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
@@ -214,7 +218,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 					$this->_helper->response->fail($e->getMessage());
 				}
 			}
-            
+
 			$this->_helper->cache->clean(null, null, array('plugins'));
 			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 			$this->_helper->response->success('Removed');
