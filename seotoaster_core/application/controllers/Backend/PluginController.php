@@ -117,7 +117,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                 $this->view->buttonText = 'Install';
                 $this->view->endisButton = false;
             }
-            
+
             $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
             if (file_exists($sqlFilePath)) {
                 try {
@@ -135,6 +135,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                             }
                             catch (Exception $e) {
                                 error_log($e->getMessage());
+                                $pluginMapper->deleteByName($plugin);
                                 $this->_helper->response->fail($e->getMessage());
                             }
                         }
