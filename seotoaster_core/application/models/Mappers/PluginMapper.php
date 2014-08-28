@@ -14,7 +14,8 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 			'name'     => $plugin->getName(),
 			'status'   => $plugin->getStatus(),
 			'tags'     => $plugin->getTags(true),
-			'license'  => $plugin->getLicense()
+			'license'  => $plugin->getLicense(),
+            'version'  => $plugin->getVersion()
 		);
 		if(!$plugin->getId()) {
 			$status = $this->getDbTable()->insert($data);
