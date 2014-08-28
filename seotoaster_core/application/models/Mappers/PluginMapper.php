@@ -14,7 +14,8 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 			'name'     => $plugin->getName(),
 			'status'   => $plugin->getStatus(),
 			'tags'     => $plugin->getTags(true),
-			'license'  => $plugin->getLicense()
+			'license'  => $plugin->getLicense(),
+            'version'  => $plugin->getVersion()
 		);
 		if(!$plugin->getId()) {
 			$status = $this->getDbTable()->insert($data);
@@ -56,6 +57,12 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 
 	public function delete(Application_Model_Models_Plugin $plugin) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $plugin->getId());
+		$deleteResult = $this->getDbTable()->delete($where);
+		$plugin->notifyObservers();
+	}
+
+	public function deleteByName(Application_Model_Models_Plugin $plugin) {
+		$where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $plugin->getName());
 		$deleteResult = $this->getDbTable()->delete($where);
 		$plugin->notifyObservers();
 	}
