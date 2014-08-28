@@ -164,8 +164,8 @@ class Tools_Theme_Tools {
 
         foreach ($filesName as $templateFile) {
             $templateName = preg_replace(
-                array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
                 array('/\\'.DIRECTORY_SEPARATOR.'/', '/\.html/'),
+                array('_', ''),
                 $templateFile
             );
             $template     = $templateMapper->find($templateName);
