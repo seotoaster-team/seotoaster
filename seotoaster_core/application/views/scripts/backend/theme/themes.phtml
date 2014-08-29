@@ -68,6 +68,7 @@
                 if(!e){
                     return false;
                 }
+                showSpinner();
                 if(e == "<?php echo $this->translate('Create backup');?>"){
                     url = '<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1';
                 }
@@ -79,6 +80,7 @@
                     dataType : 'json',
                     url      : url,
                     success  : function(data){
+                        hideSpinner();
                         showMessage(data.responseText, false);
                     }
                 });
