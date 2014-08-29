@@ -146,8 +146,13 @@ class Backend_PluginController extends Zend_Controller_Action {
             );
 
             if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
-                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
+                $pluginData       = $pluginMapper->getPluginDataById($pluginId);
+                if(!empty($pluginData)){
+                   $plugin->setTags($pluginData['tags']);
+                   $plugin->setVersion($pluginData['version']);
+                }
                 $plugin->setId($pluginId);
+                $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
                 $pluginMapper->save($plugin);
                 $this->view->buttonText  = 'Uninstall';
                 $this->view->endisButton = true;

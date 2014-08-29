@@ -68,5 +68,17 @@ class Application_Model_Mappers_PluginMapper extends Application_Model_Mappers_A
 		$deleteResult = $this->getDbTable()->delete($where);
 		$plugin->notifyObservers();
 	}
+
+    public function getPluginDataById($id){
+        $where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $id);
+        $rowSet =  $this->getDbTable()->fetchAll($where);
+        if(null == $rowSet) {
+            return null;
+        }
+        foreach ($rowSet as $row) {
+            $entries[] =$row->toArray();
+        }
+        return $entries[0];
+    }
 }
 
