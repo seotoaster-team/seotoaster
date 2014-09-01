@@ -33,7 +33,7 @@ class Tools_System_Minify {
         $concatCssPrefix = MagicSpaces_Concatcss_Concatcss::FILE_NAME_PREFIX;
         $websiteHelper   = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
         $concatCss       = '';
-        foreach ($container->getArrayCopy() as $css) {
+        foreach ($container->getArrayCopy() as $key => $css) {
             if ((bool)preg_match('/^https?:\/\//', $css->href) !== false
                 && (bool)strpos($css->href, $websiteHelper->getUrl()) !== false
             ) {
@@ -83,6 +83,9 @@ class Tools_System_Minify {
                 $concatCss .= '/**** '.strtoupper($path).' start ****/'.PHP_EOL.$hashStack[$path]['content'].PHP_EOL
                     .'/**** '.strtoupper($path).' end ****/'.PHP_EOL;
             }
+
+            // Offset minify css
+            $cssList->offsetUnset($key);
         }
 
         if (isset($concatCss) && !empty($concatCss)) {
@@ -93,11 +96,7 @@ class Tools_System_Minify {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatCss);
             }
 
-            $cssList->setStylesheet($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
-
-            if (isset($addThemeConcatCss)) {
-                $cssList->appendStylesheet($addThemeConcatCss);
-            }
+            $cssList->appendStylesheet($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
         }
 
         $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
