@@ -29,8 +29,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
 ('enableMobileTemplates',	'1'),
-('adminEmail',	'admin@cms.loc.com'),
-('version',	'2.2.0');
+('version',	'2.2.3');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -74,6 +73,7 @@ CREATE TABLE `email_triggers` (
   `trigger_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `observer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `trigger_name_2` (`trigger_name`,`observer`),
   KEY `trigger_name` (`trigger_name`),
   KEY `observer` (`observer`),
   KEY `enabled` (`enabled`)
@@ -89,6 +89,7 @@ INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUE
 DROP TABLE IF EXISTS `email_triggers_actions`;
 CREATE TABLE `email_triggers_actions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `service` enum('email','sms') COLLATE utf8_unicode_ci DEFAULT NULL,
   `trigger` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `template` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `recipient` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -309,11 +310,11 @@ CREATE TABLE `plugin` (
   `status` enum('enabled','disabled') COLLATE utf8_unicode_ci DEFAULT 'disabled',
   `tags` text COLLATE utf8_unicode_ci COMMENT 'comma separated words',
   `license` blob,
+  `version` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indName` (`name`),
   KEY `indStatus` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 
 DROP TABLE IF EXISTS `redirect`;
 CREATE TABLE `redirect` (

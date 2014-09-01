@@ -87,13 +87,13 @@
     'Step 1: System setup' => 'Шаг 1: Установка системы',
 
 	'Checking Server Requirements' => 'Проверяем требования к серверу',
-	'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Чтобы использовать тостер Ваш сервер должен отвечать минимальным требованиям.',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Чтобы использовать тостер, Ваш сервер должен отвечать минимальным требованиям.',
 	'Checking file system permissions' => 'Проверяем права доступа к файловой системе',
-	'Some folders need to be writable to allow the toaster to function properly.' => 'Для корректной работы тостера некоторые каталоги и файлы должны быть доступны для записи',
+	'Some folders need to be writable to allow the toaster to function properly.' => 'Для корректной работы тостера некоторые каталоги и файлы должны быть доступны для записи.',
 	"Folder %1\$s is writable" => "Папка %1\$s доступна для записи",
 	"Folder %1\$s is not writable" => "Папка %1\$s не доступна для записи",
 	"File %1\$s is writable" => "Файл %1\$s доступен для записи",
-	"File %1\$s is not writable" => "Файл %1\$s не доступен для аписи",
+	"File %1\$s is not writable" => "Файл %1\$s не доступен для записи",
 	"File %1\$s is not exists" => "Файл %1\$s не существует",
 	'All directories and files seem to have right permissions.' => 'Права доступа на директории и файлы установлены правильно.',
 
@@ -109,71 +109,59 @@
     '<strong>GD Libaries 2.0</strong> or newer: Works with images' => '<strong>GD Libaries 2.0</strong> или выше: для корректной работы с картинками',
     '<strong>Zip extension for PHP:</strong> Permit themes management through the interface' => '<strong>Zip расширение для PHP:</strong> для корректной работы с zip архивами',
     '<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.' => '<strong>Curl расширение для PHP:</strong> для корректной работы со соторонними сервисами, такими как: Google, Yahoo, PayPal, и т. д.',
-
+    '<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.'=>'<strong>JSON расширение для PHP:</strong> JSON (JavaScript Object Notation) поддержка.',
     'Bravo! All good to go!' => 'Браво! Теперь можно продолжить установку!',
-
 	'Next'		   => 'Вперёд',
 	'Check again'  => 'Проверить еще раз',
-
-
 	/* шаг 2 */
 	'Step 2: Database setup' => 'Шаг 2: Установка базы данных',
-	'Setting up the Database.' => 'Настройка доступа к базе данных',
-
+	'Setting up the Database.' => 'Настройка базы данных',
     'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' => 'Ваш сервер должен соответствовать минимальным требования к конфигурации для запуска Seotoaster (У вас должен быть установлен и запущен MySQL сервер версии 5.x)',
     'Database server address' => 'Адрес сервера базы данных',
     'User allowed to connect to database server' => 'Пользователь для доступа к базе данных',
     'Password for database' => 'Пароль для базы данных',
     'Name of the database to use' => 'Имя базы данных',
-
 	'Core location settings' => 'Расположение ядра',
 	'Path to core' => 'Путь к ядру',
 	'Input path to core' => 'Укажите расположения ядра',
 	'Site name' => 'Имя сайта',
 	'Advanced settings (Optional)' => 'Продвинутые настройки (необязательно)',
 	'Multi-toasters setup' => 'Настройка общего ядра',
-	'Did you know? You can share seotoaster\'s core files to run multiple websites from the same server. This is great to expedite upgrades for your  toaster. Simply enter the path for your master seotoaster core files and an unique name you wish to use for this website install.' => 'А знаете ли вы, что вы можете настроить одно ядро seotoaster для обслуживания нескольких веб-сайтов с одного и того же сервера. Это может быть очень удобно для более быстрого обновления вашего Seotoaster\'a. Просто введите путь к файлам основного ядра и выбирите уникальное имя, которое вы хотите использовать для этого сайта.',
+	'Did you know? You can share seotoaster\'s core files to run multiple websites from the same server. This is great to expedite upgrades for your  toaster. Simply enter the path for your master seotoaster core files and an unique name you wish to use for this website install.' => 'Знаете ли вы? Вы можете делиться основными файлами SEOтостера, чтобы запускать несколько веб-сайтов с того же сервера. Это отличная возможность для ускорения обновлений для вашего Тостера. Просто введите путь для ваших файлов для мастера основных файлов SEOтостера, а также имя, которое вы хотите использовать для установки этого сайта.',
 	'input toaster core location' => 'введите путь к ядру seotoaster',
 	'you can leave this field empty' => 'вы можете оставить это поле пустым',
-
 	'Database connection settings' => 'Настройки базы данных',
 	'Host' => 'Хост',
 	'User' => 'Пользователь',
-	'Passowrd' => 'Пароль',
+	'Password' => 'Пароль',
 	'Database name' => 'Имя базы данных',
-	'Go ahead!' => 'Вперёд',
+	'Go ahead!' => 'Продолжим!',
 	'Database installed successfully' => 'База данных успешно создана',
 	"Can't install database. Server sent following error:" => 'Невозможно создать базу данных. Получена ошибка от сервера:',
 	'Advanced settings' => 'Расширенные настройки',
-
 	/* шаг 3 */
 	'Step 3: Create your super admin account' => 'Шаг 3: Создание аккаунта супер-пользователя',
 	'You are one step away from toasting.' => 'Вы в одном шаге от того, чтобы начать пользоваться Seotoaster',
 	'You will use these credentials to log into your toaster.' => 'В дальнейшем вы будете использовать e-mail и пароль, чтобы администрировать сайт',
-
 	'Admin name' => 'Имя супер-пользователя',
 	'Admin email' => 'E-mail супер-пользователя',
 	'Verify password' => 'Пароль еще раз',
-
 	'Note from SEO&nbsp;Samb' => 'Примечание от SEO Samba',
-	'Yes, I want my FREE SEO Samba account, the statistics and the plugins. Email my account token to me.' => 'Да, я хочу мой БЕСПЛАТНЫЙ SEO Samba аккаунт, статистику и плагины. Пришлите мне мой ключ авторизации.',
-	'I already have my token, here it is.' => 'У меня уже есть ключ авторизации',
+	'Yes, I want my FREE SEO Samba account, the statistics and the plugins. Email my account token to me.' => 'Да, я хочу получить бесплатную учетную запись SEOсамба, статистику и плагины. .Отправьте мне жетон на открытие учетной записи.',
+	'I already have my token, here it is.' => 'Я меня уже есть жетон.',
 	'Did you know? You can turn seotoaster into a mean and scalable online marketing machine once hooked up to the marketing automation platform <a href="http://www.seosamba.com/" target="_blank" title="SEO Samba">SEO Samba</a>.<br />SEO Samba mass optimize your websites for great search engine performances, enables you to run free and paid plug-ins, access networked content, as well as free statistics for your site. <a href="http://www.seotoaster.com/internet-marketing-services.html" target="_blank" title="More information about seosamba here">Check some other features here.</a>' => 'А знаете ли вы? Вы можете сделать из seotoaster интернет-маркетинговую машину подключив его однажды к платформе автоматизации маркетинга <a href="http://www.seosamba.com/" target="_blank" title="SEO Samba">SEO Samba</a>.<br />SEO Samba оптимизирует ваши веб-сайты для большей производительности в поисковых системах, позволяет запускать бесплатные и платные плагины, дает доступ к внутри-сетевому контенту, а также к бесплатной статистике для вашего сайта. <a href="http://www.seotoaster.com/internet-marketing-services.html" target="_blank" title="Больше о seosamba можно узнать здесь">Ознакомиться с полным списком функций вы можете здесь.</a>',
 	'Toast it!' => 'Вперед!',
 	'Value is required and can\'t be empty' => 'Это обязательное поле, заполните его пожалуйста',
-
 	"You're one step away from wondering why you did not give SEOTOASTER a try earlier?" => 'Вы в одном шаге от удивления, почему Вы не попробовали SEOTOASTER ранее?',
 	'Something went wrong during saving configuration files.' => 'Произошла ошибка при сохранение конфигурационных файлов.',
 	'Please specify an email and password to create an account.' => 'Укажите свой email и придумайте пароль.',
 	"You'll use these credentials to log into your seotoaster control panel found at" => 'Вы будете использовать эти данные для входа в панель управления через',
-
 	/* Тадааа */
 	'Seotoaster installed' => 'Seotoaster установлен',
 	'Get ready to toast:'   => 'Приготовьтесь к использованию Seotoaster:',
-	'You must remove the <b>&#147;install&#148;</b> folder in order to access your software.' => 'Вы должны удалить папку <b>&#147;install&#148;</b> для того чтобы корректно использовать Seotoaster.',
 	'Log into your toaster here' => 'Войдите в панель управления зайтом здесь',
+	'You must remove the <b>&#147;install&#148;</b> folder in order to access your software.' => 'Вы должны удалить папку <b>&#147;install&#148;</b> для того чтобы корректно использовать Seotoaster.',
 	'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Заполните данные о вашей коммерческой деятельности или, как нам нравится это называть, визитку веб-сайта, для того чтобы облегчить индексацию вашего сайта в поисковых системах.',
-
 	/* Widget mobile */
 	'Go to full site' => 'Полная версия сайта',
 	'Go to mobile site' => 'Мобильная версия сайта',

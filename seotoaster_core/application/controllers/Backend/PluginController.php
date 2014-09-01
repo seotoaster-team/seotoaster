@@ -23,15 +23,15 @@ class Backend_PluginController extends Zend_Controller_Action {
 	}
 
 
-	public function pluginAction() {
-		$this->view->plugins     = $this->_getPreparedPlugins();
+    public function pluginAction() {
+        $this->view->plugins     = $this->_getPreparedPlugins();
         $this->view->helpSection = 'plugins';
-	}
+    }
 
-	public function listAction() {
-		$this->view->plugins     = $this->_getPreparedPlugins();
-		$this->view->pluginsList = $this->view->render('backend/plugin/list.phtml');
-	}
+    public function listAction() {
+        $this->view->plugins     = $this->_getPreparedPlugins();
+        $this->view->pluginsList = $this->view->render('backend/plugin/list.phtml');
+    }
 
     public function readmeAction()
     {
@@ -84,6 +84,32 @@ class Backend_PluginController extends Zend_Controller_Action {
                 $observerAction = Tools_Plugins_GarbageCollector::CLEAN_ONDELETE;
             }
 
+            if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
+                $pluginDependencyFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] .
+                    $plugin->getName() . '/system/' . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
+                if (file_exists($pluginDependencyFilePath)) {
+                    $pluginDependencyContent = Tools_Filesystem_Tools::getFile($pluginDependencyFilePath);
+                    if (!empty($pluginDependencyContent)) {
+                        $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
+                        $dependentPlugins = explode(PHP_EOL, $pluginDependencyContent);
+                        $missingPlugins = array_diff($dependentPlugins, $enabledPlugins);
+                        $missingPlugins = array_filter($missingPlugins);
+                        if (!empty($missingPlugins)) {
+                            $missingPluginError = $this->_helper->language->translate('Plugins that should be installed first').' ';
+                            foreach ($missingPlugins as $plug) {
+                                $missingPluginError .= $plug . ', ';
+                            }
+                            $this->_helper->response->fail(rtrim($missingPluginError, ', '));
+                        }
+                    }
+
+                }
+            }
+
+            if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
+                $pluginId = intval($pluginMapper->save($plugin, false));
+            }
+
             $sqlFilePath  = $this->_helper->website->getPath().$miscData['pluginsPath'].$plugin->getName().'/system/'.$statusFile;
             if (file_exists($sqlFilePath)) {
                 try {
@@ -101,6 +127,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                             }
                             catch (Exception $e) {
                                 error_log($e->getMessage());
+                                $pluginMapper->deleteByName($plugin);
                                 $this->_helper->response->fail($e->getMessage());
                             }
                         }
@@ -119,6 +146,12 @@ class Backend_PluginController extends Zend_Controller_Action {
             );
 
             if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+                $pluginData       = $pluginMapper->getPluginDataById($pluginId);
+                if(!empty($pluginData)){
+                   $plugin->setTags($pluginData['tags']);
+                   $plugin->setVersion($pluginData['version']);
+                }
+                $plugin->setId($pluginId);
                 $plugin->setStatus(Application_Model_Models_Plugin::ENABLED);
                 $pluginMapper->save($plugin);
                 $this->view->buttonText  = 'Uninstall';
@@ -190,7 +223,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 					$this->_helper->response->fail($e->getMessage());
 				}
 			}
-            
+
 			$this->_helper->cache->clean(null, null, array('plugins'));
 			$this->_helper->cache->clean('admin_addmenu', $this->_helper->session->getCurrentUser()->getRoleId());
 			$this->_helper->response->success('Removed');

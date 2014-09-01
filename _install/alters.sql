@@ -56,6 +56,12 @@ The shipping address for this order is {order:shippingaddress}
 Thanks for your business.', '', '');
 
 
+-- 29.08.2014
+-- Extend plugin table
+-- version: 2.2.2
+ALTER TABLE `plugin` ADD `version` varchar(20) COLLATE 'utf8_unicode_ci' NULL, COMMENT='';
+
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.2.2' WHERE `name`='version';
+UPDATE `config` SET `value`='2.2.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
