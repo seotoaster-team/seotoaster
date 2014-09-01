@@ -360,7 +360,7 @@ function showConfirm(msg, yesCallback, noCallback){
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
 }
 function showSpinner(e){
-    var el = (typeof e!=='undefined' ? e : 'body>.seotoaster');
+    var el = (typeof text === 'string' ? e : 'body>.seotoaster');
     $(el).append('<span class="spinner"></span>');
 }
 function hideSpinner(){
@@ -369,7 +369,7 @@ function hideSpinner(){
 function showLoader(text){
     var event = document.activeElement;
     $(event).addClass('btn-load').attr('disabled', 'true');
-    var value = typeof text==='undefined' ? "Loading..." : text;
+    var value = typeof text !== 'string' ? "Loading..." : text;
     $('body').append('<div class="seotoaster-loader">'+ value +'</div>');
 }
 function hideLoader(e){
