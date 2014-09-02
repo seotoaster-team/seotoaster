@@ -1,5 +1,5 @@
 <?php if ($this->slideShow): ?>
-    <div id="<?php echo $this->uniq; ?>" class="cycle-slideshow rotator slider"
+    <div id="<?php echo $this->uniq; ?>" class="cycle-slideshow rotator"
         data-cycle-slides="> div.slide"
         data-cycle-timeout="2000"
         data-cycle-speed="<?php echo $this->swapTime * 1000; ?>"
@@ -10,6 +10,9 @@
         data-cycle-swipe-fx="<?php echo $this->effect; ?>"
         <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
         <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+        style="
+            max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
+            max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;"
         >
         <?php if($this->prevnext): ?>
             <div class="action-button cycle-prev"></div>
@@ -31,7 +34,7 @@
         <?php endif; ?>
     </div>
 <?php else : ?>
-    <div id="<?php echo $this->uniq; ?>" class="rotator">
+    <div id="<?php echo $this->uniq; ?>" class="rotator" >
         <?php if (!empty($this->files)): ?>
             <?php foreach ($this->files as $key => $image): ?>
                 <div class="slide">
@@ -48,35 +51,34 @@
 
 <?php if ($this->slideShow): ?>
     <?php $this->inlineScript()
-        ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.js'); ?>
+        ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.min.js'); ?>
 
         <?php $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
             if($device->isTablet() || $device->isMobile()) : ?>
                 <?php $this->inlineScript()
-                           ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.js'); ?>
+                           ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'); ?>
         <?php endif; ?>
 
         <?php
             if ($this->effect == 'shuffle') {
                 $this->inlineScript()->appendFile(
-                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.js'
+                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'
                 );
             } else if ($this->effect == 'tileSlide' || $this->effect == 'tileBlind') {
                 $this->inlineScript()->appendFile(
-                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.js'
+                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'
                 );
             } else if ($this->effect == 'scrollVert') {
                 $this->inlineScript()->appendFile(
-                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.js'
+                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'
                 );
             }
         ?>
 <?php endif; ?>
 
-<style type="text/css">
-	#<?php echo $this->uniq; ?>.rotator{
-        max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
-        max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
+<?php if($this->stylesOn) :?>
+<?php $this->headStyle()->captureStart() ?>
+	.rotator{
         overflow   : hidden;
         position   : relative;
     }
@@ -113,4 +115,5 @@
         background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
     }
     <?php endif; ?>
-</style>
+<?php $this->headStyle()->captureEnd() ?>
+<?php endif; ?>
