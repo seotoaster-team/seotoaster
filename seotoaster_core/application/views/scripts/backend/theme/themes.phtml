@@ -40,7 +40,8 @@
 	<div class="content">
 		<!-- uploader -->
 		<div  class="grid_12">
-			<div class="grid_5 alpha">
+            <button class="btn icon backup ticon-menu2 fl-left mr1" title="<?php echo $this->translate('Create or apply backup current theme');?>">Backup theme</button>
+			<div class="grid_3 alpha">
 				<?php echo $this->toasterUploader(array(
 						'id'      => 'themes-uploader',
 						'filters' => array('zip'),
@@ -49,7 +50,7 @@
 					));
 				?>
 			</div>
-			<div class="grid_7 omega">
+			<div class="grid_6">
 				<div id="themes-uploader-filelist"></div>
 			</div>
 		</div>
@@ -59,6 +60,39 @@
         </div>
 	</div>
 </div>
+<script>
+    $(function(){
+        $('.backup').click(function(){
+            smoke.quiz("<?php echo $this->translate('Back up current theme or roll back to previous version');?>", function(e){
+                var url;
+                if(!e){
+                    return false;
+                }
+                showSpinner();
+                if(e == "<?php echo $this->translate('Backup theme');?>"){
+                    url = '<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1';
+                }
+                if(e == "<?php echo $this->translate('Apply backup');?>"){
+                    url = '<?php echo $this->websiteUrl;?>api/toaster/themes/importBackup/1';
+                }
+                $.ajax({
+                    type     : "GET",
+                    dataType : 'json',
+                    url      : url,
+                    success  : function(data){
+                        hideSpinner();
+                        showMessage(data.responseText, false);
+                    }
+                });
+            }, {
+                button_1       : "<?php echo $this->translate('Backup theme');?>",
+                button_2       : "<?php echo $this->translate('Apply backup');?>",
+                button_cancel  : "<?php echo $this->translate('Cancel');?>",
+                reverseButtons : true
+            });
+        })
+    });
+</script>
 
 <?php
     $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/require/require.min.js', null, array(
