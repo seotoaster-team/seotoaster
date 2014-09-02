@@ -6,6 +6,20 @@ $(function() {
         $('#tabs-frag-2').empty().load($('#website_url').val() + 'backend/backend_content/loadwidgetmaker/');
     });
 
+    $(document).on('click', 'a.ui-tabs-anchor', function() {
+        var bigTab = $(this).find('#products, #news');
+        console.log(bigTab.length);
+        if(!bigTab.length) {
+            $('.mce-toolbar-grp').show();
+            $('.above-editor-links').removeClass('grid_4').addClass('grid_8');
+            $('#tabs').removeClass('grid_8').addClass('grid_4');
+        } else {
+            $('.above-editor-links').removeClass('grid_8').addClass('grid_4');
+            $('#tabs').removeClass('grid_4').addClass('grid_8');
+            $('.mce-toolbar-grp').hide();
+        }
+    });
+
     $(document).on('click', '[aria-label="Fullscreen"]', function() {
         var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
         popup.toggleClass('screen-expand');

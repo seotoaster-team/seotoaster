@@ -123,7 +123,7 @@ class Tools_Theme_Tools {
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $themesConfig  = Zend_Registry::get('theme');
         $themePath     = $websiteHelper->getPath().$themesConfig['path'].$themeName.DIRECTORY_SEPARATOR;
-        $themeFiles    = glob($themePath. '{,mobile/}*.html', GLOB_BRACE);
+        $themeFiles    = glob($themePath. '{,mobile' . DIRECTORY_SEPARATOR . '}*.html', GLOB_BRACE);
 
         if ($themeFiles !== false) {
             $themeFiles = array_map(function ($file) use ($themePath) {
@@ -164,7 +164,7 @@ class Tools_Theme_Tools {
 
         foreach ($filesName as $templateFile) {
             $templateName = preg_replace(
-                array('~'.DIRECTORY_SEPARATOR.'~', '~\.html$~'),
+                array('/\\'.DIRECTORY_SEPARATOR.'/', '/\.html/'),
                 array('_', ''),
                 $templateFile
             );
@@ -178,7 +178,7 @@ class Tools_Theme_Tools {
             if (is_array($themeConfig) && !empty($themeConfig) && array_key_exists($templateName, $themeConfig)) {
                 $templateType = $themeConfig[$templateName];
             }
-            elseif (preg_match('~^mobile' . DIRECTORY_SEPARATOR . '~', $templateFile)) {
+            elseif (preg_match('/^mobile\\' . DIRECTORY_SEPARATOR . '/', $templateFile)) {
                 $templateType = Application_Model_Models_Template::TYPE_MOBILE;
             }
             else {

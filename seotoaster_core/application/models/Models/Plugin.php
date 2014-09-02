@@ -10,6 +10,8 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	const UNINSTALL_FILE_NAME = 'uninstall.sql';
 
+    const DEPENDENCY_FILE_NAME = 'dependency.txt';
+
 	protected $_name    = '';
 
 	protected $_status  = '';
@@ -19,6 +21,8 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 	protected $_preview = '';
 
 	protected $_license = '';
+
+	protected $_version;
 
 	public function getResourceId() {
 		return Tools_Security_Acl::RESOURCE_PLUGINS;
@@ -66,6 +70,14 @@ class Application_Model_Models_Plugin extends Application_Model_Models_Abstract 
 
 	public function setLicense($license) {
 		$this->_license = $license;
+	}
+
+	public function getVersion() {
+		return $this->_version;
+	}
+
+	public function setVersion($version) {
+		$this->_version = $version;
 	}
 }
 

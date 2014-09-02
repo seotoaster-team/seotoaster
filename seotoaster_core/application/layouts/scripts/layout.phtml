@@ -48,7 +48,7 @@
     echo $this->jQuery();
 
     $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-        ->prependFile($this->websiteUrl.'system/js/internal/system.js');
+        ->prependFile($this->websiteUrl.'system/js/internal/system.min.js');
 
     if (isset($this->minify) && $this->minify === true)  {
         echo Tools_System_Minify::minify($this->headScript(), true);

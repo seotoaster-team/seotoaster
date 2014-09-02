@@ -18,6 +18,8 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
 	const TYPE_LISTING  = 'typelisting';
 
+	const TYPE_NEWS_LISTING  = 'type_news_list';
+
 	const TYPE_CHECKOUT = 'typecheckout';
 
 	const TYPE_MAIL     = 'typemail';

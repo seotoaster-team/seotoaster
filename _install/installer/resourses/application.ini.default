@@ -19,6 +19,7 @@ phpSettings.display_errors         = 1
 [development : production]
 phpSettings.display_startup_errors                 = 1
 phpSettings.display_errors                         = 1
+cache.backend.hashed_directory_level               = 3
 resources.frontController.params.displayExceptions = 1
 
 [database]
@@ -32,9 +33,9 @@ database.params.dbname   = "{dbname}"
 website.url             = "{websiteurl}"
 website.path            = "{websitepath}"
 website.defaultpage     = "index.html"
-website.tmp             = "tmp/"
-website.preview         = "previews/"
-website.previewCrop     = "previews/crop/"
+website.tmp             = "tmp{directory_separator}"
+website.preview         = "previews{directory_separator}"
+website.previewCrop     = "previews{directory_separator}crop{directory_separator}"
 website.media           = "media/"
 website.lang            = "system/languages/"
 website.mediaServers[]  = "media1"
@@ -44,9 +45,9 @@ website.mediaServers[]  = "media4"
 website.mediaServers[]  = "media5"
 
 [theme]
-theme.path            = "themes/"
-theme.templatePreview = "templatepreview/"
-theme.images          = "images/"
+theme.path            = "themes{directory_separator}"
+theme.templatePreview = "templatepreview{directory_separator}"
+theme.images          = "images{directory_separator}"
 
 [news]
 news.defaultPage = "index.html"
@@ -57,7 +58,7 @@ cache.frontend.lifetime                = "7200"
 cache.frontend.automatic_serialization = 1
 cache.frontend.ignore_user_abort       = 1
 cache.backend.hashed_directory_level   = 3
-cache.backend.cache_dir                = "cache/"
+cache.backend.cache_dir                = "cache{directory_separator}"
 
 [misc]
 misc.debug                 = 0
@@ -65,7 +66,7 @@ misc.jquery                = "cdn"
 misc.jqversion             = "1.10.1"
 misc.jqueryui              = "cdn"
 misc.jquversion            = "1.10.3"
-misc.pluginsPath           = "plugins/"
+misc.pluginsPath           = "plugins{directory_separator}"
 misc.imgProduct	           = 100
 misc.imgQuality	           = 90
 misc.imgMaxWidth	       = 2048

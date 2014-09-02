@@ -212,7 +212,7 @@ class Backend_UploadController extends Zend_Controller_Action
                 if (in_array($file, $themeContent)) {
                     continue;
                 }
-                if (in_array(Tools_Theme_Tools::FOLDER_CSS . DIRECTORY_SEPARATOR . $file, $themeContent)) {
+            if (in_array(Tools_Theme_Tools::FOLDER_CSS .DIRECTORY_SEPARATOR. $file, $themeContent)) {
                     continue;
                 }
 
