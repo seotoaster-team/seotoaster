@@ -63,13 +63,13 @@
 <script>
     $(function(){
         $('.backup').click(function(){
-            smoke.quiz("<?php echo $this->translate('Create or apply backup current theme');?>", function(e){
+            smoke.quiz("<?php echo $this->translate('Back up current theme or roll back to previous version');?>", function(e){
                 var url;
                 if(!e){
                     return false;
                 }
                 showSpinner();
-                if(e == "<?php echo $this->translate('Create backup');?>"){
+                if(e == "<?php echo $this->translate('Backup theme');?>"){
                     url = '<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1';
                 }
                 if(e == "<?php echo $this->translate('Apply backup');?>"){
@@ -85,7 +85,7 @@
                     }
                 });
             }, {
-                button_1       : "<?php echo $this->translate('Create backup');?>",
+                button_1       : "<?php echo $this->translate('Backup theme');?>",
                 button_2       : "<?php echo $this->translate('Apply backup');?>",
                 button_cancel  : "<?php echo $this->translate('Cancel');?>",
                 reverseButtons : true
