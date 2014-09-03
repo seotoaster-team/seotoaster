@@ -71,10 +71,6 @@
              ->appendFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.min.js');
     }
 
-    if (isset($this->minify) && $this->minify === true)  {
-        echo Tools_System_Minify::minify($this->inlineScript(), true);
-    }
-
     echo $this->headStyle();
     ?>
 </head>
@@ -94,8 +90,13 @@
 /**
  * Plugins additional content
  */
-echo $this->placeholder('plugins');
+    echo $this->placeholder('plugins');
+
+    if (isset($this->minify) && $this->minify === true) {
+        echo Tools_System_Minify::minify($this->inlineScript(), true);
+    } else {
+        echo $this->inlineScript();
+    }
 ?>
-<?php echo $this->inlineScript(); ?>
 </body>
 </html>
