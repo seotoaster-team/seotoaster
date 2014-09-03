@@ -1,5 +1,4 @@
 <div class="seotoaster container" id="addedit-page">
-	<?php // echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/page/top.phtml'))); ?>
 
 	<?php
 	$draftOrLive = $this->toasterDraftorlive(array(
@@ -116,5 +115,6 @@
 	})
 </script>
 
-<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/page.min.js'); ?>
-<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.min.js'); ?>
+<?php $this->inlineScript()
+           ->appendFile($this->websiteUrl . 'system/js/internal/page.min.js')
+           ->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.min.js'); ?>

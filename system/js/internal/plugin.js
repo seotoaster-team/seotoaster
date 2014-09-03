@@ -1,53 +1,51 @@
-$(function () {
-    // plugin screen tabs
-    $('#plugintab').tabs({
-        active: 0,
-        beforeLoad: function (event, ui) {
-            ui.panel.addClass('plugins-list h425 column_5 full-width');
-            ui.ajaxSettings.dataFilter = function (data) {
-                ui.panel.html($.parseJSON(data).pluginsList);
-            };
-        }
-    });
-
-    // handling plugins controls
-    $(document).on('click', '.plugin-control', function () {
-        triggerPlugin('install', $(this));
-    })
-        .on('click', '.plugin-endis', function () {
-            triggerPlugin('onoff', $(this));
-        })
-        .on('click', '.readme-plugin', function () {
-            var pluginName = $(this).data('name');
-            $.post($('#website_url').val() + 'backend/backend_plugin/readme/', {
-                pluginName: pluginName
-            }, function (response) {
-                if (response.error) {
-                    showMessage(response.responseText, true);
-                } else {
-                    var readmeDialog;
-                    readmeDialog = $('<div id="' + pluginName + '-readme" class="readme-content content-footer">')
-                        .html(response.responseText);
-
-                    readmeDialog.dialog({
-                        modal: true,
-                        title: pluginName,
-                        width: 800,
-                        height: 560,
-                        resizable: false,
-                        draggable: false,
-                        show: 'clip',
-                        hide: 'clip',
-                        buttons: [
-                            {text: "Okay", class: 'btn', click: function () {
-                                $(this).dialog("close");
-                            }}
-                        ]
-                    });
-                }
-            }, 'json');
-        });
+// plugin screen tabs
+$('#plugintab').tabs({
+    active: 0,
+    beforeLoad: function (event, ui) {
+        ui.panel.addClass('plugins-list h425 column_5 full-width');
+        ui.ajaxSettings.dataFilter = function (data) {
+            ui.panel.html($.parseJSON(data).pluginsList);
+        };
+    }
 });
+
+// handling plugins controls
+$(document).on('click', '.plugin-control', function () {
+    triggerPlugin('install', $(this));
+})
+    .on('click', '.plugin-endis', function () {
+        triggerPlugin('onoff', $(this));
+    })
+    .on('click', '.readme-plugin', function () {
+        var pluginName = $(this).data('name');
+        $.post($('#website_url').val() + 'backend/backend_plugin/readme/', {
+            pluginName: pluginName
+        }, function (response) {
+            if (response.error) {
+                showMessage(response.responseText, true);
+            } else {
+                var readmeDialog;
+                readmeDialog = $('<div id="' + pluginName + '-readme" class="readme-content content-footer">')
+                    .html(response.responseText);
+
+                readmeDialog.dialog({
+                    modal: true,
+                    title: pluginName,
+                    width: 800,
+                    height: 560,
+                    resizable: false,
+                    draggable: false,
+                    show: 'clip',
+                    hide: 'clip',
+                    buttons: [
+                        {text: "Okay", class: 'btn', click: function () {
+                            $(this).dialog("close");
+                        }}
+                    ]
+                });
+            }
+        }, 'json');
+    });
 
 function pluginCallback() {
 	$.getJSON($('#website_url').val() + 'backend/backend_plugin/list/', function(response) {
@@ -79,7 +77,7 @@ function triggerPlugin(type, element) {
             }
         },
         error: function (err) {
-            showMessage(err, true);
+            showMessage(err.responseText, true);
         }
     });
 }

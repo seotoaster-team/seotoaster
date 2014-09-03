@@ -50,10 +50,11 @@ class Zend_View_Helper_ToasterUploader extends Zend_View_Helper_Abstract {
 		$dbConfigHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
 		//assign all necessary JS and CSSs
 		$websiteUrl = Zend_Controller_Action_HelperBroker::getExistingHelper('website')->getUrl();
-		$this->view->jQuery()->addJavascriptFile($websiteUrl.$this->_libraryPath.'plupload.js');
-		$this->view->jQuery()->addJavascriptFile($websiteUrl.$this->_libraryPath.'plupload.html5.js');
-		$this->view->jQuery()->addJavascriptFile($websiteUrl.$this->_libraryPath.'plupload.html4.js');
-		$this->view->jQuery()->addJavascriptFile($websiteUrl.$this->_libraryPath.'plupload.flash.js');
+		$this->view->inlineScript()
+             ->appendFile($websiteUrl.$this->_libraryPath.'plupload.js')
+             ->appendFile($websiteUrl.$this->_libraryPath.'plupload.html5.js')
+             ->appendFile($websiteUrl.$this->_libraryPath.'plupload.html4.js')
+             ->appendFile($websiteUrl.$this->_libraryPath.'plupload.flash.js');
 
 		//assign all view variables
 		$this->view->config     = Zend_Registry::get('misc');

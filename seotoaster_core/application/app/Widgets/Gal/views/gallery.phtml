@@ -19,9 +19,11 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    $("a[data-fancybox-group=<?php echo $this->folder; ?>]").fancybox({
-        'transitionIn': 'none',
-        'transitionOut': 'none',
-        'titlePosition': 'over'
+    $(function(){
+        $("a[data-fancybox-group=<?php echo $this->folder; ?>]").fancybox({
+            'transitionIn': 'none',
+            'transitionOut': 'none',
+            'titlePosition': 'over'
+        });
     });
 </script>

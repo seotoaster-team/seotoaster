@@ -1,7 +1,8 @@
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/theme.min.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>
+<?php $this->inlineScript()
+           ->appendFile($this->websiteUrl . 'system/js/internal/theme.min.js')
+           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/ace.js')
+           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
+           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js'); ?>
 <div class="seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
     : 'refreshOnClose'; ?>">
     <?php echo $this->partial(

@@ -1,4 +1,5 @@
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
+<?php $this->inlineScript()
+           ->appendFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12 content-footer">
@@ -58,8 +59,7 @@
         </div>
     </div>
 </script>
-<script type="text/javascript">
-    <?php $this->jQuery()->onLoadCaptureStart();?>
+<script>
     var btnCheckAll = $('#check-all'),
         btnDelete   = $('#deleteBtn');
 
@@ -231,5 +231,4 @@
             showMessage($('<div></div>').html(errorsHtml).html(), true);
         }
     }
-    <?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>

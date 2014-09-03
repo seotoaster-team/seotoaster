@@ -12,22 +12,26 @@
     // link and script block start
     // adding canonical link
     if ($this->tplType !== 'typemail') {
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+            if (empty($this->bodyTag)) {
+                $this->headLink()
+                    ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css');
+            }
+            else {
+                $this->headLink()
+                    ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
+            }
+        }
         $this->headLink()->setIndent(8)
-            ->prependStylesheet($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.css')
-            ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
-            ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
+             ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
+             ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
+
+        if (!empty($this->bodyTag)) {
+            $this->headLink()
+                 ->appendStylesheet($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.css');
+        }
     }
     $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
-
-    if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-        if (empty($this->bodyTag)) {
-            $this->headLink()
-                ->appendStylesheet($this->websiteUrl.'system/css/seotoaster.css');
-        }
-        else {
-            $this->headLink()->appendStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
-        }
-    }
 
     if (isset($this->minify) && $this->minify === true) {
         echo Tools_System_Minify::minify($this->headLink(), true);
@@ -36,19 +40,15 @@
         echo $this->headLink();
     }
     $this->jQuery()
-        ->uiEnable()
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js');
+         ->uiEnable();
 
     $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
     if($device->isTablet() || $device->isMobile()){
-        $this->jQuery()
-            ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
+        $this->inlineScript()
+             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
 
     }
     echo $this->jQuery();
-
-    $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-        ->prependFile($this->websiteUrl.'system/js/internal/system.min.js');
 
     if (isset($this->minify) && $this->minify === true)  {
         echo Tools_System_Minify::minify($this->headScript(), true);
@@ -60,12 +60,22 @@
     echo $this->placeholder('misc');
     echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
 
-    $this->inlineScript()->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-        ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
-        ->appendFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.js');
+    $this->inlineScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+         ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
+         ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+         ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+         ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
+
+    if (!empty($this->bodyTag)) {
+        $this->inlineScript()
+             ->appendFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.min.js');
+    }
+
     if (isset($this->minify) && $this->minify === true)  {
         echo Tools_System_Minify::minify($this->inlineScript(), true);
     }
+
+    echo $this->headStyle();
     ?>
 </head>
 <?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
