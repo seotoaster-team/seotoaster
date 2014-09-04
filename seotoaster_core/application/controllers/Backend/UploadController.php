@@ -115,7 +115,7 @@ class Backend_UploadController extends Zend_Controller_Action
         }
 
         $themeName      = str_replace('.zip', '', $themeArchive['file']['name']);
-        $themeName      = strtolower(trim(preg_replace('/[^a-zA-Z0-9]/', '-', $themeName), '-'));
+        $themeName      = trim(preg_replace('/\s+/', '_', $themeName), '_');
         $destinationDir = $this->_websiteConfig['path'].$this->_themeConfig['path'].$themeName;
         $isValid        = $this->_validateTheme($zip);
         if (empty($isValid['error'])) {
