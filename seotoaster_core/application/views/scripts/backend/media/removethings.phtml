@@ -58,8 +58,7 @@
         </div>
     </div>
 </script>
-<script type="text/javascript">
-    <?php $this->jQuery()->onLoadCaptureStart();?>
+<script>
     var btnCheckAll = $('#check-all'),
         btnDelete   = $('#deleteBtn');
 
@@ -231,5 +230,4 @@
             showMessage($('<div></div>').html(errorsHtml).html(), true);
         }
     }
-    <?php $this->jQuery()->onLoadCaptureEnd();?>
 </script>

@@ -79,7 +79,7 @@ function triggerPlugin(type, element) {
             }
         },
         error: function (err) {
-            showMessage(err, true);
+            showMessage(err.responseText, true);
         }
     });
 }

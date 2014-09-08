@@ -8,7 +8,6 @@ $(function() {
 
     $(document).on('click', 'a.ui-tabs-anchor', function() {
         var bigTab = $(this).find('#products, #news');
-        console.log(bigTab.length);
         if(!bigTab.length) {
             $('.mce-toolbar-grp').show();
             $('.above-editor-links').removeClass('grid_4').addClass('grid_8');

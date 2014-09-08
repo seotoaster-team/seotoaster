@@ -106,9 +106,8 @@ class Application_Form_Template extends Zend_Form
         );
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
-        $this->getElement('submit')->removeDecorator('Label');
-
         $this->getElement('shortcuts')->removeDecorator('Label');
+        $this->getElement('submit')->removeDecorator('Label');
         $this->removeDecorator('DtDdWrapper');
         $this->removeDecorator('DlWrapper');
     }
