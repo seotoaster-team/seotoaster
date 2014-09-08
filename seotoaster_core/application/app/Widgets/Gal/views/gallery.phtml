@@ -2,7 +2,7 @@
     <ul class="img_gallery">
         <?php foreach ($this->images as $image): ?>
             <?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
-            <li class="gallery_image" style="width: <?php echo $this->thumbnails; ?>px;">
+            <li class="gallery_image">
                 <a class="gall" href="<?php echo $this->original . $image['name']; ?>"
                    data-fancybox-group="<?php echo $this->folder; ?>"
                    title="<?php echo Tools_System_Tools::cutExtension($image['name']); ?>">
@@ -17,11 +17,3 @@
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
-
-<script type="text/javascript">
-    $("a[data-fancybox-group=<?php echo $this->folder; ?>]").fancybox({
-        'transitionIn': 'none',
-        'transitionOut': 'none',
-        'titlePosition': 'over'
-    });
-</script>

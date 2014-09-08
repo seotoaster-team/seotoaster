@@ -181,11 +181,18 @@ $(function(){
         })
     });
     //seotoaster gallery links
-    if(jQuery.fancybox){
-        $('a._lbox').fancybox({
-            'transitionIn'  : 'none',
-            'transitionOut' : 'none',
-            'titlePosition' : 'over'
+    if(jQuery.magnificPopup){
+        $('._lbox').magnificPopup({
+            type: 'image'  // other options
+        });
+        $('.img_gallery').each(function() { // the containers for all your galleries
+            $(this).magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                    enabled:true
+                }
+            });
         });
     }
     //publishPages();
