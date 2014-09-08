@@ -27,16 +27,13 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract
     private $_websiteHelper        = null;
 
     public static $_defaultEffects = array(
+        'none'       => 'none',
         'fade'       => 'fade',
         'fadeOut'    => 'fadeOut',
-        'flipHorz'   => 'flipHorz',
-        'flipVert'   => 'flipVert',
-        'none'       => 'none',
         'tileSlide'  => 'tileSlide',
         'tileBlind'  => 'tileBlind',
         'scrollHorz' => 'scrollHorz',
-        'shuffle'    => 'shuffle',
-        'carousel'   => 'carousel',
+//        'shuffle'    => 'shuffle',
         'scrollVert' => 'scrollVert',
     );
 
@@ -45,6 +42,7 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract
         parent::_init();
         $this->_view = new Zend_View(array('scriptPath' => dirname(__FILE__) . '/views'));
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $this->_view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
         $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
     }
 
@@ -99,6 +97,10 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract
         $this->_view->pager        = (isset($this->_options[6]) && (int)$this->_options[6] === 1) ? true : false;
         $this->_view->prevnext     = (isset($this->_options[7]) && (int)$this->_options[7] === 1) ? true : false;
         $this->_view->content      = (isset($this->_options[8]) && (int)$this->_options[8] === 1) ? true : false;
+
+        $sessionRotator = new Zend_Session_Namespace('RoatorStyles');
+        $sessionRotator->stylesOn = (empty($sessionRotator->stylesOn)) ? true : false;
+        $this->_view->stylesOn = $sessionRotator->stylesOn;
 
         return $this->_view->render('rotator.phtml');
     }

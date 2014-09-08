@@ -1,8 +1,17 @@
 <?php if ($this->slideShow): ?>
-    <div id="<?php echo $this->uniq; ?>" class="rotator slider"
+    <div id="<?php echo $this->uniq; ?>" class="cycle-slideshow rotator"
         data-cycle-slides="> div.slide"
+        data-cycle-timeout="2000"
+        data-cycle-speed="<?php echo $this->swapTime * 1000; ?>"
+        data-cycle-fx="<?php echo $this->effect; ?>"
+        data-cycle-auto-height="0"
+        data-cycle-max-z="10"
+        data-cycle-swipe="true"
+        data-cycle-swipe-fx="<?php echo $this->effect; ?>"
         <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
         <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
+        style="
+            max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;"
         >
         <?php if($this->prevnext): ?>
             <div class="action-button cycle-prev"></div>
@@ -10,7 +19,7 @@
         <?php endif;?>
         <?php if (!empty($this->files)): ?>
             <?php foreach ($this->files as $key => $image): ?>
-                <div class="slide">
+                <div class="slide" style="max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;">
                     <?php $size = getimagesize('media/' . $this->folder . $image); ?>
                     <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
                     <?php if ($this->content): ?>
@@ -38,47 +47,50 @@
         <?php endif; ?>
     </div>
 <?php endif; ?>
+
 <?php if ($this->slideShow): ?>
-    <script type="text/javascript">
-        $(function () {
-            var timeout = 100;
-            if (!$.fn.cycle) {
-                timeout = 2000;
-                $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/cycle2.min.js'; ?>');
-            }
-            setTimeout(function () {
-                $('#<?php echo $this->uniq; ?>').cycle({
-                    fx: '<?php echo $this->effect; ?>',
-                    speed: <?php echo $this->swapTime * 1000; ?>,
-                    autoHeight: 0,
-                    maxZ : 10
-                });
-            }, timeout);
-            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'; ?>');
-            $.fn.cycle.defaults.swipe = true;
-            <?php if($this->effect == 'shuffle'): ?>
-            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'; ?>');
-            <?php elseif($this->effect == 'flipHorz' || $this->effect == 'flipVert'): ?>
-            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.flip.min.js'; ?>');
-            <?php elseif($this->effect == 'tileSlide' || $this->effect == 'tileBlind'): ?>
-            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'; ?>');
-            <?php elseif($this->effect == 'carousel'): ?>
-            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.carousel.min.js'; ?>');
-            <?php elseif($this->effect == 'scrollVert'): ?>
-            $.getScript('<?php echo $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'; ?>');
-            <?php endif; ?>
-        });
-    </script>
+    <?php $this->jQuery()->addJavascriptFile(
+        $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.min.js'
+    ); ?>
+
+    <?php $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
+        if($device->isTablet() || $device->isMobile()) : ?>
+            <?php $this->jQuery()->addJavascriptFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'
+            ); ?>
+    <?php endif; ?>
+
+    <?php
+        if ($this->effect == 'shuffle') {
+            $this->jQuery()->addJavascriptFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'
+            );
+        } else if ($this->effect == 'tileSlide' || $this->effect == 'tileBlind') {
+            $this->jQuery()->addJavascriptFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'
+            );
+        } else if ($this->effect == 'scrollVert') {
+            $this->jQuery()->addJavascriptFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'
+            );
+        }
+    ?>
 <?php endif; ?>
 
-<style type="text/css">
-	#<?php echo $this->uniq; ?>.rotator{
-        max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
-        max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;
+<?php if($this->stylesOn) :?>
+<?php $this->headStyle()->captureStart() ?>
+	.rotator{
         overflow   : hidden;
         position   : relative;
     }
-    .slide-description{
+    .rotator .slide{
+        width : 100%;
+    }
+    .rotator .slide-description{
+        position   : absolute;
+        right      : 0;
+        bottom     : 0;
+        left       : 0;
         padding    : 10px 16px;
         color      : #fff;
         background : rgba(0, 0, 0, 0.5);
@@ -86,14 +98,7 @@
         filter     : progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#80000000', EndColorStr='#80000000');
         zoom       : 1 !important
     }
-    .rotator img ~ .slide-description{
-        position : absolute;
-        right    : 0;
-        bottom   : 0;
-        left     : 0;
-    }
-    <?php if ($this->slideShow): ?>
-    .action-button {
+    .rotator .action-button {
         cursor: pointer;
         height: 50px;
         margin-top: -25px;
@@ -102,13 +107,13 @@
         width: 50px;
         z-index: 20;
     }
-    .cycle-prev {
+    .rotator .cycle-prev {
         left: 0;
         background: url(http://malsup.github.com/images/left.png) 50% 50% no-repeat;
     }
-    .cycle-next {
+    .rotator .cycle-next {
         right: 0;
         background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
     }
-    <?php endif; ?>
-</style>
+<?php $this->headStyle()->captureEnd() ?>
+<?php endif; ?>
