@@ -11,15 +11,15 @@ class Tools_Content_Parser
 
     const OPTIONS_SEPARATOR = ':';
 
-    private $_pageData      = null;
+    protected $_pageData      = null;
 
-    private $_content       = null;
+    protected $_content       = null;
 
-    private $_options       = array();
+    protected $_options       = array();
 
-    private $_iteration     = 0;
+    protected $_iteration     = 0;
 
-    private $_device;
+    protected $_device;
 
     public function  __construct($content = null, $pageData = null, $options = null)
     {
@@ -100,7 +100,7 @@ class Tools_Content_Parser
         return $this->_content;
     }
 
-    private function _runWidgets()
+    protected function _runWidgets()
     {
         $this->_iteration++;
         $replacement = '';
@@ -126,7 +126,7 @@ class Tools_Content_Parser
         $this->_runWidgets();
     }
 
-    private function _changeMedia()
+    protected function _changeMedia()
     {
         $webPathToTheme = $this->_options['websiteUrl'].$this->_options['themePath']
             .rawurlencode($this->_options['currentTheme']);
@@ -155,7 +155,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _mobileMedia()
+    protected function _mobileMedia()
     {
         $tablet = $this->_device->isTablet();
         if ($tablet) {
@@ -171,7 +171,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _findWidgets()
+    protected function _findWidgets()
     {
         $widgets = array();
         preg_match_all('/{\$([\w]+:*[^{}]*)}/ui', $this->_content, $found);
@@ -190,7 +190,7 @@ class Tools_Content_Parser
     }
 
 
-    private function _runRepeats()
+    protected function _runRepeats()
     {
         preg_match_all('~{(repeat+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
         $spacesFound = array_filter($spacesFound);
@@ -200,7 +200,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _runMagicSpaces()
+    protected function _runMagicSpaces()
     {
         $this->_iteration++;
 
@@ -220,7 +220,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _renderMagicSpaces($spacesFound = array())
+    protected function _renderMagicSpaces($spacesFound = array())
     {
         foreach ($spacesFound as $spaceName) {
             // If any parameters passed
@@ -244,7 +244,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _replace($replacement, $name, $options = array())
+    protected function _replace($replacement, $name, $options = array())
     {
         $optString = '';
         if (!empty($options)) {
