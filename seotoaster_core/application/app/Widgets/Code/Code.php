@@ -32,7 +32,7 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 			$codeContent .= $returned;
 		}
         if(Tools_Security_Acl::isAllowed($this)) {
-            $codeContent .= $this->_generateAdminControl(964, 594);
+            $codeContent .= $this->_generateAdminControl(960, 560);
         }
 
 		return $codeContent;

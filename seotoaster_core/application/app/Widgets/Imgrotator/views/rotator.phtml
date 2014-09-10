@@ -11,7 +11,6 @@
         <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
         <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
         style="
-            max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;
             max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;"
         >
         <?php if($this->prevnext): ?>
@@ -20,7 +19,7 @@
         <?php endif;?>
         <?php if (!empty($this->files)): ?>
             <?php foreach ($this->files as $key => $image): ?>
-                <div class="slide">
+                <div class="slide" style="max-height : <?php echo (filter_var($this->sliderHeight, FILTER_VALIDATE_INT) ? $this->sliderHeight . 'px' : $this->sliderHeight); ?>;">
                     <?php $size = getimagesize('media/' . $this->folder . $image); ?>
                     <img src="<?php echo(($this->mediaServersAllowed) ? Tools_Content_Tools::applyMediaServers($this->websiteUrl) : $this->websiteUrl), 'media/' . $this->folder . $image; ?>" alt="<?php echo Tools_System_Tools::cutExtension($image); ?>" <?php echo(($this->sliderWidth == 'auto') ? '' : 'width="' . $this->sliderWidth . '"'); ?>  />
                     <?php if ($this->content): ?>
@@ -50,30 +49,32 @@
 <?php endif; ?>
 
 <?php if ($this->slideShow): ?>
-    <?php $this->inlineScript()
-        ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.min.js'); ?>
+    <?php $this->inlineScript()->appendFile(
+        $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.min.js'
+    ); ?>
 
-        <?php $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
-            if($device->isTablet() || $device->isMobile()) : ?>
-                <?php $this->inlineScript()
-                           ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'); ?>
-        <?php endif; ?>
+    <?php $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
+        if($device->isTablet() || $device->isMobile()) : ?>
+            <?php $this->inlineScript()->appendFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'
+            ); ?>
+    <?php endif; ?>
 
-        <?php
-            if ($this->effect == 'shuffle') {
-                $this->inlineScript()->appendFile(
-                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'
-                );
-            } else if ($this->effect == 'tileSlide' || $this->effect == 'tileBlind') {
-                $this->inlineScript()->appendFile(
-                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'
-                );
-            } else if ($this->effect == 'scrollVert') {
-                $this->inlineScript()->appendFile(
-                    $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'
-                );
-            }
-        ?>
+    <?php
+        if ($this->effect == 'shuffle') {
+            $this->inlineScript()->appendFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'
+            );
+        } else if ($this->effect == 'tileSlide' || $this->effect == 'tileBlind') {
+            $this->inlineScript()->appendFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'
+            );
+        } else if ($this->effect == 'scrollVert') {
+            $this->inlineScript()->appendFile(
+                $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'
+            );
+        }
+    ?>
 <?php endif; ?>
 
 <?php if($this->stylesOn) :?>
@@ -82,7 +83,14 @@
         overflow   : hidden;
         position   : relative;
     }
-    .slide-description{
+    .rotator .slide{
+        width : 100%;
+    }
+    .rotator .slide-description{
+        position   : absolute;
+        right      : 0;
+        bottom     : 0;
+        left       : 0;
         padding    : 10px 16px;
         color      : #fff;
         background : rgba(0, 0, 0, 0.5);
@@ -90,14 +98,7 @@
         filter     : progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#80000000', EndColorStr='#80000000');
         zoom       : 1 !important
     }
-    .rotator img ~ .slide-description{
-        position : absolute;
-        right    : 0;
-        bottom   : 0;
-        left     : 0;
-    }
-    <?php if ($this->slideShow): ?>
-    .action-button {
+    .rotator .action-button {
         cursor: pointer;
         height: 50px;
         margin-top: -25px;
@@ -106,14 +107,13 @@
         width: 50px;
         z-index: 20;
     }
-    .cycle-prev {
+    .rotator .cycle-prev {
         left: 0;
         background: url(http://malsup.github.com/images/left.png) 50% 50% no-repeat;
     }
-    .cycle-next {
+    .rotator .cycle-next {
         right: 0;
         background: url(http://malsup.github.com/images/right.png) 50% 50% no-repeat;
     }
-    <?php endif; ?>
 <?php $this->headStyle()->captureEnd() ?>
 <?php endif; ?>

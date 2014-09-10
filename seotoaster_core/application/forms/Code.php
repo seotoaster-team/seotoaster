@@ -22,7 +22,7 @@ class Application_Form_Code extends Application_Form_Container {
 			'id'       => 'content',
 			'cols'     => '85',
 			'rows'     => '27',
-			'class'    => 'code-content tinymce',
+			'class'    => 'code-content',
 			'value'    => $this->_content,
 			'filters'  => array('StringTrim')
 		));

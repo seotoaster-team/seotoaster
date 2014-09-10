@@ -126,8 +126,12 @@ class IndexController extends Zend_Controller_Action {
                 }
             }
 
-            $parser      = new Tools_Content_Parser($page->getContent(), $pageData, $parserOptions);
-            $pageContent = $parser->parse();
+            /**
+             * Load toaster parser closure from the registry
+             * @var Closure $parser
+             */
+            $parser      = Zend_Registry::get('Toaster_Parser');
+            $pageContent = $parser($page->getContent(), $pageData, $parserOptions)->parse();
 
             unset($parser, $themeData);
         }

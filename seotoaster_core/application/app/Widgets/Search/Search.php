@@ -31,7 +31,7 @@ class Widgets_Search_Search extends Widgets_Abstract
 
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 
-        if (in_array('results', $this->_options)) {
+        if (in_array('results', $this->_options) || in_array('links', $this->_options)) {
             $this->_cacheable = false;
         }
 

@@ -334,6 +334,12 @@ class Backend_UploadController extends Zend_Controller_Action
             'overwrite' => true
         ));
 
+        //Adding file extension validation
+        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx');
+        //Adding mime types validation
+        $this->_uploadHandler->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
+                'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
+
         if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()) {
             try {
                 $this->_uploadHandler->receive();

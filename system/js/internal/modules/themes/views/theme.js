@@ -8,21 +8,11 @@ define([
         tagName    : 'div',
         template   : _.template($('#theme-box').text()),
         events     : {
-//            'mouseenter': 'toggleControlls',
-//            'mouseleave': 'toggleControlls',
             'click button.apply-button': 'applyThemeAction',
             'click a.lnk-delete': 'deleteThemeAction'//,
-//            'mouseenter a.lnk-download': function(e) {this.$(e.currentTarget).next('.download-options').show();},
-//            'mouseleave .download-options': function(e) {this.$(e.currentTarget).hide(); }
         },
         initialize : function() {
             this.model.view = this;
-        },
-        toggleControlls: function(e) {
-//            this.$el.stop().toggleClass('hovered');
-//            this.$('.lnk-download,.lnk-delete,.apply-button').toggle();
-//            this.$('.lnk-delete').fadeToggle();
-//            this.$('.apply-button').fadeToggle();
         },
         applyThemeAction: function() {
             var self = this,
