@@ -14,12 +14,12 @@ class Tools_Factory_MagicSpaceFactory
 
     }
 
-    public static function createMagicSpace($name, $content, $toasterData, $params = array())
+    public static function createMagicSpace($name, $content, $toasterData, $params = array(), $magicLabel)
     {
         $name = ucfirst(strtolower($name));
         if (self::_validate($name)) {
             $magicSpaceClassName = 'MagicSpaces_'.$name.'_'.$name;
-            return new $magicSpaceClassName($name, $content, $toasterData, $params);
+            return new $magicSpaceClassName($name, $content, $toasterData, $params, $magicLabel);
         }
         throw new Exceptions_SeotoasterException('Cannot run the magic space: '.$name);
     }

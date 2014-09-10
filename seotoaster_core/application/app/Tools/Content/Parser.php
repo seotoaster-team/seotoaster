@@ -11,6 +11,8 @@ class Tools_Content_Parser
 
     const OPTIONS_SEPARATOR = ':';
 
+    const MAGIC_SPACE_LABEL = 'magic';
+
     private $_pageData      = null;
 
     private $_content       = null;
@@ -225,8 +227,14 @@ class Tools_Content_Parser
         foreach ($spacesFound as $spaceName) {
             // If any parameters passed
             $parameters = explode(self::OPTIONS_SEPARATOR, $spaceName);
+            $magicLabel = false;
             if (is_array($parameters)) {
                 $spaceName = array_shift($parameters);
+                if ($spaceName === self::MAGIC_SPACE_LABEL) {
+                    $spaceName = array_shift($parameters);
+                    $magicLabel = true;
+                }
+
             }
 
             try {
@@ -234,7 +242,8 @@ class Tools_Content_Parser
                     $spaceName,
                     $this->_content,
                     array_merge($this->_pageData, $this->_options),
-                    $parameters
+                    $parameters,
+                    $magicLabel
                 )->run();
             }
             catch (Exception $e) {
