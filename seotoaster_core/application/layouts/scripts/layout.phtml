@@ -28,7 +28,7 @@
 
         if (!empty($this->bodyTag)) {
             $this->headLink()
-                 ->appendStylesheet($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.css');
+                 ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
         }
     }
     $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
@@ -39,12 +39,12 @@
     else {
         echo $this->headLink();
     }
-    $this->jQuery()
-         ->uiEnable();
+    $this->jQuery()->uiEnable();
 
     $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
     if($device->isTablet() || $device->isMobile()){
         $this->inlineScript()
+             ->prependFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
              ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
 
     }
@@ -56,22 +56,23 @@
     else {
         echo $this->headScript();
     }
-    // link and script block end
-    echo $this->placeholder('misc');
-    echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
 
     $this->inlineScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-         ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
-         ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
-         ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-         ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
+        ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
+        ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+        ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+        ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
 
     if (!empty($this->bodyTag)) {
         $this->inlineScript()
-             ->appendFile($this->websiteUrl.'system/js/external/fancybox/jquery.fancybox.min.js');
+            ->appendFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js');
     }
 
     echo $this->headStyle();
+    // link and script block end
+
+    echo $this->placeholder('misc');
+    echo isset($this->placeholder('seo')->seoHead) ? $this->placeholder('seo')->seoHead: '';
     ?>
 </head>
 <?php echo !empty($this->bodyTag) ? $this->bodyTag : '<body>'; ?>
