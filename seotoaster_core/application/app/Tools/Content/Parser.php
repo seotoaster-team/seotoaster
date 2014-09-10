@@ -205,7 +205,7 @@ class Tools_Content_Parser
         $this->_iteration++;
 
         preg_match_all(
-            '~{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs',
+            '~(?:[^{]{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)})~uiUs',
             $this->_content,
             $spacesFound
         );
