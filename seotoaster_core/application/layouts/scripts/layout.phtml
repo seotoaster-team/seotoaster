@@ -43,9 +43,9 @@
 
     $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
     if($device->isTablet() || $device->isMobile()){
-        $this->inlineScript()
-             ->prependFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
-             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
+        $this->jQuery()
+             ->addJavascriptFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
+             ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
 
     }
     echo $this->jQuery();
