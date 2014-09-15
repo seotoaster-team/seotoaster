@@ -25,8 +25,8 @@
         background : @gray-light;
 
         .image{
-            height      : 117px;
-            line-height : 117px;
+            height      : 120px;
+            line-height : 120px;
         }
 
         .name{
@@ -39,6 +39,8 @@
             z-index  : 10;
             color    : @gray-dark;
             overflow : auto;
+            margin   : 0;
+            padding  : @padding-small-vertical;
             .rgba(#fff, .95);
         }
     }
@@ -67,8 +69,8 @@
     }
 
     .image{
-        height      : 92px;
-        line-height : 92px;
+        height      : 86px;
+        line-height : 86px;
         overflow    : hidden;
 
         img{
@@ -77,9 +79,10 @@
     }
 
     .name{
-        height   : round(@font-size-base * unit(@font-size-small) * @line-height);
-        padding  : @padding-small-vertical;
-        overflow : hidden;
+        height      : round(@font-size-base * unit(@font-size-small) * 1.1) * 2;
+        margin      : @padding-small-vertical;
+        line-height : 1.1;
+        overflow    : hidden;
         .box-sizing(content-box);
     }
 
