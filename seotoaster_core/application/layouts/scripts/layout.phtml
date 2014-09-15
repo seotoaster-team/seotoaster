@@ -50,22 +50,26 @@
     }
     echo $this->jQuery();
 
+    if (!empty($this->bodyTag)) {
+        $this->inlineScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+            ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
+            ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+            ->appendFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js');
+    }else{
+        $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+            ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
+            ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
+    }
+
     if (isset($this->minify) && $this->minify === true)  {
         echo Tools_System_Minify::minify($this->headScript(), true);
     }
     else {
         echo $this->headScript();
-    }
-
-    $this->inlineScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-        ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
-        ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
-        ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-        ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
-
-    if (!empty($this->bodyTag)) {
-        $this->inlineScript()
-            ->appendFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js');
     }
 
     echo $this->headStyle();

@@ -95,8 +95,8 @@
 </script>
 
 <?php
-    $this->inlineScript()
-         ->appendFile($this->websiteUrl . 'system/js/external/require/require.min.js',
+    $this->headScript()->appendFile(
+            $this->websiteUrl . 'system/js/external/require/require.min.js',
             null,
             array('data-main' => $this->websiteUrl . 'system/js/internal/themes.js')
         );

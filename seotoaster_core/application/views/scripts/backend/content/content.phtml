@@ -42,7 +42,7 @@
     </div>
 </div>
 <?php
-    $this->inlineScript()
+    $this->headScript()
         ->appendFile($this->websiteUrl . 'system/js/external/tinymce/tinymce.min.js')
         ->appendFile($this->websiteUrl . 'system/js/internal/tinymceInit.js')
         ->appendFile($this->websiteUrl . 'system/js/internal/content.min.js');

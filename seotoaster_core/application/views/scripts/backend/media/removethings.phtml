@@ -1,5 +1,4 @@
-<?php $this->inlineScript()
-           ->appendFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
 <div class="seotoaster container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Remove things', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12 content-footer">
