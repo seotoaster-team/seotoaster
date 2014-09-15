@@ -1,18 +1,19 @@
-// plugin screen tabs
-$('#plugintab').tabs({
-    active: 0,
-    beforeLoad: function (event, ui) {
-        ui.panel.addClass('plugins-list h425 column_5 full-width');
-        ui.ajaxSettings.dataFilter = function (data) {
-            ui.panel.html($.parseJSON(data).pluginsList);
-        };
-    }
-});
+$(function () {
+    // plugin screen tabs
+    $('#plugintab').tabs({
+        active: 0,
+        beforeLoad: function (event, ui) {
+            ui.panel.addClass('plugins-list h425 column_5 full-width');
+            ui.ajaxSettings.dataFilter = function (data) {
+                ui.panel.html($.parseJSON(data).pluginsList);
+            };
+        }
+    });
 
-// handling plugins controls
-$(document).on('click', '.plugin-control', function () {
-    triggerPlugin('install', $(this));
-})
+    // handling plugins controls
+    $(document).on('click', '.plugin-control', function () {
+        triggerPlugin('install', $(this));
+    })
     .on('click', '.plugin-endis', function () {
         triggerPlugin('onoff', $(this));
     })
@@ -46,6 +47,7 @@ $(document).on('click', '.plugin-control', function () {
             }
         }, 'json');
     });
+});
 
 function pluginCallback() {
 	$.getJSON($('#website_url').val() + 'backend/backend_plugin/list/', function(response) {
