@@ -113,10 +113,10 @@ class Tools_System_Minify {
 
         $container     = $jsList->getContainer();
         $websiteHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('website');
-        foreach ($container->getArrayCopy() as $js) {
+        foreach ($container->getArrayCopy() as $key => $js) {
             if (isset($js->attributes['src'])) {
                 // Ignore file if file from remote
-                if (strpos($js->attributes['src'], $websiteHelper->getUrl()) === false) {
+                if (strpos($js->attributes['src'], $websiteHelper->getUrl()) === false || isset($js->attributes['noconcat'])) {
                     continue;
                 }
 
@@ -178,6 +178,9 @@ class Tools_System_Minify {
                         : "/* Source JS */".PHP_EOL.$hashStack[$path]['content'];
                 }
             }
+
+            // Offset minify css
+            $jsList->offsetUnset($key);
             unset($jsContent);
         }
 
@@ -189,8 +192,7 @@ class Tools_System_Minify {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatJs);
             }
 
-            $jsList->exchangeArray(array());
-            $jsList->appendFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
+            $jsList->prependFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
         }
 
         $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
