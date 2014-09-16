@@ -22,6 +22,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_attributes;
 
+    protected $_mobilePhone = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -102,6 +104,17 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 	public function getReferer() {
 		return $this->_referer;
 	}
+
+    public function setMobilePhone($mobilePhone)
+    {
+        $this->_mobilePhone = $mobilePhone;
+        return $this;
+    }
+
+    public function getMobilePhone()
+    {
+        return $this->_mobilePhone;
+    }
 
     /**
      * @param array $attributes
