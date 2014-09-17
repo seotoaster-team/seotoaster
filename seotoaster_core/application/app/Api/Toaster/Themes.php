@@ -54,7 +54,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		'page_has_option' => 'SELECT * FROM `page_has_option` WHERE page_id IN (?) ;',
 		'form'            => 'SELECT * FROM `form`;',
 		'template_type'   => 'SELECT * FROM `template_type`;',
-        'newslog'         => 'SELECT * FROM `plugin_newslog_news`;'
+        'plugin_newslog_news'  => 'SELECT * FROM `plugin_newslog_news`;'
 	);
 
 	/**
