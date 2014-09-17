@@ -17,10 +17,14 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 
         if(Tools_Security_Acl::isAllowed($this)) {
 			$headerContent .= $this->_generateAdminControl(600, 140); //$this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 604, 130);
-			if ((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor') && !in_array('readonly',$this->_options)){
+			if ((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor') && !in_array('readonly',$this->_options) && !in_array('href',$this->_options)){
 				$headerContent = '<div class="container-wrapper">'.$headerContent.'</div>';
 			}
 		}
+
+        if (in_array('href',$this->_options)){
+            $headerContent = trim(rawurlencode($headerContent));
+        }
 		return $headerContent;
 	}
 
