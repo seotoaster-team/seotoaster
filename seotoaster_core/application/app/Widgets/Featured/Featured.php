@@ -139,12 +139,20 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             || !$params[0]
             || preg_match('~^\s*$~', $params[0])
         ) {
-            throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Featured page id required.'));
+            if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                throw new Exceptions_SeotoasterWidgetException($this->_translator->translate(
+                    'Featured page id required.'
+                ));
+            }
+            return '';
         }
         if (($page = Application_Model_Mappers_PageMapper::getInstance()->find(intval($params[0]))) === null) {
-            throw new Exceptions_SeotoasterWidgetException(
-                $this->_translator->translate('Page with such id is not found')
-            );
+            if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                throw new Exceptions_SeotoasterWidgetException(
+                    $this->_translator->translate('Page with such id is not found')
+                );
+            }
+            return '';
         }
 
         $this->_view->page       = $page;
