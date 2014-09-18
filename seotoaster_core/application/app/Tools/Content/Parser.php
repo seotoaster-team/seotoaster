@@ -119,7 +119,9 @@ class Tools_Content_Parser
                 $replacement = (is_object($widget)) ? $widget->render() : $widget;
             }
             catch (Exceptions_SeotoasterException $se) {
-                $replacement = $se->getMessage().' Can not load widget: <b>'.$widgetData['name'].'</b>';
+                if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                    $replacement = $se->getMessage() . ' Can not load widget: <b>' . $widgetData['name'] . '</b>';
+                }
             }
             $this->_replace($replacement, $widgetData['name'], $widgetData['options']);
         }
