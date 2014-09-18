@@ -112,6 +112,22 @@
 		}).on('click', '.featured', function(){
             $('#falist').show("slide", { direction: "right"});
         });
+
+        var container = jsPageTeaserUploader;
+
+        container.bind('FileUploaded', function (uploader, file, info) {
+            var info = $.parseJSON(info.response);
+            if (info === false) {
+                showMessage('<?php echo $this->translate('Error during upload file');?>', true, 3000);
+            }
+            if (info.error === true) {
+                var errorMessage = '';
+                $.each(info.result, function (name, value) {
+                    errorMessage += value + '<br />';
+                });
+                showMessage(errorMessage, true, 3000);
+            }
+        });
 	})
 </script>
 
