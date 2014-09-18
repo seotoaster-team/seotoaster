@@ -66,39 +66,25 @@ abstract class Tools_MagicSpaces_Abstract {
 		}
         if($this->_magicLabel){
             $space = Tools_Content_Parser::MAGIC_SPACE_LABEL.Tools_Content_Parser::OPTIONS_SEPARATOR.strtolower($this->_name);
-            $spaceClose = Tools_Content_Parser::MAGIC_SPACE_LABEL;
         }else{
 		    $space = strtolower($this->_name);
         }
         //put parameter back into a string for valid parsing
         $params = (is_array($this->_params) && !empty($this->_params)) ? (':' . implode(':', $this->_params)) : '';
-        if($this->_magicLabel){
- 		    preg_match('~{' . $space . $params . '}(.*){/' . $spaceClose . '}~suiU', $this->_content, $found);
-        }else{
-            preg_match('~{' . $space . $params . '}(.*){/' . $space . '}~suiU', $this->_content, $found);
-        }
+	    preg_match('~{' . $space . $params . '}(.*){/' . $space . '}~suiU', $this->_content, $found);
 		return (is_array($found) && !empty($found) && isset($found[1])) ? $found[1] : '';
 	}
 
 	protected function _replace($spaceContent) {
         if($this->_magicLabel){
             $space = Tools_Content_Parser::MAGIC_SPACE_LABEL.Tools_Content_Parser::OPTIONS_SEPARATOR.strtolower($this->_name);
-            $spaceClose = Tools_Content_Parser::MAGIC_SPACE_LABEL;
         }else{
             $space = strtolower($this->_name);
         }
         //put parameter back for replacement
         $params = (is_array($this->_params) && !empty($this->_params)) ? (':' . implode(':', $this->_params)) : '';
-        if($this->_magicLabel){
-            return preg_replace('~{' . $space . $params . '}.*?{/' . $spaceClose . '}~sui', $this->_escapeChars($spaceContent), $this->_content, 1);
-        }else{
-            return preg_replace(
-                '~{' . $space . $params . '}.*?{/' . $space . '}~sui',
-                $this->_escapeChars($spaceContent),
-                $this->_content,
-                1
-            );
-        }
+        return preg_replace('~{' . $space . $params . '}.*?{/' . $space . '}~sui', $this->_escapeChars($spaceContent), $this->_content, 1);
+
 	}
 
     private function _escapeChars($content) {
