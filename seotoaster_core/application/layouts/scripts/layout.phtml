@@ -3,7 +3,12 @@
 <!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
 <!--[if !(IE)]><!-->
-<html lang="<?php echo $this->htmlLang; ?>">
+<?php
+    $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
+    $deviceType = $device->isTablet() ? "tablet" : "mobile";
+    $deviceType = $device->isMobile() ? $deviceType : "desktop";
+?>
+<html class="<?php echo $deviceType; ?>" lang="<?php echo $this->htmlLang; ?>">
 <!--<![endif]-->
 <head>
     <?php echo $this->headMeta()->setIndent(8); ?>
@@ -43,12 +48,10 @@
         ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
         ->addJavascriptFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js');
 
-    $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
     if($device->isTablet() || $device->isMobile()){
         $this->jQuery()
-            ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js')
-            ->addJavascriptFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js');
-
+             ->addJavascriptFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
+             ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
     }
 
     echo $this->jQuery();

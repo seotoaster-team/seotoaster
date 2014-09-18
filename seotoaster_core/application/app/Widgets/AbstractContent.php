@@ -2,6 +2,7 @@
 abstract class Widgets_AbstractContent extends Widgets_Abstract
 {
     const OPTION_READONLY = 'readonly';
+    const OPTION_HREF     = 'href';
 
     protected $_acl       = null;
 
@@ -33,7 +34,7 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract
 
     protected function _generateAdminControl($width = 0, $height = 0, $hint = '')
     {
-        if (end($this->_options) == self::OPTION_READONLY) {
+        if (end($this->_options) == self::OPTION_READONLY || end($this->_options) == self::OPTION_HREF) {
             return false;
         }
 

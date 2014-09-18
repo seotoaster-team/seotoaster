@@ -210,11 +210,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initZendX()
     {
-        $view = new Zend_View();
-        $website = Zend_Registry::get('website');
-        $misc = Zend_Registry::get('misc');
-        $url = preg_replace('~^https?://~', '', $website['url']);
-        $request = new Zend_Controller_Request_Http();
+        $view     = new Zend_View();
+        $website  = Zend_Registry::get('website');
+        $misc     = Zend_Registry::get('misc');
+        $url      = preg_replace('~^https?://~', '', $website['url']);
+        $request  = new Zend_Controller_Request_Http();
         $protocol = $request->getScheme();
 
         $view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
@@ -270,6 +270,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 register_shutdown_function(array('Tools_System_Tools', 'sqlProfiler'));
             }
         }
+    }
+
+    /**
+     * Initialize (injects) Seotoaster parser into the registry
+     *
+     * This feature makes Seotoaster more flexible -
+     * Now there is way to extend the parser without pain in the neck
+     *
+     * @author Eugene I. Nezhuta <eugene.nezhuta@gmail.com>
+     */
+    protected function _initParser()
+    {
+        Zend_Registry::set(
+            'Toaster_Parser',
+            function ($content = null, $data = null, $options = null) {
+                return new Tools_Content_Parser($content, $data, $options);
+            }
+        );
     }
 }
 

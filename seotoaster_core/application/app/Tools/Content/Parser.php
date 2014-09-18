@@ -13,15 +13,15 @@ class Tools_Content_Parser
 
     const MAGIC_SPACE_LABEL = 'magic';
 
-    private $_pageData      = null;
+    protected $_pageData      = null;
 
-    private $_content       = null;
+    protected $_content       = null;
 
-    private $_options       = array();
+    protected $_options       = array();
 
-    private $_iteration     = 0;
+    protected $_iteration     = 0;
 
-    private $_device;
+    protected $_device;
 
     public function  __construct($content = null, $pageData = null, $options = null)
     {
@@ -102,7 +102,7 @@ class Tools_Content_Parser
         return $this->_content;
     }
 
-    private function _runWidgets()
+    protected function _runWidgets()
     {
         $this->_iteration++;
         $replacement = '';
@@ -121,14 +121,16 @@ class Tools_Content_Parser
                 $replacement = (is_object($widget)) ? $widget->render() : $widget;
             }
             catch (Exceptions_SeotoasterException $se) {
-                $replacement = $se->getMessage().' Can not load widget: <b>'.$widgetData['name'].'</b>';
+                if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                    $replacement = $se->getMessage() . ' Can not load widget: <b>' . $widgetData['name'] . '</b>';
+                }
             }
             $this->_replace($replacement, $widgetData['name'], $widgetData['options']);
         }
         $this->_runWidgets();
     }
 
-    private function _changeMedia()
+    protected function _changeMedia()
     {
         $webPathToTheme = $this->_options['websiteUrl'].$this->_options['themePath']
             .rawurlencode($this->_options['currentTheme']);
@@ -157,7 +159,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _mobileMedia()
+    protected function _mobileMedia()
     {
         $tablet = $this->_device->isTablet();
         if ($tablet) {
@@ -173,7 +175,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _findWidgets()
+    protected function _findWidgets()
     {
         $widgets = array();
         preg_match_all('/{\$([\w]+:*[^{}]*)}/ui', $this->_content, $found);
@@ -192,7 +194,7 @@ class Tools_Content_Parser
     }
 
 
-    private function _runRepeats()
+    protected function _runRepeats()
     {
         preg_match_all('~{(repeat+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
         $spacesFound = array_filter($spacesFound);
@@ -202,12 +204,12 @@ class Tools_Content_Parser
         }
     }
 
-    private function _runMagicSpaces()
+    protected function _runMagicSpaces()
     {
         $this->_iteration++;
 
         preg_match_all(
-            '~{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs',
+            '~(?:[^{]{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)})~uiUs',
             $this->_content,
             $spacesFound
         );
@@ -222,7 +224,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _renderMagicSpaces($spacesFound = array())
+    protected function _renderMagicSpaces($spacesFound = array())
     {
         foreach ($spacesFound as $spaceName) {
             // If any parameters passed
@@ -253,7 +255,7 @@ class Tools_Content_Parser
         }
     }
 
-    private function _replace($replacement, $name, $options = array())
+    protected function _replace($replacement, $name, $options = array())
     {
         $optString = '';
         if (!empty($options)) {
