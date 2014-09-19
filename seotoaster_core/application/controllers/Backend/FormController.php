@@ -260,6 +260,8 @@ class Backend_FormController extends Zend_Controller_Action {
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
                     $form->notifyObservers();
+                    //send sms through twillio service
+                    $this->_sendSms($form, $formParams);
                     if($xmlHttpRequest){
                         $this->_helper->response->success($form->getMessageSuccess());
                     }
@@ -276,6 +278,50 @@ class Backend_FormController extends Zend_Controller_Action {
                 $sessionHelper->toasterFormError = $form->getMessageError();
                 $this->_redirect($formParams['formUrl']);
 			}
+        }
+    }
+
+    private function _sendSms($form, $formParams)
+    {
+        $appsPlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('apps');
+        if ($appsPlugin instanceof Application_Model_Models_Plugin) {
+            $pluginStatus = $appsPlugin->getStatus();
+            if ($pluginStatus === Application_Model_Models_Plugin::ENABLED) {
+                $mobilePhoneAdmin = Apps_Tools_Twilio::normalizePhoneNumberToE164($form->getMobile());
+                $subscriber = array();
+                if ($mobilePhoneAdmin) {
+                    $messageAdmin = '';
+                    unset($formParams['module']);
+                    unset($formParams['controller']);
+                    unset($formParams['action']);
+
+                    foreach ($formParams as $name => $value) {
+                        if (!$value) {
+                            continue;
+                        }
+                        $messageAdmin .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . PHP_EOL;
+                    }
+                    $subscriber['subscriber']['admin'] = array(
+                        'phone' => array($mobilePhoneAdmin),
+                        'message' => $messageAdmin
+                    );
+                }
+
+                if (isset($formParams['mobile']) && $form->getEnableSms()) {
+                    $mobilePhoneUser = Apps_Tools_Twilio::normalizePhoneNumberToE164($formParams['mobile']);
+                    $messageUser = $form->getReplyText();
+                    if ($mobilePhoneUser) {
+                        $subscriber['subscriber']['user'] = array(
+                            'phone' => array($mobilePhoneUser),
+                            'message' => $messageUser
+                        );
+                    }
+                }
+                if (!empty($subscriber)) {
+                    Apps::apiCall('POST', 'apps', array('twilioSms'), $subscriber);
+                }
+
+            }
         }
     }
 

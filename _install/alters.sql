@@ -66,6 +66,12 @@ ALTER TABLE `plugin` ADD `version` varchar(20) COLLATE 'utf8_unicode_ci' NULL, C
 -- version: 2.2.3
 ALTER TABLE `user` ADD `mobile_phone` varchar(20) COLLATE 'utf8_unicode_ci' NULL, COMMENT='';
 
+-- 12.09.2014
+-- Extend user table
+-- version: 2.2.6
+ ALTER TABLE `form` ADD COLUMN `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ ALTER TABLE `form` ADD COLUMN `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.2.4' WHERE `name`='version';
+UPDATE `config` SET `value`='2.2.7' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
