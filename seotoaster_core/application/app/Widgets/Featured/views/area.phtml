@@ -22,7 +22,9 @@
                     && in_array(Newslog::OPTION_PAGE_INDEX, $extraOptions)
                 ) {
                     $url = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
-                    $url = trim($url, '/').'/';
+                    if ($url !== '') {
+                        $url = trim($url, '/').'/';
+                    }
                 }
                 ?>
 
