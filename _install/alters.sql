@@ -74,7 +74,7 @@ ALTER TABLE `page` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 
 -- 19.09.2014
 -- Extend page header_title field type to TEXT
 -- version 2.2.5
-INSERT INTO `seotoaster`.`template_type` (`id`, `title`) VALUES ('type_partial_template', 'Partial template');
+INSERT INTO `template_type` (`id`, `title`) VALUES ('type_partial_template', 'Partial template');
 
 -- These alters are always the latest and updated version of the database
 UPDATE `config` SET `value`='2.2.6' WHERE `name`='version';
