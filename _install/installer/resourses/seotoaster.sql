@@ -210,7 +210,7 @@ CREATE TABLE `page` (
   `nav_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `meta_description` text COLLATE utf8_unicode_ci,
   `meta_keywords` text COLLATE utf8_unicode_ci,
-  `header_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `header_title` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `h1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `teaser_text` text COLLATE utf8_unicode_ci,
