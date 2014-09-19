@@ -48,9 +48,9 @@
     $this->jQuery()->uiEnable();
 
     if($device->isTablet() || $device->isMobile()){
-        $this->jQuery()
-             ->addJavascriptFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
-             ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
+        $this->headScript()
+             ->prependFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
+             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
     }
 
     echo $this->jQuery();
