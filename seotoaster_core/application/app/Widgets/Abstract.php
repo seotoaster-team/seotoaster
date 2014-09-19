@@ -45,6 +45,12 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
         $this->_options        = $options;
         $this->_toasterOptions = $toasterOptions;
 
+        $developerMode = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode');
+
+        if((bool) $developerMode) {
+            $this->_cacheable = (bool)!$developerMode;
+        }
+
         if ($this->_cacheable === true) {
             $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
             $this->_cache     = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
