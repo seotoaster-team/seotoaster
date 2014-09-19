@@ -66,6 +66,16 @@ ALTER TABLE `plugin` ADD `version` varchar(20) COLLATE 'utf8_unicode_ci' NULL, C
 -- version: 2.2.3
 ALTER TABLE `user` ADD `mobile_phone` varchar(20) COLLATE 'utf8_unicode_ci' NULL, COMMENT='';
 
+-- 19.09.2014
+-- Extend page header_title field type to TEXT
+-- version 2.2.4
+ALTER TABLE `page` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+
+-- 19.09.2014
+-- Extend page header_title field type to TEXT
+-- version 2.2.5
+INSERT INTO `template_type` (`id`, `title`) VALUES ('type_partial_template', 'Partial template');
+
 -- 12.09.2014
 -- Extend user table
 -- version: 2.2.6

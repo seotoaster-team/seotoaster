@@ -212,7 +212,7 @@ CREATE TABLE `page` (
   `nav_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `meta_description` text COLLATE utf8_unicode_ci,
   `meta_keywords` text COLLATE utf8_unicode_ci,
-  `header_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `header_title` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `h1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `teaser_text` text COLLATE utf8_unicode_ci,
@@ -379,7 +379,8 @@ INSERT INTO `template_type` (`id`, `title`) VALUES
 ('typemail',	'E-mail sending'),
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
-('typeregular',	'Regular page');
+('typeregular',	'Regular page'),
+('type_partial_template',	'Partial template');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -393,7 +394,7 @@ CREATE TABLE `user` (
   `reg_date` timestamp NULL DEFAULT NULL,
   `referer` tinytext COLLATE utf8_unicode_ci,
   `gplus_profile` tinytext COLLATE utf8_unicode_ci,
-  `mobile_phone` varchar(20) COLLATE utf8_unicode_ci NULL, COMMENT '',
+  `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
