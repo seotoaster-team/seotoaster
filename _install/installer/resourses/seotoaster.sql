@@ -377,7 +377,8 @@ INSERT INTO `template_type` (`id`, `title`) VALUES
 ('typemail',	'E-mail sending'),
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
-('typeregular',	'Regular page');
+('typeregular',	'Regular page'),
+('type_partial_template',	'Partial template');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
