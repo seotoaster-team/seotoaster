@@ -159,7 +159,7 @@ class Application_Form_Form extends Zend_Form
             new Zend_Form_Element_Text(array(
                 'id' => 'mobile',
                 'name' => 'mobile',
-                'label' => 'Mobile number',
+                'label' => 'Mobile number for admin notification',
                 'value' => $this->_mobile,
                 'filters' => array('StringTrim'),
             ))
