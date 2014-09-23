@@ -4,11 +4,11 @@
         <?php echo $this->formText('feedUrl', '', array('id' => 'feed-url', 'class' => 'validate small')); ?>
     </p>
     <p class="mt5px">
-        <?php echo $this->formLabel('feed-maxres', $this->translate('Max. results'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('feed-maxres', $this->translate('Max. results'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formText('feedMaxres', Widgets_Rss_Rss::RSS_RESULT_COUNT, array('id' => 'feed-maxres', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
     <p class="mt5px">
-        <?php echo $this->formLabel('feed-maxch', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('feed-maxch', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formText('feedMaxch', Widgets_Rss_Rss::RSS_DESC_LENGTH, array('id' => 'feed-maxch', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
     <p class="mt5px">
@@ -17,7 +17,7 @@
             <?php echo $this->formCheckbox('useImage', 'img', array('id' => 'feed-item-img')); ?>
         </label>
     </p>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget btn block small ticon-checkmark3')); ?>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget btn small')); ?>
 </form>
 <script type="text/javascript">
 	$(function() {
