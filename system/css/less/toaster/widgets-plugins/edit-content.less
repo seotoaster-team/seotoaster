@@ -70,10 +70,28 @@
 
     #tabs-frag-2{
         .ui-accordion-content{
-            max-height : 172px;
+            position : relative;
+            overflow : hidden;
+            padding  : 0 !important;
 
-            .mce-fullscreen &{
-                max-height : none;
+            form{
+                max-height    : 142px;
+                margin-bottom : @button-height-small + 7;
+                position      : static;
+                overflow      : auto;
+                padding       : 5px;
+
+                .mce-fullscreen &{
+                    max-height : none;
+                }
+
+                [type="submit"]{
+                    position : absolute;
+                    width    : 96%;
+                    left     : 2%;
+                    right    : 2%;
+                    bottom   : 2%;
+                }
             }
         }
     }
