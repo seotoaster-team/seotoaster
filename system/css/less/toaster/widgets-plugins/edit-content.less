@@ -17,7 +17,6 @@
 #frm_content{
     background : @body-bg;
 }
-
 #edit-content{
     background : @body-bg;
 
@@ -71,7 +70,7 @@
 
     #tabs-frag-2{
         .ui-accordion-content{
-            max-height : 207px;
+            max-height : 172px;
 
             .mce-fullscreen &{
                 max-height : none;
@@ -79,7 +78,44 @@
         }
     }
 }
+#clicktocall-widget-form{
+    [type="radio"]{
 
+        & ~ span{
+        }
+
+        &:checked ~ span{
+            .inline-block();
+            outline  : 2px solid #2ecc71;
+            position : relative;
+
+            &:before, &:after{
+                content  : "";
+                position : absolute;
+                bottom   : 0;
+                right    : 0;
+            }
+
+            &:before{
+                font-family : 'system-icons';
+                content     : "\e013";
+                color       : #fff;
+                bottom      : -1px;
+                right       : 1px;
+                font-size   : 16px;
+                z-index     : 1;
+            }
+
+            &:after{
+                width        : 0;
+                height       : 0;
+                border       : 15px solid @brand-success;
+                border-color : transparent @brand-success @brand-success transparent;
+            }
+
+        }
+    }
+}
 #adminthingsviewer{
 
     .ui-accordion-content{
@@ -131,7 +167,6 @@
         }
     }
 }
-
 #widgets_maker{
     .ui-accordion-header{
         img{
@@ -140,7 +175,6 @@
         }
     }
 }
-
 #frm_content{
     #content{
     }
@@ -150,7 +184,6 @@
         width   : auto;
     }
 }
-
 .chzn-container{
     &.chzn-container-multi{
         .chzn-choices{
@@ -159,14 +192,13 @@
         }
     }
 }
-
 .mce-tinymce:not(.mce-fullscreen){
 
     iframe{
         height : 380px !important;
     }
 
-    .mce-toolbar-grp[style="display: none;"]+.mce-edit-area{
+    .mce-toolbar-grp[style="display: none;"] + .mce-edit-area{
         border : none !important;
 
         iframe{
@@ -174,7 +206,6 @@
         }
     }
 }
-
 .mce-fullscreen{
 
     .mce-edit-area{
@@ -227,7 +258,7 @@
             .box-shadow(0 0 10px #ccc);
         }
 
-        .full-screen&{
+        .full-screen &{
             right : -(round(percentage((4 / @grid-columns)) - @grid-margin-width / 2, 3));
         }
     }
@@ -240,7 +271,6 @@
         right    : 0;
     }
 }
-
 // Products tab
 //===========================================================
 #conditional{
@@ -269,12 +299,10 @@
         padding-right : 26px;
     }
 }
-
 #product-products{
     background : @body-bg;
     padding    : 0 @padding-base-vertical;
     overflow   : auto;
     height     : 271px;
 }
-
 @import "../store/product-list";
