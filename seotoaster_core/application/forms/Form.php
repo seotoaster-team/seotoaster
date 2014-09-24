@@ -169,7 +169,7 @@ class Application_Form_Form extends Zend_Form
             new Zend_Form_Element_Checkbox(array(
                 'id' => 'enable-sms',
                 'name' => 'enableSms',
-                'label' => 'Enable the sms thank you message',
+                'label' => 'Send the reply text as an sms to the user',
                 'value' => $this->_enableSms,
             ))
         );
