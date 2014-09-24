@@ -76,6 +76,12 @@ ALTER TABLE `page` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 
 -- version 2.2.5
 INSERT INTO `template_type` (`id`, `title`) VALUES ('type_partial_template', 'Partial template');
 
+-- 12.09.2014
+-- Extend user table
+-- version: 2.2.6
+ ALTER TABLE `form` ADD COLUMN `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ ALTER TABLE `form` ADD COLUMN `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.2.6' WHERE `name`='version';
+UPDATE `config` SET `value`='2.2.7' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

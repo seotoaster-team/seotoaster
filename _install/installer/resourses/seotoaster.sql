@@ -144,6 +144,8 @@ CREATE TABLE `form` (
   `reply_from_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `reply_text` text COLLATE utf8_unicode_ci,
   `captcha` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
+  `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

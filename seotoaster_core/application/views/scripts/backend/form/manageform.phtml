@@ -1,7 +1,7 @@
 <div class="seotoaster container">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties', 'helpSection' => $this->helpSection)); ?>
     <form id="formWidget" class="_fajax _reload condensed" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
-        <fieldset class="content-footer">
+        <fieldset class="content-auto">
             <p id="form-code" class="grid_6 mt0px">
                 <a class="screen-size ticon-expand warning inverse fl-right" data-size="form-code"></a>
                 <?php echo $this->formForm->getElement('code')->renderLabel(); ?>
@@ -58,6 +58,16 @@
             <p class="grid_6">
                 <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
+            </p>
+            <p class="grid_12">
+                <?php echo $this->formForm->getElement('mobile')->renderLabel(); ?>
+                <?php echo $this->formForm->getElement('mobile')->renderViewHelper(); ?>
+            </p>
+            <p class="grid_7">
+                <?php echo $this->formForm->getElement('enableSms')->renderLabel(); ?>
+            </p>
+            <p class="grid_1">
+                <?php echo $this->formForm->getElement('enableSms')->renderViewHelper(); ?>
             </p>
         </fieldset>
         <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />
