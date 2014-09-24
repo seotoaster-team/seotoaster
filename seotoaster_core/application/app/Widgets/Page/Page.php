@@ -49,23 +49,45 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		return $this->_toasterOptions['teaserText'];
 	}
 
-    private function _generateCategoryOption() {
-        if(isset($this->_options[1])) {
+    private function _generateCategoryOption()
+    {
+        if (isset($this->_options[1])) {
             $content = '';
-            switch($this->_options[1]) {
-                case 'name':
-                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-                    $page       = $pageMapper->find($this->_toasterOptions['id']);
-                    if(!$page instanceof Application_Model_Models_Page) {
-                        throw new Exceptions_SeotoasterWidgetException('Cant load page!');
+            $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+            $registry = Zend_Registry::getInstance();
+            if ($registry->isRegistered('pageForCategory')) {
+                $page = $registry->get('pageForCategory');
+            } else {
+                $page = $pageMapper->find($this->_toasterOptions['id']);
+                $registry->set('pageForCategory', $page);
+            }
+            if (!$page instanceof Application_Model_Models_Page) {
+                if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                    throw new Exceptions_SeotoasterWidgetException('Cant load page!');
+                }
+            }
+            if ($page->getParentId() > 0) {
+                if ($registry->isRegistered('pageCategory')) {
+                    $page = $registry->get('pageCategory');
+                } else {
+                    $page = $pageMapper->find($page->getParentId());
+                    $registry->set('pageCategory', $page);
+                }
+                if (!$page instanceof Application_Model_Models_Page) {
+                    if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                        throw new Exceptions_SeotoasterWidgetException('Cant load category page!');
                     }
-                    if($page->getParentId() > 0) {
-                        $page = $pageMapper->find($page->getParentId());
+                }
+                switch ($this->_options[1]) {
+                    case 'name':
                         $content = $page->getNavName();
-                    }
-                break;
-                default:
-                break;
+                        break;
+                    case 'link':
+                        $content = $page->getUrl();
+                        break;
+                    default:
+                        break;
+                }
             }
             return $content;
         }
