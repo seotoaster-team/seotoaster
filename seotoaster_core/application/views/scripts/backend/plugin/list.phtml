@@ -15,6 +15,7 @@
             </div>
             <a class="plugin-control btn small <?php echo ($plugin->getId()) ? 'grid_6 alpha omega' : 'block'; ?>"
                id="<?php echo $plugin->getName(); ?>" href="javascript:;" data-name="<?php echo $plugin->getName(); ?>"
+               data-operation="<?php echo ($plugin->getId()) ? 'uninstall' : 'install'; ?>"
                title="<?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate(
                    'Install'
                ); ?>"><?php echo ($plugin->getId()) ? $this->translate('Uninstall') : $this->translate(
