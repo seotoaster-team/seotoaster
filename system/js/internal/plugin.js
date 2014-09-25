@@ -12,7 +12,18 @@ $(function () {
 
     // handling plugins controls
     $(document).on('click', '.plugin-control', function () {
-        triggerPlugin('install', $(this));
+        var typeOperation = $(this).attr('title');
+        if (typeOperation == 'Uninstall'){
+            var self= $(this);
+            smoke.confirm('You are about to remove an item. Are you sure?', function(e){
+                if(e){
+                    triggerPlugin('install', self);
+                }
+            }, {classname : "error", 'ok' : 'Yes', 'cancel' : 'No'});
+
+        } else {
+            triggerPlugin('install', $(this));
+        }
     })
         .on('click', '.plugin-endis', function () {
             triggerPlugin('onoff', $(this));
