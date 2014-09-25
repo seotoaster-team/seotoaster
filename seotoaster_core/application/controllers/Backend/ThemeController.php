@@ -505,7 +505,11 @@ class Backend_ThemeController extends Zend_Controller_Action
                 // Enable editing directly from the template file
                 if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
                     $currentThemePath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme;
-                    $currentTemplatePath = $currentThemePath . DIRECTORY_SEPARATOR . $listtemplates . '.html';
+                    if(preg_match('/^mobile_/', $listtemplates)) {
+                        $currentTemplatePath = $currentThemePath . DIRECTORY_SEPARATOR .'mobile'. DIRECTORY_SEPARATOR. str_replace('mobile_', '', $listtemplates) . '.html';
+                    }else{
+                        $currentTemplatePath = $currentThemePath . DIRECTORY_SEPARATOR . $listtemplates . '.html';
+                    }
 
                     if (file_exists($currentTemplatePath)) {
                         $themeConfig = Tools_Theme_Tools::getThemeIniData($currentThemePath);
@@ -553,7 +557,8 @@ class Backend_ThemeController extends Zend_Controller_Action
         if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
             $currentThemePath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme;
             $themeConfig = Tools_Theme_Tools::getThemeIniData($currentThemePath);
-            $scanDir = scandir($currentThemePath);
+            $scanDir = Tools_Filesystem_Tools::scanDirectory($currentThemePath);
+            $mobileTemplates = array();
 
             foreach ($scanDir as $file) {
                 if (preg_match('/\.(html)/', $file)) {
@@ -562,9 +567,20 @@ class Backend_ThemeController extends Zend_Controller_Action
                         array('_', ''),
                         $file
                     );
+                    $templateType = Application_Model_Models_Template::TYPE_REGULAR;
+                    if (array_key_exists('mobile_' . $templateName, $themeConfig) && !in_array(
+                        $templateName,
+                        $mobileTemplates
+                    )
+                    ) {
+                        $mobileTemplates[] = $templateName;
+                        $templateName = 'mobile_' . $templateName;
+                    }
 
-                    $templateType = (!empty($themeConfig) && isset($themeConfig[$templateName])) ?
-                        $themeConfig[$templateName] : Application_Model_Models_Template::TYPE_REGULAR;
+                    if (!empty($themeConfig) && isset($themeConfig[$templateName])) {
+                        $templateType = $themeConfig[$templateName];
+                    }
+
                     if ($type != 'all' && $type != $templateType) {
                         continue;
                     }
@@ -572,10 +588,10 @@ class Backend_ThemeController extends Zend_Controller_Action
                     array_push(
                         $templateList,
                         array(
-                            'type'       => $templateType,
-                            'name'       => $templateName,
-                            'fullName'   => $templateName,
-                            'isCurrent'  => ($templateName == $currentTemplate) ? true : false,
+                            'type' => $templateType,
+                            'name' => $templateName,
+                            'fullName' => $templateName,
+                            'isCurrent' => ($templateName == $currentTemplate) ? true : false,
                             'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($templateName)
                         )
                     );
@@ -591,10 +607,10 @@ class Backend_ThemeController extends Zend_Controller_Action
                 array_push(
                     $templateList,
                     array(
-                        'type'       => $template->getType(),
-                        'name'       => $template->getName(),
-                        'fullName'   => $template->getName(),
-                        'isCurrent'  => ($template->getName() == $currentTemplate) ? true : false,
+                        'type' => $template->getType(),
+                        'name' => $template->getName(),
+                        'fullName' => $template->getName(),
+                        'isCurrent' => ($template->getName() == $currentTemplate) ? true : false,
                         'pagesCount' => Tools_Page_Tools::getPagesCountByTemplate($template->getName())
                     )
                 );

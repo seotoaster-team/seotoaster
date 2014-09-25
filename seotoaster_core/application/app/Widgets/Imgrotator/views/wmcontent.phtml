@@ -1,6 +1,6 @@
 <form action="javascript:;" method="post" data-name="imgrotator" id="imgrotator-widget-form" class="wmc-block">
     <p>
-        <?php echo $this->formLabel('rotator-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('rotator-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formSelect('rotatorFolders', null, array('id' => 'rotator-folders', 'class' => 'grid_7 alpha omega small folders')); ?>
     </p>
     <p class="mt5px grid_6 alpha omega">
@@ -15,13 +15,13 @@
     </p>
     <span class="clearfix"></span>
     <p class="mt0-5em">
-        <?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. size'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('rotator-thumb-width', $this->translate('Max. size'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formText('rotatorThumbWidth', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_WIDTH, array('id' => 'rotator-thumb-width', 'class' => 'grid_3 alpha omega small')); ?>
         <span class="grid_1 alpha omega text-center">X</span>
         <?php echo $this->formText('rotatorThumbHeight', Widgets_Imgrotator_Imgrotator::DEFAULT_SLIDER_HEIGHT, array('id' => 'rotator-thumb-height', 'class' => 'grid_3 alpha omega small')); ?>
     </p>
     <p class="mt5px slider-field">
-        <?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('rotator-effect', $this->translate('Effect'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formSelect('rotatorEffect', 'none', array('id' => 'rotator-effect', 'class' => 'grid_7 alpha omega small', 'disabled' => 'true'), Widgets_Imgrotator_Imgrotator::$_defaultEffects); ?>
     </p>
     <p class="mt5px slider-field grid_6 alpha omega">
@@ -43,7 +43,7 @@
             <?php echo $this->formCheckbox('rotatorContent', null, array('id' => 'rotator-content', 'class' => 'wmc-input allowzero')); ?>
         </label>
     </p>
-    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget btn block small ticon-checkmark3')); ?>
+    <?php echo $this->formSubmit('applyWidget', 'Apply', array('class' => 'apply-widget btn small')); ?>
 </form>
 <script type="text/javascript">
 	$(function() {

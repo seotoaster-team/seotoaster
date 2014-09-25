@@ -22,10 +22,26 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
         $website = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $menuType = $this->_options[0];
         if (!empty($this->_options[1])) {
-            $this->_menuTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_options[1]);
-            if ($this->_menuTemplate instanceof Application_Model_Models_Template) {
-                array_push($this->_cacheTags, $this->_menuTemplate->getName());
-                $this->_menuTemplate = $this->_menuTemplate->getContent();
+
+            $developerMode = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode');
+
+            // if developerMode = 1, parsing template directly from files
+            if ((bool) $developerMode) {
+                $websitePath  = $this->_toasterOptions['websitePath'];
+                $themePath    = $this->_toasterOptions['themePath'];
+                $currentTheme = $this->_toasterOptions['currentTheme'];
+                $templatePath = $websitePath.$themePath.$currentTheme.DIRECTORY_SEPARATOR.$this->_options[1].'.html';
+                if (file_exists($templatePath)) {
+                    $this->_menuTemplate =  Tools_Filesystem_Tools::getFile($templatePath);
+                }
+            }else {
+                $this->_menuTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find(
+                    $this->_options[1]
+                );
+                if ($this->_menuTemplate instanceof Application_Model_Models_Template) {
+                    array_push($this->_cacheTags, $this->_menuTemplate->getName());
+                    $this->_menuTemplate = $this->_menuTemplate->getContent();
+                }
             }
         }
         $rendererName = '_render' . ucfirst($menuType) . 'Menu';

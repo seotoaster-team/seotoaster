@@ -1,17 +1,17 @@
 <form action="javascript:;" method="post" data-name="featured" id="featured-widget-form" class="wmc-block">
     <p>
-        <?php echo $this->formLabel('featured-item-type', $this->translate('Type'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('featured-item-type', $this->translate('Type'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formSelect('featuredItemType', 'Group of pages', array('id' => 'featured-item-type', 'class' => 'grid_7 alpha omega small'), array(Widgets_Featured_Featured::FEATURED_TYPE_AREA => 'Group of pages', Widgets_Featured_Featured::FEATURED_TYPE_PAGE => 'List just one page')); ?>
     </p>
     <p class="mt5px">
         <?php echo $this->formSelect('featuredAreaItem', null, array('id' => 'featured-area-item', 'class' => 'grid_12 alpha omega small validate')); ?>
     </p>
     <p class="mt5px">
-        <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha mt0-25em max-res-row')); ?>
+        <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha max-res-row')); ?>
         <?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'grid_7 alpha omega small max-res-row')); ?>
     </p>
     <p class="mt5px maxchars">
-        <?php echo $this->formLabel('featured-item-maxchars', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('featured-item-maxchars', $this->translate('Max. chars.'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formText('featuredItemMaxchars', Widgets_Featured_Featured::AREA_DESC_LENGTH, array('id' => 'featured-item-maxchars', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
     <p class="mt5px">
@@ -38,7 +38,7 @@
             <?php echo $this->formCheckbox('random', null, array('id' => 'random', 'class' => 'allowzero')); ?>
         </label>
 	</p>
-	<?php echo $this->formSubmit('applyWidgetFeatured', 'Apply', array('class' => 'btn block small ticon-checkmark3')); ?>
+	<?php echo $this->formSubmit('applyWidgetFeatured', 'Apply', array('class' => 'btn small')); ?>
 </form>
 
 <script type="text/javascript">

@@ -41,7 +41,9 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         $useCrop          = isset($this->_options[2]) ? (boolean)$this->_options[2] : false;
         $galFolder        = $path.(($useCrop) ? Tools_Image_Tools::FOLDER_CROP : Tools_Image_Tools::FOLDER_THUMBNAILS)
             .DIRECTORY_SEPARATOR;
-
+        if (!is_dir($galFolder)) {
+            Tools_Filesystem_Tools::mkDir($galFolder);
+        }
         // Changing the image to fit the size
         if ($useCrop && isset($this->_options[2]) && $this->_options[2] != '1') {
             if (strpos($this->_options[2], 'x') !== false) {
