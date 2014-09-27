@@ -49,8 +49,9 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
         $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $pluginDirectory = $websiteHelper->getPath() . $miscData['pluginsPath'] . strtolower($name);
-        $widgetPath = $pluginDirectory . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Widgets';
-        $magicSpacePath = $pluginDirectory . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'MagicSpaces';
+        $pluginAppPath = $pluginDirectory . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
+        $widgetPath = $pluginAppPath . 'Widgets';
+        $magicSpacePath = $pluginAppPath . 'MagicSpaces';
         $adapter = $containerMapper->getDbTable()->getAdapter();
         $where = $adapter->quoteInto(
             'content ?',
@@ -63,11 +64,11 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
                 foreach ($widgetNames as $widgetName) {
                     $patterns[] = '~{\$' . strtolower($widgetName) . ':[^{}]*}~usU';
                     $where .= ' OR ' . $adapter->quoteInto(
-                        'content ?',
-                        new Zend_Db_Expr("REGEXP '({[[.dollar-sign.]]" . strtolower(
-                            $widgetName
-                        ) . "[[.colon.]].*})'")
-                    );
+                            'content ?',
+                            new Zend_Db_Expr("REGEXP '({[[.dollar-sign.]]" . strtolower(
+                                    $widgetName
+                                ) . "[[.colon.]].*})'")
+                        );
                 }
             }
         }
@@ -75,13 +76,14 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
             $magicSpaceNames = Tools_Filesystem_Tools::scanDirectory($magicSpacePath, false, false);
             if (!empty($magicSpaceNames)) {
                 foreach ($magicSpaceNames as $magicSpaceName) {
-                    $patterns[] = '~{\$' . strtolower($magicSpaceName) . ':[^{}]*}~usU';
+                    $patterns[] = '~{' . strtolower($magicSpaceName) . '.*}.*{\/' . strtolower($magicSpaceName) . '}~usU';
                     $where .= ' OR ' . $adapter->quoteInto(
-                        'content ?',
-                        new Zend_Db_Expr("REGEXP '({[[.dollar-sign.]]" . strtolower(
-                            $magicSpaceName
-                        ) . "[[.colon.]].*})'")
-                    );
+                            'content ?',
+                            new Zend_Db_Expr("REGEXP '({" . strtolower(
+                                    $magicSpaceName
+                                ) . ".*}.*{/" . strtolower(
+                                    $magicSpaceName) . "})'")
+                        );
                 }
             }
         }
