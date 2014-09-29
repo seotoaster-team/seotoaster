@@ -1,10 +1,10 @@
 <form action="javascript:;" method="post" data-name="gal" id="gal-widget-form" class="wmc-block">
     <p>
-        <?php echo $this->formLabel('gal-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+        <?php echo $this->formLabel('gal-folders', $this->translate('Select a folder'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formSelect('galFolders', null, array('id' => 'gal-folders', 'class' => 'grid_7 alpha omega small folders')); ?>
     </p>
     <p class="mt5px">
-	    <?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'grid_5 alpha mt0-25em')); ?>
+	    <?php echo $this->formLabel('gal-thumb-size', $this->translate('Thumb. size'), array('class' => 'grid_5 alpha')); ?>
 	    <?php echo $this->formText('galThumbSize', Widgets_Gal_Gal::DEFAULT_THUMB_SIZE, array('id' => 'gal-thumb-size', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
     <p class="mt5px">
@@ -27,7 +27,7 @@
             <?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption', 'class' => 'allowzero')); ?>
         </label>
     </p>
-    <?php echo $this->formSubmit('applyWidgetGal', 'Apply', array('class' => 'btn block small ticon-checkmark3')); ?>
+    <?php echo $this->formSubmit('applyWidgetGal', 'Apply', array('class' => 'btn small')); ?>
 </form>
 <script type="text/javascript">
     $(function () {

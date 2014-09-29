@@ -125,9 +125,12 @@ form, .form{
 
         &.notvalid:before{
         }
+
+        &[for]{
+            cursor : pointer;
+        }
     }
 }
-
 .required:after{
     color   : @brand-error;
     content : ' *';
@@ -140,7 +143,6 @@ form, .form{
         margin-right : 5px;
     }
 }
-
 select, textarea, input{
     padding          : @padding-base-vertical;
     border-width     : @input-border-width;
@@ -201,7 +203,6 @@ select, textarea, input{
         .box-shadow(none) !important;
     }
 }
-
 input{
     height : @button-height-base;
 
@@ -218,7 +219,6 @@ input{
         padding : @padding-small-vertical;
     }
 }
-
 select{
     height      : @button-height-base;
     line-height : @button-height-base - @padding-base-vertical;
@@ -244,11 +244,9 @@ select{
         color : @text-color;
     }
 }
-
 textarea{
     //min-height : 3em;
 }
-
 .labeled when (@form-labeled = true){
     position : relative;
     .clearfix();
@@ -424,7 +422,6 @@ textarea{
     }
     .activate-form-labeled-social();
 }
-
 // -- Social field style
 //.social-field(@width : 250px);
 

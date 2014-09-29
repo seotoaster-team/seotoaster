@@ -82,6 +82,11 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     public function render()
     {
+        $developerMode = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode');
+
+        if((bool) $developerMode) {
+            $this->_cacheable = (bool)!$developerMode;
+        }
         if ($this->_cacheable) {
             $this->_cacheData = $this->_loadFromCache();
             if (isset($this->_cacheData['data'][$this->_widgetId])) {
