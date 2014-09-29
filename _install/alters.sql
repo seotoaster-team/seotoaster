@@ -39,22 +39,6 @@ ALTER TABLE `email_triggers_actions` ADD `service` ENUM( 'email', 'sms' ) CHARAC
 
 UPDATE `email_triggers_actions` SET `service` = 'email' WHERE `service` IS NULL;
 
-INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUES
-(null, '1', 'store_neworder', 'Tools_AppsSmsWatchdog'),
-(null, '1', 'store_trackingnumber', 'Tools_AppsSmsWatchdog');
-
-INSERT INTO `email_triggers_actions` (`id`, `service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject`) VALUES (NULL, 'sms', 'store_neworder', NULL, 'customer', 'Hello {customer:fullname},
-this message is from your favorite store {company:name}.
-We received your order on {order:createdat} date for {order:total}.
-Your order status is {order:status} and will ship to {order:shippingaddress}.
-Thanks for your business.', '', '');
-
-INSERT INTO `email_triggers_actions` (`id`, `service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject`) VALUES (NULL, 'sms', 'store_trackingnumber', NULL, 'customer', 'Hello {customer:fullname},
-this message is from your favorite store {company:name}.
-Your order {order:shippingtrackingid} for {order:total} placed on {order:createdat} is now {order:status}.
-The shipping address for this order is {order:shippingaddress}
-Thanks for your business.', '', '');
-
 
 -- 29.08.2014
 -- Extend plugin table
@@ -93,5 +77,7 @@ UPDATE `page_option` SET `option_usage`='once' WHERE 'option_member_signuplandin
 UPDATE `page_option` SET `option_usage`='once' WHERE 'option_search';
 
 -- These alters are always the latest and updated version of the database
+
 UPDATE `config` SET `value`='2.2.8' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
+
