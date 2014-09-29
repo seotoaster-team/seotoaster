@@ -86,7 +86,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
             if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
                 $pluginDependencyFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] .
-                    $plugin->getName() . '/system/' . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
+                    $plugin->getName() . DIRECTORY_SEPARATOR . 'system'. DIRECTORY_SEPARATOR . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
                 if (file_exists($pluginDependencyFilePath)) {
                     $pluginDependencyContent = Tools_Filesystem_Tools::getFile($pluginDependencyFilePath);
                     if (!empty($pluginDependencyContent)) {
