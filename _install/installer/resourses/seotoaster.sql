@@ -184,7 +184,7 @@ CREATE TABLE `optimized` (
   `page_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to page table',
   `url` tinytext COLLATE utf8_unicode_ci,
   `h1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `header_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `header_title` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `nav_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `targeted_key_phrase` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `meta_description` text COLLATE utf8_unicode_ci,

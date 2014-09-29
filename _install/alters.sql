@@ -67,9 +67,10 @@ ALTER TABLE `plugin` ADD `version` varchar(20) COLLATE 'utf8_unicode_ci' NULL, C
 ALTER TABLE `user` ADD `mobile_phone` varchar(20) COLLATE 'utf8_unicode_ci' NULL, COMMENT='';
 
 -- 19.09.2014
--- Extend page header_title field type to TEXT
+-- Extend page / optimized header_title field type to TEXT
 -- version 2.2.4
 ALTER TABLE `page` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `optimized` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 
 -- 19.09.2014
 -- Extend page header_title field type to TEXT
