@@ -27,6 +27,9 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
     {
         $this->_removePluginOccurrences();
         Tools_Plugins_Tools::removePluginRoute($this->_object->getName());
+        $cacheHelper = new Helpers_Action_Cache();
+        $cacheHelper->init();
+        $cacheHelper->clean();
         //Application_Model_Mappers_EmailTriggersMapper::getInstance()->unregisterTriggers($this->_object->getName());
         //Application_Model_Mappers_EmailTriggersMapper::getInstance()->unregisterRecipients($this->_object->getName());
     }
