@@ -93,6 +93,9 @@ $(function(){
         ];
         var form = $(this);
         var callback = $(form).data('callback');
+        var dialogBox = $(form).data('dialog-box');
+        var dialogCallBack = $(form).data('dialog-box-callback');
+
         $.ajax({
             url        : form.attr('action'),
             type       : 'post',
@@ -148,11 +151,25 @@ $(function(){
                         });
                         showTooltip('.notvalid', 'error', 'right');
                     }else{
-                        smoke.alert(response.responseText, function () {
-                            if (typeof callback != 'undefined' && callback != null) {
-                                eval(callback + '()');
-                            }
-                        }, {classname : "error"});
+                        if(dialogBox && dialogCallBack && response.dialog){
+                            smoke.confirm(response.responseText, function(e){
+                                if (e){
+                                    if (typeof dialogCallBack != 'undefined' && dialogCallBack != null) {
+                                        eval(dialogCallBack + '()');
+                                    }
+                                }
+                            }, {
+                                ok: "Yes",
+                                cancel: "No",
+                                reverseButtons: true
+                            });
+                        }else{
+                            smoke.alert(response.responseText, function () {
+                                if (typeof callback != 'undefined' && callback != null) {
+                                    eval(callback + '()');
+                                }
+                            }, {classname : "error"});
+                        }
                     }
                 }
             },

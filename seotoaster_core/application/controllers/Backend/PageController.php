@@ -114,6 +114,46 @@ class Backend_PageController extends Zend_Controller_Action {
                     }
                 }
 
+                //Analyze if system have options one time used
+                if ($pageData['removePreviousOption'] === '' && !empty($pageData['extraOptions'])) {
+                    $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+                    $options = Application_Model_Mappers_PageOptionMapper::getInstance()->checkOptionUsage(
+                        $pageData['extraOptions'],
+                        $pageData['url']
+                    );
+
+                    if (!empty($options)) {
+                        $code = 200;
+                        $responseData = Zend_Json::encode(
+                            array(
+                                'error' => 1,
+                                'responseText' => $this->_helper->language->translate(
+                                    'Ohhhlaaaa! A page with this option already exists '
+                                ) . '<a target="_blank" href="' . $websiteHelper->getUrl(
+                                ) . $options['url'] . '">' . $this->_helper->language->translate(
+                                    '(see it here)'
+                                ) . '</a> ' . $this->_helper->language->translate(
+                                    'Is it okay to replace it with this one?'
+                                ),
+                                'dialog' => true,
+                                'httpCode' => $code
+                            )
+                        );
+                        $response = $this->getResponse();
+                        $response->setHttpResponseCode($code)
+                            ->setBody($responseData)
+                            ->setHeader('Content-Type', 'application/json', true);
+                        $response->sendResponse();
+                        exit;
+                    }
+
+                } else {
+                    //Removing page options that have one time options
+                    Application_Model_Mappers_PageOptionMapper::getInstance()->deletePageHasOption(
+                        $pageData['extraOptions']
+                    );
+                }
+
                 $page->setOptions($pageData);
 
                 //prevent renaming of the index page

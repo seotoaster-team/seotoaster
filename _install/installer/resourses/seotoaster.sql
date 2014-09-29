@@ -278,17 +278,18 @@ CREATE TABLE `page_option` (
   `title` tinytext COLLATE utf8_unicode_ci NOT NULL,
   `context` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'In which context this option is used. E.g. option_newsindex used in News system context',
   `active` tinyint(1) NOT NULL DEFAULT '1',
+  `option_usage` ENUM('once', 'many') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'many',
   PRIMARY KEY (`id`),
   KEY `active` (`active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `page_option` (`id`, `title`, `context`, `active`) VALUES
-('option_404page',	'Our error 404 \"Not found\" page',	'Seotoaster pages',	1),
-('option_member_landing',	'Where members land after logging-in',	'Seotoaster membership',	1),
-('option_member_loginerror',	'Our membership login error page',	'Seotoaster membership',	1),
-('option_member_signuplanding',	'Where members land after signed-up',	'Seotoaster membership',	1),
-('option_protected',	'Accessible only to logged-in members',	'Seotoaster pages',	1),
-('option_search',	'Search landing page',	'Seotoaster pages',	1);
+INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) VALUES
+('option_404page',	'Our error 404 \"Not found\" page',	'Seotoaster pages',	1, 'many'),
+('option_member_landing',	'Where members land after logging-in',	'Seotoaster membership',	1, 'once'),
+('option_member_loginerror',	'Our membership login error page',	'Seotoaster membership',	1, 'once'),
+('option_member_signuplanding',	'Where members land after signed-up',	'Seotoaster membership',	1, 'once'),
+('option_protected',	'Accessible only to logged-in members',	'Seotoaster pages',	1, 'many'),
+('option_search',	'Search landing page',	'Seotoaster pages',	1, 'once');
 
 DROP TABLE IF EXISTS `password_reset_log`;
 CREATE TABLE `password_reset_log` (

@@ -67,6 +67,17 @@ INSERT INTO `template_type` (`id`, `title`) VALUES ('type_partial_template', 'Pa
  ALTER TABLE `form` ADD COLUMN `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
  ALTER TABLE `form` ADD COLUMN `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0';
 
+ -- 29.09.2014
+-- Add options quantity
+-- version: 2.2.7
+ALTER TABLE `page_option` ADD `option_usage` ENUM('once', 'many') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'many';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_landing';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_loginerror';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_signuplanding';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_search';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.2.7' WHERE `name`='version';
+
+UPDATE `config` SET `value`='2.2.8' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
+
