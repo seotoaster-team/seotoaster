@@ -208,11 +208,7 @@ class IndexController extends Zend_Controller_Action {
 			return;
 		}
 
-        $head[0] = preg_replace_callback("|(<meta[^>]+name=\"description\"[^>]" . "+content=\")(.*)(\"[^>]+>)|i",
-            function($matches) {
-                return $matches[1] . htmlspecialchars(str_replace('"', '', $matches[2]), ENT_COMPAT, 'UTF-8') . $matches[3];
-            }  ,$head[0]);
-        $head[0] = preg_replace_callback("|(<meta[^>]+name=\"keywords\"[^>]" . "+content=\")(.*)(\"[^>]+>)|i",
+        $head[0] = preg_replace_callback("~(<meta[^>]+name=\"(?:description|keywords)\"[^>]" . "+content=\")(.*)(\"[^>]+>)~i",
             function($matches) {
                 return $matches[1] . htmlspecialchars(str_replace('"', '', $matches[2]), ENT_COMPAT, 'UTF-8') . $matches[3];
             }  ,$head[0]);
