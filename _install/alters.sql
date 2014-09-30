@@ -76,8 +76,12 @@ UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'optio
 UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_signuplanding';
 UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_search';
 
+-- 30.09.2014
+-- Update DB version
+-- version: 2.2.8
+
 -- These alters are always the latest and updated version of the database
 
-UPDATE `config` SET `value`='2.2.8' WHERE `name`='version';
+UPDATE `config` SET `value`='2.3.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
