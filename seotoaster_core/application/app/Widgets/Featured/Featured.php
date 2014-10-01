@@ -15,11 +15,14 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_TYPE_AREA = 'area';
 
+    private $_configHelper = null;
+
     protected function _init()
     {
         parent::_init();
         $this->_view             = new Zend_View(array('scriptPath' => dirname(__FILE__).'/views'));
         $this->_view->websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+        $this->_configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $this->useImage          = false;
         $this->cropParams        = array();
         $this->cropSizeSubfolder = '';
@@ -108,14 +111,23 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             );
         }
 
+        $template               = current(preg_grep('/template=*/', $params));
+        $this->_view->templatePath = null;
+        if($template){
+            $websitePath  = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath();
+            $currentTheme = $this->_configHelper->getConfig('currentTheme');
+            $templateName = preg_replace('/template=/', '', $template);
+            $this->_view->templatePath = $websitePath . 'themes' . DIRECTORY_SEPARATOR . $currentTheme . DIRECTORY_SEPARATOR . $templateName . '.html';
+        }
+
         // Set limit and on/off random
         $featuredArea->setLimit((isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT)
             ->setRandom((intval(end($params)) === 1) ? true : false);
 
-        $this->_view->faPages = $featuredArea->getPages();
-        $this->_view->faId    = $featuredArea->getId();
-        $this->_view->faName  = $featuredArea->getName();
-        $class                = current(preg_grep('/class=*/', $params));
+        $this->_view->faPages   = $featuredArea->getPages();
+        $this->_view->faId      = $featuredArea->getId();
+        $this->_view->faName    = $featuredArea->getName();
+        $class                  = current(preg_grep('/class=*/', $params));
         $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;

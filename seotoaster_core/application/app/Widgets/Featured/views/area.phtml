@@ -10,6 +10,19 @@
         <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order') . ' - <em>' . $this->faName . '</em>';?></a>
     <?php endif; ?>
     <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem <?php echo $this->listClass; ?>">
+        <?php if(isset($this->templatePath)) : ?>
+            <?php foreach($this->faPages as $page): ?>
+            <li>
+            <?php
+                $content = Tools_Filesystem_Tools::getFile($this->templatePath);
+                if ($page instanceof Application_Model_Models_Page) {
+                    $parser = new Tools_Content_Parser($content, $page->toArray());
+                    echo $parser->parseSimple();
+                }
+            ?>
+            </li>
+            <?php endforeach; ?>
+        <?php else : ?>
         <?php foreach($this->faPages as $page): ?>
             <li>
                 <?php
@@ -67,5 +80,6 @@
                 <?php endif;?>
             </li>
         <?php endforeach; ?>
+        <?php endif; ?>
     </ul>
 <?php endif; ?>
