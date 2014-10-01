@@ -59,9 +59,9 @@
         $this->inlineScript()->setIndent(8)->setAllowArbitraryAttributes(true)
             ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
             ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
-            ->appendFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js');
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
     }else{
         $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
             ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
