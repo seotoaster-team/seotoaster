@@ -217,9 +217,16 @@ body{
         margin-top : 0 !important;
     }
 
-    [class*="content"] > &{
+    [class*="content-"] > &, .content > &{
         background    : @body-bg;
         margin-bottom : 0 !important;
+    }
+
+    .content-screen-footer + &{
+        position : absolute;
+        bottom   : 0;
+        left     : 0;
+        right    : 0;
     }
 }
 
