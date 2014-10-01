@@ -555,23 +555,21 @@ class Backend_ThemeController extends Zend_Controller_Action
 
         // Gets the templates list from the current theme folder
         if ((bool)$this->_helper->config->getConfig('enableDeveloperMode')) {
-            $currentThemePath = $this->_websiteConfig['path'] . $this->_themeConfig['path'] . $currentTheme;
-            $themeConfig = Tools_Theme_Tools::getThemeIniData($currentThemePath);
-            $scanDir = Tools_Filesystem_Tools::scanDirectory($currentThemePath);
-            $mobileTemplates = array();
-
+            $currentThemePath = $this->_websiteConfig['path'].$this->_themeConfig['path'].$currentTheme;
+            $themeConfig      = Tools_Theme_Tools::getThemeIniData($currentThemePath);
+            $scanDir          = Tools_Filesystem_Tools::scanDirectory($currentThemePath);
+            $mobileTemplates  = array();
+            $pattern          = '/\.html$/i';
             foreach ($scanDir as $file) {
-                if (preg_match('/\.(html)/', $file)) {
+                if ((bool)preg_match($pattern, $file)) {
                     $templateName = preg_replace(
-                        array('/\\' . DIRECTORY_SEPARATOR . '/', '/\.html/'),
+                        array('/\\'.DIRECTORY_SEPARATOR.'/', $pattern),
                         array('_', ''),
                         $file
                     );
                     $templateType = Application_Model_Models_Template::TYPE_REGULAR;
-                    if (array_key_exists('mobile_' . $templateName, $themeConfig) && !in_array(
-                        $templateName,
-                        $mobileTemplates
-                    )
+                    if (array_key_exists('mobile_' . $templateName, $themeConfig)
+                        && !in_array($templateName, $mobileTemplates)
                     ) {
                         $mobileTemplates[] = $templateName;
                         $templateName = 'mobile_' . $templateName;
