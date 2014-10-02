@@ -35,7 +35,10 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 	public function findByName($name, $pageId = 0, $type = Application_Model_Models_Container::TYPE_REGULARCONTENT) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
 		$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('container_type = ?', $type);
-		if($pageId && $type != '2' && $type != '4') {
+        if ($pageId
+            && $type != Application_Model_Models_Container::TYPE_STATICCONTENT
+            && $type != Application_Model_Models_Container::TYPE_STATICHEADER
+        ) {
 			$where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('page_id = ?', $pageId);
 		}
 		$row  = $this->getDbTable()->fetchAll($where)->current();
