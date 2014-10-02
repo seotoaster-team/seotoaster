@@ -354,9 +354,12 @@ class Backend_ContentController extends Zend_Controller_Action {
 
         $mapper = Application_Model_Mappers_ContainerMapper::getInstance();
         $model  = new Application_Model_Models_Container();
-        $pageId = $this->getRequest()->getParam('pageId');
         $name   = MagicSpaces_Repeat_Repeat::PREFIX_CONTAINER.$this->getRequest()->getParam('repeatName');
-        $data   = $mapper->findByName($name, $pageId, Application_Model_Models_Container::TYPE_REGULARCONTENT);
+        $type   = $this->getRequest()->getParam('contentType');
+        $pageId = (Application_Model_Models_Container::TYPE_REGULARCONTENT == $type)
+            ? $this->getRequest()->getParam('pageId')
+            : null;
+        $data   = $mapper->findByName($name, $pageId, $type);
         if ($data instanceof Application_Model_Models_Container) {
             $model->setId($data->getId());
 
@@ -373,7 +376,7 @@ class Backend_ContentController extends Zend_Controller_Action {
             $configRepeat->setOrderContent($this->getRequest()->getParam('orderContent'));
 
             $model->setName($name)
-                ->setContainerType(Application_Model_Models_Container::TYPE_REGULARCONTENT)
+                ->setContainerType($type)
                 ->setPageId($pageId)
                 ->setContent($configRepeat->getQuantity().':'.$configRepeat->getOrderContent());
 

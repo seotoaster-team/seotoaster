@@ -14,6 +14,8 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_separatorOrder = ',';
 
+    protected $_contentType    = Application_Model_Models_Container::TYPE_REGULARCONTENT;
+
     protected function _init()
     {
         $this->_qty     = 0;
@@ -31,29 +33,35 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
         }
 
         list($qty, $this->_replace) = $this->_params;
-        if (isset($this->_params[2])) {
-            $order = ($this->_params[2]);
-        }
 
         if (!is_numeric($qty)) {
-            $qty  = 0;
+            $qty = 0;
+
+            if (!empty($this->_params) && end($this->_params) === 'static') {
+                $this->_contentType = Application_Model_Models_Container::TYPE_STATICCONTENT;
+            }
+
             $data = Application_Model_Mappers_ContainerMapper::getInstance()->findByName(
                 self::PREFIX_CONTAINER.$this->_params[0],
                 $this->_toasterData['id'],
-                Application_Model_Models_Container::TYPE_REGULARCONTENT
+                $this->_contentType
             );
+
             if ($data instanceof Application_Model_Models_Container) {
                 $content = explode(':', $data->getContent());
                 if (isset($content[0]) && !empty($content[0])) {
-                    $qty   = (int) $content[0];
+                    $qty   = (int)$content[0];
                 }
                 if (isset($content[1]) && !empty($content[1])) {
                     $order = $content[1];
                 }
             }
-        };
+        }
+        elseif (isset($this->_params[2]) && $this->_params[2] != 'static') {
+            $order = $this->_params[2];
+        }
 
-        $this->_qty = ((int) $qty > $this->_iterationLimit) ? $this->_iterationLimit : $qty;
+        $this->_qty = ((int)$qty > $this->_iterationLimit) ? $this->_iterationLimit : $qty;
         if (isset($order)) {
             $this->_order = explode($this->_separatorOrder, preg_replace('/\s/', '', $order));
         }
@@ -74,8 +82,10 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             $editLink      = '<a class="tpopup generator-links" data-pwidth="'.$this->_popupWidth.'" data-pheight="'
                 .$this->_popupHeighth.'" title="'.$translator->translate('Edit').'" href="javascript:;" data-url="'
                 .$this->_toasterData['websiteUrl'].'backend/backend_content/editrepeat/pageId/'
-                .$this->_toasterData['id'].'/repeatName/'.$this->_params[0].'">'.$translator->translate('Edit repeat')
-                .'- <em>'.$this->_params[0].'</em></a>';
+                .$this->_toasterData['id'].'/repeatName/'.$this->_params[0].'/contentType/'.$this->_contentType.'">'
+                .$translator->translate('Edit repeat') .'- <em>'.$this->_params[0].'</em>'
+                .(($this->_contentType == Application_Model_Models_Container::TYPE_STATICCONTENT) ? ' (static)' : '')
+                .'</a>';
         }
 
         return $editLink;
@@ -94,6 +104,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             $val = str_replace($this->_replace, $i, $this->_spaceContent);
 
             if (!empty($this->_order) && (false !== ($key = array_search($i, $this->_order)))) {
+                unset($this->_order[$key]);
                 $orderContent[$key] = $val;
                 continue;
             }
