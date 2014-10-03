@@ -45,7 +45,7 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
         $this->_options        = $options;
         $this->_toasterOptions = $toasterOptions;
 
-        $this->_checkDeveloperModeIsOn();
+        $this->_setDeveloperModeProp();
 
         if ($this->_cacheable === true) {
             $roleId = Zend_Controller_Action_HelperBroker::getStaticHelper('Session')->getCurrentUser()->getRoleId();
@@ -78,7 +78,7 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     public function render()
     {
-        $this->_checkDeveloperModeIsOn();
+        $this->_setDeveloperModeProp();
 
         if ($this->_cacheable) {
             $this->_cacheData = $this->_loadFromCache();
@@ -126,11 +126,13 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
         return $content;
     }
 
-    protected function _checkDeveloperModeIsOn()
+    protected function _setDeveloperModeProp()
     {
-        if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode')) {
+        $status = (bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode');
+        if ($status) {
             $this->_cacheable = false;
         }
+        return $status;
     }
 
     protected function _loadFromCache()
