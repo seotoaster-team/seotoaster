@@ -33,6 +33,8 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     protected $_widgetId       = null;
 
+    protected $_developerModeStatus = false;
+
     /**
      * Instance of the Zend_Translate
      *
@@ -44,6 +46,9 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
     {
         $this->_options        = $options;
         $this->_toasterOptions = $toasterOptions;
+
+        /** Check developer mode status. */
+        $this->_developerModeStatus = (bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode');
 
         $this->_setDeveloperModeProp();
 
@@ -128,11 +133,9 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
 
     protected function _setDeveloperModeProp()
     {
-        $status = (bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('enableDeveloperMode');
-        if ($status) {
+        if ($this->_developerModeStatus) {
             $this->_cacheable = false;
         }
-        return $status;
     }
 
     protected function _loadFromCache()
