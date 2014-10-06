@@ -23,6 +23,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->useImage          = false;
         $this->cropParams        = array();
         $this->cropSizeSubfolder = '';
+        $this->_entityParser     = new Tools_Content_EntityParser();
 
         // checking if its area and random
         if (!empty($this->_options)
@@ -125,6 +126,11 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         array_push($this->_cacheTags, 'pageTags');
         $areaPages = $featuredArea->getPages();
         foreach ($areaPages as $page) {
+            $this->_entityParser
+                ->objectToDictionary($page)
+                ->addToDictionary(array('thispage:id' => $page->getId()));
+            $page->setTeaserText($this->_entityParser->parse($page->getTeaserText()));
+
             array_push($this->_cacheTags, 'pageid_'.$page->getId());
         }
 
@@ -154,6 +160,11 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             }
             return '';
         }
+
+        $this->_entityParser
+            ->objectToDictionary($page)
+            ->addToDictionary(array('thispage:id' => $page->getId()));
+        $page->setTeaserText($this->_entityParser->parse($page->getTeaserText()));
 
         $this->_view->page       = $page;
         $class                   = current(preg_grep('/class=*/', $params));
