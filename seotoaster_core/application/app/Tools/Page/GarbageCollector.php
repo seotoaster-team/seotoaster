@@ -167,8 +167,7 @@ class Tools_Page_GarbageCollector extends Tools_System_GarbageCollector
         $remove = array();
         if (is_dir($path.$previewCropPath)) {
             // Checking cropped images to remove file
-            $subFolders = scandir($path.$previewCropPath);
-            $subFolders = array_splice($subFolders, 2);
+            $subFolders = Tools_Filesystem_Tools::scanDirectory($path.$previewCropPath, false, false);
             foreach ($subFolders as $folder) {
                 if (!is_dir($path.$previewCropPath.DIRECTORY_SEPARATOR.$folder)) {
                     continue;
