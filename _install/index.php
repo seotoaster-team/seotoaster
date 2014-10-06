@@ -6,13 +6,13 @@ if (version_compare(PHP_VERSION, '5.3.2', '<')){
 	die('Sorry you need PHP 5.3.3 version or greater. Your version is: ' . PHP_VERSION . '.');
 }
 define('INSTALL_PATH', realpath(__DIR__.'/../'));
-define('INSTALLER_PATH', realpath(__DIR__));
+define('INSTALLER_PATH', INSTALL_PATH.'/install');
 
 // Define path to ZendFramework library
-define('ZFLIBPATH', realpath(dirname(__FILE__).'/../seotoaster_core/library'));
+define('ZFLIBPATH', realpath(__DIR__.'/../seotoaster_core/library'));
 
 // Define path to installer directory
-define('APPLICATION_PATH', realpath(__DIR__).'/installer');
+define('APPLICATION_PATH', INSTALLER_PATH.'/installer');
 
 // Define application environment
 define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
