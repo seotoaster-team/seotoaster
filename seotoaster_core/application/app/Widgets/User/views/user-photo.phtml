@@ -36,7 +36,7 @@ $(function(){
     <?php echo $jsValName;?>.bind('FileUploaded', function(uploader, file) {
         var timestamp = new Date().getTime();
         var newSrc = $('#website_url').val()+'media/<?php echo Widgets_User_Base::USERPIC_FOLDER.'/'.$this->imgSize; ?>/'+file.name+'?'+timestamp;
-        console.log($('#img-<?php echo $uploaderId; ?>').prop('src', newSrc));
+        $('#img-<?php echo $uploaderId; ?>').prop('src', newSrc);
     });
 });
 </script>
