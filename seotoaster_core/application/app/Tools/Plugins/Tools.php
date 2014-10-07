@@ -508,7 +508,7 @@ class Tools_Plugins_Tools {
 
         if (!empty($files)) {
             $preview = str_replace($website->getPath(), $website->getUrl(), reset($files));
-            return str_replace('\\', '/',$preview);
+            return  Tools_Filesystem_Tools::cleanWinPath(str_replace('\\', '/',$preview));
         }
 
 		return false;

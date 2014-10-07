@@ -333,7 +333,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 'websiteUrl'   => $this->_websiteHelper->getUrl(),
                 'websitePath'  => $this->_websiteHelper->getPath(),
                 'currentTheme' => $extConfig['currentTheme'],
-                'themePath'    => $themeData['path'],
+                'themePath'    => Tools_Filesystem_Tools::cleanWinPath($themeData['path']),
             );
 
             $cDbTable = new Application_Model_DbTable_Container();
