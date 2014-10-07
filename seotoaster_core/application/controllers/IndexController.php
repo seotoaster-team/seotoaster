@@ -114,7 +114,7 @@ class IndexController extends Zend_Controller_Action {
                 'websiteUrl'   => $this->_helper->website->getUrl(),
                 'websitePath'  => $websitePath,
                 'currentTheme' => $currentTheme,
-                'themePath'    => $themeData['path'],
+                'themePath'    => preg_replace('/[\\\\]/', '/',$themeData['path']),
             );
 
             // if developerMode = 1, parsing template directly from files
