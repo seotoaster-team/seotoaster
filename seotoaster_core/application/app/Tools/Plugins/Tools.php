@@ -508,7 +508,7 @@ class Tools_Plugins_Tools {
 
         if (!empty($files)) {
             $preview = str_replace($website->getPath(), $website->getUrl(), reset($files));
-            return $preview;
+            return str_replace('\\', '/',$preview);
         }
 
 		return false;
