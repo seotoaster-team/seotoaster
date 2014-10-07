@@ -226,4 +226,16 @@ class Tools_Filesystem_Tools {
         }
         return true;
     }
+
+    /**
+     * Returns the correct file path for windows
+     *
+     * @param string $path file path
+     *
+     * @return string clean path for Win file
+     */
+    public static function cleanWinPath($path){
+
+        return str_replace('\\', '/', trim($path));
+    }
 }
