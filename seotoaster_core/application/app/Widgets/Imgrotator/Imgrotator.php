@@ -98,10 +98,13 @@ class Widgets_Imgrotator_Imgrotator extends Widgets_Abstract
         $this->_view->prevnext     = (isset($this->_options[7]) && (int)$this->_options[7] === 1) ? true : false;
         $this->_view->content      = (isset($this->_options[8]) && (int)$this->_options[8] === 1) ? true : false;
 
-        $sessionRotator = new Zend_Session_Namespace('RoatorStyles');
-        $sessionRotator->stylesOn = (empty($sessionRotator->stylesOn)) ? true : false;
-        $this->_view->stylesOn = $sessionRotator->stylesOn;
-
+        if (Zend_Registry::isRegistered('RoatorStyles')) {
+            $stylesOn = false;
+        } else {
+            Zend_Registry::set('RoatorStyles', true);
+            $stylesOn = true;
+        }
+        $this->_view->stylesOn = $stylesOn;
         return $this->_view->render('rotator.phtml');
     }
 
