@@ -91,7 +91,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                     $pluginDependencyContent = Tools_Filesystem_Tools::getFile($pluginDependencyFilePath);
                     if (!empty($pluginDependencyContent)) {
                         $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
-                        $dependentPluginsData = explode(PHP_EOL, $pluginDependencyContent);
+                        $dependentPluginsData = explode(';', $pluginDependencyContent);
                         $dependentPlugins = array();
                         array_walk(
                             $dependentPluginsData,
