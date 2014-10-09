@@ -131,7 +131,11 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
 
             $cssContent = file_get_contents($this->_themeFullPath.DIRECTORY_SEPARATOR.$file);
             if (dirname($file) == '.') {
-                $cssContent = preg_replace('/url\([\'"]?([^)\'"]*)[\'"]?\)/', 'url("../${1}")', $cssContent);
+                $cssContent = preg_replace(
+                    '/url\([\'"]?((?!\w+:\/\/|\B|([0-9]{1,3}[\.]){3}[0-9]{1,3}:\/\/)([^)\'"]*))[\'"]?\)/',
+                    'url("../${1}")',
+                    $cssContent
+                );
             }
 
             $fileName = strtoupper($file);
