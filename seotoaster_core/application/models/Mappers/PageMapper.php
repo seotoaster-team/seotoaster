@@ -259,9 +259,12 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->_findWhere($where);
     }
 
-    public function findByParentId($parentId)
+    public function findByParentId($parentId, $draft = false)
     {
         $where = $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', $parentId);
+        if ($draft) {
+            $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('draft = ?', '0');
+        }
         return $this->fetchAll($where);
     }
 
