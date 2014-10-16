@@ -53,7 +53,7 @@ class Tools_System_Minify {
             if (!isset($hashStack[$path]) || $hashStack[$path]['hash'] !== $hash) {
                 $cssContent = Tools_Filesystem_Tools::getFile($path);
                 $cssContent = preg_replace(
-                    '/url\([\'"]?((?!\w+:\/\/|\B|data:)([^)\'"]*))[\'"]?\)/',
+                    '/url\([\'"]?((?!\w+:\/\/|data:)([^)\'"]*))[\'"]?\)/',
                     'url("../'.dirname($path).'/${1}")',
                     $cssContent
                 );
