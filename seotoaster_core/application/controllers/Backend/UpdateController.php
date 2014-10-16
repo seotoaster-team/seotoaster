@@ -7,7 +7,6 @@
  */
 class Backend_UpdateController extends Zend_Controller_Action
 {
-
     const MASTER_CMS_LINK = 'http://seotoaster.com/cms.txt';
     const MASTER_STORE_LINK = 'http://seotoaster.com/store.txt';
     const WHATISNEW_CMS_LINK = 'http://seotoaster.com/cms-changelog.md';
@@ -15,16 +14,16 @@ class Backend_UpdateController extends Zend_Controller_Action
     const BACKUP_NAME = 'backup.zip';
     const PACK_NAME = 'toaster.zip';
 
-    protected $_redirector = null;
-    protected $_session = null;
-    protected $_downloadLink = null;
-    protected $_toasterVersion = null;
-    protected $_storeVersion = null;
-    protected $_remoteVersion = null;
-    protected $_websitePath = null;
-    protected $_tmpPath = null;
-    protected $_newToasterPath = null;
-    protected $_logFile = null;
+    protected $_redirector;
+    protected $_session;
+    protected $_downloadLink;
+    protected $_toasterVersion;
+    protected $_storeVersion;
+    protected $_remoteVersion;
+    protected $_websitePath;
+    protected $_tmpPath;
+    protected $_newToasterPath;
+    protected $_logFile;
     protected $_whatIsNew = array();
 
 
@@ -37,8 +36,11 @@ class Backend_UpdateController extends Zend_Controller_Action
         $this->_redirector = new Zend_Controller_Action_Helper_Redirector();
         $this->_session = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
         $this->view->websiteUrl = $this->_helper->website->getUrl();
-
-        if ($this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_SUPERADMIN && $this->_session->getCurrentUser()->getRoleId() !== Tools_Security_Acl::ROLE_ADMIN) {
+        // Checks, is it enough permissions for update
+        if ($this->_session->getCurrentUser()->getRoleId(
+            ) !== Tools_Security_Acl::ROLE_SUPERADMIN && $this->_session->getCurrentUser()->getRoleId(
+            ) !== Tools_Security_Acl::ROLE_ADMIN
+        ) {
             $this->_redirector->gotoUrlAndExit($this->_helper->website->getUrl());
         }
 
@@ -104,33 +106,14 @@ class Backend_UpdateController extends Zend_Controller_Action
             if (1 === $updateStatus) {
                 $this->_session->nextStep = 2;
                 if ($this->_session->withoutBackup === false) {
-                    return $this->_helper->response->success(
-                        array(
-                            'status' => 1,
-                            'message' => $this->_helper->language->translate('Update started. Creating backup.')
-                        )
-                    );
+                    return $this->_response('success', 1, 'Update started. Creating backup.');
                 } else {
-                    return $this->_helper->response->success(
-                        array(
-                            'status' => 1,
-                            'message' => $this->_helper->language->translate('Update started. Please wait.')
-                        )
-                    );
+                    return $this->_response('success', 1, 'Update started. Please wait.');
                 }
             } elseif (-1 === $updateStatus) {
-                return $this->_helper->response->success(
-                    array(
-                        'status' => 0,
-                        'message' => $this->_helper->language->translate(
-                                'Your version of the system is higher than the remote.'
-                            )
-                    )
-                );
+                return $this->_response('success', 0, 'Your version of the system is higher than the remote.');
             } else {
-                return $this->_helper->response->success(
-                    array('status' => 0, 'message' => $this->_helper->language->translate('Your system up to date.'))
-                );
+                return $this->_response('success', 0, 'Your system up to date.');
             }
         }
 
@@ -151,32 +134,14 @@ class Backend_UpdateController extends Zend_Controller_Action
                 );
                 if (isset($result) && $result === true) {
                     $this->_session->nextStep = 3;
-                    return $this->_helper->response->success(
-                        array(
-                            'status' => 1,
-                            'message' => $this->_helper->language->translate(
-                                    'Backup created. Path to backup: "' . array_shift(
-                                        glob($this->_tmpPath . '*-' . self::BACKUP_NAME)
-                                    ) . ' Downloading started.'
-                                )
-                        )
-                    );
+                    return $this->_response('success', 1, 'Backup created. Path to backup: "' .
+                        array_shift(glob($this->_tmpPath . '*-' . self::BACKUP_NAME)) . ' Downloading started.');
                 } else {
-                    return $this->_helper->response->fail(
-                        array(
-                            'status' => 0,
-                            'message' => $this->_helper->language->translate('Can\'t create toaster backup.')
-                        )
-                    );
+                    return $this->_response('fail', 0, 'Can\'t create toaster backup.');
                 }
             } else {
                 $this->_session->nextStep = 3;
-                return $this->_helper->response->success(
-                    array(
-                        'status' => 1,
-                        'message' => $this->_helper->language->translate('Without backup. Downloading started.')
-                    )
-                );
+                return $this->_response('success', 1, 'Without backup. Downloading started.');
             }
         }
 
@@ -187,17 +152,10 @@ class Backend_UpdateController extends Zend_Controller_Action
             $result = $this->_getZip(self::PACK_NAME, $this->_tmpPath, $this->_newToasterPath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 4;
-                return $this->_helper->response->success(
-                    array(
-                        'status' => 1,
-                        'message' => $this->_helper->language->translate('Toaster zip downloaded. Unzipping.')
-                    )
-                );
+                return $this->_response('success', 1, 'Toaster zip downloaded. Unzipping.');
             } else {
                 unlink($this->_tmpPath . self::PACK_NAME);
-                return $this->_helper->response->fail(
-                    array('status' => 0, 'message' => $this->_helper->language->translate('Can\'t download zip.'))
-                );
+                return $this->_response('fail', 0, 'Can\'t download zip.');
             }
         }
 
@@ -208,16 +166,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             $result = $this->_zipUnzip('decompress', $this->_tmpPath, $this->_newToasterPath, self::PACK_NAME);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 5;
-                return $this->_helper->response->success(
-                    array(
-                        'status' => 1,
-                        'message' => $this->_helper->language->translate('Toaster unzipped. Copying files.')
-                    )
-                );
+                return $this->_response('success', 1, 'Toaster unzipped. Copying files.');
             } else {
-                return $this->_helper->response->fail(
-                    array('status' => 0, 'message' => $this->_helper->language->translate('Can\'t unzip toaster.'))
-                );
+                return $this->_response('fail', 0, 'Can\'t unzip toaster.');
             }
         }
 
@@ -228,17 +179,9 @@ class Backend_UpdateController extends Zend_Controller_Action
             $result = $this->_updateDataBase();
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 6;
-                return $this->_helper->response->success(
-                    array('status' => 1, 'message' => $this->_helper->language->translate('Database altered.'))
-                );
-
+                return $this->_response('success', 1, 'Database altered.');
             } else {
-                return $this->_helper->response->fail(
-                    array(
-                        'status' => 0,
-                        'message' => $this->_helper->language->translate('Unsuccessful attempt to altering database.')
-                    )
-                );
+                return $this->_response('fail', 0, 'Unsuccessful attempt to altering database.');
             }
         }
 
@@ -249,9 +192,7 @@ class Backend_UpdateController extends Zend_Controller_Action
             $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
                 $this->_session->nextStep = 7;
-                return $this->_helper->response->success(
-                    array('status' => 1, 'message' => $this->_helper->language->translate('Toaster files copied.'))
-                );
+                return $this->_response('success', 1, 'Toaster files copied.');
             } else {
                 if ($this->_session->withoutBackup === false) {
                     $this->_zipUnzip(
@@ -260,21 +201,9 @@ class Backend_UpdateController extends Zend_Controller_Action
                         $this->_websitePath,
                         array_shift(glob($this->_tmpPath . '*-' . self::BACKUP_NAME))
                     );
-                    return $this->_helper->response->fail(
-                        array(
-                            'status' => 0,
-                            'message' => $this->_helper->language->translate(
-                                    'Unsuccessful attempt to copy files. The old version of the files is restored.'
-                                )
-                        )
-                    );
+                    return $this->_response('fail', 0, 'Unsuccessful attempt to copy files. The old version of the files is restored.');
                 } else {
-                    return $this->_helper->response->fail(
-                        array(
-                            'status' => 0,
-                            'message' => $this->_helper->language->translate('Unsuccessful attempt to copy files.')
-                        )
-                    );
+                    return $this->_response('fail', 0, 'Unsuccessful attempt to copy files.');
                 }
             }
         }
@@ -285,13 +214,14 @@ class Backend_UpdateController extends Zend_Controller_Action
         if ($this->_session->nextStep === 7) {
             $this->_session->nextStep = 1;
             unlink($this->_tmpPath . self::PACK_NAME);
-            $caches = glob($this->_websitePath . 'cache/zend_cache---*');
+            $caches = glob($this->_websitePath . 'cache/zend_cache-*');
             foreach ($caches as $cache) {
+                if (is_dir($cache)) {
+                    Tools_Filesystem_Tools::deleteDir($cache);
+                }
                 unlink($cache);
             }
-            return $this->_helper->response->success(
-                array('status' => 0, 'message' => $this->_helper->language->translate('Success!'))
-            );
+            return $this->_response('success', 0, 'Success!');
         }
     }
 
@@ -354,7 +284,10 @@ class Backend_UpdateController extends Zend_Controller_Action
             foreach ($filesForBackup as $source) {
                 $source = str_replace('\\', '/', realpath($source));
                 if (is_dir($source) === true) {
-                    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+                    $files = new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($source),
+                        RecursiveIteratorIterator::SELF_FIRST
+                    );
                     foreach ($files as $file) {
                         $file = str_replace('\\', '/', realpath($file));
                         if (is_dir($file) === true) {
@@ -400,7 +333,8 @@ class Backend_UpdateController extends Zend_Controller_Action
         foreach (
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::SELF_FIRST) as $item
+                RecursiveIteratorIterator::SELF_FIRST
+            ) as $item
         ) {
             if ($item->isDir()) {
                 @mkdir($dest . $iterator->getSubPathName());
@@ -483,5 +417,19 @@ class Backend_UpdateController extends Zend_Controller_Action
         } else {
             return trim(Tools_Filesystem_Tools::getFile($fileNameWithPath));
         }
+    }
+
+    /**
+     * @param $type
+     * @param $status
+     * @param $message
+     * @return mixed
+     */
+    protected function _response($type, $status, $message)
+    {
+        return $this->_helper->response->$type(
+            array('status' => $status, 'message' => $this->_helper->language->translate($message))
+        );
+
     }
 }
