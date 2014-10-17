@@ -268,6 +268,16 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->fetchAll($where);
     }
 
+    public function fetchMainCategories()
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', '0');
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('draft = ?', '0');
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('show_in_menu = ?', '1');
+
+        return $this->fetchAll($where);
+    }
+
+
     public function selectCategoriesIdName($useNavName = false)
     {
         $result = array();
