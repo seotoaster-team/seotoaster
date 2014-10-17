@@ -229,8 +229,7 @@ class Backend_UpdateController extends Zend_Controller_Action
      * @param string $zipName
      * @param string $path
      * @param  string $newPath
-     * @return true - All went well.
-     * @return false - Something went wrong.
+     * @return bool
      */
     protected function _getZip($zipName = self::PACK_NAME, $path, $newPath)
     {
@@ -256,8 +255,7 @@ class Backend_UpdateController extends Zend_Controller_Action
      * @param string $source
      * @param string $destination
      * @param string $name
-     * @return true - All went well.
-     * @return false - Something went wrong.
+     * @return bool
      */
     protected function _zipUnzip($action, $source, $destination, $name)
     {
@@ -325,8 +323,7 @@ class Backend_UpdateController extends Zend_Controller_Action
      * Replacing toaster method.
      * @param string $source
      * @param string $dest
-     * @return true - All went well.
-     * @return false - Something went wrong.
+     * @return bool
      */
     protected function _copyToaster($source, $dest)
     {
@@ -349,8 +346,7 @@ class Backend_UpdateController extends Zend_Controller_Action
 
     /**
      * Database altering method
-     * @return true - All went well.
-     * @return false - Something went wrong.
+     * @return bool
      */
     protected function _updateDataBase()
     {
@@ -406,7 +402,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     }
 
     /**
-     * @param $fileNameWithPath
+     * @param string $fileNameWithPath
      * @param bool $needle
      * @return string
      */
@@ -420,9 +416,10 @@ class Backend_UpdateController extends Zend_Controller_Action
     }
 
     /**
-     * @param $type
-     * @param $status
-     * @param $message
+     * Response helper
+     * @param string $type
+     * @param int $status
+     * @param string $message
      * @return mixed
      */
     protected function _response($type, $status, $message)
