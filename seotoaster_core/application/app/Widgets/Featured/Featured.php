@@ -111,7 +111,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             );
         }
 
-        $template               = current(preg_grep('/template=*/', $params));
+        $template = current(preg_grep('/template=*/', $params));
         $this->_view->templatePath = null;
         if($template){
             $websitePath  = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath();
@@ -165,6 +165,15 @@ class Widgets_Featured_Featured extends Widgets_Abstract
                 );
             }
             return '';
+        }
+
+        $template = current(preg_grep('/template=*/', $params));
+        $this->_view->templatePath = null;
+        if($template){
+            $websitePath  = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath();
+            $currentTheme = $this->_configHelper->getConfig('currentTheme');
+            $templateName = preg_replace('/template=/', '', $template);
+            $this->_view->templatePath = $websitePath . 'themes' . DIRECTORY_SEPARATOR . $currentTheme . DIRECTORY_SEPARATOR . $templateName . '.html';
         }
 
         $this->_view->page       = $page;

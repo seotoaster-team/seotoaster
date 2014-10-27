@@ -1,41 +1,51 @@
 <div id="fp-<?php echo $this->page->getId(); ?>" class="featureapage <?php echo $this->listClass; ?>">
-	<?php if($this->useImage): ?>
+    <?php if(isset($this->templatePath)) : ?>
         <?php
-        $infoPreview = Tools_Page_Tools::getPreviewFilePath(
-            $this->page->getId(),
-            (($this->useImage == 'img') ? false : true),
-            $this->cropSizeSubfolder
-        );
-        // Image exists
-        if (!empty($infoPreview['fullPath'])) {
-            $path = $infoPreview['path'];
-        }
-        // Cropped image
-        elseif ($this->useImage == 'imgc' && !empty($infoPreview['fileName'])) {
-            $path       = $infoPreview['previewPath'].$infoPreview['fileName'];
-            $cropStatus = Tools_Image_Tools::resizeByParameters(
-                $infoPreview['sitePath'].$infoPreview['previewPath'].$infoPreview['fileName'],
-                $this->cropParams[1],
-                $this->cropParams[2],
-                true,
-                $infoPreview['sitePath'].$infoPreview['previewCropPath'].$infoPreview['sizeSubfolder'],
-                true
-            );
-            if ($cropStatus === true) {
-                $path = $infoPreview['previewCropPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
-            }
-        }
-        // No image
-        else {
-            $path = 'system/images/noimage.png';
+        $content = Tools_Filesystem_Tools::getFile($this->templatePath);
+        if ($this->page instanceof Application_Model_Models_Page) {
+            $parser = new Tools_Content_Parser($content, $this->page->toArray());
+            echo $parser->parseSimple();
         }
         ?>
-		<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
-			<img src="<?php echo $this->websiteUrl.$path; ?>" alt="<?php echo $this->page->getH1(); ?>" />
-		</a>
-	<?php endif; ?>
-    <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>" class="page-title"><?php echo $this->page->getNavName(); ?></a>
-	<?php if ($this->descLength): ?>
-	<p><?php echo Tools_Text_Tools::cutText($this->page->getTeaserText(), $this->descLength); ?></p>
+    <?php else : ?>
+        <?php if($this->useImage): ?>
+            <?php
+            $infoPreview = Tools_Page_Tools::getPreviewFilePath(
+                $this->page->getId(),
+                (($this->useImage == 'img') ? false : true),
+                $this->cropSizeSubfolder
+            );
+            // Image exists
+            if (!empty($infoPreview['fullPath'])) {
+                $path = $infoPreview['path'];
+            }
+            // Cropped image
+            elseif ($this->useImage == 'imgc' && !empty($infoPreview['fileName'])) {
+                $path       = $infoPreview['previewPath'].$infoPreview['fileName'];
+                $cropStatus = Tools_Image_Tools::resizeByParameters(
+                    $infoPreview['sitePath'].$infoPreview['previewPath'].$infoPreview['fileName'],
+                    $this->cropParams[1],
+                    $this->cropParams[2],
+                    true,
+                    $infoPreview['sitePath'].$infoPreview['previewCropPath'].$infoPreview['sizeSubfolder'],
+                    true
+                );
+                if ($cropStatus === true) {
+                    $path = $infoPreview['previewCropPath'].$infoPreview['sizeSubfolder'].$infoPreview['fileName'];
+                }
+            }
+            // No image
+            else {
+                $path = 'system/images/noimage.png';
+            }
+            ?>
+            <a class="page-teaser-image" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
+                <img src="<?php echo $this->websiteUrl.$path; ?>" alt="<?php echo $this->page->getH1(); ?>" />
+            </a>
+        <?php endif; ?>
+        <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>" class="page-title"><?php echo $this->page->getNavName(); ?></a>
+        <?php if ($this->descLength): ?>
+        <p><?php echo Tools_Text_Tools::cutText($this->page->getTeaserText(), $this->descLength); ?></p>
+        <?php endif; ?>
 	<?php endif; ?>
 </div>
