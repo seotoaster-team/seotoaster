@@ -33,8 +33,9 @@ $(function(){
             open      : function(){
                 this.onload = function(){
                     $(this).contents().find('.close, .save-and-close').on('click', function(){
+                        var urlFrame = $('#toasterPopup').prop('src');
                         var restored = localStorage.getItem(generateStorageKey());
-                        if(restored!==null){
+                        if(restored!==null && $.inArray('uploadthings',urlFrame.split('/')) == -1 ){
                             showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function(){
                                 localStorage.removeItem(generateStorageKey());
                                 closePopup(popup);
