@@ -94,7 +94,7 @@ abstract class Widgets_Abstract implements Zend_Acl_Resource_Interface
                 try {
                     $content = $this->_load();
 
-                    if ($this->_cacheData === null) {
+                    if ($this->_cacheData === null || $this->_cacheData === false) {
                         $this->_cacheData = array(
                             'tags' => array(),
                             'data' => array()
