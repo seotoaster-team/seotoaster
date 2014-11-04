@@ -205,7 +205,7 @@ $(function(){
         });
         $('.img_gallery').each(function() { // the containers for all your galleries
             $(this).magnificPopup({
-                delegate: 'a',
+                delegate: 'a.gall',
                 type: 'image',
                 gallery: {
                     enabled:true
