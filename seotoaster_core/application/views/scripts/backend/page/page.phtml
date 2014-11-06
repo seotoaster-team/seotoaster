@@ -37,7 +37,7 @@
 			<div id="fa-list" class="grid_12 items-list scroll"></div>
 		</div>
 	</div>
-	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content">
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content" data-dialog-box-callback="checkOptions" data-dialog-box="true">
 		<fieldset class="grid_6 mb0px">
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
@@ -92,6 +92,7 @@
                 ); ?>
 			</div>
 		</fieldset>
+        <?php echo $this->pageForm->getElement('removePreviousOption'); ?>
 		<?php echo $this->pageForm->getElement('pageId'); ?>
 		<?php echo $this->pageForm->getElement('draft'); ?>
 		<?php echo $this->pageForm->getElement('optimized'); ?>
@@ -128,7 +129,12 @@
                 showMessage(errorMessage, true, 3000);
             }
         });
-	})
+	});
+
+    function checkOptions(){
+        $('#removePreviousOption').val('yes');
+        $('#frm-page').submit();
+    }
 </script>
 
 <?php $this->headScript()

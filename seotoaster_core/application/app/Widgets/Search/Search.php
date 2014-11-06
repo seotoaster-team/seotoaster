@@ -168,6 +168,9 @@ class Widgets_Search_Search extends Widgets_Abstract
             $cacheId                = strtolower(__FUNCTION__);
             $key                    = md5($searchTerm.implode(',', $this->_options));
             $cachePrefix            = strtolower(__CLASS__);
+            if ($this->_developerModeStatus) {
+                $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
+            }
             if (null === ($searchResults = $this->_cache->load($cacheId, $cachePrefix))
                 || !isset($searchResults['data'][$key])
             ) {

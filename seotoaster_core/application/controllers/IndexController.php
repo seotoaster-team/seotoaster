@@ -114,7 +114,7 @@ class IndexController extends Zend_Controller_Action {
                 'websiteUrl'   => $this->_helper->website->getUrl(),
                 'websitePath'  => $websitePath,
                 'currentTheme' => $currentTheme,
-                'themePath'    => $themeData['path'],
+                'themePath'    => Tools_Filesystem_Tools::cleanWinPath($themeData['path']),
             );
 
             // if developerMode = 1, parsing template directly from files
@@ -207,6 +207,11 @@ class IndexController extends Zend_Controller_Action {
 		if (empty($head)){
 			return;
 		}
+
+        $head[0] = preg_replace_callback("~(<meta[^>]+name=\"(?:description|keywords)\"[^>]" . "+content=\")(.*)(\"[^>]+>)~i",
+            function($matches) {
+                return $matches[1] . htmlspecialchars(str_replace('"', '', $matches[2]), ENT_COMPAT, 'UTF-8') . $matches[3];
+            }  ,$head[0]);
 
 		$dom = new DOMDocument();
 		@$dom->loadHTML($head[0]);

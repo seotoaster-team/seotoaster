@@ -27,8 +27,11 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
     {
         $this->_removePluginOccurrences();
         Tools_Plugins_Tools::removePluginRoute($this->_object->getName());
-        Application_Model_Mappers_EmailTriggersMapper::getInstance()->unregisterTriggers($this->_object->getName());
-        Application_Model_Mappers_EmailTriggersMapper::getInstance()->unregisterRecipients($this->_object->getName());
+        $cacheHelper = new Helpers_Action_Cache();
+        $cacheHelper->init();
+        $cacheHelper->clean();
+        //Application_Model_Mappers_EmailTriggersMapper::getInstance()->unregisterTriggers($this->_object->getName());
+        //Application_Model_Mappers_EmailTriggersMapper::getInstance()->unregisterRecipients($this->_object->getName());
     }
 
     protected function _runOnCreate()
@@ -41,19 +44,64 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
 
     private function _removePluginOccurrences()
     {
-        $pattern = '~{\$plugin:' . $this->_object->getName() . '[^{}]*}~usU';
-        // TODO test this stuff
+        $name = $this->_object->getName();
+        $patterns = array('~{\$plugin:' . $name . '[^{}]*}~usU');
+
         //removing plugin occurrences from content
+        $miscData = Zend_Registry::get('misc');
         $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
-        $containers = $containerMapper->fetchAll();
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $pluginDirectory = $websiteHelper->getPath() . $miscData['pluginsPath'] . strtolower($name);
+        $pluginAppPath = $pluginDirectory . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
+        $widgetPath = $pluginAppPath . 'Widgets';
+        $magicSpacePath = $pluginAppPath . 'MagicSpaces';
+        $adapter = $containerMapper->getDbTable()->getAdapter();
+        $where = $adapter->quoteInto(
+            'content ?',
+            new Zend_Db_Expr("REGEXP '({[[.dollar-sign.]]plugin[[.colon.]]" . $name . "[[.colon.]].*})'")
+        );
+
+        if (is_dir($widgetPath)) {
+            $widgetNames = Tools_Filesystem_Tools::scanDirectory($widgetPath, false, false);
+            if (!empty($widgetNames)) {
+                foreach ($widgetNames as $widgetName) {
+                    $patterns[] = '~{\$' . strtolower($widgetName) . ':[^{}]*}~usU';
+                    $where .= ' OR ' . $adapter->quoteInto(
+                            'content ?',
+                            new Zend_Db_Expr("REGEXP '({[[.dollar-sign.]]" . strtolower(
+                                    $widgetName
+                                ) . "[[.colon.]].*})'")
+                        );
+                }
+            }
+        }
+        if (is_dir($magicSpacePath)) {
+            $magicSpaceNames = Tools_Filesystem_Tools::scanDirectory($magicSpacePath, false, false);
+            if (!empty($magicSpaceNames)) {
+                foreach ($magicSpaceNames as $magicSpaceName) {
+                    $patterns[] = '~{' . strtolower($magicSpaceName) . '.*}.*{\/' . strtolower($magicSpaceName) . '}~usU';
+                    $where .= ' OR ' . $adapter->quoteInto(
+                            'content ?',
+                            new Zend_Db_Expr("REGEXP '({" . strtolower(
+                                    $magicSpaceName
+                                ) . ".*}.*{/" . strtolower(
+                                    $magicSpaceName) . "})'")
+                        );
+                }
+            }
+        }
+
+        $containers = $containerMapper->fetchAll($where);
         if (!empty ($containers)) {
             array_walk(
                 $containers,
                 function ($container, $key, $data) {
-                    $container->setContent(preg_replace($data['pattern'], '', $container->getContent()));
+                    foreach ($data['patterns'] as $pattern) {
+                        $container->setContent(preg_replace($pattern, '', $container->getContent()));
+                    }
                     $data['mapper']->save($container);
                 },
-                array('pattern' => $pattern, 'mapper' => $containerMapper)
+                array('patterns' => $patterns, 'mapper' => $containerMapper)
             );
         }
 
@@ -61,15 +109,17 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
 
         //removing plugin occurrences from the templates
         $templateMapper = Application_Model_Mappers_TemplateMapper::getInstance();
-        $templates = $templateMapper->fetchAll();
+        $templates = $templateMapper->fetchAll($where);
         if (!empty ($templates)) {
             array_walk(
                 $templates,
                 function ($template, $key, $data) {
-                    $template->setContent(preg_replace($data['pattern'], '', $template->getContent()));
+                    foreach ($data['patterns'] as $pattern) {
+                        $template->setContent(preg_replace($pattern, '', $template->getContent()));
+                    }
                     $data['mapper']->save($template);
                 },
-                array('pattern' => $pattern, 'mapper' => $templateMapper)
+                array('patterns' => $patterns, 'mapper' => $templateMapper)
             );
         }
         unset($templates);

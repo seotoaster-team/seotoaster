@@ -401,8 +401,7 @@ class Tools_Image_Tools {
 
             // checking cropped images to remove file
             if ($subfolder == self::FOLDER_CROP) {
-                $subFolders = scandir($pathSubFolder);
-                $subFolders = array_splice($subFolders, 2);
+                $subFolders = Tools_Filesystem_Tools::scanDirectory($pathSubFolder, false, false);
                 foreach ($subFolders as $folder) {
                     if (!is_dir($pathSubFolder.DIRECTORY_SEPARATOR.$folder)) {
                         continue;

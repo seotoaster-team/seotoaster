@@ -30,6 +30,10 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     const IS_NEWS_PAGE         = '1';
 
+    const OPTION_USAGE_ONCE    = 'once';
+
+    const OPTION_USAGE_MANY    = 'many';
+
 	protected $_templateId        = '';
 
 	protected $_parentId          = 0;

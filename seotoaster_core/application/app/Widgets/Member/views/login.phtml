@@ -2,8 +2,10 @@
     <?php if (!empty($this->messages)) : ?>
         <ul id="messages" class="ui-state-error w350">
             <?php foreach ($this->messages as $message) : ?>
-                <?php if(!isset($message[0])): ?>
+                <?php if(is_array($message) && isset($message['email'])): ?>
                     <li><?php echo $message['email']; ?></li>
+                <?php elseif(is_string($message)):?>
+                    <li><?php echo $message; ?></li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>

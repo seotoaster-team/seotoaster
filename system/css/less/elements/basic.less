@@ -13,6 +13,10 @@
     .reset-style;
 }
 
+html, body, .seotoaster{
+    height : 100%;
+}
+
 body{
     font-family : @font-family-text;
     line-height : @line-height;
@@ -29,6 +33,7 @@ body{
     &.go-form{
         margin-top : 15%;
         padding    : 2px;
+        height     : auto;
         width      : 400px;
         .box-shadow(0 5px 15px #777);
 
@@ -53,7 +58,7 @@ body{
         .box-shadow(0 5px 15px #fff);
     }
 
-    &>*{
+    & > *{
         font-size : @font-size-base;
     }
 
@@ -99,7 +104,7 @@ body{
         content : "\a0";
     }
 
-    .header>&{
+    .header > &{
         float       : right;
         margin-left : 0;
         position    : static;
@@ -144,7 +149,8 @@ body{
     .content, .content-footer,
     .content-medium, .content-medium-footer,
     .content-small, .content-small-footer,
-    .with-content>.ui-tabs-panel, .with-content-footer>.ui-tabs-panel{
+    .content-screen, .content-screen-footer,
+    .with-content > .ui-tabs-panel, .with-content-footer > .ui-tabs-panel{
         position       : static;
         background     : @body-bg;
         margin-top     : 0 !important;
@@ -163,14 +169,14 @@ body{
         }
     }
 }
-.content, .content-medium, .content-small, .content-auto{
+.content, .content-medium, .content-small, .content-auto, .content-screen{
     margin-bottom : 0 !important;
     border-bottom : @content-margin-bottom solid #fff;
 }
-.content, .with-content>.ui-tabs-panel{
+.content, .with-content > .ui-tabs-panel{
     height : @tpopup-base-height - @header-height;
 }
-.content-footer, .with-content-footer>.ui-tabs-panel{
+.content-footer, .with-content-footer > .ui-tabs-panel{
     height : @tpopup-base-height - @header-height - @footer-height;
 }
 .content-medium{
@@ -184,6 +190,16 @@ body{
 }
 .content-small-footer{
     height : @tpopup-small-height - @header-height - @footer-height;
+}
+.content-screen, .content-screen-footer{
+    position : absolute !important;
+    top      : @header-height;
+    left     : 0;
+    right    : 0;
+    bottom   : 0;
+}
+.content-screen-footer{
+    bottom : @footer-height;
 }
 .footer, footer{
     clear         : both;
@@ -201,9 +217,16 @@ body{
         margin-top : 0 !important;
     }
 
-    [class*="content"]>&{
+    [class*="content-"] > &, .content > &{
         background    : @body-bg;
         margin-bottom : 0 !important;
+    }
+
+    .content-screen-footer + &{
+        position : absolute;
+        bottom   : 0;
+        left     : 0;
+        right    : 0;
     }
 }
 
@@ -231,7 +254,7 @@ body{
     }
 
     img[src*="noimage.png"]{
-        &+span{
+        & + span{
             background  : @body-bg;
             display     : block;
             position    : absolute;
@@ -254,7 +277,7 @@ body{
         }
     }
 
-    &>[id*="teaser-uploader"]{
+    & > [id*="teaser-uploader"]{
         position : absolute;
         top      : 0;
         left     : 0;
@@ -285,7 +308,7 @@ body{
 
     &:hover{
         img[src*="noimage.png"]{
-            &+span{
+            & + span{
                 color : lighten(@gray, 10%);
 
                 &:before{
@@ -308,7 +331,7 @@ body{
         cursor : pointer;
     }
 
-    &+form{
+    & + form{
         z-index : 999999;
     }
 }

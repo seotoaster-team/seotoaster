@@ -76,7 +76,7 @@ class Backend_PluginController extends Zend_Controller_Action {
             $plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
             $miscData     = Zend_Registry::get('misc');
 
-            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == null) {
                 $statusFile = Application_Model_Models_Plugin::INSTALL_FILE_NAME;
                 $observerAction = Tools_Plugins_GarbageCollector::CLEAN_ONCREATE;
             } else {
@@ -86,16 +86,26 @@ class Backend_PluginController extends Zend_Controller_Action {
 
             if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
                 $pluginDependencyFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] .
-                    $plugin->getName() . '/system/' . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
+                    $plugin->getName() . DIRECTORY_SEPARATOR . 'system'. DIRECTORY_SEPARATOR . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
                 if (file_exists($pluginDependencyFilePath)) {
                     $pluginDependencyContent = Tools_Filesystem_Tools::getFile($pluginDependencyFilePath);
                     if (!empty($pluginDependencyContent)) {
                         $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
-                        $dependentPlugins = explode(PHP_EOL, $pluginDependencyContent);
+                        $dependentPluginsData = explode(';', $pluginDependencyContent);
+                        $dependentPlugins = array();
+                        array_walk(
+                            $dependentPluginsData,
+                            function ($dependentPlugin) use (&$dependentPlugins) {
+                                $replace = array("\r", "\n", '\r', '\n');
+                                $dependentPlugins[] = str_replace($replace, '', $dependentPlugin);
+                            }
+                        );
                         $missingPlugins = array_diff($dependentPlugins, $enabledPlugins);
                         $missingPlugins = array_filter($missingPlugins);
                         if (!empty($missingPlugins)) {
-                            $missingPluginError = $this->_helper->language->translate('Plugins that should be installed first').' ';
+                            $missingPluginError = $this->_helper->language->translate(
+                                'Plugins that should be installed first'
+                            ) . ' ';
                             foreach ($missingPlugins as $plug) {
                                 $missingPluginError .= $plug . ', ';
                             }
@@ -145,7 +155,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                 )
             );
 
-            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == NULL) {
+            if ($plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() == null) {
                 $pluginData       = $pluginMapper->getPluginDataById($pluginId);
                 if(!empty($pluginData)){
                    $plugin->setTags($pluginData['tags']);
@@ -157,7 +167,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                 $this->view->buttonText  = 'Uninstall';
                 $this->view->endisButton = true;
             }
-            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != NULL) {
+            elseif ($plugin->getStatus() == Application_Model_Models_Plugin::ENABLED || $plugin->getStatus() == Application_Model_Models_Plugin::DISABLED && $plugin->getId() != null) {
                 $pluginMapper->delete($plugin);
                 $this->view->buttonText = 'Install';
                 $this->view->endisButton = false;

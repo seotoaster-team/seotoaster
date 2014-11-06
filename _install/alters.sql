@@ -39,22 +39,6 @@ ALTER TABLE `email_triggers_actions` ADD `service` ENUM( 'email', 'sms' ) CHARAC
 
 UPDATE `email_triggers_actions` SET `service` = 'email' WHERE `service` IS NULL;
 
-INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUES
-(null, '1', 'store_neworder', 'Tools_AppsSmsWatchdog'),
-(null, '1', 'store_trackingnumber', 'Tools_AppsSmsWatchdog');
-
-INSERT INTO `email_triggers_actions` (`id`, `service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject`) VALUES (NULL, 'sms', 'store_neworder', NULL, 'customer', 'Hello {customer:fullname},
-this message is from your favorite store {company:name}.
-We received your order on {order:createdat} date for {order:total}.
-Your order status is {order:status} and will ship to {order:shippingaddress}.
-Thanks for your business.', '', '');
-
-INSERT INTO `email_triggers_actions` (`id`, `service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject`) VALUES (NULL, 'sms', 'store_trackingnumber', NULL, 'customer', 'Hello {customer:fullname},
-this message is from your favorite store {company:name}.
-Your order {order:shippingtrackingid} for {order:total} placed on {order:createdat} is now {order:status}.
-The shipping address for this order is {order:shippingaddress}
-Thanks for your business.', '', '');
-
 
 -- 29.08.2014
 -- Extend plugin table
@@ -67,13 +51,14 @@ ALTER TABLE `plugin` ADD `version` varchar(20) COLLATE 'utf8_unicode_ci' NULL, C
 ALTER TABLE `user` ADD `mobile_phone` varchar(20) COLLATE 'utf8_unicode_ci' NULL, COMMENT='';
 
 -- 19.09.2014
--- Extend page header_title field type to TEXT
--- version 2.2.4
+-- Extend page / optimized header_title field type to TEXT
+-- version: 2.2.4
 ALTER TABLE `page` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `optimized` CHANGE `header_title` `header_title` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
 
 -- 19.09.2014
 -- Extend page header_title field type to TEXT
--- version 2.2.5
+-- version: 2.2.5
 INSERT INTO `template_type` (`id`, `title`) VALUES ('type_partial_template', 'Partial template');
 
 -- 12.09.2014
@@ -82,6 +67,21 @@ INSERT INTO `template_type` (`id`, `title`) VALUES ('type_partial_template', 'Pa
  ALTER TABLE `form` ADD COLUMN `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
  ALTER TABLE `form` ADD COLUMN `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0';
 
+ -- 29.09.2014
+-- Add options quantity
+-- version: 2.2.7
+ALTER TABLE `page_option` ADD COLUMN `option_usage` ENUM('once', 'many') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'many';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_landing';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_loginerror';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_signuplanding';
+UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_search';
+
+-- 30.09.2014
+-- Update DB version
+-- version: 2.2.8
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.2.7' WHERE `name`='version';
+
+UPDATE `config` SET `value`='2.3.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
+

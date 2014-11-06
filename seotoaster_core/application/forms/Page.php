@@ -181,6 +181,12 @@ class Application_Form_Page extends Zend_Form {
 			'escape'=> false
 		)));
 
+        $this->addElement(new Zend_Form_Element_Hidden(array(
+            'id'    => 'removePreviousOption',
+            'name'  => 'removePreviousOption',
+            'value' => $this->_removePreviousOption
+        )));
+
 		//$this->setDecorators(array('ViewScript'));
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 		$this->getElement('updatePage')->removeDecorator('Label');
