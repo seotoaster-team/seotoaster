@@ -21,6 +21,7 @@ body{
     font-family : @font-family-text;
     line-height : @line-height;
     color       : @text-color;
+    background  : #fff;
     //    .user-select();
 }
 
@@ -94,34 +95,41 @@ body{
 }
 
 .closebutton{
-    position    : absolute;
-    top         : 0;
-    right       : 2%;
-    z-index     : 100;
+    //    position    : absolute;
+    //    top         : 0;
+    //    right       : 2%;
+    //    z-index     : 100;
+    background  : @header-bg;
+    float       : right;
     line-height : 40px;
+    padding     : 0 15px;
 
     &:before{
-        content : "\a0";
+        //        content : "\a0";
     }
 
     .header > &{
-        float       : right;
-        margin-left : 0;
-        position    : static;
+        padding : 0;
+        //        float       : right;
+        //        margin-left : 0;
+        //        position    : static;
+    }
 
-        .show-left &{
-            float : left;
-        }
+    .show-left &{
+        float : left;
     }
 
     a{
         text-decoration : none;
+        padding         : 3px;
+        .inline-block();
+        .box-sizing(content-box);
     }
 
     .help{
         .link-color(@gray, @brand-info);
         .icon-size(14px) !important;
-        margin-right : 5px;
+        //        margin-right : 5px;
 
         &:hover{ }
     }
