@@ -7,6 +7,8 @@
 		'onselectCallback' => 'datepickerCallback'
 	));
 
+    $externalLink = '<label class="ml2">' . $this->formCheckbox('externalLinkStatus', $this->pageForm->getElement('externalLinkStatus')->getValue(), array('checked' => $this->pageForm->getElement('externalLinkStatus')->getValue())) . '&nbsp;' . $this->translate('Optimized') . '</label>';
+
 	$optimizedCheck = '';
 	if($this->sambaOptimized):
 		$optimizedCheck = '<label class="ml2">' . $this->formCheckbox('sambaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized') . '</label>';
@@ -42,7 +44,10 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
-			<p><?php echo $this->pageForm->getElement('url'); ?></p>
+            <p><label><?php echo $this->pageForm->getElement('externalLinkStatus')->getLabel(); ?>:</label>
+            <?php echo $this->pageForm->getElement('externalLinkStatus')->renderViewHelper(); ?></p>
+            <p class="external-link-row <?php echo ($this->pageForm->getElement('externalLinkStatus')->getValue() === '0') ? 'hidden': '';?>"><?php echo $this->pageForm->getElement('externalLink'); ?></p>
+        	<p><?php echo $this->pageForm->getElement('url'); ?></p>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
@@ -128,6 +133,10 @@
                 });
                 showMessage(errorMessage, true, 3000);
             }
+        });
+
+        $('#external-link-status').on('change', function() {
+            $('.external-link-row').toggleClass('hidden');
         });
 	});
 

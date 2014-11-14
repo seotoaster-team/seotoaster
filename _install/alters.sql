@@ -82,6 +82,12 @@ UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'optio
 
 -- These alters are always the latest and updated version of the database
 
-UPDATE `config` SET `value`='2.3.0' WHERE `name`='version';
+ -- 14.11.2014
+-- Add external links to pages
+-- version: 2.3.0
+ALTER TABLE `page` ADD COLUMN `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
+ALTER TABLE `page` ADD COLUMN `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
+UPDATE `config` SET `value`='2.3.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 

@@ -25,7 +25,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         $where    = $this->getAdapter()->quoteInto("show_in_menu = '?'", $menuType);
         $sysWhere = $this->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
         $select   = $this->getAdapter()->select()
-            ->from('page', array('id', 'parentId' => 'parent_id', 'protected'))
+            ->from('page', array('id', 'parentId' => 'parent_id', 'protected', 'external_link_status', 'external_link'))
             ->joinLeft('optimized', 'page_id = id', null)
             ->columns(array(
                 'url'          => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),
@@ -160,7 +160,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
     private function _getOptimizedSelect($originalsOnly, $pageFields = array()) {
         if(empty($pageFields)) {
-            $pageFields = array('id', 'template_id', 'parent_id', 'last_update', 'is_404page', 'show_in_menu', 'order', 'weight', 'silo_id', 'protected', 'system', 'draft', 'publish_at', 'news', 'err_login_landing', 'mem_landing', 'signup_landing', 'preview_image');
+            $pageFields = array('id', 'template_id', 'parent_id', 'last_update', 'is_404page', 'show_in_menu', 'order', 'weight', 'silo_id', 'protected', 'system', 'draft', 'publish_at', 'news', 'err_login_landing', 'mem_landing', 'signup_landing', 'preview_image', 'external_link_status', 'external_link');
         }
         $select = $this->getAdapter()->select();
         if($originalsOnly) {
