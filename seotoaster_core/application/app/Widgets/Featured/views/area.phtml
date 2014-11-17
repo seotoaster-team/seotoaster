@@ -11,6 +11,17 @@
     <?php endif; ?>
     <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem <?php echo $this->listClass; ?>">
         <?php foreach($this->faPages as $page): ?>
+        <?php if (isset($this->tmplFaContent)) : ?>
+            <li>
+            <?php
+                if ($page instanceof Application_Model_Models_Page) {
+                    $parser = new Tools_Content_Parser($this->tmplFaContent, $page->toArray());
+                    echo $parser->parseSimple();
+                    unset($parser);
+                }
+            ?>
+            </li>
+        <?php else : ?>
             <li>
                 <?php
                 $url          = $page->getUrl();
@@ -66,6 +77,7 @@
                 <span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
                 <?php endif;?>
             </li>
+        <?php endif; ?>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
