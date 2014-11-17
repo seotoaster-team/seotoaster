@@ -50,9 +50,10 @@
                     <?php echo $this->pageForm->getElement('externalLink')->getLabel(); ?>:
                     <?php echo $this->pageForm->getElement('externalLinkStatus')->renderViewHelper(); ?>
                 </label>
-                <?php echo $this->pageForm->getElement('externalLink')
-                    ->setAttrib('disabled', ($this->pageForm->getElement('externalLinkStatus')->getValue() === '0' ? true : false))
-                    ->renderViewHelper(); ?>
+                <?php if($this->pageForm->getElement('externalLinkStatus')->getValue() === '0'):?>
+                    <?php $this->pageForm->getElement('externalLink')->setAttribs(array('readonly'=>'readonly', 'class'=>'noedit'));?>
+                <?php endif;?>
+                <?php echo $this->pageForm->getElement('externalLink')->renderViewHelper();?>
             </p>
             <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
@@ -143,7 +144,7 @@
         });
 
         $('#external-link-status').on('change', function() {
-            $('#external-link').prop('disabled', !$(this).is(':checked'));
+            $('#external-link').prop('readonly', !$(this).is(':checked')).toggleClass('noedit');
         });
 	});
 
