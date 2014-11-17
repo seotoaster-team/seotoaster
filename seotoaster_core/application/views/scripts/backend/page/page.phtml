@@ -44,10 +44,17 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
-            <p><label><?php echo $this->pageForm->getElement('externalLinkStatus')->getLabel(); ?>:</label>
-            <?php echo $this->pageForm->getElement('externalLinkStatus')->renderViewHelper(); ?></p>
-            <p class="external-link-row <?php echo ($this->pageForm->getElement('externalLinkStatus')->getValue() === '0') ? 'hidden': '';?>"><?php echo $this->pageForm->getElement('externalLink'); ?></p>
-        	<p><?php echo $this->pageForm->getElement('url'); ?></p>
+        	<p class="grid_5 alpha"><?php echo $this->pageForm->getElement('url'); ?></p>
+            <p class="grid_7 omega">
+                <label>
+                    <?php echo $this->pageForm->getElement('externalLink')->getLabel(); ?>:
+                    <?php echo $this->pageForm->getElement('externalLinkStatus')->renderViewHelper(); ?>
+                </label>
+                <?php echo $this->pageForm->getElement('externalLink')
+                    ->setAttrib('disabled', ($this->pageForm->getElement('externalLinkStatus')->getValue() === '0' ? true : false))
+                    ->renderViewHelper(); ?>
+            </p>
+            <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
@@ -136,7 +143,7 @@
         });
 
         $('#external-link-status').on('change', function() {
-            $('.external-link-row').toggleClass('hidden');
+            $('#external-link').prop('disabled', !$(this).is(':checked'));
         });
 	});
 
