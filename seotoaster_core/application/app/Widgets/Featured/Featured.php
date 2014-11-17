@@ -81,6 +81,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->cropParams        = $this->cropParams;
         $this->_view->cropSizeSubfolder = $this->cropSizeSubfolder;
 
+        // Set template
         $template = current(preg_grep('/template=*/', $this->_options));
         if ($template) {
             $template = Application_Model_Mappers_TemplateMapper::getInstance()->find(
