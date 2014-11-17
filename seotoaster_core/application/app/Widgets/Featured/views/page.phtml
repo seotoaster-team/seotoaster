@@ -1,10 +1,10 @@
 <div id="fp-<?php echo $this->page->getId(); ?>" class="featureapage <?php echo $this->listClass; ?>">
-    <?php if(isset($this->templatePath)) : ?>
+    <?php if(isset($this->tmplFaContent)) : ?>
         <?php
-        $content = Tools_Filesystem_Tools::getFile($this->templatePath);
         if ($this->page instanceof Application_Model_Models_Page) {
-            $parser = new Tools_Content_Parser($content, $this->page->toArray());
+            $parser = new Tools_Content_Parser($this->tmplFaContent, $this->page->toArray());
             echo $parser->parseSimple();
+            unset($parser);
         }
         ?>
     <?php else : ?>

@@ -81,6 +81,18 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->cropParams        = $this->cropParams;
         $this->_view->cropSizeSubfolder = $this->cropSizeSubfolder;
 
+        $template = current(preg_grep('/template=*/', $this->_options));
+        if ($template) {
+            $template = Application_Model_Mappers_TemplateMapper::getInstance()->find(
+                preg_replace('/template=/', '', $template)
+            );
+
+            if ($template instanceof Application_Model_Models_Template) {
+                $this->_view->tmplFaContent = $template->getContent();
+            }
+        }
+        unset($template);
+
         if (method_exists($this, $rendererName)) {
             return $this->$rendererName($this->_options);
         }
@@ -109,15 +121,6 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             return $this->_translator->translate('Featured area ').$params[0].$this->_translator->translate(
                 ' does not exist'
             );
-        }
-
-        $template = current(preg_grep('/template=*/', $params));
-        $this->_view->templatePath = null;
-        if($template){
-            $websitePath  = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath();
-            $currentTheme = $this->_configHelper->getConfig('currentTheme');
-            $templateName = preg_replace('/template=/', '', $template);
-            $this->_view->templatePath = $websitePath . 'themes' . DIRECTORY_SEPARATOR . $currentTheme . DIRECTORY_SEPARATOR . $templateName . '.html';
         }
 
         // Set limit and on/off random
@@ -167,15 +170,6 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             return '';
         }
 
-        $template = current(preg_grep('/template=*/', $params));
-        $this->_view->templatePath = null;
-        if($template){
-            $websitePath  = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath();
-            $currentTheme = $this->_configHelper->getConfig('currentTheme');
-            $templateName = preg_replace('/template=/', '', $template);
-            $this->_view->templatePath = $websitePath . 'themes' . DIRECTORY_SEPARATOR . $currentTheme . DIRECTORY_SEPARATOR . $templateName . '.html';
-        }
-
         $this->_view->page       = $page;
         $class                   = current(preg_grep('/class=*/', $params));
         $this->_view->listClass  = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
@@ -185,7 +179,6 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
         return $this->_view->render('page.phtml');
     }
-
 
     public static function getWidgetMakerContent()
     {
