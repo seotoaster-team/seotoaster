@@ -1,5 +1,12 @@
 <div id="fp-<?php echo $this->page->getId(); ?>" class="featureapage <?php echo $this->listClass; ?>">
-	<?php if($this->useImage): ?>
+    <?php if($this->page->getExternalLinkStatus() === '1'):?>
+        <?php $pageUrl = $this->page->getExternalLink();?>
+        <?php $targetBlank = 'target="_blank"';?>
+    <?php else:?>
+        <?php $targetBlank = '';?>
+        <?php $pageUrl = $this->websiteUrl . $this->page->getUrl();?>
+    <?php endif;?>
+    <?php if($this->useImage): ?>
         <?php
         $infoPreview = Tools_Page_Tools::getPreviewFilePath(
             $this->page->getId(),
@@ -30,11 +37,11 @@
             $path = 'system/images/noimage.png';
         }
         ?>
-		<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>">
+		<a class="page-teaser-image" href="<?php echo  $pageUrl; ?>" <?php echo $targetBlank;?>>
 			<img src="<?php echo $this->websiteUrl.$path; ?>" alt="<?php echo $this->page->getH1(); ?>" />
 		</a>
 	<?php endif; ?>
-    <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $this->websiteUrl . $this->page->getUrl(); ?>" class="page-title"><?php echo $this->page->getNavName(); ?></a>
+    <a title="<?php echo $this->page->getH1(); ?>" href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?> class="page-title"><?php echo $this->page->getNavName(); ?></a>
 	<?php if ($this->descLength): ?>
 	<p><?php echo Tools_Text_Tools::cutText($this->page->getTeaserText(), $this->descLength); ?></p>
 	<?php endif; ?>

@@ -10,7 +10,7 @@
                 <?php $targetBlank = '';?>
                 <?php $pageCategoryUrl = $this->websiteUrl . str_replace('index.html', '', $page['url']);?>
             <?php endif;?>
-            <a title="<?php echo $page['h1']; ?>" href="<?php echo $pageCategoryUrl ?>"><?php echo $page['navName'] ; ?></a>
+            <a title="<?php echo $page['h1']; ?>" href="<?php echo $pageCategoryUrl ?>" <?php echo $targetBlank;?>><?php echo $page['navName'] ; ?></a>
             <?php if(isset($page['subPages']) && !empty($page['subPages']) ): ?>
                 <ul class="<?php echo str_replace('.html', '', $page['url']); ?>">
                     <?php foreach($page['subPages'] as $subPage): ?>

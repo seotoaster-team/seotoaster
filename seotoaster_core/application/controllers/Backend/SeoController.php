@@ -401,7 +401,9 @@ class Backend_SeoController extends Zend_Controller_Action {
                 if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
                     $this->view->newsPageUrlPath = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
                 }
-                $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll();
+                $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('external_link_status <> ?', '1');
+                $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where);
                 if(is_array($pages) && !empty($pages)) {
 
                     $quoteInstalled = Tools_Plugins_Tools::findPluginByName('quote')->getStatus() == Application_Model_Models_Plugin::ENABLED;

@@ -28,6 +28,14 @@
                 }
                 ?>
 
+                <?php if($page->getExternalLinkStatus() === '1'):?>
+                    <?php $pageUrl = $this->escape($page->getExternalLink());?>
+                    <?php $targetBlank = 'target="_blank"';?>
+                <?php else:?>
+                    <?php $pageUrl = $this->escape($this->websiteUrl.$url);?>
+                    <?php $targetBlank = '';?>
+                <?php endif;?>
+
                 <?php if ($this->useImage): ?>
                     <?php
                     $infoPreview = Tools_Page_Tools::getPreviewFilePath(
@@ -59,9 +67,9 @@
                         $path = 'system/images/noimage.png';
                     }
                     ?>
-                    <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl.$url); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->websiteUrl.$this->escape($path); ?>" /></a>
+                    <a class="page-teaser-image" href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?>><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->websiteUrl.$this->escape($path); ?>" /></a>
                 <?php endif; ?>
-                <a href="<?php echo $this->escape($this->websiteUrl.$url); ?>" title="<?php echo strip_tags($page->getH1()); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
+                <a href="<?php echo $pageUrl; ?>" title="<?php echo strip_tags($page->getH1()); ?>" <?php echo $targetBlank;?> class="page-title"><?php echo $page->getNavName(); ?></a>
 	            <?php if ($this->faPageDescriptionLength): ?>
                 <span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
                 <?php endif;?>

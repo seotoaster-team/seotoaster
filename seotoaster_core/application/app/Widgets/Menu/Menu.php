@@ -100,8 +100,8 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
     private function _renderFlatMenu() {
         $flatMenuPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
-        if ($flatMenuPages && is_array($flatMenuPages) && !empty($flatMenuPages)) {
-            $this->_view->staticPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
+        if (is_array($flatMenuPages) && !empty($flatMenuPages)) {
+            $this->_view->staticPages = $flatMenuPages;
             return $this->_view->render('staticmenu.phtml');
         }
         return '';
