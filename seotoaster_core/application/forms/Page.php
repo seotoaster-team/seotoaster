@@ -176,19 +176,17 @@ class Application_Form_Page extends Zend_Form {
 		)));
 
         $this->addElement(
-            new Zend_Form_Element_Checkbox(array(
+            new Zend_Form_Element_Hidden(array(
                 'id' => 'external-link-status',
                 'name' => 'externalLinkStatus',
-                'label' => 'External link',
                 'value' => $this->_externalLinkStatus
             ))
         );
 
         $this->addElement(
-            new Zend_Form_Element_Text(array(
+            new Zend_Form_Element_Hidden(array(
                 'id' => 'external-link',
                 'name' => 'externalLink',
-                'label' => 'External link URL in address bar',
                 'value' => $this->_externalLink,
                 'filters' => array(
                     new Zend_Filter_StringTrim()
