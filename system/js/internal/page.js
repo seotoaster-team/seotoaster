@@ -29,9 +29,13 @@ function toggleExternalLink(){
             if (externalLinkStatus) {
                 $('.template-section').css({'visibility':'hidden'});
                 $('#url').val($('#external-link').val());
+                if($.trim($('#url').val()) === ''){
+                    $('#url').prop('placeholder','Your link to an external website');
+                }
             } else {
                 $('#url').val($('#original-page-url').val());
                 $('.template-section').css({'visibility':'visible'});
+                $('#url').prop('placeholder','');
             }
         }
     }

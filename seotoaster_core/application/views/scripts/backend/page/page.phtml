@@ -9,7 +9,7 @@
 
     $externalLink = '';
     if ($this->pageForm->getElement('url')->getValue() !== 'index') {
-        $externalLink = '<label class="ml2">' . $this->formCheckbox('external-link-switch', $this->pageForm->getElement('externalLinkStatus')->getValue(), array('checked' => $this->pageForm->getElement('externalLinkStatus')->getValue())) . '&nbsp;' . $this->translate('Use external link') . '</label>';
+        $externalLink = '<label class="ml2">' . $this->formCheckbox('external-link-switch', $this->pageForm->getElement('externalLinkStatus')->getValue(), array('checked' => $this->pageForm->getElement('externalLinkStatus')->getValue())) . '&nbsp;' . $this->translate('Create a simple link') . '</label>';
     }
 	$optimizedCheck = '';
 	if($this->sambaOptimized):
