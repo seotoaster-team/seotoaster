@@ -410,6 +410,3 @@ CREATE TABLE `user_attributes` (
   PRIMARY KEY (`user_id`,`attribute`(20)),
   CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
