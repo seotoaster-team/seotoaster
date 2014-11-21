@@ -85,3 +85,8 @@ UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'optio
 UPDATE `config` SET `value`='2.3.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
+-- 21.11.2014
+-- Rename titles for templates
+UPDATE `template_type` SET `title` = 'Regular' WHERE `id` = 'typeregular';
+UPDATE `template_type` SET `title` = 'E-mail' WHERE `id` = 'typemail';
+
