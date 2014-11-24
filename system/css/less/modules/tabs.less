@@ -53,7 +53,7 @@
         text-align  : center;
         margin      : 0;
 
-        &>*{
+        & > *{
             .inline-block();
         }
 
@@ -146,6 +146,7 @@
     line-height : @header-height;
     white-space : nowrap;
     overflow    : hidden;
+    margin      : 0;
 
     .ui-tabs-nav{
         margin  : 0 3% !important;
@@ -162,6 +163,7 @@
         cursor     : pointer;
         background : @tabs-nav-bg;
         .box-shadow(0 0 7px darken(@tabs-nav-li-bg-hover, 20%));
+        .user-select();
 
         &.right{
             left  : auto;

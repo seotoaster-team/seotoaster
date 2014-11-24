@@ -36,10 +36,14 @@ class Application_Model_Mappers_PageOptionMapper extends Application_Model_Mappe
         return $model;
     }
 
-    public function fetchOptions($activeOnly = false) {
+    public function fetchOptions($activeOnly = false, $pairs = false) {
         $where = '';
         if($activeOnly) {
             $where = $this->getDbTable()->getAdapter()->quoteInto('active=?', true);
+        }
+        if($pairs){
+            $select = $this->getDbTable()->select();
+            return $this->getDbTable()->getAdapter()->fetchAssoc($select);
         }
         return $this->fetchAll($where);
     }

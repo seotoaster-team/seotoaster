@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^.*$ - [L,R=404]

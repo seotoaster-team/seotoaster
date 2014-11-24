@@ -117,6 +117,8 @@ class Tools_Content_Parser
             catch (Exceptions_SeotoasterException $se) {
                 if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
                     $replacement = $se->getMessage() . ' Can not load widget: <b>' . $widgetData['name'] . '</b>';
+                } else {
+                    $replacement = '';
                 }
             }
             $this->_replace($replacement, $widgetData['name'], $widgetData['options']);
