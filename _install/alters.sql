@@ -76,12 +76,16 @@ UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'optio
 UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_signuplanding';
 UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_search';
 
--- 30.09.2014
--- Update DB version
--- version: 2.2.8
+
+-- 21.11.2014
+-- Rename titles for templates
+-- version: 2.3.0
+UPDATE `template_type` SET `title` = 'Regular' WHERE `id` = 'typeregular';
+UPDATE `template_type` SET `title` = 'E-mail' WHERE `id` = 'typemail';
+
 
 -- These alters are always the latest and updated version of the database
 
-UPDATE `config` SET `value`='2.3.0' WHERE `name`='version';
+UPDATE `config` SET `value`='2.3.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
