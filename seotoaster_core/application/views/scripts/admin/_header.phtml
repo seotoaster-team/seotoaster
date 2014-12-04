@@ -3,7 +3,9 @@
 <?php endif;?>
 
 <div class="closebutton">
-	<?php echo $this->toasterHelp(isset($this->helpSection) ? $this->helpSection : ''); ?>
+	<?php if(isset($this->helpSection)){
+        echo $this->toasterHelp($this->helpSection, $this->hashMap);
+    } ?>
     <a class="close ticon-close" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
 </div>
 

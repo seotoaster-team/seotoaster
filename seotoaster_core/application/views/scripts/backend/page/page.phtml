@@ -137,5 +137,6 @@
     }
 </script>
 
-<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/page.min.js'); ?>
-<?php $this->headScript()->setAllowArbitraryAttributes(true)->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.min.js'); ?>
+<?php $this->headScript()
+           ->appendFile($this->websiteUrl . 'system/js/internal/page.min.js')
+           ->appendFile($this->websiteUrl . 'system/js/internal/featuredarea.min.js'); ?>

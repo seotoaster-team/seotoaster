@@ -33,7 +33,7 @@
         <?php endif; ?>
     </div>
 <?php else : ?>
-    <div id="<?php echo $this->uniq; ?>" class="rotator">
+    <div id="<?php echo $this->uniq; ?>" class="rotator" >
         <?php if (!empty($this->files)): ?>
             <?php foreach ($this->files as $key => $image): ?>
                 <div class="slide">
@@ -49,28 +49,28 @@
 <?php endif; ?>
 
 <?php if ($this->slideShow): ?>
-    <?php $this->jQuery()->addJavascriptFile(
+    <?php $this->inlineScript()->appendFile(
         $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.min.js'
     ); ?>
 
     <?php $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
         if($device->isTablet() || $device->isMobile()) : ?>
-            <?php $this->jQuery()->addJavascriptFile(
+            <?php $this->inlineScript()->appendFile(
                 $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.swipe.min.js'
             ); ?>
     <?php endif; ?>
 
     <?php
         if ($this->effect == 'shuffle') {
-            $this->jQuery()->addJavascriptFile(
+            $this->inlineScript()->appendFile(
                 $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.shuffle.min.js'
             );
         } else if ($this->effect == 'tileSlide' || $this->effect == 'tileBlind') {
-            $this->jQuery()->addJavascriptFile(
+            $this->inlineScript()->appendFile(
                 $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.tile.min.js'
             );
         } else if ($this->effect == 'scrollVert') {
-            $this->jQuery()->addJavascriptFile(
+            $this->inlineScript()->appendFile(
                 $this->websiteUrl . 'system/js/external/jquery/plugins/cycle/jquery.cycle2.scrollVert.min.js'
             );
         }
