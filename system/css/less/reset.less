@@ -6,7 +6,6 @@
 //	Grid system
 //  Reset for all navigation items, related-products
 //==================================================
-
 @import "base/normalize";
 
 // Reset & Basics
@@ -26,9 +25,9 @@
 }
 
 body{
-    -webkit-font-smoothing      : subpixel-antialiased !important;
-    -ms-touch-action            : manipulation;
-    touch-action                : manipulation;
+    -webkit-font-smoothing : subpixel-antialiased !important;
+    -ms-touch-action       : manipulation;
+    touch-action           : manipulation;
 }
 blockquote, q{
     quotes : none;
@@ -204,4 +203,16 @@ button, [type="button"], [type="reset"], [type="submit"]{
     padding     : auto !important;
     border      : none !important;
     max-width   : none !important;
+}
+
+.clear{
+    display    : block;
+    clear      : both;
+    overflow   : hidden;
+    visibility : hidden;
+    height     : 0;
+}
+
+.clearfix{
+    .clearfix() !important;
 }
