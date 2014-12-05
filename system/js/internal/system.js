@@ -215,7 +215,14 @@ $(function(){
     }
     //publishPages();
     checkboxRadioStyle();
-    $(document).on('click', '.closebutton .hide-block', function(){
+    $(document).on('mouseup', function (e) {
+        var container = $(".show-left, .show-right");
+        if (container.has(e.target).length === 0){
+            $('.show-left').hide("slide", { direction: "left"});
+            $('.show-right').hide("slide", { direction: "right"});
+            return false;
+        }
+    }).on('click', '.closebutton .hide-block', function(){
         $('.show-left').hide("slide", { direction: "left"});
         $('.show-right').hide("slide", { direction: "right"});
         return false;
