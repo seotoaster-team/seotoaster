@@ -334,4 +334,37 @@ class Tools_System_Tools {
 
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
+
+    public static function getCountryPhoneCodesList($withCountryCode = true) {
+        $cache       = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
+        $cachePrefix = strtolower(__CLASS__).'_';
+        $cacheId     = strtolower(__FUNCTION__) . '_' . (int)$withCountryCode;
+        if (null === ($phoneCodes = $cache->load($cacheId, $cachePrefix))) {
+            $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+            array_shift($phoneCodes);
+            array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
+                    $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
+                });
+            $cache->save($cacheId, $phoneCodes, $cachePrefix, array(), Helpers_Action_Cache::CACHE_SHORT);
+        }
+        return $phoneCodes;
+
+    }
+
+    public static function getWebsiteCountryCode() {
+        $countryCode = 'US';
+        $plugins = Application_Model_Mappers_PluginMapper::getInstance()->findByName('shopping');
+        if(!empty($plugins) && $plugins->getStatus() === 'enabled') {
+            $storeCountry = Models_Mapper_ShoppingConfig::getInstance()->getConfigParam('country');
+            if(!empty($storeCountry)) {
+                return $storeCountry;
+            }
+        }
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $widcardCountry = $configHelper->getConfig('wicOrganizationCountry');
+        if(!empty($widcardCountry)) {
+            return $widcardCountry;
+        }
+        return $countryCode;
+    }
 }
