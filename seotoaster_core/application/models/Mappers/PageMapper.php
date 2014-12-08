@@ -461,4 +461,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             return false;
         }
     }
+
+    public function publishChildPages($parentId)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto("parent_id =?", $parentId);
+        return $this->getDbTable()->update(array('draft'=>0), $where);
+    }
 }

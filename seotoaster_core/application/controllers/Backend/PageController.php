@@ -195,6 +195,11 @@ class Backend_PageController extends Zend_Controller_Action {
                     }
                 }
 
+                //if unset draft category publish all pages
+                if($mapper->isDraftCategory($params['pageId']) && $params['draft'] == 0){
+                    $mapper->publishChildPages($params['pageId']);
+                }
+
                 $page = $mapper->save($page);
 
                 if($checkFaPull) {
