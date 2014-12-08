@@ -489,5 +489,16 @@ class Backend_PageController extends Zend_Controller_Action {
         unset($page);
         return $pageData;
     }
+
+    /**
+     * Checks if the category is draft
+     */
+    public function isDraftCategoryAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $categoryID = $this->getRequest()->getPost('id', null);
+            $this->_helper->response->success(Application_Model_Mappers_PageMapper::getInstance()->isDraftCategory($categoryID));
+        }
+    }
 }
 
