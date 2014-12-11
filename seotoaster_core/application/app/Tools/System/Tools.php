@@ -335,13 +335,16 @@ class Tools_System_Tools {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    public static function getCountryPhoneCodesList($withCountryCode = true) {
+    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array()) {
         $cache       = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
         $cachePrefix = strtolower(__CLASS__).'_';
-        $cacheId     = strtolower(__FUNCTION__) . '_' . (int)$withCountryCode;
+        $cacheId     = strtolower(__FUNCTION__) . '_' . (int)$withCountryCode . '_' . json_encode($intersect);
         if (null === ($phoneCodes = $cache->load($cacheId, $cachePrefix))) {
             $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
             array_shift($phoneCodes);
+            if(!empty($intersect)) {
+                $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+            }
             array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
                     $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
                 });
