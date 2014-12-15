@@ -18,7 +18,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected function _init()
     {
-        $this->_qty     = 0;
+        $this->_qty     = 3;
         $this->_replace = '';
         $this->_order   = array();
     }
@@ -50,11 +50,13 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             if ($data instanceof Application_Model_Models_Container) {
                 $content = explode(':', $data->getContent());
                 if (isset($content[0]) && !empty($content[0])) {
-                    $qty   = (int)$content[0];
+                    $qty = (int)$content[0];
                 }
-                if (isset($content[1]) && !empty($content[1])) {
+                if (isset($content[1]) && ! empty($content[1])) {
                     $order = $content[1];
                 }
+            } else {
+                $qty = $this->_qty;
             }
         }
         elseif (isset($this->_params[2]) && $this->_params[2] != 'static') {
