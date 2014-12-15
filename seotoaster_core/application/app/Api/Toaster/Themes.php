@@ -81,7 +81,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		$this->_cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$this->_themesConfig = Zend_Registry::get('theme');
 		$this->_translator = Zend_Registry::get('Zend_Translate');
-		$this->_dbAdapter = Zend_Registry::get('dbAdapter');;
+		$this->_dbAdapter = Zend_Registry::get('dbAdapter');
 	}
 
 	/**
@@ -169,6 +169,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 *
 	 */
 	public function putAction() {
+        $themesPath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'];
+        $themeName = $this->_configHelper->getConfig('currentTheme');
+        $this->_themePath = $themesPath . $themeName;
+
 		$themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
 		$data = Zend_Json::decode($this->_request->getRawBody());
 		if (is_dir($this->_themePath)) {
@@ -295,6 +299,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			if (!empty($themeData)) {
                 foreach ($themeData as $table => $data) {
                     $dbAdapter->delete($table);
+                    if(empty($data)){
+                        continue;
+                    }
 					foreach ($data as $row) {
 						try {
 							$dbAdapter->insert($table, $row);
@@ -591,6 +598,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
     // building list of dump queries and executing it with page IDS substitution
     protected function _writeDataToJson($pages, $queryList, $dataFileName = self::THEME_DATA_FILE) {
+
+        if(empty($pages)){
+            return false;
+        }
 
         // getting list of pages ids for export
         $pagesIDs = array_map(function ($page) {
