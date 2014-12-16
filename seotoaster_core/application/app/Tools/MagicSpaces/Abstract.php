@@ -35,12 +35,20 @@ abstract class Tools_MagicSpaces_Abstract {
      */
     protected $_params       = array();
 
+    /*
+     * Contains information for render magicSpace
+     *
+     * @var string
+     */
+    protected $_replaceKey   = '';
+
 	public function __construct($name = '', $content = '', $toasterData = array(), $params = array(), $magicLabel = false) {
 		$this->_name         = $name;
 		$this->_content      = $content;
 		$this->_toasterData  = $toasterData;
         $this->_params       = $params;
         $this->_magicLabel   = $magicLabel;
+        $this->_replaceKey   = (is_array($params) && !empty($params)) ? (':'.implode(':', $params)) : '';
 		$this->_spaceContent = $this->_parse();
 		$this->_init();
 	}
@@ -69,9 +77,9 @@ abstract class Tools_MagicSpaces_Abstract {
         }else{
 		    $space = strtolower($this->_name);
         }
-        //put parameter back into a string for valid parsing
-        $params = (is_array($this->_params) && !empty($this->_params)) ? (':' . implode(':', $this->_params)) : '';
-	    preg_match('~{' . $space . $params . '}(.*){/' . $space . '}~suiU', $this->_content, $found);
+        // Put parameter back into a string for valid parsing
+	    preg_match('~{'.$space.$this->_replaceKey.'}(.*){/'.$space.'}~suiU', $this->_content, $found);
+
 		return (is_array($found) && !empty($found) && isset($found[1])) ? $found[1] : '';
 	}
 
@@ -81,9 +89,13 @@ abstract class Tools_MagicSpaces_Abstract {
         }else{
             $space = strtolower($this->_name);
         }
-        //put parameter back for replacement
-        $params = (is_array($this->_params) && !empty($this->_params)) ? (':' . implode(':', $this->_params)) : '';
-        return preg_replace('~{' . $space . $params . '}.*?{/' . $space . '}~sui', $this->_escapeChars($spaceContent), $this->_content, 1);
+        // Put parameter back for replacement
+        return preg_replace(
+            '~{'.$space.$this->_replaceKey.'}.*?{/'.$space.'}~sui',
+            $this->_escapeChars($spaceContent),
+            $this->_content,
+            1
+        );
 
 	}
 
