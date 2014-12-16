@@ -23,7 +23,7 @@ class Tools_Search_Tools
             return self::$_index;
         }
         Zend_Search_Lucene_Analysis_Analyzer::setDefault(
-            new Zend_Search_Lucene_Analysis_Analyzer_Common_TextNum_CaseInsensitive()
+            new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8_CaseInsensitive ()
         );
         $searchIndexPath = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getPath(
             ) . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
