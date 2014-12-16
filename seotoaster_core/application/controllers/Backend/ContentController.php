@@ -370,20 +370,23 @@ class Backend_ContentController extends Zend_Controller_Action {
             }
         }
 
-        // Save
+
         if ($this->getRequest()->isPost()) {
-            $configRepeat->setQuantity($this->getRequest()->getParam('quantity'));
-            $configRepeat->setOrderContent($this->getRequest()->getParam('orderContent'));
-
-            if (!empty($configRepeat->getQuantity()) || !empty($configRepeat->getOrderContent())) {
-                $model->setName($name)
-                    ->setContainerType($type)
-                    ->setPageId($pageId)
-                    ->setContent($configRepeat->getQuantity().':'.$configRepeat->getOrderContent());
-
-                $mapper->save($model);
-            } else {
+            $quantity     = (int)$this->getRequest()->getParam('quantity');
+            $orderContent = $this->getRequest()->getParam('orderContent');
+            $model->setName($name)->setContainerType($type)->setPageId($pageId);
+            // Delete
+            if (empty($quantity) && empty($orderContent)) {
+                $configRepeat->setQuantity(null);
+                $configRepeat->setOrderContent(null);
                 $mapper->delete($model);
+            }
+            // Save
+            else {
+                $configRepeat->setQuantity($quantity);
+                $configRepeat->setOrderContent($orderContent);
+                $model->setContent($configRepeat->getQuantity().':'.$configRepeat->getOrderContent());
+                $mapper->save($model);
             }
         }
 
