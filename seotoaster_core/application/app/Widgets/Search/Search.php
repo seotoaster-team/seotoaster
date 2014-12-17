@@ -177,12 +177,15 @@ class Widgets_Search_Search extends Widgets_Abstract
             ) {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
+                $searchTermArray = explode(' ', $searchTerm);
+                $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
                 try {
                     if (in_array(self::OPTION_SORT_RECENT, $this->_options)
                         && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
-                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse('"'.$searchTerm.'"','utf-8'), 'modified', SORT_DESC);
+
+                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'), 'modified', SORT_DESC);
                     } else {
-                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse('"'.$searchTerm.'"','utf-8'));
+                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
                     }
                 } catch (Exception $e) {
                     throw new Exceptions_SeotoasterWidgetException($e->getMessage());
