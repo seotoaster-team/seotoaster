@@ -370,4 +370,9 @@ class Tools_System_Tools {
         }
         return $countryCode;
     }
+
+    public static function makeSpace($content)
+    {
+        return preg_replace("/[^A-Za-z0-9 ]/", '&nbsp;', $content);
+    }
 }
