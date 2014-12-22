@@ -80,4 +80,5 @@
         <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
 	</div>
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/organize.min.js'); ?>
+<?php $this->headScript()
+           ->appendFile($this->websiteUrl . 'system/js/internal/organize.min.js'); ?>

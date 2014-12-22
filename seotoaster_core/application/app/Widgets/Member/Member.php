@@ -114,6 +114,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
 			array('HtmlTag', array('tag' => 'p'))
 		));
 		$loginForm->getElement('submit')->removeDecorator('Label');
+		$loginForm->getElement('submit')->removeDecorator('HtmlTag');
 
 		return $loginForm;
 	}

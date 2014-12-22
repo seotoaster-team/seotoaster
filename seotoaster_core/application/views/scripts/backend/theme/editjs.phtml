@@ -22,9 +22,10 @@
     </form>
 </div>
 
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-javascript.js'); ?>
+<?php $this->headScript()
+           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' )
+           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
+           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-javascript.js'); ?>
 
 <script type="text/javascript">
 $(function() {

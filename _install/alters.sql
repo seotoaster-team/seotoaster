@@ -76,18 +76,22 @@ UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'optio
 UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_member_signuplanding';
 UPDATE `page_option` SET `option_usage`='once' WHERE `page_option`.`id` = 'option_search';
 
--- 30.09.2014
--- Update DB version
--- version: 2.2.8
+
+-- 21.11.2014
+-- Rename titles for templates
+-- version: 2.3.0
+UPDATE `template_type` SET `title` = 'Regular' WHERE `id` = 'typeregular';
+UPDATE `template_type` SET `title` = 'E-mail' WHERE `id` = 'typemail';
+
 
 -- These alters are always the latest and updated version of the database
 
  -- 14.11.2014
 -- Add external links to pages
--- version: 2.3.0
+-- version: 2.3.1
 ALTER TABLE `page` ADD COLUMN `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
 ALTER TABLE `page` ADD COLUMN `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
-UPDATE `config` SET `value`='2.3.1' WHERE `name`='version';
+UPDATE `config` SET `value`='2.3.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 

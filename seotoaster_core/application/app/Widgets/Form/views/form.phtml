@@ -73,7 +73,7 @@
             if ($(form).find('input[type="file"]').length > 0) {
                 return true;
             } else if (!valid) {
-                showMessage('Fill in the required fields', true);
+                showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true);
                 return false;
             }
             else {

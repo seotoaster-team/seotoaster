@@ -6,6 +6,7 @@ $(function(){
         selector                : "textarea.tinymce",
         skin                    : 'seotoaster',
         width                   : '100%',
+        height                  : '380px',
         menubar                 : false,
         resize                  : false,
         convert_urls            : false,

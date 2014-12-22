@@ -156,9 +156,13 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 } else {
                     //Removing page options that have one time options
-                    Application_Model_Mappers_PageOptionMapper::getInstance()->deletePageHasOption(
-                        $pageData['extraOptions']
-                    );
+                    $optionsMapper = Application_Model_Mappers_PageOptionMapper::getInstance();
+                    $pageOptions = $optionsMapper->fetchOptions(false, true);
+                    if (array_key_exists($pageData['extraOptions'], $pageOptions)) {
+                        $optionsMapper->deletePageHasOption(
+                            $pageData['extraOptions']
+                        );
+                    }
                 }
 
                 $page->setOptions($pageData);

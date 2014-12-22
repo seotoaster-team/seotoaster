@@ -379,10 +379,10 @@ CREATE TABLE `template_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `template_type` (`id`, `title`) VALUES
-('typemail',	'E-mail sending'),
+('typemail',	'E-mail'),
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
-('typeregular',	'Regular page'),
+('typeregular',	'Regular'),
 ('type_partial_template',	'Partial template');
 
 DROP TABLE IF EXISTS `user`;
@@ -412,4 +412,3 @@ CREATE TABLE `user_attributes` (
   PRIMARY KEY (`user_id`,`attribute`(20)),
   CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-

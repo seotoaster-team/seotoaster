@@ -42,7 +42,8 @@
     </div>
 </div>
 <?php
-    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/tinymce/tinymce.min.js');
-    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/tinymceInit.js');
-    $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/content.min.js');
+    $this->headScript()
+        ->appendFile($this->websiteUrl . 'system/js/external/tinymce/tinymce.min.js')
+        ->appendFile($this->websiteUrl . 'system/js/internal/tinymceInit.js')
+        ->appendFile($this->websiteUrl . 'system/js/internal/content.min.js');
 ?>

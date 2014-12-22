@@ -15,11 +15,14 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_TYPE_AREA = 'area';
 
+    private $_configHelper = null;
+
     protected function _init()
     {
         parent::_init();
         $this->_view             = new Zend_View(array('scriptPath' => dirname(__FILE__).'/views'));
         $this->_view->websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+        $this->_configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $this->useImage          = false;
         $this->cropParams        = array();
         $this->cropSizeSubfolder = '';
@@ -78,6 +81,19 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->cropParams        = $this->cropParams;
         $this->_view->cropSizeSubfolder = $this->cropSizeSubfolder;
 
+        // Set template
+        $template = current(preg_grep('/template=*/', $this->_options));
+        if ($template) {
+            $template = Application_Model_Mappers_TemplateMapper::getInstance()->find(
+                preg_replace('/template=/', '', $template)
+            );
+
+            if ($template instanceof Application_Model_Models_Template) {
+                $this->_view->tmplFaContent = $template->getContent();
+            }
+        }
+        unset($template);
+
         if (method_exists($this, $rendererName)) {
             return $this->$rendererName($this->_options);
         }
@@ -112,10 +128,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $featuredArea->setLimit((isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT)
             ->setRandom((intval(end($params)) === 1) ? true : false);
 
-        $this->_view->faPages = $featuredArea->getPages();
-        $this->_view->faId    = $featuredArea->getId();
-        $this->_view->faName  = $featuredArea->getName();
-        $class                = current(preg_grep('/class=*/', $params));
+        $this->_view->faPages   = $featuredArea->getPages();
+        $this->_view->faId      = $featuredArea->getId();
+        $this->_view->faName    = $featuredArea->getName();
+        $class                  = current(preg_grep('/class=*/', $params));
         $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;
@@ -164,7 +180,6 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
         return $this->_view->render('page.phtml');
     }
-
 
     public static function getWidgetMakerContent()
     {
