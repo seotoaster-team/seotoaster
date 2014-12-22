@@ -54,7 +54,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
         if (!empty($this->_nameRepeat{0})) {
             $data = Application_Model_Mappers_ContainerMapper::getInstance()->findByName(
-                self::PREFIX_CONTAINER.$this->_params[0],
+                self::PREFIX_CONTAINER.$this->_nameRepeat,
                 $this->_toasterData['id'],
                 $this->_contentType
             );
