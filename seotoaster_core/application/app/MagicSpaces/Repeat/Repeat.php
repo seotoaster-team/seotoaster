@@ -16,6 +16,8 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_contentType    = Application_Model_Models_Container::TYPE_REGULARCONTENT;
 
+    protected $_invert         = false;
+
     protected function _init()
     {
         $this->_qty        = 0;
@@ -40,11 +42,16 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             list($this->_nameRepeat, $this->_replace) = $this->_params;
         }
 
-        if (!empty($this->_params) && end($this->_params) === 'static') {
+        if (end($this->_params) === 'static') {
             array_pop($this->_params);
             $this->_contentType = Application_Model_Models_Container::TYPE_STATICCONTENT;
         }
-        
+
+        if (end($this->_params) === 'invert') {
+            array_pop($this->_params);
+            $this->_invert = true;
+        }
+
         if (!empty($this->_nameRepeat{0})) {
             $data = Application_Model_Mappers_ContainerMapper::getInstance()->findByName(
                 self::PREFIX_CONTAINER.$this->_params[0],
@@ -60,6 +67,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
                 if (!empty($content[1])) {
                     $order = $content[1];
                 }
+                $this->_invert = (!empty($content[2]) && (bool)$content[2]) ? true : false;
             }
             elseif (isset($this->_params[2]) && is_numeric($this->_params[2])) {
                 $this->_qty = (int)$this->_params[2];
@@ -70,7 +78,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
             $order = $this->_params[2];
         }
 
-        $this->_qty = ((int)$this->_qty > $this->_iterationLimit) ? $this->_iterationLimit : $this->_qty;
+        $this->_qty = (int)(($this->_qty > $this->_iterationLimit) ? $this->_iterationLimit : $this->_qty);
         if (isset($order)) {
             $this->_order = explode($this->_separatorOrder, preg_replace('/\s/', '', $order));
         }
@@ -109,9 +117,8 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
     {
         $orderContent = array();
         $content      = '';
-        for ($i = 1; $i <= $this->_qty; $i++) {
+        for ($i = ($this->_invert ? $this->_qty : 1); $i !== 0 && $i <= $this->_qty; ($this->_invert ? $i-- : $i++)) {
             $val = str_replace($this->_replace, $i, $this->_spaceContent);
-
             if (!empty($this->_order) && (false !== ($key = array_search($i, $this->_order)))) {
                 unset($this->_order[$key]);
                 $orderContent[$key] = $val;

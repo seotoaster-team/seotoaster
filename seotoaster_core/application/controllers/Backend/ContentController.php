@@ -364,28 +364,32 @@ class Backend_ContentController extends Zend_Controller_Action {
             $model->setId($data->getId());
 
             $content = explode(':', $data->getContent());
-            if (isset($content[0], $content[1])) {
-                $configRepeat->setQuantity($content[0]);
-                $configRepeat->setOrderContent($content[1]);
+            if (isset($content[0], $content[1], $content[2])) {
+                $configRepeat->setQuantity($content[0])->setOrderContent($content[1])->setInversion($content[2]);
             }
         }
 
 
         if ($this->getRequest()->isPost()) {
-            $quantity     = (int)$this->getRequest()->getParam('quantity');
+            $quantity     = $this->getRequest()->getParam('quantity');
             $orderContent = $this->getRequest()->getParam('orderContent');
+            $inversion    = $this->getRequest()->getParam('inversion');
             $model->setName($name)->setContainerType($type)->setPageId($pageId);
             // Delete
-            if (empty($quantity) && empty($orderContent)) {
-                $configRepeat->setQuantity(null);
-                $configRepeat->setOrderContent(null);
-                $mapper->delete($model);
+            if (empty($quantity) && empty($orderContent) && empty($inversion)) {
+                $configRepeat->setQuantity(null)->setOrderContent(null)->setInversion(null);
+
+                if ($data instanceof Application_Model_Models_Container) {
+                    $mapper->delete($model);
+                }
             }
             // Save
             else {
-                $configRepeat->setQuantity($quantity);
-                $configRepeat->setOrderContent($orderContent);
-                $model->setContent($configRepeat->getQuantity().':'.$configRepeat->getOrderContent());
+                $configRepeat->setQuantity($quantity)->setOrderContent($orderContent)->setInversion($inversion);
+
+                $model->setContent(
+                    $configRepeat->getQuantity().':'.$configRepeat->getOrderContent().':'.$configRepeat->getInversion()
+                );
                 $mapper->save($model);
             }
         }
@@ -395,4 +399,3 @@ class Backend_ContentController extends Zend_Controller_Action {
         echo $this->view->render('backend/magicspaces/repeat.phtml');
     }
 }
-
