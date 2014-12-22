@@ -157,6 +157,9 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                 }
                 if ($prop === 'url') {
                     $item = $website->getUrl() . $item;
+                    if ($page['external_link_status'] === '1'){
+                        $item = $page['external_link'];
+                    }
                 }
                 $dictionary['$page:' . $prop] = $item;
             }
