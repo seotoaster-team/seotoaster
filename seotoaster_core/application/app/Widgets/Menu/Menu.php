@@ -151,6 +151,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
             if ($parentCategoryPage === true) {
                 $dictionary['$page:category:name'] = $parentCategoryPage['h1'];
             }
+            $dictionary['$page:target_blank'] = '';
             foreach ($page as $prop => $item) {
                 if (is_array($item)) {
                     continue;
@@ -159,6 +160,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     $item = $website->getUrl() . $item;
                     if ($page['external_link_status'] === '1'){
                         $item = $page['external_link'];
+                        $dictionary['$page:target_blank'] = 'target=_blank';
                     }
                 }
                 $dictionary['$page:' . $prop] = $item;
