@@ -15,8 +15,7 @@ class Validators_UrlRegex extends Zend_Validate_Abstract {
 
 	public function isValid($value) {
 		$validator = new Zend_Validate_Regex(array(
-			//'pattern' => '/^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&amp;?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/'
-            'pattern' => '~^(http|https|ftp)\://(?:[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,15}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?:\:[0-9]*/)?/?(?:[a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=\~])*[^\.\,\)\(\s]$~'
+            'pattern' => '~^(ht|f)tps?\://((\d{1,3}\.){3}\d{1,3}|([\w-]*\.){1,}[a-z]{2,10})(:\d{2,5})?(|/([\w-.?,/+&%$#=\~])*(?<![.,]))$~'
 		));
 
 		$this->_setValue($value);
