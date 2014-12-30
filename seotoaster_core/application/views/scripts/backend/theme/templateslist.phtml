@@ -2,16 +2,23 @@
 	<div class="closebutton">
 		<a class="hide-block ticon-chevron-right" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
 	</div>
-	<?php echo $this->translate('Select template'); ?>
+    <select id="template-categories" class="grid_9 alpha mt5px">
+        <?php foreach ($this->types as $type => $caption ) : ?>
+        <?php
+            $templates = array_filter($this->templates, function($tmpl)use($type){ return $tmpl['type'] === $type; });
+            if (empty($templates)) continue;
+        ?>
+        <option value="<?php echo $type; ?>"><?php echo $caption; ?></option>
+        <?php endforeach; ?>
+    </select>
 </div>
-<div class="content">
+<div class="content scroll">
 <?php foreach ($this->types as $type => $caption ) : ?>
 <?php
 	$templates = array_filter($this->templates, function($tmpl)use($type){ return $tmpl['type'] === $type; });
 	if (empty($templates)) continue;
 ?>
-	<div class="grid_12 template_header"><?php echo $caption; ?></div>
-	<div class="template_group grid_12">
+	<div id="<?php echo $type; ?>" class="template_group grid_12 <?php echo $type !== 'typeregular' ? 'hide' : ''; ?>">
 		<?php foreach ($templates as $template) : ?>
 		<div class="template_item <?php echo ((isset($template['isCurrent']) && $template['isCurrent']) ? 'curr-template' : ''); ?>" title="<?php echo sprintf($this->translate('%s template'), $template['fullName']); ?>">
 			<?php if (!in_array($template['name'], $this->protectedTemplates)): ?>

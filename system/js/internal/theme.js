@@ -57,17 +57,16 @@ $(function() {
         e.preventDefault();
         var $templateList =  $('#templatelist');
         $templateList.show("slide", { direction : "right"});
-        $templateList.find('.template_group').css('max-height','none').css({
-            'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
-        });
-    });
-
-    $('textarea').on('keydown', function(e) {
+    }).on('keydown', 'textarea', function(e) {
         if(e.ctrlKey && e.keyCode == 83) {
             e.preventDefault();
             saveTemplate();
         }
-    })
+    }).on('change', '#template-categories', function(){
+        var cat = $(this).val();
+        $('.template_group').hide();
+        $('#'+cat).show();
+    });
 });
 
 function showTemplateList(e){
@@ -81,20 +80,7 @@ function showTemplateList(e){
                 beforeSend    : showSpinner('#templatelist')
             },
 			function(html){
-                $templateList.html(html).find('.content').accordion({
-                    heightStyle : 'content',
-                    header      : '.template_header',
-                    collapsible : true,
-                    icons       : {
-                        "header"       : "ticon-arrow-right",
-                        "activeHeader" : "ticon-arrow-down"
-                    }, // or false
-                    create: function( event, ui ) {
-                        $templateList.find('.template_group').css({
-                            'max-height': $templateList.find('.content').height() - $templateList.find('.template_header:last').outerHeight(true) * $templateList.find('.template_header').length
-                        });
-                    }
-                });
+                $templateList.html(html);
                 var templateName = $('#template_id').val();
                 $('.template_item').removeClass('curr-template').find('.template-check').remove();
                 $('.template_item').has('input[value="'+ templateName +'"]').addClass('curr-template').find('.template_name').before('<span class="template-check ticon-check icon16"/></span>');
