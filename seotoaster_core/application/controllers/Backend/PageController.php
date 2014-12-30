@@ -507,6 +507,9 @@ class Backend_PageController extends Zend_Controller_Action {
     {
         $page = Application_Model_Mappers_PageMapper::getInstance()->find($params['pageId'], true);
         $params['externalLink'] = $params['url'];
+        if (!empty($params['externalLink']) && !preg_match('~(http|https|ftp):\/\/~', $params['externalLink'])) {
+            $params['externalLink'] = 'http:// ' . $params['externalLink'];
+        }
         if ($page instanceof Application_Model_Models_Page) {
             $params['url'] = $page->getUrl();
             $params['metaKeywords'] = $page->getMetaKeywords();
