@@ -73,10 +73,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		$redirectForm->setDefault('fromUrl', 'http://');
 
-		if(!$this->getRequest()->isPost()) {
-			$this->view->redirects = $redirectMapper->fetchRedirectMap();
-		}
-		else {
+		if ($this->getRequest()->isPost()) {
 			if($redirectForm->isValid($this->getRequest()->getParams())) {
 				$data          = $redirectForm->getValues();
 				$redirect      = new Application_Model_Models_Redirect();
@@ -89,11 +86,19 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$this->_helper->response->fail(implode('<br />', $inDbValidator->getMessages()));
 					exit;
 				}
-				$redirect->setFromUrl(Tools_System_Tools::getUrlPath($data['fromUrl']));
-				$redirect->setDomainFrom(Tools_System_Tools::getUrlScheme($data['fromUrl']) . '://' . Tools_System_Tools::getUrlHost($data['fromUrl']) . '/');
+                $websiteUrl = $this->_helper->website->getUrl();
+                if (strstr($data['fromUrl'], $websiteUrl)) {
+                    $cleanUrl = trim(str_replace($websiteUrl, '', $data['fromUrl']), '/');
+                    $redirect->setFromUrl($cleanUrl);
+                    $redirect->setDomainFrom($websiteUrl);
+                }else{
+                    $redirect->setFromUrl(Tools_System_Tools::getUrlPath($data['fromUrl']));
+                    $redirect->setDomainFrom(Tools_System_Tools::getUrlScheme($data['fromUrl']) . '://' . Tools_System_Tools::getUrlHost($data['fromUrl']) . '/');
+                }
+
 				if(intval($data['toUrl'])) {
 					$page = $pageMapper->find($data['toUrl']);
-					$redirect->setDomainTo($this->_helper->website->getUrl());
+					$redirect->setDomainTo($websiteUrl);
 					$redirect->setToUrl($page->getUrl());
 					$redirect->setPageId($page->getId());
 				}
