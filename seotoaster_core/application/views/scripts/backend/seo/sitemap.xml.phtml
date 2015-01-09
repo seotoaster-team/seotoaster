@@ -8,7 +8,7 @@
                 <?php
                 $url = $page->getUrl();
                 // Path news page
-                if (isset($this->newsPageUrlPath)) {
+                if (!empty($this->newsPageUrlPath)) {
                     if (in_array(Newslog::OPTION_PAGE_INDEX, $page->getExtraOptions())) {
                         $url = $this->newsPageUrlPath.'/';
                     }
