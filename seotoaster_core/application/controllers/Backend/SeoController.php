@@ -87,7 +87,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 					exit;
 				}
                 $websiteUrl = $this->_helper->website->getUrl();
-                if (strstr($data['fromUrl'], $websiteUrl)) {
+                $withSubfolder = Tools_System_Tools::getUrlPath($websiteUrl);
+                if ($withSubfolder && preg_match('~'.preg_quote($websiteUrl, '/').'~', $data['fromUrl'])) {
                     $cleanUrl = trim(str_replace($websiteUrl, '', $data['fromUrl']), '/');
                     $redirect->setFromUrl($cleanUrl);
                     $redirect->setDomainFrom($websiteUrl);
