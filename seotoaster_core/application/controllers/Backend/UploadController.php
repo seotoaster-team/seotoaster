@@ -290,16 +290,21 @@ class Backend_UploadController extends Zend_Controller_Action
                 return array('error' => true, 'result' => $this->_uploadHandler->getMessages());
             }
 
+            $animatedGif = false;
+            if($fileInfo['type'] === 'image/gif'){
+                $animatedGif = Tools_Image_Tools::isAnimatedGif($fileInfo['tmp_name'], $fileInfo['type']);
+            }
+
             if ($resize) {
                 $status = Tools_Image_Tools::batchResize($fileInfo['tmp_name'], $savePath);
             } else {
                 $status = true;
             }
-            if (isset($this->_helper->session->imageQualityPreview)) {
+            if (isset($this->_helper->session->imageQualityPreview) && !$animatedGif) {
                 unset($this->_helper->session->imageQualityPreview);
                 Tools_Image_Tools::optimizeImage($fileInfo['tmp_name'], self::PREVIEW_IMAGE_OPTIMIZE);
             }
-            if (isset($this->_helper->session->imageQuality)) {
+            if (isset($this->_helper->session->imageQuality) && !$animatedGif) {
                 Tools_Image_Tools::optimizeOriginalImage($fileInfo['tmp_name'], $savePath, $this->_helper->session->imageQuality);
             }
 
@@ -507,7 +512,9 @@ class Backend_UploadController extends Zend_Controller_Action
         $result = $this->_uploadImages($savePath, false);
 
         if ($result['error'] == false) {
-            Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
+            if (!Tools_Image_Tools::isAnimatedGif($newImageFile, $fileMime)) {
+                Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
+            }
             $result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
         }
 

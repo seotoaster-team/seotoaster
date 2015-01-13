@@ -89,6 +89,23 @@ class Tools_Image_Tools {
         $imgHeight  = $fileInfo[1];
         $mimeType   = $fileInfo['mime'];
 
+        //checking and applying animated gif section
+        $animatedGif = false;
+        if ($mimeType === 'image/gif') {
+            $animatedGif = Tools_Image_Tools::isAnimatedGif($pathFile, $mimeType);
+        }
+
+        if ($animatedGif && $destination) {
+            $destination = rtrim($destination, DIRECTORY_SEPARATOR);
+            if (!is_dir($destination)) {
+                Tools_Filesystem_Tools::mkDir($destination);
+            }
+            return Tools_Filesystem_Tools::copy(
+                $pathFile,
+                $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($pathFile)
+            );
+        }
+
         // If width or height > original size
         if ($newHeight !== 'auto' && ($imgWidth < $newWidth || $imgHeight < $newHeight)) {
             list($newWidth, $newHeight) = array_values(
@@ -460,4 +477,40 @@ class Tools_Image_Tools {
 		}
 		return true;
 	}
+
+    /**
+     *
+     * Checking if image is animated gif
+     * a static 4-byte sequence (\x00\x21\xF9\x04)
+     * 4 variable bytes
+     * at least 2 frame headers
+     *
+     * @param $filename string file destination
+     * @param $fileMimeType string File mime type
+     * @return bool
+     *
+     */
+
+    public static function isAnimatedGif($filename, $fileMimeType = false)
+    {
+        if (!($fh = fopen($filename, 'rb'))) {
+            return false;
+        }
+        if ($fileMimeType && $fileMimeType !== 'image/gif') {
+            return false;
+        }
+        $count = 0;
+
+        while (!feof($fh) && $count < 2) {
+            $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+            $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00(\x2C|\x21)#s', $chunk, $matches);
+        }
+
+        fclose($fh);
+        if ($count > 1) {
+            return true;
+        }
+        return false;
+    }
+
 }
