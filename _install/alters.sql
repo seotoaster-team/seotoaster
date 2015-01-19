@@ -84,8 +84,11 @@ UPDATE `template_type` SET `title` = 'Regular' WHERE `id` = 'typeregular';
 UPDATE `template_type` SET `title` = 'E-mail' WHERE `id` = 'typemail';
 
 
--- These alters are always the latest and updated version of the database
+-- 05.01.2015
+-- Change columnt type
+ALTER TABLE `page` CHANGE COLUMN `order` `order` int(10) unsigned DEFAULT NULL;
 
-UPDATE `config` SET `value`='2.3.1' WHERE `name`='version';
+-- These alters are always the latest and updated version of the database
+UPDATE `config` SET `value`='2.3.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
