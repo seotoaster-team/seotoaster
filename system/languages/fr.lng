@@ -1184,4 +1184,5 @@
     'Log into your toaster here' => 'Connectez-vous à votre Toaster ici:',
     'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Complétez les informations de votre business ou la carte ID su site, afin de faciliter l\'indexation de votre site Web dans les moteurs de recherche.',
     'Fill in the required fields' => 'Pas tous les champs obligatoires sont remplis',
+    'Please enter a valid email address' => 'Veuillez entrer l\'adress email valide',
 );?>

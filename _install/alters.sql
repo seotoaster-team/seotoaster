@@ -84,14 +84,19 @@ UPDATE `template_type` SET `title` = 'Regular' WHERE `id` = 'typeregular';
 UPDATE `template_type` SET `title` = 'E-mail' WHERE `id` = 'typemail';
 
 
--- These alters are always the latest and updated version of the database
+-- 05.01.2015
+-- Change columnt type
+-- version: 2.3.1
+ALTER TABLE `page` CHANGE COLUMN `order` `order` int(10) unsigned DEFAULT NULL;
+
 
  -- 14.11.2014
 -- Add external links to pages
--- version: 2.3.1
+-- version: 2.3.2
 ALTER TABLE `page` ADD COLUMN `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
 ALTER TABLE `page` ADD COLUMN `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
-UPDATE `config` SET `value`='2.3.2' WHERE `name`='version';
+-- These alters are always the latest and updated version of the database
+UPDATE `config` SET `value`='2.3.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 

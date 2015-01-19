@@ -180,7 +180,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     public function fetchAllUrls()
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
-                ->from($this->getDbTable()->info('name'), array('url'));
+            ->from($this->getDbTable()->info('name'), array('url'));
         return $this->getDbTable()->getAdapter()->fetchCol($select);
     }
 
@@ -207,9 +207,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     {
         $table = $this->getDbTable();
         $select = $table->select()
-                ->from($table, array('count' => new Zend_Db_Expr('COUNT(draft)')))
-                ->where('draft = ?', '1')
-                ->where('system = ?', '1');
+            ->from($table, array('count' => new Zend_Db_Expr('COUNT(draft)')))
+            ->where('draft = ?', '1')
+            ->where('system = ?', '1');
 
         return $table->getAdapter()->fetchOne($select);
     }
@@ -265,7 +265,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     {
         $where = $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', $parentId);
         if ($draft) {
-            $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('draft = ?', '0');
+            $where .= ' OR ' . $this->getDbTable()->getAdapter()->quoteInto('draft = ?', '1');
         }
         return $this->fetchAll($where);
     }
@@ -283,7 +283,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     public function selectCategoriesIdName($useNavName = false)
     {
         $result = array();
-        $categories = $this->findByParentId(0);
+        $categories = $this->findByParentId(0, true);
+        $translator = Zend_Registry::get('Zend_Translate');
         if (empty($categories)) {
             return array();
         }
@@ -292,6 +293,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
                 $categoryName = ($category->getProtected()) ? ($category->getNavName() . '*') : $category->getNavName();
             } else {
                 $categoryName = ($category->getProtected()) ? ($category->getH1() . '*') : $category->getH1();
+            }
+            if ($category->draft == 1) {
+                $categoryName .= ' ('.$translator->translate('draft').')';
             }
             $result[$category->getId()] = $categoryName;
         }
@@ -446,5 +450,23 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
         return $this->getDbTable()->getAdapter()->fetchAll($select);
 
+    }
+
+    public function isDraftCategory($id)
+    {
+        $query = $this->getDbTable()->getAdapter()->select()->from($this->getDbTable()->info('name'),
+            array('draft'))->where('id =?', $id);
+        $col = $this->getDbTable()->getAdapter()->fetchCol($query);
+        if (current($col) == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function publishChildPages($parentId)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto("parent_id =?", $parentId);
+        return $this->getDbTable()->update(array('draft'=>0, 'system'=>0), $where);
     }
 }
