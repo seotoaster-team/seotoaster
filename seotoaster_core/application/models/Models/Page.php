@@ -80,6 +80,10 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_containers        = array();
 
+    protected $_externalLinkStatus = 0;
+
+    protected $_externalLink = '';
+
     /**
      * @param array $containers
      */
@@ -329,6 +333,28 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	public function getOptimized() {
 		return $this->_optimized;
 	}
+
+    public function setExternalLink($externalLink)
+    {
+        $this->_externalLink = $externalLink;
+        return $this;
+    }
+
+    public function getExternalLink()
+    {
+        return $this->_externalLink;
+    }
+
+    public function setExternalLinkStatus($externalLinkStatus)
+    {
+        $this->_externalLinkStatus = $externalLinkStatus;
+        return $this;
+    }
+
+    public function getExternalLinkStatus()
+    {
+        return $this->_externalLinkStatus;
+    }
 
     /**
      * Set an extra options for the page

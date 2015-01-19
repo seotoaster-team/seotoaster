@@ -7,6 +7,11 @@
  */
 class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
 
+    /**
+     * Sitemap with no in menu pages
+     */
+    const SITEMAP_NOMENU_PAGES = 'nomenuPages';
+
 	protected function  _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
@@ -42,10 +47,8 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
         }
         $this->_view->pages        = $pagesList;
         $this->_view->flatPages    = $flatPages;
-        if(isset($this->_options[0])) {
-            if($this->_options[0] == 'nomenuPages') {
-        $this->_view->nomenuPages  = $nomenuPages;
-            }
+        if(isset($this->_options[0]) && $this->_options[0] === self::SITEMAP_NOMENU_PAGES) {
+            $this->_view->nomenuPages  = $nomenuPages;
         }
         $newslogPlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('newslog');
         if($newslogPlugin instanceof Application_Model_Models_Plugin){

@@ -233,6 +233,8 @@ CREATE TABLE `page` (
   `signup_landing` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `checkout` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `preview_image` text COLLATE utf8_unicode_ci COMMENT 'Page Preview Image',
+  `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
   KEY `indUrl` (`url`),

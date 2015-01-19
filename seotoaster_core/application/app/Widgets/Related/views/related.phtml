@@ -2,6 +2,13 @@
 	<ul class="relatedpages">
 		<?php foreach($this->related as $relatedPage): ?>
 			<li>
+                <?php if ($relatedPage->getExternalLinkStatus() === '1'): ?>
+                    <?php $relatedUrl = $relatedPage->getExternalLink(); ?>
+                    <?php $targetBlank = 'target="_blank"'; ?>
+                <?php else: ?>
+                    <?php $relatedUrl = $this->websiteUrl . $relatedPage->getUrl(); ?>
+                    <?php $targetBlank = ''; ?>
+                <?php endif; ?>
 				<?php if ($this->useImage): ?>
                     <?php
                     $infoPreview = Tools_Page_Tools::getPreviewFilePath(
@@ -33,11 +40,11 @@
                         $path = 'system/images/noimage.png';
                     }
                     ?>
-					<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>">
+					<a class="page-teaser-image" href="<?php echo $relatedUrl; ?>" <?php echo $targetBlank;?> title="<?php echo $relatedPage->getH1(); ?>">
 						<img src="<?php echo $this->websiteUrl.$path; ?>" alt="<?php echo $relatedPage->getH1(); ?>" />
 					</a>
 				<?php endif; ?>
-				<a href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>" class="page-title"><?php echo $relatedPage->getNavName(); ?></a>
+				<a href="<?php echo $relatedUrl; ?>" <?php echo $targetBlank;?> title="<?php echo $relatedPage->getH1(); ?>" class="page-title"><?php echo $relatedPage->getNavName(); ?></a>
 				<span><?php echo Tools_Text_Tools::cutText($relatedPage->getTeaserText(), $this->descLength); ?></span>
 			</li>
 		<?php endforeach; ?>

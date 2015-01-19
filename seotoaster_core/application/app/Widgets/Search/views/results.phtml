@@ -8,7 +8,12 @@
             <img src="<?php echo $src; ?>" alt="<?php echo $hit['h1']; ?>" />
         </a>
         <?php endif; ?>
-        <a href="<?php echo $this->websiteUrl.$hit['url']; ?>" title="<?php echo $hit['h1']; ?>" class="page-title">
+        <?php if(preg_match('~(http|https|ftp):\/\/~', $hit['url'])):?>
+            <?php $pageUrl = $hit['url'];?>
+        <?php else:?>
+            <?php $pageUrl = $this->websiteUrl.$hit['url'];?>
+        <?php endif;?>
+        <a href="<?php echo $pageUrl; ?>" title="<?php echo $hit['h1']; ?>" class="page-title">
         <?php echo $hit['navName']; ?>
         </a>
         <span><?php echo $hit['teaserText']; ?></span>

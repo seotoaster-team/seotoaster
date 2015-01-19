@@ -100,8 +100,8 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
     private function _renderFlatMenu() {
         $flatMenuPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
-        if ($flatMenuPages && is_array($flatMenuPages) && !empty($flatMenuPages)) {
-            $this->_view->staticPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
+        if (is_array($flatMenuPages) && !empty($flatMenuPages)) {
+            $this->_view->staticPages = $flatMenuPages;
             return $this->_view->render('staticmenu.phtml');
         }
         return '';
@@ -151,12 +151,17 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
             if ($parentCategoryPage === true) {
                 $dictionary['$page:category:name'] = $parentCategoryPage['h1'];
             }
+            $dictionary['$page:target_blank'] = '';
             foreach ($page as $prop => $item) {
                 if (is_array($item)) {
                     continue;
                 }
                 if ($prop === 'url') {
                     $item = $website->getUrl() . $item;
+                    if ($page['external_link_status'] === '1'){
+                        $item = $page['external_link'];
+                        $dictionary['$page:target_blank'] = 'target=_blank';
+                    }
                 }
                 $dictionary['$page:' . $prop] = $item;
             }
