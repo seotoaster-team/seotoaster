@@ -17,54 +17,68 @@
     // link and script block start
     // adding canonical link
     if ($this->tplType !== 'typemail') {
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+            if (empty($this->bodyTag)) {
+                $this->headLink()
+                    ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css');
+            }
+        }
         $this->headLink()->setIndent(8)
-            ->prependStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css')
-            ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
-            ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
+             ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
+             ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
+
+        if (!empty($this->bodyTag)) {
+            $this->headLink()
+                 ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
+        }
+    }
+    if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
+        if (!empty($this->bodyTag)) {
+            $this->headLink()
+                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
+        }
     }
     $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
 
-    if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-        if (empty($this->bodyTag)) {
-            $this->headLink()
-                ->appendStylesheet($this->websiteUrl.'system/css/seotoaster.css');
-        }
-        else {
-            $this->headLink()->appendStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
-        }
+    if (isset($this->minify) && $this->minify === true) {
+        echo Tools_System_Minify::minify($this->headLink(), true);
+    }
+    else {
+        echo $this->headLink();
     }
 
-    if (isset($this->minify) && $this->minify === true) {
-	    echo Tools_System_Minify::minify($this->headLink(), true);
-	}
-    else {
-	    echo $this->headLink();
-	}
-
-    $this->jQuery()
-        ->uiEnable()
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js')
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
-        ->addJavascriptFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js');
+    $this->jQuery()->uiEnable();
 
     if($device->isTablet() || $device->isMobile()){
-        $this->jQuery()
-             ->addJavascriptFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
-             ->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
+        $this->headScript()
+             ->prependFile($this->websiteUrl.'system/js/external/hammer/hammer.min.js')
+             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/touchpunch/jquery.ui.touch-punch.min.js');
     }
 
     echo $this->jQuery();
 
-    $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
-        ->prependFile($this->websiteUrl.'system/js/internal/system.min.js');
+    if (!empty($this->bodyTag)) {
+        $this->inlineScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+            ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
+            ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
+    }else{
+        $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
+            ->prependFile($this->websiteUrl.'system/js/external/smoke/smoke.min.js')
+            ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js');
+    }
 
-	if (isset($this->minify) && $this->minify === true)  {
+    if (isset($this->minify) && $this->minify === true)  {
         echo Tools_System_Minify::minify($this->headScript(), true);
-	}
+    }
     else {
-	    echo $this->headScript();
-	}
+        echo $this->headScript();
+    }
+
     echo $this->headStyle();
     // link and script block end
 
@@ -88,7 +102,13 @@
 /**
  * Plugins additional content
  */
-echo $this->placeholder('plugins');
+    echo $this->placeholder('plugins');
+
+    if (isset($this->minify) && $this->minify === true) {
+        echo Tools_System_Minify::minify($this->inlineScript(), true);
+    } else {
+        echo $this->inlineScript();
+    }
 ?>
 </body>
 </html>

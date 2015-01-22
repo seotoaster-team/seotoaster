@@ -149,9 +149,13 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 } else {
                     //Removing page options that have one time options
-                    Application_Model_Mappers_PageOptionMapper::getInstance()->deletePageHasOption(
-                        $pageData['extraOptions']
-                    );
+                    $optionsMapper = Application_Model_Mappers_PageOptionMapper::getInstance();
+                    $pageOptions = $optionsMapper->fetchOptions(false, true);
+                    if (array_key_exists($pageData['extraOptions'], $pageOptions)) {
+                        $optionsMapper->deletePageHasOption(
+                            $pageData['extraOptions']
+                        );
+                    }
                 }
 
                 $page->setOptions($pageData);
@@ -189,6 +193,11 @@ class Backend_PageController extends Zend_Controller_Action {
                             Application_Model_Models_Template::TYPE_REGULAR
                         );
                     }
+                }
+
+                //if unset draft category publish all pages
+                if($mapper->isDraftCategory($params['pageId']) && $params['draft'] == 0){
+                    $mapper->publishChildPages($params['pageId']);
                 }
 
                 $page = $mapper->save($page);
@@ -302,7 +311,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
     public function organizeAction() {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-
+        $pageDbTable = new Application_Model_DbTable_Page();
         if($this->getRequest()->isPost()) {
             $act = $this->getRequest()->getParam('act');
             if(!$act) {
@@ -310,13 +319,15 @@ class Backend_PageController extends Zend_Controller_Action {
             }
             switch($act) {
                 case 'save':
-                    $orderedList = array_unique($this->getRequest()->getParam('ordered'));
+                    $orderedList = array_unique(Zend_Json::decode($this->getRequest()->getParam('ordered'), Zend_Json::TYPE_ARRAY));
                     unset ($orderedList[array_search(Application_Model_Models_Page::IDCATEGORY_DEFAULT, $orderedList)]);
                     if(is_array($orderedList)) {
+                        $updatePageOrderSql = "UPDATE ".$pageDbTable->info('name')." SET `order` = :order WHERE `id` = :id ";
+                        $stmt = $pageDbTable->getAdapter()->prepare($updatePageOrderSql);
                         foreach ($orderedList as $key => $pageId) {
-                            $page = $pageMapper->find($pageId);
-                            $page->setOrder($key);
-                            $pageMapper->save($page);
+                            $stmt->bindParam('order', $key);
+                            $stmt->bindParam('id', $pageId);
+                            $stmt->execute();
                         }
                         $this->_helper->cache->clean(false, false, 'Widgets_Menu_Menu');
                         $this->_helper->response->success($this->_helper->language->translate('New order saved'));
@@ -484,6 +495,17 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageData['metaDescription'] = $page->getMetaDescription();
         unset($page);
         return $pageData;
+    }
+
+    /**
+     * Checks if the category is draft
+     */
+    public function isDraftCategoryAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $categoryID = $this->getRequest()->getPost('id', null);
+            $this->_helper->response->success(Application_Model_Mappers_PageMapper::getInstance()->isDraftCategory($categoryID));
+        }
     }
 }
 

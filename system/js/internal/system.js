@@ -33,8 +33,9 @@ $(function(){
             open      : function(){
                 this.onload = function(){
                     $(this).contents().find('.close, .save-and-close').on('click', function(){
+                        var urlFrame = $('#toasterPopup').prop('src');
                         var restored = localStorage.getItem(generateStorageKey());
-                        if(restored!==null){
+                        if(restored!==null && $.inArray('uploadthings',urlFrame.split('/')) == -1 ){
                             showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function(){
                                 localStorage.removeItem(generateStorageKey());
                                 closePopup(popup);
@@ -204,7 +205,7 @@ $(function(){
         });
         $('.img_gallery').each(function() { // the containers for all your galleries
             $(this).magnificPopup({
-                delegate: 'a',
+                delegate: 'a.gall',
                 type: 'image',
                 gallery: {
                     enabled:true
@@ -214,7 +215,14 @@ $(function(){
     }
     //publishPages();
     checkboxRadioStyle();
-    $(document).on('click', '.closebutton .hide-block', function(){
+    $(document).on('mouseup', function (e) {
+        var container = $(".show-left, .show-right");
+        if (container.has(e.target).length === 0){
+            $('.show-left').hide("slide", { direction: "left"});
+            $('.show-right').hide("slide", { direction: "right"});
+            return false;
+        }
+    }).on('click', '.closebutton .hide-block', function(){
         $('.show-left').hide("slide", { direction: "left"});
         $('.show-right').hide("slide", { direction: "right"});
         return false;
@@ -327,11 +335,15 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
         $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
-            var id = $(this).prop('id');
+            var id = $(this).prop('id'), labelClass;
             if(!id.length){
                 id = 'chr-'+Math.floor((Math.random()*100000)+1);
                 $(this).prop('id', id);
             }
+            if($(this).prop('class') || $(this).prop('class') !== 'undefined'){
+                labelClass = $(this).prop('class');
+            }
+            $(this).addClass('processed');
             if($(this).is(':radio')){
                 $(this).addClass('radio-upgrade filed-upgrade');
             }else{
@@ -340,13 +352,14 @@ function checkboxRadioStyle(){
             if(!$(this).closest('.btn-set').length){
                 var $parent = $(this).parent('label');
                 if($parent.length){
-                    $parent.prop('for', id);
-                    !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio"></span>') : $(this).after('<span class="checkbox_radio"><span></span></span>');
+                    $parent.prop({
+                        'for' : id
+                    });
+                    !$(this).hasClass('switcher') ? $(this).after('<span class="checkbox_radio '+labelClass+'"></span>') : $(this).after('<span class="checkbox_radio '+labelClass+'"><span></span></span>');
                 }else{
-                    !$(this).hasClass('switcher') ? $(this).wrap('<label for="'+id+'" class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label class="checkbox_radio-wrap"></label>').after('<span class="checkbox_radio"><span></span></span>');
+                    !$(this).hasClass('switcher') ? $(this).wrap('<label for="'+id+'" class="checkbox_radio-wrap pointer '+labelClass+'"></label>').after('<span class="checkbox_radio"></span>') : $(this).wrap('<label for="'+id+'" class="checkbox_radio-wrap pointer '+labelClass+'"></label>').after('<span class="checkbox_radio"><span></span></span>');
                 }
             }
-            $(this).addClass('processed');
         });
     }
 }

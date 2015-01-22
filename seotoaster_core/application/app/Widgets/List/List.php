@@ -27,7 +27,7 @@ class Widgets_List_List extends Widgets_Abstract {
 	}
 
 	private function _renderCategoriesList() {
-		$this->_view->categoriesList = Application_Model_Mappers_PageMapper::getInstance()->findByParentId(0);
+		$this->_view->categoriesList = Application_Model_Mappers_PageMapper::getInstance()->fetchMainCategories();
         $this->_view->useImage       = (in_array('img', $this->_options) || in_array('imgc', $this->_options)) ? true : false;
         $this->_view->crop           = (in_array('imgc', $this->_options) || in_array('crop', $this->_options)) ? true : false;
         $class                       = current(preg_grep('/class=*/', $this->_options));

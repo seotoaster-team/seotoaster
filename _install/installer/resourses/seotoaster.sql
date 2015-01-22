@@ -219,7 +219,7 @@ CREATE TABLE `page` (
   `last_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_404page` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `show_in_menu` enum('0','1','2') COLLATE utf8_unicode_ci DEFAULT '0',
-  `order` tinyint(3) unsigned DEFAULT NULL,
+  `order` int(10) unsigned DEFAULT NULL,
   `weight` tinyint(3) unsigned DEFAULT '0',
   `silo_id` int(10) unsigned DEFAULT NULL,
   `targeted_key_phrase` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -377,10 +377,10 @@ CREATE TABLE `template_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `template_type` (`id`, `title`) VALUES
-('typemail',	'E-mail sending'),
+('typemail',	'E-mail'),
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
-('typeregular',	'Regular page'),
+('typeregular',	'Regular'),
 ('type_partial_template',	'Partial template');
 
 DROP TABLE IF EXISTS `user`;
@@ -410,4 +410,3 @@ CREATE TABLE `user_attributes` (
   PRIMARY KEY (`user_id`,`attribute`(20)),
   CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-

@@ -6,13 +6,12 @@
     @backgroundMs     : e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-ms-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-ms-radial-gradient").replace(/,\s* \d*(px|%) \d*(px|%)/,", circle").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
     @backgroundOpera  : e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-o-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-o-radial-gradient").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");})()`);
     @backgroundW3C    : e(`(function(){var a,b,c,d,e;a="@{arguments}",b=null,c=a.split(/,(?=\s*(?:linear|radial))/g),d=c.length,e=0;while(e<d){try{"".trim(),b=!0}catch(f){b=!1}b&&(c[e]=c[e].trim()),e++}return c.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
-    .activate() when (@ie9 = true) and (@ie = true) { background-image : @backgroundSVG; }
-    .activate() when (@webkit = true){ background-image : @backgroundWebkit; }
-    .activate() when (@moz = true){ background-image : @backgroundMoz; }
-    .activate() when (@ie = true){ background-image : @backgroundMs; }
-    .activate() when (@opera = true){ background-image : @backgroundOpera; }
-    .activate() when (@w3c = true){ background-image : @backgroundW3C; }
-    .activate();
+    & when (@ie9 = true) and (@ie = true) { background-image : @backgroundSVG; }
+    & when (@webkit = true){ background-image : @backgroundWebkit; }
+    & when (@moz = true){ background-image : @backgroundMoz; }
+    & when (@ie = true){ background-image : @backgroundMs; }
+    & when (@opera = true){ background-image : @backgroundOpera; }
+    & when (@w3c = true){ background-image : @backgroundW3C; }
 }
 .gradient-horizontal(...) {
     @backgroundWebkit: e(`(function(){var a,b,c,d,e,f,g,h,i,j,k;a="@{arguments}",c=null,d=a.split(/,(?=\s*(?:linear|radial))/g),e=d.length,k=/to\s*top/,j=/to\s*right/,h=/to\s*bottom/,i=/to\s*left/,b=/\d*deg/,f=0;while(f<e){/linear/.test(d[f])?(d[f]=d[f].replace(/linear-gradient/,"-webkit-linear-gradient"),k.test(d[f])?d[f]=d[f].replace(k,"bottom"):j.test(d[f])?d[f]=d[f].replace(j,"left"):h.test(d[f])?d[f]=d[f].replace(h,"top"):i.test(d[f])?d[f]=d[f].replace(i,"right"):b.test(d[f])&&(g=d[f].match(/\d*deg/),g=(parseInt(g)-90)*-1+"deg",d[f]=d[f].replace(b,g))):d[f]=d[f].replace(/radial-gradient/,"-webkit-radial-gradient").replace(/\(+\s*(.*) at\s*([^,]+)/g,"($2, $1");try{"".trim(),c=!0}catch(l){c=!1}c&&(d[f]=d[f].trim()),f++}return d.toString().replace(/\[/g,"").replace(/\]/g,"");}())`);
@@ -90,89 +89,81 @@
 
 // -- Box Sizing
 .box-sizing(@box-sizing:border-box) {
-    .activate() when (@webkit = true){ -webkit-box-sizing : @box-sizing; }
-    .activate() when (@moz = true){ -moz-box-sizing : @box-sizing; }
-    .activate() when (@ie = true){ -ms-box-sizing : @box-sizing; }
-    .activate() when (@opera = true){ -o-box-sizing : @box-sizing; }
-    .activate() when (@w3c = true){ box-sizing : @box-sizing; }
-    .activate();
+    & when (@webkit = true){ -webkit-box-sizing : @box-sizing; }
+    & when (@moz = true){ -moz-box-sizing : @box-sizing; }
+    & when (@ie = true){ -ms-box-sizing : @box-sizing; }
+    & when (@opera = true){ -o-box-sizing : @box-sizing; }
+    & when (@w3c = true){ box-sizing : @box-sizing; }
 }
 
 // -- Content Columns
 .content-columns(@column-count, @column-gap: @grid-margin-width) when (@column-count > 0){
-    .activate() when (@webkit = true){ -webkit-column-count : @column-count; -webkit-column-gap : @column-gap; }
-    .activate() when (@moz = true){ -moz-column-count : @column-count; -moz-column-gap : @column-gap; }
-    .activate() when (@ie = true){ -ms-column-count : @column-count; -ms-column-gap : @column-gap; }
-    .activate() when (@opera = true){ -o-column-count : @column-count; -o-column-gap : @column-gap; }
-    .activate() when (@w3c = true){ column-count : @column-count; column-gap : @column-gap; }
-    .activate();
+    & when (@webkit = true){ -webkit-column-count : @column-count; -webkit-column-gap : @column-gap; }
+    & when (@moz = true){ -moz-column-count : @column-count; -moz-column-gap : @column-gap; }
+    & when (@ie = true){ -ms-column-count : @column-count; -ms-column-gap : @column-gap; }
+    & when (@opera = true){ -o-column-count : @column-count; -o-column-gap : @column-gap; }
+    & when (@w3c = true){ column-count : @column-count; column-gap : @column-gap; }
 }
 // -- Border Radius
 .border-radius(@radius, @important : false) when not (@radius = 0), (@important = true){
-    .activate() when (@webkit = true){ -webkit-border-radius : @radius; }
-    .activate() when (@moz = true){ -moz-border-radius : @radius; }
-    .activate() when (@ie = true){ -ms-border-radius : @radius; }
-    .activate() when (@opera = true){ -o-border-radius : @radius; }
-    .activate() when (@w3c = true){ border-radius : @radius; }
-    .activate();
+    & when (@webkit = true){ -webkit-border-radius : @radius; }
+    & when (@moz = true){ -moz-border-radius : @radius; }
+    & when (@ie = true){ -ms-border-radius : @radius; }
+    & when (@opera = true){ -o-border-radius : @radius; }
+    & when (@w3c = true){ border-radius : @radius; }
     .pie;
 }
 
 // -- Box Shadow
 .box-shadow(@shadow, @shadow-switcher : true) when (@shadow-switcher = true){
-    .activate() when (@webkit = true){ -webkit-box-shadow : @shadow; }
-    .activate() when (@moz = true){ -moz-box-shadow : @shadow; }
-    .activate() when (@ie = true){ -ms-box-shadow : @shadow; }
-    .activate() when (@opera = true){ -o-box-shadow : @shadow; }
-    .activate() when (@w3c = true){ box-shadow : @shadow; }
-    //    .activate() when (@ie = true) and (@ie8 = true), (@ie7 = true) and not (@activate-pie = true){
+    & when (@webkit = true){ -webkit-box-shadow : @shadow; }
+    & when (@moz = true){ -moz-box-shadow : @shadow; }
+    & when (@ie = true){ -ms-box-shadow : @shadow; }
+    & when (@opera = true){ -o-box-shadow : @shadow; }
+    & when (@w3c = true){ box-shadow : @shadow; }
+    //    & when (@ie = true) and (@ie8 = true), (@ie7 = true) and not (@activate-pie = true){
     //        @offX      : extract(@shadow, 1);
     //        @offY      : extract(@shadow, 2);
     //        @n         : length(@shadow);
     //        @color     : extract(@shadow, @n);
     //        filter : e(%("progid:DXImageTransform.Microsoft.dropshadow(offX='%d', offY='%d', color='%d'))",@offX,@offY,@color));
     //    }
-    .activate();
     .pie;
 }
 
 // -- Backface Visibility
 .backface-visibility(@visibility) {
-    .activate() when (@webkit = true){ -webkit-backface-visibility : @visibility; }
-    .activate() when (@moz = true){ -moz-backface-visibility : @visibility; }
-    .activate() when (@ie = true){ -ms-backface-visibility : @visibility; }
-    .activate() when (@opera = true){ -o-backface-visibility : @visibility; }
-    .activate() when (@w3c = true){ backface-visibility : @visibility; }
-    .activate();
+    & when (@webkit = true){ -webkit-backface-visibility : @visibility; }
+    & when (@moz = true){ -moz-backface-visibility : @visibility; }
+    & when (@ie = true){ -ms-backface-visibility : @visibility; }
+    & when (@opera = true){ -o-backface-visibility : @visibility; }
+    & when (@w3c = true){ backface-visibility : @visibility; }
 }
 
 // Transformations
 //==================================================
 .transition(@property:all, @time:0.5s, @timing-function: ease) {
-    .activate() when (@webkit = true){ -webkit-transition : @property @time @timing-function; }
-    .activate() when (@moz = true){ -moz-transition : @property @time @timing-function; }
-    .activate() when (@ie = true){ -ms-transition : @property @time @timing-function; }
-    .activate() when (@opera = true){ -o-transition : @property @time @timing-function; }
-    .activate() when (@w3c = true){ transition : @property @time @timing-function; }
-    .activate();
+    & when (@webkit = true){ -webkit-transition : @property @time @timing-function; }
+    & when (@moz = true){ -moz-transition : @property @time @timing-function; }
+    & when (@ie = true){ -ms-transition : @property @time @timing-function; }
+    & when (@opera = true){ -o-transition : @property @time @timing-function; }
+    & when (@w3c = true){ transition : @property @time @timing-function; }
 }
 
 .transform(@transform) {
-    .activate() when (@webkit = true){ -webkit-transform : @transform; }
-    .activate() when (@moz = true){ -moz-transform : @transform; }
-    .activate() when (@ie = true){ -ms-transform : @transform; }
-    .activate() when (@opera = true){ -o-transform : @transform; }
-    .activate() when (@w3c = true){ transform : @transform; }
-    .activate();
+    & when (@webkit = true){ -webkit-transform : @transform; }
+    & when (@moz = true){ -moz-transform : @transform; }
+    & when (@ie = true){ -ms-transform : @transform; }
+    & when (@opera = true){ -o-transform : @transform; }
+    & when (@w3c = true){ transform : @transform; }
 }
 
 .transform-origin(@transform-origin) {
-    .activate() when (@webkit = true){ -webkit-transform-origin : @transform-origin; }
-    .activate() when (@moz = true){ -moz-transform-origin : @transform-origin; }
-    .activate() when (@ie = true){ -ms-transform-origin : @transform-origin; }
-    .activate() when (@opera = true){ -o-transform-origin : @transform-origin; }
-    .activate() when (@w3c = true){ transform-origin : @transform-origin; }
-    .activate();
+    & when (@webkit = true){ -webkit-transform-origin : @transform-origin; }
+    & when (@moz = true){ -moz-transform-origin : @transform-origin; }
+    & when (@ie = true){ -ms-transform-origin : @transform-origin; }
+    & when (@opera = true){ -o-transform-origin : @transform-origin; }
+    & when (@w3c = true){ transform-origin : @transform-origin; }
 }
 
 .rotate(...) {
@@ -210,30 +201,28 @@
 // Placeholder text
 //==================================================
 .placeholder(@color: @input-color-placeholder) {
-    .activate() when (@webkit = true){
+    & when (@webkit = true){
         &::-webkit-input-placeholder{ color : @color; }
     }
     // Safari and Chrome
-    .activate() when (@moz = true){
+    & when (@moz = true){
         // Firefox 4-18
         &:-moz-placeholder{ color : @color; }
         // Firefox 19+
         &::-moz-placeholder{ color : @color; }
     }
-    .activate() when (@ie = true){
+    & when (@ie = true){
         &:-ms-input-placeholder{ color : @color; }
     }
-    .activate();
 }
 
 // User select
 // For selecting text on the page
 //==================================================
 .user-select(@select:none) {
-    .activate() when (@webkit = true){ -webkit-user-select : @select; -khtml-user-select : @select; }
-    .activate() when (@moz = true){ -moz-user-select : @select; }
-    .activate() when (@ie = true){ -ms-user-select : @select; }
-    .activate() when (@opera = true){ -o-user-select : @select; }
-    .activate() when (@w3c = true){ user-select : @select; }
-    .activate();
+    & when (@webkit = true){ -webkit-user-select : @select; -khtml-user-select : @select; }
+    & when (@moz = true){ -moz-user-select : @select; }
+    & when (@ie = true){ -ms-user-select : @select; }
+    & when (@opera = true){ -o-user-select : @select; }
+    & when (@w3c = true){ user-select : @select; }
 }

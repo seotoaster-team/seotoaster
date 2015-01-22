@@ -189,6 +189,18 @@ class Backend_FormController extends Zend_Controller_Action {
                     }
                                    
                 }
+                //Check if email is valid
+                if (isset($formParams['email'])) {
+                    $emailValidation = new Zend_Validate_EmailAddress();
+                    $validEmail = $emailValidation->isValid($formParams['email']);
+                    if(!$validEmail){
+                        if($xmlHttpRequest){
+                            $this->_helper->response->fail($this->_helper->language->translate('Please enter a valid email address'));
+                        }
+                        $sessionHelper->toasterFormError = $this->_helper->language->translate('Please enter a valid email address');
+                        $this->redirect($formParams['formUrl']);
+                    }
+                }
                 $sessionHelper->formName   = $formParams['formName'];
                 $sessionHelper->formPageId = $formParams['formPageId'];
 				unset($formParams['formPageId']);
@@ -199,6 +211,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 }
 
                 $attachment = array();
+                $removeFiles = array();
                 if(!$xmlHttpRequest){
                     //Adding attachments to email
                     $websitePathTemp = $this->_helper->website->getPath().$this->_helper->website->getTmp();
@@ -222,7 +235,7 @@ class Backend_FormController extends Zend_Controller_Action {
                                 $at->filename    = $fileInfo['name'];
                                 $attachment[]    = $at;
                                 unset($at);
-                                Tools_Filesystem_Tools::deleteFile($this->_helper->website->getPath().$this->_helper->website->getTmp().$fileInfo['name']);
+                                $removeFiles[] = $this->_helper->website->getPath().$this->_helper->website->getTmp().$fileInfo['name'];
                             }else{
                                 $validationErrors = $uploader->getErrors();
                                 $errorMessage = '';
@@ -260,6 +273,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
                     $form->notifyObservers();
+                    $this->_removeAttachedFiles($removeFiles);
                     if($xmlHttpRequest){
                         $this->_helper->response->success($form->getMessageSuccess());
                     }
@@ -270,12 +284,22 @@ class Backend_FormController extends Zend_Controller_Action {
                     $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
                     $this->_redirect($formParams['formUrl']);
                 }
+                $this->_removeAttachedFiles($removeFiles);
                 if($xmlHttpRequest){
                     $this->_helper->response->fail($form->getMessageError());
                 }
                 $sessionHelper->toasterFormError = $form->getMessageError();
                 $this->_redirect($formParams['formUrl']);
 			}
+        }
+    }
+
+    private function _removeAttachedFiles(array $removeFiles)
+    {
+        if(!empty($removeFiles)) {
+            foreach($removeFiles as $file){
+                Tools_Filesystem_Tools::deleteFile($file);
+            }
         }
     }
 

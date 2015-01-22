@@ -25,20 +25,20 @@ $(function () {
             triggerPlugin('install', $(this));
         }
     })
-        .on('click', '.plugin-endis', function () {
-            triggerPlugin('onoff', $(this));
-        })
-        .on('click', '.readme-plugin', function () {
-            var pluginName = $(this).data('name');
-            $.post($('#website_url').val() + 'backend/backend_plugin/readme/', {
-                pluginName: pluginName
-            }, function (response) {
-                if (response.error) {
-                    showMessage(response.responseText, true);
-                } else {
-                    var readmeDialog;
-                    readmeDialog = $('<div id="' + pluginName + '-readme" class="readme-content content-footer">')
-                        .html(response.responseText);
+    .on('click', '.plugin-endis', function () {
+        triggerPlugin('onoff', $(this));
+    })
+    .on('click', '.readme-plugin', function () {
+        var pluginName = $(this).data('name');
+        $.post($('#website_url').val() + 'backend/backend_plugin/readme/', {
+            pluginName: pluginName
+        }, function (response) {
+            if (response.error) {
+                showMessage(response.responseText, true);
+            } else {
+                var readmeDialog;
+                readmeDialog = $('<div id="' + pluginName + '-readme" class="readme-content content-footer">')
+                    .html(response.responseText);
 
                     readmeDialog.dialog({
                         modal: true,
@@ -50,7 +50,7 @@ $(function () {
                         show: 'clip',
                         hide: 'clip',
                         buttons: [
-                            {text: "Okay", 'class': 'btn', click: function () {
+                            {text: "Okay", class: 'btn', click: function () {
                                 $(this).dialog("close");
                             }}
                         ]

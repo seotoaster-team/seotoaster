@@ -106,6 +106,7 @@ class Widgets_Search_Search extends Widgets_Abstract
 
     private function _renderSearchResults()
     {
+
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
         $params = $request->getParams();
@@ -172,16 +173,19 @@ class Widgets_Search_Search extends Widgets_Abstract
                 $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
             }
             if (null === ($searchResults = $this->_cache->load($cacheId, $cachePrefix))
-                || !isset($searchResults['data'][$key])
+                || empty($searchResults['data'][$key])
             ) {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
+                $searchTermArray = explode(' ', $searchTerm);
+                $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
                 try {
                     if (in_array(self::OPTION_SORT_RECENT, $this->_options)
                         && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
-                        $hits = $toasterSearchIndex->find($searchTerm, 'modified', SORT_DESC);
+
+                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'), 'modified', SORT_DESC);
                     } else {
-                        $hits = $toasterSearchIndex->find($searchTerm);
+                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
                     }
                 } catch (Exception $e) {
                     throw new Exceptions_SeotoasterWidgetException($e->getMessage());
