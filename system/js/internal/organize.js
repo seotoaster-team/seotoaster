@@ -116,23 +116,19 @@ function saveCategoriesOrder() {
             ordered.push($(this).attr('id'));
         })
     });
-
-
-        $.ajax({
-            type: 'post',
-            url : $('#website_url').val() + 'backend/backend_page/organize/',
-            data: {act: 'save', ordered: ordered},
-            dataType: 'json',
-            beforeSend: function() {
-                showSpinner();
-            },
-            success: function(response) {
-                hideSpinner();
-                showMessage(response.responseText, response.error);
-            }
-        })
-
-
+    $.ajax({
+        type: 'post',
+        url : $('#website_url').val() + 'backend/backend_page/organize/',
+        data: {act: 'save', ordered: JSON.stringify(ordered) },
+        dataType: 'json',
+        beforeSend: function() {
+            showSpinner();
+        },
+        success: function(response) {
+            hideSpinner();
+            showMessage(response.responseText, response.error);
+        }
+    })
 }
 
 function removeMarks(elements){

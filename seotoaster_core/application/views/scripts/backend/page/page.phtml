@@ -135,6 +135,30 @@
         $('#removePreviousOption').val('yes');
         $('#frm-page').submit();
     }
+
+    $('#pageCategory').on('change', function () {
+        var self = this;
+        $.ajax({
+            url: $('#website_url').val() + 'backend/backend_page/is-draft-category/',
+            type: 'POST',
+            dataType: 'json',
+            data: {id: $(self).val()},
+            success: function (response) {
+                if (response.responseText == true) {
+                    //$('#published').trigger('click');
+                    $('#published').prop('checked', false);
+                    $('#draft').val(1);
+                    $('#publish-later').show();
+                } else {
+                    //$('#published').trigger('click');
+                    $('#published').prop('checked', true);
+                    $('#draft').val(0);
+                    $('#publish-later').hide();
+                }
+
+            }
+        });
+    });
 </script>
 
 <?php $this->headScript()

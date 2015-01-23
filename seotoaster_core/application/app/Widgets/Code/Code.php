@@ -27,8 +27,9 @@ class Widgets_Code_Code extends Widgets_AbstractContent {
 		if(!preg_match('~<script~', $codeContent)) {
 			ob_start();
 			$returned    = eval($codeContent);
+
 			$codeContent = ob_get_clean();
-			ob_get_flush();
+            ob_get_flush();
 			$codeContent .= $returned;
 		}
         if(Tools_Security_Acl::isAllowed($this)) {

@@ -14,7 +14,8 @@ class Application_Form_Search extends Zend_Form {
 
 	public function init() {
         $this->setMethod(Zend_Form::METHOD_GET)
-            ->setAttrib('id', 'search-form');
+            ->setAttrib('id', 'search-form')
+			->setAttrib('class', 'search-form');
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'id'       => 'search',
@@ -22,10 +23,7 @@ class Application_Form_Search extends Zend_Form {
             'label'    => '',
             'value'    => $this->_search,
             'required' => true,
-            'filters'  => array(new Zend_Filter_StringTrim()),
-            'validators' => array(
-                new Zend_Validate_StringLength(array('min' => 3))
-            )
+            'filters'  => array(new Zend_Filter_StringTrim())
         )));
 
 		$this->_initDecorators();

@@ -148,7 +148,7 @@
                     }
                 } else if ($(this).is('select')) {
                     if (this.type == 'select-one') {
-                        if ($(this).val().length < 1) {
+                        if ($(this).val() == 0) {
                             $(this).addClass('notvalid');
                         } else {
                             $(this).removeClass('notvalid');
@@ -163,7 +163,7 @@
                 }
             });
             $('.notvalid').on('blur', function(){
-                if ($(this).val().length < 1){
+                if ($(this).val().length > 1){
                     $(this).removeClass('notvalid');
                 }
             });

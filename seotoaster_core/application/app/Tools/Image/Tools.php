@@ -87,10 +87,15 @@ class Tools_Image_Tools {
         $fileInfo   = getimagesize($pathFile);
         $imgWidth   = $fileInfo[0];
         $imgHeight  = $fileInfo[1];
-        $fileType   = $fileInfo[2];
         $mimeType   = $fileInfo['mime'];
 
-        if ($imgWidth >= $newWidth) {
+        // If width or height > original size
+        if ($newHeight !== 'auto' && ($imgWidth < $newWidth || $imgHeight < $newHeight)) {
+            list($newWidth, $newHeight) = array_values(
+                self::calculateImageProportion($newWidth, $newHeight, $imgWidth, $imgHeight)
+            );
+        }
+        elseif ($imgWidth >= $newWidth) {
             if ($newHeight == 'auto') {
                 $newHeight = ($saveProportion) ? ($imgHeight*$newWidth/$imgWidth) : $newWidth;
             }
@@ -258,6 +263,23 @@ class Tools_Image_Tools {
         imagedestroy($image);
 
         return true;
+    }
+
+    /**
+     * Calculate image proportion by max width and max height
+     *
+     * @param $width
+     * @param $height
+     * @param $newWidth
+     * @param $newHeight
+     * @return array
+     */
+    public static function calculateImageProportion($width, $height, $maxWidth, $maxHeight)
+    {
+        return array(
+            'width'  => (int)(($width/$height>1) ? min($width, $maxWidth) : ($width/100*($maxHeight/$height*100))),
+            'height' => (int)(($width/$height>1) ? ($height/100*($maxWidth/$width*100)) : min($height, $maxHeight))
+        );
     }
 
     public static function optimizeImage($imageFile, $quality){

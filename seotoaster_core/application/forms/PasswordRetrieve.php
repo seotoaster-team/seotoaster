@@ -50,6 +50,7 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 
         $this->getElement('submit')->removeDecorator('DtDdWrapper');
         $this->getElement('submit')->removeDecorator('Label');
+        $this->getElement('submit')->removeDecorator('HtmlTag');
         $this->removeDecorator('DtDdWrapper');
         $this->removeDecorator('DlWrapper');
 	}
