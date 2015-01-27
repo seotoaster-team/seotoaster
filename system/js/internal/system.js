@@ -215,12 +215,12 @@ $(function(){
     }
     //publishPages();
     checkboxRadioStyle();
-    $(document).on('mouseup', function (e) {
+    $(document).on('mouseup', '.seotoaster', function (e) {
         var container = $(".show-left, .show-right");
         if (container.has(e.target).length === 0){
             $('.show-left').hide("slide", { direction: "left"});
             $('.show-right').hide("slide", { direction: "right"});
-            return false;
+            //return false;
         }
     }).on('click', '.closebutton .hide-block', function(){
         $('.show-left').hide("slide", { direction: "left"});
