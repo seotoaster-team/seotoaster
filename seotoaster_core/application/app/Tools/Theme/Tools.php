@@ -119,7 +119,7 @@ class Tools_Theme_Tools {
         return $websiteHelper->getUrl().$themesPath.$folderCssPath.'reset.css';
     }
 
-    public static function applyTemplates($themeName) {
+    public static function applyTemplates($themeName, $developerMode = false) {
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $themesConfig  = Zend_Registry::get('theme');
         $themePath     = $websiteHelper->getPath().$themesConfig['path'].$themeName.DIRECTORY_SEPARATOR;
@@ -144,8 +144,10 @@ class Tools_Theme_Tools {
             throw new Exception(join('<br />', $errors));
         }
 
-        // This will remove all templates except system required. @see $protectedTemplates
-        Application_Model_Mappers_TemplateMapper::getInstance()->clearTemplates();
+        if (!$developerMode) {
+            // This will remove all templates except system required. @see $protectedTemplates
+            Application_Model_Mappers_TemplateMapper::getInstance()->clearTemplates();
+        }
 
         self::addTemplates($themePath, $themeFiles);
 
