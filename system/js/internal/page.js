@@ -16,6 +16,31 @@ function toggleOptimized(optimized) {
     }, 'json');
 }
 
+function toggleExternalLink(){
+    var externalLinkStatusEl = $('#external-link-status'),
+        disableFieldIds = ['h1', 'header-title', 'meta-keywords', 'meta-description', 'page-options', 'curr-template'],
+        externalLinkStatus = ($('#external-link-switch').prop('checked') ? 1 : 0);
+    if (externalLinkStatusEl.length) {
+        externalLinkStatusEl.val(externalLinkStatus);
+        if (!$('#toggle-optimized').is(':checked')) {
+            $.each(disableFieldIds, function(key, fieldId){
+                $('#'+fieldId).prop('readonly', externalLinkStatus).toggleClass('noedit');
+            });
+            if (externalLinkStatus) {
+                $('.template-section').css({'visibility':'hidden'});
+                $('#url').val($('#external-link').val());
+                if($.trim($('#url').val()) === ''){
+                    $('#url').prop('placeholder','Your link to an external website');
+                }
+            } else {
+                $('#url').val($('#original-page-url').val());
+                $('.template-section').css({'visibility':'visible'});
+                $('#url').prop('placeholder','');
+            }
+        }
+    }
+}
+
 function datepickerCallback() {
     $('#publish-at').val($(this).val());
 }
@@ -83,6 +108,10 @@ $(function () {
 
     $('#optimized').val($('#toggle-optimized').attr('checked') ? 1 : 0);
 
+    if ($('#external-link-status').val() == 1 && !$('#toggle-optimized').attr('checked')) {
+        toggleExternalLink();
+    }
+
     $(document).on('click', '.template_name', function () { // click on template name in templates list
         var templateId = $(this).parent().find('input[name="template-id"]').val();
         $('#templateId').val(templateId).change();
@@ -109,6 +138,8 @@ $(function () {
         }
     }).on('blur', '#datepicker', function () {
         $('#publish-at').val($(this).val());
+    }).on('change', '#external-link-switch', function(){
+        toggleExternalLink()
     });
 
     // if this is a page creation, register auto-populate

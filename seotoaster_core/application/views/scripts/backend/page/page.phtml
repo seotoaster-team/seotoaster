@@ -7,11 +7,15 @@
 		'onselectCallback' => 'datepickerCallback'
 	));
 
+    $externalLink = '';
+    if ($this->pageForm->getElement('url')->getValue() !== 'index') {
+        $externalLink = '<label class="ml2">' . $this->formCheckbox('external-link-switch', $this->pageForm->getElement('externalLinkStatus')->getValue(), array('checked' => $this->pageForm->getElement('externalLinkStatus')->getValue())) . '&nbsp;' . $this->translate('Create a simple link') . '</label>';
+    }
 	$optimizedCheck = '';
 	if($this->sambaOptimized):
 		$optimizedCheck = '<label class="ml2">' . $this->formCheckbox('sambaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized') . '</label>';
 	endif;
-	echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck, 'helpSection' => $this->helpSection));
+	echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck. $externalLink, 'helpSection' => $this->helpSection));
 	?>
 
 	<div id="templatelist" class="show-right seotoaster"></div>
@@ -42,7 +46,8 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
-			<p><?php echo $this->pageForm->getElement('url'); ?></p>
+        	<p><?php echo $this->pageForm->getElement('url'); ?></p>
+            <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
 			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
@@ -65,7 +70,7 @@
 					echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Tag this page') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
 				?>
 			</div>
-			<div class="cl-both background mt5px">
+			<div class="cl-both background mt5px template-section">
 				<label class="grid_4 alpha omega required"><?php echo $this->pageForm->getElement('templateId')->getLabel(); ?>:</label>
                 <?php echo $this->pageForm->getElement('templateId')->renderViewHelper(); ?>
                 <div class="grid_8 alpha omega mb10px">
@@ -97,8 +102,11 @@
 		<?php echo $this->pageForm->getElement('draft'); ?>
 		<?php echo $this->pageForm->getElement('optimized'); ?>
 		<?php echo $this->pageForm->getElement('publishAt'); ?>
+        <?php echo $this->pageForm->getElement('externalLinkStatus'); ?>
+        <?php echo $this->pageForm->getElement('externalLink'); ?>
 		<?php echo $this->pageForm->getElement('pageType'); ?>
         <?php echo $this->pageForm->getElement('updatePage'); ?>
+        <input type="hidden" name="original-page-url" id="original-page-url" value="<?php echo $this->pageForm->getElement('url')->getValue(); ?>">
 	</form>
 </div>
 <script type="text/javascript">
@@ -128,6 +136,10 @@
                 });
                 showMessage(errorMessage, true, 3000);
             }
+        });
+
+        $('#external-link-status').on('change', function() {
+            $('#external-link').prop('readonly', !$(this).is(':checked')).toggleClass('noedit');
         });
 	});
 

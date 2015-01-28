@@ -34,6 +34,10 @@ class Application_Form_Page extends Zend_Form {
 
 	protected $_pageOption      = 0;
 
+    protected $_externalLinkStatus = 0;
+
+    protected $_externalLink = '';
+
 	public function init() {
 		$this->setMethod(Zend_Form::METHOD_POST);
 
@@ -170,6 +174,25 @@ class Application_Form_Page extends Zend_Form {
 			'name'  => 'publishAt',
 			'value' => $this->_publishAt
 		)));
+
+        $this->addElement(
+            new Zend_Form_Element_Hidden(array(
+                'id' => 'external-link-status',
+                'name' => 'externalLinkStatus',
+                'value' => $this->_externalLinkStatus
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Hidden(array(
+                'id' => 'external-link',
+                'name' => 'externalLink',
+                'value' => $this->_externalLink,
+                'filters' => array(
+                    new Zend_Filter_StringTrim()
+                )
+            ))
+        );
 
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'updatePage',
@@ -324,6 +347,30 @@ class Application_Form_Page extends Zend_Form {
 	public function getMainMenuOptions() {
 		return $this->getElement('pageCategory')->getMultiOptions();
 	}
+
+    public function setExternalLinkStatus($externalLinkStatus)
+    {
+        $this->_externalLinkStatus = $externalLinkStatus;
+        $this->getElement('externalLinkStatus')->setValue($externalLinkStatus);
+        return $this;
+    }
+
+    public function getExternalLinkStatus()
+    {
+        return $this->_externalLinkStatus;
+    }
+
+    public function setExternalLink($externalLink)
+    {
+        $this->_externalLink = $externalLink;
+        $this->getElement('externalLink')->setValue($externalLink);
+        return $this;
+    }
+
+    public function getExternalLink()
+    {
+        return $this->_externalLink;
+    }
 
 	public function lockField($fieldName) {
 		$this->getElement($fieldName)

@@ -6,6 +6,8 @@
  */
 class Backend_PageController extends Zend_Controller_Action {
 
+    const DEFAULT_TEMPLATE = 'default';
+
     public static $_allowedActions = array('publishpages', 'listpages');
 
     protected $_mapper             = null;
@@ -74,10 +76,15 @@ class Backend_PageController extends Zend_Controller_Action {
             $params    = $this->getRequest()->getParams();
             $messages  = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
             $optimized = (isset($params['optimized']) && $params['optimized']);
+            $externalLink = (isset($params['externalLinkStatus']) && $params['externalLinkStatus']);
 
             //if page is optimized by samba unset optimized values from update
             if($optimized) {
                 $params = $this->_restoreOriginalValues($params);
+            }
+
+            if($externalLink && !$optimized){
+                $params = $this->_processParamsForExternalLink($params);
             }
 
             if($pageForm->isValid($params)) {
@@ -498,6 +505,33 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     /**
+     * Prepare page params with external link
+     *
+     * @param array $params
+     * @return array
+     */
+    private function _processParamsForExternalLink(array $params)
+    {
+        $page = Application_Model_Mappers_PageMapper::getInstance()->find($params['pageId'], true);
+        $params['externalLink'] = $params['url'];
+        if (!empty($params['externalLink']) && !preg_match('~(http|https|ftp):\/\/~', $params['externalLink'])) {
+            $params['externalLink'] = 'http://' . $params['externalLink'];
+        }
+        if ($page instanceof Application_Model_Models_Page) {
+            $params['url'] = $page->getUrl();
+            $params['metaKeywords'] = $page->getMetaKeywords();
+            $params['headerTitle'] = $page->getHeaderTitle();
+            $params['h1'] = $page->getHeaderTitle();
+            $params['metaDescription'] = $page->getMetaDescription();
+            $params['templateId'] = $page->getTemplateId();
+        } else {
+            $params['templateId'] = self::DEFAULT_TEMPLATE;
+            $params['h1'] = self::DEFAULT_TEMPLATE;
+            $params['headerTitle'] = self::DEFAULT_TEMPLATE;
+        }
+        return $params;
+    }
+    /**
      * Checks if the category is draft
      */
     public function isDraftCategoryAction()
@@ -506,6 +540,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $categoryID = $this->getRequest()->getPost('id', null);
             $this->_helper->response->success(Application_Model_Mappers_PageMapper::getInstance()->isDraftCategory($categoryID));
         }
+
     }
 }
 

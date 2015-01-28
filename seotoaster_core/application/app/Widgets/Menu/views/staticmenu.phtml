@@ -1,5 +1,12 @@
 <ul class="static_menu">
 	<?php foreach ($this->staticPages as $staticPage): ?>
-		<li><a href="<?php echo $this->websiteUrl . str_replace('index.html', '', $staticPage->getUrl()); ?>" title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a></li>
+        <?php $targetBlank = '';?>
+        <?php $staticUrl = $this->websiteUrl . str_replace('index.html', '', $staticPage->getUrl());?>
+        <?php if($staticPage->getExternalLinkStatus() === '1'):?>
+            <?php $staticUrl = $staticPage->getExternalLink();?>
+            <?php $targetBlank = 'target="_blank"';?>
+        <?php endif;?>
+        <li><a href="<?php echo $staticUrl;?>" <?php echo $targetBlank;?> title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a></li>
+
 	<?php endforeach; ?>
 </ul>

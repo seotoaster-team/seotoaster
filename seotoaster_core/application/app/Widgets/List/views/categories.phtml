@@ -1,16 +1,27 @@
-<ul class="listcategories <?php echo $this->listClass; ?>">
-	<?php if($this->categoriesList): ?>
+<?php if ($this->categoriesList): ?>
+    <ul class="listcategories <?php echo $this->listClass; ?>">
         <?php foreach ($this->categoriesList as $page): ?>
-			<li>
-				<?php if($this->useImage): ?>
-                    <?php $src =  Tools_Page_Tools::getPreview($page, $this->crop); ?>
-					<a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>">
-						<img src="<?php echo $src; ?>" alt="<?php echo $page->getH1(); ?>" />
-					</a>
-				<?php endif; ?>
-				<a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo $page->getH1(); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
-				<span><?php echo $page->getTeaserText(); ?></span>
-			</li>
-		<?php endforeach; ?>
-	<?php endif; ?>
-</ul>
+            <li>
+                <?php if ($page->getExternalLinkStatus() === '1'): ?>
+                    <?php $pageUrl = $this->escape($page->getExternalLink()); ?>
+                    <?php $targetBlank = 'target="_blank"'; ?>
+                <?php else: ?>
+                    <?php $pageUrl = $this->escape($this->websiteUrl . $page->getUrl()); ?>
+                    <?php $targetBlank = ''; ?>
+                <?php endif; ?>
+                <?php if ($this->useImage): ?>
+                    <?php $src = Tools_Page_Tools::getPreview($page, $this->crop); ?>
+                    <a class="page-teaser-image"
+                       href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>"
+                       title="<?php echo $page->getH1(); ?>">
+                        <img src="<?php echo $src; ?>" alt="<?php echo $page->getH1(); ?>"/>
+                    </a>
+                <?php endif; ?>
+                <a href="<?php echo $pageUrl; ?>"
+                   title="<?php echo $page->getH1(); ?>" <?php echo $targetBlank; ?>
+                   class="page-title"><?php echo $page->getNavName(); ?></a>
+                <span><?php echo $page->getTeaserText(); ?></span>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

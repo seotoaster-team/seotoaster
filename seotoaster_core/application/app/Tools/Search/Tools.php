@@ -104,6 +104,10 @@ class Tools_Search_Tools
                     $page['content'] .= $container->getContent();
                 }
             }
+
+            if ($page['externalLinkStatus'] === '1') {
+                $page['url'] = $page['externalLink'];
+            }
         }
 
         $document = new Zend_Search_Lucene_Document();
