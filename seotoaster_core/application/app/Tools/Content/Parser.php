@@ -39,11 +39,11 @@ class Tools_Content_Parser
 
     public function parse()
     {
-        $this->_runRepeats();
+        $this->_runMagicSpaces(true);
         $this->_runWidgets();
         $this->_changeMedia();
-        $this->_iteration = 0;
-        $this->_runMagicSpaces();
+        $this->_runMagicSpaces(false);
+
         return $this->_content;
     }
 
@@ -90,21 +90,34 @@ class Tools_Content_Parser
      */
     public function parseSimple()
     {
+        $this->_runMagicSpaces(true);
         $this->_runWidgets();
-        $this->_iteration = 0;
-        $this->_runMagicSpaces();
+        $this->_runMagicSpaces(false);
+
         return $this->_content;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _resetIteration()
+    {
+        $this->_iteration = 0;
+        return $this;
     }
 
     protected function _runWidgets()
     {
-        $this->_iteration++;
-        $replacement = '';
-        $widgets = $this->_findWidgets();
-
-        if (empty($widgets) || ($this->_iteration >= self::PARSE_DEEP)) {
-            return;
+        if (($this->_iteration++) > self::PARSE_DEEP) {
+            return $this->_resetIteration();
         }
+
+
+        $widgets = $this->_findWidgets();
+        if (empty($widgets)) {
+            return $this->_resetIteration();
+        }
+
         foreach ($widgets as $widgetData) {
             try {
                 $widget = Tools_Factory_WidgetFactory::createWidget(
@@ -173,66 +186,63 @@ class Tools_Content_Parser
         return $widgets;
     }
 
-
-    protected function _runRepeats()
+    protected function _runMagicSpaces($parseBefore = false, $excludeFromParse = array())
     {
-        preg_match_all('~{(repeat+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)}~uiUs', $this->_content, $spacesFound);
-        $spacesFound = array_filter($spacesFound);
-
-        if (!empty($spacesFound) && isset($spacesFound[1])) {
-            $this->_renderMagicSpaces($spacesFound[1]);
+        if (($this->_iteration++) > self::PARSE_DEEP) {
+            return $this->_resetIteration();
         }
-    }
-
-    protected function _runMagicSpaces()
-    {
-        $this->_iteration++;
 
         preg_match_all(
-            '~(?:[^{]{((?!repeat)[\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)})~uiUs',
+            '~(?:[^{]{([\w]+'.self::OPTIONS_SEPARATOR.'*[:\w\-\s,&]*)})~uiUs',
             $this->_content,
             $spacesFound
         );
-        $spacesFound = array_filter($spacesFound);
-
-        if (!empty($spacesFound) && isset($spacesFound[1])) {
-            $this->_renderMagicSpaces($spacesFound[1]);
-
-            if ($this->_iteration <= self::PARSE_DEEP) {
-                $this->_runMagicSpaces();
-            }
+        $spacesFound = array_filter($spacesFound[1]);
+        if (!empty($excludeFromParse)) {
+            $spacesFound = array_diff($spacesFound, $excludeFromParse);
         }
-    }
+        if (empty($spacesFound)) {
+            return $this->_resetIteration();
+        }
 
-    protected function _renderMagicSpaces($spacesFound = array())
-    {
-        foreach ($spacesFound as $spaceName) {
+        foreach ($spacesFound as $key => $spaceName) {
             // If any parameters passed
             $parameters = explode(self::OPTIONS_SEPARATOR, $spaceName);
             $magicLabel = false;
             if (is_array($parameters)) {
                 $spaceName = array_shift($parameters);
                 if ($spaceName === self::MAGIC_SPACE_LABEL) {
-                    $spaceName = array_shift($parameters);
+                    $spaceName  = array_shift($parameters);
                     $magicLabel = true;
                 }
-
             }
 
             try {
-                $this->_content = Tools_Factory_MagicSpaceFactory::createMagicSpace(
+                $magicSpaceObj = Tools_Factory_MagicSpaceFactory::createMagicSpace(
                     $spaceName,
                     $this->_content,
                     array_merge($this->_pageData, $this->_options),
                     $parameters,
                     $magicLabel
-                )->run();
+                );
+
+                // Check parse before or after parse widgets and is allowed recursive parse
+                if ($parseBefore !== $magicSpaceObj->isAllowedParseBefore()
+                    || (!$magicSpaceObj->isAllowedRecursiveParse() && $this->_iteration > 1)
+                ) {
+                    array_push($excludeFromParse, $spacesFound[$key]);
+                    continue;
+                }
+
+                $this->_content = $magicSpaceObj->run();
             }
             catch (Exception $e) {
                 Tools_System_Tools::debugMode() && error_log($e->getMessage());
                 continue;
             }
         }
+
+        $this->_runMagicSpaces($parseBefore, $excludeFromParse);
     }
 
     protected function _replace($replacement, $name, $options = array())
@@ -241,6 +251,7 @@ class Tools_Content_Parser
         if (!empty($options)) {
             $optString = self::OPTIONS_SEPARATOR.implode(self::OPTIONS_SEPARATOR, $options);
         }
+
         $this->_content = str_replace('{$'.$name.$optString.'}', $replacement, $this->_content);
     }
 }

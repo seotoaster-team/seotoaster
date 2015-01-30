@@ -2,45 +2,57 @@
 
 abstract class Tools_MagicSpaces_Abstract
 {
-    protected $_name         = '';
+    protected $_name           = '';
 
     /**
      * Full and parsed page content
      *
      * @var string
      */
-    protected $_content      = '';
+    protected $_content        = '';
 
     /**
      * Parsed magic space content
      *
      * @var string
      */
-    protected $_spaceContent = '';
+    protected $_spaceContent   = '';
 
     /**
      * Seotoaster's current page data
      *
      * @var array
      */
-    protected $_toasterData  = array();
+    protected $_toasterData    = array();
 
 
-    protected $_magicLabel   = false;
+    protected $_magicLabel     = false;
 
     /**
      * Magic space parameters. Available since 2.0.6
      *
      * @var null
      */
-    protected $_params       = array();
+    protected $_params         = array();
 
     /*
      * Contains information for render magicSpace
      *
      * @var string
      */
-    protected $_replaceKey   = '';
+    protected $_replaceKey     = '';
+
+    /**
+     * Parse before widgets
+     *
+     * @var bool
+     */
+    protected $_parseBefore    = false;
+
+    /**
+     * @var bool
+     */
+    protected $_recursiveParse = true;
 
     public function __construct(
         $name = '',
@@ -69,6 +81,19 @@ abstract class Tools_MagicSpaces_Abstract
 
     protected function _init()
     {
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllowedParseBefore()
+    {
+        return $this->_parseBefore;
+    }
+
+    public function isAllowedRecursiveParse()
+    {
+        return $this->_recursiveParse;
     }
 
     public function run()
