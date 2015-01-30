@@ -91,7 +91,8 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
             }
             $filePath = $this->_createFile($content);
         }
-
+        
+        $filePath = str_replace("\\", '/', $filePath);
         $fileLink = $this->_toasterData['websiteUrl'].$filePath;
 
         return '<link href="'.$fileLink.'" rel="stylesheet" type="text/css" media="screen"/>';
