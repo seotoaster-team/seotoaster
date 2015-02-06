@@ -29,7 +29,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.3.0');
+('version',	'2.4.0');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
