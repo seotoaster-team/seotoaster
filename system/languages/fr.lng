@@ -1,4 +1,6 @@
 ﻿<?php return array('Show/Hide panel' => 'Afficher/Cacher le menu',
+    'Welcome Back' => 'Bon retour',
+    'Select your language' => 'Sélectionnez votre langue',
     'Draft pages' => 'Brouillons',
     'Pages in draft' => 'Brouillons',
     'Widgets & Tokens' => 'Widgets &amp; Jetons',

@@ -327,6 +327,7 @@ return array(
 	'Full description' => 'Dlouhý popis',
 	'select brand' => 'vybrat znáčku',
 	'Welcome Back' => 'Vítejte',
+	'Select your language' => 'Select your language',
 	'Forgot password?' => 'Zapomněli jste heslo?',
 	'Let me in' => 'Vstoupit',
 	'Products in your cart' => 'Produkty v košíku',

@@ -25,6 +25,7 @@ return array(
 	'Toast It!'                                        => 'Končano',
 	'Login'        				=> 'Prijava',
 	'Welcome Back' 				=> 'Dobrodošli nazaj',
+	'Select your language' 		=> 'Select your language',
 	'Password'     				=> 'Geslo',
 	'Let me in'    				=> 'Vstopi',
 	'Forgot password?' 			=> 'Pozabil geslo?',

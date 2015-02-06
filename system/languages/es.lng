@@ -1,5 +1,6 @@
 <?php return array('Main Menu' => 'Menú Principal',
  'Published' => 'Publicado',
+  'Select your language' => 'Selecione seu idioma',
   'Publish automatically on' => 'Publicar automáticamente en',
    'Help' => 'Ayuda', 'Close' => 'Cerrar',
    'No editor' => 'No editor',

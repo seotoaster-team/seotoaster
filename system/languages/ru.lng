@@ -8,6 +8,7 @@
 	/*Login screen*/
 	'Login'        => 'Вход',
 	'Welcome Back' => 'Добро Пожаловать',
+	'Select your language' => 'Выберите ваш язык',
 	'Password'     => 'Пароль',
 	'Let me in'    => 'Войти',
 
