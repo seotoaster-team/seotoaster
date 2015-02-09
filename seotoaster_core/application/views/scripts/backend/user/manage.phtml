@@ -92,12 +92,17 @@
 </div>
 <script type="text/javascript">
 	$(function() {
+        $('#export-users').click(function() {
+            if ($('#users-list tbody tr').length > 1) {
+                $('#expusrs').submit();
+            } else {
+                showMessage("<?php echo $this->translate('There are no users for export') ?>");
+            }
+        });
+
         $(document).on('click', '#add-user-link, ._tedit',function(){
             $('#frm-user')[0].reset();
             $('#add-user').show("slide", { direction: "right"});
-        });
-        $('#export-users').click(function() {
-            $('#expusrs').submit();
         });
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].ticon-sort').addClass('ticon-sort-down');
         $('a[href*="by/<?php echo $this->by ;?>/order/desc"].ticon-sort').addClass('ticon-sort-up');
