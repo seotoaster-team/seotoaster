@@ -97,6 +97,6 @@ ALTER TABLE `page` ADD COLUMN `external_link_status` enum('0','1') COLLATE utf8_
 ALTER TABLE `page` ADD COLUMN `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.3.3' WHERE `name`='version';
+UPDATE `config` SET `value`='2.4.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
