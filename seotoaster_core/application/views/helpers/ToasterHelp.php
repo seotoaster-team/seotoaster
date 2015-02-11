@@ -56,6 +56,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
 
     const SECTION_UPDATER = 'updater';
 
+    const SECTION_EDITJS = 'editjs';
+
     private $_helpHashMap = array(
         self::SECTION_ADDPAGE      => 'how-to-create-and-edit-a-page.html',
         self::SECTION_EDITPAGE     => 'how-to-create-and-edit-a-page.html',
@@ -79,7 +81,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
         self::SECTION_EDITCONTENT  => 'add-and-edit-content.html',
         self::SECTION_EDITFORM     => 'how-to-add-a-form.html',
         self::SECTION_WIDCARD      => 'local-search-engine-optimization.html',
-        self::SECTION_UPDATER      => 'updater.html'
+        self::SECTION_UPDATER      => 'updater.html',
+        self::SECTION_EDITJS       => 'edit-js-files-in-seotoaster.html'
     );
 
     public function toasterHelp($section, $hashMap = null)
