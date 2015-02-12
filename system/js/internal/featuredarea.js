@@ -2,7 +2,7 @@ $(function() {
 	$('#addFeaturedArea-label').hide();
 
 	loadFaList();
-	$(document).on('click', '.add-page', function() {
+	$(document).on('click', 'input.add-page', function() {
         showSpinner("#fa-list");
 		var chckbx = $('#fa-list [type=checkbox]:checked');
 
