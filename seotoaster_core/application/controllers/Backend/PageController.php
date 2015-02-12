@@ -215,7 +215,11 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 $page->notifyObservers();
 
-                $this->_helper->response->success(array('redirectTo' => $page->getUrl()));
+                $redirectTo = $page->getUrl();
+                if ($externalLink && !$optimized) {
+                    $redirectTo = 'index.html';
+                }
+                $this->_helper->response->success(array('redirectTo' => $redirectTo));
                 exit;
             }
             $messages = array_merge($pageForm->getMessages(), $messages);
@@ -524,10 +528,15 @@ class Backend_PageController extends Zend_Controller_Action {
             $params['h1'] = $page->getHeaderTitle();
             $params['metaDescription'] = $page->getMetaDescription();
             $params['templateId'] = $page->getTemplateId();
+            if (!$page->getExternalLinkStatus()) {
+                $this->_helper->cache->clean();
+            }
+
         } else {
             $params['templateId'] = self::DEFAULT_TEMPLATE;
             $params['h1'] = self::DEFAULT_TEMPLATE;
             $params['headerTitle'] = self::DEFAULT_TEMPLATE;
+            $this->_helper->cache->clean();
         }
         return $params;
     }
