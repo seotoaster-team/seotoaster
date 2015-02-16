@@ -29,6 +29,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
 	const PLUGIN_EXPORT_METHOD = 'exportWebsiteData';
 
+	const PLUGIN_IMPORT_METHOD = 'importWebsiteData';
+
 	protected $_websiteHelper = null;
 
 	protected $_themesConfig = array();
@@ -39,6 +41,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
 	protected $_translator = null;
 
+    private $_dbAdapter = null;
+
+    private $_themePath = null;
+
 	/**
 	 * Queries to execute during the full theme download.
 	 *
@@ -46,15 +52,14 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 * @var array
 	 */
 	protected $_fullThemesSqlMap = array(
-//        'page'            => 'SELECT * FROM `page`',
+        'page'            => 'SELECT * FROM `page` WHERE id IN (?) ;',
 		'container'       => 'SELECT * FROM `container` WHERE page_id IS NULL OR page_id IN (?) ;',
 		'featured_area'   => 'SELECT * FROM `featured_area`;',
 		'page_fa'         => 'SELECT * FROM `page_fa` WHERE page_id IN (?) ;',
-		'page_option'     => 'SELECT * FROM `page_option`;',
+		'page_option'     => 'SELECT * FROM `page_option` ;',
 		'page_has_option' => 'SELECT * FROM `page_has_option` WHERE page_id IN (?) ;',
 		'form'            => 'SELECT * FROM `form`;',
-		'template_type'   => 'SELECT * FROM `template_type`;',
-        'plugin_newslog_news'  => 'SELECT * FROM `plugin_newslog_news`;'
+		'template_type'   => 'SELECT * FROM `template_type`;'
 	);
 
 	/**
@@ -76,6 +81,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		$this->_cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
 		$this->_themesConfig = Zend_Registry::get('theme');
 		$this->_translator = Zend_Registry::get('Zend_Translate');
+		$this->_dbAdapter = Zend_Registry::get('dbAdapter');
 	}
 
 	/**
@@ -98,14 +104,16 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 */
 	public function getAction() {
 
+        $themesPath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'];
+        $themeName = $this->_configHelper->getConfig('currentTheme');
+        $this->_themePath = $themesPath . $themeName;
+
         if($this->_request->getParam('exportBackup', false)){
             // exporting theme
             $this->_exportTheme(null, true, true);
             return array('responseText' => $this->_translator->translate('Backup theme created!'));
         }
         if($this->_request->getParam('importBackup', false)){
-            $themeName = $this->_configHelper->getConfig('currentTheme');
-
             // exporting theme
             $this->_applySql($themeName);
             $this->_applyMedia($themeName);
@@ -113,12 +121,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             return array('responseText' => $this->_translator->translate('Backup theme uploaded!'));
         }
 
-		$themesPath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'];
-
 		// if parameter 'name' specified in the query, we assume user is trying to download a theme
 		if ($this->_request->has('name')) {
 			$themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
-			$themePath = $themesPath . $themeName;
 
 			// check if full theme requested - perform necessary actions
 			$isFull = $this->_request->has('kind') && $this->_request->getParam('kind') == self::THEME_KIND_FULL;
@@ -164,10 +169,13 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 *
 	 */
 	public function putAction() {
+        $themesPath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'];
+        $themeName = $this->_configHelper->getConfig('currentTheme');
+        $this->_themePath = $themesPath . $themeName;
+
 		$themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
 		$data = Zend_Json::decode($this->_request->getRawBody());
-		$themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
-		if (is_dir($themePath)) {
+		if (is_dir($this->_themePath)) {
 			// save templates in the database with proper type from theme.ini
             try {
                 Tools_Theme_Tools::applyTemplates($themeName);
@@ -181,13 +189,13 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 				// backup current theme
 				$this->_exportTheme(null, true, true);
 
-				if (file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_DATA_FILE)) {
+				if (file_exists($this->_themePath . DIRECTORY_SEPARATOR . self::THEME_DATA_FILE)) {
 			        $this->_applySql($themeName);
 				}
 
 				// applying media content
-				$themeMediaPath = $themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getMedia();
-				$themePageTeasersPath = $themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getPreviews();
+				$themeMediaPath = $this->_themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getMedia();
+				$themePageTeasersPath = $this->_themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getPreviews();
 
 				if (is_dir($themeMediaPath) || is_dir($themePageTeasersPath)) {
 					$this->_applyMedia($themeName);
@@ -199,15 +207,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	}
 
 	protected function _applyMedia($themeName = false) {
-		if (!$themeName) {
-			$themeName = $this->_configHelper->getConfig('currentTheme');
-		}
-
 		$toasterRoot = $this->_websiteHelper->getPath();
-		$themePath = $toasterRoot . $this->_themesConfig['path'] . $themeName;
 
-		$themeMediaPath = $themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getMedia();
-		$themePageTeasersPath = $themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getPreview();
+		$themeMediaPath = $this->_themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getMedia();
+		$themePageTeasersPath = $this->_themePath . DIRECTORY_SEPARATOR . $this->_websiteHelper->getPreview();
 
 		//processing images from media folder
 		if (is_dir($themeMediaPath)) {
@@ -260,8 +263,22 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	}
 
 	private function _applySql($themeName) {
+        $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
 		try {
-			$dataJson = new Zend_Config_Json($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . '/' . self::THEME_DATA_FILE);
+			$dataJson = new Zend_Config_Json($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . DIRECTORY_SEPARATOR . self::THEME_DATA_FILE);
+            $themeData = $dataJson->toArray();
+            foreach ($enabledPlugins as $plugin) {
+                $pluginsData = Tools_Plugins_Tools::runStatic(self::PLUGIN_IMPORT_METHOD, $plugin);
+                $jsonPath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . DIRECTORY_SEPARATOR . $plugin .'.json';
+                if (file_exists($jsonPath)) {
+                    $pluginJson = new Zend_Config_Json($this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . DIRECTORY_SEPARATOR . $plugin .'.json');
+                    $themeData = array_merge_recursive($themeData, $pluginJson->toArray());
+                } else if ($pluginsData){
+                    $themeData = array_merge_recursive($themeData, $pluginsData);
+                }else {
+                    continue;
+                }
+            }
 		} catch (Exception $e) {
 			error_log($e->getMessage());
 			return false;
@@ -274,33 +291,17 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			$dbAdapter = Zend_Registry::get('dbAdapter');
 			$dbAdapter->beginTransaction();
 			$dbAdapter->query('SET foreign_key_checks = 0;');
-
-			$themeData = $dataJson->toArray();
 			//clean optimize table
 			if (array_key_exists('page', $themeData)) {
 				$dbAdapter->query('DELETE FROM `optimized`;');
 			}
 
 			if (!empty($themeData)) {
-                $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
-                $isShoppingEnable = array_search('shopping',$enabledPlugins);
-                $isNewslogEnable  = array_search('newslog',$enabledPlugins);
                 foreach ($themeData as $table => $data) {
-					if (empty($data)) {
-						continue;
-					} else {
-                        if($table == 'template_type'){
-                            if(!$isNewslogEnable){
-                                $where = $dbAdapter->quoteInto('id IN (?)', array('type_news', 'type_news_list'));
-                                $dbAdapter->delete($table, $where);
-                            } else if(!$isShoppingEnable) {
-                                $where = $dbAdapter->quoteInto('id IN (?)', array('typecheckout', 'typeproduct', 'typelisting'));
-                                $dbAdapter->delete($table, $where);
-                            }
-                        } else {
-                            $dbAdapter->delete($table);
-                        }
-					}
+                    $dbAdapter->delete($table);
+                    if(empty($data)){
+                        continue;
+                    }
 					foreach ($data as $row) {
 						try {
 							$dbAdapter->insert($table, $row);
@@ -332,11 +333,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		if (!$themeName) {
 			$themeName = $this->_configHelper->getConfig('currentTheme');
 		}
-		$themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName . DIRECTORY_SEPARATOR;
 		$websitePath = $this->_websiteHelper->getPath();
 
 		if ($full) {
-            $exportData = $this->_exportSqlToJson($themePath);
+            $exportData = $this->_exportSqlToJson();
 
 			// exporting list of media files
 			$totalFileSize = 0; // initializing files size counter
@@ -394,7 +394,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 				try {
 					$iniWriter = new Zend_Config_Writer_Ini(array(
 						'config'   => $themeIniConfig,
-						'filename' => $themePath . Tools_Template_Tools::THEME_CONFIGURATION_FILE
+						'filename' => $this->_themePath . DIRECTORY_SEPARATOR . Tools_Template_Tools::THEME_CONFIGURATION_FILE
 					));
 					$iniWriter->write();
 				} catch (Exception $e) {
@@ -413,11 +413,11 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		if ($noZip === true) {
 			// backup media files to theme subfolder
 			if (!empty($mediaFiles)) {
-				if (!is_dir($themePath . 'previews')) {
-					Tools_Filesystem_Tools::mkDir($themePath . 'previews');
+				if (!is_dir($this->_themePath . DIRECTORY_SEPARATOR . 'previews')) {
+					Tools_Filesystem_Tools::mkDir($this->_themePath . DIRECTORY_SEPARATOR . 'previews');
 				}
-				if (!is_dir($themePath . 'media')) {
-					Tools_Filesystem_Tools::mkDir($themePath . 'media');
+				if (!is_dir($this->_themePath . DIRECTORY_SEPARATOR . 'media')) {
+					Tools_Filesystem_Tools::mkDir($this->_themePath . DIRECTORY_SEPARATOR . 'media');
 				}
 				foreach ($mediaFiles as $file) {
 					if (!is_file($websitePath . $file)) {
@@ -434,8 +434,8 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 							break;
 						case 'media':
 							$folder = 'media' . DIRECTORY_SEPARATOR . $path[1];
-							if (!is_dir($themePath . $folder)) {
-								Tools_Filesystem_Tools::mkDir($themePath . $folder);
+							if (!is_dir($this->_themePath . DIRECTORY_SEPARATOR . $folder)) {
+								Tools_Filesystem_Tools::mkDir($this->_themePath . DIRECTORY_SEPARATOR . $folder);
 							}
 							$filename = end($path);
 							break;
@@ -443,7 +443,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 							continue;
 							break;
 					}
-					$destination = $themePath . $folder . DIRECTORY_SEPARATOR . $filename;
+					$destination = $this->_themePath . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $filename;
 					try {
 						$r = Tools_Filesystem_Tools::copy($websitePath . $file, $destination);
 					} catch (Exception $e) {
@@ -533,12 +533,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		return array_filter(array_unique($media));
 	}
 
-    protected function _exportSqlToJson($themePath) {
-
-        /**
-         * @var $dbAdapter Zend_Db_Adapter_Abstract
-         */
-        $dbAdapter = Zend_Registry::get('dbAdapter');
+    protected function _exportSqlToJson() {
 
         // exporting themes data for the full theme
         // init empty array for export data
@@ -549,21 +544,17 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         $mediaFiles = array();
 
         // fetching index page and main menu pages and news pages
-        $pagesSqlWhere = "SELECT * FROM `page` WHERE system = '0' AND draft = '0' AND (
-        url = 'index.html' OR (parent_id = '0' AND show_in_menu = '1') OR (parent_id = '-1' AND show_in_menu = '2')
-        OR (parent_id = '0' OR parent_id IN (SELECT DISTINCT `page`.`id` FROM `page` WHERE (parent_id = '0') AND (system = '0') AND (show_in_menu = '1')) )
-        OR id IN ( SELECT DISTINCT `page_id` FROM `page_fa` )
-        OR id IN ( SELECT DISTINCT `page_id` FROM `page_has_option` )
-        ) ORDER BY `order` ASC";
+        $pagesSqlWhere = "SELECT * FROM `page`";
 
-        $pages = $dbAdapter->fetchAll($pagesSqlWhere);
+        $pagesOption = $this->_dbAdapter->fetchCol("SELECT `id` FROM `page_option`;");
+        $templateType = $this->_dbAdapter->fetchCol("SELECT `id` FROM `template_type`;");
+
+        $pages = $this->_dbAdapter->fetchAll($pagesSqlWhere);
+
         if (is_array($pages) && !empty($pages)) {
             $data['page'] = $pages;
             unset($pages);
         }
-
-        // combining list of queries for export others tables content
-        $queryList = array();
 
         $enabledPlugins = Tools_Plugins_Tools::getEnabledPlugins(true);
         foreach ($enabledPlugins as $plugin) {
@@ -572,16 +563,19 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
                 continue;
             }
             if (isset($pluginsData['pages']) && is_array($pluginsData['pages']) && !empty($pluginsData['pages'])) {
-                $data['page'] = array_merge($data['page'], $pluginsData['pages']);
+                $data['page'] = array_udiff($data['page'], $pluginsData['pages'], function($a, $b){
+                                    if ($a === $b) { return 0; }
+                                    return ($a > $b)? 1:-1;
+                                });
             }
             if (isset($pluginsData['tables']) && is_array($pluginsData['tables']) && !empty($pluginsData['tables'])) {
-                foreach ($pluginsData['tables'] as $table => $query) {
-                    if (array_key_exists($table, $this->_fullThemesSqlMap)) {
-                        continue;
-                    }
-                    $queryList[$table] = $query;
-                    unset($table, $query);
-                }
+                $this->_writeDataToJson($pluginsData['pages'], $pluginsData['tables'], $plugin . '.json');
+            }
+            if (isset($pluginsData['template_type']) && is_array($pluginsData['template_type']) && !empty($pluginsData['template_type'])) {
+                $templateType = array_diff($templateType, $pluginsData['template_type']);
+            }
+            if (isset($pluginsData['page_option']) && is_array($pluginsData['page_option']) && !empty($pluginsData['page_option'])) {
+                $pagesOption = array_diff($pagesOption, $pluginsData['page_option']);
             }
             if (isset($pluginsData['media']) && is_array($pluginsData['media']) && !empty($pluginsData['media'])) {
                 $mediaFiles = array_unique(array_merge($mediaFiles, $pluginsData['media']));
@@ -589,26 +583,43 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
         }
         unset($enabledPlugins);
 
+        $fullThemesSqlMap = array_merge(
+                                $this->_fullThemesSqlMap,
+                                array(
+                                    'page_option' => "SELECT * FROM `page_option` WHERE id in ('" . implode("','", $pagesOption) . "');",
+                                    'template_type' => "SELECT * FROM `template_type` WHERE id in ('" . implode("','", $templateType) . "');"
+                                )
+                            );
+
+        $this->_writeDataToJson($data['page'], $fullThemesSqlMap);
+
+        return array('data' => $data, 'mediaFiles' => $mediaFiles);
+    }
+
+    // building list of dump queries and executing it with page IDS substitution
+    protected function _writeDataToJson($pages, $queryList, $dataFileName = self::THEME_DATA_FILE) {
+
+        if(empty($pages)){
+            return false;
+        }
+
         // getting list of pages ids for export
         $pagesIDs = array_map(function ($page) {
-                return $page['id'];
-            }, $data['page']);
+                        return $page['id'];
+                    }, $pages);
 
-        // building list of dump queries and executing it with page IDS substitution
-        $queryList = array_merge($this->_fullThemesSqlMap, $queryList);
         foreach ($queryList as $table => $query) {
-            $data[$table] = $dbAdapter->fetchAll($dbAdapter->quoteInto($query, $pagesIDs));
+            $sqlData[$table] = $this->_dbAdapter->fetchAll($this->_dbAdapter->quoteInto($query, $pagesIDs));
         }
         unset($queryList, $pagesIDs);
 
-        if (!empty($data) && is_dir($themePath)) {
-            $exportData = new Zend_Config($data);
+        if (!empty($sqlData) && is_dir($this->_themePath)) {
+            $exportData = new Zend_Config($sqlData);
             $themeDataFile = new Zend_Config_Writer_Json(array(
                 'config'   => $exportData,
-                'filename' => $themePath . self::THEME_DATA_FILE
+                'filename' => $this->_themePath . DIRECTORY_SEPARATOR . $dataFileName
             ));
             $themeDataFile->write();
         }
-        return array('data' => $data, 'mediaFiles' => $mediaFiles);
     }
 }
