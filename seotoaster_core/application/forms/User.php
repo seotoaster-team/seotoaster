@@ -107,6 +107,11 @@ class Application_Form_User extends Zend_Form {
 			'escape' => false
 		)));
 
+        $this->addElement('hash', 'secureToken', array(
+            'ignore' => true,
+            'timeout' => 1440
+        ));
+
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 		$this->getElement('saveUser')->removeDecorator('Label');
 	}
