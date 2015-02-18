@@ -480,6 +480,11 @@ class Application_Form_Config extends Zend_Form
 			)
 		));
 
+        $this->addElement('hash', 'secureToken', array(
+            'ignore' => true,
+            'timeout' => 1440
+        ));
+
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
 

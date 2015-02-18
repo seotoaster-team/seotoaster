@@ -17,6 +17,7 @@
         <ul class="header">
             <li><a href="#general-config"><?php echo $this->translate('General'); ?></a></li>
             <li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
+            <?php echo $this->configForm->getElement('secureToken')->renderViewHelper(); ?>
             <?php if ($this->isSuperAdmin): ?>
                 <li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
                 <li><a href="#advanced-config"><?php echo $this->translate('Advanced'); ?></a></li>
