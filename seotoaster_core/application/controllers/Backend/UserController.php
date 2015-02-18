@@ -18,6 +18,8 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_websiteUrl;
 
+    private $_session;
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
@@ -32,6 +34,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $this->_websiteUrl = $this->_websiteHelper->getUrl();
         $this->_zendDbTable = new Zend_Db_Table();
+        $this->_session = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
 	}
 
 	public function manageAction() {
@@ -43,7 +46,14 @@ class Backend_UserController extends Zend_Controller_Action {
             if($userId) {
                 $userForm->setId($userId);
             }
-			if($userForm->isValid($this->getRequest()->getParams())) {
+
+            if (isset($this->_session->userSecureToken)) {
+                $userForm->getElement('secureToken')->removeValidator('Identical');
+                $userForm->getElement('secureToken')->addValidator('Identical', false, array('token' => $this->_session->userSecureToken));
+                unset($this->_session->userSecureToken);
+            }
+
+            if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
 				$user       = new Application_Model_Models_User($data);
 				Application_Model_Mappers_UserMapper::getInstance()->save($user);
@@ -51,6 +61,8 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 			else {
+                $token = $userForm->getElement('secureToken')->getValidator('Identical')->getToken();
+                $this->_session->userSecureToken = $token;
                 $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($userForm->getMessages()));
 				exit;
 			}
