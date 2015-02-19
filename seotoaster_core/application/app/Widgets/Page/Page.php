@@ -6,6 +6,8 @@
  */
 class Widgets_Page_Page extends Widgets_Abstract {
 
+    const PAGE_PREVIEW_SRC = 'src';
+
     private $_aliases = array(
         'title' => 'headerTitle',
         'teaser' => 'teaserText',
@@ -105,6 +107,9 @@ class Widgets_Page_Page extends Widgets_Abstract {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
             $src =  $websiteHelper->getUrl().$path.$pagePreviews[0];
+            if (isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC){
+                return $src;
+            }
 			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" />';
 		}
 		return;
