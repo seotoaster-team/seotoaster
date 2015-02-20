@@ -210,6 +210,11 @@ class Application_Form_Page extends Zend_Form {
             'value' => $this->_removePreviousOption
         )));
 
+        $this->addElement('hash', 'secureToken', array(
+                'ignore' => true,
+                'timeout' => 1440
+        ));
+
 		//$this->setDecorators(array('ViewScript'));
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 		$this->getElement('updatePage')->removeDecorator('Label');

@@ -10,11 +10,8 @@ $(function() {
         }
         showConfirm('You are about to remove one or many pages. Are you sure?', function() {
             $.ajax({
-                url: $('#website_url').val() + 'backend/backend_page/delete/',
-                type: 'post',
-                data: {
-                    id: pagesIds
-                },
+                url: $('#website_url').val() + 'backend/backend_page/delete/'+'id/'+pagesIds.join(','),
+                type: 'DELETE',
                 dataType: 'json',
                 beforeSend: function() {showSpinner();},
                 success: function(response) {

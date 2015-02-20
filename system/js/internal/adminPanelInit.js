@@ -92,12 +92,9 @@ function showDelConfirm() {
 	smoke.confirm('Are you sure you want to delete this page?', function(e) {
 		if(e) {
 			$.ajax({
-				url        : websiteUrl + 'backend/backend_page/delete/',
-				type       : 'post',
+				url        : websiteUrl + 'backend/backend_page/delete/'+'id/'+pageId,
+				type       : 'DELETE',
 				dataType   : 'json',
-				data       : {
-					id : pageId
-				},
 				beforeSend : function() {
 					smoke.signal('Removing page...', 30000);
 				},

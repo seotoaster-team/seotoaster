@@ -87,6 +87,14 @@ class Backend_PageController extends Zend_Controller_Action {
                 $params = $this->_processParamsForExternalLink($params);
             }
 
+            if (isset($this->_helper->session->userSecureToken)) {
+                $pageForm->getElement('secureToken')->removeValidator('Identical');
+                $pageForm->getElement('secureToken')->addValidator('Identical', false, array('token' => $this->_helper->session->userSecureToken));
+                unset($this->_helper->session->userSecureToken);
+            }
+            $token = $pageForm->getElement('secureToken')->getValidator('Identical')->getToken();
+            $this->_helper->session->userSecureToken = $token;
+
             if($pageForm->isValid($params)) {
                 $pageData        = $pageForm->getValues();
                 $pageData['url'] =  $this->_helper->page->filterUrl($pageData['url']);
@@ -227,6 +235,9 @@ class Backend_PageController extends Zend_Controller_Action {
             exit;
         }
 
+        if (isset($this->_helper->session->userSecureToken)) {
+            unset($this->_helper->session->userSecureToken);
+        }
         $this->view->faCount = ($page->getId()) ? sizeof(Application_Model_Mappers_FeaturedareaMapper::getInstance()->findAreasByPageId($page->getId())) : 0;
 
         //page preview image
@@ -263,9 +274,9 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-        if($this->getRequest()->isPost()) {
+        if($this->getRequest()->isDelete()){
             $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-            $ids        = (array)$this->getRequest()->getParam('id');
+            $ids        = explode(',' , $this->getRequest()->getParam('id'));
             if(empty ($ids)) {
                 $this->_helper->response->fail($this->_helper->language->translate('Page id is ot specified'));
                 exit;

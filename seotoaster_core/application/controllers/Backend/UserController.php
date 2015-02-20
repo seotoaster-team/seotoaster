@@ -68,6 +68,9 @@ class Backend_UserController extends Zend_Controller_Action {
 			}
 		}
 
+        if (isset($this->_session->userSecureToken)) {
+            unset($this->_session->userSecureToken);
+        }
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
         $offset = 0;
         if ($pnum) {
