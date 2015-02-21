@@ -49,8 +49,8 @@ class Backend_UserController extends Zend_Controller_Action {
 
             if (isset($this->_session->userSecureToken)) {
                 $userForm->getElement('secureToken')->removeValidator('Identical');
-                $userForm->getElement('secureToken')->addValidator('Identical', false, array('token' => $this->_session->userSecureToken));
-                unset($this->_session->userSecureToken);
+                $userForm->getElement('secureToken')->addValidator('Identical', false,
+                    array('token' => $this->_session->userSecureToken));
             }
 
             if($userForm->isValid($this->getRequest()->getParams())) {
@@ -61,16 +61,21 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 			else {
-                $token = $userForm->getElement('secureToken')->getValidator('Identical')->getToken();
-                $this->_session->userSecureToken = $token;
                 $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($userForm->getMessages()));
 				exit;
 			}
 		}
 
-        if (isset($this->_session->userSecureToken)) {
-            unset($this->_session->userSecureToken);
+        if (!isset($this->_session->userSecureToken)) {
+            $userForm->getElement('secureToken')->initCsrfToken();
+            $secureToken = $userForm->getElement('secureToken')->getValue();
+            $this->_session->userSecureToken = $secureToken;
+        } else {
+            $secureToken = $this->_session->userSecureToken;
         }
+
+        $this->view->secureToken = $secureToken;
+
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
         $offset = 0;
         if ($pnum) {
