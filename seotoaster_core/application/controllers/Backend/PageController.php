@@ -243,9 +243,6 @@ class Backend_PageController extends Zend_Controller_Action {
             exit;
         }
 
-        if (isset($this->_helper->session->userSecureToken)) {
-            unset($this->_helper->session->userSecureToken);
-        }
         $this->view->faCount = ($page->getId()) ? sizeof(Application_Model_Mappers_FeaturedareaMapper::getInstance()->findAreasByPageId($page->getId())) : 0;
 
         //page preview image
