@@ -105,7 +105,7 @@
         <?php echo $this->pageForm->getElement('externalLinkStatus'); ?>
         <?php echo $this->pageForm->getElement('externalLink'); ?>
 		<?php echo $this->pageForm->getElement('pageType'); ?>
-        <?php echo $this->pageForm->getElement('secureToken'); ?>
+        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
         <?php echo $this->pageForm->getElement('updatePage'); ?>
         <input type="hidden" name="original-page-url" id="original-page-url" value="<?php echo $this->pageForm->getElement('url')->getValue(); ?>">
 	</form>

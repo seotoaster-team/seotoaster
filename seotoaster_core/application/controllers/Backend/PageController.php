@@ -42,6 +42,16 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageId      = $this->getRequest()->getParam('id');
         $mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
+        if (!isset($this->_helper->session->pageSecureToken)) {
+            $pageForm->getElement('secureToken')->initCsrfToken();
+            $secureToken = $pageForm->getElement('secureToken')->getValue();
+            $this->_helper->session->pageSecureToken = $secureToken;
+        } else {
+            $secureToken = $this->_helper->session->pageSecureToken;
+        }
+
+        $this->view->secureToken = $secureToken;
+
         if ($pageId) {
             // search page by id
             $page = $mapper->find($pageId);
@@ -87,13 +97,11 @@ class Backend_PageController extends Zend_Controller_Action {
                 $params = $this->_processParamsForExternalLink($params);
             }
 
-            if (isset($this->_helper->session->userSecureToken)) {
+            if (isset($this->_helper->session->pageSecureToken)) {
                 $pageForm->getElement('secureToken')->removeValidator('Identical');
-                $pageForm->getElement('secureToken')->addValidator('Identical', false, array('token' => $this->_helper->session->userSecureToken));
-                unset($this->_helper->session->userSecureToken);
+                $pageForm->getElement('secureToken')->addValidator('Identical', false,
+                    array('token' => $this->_helper->session->pageSecureToken));
             }
-            $token = $pageForm->getElement('secureToken')->getValidator('Identical')->getToken();
-            $this->_helper->session->userSecureToken = $token;
 
             if($pageForm->isValid($params)) {
                 $pageData        = $pageForm->getValues();
