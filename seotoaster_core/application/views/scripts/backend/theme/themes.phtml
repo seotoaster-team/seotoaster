@@ -64,19 +64,22 @@
     $(function(){
         $('.backup').click(function(){
             smoke.quiz("<?php echo $this->translate('Back up current theme or roll back to previous version');?>", function(e){
-                var url;
+                var url,
+                    type = 'GET';
                 if(!e){
                     return false;
                 }
                 showSpinner();
+
                 if(e == "<?php echo $this->translate('Backup theme');?>"){
                     url = '<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1';
                 }
                 if(e == "<?php echo $this->translate('Apply backup');?>"){
                     url = '<?php echo $this->websiteUrl;?>api/toaster/themes/importBackup/1';
+                    type = 'PUT';
                 }
                 $.ajax({
-                    type     : "GET",
+                    type     : type,
                     dataType : 'json',
                     url      : url,
                     success  : function(data){
