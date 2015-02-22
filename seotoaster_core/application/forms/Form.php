@@ -182,6 +182,11 @@ class Application_Form_Form extends Zend_Form
             ))
         );
 
+        $this->addElement('hash', 'secureToken', array(
+            'ignore' => true,
+            'timeout' => 1440
+        ));
+
         $this->addElement(
             'button',
             'submit',
