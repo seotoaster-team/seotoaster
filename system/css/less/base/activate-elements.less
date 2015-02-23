@@ -4,15 +4,29 @@
 @moz    : true;
 @opera  : false;
 @ie     : true; // 10+ and old version
-    @ie9    : true;
-    @ie8    : true;
-    @ie7    : false;
+    @ie9 : true;
+    @ie8 : true;
+    @ie7 : false;
 
 // PIE
 @activate-pie                  : false;
 
 // Responsive (MediaQueries)
-@responsive                    : false;
+@responsive : false;
+@print      : false;
+
+// [Grid system]
+@grid-system : true;
+    @grid-system-push-pull     : true;
+    @grid-system-prefix-suffix : true;
+    @grid-system-alpha-omega   : true;
+    @grid-global-classes       : true;
+
+// [Column system]
+@column-system : true;
+    @column-system-fullWidth  : true;
+    @column-system-marginNone : true;
+    @column-global-classes    : true;
 
 // Connection / Disconnection modules.less OR each individually
 @modules : true;
@@ -204,7 +218,8 @@
 
 // Style for Checkbox and Radio
 @checkbox-radio-style          : true;
-    @switcher-style            : true;
+    @checkbox-checkmark-style : false;
+    @switcher-style           : true;
 
 // Connection / Disconnection system-classes.less
 @system-classes                : true;

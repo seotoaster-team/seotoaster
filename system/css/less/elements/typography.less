@@ -60,7 +60,7 @@ h6, .h6{ font-size : 0.75em; }
 p{
     margin-top : 0;
     margin-bottom : 15px;
-    .clearfix();
+    .clearfix-mixin();
 
     img{ margin : 0; }
 }
@@ -99,7 +99,6 @@ p{
 
 // System classes
 //==================================================
-.activate-system-classes(@activate) when ( @activate = true){
+& when ( @system-classes = true){
     @import "system-classes";
 }
-.activate-system-classes(@system-classes);

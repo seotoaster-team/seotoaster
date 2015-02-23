@@ -82,7 +82,7 @@
         &:after{
             color          : @gray-light;
             vertical-align : middle;
-            font-family    : 'toaster-icons';
+            font-family    : @icon-family;
             content        : '\e077';
             font-size      : 16px;
             margin-left    : -24px;
@@ -92,7 +92,7 @@
     .disabled-result, .result-selected, .@{chosen-prefix}-single{
         &:before{
             float       : right;
-            font-family : 'toaster-icons';
+            font-family : @icon-family;
             font-size   : 16px;
             width       : 16px;
         }
@@ -120,7 +120,7 @@
                 cursor     : default;
 
                 &:before{
-                    font-family : 'toaster-icons';
+                    font-family : @icon-family;
                     content     : ' \e0c1';
                 }
             }
@@ -161,7 +161,7 @@
 
     .@{chosen-prefix}-choices{
         font-size : @font-size-small;
-        .clearfix();
+        .clearfix-mixin();
 
         &>*{
             float : left;
@@ -193,7 +193,7 @@
         .icon-size(10px);
 
         &:before{
-            font-family : 'toaster-icons';
+            font-family : @icon-family;
             content     : '\e0a2';
         }
         &:hover{
@@ -211,7 +211,7 @@
         &:after{
             color          : @gray-light;
             vertical-align : middle;
-            font-family    : 'toaster-icons';
+            font-family    : @icon-family;
             content        : '\e077';
             font-size      : 16px;
             margin-left    : -24px;

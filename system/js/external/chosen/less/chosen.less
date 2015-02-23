@@ -50,7 +50,7 @@
 
         &:before{
             float       : right;
-            font-family : 'system-icons';
+            font-family : @icon-family;
             content     : '\e01b';
             font-size   : @icon-size-base;
         }
@@ -93,7 +93,7 @@
         &:after{
             color          : @input-color;
             vertical-align : middle;
-            font-family    : 'system-icons';
+            font-family    : @icon-family;
             content        : '\f002';
             font-size      : @icon-size-base;
             margin-left    : -24px;
@@ -121,7 +121,7 @@
             padding     : @padding-small-vertical @padding-small-horizontal;
 
             &:before{
-                font-family : 'system-icons';
+                font-family : @icon-family;
                 content     : ' \e0c1';
                 font-style  : normal;
             }
@@ -142,7 +142,7 @@
             &:before{
                 color       : @brand-primary;
                 float       : right;
-                font-family : 'system-icons';
+                font-family : @icon-family;
                 content     : '\e013';
                 font-size   : @icon-size-base;
             }
@@ -156,7 +156,7 @@
             &:before{
                 color       : @gray-light;
                 float       : right;
-                font-family : 'system-icons';
+                font-family : @icon-family;
                 content     : '\e0a9';
                 font-size   : @icon-size-base;
             }
@@ -171,7 +171,7 @@
     .@{chosen-prefix}-choices{
         font-size : @font-size-small;
         //        margin-top : 0.25em;
-        .clearfix();
+        .clearfix-mixin();
 
         & > *{
             float : left;
@@ -202,7 +202,7 @@
         color       : @brand-error;
 
         &:before{
-            font-family    : 'system-icons';
+            font-family    : @icon-family;
             content        : '\e026';
             vertical-align : baseline;
         }
@@ -242,7 +242,7 @@
         &:after{
             color          : @gray-light;
             vertical-align : middle;
-            font-family    : 'system-icons';
+            font-family    : @icon-family;
             content        : '\f002';
             font-size      : @icon-size-base;
             margin-left    : -24px;

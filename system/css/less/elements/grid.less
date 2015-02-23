@@ -10,55 +10,104 @@
         max-width : @grid-container-width;
     }
     .activate-container-style();
-    .clearfix();
+    .clearfix-mixin();
 }
 
 // GRID CSS
 //==================================================
-[class*=" grid_"], [class^="grid_"], [class*="-grid_"]{
-    display      : inline;
-    float        : left;
-    position     : relative;
-    width        : 100% - @grid-margin-width;
-    margin-left  : (@grid-margin-width / 2) !important;
-    margin-right : (@grid-margin-width / 2) !important;
+[class*=" grid_"], [class^="grid_"], [class*="-grid_"], [class*="_grid_"]{
+    & when (@grid-system = true){
+        display      : inline;
+        float        : left;
+        position     : relative;
+        width        : 100% - @grid-margin-width;
+        margin-left  : (@grid-margin-width / 2) !important;
+        margin-right : (@grid-margin-width / 2) !important;
+    }
 }
 .grid();
 
 // COLUMN LIST CSS
 //==================================================
-[class*=" column_"], [class^="column_"], [class*="-column_"]{
-    .clearfix();
-
-    & > *:not(.column-none){
-        float        : left;
-        width        : 100% - @column-margin-width;
-        margin-left  : (@column-margin-width / 2) !important;
-        margin-right : (@column-margin-width / 2) !important;
-    }
-
-    &.inline-block{
-        font-size : 0;
+[class*=" column_"], [class^="column_"], [class*="-column_"], [class*="_column_"]{
+    & when (@column-system = true){
+        font-size : 0 !important;
+        width     : 100%;
 
         & > *{
-            float     : none;
-            font-size : @font-size-base;
-            .inline-block(top);
+            font-size      : @font-size-base;
+            float          : none !important;
+            display        : inline-block;
+            vertical-align : top;
+            width          : 100% - @column-margin-width;
+            margin-left    : (@column-margin-width / 2) !important;
+            margin-right   : (@column-margin-width / 2) !important;
+            margin-bottom  : @column-margin-width;
+        }
+
+        fieldset& > *{
+            margin-top : 0;
+        }
+
+        &.bottom{
+            & > *{
+                vertical-align : bottom;
+            }
+        }
+
+        &.middle{
+            & > *{
+                vertical-align : middle;
+            }
+        }
+
+        &.full-width when (@column-system-fullWidth = true){
+            & > *{
+                width        : 100%;
+                margin-right : @column-margin-width !important;
+                margin-left  : 0 !important;
+            }
+        }
+
+        &.margin-none when (@column-system-marginNone = true){
+            & > *{
+                width        : 100%;
+                margin-left  : 0 !important;
+                margin-right : 0 !important;
+            }
+        }
+
+        &.one-line{
+            & > *{
+                margin-bottom : 0;
+            }
+        }
+
+        .column-none{
+            width : auto !important;
+        }
+
+        & > .generator-links{ display : block; }
+
+        & > .larger{
+            font-size : @font-size-base * @font-size-larger !important;
+        }
+
+        & > .large{
+            font-size : @font-size-base * @font-size-large !important;
+        }
+
+        & > .small{
+            font-size : @font-size-base * @font-size-small !important;
         }
     }
-
-    &.full-width{
-
-        & > *:not(.column-none){
-            margin-left  : @column-margin-width !important;
-            margin-right : 0 !important;
-        }
-    }
-
-    & > br{ display : none; }
 }
 .column();
 
-.clearfix{
-    .clearfix();
+.clear{
+    display    : block;
+    clear      : both;
+    overflow   : hidden;
+    visibility : hidden;
+    height     : 0;
 }

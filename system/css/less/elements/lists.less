@@ -111,13 +111,13 @@ ul, ol{
             }
         }
 
-//        a{
-//            color           : inherit;
-//            text-decoration : underline;
-//            &:hover{
-//                text-decoration : none;
-//            }
-//        }
+        //        a{
+        //            color           : inherit;
+        //            text-decoration : underline;
+        //            &:hover{
+        //                text-decoration : none;
+        //            }
+        //        }
     }
 
     &.list-tags when (@list-tags = true) and (@lists-classes = true){
@@ -149,7 +149,7 @@ ul, ol{
             &.active, &.tag-current{
             }
 
-            //                    [class*="ticon-"].fl-right{
+            //                    [class*="@{icon-prefix}-"].fl-right{
             //                        margin-top : 3px;
             //                    }
             //                    [class*="remove"], [class*="close"]{
@@ -169,7 +169,7 @@ ul, ol{
                 color          : inherit;
                 margin-left    : -1em;
                 .activate-toaster-icon() when (@toaster-icons = true){
-                    font-family : 'system-icons';
+                    font-family : @icon-family;
                     content     : '\e01a';
                 }
                 .activate-toaster-icon() when (@toaster-icons = false){
@@ -359,29 +359,26 @@ ul, ol{
     }
 }
 
-.activate-list-images() when (@list-images = true){
-    .list-images{
-        font-size       : 0;
-        list-style-type : none;
-        margin-bottom   : 0;
+.list-images when (@list-images = true){
+    font-size       : 0;
+    list-style-type : none;
+    margin-bottom   : 0;
 
-        & > *{
-            .inline-block(top);
-            .thumbnail-state(0);
-            height      : 80px;
-            line-height : 74px;
-            margin      : @grid-margin-width / 4;
+    & > *{
+        .inline-block(top);
+        .thumbnail-state(0);
+        height      : 80px;
+        line-height : 74px;
+        margin      : @grid-margin-width / 4;
 
-            img{
-                width      : auto;
-                max-height : 100%;
-            }
-        }
-
-        & > img{
-            height      : auto;
-            line-height : normal;
+        img{
+            width      : auto;
+            max-height : 100%;
         }
     }
+
+    & > img{
+        height      : auto;
+        line-height : normal;
+    }
 }
-.activate-list-images();

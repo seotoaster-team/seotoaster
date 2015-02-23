@@ -90,7 +90,7 @@
     }
 }
 
-.dialog-resizable() when (@dialog-resizable = true){
+& when (@dialog-resizable = true){
     .ui-resizable-handle{
         position  : absolute;
         font-size : 0.1px;
@@ -152,7 +152,6 @@
         top    : -5px;
     }
 }
-.dialog-resizable();
 
 @media only screen and (max-height : @tpopup-base-height){
     body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"]{
