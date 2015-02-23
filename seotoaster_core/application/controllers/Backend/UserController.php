@@ -49,8 +49,11 @@ class Backend_UserController extends Zend_Controller_Action {
 
             if (isset($this->_session->userSecureToken)) {
                 $userForm->getElement('secureToken')->removeValidator('Identical');
-                $userForm->getElement('secureToken')->addValidator('Identical', false,
-                    array('token' => $this->_session->userSecureToken));
+                $userForm->getElement('secureToken')->addValidator(
+                    'Identical',
+                    false,
+                    array('token' => $this->_session->userSecureToken)
+                );
             }
 
             if($userForm->isValid($this->getRequest()->getParams())) {
