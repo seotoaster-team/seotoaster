@@ -154,19 +154,17 @@ class Backend_FeaturedController extends Zend_Controller_Action{
         $this->view->faId = $faId;
 	}
 
-	public function deleteAction() {
-		if($this->getRequest()->isPost()) {
-			$faId = $this->getRequest()->getParam('id');
-			if(is_array($faId) && !empty ($faId)) {
-				foreach ($faId as $id) {
-					$this->_delete($id);
-				}
-			}
-			else {
-				$this->_delete($faId);
-			}
-		}
-	}
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isDelete()) {
+            $faId = explode(',', $this->getRequest()->getParam('id'));
+            if (is_array($faId) && !empty ($faId)) {
+                foreach ($faId as $id) {
+                    $this->_delete($id);
+                }
+            }
+        }
+    }
 
 	private function _delete($id) {
 		$faMapper     = Application_Model_Mappers_FeaturedareaMapper::getInstance();

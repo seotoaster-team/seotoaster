@@ -133,16 +133,13 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function removeredirectAction() {
-		if($this->getRequest()->isPost()) {
-			$ids            = $this->getRequest()->getParam('id');
+		if($this->getRequest()->isDelete()) {
+			$ids            = explode(',', $this->getRequest()->getParam('id'));
 			$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
 			if(is_array($ids)) {
 				foreach ($ids as $id) {
 					$redirectMapper->delete($redirectMapper->find($id));
 				}
-			}
-			else {
-				$redirectMapper->delete($redirectMapper->find($ids));
 			}
 			$this->_helper->cache->clean('toaster_301redirects', '301redirects');
 			$this->_helper->response->success($this->_helper->language->translate('Redirect(s) removed.'));
@@ -194,15 +191,12 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function removedeeplinkAction() {
-		if($this->getRequest()->isPost()) {
-			$ids = $this->getRequest()->getParam('id');
+		if($this->getRequest()->isDelete()) {
+			$ids = explode(',', $this->getRequest()->getParam('id'));
 			if(is_array($ids)) {
 				foreach ($ids as $id) {
 					$this->_removeDeeplink($id);
 				}
-			}
-			else {
-				$this->_removeDeeplink($ids);
 			}
 			$this->_helper->response->success($this->_helper->language->translate('Deeplink(s) removed.'));
 		}
@@ -357,7 +351,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function managesilosAction() {
-		if(!$this->getRequest()->isPost()) {
+		if($this->getRequest()->isGet()) {
 			$this->view->siloForm = new Application_Form_Silo();
 		}
 		else {
@@ -371,22 +365,24 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$this->_helper->response->success($this->view->render('backend/seo/siloslist.phtml'));
 				break;
 				case 'remove':
-					$ids = (array)$this->getRequest()->getParam('id');
-					if(empty ($ids)) {
-						$this->_helper->response->fail($this->_helper->language->translate('Silo id is not specified'));
-					}
-					$siloMapper = Application_Model_Mappers_SiloMapper::getInstance();
-					foreach ($ids as $siloId) {
-						$silo = $siloMapper->find($siloId, true);
-						if(!$silo instanceof Application_Model_Models_Silo) {
-							$this->_helper->response->fail($this->_helper->language->translate('Cannot find silo to remove.'));
-						}
-						$silo->registerObserver(new Tools_Seo_GarbageCollector(array(
-							'action' => Tools_Seo_GarbageCollector::CLEAN_ONDELETE
-						)));
-						$siloMapper->delete($silo);
-					}
-					$this->_helper->response->success($this->_helper->language->translate('Silo(s) removed.'));
+					if($this->_request->isDelete()){
+                        $ids = explode(',', $this->getRequest()->getParam('id'));
+                        if(empty ($ids)) {
+                            $this->_helper->response->fail($this->_helper->language->translate('Silo id is not specified'));
+                        }
+                        $siloMapper = Application_Model_Mappers_SiloMapper::getInstance();
+                        foreach ($ids as $siloId) {
+                            $silo = $siloMapper->find($siloId, true);
+                            if(!$silo instanceof Application_Model_Models_Silo) {
+                                $this->_helper->response->fail($this->_helper->language->translate('Cannot find silo to remove.'));
+                            }
+                            $silo->registerObserver(new Tools_Seo_GarbageCollector(array(
+                                'action' => Tools_Seo_GarbageCollector::CLEAN_ONDELETE
+                            )));
+                            $siloMapper->delete($silo);
+                        }
+                        $this->_helper->response->success($this->_helper->language->translate('Silo(s) removed.'));
+                    }
 				break;
 			}
 		}

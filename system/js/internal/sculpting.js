@@ -18,7 +18,7 @@ $(function () {
         );
     });
 
-    $(document).on('click', '.silo-this-cat', function () {
+    $(document).on('click', 'input.silo-this-cat', function () {
         var cid = $(this).val();
         var actUrl = $('#website_url').val();
         showSpinner(this);

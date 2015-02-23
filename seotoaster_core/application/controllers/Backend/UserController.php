@@ -142,7 +142,7 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function deleteAction() {
-		if($this->getRequest()->isPost()) {
+		if($this->getRequest()->isDelete()) {
 			$userId = $this->getRequest()->getParam('id');
 			if(!$userId) {
 				$this->_helper->response->fail('Can\'t remove user...');

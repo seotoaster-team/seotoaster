@@ -199,7 +199,7 @@ class Backend_PluginController extends Zend_Controller_Action {
     }
 
 	public function deleteAction() {
-		if($this->getRequest()->isPost()) {
+		if($this->getRequest()->isDelete()) {
 			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('id'));
 			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
