@@ -29,7 +29,7 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
-                <?php echo $this->userForm->getElement('secureToken'); ?>
+                <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
 				<?php echo $this->userForm->getElement('saveUser'); ?>
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
