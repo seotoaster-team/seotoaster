@@ -386,8 +386,47 @@ class Tools_System_Tools {
     {
         return md5(
             mt_rand(1, 1000000)
-                . $salt
-                . mt_rand(1, 1000000)
+            . $salt
+            . mt_rand(1, 1000000)
         );
+    }
+
+    /**
+     * Init secure token in session with specified prefix if not exists
+     *
+     * @param string $tokenPrefix prefix for token in session
+     * @param bool $regenerate if true force regenerate token
+     * @return string
+     */
+    public static function initSecureToken($tokenPrefix, $regenerate = false)
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = 'secureToken' . $tokenPrefix;
+        if (isset($sessionHelper->$tokenName) && !$regenerate) {
+            return $sessionHelper->$tokenName;
+        }
+        $secureToken = self::generateSecureToken($tokenPrefix);
+        $sessionHelper->$tokenName = $secureToken;
+        return $secureToken;
+    }
+
+    /**
+     * Validate token. If token exists and matched return true
+     *
+     * @param string $token secure token
+     * @param string $tokenPrefix token prefix
+     * @return bool
+     */
+    public static function validateToken($token, $tokenPrefix = '')
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = 'secureToken' . $tokenPrefix;
+        if (!isset($sessionHelper->$tokenName)) {
+            return false;
+        }
+        if ($sessionHelper->$tokenName !== $token) {
+            return false;
+        }
+        return true;
     }
 }

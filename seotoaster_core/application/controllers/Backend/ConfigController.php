@@ -172,13 +172,11 @@ class Backend_ConfigController extends Zend_Controller_Action {
     public function actionmailsAction() {
         if($this->getRequest()->isPost()) {
             $actions = $this->getRequest()->getParam('actions', false);
-            $secureToken = $this->_request->getParam('secureToken', false);
-            if (!isset($this->_helper->session->actionEmailSecureToken) || !$secureToken) {
-                $this->_helper->response->fail('');
-            }
-            if($this->_helper->session->actionEmailSecureToken !== $secureToken) {
-                $this->_helper->response->fail('');
-            }
+            $secureToken = $this->getRequest()->getParam('secureToken', false);
+			$tokenValid = Tools_System_Tools::validateToken($secureToken, 'ActionEmails');
+			if (!$tokenValid) {
+				$this->_helper->response->fail('');
+			}
             if($actions !== false) {
                 $removeActions =  array();
                 $emailTriggerMapper = Application_Model_Mappers_EmailTriggersMapper::getInstance();
@@ -197,12 +195,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
             }
         }
 
-        if (!isset($this->_helper->session->actionEmailSecureToken)) {
-            $secureToken = Tools_System_Tools::generateSecureToken('actionEmails');
-            $this->_helper->session->actionEmailSecureToken = $secureToken;
-        } else {
-            $secureToken = $this->_helper->session->actionEmailSecureToken;
-        }
+        $secureToken = Tools_System_Tools::initSecureToken('ActionEmails');
 
         $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
