@@ -375,4 +375,19 @@ class Tools_System_Tools {
     {
         return preg_replace("/[^A-Za-z0-9 ]/", '&nbsp;', $content);
     }
+
+    /**
+     * Generate unique token
+     *
+     * @param string $salt prefix for code generation
+     * @return string
+     */
+    public static function generateSecureToken($salt)
+    {
+        return md5(
+            mt_rand(1, 1000000)
+                . $salt
+                . mt_rand(1, 1000000)
+        );
+    }
 }
