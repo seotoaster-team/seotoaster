@@ -429,4 +429,52 @@ class Tools_System_Tools {
         }
         return true;
     }
+
+    /**
+     * Add custom token value for zend form element
+     * Check existing token in session if exists then apply it
+     * zend validator Identical to this form element
+     *
+     * @param Zend_Form $form form
+     * @param string $tokenPrefix prefix for secure token
+     * @param string $elementName Zend form element name
+     * @return Zend_Form
+     * @throws Zend_Form_Exception
+     */
+    public static function addTokenValidatorZendForm(Zend_Form $form, $tokenPrefix = '', $elementName = 'secureToken')
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = 'secureToken' . $tokenPrefix;
+        if (isset($sessionHelper->$tokenName)) {
+            $form->getElement($elementName)->removeValidator('Identical');
+            $form->getElement($elementName)->addValidator(
+                'Identical',
+                false,
+                array('token' => $sessionHelper->$tokenName)
+            );
+        }
+        return $form;
+    }
+
+    /**
+     * Init csrf token for zend form
+     * Check existing token in session if exists then apply it
+     *
+     * @param Zend_Form $form form
+     * @param string $tokenPrefix prefix for secure token
+     * @param string $elementName Zend form element name
+     * @return string
+     */
+    public static function initZendFormCsrfToken(Zend_Form $form, $tokenPrefix = '', $elementName = 'secureToken')
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = 'secureToken' . $tokenPrefix;
+        if (!isset($sessionHelper->$tokenName)) {
+            $form->getElement($elementName)->initCsrfToken();
+            $secureToken = $form->getElement($elementName)->getValue();
+            $sessionHelper->$tokenName = $secureToken;
+            return $secureToken;
+        }
+        return $sessionHelper->$tokenName;
+    }
 }

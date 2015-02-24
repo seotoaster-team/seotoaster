@@ -47,14 +47,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $userMapper = Application_Model_Mappers_UserMapper::getInstance();
             }
 
-            if (isset($this->_helper->session->secureTokenConfig)) {
-                $configForm->getElement('secureToken')->removeValidator('Identical');
-                $configForm->getElement('secureToken')->addValidator(
-                    'Identical',
-                    false,
-                    array('token' => $this->_helper->session->secureTokenConfig)
-                );
-            }
+			$configForm = Tools_System_Tools::addTokenValidatorZendForm($configForm, 'Config');
 
 			if ($configForm->isValid($this->getRequest()->getParams())) {
 				//proccessing language changing
@@ -148,13 +141,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			}
 		}
 
-        if (!isset($this->_helper->session->secureTokenConfig)) {
-            $configForm->getElement('secureToken')->initCsrfToken();
-            $secureToken = $configForm->getElement('secureToken')->getValue();
-            $this->_helper->session->secureTokenConfig = $secureToken;
-        } else {
-            $secureToken = $this->_helper->session->secureTokenConfig;
-        }
+		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, 'Config');
 
         $this->view->secureToken = $secureToken;
         
