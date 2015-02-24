@@ -47,6 +47,15 @@ class Application_Form_Container extends Zend_Form {
 			'id'    => 'container_id'
 		));
 
+        $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
 		$this->setElementDecorators(array('ViewHelper', 'Errors'));
 		$this->removeDecorator('DtDdWrapper');
 		$this->removeDecorator('DlWrapper');

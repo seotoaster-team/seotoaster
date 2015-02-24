@@ -59,7 +59,8 @@
                 content       : self.content,
                 pageId        : self.pageId,
                 containerName : self.container.name,
-                published     : self.container.published
+                published     : self.container.published,
+                secureToken   : self.secureToken
             }, 'json');
 
         },
@@ -84,6 +85,7 @@
         prepop.container.id = '<?php echo $this->prepopConainerId; ?>';
         prepop.type = '<?php echo $this->elementType; ?>';
         prepop.name = '<?php echo $this->prepopName; ?>';
+        prepop.secureToken = '<?php echo $this->secureToken; ?>';
         //setting the content
         prepop.content = $(e.currentTarget).val();
         if (prepop.type == '<?php echo Widgets_Prepop_Prepop::TYPE_CHECKBOX; ?>') {
