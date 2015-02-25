@@ -42,13 +42,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageId      = $this->getRequest()->getParam('id');
         $mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
-        if (!isset($this->_helper->session->pageSecureToken)) {
-            $pageForm->getElement('secureToken')->initCsrfToken();
-            $secureToken = $pageForm->getElement('secureToken')->getValue();
-            $this->_helper->session->pageSecureToken = $secureToken;
-        } else {
-            $secureToken = $this->_helper->session->pageSecureToken;
-        }
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($pageForm, 'Pages');
 
         $this->view->secureToken = $secureToken;
 
@@ -97,11 +91,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 $params = $this->_processParamsForExternalLink($params);
             }
 
-            if (isset($this->_helper->session->pageSecureToken)) {
-                $pageForm->getElement('secureToken')->removeValidator('Identical');
-                $pageForm->getElement('secureToken')->addValidator('Identical', false,
-                    array('token' => $this->_helper->session->pageSecureToken));
-            }
+            $pageForm = Tools_System_Tools::addTokenValidatorZendForm($pageForm, 'Pages');
 
             if($pageForm->isValid($params)) {
                 $pageData        = $pageForm->getValues();

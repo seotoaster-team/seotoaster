@@ -32,13 +32,8 @@ class Backend_FormController extends Zend_Controller_Action {
 		$formForm = new Application_Form_Form();
         $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
         if($this->getRequest()->isPost()) {
-            if (isset($sessionHelper->formSecureToken)) {
-                $formForm->getElement('secureToken')->removeValidator('Identical');
-                $formForm->getElement('secureToken')->addValidator('Identical', false,
-                    array('token' => $sessionHelper->formSecureToken));
-            }
+            $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, 'Forms');
             if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
@@ -66,13 +61,7 @@ class Backend_FormController extends Zend_Controller_Action {
 		}
 		$formName           = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
 
-        if (!isset($sessionHelper->formSecureToken)) {
-            $formForm->getElement('secureToken')->initCsrfToken();
-            $secureToken = $formForm->getElement('secureToken')->getValue();
-            $sessionHelper->formSecureToken = $secureToken;
-        } else {
-            $secureToken = $sessionHelper->formSecureToken;
-        }
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($formForm, 'Forms');
 
         $this->view->secureToken = $secureToken;
 

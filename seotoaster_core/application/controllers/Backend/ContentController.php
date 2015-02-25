@@ -114,7 +114,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 	}
 
 	private function _processContent() {
-        $this->_addValidationTokenToForm();
+        $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, 'Containers');
         if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
@@ -163,26 +163,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 		return false;
 	}
 
-    private function _addValidationTokenToForm()
-    {
-        if (isset($this->_helper->session->secureTokenContainers)) {
-            $this->_contentForm->getElement('secureToken')->removeValidator('Identical');
-            $this->_contentForm->getElement('secureToken')->addValidator(
-                'Identical',
-                false,
-                array('token' => $this->_helper->session->secureTokenContainers)
-            );
-        }
-    }
-
 	private function _renderCorrectView() {
-        if (!isset($this->_helper->session->secureTokenContainers)) {
-            $this->_contentForm->getElement('secureToken')->initCsrfToken();
-            $secureToken = $this->_contentForm->getElement('secureToken')->getValue();
-            $this->_helper->session->secureTokenContainers = $secureToken;
-        } else {
-            $secureToken = $this->_helper->session->secureTokenContainers;
-        }
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($this->_contentForm, 'Containers');
         $this->view->secureToken = $secureToken;
         $this->view->contentForm = $this->_contentForm;
 		$rendered = '';

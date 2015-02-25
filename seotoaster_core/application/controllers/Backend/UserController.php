@@ -47,14 +47,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userForm->setId($userId);
             }
 
-            if (isset($this->_session->userSecureToken)) {
-                $userForm->getElement('secureToken')->removeValidator('Identical');
-                $userForm->getElement('secureToken')->addValidator(
-                    'Identical',
-                    false,
-                    array('token' => $this->_session->userSecureToken)
-                );
-            }
+            $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, 'Users');
 
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
@@ -69,14 +62,7 @@ class Backend_UserController extends Zend_Controller_Action {
 			}
 		}
 
-        if (!isset($this->_session->userSecureToken)) {
-            $userForm->getElement('secureToken')->initCsrfToken();
-            $secureToken = $userForm->getElement('secureToken')->getValue();
-            $this->_session->userSecureToken = $secureToken;
-        } else {
-            $secureToken = $this->_session->userSecureToken;
-        }
-
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($userForm, 'Users');
         $this->view->secureToken = $secureToken;
 
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
