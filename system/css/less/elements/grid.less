@@ -29,6 +29,7 @@
 
 // COLUMN LIST CSS
 //==================================================
+.column();
 [class*=" column_"], [class^="column_"], [class*="-column_"], [class*="_column_"]{
     & when (@column-system = true){
         font-size : 0 !important;
@@ -83,7 +84,7 @@
             }
         }
 
-        .column-none{
+        .column-none, .spinner{
             width : auto !important;
         }
 
@@ -102,7 +103,6 @@
         }
     }
 }
-.column();
 
 .clear{
     display    : block;
