@@ -31,6 +31,15 @@ class Application_Form_Featured extends Zend_Form {
 			'filters'    => array('StringTrim')
 		)));
 
+        $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addFeaturedArea',
 			'id'    => 'add-featured-area',

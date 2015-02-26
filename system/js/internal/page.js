@@ -2,7 +2,8 @@ function toggleOptimized(optimized) {
     $('#optimized').val(optimized);
     $.post($('#website_url').val() + 'backend/backend_page/toggleoptimized/', {
         pid: $('#pageId').val(),
-        optimized: optimized
+        optimized: optimized,
+        secureToken: $('#frm-page').find('.secureToken').val()
     }, function (response) {
         $.each(response.data, function (key, val) {
             var field = $('[name=' + key + ']', $('#frm-page'));

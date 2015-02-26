@@ -68,7 +68,8 @@ $(function() {
                     act        : 'renew',
                     menu       : $(this).parent().data('menu'),
                     categoryId : $(this).parent().attr('id'),
-                    pages      : pages
+                    pages      : pages,
+                    secureToken: $(this).closest('#sortable-main').find('.secureToken').val()
                 };
                 $.post($('#website_url').val() + 'backend/backend_page/organize/', renewedData);
             },
@@ -116,7 +117,7 @@ function saveCategoriesOrder() {
     $.ajax({
         type: 'post',
         url : $('#website_url').val() + 'backend/backend_page/organize/',
-        data: {act: 'save', ordered: JSON.stringify(ordered) },
+        data: {act: 'save', ordered: JSON.stringify(ordered), secureToken: $('#sortable-main').find('.secureToken').val()},
         dataType: 'json',
         beforeSend: function() {
             showSpinner();

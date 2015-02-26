@@ -31,6 +31,15 @@ class Application_Form_Silo extends Zend_Form {
             'type'  => 'submit'
 		)));
 
+        $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 
 		$this->getElement('addSilo')->setDecorators(array('ViewHelper'));

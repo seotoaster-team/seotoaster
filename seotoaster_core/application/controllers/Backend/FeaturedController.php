@@ -24,7 +24,8 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function featuredAction() {
 		$featuredForm = new Application_Form_Featured();
 		if($this->getRequest()->isPost()) {
-			if($featuredForm->isValid($this->getRequest()->getParams())) {
+            $featuredForm = Tools_System_Tools::addTokenValidatorZendForm($featuredForm, 'Pages');
+            if($featuredForm->isValid($this->getRequest()->getParams())) {
 				$featuredArea = new Application_Model_Models_Featuredarea($featuredForm->getValues());
 				Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($featuredArea);
 				$this->_helper->response->success('Added');
@@ -37,7 +38,8 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		$pageId                    = $this->getRequest()->getParam('pid');
 		$this->view->pageId        = $pageId;
 		$this->view->faForm        = $featuredForm;
-
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($featuredForm, 'Pages');
+        $this->view->secureToken = $secureToken;
 		if(isset ($this->_helper->session->faPull)) {
 			unset($this->_helper->session->faPull);
 		}
@@ -79,7 +81,12 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 
 	public function addpagetofaAction() {
 		if($this->getRequest()->isPost()) {
-			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
+            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
+            if (!$valid) {
+                exit;
+            }
+            $page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
 			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
 			$fa->registerObserver(new Tools_Featured_GarbageCollector(array(
 				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
@@ -104,14 +111,16 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 
 	public function rempagefromfaAction() {
 		if($this->getRequest()->isPost()) {
-			$page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
+            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
+            if (!$valid) {
+                exit;
+            }
+            $page     = Application_Model_Mappers_PageMapper::getInstance()->find($this->getRequest()->getParam('pid'));
 			$fa       = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($this->getRequest()->getParam('faid'), false);
 			$fa->registerObserver(new Tools_Featured_GarbageCollector(array(
 				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 			)));
-			if(!$fa instanceof Application_Model_Models_Featuredarea) {
-
-			}
 			if(!$page instanceof Application_Model_Models_Page) {
 				//page is no created yet, but we want to add it to fa
 				$faPull = $this->_helper->session->faPull;
@@ -122,7 +131,6 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 					}
 				}
 				$this->_helper->response->success($this->_helper->language->translate('Page removed from featured area'));
-				//return;
 			}
 			$fa->deletePage($page);
 			Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($fa);
@@ -141,7 +149,12 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			throw new Exceptions_SeotoasterException('Cannot load featured area');
 		}
 		if($this->getRequest()->isPost()) {
-			$featuredArea->registerObserver(new Tools_Featured_GarbageCollector(array(
+            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Farea');
+            if (!$valid) {
+                exit;
+            }
+            $featuredArea->registerObserver(new Tools_Featured_GarbageCollector(array(
 				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 			)));
 			$ordered = $this->getRequest()->getParam('ordered');
@@ -149,6 +162,8 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			$featuredArea->notifyObservers();
 		}
 
+        $secureToken = Tools_System_Tools::initSecureToken('Farea');
+        $this->view->secureToken = $secureToken;
 		$this->view->faPages = $featuredArea->getPages();
         $this->view->faName = $featuredArea->getName();
         $this->view->faId = $faId;

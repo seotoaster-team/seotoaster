@@ -334,6 +334,11 @@ class Backend_PageController extends Zend_Controller_Action {
             if(!$act) {
                 exit;
             }
+            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'OrganizePages');
+            if (!$valid) {
+                exit;
+            }
             switch($act) {
                 case 'save':
                     $orderedList = array_unique(Zend_Json::decode($this->getRequest()->getParam('ordered'), Zend_Json::TYPE_ARRAY));
@@ -384,6 +389,8 @@ class Backend_PageController extends Zend_Controller_Action {
             }
             $this->view->tree = $tree;
         }
+        $secureToken = Tools_System_Tools::initSecureToken('OrganizePages');
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'organize';
         $this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
         $this->view->noMenu      = $pageMapper->fetchAllNomenuPages();
@@ -472,6 +479,11 @@ class Backend_PageController extends Zend_Controller_Action {
         }
         $optimized        = $this->getRequest()->getParam('optimized');
         $pageId           = $this->getRequest()->getParam('pid');
+        $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+        $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
+        if (!$valid) {
+            $this->_helper->response->fail('');
+        }
         $page             = Application_Model_Mappers_PageMapper::getInstance()->find($pageId, !$optimized);
         $this->view->data = array(
             'h1'              => $page->getH1(),

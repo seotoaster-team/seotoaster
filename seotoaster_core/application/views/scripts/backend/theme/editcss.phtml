@@ -6,6 +6,7 @@
     <?php $this->editcssForm->setAction($this->url()); ?>
     <form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
         <div id="editor" style="height: 450px;"><?php echo $this->editcssForm->getElement('content'); ?></div>
+        <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>" />
         <div class="footer">
             <a id="reformat-code" class="inverse" href="javascript:;">[ <?php echo $this->translate('Reformat code'); ?> ]</a>
             <?php echo $this->editcssForm->getElement('submit'); ?>
@@ -36,7 +37,7 @@ $(function() {
 		$.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
-			data: {cssname : $("#csslist").val(), content : cssContent},
+			data: {cssname : $("#csslist").val(), content : cssContent, secureToken: $('.secureToken').val()},
 			dataType: 'json',
 			success: function(response){
 				hideSpinner();

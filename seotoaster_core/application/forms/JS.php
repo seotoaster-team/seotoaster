@@ -47,6 +47,15 @@ class Application_Form_JS extends Zend_Form {
 			'value'		 => $this->_content
 		));
 
+        $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'type'   => 'submit',
 			'name'   => 'submit',

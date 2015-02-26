@@ -78,6 +78,15 @@ class Application_Form_Deeplink extends Zend_Form {
 			'checked' => ($this->_nofollow) ? 'checked' : ''
 		)));
 
+        $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addDeeplink',
 			'id'    => 'add-deeplink',

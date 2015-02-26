@@ -31,6 +31,7 @@
 			<form id="frm-featured-area" action="<?php echo $this->websiteUrl . '/backend/backend_featured/featured/id/' . $this->pageForm->getElement('pageId')->getValue() . '/pid/' . $this->pageForm->getElement('pageId')->getValue() ?>" method="post" data-callback="loadFaList" class="_fajax grid_12 form-inline">
                 <label for="fa-name" class="required"><?php echo $this->translate('Page tag name'); ?></label>
                 <input id="fa-name" class="grid_11 alpha omega" type="text" name="name" value="">
+                <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
 				<button id="add-featured-area" class="btn icon ticon-plus grid_1 alpha omega mt0px" type="submit" name="addFeaturedArea"><?php echo $this->translate('Add page tag'); ?></button>
 			</form>
 			<div class="header-inner grid_12 mt1em">
@@ -105,7 +106,7 @@
         <?php echo $this->pageForm->getElement('externalLinkStatus'); ?>
         <?php echo $this->pageForm->getElement('externalLink'); ?>
 		<?php echo $this->pageForm->getElement('pageType'); ?>
-        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
+        <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>"/>
         <?php echo $this->pageForm->getElement('updatePage'); ?>
         <input type="hidden" name="original-page-url" id="original-page-url" value="<?php echo $this->pageForm->getElement('url')->getValue(); ?>">
 	</form>

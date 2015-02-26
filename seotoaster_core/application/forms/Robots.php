@@ -23,6 +23,15 @@ class Application_Form_Robots extends Zend_Form
         );
 
         $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
+        $this->addElement(
             new Zend_Form_Element_Button(array(
                 'type'  => 'submit',
                 'name'  => 'updateRobots',

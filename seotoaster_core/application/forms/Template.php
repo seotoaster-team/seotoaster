@@ -95,6 +95,15 @@ class Application_Form_Template extends Zend_Form
         );
 
         $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
+        $this->addElement(
             new Zend_Form_Element_Button(array(
                 'name'   => 'submit',
                 'type'   => 'submit',

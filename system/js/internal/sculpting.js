@@ -29,7 +29,7 @@ $(function () {
         }
         $.post(
             actUrl,
-            {cid: cid},
+            {cid: cid, secureToken: $('.secureToken').val()},
             function () {
                 loadSculptingData();
             }

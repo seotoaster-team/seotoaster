@@ -50,7 +50,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 			$robotsForm->setContent($robotstxtContent);
 		}
 		else {
-			if($robotsForm->isValid($this->getRequest()->getParams())) {
+            $robotsForm = Tools_System_Tools::addTokenValidatorZendForm($robotsForm, 'Robots');
+            if($robotsForm->isValid($this->getRequest()->getParams())) {
 				$robotsData = $robotsForm->getValues();
 				try{
 					Tools_Filesystem_Tools::saveFile('robots.txt', $robotsData['content']);
@@ -61,6 +62,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				}
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($robotsForm, 'Robots');
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'robots';
 		$this->view->form        = $robotsForm;
 	}
@@ -74,7 +77,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
-			if($redirectForm->isValid($this->getRequest()->getParams())) {
+            $redirectForm = Tools_System_Tools::addTokenValidatorZendForm($redirectForm, 'Redirects');
+            if($redirectForm->isValid($this->getRequest()->getParams())) {
 				$data          = $redirectForm->getValues();
 				$redirect      = new Application_Model_Models_Redirect();
 				$fromUrlPath   = Tools_System_Tools::getUrlPath($data['fromUrl']);
@@ -122,6 +126,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($redirectForm, 'Redirects');
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = '301s';
 		$this->view->form = $redirectForm;
 	}
@@ -151,6 +157,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		if($this->getRequest()->isPost()) {
+            $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, 'Deeplinks');
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
 				$data           = $deeplinksForm->getValues();
 				$deeplink       = new Application_Model_Models_Deeplink();
@@ -183,9 +190,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
-		else {
-
-		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($deeplinksForm, 'Deeplinks');
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'deeplinks';
 		$this->view->form        = $deeplinksForm;
 	}
@@ -222,7 +228,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 	public function sculptingAction() {
 		$siloForm = new Application_Form_Silo();
 		if($this->getRequest()->isPost()) {
-			if($siloForm->isValid($this->getRequest()->getParams())) {
+            $siloForm = Tools_System_Tools::addTokenValidatorZendForm($siloForm, 'Silos');
+            if($siloForm->isValid($this->getRequest()->getParams())) {
 				$silo = new Application_Model_Models_Silo($siloForm->getValues());
 				if(Application_Model_Mappers_SiloMapper::getInstance()->save($silo)) {
 					$this->_helper->response->success('Silo added.');
@@ -232,6 +239,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($siloForm->getMessages(), get_class($siloForm)));
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, 'Silos');
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'sculpting';
 		$this->view->siloForm    = $siloForm;
 	}
@@ -310,6 +319,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 			if($categoryPage === null) {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
 			}
+            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Silos');
+            if (!$valid) {
+                exit;
+            }
 			switch ($action) {
 				case self::SILOCAT_ADD:
 					$siloMapper       = Application_Model_Mappers_SiloMapper::getInstance();
@@ -332,7 +346,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 					}
 					$siloId = $siloMapper->save($silo);
 					if($siloId) {
-						$this->_helper->response->success('Siloed');
+						$this->_helper->response->success('Silo added');
 					}
 				break;
 				case self::SILOCAT_REMOVE:
@@ -351,8 +365,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function managesilosAction() {
-		if($this->getRequest()->isGet()) {
-			$this->view->siloForm = new Application_Form_Silo();
+        $siloForm = new Application_Form_Silo();
+        if($this->getRequest()->isGet()) {
+			$this->view->siloForm = $siloForm;
 		}
 		else {
 			$action = $this->getRequest()->getParam('act', null);
@@ -386,6 +401,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				break;
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, 'Silos');
+        $this->view->secureToken = $secureToken;
 	}
 
     /**

@@ -54,6 +54,16 @@ class Application_Form_Redirect extends Zend_Form {
 			),
 			'registerInArrayValidator' => false
 		)));
+
+        $this->addElement(
+            'hash',
+            'secureToken',
+            array(
+                'ignore' => true,
+                'timeout' => 1440
+            )
+        );
+
         $this->getElement('toUrl')->setDisableTranslator(true);
 
 		$this->addElement(new Zend_Form_Element_Button(array(
