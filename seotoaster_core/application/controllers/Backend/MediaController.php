@@ -125,7 +125,7 @@ class Backend_MediaController extends Zend_Controller_Action
                 $this->view->errorMsg = $this->_translator->translate('No folder specified');
                 return false;
             }
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'RemoveThings');
             if (!$valid) {
                 $this->view->errorMsg = $this->_translator->translate('Token not valid');

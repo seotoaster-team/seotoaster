@@ -212,7 +212,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 $this->_helper->response->response($errorMessages, true);
             }
         }
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($templateForm, 'Templates');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($templateForm, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'addtemplate';
         $this->view->templateForm = $templateForm;
@@ -285,7 +285,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 $this->view->errorMessage = $e->getMessage();
             }
         }
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($editcssForm, 'Editcss');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($editcssForm, Tools_System_Tools::ACTION_PREFIX_EDITCSS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'editcss';
         $this->view->editcssForm = $editcssForm;
@@ -348,7 +348,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 $this->view->errorMessage = $e->getMessage();
             }
         }
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($editjsForm, 'Editjs');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($editjsForm, Tools_System_Tools::ACTION_PREFIX_EDITJS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'editjs';
         $this->view->editjsForm = $editjsForm;
@@ -633,7 +633,7 @@ class Backend_ThemeController extends Zend_Controller_Action
     public function deletetemplateAction()
     {
         if ($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Templates');
             if (!$valid) {
                 exit;

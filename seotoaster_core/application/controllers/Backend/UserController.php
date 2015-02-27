@@ -62,7 +62,7 @@ class Backend_UserController extends Zend_Controller_Action {
 			}
 		}
 
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($userForm, 'Users');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
         $this->view->secureToken = $secureToken;
 
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);

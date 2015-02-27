@@ -107,7 +107,7 @@ class Application_Form_User extends Zend_Form {
 			'escape' => false
 		)));
 
-        $this->addElement('hash', 'secureToken', array(
+        $this->addElement('hash', Tools_System_Tools::CSRF_SECURE_TOKEN, array(
             'ignore' => true,
             'timeout' => 1440
         ));

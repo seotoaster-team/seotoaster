@@ -38,7 +38,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		$pageId                    = $this->getRequest()->getParam('pid');
 		$this->view->pageId        = $pageId;
 		$this->view->faForm        = $featuredForm;
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($featuredForm, 'Pages');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($featuredForm, Tools_System_Tools::ACTION_PREFIX_PAGES);
         $this->view->secureToken = $secureToken;
 		if(isset ($this->_helper->session->faPull)) {
 			unset($this->_helper->session->faPull);
@@ -81,7 +81,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 
 	public function addpagetofaAction() {
 		if($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
             if (!$valid) {
                 exit;
@@ -111,7 +111,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 
 	public function rempagefromfaAction() {
 		if($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
             if (!$valid) {
                 exit;
@@ -149,7 +149,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			throw new Exceptions_SeotoasterException('Cannot load featured area');
 		}
 		if($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Farea');
             if (!$valid) {
                 exit;

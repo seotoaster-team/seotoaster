@@ -210,7 +210,7 @@ class Application_Form_Page extends Zend_Form {
             'value' => $this->_removePreviousOption
         )));
 
-        $this->addElement('hash', 'secureToken', array(
+        $this->addElement('hash', Tools_System_Tools::CSRF_SECURE_TOKEN, array(
                 'ignore' => true,
                 'timeout' => 1440
         ));

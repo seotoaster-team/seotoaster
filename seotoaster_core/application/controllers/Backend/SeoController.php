@@ -62,7 +62,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				}
 			}
 		}
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($robotsForm, 'Robots');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($robotsForm, Tools_System_Tools::ACTION_PREFIX_ROBOTS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'robots';
 		$this->view->form        = $robotsForm;
@@ -126,7 +126,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($redirectForm, 'Redirects');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($redirectForm, Tools_System_Tools::ACTION_PREFIX_REDIRECTS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = '301s';
 		$this->view->form = $redirectForm;
@@ -190,7 +190,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($deeplinksForm, 'Deeplinks');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'deeplinks';
 		$this->view->form        = $deeplinksForm;
@@ -239,7 +239,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($siloForm->getMessages(), get_class($siloForm)));
 			}
 		}
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, 'Silos');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, Tools_System_Tools::ACTION_PREFIX_SILOS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'sculpting';
 		$this->view->siloForm    = $siloForm;
@@ -319,7 +319,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 			if($categoryPage === null) {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
 			}
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Silos');
             if (!$valid) {
                 exit;
@@ -401,7 +401,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				break;
 			}
 		}
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, 'Silos');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, Tools_System_Tools::ACTION_PREFIX_SILOS);
         $this->view->secureToken = $secureToken;
 	}
 

@@ -164,7 +164,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 	}
 
 	private function _renderCorrectView() {
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($this->_contentForm, 'Containers');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         $this->view->secureToken = $secureToken;
         $this->view->contentForm = $this->_contentForm;
 		$rendered = '';
@@ -374,7 +374,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 
         if ($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'editRepeat');
             if (!$valid) {
                 $this->_helper->response->fail('');

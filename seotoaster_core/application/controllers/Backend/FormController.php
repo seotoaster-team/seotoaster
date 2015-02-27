@@ -61,7 +61,7 @@ class Backend_FormController extends Zend_Controller_Action {
 		}
 		$formName           = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
 
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($formForm, 'Forms');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
 
         $this->view->secureToken = $secureToken;
 

@@ -182,7 +182,7 @@ class Application_Form_Form extends Zend_Form
             ))
         );
 
-        $this->addElement('hash', 'secureToken', array(
+        $this->addElement('hash', Tools_System_Tools::CSRF_SECURE_TOKEN, array(
             'ignore' => true,
             'timeout' => 1440
         ));

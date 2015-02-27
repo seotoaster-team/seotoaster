@@ -141,7 +141,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			}
 		}
 
-		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, 'Config');
+		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
 
         $this->view->secureToken = $secureToken;
         

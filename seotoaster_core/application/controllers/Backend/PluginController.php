@@ -74,7 +74,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
     public function triggerinstallAction() {
         if ($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Plugins');
             if (!$valid) {
                 exit;
@@ -188,7 +188,7 @@ class Backend_PluginController extends Zend_Controller_Action {
     public function triggerAction()
     {
         if ($this->getRequest()->isPost()) {
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Plugins');
             if (!$valid) {
                 exit;

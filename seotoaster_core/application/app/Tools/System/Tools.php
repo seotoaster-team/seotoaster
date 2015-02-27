@@ -21,6 +21,32 @@ class Tools_System_Tools {
 
     const RECAPTCHA_PRIVATE_KEY = 'recaptchaPrivateKey';
 
+    const CSRF_SECURE_TOKEN = 'secureToken';
+
+    const ACTION_PREFIX_CONFIG = 'Config';
+
+    const ACTION_PREFIX_CONTAINERS = 'Containers';
+
+    const ACTION_PREFIX_PAGES = 'Pages';
+
+    const ACTION_PREFIX_USERS = 'Users';
+
+    const ACTION_PREFIX_FORMS = 'Forms';
+
+    const ACTION_PREFIX_ROBOTS = 'Robots';
+
+    const ACTION_PREFIX_REDIRECTS = 'Redirects';
+
+    const ACTION_PREFIX_DEEPLINKS = 'Deeplinks';
+
+    const ACTION_PREFIX_SILOS = 'Silos';
+
+    const ACTION_PREFIX_TEMPLATES = 'Templates';
+
+    const ACTION_PREFIX_EDITCSS = 'Editcss';
+
+    const ACTION_PREFIX_EDITJS = 'Editjs';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : '';
@@ -401,7 +427,7 @@ class Tools_System_Tools {
     public static function initSecureToken($tokenPrefix, $regenerate = false)
     {
         $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-        $tokenName = 'secureToken' . $tokenPrefix;
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
         if (isset($sessionHelper->$tokenName) && !$regenerate) {
             return $sessionHelper->$tokenName;
         }
@@ -420,7 +446,7 @@ class Tools_System_Tools {
     public static function validateToken($token, $tokenPrefix = '')
     {
         $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-        $tokenName = 'secureToken' . $tokenPrefix;
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
         if (!isset($sessionHelper->$tokenName)) {
             return false;
         }
@@ -441,10 +467,10 @@ class Tools_System_Tools {
      * @return Zend_Form
      * @throws Zend_Form_Exception
      */
-    public static function addTokenValidatorZendForm(Zend_Form $form, $tokenPrefix = '', $elementName = 'secureToken')
+    public static function addTokenValidatorZendForm(Zend_Form $form, $tokenPrefix = '', $elementName = self::CSRF_SECURE_TOKEN)
     {
         $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-        $tokenName = 'secureToken' . $tokenPrefix;
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
         if (isset($sessionHelper->$tokenName)) {
             $form->getElement($elementName)->removeValidator('Identical');
             $form->getElement($elementName)->addValidator(
@@ -465,10 +491,10 @@ class Tools_System_Tools {
      * @param string $elementName Zend form element name
      * @return string
      */
-    public static function initZendFormCsrfToken(Zend_Form $form, $tokenPrefix = '', $elementName = 'secureToken')
+    public static function initZendFormCsrfToken(Zend_Form $form, $tokenPrefix = '', $elementName = self::CSRF_SECURE_TOKEN)
     {
         $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
-        $tokenName = 'secureToken' . $tokenPrefix;
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
         if (!isset($sessionHelper->$tokenName)) {
             $form->getElement($elementName)->initCsrfToken();
             $secureToken = $form->getElement($elementName)->getValue();

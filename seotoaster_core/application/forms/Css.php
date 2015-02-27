@@ -29,7 +29,7 @@ class Application_Form_Css extends Zend_Form {
 
         $this->addElement(
             'hash',
-            'secureToken',
+            Tools_System_Tools::CSRF_SECURE_TOKEN,
             array(
                 'ignore' => true,
                 'timeout' => 1440

@@ -42,7 +42,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageId      = $this->getRequest()->getParam('id');
         $mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
-        $secureToken = Tools_System_Tools::initZendFormCsrfToken($pageForm, 'Pages');
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($pageForm, Tools_System_Tools::ACTION_PREFIX_PAGES);
 
         $this->view->secureToken = $secureToken;
 
@@ -334,7 +334,7 @@ class Backend_PageController extends Zend_Controller_Action {
             if(!$act) {
                 exit;
             }
-            $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, 'OrganizePages');
             if (!$valid) {
                 exit;
@@ -479,7 +479,7 @@ class Backend_PageController extends Zend_Controller_Action {
         }
         $optimized        = $this->getRequest()->getParam('optimized');
         $pageId           = $this->getRequest()->getParam('pid');
-        $tokenToValidate = $this->getRequest()->getParam('secureToken', false);
+        $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
         $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
         if (!$valid) {
             $this->_helper->response->fail('');
