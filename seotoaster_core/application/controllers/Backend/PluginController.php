@@ -67,7 +67,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 				$prepared[] = $plugin;
 			}
 		}
-        $secureToken = Tools_System_Tools::initSecureToken('Plugins');
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_PLUGINS);
         $this->view->secureToken = $secureToken;
 		return $prepared;
 	}
@@ -75,7 +75,7 @@ class Backend_PluginController extends Zend_Controller_Action {
     public function triggerinstallAction() {
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Plugins');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PLUGINS);
             if (!$valid) {
                 exit;
             }
@@ -189,7 +189,7 @@ class Backend_PluginController extends Zend_Controller_Action {
     {
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Plugins');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PLUGINS);
             if (!$valid) {
                 exit;
             }

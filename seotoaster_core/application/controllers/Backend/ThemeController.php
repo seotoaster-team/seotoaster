@@ -634,7 +634,7 @@ class Backend_ThemeController extends Zend_Controller_Action
     {
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Templates');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
             if (!$valid) {
                 exit;
             }

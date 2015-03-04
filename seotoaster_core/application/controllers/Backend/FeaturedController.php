@@ -82,7 +82,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function addpagetofaAction() {
 		if($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PAGES);
             if (!$valid) {
                 exit;
             }
@@ -112,7 +112,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function rempagefromfaAction() {
 		if($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PAGES);
             if (!$valid) {
                 exit;
             }
@@ -150,7 +150,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		}
 		if($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Farea');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_FAREA);
             if (!$valid) {
                 exit;
             }
@@ -162,7 +162,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			$featuredArea->notifyObservers();
 		}
 
-        $secureToken = Tools_System_Tools::initSecureToken('Farea');
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_FAREA);
         $this->view->secureToken = $secureToken;
 		$this->view->faPages = $featuredArea->getPages();
         $this->view->faName = $featuredArea->getName();

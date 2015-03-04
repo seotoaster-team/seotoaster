@@ -47,6 +47,18 @@ class Tools_System_Tools {
 
     const ACTION_PREFIX_EDITJS = 'Editjs';
 
+    const ACTION_PREFIX_EDITREPEAT = 'EditRepeat';
+
+    const ACTION_PREFIX_ACTIONEMAILS = 'ActionEmails';
+
+    const ACTION_PREFIX_FAREA = 'Farea';
+
+    const ACTION_PREFIX_REMOVETHINGS = 'RemoveThings';
+
+    const ACTION_PREFIX_ORGANIZEPAGES = 'OrganizePages';
+
+    const ACTION_PREFIX_PLUGINS = 'Plugins';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : '';

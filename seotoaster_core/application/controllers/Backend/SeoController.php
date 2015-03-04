@@ -320,7 +320,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
 			}
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Silos');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_SILOS);
             if (!$valid) {
                 exit;
             }

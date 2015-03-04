@@ -178,7 +178,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
         if($this->getRequest()->isPost()) {
             $actions = $this->getRequest()->getParam('actions', false);
             $secureToken = $this->getRequest()->getParam('secureToken', false);
-			$tokenValid = Tools_System_Tools::validateToken($secureToken, 'ActionEmails');
+			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
 			if (!$tokenValid) {
 				$this->_helper->response->fail('');
 			}
@@ -200,7 +200,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
             }
         }
 
-        $secureToken = Tools_System_Tools::initSecureToken('ActionEmails');
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
 
         $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();

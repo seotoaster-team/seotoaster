@@ -375,7 +375,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'editRepeat');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_EDITREPEAT);
             if (!$valid) {
                 $this->_helper->response->fail('');
             }
@@ -401,7 +401,7 @@ class Backend_ContentController extends Zend_Controller_Action {
                 $mapper->save($model);
             }
         }
-        $secureToken = Tools_System_Tools::initSecureToken('editRepeat');
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_EDITREPEAT);
         $this->view->secureToken = $secureToken;
         $this->view->configRepeat = $configRepeat;
 

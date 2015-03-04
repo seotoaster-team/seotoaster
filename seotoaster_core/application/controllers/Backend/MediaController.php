@@ -56,7 +56,7 @@ class Backend_MediaController extends Zend_Controller_Action
         if (!empty ($listFolders)) {
             $listFolders = array_combine($listFolders, $listFolders);
         }
-        $secureToken = Tools_System_Tools::initSecureToken('RemoveThings');
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'removethings';
         $this->view->listFolders = array(
@@ -126,7 +126,7 @@ class Backend_MediaController extends Zend_Controller_Action
                 return false;
             }
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'RemoveThings');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);
             if (!$valid) {
                 $this->view->errorMsg = $this->_translator->translate('Token not valid');
                 return false;

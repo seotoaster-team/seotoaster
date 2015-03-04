@@ -335,7 +335,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 exit;
             }
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-            $valid = Tools_System_Tools::validateToken($tokenToValidate, 'OrganizePages');
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_ORGANIZEPAGES);
             if (!$valid) {
                 exit;
             }
@@ -389,7 +389,7 @@ class Backend_PageController extends Zend_Controller_Action {
             }
             $this->view->tree = $tree;
         }
-        $secureToken = Tools_System_Tools::initSecureToken('OrganizePages');
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ORGANIZEPAGES);
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'organize';
         $this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
@@ -480,7 +480,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $optimized        = $this->getRequest()->getParam('optimized');
         $pageId           = $this->getRequest()->getParam('pid');
         $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
-        $valid = Tools_System_Tools::validateToken($tokenToValidate, 'Pages');
+        $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PAGES);
         if (!$valid) {
             $this->_helper->response->fail('');
         }
