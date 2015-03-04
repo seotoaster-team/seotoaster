@@ -5,13 +5,14 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_Featured extends Zend_Form {
+class Application_Form_Featured extends Application_Form_Secure {
 
 	protected $_name = '';
 
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST)
+        parent::init();
+        $this->setMethod(Zend_Form::METHOD_POST)
 			 ->setAttrib('class', '_fajax')
 			 ->setAttrib('data-callback', 'loadFaList');
 
@@ -30,15 +31,6 @@ class Application_Form_Featured extends Zend_Form {
 			'required'   => true,
 			'filters'    => array('StringTrim')
 		)));
-
-        $this->addElement(
-            'hash',
-            Tools_System_Tools::CSRF_SECURE_TOKEN,
-            array(
-                'ignore' => true,
-                'timeout' => 1440
-            )
-        );
 
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'name'  => 'addFeaturedArea',

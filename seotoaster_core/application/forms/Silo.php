@@ -5,12 +5,13 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_Silo extends Zend_Form {
+class Application_Form_Silo extends Application_Form_Secure {
 
 	protected $_name = '';
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST);
+        parent::init();
+        $this->setMethod(Zend_Form::METHOD_POST);
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'silo-name',
@@ -30,15 +31,6 @@ class Application_Form_Silo extends Zend_Form {
 			'label' => 'Add silo',
             'type'  => 'submit'
 		)));
-
-        $this->addElement(
-            'hash',
-            Tools_System_Tools::CSRF_SECURE_TOKEN,
-            array(
-                'ignore' => true,
-                'timeout' => 1440
-            )
-        );
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 

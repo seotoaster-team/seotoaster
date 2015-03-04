@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Template extends Zend_Form
+class Application_Form_Template extends Application_Form_Secure
 {
 
     protected $_title = '';
@@ -19,6 +19,7 @@ class Application_Form_Template extends Zend_Form
 
     public function init()
     {
+        parent::init();
         $this->setMethod(Zend_Form::METHOD_POST)
             ->setAttrib('id', 'frm_template')
             ->setDecorators(array('ViewScript'))
@@ -92,15 +93,6 @@ class Application_Form_Template extends Zend_Form
                 'id'   => 'pageId',
                 'name' => 'pageId',
             ))
-        );
-
-        $this->addElement(
-            'hash',
-            Tools_System_Tools::CSRF_SECURE_TOKEN,
-            array(
-                'ignore' => true,
-                'timeout' => 1440
-            )
         );
 
         $this->addElement(

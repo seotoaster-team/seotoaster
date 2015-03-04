@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Form extends Zend_Form
+class Application_Form_Form extends Application_Form_Secure
 {
 
     protected $_code = '';
@@ -27,6 +27,7 @@ class Application_Form_Form extends Zend_Form
 
     public function init()
     {
+        parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
 
         $this->addElement(
@@ -181,11 +182,6 @@ class Application_Form_Form extends Zend_Form
                 'value' => $this->_id
             ))
         );
-
-        $this->addElement('hash', Tools_System_Tools::CSRF_SECURE_TOKEN, array(
-            'ignore' => true,
-            'timeout' => 1440
-        ));
 
         $this->addElement(
             'button',

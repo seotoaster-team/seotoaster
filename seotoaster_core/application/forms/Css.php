@@ -4,12 +4,13 @@
  *
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
-class Application_Form_Css extends Zend_Form {
+class Application_Form_Css extends Application_Form_Secure {
 	protected $_content = '';
 	protected $_cssList = '';
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST);
+        parent::init();
+        $this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttrib('id', 'editcssform');
 
 		$this->addElement('select', 'cssname', array(
@@ -26,15 +27,6 @@ class Application_Form_Css extends Zend_Form {
 			'spellcheck' => 'false',
 			'value'		 => $this->_content
 		));
-
-        $this->addElement(
-            'hash',
-            Tools_System_Tools::CSRF_SECURE_TOKEN,
-            array(
-                'ignore' => true,
-                'timeout' => 1440
-            )
-        );
 
 		$this->addElement(new Zend_Form_Element_Button(array(
 			'type'   => 'submit',

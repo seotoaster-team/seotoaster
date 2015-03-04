@@ -5,7 +5,7 @@
  *
  * @author Pavel Kovalyov <pavlo.kovalyov@gmail.com>
  */
-class Application_Form_Config extends Zend_Form
+class Application_Form_Config extends Application_Form_Secure
 {
 	private $_name = 'configForm';
 
@@ -308,6 +308,7 @@ class Application_Form_Config extends Zend_Form
 
 	public function init()
     {
+        parent::init();
 		$this->setName($this->_name)
 			->setMethod(Zend_FORM::METHOD_POST)
 			->setDecorators(array(
@@ -479,11 +480,6 @@ class Application_Form_Config extends Zend_Form
 				Zend_Controller_Request_Http::SCHEME_HTTPS => 'https'
 			)
 		));
-
-        $this->addElement('hash', Tools_System_Tools::CSRF_SECURE_TOKEN, array(
-            'ignore' => true,
-            'timeout' => 1440
-        ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}

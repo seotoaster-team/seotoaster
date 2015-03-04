@@ -5,7 +5,7 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_Redirect extends Zend_Form {
+class Application_Form_Redirect extends Application_Form_Secure {
 
 	protected $_fromUrl      = '';
 
@@ -15,7 +15,7 @@ class Application_Form_Redirect extends Zend_Form {
 
 
 	public function init() {
-
+        parent::init();
 		$this->setMethod(Zend_Form::METHOD_POST)
 			 ->setAttrib('class', '_fajax')
 			 ->setAttrib('data-callback', 'reloadRedirectsList');
@@ -54,15 +54,6 @@ class Application_Form_Redirect extends Zend_Form {
 			),
 			'registerInArrayValidator' => false
 		)));
-
-        $this->addElement(
-            'hash',
-            Tools_System_Tools::CSRF_SECURE_TOKEN,
-            array(
-                'ignore' => true,
-                'timeout' => 1440
-            )
-        );
 
         $this->getElement('toUrl')->setDisableTranslator(true);
 

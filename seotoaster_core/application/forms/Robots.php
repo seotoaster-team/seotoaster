@@ -1,12 +1,13 @@
 <?php
 
-class Application_Form_Robots extends Zend_Form
+class Application_Form_Robots extends Application_Form_Secure
 {
 
     protected $_content = '';
 
     public function init()
     {
+        parent::init();
         $this->setMethod(Zend_Form::METHOD_POST)
                 ->setAttrib('class', '_fajax grid_12')
                 ->setAttrib('id', 'frm-robots');
@@ -20,15 +21,6 @@ class Application_Form_Robots extends Zend_Form
                 'value'   => $this->_content,
                 'filters' => array('StringTrim')
             ))
-        );
-
-        $this->addElement(
-            'hash',
-            Tools_System_Tools::CSRF_SECURE_TOKEN,
-            array(
-                'ignore' => true,
-                'timeout' => 1440
-            )
         );
 
         $this->addElement(
