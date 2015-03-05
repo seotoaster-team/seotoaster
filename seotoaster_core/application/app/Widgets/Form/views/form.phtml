@@ -132,8 +132,11 @@
         });
 
         function validateRequired(forID) {
-            var validation = false;
-            $.each($('#'+forID+' .required').not(':hidden'), function() {
+            var validation = false,
+                fields     = $('#'+forID+' .required');
+
+            fields.removeClass('notvalid');
+            $.each(fields.not(':hidden'), function() {
                 if ($(this).is('input') || $(this).is('textarea')) {
                     if ($(this).not(':input[type=button], :input[type=submit], :input[type=reset], :input[type=checkbox]') && $(this).val().length < 1) {
                         $(this).addClass('notvalid');
