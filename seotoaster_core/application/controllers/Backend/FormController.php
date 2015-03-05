@@ -33,7 +33,7 @@ class Backend_FormController extends Zend_Controller_Action {
         $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         if($this->getRequest()->isPost()) {
-            $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, 'Forms');
+            $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
             if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();

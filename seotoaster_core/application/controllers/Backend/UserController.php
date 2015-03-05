@@ -47,7 +47,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userForm->setId($userId);
             }
 
-            $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, 'Users');
+            $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
 
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();

@@ -50,7 +50,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 			$robotsForm->setContent($robotstxtContent);
 		}
 		else {
-            $robotsForm = Tools_System_Tools::addTokenValidatorZendForm($robotsForm, 'Robots');
+            $robotsForm = Tools_System_Tools::addTokenValidatorZendForm($robotsForm, Tools_System_Tools::ACTION_PREFIX_ROBOTS);
             if($robotsForm->isValid($this->getRequest()->getParams())) {
 				$robotsData = $robotsForm->getValues();
 				try{
@@ -77,7 +77,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
-            $redirectForm = Tools_System_Tools::addTokenValidatorZendForm($redirectForm, 'Redirects');
+            $redirectForm = Tools_System_Tools::addTokenValidatorZendForm($redirectForm, Tools_System_Tools::ACTION_PREFIX_REDIRECTS);
             if($redirectForm->isValid($this->getRequest()->getParams())) {
 				$data          = $redirectForm->getValues();
 				$redirect      = new Application_Model_Models_Redirect();
@@ -157,7 +157,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		if($this->getRequest()->isPost()) {
-            $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, 'Deeplinks');
+            $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
 				$data           = $deeplinksForm->getValues();
 				$deeplink       = new Application_Model_Models_Deeplink();
@@ -228,7 +228,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 	public function sculptingAction() {
 		$siloForm = new Application_Form_Silo();
 		if($this->getRequest()->isPost()) {
-            $siloForm = Tools_System_Tools::addTokenValidatorZendForm($siloForm, 'Silos');
+            $siloForm = Tools_System_Tools::addTokenValidatorZendForm($siloForm, Tools_System_Tools::ACTION_PREFIX_SILOS);
             if($siloForm->isValid($this->getRequest()->getParams())) {
 				$silo = new Application_Model_Models_Silo($siloForm->getValues());
 				if(Application_Model_Mappers_SiloMapper::getInstance()->save($silo)) {

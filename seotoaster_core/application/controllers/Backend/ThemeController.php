@@ -70,7 +70,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 }
             }
         } else {
-            $templateForm = Tools_System_Tools::addTokenValidatorZendForm($templateForm, 'Templates');
+            $templateForm = Tools_System_Tools::addTokenValidatorZendForm($templateForm, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
             if ($templateForm->isValid($this->getRequest()->getPost())) {
                 $templateData = $templateForm->getValues();
                 $originalName = $templateData['id'];
@@ -251,7 +251,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 if (is_string($postParams['content']) && empty($postParams['content'])) {
                     $editcssForm->getElement('content')->setRequired(false);
                 }
-                $editcssForm = Tools_System_Tools::addTokenValidatorZendForm($editcssForm, 'Editcss');
+                $editcssForm = Tools_System_Tools::addTokenValidatorZendForm($editcssForm, Tools_System_Tools::ACTION_PREFIX_EDITCSS);
                 if ($editcssForm->isValid($postParams)) {
                     $cssName = $postParams['cssname'];
                     try {
@@ -324,7 +324,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 if (is_string($postParams['content']) && empty($postParams['content'])) {
                     $editjsForm->getElement('content')->setRequired(false);
                 }
-                $editjsForm = Tools_System_Tools::addTokenValidatorZendForm($editjsForm, 'Editjs');
+                $editjsForm = Tools_System_Tools::addTokenValidatorZendForm($editjsForm, Tools_System_Tools::ACTION_PREFIX_EDITJS);
                 if ($editjsForm->isValid($postParams)) {
                     $jsName = $postParams['jsname'];
                     try {

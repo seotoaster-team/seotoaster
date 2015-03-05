@@ -24,7 +24,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 	public function featuredAction() {
 		$featuredForm = new Application_Form_Featured();
 		if($this->getRequest()->isPost()) {
-            $featuredForm = Tools_System_Tools::addTokenValidatorZendForm($featuredForm, 'Pages');
+            $featuredForm = Tools_System_Tools::addTokenValidatorZendForm($featuredForm, Tools_System_Tools::ACTION_PREFIX_PAGES);
             if($featuredForm->isValid($this->getRequest()->getParams())) {
 				$featuredArea = new Application_Model_Models_Featuredarea($featuredForm->getValues());
 				Application_Model_Mappers_FeaturedareaMapper::getInstance()->save($featuredArea);

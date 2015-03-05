@@ -114,7 +114,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 	}
 
 	private function _processContent() {
-        $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, 'Containers');
+        $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];

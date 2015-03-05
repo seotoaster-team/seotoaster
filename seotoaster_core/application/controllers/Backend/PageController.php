@@ -91,7 +91,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 $params = $this->_processParamsForExternalLink($params);
             }
 
-            $pageForm = Tools_System_Tools::addTokenValidatorZendForm($pageForm, 'Pages');
+            $pageForm = Tools_System_Tools::addTokenValidatorZendForm($pageForm, Tools_System_Tools::ACTION_PREFIX_PAGES);
 
             if($pageForm->isValid($params)) {
                 $pageData        = $pageForm->getValues();

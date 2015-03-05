@@ -47,7 +47,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $userMapper = Application_Model_Mappers_UserMapper::getInstance();
             }
 
-			$configForm = Tools_System_Tools::addTokenValidatorZendForm($configForm, 'Config');
+			$configForm = Tools_System_Tools::addTokenValidatorZendForm($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
 
 			if ($configForm->isValid($this->getRequest()->getParams())) {
 				//proccessing language changing
