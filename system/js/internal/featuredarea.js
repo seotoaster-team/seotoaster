@@ -16,7 +16,8 @@ $(function() {
 		$.post(
 			$('#website_url').val() + 'backend/backend_featured/' + handlerUrl, {
 			pid  : pageId,
-			faid :faId
+			faid :faId,
+            secureToken: $('#frm-page').find('.secureToken').val()
 		},
 		function(response) {
 			hideSpinner();

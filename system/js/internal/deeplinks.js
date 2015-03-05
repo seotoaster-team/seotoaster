@@ -41,11 +41,8 @@ $(function() {
 		showConfirm('You are about to remove one or many deeplinks. Are you sure?', function() {
 			var callback = $('#frm-deeplinks').data('callback');
 			$.ajax({
-				url: $('#website_url').val() + 'backend/backend_seo/removedeeplink/',
-				type: 'post',
-				data: {
-					id: ids
-				},
+				url: $('#website_url').val() + 'backend/backend_seo/removedeeplink/id/'+ids.join(','),
+				type: 'DELETE',
 				dataType: 'json',
 				beforeSend: function() {showSpinner();},
 				success: function(response) {

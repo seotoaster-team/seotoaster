@@ -55,7 +55,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
 	private function _getPreparedPlugins() {
 		$prepared = array();
-		$plugins  = Tools_Plugins_Tools::findAvialablePlugins();
+		$plugins  = Tools_Plugins_Tools::findAvailablePlugins();
 		if(!empty ($plugins)) {
 			foreach ($plugins as $pluginName) {
 				$plugin      = Tools_Plugins_Tools::findPluginByName($pluginName);
@@ -67,11 +67,18 @@ class Backend_PluginController extends Zend_Controller_Action {
 				$prepared[] = $plugin;
 			}
 		}
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_PLUGINS);
+        $this->view->secureToken = $secureToken;
 		return $prepared;
 	}
 
     public function triggerinstallAction() {
         if ($this->getRequest()->isPost()) {
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PLUGINS);
+            if (!$valid) {
+                exit;
+            }
             $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
             $plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
             $miscData     = Zend_Registry::get('misc');
@@ -181,6 +188,11 @@ class Backend_PluginController extends Zend_Controller_Action {
     public function triggerAction()
     {
         if ($this->getRequest()->isPost()) {
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PLUGINS);
+            if (!$valid) {
+                exit;
+            }
             $plugin = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('name'));
             $plugin->registerObserver(
                 new Tools_Plugins_GarbageCollector(array('action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE))
@@ -199,7 +211,7 @@ class Backend_PluginController extends Zend_Controller_Action {
     }
 
 	public function deleteAction() {
-		if($this->getRequest()->isPost()) {
+		if($this->getRequest()->isDelete()) {
 			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('id'));
 			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE

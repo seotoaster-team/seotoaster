@@ -155,6 +155,7 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 		$this->_pluginName = strtolower(__CLASS__);
 		$this->_view->websiteUrl = $this->_websiteUrl;
 		$this->_view->pluginName = $this->_pluginName;
+        $this->_view->secureToken = Tools_System_Tools::initSecureToken(get_called_class() . 'Token');
 
 		// setting up view helpers (standart and ZendX)
 		$this->_view->setHelperPath(APPLICATION_PATH . '/views/helpers/');
@@ -162,7 +163,6 @@ abstract class Tools_Plugins_Abstract implements Interfaces_Plugin {
 
 		// runing init routines
 		$this->_initAcl();
-//		$this->_initTranslator();
 		$this->_init();
 	}
 

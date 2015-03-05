@@ -103,15 +103,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
             $this->_exportTheme(null, true, true);
             return array('responseText' => $this->_translator->translate('Backup theme created!'));
         }
-        if($this->_request->getParam('importBackup', false)){
-            $themeName = $this->_configHelper->getConfig('currentTheme');
-
-            // exporting theme
-            $this->_applySql($themeName);
-            $this->_applyMedia($themeName);
-            $this->_cacheHelper->clean(false, false);
-            return array('responseText' => $this->_translator->translate('Backup theme uploaded!'));
-        }
 
 		$themesPath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'];
 
@@ -167,6 +158,16 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		$themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
 		$data = Zend_Json::decode($this->_request->getRawBody());
 		$themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
+		if($this->_request->getParam('importBackup', false)){
+			$themeName = $this->_configHelper->getConfig('currentTheme');
+
+			// exporting theme
+			$this->_applySql($themeName);
+			$this->_applyMedia($themeName);
+			$this->_cacheHelper->clean(false, false);
+			return array('responseText' => $this->_translator->translate('Backup theme uploaded!'));
+		}
+
 		if (is_dir($themePath)) {
 			// save templates in the database with proper type from theme.ini
             try {

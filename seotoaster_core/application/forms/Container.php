@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Container extends Zend_Form {
+class Application_Form_Container extends Application_Form_Secure {
 
 	protected $_content       = '';
 
@@ -15,7 +15,8 @@ class Application_Form_Container extends Zend_Form {
 	protected $_published     = true;
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST);
+        parent::init();
+        $this->setMethod(Zend_Form::METHOD_POST);
 		$this->setAttribs(array('id'=> 'frm_content', 'class' => 'grid_12 content-auto'));
 
 		$this->addElement('button', 'submit', array(

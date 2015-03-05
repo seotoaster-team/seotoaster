@@ -114,7 +114,8 @@ class Backend_ContentController extends Zend_Controller_Action {
 	}
 
 	private function _processContent() {
-		if($this->_contentForm->isValid($this->getRequest()->getParams())) {
+        $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
+        if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
@@ -163,7 +164,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 	}
 
 	private function _renderCorrectView() {
-		$this->view->contentForm = $this->_contentForm;
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
+        $this->view->secureToken = $secureToken;
+        $this->view->contentForm = $this->_contentForm;
 		$rendered = '';
 		switch ($this->_containerType) {
 			case Application_Model_Models_Container::TYPE_REGULARCONTENT:
@@ -371,7 +374,12 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 
         if ($this->getRequest()->isPost()) {
-            $quantity     = $this->getRequest()->getParam('quantity');
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_EDITREPEAT);
+            if (!$valid) {
+                $this->_helper->response->fail('');
+            }
+            $quantity     = filter_var($this->getRequest()->getParam('quantity'), FILTER_SANITIZE_NUMBER_INT);
             $orderContent = $this->getRequest()->getParam('orderContent');
             $inversion    = $this->getRequest()->getParam('inversion');
             $model->setName($name)->setContainerType($type)->setPageId($pageId);
@@ -393,7 +401,8 @@ class Backend_ContentController extends Zend_Controller_Action {
                 $mapper->save($model);
             }
         }
-
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_EDITREPEAT);
+        $this->view->secureToken = $secureToken;
         $this->view->configRepeat = $configRepeat;
 
         echo $this->view->render('backend/magicspaces/repeat.phtml');

@@ -47,6 +47,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $userMapper = Application_Model_Mappers_UserMapper::getInstance();
             }
 
+			$configForm = Tools_System_Tools::addTokenValidatorZendForm($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
+
 			if ($configForm->isValid($this->getRequest()->getParams())) {
 				//proccessing language changing
 				$selectedLang = $languageSelect->getValue();
@@ -139,6 +141,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			}
 		}
 
+		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
+
+        $this->view->secureToken = $secureToken;
         
 		if ($isSuperAdminLogged) {
 			$suadmin = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN);
@@ -165,13 +170,6 @@ class Backend_ConfigController extends Zend_Controller_Action {
         }
         $trigger = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray();
         $trigger = reset($trigger);
-        if($this->getRequest()->isPost()) {
-            $trigger = new Application_Model_Models_TriggerAction($trigger);
-            $trigger->setMessage($this->getRequest()->getParam('msg'));
-            Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($trigger);
-            $this->_helper->response->success();
-            return;
-        }
         $this->_helper->response->success($trigger['message']);
         return true;
     }
@@ -179,28 +177,30 @@ class Backend_ConfigController extends Zend_Controller_Action {
     public function actionmailsAction() {
         if($this->getRequest()->isPost()) {
             $actions = $this->getRequest()->getParam('actions', false);
+            $secureToken = $this->getRequest()->getParam('secureToken', false);
+			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
+			if (!$tokenValid) {
+				$this->_helper->response->fail('');
+			}
             if($actions !== false) {
                 $removeActions =  array();
+                $emailTriggerMapper = Application_Model_Mappers_EmailTriggersMapper::getInstance();
                 foreach($actions as $action) {
                     if (isset($action['delete']) && $action['delete'] === "true"){
                         array_push($removeActions, $action['id']);
                         continue;
                     }
-
-                    //add trigger automatically if not exists
-                    //if(($exists = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($action['trigger'])->current()) === null) {
-                    //    Application_Model_Mappers_EmailTriggersMapper::getInstance()->registerTrigger($action['trigger']);
-                    // }
-
-                    Application_Model_Mappers_EmailTriggersMapper::getInstance()->save($action);
+                    $emailTriggerMapper->save($action);
                 }
                 if (!empty($removeActions)) {
-                    Application_Model_Mappers_EmailTriggersMapper::getInstance()->delete($removeActions);
+                    $emailTriggerMapper->delete($removeActions);
                 }
                 $this->_helper->response->success($this->_helper->language->translate('Changes saved'));
                 return true;
             }
         }
+
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
 
         $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
@@ -211,6 +211,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $this->view->mailTemplates  = Tools_Mail_Tools::getMailTemplatesHash();
         $this->view->triggers       = $triggers;
         $this->view->services       = $services;
+        $this->view->secureToken = $secureToken;
         $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
             return str_replace('-', ' ', ucfirst($trigger));
         }, array_keys($triggers))));

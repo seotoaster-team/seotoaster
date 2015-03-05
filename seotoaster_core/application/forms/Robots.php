@@ -1,12 +1,13 @@
 <?php
 
-class Application_Form_Robots extends Zend_Form
+class Application_Form_Robots extends Application_Form_Secure
 {
 
     protected $_content = '';
 
     public function init()
     {
+        parent::init();
         $this->setMethod(Zend_Form::METHOD_POST)
                 ->setAttrib('class', '_fajax grid_12')
                 ->setAttrib('id', 'frm-robots');

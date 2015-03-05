@@ -15,6 +15,7 @@
                 <?php echo $this->configRepeat->getElement('inversion'); ?>
             </label>
         </div>
+        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
         <?php echo $this->configRepeat->getElement('submit')->renderViewHelper(); ?>
     </form>
 </div>

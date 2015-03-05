@@ -20,6 +20,7 @@
                 <?php echo $this->contentForm->getElement('containerName'); ?>
                 <?php echo $this->contentForm->getElement('pageId'); ?>
                 <?php echo $this->contentForm->getElement('containerId'); ?>
+                <input type="hidden" name="secureToken" class="secureToken" value="<?php echo $this->secureToken;?>" />
             </form>
         </div>
 

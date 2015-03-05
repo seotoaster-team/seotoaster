@@ -5,7 +5,7 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_Deeplink extends Zend_Form {
+class Application_Form_Deeplink extends Application_Form_Secure {
 
 	protected $_anchorText   = '';
 
@@ -16,7 +16,7 @@ class Application_Form_Deeplink extends Zend_Form {
 	protected $_nofollow     = false;
 
 	public function init() {
-
+        parent::init();
 		$this->setMethod(Zend_Form::METHOD_POST)
 			 ->setAttrib('class', '_fajax')
 			 ->setAttrib('data-callback', 'reloadDeeplinksList');

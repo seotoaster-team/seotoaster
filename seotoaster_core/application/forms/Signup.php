@@ -19,7 +19,7 @@ class Application_Form_Signup extends Application_Form_User {
 		$saveButton = $this->getElement('saveUser');
 		$this->removeElement('saveUser');
         $this->removeElement('gplusProfile');
-        $this->removeElement('secureToken');
+        $this->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
 
 		$this->addElement(new Zend_Form_Element_Captcha('verification', array(
 			'label'   => "Please verify you're a human",

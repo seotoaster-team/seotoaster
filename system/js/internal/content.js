@@ -56,7 +56,8 @@ $(function() {
 			pageId        : $(this).find('#page_id').val(),
 			containerId   : $(this).find('#container_id').val(),
 			published     : ($('#published').prop('checked')) ? 1 : 0,
-			publishOn     : $('#datepicker').val()
+			publishOn     : $('#datepicker').val(),
+            secureToken   : $(this).find('.secureToken').val()
 		};
 		$.ajax({
 			url        : $(this).attr('action'),

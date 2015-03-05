@@ -19,6 +19,7 @@
 					<?php endforeach;?>
 				</ul>
 			</div>
+            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
 		</form>
 	</div>
 	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions', 'class' => 'btn ticon-save')); ?>
