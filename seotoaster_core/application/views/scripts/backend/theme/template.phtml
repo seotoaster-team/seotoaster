@@ -52,7 +52,7 @@
             </div>
             <?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
             <?php echo $this->templateForm->getElement('pageId'); ?>
-            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+            <input class="template-secure-token" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
         </form>
     </div>
 </div>

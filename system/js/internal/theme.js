@@ -116,7 +116,7 @@ function saveTemplate() {
             templateType : $('#template-type').val(),
             name : $('#title').val(),
             id: $('#template_id').val(),
-            secureToken: $(this).find("input[name=secureToken]").val()
+            secureToken: $('.template-secure-token').val()
         },
         beforeSend : function() {showSpinner();},
         success : function(response) {
