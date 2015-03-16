@@ -69,6 +69,7 @@ return array(
 /*** Login *************************************************************************************/
 	'Login'        				=> 'Einloggen',
 	'Welcome Back' 				=> 'Willkommen zurück',
+	'Select your language'		=> 'Wähle Deine Sprache',
 	'Password'     				=> 'Passwort',
 	'Let me in'    				=> 'Eintreten',
 	'Forgot password?' 			=> 'Passwort vergessen?',

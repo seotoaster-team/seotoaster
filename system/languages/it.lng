@@ -1,4 +1,6 @@
 <?php return array('Show/Hide panel' => 'Mostra/Nascondi menu',
+    'Welcome Back' => 'Bentornato',
+    'Select your language' => 'Selezionare la lingua',
     'Draft pages' => 'Bozze',
     'Pages in draft' => 'Bozze',
     'Widgets & Tokens' => 'Widget e lista tag',

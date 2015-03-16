@@ -1,5 +1,9 @@
 <?php return array(
        'Checking Server Requirements' => 'Verificando Requisitos do servidor',
+       'Welcome Back' => 'Bem vindo de volta',
+       'Select your language' => 'Selecione seu idioma',
+       'Let me in'    				=> 'Entrar',
+       'Forgot password?' 			=> 'Esqueceu sua senha?',
        'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Seu servidor precisa atender aos requisitos mínimos configuração, a fim de executar a torradeira.',
        'Web server' => 'Servidor Web',
        'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache2, Nginx. Qualquer servidor web que pode fazer re-escreve e suporte php deve funcionar também (não testado).',

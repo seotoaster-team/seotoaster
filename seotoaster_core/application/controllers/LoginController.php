@@ -60,6 +60,7 @@ class LoginController extends Zend_Controller_Action {
 		else {
 			//getting available system translations
             $this->view->languages = $this->_helper->language->getLanguages();
+			$this->view->currentLanguage = strtolower(Zend_Registry::get('Zend_Locale')->getRegion());
 			//getting messages
             $errorMessages = $this->_helper->flashMessenger->getMessages();
             if (!empty($errorMessages)) {

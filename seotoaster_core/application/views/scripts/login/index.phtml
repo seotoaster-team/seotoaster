@@ -1,9 +1,11 @@
 <?php
+    $this->headMeta()->setCharset('UTF-8');
     $this->headLink()
         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css')
         ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
 ?>
+<?php echo $this->headMeta(); ?>
 <?php echo $this->headLink(); ?>
 
 <div>
@@ -12,16 +14,20 @@
 
 <div class="seotoaster container go-form">
 	<div class="header">
-		<?php echo $this->translate('Welcome Back'); ?>
+        <img alt="<?php echo $this->currentLanguage; ?>" class="lang-select" data-lng="" src="<?php echo $this->websiteUrl . "system/images/flags/" . $this->currentLanguage . ".png" ; ?>" border="0" />
+        <?php echo $this->translate('Welcome Back'); ?>
         <div class="fl-right">
-            <?php if(isset($this->languages) && is_array($this->languages) && !empty($this->languages)): ?>
-				<?php foreach($this->languages as $lang): ?>
-					<a class="flag-button" title="<?php echo ($this->translate('Select ') . $lang['language'] . $this->translate(' language'));?> " href="#">
-						<img alt="<?php echo $lang['language']; ?>" class="lang-select" data-lng="<?php echo $lang['name']; ?>" src="<?php echo $this->websiteUrl . $lang['flag']; ?>" border="0" />
-					</a>
-				<?php endforeach; ?>
-			<?php endif; ?>
-		</div>
+            <select class="lang-select">
+                <option class="flag-button"  value="English"><?php echo $this->translate('Select your language'); ?>
+                <?php if(isset($this->languages) && is_array($this->languages) && !empty($this->languages)): ?>
+                    <?php foreach($this->languages as $lang): ?>
+                        <option data-lng="<?php echo $lang['name'];?>" value="<?php echo $lang['name'];?>">
+                            <?php echo $lang['language'];?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
 	</div>
 
 	<form class="grid_12 mt15px pl2 pr2" action="<?php echo $this->url(); ?>" method="post" >
@@ -44,9 +50,10 @@
 
 <script type="text/javascript" charset="utf-8">
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
-	$('.lang-select').on('click', function(e) {
+	$('.lang-select').on('change', function(e) {
         e.preventDefault();
-		$.post( $('#website_url').val() + 'language/', {lng: $(this).data('lng')}, function() {
+        console.log($(this).find(':selected').data('lng'));
+		$.post( $('#website_url').val() + 'language/', {lng: $(this).find(':selected').data('lng')}, function() {
 			window.location.reload();
 		})
 	});
