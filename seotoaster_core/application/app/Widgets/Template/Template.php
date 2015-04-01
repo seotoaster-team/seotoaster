@@ -29,7 +29,7 @@ class Widgets_Template_Template extends Widgets_Abstract
             if($template->getType() === self::TEMPLATE_TYPE) {
                 return $template->getContent();
             } else {
-                return '<span style="color: red;">Choose \'Partial template\' type</span>';
+                return '<span style="color: red;">Choose \'Nested Template\' type</span>';
             }
         } else {
             return '<span style="color: red;">No template with name "' . $templateName . '"</span>';

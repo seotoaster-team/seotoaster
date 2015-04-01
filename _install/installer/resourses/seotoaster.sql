@@ -383,7 +383,7 @@ INSERT INTO `template_type` (`id`, `title`) VALUES
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
 ('typeregular',	'Regular'),
-('type_partial_template',	'Partial template');
+('type_partial_template',	'Nested Templates');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
