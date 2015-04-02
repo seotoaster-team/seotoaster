@@ -17,6 +17,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     private $_configHelper = null;
 
+    private $_filterable = false;
+
+    private $_order = false;
+
     protected function _init()
     {
         parent::_init();
@@ -32,6 +36,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             && (reset($this->_options) === self::FEATURED_TYPE_AREA)
             && (1 === intval(end($this->_options)))
         ) {
+            $this->_cacheable = false;
+        }
+
+        $filterable = array_search('filterable', $this->_options);
+        if ($filterable !== false) {
+            unset($this->_options[$filterable]);
+            $this->_filterable = true;
             $this->_cacheable = false;
         }
     }
@@ -94,6 +105,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
         unset($template);
 
+        $this->_order = current(preg_grep('/order=*/', $this->_options));
         if (method_exists($this, $rendererName)) {
             return $this->$rendererName($this->_options);
         }
@@ -113,9 +125,14 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             );
         }
 
+        $limit = (isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT;
+        if ($this->_filterable) {
+            return $this->_filterFa($limit, $params[0]);
+        }
+
         $featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($params[0]);
         if ($featuredArea === null) {
-            if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)) {
+            if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
                 return '';
             }
 
@@ -125,7 +142,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
 
         // Set limit and on/off random
-        $featuredArea->setLimit((isset($params[1]) && $params[1]) ? $params[1] : self::AREA_PAGES_COUNT)
+        $featuredArea->setLimit($limit)
             ->setRandom((intval(end($params)) === 1) ? true : false);
 
         $this->_view->faPages   = $featuredArea->getPages();
@@ -179,6 +196,121 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         array_push($this->_cacheTags, 'pageid_'.$page->getId());
 
         return $this->_view->render('page.phtml');
+    }
+
+    /**
+     * Render farea tags(names) for current page
+     * If with "filterable" param display links list with names
+     * @return string
+     */
+    private function _renderFeaturedTags()
+    {
+        $fareaMapper = Application_Model_Mappers_FeaturedareaMapper::getInstance();
+        $request = Zend_Controller_Action_HelperBroker::getStaticHelper('response')->getRequest();
+        $where = $fareaMapper->getDbTable()->getAdapter()->quoteInto('pf.page_id = ?',
+            $this->_toasterOptions['id']);
+        $select = $fareaMapper->getDbTable()->select()->from(array('fa' => 'featured_area'), array('fa.name'))
+            ->setIntegrityCheck(false)
+            ->joinLeft(array('pf' => 'page_fa'), 'fa_id=fa.id')->where($where)->group('fa.name');
+
+        $result = $fareaMapper->getDbTable()->fetchAll($select);
+        $fareaTagsExists = $result->toArray();
+        if (!empty($fareaTagsExists) && $this->_filterable) {
+            $pnum = intval(filter_var($request->getParam('fanum', 0), FILTER_SANITIZE_NUMBER_INT));
+            $pageUrl = filter_var($request->getParam('page'), FILTER_SANITIZE_STRING);
+            if (isset($this->_toasterOptions['fareaNamesSearch'])) {
+                $fareaTagsExists = array_filter($fareaTagsExists, function ($faName) {
+                    if (in_array($faName['name'], explode(',', $this->_toasterOptions['fareaNamesSearch']))) {
+                        return $faName['name'];
+                    }
+                });
+            }
+
+            $this->_view->fareaFilterName = $this->_toasterOptions['fareaFilterName'];
+            $this->_view->pnum = $pnum;
+            $this->_view->tags = $fareaTagsExists;
+            $this->_view->pageUrl = $pageUrl;
+
+            return $this->_view->render('farea-tags.phtml');
+        } elseif (!empty($fareaTagsExists)) {
+            return implode(',', array_map(function ($tag) {
+                return $tag['name'];
+            }, $fareaTagsExists));
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Filter farea by names
+     *
+     * @param integer $limit query limit
+     * @param string $fareaNames farea names
+     * @return string parsed content
+     */
+    private function _filterFa($limit, $fareaNames)
+    {
+        $fareaMapper = Application_Model_Mappers_FeaturedareaMapper::getInstance();
+        $request = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
+        $uniqueName = md5($fareaNames);
+        $fareaTag = filter_var($request->getRequest()->getParam('tag'), FILTER_SANITIZE_STRING);
+        $fareaFilterName = filter_var($request->getRequest()->getParam('fareaName'), FILTER_SANITIZE_STRING);
+        $pnum = intval(filter_var($request->getRequest()->getParam('fanum', 0), FILTER_SANITIZE_NUMBER_INT));
+        if ($fareaTag && $uniqueName === $fareaFilterName) {
+            $fareaNamesSearch = $fareaTag;
+        } else {
+            $fareaNamesSearch = $fareaNames;
+            $fareaTag = '';
+        }
+        $order = 'id';
+        if ($this->_order) {
+            $customOrder = preg_replace('/order=/', '', $this->_order);
+            if (in_array($customOrder, array('header_title', 'id', 'h1'))) {
+                $order = $customOrder;
+            }
+        }
+        $where = $fareaMapper->getDbTable()->getAdapter()->quoteInto('fa.name IN (?)', explode(',', $fareaNamesSearch));
+        $select = $fareaMapper->getDbTable()->select()->from(array('fa' => 'featured_area'))
+            ->setIntegrityCheck(false)
+            ->joinLeft(array('pf' => 'page_fa'), 'fa_id=fa.id')
+            ->joinLeft(array('p' => 'page'), 'p.id=pf.page_id')
+            ->where($where)->order('p.' . $order);
+        $adapter = new Zend_Paginator_Adapter_DbSelect($select);
+        $fareaPaginator = new Zend_Paginator($adapter);
+        if ($pnum && $uniqueName === $fareaFilterName) {
+            $offset = $limit * ($pnum - 1);
+        } else {
+            $offset = 0;
+            $pnum = 0;
+        }
+        $fareaPaginator->setItemCountPerPage($limit);
+        $fareaPaginator->setCurrentPageNumber($pnum);
+
+        $fareaItems = $adapter->getItems($offset, $limit);
+        if (empty($fareaItems)) {
+            if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
+                return $this->_translator->translate('There are no fareas');
+            }
+
+            return '';
+        }
+        $pager = $this->_view->paginationControl($fareaPaginator, 'Sliding', 'pager.phtml',
+            array(
+                'urlData' => $this->_view->websiteUrl . $this->_toasterOptions['url'],
+                'fareaUniqueName' => $uniqueName,
+                'fareaTag' => $fareaTag
+            )
+        );
+
+        $content = '';
+        foreach ($fareaItems as $page) {
+            $page['fareaNamesSearch'] = $fareaNamesSearch;
+            $page['fareaFilterName'] = $uniqueName;
+            $parser = new Tools_Content_Parser($this->_view->tmplFaContent, $page);
+            $content .= $parser->parseSimple();
+        }
+
+        return $content . $pager;
     }
 
     public static function getWidgetMakerContent()

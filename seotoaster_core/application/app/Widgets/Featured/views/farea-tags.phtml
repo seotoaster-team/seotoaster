@@ -1,0 +1,13 @@
+<?php if (is_array($this->tags)): ?>
+    <a href="<?php echo $this->websiteUrl . $this->pageUrl;; ?>" class="farea-tag-filter"><?php echo $this->translate('All'); ?></a>,
+    <?php $tags = array_values($this->tags);?>
+    <?php $tagsLength = count($tags); ?>
+    <?php foreach ($tags as $key => $tag): ?>
+        <a
+            href="<?php echo $this->websiteUrl . $this->pageUrl; ?>?tag=<?php echo $this->escape(urlencode($tag['name'])); ?>&amp;fareaName=<?php echo $this->fareaFilterName; ?>"
+            class="farea-tag-filter"><?php echo $tag['name']; ?></a>
+        <?php if ($key > $tagsLength): ?>
+            ,
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
