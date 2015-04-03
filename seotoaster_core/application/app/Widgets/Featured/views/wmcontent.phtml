@@ -7,6 +7,9 @@
         <?php echo $this->formSelect('featuredAreaItem', null, array('id' => 'featured-area-item', 'class' => 'grid_12 alpha omega small validate')); ?>
     </p>
     <p class="mt5px">
+        <?php echo $this->formSelect('featuredTemplates', null, array('id' => 'featured-area-templates', 'class' => 'grid_12 alpha featured-area-templates omega small')); ?>
+    </p>
+    <p class="mt5px">
         <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha max-res-row')); ?>
         <?php echo $this->formText('featuredItemMaxres', Widgets_Featured_Featured::AREA_PAGES_COUNT, array('id' => 'featured-item-maxres', 'class' => 'grid_7 alpha omega small max-res-row')); ?>
     </p>
@@ -49,17 +52,31 @@
 
 		    type : '',
 		    itemsHolder:  $('#featured-area-item'),
+            templateHolder: $('#featured-area-templates'),
 		    setType: function(type) {
 			    this.type = type;
 			    return this;
 		    },
 		    load : function() {
-			    var websiteUrl = $('#website_url').val();
-			    var url        = websiteUrl + 'backend/backend_featured/loadfalist/render/0/namesonly/1';
-			    var self       = this;
+			    var websiteUrl = $('#website_url').val(),
+			        url        = websiteUrl + 'backend/backend_featured/loadfalist/render/0/namesonly/1',
+                    urlTemplates = websiteUrl + 'backend/backend_theme/gettemplate/',
+			        self       = this;
 			    if(this.type == this._TYPE_PAGE) {
 				    url = websiteUrl + 'backend/backend_page/listpages/';
 			    }
+                $.post(urlTemplates, {'listtemplates':'type_partial_template', 'templateInfoOnly':true}, function(response) {
+                    self.templateHolder.find('option').remove().end();
+                    $.each(response.responseText, function(){
+                        var optVal  = this.name;
+                        var optText = this.fullName;
+                        self.templateHolder
+                            .append($('<option></option>').attr({
+                                value: optVal
+                            }).text(optText));
+                    });
+                    self.templateHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select nested template'); ?></option>');
+                });
 			    $.getJSON(url, function(response) {
 				    self.itemsHolder.find('option').remove().end();
 	                $.each(response.responseData, function() {
@@ -72,11 +89,11 @@
 	                        .text(optText));
 	                });
 	                if(self.type == self._TYPE_PAGE) {
-		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a page'); ?></option>')
+		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a page'); ?></option>');
 	                } else {
 		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a tag'); ?></option>');
 	                }
-	            })
+	            });
 		    }
 	    };
 
@@ -85,7 +102,17 @@
 		    $('.max-res-row').fadeToggle();
         }).on('change', '#featured-area-item', function() {
 		    featured.itemsHolder.removeClass('error');
-	    });
+	    }).on('change', '#featured-area-templates', function(e){
+            if ($(e.currentTarget).val() !== '0') {
+                console.log($(e.currentTarget).val());
+                $('#use-image').closest('label').hide();
+                $('#use-image-cropped').closest('label').hide();
+                $('.crop-size').hide();
+            } else{
+                $('#use-image').closest('label').show();
+            }
+
+        });
 	    featured.setType(featured._TYPE_AREA).load();
 
         // Generation widget from form options
@@ -98,6 +125,10 @@
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).hasClass('crop') && $(this).prop('checked')) {
                     widgetHtml = widgetHtml.replace(':img', '');
+                    return;
+                }
+
+                if ($(this).hasClass('featured-area-templates')) {
                     return;
                 }
 
@@ -117,7 +148,7 @@
                         return;
                     }
                     else {
-                        widgetHtml += cropOption
+                        widgetHtml += cropOption;
                         return;
                     }
                 }
@@ -140,6 +171,9 @@
                     widgetHtml += ':' + $(this).val();
                 }
             });
+            if ($('#featured-area-templates').val() != 0) {
+                widgetHtml += ':template='+$('#featured-area-templates').val();
+            }
             if (!error) {
                 widgetHtml += '}';
                 tinymce.activeEditor.execCommand('mceInsertContent', false, widgetHtml);

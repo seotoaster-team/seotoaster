@@ -220,7 +220,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $pageUrl = filter_var($request->getParam('page'), FILTER_SANITIZE_STRING);
             if (isset($this->_toasterOptions['fareaNamesSearch'])) {
                 $fareaTagsExists = array_filter($fareaTagsExists, function ($faName) {
-                    if (in_array($faName['name'], explode(',', $this->_toasterOptions['fareaNamesSearch']))) {
+                    if (in_array(strtolower($faName['name']), explode(',', strtolower($this->_toasterOptions['fareaNamesSearch'])))) {
                         return $faName['name'];
                     }
                 });
