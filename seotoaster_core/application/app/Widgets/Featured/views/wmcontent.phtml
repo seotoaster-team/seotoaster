@@ -103,10 +103,9 @@
         }).on('change', '#featured-area-item', function() {
 		    featured.itemsHolder.removeClass('error');
 	    }).on('change', '#featured-area-templates', function(e){
-            if ($(e.currentTarget).val() !== '0') {
-                console.log($(e.currentTarget).val());
-                $('#use-image').closest('label').hide();
-                $('#use-image-cropped').closest('label').hide();
+            if ($(e.currentTarget).val() != 0) {
+                $('#use-image').prop('checked', false).closest('label').hide();
+                $('#use-image-cropped').prop('checked', false).closest('label').hide();
                 $('.crop-size').hide();
             } else{
                 $('#use-image').closest('label').show();
