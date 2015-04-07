@@ -15,6 +15,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_TYPE_AREA = 'area';
 
+    const FEATURED_TYPE_FILTERABLE = 'filterable';
+
     private $_configHelper = null;
 
     private $_filterable = false;
@@ -294,9 +296,14 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
             return '';
         }
+        $pageUrl = $this->_toasterOptions['url'];
+        if ($pageUrl === 'index.html') {
+            $pageUrl = '';
+        }
+
         $pager = $this->_view->paginationControl($fareaPaginator, 'Sliding', 'pager.phtml',
             array(
-                'urlData' => $this->_view->websiteUrl . $this->_toasterOptions['url'],
+                'urlData' => $this->_view->websiteUrl . $pageUrl,
                 'fareaUniqueName' => $uniqueName,
                 'fareaTag' => $fareaTag
             )
