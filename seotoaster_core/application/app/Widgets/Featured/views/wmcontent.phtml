@@ -24,7 +24,20 @@
             array('id' => 'featured-item-order', 'class' => 'grid_7 alpha omega small'),
             array(
                 'id' => 'Default order',
-                'header_title' => 'Header title'
+                'header_title' => 'Header title',
+                'last_update'  => 'Last updated',
+                'h1' => 'H1'
+            )
+        ); ?>
+    </p>
+    <p class="hidden">
+        <?php echo $this->formLabel('featured-item-order-type', $this->translate('ASC/DESC'),
+            array('class' => 'grid_5 alpha')); ?>
+        <?php echo $this->formSelect('featuredItemOrderType', 'Group of pages',
+            array('id' => 'featured-item-order-type', 'class' => 'grid_7 alpha omega small'),
+            array(
+                'ASC' => 'ASC',
+                'DESC' => 'DESC'
             )
         ); ?>
     </p>
@@ -141,10 +154,12 @@
             if (type === 'filterable') {
                 $('#featured-area-templates').addClass('validate');
                 $('#featured-item-order').closest('p').toggleClass('hidden');
+                $('#featured-item-order-type').closest('p').toggleClass('hidden');
                 hideParamsFa();
             } else {
                 $('#featured-area-templates').removeClass('validate');
                 $('#featured-item-order').closest('p').addClass('hidden');
+                $('#featured-item-order-type').closest('p').addClass('hidden');
                 showParamsFa();
             }
         }).on('change', '#featured-area-item', function() {
@@ -176,6 +191,10 @@
                 if ($(this).get(0).getAttribute('id') === 'featured-item-type' && $(this).val() === 'filterable') {
                     widgetHtml += ':area';
                     widgetHtml += ':'+$("#featured-area-item").chosen().val();
+                    return;
+                }
+
+                if ($(this).get(0).getAttribute('id') === 'featured-item-order' || $(this).get(0).getAttribute('id') === 'featured-item-order-type') {
                     return;
                 }
 
@@ -231,6 +250,9 @@
             }
             if ($('#featured-area-templates').val() != 0) {
                 widgetHtml += ':order='+$('#featured-item-order').val();
+            }
+            if ($('#featured-item-order-type').val() != 0) {
+                widgetHtml += ':orderType='+$('#featured-item-order-type').val();
             }
             if ($('#featured_area_item_chosen').length) {
                 widgetHtml += ':filterable';

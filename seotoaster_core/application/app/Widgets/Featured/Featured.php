@@ -23,6 +23,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     private $_order = false;
 
+    private $_orderType = false;
+
     protected function _init()
     {
         parent::_init();
@@ -108,6 +110,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         unset($template);
 
         $this->_order = current(preg_grep('/order=*/', $this->_options));
+        $this->_orderType = current(preg_grep('/orderType=*/', $this->_options));
         if (method_exists($this, $rendererName)) {
             return $this->$rendererName($this->_options);
         }
@@ -265,10 +268,17 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $fareaTag = '';
         }
         $order = 'id';
+        $orderType = 'ASC';
         if ($this->_order) {
             $customOrder = preg_replace('/order=/', '', $this->_order);
-            if (in_array($customOrder, array('header_title', 'id', 'h1'))) {
+            if (in_array($customOrder, array('header_title', 'id', 'h1', 'last_update'))) {
                 $order = $customOrder;
+            }
+        }
+        if ($this->_orderType) {
+            $customOrderType = preg_replace('/orderType=/', '', $this->_orderType);
+            if (in_array($customOrderType, array('ASC', 'DESC'))) {
+                $orderType = $customOrderType;
             }
         }
         $where = $fareaMapper->getDbTable()->getAdapter()->quoteInto('fa.name IN (?)', explode(',', $fareaNamesSearch));
@@ -276,7 +286,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             ->setIntegrityCheck(false)
             ->joinLeft(array('pf' => 'page_fa'), 'fa_id=fa.id')
             ->joinLeft(array('p' => 'page'), 'p.id=pf.page_id')
-            ->where($where)->order('p.' . $order);
+            ->where($where)->order(array('p.' . $order. ' '.$orderType));
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
         $fareaPaginator = new Zend_Paginator($adapter);
         if ($pnum && $uniqueName === $fareaFilterName) {
