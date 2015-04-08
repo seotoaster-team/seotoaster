@@ -23,10 +23,10 @@
         <?php echo $this->formSelect('featuredItemOrder', 'Group of pages',
             array('id' => 'featured-item-order', 'class' => 'grid_7 alpha omega small'),
             array(
-                'id' => $this->translate('Default order'),
-                'header_title' => $this->translate('Header title'),
-                'last_update'  => $this->translate('Last updated'),
-                'h1' => $this->translate('H1')
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_ID => $this->translate('Default order'),
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_HEADER_TITLE => $this->translate('Header title'),
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_LAST_UPDATE  => $this->translate('Last updated'),
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_H1 => $this->translate('H1')
             )
         ); ?>
     </p>
@@ -141,17 +141,17 @@
 	    $(document).on('change', '#featured-item-type', function() {
 		    var type = $(this).val();
             featured.setType(type).load();
-		    if (type === 'page') {
+		    if (type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE;?>') {
                 $('.max-res-row').hide();
             } else {
                 $('.max-res-row').show();
             }
-            if (type === 'filterable' || type === 'page') {
+            if (type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_FILTERABLE;?>' || type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE;?>') {
                 $('#random').closest('label').hide();
             } else {
                 $('#random').closest('label').show();
             }
-            if (type === 'filterable') {
+            if (type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_FILTERABLE;?>') {
                 $('#featured-area-templates').addClass('validate');
                 $('#featured-item-order').closest('p').toggleClass('hidden');
                 $('#featured-item-order-type').closest('p').toggleClass('hidden');
@@ -247,10 +247,9 @@
             });
             if ($('#featured-area-templates').val() != 0) {
                 widgetHtml += ':template='+$('#featured-area-templates').val();
-            }
-            if ($('#featured-area-templates').val() != 0) {
                 widgetHtml += ':order='+$('#featured-item-order').val();
             }
+
             if ($('#featured-item-order-type').val() != 0) {
                 widgetHtml += ':orderType='+$('#featured-item-order-type').val();
             }

@@ -17,6 +17,14 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_TYPE_FILTERABLE = 'filterable';
 
+    const FEATURED_FILTER_BY_ID = 'id';
+
+    const FEATURED_FILTER_BY_HEADER_TITLE = 'header_title';
+
+    const FEATURED_FILTER_BY_LAST_UPDATE = 'last_update';
+
+    const FEATURED_FILTER_BY_H1 = 'h1';
+
     private $_configHelper = null;
 
     private $_filterable = false;
@@ -43,7 +51,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $this->_cacheable = false;
         }
 
-        $filterable = array_search('filterable', $this->_options);
+        $filterable = array_search(self::FEATURED_TYPE_FILTERABLE, $this->_options);
         if ($filterable !== false) {
             unset($this->_options[$filterable]);
             $this->_filterable = true;
