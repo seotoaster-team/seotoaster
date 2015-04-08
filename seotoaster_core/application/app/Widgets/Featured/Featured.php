@@ -285,8 +285,35 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $select = $fareaMapper->getDbTable()->select()->from(array('fa' => 'featured_area'))
             ->setIntegrityCheck(false)
             ->joinLeft(array('pf' => 'page_fa'), 'fa_id=fa.id')
-            ->joinLeft(array('p' => 'page'), 'p.id=pf.page_id')
-            ->where($where)->order(array('p.' . $order. ' '.$orderType));
+            ->joinLeft(array('p' => 'page'), 'p.id=pf.page_id', null)
+            ->joinLeft(array('o' => 'optimized'), 'p.id = o.page_id', null)
+            ->columns(
+                array(
+                    'id' => 'p.id',
+                    'previewImage' => 'p.preview_image',
+                    'url' => new Zend_Db_Expr('COALESCE(o.url, p.url)'),
+                    'h1' => new Zend_Db_Expr('COALESCE(o.h1, p.h1)'),
+                    'navName' => new Zend_Db_Expr('COALESCE(o.nav_name, p.nav_name)'),
+                    'headerTitle' => new Zend_Db_Expr('COALESCE(o.header_title, p.header_title)'),
+                    'metaKeywords' => new Zend_Db_Expr('COALESCE(o.meta_keywords, p.meta_keywords)'),
+                    'metaDescription' => new Zend_Db_Expr('COALESCE(o.meta_description, p.meta_description)'),
+                    'teaserText' => new Zend_Db_Expr('COALESCE(o.teaser_text, p.teaser_text)'),
+                    'templateId' => 'p.template_id',
+                    'parentId' => 'p.parent_id',
+                    'showInMenu' => 'p.show_in_menu',
+                    'lastUpdate' => 'p.last_update',
+                    'order' => 'p.order',
+                    'targetedKeyPhrase' => 'p.targeted_key_phrase',
+                    'siloId' => 'p.silo_id',
+                    'system' => 'p.system',
+                    'draft' => 'p.draft',
+                    'news' => 'p.news',
+                    'publishAt' => 'p.publish_at',
+                    'externalLinkStatus' => 'p.external_link_status',
+                    'externalLink' => 'p.external_link'
+                )
+            )
+            ->where($where)->order(array('p.' . $order . ' ' . $orderType));
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
         $fareaPaginator = new Zend_Paginator($adapter);
         if ($pnum && $uniqueName === $fareaFilterName) {
