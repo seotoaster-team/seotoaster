@@ -447,7 +447,7 @@ class Backend_UpdateController extends Zend_Controller_Action
                 $defaultRoutes = new Zend_Config_Xml($defaultRoutesFile, 'routes');
             }
             $routesWriter = new Zend_Config_Writer_Xml();
-            $routesWriter->setConfig(new Zend_Config(array('routes' => array_merge($defaultRoutes->toArray(), $routes->toArray()))));
+            $routesWriter->setConfig(new Zend_Config(array('routes' => array_replace($defaultRoutes->toArray(), $routes->toArray()))));
             $routesWriter->write($routesFile);
             return true;
         } catch (Exception $e) {
