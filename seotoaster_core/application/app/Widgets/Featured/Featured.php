@@ -290,6 +290,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             }
         }
         $where = $fareaMapper->getDbTable()->getAdapter()->quoteInto('fa.name IN (?)', explode(',', $fareaNamesSearch));
+        $where .= $fareaMapper->getDbTable()->getAdapter()->quoteInto(' AND p.draft = ?', '0');
         $select = $fareaMapper->getDbTable()->select()->from(array('fa' => 'featured_area'))
             ->setIntegrityCheck(false)
             ->joinLeft(array('pf' => 'page_fa'), 'fa_id=fa.id')
