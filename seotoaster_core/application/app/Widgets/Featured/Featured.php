@@ -347,6 +347,15 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $pageUrl = '';
         }
 
+        if (!empty($this->_toasterOptions['extraOptions'])) {
+            if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true)) && in_array('option_newsindex',
+                    $this->_toasterOptions['extraOptions'])
+            ) {
+                $pageUrl = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                $pageUrl = trim($pageUrl, '/') . '/';
+            }
+        }
+
         $pager = $this->_view->paginationControl($fareaPaginator, 'Sliding', 'pager.phtml',
             array(
                 'urlData' => $this->_view->websiteUrl . $pageUrl,
