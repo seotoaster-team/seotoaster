@@ -275,7 +275,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $fareaNamesSearch = $fareaNames;
             $fareaTag = '';
         }
-        $order = 'id';
+        $order = self::FEATURED_FILTER_BY_ID;
         $orderType = 'ASC';
         if ($this->_order) {
             $customOrder = preg_replace('/order=/', '', $this->_order);

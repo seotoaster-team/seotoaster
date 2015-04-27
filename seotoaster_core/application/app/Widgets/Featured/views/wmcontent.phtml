@@ -180,11 +180,16 @@
             var error      = false,
                 widgetForm = $(this).closest('form'),
                 widgetHtml = '{$' + widgetForm.data('name'),
-                cropOption = ':imgc';
+                cropOption = ':imgc',
+                faGroup = false;
 
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).hasClass('crop') && $(this).prop('checked')) {
                     widgetHtml = widgetHtml.replace(':img', '');
+                    return;
+                }
+
+                if ($(this).get(0).getAttribute('autocomplete')) {
                     return;
                 }
 
@@ -245,15 +250,22 @@
                     widgetHtml += ':' + $(this).val();
                 }
             });
-            if ($('#featured-area-templates').val() != 0) {
-                widgetHtml += ':template='+$('#featured-area-templates').val();
-                widgetHtml += ':order='+$('#featured-item-order').val();
+
+            if ($('#featured_area_item_chosen').length) {
+                faGroup = true;
             }
 
-            if ($('#featured-item-order-type').val() != 0) {
+            if ($('#featured-area-templates').val() != 0) {
+                widgetHtml += ':template='+$('#featured-area-templates').val();
+                if (faGroup) {
+                    widgetHtml += ':order=' + $('#featured-item-order').val();
+                }
+            }
+
+            if ($('#featured-item-order-type').val() != 0 && faGroup) {
                 widgetHtml += ':orderType='+$('#featured-item-order-type').val();
             }
-            if ($('#featured_area_item_chosen').length) {
+            if (faGroup) {
                 widgetHtml += ':filterable';
             }
             if (!error) {
