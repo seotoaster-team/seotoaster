@@ -70,17 +70,20 @@ $(function(){
         }
         smoke.confirm('You are about to remove an item. Are you sure?', function(e){
             if(e){
-                $.post(url, {
-                    id         : elId,
-                    beforeSend : showSpinner(el)
-                }, function(response){
-                    var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
-                    showMessage(responseText, (!(typeof response.error=='undefined' || !response.error)));
-                    if(typeof callback!='undefined'){
-                        eval(callback+'()');
+                $.ajax({
+                    url: url+'id/'+ elId,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    beforeSend : showSpinner(el),
+                    success: function(response){
+                        var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
+                        showMessage(responseText, (!(typeof response.error=='undefined' || !response.error)));
+                        if(typeof callback!='undefined'){
+                            eval(callback+'()');
+                        }
+                        hideSpinner();
                     }
-                    hideSpinner();
-                })
+                });
             }else{
                 $('.smoke-base').remove();
             }

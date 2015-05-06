@@ -30,22 +30,10 @@ class Api_Toaster_Containers extends Api_Service_Abstract {
 
         // querying all containers
         if(!$containerId) {
-            $containers = $mapper->fetchAll();
-            if(empty($containers)) {
-                return $this->_error('404 Containers not found.', self::REST_STATUS_NOT_FOUND);
-            }
-            return array_map(function($container) use($contentOnly, $parser, $pageId) {
-                $container = $container->toArray();
-                $page      = ($pageId) ? Application_Model_Mappers_PageMapper::getInstance()->find($pageId) : null;
-
-                $parser->setPageData(($page instanceof Application_Model_Models_Page) ? $page->toArray() : array());
-                $container['content'] = $parser->setContent($container['content'])->parseSimple();
-                return $contentOnly ? array($container['name'] => $container['content']) : $container;
-            }, $containers);
+            return $this->_error('404 Containers not found.', self::REST_STATUS_NOT_FOUND);
         }
 
         $type      = $this->_request->getParam('type', Application_Model_Models_Container::TYPE_REGULARCONTENT);
-        $pageId    = $this->_request->getParam('pid', null);
         if((integer)$type == Application_Model_Models_Container::TYPE_STATICCONTENT) {
             $pageId = null;
         }

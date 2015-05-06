@@ -5,13 +5,14 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_Featured extends Zend_Form {
+class Application_Form_Featured extends Application_Form_Secure {
 
 	protected $_name = '';
 
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST)
+        parent::init();
+        $this->setMethod(Zend_Form::METHOD_POST)
 			 ->setAttrib('class', '_fajax')
 			 ->setAttrib('data-callback', 'loadFaList');
 

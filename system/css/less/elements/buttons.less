@@ -34,7 +34,7 @@
     }
 
     &.hidden, &.hide{
-        display: none;
+        display : none;
     }
 
     // Alternate buttons
@@ -113,8 +113,8 @@
 
             &:before{
                 vertical-align : middle;
-                font-size : @icon-size-base;
-                margin    : 0;
+                font-size      : @icon-size-base;
+                margin         : 0;
             }
 
             &[class*="grid_"]{
@@ -143,7 +143,7 @@
     // Button link
     // --------------------------------------------------
     &.link when (@button-type-link = true) and (@button-types = true){
-//        text-decoration  : underline;
+        //        text-decoration  : underline;
         background-color : transparent !important;
         font-weight      : bold;
         .activate-border() when (@button-border-width > 0){
@@ -154,7 +154,7 @@
         .box-shadow(none, @button-box-shadow);
 
         &:hover{
-//            text-decoration : none;
+            //            text-decoration : none;
         }
 
         &.disabled, &[disabled]{
@@ -295,12 +295,12 @@
         // Warning appears as orange
         &.warning when (@button-color-warning = true) and (@button-colors = true){
             .button-3d(@button-warning-border);
-    }
+        }
 
         // Danger and error appear as red
         &.error when (@button-color-error = true) and (@button-colors = true){
             .button-3d(@button-error-border);
-}
+        }
 
         // Success appears as green
         &.success when (@button-color-success = true) and (@button-colors = true){
@@ -334,6 +334,10 @@
             }
         }
 
+        .fade{
+            .opacity();
+        }
+
         [type="radio"], [type="checkbox"]{
             opacity  : 0;
             position : absolute;
@@ -343,19 +347,24 @@
                 &:first-child{
                 }
 
-                [class^="ticon-"], [class*=" ticon-"]{
+                [class^="@{icon-prefix}-"], [class*=" @{icon-prefix}-"]{
                 }
             }
         }
 
         input:checked{
             & + .ui-button, & + .btn{
+                .box-shadow(0.2em 0.2em 0.3em rgba(0, 0, 0, .3) inset, @button-box-shadow);
 
                 &:first-child{
                 }
 
-                [class^="ticon-"], [class*=" ticon-"]{
+                [class^="@{icon-prefix}-"], [class*=" @{icon-prefix}-"]{
                 }
+            }
+
+            & + .fade{
+                .opacity(1);
             }
 
         }

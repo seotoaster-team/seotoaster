@@ -1,9 +1,12 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Edit robots.txt', 'helpSection' => $this->helpSection)); ?>
 	<div class="grid_12 content-auto">
-		<?php
-			$this->form->setAction($this->url());
-			echo $this->form;
-		?>
+        <form id="frm-robots" enctype="application/x-www-form-urlencoded" method="post" class="<?php echo $this->form->getAttrib('class');?> " action="<?php echo $this->url();?>">
+            <dl class="zend_form">
+                <?php echo $this->form->getElement('content'); ?>
+                <?php echo $this->form->getElement('updateRobots'); ?>
+            </dl>
+            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+        </form>
 	</div>
 </div>

@@ -64,7 +64,7 @@ body{
     }
 
     .ui-tabs &.ui-tabs-nav{
-        padding-right : 8%;
+//        padding-right : 8%;
 
         .ui-tabs-anchor{
             padding-top    : 0 !important;
@@ -126,8 +126,8 @@ body{
 
     a{
         text-decoration : none;
-        padding         : 3px;
-        .inline-block();
+        padding         : 0 3px;
+        .inline-block(top);
         .box-sizing(content-box);
     }
 
@@ -171,7 +171,7 @@ body{
         padding-bottom : 0;
         border-top     : @content-margin-top solid #fff !important;
         clear          : both;
-        .clearfix();
+        .clearfix-mixin();
 
         &.screen-expand{
             height : auto !important;

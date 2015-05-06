@@ -70,6 +70,7 @@
                 <?php echo $this->formForm->getElement('enableSms')->renderViewHelper(); ?>
             </p>
         </fieldset>
+        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
         <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />
 		<?php echo $this->formForm->getElement('name')->renderViewHelper(); ?>
 		<?php echo $this->formForm->getElement('id')->renderViewHelper(); ?>

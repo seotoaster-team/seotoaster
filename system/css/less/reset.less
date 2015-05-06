@@ -67,6 +67,7 @@ img{
     .inline-block;
 }
 .gmaps{
+    color     : #000;
     max-width : 100%;
     img{ max-width : none; }
 }
@@ -131,7 +132,7 @@ textarea{
     height  : auto;
 
     &:focus{
-        .box-shadow(none, @input-shadow-focus) !important;
+        .box-shadow(none; @input-shadow-focus) !important;
     }
 }
 
@@ -152,7 +153,7 @@ button, [type="button"], [type="reset"], [type="submit"]{
     -webkit-appearance : button;
 
     &:focus{
-        .box-shadow(none, @input-shadow-focus);
+        .box-shadow(none; @input-shadow-focus);
     }
 }
 
@@ -214,5 +215,9 @@ button, [type="button"], [type="reset"], [type="submit"]{
 }
 
 .clearfix{
-    .clearfix() !important;
+    .clearfix-mixin() !important;
+
+    span&{
+        display : block;
+    }
 }

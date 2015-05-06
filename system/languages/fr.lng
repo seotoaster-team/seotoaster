@@ -1,5 +1,5 @@
 ﻿<?php return array('Show/Hide panel' => 'Afficher/Cacher le menu',
-    'Welcome Back' => 'Bon retour',
+    'Welcome Back' => 'Bienvenue',
     'Select your language' => 'Sélectionnez votre langue',
     'Draft pages' => 'Brouillons',
     'Pages in draft' => 'Brouillons',
@@ -1187,4 +1187,5 @@
     'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Complétez les informations de votre business ou la carte ID su site, afin de faciliter l\'indexation de votre site Web dans les moteurs de recherche.',
     'Fill in the required fields' => 'Pas tous les champs obligatoires sont remplis',
     'Please enter a valid email address' => 'Veuillez entrer l\'adress email valide',
+    'There are no users for export' => 'Il n\'y a pas d\'utilisateurs pour l\'exportation'
 );?>

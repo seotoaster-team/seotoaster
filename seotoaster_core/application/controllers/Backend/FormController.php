@@ -32,8 +32,9 @@ class Backend_FormController extends Zend_Controller_Action {
 		$formForm = new Application_Form_Form();
         $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-		if($this->getRequest()->isPost()) {
-			if($formForm->isValid($this->getRequest()->getParams())) {
+        if($this->getRequest()->isPost()) {
+            $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
+            if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
@@ -59,6 +60,10 @@ class Backend_FormController extends Zend_Controller_Action {
 			}
 		}
 		$formName           = filter_var($this->getRequest()->getParam('name'), FILTER_SANITIZE_STRING);
+
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
+
+        $this->view->secureToken = $secureToken;
 
         $pageId             = $this->getRequest()->getParam('pageId');
         $trackingPageName   = 'form-'.$formName.'-thank-you';
@@ -99,15 +104,16 @@ class Backend_FormController extends Zend_Controller_Action {
             return array('error'=>$emailValidation->getErrors());
         }
     }
-    
-    public function deleteAction() {
-        $id         = $this->getRequest()->getParam('id');
-        $formMapper = Application_Model_Mappers_FormMapper::getInstance();
 
-        //needs to go to the garbage collector in future
-        $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 
-        return $formMapper->delete($formMapper->find($id));
+    public function deleteAction()
+    {
+        if ($this->_request->isDelete()) {
+            $id = filter_var($this->getRequest()->getParam('id'), FILTER_SANITIZE_NUMBER_INT);
+            $formMapper = Application_Model_Mappers_FormMapper::getInstance();
+            $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
+            return $formMapper->delete($formMapper->find($id));
+        }
     }
 
 	public function loadformsAction() {

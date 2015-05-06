@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Page extends Zend_Form {
+class Application_Form_Page extends Application_Form_Secure {
 
 	protected $_h1              = '';
 
@@ -39,7 +39,8 @@ class Application_Form_Page extends Zend_Form {
     protected $_externalLink = '';
 
 	public function init() {
-		$this->setMethod(Zend_Form::METHOD_POST);
+        parent::init();
+        $this->setMethod(Zend_Form::METHOD_POST);
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'h1',

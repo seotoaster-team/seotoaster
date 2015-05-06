@@ -115,7 +115,8 @@ function saveTemplate() {
             pageId : $('#pageId').val(),
             templateType : $('#template-type').val(),
             name : $('#title').val(),
-            id: $('#template_id').val()
+            id: $('#template_id').val(),
+            secureToken: $('.template-secure-token').val()
         },
         beforeSend : function() {showSpinner();},
         success : function(response) {
@@ -149,7 +150,7 @@ function deleteTemplate(templateContainer) {
             url: $('#website_url').val()+'backend/backend_theme/deletetemplate/',
             type: 'post',
             beforeSend: function() {showSpinner();},
-            data: {"id": templateContainer.find('input[name="template-id"]').val()},
+            data: {"id": templateContainer.find('input[name="template-id"]').val(), secureToken: $('#frm_template').find('input[name="secureToken"]').val()},
             success: function(response) {
                 hideSpinner();
                 if (!response.error){

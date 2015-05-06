@@ -2,7 +2,7 @@ $(function() {
 	$('#addFeaturedArea-label').hide();
 
 	loadFaList();
-	$(document).on('click', '.add-page', function() {
+	$(document).on('click', 'input.add-page', function() {
         showSpinner("#fa-list");
 		var chckbx = $('#fa-list [type=checkbox]:checked');
 
@@ -16,7 +16,8 @@ $(function() {
 		$.post(
 			$('#website_url').val() + 'backend/backend_featured/' + handlerUrl, {
 			pid  : pageId,
-			faid :faId
+			faid :faId,
+            secureToken: $('#frm-page').find('.secureToken').val()
 		},
 		function(response) {
 			hideSpinner();

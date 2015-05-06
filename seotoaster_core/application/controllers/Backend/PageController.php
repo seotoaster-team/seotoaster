@@ -42,6 +42,10 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageId      = $this->getRequest()->getParam('id');
         $mapper      = Application_Model_Mappers_PageMapper::getInstance();
 
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($pageForm, Tools_System_Tools::ACTION_PREFIX_PAGES);
+
+        $this->view->secureToken = $secureToken;
+
         if ($pageId) {
             // search page by id
             $page = $mapper->find($pageId);
@@ -86,6 +90,8 @@ class Backend_PageController extends Zend_Controller_Action {
             if($externalLink && !$optimized){
                 $params = $this->_processParamsForExternalLink($params);
             }
+
+            $pageForm = Tools_System_Tools::addTokenValidatorZendForm($pageForm, Tools_System_Tools::ACTION_PREFIX_PAGES);
 
             if($pageForm->isValid($params)) {
                 $pageData        = $pageForm->getValues();
@@ -215,7 +221,11 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 $page->notifyObservers();
 
-                $this->_helper->response->success(array('redirectTo' => $page->getUrl()));
+                $redirectTo = $page->getUrl();
+                if ($externalLink && !$optimized) {
+                    $redirectTo = 'index.html';
+                }
+                $this->_helper->response->success(array('redirectTo' => $redirectTo));
                 exit;
             }
             $messages = array_merge($pageForm->getMessages(), $messages);
@@ -259,9 +269,9 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-        if($this->getRequest()->isPost()) {
+        if($this->getRequest()->isDelete()){
             $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-            $ids        = (array)$this->getRequest()->getParam('id');
+            $ids        = explode(',' , $this->getRequest()->getParam('id'));
             if(empty ($ids)) {
                 $this->_helper->response->fail($this->_helper->language->translate('Page id is ot specified'));
                 exit;
@@ -324,6 +334,11 @@ class Backend_PageController extends Zend_Controller_Action {
             if(!$act) {
                 exit;
             }
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_ORGANIZEPAGES);
+            if (!$valid) {
+                exit;
+            }
             switch($act) {
                 case 'save':
                     $orderedList = array_unique(Zend_Json::decode($this->getRequest()->getParam('ordered'), Zend_Json::TYPE_ARRAY));
@@ -374,6 +389,8 @@ class Backend_PageController extends Zend_Controller_Action {
             }
             $this->view->tree = $tree;
         }
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ORGANIZEPAGES);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'organize';
         $this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
         $this->view->noMenu      = $pageMapper->fetchAllNomenuPages();
@@ -462,6 +479,11 @@ class Backend_PageController extends Zend_Controller_Action {
         }
         $optimized        = $this->getRequest()->getParam('optimized');
         $pageId           = $this->getRequest()->getParam('pid');
+        $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+        $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PAGES);
+        if (!$valid) {
+            $this->_helper->response->fail('');
+        }
         $page             = Application_Model_Mappers_PageMapper::getInstance()->find($pageId, !$optimized);
         $this->view->data = array(
             'h1'              => $page->getH1(),
@@ -524,10 +546,15 @@ class Backend_PageController extends Zend_Controller_Action {
             $params['h1'] = $page->getHeaderTitle();
             $params['metaDescription'] = $page->getMetaDescription();
             $params['templateId'] = $page->getTemplateId();
+            if (!$page->getExternalLinkStatus()) {
+                $this->_helper->cache->clean();
+            }
+
         } else {
             $params['templateId'] = self::DEFAULT_TEMPLATE;
             $params['h1'] = self::DEFAULT_TEMPLATE;
             $params['headerTitle'] = self::DEFAULT_TEMPLATE;
+            $this->_helper->cache->clean();
         }
         return $params;
     }

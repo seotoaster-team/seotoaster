@@ -70,6 +70,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 }
             }
         } else {
+            $templateForm = Tools_System_Tools::addTokenValidatorZendForm($templateForm, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
             if ($templateForm->isValid($this->getRequest()->getPost())) {
                 $templateData = $templateForm->getValues();
                 $originalName = $templateData['id'];
@@ -211,6 +212,8 @@ class Backend_ThemeController extends Zend_Controller_Action
                 $this->_helper->response->response($errorMessages, true);
             }
         }
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($templateForm, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'addtemplate';
         $this->view->templateForm = $templateForm;
     }
@@ -248,6 +251,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 if (is_string($postParams['content']) && empty($postParams['content'])) {
                     $editcssForm->getElement('content')->setRequired(false);
                 }
+                $editcssForm = Tools_System_Tools::addTokenValidatorZendForm($editcssForm, Tools_System_Tools::ACTION_PREFIX_EDITCSS);
                 if ($editcssForm->isValid($postParams)) {
                     $cssName = $postParams['cssname'];
                     try {
@@ -281,6 +285,8 @@ class Backend_ThemeController extends Zend_Controller_Action
                 $this->view->errorMessage = $e->getMessage();
             }
         }
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($editcssForm, Tools_System_Tools::ACTION_PREFIX_EDITCSS);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'editcss';
         $this->view->editcssForm = $editcssForm;
     }
@@ -318,6 +324,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                 if (is_string($postParams['content']) && empty($postParams['content'])) {
                     $editjsForm->getElement('content')->setRequired(false);
                 }
+                $editjsForm = Tools_System_Tools::addTokenValidatorZendForm($editjsForm, Tools_System_Tools::ACTION_PREFIX_EDITJS);
                 if ($editjsForm->isValid($postParams)) {
                     $jsName = $postParams['jsname'];
                     try {
@@ -341,6 +348,8 @@ class Backend_ThemeController extends Zend_Controller_Action
                 $this->view->errorMessage = $e->getMessage();
             }
         }
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($editjsForm, Tools_System_Tools::ACTION_PREFIX_EDITJS);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'editjs';
         $this->view->editjsForm = $editjsForm;
     }
@@ -624,6 +633,11 @@ class Backend_ThemeController extends Zend_Controller_Action
     public function deletetemplateAction()
     {
         if ($this->getRequest()->isPost()) {
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
+            if (!$valid) {
+                exit;
+            }
             if ($templateId = $this->getRequest()->getPost('id')) {
                 $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
                 $template = $mapper->find($templateId);
@@ -672,40 +686,6 @@ class Backend_ThemeController extends Zend_Controller_Action
     public function themesAction()
     {
         $this->view->helpSection = 'themes';
-    }
-
-    /**
-     * @deprecated Use put action of the themes rest-service. Will be removed in 2.0.7
-     *
-     */
-    public function applythemeAction()
-    {
-    }
-
-    /**
-     * @deprecated Use get action of the themes rest-service. Will be removed in 2.0.7
-     *
-     */
-    public function downloadthemeAction()
-    {
-    }
-
-    /**
-     * @deprecated Use delete action of the themes rest-service. Will be removed in 2.0.7
-     *
-     */
-    public function deletethemeAction()
-    {
-    }
-
-    /**
-     * Method saves theme in database
-     *
-     * @deprecated  Will be removed in 2.0.7
-     */
-    private function _saveThemeInDatabase($themeName)
-    {
-        return false;
     }
 
     /**

@@ -17,6 +17,7 @@
                 <?php echo $this->editjsForm->getElement('jscombine')->getLabel(); ?>
                 <i class="ticon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Combines to single(one) JavaScript files with name of folder they are located.'); ?>"></i>
             </label>
+            <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
             <?php echo $this->editjsForm->getElement('submit'); ?>
         </div>
     </form>
@@ -46,7 +47,7 @@ $(function() {
 		$.ajax({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
-			data: {jsname : $("#jslist").val(), jsminify : $("#jsminify").prop('checked'), jscombine : $("#jscombine").prop('checked'), content : jsContent},
+			data: {jsname : $("#jslist").val(), jsminify : $("#jsminify").prop('checked'), jscombine : $("#jscombine").prop('checked'), content : jsContent, secureToken: $('.secureToken').val()},
 			dataType: 'json',
 			success: function(response){
 				hideSpinner();

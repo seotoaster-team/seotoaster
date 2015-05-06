@@ -1,6 +1,5 @@
 $(function() {
 	$('#urlType-label, #to-url-label').hide();
-	//$('#massdel-run').button();
 	reloadRedirectsList();
 	var toUrlDropDown = $('#to-url');
 	$('#urlType').click(function() {
@@ -36,11 +35,8 @@ $(function() {
 		showConfirm('You are about to remove one or many redirects. Are you sure?', function() {
 			var callback = $('#frm-redirects').data('callback');
 			$.ajax({
-				url: $('#website_url').val() + 'backend/backend_seo/removeredirect/',
-				type: 'post',
-				data: {
-					id: ids
-				},
+				url: $('#website_url').val() + 'backend/backend_seo/removeredirect/id/'+ids.join(','),
+				type: 'DELETE',
 				dataType: 'json',
 				beforeSend: function() {showSpinner();},
 				success: function(response) {

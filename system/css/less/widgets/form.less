@@ -9,7 +9,7 @@
 //	Custom style
 //==================================================
 form, .form{
-    .clearfix();
+    .clearfix-mixin();
 
     p{
         margin : 0
@@ -18,7 +18,7 @@ form, .form{
     &, fieldset{
         & > p, & > div{
             margin-top : 0.65em;
-            .clearfix;
+            .clearfix-mixin();
 
             &:first-child{
                 margin-top : 0;
@@ -138,7 +138,7 @@ form, .form{
 .notvalid{
     color : @brand-error !important;
     &:before{
-        font-family  : 'system-icons';
+        font-family  : @icon-family;
         content      : "\f06a";
         margin-right : 5px;
     }
@@ -249,7 +249,7 @@ textarea{
 }
 .labeled when (@form-labeled = true){
     position : relative;
-    .clearfix();
+    .clearfix-mixin();
 
     label, .label{
         margin-top    : 0;
@@ -290,12 +290,12 @@ textarea{
     &.icon when (@form-labeled-icon = true){
         input, select, textarea{
 
-            &:focus ~ [class*="ticon-"]{
+            &:focus ~ [class*="@{icon-prefix}-"]{
                 .opacity(1);
             }
         }
 
-        [class*="ticon-"]{
+        [class*="@{icon-prefix}-"]{
             position : absolute;
             margin   : auto;
             top      : 0;
@@ -306,7 +306,7 @@ textarea{
         }
 
         &.right{
-            [class*="ticon-"]{
+            [class*="@{icon-prefix}-"]{
                 right : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
 
@@ -317,14 +317,14 @@ textarea{
             select{
                 padding-right : @padding-base-vertical * 6;
 
-                & ~ [class*="ticon-"]{
+                & ~ [class*="@{icon-prefix}-"]{
                     right : (@padding-base-vertical * 4) - (@font-size-base / 2);
                 }
             }
         }
 
         &.left{
-            [class*="ticon-"]{
+            [class*="@{icon-prefix}-"]{
                 left : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
             input, textarea{
@@ -333,7 +333,7 @@ textarea{
         }
 
         &.top{
-            [class*="ticon-"]{
+            [class*="@{icon-prefix}-"]{
                 margin : 0;
                 top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
@@ -346,77 +346,77 @@ textarea{
             :checked ~ input, input:focus{ border-color : @rss; }
             *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @rss; }
-                & ~ [class*="ticon-"]{ color : @rss; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @rss; }
             }
             &.filled{
                 label, .label{ background : @rss; }
-                [class*="ticon-"]{ color : @rss; }
+                [class*="@{icon-prefix}-"]{ color : @rss; }
             }
         }
         &.gplus{
             :checked ~ input, input:focus{ border-color : @gplus; }
             *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @gplus; }
-                & ~ [class*="ticon-"]{ color : @gplus; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @gplus; }
             }
             &.filled{
                 label, .label{ background : @gplus; }
-                [class*="ticon-"]{ color : @gplus; }
+                [class*="@{icon-prefix}-"]{ color : @gplus; }
             }
         }
         &.twitter{
             :checked ~ input, input:focus{ border-color : @twitter; }
             *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @twitter; }
-                & ~ [class*="ticon-"]{ color : @twitter; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @twitter; }
             }
             &.filled{
                 label, .label{ background : @twitter; }
-                [class*="ticon-"]{ color : @twitter; }
+                [class*="@{icon-prefix}-"]{ color : @twitter; }
             }
         }
         &.youtube{
             :checked ~ input, input:focus{ border-color : @youtube; }
             *:checked, *:focus{
-                & ~ [class*="ticon-"]{ color : @youtube; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @youtube; }
                 & ~ label, & ~ .label{ background : @youtube; }
             }
             &.filled{
                 label, .label{ background : @youtube; }
-                [class*="ticon-"]{ color : @youtube; }
+                [class*="@{icon-prefix}-"]{ color : @youtube; }
             }
         }
         &.linkedin{
             :checked ~ input, input:focus{ border-color : @linkedin; }
             *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @linkedin; }
-                & ~ [class*="ticon-"]{ color : @linkedin; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @linkedin; }
             }
             &.filled{
                 label, .label{ background : @linkedin; }
-                [class*="ticon-"]{ color : @linkedin; }
+                [class*="@{icon-prefix}-"]{ color : @linkedin; }
             }
         }
         &.facebook{
             :checked ~ input, input:focus{ border-color : @facebook; }
             *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @facebook; }
-                & ~ [class*="ticon-"]{ color : @facebook; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @facebook; }
             }
             &.filled{
                 label, .label{ background : @facebook; }
-                [class*="ticon-"]{ color : @facebook; }
+                [class*="@{icon-prefix}-"]{ color : @facebook; }
             }
         }
         &.pinterest{
             :checked ~ input, input:focus{ border-color : @pinterest; }
             *:checked, *:focus{
                 & ~ label, & ~ .label{ background : @pinterest; }
-                & ~ [class*="ticon-"]{ color : @pinterest; }
+                & ~ [class*="@{icon-prefix}-"]{ color : @pinterest; }
             }
             &.filled{
                 label, .label{ background : @pinterest; }
-                [class*="ticon-"]{ color : @pinterest; }
+                [class*="@{icon-prefix}-"]{ color : @pinterest; }
             }
         }
     }

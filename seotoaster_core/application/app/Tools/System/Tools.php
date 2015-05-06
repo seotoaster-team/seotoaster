@@ -21,6 +21,44 @@ class Tools_System_Tools {
 
     const RECAPTCHA_PRIVATE_KEY = 'recaptchaPrivateKey';
 
+    const CSRF_SECURE_TOKEN = 'secureToken';
+
+    const ACTION_PREFIX_CONFIG = 'Config';
+
+    const ACTION_PREFIX_CONTAINERS = 'Containers';
+
+    const ACTION_PREFIX_PAGES = 'Pages';
+
+    const ACTION_PREFIX_USERS = 'Users';
+
+    const ACTION_PREFIX_FORMS = 'Forms';
+
+    const ACTION_PREFIX_ROBOTS = 'Robots';
+
+    const ACTION_PREFIX_REDIRECTS = 'Redirects';
+
+    const ACTION_PREFIX_DEEPLINKS = 'Deeplinks';
+
+    const ACTION_PREFIX_SILOS = 'Silos';
+
+    const ACTION_PREFIX_TEMPLATES = 'Templates';
+
+    const ACTION_PREFIX_EDITCSS = 'Editcss';
+
+    const ACTION_PREFIX_EDITJS = 'Editjs';
+
+    const ACTION_PREFIX_EDITREPEAT = 'EditRepeat';
+
+    const ACTION_PREFIX_ACTIONEMAILS = 'ActionEmails';
+
+    const ACTION_PREFIX_FAREA = 'Farea';
+
+    const ACTION_PREFIX_REMOVETHINGS = 'RemoveThings';
+
+    const ACTION_PREFIX_ORGANIZEPAGES = 'OrganizePages';
+
+    const ACTION_PREFIX_PLUGINS = 'Plugins';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : '';
@@ -374,5 +412,107 @@ class Tools_System_Tools {
     public static function makeSpace($content)
     {
         return preg_replace("/[^A-Za-z0-9 ]/", '&nbsp;', $content);
+    }
+
+    /**
+     * Generate unique token
+     *
+     * @param string $salt prefix for code generation
+     * @return string
+     */
+    public static function generateSecureToken($salt)
+    {
+        return md5(
+            mt_rand(1, 1000000)
+            . $salt
+            . mt_rand(1, 1000000)
+        );
+    }
+
+    /**
+     * Init secure token in session with specified prefix if not exists
+     *
+     * @param string $tokenPrefix prefix for token in session
+     * @param bool $regenerate if true force regenerate token
+     * @return string
+     */
+    public static function initSecureToken($tokenPrefix, $regenerate = false)
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
+        if (isset($sessionHelper->$tokenName) && !$regenerate) {
+            return $sessionHelper->$tokenName;
+        }
+        $secureToken = self::generateSecureToken($tokenPrefix);
+        $sessionHelper->$tokenName = $secureToken;
+        return $secureToken;
+    }
+
+    /**
+     * Validate token. If token exists and matched return true
+     *
+     * @param string $token secure token
+     * @param string $tokenPrefix token prefix
+     * @return bool
+     */
+    public static function validateToken($token, $tokenPrefix = '')
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
+        if (!isset($sessionHelper->$tokenName)) {
+            return false;
+        }
+        if ($sessionHelper->$tokenName !== $token) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Add custom token value for zend form element
+     * Check existing token in session if exists then apply it
+     * zend validator Identical to this form element
+     *
+     * @param Zend_Form $form form
+     * @param string $tokenPrefix prefix for secure token
+     * @param string $elementName Zend form element name
+     * @return Zend_Form
+     * @throws Zend_Form_Exception
+     */
+    public static function addTokenValidatorZendForm(Zend_Form $form, $tokenPrefix = '', $elementName = self::CSRF_SECURE_TOKEN)
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
+        if (isset($sessionHelper->$tokenName)) {
+            $form->getElement($elementName)->removeValidator('Identical');
+            $form->getElement($elementName)->addValidator(
+                'Identical',
+                false,
+                array('token' => $sessionHelper->$tokenName)
+            );
+        }
+        return $form;
+    }
+
+    /**
+     * Init csrf token for zend form
+     * Check existing token in session if exists then apply it
+     *
+     * @param Zend_Form $form form
+     * @param string $tokenPrefix prefix for secure token
+     * @param string $elementName Zend form element name
+     * @return string
+     */
+    public static function initZendFormCsrfToken(Zend_Form $form, $tokenPrefix = '', $elementName = self::CSRF_SECURE_TOKEN)
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+        $tokenName = self::CSRF_SECURE_TOKEN . $tokenPrefix;
+        if (!isset($sessionHelper->$tokenName)) {
+            $form->getElement($elementName)->initCsrfToken();
+            $secureToken = $form->getElement($elementName)->getValue();
+            $sessionHelper->$tokenName = $secureToken;
+            return $secureToken;
+        }
+        return $sessionHelper->$tokenName;
     }
 }

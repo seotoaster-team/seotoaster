@@ -4,6 +4,7 @@
 		<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12 mb15px form-inline" data-callback="siloslist">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
+            <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
 		</form>
 		<div class="grid_12 list-title">
 			<div class="grid_1"><input type="checkbox" name="chckAllSilos" class="check-all-silos" /></div>
@@ -37,12 +38,8 @@
 			}
 			showConfirm('You are about to remove one or many silos. Are you sure?', function() {
 				$.ajax({
-					url: $('#website_url').val() + 'backend/backend_seo/managesilos/',
-					type: 'post',
-					data: {
-						act : 'remove',
-						id  : silosIds
-					},
+					url: $('#website_url').val() + 'backend/backend_seo/managesilos/act/remove/id/'+ silosIds.join(','),
+					type: 'DELETE',
 					dataType: 'json',
 					beforeSend: function() {showSpinner();},
 					success: function(response) {

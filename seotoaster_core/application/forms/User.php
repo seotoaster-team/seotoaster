@@ -5,7 +5,7 @@
  *
  * @author Eugene I. Nezhuta [Seotoaster Dev Team] <eugene@seotoaster.com>
  */
-class Application_Form_User extends Zend_Form {
+class Application_Form_User extends Application_Form_Secure {
 
 	protected $_email    = '';
 
@@ -18,7 +18,7 @@ class Application_Form_User extends Zend_Form {
 	protected $_id       = '';
 
 	public function init() {
-
+        parent::init();
         $email = new Zend_Form_Element_Text(array(
             'id'         => 'e-mail',
             'name'       => 'email',

@@ -105,6 +105,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $this->_view->elementType      = $this->_options[0];
 
         $rendererName = '_renderPrepop' . ucfirst(array_shift($this->_options));
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
+        $this->_view->secureToken = $secureToken;
         if(method_exists($this, $rendererName)) {
             return $this->$rendererName();
         }

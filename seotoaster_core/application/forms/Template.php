@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Template extends Zend_Form
+class Application_Form_Template extends Application_Form_Secure
 {
 
     protected $_title = '';
@@ -19,6 +19,7 @@ class Application_Form_Template extends Zend_Form
 
     public function init()
     {
+        parent::init();
         $this->setMethod(Zend_Form::METHOD_POST)
             ->setAttrib('id', 'frm_template')
             ->setDecorators(array('ViewScript'))

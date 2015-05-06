@@ -50,7 +50,7 @@ $(function () {
                         show: 'clip',
                         hide: 'clip',
                         buttons: [
-                            {text: "Okay", class: 'btn', click: function () {
+                            {text: "Okay", 'class': 'btn', click: function () {
                                 $(this).dialog("close");
                             }}
                         ]
@@ -77,7 +77,7 @@ function triggerPlugin(type, element) {
         url: url,
         type: 'post',
         dataType: 'json',
-        data: {name: element.data('name')},
+        data: {name: element.data('name'), secureToken: $('.secureToken').val()},
         beforeSend: function () {
             showSpinner();
         },

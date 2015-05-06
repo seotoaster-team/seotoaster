@@ -14,6 +14,7 @@
 					</label>
 				</div>
 				<?php echo $this->form->getElement('addDeeplink'); ?>
+                <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
 			</form>
 		<div id="deeplinks-title" class="grid_12 list-title">
 			<div class="grid_1 mr0 ml0 text-center"> <input type="checkbox" id="chk-all" name="deleteAll" /></div>

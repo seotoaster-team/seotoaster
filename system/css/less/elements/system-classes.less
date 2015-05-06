@@ -11,19 +11,21 @@
 .align-top{ vertical-align : top !important; }
 .align-middle{ vertical-align : middle !important; }
 .align-bottom{ vertical-align : bottom !important; }
+.align-baseline{ vertical-align : baseline !important; }
 
-.ws-nowrap{ white-space : nowrap; }
-.ws-normal{ white-space : normal; }
+.ws-nowrap{ white-space : nowrap !important; }
+.ws-normal{ white-space : normal !important; }
 
-.text-light{ font-weight : 300; }
-.text-normal{ font-weight : normal; }
-.text-medium{ font-weight : 500; }
-.text-bold{ font-weight : bold; }
-.text-italic{ font-style : italic; }
+.text-light{ font-weight : 300 !important; }
+.text-normal{ font-weight : normal !important; font-style : normal !important; }
+.text-medium{ font-weight : 500 !important; }
+.text-bold{ font-weight : bold !important; }
+.text-italic{ font-style : italic !important; }
 
-.lh-small{ line-height : 1; }
-.lh-medium{ line-height : @line-height * .85; }
-.lh-large{ line-height : @line-height * 1.25; }
+.lh-small{ line-height : 1 !important; }
+.lh-medium{ line-height : @line-height * .85 !important; }
+.lh-normal{ line-height : @line-height !important; }
+.lh-large{ line-height : @line-height * 1.25 !important; }
 
 .cl-none{ clear : none; }
 .cl-both{ clear : both; }
@@ -32,13 +34,17 @@
 .fl-right{ float : right !important; }
 .fl-none{ float : none !important; }
 
-.wrap{ overflow : hidden; }
-.block{ display : block; }
-.word-break{ word-break : break-all; }
+.wrap{ overflow : hidden !important; }
+.block, .show{ display : block !important; }
+.inline-block{ .inline-block(); }
+.word-break{
+    -ms-word-break : break-all;
+    word-break     : break-all;
+}
 .hide, [class*="ui-helper-hidden"]{ display : none; }
 
-.pointer{ cursor : pointer; }
-.help{ cursor : help; }
+.pointer{ cursor : pointer !important; }
+.help{ cursor : help !important; }
 
 .scroll{ overflow : auto; }
 
@@ -62,17 +68,17 @@
 .fs64{ font-size : 64px !important; }
 
 .inherit{
-    color      : inherit;
-    background : inherit;
+    color      : inherit !important;
+    background : inherit !important;
 }
 .inherit-bg{
-    background : inherit;
+    background : inherit !important;
 }
 .inherit-color{
-    color : inherit;
+    color : inherit !important;
 
     a&:hover{
-        color : @link-color;
+        color : @link-color !important;
     }
 }
 
@@ -99,7 +105,7 @@
     .linkedin{ background : @linkedin; }
     .facebook{ background : @facebook; }
 
-    a[class*="ticon-"]{
+    a[class*="@{icon-prefix}-"]{
         margin-left : 5px;
         color       : #FFF;
         .inline-block();

@@ -18,6 +18,8 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_websiteUrl;
 
+    private $_session;
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
@@ -32,6 +34,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $this->_websiteUrl = $this->_websiteHelper->getUrl();
         $this->_zendDbTable = new Zend_Db_Table();
+        $this->_session = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
 	}
 
 	public function manageAction() {
@@ -43,7 +46,10 @@ class Backend_UserController extends Zend_Controller_Action {
             if($userId) {
                 $userForm->setId($userId);
             }
-			if($userForm->isValid($this->getRequest()->getParams())) {
+
+            $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
+
+            if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
 				$user       = new Application_Model_Models_User($data);
 				Application_Model_Mappers_UserMapper::getInstance()->save($user);
@@ -55,6 +61,9 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 		}
+
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
+        $this->view->secureToken = $secureToken;
 
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
         $offset = 0;
@@ -119,7 +128,7 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function deleteAction() {
-		if($this->getRequest()->isPost()) {
+		if($this->getRequest()->isDelete()) {
 			$userId = $this->getRequest()->getParam('id');
 			if(!$userId) {
 				$this->_helper->response->fail('Can\'t remove user...');

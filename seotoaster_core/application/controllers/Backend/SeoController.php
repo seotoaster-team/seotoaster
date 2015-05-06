@@ -50,7 +50,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 			$robotsForm->setContent($robotstxtContent);
 		}
 		else {
-			if($robotsForm->isValid($this->getRequest()->getParams())) {
+            $robotsForm = Tools_System_Tools::addTokenValidatorZendForm($robotsForm, Tools_System_Tools::ACTION_PREFIX_ROBOTS);
+            if($robotsForm->isValid($this->getRequest()->getParams())) {
 				$robotsData = $robotsForm->getValues();
 				try{
 					Tools_Filesystem_Tools::saveFile('robots.txt', $robotsData['content']);
@@ -61,6 +62,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				}
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($robotsForm, Tools_System_Tools::ACTION_PREFIX_ROBOTS);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'robots';
 		$this->view->form        = $robotsForm;
 	}
@@ -74,7 +77,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
-			if($redirectForm->isValid($this->getRequest()->getParams())) {
+            $redirectForm = Tools_System_Tools::addTokenValidatorZendForm($redirectForm, Tools_System_Tools::ACTION_PREFIX_REDIRECTS);
+            if($redirectForm->isValid($this->getRequest()->getParams())) {
 				$data          = $redirectForm->getValues();
 				$redirect      = new Application_Model_Models_Redirect();
 				$fromUrlPath   = Tools_System_Tools::getUrlPath($data['fromUrl']);
@@ -122,6 +126,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($redirectForm, Tools_System_Tools::ACTION_PREFIX_REDIRECTS);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = '301s';
 		$this->view->form = $redirectForm;
 	}
@@ -133,16 +139,13 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function removeredirectAction() {
-		if($this->getRequest()->isPost()) {
-			$ids            = $this->getRequest()->getParam('id');
+		if($this->getRequest()->isDelete()) {
+			$ids            = explode(',', $this->getRequest()->getParam('id'));
 			$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
 			if(is_array($ids)) {
 				foreach ($ids as $id) {
 					$redirectMapper->delete($redirectMapper->find($id));
 				}
-			}
-			else {
-				$redirectMapper->delete($redirectMapper->find($ids));
 			}
 			$this->_helper->cache->clean('toaster_301redirects', '301redirects');
 			$this->_helper->response->success($this->_helper->language->translate('Redirect(s) removed.'));
@@ -154,6 +157,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		if($this->getRequest()->isPost()) {
+            $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
 				$data           = $deeplinksForm->getValues();
 				$deeplink       = new Application_Model_Models_Deeplink();
@@ -186,23 +190,19 @@ class Backend_SeoController extends Zend_Controller_Action {
 				exit;
 			}
 		}
-		else {
-
-		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'deeplinks';
 		$this->view->form        = $deeplinksForm;
 	}
 
 	public function removedeeplinkAction() {
-		if($this->getRequest()->isPost()) {
-			$ids = $this->getRequest()->getParam('id');
+		if($this->getRequest()->isDelete()) {
+			$ids = explode(',', $this->getRequest()->getParam('id'));
 			if(is_array($ids)) {
 				foreach ($ids as $id) {
 					$this->_removeDeeplink($id);
 				}
-			}
-			else {
-				$this->_removeDeeplink($ids);
 			}
 			$this->_helper->response->success($this->_helper->language->translate('Deeplink(s) removed.'));
 		}
@@ -228,7 +228,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 	public function sculptingAction() {
 		$siloForm = new Application_Form_Silo();
 		if($this->getRequest()->isPost()) {
-			if($siloForm->isValid($this->getRequest()->getParams())) {
+            $siloForm = Tools_System_Tools::addTokenValidatorZendForm($siloForm, Tools_System_Tools::ACTION_PREFIX_SILOS);
+            if($siloForm->isValid($this->getRequest()->getParams())) {
 				$silo = new Application_Model_Models_Silo($siloForm->getValues());
 				if(Application_Model_Mappers_SiloMapper::getInstance()->save($silo)) {
 					$this->_helper->response->success('Silo added.');
@@ -238,6 +239,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 				$this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($siloForm->getMessages(), get_class($siloForm)));
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, Tools_System_Tools::ACTION_PREFIX_SILOS);
+        $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'sculpting';
 		$this->view->siloForm    = $siloForm;
 	}
@@ -316,6 +319,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 			if($categoryPage === null) {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Cannot load category page'));
 			}
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_SILOS);
+            if (!$valid) {
+                exit;
+            }
 			switch ($action) {
 				case self::SILOCAT_ADD:
 					$siloMapper       = Application_Model_Mappers_SiloMapper::getInstance();
@@ -338,7 +346,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 					}
 					$siloId = $siloMapper->save($silo);
 					if($siloId) {
-						$this->_helper->response->success('Siloed');
+						$this->_helper->response->success('Silo added');
 					}
 				break;
 				case self::SILOCAT_REMOVE:
@@ -357,8 +365,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function managesilosAction() {
-		if(!$this->getRequest()->isPost()) {
-			$this->view->siloForm = new Application_Form_Silo();
+        $siloForm = new Application_Form_Silo();
+        if($this->getRequest()->isGet()) {
+			$this->view->siloForm = $siloForm;
 		}
 		else {
 			$action = $this->getRequest()->getParam('act', null);
@@ -371,25 +380,29 @@ class Backend_SeoController extends Zend_Controller_Action {
 					$this->_helper->response->success($this->view->render('backend/seo/siloslist.phtml'));
 				break;
 				case 'remove':
-					$ids = (array)$this->getRequest()->getParam('id');
-					if(empty ($ids)) {
-						$this->_helper->response->fail($this->_helper->language->translate('Silo id is not specified'));
-					}
-					$siloMapper = Application_Model_Mappers_SiloMapper::getInstance();
-					foreach ($ids as $siloId) {
-						$silo = $siloMapper->find($siloId, true);
-						if(!$silo instanceof Application_Model_Models_Silo) {
-							$this->_helper->response->fail($this->_helper->language->translate('Cannot find silo to remove.'));
-						}
-						$silo->registerObserver(new Tools_Seo_GarbageCollector(array(
-							'action' => Tools_Seo_GarbageCollector::CLEAN_ONDELETE
-						)));
-						$siloMapper->delete($silo);
-					}
-					$this->_helper->response->success($this->_helper->language->translate('Silo(s) removed.'));
+					if($this->_request->isDelete()){
+                        $ids = explode(',', $this->getRequest()->getParam('id'));
+                        if(empty ($ids)) {
+                            $this->_helper->response->fail($this->_helper->language->translate('Silo id is not specified'));
+                        }
+                        $siloMapper = Application_Model_Mappers_SiloMapper::getInstance();
+                        foreach ($ids as $siloId) {
+                            $silo = $siloMapper->find($siloId, true);
+                            if(!$silo instanceof Application_Model_Models_Silo) {
+                                $this->_helper->response->fail($this->_helper->language->translate('Cannot find silo to remove.'));
+                            }
+                            $silo->registerObserver(new Tools_Seo_GarbageCollector(array(
+                                'action' => Tools_Seo_GarbageCollector::CLEAN_ONDELETE
+                            )));
+                            $siloMapper->delete($silo);
+                        }
+                        $this->_helper->response->success($this->_helper->language->translate('Silo(s) removed.'));
+                    }
 				break;
 			}
 		}
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($siloForm, Tools_System_Tools::ACTION_PREFIX_SILOS);
+        $this->view->secureToken = $secureToken;
 	}
 
     /**

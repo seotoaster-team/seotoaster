@@ -9,6 +9,7 @@
 					<div class="grid_1 ticon-move"></div>
 				</li>
 			<?php endforeach; ?>
+            <input class="orderSecureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
 		</ol>
 	<?php endif; ?>
 </div>
@@ -28,7 +29,8 @@
 				showSpinner();
 				$.post($('#website_url').val() + 'backend/backend_featured/order/', {
 					ordered: ordered,
-					id: <?php echo $this->faId; ?>
+					id: <?php echo $this->faId; ?>,
+                    secureToken: $('.orderSecureToken').val()
 				}, function () {
 					//$('#ajax_msg').text('Saved').fadeOut();
 					hideSpinner();
