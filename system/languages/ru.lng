@@ -108,7 +108,7 @@
     '<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> или выше',
     '<strong>PDO</strong> extension for PHP' => '<strong>PDO</strong> расширения для PHP',
     '<strong>MBString:</strong> Works with any language' => '<strong>MBString:</strong> для корректной работы с языками',
-    '<strong>GD Libaries 2.0</strong> or newer: Works with images' => '<strong>GD Libaries 2.0</strong> или выше: для корректной работы с картинками',
+    '<strong>GD Library 2.0</strong> or newer: Works with images' => '<strong>GD Libaries 2.0</strong> или выше: для корректной работы с картинками',
     '<strong>Zip extension for PHP:</strong> Permit themes management through the interface' => '<strong>Zip расширение для PHP:</strong> для корректной работы с zip архивами',
     '<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.' => '<strong>Curl расширение для PHP:</strong> для корректной работы со соторонними сервисами, такими как: Google, Yahoo, PayPal, и т. д.',
     '<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.'=>'<strong>JSON расширение для PHP:</strong> JSON (JavaScript Object Notation) поддержка.',
