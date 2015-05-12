@@ -1,12 +1,14 @@
 <?php $this->inlineScript()
            ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js'); ?>
 <div id="seotoaster-cpanel" class="seotoaster">
-	<div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
-	<div id="seotoaster-logowrap">
-		<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?>
-		<div id="system-version"><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?></div>
-        <img class="reset-element" width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
-    </div>
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
+        <div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
+        <div id="seotoaster-logowrap">
+            <?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?>
+            <div id="system-version"><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?></div>
+            <img class="reset-element" width="170" height="180" src="<?php echo $this->placeholder('logoSource'); ?>" />
+        </div>
+    <?php endif;?>
 	<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
 	<ul id="cpanelul">
 		<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)): ?>
@@ -130,19 +132,22 @@
         <?php endif; ?>
 	</ul>
 	<?php endif; ?>
-    <ul class="menu-links">
-        <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
-        <li>
-            <a href="javascript:;" id="cleancache"><?php echo $this->translate('CLEAN CACHE'); ?></a>
-        </li>
-        <?php endif; ?>
-        <li>
-			<a class="logout" href="<?php echo $this->websiteUrl; ?>logout/"><?php echo $this->translate('LOGOUT'); ?></a>
-         </li>
-    </ul>
-    <span id="edit404-errorMsg" style="display: none">
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
+        <ul class="menu-links">
+            <li>
+                <a href="javascript:;" id="cleancache"><?php echo $this->translate('CLEAN CACHE'); ?></a>
+            </li>
+            <li>
+                <a class="logout" href="<?php echo $this->websiteUrl; ?>logout/"><?php echo $this->translate('LOGOUT'); ?></a>
+             </li>
+        </ul>
+        <span id="edit404-errorMsg" style="display: none">
         <?php
-            echo $this->translate("Sorry, but you don't have a custom - 404 not found - page yet. Click %1\$s to create a 404 page using the appropriate option found under the \"Settings\" section",$this->toasterLink('backend_page', 'page', $this->translate('here'), false, false, array('width' => '960', 'height' => '560')));
+        echo $this->translate("Sorry, but you don't have a custom - 404 not found - page yet. Click %1\$s to create a 404 page using the appropriate option found under the \"Settings\" section",$this->toasterLink('backend_page', 'page', $this->translate('here'), false, false, array('width' => '960', 'height' => '560')));
         ?>
-    </span>
+        </span>
+    <?php else:?>
+        <a class="logout" href="<?php echo $this->websiteUrl; ?>logout/"><?php echo $this->translate('LOGOUT'); ?></a>
+    <?php endif; ?>
+
 </div>
