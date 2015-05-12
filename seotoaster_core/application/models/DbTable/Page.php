@@ -96,7 +96,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
     public function findByUrl($pageUrl = Helpers_Action_Website::DEFAULT_PAGE) {
         $where      = $this->getAdapter()->quoteInto('page.url = ?', $pageUrl);
         $orWhere    = $this->getAdapter()->quoteInto('optimized.url = ?', $pageUrl);
-        $select     = $this->_getOptimizedSelect(false, array('id', 'parent_id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news'));
+        $select     = $this->_getOptimizedSelect(false, array('id', 'parent_id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news', 'preview_image'));
 
         $select->join('template', 'page.template_id=template.name', null)
             ->columns(array(
