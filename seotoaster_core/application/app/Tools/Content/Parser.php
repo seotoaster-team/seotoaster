@@ -42,7 +42,7 @@ class Tools_Content_Parser
         $this->_runMagicSpaces(true);
         $this->_runWidgets();
         $this->_changeMedia();
-        $this->_runMagicSpaces(false);
+        $this->_runMagicSpaces();
 
         return $this->_content;
     }
@@ -92,7 +92,7 @@ class Tools_Content_Parser
     {
         $this->_runMagicSpaces(true);
         $this->_runWidgets();
-        $this->_runMagicSpaces(false);
+        $this->_runMagicSpaces();
 
         return $this->_content;
     }
