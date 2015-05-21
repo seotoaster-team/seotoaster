@@ -227,7 +227,7 @@ class Tools_Content_Parser
                 );
 
                 // Check parse before or after parse widgets and is allowed recursive parse
-                if ($parseBefore !== $magicSpaceObj->isAllowedParseBefore()
+                if (($parseBefore === true && $parseBefore !== $magicSpaceObj->isAllowedParseBefore())
                     || (!$magicSpaceObj->isAllowedRecursiveParse() && $this->_iteration > 1)
                 ) {
                     array_push($excludeFromParse, $spacesFound[$key]);
