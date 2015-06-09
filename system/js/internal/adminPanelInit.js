@@ -6,6 +6,7 @@ $(function () {
     $.get($('#website_url').val() + '/backend/backend_update/version/', function (response) {
         if (!response.error && response.responseText.status == 1) {
                 $('a.ticon-bell').addClass('new-notification');
+                $('.notif-new-version').removeClass('hide');
         }
     });
 
@@ -83,7 +84,7 @@ $(function () {
 
     //admin panel edit 404 page click
     $('#edit404').click(function () {
-        $.get($('#website_url').val() + 'backend/backend_page/edit404page', function (responseText) {
+        $.get($('#website_url').val() + '/backend/backend_page/edit404page', function (responseText) {
             if (responseText.notFoundUrl) {
                 window.location.href = responseText.notFoundUrl;
             }

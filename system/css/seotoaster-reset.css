@@ -290,7 +290,6 @@ a.generator-links.plugin {
   background-color: #54565f;
   color: #cccccc;
   font: 16px/1.5 "PT Sans", Arial, Tahoma;
-  opacity: 1;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   /* section buttons */
@@ -301,9 +300,6 @@ a.generator-links.plugin {
 .seotoaster-panel.h {
   height: 20px;
   overflow: hidden;
-}
-.seotoaster-panel:hover {
-  opacity: 1;
 }
 .seotoaster-panel.aside {
   box-shadow: 0 0 2px 0 #aaaaaa;
@@ -419,11 +415,65 @@ a.generator-links.plugin {
 .seotoaster-panel .section.over_empty {
   margin-top: 30px;
 }
-.seotoaster-panel {
-  /**
-     * Messages
-     *
-     */
+.seotoaster-panel .message {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.seotoaster-panel .message .tpopup {
+  margin-bottom: 0;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  height: 30px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 18px;
+  border: none;
+  color: #ffffff;
+  background-color: #31b0d5;
+  text-decoration: none;
+  border-color: #0979b2;
+  border-radius: 3px;
+}
+.seotoaster-panel .message .tpopup:hover,
+.seotoaster-panel .message .tpopup:active {
+  color: #ffffff;
+  background-color: #2490af;
+  border-color: #075881;
+}
+.seotoaster-panel .message .tpopup:hover {
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+}
+.seotoaster-panel .message p {
+  margin-bottom: 5px;
+}
+.seotoaster-panel .message.info {
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  background-color: transparent;
+}
+.seotoaster-panel .new-notification {
+  position: relative;
+}
+.seotoaster-panel .new-notification:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: #3498db;
+  width: 6px;
+  height: 6px;
+  border: 4px solid #54565f;
+  box-sizing: content-box;
+  border-radius: 50%;
+}
+.seotoaster-panel .active .new-notification:after {
+  border-color: #414249;
 }
 .seotoaster-panel .action-btn {
   margin-bottom: 15px;
@@ -438,17 +488,6 @@ a.generator-links.plugin {
 }
 .seotoaster-panel .btn {
   border-radius: 3px;
-}
-.seotoaster-panel .message {
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-.seotoaster-panel .message .title {
-  display: block;
-}
-.seotoaster-panel .message.info {
-  background-color: #21232C;
-  color: #8B96A4;
 }
 .category-list {
   padding: 0 0 8px;
@@ -498,7 +537,7 @@ a.generator-links.plugin {
   animation-name: rotate;
   -webkit-animation-duration: 800ms;
   animation-duration: 800ms;
-  color: #FFF;
+  color: #3498db;
 }
 #cleancache.run.hinge {
   -webkit-animation-duration: 2s;

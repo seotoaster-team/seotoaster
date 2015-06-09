@@ -130,15 +130,11 @@
         <li class="section under_empty">
             <a href="#" class="section-btn ticon-bell"></a>
             <div class="section-wrap">
-                <div class="section-box">
-                    <span class="section-title">Notification</span>
-                    <div class="message info">
-                        <p> <span class="title info">Good news!</span> Detected a new version. You can upgrade to it</p>
-                        <a href="#" class="btn mini info">Update now</a>
-                    </div>
-                    <div class="message info">
-                        <p> <span class="title success">Congratulation!</span> Your website is connected to mojo</p>
-                        <a href="#" class="btn mini">close</a>
+                <div class="section-box notifications-box">
+                    <span class="section-title"><?php echo $this->translate('Notification'); ?></span>
+                    <div class="message info notif-new-version hide">
+                        <p><?php echo $this->translate('Good news! Detected a new version. You can upgrade to it</br>'); ?></p>
+                        <?php echo $this->toasterLink('backend_update', 'index', $this->translate('Update now'), false, false, array('width' => '480', 'height' => '560')); ?>
                     </div>
                 </div>
             </div>
