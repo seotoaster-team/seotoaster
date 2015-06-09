@@ -1,12 +1,44 @@
-/* dark styles */
+// brand colors
+@panel-brand-primary                : @brand-info;//#6B8DF9;//#6261FA;
+
+// aside styles
+@panel-aside-bg                     : #54565F;
+@panel-aside-color                  : #CCCCCC;
+@panel-aside-width                  : 60px;
+
+// aside buttons styles
+@panel-aside-btn-bg                 : transparent;
+@panel-aside-btn-bg-hover           : darken(@panel-aside-bg, 4%);
+@panel-aside-btn-bg-active          : darken(@panel-aside-bg, 8%);
+
+@panel-aside-btn-color              : @panel-aside-color;
+@panel-aside-btn-color-hover        : inherit;
+@panel-aside-btn-color-active       : inherit;
+
+@panel-aside-btn-collapse-height    : 20px;
+
+// section styles
+@panel-section-bg                   : #FCFCFC;
+@panel-section-color                : darken(@panel-section-bg, 40%);
+@panel-section-title-color          : #999999;
+
+@panel-section-width                : 240px;
+@panel-section-space                : 25px;
+@panel-section-shadow-height        : 60px;
+
+@panel-section-btn-bg-hover         : darken(@panel-section-bg, 10%);
+@panel-section-btn-color-hover      : darken(@panel-section-color, 10%);
+
+
+// dark styles (If you want the dark styles/colors for the panel - uncomment this  )
+//==================================================
 /*
 // brand colors
-@panel-brand-primary                : #6261FA; //#4776F0;
+@panel-brand-primary                : #6261FA;
 
 // aside styles
 @panel-aside-bg                     : #323541;
 @panel-aside-color                  : lighten(@panel-aside-bg, 45%);
-@panel-aside-width                  : 60px;
 
 // aside buttons styles
 @panel-aside-btn-bg                 : transparent;
@@ -21,45 +53,10 @@
 @panel-section-bg                   : #292C37;
 @panel-section-color                : #9CA5B3;
 @panel-section-title-color          : darken(desaturate(@panel-section-color, 2%), 30%);
-@panel-section-width                : 240px;
-@panel-section-space                : 25px;
-@panel-section-shadow-height        : 60px;
 
 @panel-section-btn-bg-hover         : darken(@panel-section-bg, 10%);
 @panel-section-btn-color-hover      : #A0A6AE;
 */
-
-// brand colors
-@panel-brand-primary                : @brand-info;//#6B8DF9;//#6261FA;
-//#4776F0;
-
-// aside styles
-@panel-aside-bg                     : #54565F;
-@panel-aside-color                  : #CCCCCC;
-@panel-aside-width                  : 60px;
-
-// aside buttons styles
-@panel-aside-btn-bg                 : transparent;
-@panel-aside-btn-bg-hover           : darken(@panel-aside-bg, 4%);
-@panel-aside-btn-bg-active          : darken(@panel-aside-bg, 8%);
-
-@panel-aside-btn-color              : @panel-aside-color;
-@panel-aside-btn-color-hover        : inherit;
-//darken(@panel-aside-color, 15%);
-@panel-aside-btn-color-active       : inherit;
-//darken(@panel-aside-color, 30%);
-
-// section styles
-@panel-section-bg                   : #FCFCFC;
-@panel-section-color                : darken(@panel-section-bg, 40%);
-@panel-section-title-color          : #999999;
-//darken(@panel-section-bg, 12%);
-@panel-section-width                : 240px;
-@panel-section-space                : 25px;
-@panel-section-shadow-height        : 60px;
-
-@panel-section-btn-bg-hover         : darken(@panel-section-bg, 10%);
-@panel-section-btn-color-hover      : darken(@panel-section-color, 10%);
 
 // Seotoaster panel
 //==================================================
@@ -70,19 +67,8 @@
     font             : 16px/1.5 "PT Sans", Arial, Tahoma;
     .transition(all; 0.3s; ease);
 
-    // show and hide panel
-    //==================================================
-    &.s{
-        height : 100%;
-    }
-    &.h{
-        height   : 20px;
-        overflow : hidden;
-    }
-    // -- show and hide panel
+    a{ text-decoration : none; }
 
-    // aside
-    //==================================================
     &.aside{
         // styles
         .box-shadow(0 0 2px 0 #aaa);
@@ -109,13 +95,22 @@
         bottom           : 0;
         left             : 0;
     }
-    a{
-        text-decoration : none;
+
+    // show and hide panel
+    //==================================================
+    &.s{
+        height : 100%;
     }
+    &.h{
+        height   : @panel-aside-btn-collapse-height;
+        overflow : hidden;
+    }
+
+
 
     // Logo
     //==================================================
-    .logo{
+    header{
         .logo-icon{
             // styles
             background-color : @panel-aside-bg;
@@ -123,21 +118,18 @@
             font-size        : 34px;
             text-align       : center;
             // box
-            width            : @panel-aside-width;
-            height           : @panel-aside-width;
             line-height      : @panel-aside-width;
             display          : block;
             cursor           : default;
-            &:before{
-                //opacity : 0.4;
-            }
         }
     }
 
+    // section list
+    //==================================================
     .section-list{
         // styles
         background-color : @panel-aside-bg;
-        color            : @panel-aside-color;
+        //color            : @panel-aside-color;
         list-style-type  : none;
         // position
         position         : static;
@@ -146,17 +138,30 @@
         padding          : 0;
         height           : 100%;
 
-        .section-title{
-            // styles
-            color       : @panel-section-title-color;
-            line-height : @panel-aside-width;
-            font-weight : bold;
-            // box
-            height      : @panel-aside-width;
-            display     : block;
+        .section{
+            margin : 0;
+
+            &.active{
+                .section-btn{
+                    background-color : @panel-aside-btn-bg-active;
+                    color            : @panel-aside-btn-color-active;
+                }
+                .section-wrap{
+                    right   : @panel-aside-width;
+                    opacity : 1;
+                }
+            }
+            &.under_empty{
+                margin-bottom : @panel-aside-width / 2;
+            }
+            &.over_empty{
+                margin-top : @panel-aside-width / 2;
+            }
         }
     }
-    /* section buttons */
+
+    // section btn
+    //==================================================
     .section-btn{
         // styles
         font-size   : 18px;
@@ -164,14 +169,25 @@
         // box
         display     : block;
         height      : @panel-aside-width;
-        line-height : 55px;
+        line-height : @panel-aside-width + 2;
         text-align  : center;
+
+        &:before {
+            vertical-align: baseline;
+        }
 
         &:hover{
             background-color : @panel-aside-btn-bg-hover;
             color            : @panel-aside-btn-color-hover;
         }
+        &:active{
+            background-color : @panel-aside-btn-bg-active;
+            color            : @panel-aside-btn-color-active;
+        }
     }
+
+    // section wrap
+    //==================================================
     .section-wrap{
         // styles
         background-color : @panel-section-bg;
@@ -211,26 +227,58 @@
                     rgba(red(@panel-section-bg), green(@panel-section-bg), blue(@panel-section-bg), 1) 100%));
         }
     }
-    .section{
-        margin : 0;
-        &.active{
-            .section-btn{
-                background-color : @panel-aside-btn-bg-active;
-                color            : @panel-aside-btn-color-active;
-            }
-            .section-wrap{
-                right   : @panel-aside-width;
-                opacity : 1;
-            }
-        }
-        &.under_empty{
-            margin-bottom : @panel-aside-width / 2;
-        }
-        &.over_empty{
-            margin-top : @panel-aside-width / 2;
+
+    // section title
+    //==================================================
+    .section-title{
+        // styles
+        color       : @panel-section-title-color;
+        line-height : @panel-aside-width;
+        font-weight : bold;
+        // box
+        //height      : @panel-aside-width;
+        display     : block;
+    }
+
+    // category list
+    //==================================================
+    .category-list{
+        padding         : 0 0 8px;
+        list-style-type : none;
+        margin          : 0;
+        font-size       : 14px;
+
+        & + .category-list{
+            padding-top : 8px;
+            border-top  : 1px solid darken(@panel-section-bg, 4%);
         }
 
+        & > li{
+            margin : 0;
+
+            &.title{
+                color       : #5C6779;
+                //padding     : 0 10px;
+                font-size   : 16px;
+                font-weight : bold;
+            }
+
+            & > a{
+                color   : @panel-section-color;
+                padding : 6px 14px;
+                display : block;
+                .border-radius(3px);
+                .transition(background-color; 0.3s; ease);
+
+                &:hover{
+                    background-color : darken(@panel-section-bg, 5%);
+                    color            : @panel-section-btn-color-hover;
+                }
+            }
+        }
     }
+
+
     // messages
     //==================================================
     .message{
@@ -273,70 +321,13 @@
             .border-radius(50%);
         }
     }
+
     .active .new-notification{
         &:after{
             border-color : @panel-aside-btn-bg-active;
         }
     }
 
-}
-
-.seotoaster-panel{
-
-    .action-btn{
-        margin-bottom : 15px;
-        opacity       : 0.3;
-
-        &:hover{
-            opacity : 1;
-        }
-
-        & + .category-list{
-            padding-top : 8px;
-            border-top  : 1px solid #22252D;
-        }
-    }
-
-    .btn{
-        .border-radius(3px);
-    }
-
-}
-
-.category-list{
-    padding         : 0 0 8px;
-    list-style-type : none;
-    margin          : 0;
-    font-size       : 14px;
-    & + .category-list{
-        padding-top : 8px;
-        border-top  : 1px solid darken(@panel-section-bg, 4%);
-    }
-
-    .item, & > li{
-        margin : 0;
-
-        &.title{
-            color       : #5C6779;
-            padding     : 0 10px;
-            font-size   : 16px;
-            font-weight : bold;
-        }
-
-        & > a{
-            color   : @panel-section-color;
-            padding : 6px 14px;
-            display : block;
-            .border-radius(3px);
-            .transition(all; 0.3s; ease);
-            &:hover{
-                /*background-color : #14161B;
-                color            : #8994A4;*/
-                background-color : darken(@panel-section-bg, 5%);
-                color            : @panel-section-btn-color-hover;
-            }
-        }
-    }
 }
 
 #cleancache{
