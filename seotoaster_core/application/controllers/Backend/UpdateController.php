@@ -75,6 +75,15 @@ class Backend_UpdateController extends Zend_Controller_Action
         }
     }
 
+    public function versionAction() {
+        $version = $this->_storeVersion ? $this->_storeVersion : $this->_toasterVersion;
+        $updateStatus = version_compare($this->_remoteVersion, $version);
+        if (1 === $updateStatus) {
+            $this->_response('success', 1, $this->_remoteVersion);
+        }
+        $this->_response('success', 0, '');
+    }
+
     public function indexAction()
     {
         $this->view->remoteVersion = $this->_remoteVersion;

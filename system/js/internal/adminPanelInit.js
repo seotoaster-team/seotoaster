@@ -3,6 +3,13 @@ $(function () {
         $sectionList = $(document.getElementsByClassName('section-list')[0]),
         section, sectionIndx;
 
+    $.get($('#website_url').val() + '/backend/backend_update/version/', function (response) {
+        if (!response.error && response.responseText.status == 1) {
+                $('a.ticon-bell').addClass('new-notification');
+        }
+    });
+
+
     if (localStorage.getItem('panel-section-active') != null) {
         $sectionList.find('.section:eq(' + localStorage.getItem('panel-section-active') + ')').addClass('active');
     }
