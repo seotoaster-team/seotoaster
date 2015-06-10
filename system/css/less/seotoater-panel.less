@@ -1,5 +1,6 @@
 // brand colors
-@panel-brand-primary                : @brand-info;//#6B8DF9;//#6261FA;
+@panel-brand-primary                : @brand-info;
+//#6B8DF9;//#6261FA;
 
 // aside styles
 @panel-aside-bg                     : #54565F;
@@ -28,7 +29,6 @@
 
 @panel-section-btn-bg-hover         : darken(@panel-section-bg, 10%);
 @panel-section-btn-color-hover      : darken(@panel-section-color, 10%);
-
 
 // dark styles (If you want the dark styles/colors for the panel - uncomment this  )
 //==================================================
@@ -106,8 +106,6 @@
         overflow : hidden;
     }
 
-
-
     // Logo
     //==================================================
     header{
@@ -172,8 +170,8 @@
         line-height : @panel-aside-width + 2;
         text-align  : center;
 
-        &:before {
-            vertical-align: baseline;
+        &:before{
+            vertical-align : baseline;
         }
 
         &:hover{
@@ -278,28 +276,51 @@
         }
     }
 
-
     // messages
     //==================================================
-    .message{
-        font-size     : 14px;
-        margin-bottom : 5px;
+    .notif-message{
+        font-size      : 14px;
+        color          : @panel-section-color;
+        padding-bottom : 12px;
 
-        // buttons
-        .tpopup{
-            .button();
-            .border-radius(3px);
+        &:not(.hide) + .notif-message{
+            padding-top : 12px;
+            border-top  : 1px solid darken(@panel-section-bg, 4%);
+        }
+
+        &:before{
+            content      : "";
+            width        : 8px;
+            height       : 8px;
+            float        : left;
+            margin-top   : 6px;
+            margin-right : 6px;
+            .border-radius(50%);
         }
 
         p{
-            margin-bottom : 5px;
+            margin : 0 0 5px;
         }
 
         &.info{
-            border-top       : 0;
-            border-right     : 0;
-            border-bottom    : 0;
-            background-color : transparent;
+            &:before{
+                background-color : @panel-brand-primary;
+            }
+        }
+        &.success{
+            &:before{
+                background-color : @brand-success;
+            }
+        }
+        &.error{
+            &:before{
+                background-color : @brand-error;
+            }
+        }
+        &.warning{
+            &:before{
+                background-color : @brand-warning;
+            }
         }
     }
 

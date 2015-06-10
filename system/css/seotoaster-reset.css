@@ -442,46 +442,38 @@ a.generator-links.plugin {
   background-color: #efefef;
   color: #7d7d7d;
 }
-.seotoaster-panel .message {
+.seotoaster-panel .notif-message {
   font-size: 14px;
-  margin-bottom: 5px;
+  color: #969696;
+  padding-bottom: 12px;
 }
-.seotoaster-panel .message .tpopup {
-  margin-bottom: 0;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  height: 30px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 18px;
-  border: none;
-  color: #ffffff;
-  background-color: #31b0d5;
-  text-decoration: none;
-  border-color: #0979b2;
-  border-radius: 3px;
+.seotoaster-panel .notif-message:not(.hide) + .notif-message {
+  padding-top: 12px;
+  border-top: 1px solid #f2f2f2;
 }
-.seotoaster-panel .message .tpopup:hover,
-.seotoaster-panel .message .tpopup:active {
-  color: #ffffff;
-  background-color: #2490af;
-  border-color: #075881;
+.seotoaster-panel .notif-message:before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  float: left;
+  margin-top: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
 }
-.seotoaster-panel .message .tpopup:hover {
-  -webkit-transition: background 0.3s ease;
-  transition: background 0.3s ease;
+.seotoaster-panel .notif-message p {
+  margin: 0 0 5px;
 }
-.seotoaster-panel .message p {
-  margin-bottom: 5px;
+.seotoaster-panel .notif-message.info:before {
+  background-color: #3498db;
 }
-.seotoaster-panel .message.info {
-  border-top: 0;
-  border-right: 0;
-  border-bottom: 0;
-  background-color: transparent;
+.seotoaster-panel .notif-message.success:before {
+  background-color: #2ecc71;
+}
+.seotoaster-panel .notif-message.error:before {
+  background-color: #e74c3c;
+}
+.seotoaster-panel .notif-message.warning:before {
+  background-color: #e67e22;
 }
 .seotoaster-panel .new-notification {
   position: relative;
