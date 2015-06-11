@@ -353,11 +353,13 @@
 
 #cleancache{
     &.run{
+        line-height: 63px;
         .animated();
         .animate-repeat();
         .animate-rotate();
         .animation-name(rotate);
-        .animate-duration(800ms);
+        .animate-timing-function(linear);
+        .animate-duration(600ms);
         color : @panel-brand-primary;
         &:hover{
             background-color : transparent !important;

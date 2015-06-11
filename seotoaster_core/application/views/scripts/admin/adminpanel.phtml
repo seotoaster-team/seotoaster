@@ -10,7 +10,7 @@
             <a href="#" class="section-btn ticon-copy2"></a>
             <div class="section-wrap">
                 <div class="section-box">
-                    <span class="section-title">Website configs</span>
+                    <span class="section-title"><?php echo $this->translate('Website editing'); ?></span>
                     <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)): ?>
                         <ul class="category-list">
                             <li class="item title"><?php echo $this->translate('PAGES'); ?></li>
@@ -48,25 +48,32 @@
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Organize themes'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                         </ul>
                     <?php endif; ?>
-                    <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)):?>
-                        <ul class="category-list">
-                            <li class="item title"><?php echo $this->translate('OTHER'); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Website configs'), false, false, array('width' => '720', 'height' => '360')); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_config', 'actionmails', $this->translate('E-mails & SMS actions'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
-                                <li class="item"><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <?php endif; ?>
-                        </ul>
-                    <?php endif; ?>
                 </div>
             </div>
         </li>
+        <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_SEO)): ?>
+            <li class="section">
+                <a href="#" class="section-btn ticon-stats-up"></a>
+                <div class="section-wrap">
+                    <div class="section-box">
+                        <span class="section-title"><?php echo $this->translate('Marketing & SEO configs'); ?></span>
+                        <ul class="category-list">
+                            <li class="item title"><?php echo $this->translate('SEO'); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, array('width' => '360', 'height' => '350')); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, array('width' => '480', 'height' => '560')); ?></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        <?php endif; ?>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS_MENU)): ?>
             <li class="section">
                 <a href="#" class="section-btn ticon-puzzle"></a>
                 <div class="section-wrap">
                     <div class="section-box">
-                        <span class="section-title">Plugins manager</span>
+                        <span class="section-title"><?php echo $this->translate('Plugins manager'); ?></span>
                         <ul class="category-list">
                             <li class="item"><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Manage plugins'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                         </ul>
@@ -91,28 +98,13 @@
                 </div>
             </li>
         <?php endif; ?>
-        <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_SEO)): ?>
-            <li class="section">
-                <a href="#" class="section-btn ticon-search"></a>
-                <div class="section-wrap">
-                    <div class="section-box">
-                        <span class="section-title"><?php echo $this->translate('SEO configs'); ?></span>
-                        <ul class="category-list">
-                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'robots', $this->translate('Edit robots.txt'), false, false, array('width' => '360', 'height' => '350')); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, array('width' => '480', 'height' => '560')); ?></li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-        <?php endif; ?>
         <li class="section">
             <a href="#" class="section-btn ticon-basket"></a>
             <div class="section-wrap">
                 <div class="section-box">
-                    <span class="section-title">Store</span>
+                    <span class="section-title"><?php echo $this->translate('Store configuration'); ?></span>
                     <ul class="category-list">
+                        <li class="item title"><?php echo $this->translate('Store'); ?></li>
                         <li class="item"><a href="#">Add/Edit product</a></li>
                         <li class="item"><a href="#">Manage brand logos</a></li>
                         <li class="item"><a href="#">Manage zones</a></li>
@@ -127,6 +119,24 @@
                 </div>
             </div>
         </li>
+        <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)):?>
+            <li class="section">
+                <a href="#" class="section-btn ticon-cog2"></a>
+                <div class="section-wrap">
+                    <div class="section-box">
+                        <span class="section-title"><?php echo $this->translate('Website configs'); ?></span>
+                        <ul class="category-list">
+                            <li class="item title"><?php echo $this->translate('OTHER'); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_config', 'config', $this->translate('Website configs'), false, false, array('width' => '720', 'height' => '360')); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_config', 'actionmails', $this->translate('E-mails & SMS actions'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+                            <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
+                                <li class="item"><?php echo $this->toasterLink('backend_user', 'manage', $this->translate('Manage users'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        <?php endif; ?>
         <li class="section under_empty">
             <a href="#" class="section-btn ticon-bell"></a>
             <div class="section-wrap">
@@ -143,7 +153,7 @@
             <a class="section-btn ticon-loop" href="javascript:;" id="cleancache" title="<?php echo $this->translate('CLEAN CACHE'); ?>"></a>
         </li>
         <li class="section">
-            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn ticon-enter" title="<?php echo $this->translate('LOGOUT'); ?>"></a>
+            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn ticon-exit" title="<?php echo $this->translate('LOGOUT'); ?>"></a>
         </li>
     </ul>
     <span class="show-hide ticon-arrow-up"></span>

@@ -919,14 +919,26 @@
 .ticon-bell-success:before {
   content: "\e0f0";
 }
+.ticon-redo:before {
+  content: "\e0f1";
+}
+.ticon-loading2:before {
+  content: "\e112";
+}
 .ticon-loading:before {
   content: "\e113";
+}
+.ticon-cog2:before {
+  content: "\e140";
+}
+.ticon-stats-up:before {
+  content: "\e15d";
 }
 .ticon-puzzle:before {
   content: "\e1c0";
 }
-.ticon-enter:before {
-  content: "\e28c";
+.ticon-exit:before {
+  content: "\e28d";
 }
 .ticon-loop:before {
   content: "\e2a9";
