@@ -18,6 +18,10 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_invert         = false;
 
+    protected $_parseBefore    = true;
+
+    protected $_recursiveParse = false;
+
     protected function _init()
     {
         $this->_qty        = 0;

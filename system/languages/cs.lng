@@ -13,7 +13,7 @@ return array(
 	'<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> nebo vyšší',
 	'<strong>PDO</strong> extension for PHP' => '<strong> PDO </strong> rozšíření PHP',
 	'<strong>MBString:</strong> Works with any language' => '<strong>MBString:</strong> Pracuje s jakýmkoliv jazykem',
-	'<strong>GD Libaries 2.0</strong> or newer: Works with images' => '<strong>GD libaries 2.0</strong> nebo novější: Práce s obrázky',
+	'<strong>GD Library 2.0</strong> or newer: Works with images' => '<strong>GD libaries 2.0</strong> nebo novější: Práce s obrázky',
 	'<strong>Zip extension for PHP:</strong> Permit themes management through the interface' => '<strong>Zip rozšíření PHP:</strong> Povolení motivů řízení přes rozhraní',
 	'<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.' => '<strong>Curl rozšíření PHP:</strong> externí služby připojení: Google, Yahoo, PayPal, atd.',
 	'Some folders need to be writable to allow the toaster to function properly.'                   =>

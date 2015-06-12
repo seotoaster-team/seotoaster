@@ -31,7 +31,7 @@
 			<li <?php if (!$this->checks['php']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PHP 5.3.3</strong> or higher'); ?></li>
 			<li <?php if (!$this->checks['pdo']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PDO</strong> extension for PHP'); ?></li>
 			<li <?php if (!$this->checks['mbstring']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>MBString:</strong> Works with any language');?></li>
-			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GD Libaries 2.0</strong> or newer: Works with images');?></li>
+			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GD Library 2.0</strong> or newer: Works with images');?></li>
 			<li <?php if (!$this->checks['zip']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Zip extension for PHP:</strong> Permit themes management through the interface'); ?></li>
 			<li <?php if (!$this->checks['curl']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.'); ?></li>
             <li <?php if (isset($this->checks['json']) && !$this->checks['json']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.'); ?></li>

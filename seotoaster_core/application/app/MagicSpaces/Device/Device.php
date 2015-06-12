@@ -2,8 +2,8 @@
 /**
  * Device MagicSpace show/hide space content for specified device
  */
-class MagicSpaces_Device_Device extends Tools_MagicSpaces_Abstract {
-
+class MagicSpaces_Device_Device extends Tools_MagicSpaces_Abstract
+{
     protected function _run() {
         $mobileHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
         $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
