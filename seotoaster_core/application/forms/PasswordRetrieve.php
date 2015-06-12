@@ -19,7 +19,7 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'name'       => 'email',
-			'id'         => 'email',
+			'id'         => 'retrieveEmail',
 			'label'      => 'E-mail',
 			'allowEmpty' => false,
 			'filters'    => array(
