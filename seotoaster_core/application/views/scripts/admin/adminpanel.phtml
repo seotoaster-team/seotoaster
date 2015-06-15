@@ -25,6 +25,12 @@
                             <li class="item"><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
                             <li class="item"><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' .Tools_Page_Tools::getDraftPagesCount() . ')', false, false, array('width' => 480, 'height' => 560)); ?></li>
+                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['PAGES']) && isset($this->additionalMenu['PAGES']['items'])): ?>
+                                <?php foreach($this->additionalMenu['PAGES']['items'] as $item):?>
+                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                <?php endforeach;?>
+                                <?php unset($this->additionalMenu['PAGES']);?>
+                            <?php endif;?>
                         </ul>
                     <?php endif; ?>
                     <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_MEDIA)): ?>
@@ -36,6 +42,12 @@
                             <li class="item">
                                 <?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '480', 'height' => '560')); ?>
                             </li>
+                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA']) && isset($this->additionalMenu['MEDIA']['items'])): ?>
+                                <?php foreach($this->additionalMenu['MEDIA']['items'] as $item):?>
+                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                <?php endforeach;?>
+                                <?php unset($this->additionalMenu['MEDIA']);?>
+                            <?php endif;?>
                         </ul>
                     <?php endif; ?>
                     <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT)):?>
@@ -46,6 +58,12 @@
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS files'), false, false, array('width' => '480', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'editjs', $this->translate('Edit JS files'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Organize themes'), false, false, array('width' => '960', 'height' => '560')); ?></li>
+                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT']) && isset($this->additionalMenu['LAYOUT']['items'])): ?>
+                                <?php foreach($this->additionalMenu['LAYOUT']['items'] as $item):?>
+                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                <?php endforeach;?>
+                                <?php unset($this->additionalMenu['LAYOUT']);?>
+                            <?php endif;?>
                         </ul>
                     <?php endif; ?>
                 </div>
@@ -63,6 +81,12 @@
                             <li class="item"><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, array('width' => '480', 'height' => '560')); ?></li>
+                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['SEO']) && isset($this->additionalMenu['SEO']['items'])): ?>
+                                <?php foreach($this->additionalMenu['SEO']['items'] as $item):?>
+                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                <?php endforeach;?>
+                                <?php unset($this->additionalMenu['SEO']);?>
+                            <?php endif;?>
                         </ul>
                     </div>
                 </div>
@@ -105,16 +129,7 @@
                     <span class="section-title"><?php echo $this->translate('Store configuration'); ?></span>
                     <ul class="category-list">
                         <li class="item title"><?php echo $this->translate('Store'); ?></li>
-                        <li class="item"><a href="#">Add/Edit product</a></li>
-                        <li class="item"><a href="#">Manage brand logos</a></li>
-                        <li class="item"><a href="#">Manage zones</a></li>
-                        <li class="item"><a href="#">Manage locations</a></li>
-                        <li class="item"><a href="#">Tax configuration</a></li>
-                        <li class="item"><a href="#">Shipping configuration</a></li>
-                        <li class="item"><a href="#">Merchandising</a></li>
-                        <li class="item"><a href="#">Configuration</a></li>
-                        <li class="item"><a href="#">Import orders</a></li>
-                        <li class="item"><a href="#">Go to Dashboard</a></li>
+
                     </ul>
                 </div>
             </div>
