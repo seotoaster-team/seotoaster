@@ -38,45 +38,58 @@ class Tools_Plugins_Tools {
 			}
 
 			try {
-				$configIni = new Zend_Config_Ini($pluginConfigPath);
-				$items     = array();
+                $configIni = new Zend_Config_Ini($pluginConfigPath);
+                $items     = array();
                 $values    = array();
 
-				if(!isset($configIni->cpanel)) {
-					continue;
-				}
+                if (!isset($configIni->cpanel)) {
+                    continue;
+                }
 
 				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : '');
 				if(!$title) {
                     if(isset($configIni->$userRole) && isset($configIni->$userRole->title)) {
                         $title = strtoupper($configIni->$userRole->title);
+                        }
+                    }
+
+				$section = strtoupper((isset($configIni->cpanel->section)) ? $configIni->cpanel->section : 'DEFAULT');
+				if($section === 'DEFAULT') {
+                    if(isset($configIni->$userRole) && isset($configIni->$userRole->section)) {
+                        $section = strtoupper($configIni->$userRole->section);
                     }
                 }
 
-                if (!isset($additionalMenu[$title])){
-					$additionalMenu[$title] = array(
-						'title' => $title,
-						'items' => array(),
-                        'values' => array()
-					);
-				}
+				$subsection = strtoupper((isset($configIni->cpanel->subsection)) ? $configIni->cpanel->subsection : 'DEFAULT');
+				if($subsection === 'DEFAULT') {
+                    if(isset($configIni->$userRole) && isset($configIni->$userRole->subsection)) {
+                        $subsection = strtoupper($configIni->$userRole->subsection);
+                    }
+                }
 
-				if(isset($configIni->cpanel->items)) {
-					$items = array_values($configIni->cpanel->items->toArray());
-				}
+                if(isset($configIni->cpanel->items)) {
+                    $items = array_values($configIni->cpanel->items->toArray());
+                }
                 if(isset($configIni->cpanel->values)) {
                     $values = array_values($configIni->cpanel->values->toArray());
                 }
 				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
-					$items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
-				}
+                    $items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
+                }
                 if(isset($configIni->$userRole) && isset($configIni->$userRole->values)) {
                     $values = array_merge($values, array_values($configIni->$userRole->values->toArray()));
                 }
 
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+
+                $additionalMenu[$section][$subsection][$title] = array(
+                    'title'       => $title,
+                    'items'       => array(),
+                    'values'      => array()
+                );
+
                 foreach ($values as $value) {
-                    array_push($additionalMenu[$title]['values'], $value);
+                    array_push($additionalMenu[$section][$subsection][$title]['values'], $value);
                     unset($value);
                 }
 
@@ -86,30 +99,8 @@ class Tools_Plugins_Tools {
 							'{url}' => $websiteUrl,
 							'\''    => '"'
 						));
-					} elseif (is_array($item)) {
-						$item = array_merge(
-							array(
-								'run'       => 'index',
-								'name'      => $plugin->getName(),
-								'width'     => null,
-								'height'    => null
-							),
-							$item
-						);
-						if (isset($item['section'])){
-							$subTitle = strtoupper($item['section']);
-							if (!isset($additionalMenu[$subTitle])){
-								$additionalMenu[$subTitle] = array(
-									'title' => $subTitle,
-									'items' => array()
-								);
-							}
-							array_push($additionalMenu[$subTitle]['items'], $item);
-							unset($subTitle);
-							continue;
-						}
 					}
-					array_push($additionalMenu[$title]['items'], $item);
+                    array_push($additionalMenu[$section][$subsection][$title]['items'], $item);
 					unset($item);
 				}
 			}
@@ -117,9 +108,9 @@ class Tools_Plugins_Tools {
 				//Zend_Debug::dump($zce->getMessage()); die(); //development
 				continue; //production
 			}
-		}
+            }
 
-        sort($additionalMenu);
+        //sort($additionalMenu);
 		return $additionalMenu;
 	}
 

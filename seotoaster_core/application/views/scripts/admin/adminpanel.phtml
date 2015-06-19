@@ -14,23 +14,50 @@
                     <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)): ?>
                         <ul class="category-list">
                             <li class="item title"><?php echo $this->translate('PAGES'); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '960', 'height' => '560')); ?></li>
-                            <?php if($this->newsPage !== true): ?>
-                                <?php if($this->websiteMainPage != $this->pageData['url']): ?>
-                                    <li class="item"><a href="javascript:;" data-cid="<?php echo $this->pageData['parentId']; ?>" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>
-                                    <input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>" />
+                            <li class="item"><?php echo $this->toasterLink('backend_page', 'page',
+                                    $this->translate('Edit page properties'), array('id' => $this->pageData['id']),
+                                    false, array('width' => '960', 'height' => '560')); ?></li>
+                            <?php if ($this->newsPage !== true): ?>
+                                <?php if ($this->websiteMainPage != $this->pageData['url']): ?>
+                                    <li class="item"><a href="javascript:;"
+                                                        data-cid="<?php echo $this->pageData['parentId']; ?>"
+                                                        id="del-this-page"
+                                                        title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a>
+                                    </li>
+                                    <input type="hidden" id="del-page-id" value="<?php echo $this->pageData['id']; ?>"/>
                                 <?php endif; ?>
                             <?php endif; ?>
-                            <li class="item"><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Create a page'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_page', 'organize', $this->translate('Organize pages'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <li class="item"><a href="javascript:;" id="edit404" title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a></li>
-                            <li class="item"><?php echo $this->toasterLink('backend_page', 'draft', $this->translate('Draft') . ' (' .Tools_Page_Tools::getDraftPagesCount() . ')', false, false, array('width' => 480, 'height' => 560)); ?></li>
-                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['PAGES']) && isset($this->additionalMenu['PAGES']['items'])): ?>
-                                <?php foreach($this->additionalMenu['PAGES']['items'] as $item):?>
-                                    <?php echo $this->toasterAdminpanelItem($item); ?>
-                                <?php endforeach;?>
-                                <?php unset($this->additionalMenu['PAGES']);?>
-                            <?php endif;?>
+                            <li class="item"><?php echo $this->toasterLink('backend_page', 'page',
+                                    $this->translate('Create a page'), false, false,
+                                    array('width' => '960', 'height' => '560')); ?></li>
+                            <li class="item"><?php echo $this->toasterLink('backend_page', 'organize',
+                                    $this->translate('Organize pages'), false, false,
+                                    array('width' => '960', 'height' => '560')); ?></li>
+                            <li class="item"><a href="javascript:;" id="edit404"
+                                                title="Edit 404 page"><?php echo $this->translate('Edit 404 page'); ?></a>
+                            </li>
+                            <li class="item"><?php echo $this->toasterLink('backend_page', 'draft',
+                                    $this->translate('Draft') . ' (' . Tools_Page_Tools::getDraftPagesCount() . ')',
+                                    false, false, array('width' => 480, 'height' => 560)); ?></li>
+                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['PAGES'])): ?>
+                                <?php foreach ($this->additionalMenu['PAGES'] as $categoryName => $category): ?>
+                                    <?php if ($categoryName !== 'DEFAULT') {
+                                        echo $categoryName;
+                                    } ?>
+                                    <?php foreach ($category as $pluginName => $plugin): ?>
+                                        <?php foreach ($plugin['items'] as $index => $item): ?>
+                                            <?php if (isset($this->additionalMenu['PAGES'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                    $this->translate($this->additionalMenu['PAGES'][$categoryName][$pluginName]['values'][$index]),
+                                                    $item)); ?>
+                                            <?php else: ?>
+                                                <?php echo $this->toasterAdminpanelItem($item); ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                <?php unset($this->additionalMenu['PAGES']); ?>
+                            <?php endif; ?>
                         </ul>
                     <?php endif; ?>
                     <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_MEDIA)): ?>
@@ -42,12 +69,25 @@
                             <li class="item">
                                 <?php echo $this->toasterLink('backend_media', 'removethings', $this->translate('Remove things'), false, false, array('width' => '480', 'height' => '560')); ?>
                             </li>
-                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA']) && isset($this->additionalMenu['MEDIA']['items'])): ?>
-                                <?php foreach($this->additionalMenu['MEDIA']['items'] as $item):?>
-                                    <?php echo $this->toasterAdminpanelItem($item); ?>
-                                <?php endforeach;?>
-                                <?php unset($this->additionalMenu['MEDIA']);?>
-                            <?php endif;?>
+                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA'])): ?>
+                                <?php foreach ($this->additionalMenu['MEDIA'] as $categoryName => $category): ?>
+                                    <?php if ($categoryName !== 'DEFAULT') {
+                                        echo $categoryName;
+                                    } ?>
+                                    <?php foreach ($category as $pluginName => $plugin): ?>
+                                        <?php foreach ($plugin['items'] as $index => $item): ?>
+                                            <?php if (isset($this->additionalMenu['MEDIA'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                    $this->translate($this->additionalMenu['MEDIA'][$categoryName][$pluginName]['values'][$index]),
+                                                    $item)); ?>
+                                            <?php else: ?>
+                                                <?php echo $this->toasterAdminpanelItem($item); ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                <?php unset($this->additionalMenu['MEDIA']); ?>
+                            <?php endif; ?>
                         </ul>
                     <?php endif; ?>
                     <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT)):?>
@@ -58,12 +98,25 @@
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'editcss', $this->translate('Edit CSS files'), false, false, array('width' => '480', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'editjs', $this->translate('Edit JS files'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes', $this->translate('Organize themes'), false, false, array('width' => '960', 'height' => '560')); ?></li>
-                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT']) && isset($this->additionalMenu['LAYOUT']['items'])): ?>
-                                <?php foreach($this->additionalMenu['LAYOUT']['items'] as $item):?>
-                                    <?php echo $this->toasterAdminpanelItem($item); ?>
-                                <?php endforeach;?>
-                                <?php unset($this->additionalMenu['LAYOUT']);?>
-                            <?php endif;?>
+                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT'])): ?>
+                                <?php foreach ($this->additionalMenu['LAYOUT'] as $categoryName => $category): ?>
+                                    <?php if ($categoryName !== 'DEFAULT') {
+                                        echo $categoryName;
+                                    } ?>
+                                    <?php foreach ($category as $pluginName => $plugin): ?>
+                                        <?php foreach ($plugin['items'] as $index => $item): ?>
+                                            <?php if (isset($this->additionalMenu['LAYOUT'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                    $this->translate($this->additionalMenu['LAYOUT'][$categoryName][$pluginName]['values'][$index]),
+                                                    $item)); ?>
+                                            <?php else: ?>
+                                                <?php echo $this->toasterAdminpanelItem($item); ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                <?php unset($this->additionalMenu['LAYOUT']); ?>
+                            <?php endif; ?>
                         </ul>
                     <?php endif; ?>
                 </div>
@@ -81,16 +134,67 @@
                             <li class="item"><?php echo $this->toasterLink('backend_seo', 'redirects', $this->translate('Add / Edit 301'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_seo', 'deeplinks', $this->translate('Deeplinks'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                             <li class="item"><?php echo $this->toasterLink('backend_seo', 'sculpting', 'Sculpting', false, false, array('width' => '480', 'height' => '560')); ?></li>
-                            <?php if(isset($this->additionalMenu) && isset($this->additionalMenu['SEO']) && isset($this->additionalMenu['SEO']['items'])): ?>
-                                <?php foreach($this->additionalMenu['SEO']['items'] as $item):?>
-                                    <?php echo $this->toasterAdminpanelItem($item); ?>
-                                <?php endforeach;?>
-                                <?php unset($this->additionalMenu['SEO']);?>
-                            <?php endif;?>
+                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['SEO'])): ?>
+                                <?php foreach ($this->additionalMenu['SEO'] as $categoryName => $category): ?>
+                                    <?php if ($categoryName !== 'DEFAULT') {
+                                        echo $categoryName;
+                                    } ?>
+                                    <?php foreach ($category as $pluginName => $plugin): ?>
+                                        <?php foreach ($plugin['items'] as $index => $item): ?>
+                                            <?php if (isset($this->additionalMenu['SEO'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                    $this->translate($this->additionalMenu['SEO'][$categoryName][$pluginName]['values'][$index]),
+                                                    $item)); ?>
+                                            <?php else: ?>
+                                                <?php echo $this->toasterAdminpanelItem($item); ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                <?php unset($this->additionalMenu['SEO']); ?>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>
             </li>
+        <?php endif; ?>
+        <!-- add check -->
+        <?php if (!empty($this->additionalMenu)): ?>
+            <?php foreach ($this->additionalMenu as $addName => $additionalMenuItem): ?>
+                <?php if ($addName ==='DEFAULT') {
+                    continue;
+                } ?>
+                <li class="section">
+                    <a href="#" class="section-btn ticon-<?php echo strtolower($pluginName); ?>"></a>
+                    <div class="section-wrap">
+                        <div class="section-box">
+                            <span
+                                class="section-title"><?php echo $this->translate(ucfirst(strtolower($addName)) . ' configuration'); ?></span>
+                            <ul class="category-list">
+                                <?php if (isset($this->additionalMenu)): ?>
+                                    <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
+                                        <?php if ($categoryName !== 'DEFAULT') {
+                                            echo $categoryName;
+                                        } ?>
+                                        <?php foreach ($category as $pluginName => $plugin): ?>
+                                            <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                <?php if (isset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index])): ?>
+                                                    <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                        $this->translate($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index]),
+                                                        $item)); ?>
+                                                <?php else: ?>
+                                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                    <?php unset($this->additionalMenu[$addName]); ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
         <?php endif; ?>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS_MENU)): ?>
             <li class="section">
@@ -101,39 +205,32 @@
                         <ul class="category-list">
                             <li class="item"><?php echo $this->toasterLink('backend_plugin', 'plugin', $this->translate('Manage plugins'), false, false, array('width' => '960', 'height' => '560')); ?></li>
                         </ul>
-
                         <ul class="category-list">
                             <!-- output plugins additional menus -->
-                            <?php if(isset($this->additionalMenu) && !empty($this->additionalMenu)): ?>
-                            <?php foreach ($this->additionalMenu as $pluginName => $pluginAdditionalMenu): ?>
-                                <?php if(!$pluginAdditionalMenu['title'] || !isset($pluginAdditionalMenu['items']) || !sizeof($pluginAdditionalMenu['items'])) {continue;} ?>
-                                <li class="item title plugin-cpanel-menu plugin-<?php echo strtolower($pluginAdditionalMenu['title']);?>"><?php echo $this->translate($pluginAdditionalMenu['title']); ?></li>
-                                <?php foreach ($pluginAdditionalMenu['items'] as $title => $menuItem): ?>
-                                    <?php if(isset($pluginAdditionalMenu['values'][$title])):?>
-                                        <?php echo $this->toasterAdminpanelItem(str_replace('{value}', $this->translate($pluginAdditionalMenu['values'][$title]), $menuItem)); ?>
-                                    <?php else:?>
-                                        <?php echo $this->toasterAdminpanelItem($menuItem); ?>
-                                    <?php endif;?>
+                            <?php if (isset($this->additionalMenu['DEFAULT'])): ?>
+                                <?php foreach ($this->additionalMenu['DEFAULT'] as $categoryName => $category): ?>
+                                    <?php if ($categoryName !== 'DEFAULT') {
+                                        echo $categoryName;
+                                    } ?>
+                                    <?php foreach ($category as $pluginName => $plugin): ?>
+                                        <?php foreach ($plugin['items'] as $index => $item): ?>
+                                            <?php if (isset($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                    $this->translate($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index]),
+                                                    $item)); ?>
+                                            <?php else: ?>
+                                                <?php echo $this->toasterAdminpanelItem($item); ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                 <?php endforeach; ?>
-                            <?php endforeach; ?>
+                                <?php unset($this->additionalMenu['DEFAULT']); ?>
+                            <?php endif; ?>
                         </ul>
-                    <?php endif; ?>
                     </div>
                 </div>
             </li>
         <?php endif; ?>
-        <li class="section">
-            <a href="#" class="section-btn ticon-basket"></a>
-            <div class="section-wrap">
-                <div class="section-box">
-                    <span class="section-title"><?php echo $this->translate('Store configuration'); ?></span>
-                    <ul class="category-list">
-                        <li class="item title"><?php echo $this->translate('Store'); ?></li>
-
-                    </ul>
-                </div>
-            </div>
-        </li>
         <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)):?>
             <li class="section">
                 <a href="#" class="section-btn ticon-cog2"></a>
