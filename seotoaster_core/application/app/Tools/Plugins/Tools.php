@@ -64,6 +64,8 @@ class Tools_Plugins_Tools {
 				if($subsection === 'DEFAULT') {
                     if(isset($configIni->$userRole) && isset($configIni->$userRole->subsection)) {
                         $subsection = strtoupper($configIni->$userRole->subsection);
+                    } else {
+                        $subsection = strtoupper($configIni->$userRole->title);
                     }
                 }
 
