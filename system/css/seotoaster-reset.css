@@ -100,162 +100,6 @@ a.generator-links.plugin {
   z-index: 1001;
   box-shadow: 3px 3px 10px #000000;
 }
-#seotoaster-cpanel {
-  text-align: left;
-  width: 200px;
-  position: absolute;
-  right: 5px;
-  top: 0;
-  z-index: 1001;
-  background: #ffffff;
-  color: #333333;
-  box-shadow: 0 0 10px #333333;
-}
-#seotoaster-cpanel * {
-  /*Reset style*/
-  float: none;
-  width: auto;
-  height: auto;
-  background: transparent;
-  border: 0 none;
-  color: inherit;
-  font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
-  font-size: 100%;
-  font-style: inherit;
-  font-weight: inherit;
-  margin: 0;
-  position: static;
-  padding: 0;
-  vertical-align: baseline;
-  box-shadow: none;
-  border-radius: 0;
-  -webkit-transition: none 0.5s ease;
-  transition: none 0.5s ease;
-  /*end reset*/
-}
-#seotoaster-cpanel *:hover,
-#seotoaster-cpanel *:focus {
-  box-shadow: none;
-}
-#seotoaster-cpanel *,
-#seotoaster-cpanel * * {
-  float: none;
-  width: auto;
-  height: auto;
-  background: transparent;
-  border: 0 none;
-  color: inherit;
-  font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
-  font-size: 100%;
-  font-style: inherit;
-  font-weight: inherit;
-  margin: 0;
-  position: static;
-  padding: 0;
-  vertical-align: baseline;
-  box-shadow: none;
-  border-radius: 0;
-  -webkit-transition: none 0.5s ease;
-  transition: none 0.5s ease;
-}
-#seotoaster-cpanel *:hover,
-#seotoaster-cpanel * *:hover,
-#seotoaster-cpanel *:focus,
-#seotoaster-cpanel * *:focus {
-  box-shadow: none;
-}
-#seotoaster-cpanel:hover {
-  z-index: 1005;
-}
-#seotoaster-cpanel > * {
-  background: #fff;
-  position: relative;
-  width: 200px;
-}
-#seotoaster-cpanel #showhide a {
-  text-decoration: none;
-  background: #666666;
-  color: #ffffff;
-  font-size: 11pt;
-  padding: 6px 12px;
-  font-weight: bold;
-  text-align: center;
-  display: block;
-}
-#seotoaster-cpanel #seotoaster-logowrap {
-  background: #fff;
-  text-align: center;
-}
-#seotoaster-cpanel #seotoaster-logowrap img {
-  max-width: 200px;
-}
-#seotoaster-cpanel #seotoaster-logowrap #system-version {
-  font-family: tahoma, geneva, verdana, sans-serif !important;
-  font-size: 7px !important;
-  text-align: right;
-  padding-right: 5px;
-}
-#seotoaster-cpanel ul {
-  margin: 0;
-}
-#seotoaster-cpanel ul li {
-  list-style: none;
-}
-#seotoaster-cpanel ul li a {
-  margin-top: 1px;
-  padding: 4px 8px;
-  display: block;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  background: #666666;
-}
-#seotoaster-cpanel ul li a:hover {
-  background: #595959;
-  color: #ffffff;
-}
-#seotoaster-cpanel ul li .ui-accordion-header.ui-accordion-header-active {
-  background: #595959;
-  color: #ffffff;
-}
-#seotoaster-cpanel ul li .ui-accordion-content {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-#seotoaster-cpanel ul li .ui-accordion-content li + li {
-  border-top: 1px dashed #eaeaea;
-}
-#seotoaster-cpanel ul li .ui-accordion-content a {
-  background: none;
-  color: #59a5c3;
-  font-weight: normal;
-}
-#seotoaster-cpanel ul li .ui-accordion-content a:hover {
-  color: #377d98;
-}
-#seotoaster-cpanel ul li .ui-accordion-content .cpanelsubtitle {
-  padding: 6px 12px;
-  background: #eeeeee;
-}
-#seotoaster-cpanel a.logout {
-  margin-top: 1px;
-  padding: 4px 8px;
-  display: block;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  background: #666666;
-}
-#seotoaster-cpanel a.logout.logout:hover {
-  background: #d15e52;
-}
-#seotoaster-cpanel a.logout:hover {
-  background: #595959;
-  color: #ffffff;
-}
 /*
 // brand colors
 @panel-brand-primary                : #6261FA;
@@ -287,9 +131,19 @@ a.generator-links.plugin {
   font: 16px/1.5 "PT Sans", Arial, Tahoma;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
+  /* reset styles */
 }
-.seotoaster-panel a {
+.seotoaster-panel a,
+.seotoaster-panel a:hover {
   text-decoration: none;
+}
+.seotoaster-panel ul,
+.seotoaster-panel li {
+  list-style-type: none;
+}
+.seotoaster-panel ul {
+  margin: 0;
+  padding: 0;
 }
 .seotoaster-panel.aside {
   box-shadow: 0 0 2px 0 #aaaaaa;
@@ -297,7 +151,7 @@ a.generator-links.plugin {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 999;
+  z-index: 99;
 }
 .seotoaster-panel .show-hide {
   background-color: #4d4f57;
@@ -316,21 +170,19 @@ a.generator-links.plugin {
   height: 20px;
   overflow: hidden;
 }
-.seotoaster-panel header .logo-icon {
+.seotoaster-panel .logo-icon {
   background-color: #54565f;
   color: #858894;
   font-size: 34px;
   text-align: center;
   line-height: 60px;
   display: block;
+  height: 60px;
   cursor: default;
 }
 .seotoaster-panel .section-list {
   background-color: #54565f;
-  list-style-type: none;
   position: static;
-  margin: 0;
-  padding: 0;
   height: 100%;
 }
 .seotoaster-panel .section-list .section {
@@ -389,7 +241,6 @@ a.generator-links.plugin {
   overflow-y: scroll;
   position: relative;
   margin-right: -18px;
-  padding-bottom: 100px;
 }
 .seotoaster-panel .section-wrap:after {
   position: absolute;
@@ -422,6 +273,9 @@ a.generator-links.plugin {
   padding-top: 8px;
   border-top: 1px solid #f2f2f2;
 }
+.seotoaster-panel .category-list:last-child {
+  margin-bottom: 60px;
+}
 .seotoaster-panel .category-list > li {
   margin: 0;
 }
@@ -442,16 +296,16 @@ a.generator-links.plugin {
   background-color: #efefef;
   color: #7d7d7d;
 }
-.seotoaster-panel .notif-message {
+.seotoaster-panel .notice-msg {
+  display: none;
   font-size: 14px;
   color: #969696;
   padding-bottom: 12px;
 }
-.seotoaster-panel .notif-message:not(.hide) + .notif-message {
-  padding-top: 12px;
-  border-top: 1px solid #f2f2f2;
+.seotoaster-panel .notice-msg p {
+  margin: 0 0 5px;
 }
-.seotoaster-panel .notif-message:before {
+.seotoaster-panel .notice-msg:before {
   content: "";
   width: 8px;
   height: 8px;
@@ -460,25 +314,73 @@ a.generator-links.plugin {
   margin-right: 6px;
   border-radius: 50%;
 }
-.seotoaster-panel .notif-message p {
-  margin: 0 0 5px;
-}
-.seotoaster-panel .notif-message.info:before {
+.seotoaster-panel .notice-msg.info:before {
   background-color: #3498db;
 }
-.seotoaster-panel .notif-message.success:before {
+.seotoaster-panel .notice-msg.success:before {
   background-color: #2ecc71;
 }
-.seotoaster-panel .notif-message.error:before {
+.seotoaster-panel .notice-msg.error:before {
   background-color: #e74c3c;
 }
-.seotoaster-panel .notif-message.warning:before {
+.seotoaster-panel .notice-msg.warning:before {
   background-color: #e67e22;
 }
-.seotoaster-panel .new-notification {
+.seotoaster-panel .notice-msg.show {
+  display: block;
+}
+.seotoaster-panel .notice-msg.show ~ .show {
+  padding-top: 12px;
+  border-top: 1px solid #f2f2f2;
+}
+.seotoaster-panel .notice-msg.show ~ .no-notices {
+  display: none;
+}
+.seotoaster-panel .no-notices {
+  text-align: center;
+  display: block;
+  font-size: 14px;
+}
+.seotoaster-panel ._i-logo:before {
+  content: "\e054";
+}
+.seotoaster-panel ._i-editing:before {
+  content: "\e021";
+}
+.seotoaster-panel ._i-marketing-seo:before {
+  content: "\e15d";
+}
+.seotoaster-panel ._i-plugins:before {
+  content: "\e1c0";
+}
+.seotoaster-panel ._i-store:before {
+  content: "\e09f";
+}
+.seotoaster-panel ._i-setup:before {
+  content: "\e140";
+}
+.seotoaster-panel ._i-notification:before {
+  content: "\e0ee";
+}
+.seotoaster-panel ._i-loading:before {
+  content: "\e112";
+}
+.seotoaster-panel ._i-refresh:before {
+  content: "\e2a9";
+}
+.seotoaster-panel ._i-exit:before {
+  content: "\e28d";
+}
+.seotoaster-panel ._i-panel-hide:before {
+  content: "\e018";
+}
+.seotoaster-panel ._i-panel-show:before {
+  content: "\e01b";
+}
+.seotoaster-panel .new-notices {
   position: relative;
 }
-.seotoaster-panel .new-notification:after {
+.seotoaster-panel .new-notices:after {
   content: "";
   display: block;
   position: absolute;
@@ -491,7 +393,7 @@ a.generator-links.plugin {
   box-sizing: content-box;
   border-radius: 50%;
 }
-.seotoaster-panel .active .new-notification:after {
+.seotoaster-panel .active .new-notices:after {
   border-color: #414249;
 }
 #cleancache.run {

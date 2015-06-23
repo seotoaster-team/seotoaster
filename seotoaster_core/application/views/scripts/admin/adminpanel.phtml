@@ -2,12 +2,12 @@
            ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js');
 ?>
 <div class="seotoaster-panel aside s">
-    <header>
-        <span class="ticon-toaster logo-icon"></span>
-    </header>
+    <div class="logo-wrap">
+        <span class="_i-logo logo-icon tooltip" data-position="left" title="<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?>"></span>
+    </div>
     <ul class="section-list">
         <li class="section">
-            <a href="#" class="section-btn ticon-copy2"></a>
+            <a href="#" class="section-btn _i-editing"></a>
             <div class="section-wrap">
                 <div class="section-box">
                     <span class="section-title"><?php echo $this->translate('Website editing'); ?></span>
@@ -124,7 +124,7 @@
         </li>
         <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_SEO)): ?>
             <li class="section">
-                <a href="#" class="section-btn ticon-stats-up"></a>
+                <a href="#" class="section-btn _i-marketing-seo"></a>
                 <div class="section-wrap">
                     <div class="section-box">
                         <span class="section-title"><?php echo $this->translate('Marketing & SEO configs'); ?></span>
@@ -165,7 +165,7 @@
                     continue;
                 } ?>
                 <li class="section">
-                    <a href="#" class="section-btn ticon-<?php echo strtolower($pluginName); ?>"></a>
+                    <a href="#" class="section-btn _i-<?php echo strtolower($pluginName); ?>"></a>
                     <div class="section-wrap">
                         <div class="section-box">
                             <span
@@ -198,7 +198,7 @@
         <?php endif; ?>
         <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS_MENU)): ?>
             <li class="section">
-                <a href="#" class="section-btn ticon-puzzle"></a>
+                <a href="#" class="section-btn _i-plugins"></a>
                 <div class="section-wrap">
                     <div class="section-box">
                         <span class="section-title"><?php echo $this->translate('Plugins manager'); ?></span>
@@ -233,7 +233,7 @@
         <?php endif; ?>
         <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)):?>
             <li class="section">
-                <a href="#" class="section-btn ticon-cog2"></a>
+                <a href="#" class="section-btn _i-setup"></a>
                 <div class="section-wrap">
                     <div class="section-box">
                         <span class="section-title"><?php echo $this->translate('Website configs'); ?></span>
@@ -250,23 +250,29 @@
             </li>
         <?php endif; ?>
         <li class="section under_empty">
-            <a href="#" class="section-btn ticon-bell"></a>
+            <a href="#" class="section-btn _i-notification"></a>
             <div class="section-wrap">
                 <div class="section-box notifications-box">
                     <span class="section-title"><?php echo $this->translate('Notification'); ?></span>
-                    <div class="notif-message info notif-new-version hide">
+                    <div class="notice-msg info _new-version">
                         <p><?php echo $this->translate('Good news! Detected a new version. You can upgrade to it'); ?></p>
                         <?php echo $this->toasterLink('backend_update', 'index', $this->translate('Update now'), false, false, array('width' => '480', 'height' => '560')); ?>
+                    </div>
+                    <div class="no-notices">
+                        <p><?php echo $this->translate('You do not have any notifications'); ?></p>
                     </div>
                 </div>
             </div>
         </li>
         <li class="section">
-            <a class="section-btn ticon-loop" href="javascript:;" id="cleancache" title="<?php echo $this->translate('CLEAN CACHE'); ?>"></a>
+            <a class="section-btn _i-refresh" href="javascript:;" id="cleancache" title="<?php echo $this->translate('CLEAN CACHE'); ?>"></a>
         </li>
         <li class="section">
-            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn ticon-exit" title="<?php echo $this->translate('LOGOUT'); ?>"></a>
+            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn _i-exit" title="<?php echo $this->translate('LOGOUT'); ?>"></a>
         </li>
     </ul>
-    <span class="show-hide ticon-arrow-up"></span>
+    <span class="show-hide _i-panel-hide"></span>
+    <span class="edit404-msg hide">
+        <?php echo $this->translate("Sorry, but you don't have a custom - 404 not found - page yet. Click %1\$s to create a 404 page using the appropriate option found under the \"Settings\" section",$this->toasterLink('backend_page', 'page', $this->translate('here'), false, false, array('width' => '960', 'height' => '560')));?>
+    </span>
 </div>

@@ -67,7 +67,17 @@
     font             : 16px/1.5 "PT Sans", Arial, Tahoma;
     .transition(all; 0.3s; ease);
 
-    a{ text-decoration : none; }
+    /* reset styles */
+    a, a:hover{
+        text-decoration : none;
+    }
+    ul, li{
+        list-style-type : none;
+    }
+    ul{
+        margin  : 0;
+        padding : 0;
+    }
 
     &.aside{
         // styles
@@ -79,9 +89,11 @@
         position : fixed;
         right    : 0;
         top      : 0;
-        z-index  : 999;
+        z-index  : 99;
     }
 
+    // show and hide button
+    //==================================================
     .show-hide{
         // styles
         background-color : darken(@panel-aside-bg, 3%);
@@ -108,18 +120,18 @@
 
     // Logo
     //==================================================
-    header{
-        .logo-icon{
-            // styles
-            background-color : @panel-aside-bg;
-            color            : lighten(@panel-aside-bg, 20%);
-            font-size        : 34px;
-            text-align       : center;
-            // box
-            line-height      : @panel-aside-width;
-            display          : block;
-            cursor           : default;
-        }
+    .logo-wrap{ }
+    .logo-icon{
+        // styles
+        background-color : @panel-aside-bg;
+        color            : lighten(@panel-aside-bg, 20%);
+        font-size        : 34px;
+        text-align       : center;
+        // box
+        line-height      : @panel-aside-width;
+        display          : block;
+        height           : @panel-aside-width;
+        cursor           : default;
     }
 
     // section list
@@ -127,13 +139,9 @@
     .section-list{
         // styles
         background-color : @panel-aside-bg;
-        //color            : @panel-aside-color;
-        list-style-type  : none;
         // position
         position         : static;
         // box
-        margin           : 0;
-        padding          : 0;
         height           : 100%;
 
         .section{
@@ -203,12 +211,11 @@
         .box-shadow(0 0 2px 0 #aaa);
 
         .section-box{
-            padding        : 0 @panel-section-space;
-            height         : 100%;
-            overflow-y     : scroll;
-            position       : relative;
-            margin-right   : -18px;
-            padding-bottom : (@panel-section-shadow-height + 40px);
+            padding      : 0 @panel-section-space;
+            height       : 100%;
+            overflow-y   : scroll;
+            position     : relative;
+            margin-right : -18px;
         }
         &:after{
             position       : absolute;
@@ -251,6 +258,10 @@
             border-top  : 1px solid darken(@panel-section-bg, 4%);
         }
 
+        &:last-child{
+            margin-bottom : @panel-section-shadow-height;
+        }
+
         & > li{
             margin : 0;
 
@@ -276,16 +287,17 @@
         }
     }
 
-    // messages
+    // notifications messages
     //==================================================
-    .notif-message{
+    .notice-messages{ }
+    .notice-msg{
+        display        : none;
         font-size      : 14px;
         color          : @panel-section-color;
         padding-bottom : 12px;
 
-        &:not(.hide) + .notif-message{
-            padding-top : 12px;
-            border-top  : 1px solid darken(@panel-section-bg, 4%);
+        p{
+            margin : 0 0 5px;
         }
 
         &:before{
@@ -297,11 +309,6 @@
             margin-right : 6px;
             .border-radius(50%);
         }
-
-        p{
-            margin : 0 0 5px;
-        }
-
         &.info{
             &:before{
                 background-color : @panel-brand-primary;
@@ -322,11 +329,93 @@
                 background-color : @brand-warning;
             }
         }
+
+        &._new-version{
+        }
+
+        &.show{
+            display : block;
+
+            & ~ .show{
+                padding-top : 12px;
+                border-top  : 1px solid darken(@panel-section-bg, 4%);
+            }
+
+            & ~ .no-notices{
+                display : none;
+            }
+        }
+    }
+    .no-notices{
+        text-align : center;
+        display    : block;
+        font-size  : 14px;
     }
 
     // helper classes
     //==================================================
-    .new-notification{
+    ._i-logo{
+        &:before{
+            content : "\e054";
+        }
+    }
+    ._i-editing{
+        &:before{
+            content : "\e021";
+        }
+    }
+    ._i-marketing-seo{
+        &:before{
+            content : "\e15d";
+        }
+    }
+    ._i-plugins{
+        &:before{
+            content : "\e1c0";
+        }
+    }
+    ._i-store{
+        &:before{
+            content : "\e09f";
+        }
+    }
+    ._i-setup{
+        &:before{
+            content : "\e140";
+        }
+    }
+    ._i-notification{
+        &:before{
+            content : "\e0ee";
+        }
+    }
+    ._i-loading{
+        &:before{
+            content : "\e112";
+        }
+    }
+    ._i-refresh{
+        &:before{
+            content : "\e2a9";
+        }
+    }
+    ._i-exit{
+        &:before{
+            content : "\e28d";
+        }
+    }
+    ._i-panel-hide{
+        &:before{
+            content : "\e018";
+        }
+    }
+    ._i-panel-show{
+        &:before{
+            content : "\e01b";
+        }
+    }
+
+    .new-notices{
         position : relative;
         &:after{
             content          : "";
@@ -343,7 +432,7 @@
         }
     }
 
-    .active .new-notification{
+    .active .new-notices{
         &:after{
             border-color : @panel-aside-btn-bg-active;
         }
@@ -353,14 +442,14 @@
 
 #cleancache{
     &.run{
-        line-height: 63px;
+        line-height : 63px;
         .animated();
         .animate-repeat();
         .animate-rotate();
         .animation-name(rotate);
         .animate-timing-function(linear);
         .animate-duration(600ms);
-        color : @panel-brand-primary;
+        color       : @panel-brand-primary;
         &:hover{
             background-color : transparent !important;
         }

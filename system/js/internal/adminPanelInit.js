@@ -1,22 +1,22 @@
 $(function () {
+    // for IE8
+    if(!document.getElementsByClassName) {
+        document.getElementsByClassName = function(className) {
+            return this.querySelectorAll("." + className);
+        };
+        Element.prototype.getElementsByClassName = document.getElementsByClassName;
+    }
+
     var panel = document.getElementsByClassName('seotoaster-panel')[0],
         $sectionList = $(document.getElementsByClassName('section-list')[0]),
         section, sectionIndx;
-
-    $.get($('#website_url').val() + '/backend/backend_update/version/', function (response) {
-        if (!response.error && response.responseText.status == 1) {
-                $('a.ticon-bell').addClass('new-notification');
-                $('.notif-new-version').removeClass('hide');
-        }
-    });
-
 
     if (localStorage.getItem('panel-section-active') != null) {
         $sectionList.find('.section:eq(' + localStorage.getItem('panel-section-active') + ')').addClass('active');
     }
 
     $sectionList.on('click', '.section-btn:not(#cleancache)', function () {
-        section = this.closest('.section');
+        section = this.parentNode;
         sectionIndx = $(section).index();
         if ($(section).hasClass('active')) {
             $(section).removeClass('active');
@@ -31,7 +31,7 @@ $(function () {
     // hide and show aside panel
     $('.show-hide').on('click', function () {
         $(panel).toggleClass('s h');
-        $(this).toggleClass('ticon-arrow-up ticon-arrow-down');
+        $(this).toggleClass('_i-panel-hide _i-panel-show');
     });
 
 
@@ -43,53 +43,23 @@ $(function () {
         }
     });
 
-    //$(document).on('click', '#widgets-shortcodes', function(e) {
-    //    window.open($(e.target).data('externalUrl') + 'cheat-sheet.html', '_blank');
-    //});
-
-
-    //if($.cookie('hideAdminPanel') == null) {
-    //	$.cookie('hideAdminPanel', 0);
-    //}
-
-    //seotoaster admin panel cookie
-    //if($.cookie('hideAdminPanel') && $.cookie('hideAdminPanel') == 1) {
-    //	$('#cpanelul, .menu-links, #seotoaster-logowrap').hide();
-    //	$('#showhide > a').text('Expand menu'); //.addClass('rounded-bottom');
-    //}
-
-    //$('#cpanelul').accordion({
-    //   heightStyle: 'content',
-    //	icons: null
-    //});
-
-    //if($.cookie('currSectionOpen')) {
-    //	$('#cpanelul').accordion({
-    //		active: parseInt($.cookie('currSectionOpen')),
-    //		icons: null
-    //	});
-    //}
-
-    //$(document).on('click', '#cpanelul li', function() {
-    //	$.cookie('currSectionOpen', $(this).index());
-    //});
-
-
-    //$('#showhide > a').click(function() {
-    //	$.cookie('hideAdminPanel', ($.cookie('hideAdminPanel') == 1) ? 0 : 1);
-    //	$(this).text(($.cookie('hideAdminPanel') == 1) ? 'Expand menu' : 'Collapse menu'); //.toggleClass('rounded-bottom');
-    //	$('#cpanelul, #seotoaster-logowrap').slideToggle();
-    //	$('.menu-links').toggle();
-    //});
+    // get CMS version for the notices box
+    $.get($('#website_url').val() + '/backend/backend_update/version/', function (response) {
+        if (!response.error && response.responseText.status == 1) {
+            $('._i-notifications').addClass('new-notices');
+            $('.notice._new-version').addClass('show');
+        }
+    });
 
     //admin panel edit 404 page click
     $('#edit404').click(function () {
         $.get($('#website_url').val() + '/backend/backend_page/edit404page', function (responseText) {
+            console.log(responseText);
             if (responseText.notFoundUrl) {
                 window.location.href = responseText.notFoundUrl;
             }
             else {
-                smoke.alert($('#edit404-errorMsg').html(), {'classname': 'errors'});
+                smoke.alert($('.edit404-msg').html(), {'classname': 'errors'});
             }
         });
     });
