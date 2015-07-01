@@ -46,7 +46,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['PAGES'])): ?>
                                     <?php foreach ($this->additionalMenu['PAGES'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <?php echo $categoryName; ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -80,7 +80,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA'])): ?>
                                     <?php foreach ($this->additionalMenu['MEDIA'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <?php echo $categoryName; ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -121,7 +121,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT'])): ?>
                                     <?php foreach ($this->additionalMenu['LAYOUT'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <?php echo $categoryName; ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -166,7 +166,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['SEO'])): ?>
                                     <?php foreach ($this->additionalMenu['SEO'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <?php echo $categoryName; ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
                                         <?php endif ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -204,7 +204,7 @@
                                         <?php if (isset($this->additionalMenu)): ?>
                                             <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
                                                 <?php if ($categoryName !== 'DEFAULT') : ?>
-                                                    <?php echo $categoryName; ?>
+                                                    <li class="item title"><?php echo $categoryName; ?></li>
                                                 <?php endif; ?>
                                                 <?php foreach ($category as $pluginName => $plugin): ?>
                                                     <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -242,7 +242,7 @@
                                 <?php if (isset($this->additionalMenu['DEFAULT'])): ?>
                                     <?php foreach ($this->additionalMenu['DEFAULT'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <?php echo $categoryName; ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
