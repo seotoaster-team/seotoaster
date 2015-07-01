@@ -128,7 +128,7 @@ a.generator-links.plugin {
 .seotoaster-panel {
   background-color: #54565f;
   color: #cccccc;
-  font: 16px/1.5 "PT Sans", Arial, Tahoma;
+  font: 14px/1.5 Arial, Helvetica, "Helvetica Neue", sans-serif;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   /* reset styles */
@@ -151,7 +151,10 @@ a.generator-links.plugin {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 99;
+  z-index: 1001;
+}
+.seotoaster-panel.aside:hover {
+  z-index: 1005;
 }
 .seotoaster-panel .show-hide {
   background-color: #4d4f57;
@@ -281,7 +284,6 @@ a.generator-links.plugin {
 }
 .seotoaster-panel .category-list > li.title {
   color: #5C6779;
-  font-size: 16px;
   font-weight: bold;
 }
 .seotoaster-panel .category-list > li > a {
@@ -298,7 +300,7 @@ a.generator-links.plugin {
 }
 .seotoaster-panel .notice-msg {
   display: none;
-  font-size: 14px;
+  font-size: 13px;
   color: #969696;
   padding-bottom: 12px;
 }

@@ -64,7 +64,7 @@
     // styles
     background-color : @panel-aside-bg;
     color            : @panel-aside-color;
-    font             : 16px/1.5 "PT Sans", Arial, Tahoma;
+    font             : 14px/1.5 Arial, Helvetica, "Helvetica Neue", sans-serif;
     .transition(all; 0.3s; ease);
 
     /* reset styles */
@@ -89,7 +89,10 @@
         position : fixed;
         right    : 0;
         top      : 0;
-        z-index  : 99;
+        z-index  : 1001;
+        &:hover{
+            z-index : 1005;
+        }
     }
 
     // show and hide button
@@ -268,7 +271,7 @@
             &.title{
                 color       : #5C6779;
                 //padding     : 0 10px;
-                font-size   : 16px;
+                //font-size   : 16px;
                 font-weight : bold;
             }
 
@@ -292,7 +295,7 @@
     .notice-messages{ }
     .notice-msg{
         display        : none;
-        font-size      : 14px;
+        font-size      : 13px;
         color          : @panel-section-color;
         padding-bottom : 12px;
 
