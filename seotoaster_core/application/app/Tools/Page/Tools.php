@@ -196,7 +196,7 @@ class Tools_Page_Tools
     {
         $websiteHelper      = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
         $pageHelper         = Zend_Controller_Action_HelperBroker::getStaticHelper('page');
-        $websiteConfig      = Zend_Registry::get('website');
+        $websiteConfig      = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig();
         $pageUrl            = str_replace(DIRECTORY_SEPARATOR, '-', $pageHelper->clean($pageUrl));
         $previewPath        = $websiteHelper->getPath() . $websiteHelper->getPreview();
 
@@ -247,11 +247,10 @@ class Tools_Page_Tools
                         }
                     }
                 }
-                Tools_Image_Tools::resize($newPreviewImageFile, $miscConfig['pageTeaserCropSize'], false, $cropPreviewDirPath, true);
+                Tools_Image_Tools::resize($newPreviewImageFile, $websiteConfig['teaserSize'], false, $cropPreviewDirPath, true);
                 unset($miscConfig);
 
                 return $pageUrl . $extension[0];
-//                return $websiteHelper->getUrl() . $websiteConfig['preview'] . $pageUrl . $extension[0];
             }
         }
 
