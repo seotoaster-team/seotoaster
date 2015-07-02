@@ -139,6 +139,28 @@
                             </ul>
                         <?php endif; ?>
                         <?php unset($this->additionalMenu['LAYOUT']); ?>
+                        <!-- start section: EDITING -->
+                        <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['EDITING'])): ?>
+                            <?php foreach ($this->additionalMenu['EDITING'] as $categoryName => $category): ?>
+                                <ul class="category-list">
+                                <?php if ($categoryName !== 'DEFAULT') : ?>
+                                    <li class="item title"><?php echo $categoryName; ?></li>
+                                <?php endif; ?>
+                                <?php foreach ($category as $pluginName => $plugin): ?>
+                                    <?php foreach ($plugin['items'] as $index => $item): ?>
+                                        <?php if (isset($this->additionalMenu['EDITING'][$categoryName][$pluginName]['values'][$index])): ?>
+                                            <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                    $this->translate($this->additionalMenu['EDITING'][$categoryName][$pluginName]['values'][$index]),
+                                                    $item)); ?>
+                                        <?php else: ?>
+                                            <?php echo $this->toasterAdminpanelItem($item); ?>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                </ul>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php unset($this->additionalMenu['EDITING']); ?>
                     </div>
                 </div>
             </li>
@@ -182,50 +204,34 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </ul>
+                            <!-- start section: MARKETINGSEO -->
+                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['MARKETINGSEO'])): ?>
+                                <?php foreach ($this->additionalMenu['MARKETINGSEO'] as $categoryName => $category): ?>
+                                    <ul class="category-list">
+                                        <?php if ($categoryName !== 'DEFAULT') : ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                        <?php endif; ?>
+                                        <?php foreach ($category as $pluginName => $plugin): ?>
+                                            <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                <?php if (isset($this->additionalMenu['MARKETINGSEO'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                    <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                            $this->translate($this->additionalMenu['MARKETINGSEO'][$categoryName][$pluginName]['values'][$index]),
+                                                            $item)); ?>
+                                                <?php else: ?>
+                                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <?php unset($this->additionalMenu['MARKETINGSEO']); ?>
                         </div>
                     </div>
                 </li>
             <?php endif; ?>
             <?php unset($this->additionalMenu['SEO']); ?>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
-                <?php if (!empty($this->additionalMenu)): ?>
-                    <?php foreach ($this->additionalMenu as $addName => $additionalMenuItem): ?>
-                        <?php if ($addName === 'DEFAULT') : ?>
-                            <?php continue; ?>
-                        <?php endif; ?>
-                        <li class="section">
-                            <a href="#" class="section-btn _i-<?php echo strtolower($addName); ?>"></a>
-
-                            <div class="section-wrap">
-                                <div class="section-box">
-                                <span
-                                    class="section-title"><?php echo $this->translate(ucfirst(strtolower($addName)) . ' configuration'); ?></span>
-                                    <ul class="category-list">
-                                        <?php if (isset($this->additionalMenu)): ?>
-                                            <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
-                                                <?php if ($categoryName !== 'DEFAULT') : ?>
-                                                    <li class="item title"><?php echo $categoryName; ?></li>
-                                                <?php endif; ?>
-                                                <?php foreach ($category as $pluginName => $plugin): ?>
-                                                    <?php foreach ($plugin['items'] as $index => $item): ?>
-                                                        <?php if (isset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index])): ?>
-                                                            <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
-                                                                $this->translate($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index]),
-                                                                $item)); ?>
-                                                        <?php else: ?>
-                                                            <?php echo $this->toasterAdminpanelItem($item); ?>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                <?php endforeach; ?>
-                                            <?php endforeach; ?>
-                                            <?php unset($this->additionalMenu[$addName]); ?>
-                                        <?php endif; ?>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
                 <li class="section">
                     <a href="#" class="section-btn _i-plugins"></a>
 
@@ -284,9 +290,69 @@
                                             array('width' => '960', 'height' => '560')); ?></li>
                                 <?php endif; ?>
                             </ul>
+                            <!-- start section: SETUP -->
+                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['SETUP'])): ?>
+                                <?php foreach ($this->additionalMenu['SETUP'] as $categoryName => $category): ?>
+                                    <ul class="category-list">
+                                        <?php if ($categoryName !== 'DEFAULT') : ?>
+                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                        <?php endif; ?>
+                                        <?php foreach ($category as $pluginName => $plugin): ?>
+                                            <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                <?php if (isset($this->additionalMenu['SETUP'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                    <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                            $this->translate($this->additionalMenu['SETUP'][$categoryName][$pluginName]['values'][$index]),
+                                                            $item)); ?>
+                                                <?php else: ?>
+                                                    <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <?php unset($this->additionalMenu['SETUP']); ?>
                         </div>
                     </div>
                 </li>
+                <?php if (!empty($this->additionalMenu)): ?>
+                    <?php foreach ($this->additionalMenu as $addName => $additionalMenuItem): ?>
+                        <?php if ($addName === 'DEFAULT') : ?>
+                            <?php continue; ?>
+                        <?php endif; ?>
+                        <li class="section">
+                            <a href="#" class="section-btn _i-<?php echo strtolower($addName); ?>"></a>
+
+                            <div class="section-wrap">
+                                <div class="section-box">
+                                <span
+                                    class="section-title"><?php echo $this->translate(ucfirst(strtolower($addName))); ?></span>
+                                    <ul class="category-list">
+                                        <?php if (isset($this->additionalMenu)): ?>
+                                            <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
+                                                <?php if ($categoryName !== 'DEFAULT') : ?>
+                                                    <li class="item title"><?php echo $categoryName; ?></li>
+                                                <?php endif; ?>
+                                                <?php foreach ($category as $pluginName => $plugin): ?>
+                                                    <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                        <?php if (isset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index])): ?>
+                                                            <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                                    $this->translate($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index]),
+                                                                    $item)); ?>
+                                                        <?php else: ?>
+                                                            <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                            <?php unset($this->additionalMenu[$addName]); ?>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
                 <li class="section under_empty">
                     <a href="#" class="section-btn _i-notification"></a>
 

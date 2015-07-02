@@ -286,6 +286,9 @@ a.generator-links.plugin {
   color: #5C6779;
   font-weight: bold;
 }
+.seotoaster-panel .category-list > li.title ~ .title {
+  color: #A9B0BA;
+}
 .seotoaster-panel .category-list > li > a {
   color: #969696;
   padding: 6px 14px;
