@@ -118,6 +118,11 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $galFolder
         );
 
+        if (isset($this->_options[4]) && $this->_options[4]) {
+            $this->_view->block = $this->_options[4];
+        }
+
+
         return $this->_view->render('gallery.phtml');
     }
 

@@ -27,6 +27,12 @@
             <?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption', 'class' => 'allowzero')); ?>
         </label>
     </p>
+    <p class="mt5px">
+        <label class="pointer">
+            <span class="grid_5 alpha"><?php echo $this->translate('Nolink'); ?></span>
+            <?php echo $this->formCheckbox('galBlock', null, array('id' => 'gal-block', 'class' => 'allowzero')); ?>
+        </label>
+    </p>
     <?php echo $this->formSubmit('applyWidgetGal', 'Apply', array('class' => 'btn small')); ?>
 </form>
 <script type="text/javascript">
