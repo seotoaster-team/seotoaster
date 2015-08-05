@@ -26,8 +26,6 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
 	const OPT_SIGNUPLAND       = 'option_member_signuplanding';
 
-	//const CONTEXT_NEWS         = 'news';
-
     const IS_NEWS_PAGE         = '1';
 
     const OPTION_USAGE_ONCE    = 'once';
@@ -83,6 +81,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
     protected $_externalLinkStatus = 0;
 
     protected $_externalLink = '';
+
+    protected $_pageType = 1;
 
     /**
      * @param array $containers
@@ -419,5 +419,26 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 	public function getPreviewImage() {
 		return $this->_previewImage;
 	}
+
+    /**
+     * @return int
+     */
+    public function getPageType()
+    {
+        return $this->_pageType;
+    }
+
+    /**
+     * @param int $pageType
+     * @return int
+     */
+    public function setPageType($pageType)
+    {
+        $this->_pageType = $pageType;
+
+        return $this;
+    }
+
+
 
 }

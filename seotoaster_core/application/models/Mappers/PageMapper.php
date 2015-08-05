@@ -56,7 +56,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             'publish_at'          => (!$page->getPublishAt()) ? null : date('Y-m-d', strtotime($page->getPublishAt())),
             'preview_image'       => $page->getPreviewImage(),
             'external_link_status' => $page->getExternalLinkStatus(),
-            'external_link'       => $page->getExternalLink()
+            'external_link'       => $page->getExternalLink(),
+            'page_type'          => $page->getPageType()
         );
 
 
