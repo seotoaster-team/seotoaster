@@ -105,6 +105,11 @@ ALTER TABLE `page` ADD COLUMN `external_link` TEXT COLLATE utf8_unicode_ci DEFAU
 -- Add page type
 ALTER TABLE `page` ADD COLUMN `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1';
 
+CREATE TABLE IF NOT EXISTS `page_types` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `page_type_name` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- These alters are always the latest and updated version of the database
 UPDATE `config` SET `value`='2.4.2' WHERE `name`='version';

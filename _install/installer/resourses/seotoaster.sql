@@ -413,3 +413,10 @@ CREATE TABLE `user_attributes` (
   PRIMARY KEY (`user_id`,`attribute`(20)),
   CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `page_types`;
+CREATE TABLE `page_types` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `page_type_name` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

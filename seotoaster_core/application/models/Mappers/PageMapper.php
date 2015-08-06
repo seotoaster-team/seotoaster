@@ -470,4 +470,15 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $where = $this->getDbTable()->getAdapter()->quoteInto("parent_id =?", $parentId);
         return $this->getDbTable()->update(array('draft'=>0, 'system'=>0), $where);
     }
+
+    /**
+     * return key pair page_type_id page_type_name
+     */
+    public function getPageTypes()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('page_types', array('page_type_id', 'page_type_name'));
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
 }
