@@ -235,6 +235,7 @@ CREATE TABLE `page` (
   `preview_image` text COLLATE utf8_unicode_ci COMMENT 'Page Preview Image',
   `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
   KEY `indUrl` (`url`),
@@ -412,3 +413,13 @@ CREATE TABLE `user_attributes` (
   PRIMARY KEY (`user_id`,`attribute`(20)),
   CONSTRAINT `user_attributes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `page_types`;
+CREATE TABLE `page_types` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `page_type_name` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
+VALUES ('1', 'page');
