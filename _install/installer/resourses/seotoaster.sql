@@ -420,3 +420,6 @@ CREATE TABLE `page_types` (
   `page_type_name` VARCHAR(60),
   PRIMARY KEY (`page_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
+VALUES ('1', 'page');
