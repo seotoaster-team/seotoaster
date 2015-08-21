@@ -238,8 +238,9 @@ class Widgets_Featured_Featured extends Widgets_Abstract
                     }
                 });
             }
-
-            $this->_view->fareaFilterName = $this->_toasterOptions['fareaFilterName'];
+            $fareaFilterName = (!empty($this->_toasterOptions['fareaFilterName']) ? filter_var($this->_toasterOptions['fareaFilterName'],
+                FILTER_SANITIZE_STRING) : '');
+            $this->_view->fareaFilterName = $fareaFilterName;
             $this->_view->pnum = $pnum;
             $this->_view->tags = $fareaTagsExists;
             $this->_view->pageUrl = $pageUrl;
