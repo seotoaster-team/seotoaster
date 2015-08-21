@@ -1,0 +1,29 @@
+<?php if ($this->pageCount && $this->pageCount > 1): ?>
+<div class="paginator">
+    <?php if ($this->current !== $this->first) :?>
+        <a href="<?php echo $this->urlData?>?fanum=<?php echo $this->first, $this->order; ?>&amp;fareaName=<?php echo $this->fareaUniqueName;?>&amp;tag=<?php echo $this->fareaTag;?>"><?php echo $this->translate('First'); ?></a>
+    <?php endif; ?>
+    <?php if (isset($this->previous)): ?>
+        <a href="<?php echo $this->urlData?>?fanum=<?php echo $this->previous, $this->order; ?>&amp;fareaName=<?php echo $this->fareaUniqueName;?>&amp;tag=<?php echo $this->fareaTag;?>"><?php echo $this->translate('Previous'); ?></a>
+    <?php else: ?>
+        <span class="disabled"><?php echo $this->translate('Previous'); ?></span>
+    <?php endif; ?>
+
+    <?php foreach ($this->pagesInRange as $page): ?>
+        <?php if ($page != $this->current): ?>
+            <a href="<?php echo $this->urlData?>?fanum=<?php echo $page, $this->order; ?>&amp;fareaName=<?php echo $this->fareaUniqueName;?>&amp;tag=<?php echo $this->fareaTag;?>"><?php echo $page; ?></a>
+        <?php else: ?>
+            <span class='current'><?php echo $page; ?></span>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <?php if (isset($this->next)): ?>
+        <a href="<?php echo $this->urlData?>?fanum=<?php echo $this->next, $this->order; ?>&amp;fareaName=<?php echo $this->fareaUniqueName;?>&amp;tag=<?php echo $this->fareaTag;?>"><?php echo $this->translate('Next'); ?></a>
+    <?php else: ?>
+        <span class="disabled"><?php echo $this->translate('Next'); ?></span>
+    <?php endif; ?>
+    <?php if ($this->current !== $this->last) :?>
+        <a href="<?php echo $this->urlData?>?fanum=<?php echo $this->last, $this->order; ?>&amp;fareaName=<?php echo $this->fareaUniqueName;?>&amp;tag=<?php echo $this->fareaTag;?>"><?php echo $this->translate('Last'); ?></a>
+    <?php endif; ?>
+</div>
+<?php endif; ?>

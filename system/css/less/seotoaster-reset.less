@@ -162,10 +162,6 @@ a.generator-links.plugin{
                 color           : @cpanel-header-color;
                 background      : @cpanel-header-bg;
 
-                &.logout:hover{
-                    background : desaturate(@brand-error, 20%);
-                }
-
                 &:hover{
                     background : @cpanel-header-bg-hover;
                     color      : @cpanel-header-color-hover;
@@ -203,6 +199,25 @@ a.generator-links.plugin{
                     background : @cpanel-subtitle-bg;
                 }
             }
+        }
+    }
+
+    a.logout{
+        margin-top      : 1px;
+        padding         : @padding-small-vertical @padding-small-horizontal;
+        display         : block;
+        text-decoration : none;
+        font-size       : 16px;
+        font-weight     : bold;
+        color           : @cpanel-header-color;
+        background      : @cpanel-header-bg;
+
+        &.logout:hover{
+          background : desaturate(@brand-error, 20%);
+        }
+        &:hover{
+          background : @cpanel-header-bg-hover;
+          color      : @cpanel-header-color-hover;
         }
     }
 }

@@ -6,7 +6,15 @@
  */
 class Widgets_Page_Page extends Widgets_Abstract {
 
+    /**
+     * page preview source
+     */
     const PAGE_PREVIEW_SRC = 'src';
+
+    /**
+     * Original page value (not optimized)
+     */
+    const PAGE_ORIGINAL = 'original';
 
     private $_aliases = array(
         'title' => 'headerTitle',
@@ -21,13 +29,19 @@ class Widgets_Page_Page extends Widgets_Abstract {
 	protected function  _load() {
         $option = $this->_validateOption($this->_options[0]);
 	    if(isset($this->_toasterOptions[$option])) {
-            $original = (isset($this->_options[1]) && $this->_options[1] == 'original');
+            $original = (isset($this->_options[1]) && $this->_options[1] == self::PAGE_ORIGINAL);
+            $optionMakerName = 'get' . ucfirst($option);
             if($original) {
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_toasterOptions['id'], $original);
-                $optionMakerName = 'get' . ucfirst($option);
-                return $page->$optionMakerName();
+                $optionValue = $page->$optionMakerName();
+            } else {
+                $optionValue = $this->_toasterOptions[$option];
             }
-            return $this->_toasterOptions[$option];
+            $optionMakerNameLocal = '_'.$optionMakerName;
+            if (method_exists($this, $optionMakerNameLocal)) {
+                return $this->$optionMakerNameLocal($optionValue);
+            }
+            return $optionValue;
         } else {
             $optionMakerName = '_generate' . ucfirst($this->_options[0]) . 'Option';
             if(method_exists($this, $optionMakerName)) {
@@ -39,6 +53,21 @@ class Widgets_Page_Page extends Widgets_Abstract {
 
     private function _validateOption($option) {
         return array_key_exists($option, $this->_aliases) ? $this->_aliases[$option] : $option;
+    }
+
+    /**
+     * Get page teaser text
+     *
+     * @param string $optionValue value of page option
+     * @return string processed value of page option
+     */
+    private function _getTeaserText($optionValue)
+    {
+        if (isset($this->_options[2]) && is_numeric($this->_options[2])) {
+            $optionValue = Tools_Text_Tools::cutText($optionValue, $this->_options[2]);
+        }
+
+        return $optionValue;
     }
 
 

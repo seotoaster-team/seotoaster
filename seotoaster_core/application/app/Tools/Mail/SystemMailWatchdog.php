@@ -224,6 +224,27 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                     ->setMailTo($superAdmin->getEmail())
                     ->setSubject(isset($this->_options['subject']) ? $this->_options['subject'] : $this->_translator->translate('New user is registered!'));
             break;
+            case self::RECIPIENT_ADMIN:
+                $adminBccArray = array();
+                $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+                $where = $userMapper->getDbTable()->getAdapter()->quoteInto("role_id = ?", Tools_Security_Acl::ROLE_ADMIN);
+                $admins = $userMapper->fetchAll($where);
+                if(!empty($admins)){
+                    foreach($admins as $key=>$admin){
+                        if($key == 0){
+                            $this->_mailer->setMailTo($admin->getEmail());
+                        }else{
+                            array_push($adminBccArray, $admin->getEmail());
+                        }
+                    }
+                    if(!empty($adminBccArray)){
+                        $this->_mailer->setSubject(isset($this->_options['subject']) ? $this->_options['subject'] : $this->_translator->translate('New user is registered!'));
+                        $this->_mailer->setMailBcc($adminBccArray);
+                    }
+                }else{
+                    return;
+                }
+                break;
         }
         
         if(($mailBody = $this->_prepareEmailBody()) == false) {
@@ -251,7 +272,6 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	    $mailer   = Tools_Mail_Tools::initMailer();
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() .' '.$this->_translator->translate('Please reset your password'):$this->_options['subject'];
 	    $mailer->setMailFrom($this->_options['from']);
-        $mailer->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('password recovery system'));
         $mailer->setMailTo($token->getUserEmail());
         $mailer->setBody($this->_entityParser->parse($mailBody));
         $mailer->setSubject($subject);
@@ -264,7 +284,6 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('Your password successfully changed'):$this->_options['subject'];
         $this->_mailer->setMailFrom($this->_options['from'])
-		       ->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('password recovery system'))
                ->setMailTo($token->getUserEmail())
 		       ->setBody($this->_prepareEmailBody())
 	           ->setSubject($subject);
@@ -275,7 +294,6 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('User attribute changed'):$this->_options['subject'];
 
         $this->_mailer->setMailFrom($this->_options['from'])
-            ->setMailFromLabel($this->_websiteHelper->getUrl() . ' '.$this->_translator->translate('User change attr'))
             ->setBody($this->_prepareEmailBody())
             ->setSubject($subject);
         $this->_entityParser->objectToDictionary($user);

@@ -111,6 +111,13 @@ class Widgets_Search_Search extends Widgets_Abstract
 
         $params = $request->getParams();
 
+        $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
+        $filterPageType = array();
+        if (!empty($pageTypes) && !empty($this->_options[1])) {
+            $filterPageTypeConf = explode(',', $this->_options[1]);
+            $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
+        }
+
         $results = array();
         $limit = is_numeric(end($this->_options)) ? filter_var(
             end($this->_options),
@@ -139,7 +146,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                 );
             }
             $this->_view->urlData = array('search' => $searchTerm);
-            $results = $this->_searchResultsByTerm($searchTerm);
+            $results = $this->_searchResultsByTerm($searchTerm, $filterPageType);
         } elseif ($request->has('queryID')) {
             $queryID = filter_var($request->getParam('queryID'), FILTER_SANITIZE_STRING);
             $this->_view->urlData = array('queryID' => $queryID);
@@ -160,7 +167,7 @@ class Widgets_Search_Search extends Widgets_Abstract
         return $this->_view->render('results.phtml');
     }
 
-    private function _searchResultsByTerm($searchTerm)
+    private function _searchResultsByTerm($searchTerm, $filterPageType = array())
     {
         $searchForm = new Application_Form_Search();
         if ($searchForm->getElement('search')->isValid($searchTerm)) {
@@ -192,16 +199,23 @@ class Widgets_Search_Search extends Widgets_Abstract
                 }
                 $cacheTags     = array('search_' . $searchTerm);
                 $searchResults = array_map(
-                    function ($hit) use (&$cacheTags) {
+                    function ($hit) use (&$cacheTags, $filterPageType) {
                         array_push($cacheTags, 'pageid_' . $hit->pageId);
+                        $exclude = false;
                         try {
                             // checking if page is in drafts
                             $draft = (bool)$hit->draft;
+                            $pageType = (int) $hit->pageType;
                         } catch (Zend_Search_Lucene_Exception $e) {
                             // seems we are on old release
                             $draft = false;
+                            $pageType = 1;
                         }
-                        if (!$draft) {
+
+                        if (!empty($filterPageType) && !array_key_exists($pageType, $filterPageType)) {
+                            $exclude = true;
+                        }
+                        if (!$draft && !$exclude) {
                             return array(
                                 'pageId'     => $hit->pageId,
                                 'url'        => $hit->url,
@@ -256,8 +270,6 @@ class Widgets_Search_Search extends Widgets_Abstract
                     $nameValuePairs
                 );
                 if (!empty($pageIDs)) {
-                    // TODO: compare performance
-//                    $pageList = Application_Model_Mappers_PageMapper::getInstance()->find($containerData);
                     $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
                     $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('id IN (?)', array_values($pageIDs));
                     $pages = $pageMapper->fetchAll($where);
@@ -287,25 +299,6 @@ class Widgets_Search_Search extends Widgets_Abstract
 
         return $results;
     }
-
-//   // removed in current version
-//    public static function getWidgetMakerContent() {
-//		$translator = Zend_Registry::get('Zend_Translate');
-//		$view = new Zend_View(array(
-//			'scriptPath' => dirname(__FILE__) . '/views'
-//		));
-//		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-//		$data = array(
-//			'title'   => $translator->translate('Search engine'),
-//			'content' => $view->render('wmcontent.phtml'),
-//			'icons'   => array(
-//				$websiteHelper->getUrl() . 'system/images/widgets/search.png',
-//			)
-//		);
-//
-//		unset($view);
-//		return $data;
-//	}
 
     private function _renderSearchComplex()
     {

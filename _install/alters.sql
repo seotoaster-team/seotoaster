@@ -96,7 +96,23 @@ ALTER TABLE `page` CHANGE COLUMN `order` `order` int(10) unsigned DEFAULT NULL;
 ALTER TABLE `page` ADD COLUMN `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
 ALTER TABLE `page` ADD COLUMN `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 21.05.2015
+-- version: 2.4.0
+-- update version
+
+-- 05.08.2015
+-- version: 2.4.1
+-- Add page type
+ALTER TABLE `page` ADD COLUMN `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1';
+CREATE TABLE IF NOT EXISTS `page_types` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `page_type_name` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
+VALUES ('1', 'page');
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.4.0' WHERE `name`='version';
+UPDATE `config` SET `value`='2.4.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 

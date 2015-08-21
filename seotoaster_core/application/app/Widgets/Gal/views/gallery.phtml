@@ -3,9 +3,11 @@
         <?php foreach ($this->images as $image): ?>
             <?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
             <li class="gallery_image">
+                <?php if (!isset($this->block)): ?>
                 <a class="gall" href="<?php echo $this->original . $image['name']; ?>"
                    data-fancybox-group="<?php echo $this->folder; ?>"
                    title="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>">
+                    <?php endif; ?>
                     <img src="<?php echo $image['path']; ?>"
                          alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
                          width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>

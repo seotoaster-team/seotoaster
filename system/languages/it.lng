@@ -491,7 +491,7 @@
     '<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> o più recente',
     '<strong>PDO</strong> extension for PHP' => 'Extensiones <strong>PDO</strong> para PHP',
     '<strong>MBString:</strong> Works with any language' => '<strong>MBString:</strong> supporto multilingue',
-    '<strong>GD Libaries 2.0</strong> or newer: Works with images' => '<strong>GD Libaries 2.0</strong> o più recente: manipolazione immagini',
+    '<strong>GD Library 2.0</strong> or newer: Works with images' => '<strong>GD Libaries 2.0</strong> o più recente: manipolazione immagini',
     '<strong>Zip extension for PHP:</strong> Permit themes management through the interface' => '<strong>Estensione Zip per PHP:</strong> gestione dei temi tramite l\'interfaccia software',
     '<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.' => '<strong>Estensione Curl per PHP:</strong> connettere servizi di terze parti: Google, Yahoo, PayPal, ecc.',
     '<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.'=>'<strong>Estensione JSON per PHP:</strong> supporto a JSON (JavaScript Object Notation), la piattaforma leggera di scambio dati.',

@@ -487,13 +487,18 @@ class Backend_ThemeController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $mapper = Application_Model_Mappers_TemplateMapper::getInstance();
             $listtemplates = $this->getRequest()->getParam('listtemplates');
-            $additional = $this->getRequest()->getParam('additional');
+            $templateInfoOnly = $this->getRequest()->getParam('templateInfoOnly', false);
             $pageId = $this->getRequest()->getParam('pageId');
             if ($pageId) {
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageId);
             }
             $currentTheme = $this->_helper->config->getConfig('currentTheme');
             $types = $mapper->fetchAllTypes();
+            if ($templateInfoOnly && array_key_exists($listtemplates, $types)) {
+                $templateList = $this->_getTemplateListByType($listtemplates, $currentTheme);
+                $this->_helper->response->response($templateList);
+            }
+
             if (array_key_exists($listtemplates, array_merge($types, array('all' => 'all')))) {
                 $template = (isset($page) && $page instanceof Application_Model_Models_Page) ? $mapper->find(
                     $page->getTemplateId()
@@ -607,7 +612,7 @@ class Backend_ThemeController extends Zend_Controller_Action
         } //Gets the templates list from the database
         else {
             $templates = Application_Model_Mappers_TemplateMapper::getInstance()->fetchAll(
-                ($type != 'all') ? "type = '$type''" : null
+                ($type != 'all') ? "type = '$type'" : null
             );
 
             foreach ($templates as $template) {

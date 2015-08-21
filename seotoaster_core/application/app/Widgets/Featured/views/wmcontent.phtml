@@ -1,10 +1,45 @@
 <form action="javascript:;" method="post" data-name="featured" id="featured-widget-form" class="wmc-block">
     <p>
         <?php echo $this->formLabel('featured-item-type', $this->translate('Type'), array('class' => 'grid_5 alpha')); ?>
-        <?php echo $this->formSelect('featuredItemType', 'Group of pages', array('id' => 'featured-item-type', 'class' => 'grid_7 alpha omega small'), array(Widgets_Featured_Featured::FEATURED_TYPE_AREA => 'Group of pages', Widgets_Featured_Featured::FEATURED_TYPE_PAGE => 'List just one page')); ?>
+        <?php echo $this->formSelect('featuredItemType', 'Group of pages',
+            array('id' => 'featured-item-type', 'class' => 'grid_7 alpha omega small'),
+            array(
+                Widgets_Featured_Featured::FEATURED_TYPE_AREA => 'Group of pages',
+                Widgets_Featured_Featured::FEATURED_TYPE_PAGE => 'List just one page',
+                Widgets_Featured_Featured::FEATURED_TYPE_FILTERABLE => 'Group of pages by tags'
+            )
+        ); ?>
     </p>
     <p class="mt5px">
         <?php echo $this->formSelect('featuredAreaItem', null, array('id' => 'featured-area-item', 'class' => 'grid_12 alpha omega small validate')); ?>
+    </p>
+    <p class="mt5px">
+        <?php echo $this->formSelect('featuredTemplates', null, array('id' => 'featured-area-templates', 'class' => 'grid_12 alpha featured-area-templates omega small')); ?>
+    </p>
+
+    <p class="hidden">
+        <?php echo $this->formLabel('featured-item-order', $this->translate('Order'),
+            array('class' => 'grid_5 alpha')); ?>
+        <?php echo $this->formSelect('featuredItemOrder', 'Group of pages',
+            array('id' => 'featured-item-order', 'class' => 'grid_7 alpha omega small'),
+            array(
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_ID => $this->translate('Default order'),
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_HEADER_TITLE => $this->translate('Header title'),
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_LAST_UPDATE  => $this->translate('Last updated'),
+                Widgets_Featured_Featured::FEATURED_FILTER_BY_H1 => $this->translate('H1')
+            )
+        ); ?>
+    </p>
+    <p class="hidden">
+        <?php echo $this->formLabel('featured-item-order-type', $this->translate('ASC/DESC'),
+            array('class' => 'grid_5 alpha')); ?>
+        <?php echo $this->formSelect('featuredItemOrderType', 'Group of pages',
+            array('id' => 'featured-item-order-type', 'class' => 'grid_7 alpha omega small'),
+            array(
+                'ASC' => 'ASC',
+                'DESC' => 'DESC'
+            )
+        ); ?>
     </p>
     <p class="mt5px">
         <?php echo $this->formLabel('featured-item-maxres', $this->translate('Max. result'), array('class' => 'grid_5 alpha max-res-row')); ?>
@@ -46,20 +81,34 @@
 	    var featured = {
 		    _TYPE_PAGE: 'page',
 		    _TYPE_AREA: 'area',
-
+            _TYPE_FILTERABLE: 'filterable',
 		    type : '',
 		    itemsHolder:  $('#featured-area-item'),
+            templateHolder: $('#featured-area-templates'),
 		    setType: function(type) {
 			    this.type = type;
 			    return this;
 		    },
 		    load : function() {
-			    var websiteUrl = $('#website_url').val();
-			    var url        = websiteUrl + 'backend/backend_featured/loadfalist/render/0/namesonly/1';
-			    var self       = this;
+			    var websiteUrl = $('#website_url').val(),
+			        url        = websiteUrl + 'backend/backend_featured/loadfalist/render/0/namesonly/1',
+                    urlTemplates = websiteUrl + 'backend/backend_theme/gettemplate/',
+			        self       = this;
 			    if(this.type == this._TYPE_PAGE) {
 				    url = websiteUrl + 'backend/backend_page/listpages/';
 			    }
+                $.post(urlTemplates, {'listtemplates':'type_partial_template', 'templateInfoOnly':true}, function(response) {
+                    self.templateHolder.find('option').remove().end();
+                    $.each(response.responseText, function(){
+                        var optVal  = this.name;
+                        var optText = this.fullName;
+                        self.templateHolder
+                            .append($('<option></option>').attr({
+                                value: optVal
+                            }).text(optText));
+                    });
+                    self.templateHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select nested template'); ?></option>');
+                });
 			    $.getJSON(url, function(response) {
 				    self.itemsHolder.find('option').remove().end();
 	                $.each(response.responseData, function() {
@@ -71,21 +120,59 @@
 	                        })
 	                        .text(optText));
 	                });
-	                if(self.type == self._TYPE_PAGE) {
-		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a page'); ?></option>')
+                    self.itemsHolder.removeAttr('multiple');
+                    if ($('#featured_area_item_chosen').length) {
+                        self.itemsHolder.chosen('destroy');
+                    }
+
+                    if (self.type == self._TYPE_FILTERABLE) {
+                        self.itemsHolder.attr('multiple', 'multiple');
+                        self.itemsHolder.chosen();
+                    } else if(self.type == self._TYPE_PAGE) {
+		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a page'); ?></option>');
 	                } else {
 		                self.itemsHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select a tag'); ?></option>');
 	                }
-	            })
+
+	            });
 		    }
 	    };
 
 	    $(document).on('change', '#featured-item-type', function() {
-		    featured.setType($(this).val()).load();
-		    $('.max-res-row').fadeToggle();
+		    var type = $(this).val();
+            featured.setType(type).load();
+		    if (type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE;?>') {
+                $('.max-res-row').hide();
+            } else {
+                $('.max-res-row').show();
+            }
+            if (type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_FILTERABLE;?>' || type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_PAGE;?>') {
+                $('#random').closest('label').hide();
+            } else {
+                $('#random').closest('label').show();
+            }
+            if (type === '<?php echo Widgets_Featured_Featured::FEATURED_TYPE_FILTERABLE;?>') {
+                $('#featured-area-templates').addClass('validate');
+                $('#featured-item-order').closest('p').toggleClass('hidden');
+                $('#featured-item-order-type').closest('p').toggleClass('hidden');
+                hideParamsFa();
+            } else {
+                $('#featured-area-templates').removeClass('validate');
+                $('#featured-item-order').closest('p').addClass('hidden');
+                $('#featured-item-order-type').closest('p').addClass('hidden');
+                showParamsFa();
+            }
         }).on('change', '#featured-area-item', function() {
 		    featured.itemsHolder.removeClass('error');
-	    });
+            featured.templateHolder.removeClass('error');
+	    }).on('change', '#featured-area-templates', function(e){
+            if ($(e.currentTarget).val() != 0) {
+                hideParamsFa();
+            } else if($('#featured-item-type').val() !== 'filterable'){
+                showParamsFa();
+            }
+
+        });
 	    featured.setType(featured._TYPE_AREA).load();
 
         // Generation widget from form options
@@ -93,11 +180,34 @@
             var error      = false,
                 widgetForm = $(this).closest('form'),
                 widgetHtml = '{$' + widgetForm.data('name'),
-                cropOption = ':imgc';
+                cropOption = ':imgc',
+                faGroup = false;
 
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).hasClass('crop') && $(this).prop('checked')) {
                     widgetHtml = widgetHtml.replace(':img', '');
+                    return;
+                }
+
+                if ($(this).get(0).getAttribute('autocomplete')) {
+                    return;
+                }
+
+                if ($(this).get(0).getAttribute('id') === 'featured-item-type' && $(this).val() === 'filterable') {
+                    widgetHtml += ':area';
+                    widgetHtml += ':'+$("#featured-area-item").chosen().val();
+                    return;
+                }
+
+                if ($(this).get(0).getAttribute('id') === 'featured-item-order' || $(this).get(0).getAttribute('id') === 'featured-item-order-type') {
+                    return;
+                }
+
+                if ($(this).hasClass('featured-area-templates')) {
+                    if ($(this).hasClass('validate') && (!$(this).val() || $(this).val() == 0)) {
+                        $(this).addClass('error');
+                        error = true;
+                    }
                     return;
                 }
 
@@ -117,7 +227,7 @@
                         return;
                     }
                     else {
-                        widgetHtml += cropOption
+                        widgetHtml += cropOption;
                         return;
                     }
                 }
@@ -140,10 +250,41 @@
                     widgetHtml += ':' + $(this).val();
                 }
             });
+
+            if ($('#featured_area_item_chosen').length) {
+                faGroup = true;
+            }
+
+            if ($('#featured-area-templates').val() != 0) {
+                widgetHtml += ':template='+$('#featured-area-templates').val();
+                if (faGroup) {
+                    widgetHtml += ':order=' + $('#featured-item-order').val();
+                }
+            }
+
+            if ($('#featured-item-order-type').val() != 0 && faGroup) {
+                widgetHtml += ':orderType='+$('#featured-item-order-type').val();
+            }
+            if (faGroup) {
+                widgetHtml += ':filterable';
+            }
             if (!error) {
                 widgetHtml += '}';
                 tinymce.activeEditor.execCommand('mceInsertContent', false, widgetHtml);
             }
         });
+
+        function hideParamsFa() {
+            $('#use-image').prop('checked', false).closest('label').hide();
+            $('#use-image-cropped').prop('checked', false).closest('label').hide();
+            $('#featured-item-maxchars').closest('p').hide();
+            $('.crop-size').hide();
+        }
+
+        function showParamsFa() {
+            $('#use-image').closest('label').show();
+            $('#featured-item-maxchars').closest('p').show();
+        }
+
     });
 </script>
