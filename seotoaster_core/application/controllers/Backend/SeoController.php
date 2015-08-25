@@ -13,7 +13,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	private $_translator           = null;
 
-    public static $_allowedActions = array('sitemap');
+    public static $_allowedActions = array('sitemap', 'feeds');
 
 	public function init() {
 		parent::init();
@@ -37,6 +37,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
         $this->_helper->contextSwitch()
             ->addActionContext('sitemap', 'xml')
+            ->addActionContext('feeds', 'xml')
             ->initContext();
 
 		$this->_translator      = Zend_Registry::get('Zend_Translate');
@@ -499,5 +500,25 @@ class Backend_SeoController extends Zend_Controller_Action {
 	    }
 	    echo $sitemapContent;
    }
+
+    /**
+     * Serve news feeds
+     *
+     */
+    public function feedsAction()
+    {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $type = filter_var($this->_request->getParam('type'), FILTER_SANITIZE_STRING);
+        foreach (Tools_Plugins_Tools::getPluginsByTags(array('feed')) as $plugin) {
+            if ($plugin->getTags() && in_array('feed', $plugin->getTags())) {
+                $feedTool = ucfirst($plugin->getname()) . '_Tools_Feed';
+                $feedXml  = $feedTool::getInstance()->generate($type);
+                if (!empty($feedXml)) {
+                    echo $feedXml;
+                }
+            }
+        }
+
+    }
 }
 

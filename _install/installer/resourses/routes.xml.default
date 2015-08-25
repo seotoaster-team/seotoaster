@@ -26,6 +26,19 @@
       </map>
       <reverse>sitemap%s.xml</reverse>
     </sitemapxml>
+    <feedsxml>
+      <type>Zend_Controller_Router_Route_Regex</type>
+      <route>feeds/(.*).xml$</route>
+      <defaults>
+       <controller>backend_seo</controller>
+       <action>feeds</action>
+       <format>xml</format>
+      </defaults>
+      <map>
+       <type>1</type>
+      </map>
+      <reverse>/feeds/%s.xml</reverse>
+    </feedsxml>
     <shortlogin>
       <type>Zend_Controller_Router_Route_Static</type>
       <route>/go</route>

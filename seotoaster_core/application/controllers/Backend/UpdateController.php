@@ -350,6 +350,10 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
         }
         Tools_Filesystem_Tools::deleteDir($source);
+        $routesUpdated = $this->_updateRoutes();
+        if (!$routesUpdated) {
+            return false;
+        }
         return true;
     }
 
@@ -407,7 +411,6 @@ class Backend_UpdateController extends Zend_Controller_Action
             error_log($ex->getMessage());
             return false;
         }
-        return false;
     }
 
     /**
@@ -438,4 +441,28 @@ class Backend_UpdateController extends Zend_Controller_Action
         );
 
     }
+
+    protected function _updateRoutes()
+    {
+        try {
+            $routesFile = APPLICATION_PATH . '/configs/' . SITE_NAME . '.routes.xml';
+            $defaultRoutesFile = APPLICATION_PATH . '/../../_install/installer/resourses/routes.xml.default';
+            if (!is_file($routesFile)) {
+                $routesFile = APPLICATION_PATH . '/configs/routes.xml';
+            }
+            $routes = array();
+            if (file_exists($routesFile) && file_exists($defaultRoutesFile)) {
+                $routes = new Zend_Config_Xml($routesFile, 'routes');
+                $defaultRoutes = new Zend_Config_Xml($defaultRoutesFile, 'routes');
+            }
+            $routesWriter = new Zend_Config_Writer_Xml();
+            $routesWriter->setConfig(new Zend_Config(array('routes' => array_replace($defaultRoutes->toArray(), $routes->toArray()))));
+            $routesWriter->write($routesFile);
+            return true;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
 }
