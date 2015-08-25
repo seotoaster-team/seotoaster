@@ -1,5 +1,6 @@
 <?php $this->inlineScript()
-           ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js');
+    ->appendFile($this->websiteUrl . 'system/js/external/polyfill/polyfill.min.js', null, array('conditional' => 'lte IE 9')) // classList and addEventListener
+    ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js', null, array('async' => 'true'));
 ?>
 <div class="seotoaster-panel aside s">
     <div class="logo-wrap">
@@ -114,9 +115,6 @@
                                         array('width' => '480', 'height' => '560')); ?></li>
                                 <li class="item"><?php echo $this->toasterLink('backend_theme', 'editjs',
                                         $this->translate('Edit JS files'), false, false,
-                                        array('width' => '960', 'height' => '560')); ?></li>
-                                <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes',
-                                        $this->translate('Organize themes'), false, false,
                                         array('width' => '960', 'height' => '560')); ?></li>
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT'])): ?>
                                     <?php foreach ($this->additionalMenu['LAYOUT'] as $categoryName => $category): ?>
@@ -284,6 +282,9 @@
                                 <li class="item"><?php echo $this->toasterLink('backend_config', 'actionmails',
                                         $this->translate('E-mails & SMS actions'), false, false,
                                         array('width' => '960', 'height' => '560')); ?></li>
+                                <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes',
+                                        $this->translate('Organize themes'), false, false,
+                                        array('width' => '960', 'height' => '560')); ?></li>
                                 <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
                                     <li class="item"><?php echo $this->toasterLink('backend_user', 'manage',
                                             $this->translate('Manage users'), false, false,
@@ -374,12 +375,12 @@
                 </li>
             <?php endif; ?>
             <li class="section">
-                <a class="section-btn _i-refresh" href="javascript:;" id="cleancache"
+                <a class="section-btn _i-refresh no-open-section" href="javascript:;" id="cleancache"
                    title="<?php echo $this->translate('CLEAN CACHE'); ?>"></a>
             </li>
         <?php endif; ?>
         <li class="section">
-            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn _i-exit"
+            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn _i-exit no-open-section"
                title="<?php echo $this->translate('LOGOUT'); ?>"></a>
         </li>
     </ul>
