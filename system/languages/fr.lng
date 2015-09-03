@@ -237,6 +237,8 @@
     'Edit other templates' => 'Editer les autres modèles',
     'Please verify you\'re a human' => 'Veuillez entrer le code que vous voyez svp!',
      'Value is required and can\'t be empty'  =>'Ce champ est obligatoire. Veuillez le remplir!',
+     'We\'ve sent an email to' => 'Vous recevrez un e-mail à',
+     'containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.' => 'expliquant comment réinitialiser votre mot de passe durant 24 heures. Veuillez consulter votre dossier Courrier indésirable si cet e-mail n\'arrive pas dans quelques minutes.',
     //shopping
 
     'Sorry, %1\$s is currently out of stock'=>'Désolé,% 1 \ $ s est actuellement en rupture de stock',
