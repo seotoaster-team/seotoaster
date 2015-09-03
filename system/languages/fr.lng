@@ -232,7 +232,7 @@
     'says' => 'ecrit',
     'Forgot password?' => 'Mot de passe oublié?',
     'You have no pages in the draft yet' => 'Aucun brouillon pour le moment.',
-    'I remembered my password' => 'Je ne me souviens pas de mot de passe',
+    'I remembered my password' => 'Je me suis souvenu du mot de passe',
     'Help' => 'Aide',
     'Edit other templates' => 'Editer les autres modèles',
     'Please verify you\'re a human' => 'Veuillez entrer le code que vous voyez svp!',
