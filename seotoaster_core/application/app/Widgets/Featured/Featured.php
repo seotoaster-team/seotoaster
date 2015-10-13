@@ -149,11 +149,17 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
         $customOrder = false;
         $customOrderType = 'ASC';
-        if (!empty($this->_order) && $this->_acceptedPageOrderFields) {
-            $customOrder = preg_replace('/order=/', '', $this->_order);
+        if (!empty($this->_order)) {
+            $setOrder = preg_replace('/order=/', '', $this->_order);
+            if (in_array($setOrder, $this->_acceptedPageOrderFields)) {
+                $customOrder = $setOrder;
+            }
         }
-        if (!empty($this->_orderType) && in_array($this->_orderType, $this->_acceptedOrderTypes)) {
-            $customOrderType = preg_replace('/orderType=/', '', $this->_orderType);
+        if (!empty($this->_orderType)) {
+            $setCustomType = preg_replace('/orderType=/', '', $this->_orderType);
+            if (in_array($setCustomType, $this->_acceptedOrderTypes)) {
+                $customOrderType = $setCustomType;
+            }
         }
 
         $featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($params[0], true, $customOrder, $customOrderType);
