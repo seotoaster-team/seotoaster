@@ -15,6 +15,11 @@
                 <?php if ($this->useCaption): ?>
                     <p class="image_caption"><?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?></p>
                 <?php endif; ?>
+                <?php if (!empty($this->withContainer)):?>
+                    <div class="gallery_image_description">
+                        {$content:gallContent-<?php echo md5($this->folder . $image['name']);?>}
+                    </div>
+                <?php endif;?>
             </li>
         <?php endforeach; ?>
     </ul>

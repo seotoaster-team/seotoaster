@@ -4,6 +4,8 @@ class Widgets_Gal_Gal extends Widgets_Abstract
 {
     const DEFAULT_THUMB_SIZE = '250';
 
+    const WITH_CONTAINER_CONTENT = 'withContent';
+
     private $_websiteHelper  = null;
 
     protected function _init()
@@ -122,6 +124,10 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $this->_view->block = $this->_options[4];
         }
 
+        $withContainer = array_search(self::WITH_CONTAINER_CONTENT, $this->_options);
+        if ($withContainer !== false) {
+            $this->_view->withContainer = true;
+        }
 
         return $this->_view->render('gallery.phtml');
     }
