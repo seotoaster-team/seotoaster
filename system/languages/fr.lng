@@ -1189,5 +1189,6 @@
     'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Complétez les informations de votre business ou la carte ID su site, afin de faciliter l\'indexation de votre site Web dans les moteurs de recherche.',
     'Fill in the required fields' => 'Pas tous les champs obligatoires sont remplis',
     'Please enter a valid email address' => 'Veuillez entrer l\'adress email valide',
-    'There are no users for export' => 'Il n\'y a pas d\'utilisateurs pour l\'exportation'
+    'There are no users for export' => 'Il n\'y a pas d\'utilisateurs pour l\'exportation',
+    'Search error "%s". The request string should have more than 3 letters.' => 'La demande doit comporter plus de 3 caractères.'
 );?>
