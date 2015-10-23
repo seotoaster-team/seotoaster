@@ -112,7 +112,12 @@ CREATE TABLE IF NOT EXISTS `page_types` (
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
 
+-- 23.10.2015
+-- version: 2.4.2
+-- Add page type
+ALTER TABLE `user` ADD COLUMN `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.4.2' WHERE `name`='version';
+UPDATE `config` SET `value`='2.4.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
