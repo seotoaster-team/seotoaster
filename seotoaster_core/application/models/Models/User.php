@@ -24,6 +24,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_mobilePhone = '';
 
+    protected $_notes = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -115,6 +117,26 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     {
         return $this->_mobilePhone;
     }
+
+    /**
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->_notes;
+    }
+
+    /**
+     * @param string $notes
+     * @return string
+     */
+    public function setNotes($notes)
+    {
+        $this->_notes = $notes;
+
+        return $this;
+    }
+
 
     /**
      * @param array $attributes
