@@ -22,7 +22,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 			'last_login'    => $user->getLastLogin(),
 			'ipaddress'     => $user->getIpaddress(),
             'gplus_profile' => $user->getGplusProfile(),
-            'mobile_phone'  => $user->getMobilePhone()
+            'mobile_phone'  => $user->getMobilePhone(),
+            'notes'         => $user->getNotes()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
