@@ -29,7 +29,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.4.2');
+('version',	'2.4.4');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -424,3 +424,15 @@ CREATE TABLE `page_types` (
 
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
+
+DROP TABLE IF EXISTS `page_types_access`;
+CREATE TABLE `page_types_access` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `resource_type` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`, `resource_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_types_access` (`page_type_id`, `resource_type`)
+VALUES ('1', 'list_pages'),
+VALUES ('1', 'link_list'),
+VALUES ('1', 'organize_pages');

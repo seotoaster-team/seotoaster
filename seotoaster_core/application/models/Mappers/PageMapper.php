@@ -262,11 +262,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->_findWhere($where);
     }
 
-    public function findByParentId($parentId, $draft = false)
+    /**
+     * Get pages by parent id
+     *
+     * @param int $parentId parent id
+     * @param bool $draft flag for draft page
+     * @param array $pageTypes page types ids array
+     * @return array|null
+     */
+    public function findByParentId($parentId, $draft = false, $pageTypes = array())
     {
         $where = $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', $parentId);
         if ($draft) {
             $where .= ' OR ' . $this->getDbTable()->getAdapter()->quoteInto('draft = ?', '1');
+        }
+        if (!empty($pageTypes)) {
+            $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $pageTypes);
         }
         return $this->fetchAll($where);
     }
@@ -478,6 +489,21 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     {
         $select = $this->getDbTable()->getAdapter()->select()
             ->from('page_types', array('page_type_id', 'page_type_name'));
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
+    /**
+     * Get page types for resource
+     *
+     * @param string $resource
+     * @return array
+     */
+    public function getPageTypeByResource($resource)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('resource_type = ?', $resource);
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('page_types_access', array('page_type_id', 'resource_type'))->where($where);
 
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }

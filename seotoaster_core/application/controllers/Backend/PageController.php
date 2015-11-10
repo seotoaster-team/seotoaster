@@ -12,6 +12,21 @@ class Backend_PageController extends Zend_Controller_Action {
 
     protected $_mapper             = null;
 
+    /**
+     * Resource for list pages action
+     */
+    const LIST_PAGES = 'list_pages';
+
+    /**
+     * Resource for link list action
+     */
+    const LINK_LIST = 'link_list';
+
+    /**
+     * Resource for organize pages action
+     */
+    const ORGANIZE_PAGES = 'organize_pages';
+
     public function init() {
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
@@ -375,10 +390,14 @@ class Backend_PageController extends Zend_Controller_Action {
         }
 
         $tree = array();
-        $categories = $pageMapper->findByParentId(0);
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::ORGANIZE_PAGES);
+        if (!empty($allowedPageTypes)) {
+            $categories = $pageMapper->findByParentId(0, false, array_keys($allowedPageTypes));
+        } else {
+            $categories = $pageMapper->findByParentId(0);
+        }
         if(is_array($categories) && !empty ($categories)) {
             foreach ($categories as $category) {
-	            // TODO: remove next check and code something smart
 	            if ($category->getDraft()){
 		            continue;
 	            }
@@ -397,14 +416,20 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     public function listpagesAction() {
-        $where        = $this->_getProductCategoryPageWhere();
+        $where = '';
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LIST_PAGES);
+        if (!empty($allowedPageTypes)) {
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)',
+                array_keys($allowedPageTypes));
+        }
         $templateName = $this->getRequest()->getParam('template', '');
         if($templateName) {
             $this->view->templateName = $templateName;
             $where                    = 'template_id="' . $templateName . '"';
         }
         if($this->getRequest()->getParam('categoryName', false)) {
-            $page = Application_Model_Mappers_PageMapper::getInstance()->findByNavName($this->getRequest()->getParam('categoryName'));
+            $page = $pageMapper->findByNavName($this->getRequest()->getParam('categoryName'));
             $pageId = $page->getId();
         }
         elseif($this->getRequest()->getParam('pageId', false)) {
@@ -412,7 +437,7 @@ class Backend_PageController extends Zend_Controller_Action {
         }
 
         if(isset($pageId) && $pageId) {
-            if($where == null) {
+            if (empty($where)) {
                 $where .= ' parent_id ="' . $pageId . '"';
             }
             else {
@@ -420,8 +445,8 @@ class Backend_PageController extends Zend_Controller_Action {
             }
         }
 
-        $pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
-        $sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
+        $pages    = $pageMapper->fetchAll($where, array('h1 ASC'));
+        $sysPages = $pageMapper->fetchAll($where, array('h1 ASC'), true);
         $pages    = array_merge((array)$pages, (array)$sysPages);
         $this->view->responseData = array_map(function($page) {
             return $page->toArray();
@@ -432,15 +457,15 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        $where = $this->_getProductCategoryPageWhere();
-        $whereQuote = $this->_getQuotePageWhere();
-        if($where !== null && $whereQuote !== null) {
-            $where .= ' AND ' . $whereQuote;
+        $where = null;
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LINK_LIST);
+        if (!empty($allowedPageTypes)) {
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)',
+                array_keys($allowedPageTypes));
         }
-        else {
-            $where .= $whereQuote;
-        }
-        $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
+
+        $pages = $pageMapper->fetchAll($where, array('h1'));
         if(!empty ($pages)) {
             $links = array();
             foreach ($pages as $page) {
@@ -499,19 +524,6 @@ class Backend_PageController extends Zend_Controller_Action {
     private function _hasSubpages($pageId) {
         $subpages = Application_Model_Mappers_PageMapper::getInstance()->findByParentId($pageId);
         return sizeof($subpages);
-    }
-
-    private function _getProductCategoryPageWhere() {
-        $productCategoryPage = Tools_Page_Tools::getProductCategoryPage();
-        return (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
-    }
-
-    private function _getQuotePageWhere() {
-        $quotePlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('quote');
-        if($quotePlugin !== null && $quotePlugin->getStatus() === Application_Model_Models_Plugin::ENABLED) {
-            return 'parent_id != "' . Quote::QUOTE_CATEGORY_ID . '"';
-        }
-        return null;
     }
 
     private function _restoreOriginalValues($pageData) {
