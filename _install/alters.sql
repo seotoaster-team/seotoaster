@@ -127,10 +127,10 @@ CREATE TABLE `page_types_access` (
   PRIMARY KEY (`page_type_id`, `resource_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `page_types_access` (`page_type_id`, `resource_type`)
-VALUES ('1', 'list_pages'),
-VALUES ('1', 'link_list'),
-VALUES ('1', 'organize_pages');
+INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
+('1', 'list_pages'),
+('1', 'link_list'),
+('1', 'organize_pages');
 
 
 -- These alters are always the latest and updated version of the database
