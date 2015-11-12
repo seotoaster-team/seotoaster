@@ -13,6 +13,11 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	private $_translator           = null;
 
+    /**
+     * Resource for seo section
+     */
+    const SEO_PAGES = 'seo_pages';
+
     public static $_allowedActions = array('sitemap', 'feeds');
 
 	public function init() {
@@ -73,8 +78,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectForm   = new Application_Form_Redirect();
 		$pageMapper     = Application_Model_Mappers_PageMapper::getInstance();
 		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
+        $redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs($allowedPageTypes));
 
-		$redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
@@ -156,7 +162,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 	public function deeplinksAction() {
 		$deeplinksForm    = new Application_Form_Deeplink();
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
-		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs());
+		$allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
+		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs($allowedPageTypes));
 		if($this->getRequest()->isPost()) {
             $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {

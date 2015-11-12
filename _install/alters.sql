@@ -130,8 +130,13 @@ CREATE TABLE `page_types_access` (
 INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
 ('1', 'list_pages'),
 ('1', 'link_list'),
-('1', 'organize_pages');
-
+('1', 'organize_pages'),
+('1', 'seo_pages'),
+('2', 'seo_pages'),
+('3', 'seo_pages'),
+('1', 'sitemap_pages'),
+('2', 'sitemap_pages'),
+('3', 'sitemap_pages');
 
 -- These alters are always the latest and updated version of the database
 UPDATE `config` SET `value`='2.4.4' WHERE `name`='version';

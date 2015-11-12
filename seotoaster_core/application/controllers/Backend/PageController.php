@@ -391,11 +391,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
         $tree = array();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::ORGANIZE_PAGES);
-        if (!empty($allowedPageTypes)) {
-            $categories = $pageMapper->findByParentId(0, false, array_keys($allowedPageTypes));
-        } else {
-            $categories = $pageMapper->findByParentId(0);
-        }
+        $categories = $pageMapper->findByParentId(0, false, $allowedPageTypes);
         if(is_array($categories) && !empty ($categories)) {
             foreach ($categories as $category) {
 	            if ($category->getDraft()){
@@ -412,7 +408,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'organize';
         $this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
-        $this->view->noMenu      = $pageMapper->fetchAllNomenuPages();
+        $this->view->noMenu      = $pageMapper->fetchAllNomenuPages($allowedPageTypes);
     }
 
     public function listpagesAction() {
@@ -420,8 +416,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LIST_PAGES);
         if (!empty($allowedPageTypes)) {
-            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)',
-                array_keys($allowedPageTypes));
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $allowedPageTypes);
         }
         $templateName = $this->getRequest()->getParam('template', '');
         if($templateName) {
@@ -461,8 +456,7 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LINK_LIST);
         if (!empty($allowedPageTypes)) {
-            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)',
-                array_keys($allowedPageTypes));
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $allowedPageTypes);
         }
 
         $pages = $pageMapper->fetchAll($where, array('h1'));
