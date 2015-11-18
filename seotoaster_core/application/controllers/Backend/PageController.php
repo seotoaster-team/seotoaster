@@ -421,7 +421,11 @@ class Backend_PageController extends Zend_Controller_Action {
         $templateName = $this->getRequest()->getParam('template', '');
         if($templateName) {
             $this->view->templateName = $templateName;
-            $where                    = 'template_id="' . $templateName . '"';
+            if (!empty($where)) {
+                $where .= ' AND ';
+            }
+            $where .= 'template_id="' . $templateName . '"';
+
         }
         if($this->getRequest()->getParam('categoryName', false)) {
             $page = $pageMapper->findByNavName($this->getRequest()->getParam('categoryName'));
