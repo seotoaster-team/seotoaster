@@ -563,6 +563,20 @@ class Backend_ThemeController extends Zend_Controller_Action
         }
     }
 
+    public function gettemplatesbytypeAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $tpl = filter_var($this->getRequest()->getParam('templates', ''), FILTER_SANITIZE_STRING);
+            $tplArr = !empty($tpl) ? explode(',', $tpl) : array();
+            $currentTheme = $this->_helper->config->getConfig('currentTheme');
+            $templates = array();
+            foreach($tplArr as $templateType) {
+                $templates = array_merge($templates, $this->_getTemplateListByType($templateType, $currentTheme));
+            }
+            $this->_helper->response->response(array_filter($templates));
+        }
+    }
+
     private function _getTemplateListByType($type, $currentTheme, $currentTemplate = '')
     {
         $templateList = array();
