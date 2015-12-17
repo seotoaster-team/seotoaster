@@ -267,7 +267,7 @@ class Backend_UploadController extends Zend_Controller_Action
                     ->addFilter(new Zend_Filter_PregReplace(array('match' => '/[^\w\d_]+/u', 'replace' => '-')));
 
                 // filtering the img name
-                $expFileName = explode('.', $this->_uploadHandler->getFileName(null, false));
+                $expFileName = explode('.', $this->getRequest()->getParam('name', false));
                 $fileExt = array_pop($expFileName);
                 $name = implode($expFileName);
                 $newName = $filterChain->filter($name) . '.' . $fileExt;
