@@ -154,7 +154,14 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
             $this->_options['template'] = $replyTemplate;
         }
-        if(($mailBody = $this->_prepareEmailBody()) !== false) {
+
+        $pageUrl = str_replace($this->_websiteHelper->getUrl(),'',$formDetails['formUrl']);
+        $pageModel = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+        $pageId = 0;
+        if ($pageModel instanceof Application_Model_Models_Page) {
+            $pageId = $pageModel->getId();
+        }
+        if(($mailBody = $this->_prepareEmailBody($pageId)) !== false) {
             $this->_mailer->setBody($this->_entityParser->parse($mailBody));
         } else {
             $this->_mailer->setBody($this->_translator->translate('Thank you for your feedback'));
@@ -333,7 +340,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     }
 
-    protected function _prepareEmailBody() {
+    protected function _prepareEmailBody($pageId = 0) {
         $tmplMessage  = $this->_options['message'];
         $mailTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_options['template']);
         if (!empty($mailTemplate)){
@@ -368,6 +375,9 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             ->where('(container_type = 2 OR container_type = 4)')
             ->where('page_id IS NULL');
             $stat   = $cDbTable->getAdapter()->fetchAssoc($select);
+            if ($pageId) {
+                $parserOptions['id'] = $pageId;
+            }
             $parser = new Tools_Content_Parser($mailTemplate, array('containers' => $stat), $parserOptions);
 
             return Tools_Content_Tools::stripEditLinks($parser->parseSimple());
