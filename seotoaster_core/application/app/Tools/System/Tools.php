@@ -31,6 +31,8 @@ class Tools_System_Tools {
 
     const ACTION_PREFIX_USERS = 'Users';
 
+    const ACTION_PREFIX_LOGIN = 'Login';
+
     const ACTION_PREFIX_FORMS = 'Forms';
 
     const ACTION_PREFIX_ROBOTS = 'Robots';
@@ -514,5 +516,24 @@ class Tools_System_Tools {
             return $secureToken;
         }
         return $sessionHelper->$tokenName;
+    }
+
+    /**
+     * @param $email
+     * @param $userId
+     * @param string $expireIn
+     * @return Application_Model_Models_PasswordRecoveryToken|bool
+     */
+    public static function saveResetToken ($email, $userId, $expireIn = '+1 day') {
+        $resetToken = new Application_Model_Models_PasswordRecoveryToken(array(
+            'saltString' => $email,
+            'expiredAt'  => date(Tools_System_Tools::DATE_MYSQL, strtotime($expireIn, time())),
+            'userId'     => $userId
+        ));
+        $resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
+        if ($resetTokenId) {
+            return $resetToken;
+        }
+        return false;
     }
 }

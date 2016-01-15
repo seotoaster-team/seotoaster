@@ -217,6 +217,8 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 $this->_mailer->setMailToLabel($user->getFullName())
                     ->setMailTo($user->getEmail())
                     ->setSubject(isset($this->_options['subject']) ? $this->_options['subject'] : $this->_translator->translate('Welcome!'));
+                //create link for password generation and send e-mail to the user
+                $resetToken = Tools_System_Tools::saveResetToken($user->getEmail(), $user->getId(), '+1 week');
             break;
             case self::RECIPIENT_SUPERADMIN:
                 $superAdmin = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN);
@@ -251,6 +253,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $mailBody = $this->_options['message'];
         }
         $this->_entityParser->objectToDictionary($user);
+        if ($resetToken instanceof Application_Model_Models_PasswordRecoveryToken) {
+            $this->_entityParser->addToDictionary( array(
+                'user:passwordLink' => '<a href="' . $resetToken->getResetUrl() . '/new/user">link</a>',
+                'user:passwordLinkRaw'  => $resetToken->getResetUrl()
+            ));
+        }
         if(!isset($this->_options['from'])) {
             $this->_options['from'] = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN)->getEmail();
         }

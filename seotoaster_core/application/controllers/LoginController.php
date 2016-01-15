@@ -14,7 +14,16 @@ class LoginController extends Zend_Controller_Action {
 		}
 
         $loginForm = new Application_Form_Login();
+		$secureToken = Tools_System_Tools::initZendFormCsrfToken($loginForm, Tools_System_Tools::ACTION_PREFIX_LOGIN);
+		$this->view->secureToken = $secureToken;
+
 		if($this->getRequest()->isPost()) {
+			$secureToken = $this->_request->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_LOGIN);
+			if (!$tokenValid) {
+				$this->_checkRedirect(false, array());
+			}
+			$loginForm->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
 			if($loginForm->isValid($this->getRequest()->getParams())) {
 				$authAdapter = new Zend_Auth_Adapter_DbTable(
 					Zend_Registry::get('dbAdapter'),
@@ -35,6 +44,7 @@ class LoginController extends Zend_Controller_Action {
 						$this->_helper->session->setCurrentUser($user);
 						Application_Model_Mappers_UserMapper::getInstance()->save($user);
 						unset($user);
+						Zend_Session::regenerateId();
 						$this->_helper->cache->clean();
 						if($authUserData->role_id == Tools_Security_Acl::ROLE_MEMBER) {
 							$this->_memberRedirect();
@@ -123,16 +133,11 @@ class LoginController extends Zend_Controller_Action {
 				$retrieveData = $form->getValues();
 				$user = Application_Model_Mappers_UserMapper::getInstance()->findByEmail(filter_var($retrieveData['email'], FILTER_SANITIZE_EMAIL));
 				//create new reset token and send e-mail to the user
-				$resetToken = new Application_Model_Models_PasswordRecoveryToken(array(
-					'saltString' => $retrieveData['email'],
-					'expiredAt'  => date(Tools_System_Tools::DATE_MYSQL, strtotime('+1 day', time())),
-					'userId'     => $user->getId()
-				));
-				$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
-                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRESET
-				)));
-				$resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
-				if($resetTokenId) {
+				$resetToken = Tools_System_Tools::saveResetToken($retrieveData['email'], $user->getId());
+				if($resetToken instanceof Application_Model_Models_PasswordRecoveryToken) {
+					$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
+						'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRESET
+					)));
 					$this->_helper->flashMessenger->setNamespace('passreset')->addMessage($this->_helper->language->translate('We\'ve sent an email to')
 						. ' ' . $user->getEmail() . ' ' .
 						$this->_helper->language->translate('containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.')
@@ -195,6 +200,7 @@ class LoginController extends Zend_Controller_Action {
 		$form  = new Application_Form_PasswordReset();
 		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);
 		$token = filter_var($this->getRequest()->getParam('key', false), FILTER_SANITIZE_STRING);
+		$newUser = filter_var($this->getRequest()->getParam('new', false), FILTER_SANITIZE_STRING);
 
 		if(!$email || !$token) {
 			$error = true;
@@ -236,6 +242,7 @@ class LoginController extends Zend_Controller_Action {
 		}
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		$this->view->form = $form;
+		$this->view->newUser = $newUser;
 	}
 
 	/**
