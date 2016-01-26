@@ -1,8 +1,9 @@
 <?php
 
-class Application_Form_Login extends Zend_Form {
+class Application_Form_Login extends Application_Form_Secure {
 
     public function init() {
+		parent::init();
 
 		$this->setMethod(Zend_Form::METHOD_POST);
 

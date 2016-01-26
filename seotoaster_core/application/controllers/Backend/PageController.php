@@ -8,7 +8,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
     const DEFAULT_TEMPLATE = 'default';
 
-    public static $_allowedActions = array('publishpages', 'listpages');
+    public static $_allowedActions = array('publishpages');
 
     protected $_mapper             = null;
 
@@ -398,7 +398,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
     public function listpagesAction() {
         $where        = $this->_getProductCategoryPageWhere();
-        $templateName = $this->getRequest()->getParam('template', '');
+        $templateName = filter_var($this->getRequest()->getParam('template', ''), FILTER_SANITIZE_STRING);
         if($templateName) {
             $this->view->templateName = $templateName;
             $where                    = 'template_id="' . $templateName . '"';
