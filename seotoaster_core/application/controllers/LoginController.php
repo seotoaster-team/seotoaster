@@ -14,7 +14,7 @@ class LoginController extends Zend_Controller_Action {
 		}
 
         $loginForm = new Application_Form_Login();
-		$secureToken = Tools_System_Tools::initZendFormCsrfToken($loginForm, Tools_System_Tools::ACTION_PREFIX_LOGIN);
+		$secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_LOGIN);
 		$this->view->secureToken = $secureToken;
 
 		if($this->getRequest()->isPost()) {

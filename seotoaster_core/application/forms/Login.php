@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Login extends Application_Form_Secure {
+class Application_Form_Login extends Zend_Form {
 
     public function init() {
 		parent::init();
@@ -20,6 +20,10 @@ class Application_Form_Login extends Application_Form_Secure {
 
 		$this->addElement('password', 'password', array(
 			'label'    => 'Password',
+			'required' => true
+		));
+
+		$this->addElement('hidden', 'secureToken', array(
 			'required' => true
 		));
 

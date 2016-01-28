@@ -12,6 +12,7 @@
     <?php endif; ?>
     <?php
     $this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');
+    $this->loginForm->getElement('secureToken')->setValue($this->secureToken);
     echo $this->loginForm;
     ?>
     <a href="javascript:;" title="<?php echo $this->translate('Forgot password?'); ?>" class="forgot-password"> <?php echo $this->translate('Forgot password?'); ?></a>
