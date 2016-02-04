@@ -138,6 +138,7 @@ class LoginController extends Zend_Controller_Action {
 					$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
 						'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRESET
 					)));
+					$resetToken->notifyObservers();
 					$this->_helper->flashMessenger->setNamespace('passreset')->addMessage($this->_helper->language->translate('We\'ve sent an email to')
 						. ' ' . $user->getEmail() . ' ' .
 						$this->_helper->language->translate('containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.')
