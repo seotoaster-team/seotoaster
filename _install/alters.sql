@@ -117,7 +117,10 @@ VALUES ('1', 'page');
 -- Add page type
 ALTER TABLE `user` ADD COLUMN `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 09/02/2015
+-- version: 2.4.3
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.4.3' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
