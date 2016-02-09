@@ -1190,5 +1190,6 @@
     'Fill in the required fields' => 'Pas tous les champs obligatoires sont remplis',
     'Please enter a valid email address' => 'Veuillez entrer l\'adress email valide',
     'There are no users for export' => 'Il n\'y a pas d\'utilisateurs pour l\'exportation',
-    'Search error "%s". The request string should have more than 3 letters.' => 'Une erreur est survenue. La demande doit comporter plus de 3 caractères.'
+    'Search error "%s". The request string should have more than 3 letters.' => 'Une erreur est survenue. La demande doit comporter plus de 3 caractères.',
+    "Sale discount (%)" => "Taux de réduction"
 );?>
