@@ -33,11 +33,19 @@ class Widgets_Template_Template extends Widgets_Abstract
         $currentTheme = $this->_toasterOptions['currentTheme'];
         $missingTemplate = '<span style="color: red;">No template with name "' . $templateName . '"</span>';
 
+        $preParse = false;
+        if (array_search('pre-parse', $this->_options) !== false) {
+            $preParse = true;
+        }
+
         // if developerMode = 1, parsing template directly from files
         if ($this->_developerModeStatus) {
             $templatePath = $websitePath.$themePath.$currentTheme.DIRECTORY_SEPARATOR.$templateName.'.html';
             if (file_exists($templatePath)) {
                 $content =  Tools_Filesystem_Tools::getFile($templatePath);
+                if ($preParse) {
+                    $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath);
+                }
             } else {
                 $content = $missingTemplate;
             }
@@ -46,15 +54,8 @@ class Widgets_Template_Template extends Widgets_Abstract
             if ($template !== null) {
                 if ($template->getType() === self::TEMPLATE_TYPE) {
                     $content = $template->getContent();
-                    if (array_search('pre-parse', $this->_options) !== false) {
-                        $parserOptions = array(
-                            'websiteUrl' => $this->_toasterOptions['websiteUrl'],
-                            'websitePath' => $websitePath,
-                            'currentTheme' => $currentTheme,
-                            'themePath' => $themePath,
-                        );
-                        $parser = new Tools_Content_Parser($content, $this->_toasterOptions, $parserOptions);
-                        $content = $parser->parseSimple();
+                    if ($preParse) {
+                        $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath);
                     }
                 } else {
                     $content = '<span style="color: red;">Choose \'Nested Template\' type</span>';
@@ -66,4 +67,27 @@ class Widgets_Template_Template extends Widgets_Abstract
 
         return $content;
     }
+
+    /**
+     * Pre-parse partial template content
+     *
+     * @param string $content partial template content
+     * @param string $websitePath website path
+     * @param string $currentTheme current theme name
+     * @param string $themePath theme path
+     * @return null
+     */
+    private function _preParseTemplate($content, $websitePath, $currentTheme, $themePath)
+    {
+        $parserOptions = array(
+            'websiteUrl' => $this->_toasterOptions['websiteUrl'],
+            'websitePath' => $websitePath,
+            'currentTheme' => $currentTheme,
+            'themePath' => $themePath,
+        );
+        $parser = new Tools_Content_Parser($content, $this->_toasterOptions, $parserOptions);
+
+        return $parser->parseSimple();
+    }
+
 }
