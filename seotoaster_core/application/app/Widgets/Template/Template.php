@@ -85,7 +85,7 @@ class Widgets_Template_Template extends Widgets_Abstract
             'currentTheme' => $currentTheme,
             'themePath' => $themePath,
         );
-        $parser = new Tools_Content_Parser($content, $this->_toasterOptions, $parserOptions);
+        $parser = new Tools_Content_Parser(' '.$content, $this->_toasterOptions, $parserOptions);
 
         return $parser->parseSimple();
     }
