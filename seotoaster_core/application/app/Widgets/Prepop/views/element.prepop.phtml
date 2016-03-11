@@ -2,9 +2,9 @@
     switch($this->elementType) {
         case Widgets_Prepop_Prepop::TYPE_TEXT:
             ?>
-            <label class="">
+            <label>
                 <?php
-                echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+                echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : '', 'data-current-value' => $this->prepopContent));
                 ?>
             </label>
             <?php
@@ -55,7 +55,9 @@
             var self    = this;
             var isValid = self._validate()
             if(isValid !== true) {
-                showMessage(isValid.error, true);
+                if(isValid.error){
+                    showMessage(isValid.error, true);
+                }
                 return false;
             }
 
@@ -74,9 +76,11 @@
                 if(self.content){
                     data.removeClass('prepop-deleted');
                     data.addClass('prepop-success');
+                    $("#"+self.name).attr("data-current-value", self.content);
                 }else{
                     data.removeClass('prepop-success');
                     data.addClass('prepop-deleted');
+                    $("#"+self.name).removeAttr("data-current-value");
                 }
             }
 
@@ -86,6 +90,9 @@
             self.content = self.content.replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
             if(self.options.hasOwnProperty('limit') && (self.content.length > self.options.limit)) {
                 return {'error': 'Hey, not so fast! It is too much text here. Please remove some to fit ' + self.options.limit + ' characters limit'};
+            }
+            if(self.content === $("#"+self.name).attr('data-current-value')){
+                return false;
             }
             return true;
         }
