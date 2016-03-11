@@ -4,7 +4,7 @@
             ?>
             <label>
                 <?php
-                echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : '', 'data-current-value' => $this->prepopContent));
+                echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : '', 'data-current-value' => !empty($this->prepopContent) ? $this->prepopContent : ''));
                 ?>
             </label>
             <?php
