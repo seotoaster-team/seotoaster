@@ -1,107 +1,18 @@
-<!-- theme box template -->
-<script id="theme-box" type="text/template">
-
-    <!-- download link -->
-    <a class="lnk-download ticon-box-add icon16 p5px" href="javascript:;" data-name="<%= name %>" title="<?php echo $this->translate('Download theme');?>"></a>
-    <div class="download-options">
-        <a class="btn small block" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>" title="<?php echo $this->translate('Download light version of the');?> <%= name %> <?php echo $this->translate('theme');?>">Get theme</a>
-        <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
-	    <% if(isCurrent) { %>
-	    <a class="btn small block mt0px" title="<?php echo $this->translate('Download full version of the');?> <%= name %> <?php echo $this->translate('theme');?>" href="<?php echo $this->websiteUrl;?>api/toaster/themes/name/<%= name %>/kind/<?php echo Api_Toaster_Themes::THEME_KIND_FULL; ?>">Get website</a>
-	    <% } %>
-	    <?php endif; ?>
-    </div>
-
-	<% if(isCurrent) { %>
-		<span class="lnk-current small success ticon-checkmark-3 icon16 p5px" title="<?php echo $this->translate('Current');?>"></span>
-	<% } else { %>
-		<a class="lnk-delete small error ticon-remove icon16 p5px" title="<?php echo $this->translate('Delete');?>" data-name="<%= name %>"></a>
-	<% } %>
-
-    <div class="theme-preview-img">
-        <img src="<%= preview %>" class="preview" alt="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" title="<?php echo $this->translate('Seotoaster theme');?>: <%= name %>" />
-    </div>
-
-	<% if(!isCurrent) { %>
-		<button class="apply-button formsubmit btn grid_8 push_2"><?php echo $this->translate('Apply');?></button>
-	<% } %>
-
-    <p class="theme-name text-center mb0px">
-        <% if(isCurrent) { %>
-		<span class="current-theme success"><%= name.substr(0, 18) %></span>
-        <% } else { %>
-            <span class="apply-theme" data-name="<%= name %>" title="<% if((isCurrent)) { %>Your current theme: <%= name %> <% } else { %>Click to apply <%= name %> theme <% } %>"><%= name.substr(0, 18) %></span>
-		<% } %>
-    </p>
-</script>
-
 <div class="seotoaster container refreshOnClose">
-    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
-	<div class="content">
-		<!-- uploader -->
-		<div  class="grid_12">
-            <button class="btn icon backup ticon-menu2 fl-left mr1" title="<?php echo $this->translate('Create or apply backup current theme');?>">Backup theme</button>
-			<div class="grid_3 alpha">
-				<?php echo $this->toasterUploader(array(
-						'id'      => 'themes-uploader',
-						'filters' => array('zip'),
-						'caption' => $this->translate('Upload a new theme'),
-						'caller'  => 'themes'
-					));
-				?>
-			</div>
-			<div class="grid_6">
-				<div id="themes-uploader-filelist"></div>
-			</div>
-		</div>
-
-		<!-- main part -->
-        <div id="themes-list" class="grid_12">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array('headerText' => 'Manage themes', 'helpSection' => $this->helpSection)); ?>
+    <div class="content">
+        <!-- uploader -->
+        <div class="grid_12">
+            <div class="grid_6">
+                <div id="themes-uploader-filelist"></div>
+            </div>
+            <!-- main part -->
+            <div id="themes-list" class="grid_12">
+                <div class="grid_12" align="center">
+                    <h2>Video will be soon here</h2>
+                </div>
+            </div>
         </div>
-	</div>
+    </div>
 </div>
-<script>
-    $(function(){
-        $('.backup').click(function(){
-            smoke.quiz("<?php echo $this->translate('Back up current theme or roll back to previous version');?>", function(e){
-                var url,
-                    type = 'GET';
-                if(!e){
-                    return false;
-                }
-                showSpinner();
-
-                if(e == "<?php echo $this->translate('Backup theme');?>"){
-                    url = '<?php echo $this->websiteUrl;?>api/toaster/themes/exportBackup/1';
-                }
-                if(e == "<?php echo $this->translate('Apply backup');?>"){
-                    url = '<?php echo $this->websiteUrl;?>api/toaster/themes/importBackup/1';
-                    type = 'PUT';
-                }
-                $.ajax({
-                    type     : type,
-                    dataType : 'json',
-                    url      : url,
-                    success  : function(data){
-                        hideSpinner();
-                        showMessage(data.responseText, false);
-                    }
-                });
-            }, {
-                button_1       : "<?php echo $this->translate('Backup theme');?>",
-                button_2       : "<?php echo $this->translate('Apply backup');?>",
-                button_cancel  : "<?php echo $this->translate('Cancel');?>",
-                reverseButtons : true
-            });
-        })
-    });
-</script>
-
-<?php
-    $this->headScript()->appendFile(
-            $this->websiteUrl . 'system/js/external/require/require.min.js',
-            null,
-            array('data-main' => $this->websiteUrl . 'system/js/internal/themes.js')
-        );
-?>
-

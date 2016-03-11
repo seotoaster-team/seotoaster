@@ -119,6 +119,8 @@ class Backend_MediaController extends Zend_Controller_Action
      */
     public function removefileAction()
     {
+        error_log('Disabled for demo');
+        exit();
         if ($this->getRequest()->isPost()) {
             $folderName = $this->getRequest()->getParam('folder');
             if (empty ($folderName)) {

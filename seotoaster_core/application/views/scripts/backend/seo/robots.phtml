@@ -1,12 +1,13 @@
-<div class="seotoaster container">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Edit robots.txt', 'helpSection' => $this->helpSection)); ?>
-	<div class="grid_12 content-auto">
-        <form id="frm-robots" enctype="application/x-www-form-urlencoded" method="post" class="<?php echo $this->form->getAttrib('class');?> " action="<?php echo $this->url();?>">
-            <dl class="zend_form">
-                <?php echo $this->form->getElement('content'); ?>
-                <?php echo $this->form->getElement('updateRobots'); ?>
-            </dl>
-            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
-        </form>
-	</div>
+<div class="seotoaster container_12 h570 rounded3px">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array('headerText' => 'Edit robots.txt', 'helpSection' => $this->helpSection)); ?>
+    <div class="grid_12">
+        <h1 class="ui-helper-reset mb10px" style="text-align:center;">
+            <?php echo $this->translate('Edit robots.txt'); ?>
+        </h1>
+        <iframe width="290" height="240" style="display: block; margin-left: auto; margin-right: auto;"
+                src="//player.vimeo.com/video/47663772" frameborder="0" webkitallowfullscreen="" mozallowfullscreen=""
+                allowfullscreen="">
+        </iframe>
+    </div>
 </div>

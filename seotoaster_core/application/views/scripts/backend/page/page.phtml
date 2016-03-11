@@ -86,10 +86,6 @@
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
 				<span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
-				<?php
-					$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
-					echo $uploader;
-				?>
 			</div>
 			<div  class="grid_8 alpha omega">
 				<?php echo $this->pageForm->getElement('teaserText')->setAttrib(
@@ -122,22 +118,6 @@
 			}
 		}).on('click', '.featured', function(){
             $('#falist').show("slide", { direction: "right"});
-        });
-
-        var container = jsPageTeaserUploader;
-
-        container.bind('FileUploaded', function (uploader, file, info) {
-            var info = $.parseJSON(info.response);
-            if (info === false) {
-                showMessage('<?php echo $this->translate('Error during upload file');?>', true, 3000);
-            }
-            if (info.error === true) {
-                var errorMessage = '';
-                $.each(info.result, function (name, value) {
-                    errorMessage += value + '<br />';
-                });
-                showMessage(errorMessage, true, 3000);
-            }
         });
 
         $('#external-link-status').on('change', function() {

@@ -1,65 +1,22 @@
-<?php $this->headScript()
-           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/ace.js')
-           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
-           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js')
-           ->appendFile($this->websiteUrl . 'system/js/internal/theme.min.js'); ?>
-<div class="seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
-    : 'refreshOnClose'; ?>">
-    <?php echo $this->partial(
-        'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
-        array(
-            'headerText'      =>
-                $this->templateForm->getElement('id')->getValue() == '' ? 'Add template' : 'Edit template',
-            'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
-            'helpSection'     => $this->helpSection
-        )
-    ); ?>
-    <div class="content">
-        <div id="templatelist" class="show-right"></div>
-        <div id="listpages" class="show-right"></div>
-        <?php $this->templateForm->setAction($this->url()); ?>
-        <form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId(); ?>"
-              method="<?php echo $this->templateForm->getMethod(); ?>" class="grid_12">
-            <div class="grid_4 alpha">
-                <?php echo $this->templateForm->getElement('name'); ?>
-            </div>
-            <div class="fl-left mt0px">
-                <?php echo $this->templateForm->getElement('templateType'); ?>
-            </div>
-            <?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-                <div id="other-templates" class="fl-right mt2em">
-                    <a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate(
-                            'Edit other templates'
-                        ); ?> ]</a>
-                </div>
-                <div id="other-listpages" class="wrap text-center mt2em">
-                    <a id="listpages-btn" href="javascript:;">
-                        [ <?php echo $this->translate(
-                            'Used in %s pages',
-                            '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'
-                        ); ?> ]
-                    </a>
-                </div>
-            <?php endif; ?>
-            <div class="grid_12 alpha omega">
-                <div id="edittemplate" class="" style="height: 385px">
-                    <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
-                </div>
-                <div class="footer">
-                    <?php echo $this->templateForm->getElement('shortcuts'); ?>
-                    <?php echo $this->templateForm->getElement('submit'); ?>
-                </div>
-            </div>
-            <?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
-            <?php echo $this->templateForm->getElement('pageId'); ?>
-            <input class="template-secure-token" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
-        </form>
+<div
+    class="seotoaster container_12 h570 rounded3px <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? '' : 'refreshOnClose'; ?>">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+        'headerText' => $this->templateForm->getElement('id')->getValue() == '' ? 'Add template' : 'Edit template',
+        'helpSection' => $this->helpSection
+    )); ?>
+    <div class="grid_12">
+        <h1 class="ui-helper-reset mb10px" style="text-align:center;">
+            <?php if ($this->templateForm->getElement('id')->getValue() == ''): ?>
+            <?php echo $this->translate('Create a template'); ?>
+        </h1>
+        <iframe width="820" height="440" style="display: block; margin-left: auto; margin-right: auto;"
+                src="http://player.vimeo.com/video/37348503?title=0&amp;byline=0&amp;portrait=0" frameborder="0"
+                webkitallowfullscreen="" mozallowfullscreen$
+        "></iframe>
+        <?php else: ?>
+            <?php echo $this->translate('Edit a template'); ?>
+    </h1>
+    <iframe width="820" height="440" style="display: block; margin-left: auto; margin-right: auto;" src="http://player.vimeo.com/video/37349498?title=0&amp;byline=0&amp;portrait=0" frameborder="0" webkitallowfullscreen="" mozallowfullsc$"></iframe>
+    <?php endif; ?>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $('#useful-shortcuts').on('change', function () {
-            editor.insert(this.value);
-        })
-    })
-</script>

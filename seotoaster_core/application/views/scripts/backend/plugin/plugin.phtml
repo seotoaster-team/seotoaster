@@ -1,65 +1,12 @@
-<div class="seotoaster container">
-    <?php echo $this->partial(
-        'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
-        array('headerText' => 'Manage plugins', 'helpSection' => $this->helpSection)
-    ); ?>
-
-    <div class="content">
-        <!--  Plugin upload box  -->
-        <div id="upload-plugin" class="grid_12">
-            <div class="grid_5 alpha"><?php if (extension_loaded('zip')): ?>
-                    <?php
-                    $uploader = $this->toasterUploader(
-                        array(
-                            'id'            => 'plugin-uploader',
-                            'caller'        => 'plugin',
-                            'caption'       => $this->translate('Upload a new plugin'),
-                            'noMultiupload' => true
-                        )
-                    );
-                    echo $uploader;
-                    ?>
-                <?php else: ?>
-
-                <?php endif; ?>
-            </div>
-            <div class="grid_7 omega">
-                <div id="plugin-uploader-filelist"></div>
-            </div>
-            <?php if (!extension_loaded(Tools_Plugins_Tools::LOADER_EXTENSION)): ?>
-                <div class="alert error" style="width: 500px; float: right; padding: 2px 10px;">
-                    <?php echo $this->translate(
-                        'We\'ve detected that you don\'t have the "%s" extension installed. Some plugins might not be able to function properly.',
-                        '<a href="http://www.ioncube.com/loaders.php" target="_blank">' . Tools_Plugins_Tools::LOADER_EXTENSION . '&trade;</a>'
-                    ); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-        <!--  /Plugin upload box  -->
-
-        <!--  Plugins tabs  -->
-        <div class="grid_12 mt10px">
-            <?php
-            $this->tabPane(
-                'plugintab',
-                '<div class="plugins-list"></div>',
-                array(
-                    'title'      => $this->translate('Installed plugins'),
-                    'contentUrl' => $this->websiteUrl . 'backend/backend_plugin/list/',
-                )
-            );
-            $this->tabPane(
-                'plugintab',
-                $this->toasterFrame('plugins-for-cpanel.html', array('height' => 399)),
-                array(
-                    'title' => $this->translate('Available plugins')
-                )
-            );
-            echo $this->tabContainer('plugintab', array(), array('class' => 'plugintabs'));
-            ?>
-        </div>
-        <!-- /Plugins tabs  -->
-    </div>
-    <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>">
+<div class="seotoaster container_12 h570 rounded3px">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array('headerText' => 'Manage plugins', 'helpSection' => $this->helpSection)); ?>
+    <h1 class="ui-helper-reset mb10px" style="text-align:center;">
+        <?php echo $this->translate('Manage plugins'); ?>
+    </h1>
+    <iframe width="825" height="400" style="display: block; margin-left: auto; margin-right: auto;"
+            src="http://player.vimeo.com/video/37408200?title=0&amp;byline=0&amp;portrait=0" frameborder="0"
+            webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="">
+    </iframe>
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/plugin.min.js'); ?>
+

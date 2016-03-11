@@ -1,98 +1,11 @@
 <div class="seotoaster container">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
-        'headerText' => $this->editjsForm->getElement('jsname')->removeDecorator('DtDdWrapper'),
-        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
-        'helpSection' => $this->helpSection)); ?>
-    <?php $this->editjsForm->setAction($this->url()); ?>
-    <form action="<?php echo $this->editjsForm->getAction(); ?>" id="<?php echo $this->editjsForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editjsForm->getMethod(); ?>">
-        <div id="editor" style="height: 450px;"><?php echo $this->editjsForm->getElement('content'); ?></div>
-        <div class="footer">
-            <label class="grid_3 pointer">
-                <?php echo $this->editjsForm->getElement('jsminify'); ?>
-                <?php echo $this->editjsForm->getElement('jsminify')->getLabel(); ?>
-                <i class="ticon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Compress JavaScript file.'); ?>"></i>
-            </label>
-            <label class="grid_4 pointer">
-                <?php echo $this->editjsForm->getElement('jscombine'); ?>
-                <?php echo $this->editjsForm->getElement('jscombine')->getLabel(); ?>
-                <i class="ticon-info-sign icon16 info tooltip" title="<?php echo $this->translate('Combines to single(one) JavaScript files with name of folder they are located.'); ?>"></i>
-            </label>
-            <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
-            <?php echo $this->editjsForm->getElement('submit'); ?>
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+        'headerText' => "Edit Js",
+        'helpSection' => $this->helpSection
+    )); ?>
+    <div id="editor" style="height: 450px;">
+        <div class="grid_12" align="center">
+            <h2>Video will be soon here</h2>
         </div>
-    </form>
+    </div>
 </div>
-
-<?php $this->headScript()
-           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' )
-           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
-           ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-javascript.js'); ?>
-
-<script type="text/javascript">
-$(function() {
-    var textarea = $('#jscontent').detach();
-    textarea.insertBefore('#editor');
-    window.editor  = ace.edit("editor");
-    editor.setTheme("ace/theme/crimson_editor");
-    var JSMode = require("ace/mode/javascript").Mode;
-    editor.getSession().setMode(new JSMode());
-    editor.getSession().setValue(textarea.hide().val());
-    editor.getSession().setUseWrapMode(true);
-
-    $('.tooltip').tooltip();
-
-	$('#jslist').focus();
-	$('#editjsform').on('submit', function(){
-        var jsContent = editor.getSession().getValue();
-		$.ajax({
-			url: $(this).attr('action'),
-			type: $(this).attr('method'),
-			data: {jsname : $("#jslist").val(), jsminify : $("#jsminify").prop('checked'), jscombine : $("#jscombine").prop('checked'), content : jsContent, secureToken: $('.secureToken').val()},
-			dataType: 'json',
-			success: function(response){
-				hideSpinner();
-				showMessage(response.responseText);
-			},
-			beforeSend: function(){
-				showSpinner();
-			},
-			error: function(){
-				$('.smoke-base').remove();
-				showMessage('<?php echo $this->translate('Error occured.'); ?>', true);
-			}
-		})
-		return false;
-	});
-
-    $('#jslist').on('change',function(){
-        $("#jsminify, #jscombine").prop('checked', false);
-		$.ajax({
-			url: '<?php echo $this->websiteUrl; ?>backend/backend_theme/editjs/',
-			type: 'POST',
-			data: {"getjs": $(this).val()},
-			dataType: 'json',
-			success: function(response){
-				if (!response.error){
-					hideSpinner();
-					editor.getSession().setValue(response.responseText);
-				}
-			},
-			beforeSend: function(){
-				showSpinner();
-			},
-			error: function(){
-				$('.smoke-base').hide();
-				smoke.alert('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
-			}
-		});
-	});
-    
-	$('textarea').on('keydown', function(e) {
-		if(e.ctrlKey && e.keyCode == 83) {
-			e.preventDefault();
-			$('#editjsform').submit();
-		}
-	});
-});
-</script>
-

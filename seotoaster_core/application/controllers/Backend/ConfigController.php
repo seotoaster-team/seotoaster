@@ -34,6 +34,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$this->view->isSuperAdmin = $isSuperAdminLogged;
 
 		if ($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             if (!$isSuperAdminLogged) {
                 $configForm->removeElement('suLogin');
                 $configForm->removeElement('suPassword');
@@ -176,6 +178,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
     public function actionmailsAction() {
         if($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             $actions = $this->getRequest()->getParam('actions', false);
             $secureToken = $this->getRequest()->getParam('secureToken', false);
 			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);

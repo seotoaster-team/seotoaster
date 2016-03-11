@@ -1,28 +1,12 @@
-<div class="seotoaster container">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
-	<div class="content-footer">
-		<form id="frm-redirects" class="_fajax grid_12 mb15px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
-			<div class="grid_5 alpha">
-				<?php echo $this->form->getElement('fromUrl'); ?>
-			</div>
-			<div class="grid_5 alpha omega mt0px type-url">
-				<label for="urlType"><?php echo $this->form->getElement('urlType') . $this->translate(' Local url');?></label>
-				<?php echo $this->form->getElement('toUrl'); ?>
-			</div>
-			<?php echo $this->form->getElement('addRedirect')->renderViewHelper(); ?>
-            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
-		</form>
-
-		<div id="redirect-title" class="grid_12 list-title">
-			<div class="grid_1 mr0 ml0 text-center"> <input type="checkbox" id="massdell-main" /></div>
-			<div class="grid_5 alpha omega ml-grid mr-grid"><?php echo $this->translate('Former url'); ?></div>
-			<div class="grid_6 mr0"><?php echo $this->translate('New url'); ?></div>
-		</div>
-		<div id="redirects-list" class="grid_12 items-list"></div>
-	</div>
-	<div class="grid_12 footer">
-		<a href="javascript:;" id="massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
-		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
-	</dv>
+<div class="seotoaster container_12 h570 rounded3px">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
+    <div class="grid_12">
+        <h1 class="ui-helper-reset mb10px" style="text-align:center;">
+            <?php echo $this->translate('301 redirects'); ?>
+        </h1>
+        <iframe width="873" height="450" style="display: block; margin-left: auto; margin-right: auto;"
+                src="http://player.vimeo.com/video/42610548" frameborder="0" webkitallowfullscreen=""
+                mozallowfullscreen="" allowfullscreen=""></iframe>
+    </div>
 </div>
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.min.js'); ?>

@@ -68,6 +68,8 @@ class Api_Toaster_Users extends Api_Service_Abstract
      */
     public function putAction()
     {
+        error_log('Disabled for demo');
+        exit();
         $id = intval(filter_var($this->_request->getParam('id'), FILTER_VALIDATE_INT));
         $data = json_decode($this->_request->getRawBody(), true);
 

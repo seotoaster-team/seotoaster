@@ -70,6 +70,8 @@ class Backend_ThemeController extends Zend_Controller_Action
                 }
             }
         } else {
+            error_log('Disabled for demo');
+            exit();
             $templateForm = Tools_System_Tools::addTokenValidatorZendForm($templateForm, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);
             if ($templateForm->isValid($this->getRequest()->getPost())) {
                 $templateData = $templateForm->getValues();
@@ -236,6 +238,8 @@ class Backend_ThemeController extends Zend_Controller_Action
 
         //checking, if form was submited via POST then
         if ($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             $postParams = $this->getRequest()->getParams();
             if (isset($postParams['getcss']) && !empty ($postParams['getcss'])) {
                 $cssName = $postParams['getcss'];
@@ -309,6 +313,8 @@ class Backend_ThemeController extends Zend_Controller_Action
 
         //checking, if form was submited via POST then
         if ($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             $postParams = $this->getRequest()->getParams();
             if (isset($postParams['getjs']) && !empty ($postParams['getjs'])) {
                 $jsName = $postParams['getjs'];
@@ -651,6 +657,8 @@ class Backend_ThemeController extends Zend_Controller_Action
      */
     public function deletetemplateAction()
     {
+        error_log('Disabled for demo');
+        exit();
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_TEMPLATES);

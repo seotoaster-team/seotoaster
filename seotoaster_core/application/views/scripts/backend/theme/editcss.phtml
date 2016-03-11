@@ -1,93 +1,12 @@
 <div class="seotoaster container">
-	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
-        'headerText' => $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'),
-        'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
-        'helpSection' => $this->helpSection)); ?>
-    <?php $this->editcssForm->setAction($this->url()); ?>
-    <form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
-        <div id="editor" style="height: 450px;"><?php echo $this->editcssForm->getElement('content'); ?></div>
-        <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>" />
-        <div class="footer">
-            <a id="reformat-code" class="inverse" href="javascript:;">[ <?php echo $this->translate('Reformat code'); ?> ]</a>
-            <?php echo $this->editcssForm->getElement('submit'); ?>
-        </div>
-    </form>
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+        'headerText' => "Edit Css",
+        'helpSection' => $this->helpSection
+    )); ?>
+    <div class="mt20px">
+        <iframe width="440" height="440" style="display: block; margin-left: auto; margin-right: auto;"
+                src="http://player.vimeo.com/video/37349143?title=0&amp;byline=0&amp;portrait=0" frameborder="0"
+                webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="">
+        </iframe>
+    </div>
 </div>
-
-<?php $this->headScript()
-    ->appendFile($this->websiteUrl . 'system/js/external/tabifier/tabifier.min.js' )
-    ->appendFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' )
-    ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
-    ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>
-
-<script type="text/javascript">
-$(function() {
-    var textarea = $('#csscontent').detach();
-    textarea.insertBefore('#editor');
-    window.editor  = ace.edit("editor");
-    editor.setTheme("ace/theme/crimson_editor");
-    var CSSMode = require("ace/mode/css").Mode;
-    editor.getSession().setMode(new CSSMode());
-    editor.getSession().setValue(textarea.hide().val());
-    editor.getSession().setUseWrapMode(true);
-
-	$('#csslist').focus();
-	$('#editcssform').on('submit', function(){
-        var cssContent = editor.getSession().getValue();
-		$.ajax({
-			url: $(this).attr('action'),
-			type: $(this).attr('method'),
-			data: {cssname : $("#csslist").val(), content : cssContent, secureToken: $('.secureToken').val()},
-			dataType: 'json',
-			success: function(response){
-				hideSpinner();
-				showMessage(response.responseText);
-				//$('.smoke-base').delay(1300).slideUp();
-			},
-			beforeSend: function(){
-				showSpinner();
-			},
-			error: function(){
-				$('.smoke-base').remove();
-				showMessage('<?php echo $this->translate('Error occured.'); ?>', true);
-			}
-		})
-		return false;
-	});
-    
-    $('#csslist').on('change',function(){
-		$.ajax({
-			url: '<?php echo $this->websiteUrl; ?>backend/backend_theme/editcss/',
-			type: 'POST',
-			data: {"getcss": $(this).val()},
-			dataType: 'json',
-			success: function(response){
-				if (!response.error){
-					hideSpinner();
-					editor.getSession().setValue(response.responseText);
-				}
-			},
-			beforeSend: function(){
-				showSpinner();
-			},
-			error: function(){
-				$('.smoke-base').hide();
-				smoke.alert('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
-			}
-		});
-	});
-    
-	$('textarea').on('keydown', function(e) {
-		if(e.ctrlKey && e.keyCode == 83) {
-			e.preventDefault();
-			$('#editcssform').submit();
-		}
-	});
-
-    $('#reformat-code').on('click',function(){
-        var code = editor.getSession().getValue();
-        runTabifier(code, 'CSS')
-    });
-});
-</script>
-

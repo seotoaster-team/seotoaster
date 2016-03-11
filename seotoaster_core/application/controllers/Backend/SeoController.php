@@ -51,6 +51,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 			$robotsForm->setContent($robotstxtContent);
 		}
 		else {
+            error_log('Disabled for demo');
+            exit();
             $robotsForm = Tools_System_Tools::addTokenValidatorZendForm($robotsForm, Tools_System_Tools::ACTION_PREFIX_ROBOTS);
             if($robotsForm->isValid($this->getRequest()->getParams())) {
 				$robotsData = $robotsForm->getValues();
@@ -78,6 +80,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             $redirectForm = Tools_System_Tools::addTokenValidatorZendForm($redirectForm, Tools_System_Tools::ACTION_PREFIX_REDIRECTS);
             if($redirectForm->isValid($this->getRequest()->getParams())) {
 				$data          = $redirectForm->getValues();
@@ -140,7 +144,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function removeredirectAction() {
-		if($this->getRequest()->isDelete()) {
+        error_log('Disabled for demo');
+        exit();
+        if($this->getRequest()->isDelete()) {
 			$ids            = explode(',', $this->getRequest()->getParam('id'));
 			$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
 			if(is_array($ids)) {
@@ -158,6 +164,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs());
 		if($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
 				$data           = $deeplinksForm->getValues();
@@ -198,7 +206,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function removedeeplinkAction() {
-		if($this->getRequest()->isDelete()) {
+        error_log('Disabled for demo');
+        exit();
+        if($this->getRequest()->isDelete()) {
 			$ids = explode(',', $this->getRequest()->getParam('id'));
 			if(is_array($ids)) {
 				foreach ($ids as $id) {
@@ -296,7 +306,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function addsilotopageAction() {
-		if($this->getRequest()->isPost()) {
+        error_log('Disabled for demo');
+        exit();
+        if($this->getRequest()->isPost()) {
 			$page = Application_Model_Mappers_PageMapper::getInstance()->find(intval($this->getRequest()->getParam('pid')));
 			if($page instanceof Application_Model_Models_Page) {
 				$page->setSiloId(intval($this->getRequest()->getParam('sid', 0)));
@@ -306,7 +318,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function silocatAction() {
-		if($this->getRequest()->isPost()) {
+        error_log('Disabled for demo');
+        exit();
+        if($this->getRequest()->isPost()) {
 			$action = $this->getRequest()->getParam('act', false);
 			if(!$action) {
 				throw new Exceptions_SeotoasterException($this->_translator->translate('Action is not defined'));
@@ -371,7 +385,9 @@ class Backend_SeoController extends Zend_Controller_Action {
 			$this->view->siloForm = $siloForm;
 		}
 		else {
-			$action = $this->getRequest()->getParam('act', null);
+            error_log('Disabled for demo');
+            exit();
+            $action = $this->getRequest()->getParam('act', null);
 			if($action === null) {
 				$this->_helper->response->fail($this->_helper->language->translate('Action is not defined'));
 			}

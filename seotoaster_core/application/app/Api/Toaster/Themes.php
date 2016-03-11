@@ -155,7 +155,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 *
 	 */
 	public function putAction() {
-		$themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
+        error_log('Disabled for demo');
+        exit();
+        $themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
 		$data = Zend_Json::decode($this->_request->getRawBody());
 		$themePath = $this->_websiteHelper->getPath() . $this->_themesConfig['path'] . $themeName;
 		if($this->_request->getParam('importBackup', false)){
@@ -253,7 +255,9 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 	 * @return bool
 	 */
 	public function deleteAction() {
-		$themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
+        error_log('Disabled for demo');
+        exit();
+        $themeName = filter_var($this->_request->getParam('name'), FILTER_SANITIZE_STRING);
 		if ($this->_configHelper->getConfig('currentTheme') == $themeName) {
 			$this->_error('Current theme cannot be removed!', self::REST_STATUS_FORBIDDEN);
 		}

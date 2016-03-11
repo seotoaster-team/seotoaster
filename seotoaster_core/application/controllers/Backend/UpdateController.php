@@ -77,6 +77,8 @@ class Backend_UpdateController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        error_log('Disabled for demo');
+        exit();
         $this->view->remoteVersion = $this->_remoteVersion;
         if (count($this->_whatIsNew)) {
             $this->view->whatIsNew = $this->_whatIsNew;
@@ -97,6 +99,8 @@ class Backend_UpdateController extends Zend_Controller_Action
      */
     public function updateAction()
     {
+        error_log('Disabled for demo');
+        exit();
         /**
          * Step 1: Checks the current version of the toaster. And if needs updating puts NextStep = 2
          */

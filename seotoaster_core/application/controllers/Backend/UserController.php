@@ -41,6 +41,8 @@ class Backend_UserController extends Zend_Controller_Action {
 		$userForm = new Application_Form_User();
         $userForm->getElement('password')->setRequired(false);
 		if($this->getRequest()->isPost()) {
+            error_log('Disabled for demo');
+            exit();
             //if we are updating
             $userId = $this->getRequest()->getParam('id');
             if($userId) {
@@ -128,7 +130,9 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function deleteAction() {
-		if($this->getRequest()->isDelete()) {
+        error_log('Disabled for demo');
+        exit();
+        if($this->getRequest()->isDelete()) {
 			$userId = $this->getRequest()->getParam('id');
 			if(!$userId) {
 				$this->_helper->response->fail('Can\'t remove user...');
@@ -160,6 +164,8 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
     public function exportAction() {
+        error_log('Disabled for demo');
+        exit();
         if($this->getRequest()->isPost()) {
             if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
                 $users        = Application_Model_Mappers_UserMapper::getInstance()->fetchAll();

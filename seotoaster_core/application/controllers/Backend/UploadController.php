@@ -51,6 +51,8 @@ class Backend_UploadController extends Zend_Controller_Action
 
     public function uploadAction()
     {
+        error_log('Disabled for demo');
+        exit();
         $this->_helper->getHelper('layout')->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 

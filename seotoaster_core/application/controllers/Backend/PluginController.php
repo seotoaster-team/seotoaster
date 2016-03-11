@@ -73,6 +73,8 @@ class Backend_PluginController extends Zend_Controller_Action {
 	}
 
     public function triggerinstallAction() {
+        error_log('Disabled for demo');
+        exit();
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PLUGINS);
@@ -187,6 +189,8 @@ class Backend_PluginController extends Zend_Controller_Action {
 
     public function triggerAction()
     {
+        error_log('Disabled for demo');
+        exit();
         if ($this->getRequest()->isPost()) {
             $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
             $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PLUGINS);
@@ -211,7 +215,9 @@ class Backend_PluginController extends Zend_Controller_Action {
     }
 
 	public function deleteAction() {
-		if($this->getRequest()->isDelete()) {
+        error_log('Disabled for demo');
+        exit();
+        if($this->getRequest()->isDelete()) {
 			$plugin       = Tools_Plugins_Tools::findPluginByName($this->getRequest()->getParam('id'));
 			$plugin->registerObserver(new Tools_Plugins_GarbageCollector(array(
 					'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
