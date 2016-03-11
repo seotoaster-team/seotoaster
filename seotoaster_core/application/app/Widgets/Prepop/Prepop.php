@@ -154,7 +154,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_view->prepopContent = $this->_options[0];
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
-        $this->_view->onJsElementAction = 'blur';
+        $this->_view->onJsElementAction = 'change';
         return $this->_view->render('element.prepop.phtml');
     }
 

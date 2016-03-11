@@ -1,8 +1,14 @@
 <?php
     switch($this->elementType) {
         case Widgets_Prepop_Prepop::TYPE_TEXT:
-            echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
-        break;
+            ?>
+            <label class="">
+                <?php
+                echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+                ?>
+            </label>
+            <?php
+            break;
         case Widgets_Prepop_Prepop::TYPE_SELECT:
             echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => $this->prepopName . ' prepop-' . $this->elementType), $this->options);
         break;
@@ -63,12 +69,23 @@
                 secureToken   : self.secureToken
             }, 'json');
 
+            if(parseInt(self.container.type) === <?php echo Application_Model_Models_Container::TYPE_PREPOP;?> || parseInt(self.container.type) === <?php echo Application_Model_Models_Container::TYPE_PREPOPSTATIC;?>){
+                var data = $("#"+self.name).parent("label");
+                if(self.content){
+                    data.removeClass('prepop-deleted');
+                    data.addClass('prepop-success');
+                }else{
+                    data.removeClass('prepop-success');
+                    data.addClass('prepop-deleted');
+                }
+            }
+
         },
         _validate: function() {
             var self     = this;
             self.content = self.content.replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
             if(self.options.hasOwnProperty('limit') && (self.content.length > self.options.limit)) {
-                return {'error': 'Hey, not so fast! It is to mcuch text here. Please remove some to fit ' + self.options.limit + ' characters limit'};
+                return {'error': 'Hey, not so fast! It is too much text here. Please remove some to fit ' + self.options.limit + ' characters limit'};
             }
             return true;
         }
