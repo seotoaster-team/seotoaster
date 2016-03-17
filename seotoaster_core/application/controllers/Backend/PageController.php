@@ -552,7 +552,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
         } else {
             $params['templateId'] = self::DEFAULT_TEMPLATE;
-            $params['h1'] = self::DEFAULT_TEMPLATE;
+            $params['h1'] = $params['navName'];
             $params['headerTitle'] = self::DEFAULT_TEMPLATE;
             $this->_helper->cache->clean();
         }
