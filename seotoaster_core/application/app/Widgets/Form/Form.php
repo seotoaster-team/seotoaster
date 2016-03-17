@@ -38,7 +38,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should provide a form name.'));
 		}
-        if(strlen($this->_options[0]) > self::WFORM_NAME_LIMIT_CHARS){
+        if(mb_strlen($this->_options[0]) > self::WFORM_NAME_LIMIT_CHARS){
             throw new Exceptions_SeotoasterException($this->_translator->translate('Form name is limited to 64 chars. Please go back to the content editor and use a shorter name for your form.'));
         }
         
