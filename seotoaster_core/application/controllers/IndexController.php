@@ -266,6 +266,28 @@ class IndexController extends Zend_Controller_Action {
 							}
 						}
 						break;
+                    case 'style':
+                        $attributes = array();
+                        foreach($node->attributes as $attr){
+                            $attributes[$attr->name] = $attr->value;
+                            unset($attr);
+                        }
+                        if (isset($attributes['type'])){
+                            $type = $attributes['type'];
+                            unset($attributes['type']);
+                        } else {
+                            $type = 'text/css';
+                        }
+                        if ($node->hasAttribute('src')){
+                            $this->view->headStyle()->appendStyle($node->getAttribute('src'), $type, $attributes);
+                        } else {
+                            if ($type !== 'text/css'){
+                                $this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveXML($node));
+                            } else {
+                                $this->view->headStyle()->appendStyle($node->nodeValue, $type);
+                            }
+                        }
+                        break;
 					case 'link':
 						if (strtolower($node->getAttribute('rel')) === 'stylesheet' ){
 							$this->view->headLink()->appendStylesheet(
