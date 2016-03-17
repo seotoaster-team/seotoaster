@@ -344,7 +344,7 @@ class Backend_UploadController extends Zend_Controller_Action
         ));
 
         //Adding file extension validation
-        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,mp3,avi,mpeg,mp4,webm,ogg,webm,ogv');
+        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,mp3,avi,mpeg,mp4,webm,ogg,ogv');
         //Adding mime types validation
         $this->_uploadHandler->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
                 'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
