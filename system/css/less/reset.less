@@ -221,3 +221,36 @@ button, [type="button"], [type="reset"], [type="submit"]{
         display : block;
     }
 }
+
+//Prepops
+.prepop-deleted{ }
+.prepop-success{
+  position : relative;
+  > *{
+    padding-right : 1.3em;
+  }
+  &::after{
+    content                 : "\e030";
+    position                : absolute;
+    width                   : 1.25em;
+    height                  : 1.25em;
+    right                   : 3px;
+    top                     : 0;
+    bottom                  : 0;
+    margin                  : auto;
+    padding                 : 0.15em;
+    .border-radius(50%);
+    font-family             : @icon-family;
+    speak                   : none;
+    font-style              : normal;
+    font-weight             : normal;
+    text-transform          : none;
+    line-height             : 1;
+    text-align              : center;
+    vertical-align          : middle;
+    -webkit-font-smoothing  : antialiased;
+    -moz-osx-font-smoothing : grayscale;
+    color                   : #fff;
+    background-color        : @brand-success;
+  }
+}
