@@ -60,12 +60,11 @@ class Widgets_Repeat_Repeat extends Widgets_Abstract
             if (!empty($content[0]) && $this->_options[1] === self::REPEAT_QUANTITY_OPTION) {
                 return (int)$content[0];
             }
-            if (!empty($this->_options[2]) && $this->_options[1] === self::REPEAT_QUANTITY_OPTION) {
-                return (int)$this->_options[2];
-            }
             if (!empty($content[1]) && $this->_options[1] === self::REPEAT_ORDER_OPTION) {
                 return $content[1];
             }
+        } elseif(!empty($this->_options[2]) && $this->_options[1] === self::REPEAT_QUANTITY_OPTION) {
+            return (int)$this->_options[2];
         }
 
         return '';
