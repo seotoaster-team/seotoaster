@@ -44,13 +44,18 @@
             } else {
                 $("#form-captcha-style").closest('label.pointer').fadeOut('slow');
             }
-        })
+        });
 
 		$(document).on('click', '.apply-widget-forms', function() {
-            var recaptchaStyle = "";
+            var WFORM_NAME_LIMIT_CHARS = 64;
+            var recaptchaStyle = "",
+                nameLength = $('#forms-newname').val().length;
             var widgetForm = $(this).closest('form');
 			var widgetHtml = '{$' + widgetForm.data('name');
 
+            if(nameLength > WFORM_NAME_LIMIT_CHARS){
+                return  showMessage("<?php echo $this->translate('Form name is limited to 64 chars!')?>", false, 3000);
+            }
 			if($('#forms-newname').val().trim() != '') {
 				widgetHtml += ':' + $('#forms-newname').val()
 			} else if($('#forms-existing').val() != 0) {

@@ -225,4 +225,5 @@
      'Get ready to toast:'   => 'Prepárese para usar Seotoaster:',
      'Log into your toaster here' => 'Conéctese a su Toaster aquí:',
      'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Complete la información de su negocio o la ID de su sitio para facilitar la indexación en los buscadores',
+     'Search error "%s". The request string should have more than 3 letters.' => 'Error de búsqueda. La petición solicitada debe contener al menos 3 caracteres.'
   );?>
