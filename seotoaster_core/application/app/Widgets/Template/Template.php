@@ -38,13 +38,18 @@ class Widgets_Template_Template extends Widgets_Abstract
             $preParse = true;
         }
 
+        $templateOption = '';
+        if (!empty($this->_options['2'])) {
+            $templateOption = $this->_options['2'];
+        }
+
         // if developerMode = 1, parsing template directly from files
         if ($this->_developerModeStatus) {
             $templatePath = $websitePath.$themePath.$currentTheme.DIRECTORY_SEPARATOR.$templateName.'.html';
             if (file_exists($templatePath)) {
                 $content =  Tools_Filesystem_Tools::getFile($templatePath);
                 if ($preParse) {
-                    $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath);
+                    $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath, $templateOption);
                 }
             } else {
                 $content = $missingTemplate;
@@ -55,7 +60,7 @@ class Widgets_Template_Template extends Widgets_Abstract
                 if ($template->getType() === self::TEMPLATE_TYPE) {
                     $content = $template->getContent();
                     if ($preParse) {
-                        $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath);
+                        $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath, $templateOption);
                     }
                 } else {
                     $content = '<span style="color: red;">Choose \'Nested Template\' type</span>';
@@ -75,9 +80,10 @@ class Widgets_Template_Template extends Widgets_Abstract
      * @param string $websitePath website path
      * @param string $currentTheme current theme name
      * @param string $themePath theme path
+     * @param string $templateOption custom option lexem for template {template:option}
      * @return null
      */
-    private function _preParseTemplate($content, $websitePath, $currentTheme, $themePath)
+    private function _preParseTemplate($content, $websitePath, $currentTheme, $themePath, $templateOption = '')
     {
         $parserOptions = array(
             'websiteUrl' => $this->_toasterOptions['websiteUrl'],
@@ -85,6 +91,7 @@ class Widgets_Template_Template extends Widgets_Abstract
             'currentTheme' => $currentTheme,
             'themePath' => $themePath,
         );
+        $content = str_replace('{template:option}', $templateOption, $content);
         $parser = new Tools_Content_Parser(' '.$content, $this->_toasterOptions, $parserOptions);
 
         return $parser->parseSimple();
