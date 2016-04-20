@@ -481,4 +481,19 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
+
+    /**
+     * This method delete pages by ids
+     * @param array $ids
+     * @return int  - number of deleted pages
+     */
+    public function deleteIn($ids = array())
+    {
+        if(empty($ids)) {
+            return false;
+        }
+        $where = $this->getDbTable()->getAdapter()->quoteInto("id IN (?)", $ids);
+        return $this->getDbTable()->delete($where);
+    }
+
 }
