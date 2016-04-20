@@ -171,6 +171,10 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		if (is_dir($themePath)) {
 			// save templates in the database with proper type from theme.ini
             try {
+				if (isset($data['applyData']) && $data['applyData'] === true) {
+					// backup current theme
+					$this->_exportTheme('', true, true);
+				}
                 Tools_Theme_Tools::applyTemplates($themeName);
             }
             catch (Exception $e) {
@@ -179,9 +183,6 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 
 			// process theme.sql + import media folder
 			if (isset($data['applyData']) && $data['applyData'] === true) {
-				// backup current theme
-				$this->_exportTheme(null, true, true);
-
 				if (file_exists($themePath . DIRECTORY_SEPARATOR . self::THEME_DATA_FILE)) {
 			        $this->_applySql($themeName);
 				}
