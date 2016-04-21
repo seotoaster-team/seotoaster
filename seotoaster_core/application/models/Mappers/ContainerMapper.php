@@ -166,5 +166,30 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
         }
         return $summaryArray;
     }
+
+    /**
+     * Get containers with key as hash
+     *
+     * @param int $pageId page id
+     * @return array
+     */
+    public function getContainersWithHash($pageId)
+    {
+        $select = $this->getDbTable()->getAdapter()->select()->from('container', array(
+            'uniqHash' => new Zend_Db_Expr("MD5(CONCAT_WS('-',`name`, COALESCE(`page_id`, 0), `container_type`))"),
+            'id',
+            'name',
+            'page_id',
+            'container_type',
+            'content',
+            'published',
+            'publishing_date'
+        ))
+            ->where('page_id = ?', $pageId)
+            ->orWhere('page_id IS NULL');
+
+        return $this->getDbTable()->getAdapter()->fetchAssoc($select);
+
+    }
         
 }

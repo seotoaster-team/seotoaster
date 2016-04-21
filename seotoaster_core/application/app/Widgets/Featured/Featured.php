@@ -47,6 +47,12 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->cropParams        = array();
         $this->cropSizeSubfolder = '';
 
+        $withoutCacheOption = array_search('without_cache', $this->_options);
+        if ($withoutCacheOption !== false) {
+            $this->_cacheable = false;
+            unset($this->_options[$withoutCacheOption]);
+        }
+
         // checking if its area and random
         if (!empty($this->_options)
             && (reset($this->_options) === self::FEATURED_TYPE_AREA)
