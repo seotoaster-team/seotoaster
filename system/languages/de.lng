@@ -278,4 +278,25 @@ return array(
 
 	'Search'    => 'Suchen',
 	'Send'      => 'Senden',
+
+	'Monday' => 'Montag',
+    'Tuesday' => 'Dienstag',
+    'Wednesday' => 'Mittwoch',
+    'Thursday' => 'Donnerstag',
+    'Friday' => 'Freitag',
+    'Saturday' => 'Sonnabend',
+    'Sunday' => 'Sonntag',
+
+    'January' => 'Januar',
+    'February' => 'Februar',
+    'March' => 'Marz',
+    'April' => 'April',
+    'May' => 'Mai',
+    'June' => 'Juni',
+    'July' => 'Juli',
+    'August' => 'August',
+    'September' => 'September',
+    'October' => 'Oktober',
+    'November' => 'November',
+    'December' => 'Dezember'
 );
