@@ -37,7 +37,7 @@ class Backend_MediaController extends Zend_Controller_Action
     public function uploadthingsAction()
     {
         //creating list of folder in 'images' directory
-        $this->view->listFolders = array_merge(array('select folder'), $this->_getFoldersList());
+        $this->view->listFolders = array('select folder') +  $this->_getFoldersList();
         // if folder selected from somewhere else (using this feature when click upload things on editor screen)
         if (($folder = $this->getRequest()->getParam('folder')) != '') {
             $this->view->currFolder = $folder;
