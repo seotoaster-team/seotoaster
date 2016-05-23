@@ -6,7 +6,7 @@ $(function(){
         selector                : "textarea.tinymce",
         skin                    : 'seotoaster',
         width                   : '100%',
-        height                  : '380px',
+        height                  : '350px',
         menubar                 : false,
         resize                  : false,
         convert_urls            : false,
@@ -38,6 +38,7 @@ $(function(){
         ],
         toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify | bullist numlist forecolor backcolor | link unlink anchor image media table hr",
         toolbar2                : "stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen",
+        toolbar3                : "showMoreButton",
         fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
         block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Cite=cite;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
         link_list               : websiteUrl+'backend/backend_page/linkslist/',
@@ -45,6 +46,19 @@ $(function(){
         extended_valid_elements : "a[*],input[*],select[*],textarea[*]",
         setup                   : function(ed){
             var keyTime = null;
+            ed.addButton('showMoreButton', {
+                title:'showMoreButton',
+                text: 'Show more',
+                onclick : function() {
+                    var SHOWMORE = '#show-more#';
+                    if(ed.getContent().indexOf(SHOWMORE) + 1){
+                        showMessage('Widget '+SHOWMORE +' already exists in content', false, 2000);
+                    }else{
+                        ed.focus();
+                        ed.selection.setContent(SHOWMORE);
+                    }
+                }
+            });
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);

@@ -6,6 +6,8 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
     const POPUP_HEIGHT = 560;
 
+    const TEXT_SEPARATOR = '#show-more#';
+
     protected function  _init() {
         $this->_type = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;
         parent::_init();
@@ -34,6 +36,35 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
         }
 
         $content = ($this->_container === null) ? '' : $this->_container->getContent();
+
+        if($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT){
+            if(in_array('show-more', $this->_options) && !empty($this->_container)){
+                $content = strip_tags($content, '<br>');
+                $len = strlen(self::TEXT_SEPARATOR);
+                $textButton = '';
+                $numbersSimbols = 0;
+                if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
+                    $textButton = $this->_options[array_search('show-more',$this->_options)+1];
+                }
+                if(!empty($textButton)){
+                    $textButton = '<span class="show-more"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
+                }
+
+                if(!empty($this->_options[3])){
+                    $numbersSimbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
+                }
+                if(!empty($numbersSimbols)){
+                    $showMoreFirstPart = '<span class="show-more-open">'.substr($content, 0, $numbersSimbols).'</span>';
+                    $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-close">'.substr($content, $numbersSimbols).'</span></div>';
+                }else{
+                    $showMoreFirstPart = '<span class="show-more-open">'.substr($content, 0, strpos($content, self::TEXT_SEPARATOR)).'</span>';
+                    $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-close">'.substr($content,strpos($content, self::TEXT_SEPARATOR) + $len).'</span></div>';
+                }
+
+                $content = $showMoreLastPart;
+            }
+        }
+
         if (Tools_Security_Acl::isAllowed($this)) {
             $content .= $this->_generateAdminControl(self::POPUP_WIDTH, self::POPUP_HEIGHT);
             if ((bool)Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('inlineEditor') && !in_array('readonly',$this->_options)){
