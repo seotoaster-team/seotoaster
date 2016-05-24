@@ -2,9 +2,9 @@ $(function(){
     var websiteUrl = $('#website_url').val(),
         toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
         showMoreFlag = $('#show-more-content-widget').length,
-        showMoreNumSimbols = $('#show-more-content-widget-numsimbols').length;
+        showMoreNumSymbols = $('#show-more-content-widget-numsymbols').length;
 
-        if(showMoreFlag && !showMoreNumSimbols){
+        if(showMoreFlag && !showMoreNumSymbols){
             toolbar2 += ' | showMoreButton';
         }
 

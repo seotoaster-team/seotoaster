@@ -41,7 +41,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             $content = strip_tags($content, '<br>');
             $len = strlen(self::TEXT_SEPARATOR);
             $textButton = '';
-            $numbersSimbols = 0;
+            $numbersSymbols = 0;
             if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
                 $textButton = $this->_options[array_search('show-more',$this->_options)+1];
             }
@@ -50,11 +50,11 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             }
 
             if(!empty($this->_options[3])){
-                $numbersSimbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
+                $numbersSymbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
             }
-            if(!empty($numbersSimbols)){
-                $contentOpenPart = substr($content, 0, $numbersSimbols);
-                $contentClosePart = substr($content, $numbersSimbols);
+            if(!empty($numbersSymbols)){
+                $contentOpenPart = substr($content, 0, $numbersSymbols);
+                $contentClosePart = substr($content, $numbersSymbols);
             }else{
                 $contentOpenPart = substr($content, 0, strpos($content, self::TEXT_SEPARATOR));
                 $contentClosePart = substr($content,strpos($content, self::TEXT_SEPARATOR) + $len);
@@ -62,7 +62,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             $showMoreFirstPart = '<span class="show-more-widget-open">'.$contentOpenPart.'</span>';
             $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.'</span></div>';
 
-            if(strpos($content, self::TEXT_SEPARATOR) || $numbersSimbols){
+            if(strpos($content, self::TEXT_SEPARATOR) || $numbersSymbols){
                 $content = $showMoreLastPart;
             }
 
