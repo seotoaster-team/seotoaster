@@ -1,14 +1,11 @@
 $(function(){
-    var websiteUrl = $('#website_url').val();
-    //#show-more-content-widget
-    //#show-more-content-widget-numsimbols
-    var toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
+    var websiteUrl = $('#website_url').val(),
+        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
         showMoreFlag = $('#show-more-content-widget').length,
         showMoreNumSimbols = $('#show-more-content-widget-numsimbols').length;
-        if(showMoreFlag){
-            if(!showMoreNumSimbols) {
-                toolbar2 += ' | showMoreButton';
-            }
+
+        if(showMoreFlag && !showMoreNumSimbols){
+            toolbar2 += ' | showMoreButton';
         }
 
     tinymce.init({

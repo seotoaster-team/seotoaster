@@ -236,8 +236,7 @@ $(function(){
         checkboxRadioStyle();
     });
     /// Show more widget ///
-    var self = this;
-    var elNode = $(self).find('.show-more-widget-close');
+    var elNode = $(this).find('.show-more-widget-close');
     if(elNode.length > 0) {
         elNode.addClass('text-close').hide();
         $('.show-more-widget-button').on('click', function (e) {
