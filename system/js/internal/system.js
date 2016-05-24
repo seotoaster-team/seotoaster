@@ -237,12 +237,12 @@ $(function(){
     });
     /// Show more widget ///
     var self = this;
-    var elNode = $(self).find('.show-more-close');
+    var elNode = $(self).find('.show-more-widget-close');
     if(elNode.length > 0) {
         elNode.addClass('text-close').hide();
-        $('.show-more').on('click', function (e) {
+        $('.show-more-widget-button').on('click', function (e) {
             e.preventDefault();
-            var curentNode = $(this).closest('.show-more-content').find('.show-more-close');
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close');
             if (curentNode.hasClass('text-close')) {
                 curentNode.removeClass('text-close').addClass('text-open').show();
             } else {

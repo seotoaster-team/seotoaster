@@ -37,32 +37,35 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
         $content = ($this->_container === null) ? '' : $this->_container->getContent();
 
-        if($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT){
-            if(in_array('show-more', $this->_options) && !empty($this->_container)){
-                $content = strip_tags($content, '<br>');
-                $len = strlen(self::TEXT_SEPARATOR);
-                $textButton = '';
-                $numbersSimbols = 0;
-                if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
-                    $textButton = $this->_options[array_search('show-more',$this->_options)+1];
-                }
-                if(!empty($textButton)){
-                    $textButton = '<span class="show-more"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
-                }
+        if(($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT && in_array('show-more', $this->_options)) && (!empty($this->_container))){
+            $content = strip_tags($content, '<br>');
+            $len = strlen(self::TEXT_SEPARATOR);
+            $textButton = '';
+            $numbersSimbols = 0;
+            if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
+                $textButton = $this->_options[array_search('show-more',$this->_options)+1];
+            }
+            if(!empty($textButton)){
+                $textButton = '<span class="show-more-widget-button"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
+            }
 
-                if(!empty($this->_options[3])){
-                    $numbersSimbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
-                }
-                if(!empty($numbersSimbols)){
-                    $showMoreFirstPart = '<span class="show-more-open">'.substr($content, 0, $numbersSimbols).'</span>';
-                    $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-close">'.substr($content, $numbersSimbols).'</span></div>';
-                }else{
-                    $showMoreFirstPart = '<span class="show-more-open">'.substr($content, 0, strpos($content, self::TEXT_SEPARATOR)).'</span>';
-                    $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-close">'.substr($content,strpos($content, self::TEXT_SEPARATOR) + $len).'</span></div>';
-                }
+            if(!empty($this->_options[3])){
+                $numbersSimbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
+            }
+            if(!empty($numbersSimbols)){
+                $contentOpenPart = substr($content, 0, $numbersSimbols);
+                $contentClosePart = substr($content, $numbersSimbols);
+            }else{
+                $contentOpenPart = substr($content, 0, strpos($content, self::TEXT_SEPARATOR));
+                $contentClosePart = substr($content,strpos($content, self::TEXT_SEPARATOR) + $len);
+            }
+            $showMoreFirstPart = '<span class="show-more-widget-open">'.$contentOpenPart.'</span>';
+            $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.'</span></div>';
 
+            if(strpos($content, self::TEXT_SEPARATOR) || $numbersSimbols){
                 $content = $showMoreLastPart;
             }
+
         }
 
         if (Tools_Security_Acl::isAllowed($this)) {

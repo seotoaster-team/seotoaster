@@ -1,5 +1,15 @@
 $(function(){
     var websiteUrl = $('#website_url').val();
+    //#show-more-content-widget
+    //#show-more-content-widget-numsimbols
+    var toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
+        showMoreFlag = $('#show-more-content-widget').length,
+        showMoreNumSimbols = $('#show-more-content-widget-numsimbols').length;
+        if(showMoreFlag){
+            if(!showMoreNumSimbols) {
+                toolbar2 += ' | showMoreButton';
+            }
+        }
 
     tinymce.init({
         script_url              : websiteUrl+'system/js/external/tinymce/tinymce.gzip.php',
@@ -37,8 +47,7 @@ $(function(){
             "advlist lists link anchor image charmap visualblocks code fullscreen media table paste importcss textcolor stw"
         ],
         toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify | bullist numlist forecolor backcolor | link unlink anchor image media table hr",
-        toolbar2                : "stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen",
-        toolbar3                : "showMoreButton",
+        toolbar2                : toolbar2,
         fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
         block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Cite=cite;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
         link_list               : websiteUrl+'backend/backend_page/linkslist/',
@@ -48,14 +57,16 @@ $(function(){
             var keyTime = null;
             ed.addButton('showMoreButton', {
                 title:'showMoreButton',
-                text: 'Show more',
+                text: 'Show more widget',
                 onclick : function() {
-                    var SHOWMORE = '#show-more#';
-                    if(ed.getContent().indexOf(SHOWMORE) + 1){
-                        showMessage('Widget '+SHOWMORE +' already exists in content', false, 2000);
-                    }else{
-                        ed.focus();
-                        ed.selection.setContent(SHOWMORE);
+                    if(showMoreFlag) {
+                        var SHOWMORE = '#show-more#';
+                        if (ed.getContent().indexOf(SHOWMORE) + 1) {
+                            showMessage('Widget ' + SHOWMORE + ' already exists in content', false, 2000);
+                        } else {
+                            ed.focus();
+                            ed.selection.setContent(SHOWMORE);
+                        }
                     }
                 }
             });
