@@ -235,6 +235,21 @@ $(function(){
         hideSpinner();
         checkboxRadioStyle();
     });
+    /// Show more widget ///
+    var elNode = $(this).find('.show-more-widget-close');
+    if(elNode.length > 0) {
+        elNode.addClass('text-close').hide();
+        $('.show-more-widget-button').on('click', function (e) {
+            e.preventDefault();
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close');
+            if (curentNode.hasClass('text-close')) {
+                curentNode.removeClass('text-close').addClass('text-open').show();
+            } else {
+                curentNode.removeClass('text-open').addClass('text-close').hide();
+            }
+        });
+    }
+
 });
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
