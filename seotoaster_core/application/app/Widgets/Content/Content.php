@@ -49,8 +49,8 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             if(!empty($textButton)){
                 $textButton = '<span class="show-more-widget-button"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
             }
-            if(!empty($this->_options[3])){
-                $numbersSymbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
+            if(!empty($this->_options[array_search('show-more',$this->_options)+2])){
+                $numbersSymbols = ((int)$this->_options[array_search('show-more',$this->_options)+2]) ? (int)$this->_options[array_search('show-more',$this->_options)+2] : 0;
 
             }
             if(!empty($separatorExistence)){
