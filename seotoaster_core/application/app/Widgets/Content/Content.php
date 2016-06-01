@@ -40,19 +40,31 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
         if(($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT && in_array('show-more', $this->_options)) && (!empty($this->_container))){
             $len = strlen(self::TEXT_SEPARATOR);
             $textButton = '';
+            $numbersSymbols = 0;
+            $separatorExistence = strpos($content, self::TEXT_SEPARATOR);
+
             if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
                 $textButton = $this->_options[array_search('show-more',$this->_options)+1];
             }
             if(!empty($textButton)){
                 $textButton = '<span class="show-more-widget-button"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
             }
-            $contentOpenPart = substr($content, 0, strpos($content, self::TEXT_SEPARATOR));
-            $contentClosePart = substr($content,strpos($content, self::TEXT_SEPARATOR) + $len);
+            if(!empty($this->_options[3])){
+                $numbersSymbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : 0;
+
+            }
+            if(!empty($separatorExistence)){
+                $contentOpenPart = substr($content, 0, strpos($content, self::TEXT_SEPARATOR));
+                $contentClosePart = substr($content,strpos($content, self::TEXT_SEPARATOR) + $len);
+            }else{
+                $contentOpenPart = substr($content, 0, $numbersSymbols);
+                $contentClosePart = substr($content, $numbersSymbols);
+            }
 
             $showMoreFirstPart = '<span class="show-more-widget-open">'.$contentOpenPart.'</span>';
             $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.'</span></div>';
 
-            if(strpos($content, self::TEXT_SEPARATOR)){
+            if($separatorExistence || $numbersSymbols){
                 $content = $showMoreLastPart;
             }
 

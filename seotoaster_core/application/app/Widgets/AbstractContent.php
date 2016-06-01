@@ -51,8 +51,15 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract
         }
         //Show more widget//
         $additionalParamShowMore = '';
+        $showMorenumbersSymbols = '';
         if(in_array('show-more',  $this->_options)){
             $additionalParamShowMore = '/showMore/1';
+            if(!empty($this->_options[3])){
+                $showMorenumbersSymbols = ((int)$this->_options[3]) ? (int)$this->_options[3] : '';
+            }
+            if($showMorenumbersSymbols){
+                $showMorenumbersSymbols = '/numSymbols/1';
+            }
         }
 
         $containerId = ($this->_container !== null) ? $this->_container->getId() : null;
@@ -60,7 +67,7 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract
             return '<a class="tpopup generator-links" data-pwidth="'.$width.'" data-pheight="'.$height
             .'" title="Click to '.$hint.'" href="javascript:;" data-url="'.$this->_toasterOptions['websiteUrl']
             .'backend/backend_content/edit/id/'.$containerId.'/containerType/'.$this->_type . $additionalParamShowMore
-            .'"><img width="26" height="26" src="'.$this->_toasterOptions['websiteUrl'].'system/images/'
+            .$showMorenumbersSymbols .'"><img width="26" height="26" src="'.$this->_toasterOptions['websiteUrl'].'system/images/'
             .$controlIcon.'" alt="'.$hint.'" /></a>';
         }
 
