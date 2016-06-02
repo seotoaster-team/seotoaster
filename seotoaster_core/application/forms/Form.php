@@ -23,6 +23,16 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_name = '';
 
+    protected $_adminSubject = '';
+
+    protected $_adminMailTemplate = '';
+
+    protected $_adminFrom = '';
+
+    protected $_adminFromName = '';
+
+    protected $_adminText = '';
+
     protected $_id = null;
 
     public function init()
@@ -64,8 +74,6 @@ class Application_Form_Form extends Application_Form_Secure
                 'filters' => array('StringTrim', new Zend_Filter_StripTags())
             ))
         );
-
-        //new Zend_Validate_Alnum(array('allowWhiteSpace' => true))
 
         $this->addElement(
             new Zend_Form_Element_Text(array(
@@ -123,6 +131,63 @@ class Application_Form_Form extends Application_Form_Secure
 
             ))
         );
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'admin-subject',
+                'name' => 'adminSubject',
+                'label' => 'Admin subject',
+                'value' => $this->_adminSubject,
+                'required' => false,
+                'filters' => array('StringTrim'),
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Select(array(
+                'id' => 'admin-mail-template',
+                'name' => 'adminMailTemplate',
+                'label' => 'Admin mail template',
+                'value' => $this->_adminMailTemplate,
+                'required' => false,
+                'registerInArrayValidator' => false
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'admin-from',
+                'name' => 'adminFrom',
+                'label' => 'Admin from email',
+                'value' => $this->_adminFrom,
+                'required' => false,
+                'filters' => array('StringTrim')
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'admin-from-name',
+                'name' => 'adminFromName',
+                'label' => 'Admin from name',
+                'value' => $this->_adminFromName,
+                'required' => false,
+                'filters' => array('StringTrim', new Zend_Filter_StripTags())
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Textarea(array(
+                'id' => 'admin-text',
+                'name' => 'adminText',
+                'label' => 'Admin text',
+                'value' => $this->_adminText,
+                'cols' => '45',
+                'rows' => '2',
+                'filters' => array('StringTrim')
+            ))
+        );
+
 
         $this->addElement(
             new Zend_Form_Element_Textarea(array(

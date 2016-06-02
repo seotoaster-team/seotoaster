@@ -82,6 +82,7 @@ class Backend_FormController extends Zend_Controller_Action {
 		$formForm->getElement('name')->setValue($formName);
         
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
+		$formForm->getElement('adminMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		if($form !== null) {
 			$formForm->populate($form->toArray());
 		}
@@ -275,6 +276,18 @@ class Backend_FormController extends Zend_Controller_Action {
                     'data'     => $formParams,
                     'attachment' => $attachment
                 ));
+
+                $form->setAdminFrom($this->_parseData($form->getAdminFrom()));
+                $form->setAdminSubject($this->_parseData($form->getAdminSubject()));
+                $form->setAdminFromName($this->_parseData($form->getAdminFromName()));
+                $form->setAdminText($this->_parseData($form->getAdminText()));
+                $form->setReplyText($this->_parseData($form->getReplyText()));
+                $form->setContactEmail($this->_parseData($form->getContactEmail()));
+                $form->setReplyFrom($this->_parseData($form->getReplyFrom()));
+                $form->setReplyFromName($this->_parseData($form->getReplyFromName()));
+                $form->setReplySubject($this->_parseData($form->getReplySubject()));
+                $form->setMobile($this->_parseData($form->getMobile()));
+
                 $mailWatchdog->notify($form);
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
@@ -298,6 +311,28 @@ class Backend_FormController extends Zend_Controller_Action {
                 $this->_redirect($formParams['formUrl']);
 			}
         }
+    }
+
+    /**
+     * Parse widgets for template
+     *
+     * @param string $data
+     * @return null
+     * @throws Zend_Exception
+     */
+    private function _parseData($data)
+    {
+        $themeData = Zend_Registry::get('theme');
+        $extConfig = Zend_Registry::get('extConfig');
+        $parserOptions = array(
+            'websiteUrl'   => $this->_helper->website->getUrl(),
+            'websitePath'  => $this->_helper->website->getPath(),
+            'currentTheme' => $extConfig['currentTheme'],
+            'themePath'    => Tools_Filesystem_Tools::cleanWinPath($themeData['path']),
+        );
+        $parser = new Tools_Content_Parser($data, array(), $parserOptions);
+
+        return $parser->parseSimple();
     }
 
     private function _removeAttachedFiles(array $removeFiles)
