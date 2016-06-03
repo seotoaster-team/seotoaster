@@ -145,13 +145,13 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $pageId = $pageModel->getId();
         }
 
-        $this->_addToDictionaryLexemes($formDetails);
-
         if(($mailBody = $this->_prepareEmailBody($pageId)) !== false) {
-           $this->_mailer->setBody($this->_entityParser->parse($mailBody));
+            $this->_addToDictionaryLexemes($formDetails);
+            $this->_mailer->setBody($this->_entityParser->parse($mailBody));
         } else {
             $this->_mailer->setBody($this->_translator->translate('Thank you for your feedback'));
         }
+
         $this->_mailer->setSubject($form->getReplySubject())
             ->setMailFromLabel($form->getReplyFromName())
             ->setMailFrom($form->getReplyFrom());
@@ -180,12 +180,14 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $this->_options['template'] = $adminTemplateEmail;
         }
 
-        $this->_addToDictionaryLexemes($formDetails);
-
         $formUrl = '';
         if (isset($formDetails['formUrl'])) {
             $formUrl = $formDetails['formUrl'];
             unset($formDetails['formUrl']);
+        }
+
+        if (($mailBody = $this->_prepareEmailBody()) === false) {
+            $mailBody = '{form:details}';
         }
 
         $formDetailsHtml = $this->_prepareFormDetailsHtml($formDetails);
@@ -194,10 +196,8 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             'form:details' => $formDetailsHtml
         ));
 
-        if (($mailBody = $this->_prepareEmailBody()) === false) {
-            $mailBody = '{form:details}';
-        }
-
+        $formDetails['formUrl'] = $formUrl;
+        $this->_addToDictionaryLexemes($formDetails);
         $mailBody = $this->_entityParser->parse($mailBody);
 
         if ($formUrl && empty($adminTemplateEmail)) {
