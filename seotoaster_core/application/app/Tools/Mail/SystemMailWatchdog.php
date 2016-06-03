@@ -180,6 +180,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $this->_options['template'] = $adminTemplateEmail;
         }
 
+        $formAdminMessage  = $form->getAdminText();
+
+        if (!empty($formAdminMessage)) {
+            $this->_options['message'] = $formAdminMessage;
+        }
+
         $formUrl = '';
         if (isset($formDetails['formUrl'])) {
             $formUrl = $formDetails['formUrl'];
