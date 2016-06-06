@@ -39,7 +39,8 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
         if(($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT && in_array('show-more', $this->_options)) && (!empty($this->_container))){
             $len = strlen(self::TEXT_SEPARATOR);
-            $textButton = '';
+            $textButton = 'show more...';
+            $textButtonFloat = 'read less';
             $numbersSymbols = 0;
             $separatorExistence = strpos($content, self::TEXT_SEPARATOR);
 
@@ -47,7 +48,17 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
                 $textButton = $this->_options[array_search('show-more',$this->_options)+1];
             }
             if(!empty($textButton)){
-                $textButton = '<span class="show-more-widget-button"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
+                if(!empty($this->_options[2])){
+                    $buttonParams = explode('|',$this->_options[2]);
+                    $count = count($buttonParams);
+                    if($count > 1 && $count < 3){
+                        $textButton = $buttonParams[0];
+                        $textButtonFloat = $buttonParams[1];
+                    }
+                }
+                $textButton = '<span class="show-more-widget-button-show"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
+                $textButtonFloat = '<span class="show-more-widget-button-less"><a href="#" title="'. $textButtonFloat .'">'. $textButtonFloat . '</a></span>';
+
             }
             if(!empty($this->_options[array_search('show-more',$this->_options)+2])){
                 $numbersSymbols = ((int)$this->_options[array_search('show-more',$this->_options)+2]) ? (int)$this->_options[array_search('show-more',$this->_options)+2] : 0;
@@ -62,7 +73,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             }
 
             $showMoreFirstPart = '<span class="show-more-widget-open">'.$contentOpenPart.'</span>';
-            $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.'</span></div>';
+            $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.' '.$textButtonFloat.'</span></div>';
 
             if($separatorExistence || $numbersSymbols){
                 $content = $showMoreLastPart;

@@ -239,15 +239,21 @@ $(function(){
     var elNode = $(this).find('.show-more-widget-close');
     if(elNode.length > 0) {
         elNode.addClass('text-close').hide();
-        $('.show-more-widget-button').on('click', function (e) {
+        $('.show-more-widget-button-show').on('click', function (e) {
             e.preventDefault();
             var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close');
-            if (curentNode.hasClass('text-close')) {
-                curentNode.removeClass('text-close').addClass('text-open').show();
-            } else {
-                curentNode.removeClass('text-open').addClass('text-close').hide();
-            }
+            curentNode.show();
+            $(this).hide();
         });
+        $('.show-more-widget-button-less').on('click', function (e) {
+            e.preventDefault();
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close'),
+            showButton = $(this).closest('.show-more-content').find('.show-more-widget-button-show');
+
+            curentNode.hide();
+            showButton.show();
+        });
+
 
     }
 });
