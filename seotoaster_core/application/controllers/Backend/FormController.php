@@ -38,11 +38,6 @@ class Backend_FormController extends Zend_Controller_Action {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
-                $contactEmail = $form->getContactEmail();
-                $validEmail = $this->validateEmail($contactEmail);
-                if(isset($validEmail['error'])){
-                    $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml(array('contactEmail'=>$validEmail['error']), get_class($formForm)));
-                }
                 if(isset($formData['thankyouTemplate']) && $formData['thankyouTemplate'] != 'select'){
                     $trackingPageUrl = $this->_createTrackingPage($formData['name'], $formData['thankyouTemplate']);
                 }

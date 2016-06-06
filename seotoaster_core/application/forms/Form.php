@@ -82,8 +82,7 @@ class Application_Form_Form extends Application_Form_Secure
                 'label' => 'Auto reply from email',
                 'value' => $this->_replyFrom,
                 'required' => true,
-                'filters' => array('StringTrim'),
-                'validators' => array(new Zend_Validate_EmailAddress())
+                'filters' => array('StringTrim')
             ))
         );
 
