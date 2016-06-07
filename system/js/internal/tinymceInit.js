@@ -1,7 +1,7 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
         toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
-        showMoreFlag = $('#show-more-content-widget').length;
+        showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
         toolbar2 += ' | showMoreButton';

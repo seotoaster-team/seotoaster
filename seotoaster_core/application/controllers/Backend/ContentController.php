@@ -182,9 +182,6 @@ class Backend_ContentController extends Zend_Controller_Action {
 				$this->view->pluginsEditorTop   = $this->_loadPluginsEditorTop();
             if($this->getRequest()->getParam('showMore')){
                 $this->view->showMoreflag = $this->getRequest()->getParam('showMore');
-                if($this->getRequest()->getParam('numSymbols')){
-                    $this->view->numSymbols = $this->getRequest()->getParam('numSymbols');
-                }
             }
             $rendered                       = $this->view->render('backend/content/content.phtml');
 			break;

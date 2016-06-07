@@ -253,8 +253,6 @@ $(function(){
             curentNode.hide();
             showButton.show();
         });
-
-
     }
 });
 ///////// Full screen //////////////
@@ -267,7 +265,7 @@ $(document).on('click', '.screen-size', function(e){
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();
