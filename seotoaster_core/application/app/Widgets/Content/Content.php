@@ -42,6 +42,8 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             $textButton = 'show more...';
             $textButtonFloat = 'read less';
             $numbersSymbols = 0;
+            $contentLen = strlen($content);
+            $denyShowMore = false;
             $separatorExistence = strpos($content, self::TEXT_SEPARATOR);
 
             if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
@@ -60,25 +62,46 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
                 $textButtonFloat = '<span class="show-more-widget-button-less"><a href="#" title="'. $textButtonFloat .'">'. $textButtonFloat . '</a></span>';
 
             }
+            $denyTags = array_search('deny',$this->_options);
+            $clearContent = '';
+            if($denyTags){
+                $clearContent = strip_tags($content);
+                $contentLen = strlen($clearContent);
+            }
+
             if(!empty($this->_options[array_search('show-more',$this->_options)+2])){
                 $numbersSymbols = ((int)$this->_options[array_search('show-more',$this->_options)+2]) ? (int)$this->_options[array_search('show-more',$this->_options)+2] : 0;
 
             }
+            $separatorExistenceClearContent = strpos($clearContent, self::TEXT_SEPARATOR) + $len;
             if(!empty($separatorExistence)){
+                if(!empty($clearContent)){
+                    if($separatorExistenceClearContent >= $contentLen){
+                        $denyShowMore = true;
+                        $clearContent = (str_replace(self::TEXT_SEPARATOR, ' ', $clearContent));
+                    }
+                    $content = $clearContent;
+                }
                 $contentOpenPart = substr($content, 0, strpos($content, self::TEXT_SEPARATOR));
                 $contentClosePart = substr($content,strpos($content, self::TEXT_SEPARATOR) + $len);
             }else{
+                if(!empty($clearContent)){
+                    $content = $clearContent;
+                }
                 $contentOpenPart = substr($content, 0, $numbersSymbols);
                 $contentClosePart = substr($content, $numbersSymbols);
+
+                if($numbersSymbols > $contentLen){
+                    $denyShowMore = true;
+                }
             }
 
             $showMoreFirstPart = '<span class="show-more-widget-open">'.$contentOpenPart.'</span>';
             $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.' '.$textButtonFloat.'</span></div>';
 
-            if($separatorExistence || $numbersSymbols){
+            if(($separatorExistence || $numbersSymbols) && (!$denyShowMore)){
                 $content = $showMoreLastPart;
             }
-
         }
 
 
