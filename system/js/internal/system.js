@@ -249,7 +249,6 @@ $(function(){
             e.preventDefault();
             var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close'),
             showButton = $(this).closest('.show-more-content').find('.show-more-widget-button-show');
-
             curentNode.hide();
             showButton.show();
         });

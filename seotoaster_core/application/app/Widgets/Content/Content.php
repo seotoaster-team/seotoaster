@@ -6,7 +6,21 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
     const POPUP_HEIGHT = 560;
 
+    /**
+     * Unique separator for show-more in content
+     */
     const TEXT_SEPARATOR = '#show-more#';
+
+    /**
+     * Enable show-more in container
+     */
+    const SHOW_MORE = 'show-more';
+
+    /**
+     * Disable html tags
+     */
+    const DENY = 'deny';
+
 
     protected function  _init() {
         $this->_type = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;
@@ -36,49 +50,42 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
         }
 
         $content = ($this->_container === null) ? '' : $this->_container->getContent();
+        $showMoreOption = array_search(self::SHOW_MORE, $this->_options);
 
-        if(($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT && in_array('show-more', $this->_options)) && (!empty($this->_container))){
+        if(($this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT && $showMoreOption !== false) && (!empty($this->_container))){
             $len = strlen(self::TEXT_SEPARATOR);
-            $textButton = 'show more...';
-            $textButtonFloat = 'read less';
+            $textButton = $this->_translator->translate('show more...');
+            $textButtonFloat = $this->_translator->translate('read less');
             $numbersSymbols = 0;
             $contentLen = strlen($content);
             $denyShowMore = false;
             $separatorExistence = strpos($content, self::TEXT_SEPARATOR);
 
-            if(!empty($this->_options[array_search('show-more',$this->_options)+1])){
-                $textButton = $this->_options[array_search('show-more',$this->_options)+1];
+            if(!empty($this->_options[$showMoreOption+1])){
+                $buttonParams = $this->_options[$showMoreOption+1];
+                $buttonParams = explode('|',$buttonParams);
+                $textButton = $buttonParams[0];
+                $textButtonFloat = $buttonParams[1];
             }
-            if(!empty($textButton)){
-                if(!empty($this->_options[2])){
-                    $buttonParams = explode('|',$this->_options[2]);
-                    $count = count($buttonParams);
-                    if($count > 1 && $count < 3){
-                        $textButton = $buttonParams[0];
-                        $textButtonFloat = $buttonParams[1];
-                    }
-                }
-                $textButton = '<span class="show-more-widget-button-show"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
-                $textButtonFloat = '<span class="show-more-widget-button-less"><a href="#" title="'. $textButtonFloat .'">'. $textButtonFloat . '</a></span>';
+            $textButton = '<span class="show-more-widget-button-show"><a href="#" title="'.$textButton.'">'. $textButton . '</a></span>';
+            $textButtonFloat = '<span class="show-more-widget-button-less"><a href="#" title="'. $textButtonFloat .'">'. $textButtonFloat . '</a></span>';
 
-            }
-            $denyTags = array_search('deny',$this->_options);
+            $denyTags = array_search(self::DENY , $this->_options);
             $clearContent = '';
-            if($denyTags){
+            if($denyTags !== false){
                 $clearContent = strip_tags($content);
                 $contentLen = strlen($clearContent);
             }
 
-            if(!empty($this->_options[array_search('show-more',$this->_options)+2])){
-                $numbersSymbols = ((int)$this->_options[array_search('show-more',$this->_options)+2]) ? (int)$this->_options[array_search('show-more',$this->_options)+2] : 0;
-
+            if(!empty($this->_options[$showMoreOption+2])){
+                $numbersSymbols = (int)$this->_options[$showMoreOption+2];
             }
             $separatorExistenceClearContent = strpos($clearContent, self::TEXT_SEPARATOR) + $len;
             if(!empty($separatorExistence)){
                 if(!empty($clearContent)){
                     if($separatorExistenceClearContent >= $contentLen){
                         $denyShowMore = true;
-                        $clearContent = (str_replace(self::TEXT_SEPARATOR, ' ', $clearContent));
+                        $clearContent = str_replace(self::TEXT_SEPARATOR, ' ', $clearContent);
                     }
                     $content = $clearContent;
                 }
@@ -99,7 +106,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
             $showMoreFirstPart = '<span class="show-more-widget-open">'.$contentOpenPart.'</span>';
             $showMoreLastPart = '<div class="show-more-content">'.$showMoreFirstPart.$textButton.'<span class="show-more-widget-close">'.$contentClosePart.' '.$textButtonFloat.'</span></div>';
 
-            if(($separatorExistence || $numbersSymbols) && (!$denyShowMore)){
+            if(($separatorExistence !== false || $numbersSymbols) && (!$denyShowMore)){
                 $content = $showMoreLastPart;
             }
         }
