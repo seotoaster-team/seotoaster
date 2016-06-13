@@ -33,12 +33,13 @@
                    value="<?php echo $this->websiteUrl . $this->trackingConversionUrl; ?>"/>
         <?php endif; ?>
         <input type="hidden" name="uploadLimitSize" value="<?php echo $this->uploadLimitSize; ?>"/>
+        <input type="hidden" name="form-referer" value="<?php echo $this->formReferer;?>">
         <input type="submit" name="submit" value="<?php echo $this->translate($this->buttonValue); ?>"/>
     </form>
 <?php endif; ?>
 <?php if ($this->allowMidification): ?>
     <p class="form-controls">
-        <a class="tpopup" href="javascript:;" data-pwidth="480" data-pheight="670"
+        <a class="tpopup" href="javascript:;" data-pwidth="960" data-pheight="750"
            data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>"
            title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
         <a href="http://www.seosamba.com/free-form-maker/" target="_blank"

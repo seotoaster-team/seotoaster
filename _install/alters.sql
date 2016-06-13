@@ -120,7 +120,16 @@ ALTER TABLE `user` ADD COLUMN `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 -- 09/02/2015
 -- version: 2.4.3
 
+-- 31/05/2016
+-- version: 2.5.0
+ALTER TABLE `form` ADD COLUMN `admin_subject` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_mail_template` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_from` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_from_name` VARCHAR (255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_text` TEXT DEFAULT NULL;
+
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.0' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 
