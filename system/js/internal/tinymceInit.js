@@ -26,6 +26,12 @@ $(function(){
         importcss_file_filter   : "content.css",
         importcss_selector_filter: /^(?!\.h1|\.h2|\.h3|\.h4|\.h5|\.h6|\.social-links*|\.callout*|\.callout*|\.panel*|.icon-*|\.icon12|\.icon14|\.icon16|\.icon18|\.icon24|\.icon32|\.icon48|\.toaster-icon|hr\.)/,
         importcss_groups : [
+            {title : 'h1', filter : /^(h1\.)/},
+            {title : 'h2', filter : /^(h2\.)/},
+            {title : 'h3', filter : /^(h3\.)/},
+            {title : 'h4', filter : /^(h4\.)/},
+            {title : 'h5', filter : /^(h5\.)/},
+            {title : 'h6', filter : /^(h6\.)/},
             {title : 'Button', filter : /^(.btn*|button\.)/},
             {title : 'Table', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
             {title : 'List', filter : /^(.list*|ul\.|ol\.)/},
