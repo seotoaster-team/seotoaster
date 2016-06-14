@@ -109,6 +109,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if($trackingPageExist instanceof Application_Model_Models_Page){
             $this->_view->trackingConversionUrl = $trackingConversionUrl;
         }
+
+        $this->_view->formReferer = $sessionHelper->refererUrl;
+
      	$this->_view->useRecaptcha      = $useRecaptcha;
         $this->_view->useCaptcha        = $useCaptcha;
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);

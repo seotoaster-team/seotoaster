@@ -146,6 +146,11 @@ CREATE TABLE `form` (
   `captcha` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
+  `admin_subject` VARCHAR(255) DEFAULT NULL,
+  `admin_mail_template` VARCHAR(255) DEFAULT NULL,
+  `admin_from` VARCHAR(255) DEFAULT NULL,
+  `admin_from_name` VARCHAR (255) DEFAULT NULL,
+  `admin_text` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

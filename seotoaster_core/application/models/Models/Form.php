@@ -34,6 +34,16 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
 
     protected $_enableSms = 0;
 
+    protected $_adminSubject = '';
+
+    protected $_adminFrom = '';
+
+    protected $_adminFromName = '';
+
+    protected $_adminText = '';
+
+    protected $_adminMailTemplate = '';
+
     public function getId()
     {
         return $this->_id;
@@ -188,5 +198,99 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
         return $this->_mobile;
     }
 
+    /**
+     * @return string
+     */
+    public function getAdminSubject()
+    {
+        return $this->_adminSubject;
+    }
+
+    /**
+     * @param string $adminSubject
+     * @return string
+     */
+    public function setAdminSubject($adminSubject)
+    {
+        $this->_adminSubject = $adminSubject;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminFrom()
+    {
+        return $this->_adminFrom;
+    }
+
+    /**
+     * @param string $adminFrom
+     * @return string
+     */
+    public function setAdminFrom($adminFrom)
+    {
+        $this->_adminFrom = $adminFrom;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminFromName()
+    {
+        return $this->_adminFromName;
+    }
+
+    /**
+     * @param string $adminFromName
+     * @return string
+     */
+    public function setAdminFromName($adminFromName)
+    {
+        $this->_adminFromName = $adminFromName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminText()
+    {
+        return $this->_adminText;
+    }
+
+    /**
+     * @param string $adminText
+     * @return string
+     */
+    public function setAdminText($adminText)
+    {
+        $this->_adminText = $adminText;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminMailTemplate()
+    {
+        return $this->_adminMailTemplate;
+    }
+
+    /**
+     * @param string $adminMailTemplate
+     * @return string
+     */
+    public function setAdminMailTemplate($adminMailTemplate)
+    {
+        $this->_adminMailTemplate = $adminMailTemplate;
+
+        return $this;
+    }
 
 }
