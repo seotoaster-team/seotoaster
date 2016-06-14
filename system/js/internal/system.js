@@ -235,6 +235,24 @@ $(function(){
         hideSpinner();
         checkboxRadioStyle();
     });
+    /// Show more widget ///
+    var elNode = $(this).find('.show-more-widget-close');
+    if(elNode.length > 0) {
+        elNode.addClass('text-close').hide();
+        $('.show-more-widget-button-show').on('click', function (e) {
+            e.preventDefault();
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close');
+            curentNode.show();
+            $(this).hide();
+        });
+        $('.show-more-widget-button-less').on('click', function (e) {
+            e.preventDefault();
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close'),
+            showButton = $(this).closest('.show-more-content').find('.show-more-widget-button-show');
+            curentNode.hide();
+            showButton.show();
+        });
+    }
 });
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
@@ -246,7 +264,7 @@ $(document).on('click', '.screen-size', function(e){
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();
