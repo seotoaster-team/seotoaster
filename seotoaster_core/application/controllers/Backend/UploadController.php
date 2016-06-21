@@ -349,7 +349,7 @@ class Backend_UploadController extends Zend_Controller_Action
         $this->_uploadHandler->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
                 'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','audio/mpeg3','audio/mpeg','video/avi','video/x-msvideo','video/mp4','video/mpeg', 'video/mp4',
-                'application/ogg', 'video/webm','application/octet-stream'));
+                'application/ogg', 'video/webm','application/acad','image/vnd.dwg','image/x-dwg'));
 
         if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()) {
             try {
