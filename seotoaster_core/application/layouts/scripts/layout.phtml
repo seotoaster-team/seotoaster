@@ -1,15 +1,11 @@
 <?php echo $this->doctype(); ?>
-<!--[if IE 7 ]><html class="ie ie7" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
-<!--[if IE 9 ]><html class="ie ie9" lang="<?php echo $this->htmlLang; ?>"> <![endif]-->
-<!--[if !(IE)]><!-->
 <?php
     $device = Zend_Controller_Action_HelperBroker::getStaticHelper('mobile');
     $deviceType = $device->isTablet() ? "tablet" : "mobile";
     $deviceType = $device->isMobile() ? $deviceType : "desktop";
+    $deviceType = ($device->version('IE')) ? 'desktop ie ie'.ceil($device->version('IE')) : $deviceType;
 ?>
 <html class="<?php echo $deviceType; ?>" lang="<?php echo $this->htmlLang; ?>">
-<!--<![endif]-->
 <head>
     <?php echo $this->headTitle(); ?>
     <?php echo $this->headMeta()->setIndent(8); ?>
