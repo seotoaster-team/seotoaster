@@ -70,11 +70,18 @@
         <?php endif;?>
 
         $(document).on('submit', '#<?php echo $this->formId; ?>', function (e) {
-            var valid = validateRequired('<?php echo $this->formId; ?>');
-            if ($(form).find('input[type="file"]').length > 0) {
+            var valid = validateRequired('<?php echo $this->formId; ?>'),
+                fileField = $(form).find('input[type="file"]');
+            if (fileField.length > 0) {
+                if(fileField.attr("required")){
+                    if(!fileField.val().length){
+                        showMessage('<?php echo $this->translate('Please select a file') ?>',true, 5000);
+                        return false;
+                    }
+                }
                 return true;
             } else if (!valid) {
-                showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true);
+                showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true, 5000);
                 return false;
             }
             else {
