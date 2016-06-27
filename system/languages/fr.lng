@@ -1212,5 +1212,6 @@
     'September' => 'Septembre',
     'October' => 'Octobre',
     'November' => 'Novembre',
-    'December' => 'Decembre'
+    'December' => 'Decembre',
+    'Please select a file' => 'Séléctionnez un fichier'
 );?>
