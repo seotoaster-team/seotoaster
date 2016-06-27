@@ -72,12 +72,10 @@
         $(document).on('submit', '#<?php echo $this->formId; ?>', function (e) {
             var valid = validateRequired('<?php echo $this->formId; ?>'),
                 fileField = $(form).find('input[type="file"]');
-            if (fileField.length > 0) {
-                if(fileField.attr("required")){
-                    if(!fileField.val().length){
-                        showMessage('<?php echo $this->translate('Please select a file') ?>',true, 5000);
-                        return false;
-                    }
+            if (fileField.attr("required")) {
+                if(!fileField.val().length){
+                    showMessage('<?php echo $this->translate('Please select a file') ?>',true, 5000);
+                    return false;
                 }
                 return true;
             } else if (!valid) {
