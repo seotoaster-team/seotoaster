@@ -344,11 +344,12 @@ class Backend_UploadController extends Zend_Controller_Action
         ));
 
         //Adding file extension validation
-        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,mp3,avi,mpeg,mp4,webm,ogg,ogv');
+        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,mp3,avi,mpeg,mp4,webm,ogg,ogv,dwg');
         //Adding mime types validation
         $this->_uploadHandler->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
                 'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','audio/mpeg3','audio/mpeg','video/avi','video/x-msvideo','video/mp4','video/mpeg', 'video/mp4', 'application/ogg', 'video/webm'));
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','audio/mpeg3','audio/mpeg','video/avi','video/x-msvideo','video/mp4','video/mpeg', 'video/mp4',
+                'application/ogg', 'video/webm','application/acad','image/vnd.dwg','image/x-dwg'));
 
         if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()) {
             try {
