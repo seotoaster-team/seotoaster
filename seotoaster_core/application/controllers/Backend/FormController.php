@@ -275,10 +275,10 @@ class Backend_FormController extends Zend_Controller_Action {
                 $form->setAdminFrom($this->_parseData($form->getAdminFrom()));
                 $form->setAdminSubject(html_entity_decode($this->_parseData($form->getAdminSubject()), null, 'UTF-8'));
                 $form->setAdminFromName(html_entity_decode($this->_parseData($form->getAdminFromName()), null, 'UTF-8'));
-                $form->setAdminText(html_entity_decode($this->_parseData($form->getAdminText()), null, 'UTF-8'));
-                $form->setReplyText(html_entity_decode($this->_parseData($form->getReplyText()), null, 'UTF-8'));
+                $form->setAdminText($this->_parseData($form->getAdminText()));
+                $form->setReplyText($this->_parseData($form->getReplyText()));
                 $form->setContactEmail($this->_parseData($form->getContactEmail()));
-                $form->setReplyFrom(html_entity_decode($this->_parseData($form->getReplyFrom()), null, 'UTF-8'));
+                $form->setReplyFrom($this->_parseData($form->getReplyFrom()));
                 $form->setReplyFromName(html_entity_decode($this->_parseData($form->getReplyFromName()), null, 'UTF-8'));
                 $form->setReplySubject(html_entity_decode($this->_parseData($form->getReplySubject()), null, 'UTF-8'));
                 $form->setMobile($this->_parseData($form->getMobile()));
