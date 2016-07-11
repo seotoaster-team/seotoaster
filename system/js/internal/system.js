@@ -11,6 +11,7 @@ $(function(){
             catEl.addClass('current');
             if(catEl.closest("li").length > 0 && $currentLink.closest("li").hasClass('page')){
                 $currentLink.closest("li").addClass('page-current');
+                catEl.closest("li").addClass('category-current');
             }
         }
         if(currentUrl==$('#website_url').val()){
