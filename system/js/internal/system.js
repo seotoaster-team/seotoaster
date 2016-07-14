@@ -3,11 +3,23 @@ $(function(){
     if(currentUrl && typeof currentUrl!='undefined'){
         var $currentLink = $("a[href='"+currentUrl+"']");
         $currentLink.addClass('current');
+        if($currentLink.closest("li").length > 0 && $currentLink.closest("li").hasClass('category')){
+                $currentLink.closest("li").addClass('category-current');
+        }
         if($currentLink.closest('.page').length){
-            $currentLink.closest('.category').addClass('current');
+            var catEl = $currentLink.closest('.category');
+            catEl.addClass('current');
+            if(catEl.closest("li").length > 0 && $currentLink.closest("li").hasClass('page')){
+                $currentLink.closest("li").addClass('page-current');
+                catEl.closest("li").addClass('category-current');
+            }
         }
         if(currentUrl==$('#website_url').val()){
-            $("a[href='"+$('#website_url').val()+"index.html']").addClass('current');
+            var indexEl = $("a[href='"+$('#website_url').val()+"index.html']");
+            indexEl.addClass('current');
+            if(indexEl.closest("li").length > 0){
+                indexEl.closest("li").addClass('category-current');
+            }
         }
     }
     /**
