@@ -10,12 +10,15 @@
         <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order') . ' - <em>' . $this->faName . '</em>';?></a>
     <?php endif; ?>
     <ul class="featureditem <?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?> <?php echo $this->listClass; ?>">
+        <?php $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance(); ?>
         <?php foreach($this->faPages as $page): ?>
         <?php if (isset($this->tmplFaContent)) : ?>
             <li>
             <?php
                 if ($page instanceof Application_Model_Models_Page) {
-                    $parser = new Tools_Content_Parser($this->tmplFaContent, $page->toArray());
+                    $pageData = $page->toArray();
+                    $pageData['containers'] = $containerMapper->getContainersWithHash($page->getId());
+                    $parser = new Tools_Content_Parser($this->tmplFaContent, $pageData);
                     echo $parser->parseSimple();
                     unset($parser);
                 }
