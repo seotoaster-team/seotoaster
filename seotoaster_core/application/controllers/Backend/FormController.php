@@ -224,7 +224,7 @@ class Backend_FormController extends Zend_Controller_Action {
                     $uploader->addValidator('Size', false, $formParams['uploadLimitSize']*1024*1024);
                     //Adding mime types validation
                     $uploader->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
-                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel'));
+                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
                     $files = $uploader->getFileInfo();
                     foreach($files as $file => $fileInfo) {
                         if($fileInfo['name'] != ''){
