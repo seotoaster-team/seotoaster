@@ -27,11 +27,13 @@
                 </url>
             <?php endif; ?>
         <?php endforeach; ?>
+        <?php if(empty($this->sitemapType)):?>
         <url>
             <loc><?php echo $this->websiteUrl ."website.kml"; ?></loc>
             <lastmod><?php echo date('c', time()); ?></lastmod>
             <changefreq><?php echo Tools_Content_Feed::SMFEED_CHANGEFREEQ; ?></changefreq>
             <priority>0.8</priority>
         </url>
+        <?php endif;?>
     </urlset>
 <?php endif; ?>

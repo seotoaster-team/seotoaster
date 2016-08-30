@@ -77,10 +77,11 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         ));
     }
 
-    public function fetchAllPages($where = '', $order = array(), $originalsOnly = false) {
+    public function fetchAllPages($where = '', $order = array(), $originalsOnly = false, $limit = null, $offset = null) {
         $select = $this->_getOptimizedSelect($originalsOnly)
             ->where($where)
-            ->order($order);
+            ->order($order)
+            ->limit($limit, $offset);
 
         $data = $this->getAdapter()->fetchAll($select);
         if(!$data) {

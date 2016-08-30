@@ -29,6 +29,7 @@ class Application_Form_Config extends Application_Form_Secure
 	protected $_canonicalScheme;
     protected $_recaptchaPublicKey;
     protected $_recaptchaPrivateKey;
+    protected $_pagesLimit;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -306,6 +307,21 @@ class Application_Form_Config extends Application_Form_Secure
 		return $this->_recaptchaPrivateKey;
 	}
 
+    /**
+     * @return mixed
+     */
+    public function getPagesLimit()
+    {
+        return $this->_pagesLimit;
+    }
+
+    public function setPagesLimit($pagesLimit)
+    {
+        $this->_pagesLimit = $pagesLimit;
+        $this->getElement('pagesLimit')->setValue($this->_pagesLimit);
+        return $this;
+    }
+
 	public function init()
     {
         parent::init();
@@ -480,6 +496,12 @@ class Application_Form_Config extends Application_Form_Secure
 				Zend_Controller_Request_Http::SCHEME_HTTPS => 'https'
 			)
 		));
+
+        $this->addElement('text', 'pagesLimit', array(
+            'value' => $this->_pagesLimit,
+            'label' => 'Enter limit numbers of pages for Sitemap.xml',
+            'validators' => array(new Zend_Validate_Int())
+        ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
