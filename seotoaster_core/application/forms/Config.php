@@ -497,10 +497,18 @@ class Application_Form_Config extends Application_Form_Secure
 			)
 		));
 
-        $this->addElement('text', 'pagesLimit', array(
-            'value' => $this->_pagesLimit,
-            'label' => 'Enter limit numbers of pages for Sitemap.xml',
-            'validators' => array(new Zend_Validate_Int())
+        $this->addElement('select', 'pagesLimit', array(
+            'label' => 'Select page number limit for sitemapindex.xml',
+            'class' => 'optional',
+            'multiOptions' => array(
+                '50000' => '50.000',
+                '40000'  => '40.000',
+                '30000'  => '30.000',
+                '20000'  => '20.000',
+                '10000'  => '10.000',
+                '200'  => '200',
+                '100'  => '100'
+            )
         ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));

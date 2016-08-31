@@ -426,12 +426,16 @@ class Backend_SeoController extends Zend_Controller_Action {
         $this->_configHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('config');
         $config = $this->_configHelper->getConfig();
 
+        if(empty($config['pagesLimit'])){
+            $config['pagesLimit'] = $this->_siteMapDefaultPages;
+        }
+
         //get sitemap type from the params
         switch ($sitemapType = $this->getRequest()->getParam('type', '')) {
             case Tools_Content_Feed::SMFEED_TYPE_INDEX:
                 $pageDbTable = new Application_Model_DbTable_Page();
                 $pagesCount = $pageDbTable->getAdapter()->fetchOne($pageDbTable->select()->from($pageDbTable,
-                    'COUNT(id)')->where('external_link_status <> "1"'));
+                    'COUNT(id)')->where('external_link_status <> "1" AND system = "0"'));
 
                 //default sitemaps
                 $sitemaps = array(
@@ -445,10 +449,11 @@ class Backend_SeoController extends Zend_Controller_Action {
                     )
                 );
 
-                if (!empty($config['pagesLimit']) && !empty($pagesCount)) {
+                if (!empty($pagesCount)) {
                     $this->_siteMapDefaultPages = (int)$config['pagesLimit'];
                     if ($this->_siteMapDefaultPages <= $pagesCount) {
-                        $arrayPagesParts = round($pagesCount / $this->_siteMapDefaultPages);
+                        $arrayPagesParts = $pagesCount / $this->_siteMapDefaultPages;
+                        $arrayPagesParts = (is_float($arrayPagesParts)) ? ceil($arrayPagesParts) : $arrayPagesParts;
                         $sitemaps = array();
 
                         for ($i = 0; $i < $arrayPagesParts; $i++) {
@@ -497,13 +502,13 @@ class Backend_SeoController extends Zend_Controller_Action {
                     $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('external_link_status <> ?', '1');
                     $limit = $this->_siteMapDefaultPages;
                     $offset = 0;
-                    if (!empty($config['pagesLimit']) && $sitemapType != 'news') {
+                    if ($sitemapType != 'news') {
                         $limit = $config['pagesLimit'];
                         if (empty($sitemapType)) {
                             $limit -= 1;
                         }
                         if (!empty($sitemapType)) {
-                            $offset = $sitemapType * $limit;
+                            $offset = $sitemapType * $limit - 1;
                         }
                     }
                     $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array(), false,
