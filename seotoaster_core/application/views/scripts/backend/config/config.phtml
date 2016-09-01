@@ -23,6 +23,7 @@
                 <li><a href="#advanced-config"><?php echo $this->translate('Advanced'); ?></a></li>
                 <li><a href="#securityForm-config"><?php echo $this->translate('Security'); ?></a></li>
             <?php endif; ?>
+            <li><a href="#site-map-config"><?php echo $this->translate('Site map settings'); ?></a></li>
         </ul>
         <fieldset id="general-config" class="content-small-footer pr0 pl0">
             <div class="grid_5"><?php echo $this->configForm->getElement('language')->renderLabel(); ?></div>
@@ -149,6 +150,10 @@
                 </div>
             </fieldset>
         <?php endif; ?>
+        <fieldset id="site-map-config" class="content-small-footer pr0 pl0">
+            <div class="grid_5"><?php echo $this->configForm->getElement('pagesLimit')->renderLabel(); ?></div>
+            <div class="grid_7 mt0px"><?php echo $this->configForm->getElement('pagesLimit')->renderViewHelper(); ?></div>
+        </fieldset>
         <?php echo $this->configForm->getElement('submit')->renderViewHelper(); ?>
     </form>
 </div>
