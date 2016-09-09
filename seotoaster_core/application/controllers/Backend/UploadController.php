@@ -270,7 +270,7 @@ class Backend_UploadController extends Zend_Controller_Action
                 //$expFileName = explode('.', $this->_uploadHandler->getFileName(null, false));
                 $expFileName = explode('.', $this->getRequest()->getParam('name', false));
                 $fileExt = array_pop($expFileName);
-                $fileExt = $this->_lowerExtension($fileExt);
+                $fileExt = strtolower($fileExt);
 
                 if (!in_array($fileExt, array('jpeg', 'jpg', 'png', 'gif'))) {
                     return array('error' => true, 'result' => "Wrong file extension");
@@ -321,17 +321,6 @@ class Backend_UploadController extends Zend_Controller_Action
     }
 
     /**
-     * @param string $fileName
-     * @return string
-     */
-    private function _lowerExtension($fileName = ''){
-        if(!empty($fileName)){
-            $fileName = strtolower($fileName);
-        }
-        return $fileName;
-    }
-
-    /**
      * Handler for files uploader
      * @return array
      */
@@ -349,7 +338,7 @@ class Backend_UploadController extends Zend_Controller_Action
 
         $expFileName = explode('.',$file['name']);
         $fileExt = array_pop($expFileName);
-        $file['name'] = implode($expFileName). '.' . $this->_lowerExtension($fileExt);
+        $file['name'] = implode($expFileName). '.' . strtolower($fileExt);
 
         preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $file['name'], $match);
         if (!$match) {
