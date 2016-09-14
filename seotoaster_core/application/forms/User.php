@@ -83,6 +83,15 @@ class Application_Form_User extends Application_Form_Secure {
         )));
 
         $this->addElement(new Zend_Form_Element_Select(array(
+            'name'  => 'userAttributes',
+            'id'    => 'user-attributes',
+            'value' => array(''),
+            'multiOptions' => $this->getUniqueAttributesNames(),
+            'label' => 'User attributes'
+        )));
+
+
+        $this->addElement(new Zend_Form_Element_Select(array(
             'name'         => 'roleId',
             'id'           => 'role-id',
             'label'        => 'Role',
@@ -150,6 +159,15 @@ class Application_Form_User extends Application_Form_Secure {
 		$this->getElement('roleId')->setValue($roleId);
 		return $this;
 	}
+
+    public function getUniqueAttributesNames() {
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $attributes = $userMapper->fetchUniqueAttributesNames();
+        array_unshift($attributes, 'Select user attribute');
+        array_push($attributes, 'Add new user attribute');
+        return $attributes;
+
+    }
 
 	public function getId() {
 		return $this->_id;

@@ -94,6 +94,17 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         return $user->setAttributes($attributes);
     }
 
+    public function fetchUniqueAttributesNames()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()->distinct()->from('user_attributes', array('attribute'));
+        $usersAttributes = $this->getDbTable()->getAdapter()->fetchAll($select);
+        foreach ($usersAttributes as &$usersAttribute) {
+            $usersAttribute = $usersAttribute['attribute'];
+        }
+        return $usersAttributes;
+
+    }
+
     public function saveUserAttributes(Application_Model_Models_User $user) {
         $paramsCount = func_num_args();
 
