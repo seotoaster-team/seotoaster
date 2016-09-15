@@ -1,12 +1,30 @@
 <?php if(!empty($this->redirects)): ?>
 	<?php foreach($this->redirects as $redirect): ?>
 		<div class="redirect-row list-row">
-			<div class="grid_1 ml0 mr0 text-center"><input type="checkbox" id="<?php echo $redirect->getId(); ?>" name="massdell[<?php echo $redirect->getId(); ?>]" class="redirect-massdel"/></div>
-			<div class="list-row-item grid_5 alpha omega ml-grid mr-grid" title="<?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?>"><?php echo $redirect->getDomainFrom(); ?><?php echo $redirect->getFromUrl(); ?></div>
-			<div class="list-row-item grid_5 alpha omega ml-grid" title="<?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?>"><?php echo $redirect->getDomainTo(); ?><?php echo $redirect->getToUrl(); ?></div>
+			<div class="grid_1 ml0 mr0 text-center"><input type="checkbox" id="<?php echo $redirect['id']; ?>" name="massdell[<?php echo $redirect['id']; ?>]" class="redirect-massdel"/></div>
+			<div class="list-row-item grid_5 alpha omega ml-grid mr-grid" title="<?php echo $redirect['domain_from']; ?><?php echo $redirect['from_url']; ?>"><?php echo $redirect['domain_from']; ?><?php echo $redirect['from_url']; ?></div>
+			<div class="list-row-item grid_5 alpha omega ml-grid" title="<?php echo $redirect['domain_to']; ?><?php echo $redirect['to_url']; ?>"><?php echo $redirect['domain_to']; ?><?php echo $redirect['to_url']; ?></div>
 			<div class="grid_1 omega ml0 text-center">
-				<a class="remove-redirect _tdelete ticon-remove error icon16" data-callback="reloadRedirectsList" data-url="<?php echo $this->toasterLink('seo', 'removeredirect', '', null, true)?>" data-eid="<?php echo $redirect->getId(); ?>" href="javascript:;"></a>
+				<a class="remove-redirect _tdelete ticon-remove error icon16" data-callback="reloadRedirectsList" data-url="<?php echo $this->toasterLink('seo', 'removeredirect', '', null, true)?>" data-eid="<?php echo $redirect['id']; ?>" href="javascript:;"></a>
 			</div>
 		</div>
 	<?php endforeach; ?>
 <?php endif; ?>
+<?php if(empty($this->pager)):?>
+	<span class="not-mutch-paginator"></span>
+<?php else:?>
+	<?php echo $this->pager;?>
+<?php endif;?>
+
+<script type="text/javascript">
+
+	$(function() {
+		$('#redirects-box').append($('.paginator'));
+		var count = $('.paginator').size();
+		var paginator = $('.not-mutch-paginator').size();
+		if(count > 1 || paginator == 1){
+			$('.paginator:last').remove();
+		}
+	})
+
+</script>

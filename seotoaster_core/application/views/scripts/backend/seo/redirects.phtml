@@ -1,7 +1,11 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
 	<div class="content-footer">
-		<form id="frm-redirects" class="_fajax grid_12 mb15px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
+		<form id="frm-redirects" class="_fajax grid_12 mb5px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
+			<div class="grid_12 alpha omega">
+				<label for="redirect-search"><?php echo $this->translate('Search');?>:</label>
+				<input type="text" name="redirect-search" id="redirect-search"/>
+			</div>
 			<div class="grid_5 alpha">
 				<?php echo $this->form->getElement('fromUrl'); ?>
 			</div>
@@ -18,11 +22,14 @@
 			<div class="grid_5 alpha omega ml-grid mr-grid"><?php echo $this->translate('Former url'); ?></div>
 			<div class="grid_6 mr0"><?php echo $this->translate('New url'); ?></div>
 		</div>
-		<div id="redirects-list" class="grid_12 items-list"></div>
+		<div id="redirects-box">
+			<div id="redirects-list" class="grid_12 items-list"></div>
+			<hr class="mb10px" style="border-top:none;"/>
+		</div>
 	</div>
-	<div class="grid_12 footer">
+	<div class="grid_12 mt30px">
 		<a href="javascript:;" id="massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
-	</dv>
+	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.min.js'); ?>
