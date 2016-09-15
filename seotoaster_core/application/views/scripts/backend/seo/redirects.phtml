@@ -1,6 +1,6 @@
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
-		<form id="frm-redirects-search" class="_fajax grid_12 mb5px form-inline" action="/backend/backend_seo/loadredirectslist" method="post" data-callback="reloadRedirectsList">
+		<form id="frm-redirects-search" class="grid_12 mb5px form-inline" action="/backend/backend_seo/loadredirectslist" method="post">
 			<div class="grid_12 alpha omega">
 				<label for="redirect-search"><?php echo $this->translate('Search');?>:</label>
 				<input type="text" name="redirect-search" id="redirect-search"/>
@@ -36,3 +36,20 @@
 	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.min.js'); ?>
+
+<script type="text/javascript">
+	$('#frm-redirects-search').submit(function(e) {
+		e.preventDefault();
+		var name = $('#redirect-search').val();
+		showSpinner();
+		$.ajax({
+			url: $('#website_url').val() + 'backend/backend_seo/loadredirectslist/searchName/' + name,
+			type: 'post',
+			dataType: 'json',
+			success: function (response) {
+				hideSpinner();
+				$('#redirects-box').find('#redirects-list').html(response.redirectsList);
+			}
+		});
+	});
+</script>

@@ -23,21 +23,6 @@ $(function() {
 		$('.redirect-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
 	});
 
-	$('#redirect-search').submit(function(e) {
-		e.preventDefault();
-		var name = $('#redirect-search').val();
-			showSpinner();
-			$.ajax({
-				url: $('#website_url').val() + 'backend/backend_seo/loadredirectslist/searchName/' + name,
-				type: 'post',
-				dataType: 'json',
-				success: function (response) {
-					hideSpinner();
-					$('#redirects-box').find('#redirects-list').html(response.redirectsList);
-				}
-			});
-	});
-
 	$('#massdel-run').click(function() {
 		var ids = [];
 		$('.redirect-massdel:checked').each(function() {
