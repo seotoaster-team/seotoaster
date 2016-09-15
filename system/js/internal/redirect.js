@@ -23,7 +23,7 @@ $(function() {
 		$('.redirect-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
 	});
 
-	$('#redirect-search').blur(function(e) {
+	$('#redirect-search').submit(function(e) {
 		e.preventDefault();
 		var name = $('#redirect-search').val();
 			showSpinner();

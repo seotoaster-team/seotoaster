@@ -155,7 +155,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	public function loadredirectslistAction() {
         $redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
-        $paginationLimit = 500;
+        $paginationLimit = 100;
         $generalLimit = $redirectMapper->fetchAllPages(true);
         $generalLimit = $generalLimit['count'];
 
@@ -163,11 +163,11 @@ class Backend_SeoController extends Zend_Controller_Action {
         $pageNum = filter_var($request->getParam('paginationPnum'), FILTER_SANITIZE_NUMBER_INT);
         $searchName = filter_var($request->getParam('searchName'), FILTER_SANITIZE_STRING);
 
-        if(!empty($searchName)){
+        if (!empty($searchName)) {
             $pages = $redirectMapper->fetchAllPages(true, $generalLimit, $searchName);
             $generalLimit = $pages['count'];
             $pages = $pages['select'];
-        }else{
+        } else {
             $pages = $redirectMapper->fetchAllPages(false, $generalLimit);
         }
         $adapter = new Zend_Paginator_Adapter_DbSelect($pages);
@@ -180,34 +180,34 @@ class Backend_SeoController extends Zend_Controller_Action {
             $pageNum = 1;
         }
 
-        $listing = new Zend_Paginator($adapter);
+        $listingUrls = new Zend_Paginator($adapter);
 
-        if($listing->getTotalItemCount() < $generalLimit){
-            if($offset > 0){
-                $adapter->setRowCount($listing->getTotalItemCount());
-                $listing = new Zend_Paginator($adapter);
+        if ($listingUrls->getTotalItemCount() < $generalLimit) {
+            if ($offset > 0) {
+                $adapter->setRowCount($listingUrls->getTotalItemCount());
+                $listingUrls = new Zend_Paginator($adapter);
             }
-        }else{
+        } else {
             $adapter->setRowCount((int)$generalLimit);
         }
-        $listing->setCurrentPageNumber($pageNum);
-        $listing->setItemCountPerPage($paginationLimit);
+        $listingUrls->setCurrentPageNumber($pageNum);
+        $listingUrls->setItemCountPerPage($paginationLimit);
 
-        if($pageNum > 1){
-            if(empty($generalLimit)){
+        if ($pageNum > 1) {
+            if (empty($generalLimit)) {
                 $generalLimit = 50;
             }
             $paginationLimit = $generalLimit - (($pageNum - 1) * $paginationLimit);
         }
-        if($paginationLimit > $listing->getItemCountPerPage()){
-            $resultSum = $paginationLimit - $listing->getItemCountPerPage();
+        if ($paginationLimit > $listingUrls->getItemCountPerPage()) {
+            $resultSum = $paginationLimit - $listingUrls->getItemCountPerPage();
             $paginationLimit -= $resultSum;
         }
 
         $existingListing = $adapter->getItems($offset, $paginationLimit);
-        if($paginationLimit < $generalLimit) {
+        if ($paginationLimit < $generalLimit) {
             $pager = $this->view->paginationControl(
-                $listing,
+                $listingUrls,
                 'Sliding',
                 'backend/seo/pagination.phtml',
                 array()
