@@ -53,9 +53,10 @@ $(function() {
 
 //callback function for the ajax forms
 function reloadRedirectsList() {
-	$('input:text').val('http://');
+	$( "input[name='redirect-search']" ).text('');
+	var name = $('#redirect-search').val();
 	showSpinner();
-	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/', function(response) {
+	$.getJSON($('#website_url').val() + 'backend/backend_seo/loadredirectslist/searchName/'+name, function(response) {
 		hideSpinner();
 		$('#redirects-list').html(response.redirectsList);
 		checkboxRadioStyle();
