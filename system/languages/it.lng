@@ -536,4 +536,5 @@
     'Get ready to toast:'   => 'Preparati a toast-are:',
     'You must remove the <b>&#147;install&#148;</b> folder in order to access your software.' => 'Devi eliminare la cartella <b>&#147;install&#148;</b> per accedere al software.',
     'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Complete la información de su negocio o la ID de su sitio para facilitar la indexación en los buscadores',
+    'Enter the words or numbers from picture' => 'Inserire le lettere o numeri da l\'immagine'
 );?>
