@@ -108,6 +108,7 @@ class Tools_System_ICalendar {
         $generated = $this->generateString();
         $at              = new Zend_Mime_Part($generated);
         $at->type        = 'text/calendar';
+        $at->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
         $at->encoding    = Zend_Mime::ENCODING_8BIT;
         $at->filename    = 'calendar.ics';
         return $at;
