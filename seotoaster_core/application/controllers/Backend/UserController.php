@@ -151,11 +151,19 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 			$user       = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
-			$result = array(
-				'formId' => 'frm-user',
-				'data'   => $user->toArray()
-			);
-			$this->_helper->response->success($result);
+            if ($user instanceof Application_Model_Models_User) {
+                $userData = $user->toArray();
+                if (empty($userData['timezone'])) {
+                    $userData['timezone'] = '0';
+                }
+
+                $result = array(
+                    'formId' => 'frm-user',
+                    'data' => $userData
+                );
+                $this->_helper->response->success($result);
+            }
+            $this->_helper->response->fail($this->_helper->language->translate('User doesn\'t exists'));
 		}
 	}
 

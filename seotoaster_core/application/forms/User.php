@@ -176,5 +176,19 @@ class Application_Form_User extends Application_Form_Secure {
         $this->getElement('email')->removeValidator('Zend_Validate_Db_NoRecordExists');
 		return $this;
 	}
+
+    public function getTimezone()
+    {
+        return $this->_timezone;
+    }
+
+    public function setTimezone($timezone)
+    {
+        if (empty($timezone)) {
+            $timezone = '0';
+        }
+        $this->getElement('timezone')->setValue($timezone);
+        return $this;
+    }
 }
 
