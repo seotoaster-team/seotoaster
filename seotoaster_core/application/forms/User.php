@@ -17,6 +17,8 @@ class Application_Form_User extends Application_Form_Secure {
 
 	protected $_id       = '';
 
+    protected $_timezone = '';
+
 	public function init() {
         parent::init();
         $email = new Zend_Form_Element_Text(array(
@@ -75,6 +77,19 @@ class Application_Form_User extends Application_Form_Secure {
 			'multiOptions' => array_combine($roles, array_map('ucfirst', $roles)),
 			'required'     => true
 		)));
+
+        $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+        array_pop($timezones);
+        $translator = Zend_Registry::get('Zend_Translate');
+
+        $this->addElement(new Zend_Form_Element_Select(
+            array(
+                'name' => 'timezone',
+                'id' => 'user-timezone',
+                'label' => 'Timezone',
+                'multiOptions' => array('0' => $translator->translate('Select timezone')) + array_combine($timezones, $timezones)
+            )
+        ));
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'gplusProfile',

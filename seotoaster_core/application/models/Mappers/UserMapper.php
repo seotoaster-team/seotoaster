@@ -23,7 +23,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 			'ipaddress'     => $user->getIpaddress(),
             'gplus_profile' => $user->getGplusProfile(),
             'mobile_phone'  => $user->getMobilePhone(),
-            'notes'         => $user->getNotes()
+            'notes'         => $user->getNotes(),
+            'timezone'      => $user->getTimezone()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
