@@ -24,7 +24,7 @@ class Application_Model_Mappers_LinkContainerMapper extends Application_Model_Ma
 					$this->getDbTable()->insert($data);
 				}
 				catch (Exception $e) {
-					$where = sprintf("id_container=%d AND link='%s'", $data['id_container'], $data['link']);
+				    $where = $this->getDbTable()->getAdapter()->quoteInto('id_container=?', $data['id_container']) . ' AND ' . $this->getDbTable()->getAdapter()->quoteInto("link=?", $data['link']);
 					$this->getDbTable()->update($data, $where);
 				}
 			}
