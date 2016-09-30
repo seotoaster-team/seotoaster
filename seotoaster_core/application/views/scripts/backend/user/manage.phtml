@@ -113,20 +113,6 @@
             e.preventDefault();
             $('#frm-user')[0].reset();
             $('#user-attributes-section').html('');
-            $.post($(this).data('url'), {id : $(this).data('eid')}, function(response){
-                for(var i in response.responseText.data){
-                    $('[name='+i+']').val(response.responseText.data[i]);
-                    if(i=='password'){
-                        $('[name='+i+']').val('');
-                    }
-                    if (i=='attributes') {
-                        $.each(response.responseText.data[i], function(attrName, attrValue) {
-                            $('#user-attributes-section').append('<div class="grid_6"><input type="text" name="attrName[]" value="' + attrName + '"></div>' +
-                                '<div class="grid_6"><input type="text" name="attrValue[]" value="' + attrValue + '"></div>');
-                        })
-                    }
-                }
-            });
             $('#add-user').show("slide", { direction: "right"});
         });
 

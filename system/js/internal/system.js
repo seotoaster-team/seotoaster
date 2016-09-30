@@ -210,6 +210,12 @@ $(function(){
                 if(i=='password'){
                     $('[name='+i+']').val('');
                 }
+                if (i=='attributes') {
+                    $.each(response.responseText.data[i], function(attrName, attrValue) {
+                        $('#user-attributes-section').append('<div class="grid_6"><input type="text" name="attrName[]" value="' + attrName + '"></div>' +
+                        '<div class="grid_6"><input type="text" name="attrValue[]" value="' + attrValue + '"></div>');
+                    })
+                }
             }
         })
     });
