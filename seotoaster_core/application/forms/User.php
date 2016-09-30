@@ -164,7 +164,6 @@ class Application_Form_User extends Application_Form_Secure {
         $userMapper = Application_Model_Mappers_UserMapper::getInstance();
         $attributes = $userMapper->fetchUniqueAttributesNames();
         array_unshift($attributes, 'Select user attribute');
-        array_push($attributes, 'Add new user attribute');
         return $attributes;
 
     }

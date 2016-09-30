@@ -62,7 +62,7 @@ class Backend_UserController extends Zend_Controller_Action {
                         }
                         $user->setAttribute($value, $attrValuesArr[$key]);
                     }
-                    if (!empty($uId)) {
+                    if (empty($userId)) {
                         $user->setId((int)$uId);
                     }
                     Application_Model_Mappers_UserMapper::saveUserAttributes($user);
