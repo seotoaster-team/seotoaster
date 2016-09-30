@@ -97,10 +97,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
     public function fetchUniqueAttributesNames()
     {
         $select = $this->getDbTable()->getAdapter()->select()->distinct()->from('user_attributes', array('attribute'));
-        $usersAttributes = $this->getDbTable()->getAdapter()->fetchAll($select);
-        foreach ($usersAttributes as &$usersAttribute) {
-            $usersAttribute = $usersAttribute['attribute'];
-        }
+        $usersAttributes = $this->getDbTable()->getAdapter()->fetchCol($select);
         return $usersAttributes;
 
     }
