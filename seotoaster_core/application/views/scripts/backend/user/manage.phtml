@@ -32,6 +32,14 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
+                <div class="grid_7">
+                    <?php echo $this->userForm->getElement('userAttributes'); ?>
+                </div>
+                <div class="grid_5 mt20px">
+                    <input type="button" id="add-user-attribute" class="btn mt10px" value="<?php echo $this->translate('Add attribute');?>"/>
+                </div>
+                <div class="grid_12"  id="user-attributes-section">
+                </div>
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
 				<?php echo $this->userForm->getElement('saveUser'); ?>
 				<?php echo $this->userForm->getElement('id'); ?>
@@ -104,14 +112,40 @@
             }
         });
 
-        $(document).on('click', '#add-user-link, ._tedit',function(){
+        $(document).on('click', '#add-user-link, ._tedit', function(e){
+            e.preventDefault();
             $('#frm-user')[0].reset();
+            $('#user-attributes-section').html('');
             $('#add-user').show("slide", { direction: "right"});
         });
+
+        $('#add-user-attribute').on('click', function(e){
+            e.preventDefault();
+            addUserAttribute('');
+        });
+
+        $('#user-attributes').on('change', function() {
+            var attrName = $(this).find("option:selected").text();
+            if (attrName == 'Select user attribute') {
+                return;
+            }
+            addUserAttribute(attrName);
+        });
+
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].ticon-sort').addClass('ticon-sort-down');
         $('a[href*="by/<?php echo $this->by ;?>/order/desc"].ticon-sort').addClass('ticon-sort-up');
 	});
     function userCallback() {
         location.reload();
+    }
+
+    function addUserAttribute(attrName)
+    {
+        if ($(':input.user-custom-attribute-name[value="'+attrName+'"]').length > 0) {
+            return false;
+        }
+        var html = '<div class="grid_6"><input class="user-custom-attribute-name" type="text" name="attrName[]" value="' + attrName + '"></div>' +
+            '<div class="grid_6"><input type="text" name="attrValue[]" value=""></div>';
+        $('#user-attributes-section').append(html);
     }
 </script>

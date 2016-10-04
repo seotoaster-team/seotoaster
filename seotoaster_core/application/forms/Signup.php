@@ -21,6 +21,7 @@ class Application_Form_Signup extends Application_Form_User {
         $this->removeElement('gplusProfile');
         $this->removeElement('timezone');
         $this->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
+        $this->removeElement('userAttributes');
 
 		$this->addElement(new Zend_Form_Element_Captcha('verification', array(
 			'label'   => "Please verify you're a human",
