@@ -138,7 +138,10 @@
 
     function addUserAttribute(attrName)
     {
-        var html = '<div class="grid_6"><input type="text" name="attrName[]" value="' + attrName + '"></div>' +
+        if ($(':input.user-custom-attribute-name[value="'+attrName+'"]').length > 0) {
+            return false;
+        }
+        var html = '<div class="grid_6"><input class="user-custom-attribute-name" type="text" name="attrName[]" value="' + attrName + '"></div>' +
             '<div class="grid_6"><input type="text" name="attrValue[]" value=""></div>';
         $('#user-attributes-section').append(html);
     }
