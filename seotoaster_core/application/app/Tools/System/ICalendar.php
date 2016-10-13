@@ -34,7 +34,6 @@ class Tools_System_ICalendar
         return "BEGIN:VCALENDAR" . PHP_EOL
         . "VERSION:2.0" . PHP_EOL
         . "PRODID:-//" . $parameters['author'] . "//NONSGML//EN" . PHP_EOL
-        . "X-WR-CALNAME:" . $parameters['title'] . PHP_EOL
         . "CALSCALE:GREGORIAN" . PHP_EOL
         . "BEGIN:VEVENT" . PHP_EOL
         . "UID:" . $parameters['uid'] . PHP_EOL
