@@ -162,6 +162,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $pageId = $pageModel->getId();
         }
         if(($mailBody = $this->_prepareEmailBody($pageId)) !== false) {
+            $this->_addToDictionaryLexemes($formDetails);
             $this->_mailer->setBody($this->_entityParser->parse($mailBody));
         } else {
             $this->_mailer->setBody($this->_translator->translate('Thank you for your feedback'));
@@ -406,7 +407,23 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             return $mailArray;
         }
         return array($emails);
-        
+
+    }
+
+    /**
+     * Adding additional lexemes
+     *
+     * @param array $params form params
+     * @param string $lexemePrefix lexeme prefix
+     */
+    private function _addToDictionaryLexemes(array $params, $lexemePrefix = 'form')
+    {
+        $paramsDictionary = array();
+        foreach ($params as $paramName => $paramValue) {
+            $paramsDictionary[$lexemePrefix . ':' . $paramName] = $paramValue;
+        }
+
+        $this->_entityParser->addToDictionary($paramsDictionary);
     }
     
 }
