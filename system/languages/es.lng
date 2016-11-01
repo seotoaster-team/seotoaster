@@ -245,5 +245,10 @@
       'September' => 'Septiembre',
       'October' => 'Octubre',
       'November' => 'Noviembre',
-      'December' => 'Diciembre'
+      'December' => 'Diciembre',
+      'Get another CAPTCHA' => 'Obtener otro código',
+      'Get an audio CAPTCHA' => 'Obtener un código de audio',
+      'Enter the words or numbers from picture' => 'Introduzca las palabras o números en la imagen',
+      'You\'ve entered an incorrect security text. Please try again.' => 'El código introducido no es correcto.',
+      'Get an image CAPTCHA' => 'Obtener un código de imagen'
   );?>
