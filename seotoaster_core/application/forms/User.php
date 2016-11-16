@@ -17,6 +17,8 @@ class Application_Form_User extends Application_Form_Secure {
 
 	protected $_id       = '';
 
+    protected $_mobilePhone = '';
+
     protected $_timezone = '';
 
 	public function init() {
@@ -95,6 +97,13 @@ class Application_Form_User extends Application_Form_Secure {
             'name'  => 'gplusProfile',
             'id'    => 'gplus-profile',
             'label' => 'Google+ profile'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'name'       => 'mobilePhone',
+            'id'         => 'user-mobile-phone',
+            'label'      => 'Mobile phone',
+            'value'      => $this->_mobilePhone
         )));
 
         $this->addElement(new Zend_Form_Element_Select(array(
@@ -193,6 +202,18 @@ class Application_Form_User extends Application_Form_Secure {
         $this->getElement('email')->removeValidator('Zend_Validate_Db_NoRecordExists');
 		return $this;
 	}
+
+    public function getMobilePhone()
+    {
+        return $this->_id;
+    }
+
+    public function setMobilePhone($mobilePhone)
+    {
+        $this->_mobilePhone = $mobilePhone;
+        $this->getElement('mobilePhone')->setValue($mobilePhone);
+        return $this;
+    }
 
     public function getTimezone()
     {
