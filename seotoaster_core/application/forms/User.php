@@ -205,7 +205,7 @@ class Application_Form_User extends Application_Form_Secure {
 
     public function getMobilePhone()
     {
-        return $this->_id;
+        return $this->_mobilePhone;
     }
 
     public function setMobilePhone($mobilePhone)
