@@ -89,19 +89,46 @@ class Widgets_Search_Search extends Widgets_Abstract
         }
 
         $searchForm = new Application_Form_Search();
-        $searchFormAction = $searchResultPage->getUrl();
-        if ($searchFormAction !== 'index.html') {
+          if(false === array_search('dropdown', $this->_options)){
+          $searchFormAction = $searchResultPage->getUrl();
+          if ($searchFormAction !== 'index.html') {
             $searchForm->setAction($this->_websiteHelper->getUrl() . $searchFormAction);
-        } else {
+          } else {
             $searchForm->setAction($this->_websiteHelper->getUrl());
+          }
         }
         $this->_view->searchForm = $searchForm;
 
         $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(
                 Tools_Security_Acl::RESOURCE_USERS
             ) && Tools_Search_Tools::isEmpty();
+        if (false === array_search('dropdown', $this->_options)) {
+            return $this->_view->render('form.phtml');
+        } else {
+            $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
+            $filterPageType = array();
+            if (!empty($pageTypes) && !empty($this->_options[1])) {
+                $filterPageTypeConf = explode(',', $this->_options[1]);
+                $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
+            }
+            $limit = is_numeric(end($this->_options)) ? filter_var(
+                end($this->_options),
+                FILTER_SANITIZE_NUMBER_INT
+            ) : self::SEARCH_LIMIT_RESULT;
+            // check for image option
+            /*if (in_array('img', $this->_options)) {
+                $this->_view->useImage = 'img';
+            } elseif (in_array('imgc', $this->_options)) {
+                $this->_view->useImage = 'imgc';
+            } else {
+                $this->_view->useImage = false;
+            }*/
 
-        return $this->_view->render('form.phtml');
+            $this->_view->limit = $limit;
+            $this->_view->filterPageType = $filterPageType;
+            $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
+            return $this->_view->render('dropdownForm.phtml');
+        }
     }
 
     private function _renderSearchResults()
