@@ -120,11 +120,9 @@ class SearchController extends Zend_Controller_Action
             function ($hit) use ($filterPageType, $searchPhrase) {
                 $exclude = false;
                 try {
-                    // checking if page is in drafts
                     $draft = (bool)$hit->draft;
                     $pageType = (int)$hit->pageType;
                 } catch (Zend_Search_Lucene_Exception $e) {
-                    // seems we are on old release
                     $draft = false;
                     $pageType = 1;
                 }

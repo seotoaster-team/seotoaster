@@ -1,39 +1,27 @@
 <form id="<?php echo $this->searchForm->getAttrib('id'); ?>"
       class="<?php echo $this->searchForm->getAttrib('class'); ?>">
     <?php echo $this->searchForm->getElement('search'); ?>
-    <!--    <p><input type="submit" value="--><?php //echo $this->translate('Search'); ?><!--"/></p>-->
 </form>
-
 <script>
     $(function () {
         $("#<?php echo $this->searchForm->getAttrib('id'); ?>").on('submit', function (e) {
             e.preventDefault();
         });
-        var dropdownData = {
-            'useImage':
-            <?php if ($this->useImage) {
-            echo 'true';
-        } else {
-            echo 'false';
-        }?>,
-            'filterPageType': '<?php echo implode(',', $this->filterPageType);?>',
-            'limit':
-            <?php echo $this->limit;?>,
-        };
-
-        var urlAction = "<?php echo $this->websiteUrl;?>backend/search/dropdown/";
         $("#search").on('keyup', function () {
+            var dropdownData = {
+                'filterPageType': '<?php echo implode(',', $this->filterPageType);?>',
+                'limit': <?php echo $this->limit;?>,
+            };
             if ($(this).val().length >= 3) {
                 dropdownData.search = $(this).val();
                 $.ajax({
-                    url: urlAction,
+                    url: "<?php echo $this->websiteUrl;?>backend/search/dropdown/",
                     data: dropdownData,
                     type: 'post',
                     dataType: 'json',
                     success: function (res) {
                         if (!jQuery.isEmptyObject(res)) {
                             var searchData = res;
-                            console.log(searchData);
                             $('#search').autocomplete({
                                 minLength: 3,
                                 source: searchData,
@@ -50,10 +38,8 @@
                                     }
                                 }
                             });
-
                             $('#search').data("ui-autocomplete")._renderMenu = function (ul, items) {
                                 $.each(items, function (index, item) {
-
                                     var $li = $('<li>'),
                                         $img = $('<img>');
                                     $img.attr({
@@ -61,7 +47,6 @@
                                         alt: item.value,
                                         class: 'autocomplete-result-img'
                                     });
-
                                     $li.attr('data-value', item.value)
                                         .append('<a href="' + item.url + '">')
                                         .find('a').append($img).append(item.value);
@@ -69,7 +54,6 @@
                                     $li.appendTo(ul);
                                 });
                             };
-
                         }
                     },
                     error: function (e) {

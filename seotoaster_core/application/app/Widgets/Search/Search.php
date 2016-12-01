@@ -115,15 +115,6 @@ class Widgets_Search_Search extends Widgets_Abstract
                 end($this->_options),
                 FILTER_SANITIZE_NUMBER_INT
             ) : self::SEARCH_LIMIT_RESULT;
-            // check for image option
-            /*if (in_array('img', $this->_options)) {
-                $this->_view->useImage = 'img';
-            } elseif (in_array('imgc', $this->_options)) {
-                $this->_view->useImage = 'imgc';
-            } else {
-                $this->_view->useImage = false;
-            }*/
-
             $this->_view->limit = $limit;
             $this->_view->filterPageType = $filterPageType;
             $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
