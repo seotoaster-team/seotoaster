@@ -1,6 +1,7 @@
 <form id="<?php echo $this->searchForm->getAttrib('id'); ?>"
       class="<?php echo $this->searchForm->getAttrib('class'); ?>">
     <?php echo $this->searchForm->getElement('search'); ?>
+    <button type="submit"><?php echo $this->translate('Search'); ?></button>
 </form>
 <script>
     $(function () {
