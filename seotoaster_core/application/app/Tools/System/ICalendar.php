@@ -38,6 +38,7 @@ class Tools_System_ICalendar
         . "BEGIN:VEVENT" . PHP_EOL
         . "UID:" . $parameters['uid'] . PHP_EOL
         . "DTSTART:" . self::formatDate($parameters['start']) . PHP_EOL
+        . "ORGANIZER;CN=".$parameters['organizer'].':MAILTO:'. $parameters['organizerEmail']. PHP_EOL
         . "DTEND:" . self::formatDate($parameters['end']) . PHP_EOL
         . "DTSTAMP:" . self::formatDate($parameters['start']) . PHP_EOL
         . "CREATED:" . self::formatDate(date('Y/m/d H:i:s')) . PHP_EOL
