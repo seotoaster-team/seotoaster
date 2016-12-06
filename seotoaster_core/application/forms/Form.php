@@ -224,7 +224,8 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'mobile',
                 'name' => 'mobile',
-                'label' => 'Mobile number for admin notification',
+                'placeholder' => 'Add your mobile to also receive lead details via SMS',
+                'label' => 'Never lose another opportunity',
                 'value' => $this->_mobile,
                 'filters' => array('StringTrim'),
             ))
