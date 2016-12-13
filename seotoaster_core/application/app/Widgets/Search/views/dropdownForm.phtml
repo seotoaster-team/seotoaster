@@ -1,8 +1,12 @@
-<form id="<?php echo $this->searchForm->getAttrib('id'); ?>"
-      class="<?php echo $this->searchForm->getAttrib('class'); ?>">
-    <?php echo $this->searchForm->getElement('search'); ?>
-    <button type="submit"><?php echo $this->translate('Search'); ?></button>
-</form>
+<div itemscope itemtype="http://schema.org/WebSite">
+    <meta itemprop="url" content="<?php echo $this->websiteUrl;?>"/>
+    <form itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction" id="<?php echo $this->searchForm->getAttrib('id'); ?>"
+          class="<?php echo $this->searchForm->getAttrib('class'); ?>">
+        <meta itemprop="target" content="<?php echo $this->websiteUrl;?><?php echo $this->searhResultPageUrl?>?search={dropdownSearch}"/>
+        <input itemprop="query-input" type="search" name="dropdownSearch" id="search" required/>
+        <button type="submit"><?php echo $this->translate('Search'); ?></button>
+    </form>
+</div>
 <script>
     $(function () {
         $("#<?php echo $this->searchForm->getAttrib('id'); ?>").on('submit', function (e) {
@@ -26,13 +30,14 @@
                             $('#search').autocomplete({
                                 minLength: 3,
                                 source: searchData,
+                                appendTo: $("#search-form").parent('div'),
                                 select: function (event, ui) {
                                     if (ui) {
                                         window.location.href = "<?php echo $this->websiteUrl;?>" + ui.item.url;
                                     }
                                     return false;
                                 },
-                                position: { my : "right top", at: "right bottom" },
+                                position: {my: "right top", at: "right bottom"},
                                 messages: {
                                     noResults: '',
                                     results: function () {
@@ -54,6 +59,7 @@
                                     $li.data("ui-autocomplete-item", item);
                                     $li.appendTo(ul);
                                 });
+                                $('.autocomplete-result-img').wrap('<span></span>');
                             };
                         }
                     },

@@ -118,6 +118,10 @@ class Widgets_Search_Search extends Widgets_Abstract
             $this->_view->limit = $limit;
             $this->_view->filterPageType = $filterPageType;
             $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
+            $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
+            if(!empty($searhResultPage)){
+                $this->_view->searhResultPageUrl = $searhResultPage[0]->getUrl();
+            }
             return $this->_view->render('dropdownForm.phtml');
         }
     }
