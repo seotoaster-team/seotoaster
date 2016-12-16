@@ -1,8 +1,10 @@
-<div itemscope itemtype="http://schema.org/WebSite">
-    <meta itemprop="url" content="<?php echo $this->websiteUrl;?>"/>
-    <form itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction" id="<?php echo $this->searchForm->getAttrib('id'); ?>"
+<div itemscope itemtype="http://schema.org/WebSite" class="wrap-search-form">
+    <meta itemprop="url" content="<?php echo $this->websiteUrl; ?>"/>
+    <form itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction"
+          id="<?php echo $this->searchForm->getAttrib('id'); ?>"
           class="<?php echo $this->searchForm->getAttrib('class'); ?>">
-        <meta itemprop="target" content="<?php echo $this->websiteUrl;?><?php echo $this->searhResultPageUrl?>?search={dropdownSearch}"/>
+        <meta itemprop="target"
+              content="<?php echo $this->websiteUrl; ?><?php echo $this->searhResultPageUrl ?>?search={dropdownSearch}"/>
         <input itemprop="query-input" type="search" name="dropdownSearch" id="search" required/>
         <button type="submit"><?php echo $this->translate('Search'); ?></button>
     </form>
@@ -12,62 +14,62 @@
         $("#<?php echo $this->searchForm->getAttrib('id'); ?>").on('submit', function (e) {
             e.preventDefault();
         });
-        $("#search").on('keyup', function () {
-            var dropdownData = {
-                'filterPageType': '<?php echo implode(',', $this->filterPageType);?>',
-                'limit': <?php echo $this->limit;?>,
-            };
-            if ($(this).val().length >= 3) {
-                dropdownData.search = $(this).val();
+        $('#search').autocomplete({
+            minLength: 3,
+            source: function (request, response) {
                 $.ajax({
                     url: "<?php echo $this->websiteUrl;?>backend/search/dropdown/",
-                    data: dropdownData,
+                    data: {
+                        filterPageType: '<?php echo implode(',', $this->filterPageType);?>',
+                        limit: <?php echo $this->limit;?>,
+                        search: request.term
+                    },
                     type: 'post',
                     dataType: 'json',
-                    success: function (res) {
-                        if (!jQuery.isEmptyObject(res)) {
-                            var searchData = res;
-                            $('#search').autocomplete({
-                                minLength: 3,
-                                source: searchData,
-                                appendTo: $("#search-form").parent('div'),
-                                select: function (event, ui) {
-                                    if (ui) {
-                                        window.location.href = "<?php echo $this->websiteUrl;?>" + ui.item.url;
-                                    }
-                                    return false;
-                                },
-                                position: {my: "right top", at: "right bottom"},
-                                messages: {
-                                    noResults: '',
-                                    results: function () {
-                                    }
-                                }
-                            });
-                            $('#search').data("ui-autocomplete")._renderMenu = function (ul, items) {
-                                $.each(items, function (index, item) {
-                                    var $li = $('<li>'),
-                                        $img = $('<img>');
-                                    $img.attr({
-                                        src: item.src,
-                                        alt: item.value,
-                                        class: 'autocomplete-result-img'
-                                    });
-                                    $li.attr('data-value', item.value)
-                                        .append('<a href="' + item.url + '">')
-                                        .find('a').append($img).append(item.value);
-                                    $li.data("ui-autocomplete-item", item);
-                                    $li.appendTo(ul);
-                                });
-                                $('.autocomplete-result-img').wrap('<span></span>');
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                value: item.value,
+                                src: item.src,
+                                label: item.label,
                             };
-                        }
+                        }))
                     },
                     error: function (e) {
                         console.log(e);
                     }
                 });
+            },
+            appendTo: $("#search-form").parent('div'),
+            select: function (event, ui) {
+                if (ui) {
+                    window.location.href = "<?php echo $this->websiteUrl;?>" + ui.item.url;
+                }
+                return false;
+            },
+            position: {my: "right top", at: "right bottom"},
+            messages: {
+                noResults: '',
+                results: function () {
+                }
             }
         });
+        $('#search').data("ui-autocomplete")._renderMenu = function (ul, items) {
+            $.each(items, function (index, item) {
+                var $li = $('<li>'),
+                    $img = $('<img>');
+                $img.attr({
+                    src: item.src,
+                    alt: item.value,
+                    class: 'autocomplete-result-img'
+                });
+                $li.attr('data-value', item.value)
+                    .append('<a href="' + item.url + '">')
+                    .find('a').append($img).append(item.value);
+                $li.data("ui-autocomplete-item", item);
+                $li.appendTo(ul);
+            });
+            $('.autocomplete-result-img').wrap('<span></span>');
+        };
     });
 </script>
