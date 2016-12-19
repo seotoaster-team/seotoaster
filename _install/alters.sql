@@ -128,8 +128,12 @@ ALTER TABLE `form` ADD COLUMN `admin_from` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `form` ADD COLUMN `admin_from_name` VARCHAR (255) DEFAULT NULL;
 ALTER TABLE `form` ADD COLUMN `admin_text` TEXT DEFAULT NULL;
 
+-- 23/09/2016
+-- version: 2.5.1
+-- Add timezone for users
+ALTER TABLE `user` ADD COLUMN `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.1' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
 

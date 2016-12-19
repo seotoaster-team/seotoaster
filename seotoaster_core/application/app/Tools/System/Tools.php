@@ -536,4 +536,69 @@ class Tools_System_Tools {
         }
         return false;
     }
+
+    /**
+     * Find user timezone by id.
+     * If id does not provided then timezone based on logged user id will be returned
+     *
+     * @param int $userId system user id
+     * @return string
+     */
+    public static function getUserTimezone($userId = 0)
+    {
+        if (empty($userId)) {
+            $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+            $userId = $sessionHelper->getCurrentUser()->getId();
+        }
+
+        if (empty($userId)) {
+            return 'UTC';
+        }
+        $userModel = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
+        if (!$userModel instanceof Application_Model_Models_User) {
+            return 'UTC';
+        }
+
+        $userTimeZone = $userModel->getTimezone();
+
+        if (empty($userTimeZone)) {
+            return 'UTC';
+        }
+
+        return $userTimeZone;
+    }
+
+    /**
+     * Get offset of UTC
+     *
+     * @param string $format format to
+     * @return string
+     */
+    public static function getUtcOffset($format)
+    {
+        $userTimeZone = new DateTimeZone(self::getUserTimezone());
+        $currentUserDate = new DateTime('now', $userTimeZone);
+        return $currentUserDate->format($format);
+    }
+
+    /**
+     * Convert date from one to another timezone
+     *
+     * @param string $date date
+     * @param bool $timezoneFrom valid timezone name America/Los_Angeles
+     * @param string $timezoneTo valid timezone name America/Los_Angeles
+     * @param string $format date format
+     * @return string
+     */
+    public static function convertDateFromTimezone($date, $timezoneFrom = false, $timezoneTo = 'UTC', $format = self::DATE_MYSQL)
+    {
+        if (empty($timezoneFrom)) {
+            $timezoneFrom = self::getUserTimezone();
+        }
+        $date = new DateTime($date, new DateTimeZone($timezoneFrom));
+        $date->setTimezone(new DateTimeZone($timezoneTo));
+
+        return $date->format($format);
+    }
+
 }

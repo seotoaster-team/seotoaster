@@ -29,7 +29,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.1');
+('version',	'2.5.2');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -405,6 +405,7 @@ CREATE TABLE `user` (
   `gplus_profile` tinytext COLLATE utf8_unicode_ci,
   `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
