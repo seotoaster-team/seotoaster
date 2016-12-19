@@ -1,20 +1,21 @@
+<?php $formId = uniqid();?>
 <div itemscope itemtype="http://schema.org/WebSite" class="wrap-search-form">
     <meta itemprop="url" content="<?php echo $this->websiteUrl; ?>"/>
     <form itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction"
-          id="<?php echo $this->searchForm->getAttrib('id'); ?>"
+          id="<?php echo $formId;?>"
           class="<?php echo $this->searchForm->getAttrib('class'); ?>">
         <meta itemprop="target"
               content="<?php echo $this->websiteUrl; ?><?php echo $this->searhResultPageUrl ?>?search={dropdownSearch}"/>
-        <input itemprop="query-input" type="search" name="dropdownSearch" id="search" required/>
+        <input itemprop="query-input" type="search" name="dropdownSearch" required/>
         <button type="submit"><?php echo $this->translate('Search'); ?></button>
     </form>
 </div>
 <script>
     $(function () {
-        $("#<?php echo $this->searchForm->getAttrib('id'); ?>").on('submit', function (e) {
+        $("#<?php echo $formId; ?>").on('submit', function (e) {
             e.preventDefault();
         });
-        $('#search').autocomplete({
+        $('#<?php echo $formId;?> input').autocomplete({
             minLength: 3,
             source: function (request, response) {
                 $.ajax({
@@ -27,6 +28,7 @@
                     type: 'post',
                     dataType: 'json',
                     success: function (data) {
+                        console.log(data);
                         response($.map(data, function (item) {
                             return {
                                 value: item.value,
@@ -41,7 +43,7 @@
                     }
                 });
             },
-            appendTo: $("#search-form").parent('div'),
+            appendTo: $("#<?php echo $formId;?>").parent('div'),
             select: function (event, ui) {
                 if (ui) {
                     window.location.href = "<?php echo $this->websiteUrl;?>" + ui.item.url;
@@ -55,7 +57,7 @@
                 }
             }
         });
-        $('#search').data("ui-autocomplete")._renderMenu = function (ul, items) {
+        $("#<?php echo $formId;?> input").data("ui-autocomplete")._renderMenu = function (ul, items) {
             $.each(items, function (index, item) {
                 var $li = $('<li>'),
                     $img = $('<img>');
