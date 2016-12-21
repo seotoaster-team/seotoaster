@@ -32,6 +32,7 @@ class Tools_System_ICalendar
             $parameters['uid'] = uniqid(rand(0, getmypid()));
         }
         return "BEGIN:VCALENDAR" . PHP_EOL
+        . "METHOD:REQUEST".PHP_EOL
         . "VERSION:2.0" . PHP_EOL
         . "PRODID:-//" . $parameters['author'] . "//NONSGML//EN" . PHP_EOL
         . "CALSCALE:GREGORIAN" . PHP_EOL
