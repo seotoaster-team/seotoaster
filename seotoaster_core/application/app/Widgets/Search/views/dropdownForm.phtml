@@ -1,9 +1,7 @@
-<?php $formId = uniqid();?>
 <div itemscope itemtype="http://schema.org/WebSite" class="wrap-search-form">
     <meta itemprop="url" content="<?php echo $this->websiteUrl; ?>"/>
     <form itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction"
-          id="<?php echo $formId;?>"
-          class="<?php echo $this->searchForm->getAttrib('class'); ?>">
+         class="<?php echo $this->searchForm->getAttrib('class'); ?>">
         <meta itemprop="target"
               content="<?php echo $this->websiteUrl; ?><?php echo $this->searhResultPageUrl ?>?search={dropdownSearch}"/>
         <input itemprop="query-input" type="search" name="dropdownSearch" required/>
@@ -12,10 +10,31 @@
 </div>
 <script>
     $(function () {
-        $("#<?php echo $formId; ?>").on('submit', function (e) {
+        $(".<?php echo $this->searchForm->getAttrib('class'); ?>").on('submit', function (e) {
             e.preventDefault();
         });
-        $('#<?php echo $formId;?> input').autocomplete({
+        $('.<?php echo $this->searchForm->getAttrib('class'); ?> input').on('focus', function(){
+            $(this).val('');
+            $(this).autocomplete( "option", "appendTo", $(this).closest('div'));
+            $(this).data("ui-autocomplete")._renderMenu = function (ul, items) {
+                $.each(items, function (index, item) {
+                    var $li = $('<li>'),
+                        $img = $('<img>');
+                    $img.attr({
+                        src: item.src,
+                        alt: item.value,
+                        class: 'autocomplete-result-img'
+                    });
+                    $li.attr('data-value', item.value)
+                        .append('<a href="' + item.url + '">')
+                        .find('a').append($img).append(item.value);
+                    $li.data("ui-autocomplete-item", item);
+                    $li.appendTo(ul);
+                });
+                $('.autocomplete-result-img').wrap('<span></span>');
+            };
+        });
+        $('.<?php echo $this->searchForm->getAttrib('class'); ?> input').autocomplete({
             minLength: 3,
             source: function (request, response) {
                 $.ajax({
@@ -43,36 +62,18 @@
                     }
                 });
             },
-            appendTo: $("#<?php echo $formId;?>").parent('div'),
             select: function (event, ui) {
                 if (ui) {
                     window.location.href = "<?php echo $this->websiteUrl;?>" + ui.item.url;
                 }
                 return false;
             },
-            position: {my: "right top", at: "right bottom"},
             messages: {
                 noResults: '',
                 results: function () {
                 }
             }
         });
-        $("#<?php echo $formId;?> input").data("ui-autocomplete")._renderMenu = function (ul, items) {
-            $.each(items, function (index, item) {
-                var $li = $('<li>'),
-                    $img = $('<img>');
-                $img.attr({
-                    src: item.src,
-                    alt: item.value,
-                    class: 'autocomplete-result-img'
-                });
-                $li.attr('data-value', item.value)
-                    .append('<a href="' + item.url + '">')
-                    .find('a').append($img).append(item.value);
-                $li.data("ui-autocomplete-item", item);
-                $li.appendTo(ul);
-            });
-            $('.autocomplete-result-img').wrap('<span></span>');
-        };
+
     });
 </script>
