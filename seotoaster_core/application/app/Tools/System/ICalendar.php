@@ -32,6 +32,7 @@ class Tools_System_ICalendar
             $parameters['uid'] = uniqid(rand(0, getmypid()));
         }
         return "BEGIN:VCALENDAR" . PHP_EOL
+        . "METHOD:REQUEST".PHP_EOL
         . "VERSION:2.0" . PHP_EOL
         . "PRODID:-//" . $parameters['author'] . "//NONSGML//EN" . PHP_EOL
         . "CALSCALE:GREGORIAN" . PHP_EOL
@@ -39,6 +40,7 @@ class Tools_System_ICalendar
         . "UID:" . $parameters['uid'] . PHP_EOL
         . "DTSTART:" . self::formatDate($parameters['start']) . PHP_EOL
         . "ORGANIZER;CN=".$parameters['organizer'].':MAILTO:'. $parameters['organizerEmail']. PHP_EOL
+        . self::addAttendeeRow($parameters['attendees'])
         . "DTEND:" . self::formatDate($parameters['end']) . PHP_EOL
         . "DTSTAMP:" . self::formatDate($parameters['start']) . PHP_EOL
         . "CREATED:" . self::formatDate(date('Y/m/d H:i:s')) . PHP_EOL
@@ -51,6 +53,22 @@ class Tools_System_ICalendar
         . "TRANSP:OPAQUE" . PHP_EOL
         . "END:VEVENT" . PHP_EOL
         . "END:VCALENDAR";
+    }
+
+    /**
+     * prepare attendee rows
+     *
+     * @param array $attendees attendees name and email
+     * @return string
+     */
+    public static function addAttendeeRow(array $attendees)
+    {
+        $attendeeRow = '';
+        foreach ($attendees as $attendee) {
+            $attendeeRow .= 'ATTENDEE;CN="'.$attendee['name'].'";RSVP=TRUE:mailto:'.$attendee['email'].'' . PHP_EOL;
+        }
+
+        return $attendeeRow;
     }
 
     /**
