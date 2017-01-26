@@ -202,6 +202,11 @@ class Tools_System_Tools {
         return false;
     }
 
+    public static function generateGoogleRecaptha(){
+        $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+        echo '<div class="g-recaptcha" data-sitekey="'.$websiteConfig[self::RECAPTCHA_PUBLIC_KEY].'"></div>';
+    }
+
 	public static function arrayToCsv($data, $headers = array()) {
 		if(!empty($data)) {
             $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');

@@ -27,6 +27,12 @@
                 <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>"/>
             </div>
         <?php endif; ?>
+        <?php if ($this->useGoogleRecaptcha): ?>
+            <?php
+            $this->inlineScript()->appendFile('https://www.google.com/recaptcha/api.js');
+            Tools_System_Tools::generateGoogleRecaptha();
+            ?>
+        <?php endif; ?>
         <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
         <?php if ($this->trackingConversionUrl): ?>
             <input type="hidden" name="conversionPageUrl"
@@ -130,6 +136,9 @@
                         <?php endif;?>
                         <?php if($this->useRecaptcha):?>
                         Recaptcha.reload();
+                        <?php endif;?>
+                        <?php if($this->useGoogleRecaptcha):?>
+                        grecaptcha.reset();
                         <?php endif;?>
                         showMessage(response.responseText, response.error);
                     }
