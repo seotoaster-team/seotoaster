@@ -267,6 +267,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 }
                 unset($formParams['uploadLimitSize']);
+                unset($formParams['g-recaptcha-response']);
                	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
