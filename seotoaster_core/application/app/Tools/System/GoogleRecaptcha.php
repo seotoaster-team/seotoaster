@@ -28,7 +28,7 @@ class Tools_System_GoogleRecaptcha
     public function isValid($recaptcha)
     {
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = Zend_Controller_Front::getInstance()->getRequest()->getServer('REMOTE_ADDR');
         $url = $this::GOOGLE_URL . "?secret=" . $this->_secretKey . "&response=" . $recaptcha . "&remoteip=" . $ip;
         $res = $this->_getCurlData($url);
         $res = json_decode($res, true);

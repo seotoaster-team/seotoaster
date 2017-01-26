@@ -9,6 +9,12 @@
     </p>
     <p class="mt5px">
         <label class="pointer">
+            <span class="grid_5 alpha"><?php echo $this->translate('Use grecaptcha'); ?></span>
+            <?php echo $this->formCheckbox('formsgRecaptcha', null, array('id' => 'forms-grecaptcha')); ?>
+        </label>
+    </p>
+    <p class="mt5px">
+        <label class="pointer">
             <span class="grid_5 alpha"><?php echo $this->translate('Use recaptcha'); ?></span>
             <?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
         </label>
@@ -73,6 +79,10 @@
                     widgetHtml += ':recaptcha:' + recaptchaStyle ;
                 }
 
+                if($('#forms-grecaptcha').prop('checked')){
+                    widgetHtml += ':grecaptcha';
+                }
+
                 if($("#forms-submit-label").val().length != 0){
                     widgetHtml += ":" + $("#forms-submit-label").val() + "}";
                 } else{
@@ -81,5 +91,19 @@
 				tinymce.activeEditor.execCommand('mceInsertContent',false, widgetHtml);
 			}
 		});
+
+        $('#forms-grecaptcha').change(
+            function(){
+                if ($(this).is(':checked')) {
+                    $('#forms-captcha').prop('checked', false).change();
+                }
+            });
+        $('#forms-captcha').change(
+            function(){
+                if ($(this).is(':checked')) {
+                    $('#forms-grecaptcha').prop('checked', false);
+                }
+            });
+
 	});
 </script>
