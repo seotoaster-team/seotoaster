@@ -32,6 +32,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     protected $_cacheable         = false;
 
+    protected $_gmapsFlag = false;
+
     protected function _init() {
         $this->_readonly = false;
         if (end($this->_options) == self::OPTION_READONLY) {
@@ -73,6 +75,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
         }
+
+        if(in_array('map',$this->_options)){
+            $key = array_search('map',$this->_options);
+            $this->_gmapsFlag = true;
+            unset($this->_options[$key]);
+        }
+
         // User role should be a member or not only for reading at least to be able to edit
         if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) || $this->_readonly) {
             if($this->_options[0] == self::TYPE_CHECKBOX) {
@@ -120,6 +129,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
+        $this->_view->gmapsFlag = $this->_gmapsFlag;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -130,6 +141,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         if(empty($values) || sizeof($values) == 1 && !(boolean)$values[0]) {
             $options = array('yes' => '');
         }
+        $this->_view->gmapsFlag = $this->_gmapsFlag;
         $this->_view->options = $options;
         return $this->_view->render('element.prepop.phtml');
     }
@@ -140,12 +152,16 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
         asort($options);
         $this->_view->options = $options;
+        $this->_view->gmapsFlag = $this->_gmapsFlag;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
     protected function _renderPrepopRadio() {
         $this->_view->onJsElementAction = 'click';
         $this->_view->options           = $this->_generateSelectOptions();
+        $this->_view->gmapsFlag = $this->_gmapsFlag;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -155,6 +171,8 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
+        $this->_view->gmapsFlag = $this->_gmapsFlag;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
