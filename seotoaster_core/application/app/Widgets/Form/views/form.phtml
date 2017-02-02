@@ -30,7 +30,8 @@
         <?php if ($this->useGoogleRecaptcha): ?>
             <?php
             $this->inlineScript()->appendFile('https://www.google.com/recaptcha/api.js');
-            Tools_System_Tools::generateGoogleRecaptha();
+            $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+            echo '<div class="g-recaptcha" data-sitekey="'.$websiteConfig['recaptchaPublicKey'].'"></div>';
             ?>
         <?php endif; ?>
         <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>

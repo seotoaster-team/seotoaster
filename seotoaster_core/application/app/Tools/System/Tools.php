@@ -17,10 +17,6 @@ class Tools_System_Tools {
 
 	const PLACEHOLDER_SYSTEM_VERSION    = 'sysverHolder';
 
-    const RECAPTCHA_PUBLIC_KEY = 'recaptchaPublicKey';
-
-    const RECAPTCHA_PRIVATE_KEY = 'recaptchaPrivateKey';
-
     const CSRF_SECURE_TOKEN = 'secureToken';
 
     const ACTION_PREFIX_CONFIG = 'Config';
@@ -200,11 +196,6 @@ class Tools_System_Tools {
             return $recaptcha->getHTML();
         }
         return false;
-    }
-
-    public static function generateGoogleRecaptha(){
-        $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
-        echo '<div class="g-recaptcha" data-sitekey="'.$websiteConfig[self::RECAPTCHA_PUBLIC_KEY].'"></div>';
     }
 
 	public static function arrayToCsv($data, $headers = array()) {
