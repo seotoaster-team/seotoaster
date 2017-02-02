@@ -17,6 +17,10 @@ class Tools_System_Tools {
 
 	const PLACEHOLDER_SYSTEM_VERSION    = 'sysverHolder';
 
+    const RECAPTCHA_PUBLIC_KEY = 'recaptchaPublicKey';
+
+    const RECAPTCHA_PRIVATE_KEY = 'recaptchaPrivateKey';
+
     const CSRF_SECURE_TOKEN = 'secureToken';
 
     const ACTION_PREFIX_CONFIG = 'Config';
