@@ -31,8 +31,8 @@
             <?php
             $this->inlineScript()->appendFile('https://www.google.com/recaptcha/api.js');
             $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
-            echo '<div class="g-recaptcha" data-sitekey="'.$websiteConfig['recaptchaPublicKey'].'"></div>';
             ?>
+            <div class="g-recaptcha" data-sitekey="<?php echo $websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY];?>"></div>;
         <?php endif; ?>
         <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
         <?php if ($this->trackingConversionUrl): ?>
