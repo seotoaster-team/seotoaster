@@ -27,10 +27,12 @@ class Tools_System_GoogleRecaptcha
     {
 
         $url = $this::GOOGLE_URL . "?secret=" . $this->_secretKey . "&response=" . $recaptcha;
+        $websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+        $hostName = parse_url($websiteUrl, PHP_URL_HOST);
         $res = $this->_getCurlData($url);
         $res = json_decode($res, true);
-        if (is_array($res) && !empty($res['success'])) {
-            return $res['success'];
+        if (is_array($res) && !empty($res['success']) && !empty($res['hostname'])) {
+            return ($res['success'] && $res['hostname'] == $hostName);
         }
         return false;
 
