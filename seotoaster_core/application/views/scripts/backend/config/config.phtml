@@ -142,6 +142,8 @@
             <fieldset id="securityForm-config" class="content-small-footer pt50px">
                 <div><?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PUBLIC_KEY); ?></div>
                 <div><?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PRIVATE_KEY); ?></div>
+                <div><?php echo $this->configForm->getElement(Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY); ?></div>
+                <div><?php echo $this->configForm->getElement(Tools_System_Tools::GRECAPTCHA_PRIVATE_KEY); ?></div>
                 <div class="mt15px">
                     <a target="_blank" href="https://www.google.com/recaptcha/admin/create"><?php echo $this->translate(
                             'Get your own reCAPTCHA key here now.'

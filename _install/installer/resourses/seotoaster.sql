@@ -28,6 +28,8 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('inlineEditor',	'0'),
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
+('grecaptchaPublicKey', '6LevehEUAAAAALecy70IyKv8NDTuqOZ64Mc164IY'),
+('grecaptchaPrivateKey', '6LevehEUAAAAAFCMgvPH2gkDzpoNyB1EOMQzV5wj'),
 ('enableMobileTemplates',	'1'),
 ('version',	'2.5.2');
 

@@ -21,6 +21,10 @@ class Tools_System_Tools {
 
     const RECAPTCHA_PRIVATE_KEY = 'recaptchaPrivateKey';
 
+    const GRECAPTCHA_PUBLIC_KEY = 'grecaptchaPublicKey';
+
+    const GRECAPTCHA_PRIVATE_KEY = 'grecaptchaPrivateKey';
+
     const CSRF_SECURE_TOKEN = 'secureToken';
 
     const ACTION_PREFIX_CONFIG = 'Config';

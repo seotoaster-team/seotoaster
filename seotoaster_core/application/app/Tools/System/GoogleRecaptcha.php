@@ -9,7 +9,7 @@ class Tools_System_GoogleRecaptcha
     public function __construct()
     {
         $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
-        $this->_secretKey = $websiteConfig['recaptchaPrivateKey'];
+        $this->_secretKey = $websiteConfig['grecaptchaPrivateKey'];
     }
 
     protected function _getCurlData($url)
