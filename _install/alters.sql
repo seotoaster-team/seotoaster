@@ -133,13 +133,13 @@ ALTER TABLE `form` ADD COLUMN `admin_text` TEXT DEFAULT NULL;
 -- Add timezone for users
 ALTER TABLE `user` ADD COLUMN `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL;
 
--- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.2' WHERE `name`='version';
-SELECT value FROM `config` WHERE name = 'version';
-
 -- 03/01/2017
 -- greCAPTCHA implement
 -- version: 2.5.2
 INSERT INTO `config` (`name`, `value`) VALUES
-('grecaptchaPublicKey', '6LevehEUAAAAALecy70IyKv8NDTuqOZ64Mc164IY'),
-('grecaptchaPrivateKey', '6LevehEUAAAAAFCMgvPH2gkDzpoNyB1EOMQzV5wj');
+('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
+('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx');
+
+-- These alters are always the latest and updated version of the database
+UPDATE `config` SET `value`='2.5.3' WHERE `name`='version';
+SELECT value FROM `config` WHERE name = 'version';
