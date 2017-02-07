@@ -28,8 +28,10 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('inlineEditor',	'0'),
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
+('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
+('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.2');
+('version',	'2.5.3');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
