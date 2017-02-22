@@ -89,7 +89,8 @@ class Widgets_Search_Search extends Widgets_Abstract
         }
 
         $searchForm = new Application_Form_Search();
-          if(false === array_search('dropdown', $this->_options)){
+        $dropDownSearchFlag = array_search('dropdown', $this->_options);
+        if(false === $dropDownSearchFlag){
           $searchFormAction = $searchResultPage->getUrl();
           if ($searchFormAction !== 'index.html') {
             $searchForm->setAction($this->_websiteHelper->getUrl() . $searchFormAction);
@@ -102,7 +103,7 @@ class Widgets_Search_Search extends Widgets_Abstract
         $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(
                 Tools_Security_Acl::RESOURCE_USERS
             ) && Tools_Search_Tools::isEmpty();
-        if (false === array_search('dropdown', $this->_options)) {
+        if (false === $dropDownSearchFlag) {
             return $this->_view->render('form.phtml');
         } else {
             $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();

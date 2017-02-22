@@ -5,7 +5,7 @@
         <meta itemprop="target"
               content="<?php echo $this->websiteUrl; ?><?php echo $this->searhResultPageUrl ?>?search={dropdownSearch}"/>
         <input itemprop="query-input" type="search" name="dropdownSearch" required/>
-        <button type="submit"><?php echo $this->translate('Search'); ?></button>
+        <button class="hidden" type="submit"><?php echo $this->translate('Search'); ?></button>
     </form>
 </div>
 <script>
@@ -47,7 +47,6 @@
                     type: 'post',
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
                         response($.map(data, function (item) {
                             return {
                                 value: item.value,
