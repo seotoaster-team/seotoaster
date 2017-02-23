@@ -24,7 +24,12 @@
     }
 ?>
 
-<?php $this->jQuery()->onLoadCaptureStart(); ?>
+<?php if(isset($this->customScriptInclude)):?>
+    <script type="application/javascript">
+        $(document).ready(function(){
+<?php else:?>
+    <?php $this->jQuery()->onLoadCaptureStart(); ?>
+<?php endif;?>
 
     var prepop = {
         webisteUrl: '<?php echo $this->websiteUrl; ?>',
@@ -47,7 +52,7 @@
         },
         exec: function() {
             var self    = this;
-            var isValid = self._validate()
+            var isValid = self._validate();
             if(isValid !== true) {
                 showMessage(isValid.error, true);
                 return false;
@@ -73,9 +78,10 @@
             return true;
         }
     };
-
-<?php $this->jQuery()->onLoadCaptureEnd(); ?>
-<?php $this->jQuery()->onLoadCaptureStart(); ?>
+<?php if(!isset($this->customScriptInclude)):?>
+    <?php $this->jQuery()->onLoadCaptureEnd(); ?>
+    <?php $this->jQuery()->onLoadCaptureStart(); ?>
+<?php endif;?>
 
     $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo (($this->prepopName) ? ('.' . $this->prepopName) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function (e) {
         //init prepop specific fields
@@ -101,5 +107,10 @@
         //executing the prepop
         prepop.exec();
     });
+<?php if(isset($this->customScriptInclude)):?>
+        });
+        </script>
+<?php else:?>
+        <?php $this->jQuery()->onLoadCaptureEnd(); ?>
+<?php endif;?>
 
-<?php $this->jQuery()->onLoadCaptureEnd(); ?>
