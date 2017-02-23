@@ -24,7 +24,7 @@
     }
 ?>
 
-<?php if($this->gmapsFlag):?>
+<?php if($this->customScriptInclude):?>
     <script type="application/javascript">
         $(document).ready(function(){
 <?php else:?>
@@ -78,7 +78,7 @@
             return true;
         }
     };
-<?php if(!$this->gmapsFlag):?>
+<?php if(!$this->customScriptInclude):?>
     <?php $this->jQuery()->onLoadCaptureEnd(); ?>
     <?php $this->jQuery()->onLoadCaptureStart(); ?>
 <?php endif;?>
@@ -107,7 +107,7 @@
         //executing the prepop
         prepop.exec();
     });
-<?php if($this->gmapsFlag):?>
+<?php if($this->customScriptInclude):?>
         });
         </script>
 <?php else:?>
