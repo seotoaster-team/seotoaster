@@ -39,7 +39,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $configForm->removeElement('suPassword');
                 $configForm->removeElement('canonicalScheme');
                 $configForm->removeElement('recapthaPublicKey');
+                $configForm->removeElement('grecapthaPublicKey');
                 $configForm->removeElement('recapthaPrivateKey');
+                $configForm->removeElement('grecapthaPrivateKey');
             }
             else {
                 //initializing current superadmin user

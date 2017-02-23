@@ -26,6 +26,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_notes = '';
 
+    protected $_timezone = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -190,5 +192,29 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     public function loadAttributes() {
         return Application_Model_Mappers_UserMapper::getInstance()->loadUserAttributes($this);
     }
+
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->_timezone;
+    }
+
+    /**
+     * @param string $timezone
+     * @return string
+     */
+    public function setTimezone($timezone)
+    {
+        if (empty($timezone)) {
+            $timezone = null;
+        }
+        $this->_timezone = $timezone;
+
+        return $this;
+    }
+
+
 }
 

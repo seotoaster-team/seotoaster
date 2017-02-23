@@ -3,11 +3,23 @@ $(function(){
     if(currentUrl && typeof currentUrl!='undefined'){
         var $currentLink = $("a[href='"+currentUrl+"']");
         $currentLink.addClass('current');
+        if($currentLink.closest("li").length > 0 && $currentLink.closest("li").hasClass('category')){
+                $currentLink.closest("li").addClass('category-current');
+        }
         if($currentLink.closest('.page').length){
-            $currentLink.closest('.category').addClass('current');
+            var catEl = $currentLink.closest('.category');
+            catEl.addClass('current');
+            if(catEl.closest("li").length > 0 && $currentLink.closest("li").hasClass('page')){
+                $currentLink.closest("li").addClass('page-current');
+                catEl.closest("li").addClass('category-current');
+            }
         }
         if(currentUrl==$('#website_url').val()){
-            $("a[href='"+$('#website_url').val()+"index.html']").addClass('current');
+            var indexEl = $("a[href='"+$('#website_url').val()+"index.html']");
+            indexEl.addClass('current');
+            if(indexEl.closest("li").length > 0){
+                indexEl.closest("li").addClass('category-current');
+            }
         }
     }
     /**
@@ -197,6 +209,12 @@ $(function(){
                 $('[name='+i+']').val(response.responseText.data[i]);
                 if(i=='password'){
                     $('[name='+i+']').val('');
+                }
+                if (i=='attributes') {
+                    $.each(response.responseText.data[i], function(attrName, attrValue) {
+                        $('#user-attributes-section').append('<div class="grid_6"><input type="text" class="user-custom-attribute-name" name="attrName[]" value="' + attrName + '"></div>' +
+                        '<div class="grid_6"><input type="text" name="attrValue[]" value="' + attrValue + '"></div>');
+                    })
                 }
             }
         })

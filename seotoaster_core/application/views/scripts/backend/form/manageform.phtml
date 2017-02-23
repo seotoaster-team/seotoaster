@@ -28,14 +28,14 @@
             </p>
             <?php endif;?>
             <fieldset class="grid_6 background mt10px">
-                <legend class="h2 background m0px p5px"><?php echo $this->translate('Admin email setup');?></legend>
-                <p class="grid_6">
-                    <?php echo $this->formForm->getElement('adminFrom')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('adminFrom')->renderViewHelper(); ?>
-                </p>
+                <legend class="h2 background m0px p5px"><?php echo $this->translate('Lead delivery email setup');?></legend>
                 <p class="grid_6">
                     <?php echo $this->formForm->getElement('adminMailTemplate')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminMailTemplate')->renderViewHelper(); ?>
+                </p>
+                <p class="grid_6">
+                    <?php echo $this->formForm->getElement('adminFrom')->renderLabel(); ?>
+                    <?php echo $this->formForm->getElement('adminFrom')->renderViewHelper(); ?>
                 </p>
                 <p class="grid_6">
                     <?php echo $this->formForm->getElement('adminFromName')->renderLabel(); ?>
@@ -45,6 +45,10 @@
                     <?php echo $this->formForm->getElement('adminSubject')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminSubject')->renderViewHelper(); ?>
                 </p>
+                <p class="grid_6">
+                    <?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?>
+                    <?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?>
+                </p>
                 <p class="grid_12">
                     <?php echo $this->formForm->getElement('adminText')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminText')->renderViewHelper(); ?>
@@ -53,10 +57,7 @@
 
             <fieldset class="grid_6 background mt10px">
                 <legend class="h2 background m0px p5px"><?php echo $this->translate('Reply email setup');?></legend>
-                <p class="grid_6">
-                    <?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?>
-                </p>
+
                 <p class="grid_6">
                     <?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
@@ -78,11 +79,12 @@
                     <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
                 </p>
             </fieldset>
+            <p class="clear-both"></p>
             <p class="grid_6 mt10px">
                 <?php echo $this->formForm->getElement('messageSuccess')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('messageSuccess')->renderViewHelper(); ?>
             </p>
-            <p class="grid_6">
+            <p class="grid_6 mt10px">
                 <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
             </p>

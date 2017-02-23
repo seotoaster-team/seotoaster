@@ -22,10 +22,17 @@
         <?php if ($this->useCaptcha): ?>
             <div class="captcha">
                 <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png'; ?>"/>
-                <label class="captcha_label"><?php echo $this->translate('Enter the words from picture'); ?></label>
+                <label class="captcha_label"><?php echo $this->translate('Enter the words or numbers from picture'); ?></label>
                 <input class="captcha_field" type="text" name="captcha" value=""/>
                 <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>"/>
             </div>
+        <?php endif; ?>
+        <?php if ($this->useGoogleRecaptcha): ?>
+            <?php
+            $this->inlineScript()->appendFile('https://www.google.com/recaptcha/api.js');
+            $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+            ?>
+            <div class="g-recaptcha" data-sitekey="<?php echo $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY];?>"></div>;
         <?php endif; ?>
         <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
         <?php if ($this->trackingConversionUrl): ?>
@@ -70,11 +77,16 @@
         <?php endif;?>
 
         $(document).on('submit', '#<?php echo $this->formId; ?>', function (e) {
-            var valid = validateRequired('<?php echo $this->formId; ?>');
-            if ($(form).find('input[type="file"]').length > 0) {
+            var valid = validateRequired('<?php echo $this->formId; ?>'),
+                fileField = $(form).find('input[type="file"]');
+            if (fileField.length > 0) {
+                if(fileField.attr("required") && !fileField.val().length){
+                    showMessage('<?php echo $this->translate('Please select a file') ?>',true, 5000);
+                    return false;
+                }
                 return true;
             } else if (!valid) {
-                showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true);
+                showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true, 5000);
                 return false;
             }
             else {
@@ -125,6 +137,9 @@
                         <?php endif;?>
                         <?php if($this->useRecaptcha):?>
                         Recaptcha.reload();
+                        <?php endif;?>
+                        <?php if($this->useGoogleRecaptcha):?>
+                        grecaptcha.reset();
                         <?php endif;?>
                         showMessage(response.responseText, response.error);
                     }

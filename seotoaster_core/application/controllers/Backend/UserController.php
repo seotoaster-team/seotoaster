@@ -52,8 +52,23 @@ class Backend_UserController extends Zend_Controller_Action {
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
 				$user       = new Application_Model_Models_User($data);
-				Application_Model_Mappers_UserMapper::getInstance()->save($user);
-				$this->_helper->response->success($this->_helper->language->translate('Saved'));
+                $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
+                $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
+                $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
+                if ($attrNamesArr) {
+                    foreach ($attrNamesArr as $key => $value) {
+                        if(empty($value) || empty($attrValuesArr[$key])) {
+                            continue;
+                        }
+                        $user->setAttribute($value, $attrValuesArr[$key]);
+                    }
+                    if (empty($userId)) {
+                        $user->setId((int)$uId);
+                    }
+                    Application_Model_Mappers_UserMapper::saveUserAttributes($user);
+                }
+
+                $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
 			}
 			else {
@@ -151,11 +166,19 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 			$user       = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
-			$result = array(
-				'formId' => 'frm-user',
-				'data'   => $user->toArray()
-			);
-			$this->_helper->response->success($result);
+            if ($user instanceof Application_Model_Models_User) {
+                $userData = $user->toArray();
+                if (empty($userData['timezone'])) {
+                    $userData['timezone'] = '0';
+                }
+
+                $result = array(
+                    'formId' => 'frm-user',
+                    'data' => $userData
+                );
+                $this->_helper->response->success($result);
+            }
+            $this->_helper->response->fail($this->_helper->language->translate('User doesn\'t exists'));
 		}
 	}
 
