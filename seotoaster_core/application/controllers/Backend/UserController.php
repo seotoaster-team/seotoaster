@@ -183,34 +183,30 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
     public function exportAction() {
-        if($this->getRequest()->isPost()) {
-            if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
-                $users        = Application_Model_Mappers_UserMapper::getInstance()->fetchAll();
-                $dataToExport = array();
-                foreach($users as $user) {
-                    $usrData = $user->toArray();
-                    unset($usrData['password']);
-                    unset($usrData['id']);
-                    unset($usrData['attributes']);
-                    $dataToExport[] = $usrData;
-                }
-                $exportResult = Tools_System_Tools::arrayToCsv($dataToExport, array(
+        if($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $users        = Application_Model_Mappers_UserMapper::getInstance()->getUserList();
+            if(!empty($users)){
+                $exportResult = Tools_System_Tools::arrayToCsv($users, array(
                     $this->_helper->language->translate('E-mail'),
                     $this->_helper->language->translate('Role'),
                     $this->_helper->language->translate('Full name'),
                     $this->_helper->language->translate('Last login date'),
                     $this->_helper->language->translate('Registration date'),
-                    $this->_helper->language->translate('IP address')
+                    $this->_helper->language->translate('IP address'),
+                    $this->_helper->language->translate('Referer url'),
+                    $this->_helper->language->translate('Google plus profile'),
+                    $this->_helper->language->translate('Mobile phone'),
+                    $this->_helper->language->translate('Notes')
                 ));
-				if($exportResult) {
-					$usersArchive = Tools_System_Tools::zip($exportResult);
-					$this->getResponse()->setHeader('Content-Disposition', 'attachment; filename=' . Tools_Filesystem_Tools::basename($usersArchive))
-						->setHeader('Content-type', 'application/force-download');
-					readfile($usersArchive);
-					$this->getResponse()->sendResponse();
-				}
-				exit;
+                if($exportResult) {
+                    $usersArchive = Tools_System_Tools::zip($exportResult);
+                    $this->getResponse()->setHeader('Content-Disposition', 'attachment; filename=' . Tools_Filesystem_Tools::basename($usersArchive))
+                        ->setHeader('Content-type', 'application/force-download');
+                    readfile($usersArchive);
+                    $this->getResponse()->sendResponse();
+                }
             }
+            exit;
         }
     }
 }
