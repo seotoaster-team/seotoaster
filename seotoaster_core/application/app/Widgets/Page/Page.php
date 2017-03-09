@@ -31,10 +31,18 @@ class Widgets_Page_Page extends Widgets_Abstract {
 	    if(isset($this->_toasterOptions[$option])) {
             $original = (isset($this->_options[1]) && $this->_options[1] == self::PAGE_ORIGINAL);
             $optionMakerName = 'get' . ucfirst($option);
+
             if($original) {
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_toasterOptions['id'], $original);
                 $optionValue = $page->$optionMakerName();
-            } else {
+            }elseif (in_array('external', $this->_options)){
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_toasterOptions['id'], $original);
+                if(!$page->getExternalLinkStatus()){
+                    return  $page->$optionMakerName();
+                }
+                $optionValue = $page->getExternalLink();
+            }
+            else {
                 $optionValue = $this->_toasterOptions[$option];
             }
             $optionMakerNameLocal = '_'.$optionMakerName;
