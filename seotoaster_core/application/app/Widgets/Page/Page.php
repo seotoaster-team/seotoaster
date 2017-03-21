@@ -131,15 +131,19 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
  		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
 		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg)$~', $files));
+		$fileInfo = array();
 
 		if(!empty ($pagePreviews)) {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
             $src =  $websiteHelper->getUrl().$path.$pagePreviews[0];
+            if(!empty($src)){
+                $fileInfo = getimagesize($src);
+            }
             if (isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC){
                 return $src;
             }
-			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" />';
+			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'"'.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
 		}
 		return;
 	}
