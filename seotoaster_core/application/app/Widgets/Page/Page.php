@@ -143,7 +143,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
             if (isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC){
                 return $src;
             }
-			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'"'.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
+			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" '.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
 		}
 		return;
 	}
