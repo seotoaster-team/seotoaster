@@ -86,8 +86,15 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper     = Application_Model_Mappers_PageMapper::getInstance();
 		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
-        $redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs($allowedPageTypes));
+        $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
+        $pages = $pageMapper->fetchIdUrlPairs($allowedPageTypes);
+        if(!empty($notFoundPages)){
+            foreach ($notFoundPages as $page){
+                unset($pages[$page->getId()]);
+            }
+        }
 
+        $redirectForm->setToasterPages($pages);
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
@@ -147,9 +154,69 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function loadredirectslistAction() {
-		$redirects      = Application_Model_Mappers_RedirectMapper::getInstance()->fetchAll(null, array('id'));
-		$this->view->redirects = array_reverse($redirects);
-		$this->view->redirectsList = $this->view->render('backend/seo/loadredirectslist.phtml');
+        $redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
+        $paginationLimit = 100;
+        $generalLimit = $redirectMapper->fetchAllPages(true);
+        $generalLimit = $generalLimit['count'];
+
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $pageNum = filter_var($request->getParam('paginationPnum'), FILTER_SANITIZE_NUMBER_INT);
+        $searchName = filter_var($request->getParam('searchName'), FILTER_SANITIZE_STRING);
+
+        if (!empty($searchName)) {
+            $pages = $redirectMapper->fetchAllPages(true, $generalLimit, $searchName);
+            $generalLimit = $pages['count'];
+            $pages = $pages['select'];
+        } else {
+            $pages = $redirectMapper->fetchAllPages(false, $generalLimit);
+        }
+        $adapter = new Zend_Paginator_Adapter_DbSelect($pages);
+
+
+        if (!empty($pageNum)) {
+            $offset = $paginationLimit * intval($pageNum) - $paginationLimit;
+        } else {
+            $offset = 0;
+            $pageNum = 1;
+        }
+
+        $listingUrls = new Zend_Paginator($adapter);
+
+        if ($listingUrls->getTotalItemCount() < $generalLimit) {
+            if ($offset > 0) {
+                $adapter->setRowCount($listingUrls->getTotalItemCount());
+                $listingUrls = new Zend_Paginator($adapter);
+            }
+        } else {
+            $adapter->setRowCount((int)$generalLimit);
+        }
+        $listingUrls->setCurrentPageNumber($pageNum);
+        $listingUrls->setItemCountPerPage($paginationLimit);
+
+        if ($pageNum > 1) {
+            if (empty($generalLimit)) {
+                $generalLimit = 50;
+            }
+            $paginationLimit = $generalLimit - (($pageNum - 1) * $paginationLimit);
+        }
+        if ($paginationLimit > $listingUrls->getItemCountPerPage()) {
+            $resultSum = $paginationLimit - $listingUrls->getItemCountPerPage();
+            $paginationLimit -= $resultSum;
+        }
+
+        $existingListing = $adapter->getItems($offset, $paginationLimit);
+        if ($paginationLimit < $generalLimit) {
+            $pager = $this->view->paginationControl(
+                $listingUrls,
+                'Sliding',
+                'backend/seo/pagination.phtml',
+                array()
+            );
+
+            $this->view->pager = $pager;
+        }
+        $this->view->redirects = $existingListing;
+        $this->view->redirectsList = $this->view->render('backend/seo/loadredirectslist.phtml');
 	}
 
 	public function removeredirectAction() {
@@ -170,7 +237,14 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$deeplinksForm    = new Application_Form_Deeplink();
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
-		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs($allowedPageTypes));
+        $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
+        $pages = $pageMapper->fetchIdUrlPairs($allowedPageTypes);
+        if(!empty($notFoundPages)){
+            foreach ($notFoundPages as $page){
+                unset($pages[$page->getId()]);
+            }
+        }
+		$deeplinksForm->setToasterPages($pages);
 		if($this->getRequest()->isPost()) {
             $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
@@ -464,7 +538,7 @@ class Backend_SeoController extends Zend_Controller_Action {
                         $sitemaps = array();
 
                         for ($i = 0; $i < $arrayPagesParts; $i++) {
-                            $i = $i == 0 ? $i = '' : $i;
+                            $i = ($i == 0) ? $i = '' : $i;
                             $sitemaps['sitemap' . $i] = array(
                                 'extension' => 'xml',
                                 'lastmod' => date(DATE_ATOM)
