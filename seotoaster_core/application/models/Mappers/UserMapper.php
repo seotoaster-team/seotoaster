@@ -23,7 +23,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 			'ipaddress'     => $user->getIpaddress(),
             'gplus_profile' => $user->getGplusProfile(),
             'mobile_phone'  => $user->getMobilePhone(),
-            'notes'         => $user->getNotes()
+            'notes'         => $user->getNotes(),
+            'timezone'      => $user->getTimezone()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -94,6 +95,14 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         return $user->setAttributes($attributes);
     }
 
+    public function fetchUniqueAttributesNames()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()->distinct()->from('user_attributes', array('attribute'));
+        $usersAttributes = $this->getDbTable()->getAdapter()->fetchCol($select);
+        return $usersAttributes;
+
+    }
+
     public function saveUserAttributes(Application_Model_Models_User $user) {
         $paramsCount = func_num_args();
 
@@ -126,6 +135,30 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         }
 
         return $user;
+    }
+
+    /**
+     * Get user List
+     */
+    public function getUserList()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()->from('user', array(
+            'email',
+            'role_id',
+            'full_name',
+            'last_login',
+            'reg_date',
+            'ipaddress',
+            'referer',
+            'gplus_profile',
+            'mobile_phone',
+            'notes',
+            'timezone'
+        ))
+            ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
+
+        $users = $this->getDbTable()->getAdapter()->fetchAll($select, 'role_id ASC');
+        return $users;
     }
 }
 

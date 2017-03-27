@@ -3,6 +3,7 @@
 class Application_Form_Login extends Zend_Form {
 
     public function init() {
+		parent::init();
 
 		$this->setMethod(Zend_Form::METHOD_POST);
 
@@ -19,6 +20,10 @@ class Application_Form_Login extends Zend_Form {
 
 		$this->addElement('password', 'password', array(
 			'label'    => 'Password',
+			'required' => true
+		));
+
+		$this->addElement('hidden', 'secureToken', array(
 			'required' => true
 		));
 

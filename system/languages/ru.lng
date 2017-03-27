@@ -113,7 +113,8 @@
     '<strong>Curl extension for PHP:</strong> 3rd party services connection: Google, Yahoo, PayPal, etc.' => '<strong>Curl расширение для PHP:</strong> для корректной работы со соторонними сервисами, такими как: Google, Yahoo, PayPal, и т. д.',
     '<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.'=>'<strong>JSON расширение для PHP:</strong> JSON (JavaScript Object Notation) поддержка.',
     'Bravo! All good to go!' => 'Браво! Теперь можно продолжить установку!',
-	'Next'		   => 'Вперёд',
+	'Next'	=> 'Вперёд',
+	'Previous'	=> 'Назад',
 	'Check again'  => 'Проверить еще раз',
 	/* шаг 2 */
 	'Step 2: Database setup' => 'Шаг 2: Установка базы данных',

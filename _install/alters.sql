@@ -117,8 +117,31 @@ VALUES ('1', 'page');
 -- Add page type
 ALTER TABLE `user` ADD COLUMN `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
--- 10.11.2015
+-- 09/02/2015
 -- version: 2.4.3
+
+-- 31/05/2016
+-- version: 2.5.0
+ALTER TABLE `form` ADD COLUMN `admin_subject` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_mail_template` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_from` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_from_name` VARCHAR (255) DEFAULT NULL;
+ALTER TABLE `form` ADD COLUMN `admin_text` TEXT DEFAULT NULL;
+
+-- 23/09/2016
+-- version: 2.5.1
+-- Add timezone for users
+ALTER TABLE `user` ADD COLUMN `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 03/01/2017
+-- greCAPTCHA implement
+-- version: 2.5.2
+INSERT INTO `config` (`name`, `value`) VALUES
+('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
+('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx');
+
+-- 10.11.2015
+-- version: 2.5.3
 -- Add page type access
 DROP TABLE IF EXISTS `page_types_access`;
 CREATE TABLE `page_types_access` (
@@ -139,6 +162,5 @@ INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
 ('3', 'sitemap_pages');
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.4.4' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.4' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
-

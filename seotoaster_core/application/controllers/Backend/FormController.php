@@ -38,11 +38,6 @@ class Backend_FormController extends Zend_Controller_Action {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
-                $contactEmail = $form->getContactEmail();
-                $validEmail = $this->validateEmail($contactEmail);
-                if(isset($validEmail['error'])){
-                    $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml(array('contactEmail'=>$validEmail['error']), get_class($formForm)));
-                }
                 if(isset($formData['thankyouTemplate']) && $formData['thankyouTemplate'] != 'select'){
                     $trackingPageUrl = $this->_createTrackingPage($formData['name'], $formData['thankyouTemplate']);
                 }
@@ -82,6 +77,7 @@ class Backend_FormController extends Zend_Controller_Action {
 		$formForm->getElement('name')->setValue($formName);
         
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
+		$formForm->getElement('adminMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		if($form !== null) {
 			$formForm->populate($form->toArray());
 		}
@@ -152,7 +148,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 unset($formParams[md5($formName.$formId)]);
 
                 //validating recaptcha
-                if($useCaptcha == 1){
+                if($useCaptcha == 1 && !isset($formParams['g-recaptcha-response'])){
                     if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
                             && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY])
                             && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha'])){
@@ -193,7 +189,14 @@ class Backend_FormController extends Zend_Controller_Action {
                         $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
                         $this->_redirect($formParams['formUrl']);
                     }
-                                   
+
+                } elseif ($useCaptcha == 1 && isset($formParams['g-recaptcha-response'])) {
+
+                    $googleRecaptcha = new Tools_System_GoogleRecaptcha();
+                    if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
+                        $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                    }
+
                 }
                 //Check if email is valid
                 if (isset($formParams['email'])) {
@@ -228,7 +231,7 @@ class Backend_FormController extends Zend_Controller_Action {
                     $uploader->addValidator('Size', false, $formParams['uploadLimitSize']*1024*1024);
                     //Adding mime types validation
                     $uploader->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
-                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel'));
+                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
                     $files = $uploader->getFileInfo();
                     foreach($files as $file => $fileInfo) {
                         if($fileInfo['name'] != ''){
@@ -264,6 +267,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 }
                 unset($formParams['uploadLimitSize']);
+                unset($formParams['g-recaptcha-response']);
                	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
@@ -275,6 +279,18 @@ class Backend_FormController extends Zend_Controller_Action {
                     'data'     => $formParams,
                     'attachment' => $attachment
                 ));
+
+                $form->setAdminFrom($this->_parseData($form->getAdminFrom()));
+                $form->setAdminSubject($this->_parseData($form->getAdminSubject()));
+                $form->setAdminFromName($this->_parseData($form->getAdminFromName()));
+                $form->setAdminText($this->_parseData($form->getAdminText()));
+                $form->setReplyText($this->_parseData($form->getReplyText()));
+                $form->setContactEmail($this->_parseData($form->getContactEmail()));
+                $form->setReplyFrom($this->_parseData($form->getReplyFrom()));
+                $form->setReplyFromName($this->_parseData($form->getReplyFromName()));
+                $form->setReplySubject($this->_parseData($form->getReplySubject()));
+                $form->setMobile($this->_parseData($form->getMobile()));
+
                 $mailWatchdog->notify($form);
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
@@ -298,6 +314,28 @@ class Backend_FormController extends Zend_Controller_Action {
                 $this->_redirect($formParams['formUrl']);
 			}
         }
+    }
+
+    /**
+     * Parse widgets for template
+     *
+     * @param string $data
+     * @return null
+     * @throws Zend_Exception
+     */
+    private function _parseData($data)
+    {
+        $themeData = Zend_Registry::get('theme');
+        $extConfig = Zend_Registry::get('extConfig');
+        $parserOptions = array(
+            'websiteUrl'   => $this->_helper->website->getUrl(),
+            'websitePath'  => $this->_helper->website->getPath(),
+            'currentTheme' => $extConfig['currentTheme'],
+            'themePath'    => Tools_Filesystem_Tools::cleanWinPath($themeData['path']),
+        );
+        $parser = new Tools_Content_Parser($data, array(), $parserOptions);
+
+        return $parser->parseSimple();
     }
 
     private function _removeAttachedFiles(array $removeFiles)

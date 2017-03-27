@@ -18,5 +18,5 @@
     });
 </script>
 <div class="ajax-content <?php echo md5($this->name.$this->type).($this->isPublished ? '' : ' unpublished'); ?>">
-    <img src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif" style="margin: 20px auto; display: block;">
+    <img src="<?php echo $this->websiteUrl; ?>system/images/ajax-loader-small.gif" alt="<?php echo $this->translate('Loading...');?>" style="margin: 20px auto; display: block;">
 </div>

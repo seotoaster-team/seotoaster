@@ -59,7 +59,7 @@ class Widgets_Rss_Rss extends Widgets_Abstract {
 				'title'       => $item->getTitle(),
 				'link'        => $item->getLink(),
 				'description' => Tools_Text_Tools::cutText(strip_tags($item->getDescription()), (isset($this->_options[2])? $this->_options[2] : self::RSS_DESC_LENGTH)),
-				'pubDate'     => $item->getDateCreated(),
+				'pubDate'     => ($item->getDateCreated()) ? $item->getDateCreated() : $item->getDateModified(),
 				'content'     => $item->getContent(),
 				'authors'     => $item->getAuthors(),
 				'image'       => $this->_getRssEntryImage($item->getContent())

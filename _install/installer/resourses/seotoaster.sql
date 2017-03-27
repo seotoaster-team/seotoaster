@@ -28,8 +28,11 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('inlineEditor',	'0'),
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
+('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
+('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.4.4');
+('version',	'2.5.4');
+
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -146,6 +149,11 @@ CREATE TABLE `form` (
   `captcha` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `enable_sms` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
+  `admin_subject` VARCHAR(255) DEFAULT NULL,
+  `admin_mail_template` VARCHAR(255) DEFAULT NULL,
+  `admin_from` VARCHAR(255) DEFAULT NULL,
+  `admin_from_name` VARCHAR (255) DEFAULT NULL,
+  `admin_text` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -400,6 +408,7 @@ CREATE TABLE `user` (
   `gplus_profile` tinytext COLLATE utf8_unicode_ci,
   `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)

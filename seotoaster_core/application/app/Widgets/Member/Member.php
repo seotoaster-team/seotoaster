@@ -36,7 +36,9 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
 	protected function _renderMemberLogin() {
 		$this->_view->userRole  = $this->_session->getCurrentUser()->getRoleId();
-		$this->_view->loginForm = $this->_reInitDecorators(new Application_Form_Login());
+		$loginForm = new Application_Form_Login();
+		$this->_view->secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_LOGIN);
+		$this->_view->loginForm = $this->_reInitDecorators($loginForm);
         $this->_view->messages  = array_merge($this->_flashMessanger->getMessages('passreset'), $this->_flashMessanger->getMessages());
         $this->_flashMessanger->clearMessages('passreset');
         $passwordRetrieveFrom = new Application_Form_PasswordRetrieve();

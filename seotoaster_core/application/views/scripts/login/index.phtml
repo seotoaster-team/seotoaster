@@ -45,6 +45,7 @@
             <?php echo $this->loginForm->getElement('submit')->renderViewHelper();?>
             <a id="forgot-password" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
         </div>
+        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
 	</form>
 </div>
 

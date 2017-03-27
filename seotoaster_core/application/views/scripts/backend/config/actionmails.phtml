@@ -170,6 +170,7 @@
                 $('option:eq('+recipientIndex+')', recipientEl).prop("selected", "selected");
                 $('option:gt('+recipientIndex+')',recipientEl).hide();
                 $('option:lt('+recipientIndex+')',recipientEl).hide();
+                $('[value="admin"]').show();
             }
             else {
                 $(templateEl).closest('p').show();

@@ -6,6 +6,8 @@ class Widgets_Form_Form extends Widgets_Abstract {
 
     const UPLOAD_LIMIT_SIZE = 10;
 
+    const WFORM_NAME_LIMIT_CHARS = 64;
+
     const WITHOUT_CACHE = 'withoutcache';
 
 	private $_websiteHelper   = null;
@@ -19,7 +21,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
 		if (is_array($this->_options) && isset($this->_options[1])) {
-			$this->_cacheable = !($this->_options[1] === 'recaptcha' || $this->_options[1] === 'captcha');
+			$this->_cacheable = !($this->_options[1] === 'recaptcha' || $this->_options[1] === 'captcha' || $this->_options[1] === 'grecaptcha');
 		}
         if (is_array($this->_options) && isset($this->_options[0]) && strtolower($this->_options[0]) === 'conversioncode') {
 			$this->_cacheable = false;
@@ -36,6 +38,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		if(!is_array($this->_options) || empty($this->_options) || !isset($this->_options[0]) || !$this->_options[0] || preg_match('~^\s*$~', $this->_options[0])) {
 			throw new Exceptions_SeotoasterException($this->_translator->translate('You should provide a form name.'));
 		}
+        if(mb_strlen($this->_options[0]) > self::WFORM_NAME_LIMIT_CHARS){
+            throw new Exceptions_SeotoasterException($this->_translator->translate('Form name is limited to 64 chars. Please go back to the content editor and use a shorter name for your form.'));
+        }
         
         if(strtolower($this->_options[0]) == 'conversioncode'){
             return $this->_conversionCode($this->_options);
@@ -46,15 +51,18 @@ class Widgets_Form_Form extends Widgets_Abstract {
 
 		$useCaptcha   = (isset($this->_options[1]) && $this->_options[1] == 'captcha') ? true : false;
         $useRecaptcha = (isset($this->_options[1]) && $this->_options[1] == 'recaptcha') ? true : false;
+        $useGoogleRecaptcha = (isset($this->_options[1]) && $this->_options[1] == 'grecaptcha') ? true : false;
         if($useRecaptcha && isset($this->_options[2])){
             $recaptchaStyle = $this->_options[2];
         }
         if(isset($this->_options[3])){
             //recaptcha exist
             $buttonLabel = $this->_options[3];
-        } elseif(isset($this->_options[1]) && $this->_options[1] != "recaptcha" && $this->_options[1] != ""){
+        } elseif(isset($this->_options[1]) && $this->_options[1] != "recaptcha" && $this->_options[1] != "" && $this->_options[1] != "grecaptcha"){
             //no recaptcha but keep the value for submit button
             $buttonLabel = $this->_options[1];
+        } elseif (isset($this->_options[1]) && $this->_options[1] == "grecaptcha" && isset($this->_options[2]) && $this->_options[2] != "") {
+            $buttonLabel = $this->_options[2];
         }
 
 
@@ -66,7 +74,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $pageHelper->init();
 
         $captchaStatus = 0;
-		if($useCaptcha || $useRecaptcha) {
+		if($useCaptcha || $useRecaptcha || $useGoogleRecaptcha) {
             $captchaStatus = 1;
             if($useRecaptcha){
                 $recaptchaTheme = $recaptchaStyle;
@@ -104,8 +112,12 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if($trackingPageExist instanceof Application_Model_Models_Page){
             $this->_view->trackingConversionUrl = $trackingConversionUrl;
         }
+
+        $this->_view->formReferer = $sessionHelper->refererUrl;
+
      	$this->_view->useRecaptcha      = $useRecaptcha;
         $this->_view->useCaptcha        = $useCaptcha;
+        $this->_view->useGoogleRecaptcha        = $useGoogleRecaptcha;
 		$this->_view->form              = Application_Model_Mappers_FormMapper::getInstance()->findByName($this->_options[0]);
 		$this->_view->allowMidification = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT);
 		$this->_view->formName          = $this->_options[0];

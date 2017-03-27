@@ -191,6 +191,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         if ($this->_session->nextStep === 6) {
             $result = $this->_copyToaster($this->_newToasterPath, $this->_websitePath);
             if (isset($result) && $result === true) {
+                $this->_cleanCache();
                 $this->_session->nextStep = 7;
                 return $this->_response('success', 1, 'Toaster files copied.');
             } else {
@@ -213,14 +214,8 @@ class Backend_UpdateController extends Zend_Controller_Action
          */
         if ($this->_session->nextStep === 7) {
             $this->_session->nextStep = 1;
-            unlink($this->_tmpPath . self::PACK_NAME);
-            $caches = glob($this->_websitePath . 'cache/zend_cache-*');
-            foreach ($caches as $cache) {
-                if (is_dir($cache)) {
-                    Tools_Filesystem_Tools::deleteDir($cache);
-                }
-                unlink($cache);
-            }
+            /** Can be removed for version of the packages higher than 2.5.0 */
+            $this->_cleanCache();
             return $this->_response('success', 0, 'Success!');
         }
     }
@@ -454,6 +449,19 @@ class Backend_UpdateController extends Zend_Controller_Action
             error_log($e->getMessage());
             return false;
         }
+    }
+
+    protected function _cleanCache()
+    {
+        unlink($this->_tmpPath . self::PACK_NAME);
+        $caches = glob($this->_websitePath . 'cache/zend_cache-*');
+        foreach ($caches as $cache) {
+            if (is_dir($cache)) {
+                Tools_Filesystem_Tools::deleteDir($cache);
+            }
+            unlink($cache);
+        }
+        return true;
     }
 
 }

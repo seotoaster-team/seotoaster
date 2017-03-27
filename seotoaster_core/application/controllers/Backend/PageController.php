@@ -8,7 +8,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
     const DEFAULT_TEMPLATE = 'default';
 
-    public static $_allowedActions = array('publishpages', 'listpages');
+    public static $_allowedActions = array('publishpages');
 
     protected $_mapper             = null;
 
@@ -418,7 +418,8 @@ class Backend_PageController extends Zend_Controller_Action {
         if (!empty($allowedPageTypes)) {
             $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $allowedPageTypes);
         }
-        $templateName = $this->getRequest()->getParam('template', '');
+        $templateName = filter_var($this->getRequest()->getParam('template', ''), FILTER_SANITIZE_STRING);
+
         if($templateName) {
             $this->view->templateName = $templateName;
             if (!empty($where)) {
@@ -562,7 +563,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
         } else {
             $params['templateId'] = self::DEFAULT_TEMPLATE;
-            $params['h1'] = self::DEFAULT_TEMPLATE;
+            $params['h1'] = $params['navName'];
             $params['headerTitle'] = self::DEFAULT_TEMPLATE;
             $this->_helper->cache->clean();
         }

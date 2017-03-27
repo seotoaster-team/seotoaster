@@ -17,6 +17,10 @@ class Application_Form_User extends Application_Form_Secure {
 
 	protected $_id       = '';
 
+    protected $_mobilePhone = '';
+
+    protected $_timezone = '';
+
 	public function init() {
         parent::init();
         $email = new Zend_Form_Element_Text(array(
@@ -76,11 +80,40 @@ class Application_Form_User extends Application_Form_Secure {
 			'required'     => true
 		)));
 
+        $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+        array_pop($timezones);
+        $translator = Zend_Registry::get('Zend_Translate');
+
+        $this->addElement(new Zend_Form_Element_Select(
+            array(
+                'name' => 'timezone',
+                'id' => 'user-timezone',
+                'label' => 'Timezone',
+                'multiOptions' => array('0' => $translator->translate('Select timezone')) + array_combine($timezones, $timezones)
+            )
+        ));
+
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'gplusProfile',
             'id'    => 'gplus-profile',
             'label' => 'Google+ profile'
         )));
+
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'name'       => 'mobilePhone',
+            'id'         => 'user-mobile-phone',
+            'label'      => 'Mobile phone',
+            'value'      => $this->_mobilePhone
+        )));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'  => 'userAttributes',
+            'id'    => 'user-attributes',
+            'value' => array(''),
+            'multiOptions' => $this->getUniqueAttributesNames(),
+            'label' => 'User attributes'
+        )));
+
 
         $this->addElement(new Zend_Form_Element_Select(array(
             'name'         => 'roleId',
@@ -151,6 +184,14 @@ class Application_Form_User extends Application_Form_Secure {
 		return $this;
 	}
 
+    public function getUniqueAttributesNames() {
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $attributes = $userMapper->fetchUniqueAttributesNames();
+        array_unshift($attributes, 'Select user attribute');
+        return $attributes;
+
+    }
+
 	public function getId() {
 		return $this->_id;
 	}
@@ -161,5 +202,31 @@ class Application_Form_User extends Application_Form_Secure {
         $this->getElement('email')->removeValidator('Zend_Validate_Db_NoRecordExists');
 		return $this;
 	}
+
+    public function getMobilePhone()
+    {
+        return $this->_mobilePhone;
+    }
+
+    public function setMobilePhone($mobilePhone)
+    {
+        $this->_mobilePhone = $mobilePhone;
+        $this->getElement('mobilePhone')->setValue($mobilePhone);
+        return $this;
+    }
+
+    public function getTimezone()
+    {
+        return $this->_timezone;
+    }
+
+    public function setTimezone($timezone)
+    {
+        if (empty($timezone)) {
+            $timezone = '0';
+        }
+        $this->getElement('timezone')->setValue($timezone);
+        return $this;
+    }
 }
 
