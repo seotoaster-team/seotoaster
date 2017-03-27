@@ -73,5 +73,24 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
             $this->getDbTable()->update($data, array('page_id = ?' => $pageId));
         }
     }
+
+    public function fetchAllPages($flagLimit = false, $limit = null, $searchName = '') {
+        $select = $this->getDbTable()->select();
+
+        if($flagLimit){
+            if(!empty($searchName)){
+                $where = 'to_url LIKE "%' . $searchName . '%"';
+                $select->where($where);
+            }
+            $resultSet = $this->getDbTable()->fetchAll($select);
+            if(null === $resultSet) {
+                return null;
+            }
+            $countData = count($resultSet->toArray());
+            return array('select' => $select, 'count' => $countData);
+        }
+        $select->limit($limit);
+        return $select;
+    }
 }
 

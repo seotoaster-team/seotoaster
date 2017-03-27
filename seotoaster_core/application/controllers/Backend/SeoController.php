@@ -11,7 +11,14 @@ class Backend_SeoController extends Zend_Controller_Action {
 
     const SILOCAT_REMOVE = 'remove';
 
+    /**
+     * @var Helpers_Action_Config
+     */
+    private $_configHelper;
+
 	private $_translator           = null;
+
+    protected $_siteMapDefaultPages = 49999;
 
     /**
      * Resource for seo section
@@ -79,8 +86,15 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper     = Application_Model_Mappers_PageMapper::getInstance();
 		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
-        $redirectForm->setToasterPages($pageMapper->fetchIdUrlPairs($allowedPageTypes));
+        $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
+        $pages = $pageMapper->fetchIdUrlPairs($allowedPageTypes);
+        if(!empty($notFoundPages)){
+            foreach ($notFoundPages as $page){
+                unset($pages[$page->getId()]);
+            }
+        }
 
+        $redirectForm->setToasterPages($pages);
 		$redirectForm->setDefault('fromUrl', 'http://');
 
 		if ($this->getRequest()->isPost()) {
@@ -140,9 +154,69 @@ class Backend_SeoController extends Zend_Controller_Action {
 	}
 
 	public function loadredirectslistAction() {
-		$redirects      = Application_Model_Mappers_RedirectMapper::getInstance()->fetchAll(null, array('id'));
-		$this->view->redirects = array_reverse($redirects);
-		$this->view->redirectsList = $this->view->render('backend/seo/loadredirectslist.phtml');
+        $redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
+        $paginationLimit = 100;
+        $generalLimit = $redirectMapper->fetchAllPages(true);
+        $generalLimit = $generalLimit['count'];
+
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $pageNum = filter_var($request->getParam('paginationPnum'), FILTER_SANITIZE_NUMBER_INT);
+        $searchName = filter_var($request->getParam('searchName'), FILTER_SANITIZE_STRING);
+
+        if (!empty($searchName)) {
+            $pages = $redirectMapper->fetchAllPages(true, $generalLimit, $searchName);
+            $generalLimit = $pages['count'];
+            $pages = $pages['select'];
+        } else {
+            $pages = $redirectMapper->fetchAllPages(false, $generalLimit);
+        }
+        $adapter = new Zend_Paginator_Adapter_DbSelect($pages);
+
+
+        if (!empty($pageNum)) {
+            $offset = $paginationLimit * intval($pageNum) - $paginationLimit;
+        } else {
+            $offset = 0;
+            $pageNum = 1;
+        }
+
+        $listingUrls = new Zend_Paginator($adapter);
+
+        if ($listingUrls->getTotalItemCount() < $generalLimit) {
+            if ($offset > 0) {
+                $adapter->setRowCount($listingUrls->getTotalItemCount());
+                $listingUrls = new Zend_Paginator($adapter);
+            }
+        } else {
+            $adapter->setRowCount((int)$generalLimit);
+        }
+        $listingUrls->setCurrentPageNumber($pageNum);
+        $listingUrls->setItemCountPerPage($paginationLimit);
+
+        if ($pageNum > 1) {
+            if (empty($generalLimit)) {
+                $generalLimit = 50;
+            }
+            $paginationLimit = $generalLimit - (($pageNum - 1) * $paginationLimit);
+        }
+        if ($paginationLimit > $listingUrls->getItemCountPerPage()) {
+            $resultSum = $paginationLimit - $listingUrls->getItemCountPerPage();
+            $paginationLimit -= $resultSum;
+        }
+
+        $existingListing = $adapter->getItems($offset, $paginationLimit);
+        if ($paginationLimit < $generalLimit) {
+            $pager = $this->view->paginationControl(
+                $listingUrls,
+                'Sliding',
+                'backend/seo/pagination.phtml',
+                array()
+            );
+
+            $this->view->pager = $pager;
+        }
+        $this->view->redirects = $existingListing;
+        $this->view->redirectsList = $this->view->render('backend/seo/loadredirectslist.phtml');
 	}
 
 	public function removeredirectAction() {
@@ -163,7 +237,14 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$deeplinksForm    = new Application_Form_Deeplink();
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
 		$allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
-		$deeplinksForm->setToasterPages($pageMapper->fetchIdUrlPairs($allowedPageTypes));
+        $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
+        $pages = $pageMapper->fetchIdUrlPairs($allowedPageTypes);
+        if(!empty($notFoundPages)){
+            foreach ($notFoundPages as $page){
+                unset($pages[$page->getId()]);
+            }
+        }
+		$deeplinksForm->setToasterPages($pages);
 		if($this->getRequest()->isPost()) {
             $deeplinksForm = Tools_System_Tools::addTokenValidatorZendForm($deeplinksForm, Tools_System_Tools::ACTION_PREFIX_DEEPLINKS);
 			if($deeplinksForm->isValid($this->getRequest()->getParams())) {
@@ -417,96 +498,166 @@ class Backend_SeoController extends Zend_Controller_Action {
      * Serve sitemaps
      *
      */
-    public function sitemapAction() {
+    public function sitemapAction()
+    {
         //disable renderer
         $this->_helper->viewRenderer->setNoRender(true);
 
+        //get config
+        $this->_configHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('config');
+        $config = $this->_configHelper->getConfig();
+
+        if(empty($config['pagesLimit'])){
+            $config['pagesLimit'] = $this->_siteMapDefaultPages;
+        }
+
         //get sitemap type from the params
-        if(($sitemapType = $this->getRequest()->getParam('type', '')) == Tools_Content_Feed::SMFEED_TYPE_REGULAR) {
-            //regular sitemap.xml requested
-            if(null === ($this->view->pages = $this->_helper->cache->load('sitemappages', 'sitemaps_'))) {
-                if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
-                    $this->view->newsPageUrlPath = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
-                }
-                $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
-                $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('external_link_status <> ?', '1');
-                $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where);
-                if(is_array($pages) && !empty($pages)) {
+        switch ($sitemapType = $this->getRequest()->getParam('type', '')) {
+            case Tools_Content_Feed::SMFEED_TYPE_INDEX:
+                $pageDbTable = new Application_Model_DbTable_Page();
+                $pagesCount = $pageDbTable->getAdapter()->fetchOne($pageDbTable->select()->from($pageDbTable,
+                    'COUNT(id)')->where('external_link_status <> "1" AND system = "0"'));
 
-                    $quoteInstalled = Tools_Plugins_Tools::findPluginByName('quote')->getStatus() == Application_Model_Models_Plugin::ENABLED;
-                    $pages = array_filter($pages, function($page) use($quoteInstalled) {
-                        if($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED) ||
-                                                 $page->getDraft() ||
-                                                 $page->getIs404page() ||
-                                                 ($quoteInstalled && (intval($page->getParentId()) === Quote::QUOTE_CATEGORY_ID))) {
-                            return false;
-                        }
-                        return true;
-                    });
+                //default sitemaps
+                $sitemaps = array(
+                    'sitemap' => array(
+                        'extension' => 'xml',
+                        'lastmod' => date(DATE_ATOM)
+                    ),
+                    'sitemapnews' => array(
+                        'extension' => 'xml',
+                        'lastmod' => date(DATE_ATOM)
+                    )
+                );
 
-                } else {
-                    $pages = array();
-                }
-                $this->view->pages = $pages;
-                $this->_helper->cache->save('sitemappages', $this->view->pages, 'sitemaps_', array('sitemaps'));
-            }
+                if (!empty($pagesCount)) {
+                    $this->_siteMapDefaultPages = (int)$config['pagesLimit'];
+                    if ($this->_siteMapDefaultPages <= $pagesCount) {
+                        $arrayPagesParts = $pagesCount / $this->_siteMapDefaultPages;
+                        $arrayPagesParts = (is_float($arrayPagesParts)) ? ceil($arrayPagesParts) : $arrayPagesParts;
+                        $sitemaps = array();
 
-        } else if($sitemapType == Tools_Content_Feed::SMFEED_TYPE_INDEX) {
-            //default sitemaps
-            $sitemaps = array(
-                'sitemap' => array(
-                    'extension' => 'xml',
-                    'lastmod'   => date(DATE_ATOM)
-                ),
-                'sitemapnews' => array(
-                    'extension' => 'xml',
-                    'lastmod'   => date(DATE_ATOM)
-                )
-            );
-
-            //real sitemaps (in the toaster root)
-            $sitemapFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_helper->website->getPath(), 'xml', false, false, false);
-            if(is_array($sitemapFiles) && !empty($sitemapFiles)) {
-                foreach($sitemapFiles as $sitemapFile) {
-                    if(preg_match('~sitemap.*\.xml.*~', $sitemapFile)) {
-                        $fileInfo = pathinfo($this->_helper->website->getPath() . $sitemapFile);
-                        if(is_array($fileInfo)) {
-                            $sitemaps[$fileInfo['filename']] = array(
-                                'extension' => $fileInfo['extension'],
-                                'lastmod'   => date(DATE_ATOM, fileatime($this->_helper->website->getPath() . $sitemapFile))
+                        for ($i = 0; $i < $arrayPagesParts; $i++) {
+                            $i = ($i == 0) ? $i = '' : $i;
+                            $sitemaps['sitemap' . $i] = array(
+                                'extension' => 'xml',
+                                'lastmod' => date(DATE_ATOM)
                             );
+                        }
+                        $sitemaps['sitemapnews'] = array(
+                            'extension' => 'xml',
+                            'lastmod' => date(DATE_ATOM)
+                        );
+                    }
+                }
+
+                //real sitemaps (in the toaster root)
+                $sitemapFiles = Tools_Filesystem_Tools::findFilesByExtension($this->_helper->website->getPath(), 'xml',
+                    false, false, false);
+                if (is_array($sitemapFiles) && !empty($sitemapFiles)) {
+                    foreach ($sitemapFiles as $sitemapFile) {
+                        if (preg_match('~sitemap.*\.xml.*~', $sitemapFile)) {
+                            $fileInfo = pathinfo($this->_helper->website->getPath() . $sitemapFile);
+                            if (is_array($fileInfo)) {
+                                $sitemaps[$fileInfo['filename']] = array(
+                                    'extension' => $fileInfo['extension'],
+                                    'lastmod' => date(DATE_ATOM,
+                                        fileatime($this->_helper->website->getPath() . $sitemapFile))
+                                );
+                            }
                         }
                     }
                 }
-            }
 
-            $this->view->sitemaps = $sitemaps;
+                $this->view->sitemaps = $sitemaps;
+                break;
+            default:
+                if (null === ($this->view->pages = $this->_helper->cache->load('sitemappages' . $sitemapType,
+                        'sitemaps_'))
+                ) {
+
+                    if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+                        $this->view->newsPageUrlPath = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                    }
+                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                    $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('external_link_status <> ?', '1');
+                    $limit = $this->_siteMapDefaultPages;
+                    $offset = 0;
+                    if ($sitemapType != 'news') {
+                        $limit = $config['pagesLimit'];
+                        if (empty($sitemapType)) {
+                            $limit -= 1;
+                        }
+                        if (!empty($sitemapType)) {
+                            $offset = $sitemapType * $limit - 1;
+                        }
+                    }
+                    $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array(), false,
+                        false, $limit, $offset);
+                    if (is_array($pages) && !empty($pages)) {
+                        $quoteInstalled = Tools_Plugins_Tools::findPluginByName('quote')->getStatus() == Application_Model_Models_Plugin::ENABLED;
+                        $pages = array_filter($pages, function ($page) use ($quoteInstalled) {
+                            if ($page->getExtraOption(Application_Model_Models_Page::OPT_PROTECTED) ||
+                                $page->getDraft() ||
+                                $page->getIs404page() ||
+                                ($quoteInstalled && (intval($page->getParentId()) === Quote::QUOTE_CATEGORY_ID))
+                            ) {
+                                return false;
+                            }
+
+                            return true;
+                        });
+
+                    } else {
+                        $pages = array();
+                    }
+                    $this->view->sitemapType = $sitemapType;
+                    $this->view->pages = $pages;
+                    $this->_helper->cache->save('sitemappages' . $sitemapType, $this->view->pages, 'sitemaps_',
+                        array('sitemaps'));
+                }
         }
-        $template = 'sitemap' . $sitemapType . '.xml.phtml';
-	    if (null === ($sitemapContent = $this->_helper->cache->load($sitemapType, Helpers_Action_Cache::PREFIX_SITEMAPS))) {
+
+        switch ($sitemapType) {
+            case Tools_Content_Feed::SMFEED_TYPE_INDEX:
+                $template = 'sitemap' . $sitemapType . '.xml.phtml';
+                break;
+            case 'news':
+                $template = 'sitemap' . $sitemapType . '.xml.phtml';
+                break;
+            default:
+                $template = 'sitemap.xml.phtml';
+
+        }
+        if (null === ($sitemapContent = $this->_helper->cache->load($sitemapType,
+                Helpers_Action_Cache::PREFIX_SITEMAPS))
+        ) {
             try {
                 $sitemapContent = $this->view->render('backend/seo/' . $template);
             } catch (Zend_View_Exception $zve) {
-		        // Try to find plugin's sitemap
-		        try {
-		            $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap', $sitemapType);
-		            if(!$sitemapContent) {
-		                $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap' . ucfirst($sitemapType));
-		            }
-		        } catch (Exception $e) {
-			        Tools_System_Tools::debugMode() && error_log($e->getMessage());
-			        $sitemapContent = false;
-		        }
+                // Try to find plugin's sitemap
+                try {
+                    $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap', $sitemapType);
+                    if (!$sitemapContent) {
+                        $sitemapContent = Tools_Plugins_Tools::runStatic('getSitemap' . ucfirst($sitemapType));
+                    }
+                } catch (Exception $e) {
+                    Tools_System_Tools::debugMode() && error_log($e->getMessage());
+                    $sitemapContent = false;
+                }
 
-	            if ($sitemapContent === false){
-		            $this->getResponse()->setHeader('Content-Type', 'text/html', true);
+                if ($sitemapContent === false) {
+                    $this->getResponse()->setHeader('Content-Type', 'text/html', true);
+
                     return $this->forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
-	            }
-		    }
-		    $this->_helper->cache->save($sitemapType, $sitemapContent, Helpers_Action_Cache::PREFIX_SITEMAPS, array('sitemaps'), Helpers_Action_Cache::CACHE_WEEK);
-	    }
-	    echo $sitemapContent;
-   }
+                }
+            }
+            $this->_helper->cache->save($sitemapType, $sitemapContent, Helpers_Action_Cache::PREFIX_SITEMAPS,
+                array('sitemaps'), Helpers_Action_Cache::CACHE_WEEK);
+        }
+        echo $sitemapContent;
+    }
+
 
     /**
      * Serve news feeds

@@ -90,7 +90,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $page;
     }
 
-    public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false)
+    public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false, $limit = null, $offset = null)
     {
         $dbTable = $this->getDbTable();
 
@@ -99,7 +99,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $where .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
         $order[] = 'order';
         $entries = array();
-        $resultSet = $dbTable->fetchAllPages($where, $order, $originalsOnly);
+        $resultSet = $dbTable->fetchAllPages($where, $order, $originalsOnly, $limit, $offset);
 
         if (null === $resultSet) {
             return null;
