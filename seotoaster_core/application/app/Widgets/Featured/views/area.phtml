@@ -44,7 +44,19 @@
 
                 <?php if($page->getExternalLinkStatus() === '1'):?>
                     <?php $pageUrl = $this->escape($page->getExternalLink());?>
-                    <?php $targetBlank = 'target="_blank"';?>
+                    <?php
+                        $targetBlank = '';
+                        if(!empty($this->denyBlank)){
+                            $host = parse_url($pageUrl, PHP_URL_HOST);
+                            $toasterHost = parse_url($this->websiteUrl, PHP_URL_HOST);
+                            if($toasterHost != $host){
+                                $targetBlank = 'target="_blank"';
+                            }
+                        }else{
+                            $targetBlank = 'target="_blank"';
+                        }
+                    ?>
+
                 <?php else:?>
                     <?php $pageUrl = $this->escape($this->websiteUrl.$url);?>
                     <?php $targetBlank = '';?>
