@@ -28,8 +28,10 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('inlineEditor',	'0'),
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
+('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
+('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.0');
+('version',	'2.5.4');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -405,6 +407,7 @@ CREATE TABLE `user` (
   `gplus_profile` tinytext COLLATE utf8_unicode_ci,
   `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
@@ -429,3 +432,23 @@ CREATE TABLE `page_types` (
 
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
+
+CREATE TABLE IF NOT EXISTS `masks_list` (
+  `country_code` CHAR(2) COLLATE utf8_unicode_ci NOT NULL,
+  `mask_type` ENUM('mobile', 'desktop') DEFAULT 'mobile' NOT NULL,
+  `mask_value` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  `full_mask_value` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`country_code`, `mask_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_value`) VALUES
+('FR', 'mobile', '(999)999-999', '(999)999-999'),
+('FR', 'desktop', '(999)999-999', '(999)999-999'),
+('ES', 'mobile', '(999)999-999', '(999)999-999'),
+('ES', 'desktop', '(999)999-999', '(999)999-999'),
+('GB', 'mobile', '99-9999-9999', '99-9999-9999'),
+('GB', 'desktop', '99-9999-9999', '99-9999-9999'),
+('US', 'mobile', '(999)999-9999', '(999)999-9999'),
+('US', 'desktop', '(999)999-9999', '(999)999-9999'),
+('CA', 'mobile', '(999)999-9999', '(999)999-9999'),
+('CA', 'desktop', '(999)999-9999', '(999)999-9999');

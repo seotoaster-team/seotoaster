@@ -148,7 +148,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 unset($formParams[md5($formName.$formId)]);
 
                 //validating recaptcha
-                if($useCaptcha == 1){
+                if($useCaptcha == 1 && !isset($formParams['g-recaptcha-response'])){
                     if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
                             && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY])
                             && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha'])){
@@ -189,7 +189,14 @@ class Backend_FormController extends Zend_Controller_Action {
                         $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
                         $this->_redirect($formParams['formUrl']);
                     }
-                                   
+
+                } elseif ($useCaptcha == 1 && isset($formParams['g-recaptcha-response'])) {
+
+                    $googleRecaptcha = new Tools_System_GoogleRecaptcha();
+                    if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
+                        $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                    }
+
                 }
                 //Check if email is valid
                 if (isset($formParams['email'])) {
@@ -260,6 +267,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 }
                 unset($formParams['uploadLimitSize']);
+                unset($formParams['g-recaptcha-response']);
                	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,

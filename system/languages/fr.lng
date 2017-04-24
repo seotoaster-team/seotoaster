@@ -1213,5 +1213,6 @@
     'October' => 'Octobre',
     'November' => 'Novembre',
     'December' => 'Decembre',
-    'Please select a file' => 'Séléctionnez un fichier'
+    'Please select a file' => 'Séléctionnez un fichier',
+    'Your password was reset.' => 'Mot de passe réinitialisé.'
 );?>

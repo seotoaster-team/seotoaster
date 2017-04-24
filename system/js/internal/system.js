@@ -210,6 +210,12 @@ $(function(){
                 if(i=='password'){
                     $('[name='+i+']').val('');
                 }
+                if (i=='attributes') {
+                    $.each(response.responseText.data[i], function(attrName, attrValue) {
+                        $('#user-attributes-section').append('<div class="grid_6"><input type="text" class="user-custom-attribute-name" name="attrName[]" value="' + attrName + '"></div>' +
+                        '<div class="grid_6"><input type="text" name="attrValue[]" value="' + attrValue + '"></div>');
+                    })
+                }
             }
         })
     });
@@ -349,6 +355,24 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
 ///////// checkbox & radio button //////////////
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
+        $('.triple-switch').each(function(){
+            $('input:radio', this).not('.swt-processed').each(function(){
+                var id = $(this).prop('id'), labelClass;
+                if(!id.length){
+                    id = 'chr-'+Math.floor((Math.random()*100000)+1);
+                    $(this).prop('id', id);
+                }
+                if($(this).prop('class') || $(this).prop('class') !== 'undefined'){
+                    labelClass = $(this).prop('class');
+                }
+                $(this).after('<label for="'+ id +'" class="'+labelClass+'">'+ $(this).data("title") +'</label>');
+                $(this).addClass('swt-processed');
+            });
+            if(!$(this).find('span').length) {
+                $(this).append('<span></span>');
+            }
+        });
+
         $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
             var id = $(this).prop('id'), labelClass;
             if(!id.length){

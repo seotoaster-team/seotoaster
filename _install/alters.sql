@@ -128,8 +128,42 @@ ALTER TABLE `form` ADD COLUMN `admin_from` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `form` ADD COLUMN `admin_from_name` VARCHAR (255) DEFAULT NULL;
 ALTER TABLE `form` ADD COLUMN `admin_text` TEXT DEFAULT NULL;
 
+-- 23/09/2016
+-- version: 2.5.1
+-- Add timezone for users
+ALTER TABLE `user` ADD COLUMN `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 03/01/2017
+-- greCAPTCHA implement
+-- version: 2.5.2
+INSERT INTO `config` (`name`, `value`) VALUES
+('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
+('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx');
+
+
+-- 20/04/2017
+-- version: 2.5.3
+-- Add mobile and phone masks table
+CREATE TABLE IF NOT EXISTS `masks_list` (
+  `country_code` CHAR(2) COLLATE utf8_unicode_ci NOT NULL,
+  `mask_type` ENUM('mobile', 'desktop') DEFAULT 'mobile' NOT NULL,
+  `mask_value` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  `full_mask_value` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`country_code`, `mask_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_value`) VALUES
+('FR', 'mobile', '(999)999-999', '(999)999-999'),
+('FR', 'desktop', '(999)999-999', '(999)999-999'),
+('ES', 'mobile', '(999)999-999', '(999)999-999'),
+('ES', 'desktop', '(999)999-999', '(999)999-999'),
+('GB', 'mobile', '99-9999-9999', '99-9999-9999'),
+('GB', 'desktop', '99-9999-9999', '99-9999-9999'),
+('US', 'mobile', '(999)999-9999', '(999)999-9999'),
+('US', 'desktop', '(999)999-9999', '(999)999-9999'),
+('CA', 'mobile', '(999)999-9999', '(999)999-9999'),
+('CA', 'desktop', '(999)999-9999', '(999)999-9999');
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.1' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.4' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
-

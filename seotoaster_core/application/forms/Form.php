@@ -57,7 +57,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'contact-mail',
                 'name' => 'contactEmail',
-                'label' => 'Contact mail',
+                'label' => 'Lead delivery email',
                 'value' => $this->_contactEmail,
                 'required' => true,
                 'filters' => array('StringTrim')
@@ -135,7 +135,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'admin-subject',
                 'name' => 'adminSubject',
-                'label' => 'Admin subject',
+                'label' => 'Lead delivery subject',
                 'value' => $this->_adminSubject,
                 'required' => false,
                 'filters' => array('StringTrim'),
@@ -146,7 +146,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Select(array(
                 'id' => 'admin-mail-template',
                 'name' => 'adminMailTemplate',
-                'label' => 'Admin mail template',
+                'label' => 'Lead delivery mail template',
                 'value' => $this->_adminMailTemplate,
                 'required' => false,
                 'registerInArrayValidator' => false
@@ -157,7 +157,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'admin-from',
                 'name' => 'adminFrom',
-                'label' => 'Admin from email',
+                'label' => 'Lead delivery from email',
                 'value' => $this->_adminFrom,
                 'required' => false,
                 'filters' => array('StringTrim')
@@ -168,7 +168,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'admin-from-name',
                 'name' => 'adminFromName',
-                'label' => 'Admin from name',
+                'label' => 'Lead delivery from name',
                 'value' => $this->_adminFromName,
                 'required' => false,
                 'filters' => array('StringTrim', new Zend_Filter_StripTags())
@@ -179,7 +179,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Textarea(array(
                 'id' => 'admin-text',
                 'name' => 'adminText',
-                'label' => 'Admin text',
+                'label' => 'Lead delivery text',
                 'value' => $this->_adminText,
                 'cols' => '45',
                 'rows' => '2',
@@ -224,7 +224,8 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'mobile',
                 'name' => 'mobile',
-                'label' => 'Mobile number for admin notification',
+                'placeholder' => 'Never lose another opportunity',
+                'label' => 'Add your mobile to also receive lead details via SMS',
                 'value' => $this->_mobile,
                 'filters' => array('StringTrim'),
             ))

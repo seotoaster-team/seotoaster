@@ -43,7 +43,7 @@ class Application_Form_Search extends Zend_Form {
 			'ViewHelper',
 			'Errors',
 			'Label',
-			array('HtmlTag', array('tag' => 'p'))
+			array()
 		));
 	}
 

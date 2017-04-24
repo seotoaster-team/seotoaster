@@ -39,7 +39,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $configForm->removeElement('suPassword');
                 $configForm->removeElement('canonicalScheme');
                 $configForm->removeElement('recapthaPublicKey');
+                $configForm->removeElement('grecapthaPublicKey');
                 $configForm->removeElement('recapthaPrivateKey');
+                $configForm->removeElement('grecapthaPrivateKey');
             }
             else {
                 //initializing current superadmin user
@@ -97,6 +99,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 				//proccessing form to db
 				$config = $configForm->getValues();
+                if (!$isSuperAdminLogged) {
+                    unset($config['recaptchaPublicKey'], $config['grecaptchaPublicKey'], $config['recaptchaPrivateKey'], $config['grecaptchaPrivateKey']);
+                }
 				if (isset($newLogin)){
 					$config['adminEmail'] = $newLogin;
 				}
