@@ -137,8 +137,9 @@ class Widgets_Page_Page extends Widgets_Abstract {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
             $src =  $websiteHelper->getUrl().$path.$pagePreviews[0];
-            if(!empty($src)){
-                $fileInfo = getimagesize($src);
+            $imagePath =  $websiteHelper->getPath().$path.$pagePreviews[0];
+            if (!empty($imagePath)) {
+                $fileInfo = getimagesize($imagePath);
             }
             if (isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC){
                 return $src;
