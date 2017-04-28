@@ -180,7 +180,10 @@ class Backend_ContentController extends Zend_Controller_Action {
                 $this->view->linkContentCss     = Tools_Theme_Tools::urlContentCss();
 				$this->view->pluginsEditorLinks = $this->_loadPluginsEditorLinks();
 				$this->view->pluginsEditorTop   = $this->_loadPluginsEditorTop();
-				$rendered                       = $this->view->render('backend/content/content.phtml');
+            if($this->getRequest()->getParam('showMore')){
+                $this->view->showMoreflag = $this->getRequest()->getParam('showMore');
+            }
+            $rendered                       = $this->view->render('backend/content/content.phtml');
 			break;
 			case Application_Model_Models_Container::TYPE_REGULARHEADER:
 			case Application_Model_Models_Container::TYPE_STATICHEADER:
@@ -301,11 +304,16 @@ class Backend_ContentController extends Zend_Controller_Action {
 		if(!empty ($images)) {
 			$imagesContent = '';
 			$srcPath = $this->_helper->website->getUrl() . $this->_helper->website->getMedia() . $folder;
+            $dontWrapImages = $this->_helper->config->getConfig('dontWrapImages');
 			foreach ($images as $key => $image) {
                 $srcPath        = Tools_Content_Tools::applyMediaServers($srcPath);
 	            $imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
-				$imageElement   = htmlspecialchars('<a class="_lbox" href="' . $srcPath . '/' .  self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '"><img border="0" alt="'. str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
+                if ($dontWrapImages) {
+                    $imageElement = htmlspecialchars('<img border="0" alt="' . str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" />');
+                } else {
+                    $imageElement = htmlspecialchars('<a class="_lbox" href="' . $srcPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '"><img border="0" alt="' . str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
+                }
 				$imagesContent .= '<a href="javascript:;" onmousedown="tinymce.activeEditor.execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
 				$imagesContent .= '<img title="' . $image . '" border="0" width="80" src="' . $srcPath . '/product/' . $image .'" /></a>';
 			}

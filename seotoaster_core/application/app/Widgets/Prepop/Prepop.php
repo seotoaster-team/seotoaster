@@ -73,6 +73,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
         }
+
+        if(in_array('customscriptinclude',$this->_options)){
+            $key = array_search('customscriptinclude',$this->_options);
+            $this->_view->customScriptInclude = true;
+            unset($this->_options[$key]);
+        }
+
         // User role should be a member or not only for reading at least to be able to edit
         if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) || $this->_readonly) {
             if($this->_options[0] == self::TYPE_CHECKBOX) {
@@ -120,6 +127,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
+
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -140,12 +148,14 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
         asort($options);
         $this->_view->options = $options;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
     protected function _renderPrepopRadio() {
         $this->_view->onJsElementAction = 'click';
         $this->_view->options           = $this->_generateSelectOptions();
+
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -155,6 +165,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
+
         return $this->_view->render('element.prepop.phtml');
     }
 
