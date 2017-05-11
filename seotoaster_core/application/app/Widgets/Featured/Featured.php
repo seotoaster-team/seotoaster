@@ -191,6 +191,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;
 
+        if(in_array('deny-blank', $this->_options)){
+            $this->_view->denyBlank = true;
+        }
+
         // Adding cache tag for this fa
         array_push($this->_cacheTags, 'fa_'.$params[0]);
         array_push($this->_cacheTags, 'pageTags');
