@@ -164,6 +164,11 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('CA', 'mobile', '(999)999-9999', '(999)999-9999'),
 ('CA', 'desktop', '(999)999-9999', '(999)999-9999');
 
+-- 17/05/2017
+-- version: 2.5.4
+-- Change column type for the code field in the forms table
+ALTER TABLE `form` MODIFY COLUMN `code` mediumtext COLLATE utf8_unicode_ci NOT NULL;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.4' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.5' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

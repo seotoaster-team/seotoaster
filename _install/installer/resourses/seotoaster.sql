@@ -31,7 +31,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
 ('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.4');
+('version',	'2.5.5');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -136,7 +136,7 @@ DROP TABLE IF EXISTS `form`;
 CREATE TABLE `form` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `code` text COLLATE utf8_unicode_ci NOT NULL,
+  `code` mediumtext COLLATE utf8_unicode_ci NOT NULL,
   `contact_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `message_success` text COLLATE utf8_unicode_ci NOT NULL,
   `message_error` text COLLATE utf8_unicode_ci NOT NULL,
