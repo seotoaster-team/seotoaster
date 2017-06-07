@@ -408,6 +408,11 @@ CREATE TABLE `user` (
   `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mobile_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mobile_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `desktop_phone` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
@@ -433,7 +438,8 @@ CREATE TABLE `page_types` (
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
 
-CREATE TABLE IF NOT EXISTS `masks_list` (
+DROP TABLE IF EXISTS `masks_list`;
+CREATE TABLE `masks_list` (
   `country_code` CHAR(2) COLLATE utf8_unicode_ci NOT NULL,
   `mask_type` ENUM('mobile', 'desktop') DEFAULT 'mobile' NOT NULL,
   `mask_value` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,

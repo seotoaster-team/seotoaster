@@ -40,6 +40,7 @@ class Backend_UserController extends Zend_Controller_Action {
 	public function manageAction() {
 		$userForm = new Application_Form_User();
         $userForm->getElement('password')->setRequired(false);
+        $listMasksMapper = Application_Model_Mappers_MasksListMapper::getInstance();
 		if($this->getRequest()->isPost()) {
             //if we are updating
             $userId = $this->getRequest()->getParam('id');
@@ -51,6 +52,20 @@ class Backend_UserController extends Zend_Controller_Action {
 
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
+                $data['mobilePhone'] = preg_replace('~[^\d]~ui', '', $data['mobilePhone']);
+                $data['desktopPhone'] = preg_replace('~[^\d]~ui', '', $data['desktopPhone']);
+                if (!empty($data['mobileCountryCode'])) {
+                    $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['mobileCountryCode'], 'phoneToTerritory');
+                    $data['mobile_country_code_value'] = '+'.$mobileCountryPhoneCode;
+                } else {
+                    $data['mobile_country_code_value'] = null;
+                }
+                if (!empty($data['desktopCountryCode'])) {
+                    $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['desktopCountryCode'], 'phoneToTerritory');
+                    $data['desktop_country_code_value'] = '+'.$mobileCountryPhoneCode;
+                } else {
+                    $data['desktop_country_code_value'] = null;
+                }
 				$user       = new Application_Model_Models_User($data);
                 $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
                 $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
@@ -140,6 +155,8 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->users = $users;
         $this->view->helpSection = 'users';
         $this->view->userForm = $userForm;
+        $this->view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
+        $this->view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
 	}
 
 	public function deleteAction() {
@@ -170,6 +187,12 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userData = $user->toArray();
                 if (empty($userData['timezone'])) {
                     $userData['timezone'] = '0';
+                }
+                if (empty($userData['desktopCountryСode'])) {
+                    $userData['desktopCountryCode'] = 'US';
+                }
+                if (empty($userData['mobileCountryCode'])) {
+                    $userData['mobileCountryCode'] = 'US';
                 }
 
                 $result = array(

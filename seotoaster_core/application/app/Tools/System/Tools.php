@@ -605,4 +605,28 @@ class Tools_System_Tools {
         return $date->format($format);
     }
 
+
+    /**
+     * get country phone codes list
+     *
+     * @param bool $withCountryCode flag to use country code
+     * @param array $intersect
+     * @return array
+     */
+    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array())
+    {
+        $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+        $countryCodes = Zend_Locale::getTranslationList('Territory');
+        array_shift($phoneCodes);
+        if (!empty($intersect)) {
+            $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+        }
+        array_walk($phoneCodes, function (&$item, $key) use ($withCountryCode, $countryCodes) {
+            $item = ($withCountryCode) ? '+' . $item . ' ' . $countryCodes[$key] : '+' . $item;
+        });
+
+        return $phoneCodes;
+
+    }
+
 }

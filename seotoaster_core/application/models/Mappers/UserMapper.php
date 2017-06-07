@@ -24,7 +24,12 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'gplus_profile' => $user->getGplusProfile(),
             'mobile_phone'  => $user->getMobilePhone(),
             'notes'         => $user->getNotes(),
-            'timezone'      => $user->getTimezone()
+            'timezone'      => $user->getTimezone(),
+            'mobile_country_code' => $user->getMobileCountryCode(),
+            'mobile_country_code_value' => $user->getMobileCountryCodeValue(),
+            'desktop_phone' => $user->getDesktopPhone(),
+            'desktop_country_code' => $user->getDesktopCountryСode(),
+            'desktop_country_code_value' => $user->getDesktopCountryCodeValue()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);

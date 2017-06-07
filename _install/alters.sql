@@ -169,6 +169,15 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 -- Change column type for the code field in the forms table
 ALTER TABLE `form` MODIFY COLUMN `code` mediumtext COLLATE utf8_unicode_ci NOT NULL;
 
+-- 06/06/2017
+-- version: 2.5.5
+-- Add mobile and desktop phone country code
+ALTER TABLE `user` ADD COLUMN `mobile_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `mobile_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_phone` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.5' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.6' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

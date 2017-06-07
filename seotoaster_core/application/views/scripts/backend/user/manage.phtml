@@ -1,3 +1,4 @@
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js'); ?>
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 		'headerText'      => $this->translate('Manage users'),
@@ -26,8 +27,17 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('password'); ?>
 				</div>
-                <div class="grid_12">
+                <div class="grid_6">
+                    <?php echo $this->userForm->getElement('mobileCountryCode'); ?>
+                </div>
+                <div class="grid_6">
                     <?php echo $this->userForm->getElement('mobilePhone'); ?>
+                </div>
+                <div class="grid_6 mt10px">
+                    <?php echo $this->userForm->getElement('desktopCountryCode'); ?>
+                </div>
+                <div class="grid_6">
+                    <?php echo $this->userForm->getElement('desktopPhone'); ?>
                 </div>
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('timezone'); ?>
@@ -41,6 +51,8 @@
                 <div class="grid_5 mt20px">
                     <input type="button" id="add-user-attribute" class="btn mt10px" value="<?php echo $this->translate('Add attribute');?>"/>
                 </div>
+                <?php echo $this->userForm->getElement('mobileCountryCodeValue'); ?>
+                <?php echo $this->userForm->getElement('desktopCountryCodeValue'); ?>
                 <div class="grid_12"  id="user-attributes-section">
                 </div>
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
@@ -91,7 +103,7 @@
                         <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
                         <td class="user-row-item text-center">
                         <?php if($user['role_id'] !== 'superadmin'): ?>
-                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil"></a>
+                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
                             <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
                         <?php endif; ?>
                         </td>
@@ -137,6 +149,30 @@
 
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].ticon-sort').addClass('ticon-sort-down');
         $('a[href*="by/<?php echo $this->by ;?>/order/desc"].ticon-sort').addClass('ticon-sort-up');
+
+        $(document).on('change', '.mobile-phone-country-codes', function(e) {
+            var countryEl = $(e.currentTarget),
+                chosenCountryCode = countryEl.val(),
+                deviceType = countryEl.data('device-type'),
+                desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>'),
+                mobileMasks = JSON.parse('<?php echo json_encode($this->mobileMasks);?>');
+
+            if (deviceType === 'mobile') {
+                if (typeof mobileMasks[chosenCountryCode] !== 'undefined') {
+                    $('#user-mobile-phone').mask(mobileMasks[chosenCountryCode].mask_value, {autoclear: false});
+                } else {
+                    $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
+                }
+            }
+
+            if (deviceType === 'desktop') {
+                if (typeof desktopMasks[chosenCountryCode] !== 'undefined') {
+                    $('#user-desktop-phone').mask(desktopMasks[chosenCountryCode].mask_value, {autoclear: false});
+                } else {
+                    $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
+                }
+            }
+        });
 	});
     function userCallback() {
         location.reload();
@@ -150,5 +186,25 @@
         var html = '<div class="grid_6"><input class="user-custom-attribute-name" type="text" name="attrName[]" value="' + attrName + '"></div>' +
             '<div class="grid_6"><input type="text" name="attrValue[]" value=""></div>';
         $('#user-attributes-section').append(html);
+    }
+
+    function afterUserEdit()
+    {
+        var mobileMasks = JSON.parse('<?php echo json_encode($this->mobileMasks);?>'),
+            desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>'),
+            mobileCountryCode = $('#user-mobile-country-code').val(),
+            desktopCountryCode = $('#user-desktop-country-code').val();
+
+        if (typeof mobileMasks[mobileCountryCode] !== 'undefined') {
+            $('#user-mobile-phone').mask(mobileMasks[mobileCountryCode].mask_value, {autoclear: false});
+        } else {
+            $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
+        }
+
+        if (typeof desktopMasks[desktopCountryCode] !== 'undefined') {
+            $('#user-desktop-phone').mask(desktopMasks[desktopCountryCode].mask_value, {autoclear: false});
+        } else {
+            $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
+        }
     }
 </script>

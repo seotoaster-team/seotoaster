@@ -23,6 +23,11 @@ class Application_Form_Signup extends Application_Form_User {
         $this->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
         $this->removeElement('userAttributes');
         $this->removeElement('mobilePhone');
+        $this->removeElement('desktopPhone');
+        $this->removeElement('mobileCountryCode');
+        $this->removeElement('desktopCountryCode');
+        $this->removeElement('mobileCountryCodeValue');
+        $this->removeElement('desktopCountryCodeValue');
 
 		$this->addElement(new Zend_Form_Element_Captcha('verification', array(
 			'label'   => "Please verify you're a human",

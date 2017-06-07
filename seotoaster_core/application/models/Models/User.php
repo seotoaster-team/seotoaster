@@ -28,6 +28,16 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_timezone = '';
 
+    protected $_mobileCountryCode = '';
+
+    protected $_mobileCountryCodeValue = '';
+
+    protected $_desktopPhone = '';
+
+    protected $_desktopCountryСode = '';
+
+    protected $_desktopCountryCodeValue = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -214,6 +224,103 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getMobileCountryCode()
+    {
+        return $this->_mobileCountryCode;
+    }
+
+    /**
+     * @param string $mobileCountryCode
+     * @return string
+     */
+    public function setMobileCountryCode($mobileCountryCode)
+    {
+        $this->_mobileCountryCode = $mobileCountryCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobileCountryCodeValue()
+    {
+        return $this->_mobileCountryCodeValue;
+    }
+
+    /**
+     * @param string $mobileCountryCodeValue
+     * @return string
+     */
+    public function setMobileCountryCodeValue($mobileCountryCodeValue)
+    {
+        $this->_mobileCountryCodeValue = $mobileCountryCodeValue;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesktopPhone()
+    {
+        return $this->_desktopPhone;
+    }
+
+    /**
+     * @param string $desktopPhone
+     * @return string
+     */
+    public function setDesktopPhone($desktopPhone)
+    {
+        $this->_desktopPhone = $desktopPhone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesktopCountryСode()
+    {
+        return $this->_desktopCountryСode;
+    }
+
+    /**
+     * @param string $desktopCountryСode
+     * @return string
+     */
+    public function setDesktopCountryСode($desktopCountryСode)
+    {
+        $this->_desktopCountryСode = $desktopCountryСode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesktopCountryCodeValue()
+    {
+        return $this->_desktopCountryCodeValue;
+    }
+
+    /**
+     * @param string $desktopCountryCodeValue
+     * @return string
+     */
+    public function setDesktopCountryCodeValue($desktopCountryCodeValue)
+    {
+        $this->_desktopCountryCodeValue = $desktopCountryCodeValue;
+
+        return $this;
+    }
+
+
 
 
 }

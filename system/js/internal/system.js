@@ -198,7 +198,8 @@ $(function(){
     //seotoaster edit item link
     $(document).on('click', 'a._tedit', function(e){
         e.preventDefault();
-        var handleUrl = $(this).data('url');
+        var handleUrl = $(this).data('url'),
+            callback = $(this).data('callback');
         if(!handleUrl || handleUrl=='undefined'){
             handleUrl = $(this).attr('href');
         }
@@ -216,6 +217,9 @@ $(function(){
                         '<div class="grid_6"><input type="text" name="attrValue[]" value="' + attrValue + '"></div>');
                     })
                 }
+            }
+            if (typeof callback != 'undefined' && callback != null) {
+                eval(callback + '()');
             }
         })
     });
