@@ -22,29 +22,33 @@ class IndexController extends Zend_Controller_Action {
 		    $this->_helper->session->refererUrl = $refererUrl;
 	    }
 
-		// Getting requested url. If url is not specified - get index.html
-		$pageUrl = filter_var($this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE), FILTER_SANITIZE_STRING);
+        $urlDetails = $this->_getUrlDetails();
 
 		// Trying to do canonical redirects
-		$this->_helper->page->doCanonicalRedirect($pageUrl);
+		$this->_helper->page->doCanonicalRedirect($urlDetails['pageUrl']);
 
 		//Check if 301 redirect is present for requested page then do it
-		$this->_helper->page->do301Redirect($pageUrl);
+		$this->_helper->page->do301Redirect($urlDetails['pageUrl']);
 
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
-		$pageCacheKey = md5($pageUrl);
+		$pageCacheKey = md5($urlDetails['pageUrl']);
         if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
             $page = $this->_helper->cache->load($pageCacheKey, 'pagedata_');
         }
 
         // page is not in cache
         if($page === null) {
-            $page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+            $page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($urlDetails['pageUrl']);
         }
 
         // page found
         if($page instanceof Application_Model_Models_Page) {
+
+            $fullUrl = ($page->getPageFolder()) ? $page->getPageFolder() . '/'. $urlDetails['pageUrl'] : $urlDetails['pageUrl'];
+            if (implode('/', array_filter($urlDetails)) !==  $fullUrl) {
+                $this->_helper->redirector->gotoUrl( $this->_helper->website->getUrl() . $fullUrl);
+            }
             $cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
             $this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));
             $tpl  =  Application_Model_Mappers_TemplateMapper::getInstance()->find($page->getTemplateId());
@@ -182,10 +186,17 @@ class IndexController extends Zend_Controller_Action {
         ) {
             $url = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
             $url = trim($url, '/').'/';
+        } else {
+		    $folder = '';
+            if ($pageData['pageFolder']) {
+                $folder = $pageData['pageFolder'] . '/';
+                if ($pageData['isFolderIndex']) {
+                    $pageData['url'] = '';
+                }
+            }
+            $url = ($pageData['url'] !== Helpers_Action_Website::DEFAULT_PAGE) ? $folder . $pageData['url'] : '';
         }
-        else {
-            $url = ($pageData['url'] !== Helpers_Action_Website::DEFAULT_PAGE) ? $pageData['url'] : '';
-        }
+
         $this->view->canonicalUrl = $canonicalScheme.'://'.parse_url($parserOptions['websiteUrl'], PHP_URL_HOST)
             .parse_url($parserOptions['websiteUrl'], PHP_URL_PATH).$url;
 
@@ -344,4 +355,27 @@ class IndexController extends Zend_Controller_Action {
             }
         }
 	}
+
+    private function _getUrlDetails() {
+        $urlDetails['folder'] = '';
+        $url = filter_var($this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE), FILTER_SANITIZE_STRING);
+        $urlArr = explode('/',  $url);
+        $pageFolder = Application_Model_Mappers_PageFolderMapper::getInstance()->findByName($urlArr[0]);
+        if(count($urlArr) > 1 && $pageFolder) {
+            $urlDetails['folder'] = $urlArr[0];
+            $urlDetails['pageUrl'] = array_pop($urlArr);
+        } else if (count($urlArr) == 1 && $pageFolder) {
+            $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageFolder->getIndexPage());
+            if ($page instanceof Application_Model_Models_Page) {
+                $urlDetails['pageUrl'] = $page->getUrl();
+            }
+            $urlDetails['folder'] = $urlArr[0];
+
+        } else {
+            $urlDetails['pageUrl'] = $url;
+        }
+
+        return $urlDetails;
+    }
+
 }

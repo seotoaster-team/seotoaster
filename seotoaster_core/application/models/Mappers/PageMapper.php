@@ -57,7 +57,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             'preview_image'       => $page->getPreviewImage(),
             'external_link_status' => $page->getExternalLinkStatus(),
             'external_link'       => $page->getExternalLink(),
-            'page_type'          => $page->getPageType()
+            'page_type'           => $page->getPageType(),
+            'page_folder'         => $page->getPageFolder(),
+            'is_folder_index'         => $page->getisFolderIndex()
         );
 
 
@@ -495,5 +497,17 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $where = $this->getDbTable()->getAdapter()->quoteInto("id IN (?)", $ids);
         return $this->getDbTable()->delete($where);
     }
+
+    /**
+     * return key pair id folder_name
+     */
+    public function getFolders()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('page_folder', array('id', 'name'));
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
 
 }

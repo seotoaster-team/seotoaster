@@ -251,7 +251,21 @@ CREATE TABLE `page` (
   KEY `indProtected` (`protected`),
   KEY `draft` (`draft`),
   KEY `news` (`news`),
-  KEY `nav_name` (`nav_name`)
+  KEY `nav_name` (`nav_name`),
+  KEY `page_folder` (`page_folder`),
+  CONSTRAINT `page_ibfk_2` FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `page_folder`;
+CREATE TABLE `page_folder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `index_page` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `index_page` (`index_page`),
+  CONSTRAINT `page_folder_ibfk_4` FOREIGN KEY (`index_page`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `page` (`id`, `template_id`, `parent_id`, `nav_name`, `meta_description`, `meta_keywords`, `header_title`, `h1`, `url`, `teaser_text`, `last_update`, `is_404page`, `show_in_menu`, `order`, `weight`, `silo_id`, `targeted_key_phrase`, `protected`, `system`, `draft`, `publish_at`, `news`, `err_login_landing`, `mem_landing`, `signup_landing`, `checkout`, `preview_image`) VALUES

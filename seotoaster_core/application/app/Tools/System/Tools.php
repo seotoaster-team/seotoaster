@@ -43,6 +43,8 @@ class Tools_System_Tools {
 
     const ACTION_PREFIX_REDIRECTS = 'Redirects';
 
+    const ACTION_PREFIX_FOLDERS = 'Folders';
+
     const ACTION_PREFIX_DEEPLINKS = 'Deeplinks';
 
     const ACTION_PREFIX_SILOS = 'Silos';

@@ -263,5 +263,10 @@ class Tools_Page_Tools
         return $pagePreviewImage;
     }
 
+    public static function getPageFolders()
+    {
+        return Application_Model_Mappers_PageFolderMapper::getInstance()->getPageFolders();
+    }
+
 }
 

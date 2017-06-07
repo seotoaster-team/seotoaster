@@ -84,6 +84,10 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_pageType = 1;
 
+    protected $_pageFolder = null;
+
+    protected $_isFolderIndex = 0;
+
     /**
      * @param array $containers
      */
@@ -436,6 +440,42 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
     {
         $this->_pageType = $pageType;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPageFolder()
+    {
+        return $this->_pageFolder;
+    }
+
+    /**
+     * @param int $folder
+     * @return int
+     */
+    public function setPageFolder($folder)
+    {
+        $this->_pageFolder = $folder;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsFolderIndex()
+    {
+        return $this->_isFolderIndex;
+    }
+
+    /**
+     * @param int $isFolderIndex
+     * @return int
+     */
+    public function setIsFolderIndex($isFolderIndex)
+    {
+        $this->_isFolderIndex = $isFolderIndex;
         return $this;
     }
 
