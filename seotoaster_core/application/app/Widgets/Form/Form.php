@@ -2,8 +2,6 @@
 
 class Widgets_Form_Form extends Widgets_Abstract {
 
-    const WFORM_CACHE_TAG = 'formWidget';
-
     const UPLOAD_LIMIT_SIZE = 10;
 
     const WFORM_NAME_LIMIT_CHARS = 64;
@@ -19,8 +17,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		));
 		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
-
-        $this->_cacheTags = array(self::WFORM_CACHE_TAG);
+        
         Zend_Layout::getMvcInstance()->getView()->inlineScript()->appendFile(
             $this->_websiteHelper->getUrl() . 'system/js/external/sisyphus/sisyphus.min.js'
         );
