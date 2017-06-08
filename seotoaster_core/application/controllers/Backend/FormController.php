@@ -47,7 +47,6 @@ class Backend_FormController extends Zend_Controller_Action {
                 $formPageConversionModel->setConversionCode($formData['trackingCode']);
                 $formPageConversionMapper->save($formPageConversionModel);
                 Application_Model_Mappers_FormMapper::getInstance()->save($form);
-                $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
 			}
 			else {
@@ -107,7 +106,6 @@ class Backend_FormController extends Zend_Controller_Action {
         if ($this->_request->isDelete()) {
             $id = filter_var($this->getRequest()->getParam('id'), FILTER_SANITIZE_NUMBER_INT);
             $formMapper = Application_Model_Mappers_FormMapper::getInstance();
-            $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
             return $formMapper->delete($formMapper->find($id));
         }
     }
