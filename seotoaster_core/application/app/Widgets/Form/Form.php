@@ -8,9 +8,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
 
     const WFORM_NAME_LIMIT_CHARS = 64;
 
-    const WITHOUT_CACHE = 'withoutcache';
-
 	private $_websiteHelper   = null;
+
+	public $_cacheable = false;
 
 	protected function _init() {
 		parent::_init();
@@ -20,15 +20,6 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		$this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 		$this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
-		if (is_array($this->_options) && isset($this->_options[1])) {
-			$this->_cacheable = !($this->_options[1] === 'recaptcha' || $this->_options[1] === 'captcha' || $this->_options[1] === 'grecaptcha');
-		}
-        if (is_array($this->_options) && isset($this->_options[0]) && strtolower($this->_options[0]) === 'conversioncode') {
-			$this->_cacheable = false;
-		}
-        if(is_array($this->_options) && isset($this->_options[0]) && in_array(self::WITHOUT_CACHE, $this->_options)){
-            $this->_cacheable = false;
-        }
         $this->_cacheTags = array(self::WFORM_CACHE_TAG);
         Zend_Layout::getMvcInstance()->getView()->inlineScript()->appendFile(
             $this->_websiteHelper->getUrl() . 'system/js/external/sisyphus/sisyphus.min.js'
