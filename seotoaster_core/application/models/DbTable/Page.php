@@ -25,7 +25,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         $where    = $this->getAdapter()->quoteInto("show_in_menu = '?'", $menuType);
         $sysWhere = $this->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
         $select   = $this->getAdapter()->select()
-            ->from('page', array('id', 'parentId' => 'parent_id', 'protected', 'external_link_status', 'external_link'))
+            ->from('page', array('id', 'parentId' => 'parent_id', 'protected', 'external_link_status', 'external_link', 'page_folder', 'is_folder_index'))
             ->joinLeft('optimized', 'page_id = id', null)
             ->columns(array(
                 'url'          => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),
@@ -177,9 +177,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
                 'meta_description'    => 'page.meta_description',
                 'meta_keywords'       => 'page.meta_keywords',
                 'teaser_text'         => 'page.teaser_text',
-                'optimized'           => 0,
-                'page_folder'         => null,
-                'is_folder_index'     => 0
+                'optimized'           => 0
             ), $pageFields);
         }
         $select->from('page', $pageFields);

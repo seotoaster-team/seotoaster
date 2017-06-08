@@ -85,8 +85,13 @@ class Backend_PageController extends Zend_Controller_Action {
             $optimized = (isset($params['optimized']) && $params['optimized']);
             $externalLink = (isset($params['externalLinkStatus']) && $params['externalLinkStatus']);
 
-            if($params['pageFolder']) {
-                $params['pageFolder'] = Application_Model_Mappers_PageFolderMapper::getInstance()->find($params['pageFolder'])->getName();
+            if(!empty($params['pageFolder'])) {
+                $folder = Application_Model_Mappers_PageFolderMapper::getInstance()->find($params['pageFolder']);
+                if ($folder instanceof Application_Model_Models_PageFolder) {
+                    $params['pageFolder'] = $folder->getName();
+                } else {
+                    $params['pageFolder'] = null;
+                }
             } else {
                 $params['pageFolder'] = null;
             }
@@ -624,15 +629,20 @@ class Backend_PageController extends Zend_Controller_Action {
     }
 
     public function removepagefolderAction() {
-        if($this->getRequest()->isDelete()) {
+         if ($this->getRequest()->isDelete()) {
+            $message = 'Can\'t remove this folder.';
+            $status = 'error';
             $id = (int) $this->getRequest()->getParam('id');
-            try {
-                Application_Model_Mappers_PageFolderMapper::getInstance()->delete($id);
-                $this->_helper->response->success($this->_helper->language->translate('Folder removed.'));
+            if (!empty($id)) {
+                $result = Application_Model_Mappers_PageFolderMapper::getInstance()->delete($id);
+                if($result) {
+                    $message = 'Folder removed.';
+                    $status = 'success';
+                };
+            } else {
+                $message = 'Can\'t find this folder.';
             }
-            catch (Exception $e) {
-                $this->_helper->response->error($this->_helper->language->translate('Can\'t remove this folder.'));
-            }
+            $this->_helper->response->$status($this->_helper->language->translate($message));
         }
     }
 }

@@ -158,6 +158,13 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                 }
                 if ($prop === 'url') {
                     $item = $website->getUrl() . $item;
+                    if ($page['page_folder']) {
+                        if (empty($page['is_folder_index'])) {
+                            $item = $website->getUrl() . $page['page_folder'] . '/' .  $page['url'];;
+                        } else {
+                            $item = $website->getUrl() . $page['page_folder'] . '/';
+                        }
+                    }
                     if ($page['external_link_status'] === '1'){
                         $item = $page['external_link'];
                         $dictionary['$page:target_blank'] = 'target=_blank';

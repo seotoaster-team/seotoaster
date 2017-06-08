@@ -66,7 +66,7 @@ class Application_Form_Page extends Application_Form_Secure {
             'name'         => 'pageFolder',
             'id'           => 'folder',
             'class'        => 'grid_8 alpha omega',
-            'multiOptions' => array_merge(array('0' => 'Select a folder'), Tools_Page_Tools::getPageFolders()),
+            'multiOptions' => ['0' => 'Select a folder'] + Tools_Page_Tools::getPageFolders(),
             'registerInArrayValidator' => false,
             'value' => $this->_pageFolder
         )));
