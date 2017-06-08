@@ -357,6 +357,14 @@ class Backend_PageController extends Zend_Controller_Action {
                     'table' => 'page_folder',
                     'field' => 'name'
                 ));
+                // Is news-index page
+                if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+                    $newsFolder = trim(Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder'),'/');
+                    if ($newsFolder === $data['pageFolder']) {
+                        $this->_helper->response->fail('This folder name is using as blog and news plugin folder. Please, choose another name.');
+                        exit;
+                    }
+                }
                 if(!$inDbValidator->isValid($data['pageFolder'])) {
                     $this->_helper->response->fail(implode('<br />', $inDbValidator->getMessages()));
                     exit;
