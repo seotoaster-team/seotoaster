@@ -192,7 +192,13 @@ class Backend_FormController extends Zend_Controller_Action {
 
                     $googleRecaptcha = new Tools_System_GoogleRecaptcha();
                     if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
-                        $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                        if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
+                            if ($xmlHttpRequest) {
+                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                            }
+                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                            $this->_redirect($formParams['formUrl']);
+                        }
                     }
 
                 }
