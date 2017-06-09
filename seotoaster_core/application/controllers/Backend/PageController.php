@@ -260,6 +260,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords', 'teaserText'));
         }
         $this->view->pageForm = $pageForm;
+        $this->view->isRegularPage = ($page->getPageType() == 1) ? true : false;
     }
 
     private function _processFaPull($pageId) {
@@ -343,7 +344,7 @@ class Backend_PageController extends Zend_Controller_Action {
     public function pagefoldersAction() {
         $this->view->helpSection = 'pagefolders';
         $folderForm = new Application_Form_PageFolders();
-        $folderForm->getElement('indexPage')->setMultioptions(Application_Model_Mappers_PageMapper::getInstance()->fetchIdUrlPairs());
+        $folderForm->getElement('indexPage')->setMultioptions(Application_Model_Mappers_PageMapper::getInstance()->fetchFoldersIdUrlPairs());
         $secureToken = Tools_System_Tools::initZendFormCsrfToken($folderForm, Tools_System_Tools::ACTION_PREFIX_FOLDERS);
         $this->view->secureToken = $secureToken;
         $this->view->form = $folderForm;

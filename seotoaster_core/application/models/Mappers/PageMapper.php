@@ -509,5 +509,15 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
 
+    public function fetchFoldersIdUrlPairs()
+    {
+        $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
+            ->from($this->getDbTable()->info('name'), array('id', 'url'))
+            ->where('page_type = 1')
+            ->order('url');
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
 
 }

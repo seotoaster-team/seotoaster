@@ -124,6 +124,8 @@ class Tools_Search_Tools
         $document->addField(Zend_Search_Lucene_Field::text('navName', $page['navName'], 'UTF-8'));
         $document->addField(Zend_Search_Lucene_Field::text('h1', $page['h1'], 'UTF-8'));
         $document->addField(Zend_Search_Lucene_Field::keyword('pageType', $page['pageType']));
+        $document->addField(Zend_Search_Lucene_Field::keyword('pageFolder', $page['pageFolder']));
+        $document->addField(Zend_Search_Lucene_Field::keyword('isFolderIndex', $page['isFolderIndex']));
 
         self::$_index->addDocument($document);
     }

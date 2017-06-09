@@ -46,8 +46,11 @@ class IndexController extends Zend_Controller_Action {
         if($page instanceof Application_Model_Models_Page) {
 
             $fullUrl = ($page->getPageFolder()) ? $page->getPageFolder() . '/'. $urlDetails['pageUrl'] : $urlDetails['pageUrl'];
+
             if (implode('/', array_filter($urlDetails)) !==  $fullUrl) {
-                $this->_helper->redirector->gotoUrl( $this->_helper->website->getUrl() . $fullUrl);
+                $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $fullUrl);
+            } elseif ($page->getIsFolderIndex() && $page->getPageFolder() !== trim($this->_request->getRequestUri(), '/')) {
+                $this->_helper->redirector->gotoUrl( $this->_helper->website->getUrl() . $page->getPageFolder() . '/');
             }
             $cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());
             $this->_helper->cache->save($pageCacheKey, $page, 'pagedata_', array($cacheTag, 'pageid_' . $page->getId()));

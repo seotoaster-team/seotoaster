@@ -238,10 +238,17 @@ class Widgets_Search_Search extends Widgets_Abstract
                         if (!empty($filterPageType) && !array_key_exists($pageType, $filterPageType)) {
                             $exclude = true;
                         }
+                        $url = $hit->url;
+                        if ($hit->pageFolder) {
+                            $url = $hit->pageFolder . '/';
+                            if (!empty($hit->isFolderIndex)) {
+                                $url .= $hit->url;
+                            }
+                        }
                         if (!$draft && !$exclude) {
                             return array(
                                 'pageId'     => $hit->pageId,
-                                'url'        => $hit->url,
+                                'url'        => $url,
                                 'h1'         => $hit->h1,
                                 'navName'    => $hit->navName,
                                 'teaserText' => $hit->teaserText
