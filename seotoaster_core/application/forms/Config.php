@@ -549,6 +549,7 @@ class Application_Form_Config extends Application_Form_Secure
 	public function setCanonicalScheme($canonicalScheme)
     {
 		$this->_canonicalScheme = $canonicalScheme;
+        $this->getElement('canonicalScheme')->setValue($this->_canonicalScheme);
 		return $this;
 	}
 
