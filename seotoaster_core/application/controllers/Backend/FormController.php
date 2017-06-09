@@ -146,23 +146,25 @@ class Backend_FormController extends Zend_Controller_Action {
                 unset($formParams[md5($formName.$formId)]);
 
                 //validating recaptcha
-                if($useCaptcha == 1 && !isset($formParams['g-recaptcha-response'])){
+                if($useCaptcha == 1){
                     if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
                             && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY])
-                            && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha'])){
+                            && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha']) || isset($formParams['g-recaptcha-response'])){
                         
                         if(isset($formParams['recaptcha_challenge_field']) && isset($formParams['recaptcha_response_field'])) {
-                            if($formParams['recaptcha_response_field'] == ''){
-                                if($xmlHttpRequest){
+                            if ($formParams['recaptcha_response_field'] == '') {
+                                if ($xmlHttpRequest) {
                                     $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
                                 }
                                 $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
                                 $this->_redirect($formParams['formUrl']);
                             }
-                            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY], $websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY]);
-                            $result = $recaptcha->verify($formParams['recaptcha_challenge_field'], $formParams['recaptcha_response_field']);
-                            if(!$result->isValid()){
-                                if($xmlHttpRequest){
+                            $recaptcha = new Zend_Service_ReCaptcha($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY],
+                                $websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY]);
+                            $result = $recaptcha->verify($formParams['recaptcha_challenge_field'],
+                                $formParams['recaptcha_response_field']);
+                            if (!$result->isValid()) {
+                                if ($xmlHttpRequest) {
                                     $this->_helper->response->fail($this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.'));
                                 }
                                 $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
@@ -170,6 +172,18 @@ class Backend_FormController extends Zend_Controller_Action {
                             }
                             unset($formParams['recaptcha_challenge_field']);
                             unset($formParams['recaptcha_response_field']);
+                        } elseif(isset($formParams['g-recaptcha-response'])) {
+                            $googleRecaptcha = new Tools_System_GoogleRecaptcha();
+                            if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
+                                if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
+                                    if ($xmlHttpRequest) {
+                                        $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                                    }
+                                    $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                                    $this->_redirect($formParams['formUrl']);
+                                }
+                            }
+
                         }else{
                             //validating captcha
                             if(!$this->_validateCaptcha(strtolower($formParams['captcha']), $formParams['captchaId'])) {
@@ -188,20 +202,8 @@ class Backend_FormController extends Zend_Controller_Action {
                         $this->_redirect($formParams['formUrl']);
                     }
 
-                } elseif ($useCaptcha == 1 && isset($formParams['g-recaptcha-response'])) {
-
-                    $googleRecaptcha = new Tools_System_GoogleRecaptcha();
-                    if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
-                        if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
-                            if ($xmlHttpRequest) {
-                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
-                            }
-                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
-                            $this->_redirect($formParams['formUrl']);
-                        }
-                    }
-
                 }
+
                 //Check if email is valid
                 if (isset($formParams['email'])) {
                     $emailValidation = new Zend_Validate_EmailAddress();
