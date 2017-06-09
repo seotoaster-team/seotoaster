@@ -262,11 +262,18 @@ class Backend_UpdateController extends Zend_Controller_Action
                     }
                 }
             }
+
+            return $this->_helper->response->success(
+                array('status' => 'success', 'message' => '', 'processedCount' => count($usersToProcess))
+            );
         }
 
-        return $this->_helper->response->success(
-            array('status' => 'success', 'message' => '', 'processedCount' => count($usersToProcess))
+        Application_Model_Mappers_ConfigMapper::getInstance()->save(array('oldMobileFormat' => 1));
+        return $this->_helper->response->fail(
+            array('status' => 'success', 'message' => $this->_helper->language->translate('New mobile format applied'), 'processedCount' => count($usersToProcess))
         );
+
+
     }
 
     /**

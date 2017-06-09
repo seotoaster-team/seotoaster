@@ -148,6 +148,11 @@ class Backend_UserController extends Zend_Controller_Action {
             $this->view->orderParam = $order;
         }
 
+        $oldMobileFormat = $this->_helper->config->getConfig('oldMobileFormat');
+        if (!empty($oldMobileFormat)) {
+            $oldMobileFormat = true;
+        }
+
         $this->view->by = $by;
         $this->view->order = $order;
         $this->view->key = $searchKey;
@@ -157,6 +162,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->userForm = $userForm;
         $this->view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
         $this->view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
+        $this->view->oldMobileFormat = $oldMobileFormat;
 	}
 
 	public function deleteAction() {

@@ -64,8 +64,8 @@
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
-        <?php if (!empty($this->oldMobileFormat)) :?>
-            <a id="process-old-mobile-phone-format" class="button" href="javascript:;"><?php echo $this->trasnlate('Process old mobile phone format');?></a>
+        <?php if (empty($this->oldMobileFormat)) :?>
+            <a id="process-old-mobile-phone-format" class="btn" href="javascript:;"><?php echo $this->translate('Process old mobile phone format');?></a>
         <?php endif;?>
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
@@ -139,7 +139,7 @@
 
         $(document).on('click', '#process-old-mobile-phone-format', function(e){
             e.preventDefault();
-
+            updatePhoneMobileFormat();
         });
 
         $('#add-user-attribute').on('click', function(e){
@@ -183,14 +183,17 @@
         });
 	});
 
-    function runQueue(){
+    function updatePhoneMobileFormat(){
         $.ajax({
-            url:'<?php echo $this->websiteUrl;?>plugin/leads/run/taskReminderQueue/',
+            url:'<?php echo $this->websiteUrl;?>backend/backend_update/updatemobilephonenumbers/',
             type:"POST",
             dataType:"json"
         }).done(function(response) {
             if(response.error == '0'){
-                runQueue();
+                updatePhoneMobileFormat();
+            } else {
+                showMessage(response.responseText.message, true, 5000);
+                $('#process-old-mobile-phone-format').remove();
             }
         });
     }
