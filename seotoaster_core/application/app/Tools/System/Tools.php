@@ -379,23 +379,40 @@ class Tools_System_Tools {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array()) {
+    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $withoutCache = false) {
+        if ($withoutCache === true) {
+            return self::processPhoneCodes($withCountryCode, $intersect);
+        }
         $cache       = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
         $cachePrefix = strtolower(__CLASS__).'_';
         $cacheId     = strtolower(__FUNCTION__) . '_' . (int)$withCountryCode . '_' . json_encode($intersect);
         if (null === ($phoneCodes = $cache->load($cacheId, $cachePrefix))) {
-            $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
-            array_shift($phoneCodes);
-            if(!empty($intersect)) {
-                $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
-            }
-            array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
-                    $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
-                });
+            $phoneCodes = self::processPhoneCodes($withCountryCode, $intersect);
             $cache->save($cacheId, $phoneCodes, $cachePrefix, array(), Helpers_Action_Cache::CACHE_SHORT);
         }
         return $phoneCodes;
 
+    }
+
+    /**
+     * Process phone codes
+     *
+     * @param bool $withCountryCode with country code flag
+     * @param array $intersect intersect with params
+     * @return array
+     */
+    public static function processPhoneCodes($withCountryCode, $intersect)
+    {
+        $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+        array_shift($phoneCodes);
+        if(!empty($intersect)) {
+            $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+        }
+        array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
+            $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
+        });
+
+        return $phoneCodes;
     }
 
     public static function getWebsiteCountryCode() {
