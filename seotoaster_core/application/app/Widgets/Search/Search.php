@@ -239,10 +239,13 @@ class Widgets_Search_Search extends Widgets_Abstract
                             $exclude = true;
                         }
                         $url = $hit->url;
-                        if (!empty($hit->pageFolder)) {
-                            $url = $hit->pageFolder . '/';
-                            if (!empty($hit->isFolderIndex)) {
-                                $url .= $hit->url;
+                        $fields = $hit->getDocument()->getFieldNames();
+                        if(in_array('pageFolder', $fields) && in_array('isFolderIndex', $fields)) {
+                            if ($hit->pageFolder) {
+                                $url = $hit->pageFolder . '/';
+                                if (!$hit->isFolderIndex) {
+                                    $url .= $hit->url;
+                                }
                             }
                         }
                         if (!$draft && !$exclude) {

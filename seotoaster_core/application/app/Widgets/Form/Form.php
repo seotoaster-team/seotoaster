@@ -174,7 +174,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $url = $this->_toasterOptions['url'];
         if ($this->_toasterOptions['pageFolder']) {
             $url = $this->_toasterOptions['pageFolder'] . '/';
-            if (!empty($this->_toasterOptions['isFolderIndex'])) {
+            if (empty($this->_toasterOptions['isFolderIndex'])) {
                 $url .=  $this->_toasterOptions['url'];
             }
         }
