@@ -239,7 +239,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                             $exclude = true;
                         }
                         $url = $hit->url;
-                        if ($hit->pageFolder) {
+                        if (!empty($hit->pageFolder)) {
                             $url = $hit->pageFolder . '/';
                             if (!empty($hit->isFolderIndex)) {
                                 $url .= $hit->url;

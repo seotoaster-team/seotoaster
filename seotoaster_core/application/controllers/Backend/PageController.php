@@ -344,7 +344,7 @@ class Backend_PageController extends Zend_Controller_Action {
     public function pagefoldersAction() {
         $this->view->helpSection = 'pagefolders';
         $folderForm = new Application_Form_PageFolders();
-        $folderForm->getElement('indexPage')->setMultioptions(Application_Model_Mappers_PageMapper::getInstance()->fetchFoldersIdUrlPairs());
+        $folderForm->getElement('indexPage')->setMultioptions(Application_Model_Mappers_PageMapper::getInstance()->fetchRegularPagesIdUrlPairs());
         $secureToken = Tools_System_Tools::initZendFormCsrfToken($folderForm, Tools_System_Tools::ACTION_PREFIX_FOLDERS);
         $this->view->secureToken = $secureToken;
         $this->view->form = $folderForm;
@@ -362,7 +362,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
                     $newsFolder = trim(Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder'),'/');
                     if ($newsFolder === $data['pageFolder']) {
-                        $this->_helper->response->fail('This folder name is using as blog and news plugin folder. Please, choose another name.');
+                        $this->_helper->response->fail('This name is already in use as a Blog&News plugin folder name. Please choose another one.');
                         exit;
                     }
                 }

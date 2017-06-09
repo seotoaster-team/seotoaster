@@ -321,8 +321,13 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     public function fetchIdUrlPairs()
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
-                ->from($this->getDbTable()->info('name'), array('id', 'url'))
-                ->order('url');
+            ->from($this->getDbTable()->info('name'),
+                [
+                    'id',
+                    "url" => new Zend_Db_Expr("IF(page_folder IS NOT null, IF(is_folder_index = '1', CONCAT(page_folder, '/'), CONCAT(page_folder, '/', url)), url)")
+                ]
+            )
+            ->order('url');
 
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
@@ -509,7 +514,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
 
-    public function fetchFoldersIdUrlPairs()
+    public function fetchRegularPagesIdUrlPairs()
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
             ->from($this->getDbTable()->info('name'), array('id', 'url'))
