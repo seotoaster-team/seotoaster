@@ -27,16 +27,18 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('password'); ?>
 				</div>
-                <div class="grid_6">
+                <label for="user-mobile-country-code" class="optional grid_12 mt10px mb0px">Mobile</label>
+                <div class="grid_6 mt5px">
                     <?php echo $this->userForm->getElement('mobileCountryCode'); ?>
                 </div>
-                <div class="grid_6">
+                <div class="grid_6 mt5px">
                     <?php echo $this->userForm->getElement('mobilePhone'); ?>
                 </div>
-                <div class="grid_6 mt10px">
+                <label for="user-desktop-country-code" class="optional grid_12 mt10px mb0px">Desktop</label>
+                <div class="grid_6 mt5px">
                     <?php echo $this->userForm->getElement('desktopCountryCode'); ?>
                 </div>
-                <div class="grid_6">
+                <div class="grid_6 mt5px">
                     <?php echo $this->userForm->getElement('desktopPhone'); ?>
                 </div>
                 <div class="grid_12">
@@ -129,6 +131,9 @@
                 showMessage("<?php echo $this->translate('There are no users for export') ?>");
             }
         });
+
+        $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
+        $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
 
         $(document).on('click', '#add-user-link, ._tedit', function(e){
             e.preventDefault();
