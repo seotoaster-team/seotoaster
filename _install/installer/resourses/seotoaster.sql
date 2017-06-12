@@ -31,7 +31,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
 ('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.5');
+('version',	'2.5.6');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (

@@ -28,7 +28,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'mobile_country_code' => $user->getMobileCountryCode(),
             'mobile_country_code_value' => $user->getMobileCountryCodeValue(),
             'desktop_phone' => $user->getDesktopPhone(),
-            'desktop_country_code' => $user->getDesktopCountryСode(),
+            'desktop_country_code' => $user->getDesktopCountryCode(),
             'desktop_country_code_value' => $user->getDesktopCountryCodeValue()
 		);
 		if(!$user->getPassword()) {
@@ -156,9 +156,14 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'ipaddress',
             'referer',
             'gplus_profile',
+            'mobile_country_code',
+            'mobile_country_code_value',
             'mobile_phone',
             'notes',
-            'timezone'
+            'timezone',
+            'desktop_country_code',
+            'desktop_country_code_value',
+            'desktop_phone'
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 

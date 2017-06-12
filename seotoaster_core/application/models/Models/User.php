@@ -34,7 +34,7 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_desktopPhone = '';
 
-    protected $_desktopCountryСode = '';
+    protected $_desktopCountryCode = '';
 
     protected $_desktopCountryCodeValue = '';
 
@@ -285,18 +285,18 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     /**
      * @return string
      */
-    public function getDesktopCountryСode()
+    public function getDesktopCountryCode()
     {
-        return $this->_desktopCountryСode;
+        return $this->_desktopCountryCode;
     }
 
     /**
-     * @param string $desktopCountryСode
+     * @param string $desktopCountryCode
      * @return string
      */
-    public function setDesktopCountryСode($desktopCountryСode)
+    public function setDesktopCountryCode($desktopCountryCode)
     {
-        $this->_desktopCountryСode = $desktopCountryСode;
+        $this->_desktopCountryCode = $desktopCountryCode;
 
         return $this;
     }

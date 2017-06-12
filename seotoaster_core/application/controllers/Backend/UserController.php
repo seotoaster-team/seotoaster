@@ -194,7 +194,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 if (empty($userData['timezone'])) {
                     $userData['timezone'] = '0';
                 }
-                if (empty($userData['desktopCountryСode'])) {
+                if (empty($userData['desktopCountryCode'])) {
                     $userData['desktopCountryCode'] = 'US';
                 }
                 if (empty($userData['mobileCountryCode'])) {
@@ -224,8 +224,14 @@ class Backend_UserController extends Zend_Controller_Action {
                     $this->_helper->language->translate('IP address'),
                     $this->_helper->language->translate('Referer url'),
                     $this->_helper->language->translate('Google plus profile'),
+                    $this->_helper->language->translate('Mobile country code'),
+                    $this->_helper->language->translate('Mobile country code value'),
                     $this->_helper->language->translate('Mobile phone'),
-                    $this->_helper->language->translate('Notes')
+                    $this->_helper->language->translate('Notes'),
+                    $this->_helper->language->translate('Timezone'),
+                    $this->_helper->language->translate('Desktop country code'),
+                    $this->_helper->language->translate('Desktop country code value'),
+                    $this->_helper->language->translate('Desktop phone'),
                 ));
                 if($exportResult) {
                     $usersArchive = Tools_System_Tools::zip($exportResult);
