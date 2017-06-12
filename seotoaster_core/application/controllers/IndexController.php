@@ -22,32 +22,33 @@ class IndexController extends Zend_Controller_Action {
 		    $this->_helper->session->refererUrl = $refererUrl;
 	    }
 
-        $urlDetails = $this->_getUrlDetails();
+        $pageDetails = $this->_getPageDetails();
 
 		// Trying to do canonical redirects
-		$this->_helper->page->doCanonicalRedirect($urlDetails['pageUrl']);
+		$this->_helper->page->doCanonicalRedirect($pageDetails['pageUrl']);
 
 		//Check if 301 redirect is present for requested page then do it
-		$this->_helper->page->do301Redirect($urlDetails['pageUrl']);
+        $url = ($pageDetails['isFolderIndex']) ? $pageDetails['folder'] : $pageDetails['pageUrl'];
+		$this->_helper->page->do301Redirect($url);
 
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
-		$pageCacheKey = md5($urlDetails['pageUrl']);
+		$pageCacheKey = md5($pageDetails['pageUrl']);
         if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
             $page = $this->_helper->cache->load($pageCacheKey, 'pagedata_');
         }
 
         // page is not in cache
         if($page === null) {
-            $page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($urlDetails['pageUrl']);
+            $page = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageDetails['pageUrl']);
         }
 
         // page found
         if($page instanceof Application_Model_Models_Page) {
 
-            $fullUrl = ($page->getPageFolder()) ? $page->getPageFolder() . '/'. $urlDetails['pageUrl'] : $urlDetails['pageUrl'];
+            $fullUrl = ($page->getPageFolder()) ? $page->getPageFolder() . '/'. $pageDetails['pageUrl'] : $pageDetails['pageUrl'];
 
-            if (implode('/', array_filter($urlDetails)) !==  $fullUrl) {
+            if (implode('/', array_filter($pageDetails)) !==  $fullUrl) {
                 $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $fullUrl);
             } elseif ($page->getIsFolderIndex() && $page->getPageFolder() !== trim($this->_request->getRequestUri(), '/')) {
                 $this->_helper->redirector->gotoUrl( $this->_helper->website->getUrl() . $page->getPageFolder() . '/');
@@ -359,26 +360,28 @@ class IndexController extends Zend_Controller_Action {
         }
 	}
 
-    private function _getUrlDetails() {
-        $urlDetails['folder'] = '';
+    private function _getPageDetails() {
+        $pageDetails['folder'] = '';
+        $pageDetails['isFolderIndex'] = 0;
         $url = filter_var($this->getRequest()->getParam('page', Helpers_Action_Website::DEFAULT_PAGE), FILTER_SANITIZE_STRING);
         $urlArr = explode('/',  $url);
         $pageFolder = Application_Model_Mappers_PageFolderMapper::getInstance()->findByName($urlArr[0]);
         if(count($urlArr) > 1 && $pageFolder) {
-            $urlDetails['folder'] = $urlArr[0];
-            $urlDetails['pageUrl'] = array_pop($urlArr);
+            $pageDetails['folder'] = $urlArr[0];
+            $pageDetails['pageUrl'] = array_pop($urlArr);
         } else if (count($urlArr) == 1 && $pageFolder) {
             $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageFolder->getIndexPage());
             if ($page instanceof Application_Model_Models_Page) {
-                $urlDetails['pageUrl'] = $page->getUrl();
+                $pageDetails['pageUrl'] = $page->getUrl();
+                $pageDetails['isFolderIndex'] = $page->getIsFolderIndex();
             }
-            $urlDetails['folder'] = $urlArr[0];
+            $pageDetails['folder'] = $urlArr[0];
 
         } else {
-            $urlDetails['pageUrl'] = $url;
+            $pageDetails['pageUrl'] = $url;
         }
 
-        return $urlDetails;
+        return $pageDetails;
     }
 
 }

@@ -517,8 +517,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     public function fetchRegularPagesIdUrlPairs()
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
-            ->from($this->getDbTable()->info('name'), array('id', 'url'))
-            ->where('page_type = 1')
+            ->from($this->getDbTable()->info('name'), ['id', 'url'])
+            ->where('page_type = 1 AND id NOT IN (SELECT page_id from page_has_option)')
             ->order('url');
 
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
