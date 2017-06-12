@@ -524,5 +524,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
 
+    public function removeSubfolderInfo($folderName) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('page_folder = ?', $folderName);
+        $this->getDbTable()->update(['page_folder' => null, 'is_folder_index' => 0], $where);
+    }
+
 
 }

@@ -643,6 +643,8 @@ class Backend_PageController extends Zend_Controller_Action {
             $status = 'error';
             $id = (int) $this->getRequest()->getParam('id');
             if (!empty($id)) {
+                $folder = Application_Model_Mappers_PageFolderMapper::getInstance()->find($id);
+                Application_Model_Mappers_PageMapper::getInstance()->removeSubfolderInfo($folder->getName());
                 $result = Application_Model_Mappers_PageFolderMapper::getInstance()->delete($id);
                 if($result) {
                     $message = 'Folder removed.';
