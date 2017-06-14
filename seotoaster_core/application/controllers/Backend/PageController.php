@@ -260,7 +260,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords', 'teaserText'));
         }
         $this->view->pageForm = $pageForm;
-        $this->view->isRegularPage = ($page->getPageType() == 1 && empty($page->getExtraOptions())) ? true : false;
+        $this->view->isRegularPage = ($page->getPageType() == 1 && empty($page->getExtraOptions()) && !$page->getIsFolderIndex()) ? true : false;
     }
 
     private function _processFaPull($pageId) {
