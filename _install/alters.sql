@@ -172,13 +172,6 @@ ALTER TABLE `form` MODIFY COLUMN `code` mediumtext COLLATE utf8_unicode_ci NOT N
 -- 07/06/2017
 -- version: 2.5.5
 -- Add subfolders support
-ALTER TABLE `page`
-ADD `page_folder` varchar(255) NULL,
-ADD `is_folder_index` enum('0','1') NOT NULL DEFAULT '0' AFTER `page_folder`;
-
-ALTER TABLE `page`
-ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
-
 DROP TABLE IF EXISTS `page_folder`;
 CREATE TABLE `page_folder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -189,6 +182,13 @@ CREATE TABLE `page_folder` (
   KEY `index_page` (`index_page`),
   CONSTRAINT `page_folder_ibfk_4` FOREIGN KEY (`index_page`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `page`
+ADD `page_folder` varchar(255) NULL,
+ADD `is_folder_index` enum('0','1') NOT NULL DEFAULT '0' AFTER `page_folder`;
+
+ALTER TABLE `page`
+ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- These alters are always the latest and updated version of the database
 UPDATE `config` SET `value`='2.5.5' WHERE `name`='version';
