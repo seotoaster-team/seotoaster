@@ -380,8 +380,10 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if (empty($fullName)) {
             $fullName = '';
         }
+
+        $emailContent = $this->_prepareEmailBody();
         $this->_entityParser->objectToDictionary($user);
-        $this->_mailer->setBody($this->_entityParser->parse($this->_mailer->getBody()));
+        $this->_mailer->setBody($this->_entityParser->parse($emailContent));
         $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
         $this->_mailer->setMailFrom($this->_options['from']);
         $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
