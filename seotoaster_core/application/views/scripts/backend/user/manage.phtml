@@ -50,17 +50,17 @@
                 <div class="grid_7">
                     <?php echo $this->userForm->getElement('userAttributes'); ?>
                 </div>
-                <div class="grid_5 mt20px">
+                <div class="grid_5 mt20px text-right">
                     <input type="button" id="add-user-attribute" class="btn mt10px" value="<?php echo $this->translate('Add attribute');?>"/>
                 </div>
                 <?php echo $this->userForm->getElement('mobileCountryCodeValue'); ?>
                 <?php echo $this->userForm->getElement('desktopCountryCodeValue'); ?>
-                <div class="grid_12"  id="user-attributes-section">
+                <div class="grid_12 alpha omega"  id="user-attributes-section">
                 </div>
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
-                <div class="grid_12">
-                    <div class="prefix_3 grid_5 m5px">
-                        <input type="button" id="send-email-invite" class="btn mt10px" value="<?php echo $this->translate('Email invite');?>"/>
+                <div class="grid_12 alpha omega">
+                    <div class="prefix_3 grid_5 text-right">
+                        <input type="button" id="send-email-invite" class="btn mt15px" value="<?php echo $this->translate('Email invite');?>"/>
                     </div>
                     <div class="grid_4">
                         <?php echo $this->userForm->getElement('saveUser'); ?>
