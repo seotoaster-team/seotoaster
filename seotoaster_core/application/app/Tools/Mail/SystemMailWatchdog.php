@@ -388,6 +388,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $this->_mailer->setMailFrom($this->_options['from']);
         $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
         $this->_mailer->setMailFromLabel($subject);
+        $this->_mailer->setSubject($subject);
 
         return $this->_mailer->send();
     }
