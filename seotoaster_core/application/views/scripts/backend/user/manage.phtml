@@ -58,7 +58,14 @@
                 <div class="grid_12"  id="user-attributes-section">
                 </div>
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
-				<?php echo $this->userForm->getElement('saveUser'); ?>
+                <div class="grid_12">
+                    <div class="prefix_3 grid_5 m5px">
+                        <input type="button" id="send-email-invite" class="btn mt10px" value="<?php echo $this->translate('Email invite');?>"/>
+                    </div>
+                    <div class="grid_4">
+                        <?php echo $this->userForm->getElement('saveUser'); ?>
+                    </div>
+                </div>
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
@@ -150,6 +157,22 @@
         $('#add-user-attribute').on('click', function(e){
             e.preventDefault();
             addUserAttribute('');
+        });
+
+        $(document).on('click', '#send-email-invite', function(e){
+            e.preventDefault();
+            $.ajax({
+               'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/sendinvitation/',
+               'data' : {'email': $('#e-mail').val(), 'fullName' : $('#full-name').val()},
+               'type' : 'POST',
+               'dataType': 'json'
+            }).done(function(response){
+                if (response.error == '0'){
+                    showMessage(response.responseText.message, false, 5000);
+                } else {
+                    showMessage(response.responseText.message, true, 5000);
+                }
+            });
         });
 
         $('#user-attributes').on('change', function() {

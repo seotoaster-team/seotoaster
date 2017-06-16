@@ -178,6 +178,11 @@ ALTER TABLE `user` ADD COLUMN `desktop_phone` VARCHAR(20) COLLATE utf8_unicode_c
 ALTER TABLE `user` ADD COLUMN `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
 ALTER TABLE `user` ADD COLUMN `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 16/06/2017
+-- version: 2.5.6
+-- Add invitation email
+INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.6' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.7' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

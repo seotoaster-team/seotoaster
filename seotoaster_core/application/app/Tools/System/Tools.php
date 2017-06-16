@@ -286,12 +286,30 @@ class Tools_System_Tools {
 		}
 	}
 
-    public static function fetchSystemtriggers() {
-        $triggers      = array();
-        $config        = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
-        if($config) {
+    /**
+     * Fetch system action emails triggers
+     *
+     * @return array
+     */
+    public static function fetchSystemtriggers()
+    {
+        $triggers = array();
+        $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
+        if ($config) {
             $triggers = $config->actiontriggers->toArray();
+            $additionalSystemTriggersPath = Zend_Controller_Action_HelperBroker::getExistingHelper('website')->getPath() . 'system'.DIRECTORY_SEPARATOR.'system-action-emails.ini';
+            if (file_exists($additionalSystemTriggersPath)) {
+                $additionalSystemTriggers = new Zend_Config_Ini($additionalSystemTriggersPath, 'actiontriggers');
+                if (!empty($additionalSystemTriggers) && !empty($triggers['seotoaster']['trigger'])) {
+                    $additionalSystemTriggers = $additionalSystemTriggers->actiontriggers->toArray();
+                    if (!empty($additionalSystemTriggers['seotoaster']) && !empty($additionalSystemTriggers['seotoaster']['trigger'])) {
+                        $triggers['seotoaster']['trigger'] = array_merge($triggers['seotoaster']['trigger'],
+                            $additionalSystemTriggers['seotoaster']['trigger']);
+                    }
+                }
+            }
         }
+
         return $triggers;
     }
 

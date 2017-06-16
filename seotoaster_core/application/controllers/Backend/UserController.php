@@ -211,6 +211,34 @@ class Backend_UserController extends Zend_Controller_Action {
 		}
 	}
 
+    public function sendinvitationAction()
+    {
+        if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $userInvitationEmail = filter_var($this->getRequest()->getParam('email'), FILTER_SANITIZE_STRING);
+            $userFullName = filter_var($this->getRequest()->getParam('fullName'), FILTER_SANITIZE_STRING);
+            $emailValidator = new Zend_Validate_EmailAddress();
+
+            if (!$emailValidator->isValid($userInvitationEmail)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Not valid email address'));
+            }
+
+            $userModel = new Application_Model_Models_User();
+            $userModel->setEmail($userInvitationEmail);
+            if (!empty($userFullName)) {
+                $userModel->setFullName($userFullName);
+            }
+
+            $userModel->removeAllObservers();
+            $userModel->registerObserver(new Tools_Mail_Watchdog(array(
+                'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_USERINVITATION
+            )));
+
+
+            $userModel->notifyObservers();
+
+        }
+    }
+
     public function exportAction() {
         if($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
             $users        = Application_Model_Mappers_UserMapper::getInstance()->getUserList();

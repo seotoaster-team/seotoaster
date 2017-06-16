@@ -31,7 +31,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
 ('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.6');
+('version',	'2.5.7');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -86,7 +86,8 @@ INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUE
 (2,	'1',	't_passwordreset',	'Tools_Mail_SystemMailWatchdog'),
 (3,	'1',	't_passwordchange',	'Tools_Mail_SystemMailWatchdog'),
 (4,	'1',	't_membersignup',	'Tools_Mail_SystemMailWatchdog'),
-(5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog');
+(5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog'),
+(6,	'1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
 
 DROP TABLE IF EXISTS `email_triggers_actions`;
 CREATE TABLE `email_triggers_actions` (

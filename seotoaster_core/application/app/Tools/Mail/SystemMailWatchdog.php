@@ -33,6 +33,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     const TRIGGER_USERCHANGEATTR     = 't_userchangeattr';
 
     /**
+     * User invitation
+     *
+     */
+    const TRIGGER_USERINVITATION     = 't_userinvitation';
+
+    /**
      * Password change trigger. Launches sending of mails
      */
     const TRIGGER_PASSWORDCHANGE    = 't_passwordchange';
@@ -366,6 +372,22 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     protected function _sendTsystemnotificationMail() {
 
+    }
+
+    protected function _sendTuserinvitationMail(Application_Model_Models_User $user) {
+
+        $fullName = $user->getFullName();
+        if (empty($fullName)) {
+            $fullName = '';
+        }
+        $this->_entityParser->objectToDictionary($user);
+        $this->_mailer->setBody($this->_entityParser->parse($this->_mailer->getBody()));
+        $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
+        $this->_mailer->setMailFrom($this->_options['from']);
+        $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
+        $this->_mailer->setMailFromLabel($subject);
+
+        return $this->_mailer->send();
     }
 
     protected function _prepareEmailBody($pageId = 0) {
