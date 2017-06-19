@@ -191,5 +191,5 @@ ALTER TABLE `page`
 ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.5' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.6' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
