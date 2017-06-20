@@ -509,6 +509,14 @@ class Backend_PageController extends Zend_Controller_Action {
                 if ($page->getExtraOption(Application_Model_Models_Page::OPT_404PAGE)) {
                     continue;
                 }
+                if ($page->getPageFolder()) {
+                    if (empty($page->getIsFolderIndex())) {
+                        $url = $page->getPageFolder() . '/' . $page->getUrl();
+                    } else {
+                        $url = $page->getPageFolder() . '/';
+                    }
+                    $page->setUrl($url);
+                }
                 array_push($links, array('title'=>$page->getH1(), 'value'=>$this->_helper->website->getUrl() . $page->getUrl()));
             }
             $this->getResponse()->setBody(Zend_Json::encode($links));
