@@ -52,36 +52,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
-                $data['mobilePhone'] = preg_replace('~[^\d]~ui', '', $data['mobilePhone']);
-                $data['desktopPhone'] = preg_replace('~[^\d]~ui', '', $data['desktopPhone']);
-                if (!empty($data['mobileCountryCode'])) {
-                    $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['mobileCountryCode'], 'phoneToTerritory');
-                    $data['mobile_country_code_value'] = '+'.$mobileCountryPhoneCode;
-                } else {
-                    $data['mobile_country_code_value'] = null;
-                }
-                if (!empty($data['desktopCountryCode'])) {
-                    $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['desktopCountryCode'], 'phoneToTerritory');
-                    $data['desktop_country_code_value'] = '+'.$mobileCountryPhoneCode;
-                } else {
-                    $data['desktop_country_code_value'] = null;
-                }
-				$user       = new Application_Model_Models_User($data);
-                $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
-                $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
-                $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
-                if ($attrNamesArr) {
-                    foreach ($attrNamesArr as $key => $value) {
-                        if(empty($value) || empty($attrValuesArr[$key])) {
-                            continue;
-                        }
-                        $user->setAttribute($value, $attrValuesArr[$key]);
-                    }
-                    if (empty($userId)) {
-                        $user->setId((int)$uId);
-                    }
-                    Application_Model_Mappers_UserMapper::saveUserAttributes($user);
-                }
+                $this->_processUser($data, $userId);
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
@@ -214,6 +185,8 @@ class Backend_UserController extends Zend_Controller_Action {
     public function sendinvitationAction()
     {
         if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $userForm = new Application_Form_User();
+            $userForm->getElement('password')->setRequired(false);
             $userInvitationEmail = filter_var($this->getRequest()->getParam('email'), FILTER_SANITIZE_STRING);
             $userFullName = filter_var($this->getRequest()->getParam('fullName'), FILTER_SANITIZE_STRING);
             $emailValidator = new Zend_Validate_EmailAddress();
@@ -222,21 +195,89 @@ class Backend_UserController extends Zend_Controller_Action {
                 $this->_helper->response->fail($this->_helper->language->translate('Not valid email address'));
             }
 
-            $userModel = new Application_Model_Models_User();
-            $userModel->setEmail($userInvitationEmail);
-            if (!empty($userFullName)) {
-                $userModel->setFullName($userFullName);
+            if (empty($userFullName)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Please provide user name'));
             }
 
-            $userModel->removeAllObservers();
-            $userModel->registerObserver(new Tools_Mail_Watchdog(array(
-                'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_USERINVITATION
-            )));
+            $userId = $this->getRequest()->getParam('id');
+            if (!empty($userId) && is_numeric($userId)) {
+                $userForm->setId($userId);
+            }
 
+            $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
 
-            $userModel->notifyObservers();
+            if ($userForm->isValid($this->getRequest()->getParams())) {
+                $data       = $userForm->getValues();
+                $userModel = $this->_processUser($data, $userId);
+                $email = $userModel->getEmail();
+                $userModel = Application_Model_Mappers_UserMapper::getInstance()->findByEmail($email);
+                if ($userModel instanceof Application_Model_Models_User) {
+                    $userModel->removeAllObservers();
+                    $resetToken = Tools_System_Tools::saveResetToken($email, $userModel->getId());
+                    if ($resetToken instanceof Application_Model_Models_PasswordRecoveryToken) {
+                        $userModel->registerObserver(new Tools_Mail_Watchdog(array(
+                            'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_USERINVITATION,
+                            'resetToken' => $resetToken
+                        )));
+
+                        $userModel->notifyObservers();
+
+                        $this->_helper->response->success($this->_helper->language->translate('Invitation email has been sent'));
+                    } else {
+                        $this->_helper->response->fail($this->_helper->language->translate('Can\'t generate reset token'));
+                    }
+                }
+                $this->_helper->response->fail($this->_helper->language->translate('User doesn\'t exist'));
+            }
+            else {
+                $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($userForm->getMessages()));
+            }
 
         }
+    }
+
+    /**
+     * Process user data
+     *
+     * @param array $data
+     * @param int $currentUserId current user id
+     * @return Application_Model_Models_User
+     * @throws Exceptions_SeotoasterException
+     */
+    private function _processUser($data, $currentUserId)
+    {
+        $data['mobilePhone'] = preg_replace('~[^\d]~ui', '', $data['mobilePhone']);
+        $data['desktopPhone'] = preg_replace('~[^\d]~ui', '', $data['desktopPhone']);
+        if (!empty($data['mobileCountryCode'])) {
+            $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['mobileCountryCode'], 'phoneToTerritory');
+            $data['mobile_country_code_value'] = '+'.$mobileCountryPhoneCode;
+        } else {
+            $data['mobile_country_code_value'] = null;
+        }
+        if (!empty($data['desktopCountryCode'])) {
+            $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['desktopCountryCode'], 'phoneToTerritory');
+            $data['desktop_country_code_value'] = '+'.$mobileCountryPhoneCode;
+        } else {
+            $data['desktop_country_code_value'] = null;
+        }
+        $user       = new Application_Model_Models_User($data);
+        $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
+        $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
+        $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
+        if ($attrNamesArr) {
+            foreach ($attrNamesArr as $key => $value) {
+                if(empty($value) || empty($attrValuesArr[$key])) {
+                    continue;
+                }
+                $user->setAttribute($value, $attrValuesArr[$key]);
+            }
+            if (empty($currentUserId)) {
+                $user->setId((int)$uId);
+            }
+            Application_Model_Mappers_UserMapper::saveUserAttributes($user);
+        }
+
+        return $user;
     }
 
     public function exportAction() {

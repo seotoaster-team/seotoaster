@@ -160,18 +160,22 @@
         });
 
         $(document).on('click', '#send-email-invite', function(e){
+            var form = $(e.currentTarget).closest('form');
+
             e.preventDefault();
-            $.ajax({
-               'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/sendinvitation/',
-               'data' : {'email': $('#e-mail').val(), 'fullName' : $('#full-name').val()},
-               'type' : 'POST',
-               'dataType': 'json'
-            }).done(function(response){
-                if (response.error == '0'){
-                    showMessage(response.responseText.message, false, 5000);
-                } else {
-                    showMessage(response.responseText.message, true, 5000);
-                }
+            showConfirm('<?php echo $this->translate('Are you sure want to sent invitation');?>', function(){
+                $.ajax({
+                    'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/sendinvitation/',
+                    'data' : form.serialize(),
+                    'type' : 'POST',
+                    'dataType': 'json'
+                }).done(function(response){
+                    if (response.error == '0'){
+                        showMessage(response.responseText, false, 5000);
+                    } else {
+                        showMessage(response.responseText, true, 5000);
+                    }
+                });
             });
         });
 

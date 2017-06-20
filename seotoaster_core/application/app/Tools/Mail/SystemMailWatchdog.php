@@ -381,8 +381,16 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $fullName = '';
         }
 
+        $resetTokenModel = $this->_options['resetToken'];
+
         $emailContent = $this->_prepareEmailBody();
         $this->_entityParser->objectToDictionary($user);
+        $this->_entityParser->addToDictionary(
+            array(
+                'reset:link' => '<a href="' . $resetTokenModel->getResetUrl() . '">' . $resetTokenModel->getResetUrl() . '</a>',
+                'reset:url'  => $resetTokenModel->getResetUrl(),
+            )
+        );
         $this->_mailer->setBody($this->_entityParser->parse($emailContent));
         $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
         $this->_mailer->setMailFrom($this->_options['from']);
