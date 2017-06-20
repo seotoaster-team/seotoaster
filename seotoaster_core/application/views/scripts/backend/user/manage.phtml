@@ -151,7 +151,9 @@
 
         $(document).on('click', '#process-old-mobile-phone-format', function(e){
             e.preventDefault();
-            updatePhoneMobileFormat();
+            showConfirm('<?php echo $this->translate('Are you sure you want to process phone numbers?');?>', function(){
+                updatePhoneMobileFormat();
+            });
         });
 
         $('#add-user-attribute').on('click', function(e){
@@ -163,7 +165,7 @@
             var form = $(e.currentTarget).closest('form');
 
             e.preventDefault();
-            showConfirm('<?php echo $this->translate('Are you sure want to sent invitation');?>', function(){
+            showConfirm('<?php echo $this->translate('Are you sure you want to send an invitation?');?>', function(){
                 $.ajax({
                     'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/sendinvitation/',
                     'data' : form.serialize(),
