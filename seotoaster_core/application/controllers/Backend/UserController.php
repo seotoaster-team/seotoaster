@@ -246,8 +246,8 @@ class Backend_UserController extends Zend_Controller_Action {
      */
     private function _processUser($data, $currentUserId)
     {
-        $data['mobilePhone'] = preg_replace('~[^\d]~ui', '', $data['mobilePhone']);
-        $data['desktopPhone'] = preg_replace('~[^\d]~ui', '', $data['desktopPhone']);
+        $data['mobilePhone'] = Tools_System_Tools::cleanNumber($data['mobilePhone']);
+        $data['desktopPhone'] = Tools_System_Tools::cleanNumber($data['desktopPhone']);
         if (!empty($data['mobileCountryCode'])) {
             $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['mobileCountryCode'], 'phoneToTerritory');
             $data['mobile_country_code_value'] = '+'.$mobileCountryPhoneCode;

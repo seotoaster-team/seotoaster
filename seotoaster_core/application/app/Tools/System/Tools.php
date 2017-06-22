@@ -664,4 +664,74 @@ class Tools_System_Tools {
 
     }
 
+    /**
+     * Reassign zend form fields
+     *
+     * @param Zend_Form $form zend form
+     * @param array $formFields form fields
+     * @param array $mandatoryFields mandatory fields
+     * @param bool $keepHiddenFields keep hidden fields
+     * @return Quote_Forms_Quote
+     * @throws Zend_Form_Exception
+     */
+    public static function adjustFormFields(Zend_Form $form, $formFields = array(), $mandatoryFields = array(), $keepHiddenFields = true)
+    {
+        if (empty($formFields)) {
+            return $form;
+        }
+
+        $currentElements = $form->getElements();
+
+        // fields that should stay
+        $fields = array();
+        foreach ($formFields as $field) {
+            $required = false;
+            if (substr($field, strlen($field) - 1) == '*') {
+                $required = true;
+                $field = str_replace('*', '', $field);
+            }
+            $fields[$field] = $required;
+        }
+
+        foreach ($currentElements as $element) {
+            $elementType = $element->getType();
+            if ($keepHiddenFields === true && $elementType === 'Zend_Form_Element_Hidden') {
+                continue;
+            }
+
+            $form->removeElement($element->getName());
+        }
+
+        $fields = array_merge($fields, $mandatoryFields);
+        $i = 1;
+        foreach ($fields as $name => $required) {
+             if (!array_key_exists($name, $currentElements)) {
+                continue;
+            }
+            $currentElements[$name]->setAttribs(array(
+                'class' => ($required) ? 'required' : 'optional'
+            ))->setRequired($required);
+            $form->addElement($currentElements[$name])->setOrder($i);
+            ++$i;
+        }
+
+        $displayGroups = $form->getDisplayGroups();
+        array_walk($displayGroups, function ($dGroup) use ($form) {
+            $form->removeDisplayGroup($dGroup->getName());
+        });
+
+        return $form;
+    }
+
+    /**
+     * Remove all non digits
+     *
+     * @param string $number
+     * @return mixed
+     */
+    public static function cleanNumber($number)
+    {
+        return preg_replace('~[^\d]~ui', '', $number);
+    }
+
 }
