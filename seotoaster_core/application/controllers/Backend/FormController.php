@@ -47,7 +47,6 @@ class Backend_FormController extends Zend_Controller_Action {
                 $formPageConversionModel->setConversionCode($formData['trackingCode']);
                 $formPageConversionMapper->save($formPageConversionModel);
                 Application_Model_Mappers_FormMapper::getInstance()->save($form);
-                $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
 			}
 			else {
@@ -107,7 +106,6 @@ class Backend_FormController extends Zend_Controller_Action {
         if ($this->_request->isDelete()) {
             $id = filter_var($this->getRequest()->getParam('id'), FILTER_SANITIZE_NUMBER_INT);
             $formMapper = Application_Model_Mappers_FormMapper::getInstance();
-            $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
             return $formMapper->delete($formMapper->find($id));
         }
     }
@@ -194,7 +192,13 @@ class Backend_FormController extends Zend_Controller_Action {
 
                     $googleRecaptcha = new Tools_System_GoogleRecaptcha();
                     if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
-                        $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                        if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
+                            if ($xmlHttpRequest) {
+                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                            }
+                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                            $this->_redirect($formParams['formUrl']);
+                        }
                     }
 
                 }
