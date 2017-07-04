@@ -235,7 +235,7 @@ class Backend_UpdateController extends Zend_Controller_Action
         $select = $userMapper->getDbTable()->getAdapter()->select()->from(array('u' => 'user'), array('u.id', 'u.mobile_phone', 'oldMobileCountryCode' => 'ua.value'))
             ->join(array('ua' => 'user_attributes'), 'u.id=ua.user_id', array())
             ->where($where)
-            ->limit(5);
+            ->limit(1);
 
         $usersToProcess = $userMapper->getDbTable()->getAdapter()->fetchAll($select);
         if (!empty($usersToProcess)) {
@@ -254,6 +254,33 @@ class Backend_UpdateController extends Zend_Controller_Action
                             $userModel->setMobilePhone($mobilePhone);
                             $userModel->setPassword('');
                             $userMapper->save($userModel);
+
+                            $shoppingPlugins = Tools_Plugins_Tools::getPluginsByTags(array('processphones'));
+                            $methodName = 'processPhoneCodes';
+                            $shoppingPluginsStatus = array();
+                            if (!empty($shoppingPlugins)) {
+                                foreach ($shoppingPlugins as $pluginName => $shoppingPlugin) {
+                                    if ($shoppingPlugin->getStatus() === Application_Model_Models_Plugin::ENABLED) {
+                                        $pluginName = ucfirst($shoppingPlugin->getName());
+                                        if (class_exists($pluginName) && method_exists($pluginName,
+                                                $methodName)
+                                        ) {
+                                            $reflection = new ReflectionMethod($pluginName, $methodName);
+                                            if ($reflection->isPublic()) {
+                                                $shoppingPluginsStatus[$pluginName] = true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if(!empty($shoppingPluginsStatus)){
+                                    foreach ($shoppingPluginsStatus as $plugin => $status){
+                                        $plugin = Tools_Factory_PluginFactory::createPlugin($plugin, array(),
+                                            array());
+                                        $plugin->$methodName($userModel);
+                                    }
+                                }
+                            }
                         } else {
                             $whereAttr = $userMapper->getDbTable()->getAdapter()->quoteInto('user_id = ?', $userToProcess['id']);
                             $whereAttr .=  ' AND '.$userMapper->getDbTable()->getAdapter()->quoteInto('attribute = ?', 'mobilecountrycode');
@@ -272,8 +299,6 @@ class Backend_UpdateController extends Zend_Controller_Action
         return $this->_helper->response->fail(
             array('status' => 'success', 'message' => $this->_helper->language->translate('New mobile format applied'), 'processedCount' => count($usersToProcess))
         );
-
-
     }
 
     /**
