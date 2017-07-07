@@ -46,7 +46,7 @@ class IndexController extends Zend_Controller_Action {
         // page found
         if($page instanceof Application_Model_Models_Page) {
             $url = Tools_Page_Tools::getPageUrlWithSubFolders($page);
-            if ($url !==  $fullUrl && !$page->getIsFolderIndex()) {
+            if (!empty($fullUrl) && $fullUrl !== $url && !$page->getIsFolderIndex()) {
                 $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $url);
             } else {
                 if ($page->getIsFolderIndex()) {
