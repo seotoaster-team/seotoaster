@@ -29,14 +29,7 @@
                 <?php
                 $url          = $page->getUrl();
                 $extraOptions = $page->getExtraOptions();
-
-                if ($page->getPageFolder()) {
-                    if (empty($page->getIsFolderIndex())) {
-                        $url = $page->getPageFolder().'/' . $url;
-                    } else {
-                        $url = $page->getPageFolder().'/';
-                    }
-                }
+                $url = Tools_Page_Tools::getPageUrlWithSubFolders($page);
                 // Is news-index page
                 if (!empty($extraOptions)
                     && in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))

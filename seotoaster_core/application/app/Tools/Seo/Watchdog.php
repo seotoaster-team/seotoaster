@@ -105,7 +105,7 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
                     'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
                 )));
 				if(in_array($fullOldUrl, $links)) {
-					$fullNewUrl             = $websiteHelper->getUrl() . $this->_object->getUrl();
+					$fullNewUrl             = $websiteHelper->getUrl() . Tools_Page_Tools::getPageUrlWithSubFolders($this->_object);
 					$withoutTitleUrlPattern = '~(<a\s+[^\s]*\s*href=")(' . $fullOldUrl . ')("\s*)(>.+</a>)~u';
 
 					$container->setContent(preg_replace($withoutTitleUrlPattern, '$1' . $fullNewUrl . '$3 title="' . $this->_object->getH1() . '" $4', $container->getContent()));
