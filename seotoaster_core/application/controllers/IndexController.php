@@ -23,16 +23,17 @@ class IndexController extends Zend_Controller_Action {
 	    }
 
         $pageDetails = $this->_getPageDetails();
+        $fullUrl = ($pageDetails['folder']) ? $pageDetails['folder'] . '/'. $pageDetails['pageUrl'] : $pageDetails['pageUrl'];
 
 		// Trying to do canonical redirects
-		$this->_helper->page->doCanonicalRedirect($pageDetails['pageUrl']);
+		$this->_helper->page->doCanonicalRedirect($fullUrl);
 
 		//Check if 301 redirect is present for requested page then do it
-		$this->_helper->page->do301Redirect($pageDetails['pageUrl']);
+		$this->_helper->page->do301Redirect($fullUrl);
 
 		// Loading page data using url from request. First checking cache, if no cache
 		// loading from the database and save result to the cache
-		$pageCacheKey = md5($pageDetails['pageUrl']);
+		$pageCacheKey = md5($fullUrl);
         if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CACHE_PAGE)) {
             $page = $this->_helper->cache->load($pageCacheKey, 'pagedata_');
         }
@@ -44,9 +45,9 @@ class IndexController extends Zend_Controller_Action {
 
         // page found
         if($page instanceof Application_Model_Models_Page) {
-            $fullUrl = ($page->getPageFolder()) ? $page->getPageFolder() . '/'. $pageDetails['pageUrl'] : $pageDetails['pageUrl'];
-            if (implode('/', array_filter($pageDetails)) !==  $fullUrl) {
-                $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $fullUrl);
+            $url = Tools_Page_Tools::getPageUrlWithSubFolders($page);
+            if ($url !==  $fullUrl && !$page->getIsFolderIndex()) {
+                $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $url);
             } else {
                 if ($page->getIsFolderIndex()) {
                     $this->_helper->page->do301Redirect($pageDetails['folder']);
@@ -54,7 +55,7 @@ class IndexController extends Zend_Controller_Action {
                         $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $page->getPageFolder() . '/');
                     }
                 } else {
-                    $this->_helper->page->do301Redirect($fullUrl);
+                    $this->_helper->page->do301Redirect($url);
                 }
             }
             $cacheTag = preg_replace('/[^\w\d_]/', '', $page->getTemplateId());

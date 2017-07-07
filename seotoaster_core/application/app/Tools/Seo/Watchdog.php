@@ -63,7 +63,7 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 		$deeplinks      = $deeplinkMapper->findByPageId($this->_object->getId());
 		if(!empty($deeplinks)) {
 			foreach ($deeplinks as $deeplink) {
-				$deeplink->setUrl($this->_object->getUrl());
+				$deeplink->setUrl(Tools_Page_Tools::getPageUrlWithSubFolders($this->_object));
 				$deeplinkMapper->save($deeplink);
 			}
 		}
@@ -130,15 +130,15 @@ class Tools_Seo_Watchdog implements Interfaces_Observer {
 			return null;
 		}
 
-		if($sessionHelper->oldPageUrl == $this->_object->getUrl()) {
+		if($sessionHelper->oldPageUrl == Tools_Page_Tools::getPageUrlWithSubFolders($this->_object)) {
 			return null;
 		}
 
-		$mapper->deleteByRedirect($this->_object->getUrl(), $sessionHelper->oldPageUrl);
+		$mapper->deleteByRedirect(Tools_Page_Tools::getPageUrlWithSubFolders($this->_object), $sessionHelper->oldPageUrl);
 
 		$redirect = new Application_Model_Models_Redirect();
 		$redirect->setFromUrl($sessionHelper->oldPageUrl);
-		$redirect->setToUrl($this->_object->getUrl());
+		$redirect->setToUrl(Tools_Page_Tools::getPageUrlWithSubFolders($this->_object));
 		$redirect->setPageId($this->_object->getId());
 		$redirect->setDomainFrom($websiteHelper->getUrl());
 		$redirect->setDomainTo($websiteHelper->getUrl());
