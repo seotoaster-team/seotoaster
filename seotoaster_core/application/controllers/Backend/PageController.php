@@ -354,9 +354,13 @@ class Backend_PageController extends Zend_Controller_Action {
             if($folderForm->isValid($this->getRequest()->getParams())) {
                 $data          = $folderForm->getValues();
                 $folder    = new Application_Model_Models_PageFolder();
-                $inDbValidator = new Zend_Validate_Db_NoRecordExists(array(
+                $inNameDbValidator = new Zend_Validate_Db_NoRecordExists(array(
                     'table' => 'page_folder',
-                    'field' => 'name'
+                    'field' => 'name',
+                ));
+                $inIndexPageDbValidator = new Zend_Validate_Db_NoRecordExists(array(
+                    'table' => 'page_folder',
+                    'field' => 'index_page',
                 ));
                 // Is news-index page
                 if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
@@ -366,8 +370,12 @@ class Backend_PageController extends Zend_Controller_Action {
                         exit;
                     }
                 }
-                if(!$inDbValidator->isValid($data['pageFolder'])) {
-                    $this->_helper->response->fail(implode('<br />', $inDbValidator->getMessages()));
+                if(!$inNameDbValidator->isValid($data['pageFolder'])) {
+                    $this->_helper->response->fail(implode('<br />', $inNameDbValidator->getMessages()));
+                    exit;
+                }
+                if(!$inIndexPageDbValidator->isValid($data['indexPage'])) {
+                    $this->_helper->response->fail('This page is already in use as an index page for another folder. Please choose another page.');
                     exit;
                 }
                 $folder->setName($data['pageFolder']);
