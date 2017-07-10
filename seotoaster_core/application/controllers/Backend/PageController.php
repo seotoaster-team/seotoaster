@@ -375,6 +375,18 @@ class Backend_PageController extends Zend_Controller_Action {
                 Application_Model_Mappers_PageFolderMapper::getInstance()->save($folder);
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($data['indexPage']);
                 if ($page instanceof Application_Model_Models_Page) {
+                    if(!$page->getOptimized()) {
+                        $websiteUrl = $this->_helper->website->getUrl();
+                        Application_Model_Mappers_RedirectMapper::getInstance()->deleteByRedirect($page->getUrl(), $data['pageFolder']);
+                        $redirect = new Application_Model_Models_Redirect();
+                        $redirect->setFromUrl(Tools_Page_Tools::getPageUrlWithSubFolders($page));
+                        $redirect->setToUrl($data['pageFolder']);
+                        $redirect->setPageId($page->getId());
+                        $redirect->setDomainFrom($websiteUrl);
+                        $redirect->setDomainTo($websiteUrl);
+                        Application_Model_Mappers_RedirectMapper::getInstance()->save($redirect);
+                        $this->_helper->cache->clean('toaster_301redirects', '301redirects');
+                    }
                     $page->setPageFolder($data['pageFolder']);
                     $page->setIsFolderIndex(1);
                     Application_Model_Mappers_PageMapper::getInstance()->save($page);
@@ -652,6 +664,12 @@ class Backend_PageController extends Zend_Controller_Action {
             $id = (int) $this->getRequest()->getParam('id');
             if (!empty($id)) {
                 $folder = Application_Model_Mappers_PageFolderMapper::getInstance()->find($id);
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($folder->getIndexPage());
+                if ($page instanceof Application_Model_Models_Page) {
+                    if (!$page->getOptimized()) {
+                        Application_Model_Mappers_RedirectMapper::getInstance()->deleteByRedirect($page->getUrl(), $folder->getName());
+                    }
+                }
                 Application_Model_Mappers_PageMapper::getInstance()->removeSubfolderInfo($folder->getName());
                 $result = Application_Model_Mappers_PageFolderMapper::getInstance()->delete($id);
                 if($result) {
