@@ -16,6 +16,17 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 		$headerContent    = (null === $this->_container) ? '' : $this->_container->getContent();
 
         if(Tools_Security_Acl::isAllowed($this)) {
+            if(empty($headerContent) && in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && $this->_type === Application_Model_Models_Container::TYPE_REGULARHEADER){
+                $optionKey = array_search(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options);
+                if(isset($this->_options[$optionKey+1])){
+                    $defaultText = filter_var($this->_options[$optionKey+1], FILTER_SANITIZE_STRING);
+                }
+                if(!empty($defaultText)){
+                    $headerContent = $defaultText;
+                }
+            }
+
+
 			$headerContent .= $this->_generateAdminControl(600, 140); //$this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 604, 130);
 			if ((bool)Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig('inlineEditor') && !in_array('readonly',$this->_options) && !in_array('href',$this->_options)){
 				$headerContent = '<div class="container-wrapper">'.$headerContent.'</div>';

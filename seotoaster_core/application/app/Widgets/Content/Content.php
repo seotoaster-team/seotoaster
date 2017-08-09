@@ -21,6 +21,11 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
      */
     const DENY = 'deny';
 
+    /**
+     * Default content option in container
+     */
+    const DEFAULT_CONTENT = 'default_content';
+
 
     protected function  _init() {
         $this->_type = (isset($this->_options[1]) && $this->_options[1] == 'static') ? Application_Model_Models_Container::TYPE_STATICCONTENT : Application_Model_Models_Container::TYPE_REGULARCONTENT;
@@ -108,6 +113,16 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
             if(($separatorExistence !== false || $numbersSymbols) && (!$denyShowMore)){
                 $content = $showMoreLastPart;
+            }
+        }
+
+        if(empty($content) && in_array(self::DEFAULT_CONTENT, $this->_options) && $this->_type === Application_Model_Models_Container::TYPE_REGULARCONTENT){
+            $optionKey = array_search(self::DEFAULT_CONTENT, $this->_options);
+            if(isset($this->_options[$optionKey+1])){
+                $defaultText = filter_var($this->_options[$optionKey+1], FILTER_SANITIZE_STRING);
+            }
+            if(!empty($defaultText)){
+                $content = $defaultText;
             }
         }
 
