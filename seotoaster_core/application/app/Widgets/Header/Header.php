@@ -49,9 +49,9 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
             if(!empty($defaultText)){
                 $headerContent = $defaultText;
             }
-        }
 
-        return $headerContent;
+            return $headerContent;
+        }
     }
 }
 
