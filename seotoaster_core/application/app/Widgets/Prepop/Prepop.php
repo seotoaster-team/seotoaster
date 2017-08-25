@@ -95,7 +95,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 return $this->_view->render('prepopLink.phtml');
             }
             elseif ($this->_readonly) {
-                return $this->_prepopContent;
+                if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
+                    return $this->processDefaultContent();
+                }else{
+                    return $this->_prepopContent;
+                }
             }
             else {
                 return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
@@ -112,6 +116,16 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $this->_view->elementType      = $this->_options[0];
 
         $rendererName = '_renderPrepop' . ucfirst(array_shift($this->_options));
+
+        if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options)){
+            if(empty($this->_prepopContent)){
+                $defaultText = $this->processDefaultContent();
+                $this->_view->defaultText = $defaultText;
+            }elseif (!empty($this->_prepopContent)){
+                $this->processDefaultContent();
+            }
+        }
+
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         $this->_view->secureToken = $secureToken;
         if(method_exists($this, $rendererName)) {
@@ -119,6 +133,21 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
         throw new Exceptions_SeotoasterWidgetException($this->_translator->translate('Wrong prepop type'));
 
+    }
+
+    protected function processDefaultContent(){
+        $optionKey = array_search(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options);
+
+        if(isset($this->_options[$optionKey+1])){
+            $defaultText = filter_var($this->_options[$optionKey+1], FILTER_SANITIZE_STRING);
+            unset($this->_options[$optionKey+1]);
+        }
+        unset($this->_options[$optionKey]);
+        if(!empty($defaultText)){
+            return $defaultText;
+        }else{
+            return '';
+        }
     }
 
     protected function _renderPrepopTextarea() {

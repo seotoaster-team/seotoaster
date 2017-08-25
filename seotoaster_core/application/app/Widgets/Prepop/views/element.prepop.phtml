@@ -1,4 +1,8 @@
 <?php
+    if(isset($this->defaultText)){
+        echo $this->defaultText;
+    }
+
     switch($this->elementType) {
         case Widgets_Prepop_Prepop::TYPE_TEXT:
             echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
