@@ -15,7 +15,9 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
         $this->_container = $this->_find();
 		$headerContent    = (null === $this->_container) ? '' : $this->_container->getContent();
 
-        $headerContent .= $this->defaultContent($headerContent);
+		if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options)){
+            $headerContent .= $this->defaultContent($headerContent);
+        }
 
         if(Tools_Security_Acl::isAllowed($this)) {
 			$headerContent .= $this->_generateAdminControl(600, 140); //$this->_addAdminLink($this->_type, (!$headerContent) ? null : $header->getId(), 'Click to edit header', 604, 130);
@@ -41,7 +43,7 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 	}
 
 	public function defaultContent($headerContent){
-        if(empty($headerContent) && in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && $this->_type === Application_Model_Models_Container::TYPE_REGULARHEADER){
+        if(empty($headerContent) && $this->_type === Application_Model_Models_Container::TYPE_REGULARHEADER){
             $optionKey = array_search(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options);
             if(isset($this->_options[$optionKey+1])){
                 $defaultText = filter_var($this->_options[$optionKey+1], FILTER_SANITIZE_STRING);
@@ -52,6 +54,8 @@ class Widgets_Header_Header extends Widgets_AbstractContent {
 
             return $headerContent;
         }
+
+        return '';
     }
 }
 

@@ -117,11 +117,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
         $rendererName = '_renderPrepop' . ucfirst(array_shift($this->_options));
 
-        if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
-            $defaultText = $this->processDefaultContent();
-            $this->_view->defaultText = $defaultText;
-        }elseif (in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && !empty($this->_prepopContent)){
-            $this->processDefaultContent();
+        if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options)){
+            if(empty($this->_prepopContent)){
+                $defaultText = $this->processDefaultContent();
+                $this->_view->defaultText = $defaultText;
+            }elseif (!empty($this->_prepopContent)){
+                $this->processDefaultContent();
+            }
         }
 
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
