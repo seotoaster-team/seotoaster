@@ -20,6 +20,8 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_session;
 
+    public static $_allowedDefaultAttributes = array('userDefaultTimezone');
+
 	public function init() {
 		parent::init();
 		if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
@@ -28,7 +30,8 @@ class Backend_UserController extends Zend_Controller_Action {
 		$this->_helper->AjaxContext()->addActionContexts(array(
 			'list'   => 'json',
 			'delete' => 'json',
-			'load'   => 'json'
+			'load'   => 'json',
+            'saveDefaultAttribute' => 'json'
 		))->initContext('json');
 		$this->view->websiteUrl = $this->_helper->website->getUrl();
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
@@ -133,6 +136,10 @@ class Backend_UserController extends Zend_Controller_Action {
             $this->view->orderParam = $order;
         }
 
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+        $this->view->userDefaultTimeZone = $userDefaultTimezone;
+
         $this->view->by = $by;
         $this->view->order = $order;
         $this->view->key = $searchKey;
@@ -209,5 +216,27 @@ class Backend_UserController extends Zend_Controller_Action {
             exit;
         }
     }
+
+    public function savedefaultAction()
+    {
+        if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $defaultAttrName = filter_var($this->getRequest()->getParam('defaultAttrName'), FILTER_SANITIZE_STRING);
+            $defaultAttrValue = filter_var($this->getRequest()->getParam('defaultAttrValue'), FILTER_SANITIZE_STRING);
+            $secureToken = $this->getRequest()->getParam('secureToken', false);
+            $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_USERS);
+            if (!$tokenValid) {
+                $this->_helper->response->fail($this->_helper->language->translate('Invalid token'));
+            }
+            if (!in_array($defaultAttrName, self::$_allowedDefaultAttributes)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Wrong attribute name'));
+            }
+
+            Application_Model_Mappers_ConfigMapper::getInstance()->save(array($defaultAttrName => $defaultAttrValue));
+            $this->_helper->response->success($this->_helper->language->translate('Saved'));
+
+        }
+
+    }
+
 }
 

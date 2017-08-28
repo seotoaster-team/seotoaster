@@ -48,7 +48,25 @@
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
-        <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+        <p class="grid_12 text-center mb10px mt0px">
+            <a href="javascript:;" class="text-center" id="switch-default-params"><?php echo $this->translate('View default configuration');?>.</a>
+        </p>
+        <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
+        <div id="switch-default-params-block" class="hidden grid_12">
+            <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+                  array_pop($timezones);
+                  $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
+            ?>
+            <p class="grid_6 alpha omega m10px">
+            <label class="grid_4 m5px"><?php echo $this->translate('Default timezone');?>:</label>
+                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_8">
+                    <?php foreach($timezones as $timezone):?>
+                        <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
+                    <?php endforeach;?>
+                </select>
+            </p>
+        </div>
+        <form class="grid_6 alpha search mt10px" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
@@ -134,6 +152,51 @@
             }
             addUserAttribute(attrName);
         });
+
+        $('#switch-default-params').on('click', function() {
+            var defaultParamsBlock = $('#switch-default-params-block');
+
+            if (defaultParamsBlock.hasClass('hidden')) {
+                defaultParamsBlock.removeClass('hidden');
+                window.parent.$('.ui-dialog').css({'height':600});
+                $('.paginator').addClass('mt50px');
+            } else {
+                defaultParamsBlock.addClass('hidden');
+                window.parent.$('.ui-dialog').css({'height':560});
+                $('.paginator').removeClass('mt50px');
+            }
+        });
+
+        $('#user-default-timezone').on('change', function(){
+           var defaultAttrValue = $(this).val(),
+               defaultAttrName = $(this).data('default-attr');
+
+            saveDefaultParam(defaultAttrName, defaultAttrValue);
+
+        });
+
+        function saveDefaultParam(defaultAttrName, defaultAttrValue) {
+
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/savedefault/',
+                'type': 'POST',
+                'dataType': 'json',
+                'data': {
+                    'defaultAttrName': defaultAttrName,
+                    'defaultAttrValue': defaultAttrValue,
+                    'secureToken': $('#secure-token-user-default-attribute').val()
+                }
+            }).done(function (response) {
+                if (response.error == '0') {
+                    showMessage(response.responseText, false, 5000);
+                } else {
+                    showMessage(response.responseText, true, 5000);
+                }
+
+            });
+
+        }
+
 
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].ticon-sort').addClass('ticon-sort-down');
         $('a[href*="by/<?php echo $this->by ;?>/order/desc"].ticon-sort').addClass('ticon-sort-up');
