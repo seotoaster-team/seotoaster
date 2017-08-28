@@ -1214,5 +1214,7 @@
     'November' => 'Novembre',
     'December' => 'Decembre',
     'Please select a file' => 'Séléctionnez un fichier',
-    'Your password was reset.' => 'Mot de passe réinitialisé.'
+    'Your password was reset.' => 'Mot de passe réinitialisé.',
+    'View default configuration' => 'Voir la configuration par défaut',
+    'Default timezone' => 'Fuseau horaire par défaut'
 );?>

@@ -144,7 +144,7 @@ class Tools_System_Tools {
             $files = array_diff($files, $exclude);
 
 		}
-		$zipArch->open($destinationFile, ZipArchive::OVERWRITE);
+		$zipArch->open($destinationFile, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
 		if(!empty ($files)) {
 			foreach ($files as $key => $path) {
 				$zipArch->addFile($path, substr($path, strpos($path, $localName)));

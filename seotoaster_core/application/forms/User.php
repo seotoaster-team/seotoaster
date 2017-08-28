@@ -145,6 +145,12 @@ class Application_Form_User extends Application_Form_Secure {
             )
         ));
 
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+        if (!empty($userDefaultTimezone)) {
+            $this->getElement('timezone')->setValue($userDefaultTimezone);
+        }
+
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'gplusProfile',
             'id'    => 'gplus-profile',
