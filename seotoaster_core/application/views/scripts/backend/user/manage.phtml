@@ -1,9 +1,14 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js'); ?>
 <div class="seotoaster container">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+    <?php $innerHtml = '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>';?>
+    <?php if (empty($this->oldMobileFormat)) :?>
+        <?php $innerHtml =  '<a id="process-old-mobile-phone-format" class="btn fl-right mt5px" href="javascript:;">'.$this->translate('Process old mobile phone format').'</a>'.$innerHtml;?>
+    <?php endif;?>
+
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 		'headerText'      => $this->translate('Manage users'),
         'helpSection'     => $this->helpSection,
-        'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'
+        'innerHeaderHtml' => $innerHtml
 
     )); ?>
 	<div class="content-footer grid_12">
@@ -78,11 +83,19 @@
                   array_pop($timezones);
                   $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
             ?>
-            <p class="grid_6 alpha omega m10px">
-            <label class="grid_4 m5px"><?php echo $this->translate('Default timezone');?>:</label>
+            <p class="grid_6 m10px">
+                <label class="grid_4 m5px"><?php echo $this->translate('Default timezone');?>:</label>
                 <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_8">
                     <?php foreach($timezones as $timezone):?>
                         <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
+                    <?php endforeach;?>
+                </select>
+            </p>
+            <p class="grid_6 alpha m10px">
+                <label class="grid_7 m5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
+                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5">
+                    <?php foreach($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel):?>
+                        <option <?php echo (((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected': '');?> value="<?php echo $mobilePhoneCountryCode;?>"><?php echo $mobilePhoneCountryCodeLabel;?></option>
                     <?php endforeach;?>
                 </select>
             </p>
@@ -91,9 +104,6 @@
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
-        <?php if (empty($this->oldMobileFormat)) :?>
-            <a id="process-old-mobile-phone-format" class="btn" href="javascript:;"><?php echo $this->translate('Process old mobile phone format');?></a>
-        <?php endif;?>
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
 		<table id="users-list" class="table-striped mt20px">
@@ -224,6 +234,14 @@
         $('#user-default-timezone').on('change', function(){
            var defaultAttrValue = $(this).val(),
                defaultAttrName = $(this).data('default-attr');
+
+            saveDefaultParam(defaultAttrName, defaultAttrValue);
+
+        });
+
+        $('#user-default-mobile-phone-country-code').on('change', function(){
+            var defaultAttrValue = $(this).val(),
+                defaultAttrName = $(this).data('default-attr');
 
             saveDefaultParam(defaultAttrName, defaultAttrValue);
 
