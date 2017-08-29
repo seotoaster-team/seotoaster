@@ -96,6 +96,10 @@ class Backend_PageController extends Zend_Controller_Action {
                 $params['pageFolder'] = null;
             }
 
+            if (!empty($page->getIsFolderIndex())) {
+                $params['pageFolder'] = $page->getPageFolder();
+            }
+
             //if page is optimized by samba unset optimized values from update
             if($optimized) {
                 $params = $this->_restoreOriginalValues($params);
