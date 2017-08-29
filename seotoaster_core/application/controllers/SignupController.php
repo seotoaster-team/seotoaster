@@ -52,6 +52,10 @@ class SignupController extends Zend_Controller_Action {
             $signupForm = Tools_System_Tools::adjustFormFields($signupForm, $options, Widgets_Member_Member::$_formMandatoryFields);
             $formParams = $this->getRequest()->getParams();
 
+            $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+            $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+            $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+
             if (!empty($formParams['mobilePhone'])) {
                 $formParams['mobilePhone'] = Tools_System_Tools::cleanNumber($formParams['mobilePhone']);
             }
@@ -60,22 +64,42 @@ class SignupController extends Zend_Controller_Action {
                 $formParams['desktopPhone'] = Tools_System_Tools::cleanNumber($formParams['desktopPhone']);
             }
 
-            if (!empty($formParams['mobileCountryCode'])) {
-                $mobileCountryPhoneCode = Zend_Locale::getTranslation($formParams['mobileCountryCode'], 'phoneToTerritory');
-                $formParams['mobileCountryCodeValue'] = '+'.$mobileCountryPhoneCode;
-            } else {
-                $formParams['mobileCountryCodeValue'] = null;
-            }
-            if (!empty($formParams['desktopCountryCode'])) {
-                $mobileCountryPhoneCode = Zend_Locale::getTranslation($formParams['desktopCountryCode'], 'phoneToTerritory');
-                $formParams['desktopCountryCodeValue'] = '+'.$mobileCountryPhoneCode;
-            } else {
-                $formParams['desktopCountryCodeValue'] = null;
-            }
-
 			if($signupForm->isValid($formParams)) {
 				//save new user
 				$user = new Application_Model_Models_User($signupForm->getValues());
+
+                $timezone = $user->getTimezone();
+                $mobileCountryCode = $user->getMobileCountryCode();
+                $desktopCountryCode = $user->getDesktopCountryCode();
+                if (empty($timezone) && !empty($userDefaultTimezone)) {
+                    $user->setTimezone($userDefaultTimezone);
+                }
+
+                if (empty($mobileCountryCode) && !empty($formParams['mobilePhone']) && !empty($userDefaultMobileCountryCode)) {
+                    $mobileCountryCode = $userDefaultMobileCountryCode;
+                    $user->setMobileCountryCode($mobileCountryCode);
+                }
+
+                if (empty($desktopCountryCode) && !empty($formParams['desktopPhone']) && !empty($userDefaultMobileCountryCode)) {
+                    $desktopCountryCode = $userDefaultMobileCountryCode;
+                    $user->setDesktopCountryCode($desktopCountryCode);
+                }
+
+                if (!empty($mobileCountryCode) && !empty($formParams['mobilePhone'])) {
+                    $mobileCountryPhoneCode = Zend_Locale::getTranslation($mobileCountryCode, 'phoneToTerritory');
+                    $mobileCountryCodeValue = '+'.$mobileCountryPhoneCode;
+                } else {
+                    $mobileCountryCodeValue = null;
+                }
+                $user->setMobileCountryCodeValue($mobileCountryCodeValue);
+
+                if (!empty($desktopCountryCode) && !empty($formParams['desktopPhone'])) {
+                    $desktopCountryPhoneCode = Zend_Locale::getTranslation($desktopCountryCode, 'phoneToTerritory');
+                    $desktopCountryCodeValue = '+'.$desktopCountryPhoneCode;
+                } else {
+                    $desktopCountryCodeValue = null;
+                }
+                $user->setDesktopCountryCodeValue($desktopCountryCodeValue);
 
 				$user->registerObserver(new Tools_Mail_Watchdog(array(
 					'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_SIGNUP
