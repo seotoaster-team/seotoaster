@@ -183,6 +183,12 @@ ALTER TABLE `user` ADD COLUMN `desktop_country_code_value` VARCHAR(16) COLLATE u
 -- Add invitation email
 INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
 
+-- 29/08/2017
+-- version: 2.5.7
+-- Add default timezone and mobile/desktop country code
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultTimezone', 'America/New_York');
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultPhoneMobileCode', 'US');
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.7' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.8' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

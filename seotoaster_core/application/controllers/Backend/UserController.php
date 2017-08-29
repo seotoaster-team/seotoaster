@@ -171,15 +171,31 @@ class Backend_UserController extends Zend_Controller_Action {
 			}
 			$user       = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
             if ($user instanceof Application_Model_Models_User) {
+                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+                $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+                $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+
                 $userData = $user->toArray();
                 if (empty($userData['timezone'])) {
-                    $userData['timezone'] = '0';
+                    if (empty($userDefaultTimezone)) {
+                        $userData['timezone'] = '0';
+                    } else {
+                        $userData['timezone'] = $userDefaultTimezone;
+                    }
                 }
                 if (empty($userData['desktopCountryCode'])) {
-                    $userData['desktopCountryCode'] = 'US';
+                    if (empty($userDefaultMobileCountryCode)) {
+                        $userData['desktopCountryCode'] = 'US';
+                    } else {
+                        $userData['desktopCountryCode'] = $userDefaultMobileCountryCode;
+                    }
                 }
                 if (empty($userData['mobileCountryCode'])) {
-                    $userData['mobileCountryCode'] = 'US';
+                    if (empty($userDefaultMobileCountryCode)) {
+                        $userData['mobileCountryCode'] = 'US';
+                    } else {
+                        $userData['mobileCountryCode'] = $userDefaultMobileCountryCode;
+                    }
                 }
 
                 $result = array(
@@ -321,6 +337,21 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
             }
             exit;
+        }
+    }
+
+    public function getdefaultparamsAction()
+    {
+        if ($this->getRequest()->isGet() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+            $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+            $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+
+            $result = array(
+                'defaultParams' => array('userDefaultTimezone' => $userDefaultTimezone, 'userDefaultMobileCountryCode' => $userDefaultMobileCountryCode)
+            );
+
+            $this->_helper->response->success($result);
         }
     }
 

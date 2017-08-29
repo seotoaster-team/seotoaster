@@ -170,8 +170,30 @@
         $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
         $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
 
-        $(document).on('click', '#add-user-link, ._tedit', function(e){
+        $(document).on('click', '#add-user-link', function(e){
             e.preventDefault();
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/getdefaultparams/',
+                'data' : {},
+                'type' : 'GET',
+                'dataType': 'json'
+            }).done(function(response){
+                $('#frm-user')[0].reset();
+                $('#user-attributes-section').html('');
+                $('#add-user').show("slide", { direction: "right"});
+                if (response.responseText.defaultParams.userDefaultTimezone) {
+                    $('#user-timezone').val(response.responseText.defaultParams.userDefaultTimezone);
+                }
+                if (response.responseText.defaultParams.userDefaultMobileCountryCode) {
+                    $('#user-mobile-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
+                }
+                if (response.responseText.defaultParams.userDefaultMobileCountryCode) {
+                    $('#user-desktop-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
+                }
+            });
+        });
+
+        $(document).on('click', '._tedit', function(e){
             $('#frm-user')[0].reset();
             $('#user-attributes-section').html('');
             $('#add-user').show("slide", { direction: "right"});
