@@ -47,10 +47,12 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->view->secureToken = $secureToken;
 
         $this->view->pageId = '';
+        $this->view->pageType = '1';
         if ($pageId) {
             // search page by id
             $page = $mapper->find($pageId);
             $this->view->pageId = $pageId;
+            $this->view->pageType = $page->getPageType();
         } else {
             // load new page
             $page = new Application_Model_Models_Page(array('showInMenu' => Application_Model_Models_Page::IN_MAINMENU));

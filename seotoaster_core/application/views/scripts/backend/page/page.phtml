@@ -47,7 +47,7 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
-            <?php if(!empty($this->pageId) && $this->pageForm->getElement('url')->getValue() !== 'index'):?>
+            <?php if(!empty($this->pageId) && $this->pageForm->getElement('url')->getValue() !== 'index' && $this->pageType == '1'):?>
                 <p class="grid_12 alpha omega mt15px mb10px">
                     <label class="grid_8 alpha"><?php echo $this->translate('Switch this page with the index page');?> :</label>
                     <input type="checkbox" id="switch-page-to-index" name="switch-page-to-index" value=""/>
