@@ -652,6 +652,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 $newIndexPreviewImagePath);
             $pageToRenameModel->setUrl('index.html');
             $pageToRenameModel->setPreviewImage($newPreviewIndexImageName);
+            $pageToRenameModel->setParentId('0');
             $pageMapper->save($pageToRenameModel);
 
 
@@ -665,6 +666,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 $indexRenamedImagePath);
             $renamedIndexPageModel->setUrl($pageToRenameUrl);
             $renamedIndexPageModel->setPreviewImage($previewIndexRenamedImageName);
+            $renamedIndexPageModel->setParentId('-1');
             $pageMapper->save($renamedIndexPageModel);
 
             $this->_helper->response->success($this->_helper->language->translate('Switch has been done'));

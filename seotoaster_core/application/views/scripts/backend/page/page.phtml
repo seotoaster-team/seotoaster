@@ -161,7 +161,7 @@
                     if (response.error == '0') {
                         showMessage(response.responseText, false, 5000);
                         setTimeout(function() {
-                            window.location.href = $('#website_url').val() +'index.html';
+                            window.top.location.href = $('#website_url').val() +'index.html';
                         }, 3000);
                     } else {
                         showMessage(response.responseText, true, 5000);
