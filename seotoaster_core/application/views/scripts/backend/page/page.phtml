@@ -48,8 +48,8 @@
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
             <?php if(!empty($this->pageId) && $this->pageForm->getElement('url')->getValue() !== 'index'):?>
-                <p class="mt10px">
-                    <label class="grid_4 alpha omega"><?php echo $this->translate('Switch this page with the index page');?> :</label>
+                <p class="grid_12 alpha omega mt15px mb10px">
+                    <label class="grid_8 alpha"><?php echo $this->translate('Switch this page with the index page');?> :</label>
                     <input type="checkbox" id="switch-page-to-index" name="switch-page-to-index" value=""/>
                 </p>
             <?php endif;?>
