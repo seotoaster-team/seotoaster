@@ -655,6 +655,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $pageToRenameModel->setUrl('index.html');
             $pageToRenameModel->setPreviewImage($newPreviewIndexImageName);
             $pageToRenameModel->setParentId('0');
+            $pageToRenameModel->setShowInMenu('1');
             $pageMapper->save($pageToRenameModel);
 
 
