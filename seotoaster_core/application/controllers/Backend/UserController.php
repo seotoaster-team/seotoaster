@@ -141,7 +141,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->userForm = $userForm;
         $this->view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
         $this->view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
-        $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList();
+        $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true);
         $this->view->userDefaultMobileCountryCode = $userDefaultMobileCountryCode;
         $this->view->oldMobileFormat = $oldMobileFormat;
 	}

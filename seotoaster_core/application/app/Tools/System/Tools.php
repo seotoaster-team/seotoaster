@@ -646,9 +646,10 @@ class Tools_System_Tools {
      *
      * @param bool $withCountryCode flag to use country code
      * @param array $intersect
+     * @param bool $reverseLabels change order for labels  Ex: Ascension Island +247
      * @return array
      */
-    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array())
+    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $reverseLabels = false)
     {
         $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
         $countryCodes = Zend_Locale::getTranslationList('Territory');
@@ -656,9 +657,17 @@ class Tools_System_Tools {
         if (!empty($intersect)) {
             $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
         }
-        array_walk($phoneCodes, function (&$item, $key) use ($withCountryCode, $countryCodes) {
-            $item = ($withCountryCode) ? '+' . $item . ' ' . $countryCodes[$key] : '+' . $item;
+        array_walk($phoneCodes, function (&$item, $key) use ($withCountryCode, $countryCodes, $reverseLabels) {
+            if ($reverseLabels === true) {
+                $item = ($withCountryCode) ? $countryCodes[$key].' +' . $item : '+' . $item;
+            } else {
+                $item = ($withCountryCode) ? '+' . $item . ' ' . $countryCodes[$key] : '+' . $item;
+            }
         });
+
+        if ($reverseLabels === true) {
+            asort($phoneCodes);
+        }
 
         return $phoneCodes;
 

@@ -103,7 +103,7 @@ class Application_Form_User extends Application_Form_Secure {
             'id'           => 'user-mobile-country-code',
             'label'        => '',
             'value'        => $this->_mobileCountryCode,
-            'multiOptions' => Tools_System_Tools::getFullCountryPhoneCodesList(),
+            'multiOptions' => Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true),
             'class'        => 'mobile-phone-country-codes',
             'data-device-type'    => 'mobile'
         )));
@@ -113,7 +113,7 @@ class Application_Form_User extends Application_Form_Secure {
             'id'           => 'user-desktop-country-code',
             'label'        => '',
             'value'        => $this->_desktopCountryCode,
-            'multiOptions' => Tools_System_Tools::getFullCountryPhoneCodesList(),
+            'multiOptions' => Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true),
             'class'        => 'mobile-phone-country-codes',
             'data-device-type'    => 'desktop'
         )));
