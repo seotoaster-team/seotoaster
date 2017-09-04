@@ -671,6 +671,8 @@ class Backend_PageController extends Zend_Controller_Action {
             $renamedIndexPageModel->setParentId('-1');
             $pageMapper->save($renamedIndexPageModel);
 
+            $this->_helper->cache->clean();
+
             $this->_helper->response->success($this->_helper->language->translate('Switch has been done'));
 
         }
