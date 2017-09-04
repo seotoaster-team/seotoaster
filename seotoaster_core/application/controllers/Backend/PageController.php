@@ -605,7 +605,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
             $pageToRenameExternalLink = $pageToRenameModel->getExternalLinkStatus();
             if (!empty($pageToRenameExternalLink)) {
-                $this->_helper->response->fail($this->_helper->language->translate('This page has external link. Remove it before assign it as Index page'));
+                $this->_helper->response->fail($this->_helper->language->translate('This page leads to an external site. Remove the link before assigning it as Index page'));
             }
 
             $pageToRenamePageType = $pageToRenameModel->getPageType();
@@ -615,7 +615,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
             $pageToRenameParentId = $pageToRenameModel->getParentId();
             if ($pageToRenameParentId === '0') {
-                $this->_helper->response->fail($this->_helper->language->translate('You can\'t assign category page as index page'));
+                $this->_helper->response->fail($this->_helper->language->translate('A category page can\'t be assigned as Index page'));
             }
 
             $pageToRenamePageOptions = $pageToRenameModel->getExtraOptions();
