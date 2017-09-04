@@ -154,7 +154,7 @@
             showConfirm('<?php echo $this->translate('This action will replace your index page entire content with this page content. Are you sure that this is what you would like to do?');?>', function(){
                 $.ajax({
                     'url': $('#website_url').val() + 'backend/backend_page/switchindexpage/',
-                    'data' : {'secureToken': $('.secureToken').val(), 'pageId': <?php echo $this->pageId; ?>},
+                    'data' : {'secureToken': $('.secureToken').val(), 'pageId': '<?php echo $this->pageId; ?>'},
                     'dataType' : 'json',
                     'type' : 'POST'
                 }).done(function(response){
