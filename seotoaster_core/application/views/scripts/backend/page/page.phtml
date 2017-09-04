@@ -47,6 +47,12 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
+            <?php if(!empty($this->pageId) && $this->pageForm->getElement('url')->getValue() !== 'index' && $this->pageType == '1'):?>
+                <p class="grid_12 alpha omega mt15px mb10px">
+                    <label class="grid_8 alpha"><?php echo $this->translate('Switch this page with the index page');?></label>
+                    <input type="checkbox" id="switch-page-to-index" name="switch-page-to-index" value=""/>
+                </p>
+            <?php endif;?>
         	<p><?php echo $this->pageForm->getElement('url'); ?></p>
             <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
@@ -143,6 +149,30 @@
         $('#external-link-status').on('change', function() {
             $('#external-link').prop('readonly', !$(this).is(':checked')).toggleClass('noedit');
         });
+
+        $('#switch-page-to-index').on('click', function(){
+            showConfirm('<?php echo $this->translate('This action will replace your index page entire content with this page content. Are you sure that this is what you would like to do?');?>', function(){
+                $.ajax({
+                    'url': $('#website_url').val() + 'backend/backend_page/switchindexpage/',
+                    'data' : {'secureToken': $('.secureToken').val(), 'pageId': <?php echo $this->pageId; ?>},
+                    'dataType' : 'json',
+                    'type' : 'POST'
+                }).done(function(response){
+                    if (response.error == '0') {
+                        $('#update-page').prop('disabled', true);
+                        showMessage(response.responseText, false, 2000);
+                        setTimeout(function() {
+                            window.top.location.href = $('#website_url').val() +'index.html';
+                        }, 3000);
+                    } else {
+                        showMessage(response.responseText, true, 2000);
+                    }
+                });
+            }, function() {
+                $('#switch-page-to-index').prop('checked', false);
+            });
+        });
+
 	});
 
     function checkOptions(){
