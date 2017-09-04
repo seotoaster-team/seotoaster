@@ -74,11 +74,8 @@
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
-        <p class="grid_12 text-center mb10px mt0px">
-            <a href="javascript:;" class="text-center" id="switch-default-params"><?php echo $this->translate('View default configuration');?>.</a>
-        </p>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
-        <div id="switch-default-params-block" class="hidden grid_12">
+        <div id="switch-default-params-block" class="grid_12">
             <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
                   array_pop($timezones);
                   $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
@@ -104,7 +101,7 @@
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add mt10px" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
 		<table id="users-list" class="table-striped mt20px">
 			<thead>
@@ -239,19 +236,8 @@
             addUserAttribute(attrName);
         });
 
-        $('#switch-default-params').on('click', function() {
-            var defaultParamsBlock = $('#switch-default-params-block');
-
-            if (defaultParamsBlock.hasClass('hidden')) {
-                defaultParamsBlock.removeClass('hidden');
-                window.parent.$('.ui-dialog').css({'height':600});
-                $('.paginator').addClass('mt50px');
-            } else {
-                defaultParamsBlock.addClass('hidden');
-                window.parent.$('.ui-dialog').css({'height':560});
-                $('.paginator').removeClass('mt50px');
-            }
-        });
+        $('.paginator').addClass('mt50px');
+        window.parent.$('.ui-dialog').css({'height':600});
 
         $('#user-default-timezone').on('change', function(){
            var defaultAttrValue = $(this).val(),
