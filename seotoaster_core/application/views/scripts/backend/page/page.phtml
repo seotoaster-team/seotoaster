@@ -159,12 +159,13 @@
                     'type' : 'POST'
                 }).done(function(response){
                     if (response.error == '0') {
-                        showMessage(response.responseText, false, 5000);
+                        $('#update-page').prop('disabled', true);
+                        showMessage(response.responseText, false, 2000);
                         setTimeout(function() {
                             window.top.location.href = $('#website_url').val() +'index.html';
                         }, 3000);
                     } else {
-                        showMessage(response.responseText, true, 5000);
+                        showMessage(response.responseText, true, 2000);
                     }
                 });
             }, function() {
