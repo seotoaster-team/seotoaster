@@ -600,12 +600,12 @@ class Backend_PageController extends Zend_Controller_Action {
 
             $pageToRenameOptimized = $pageToRenameModel->getOptimized();
             if (!empty($pageToRenameOptimized)) {
-                $this->_helper->response->fail($this->_helper->language->translate('Page has optimization. Please remove it before assign it as index page'));
+                $this->_helper->response->fail($this->_helper->language->translate('This page is optimized. Remove the optimization before assigning it as Index page'));
             }
 
             $pageToRenameExternalLink = $pageToRenameModel->getExternalLinkStatus();
             if (!empty($pageToRenameExternalLink)) {
-                $this->_helper->response->fail($this->_helper->language->translate('Page has external link. Please remove it before assign it as index page'));
+                $this->_helper->response->fail($this->_helper->language->translate('This page has external link. Remove it before assign it as Index page'));
             }
 
             $pageToRenamePageType = $pageToRenameModel->getPageType();
@@ -620,7 +620,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
             $pageToRenamePageOptions = $pageToRenameModel->getExtraOptions();
             if (!empty($pageToRenamePageOptions)) {
-                $this->_helper->response->fail($this->_helper->language->translate('You can\'t assign page with options as index page'));
+                $this->_helper->response->fail($this->_helper->language->translate('This page has external options. Remove them before assign it as Index page'));
             }
 
             $oldIndexPageModel = $pageMapper->findByUrl($indexRenamedUrl);

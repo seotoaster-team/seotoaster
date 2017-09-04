@@ -151,7 +151,7 @@
         });
 
         $('#switch-page-to-index').on('click', function(){
-            showConfirm('<?php echo $this->translate('This will replace your index page entire content with this page content. Are you sure that this is what you would like to do?" by clicking OK');?>', function(){
+            showConfirm('<?php echo $this->translate('This action will replace your index page entire content with this page content. Are you sure that this is what you would like to do?');?>', function(){
                 $.ajax({
                     'url': $('#website_url').val() + 'backend/backend_page/switchindexpage/',
                     'data' : {'secureToken': $('.secureToken').val(), 'pageId': <?php echo $this->pageId; ?>},
@@ -167,6 +167,8 @@
                         showMessage(response.responseText, true, 5000);
                     }
                 });
+            }, function() {
+                $('#switch-page-to-index').prop('checked', false);
             });
         });
 
