@@ -189,6 +189,11 @@ INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1'
 INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultTimezone', 'America/New_York');
 INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultPhoneMobileCode', 'US');
 
+-- 07/09/2017
+-- version: 2.5.8
+-- Add signature field
+ALTER TABLE `user` ADD COLUMN `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.8' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.9' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

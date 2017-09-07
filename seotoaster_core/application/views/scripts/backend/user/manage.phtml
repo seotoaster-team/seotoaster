@@ -1,4 +1,5 @@
-<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js')
+    ->addJavascriptFile($this->websiteUrl.'system/js/external/tinymce/tinymce.min.js');?>
 <div class="seotoaster container">
     <?php $innerHtml = '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>';?>
     <?php if (empty($this->oldMobileFormat)) :?>
@@ -11,7 +12,7 @@
         'innerHeaderHtml' => $innerHtml
 
     )); ?>
-	<div class="content-footer grid_12">
+	<div class="content-footer mb50px grid_12">
 		<div id="add-user" class="show-right">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
@@ -52,6 +53,9 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
+                <div class="grid_12">
+                    <?php echo $this->userForm->getElement('signature'); ?>
+                </div>
                 <div class="grid_7">
                     <?php echo $this->userForm->getElement('userAttributes'); ?>
                 </div>
@@ -156,6 +160,51 @@
 </div>
 <script type="text/javascript">
 	$(function() {
+
+        var websiteUrl = '<?php echo $this->websiteUrl;?>';
+
+        function dispatchEditorKeyup(editor, event, keyTime) {
+            var keyTimer = keyTime;
+            if(keyTimer === null) {
+                keyTimer = setTimeout(function() {
+                    keyTimer = null;
+                }, 1000)
+            }
+        }
+
+        function initTinyMce() {
+            tinymce.init({
+                script_url              : websiteUrl+'system/js/external/tinymce/tinymce.gzip.php',
+                selector                : '#signature',
+                skin                    : 'seotoaster',
+                menubar                 : false,
+                resize                  : false,
+                convert_urls            : false,
+                relative_urls           : false,
+                statusbar               : false,
+                allow_script_urls       : true,
+                force_p_newlines        : true,
+                forced_root_block       : false,
+                entity_encoding         : "raw",
+                plugins: [
+                    "advlist lists link anchor image charmap visualblocks code media table paste textcolor fullscreen"
+                ],
+                toolbar1                : 'link unlink | image | hr | fontsizeselect | pastetext | forecolor backcolor | formatselect | code | fullscreen |',
+                fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
+                block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Cite=cite;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
+                extended_valid_elements : "a[*],input[*],select[*],textarea[*]",
+                image_advtab            : true,
+                setup                   : function(ed){
+                    var keyTime = null;
+                    ed.on('change blur keyup', function(ed, e){
+                        //@see content.js for this function
+                        dispatchEditorKeyup(ed, e, keyTime);
+                        this.save();
+                    });
+                }
+            });
+        }
+
         $('#export-users').click(function() {
             if ($('#users-list tbody tr').length > 1) {
                 $('#expusrs').submit();
@@ -178,6 +227,10 @@
                 $('#frm-user')[0].reset();
                 $('#user-attributes-section').html('');
                 $('#add-user').show("slide", { direction: "right"});
+
+                tinymce.remove();
+                setTimeout(initTinyMce, 500);
+
                 if (response.responseText.defaultParams.userDefaultTimezone) {
                     $('#user-timezone').val(response.responseText.defaultParams.userDefaultTimezone);
                 }
@@ -194,6 +247,9 @@
             $('#frm-user')[0].reset();
             $('#user-attributes-section').html('');
             $('#add-user').show("slide", { direction: "right"});
+
+            tinymce.remove();
+            setTimeout(initTinyMce, 500);
         });
 
         $(document).on('click', '#process-old-mobile-phone-format', function(e){
@@ -236,7 +292,6 @@
             addUserAttribute(attrName);
         });
 
-        $('.paginator').addClass('mt50px');
         window.parent.$('.ui-dialog').css({'height':600});
 
         $('#user-default-timezone').on('change', function(){

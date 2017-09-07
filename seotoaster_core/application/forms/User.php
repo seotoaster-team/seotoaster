@@ -31,6 +31,8 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_desktopCountryCodeValue = null;
 
+    protected $_signature = null;
+
 	public function init() {
         parent::init();
         $email = new Zend_Form_Element_Text(array(
@@ -155,6 +157,14 @@ class Application_Form_User extends Application_Form_Secure {
             $this->getElement('desktopCountryCode')->setValue($userDefaultPhoneMobileCode);
             $this->getElement('mobileCountryCode')->setValue($userDefaultPhoneMobileCode);
         }
+
+        $this->addElement(new Zend_Form_Element_Textarea(array(
+            'name'  => 'signature',
+            'id'    => 'signature',
+            'label' => 'Signature',
+            'cols' => '15',
+            'rows' => '4'
+        )));
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'gplusProfile',
@@ -350,6 +360,18 @@ class Application_Form_User extends Application_Form_Secure {
     {
         $this->_desktopCountryCodeValue = $desktopCountryCodeValue;
         $this->getElement('desktopCountryCodeValue')->setValue($desktopCountryCodeValue);
+        return $this;
+    }
+
+    public function getSignature()
+    {
+        return $this->_signature;
+    }
+
+    public function setSignature($signature)
+    {
+        $this->_signature = $signature;
+        $this->getElement('signature')->setValue($signature);
         return $this;
     }
 }

@@ -38,6 +38,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_desktopCountryCodeValue = '';
 
+    protected $_signature = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -320,8 +322,24 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getSignature()
+    {
+        return $this->_signature;
+    }
 
+    /**
+     * @param string $signature
+     * @return string
+     */
+    public function setSignature($signature)
+    {
+        $this->_signature = $signature;
 
+        return $this;
+    }
 
 }
 
