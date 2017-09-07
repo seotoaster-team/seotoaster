@@ -33,6 +33,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMobileTemplates',	'1'),
 ('userDefaultTimezone', 'America/New_York'),
 ('userDefaultPhoneMobileCode', 'US'),
+('oldMobileFormat', '1'),
 ('version',	'2.5.8');
 
 DROP TABLE IF EXISTS `container`;
