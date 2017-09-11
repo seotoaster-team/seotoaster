@@ -34,7 +34,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('userDefaultTimezone', 'America/New_York'),
 ('userDefaultPhoneMobileCode', 'US'),
 ('oldMobileFormat', '1'),
-('version',	'2.5.8');
+('version',	'2.5.9');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
