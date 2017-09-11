@@ -35,7 +35,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'timezone',
         'gplusProfile',
         'mobilePhone',
-        'desktopPhone'
+        'desktopPhone',
+        'signature'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';

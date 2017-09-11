@@ -75,12 +75,12 @@ class SignupController extends Zend_Controller_Action {
                     $user->setTimezone($userDefaultTimezone);
                 }
 
-                if (empty($mobileCountryCode) && !empty($formParams['mobilePhone']) && !empty($userDefaultMobileCountryCode)) {
+                if (empty($mobileCountryCode) && !empty($userDefaultMobileCountryCode)) {
                     $mobileCountryCode = $userDefaultMobileCountryCode;
                     $user->setMobileCountryCode($mobileCountryCode);
                 }
 
-                if (empty($desktopCountryCode) && !empty($formParams['desktopPhone']) && !empty($userDefaultMobileCountryCode)) {
+                if (empty($desktopCountryCode) && !empty($userDefaultMobileCountryCode)) {
                     $desktopCountryCode = $userDefaultMobileCountryCode;
                     $user->setDesktopCountryCode($desktopCountryCode);
                 }
