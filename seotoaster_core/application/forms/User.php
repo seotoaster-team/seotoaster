@@ -21,6 +21,18 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_timezone = '';
 
+    protected $_mobileCountryCode = null;
+
+    protected $_mobileCountryCodeValue = null;
+
+    protected $_desktopPhone = null;
+
+    protected $_desktopCountryCode = null;
+
+    protected $_desktopCountryCodeValue = null;
+
+    protected $_signature = null;
+
 	public function init() {
         parent::init();
         $email = new Zend_Form_Element_Text(array(
@@ -80,6 +92,48 @@ class Application_Form_User extends Application_Form_Secure {
 			'required'     => true
 		)));
 
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'name'       => 'desktopPhone',
+            'id'         => 'user-desktop-phone',
+            'label'      => '',
+            'value'      => $this->_desktopPhone,
+            'placeholder' => 'Desktop'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'mobileCountryCode',
+            'id'           => 'user-mobile-country-code',
+            'label'        => '',
+            'value'        => $this->_mobileCountryCode,
+            'multiOptions' => Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true),
+            'class'        => 'mobile-phone-country-codes',
+            'data-device-type'    => 'mobile'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'desktopCountryCode',
+            'id'           => 'user-desktop-country-code',
+            'label'        => '',
+            'value'        => $this->_desktopCountryCode,
+            'multiOptions' => Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true),
+            'class'        => 'mobile-phone-country-codes',
+            'data-device-type'    => 'desktop'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Hidden(array(
+            'name'       => 'mobileCountryCodeValue',
+            'id'         => 'user-mobile-country-value',
+            'label'      => '',
+            'value'      => $this->_mobileCountryCodeValue
+        )));
+
+        $this->addElement(new Zend_Form_Element_Hidden(array(
+            'name'       => 'desktopCountryCodeValue',
+            'id'         => 'user-desktop-country-value',
+            'label'      => '',
+            'value'      => $this->_desktopCountryCodeValue
+        )));
+
         $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
         array_pop($timezones);
         $translator = Zend_Registry::get('Zend_Translate');
@@ -95,9 +149,22 @@ class Application_Form_User extends Application_Form_Secure {
 
         $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+        $userDefaultPhoneMobileCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
         if (!empty($userDefaultTimezone)) {
             $this->getElement('timezone')->setValue($userDefaultTimezone);
         }
+        if (!empty($userDefaultPhoneMobileCode)) {
+            $this->getElement('desktopCountryCode')->setValue($userDefaultPhoneMobileCode);
+            $this->getElement('mobileCountryCode')->setValue($userDefaultPhoneMobileCode);
+        }
+
+        $this->addElement(new Zend_Form_Element_Textarea(array(
+            'name'  => 'signature',
+            'id'    => 'signature',
+            'label' => 'Signature',
+            'cols' => '15',
+            'rows' => '4'
+        )));
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'gplusProfile',
@@ -108,8 +175,9 @@ class Application_Form_User extends Application_Form_Secure {
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'       => 'mobilePhone',
             'id'         => 'user-mobile-phone',
-            'label'      => 'Mobile phone',
-            'value'      => $this->_mobilePhone
+            'label'      => '',
+            'value'      => $this->_mobilePhone,
+            'placeholder' => 'Mobile'
         )));
 
         $this->addElement(new Zend_Form_Element_Select(array(
@@ -232,6 +300,78 @@ class Application_Form_User extends Application_Form_Secure {
             $timezone = '0';
         }
         $this->getElement('timezone')->setValue($timezone);
+        return $this;
+    }
+
+    public function getMobileCountryCode()
+    {
+        return $this->_mobilePhone;
+    }
+
+    public function setMobileCountryCode($mobileCountryCode)
+    {
+        $this->_mobileCountryCode = $mobileCountryCode;
+        $this->getElement('mobileCountryCode')->setValue($mobileCountryCode);
+        return $this;
+    }
+
+    public function getDesktopCountryCode()
+    {
+        return $this->_desktopCountryCode;
+    }
+
+    public function setDesktopCountryCode($desktopCountryCode)
+    {
+        $this->_desktopCountryCode = $desktopCountryCode;
+        $this->getElement('desktopCountryCode')->setValue($desktopCountryCode);
+        return $this;
+    }
+
+    public function getMobileCountryCodeValue()
+    {
+        return $this->_mobileCountryCodeValue;
+    }
+
+    public function setMobileCountryCodeValue($mobileCountryCodeValue)
+    {
+        $this->_mobileCountryCodeValue = $mobileCountryCodeValue;
+        $this->getElement('mobileCountryCodeValue')->setValue($mobileCountryCodeValue);
+        return $this;
+    }
+
+    public function getDesktopPhone()
+    {
+        return $this->_desktopPhone;
+    }
+
+    public function setDesktopPhone($desktopPhone)
+    {
+        $this->_desktopPhone = $desktopPhone;
+        $this->getElement('desktopPhone')->setValue($desktopPhone);
+        return $this;
+    }
+
+    public function getDesktopCountryCodeValue()
+    {
+        return $this->_desktopCountryCodeValue;
+    }
+
+    public function setDesktopCountryCodeValue($desktopCountryCodeValue)
+    {
+        $this->_desktopCountryCodeValue = $desktopCountryCodeValue;
+        $this->getElement('desktopCountryCodeValue')->setValue($desktopCountryCodeValue);
+        return $this;
+    }
+
+    public function getSignature()
+    {
+        return $this->_signature;
+    }
+
+    public function setSignature($signature)
+    {
+        $this->_signature = $signature;
+        $this->getElement('signature')->setValue($signature);
         return $this;
     }
 }

@@ -20,7 +20,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_session;
 
-    public static $_allowedDefaultAttributes = array('userDefaultTimezone');
+    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode');
 
 	public function init() {
 		parent::init();
@@ -43,6 +43,7 @@ class Backend_UserController extends Zend_Controller_Action {
 	public function manageAction() {
 		$userForm = new Application_Form_User();
         $userForm->getElement('password')->setRequired(false);
+        $listMasksMapper = Application_Model_Mappers_MasksListMapper::getInstance();
 		if($this->getRequest()->isPost()) {
             //if we are updating
             $userId = $this->getRequest()->getParam('id');
@@ -54,22 +55,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
-				$user       = new Application_Model_Models_User($data);
-                $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
-                $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
-                $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
-                if ($attrNamesArr) {
-                    foreach ($attrNamesArr as $key => $value) {
-                        if(empty($value) || empty($attrValuesArr[$key])) {
-                            continue;
-                        }
-                        $user->setAttribute($value, $attrValuesArr[$key]);
-                    }
-                    if (empty($userId)) {
-                        $user->setId((int)$uId);
-                    }
-                    Application_Model_Mappers_UserMapper::saveUserAttributes($user);
-                }
+                $this->_processUser($data, $userId);
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
@@ -136,8 +122,14 @@ class Backend_UserController extends Zend_Controller_Action {
             $this->view->orderParam = $order;
         }
 
+        $oldMobileFormat = $this->_helper->config->getConfig('oldMobileFormat');
+        if (!empty($oldMobileFormat)) {
+            $oldMobileFormat = true;
+        }
+
         $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+        $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
         $this->view->userDefaultTimeZone = $userDefaultTimezone;
 
         $this->view->by = $by;
@@ -147,6 +139,11 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->users = $users;
         $this->view->helpSection = 'users';
         $this->view->userForm = $userForm;
+        $this->view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
+        $this->view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
+        $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true);
+        $this->view->userDefaultMobileCountryCode = $userDefaultMobileCountryCode;
+        $this->view->oldMobileFormat = $oldMobileFormat;
 	}
 
 	public function deleteAction() {
@@ -174,9 +171,31 @@ class Backend_UserController extends Zend_Controller_Action {
 			}
 			$user       = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
             if ($user instanceof Application_Model_Models_User) {
+                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+                $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+                $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+
                 $userData = $user->toArray();
                 if (empty($userData['timezone'])) {
-                    $userData['timezone'] = '0';
+                    if (empty($userDefaultTimezone)) {
+                        $userData['timezone'] = '0';
+                    } else {
+                        $userData['timezone'] = $userDefaultTimezone;
+                    }
+                }
+                if (empty($userData['desktopCountryCode'])) {
+                    if (empty($userDefaultMobileCountryCode)) {
+                        $userData['desktopCountryCode'] = 'US';
+                    } else {
+                        $userData['desktopCountryCode'] = $userDefaultMobileCountryCode;
+                    }
+                }
+                if (empty($userData['mobileCountryCode'])) {
+                    if (empty($userDefaultMobileCountryCode)) {
+                        $userData['mobileCountryCode'] = 'US';
+                    } else {
+                        $userData['mobileCountryCode'] = $userDefaultMobileCountryCode;
+                    }
                 }
 
                 $result = array(
@@ -188,6 +207,104 @@ class Backend_UserController extends Zend_Controller_Action {
             $this->_helper->response->fail($this->_helper->language->translate('User doesn\'t exists'));
 		}
 	}
+
+    public function sendinvitationAction()
+    {
+        if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $userForm = new Application_Form_User();
+            $userForm->getElement('password')->setRequired(false);
+            $userInvitationEmail = filter_var($this->getRequest()->getParam('email'), FILTER_SANITIZE_STRING);
+            $userFullName = filter_var($this->getRequest()->getParam('fullName'), FILTER_SANITIZE_STRING);
+            $emailValidator = new Zend_Validate_EmailAddress();
+
+            if (!$emailValidator->isValid($userInvitationEmail)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Not valid email address'));
+            }
+
+            if (empty($userFullName)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Please provide user name'));
+            }
+
+            $userId = $this->getRequest()->getParam('id');
+            if (!empty($userId) && is_numeric($userId)) {
+                $userForm->setId($userId);
+            }
+
+            $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
+
+            if ($userForm->isValid($this->getRequest()->getParams())) {
+                $data       = $userForm->getValues();
+                $userModel = $this->_processUser($data, $userId);
+                $email = $userModel->getEmail();
+                $userModel = Application_Model_Mappers_UserMapper::getInstance()->findByEmail($email);
+                if ($userModel instanceof Application_Model_Models_User) {
+                    $userModel->removeAllObservers();
+                    $resetToken = Tools_System_Tools::saveResetToken($email, $userModel->getId());
+                    if ($resetToken instanceof Application_Model_Models_PasswordRecoveryToken) {
+                        $userModel->registerObserver(new Tools_Mail_Watchdog(array(
+                            'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_USERINVITATION,
+                            'resetToken' => $resetToken
+                        )));
+
+                        $userModel->notifyObservers();
+
+                        $this->_helper->response->success($this->_helper->language->translate('Invitation email has been sent'));
+                    } else {
+                        $this->_helper->response->fail($this->_helper->language->translate('Can\'t generate reset token'));
+                    }
+                }
+                $this->_helper->response->fail($this->_helper->language->translate('User doesn\'t exist'));
+            }
+            else {
+                $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessages($userForm->getMessages()));
+            }
+
+        }
+    }
+
+    /**
+     * Process user data
+     *
+     * @param array $data
+     * @param int $currentUserId current user id
+     * @return Application_Model_Models_User
+     * @throws Exceptions_SeotoasterException
+     */
+    private function _processUser($data, $currentUserId)
+    {
+        $data['mobilePhone'] = Tools_System_Tools::cleanNumber($data['mobilePhone']);
+        $data['desktopPhone'] = Tools_System_Tools::cleanNumber($data['desktopPhone']);
+        if (!empty($data['mobileCountryCode'])) {
+            $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['mobileCountryCode'], 'phoneToTerritory');
+            $data['mobile_country_code_value'] = '+'.$mobileCountryPhoneCode;
+        } else {
+            $data['mobile_country_code_value'] = null;
+        }
+        if (!empty($data['desktopCountryCode'])) {
+            $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['desktopCountryCode'], 'phoneToTerritory');
+            $data['desktop_country_code_value'] = '+'.$mobileCountryPhoneCode;
+        } else {
+            $data['desktop_country_code_value'] = null;
+        }
+        $user       = new Application_Model_Models_User($data);
+        $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
+        $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
+        $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
+        if ($attrNamesArr) {
+            foreach ($attrNamesArr as $key => $value) {
+                if(empty($value) || empty($attrValuesArr[$key])) {
+                    continue;
+                }
+                $user->setAttribute($value, $attrValuesArr[$key]);
+            }
+            if (empty($currentUserId)) {
+                $user->setId((int)$uId);
+            }
+            Application_Model_Mappers_UserMapper::saveUserAttributes($user);
+        }
+
+        return $user;
+    }
 
     public function exportAction() {
         if($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
@@ -202,8 +319,15 @@ class Backend_UserController extends Zend_Controller_Action {
                     $this->_helper->language->translate('IP address'),
                     $this->_helper->language->translate('Referer url'),
                     $this->_helper->language->translate('Google plus profile'),
+                    $this->_helper->language->translate('Mobile country code'),
+                    $this->_helper->language->translate('Mobile country code value'),
                     $this->_helper->language->translate('Mobile phone'),
-                    $this->_helper->language->translate('Notes')
+                    $this->_helper->language->translate('Notes'),
+                    $this->_helper->language->translate('Timezone'),
+                    $this->_helper->language->translate('Desktop country code'),
+                    $this->_helper->language->translate('Desktop country code value'),
+                    $this->_helper->language->translate('Desktop phone'),
+                    $this->_helper->language->translate('Signature')
                 ));
                 if($exportResult) {
                     $usersArchive = Tools_System_Tools::zip($exportResult);
@@ -214,6 +338,21 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
             }
             exit;
+        }
+    }
+
+    public function getdefaultparamsAction()
+    {
+        if ($this->getRequest()->isGet() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+            $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
+            $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+
+            $result = array(
+                'defaultParams' => array('userDefaultTimezone' => $userDefaultTimezone, 'userDefaultMobileCountryCode' => $userDefaultMobileCountryCode)
+            );
+
+            $this->_helper->response->success($result);
         }
     }
 

@@ -31,7 +31,10 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
 ('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx'),
 ('enableMobileTemplates',	'1'),
-('version',	'2.5.5');
+('userDefaultTimezone', 'America/New_York'),
+('userDefaultPhoneMobileCode', 'US'),
+('oldMobileFormat', '1'),
+('version',	'2.5.9');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -86,7 +89,8 @@ INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUE
 (2,	'1',	't_passwordreset',	'Tools_Mail_SystemMailWatchdog'),
 (3,	'1',	't_passwordchange',	'Tools_Mail_SystemMailWatchdog'),
 (4,	'1',	't_membersignup',	'Tools_Mail_SystemMailWatchdog'),
-(5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog');
+(5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog'),
+(6,	'1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
 
 DROP TABLE IF EXISTS `email_triggers_actions`;
 CREATE TABLE `email_triggers_actions` (
@@ -408,6 +412,12 @@ CREATE TABLE `user` (
   `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mobile_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mobile_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `desktop_phone` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
@@ -433,7 +443,8 @@ CREATE TABLE `page_types` (
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
 
-CREATE TABLE IF NOT EXISTS `masks_list` (
+DROP TABLE IF EXISTS `masks_list`;
+CREATE TABLE `masks_list` (
   `country_code` CHAR(2) COLLATE utf8_unicode_ci NOT NULL,
   `mask_type` ENUM('mobile', 'desktop') DEFAULT 'mobile' NOT NULL,
   `mask_value` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,

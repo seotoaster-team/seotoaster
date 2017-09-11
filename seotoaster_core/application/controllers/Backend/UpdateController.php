@@ -221,6 +221,87 @@ class Backend_UpdateController extends Zend_Controller_Action
     }
 
     /**
+     * Update old mobile phone format
+     *
+     * @return mixed
+     * @throws Exceptions_SeotoasterException
+     */
+    public function updatemobilephonenumbersAction()
+    {
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $where = $userMapper->getDbTable()->getAdapter()->quoteInto('ua.attribute = ?', 'mobilecountrycode');
+        $where .= ' AND '. $userMapper->getDbTable()->getAdapter()->quoteInto('ua.attribute <> ?', '');
+        $where .= ' AND '. $userMapper->getDbTable()->getAdapter()->quoteInto('u.mobile_phone LIKE ?', '%+%');
+        $select = $userMapper->getDbTable()->getAdapter()->select()->from(array('u' => 'user'), array('u.id', 'u.mobile_phone', 'oldMobileCountryCode' => 'ua.value'))
+            ->join(array('ua' => 'user_attributes'), 'u.id=ua.user_id', array())
+            ->where($where)
+            ->limit(1);
+
+        $usersToProcess = $userMapper->getDbTable()->getAdapter()->fetchAll($select);
+        if (!empty($usersToProcess)) {
+            foreach ($usersToProcess as $userToProcess) {
+                $userModel = $userMapper->find($userToProcess['id']);
+                $oldMobileCountryCode = $userToProcess['oldMobileCountryCode'];
+                $oldMobilePhone = $userToProcess['mobile_phone'];
+                if ($userModel instanceof Application_Model_Models_User && !empty($oldMobileCountryCode)) {
+                    $mobileCountryPhoneCode = Zend_Locale::getTranslation($oldMobileCountryCode, 'phoneToTerritory');
+                    if (!empty($mobileCountryPhoneCode)) {
+                        $mobileCountryCodeValue = '+' . $mobileCountryPhoneCode;
+                        if (preg_match('~'.preg_quote($mobileCountryCodeValue).'~ui', $oldMobilePhone)) {
+                            $mobilePhone = str_replace($mobileCountryCodeValue, '', $oldMobilePhone);
+                            $userModel->setMobileCountryCode($oldMobileCountryCode);
+                            $userModel->setMobileCountryCodeValue($mobileCountryCodeValue);
+                            $userModel->setMobilePhone($mobilePhone);
+                            $userModel->setPassword('');
+                            $userMapper->save($userModel);
+
+                            $shoppingPlugins = Tools_Plugins_Tools::getPluginsByTags(array('processphones'));
+                            $methodName = 'processPhoneCodes';
+                            $shoppingPluginsStatus = array();
+                            if (!empty($shoppingPlugins)) {
+                                foreach ($shoppingPlugins as $pluginName => $shoppingPlugin) {
+                                    if ($shoppingPlugin->getStatus() === Application_Model_Models_Plugin::ENABLED) {
+                                        $pluginName = ucfirst($shoppingPlugin->getName());
+                                        if (class_exists($pluginName) && method_exists($pluginName,
+                                                $methodName)
+                                        ) {
+                                            $reflection = new ReflectionMethod($pluginName, $methodName);
+                                            if ($reflection->isPublic()) {
+                                                $shoppingPluginsStatus[$pluginName] = true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if(!empty($shoppingPluginsStatus)){
+                                    foreach ($shoppingPluginsStatus as $plugin => $status){
+                                        $plugin = Tools_Factory_PluginFactory::createPlugin($plugin, array(),
+                                            array());
+                                        $plugin->$methodName($userModel);
+                                    }
+                                }
+                            }
+                        } else {
+                            $whereAttr = $userMapper->getDbTable()->getAdapter()->quoteInto('user_id = ?', $userToProcess['id']);
+                            $whereAttr .=  ' AND '.$userMapper->getDbTable()->getAdapter()->quoteInto('attribute = ?', 'mobilecountrycode');
+                            $userMapper->getDbTable()->getAdapter()->delete('user_attributes', $whereAttr);
+                        }
+                    }
+                }
+            }
+
+            return $this->_helper->response->success(
+                array('status' => 'success', 'message' => '', 'processedCount' => count($usersToProcess))
+            );
+        }
+
+        Application_Model_Mappers_ConfigMapper::getInstance()->save(array('oldMobileFormat' => 1));
+        return $this->_helper->response->fail(
+            array('status' => 'success', 'message' => $this->_helper->language->translate('New mobile format applied'), 'processedCount' => count($usersToProcess))
+        );
+    }
+
+    /**
      * @param string $zipName
      * @param string $path
      * @param  string $newPath

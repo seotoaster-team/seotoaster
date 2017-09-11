@@ -169,6 +169,31 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 -- Change column type for the code field in the forms table
 ALTER TABLE `form` MODIFY COLUMN `code` mediumtext COLLATE utf8_unicode_ci NOT NULL;
 
+-- 06/06/2017
+-- version: 2.5.5
+-- Add mobile and desktop phone country code
+ALTER TABLE `user` ADD COLUMN `mobile_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `mobile_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_phone` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 16/06/2017
+-- version: 2.5.6
+-- Add invitation email
+INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
+
+-- 29/08/2017
+-- version: 2.5.7
+-- Add default timezone and mobile/desktop country code
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultTimezone', 'America/New_York');
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultPhoneMobileCode', 'US');
+
+-- 07/09/2017
+-- version: 2.5.8
+-- Add signature field
+ALTER TABLE `user` ADD COLUMN `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.5' WHERE `name`='version';
+UPDATE `config` SET `value`='2.5.9' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
