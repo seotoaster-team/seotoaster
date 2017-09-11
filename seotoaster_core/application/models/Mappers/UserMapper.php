@@ -30,7 +30,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'desktop_phone'              => $user->getDesktopPhone(),
             'desktop_country_code'       => $user->getDesktopCountryCode(),
             'desktop_country_code_value' => $user->getDesktopCountryCodeValue(),
-            'signature'                  => $user->getSignature()
+            'signature'                  => $user->getSignature(),
+            'subscribed'                  => $user->getSubscribed()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -165,7 +166,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'desktop_country_code',
             'desktop_country_code_value',
             'desktop_phone',
-            'signature'
+            'signature',
+            'subscribe'
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 

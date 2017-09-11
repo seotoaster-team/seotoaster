@@ -418,6 +418,7 @@ CREATE TABLE `user` (
   `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL,
   `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `subscribed` ENUM('0', '1') DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)

@@ -207,7 +207,16 @@ $(function(){
         $.post(handleUrl, {id : eid}, function(response){
             var formToLoad = $('#'+response.responseText.formId);
             for(var i in response.responseText.data){
-                $('[name='+i+']').val(response.responseText.data[i]);
+                if ($('[name='+i+']').length && $('[name='+i+']').is(':checkbox')) {
+                    if (response.responseText.data[i] == '1') {
+                        $('[name='+i+']').prop('checked', true);
+                    } else {
+                        $('[name='+i+']').prop('checked', false);
+                    }
+                } else {
+                    $('[name='+i+']').val(response.responseText.data[i]);
+                }
+
                 if(i=='password'){
                     $('[name='+i+']').val('');
                 }
