@@ -167,7 +167,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'desktop_country_code_value',
             'desktop_phone',
             'signature',
-            'subscribe'
+            'subscribed'
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 
