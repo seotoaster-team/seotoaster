@@ -146,7 +146,7 @@ class Tools_System_Tools {
             $files = array_diff($files, $exclude);
 
 		}
-		$zipArch->open($destinationFile, ZipArchive::OVERWRITE);
+		$zipArch->open($destinationFile, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
 		if(!empty ($files)) {
 			foreach ($files as $key => $path) {
 				$zipArch->addFile($path, substr($path, strpos($path, $localName)));
@@ -288,12 +288,30 @@ class Tools_System_Tools {
 		}
 	}
 
-    public static function fetchSystemtriggers() {
-        $triggers      = array();
-        $config        = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
-        if($config) {
+    /**
+     * Fetch system action emails triggers
+     *
+     * @return array
+     */
+    public static function fetchSystemtriggers()
+    {
+        $triggers = array();
+        $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
+        if ($config) {
             $triggers = $config->actiontriggers->toArray();
+            $additionalSystemTriggersPath = Zend_Controller_Action_HelperBroker::getExistingHelper('website')->getPath() . 'system'.DIRECTORY_SEPARATOR.'system-action-emails.ini';
+            if (file_exists($additionalSystemTriggersPath)) {
+                $additionalSystemTriggers = new Zend_Config_Ini($additionalSystemTriggersPath, 'actiontriggers');
+                if (!empty($additionalSystemTriggers) && !empty($triggers['seotoaster']['trigger'])) {
+                    $additionalSystemTriggers = $additionalSystemTriggers->actiontriggers->toArray();
+                    if (!empty($additionalSystemTriggers['seotoaster']) && !empty($additionalSystemTriggers['seotoaster']['trigger'])) {
+                        $triggers['seotoaster']['trigger'] = array_merge($triggers['seotoaster']['trigger'],
+                            $additionalSystemTriggers['seotoaster']['trigger']);
+                    }
+                }
+            }
         }
+
         return $triggers;
     }
 
@@ -381,23 +399,40 @@ class Tools_System_Tools {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array()) {
+    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $withoutCache = false) {
+        if ($withoutCache === true) {
+            return self::processPhoneCodes($withCountryCode, $intersect);
+        }
         $cache       = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
         $cachePrefix = strtolower(__CLASS__).'_';
         $cacheId     = strtolower(__FUNCTION__) . '_' . (int)$withCountryCode . '_' . json_encode($intersect);
         if (null === ($phoneCodes = $cache->load($cacheId, $cachePrefix))) {
-            $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
-            array_shift($phoneCodes);
-            if(!empty($intersect)) {
-                $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
-            }
-            array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
-                    $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
-                });
+            $phoneCodes = self::processPhoneCodes($withCountryCode, $intersect);
             $cache->save($cacheId, $phoneCodes, $cachePrefix, array(), Helpers_Action_Cache::CACHE_SHORT);
         }
         return $phoneCodes;
 
+    }
+
+    /**
+     * Process phone codes
+     *
+     * @param bool $withCountryCode with country code flag
+     * @param array $intersect intersect with params
+     * @return array
+     */
+    public static function processPhoneCodes($withCountryCode, $intersect)
+    {
+        $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+        array_shift($phoneCodes);
+        if(!empty($intersect)) {
+            $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+        }
+        array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
+            $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
+        });
+
+        return $phoneCodes;
     }
 
     public static function getWebsiteCountryCode() {
@@ -605,6 +640,109 @@ class Tools_System_Tools {
         $date->setTimezone(new DateTimeZone($timezoneTo));
 
         return $date->format($format);
+    }
+
+
+    /**
+     * get country phone codes list
+     *
+     * @param bool $withCountryCode flag to use country code
+     * @param array $intersect
+     * @param bool $reverseLabels change order for labels  Ex: Ascension Island +247
+     * @return array
+     */
+    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $reverseLabels = false)
+    {
+        $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+        $countryCodes = Zend_Locale::getTranslationList('Territory');
+        array_shift($phoneCodes);
+        if (!empty($intersect)) {
+            $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+        }
+        array_walk($phoneCodes, function (&$item, $key) use ($withCountryCode, $countryCodes, $reverseLabels) {
+            if ($reverseLabels === true) {
+                $item = ($withCountryCode) ? $countryCodes[$key].' +' . $item : '+' . $item;
+            } else {
+                $item = ($withCountryCode) ? '+' . $item . ' ' . $countryCodes[$key] : '+' . $item;
+            }
+        });
+
+        if ($reverseLabels === true) {
+            asort($phoneCodes);
+        }
+
+        return $phoneCodes;
+
+    }
+
+    /**
+     * Reassign zend form fields
+     *
+     * @param Zend_Form $form zend form
+     * @param array $formFields form fields
+     * @param array $mandatoryFields mandatory fields
+     * @param bool $keepHiddenFields keep hidden fields
+     * @return Quote_Forms_Quote
+     * @throws Zend_Form_Exception
+     */
+    public static function adjustFormFields(Zend_Form $form, $formFields = array(), $mandatoryFields = array(), $keepHiddenFields = true)
+    {
+        if (empty($formFields)) {
+            return $form;
+        }
+
+        $currentElements = $form->getElements();
+
+        // fields that should stay
+        $fields = array();
+        foreach ($formFields as $field) {
+            $required = false;
+            if (substr($field, strlen($field) - 1) == '*') {
+                $required = true;
+                $field = str_replace('*', '', $field);
+            }
+            $fields[$field] = $required;
+        }
+
+        foreach ($currentElements as $element) {
+            $elementType = $element->getType();
+            if ($keepHiddenFields === true && $elementType === 'Zend_Form_Element_Hidden') {
+                continue;
+            }
+
+            $form->removeElement($element->getName());
+        }
+
+        $fields = array_merge($fields, $mandatoryFields);
+        $i = 1;
+        foreach ($fields as $name => $required) {
+             if (!array_key_exists($name, $currentElements)) {
+                continue;
+            }
+            $currentElements[$name]->setAttribs(array(
+                'class' => ($required) ? 'required' : 'optional'
+            ))->setRequired($required);
+            $form->addElement($currentElements[$name])->setOrder($i);
+            ++$i;
+        }
+
+        $displayGroups = $form->getDisplayGroups();
+        array_walk($displayGroups, function ($dGroup) use ($form) {
+            $form->removeDisplayGroup($dGroup->getName());
+        });
+
+        return $form;
+    }
+
+    /**
+     * Remove all non digits
+     *
+     * @param string $number
+     * @return mixed
+     */
+    public static function cleanNumber($number)
+    {
+        return preg_replace('~[^\d]~ui', '', $number);
     }
 
 }

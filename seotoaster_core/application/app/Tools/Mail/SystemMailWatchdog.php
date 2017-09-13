@@ -33,6 +33,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     const TRIGGER_USERCHANGEATTR     = 't_userchangeattr';
 
     /**
+     * User invitation
+     *
+     */
+    const TRIGGER_USERINVITATION     = 't_userinvitation';
+
+    /**
      * Password change trigger. Launches sending of mails
      */
     const TRIGGER_PASSWORDCHANGE    = 't_passwordchange';
@@ -366,6 +372,33 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     protected function _sendTsystemnotificationMail() {
 
+    }
+
+    protected function _sendTuserinvitationMail(Application_Model_Models_User $user) {
+
+        $fullName = $user->getFullName();
+        if (empty($fullName)) {
+            $fullName = '';
+        }
+
+        $resetTokenModel = $this->_options['resetToken'];
+
+        $emailContent = $this->_prepareEmailBody();
+        $this->_entityParser->objectToDictionary($user);
+        $this->_entityParser->addToDictionary(
+            array(
+                'reset:link' => '<a href="' . $resetTokenModel->getResetUrl() . '">' . $resetTokenModel->getResetUrl() . '</a>',
+                'reset:url'  => $resetTokenModel->getResetUrl(),
+            )
+        );
+        $this->_mailer->setBody($this->_entityParser->parse($emailContent));
+        $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
+        $this->_mailer->setMailFrom($this->_options['from']);
+        $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
+        $this->_mailer->setMailFromLabel($subject);
+        $this->_mailer->setSubject($subject);
+
+        return $this->_mailer->send();
     }
 
     protected function _prepareEmailBody($pageId = 0) {

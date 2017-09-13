@@ -27,6 +27,26 @@
                 </select>
             </p>
             <?php endif;?>
+            <p class="clear-both"></p>
+            <p class="grid_6 mt10px">
+                <?php echo $this->formForm->getElement('messageSuccess')->renderLabel(); ?>
+                <?php echo $this->formForm->getElement('messageSuccess')->renderViewHelper(); ?>
+            </p>
+            <p class="grid_6 mt10px">
+                <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
+                <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
+            </p>
+            <p class="grid_12">
+                <?php echo $this->formForm->getElement('mobile')->renderLabel(); ?>
+                <?php echo $this->formForm->getElement('mobile')->renderViewHelper(); ?>
+            </p>
+            <p class="grid_4">
+                <?php echo $this->formForm->getElement('enableSms')->renderLabel(); ?>
+            </p>
+            <p class="grid_1">
+                <?php echo $this->formForm->getElement('enableSms')->renderViewHelper(); ?>
+            </p>
+            <p class="clear-both"></p>
             <fieldset class="grid_6 background mt10px">
                 <legend class="h2 background m0px p5px"><?php echo $this->translate('Lead delivery email setup');?></legend>
                 <p class="grid_6">
@@ -79,25 +99,6 @@
                     <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
                 </p>
             </fieldset>
-            <p class="clear-both"></p>
-            <p class="grid_6 mt10px">
-                <?php echo $this->formForm->getElement('messageSuccess')->renderLabel(); ?>
-                <?php echo $this->formForm->getElement('messageSuccess')->renderViewHelper(); ?>
-            </p>
-            <p class="grid_6 mt10px">
-                <?php echo $this->formForm->getElement('messageError')->renderLabel(); ?>
-                <?php echo $this->formForm->getElement('messageError')->renderViewHelper(); ?>
-            </p>
-            <p class="grid_12">
-                <?php echo $this->formForm->getElement('mobile')->renderLabel(); ?>
-                <?php echo $this->formForm->getElement('mobile')->renderViewHelper(); ?>
-            </p>
-            <p class="grid_4">
-                <?php echo $this->formForm->getElement('enableSms')->renderLabel(); ?>
-            </p>
-            <p class="grid_1">
-                <?php echo $this->formForm->getElement('enableSms')->renderViewHelper(); ?>
-            </p>
         </fieldset>
         <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
         <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />

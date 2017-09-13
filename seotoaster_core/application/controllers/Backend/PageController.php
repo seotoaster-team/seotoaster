@@ -47,9 +47,13 @@ class Backend_PageController extends Zend_Controller_Action {
 
         $this->view->secureToken = $secureToken;
 
+        $this->view->pageId = '';
+        $this->view->pageType = '1';
         if ($pageId) {
             // search page by id
             $page = $mapper->find($pageId);
+            $this->view->pageId = $pageId;
+            $this->view->pageType = $page->getPageType();
         } else {
             // load new page
             $page = new Application_Model_Models_Page(array('showInMenu' => Application_Model_Models_Page::IN_MAINMENU));
@@ -690,6 +694,111 @@ class Backend_PageController extends Zend_Controller_Action {
                 $message = 'Can\'t find this folder.';
             }
             $this->_helper->response->$status($this->_helper->language->translate($message));
+        }
+    }
+
+    public function switchindexpageAction()
+    {
+        $data = $this->_request->getParams();
+        if ($this->getRequest()->isPost() && !empty($data['pageId'])) {
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PAGES);
+            if (!$valid) {
+                $this->_helper->response->fail($this->_helper->language->translate('Token expired'));
+            }
+            $currentPageId = $data['pageId'];
+            $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+
+            $indexRenamedUrl = 'index-old.html';
+            $pageToRenameModel = $pageMapper->find($currentPageId);
+
+            if (!$pageToRenameModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('Page doesn\'t exist'));
+            }
+
+            $pageToRenameUrl = $pageToRenameModel->getUrl();
+            if ($pageToRenameUrl === 'index.html') {
+                $this->_helper->response->fail($this->_helper->language->translate('You can\'t assign index as index'));
+            }
+
+            $pageToRenameOptimized = $pageToRenameModel->getOptimized();
+            if (!empty($pageToRenameOptimized)) {
+                $this->_helper->response->fail($this->_helper->language->translate('This page is optimized. Remove the optimization before assigning it as Index page'));
+            }
+
+            $pageToRenameExternalLink = $pageToRenameModel->getExternalLinkStatus();
+            if (!empty($pageToRenameExternalLink)) {
+                $this->_helper->response->fail($this->_helper->language->translate('This page leads to an external site. Remove the link before assigning it as Index page'));
+            }
+
+            $pageToRenamePageType = $pageToRenameModel->getPageType();
+            if ($pageToRenamePageType !== '1') {
+                $this->_helper->response->fail($this->_helper->language->translate('You can\'t assign not regular pages as index page'));
+            }
+
+            $pageToRenameParentId = $pageToRenameModel->getParentId();
+            if ($pageToRenameParentId === '0') {
+                $this->_helper->response->fail($this->_helper->language->translate('A category page can\'t be assigned as Index page'));
+            }
+
+            $pageToRenamePageOptions = $pageToRenameModel->getExtraOptions();
+            if (!empty($pageToRenamePageOptions)) {
+                $this->_helper->response->fail($this->_helper->language->translate('This page has external options. Remove them before assign it as Index page'));
+            }
+
+            $oldIndexPageModel = $pageMapper->findByUrl($indexRenamedUrl);
+            if ($oldIndexPageModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('You already have index-old.html please remove or rename it'));
+            }
+
+            //processing original index page to temporary index-old page
+            $indexPageModel = $pageMapper->findByUrl('index.html');
+            if (!$indexPageModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('Index page missing'));
+            }
+
+            $indexOptimized = $indexPageModel->getOptimized();
+            if (!empty($indexOptimized)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Index page has optimization. Please remove it'));
+            }
+
+            $indexPageModel->setUrl($indexRenamedUrl);
+
+            $indexPreviewImagePath = $this->_helper->website->getPath() . $this->_helper->website->getPreview() . $indexPageModel->getPreviewImage();
+            $indexPreviewImageName = Tools_Page_Tools::processPagePreviewImage($indexRenamedUrl,
+                $indexPreviewImagePath);
+            $indexPageModel->setPreviewImage($indexPreviewImageName);
+
+            $pageMapper->save($indexPageModel);
+
+            //processing new index page
+            $newIndexPreviewImagePath = $this->_helper->website->getPath() . $this->_helper->website->getPreview() . $pageToRenameModel->getPreviewImage();
+            $newPreviewIndexImageName = Tools_Page_Tools::processPagePreviewImage('index.html',
+                $newIndexPreviewImagePath);
+            $pageToRenameModel->setUrl('index.html');
+            $pageToRenameModel->setPreviewImage($newPreviewIndexImageName);
+            $pageToRenameModel->setParentId('0');
+            $pageToRenameModel->setShowInMenu('1');
+            $pageMapper->save($pageToRenameModel);
+
+
+            //processing temporary index page to the renamed page
+            $renamedIndexPageModel = $pageMapper->findByUrl('index-old.html');
+            if (!$renamedIndexPageModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('Temporary index page not found'));
+            }
+            $indexRenamedImagePath = $this->_helper->website->getPath() . $this->_helper->website->getPreview() . $renamedIndexPageModel->getPreviewImage();
+            $previewIndexRenamedImageName = Tools_Page_Tools::processPagePreviewImage($pageToRenameUrl,
+                $indexRenamedImagePath);
+            $renamedIndexPageModel->setUrl($pageToRenameUrl);
+            $renamedIndexPageModel->setPreviewImage($previewIndexRenamedImageName);
+            $renamedIndexPageModel->setParentId('-1');
+            $pageMapper->save($renamedIndexPageModel);
+
+            $this->_helper->cache->clean();
+
+            $this->_helper->response->success($this->_helper->language->translate('Switch has been done'));
+
         }
     }
 }

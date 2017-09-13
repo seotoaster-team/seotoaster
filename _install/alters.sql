@@ -169,11 +169,35 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 -- Change column type for the code field in the forms table
 ALTER TABLE `form` MODIFY COLUMN `code` mediumtext COLLATE utf8_unicode_ci NOT NULL;
 
--- 07/06/2017
+-- 06/06/2017
 -- version: 2.5.5
+-- Add mobile and desktop phone country code
+ALTER TABLE `user` ADD COLUMN `mobile_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `mobile_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_phone` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 16/06/2017
+-- version: 2.5.6
+-- Add invitation email
+INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
+
+-- 29/08/2017
+-- version: 2.5.7
+-- Add default timezone and mobile/desktop country code
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultTimezone', 'America/New_York');
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultPhoneMobileCode', 'US');
+
+-- 07/09/2017
+-- version: 2.5.8
+-- Add signature field
+ALTER TABLE `user` ADD COLUMN `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 07/06/2017
+-- version: 2.5.9
 -- Add subfolders support
-DROP TABLE IF EXISTS `page_folder`;
-CREATE TABLE `page_folder` (
+CREATE TABLE IF NOT EXISTS `page_folder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `index_page` int(10) unsigned DEFAULT NULL,
@@ -184,12 +208,12 @@ CREATE TABLE `page_folder` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 ALTER TABLE `page`
-ADD `page_folder` varchar(255) NULL,
-ADD `is_folder_index` enum('0','1') NOT NULL DEFAULT '0' AFTER `page_folder`;
+  ADD `page_folder` varchar(255) NULL,
+  ADD `is_folder_index` enum('0','1') NOT NULL DEFAULT '0' AFTER `page_folder`;
 
 ALTER TABLE `page`
-ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.6' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

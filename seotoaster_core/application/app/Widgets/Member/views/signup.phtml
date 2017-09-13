@@ -10,6 +10,57 @@
     $this->signupForm->setAction($this->websiteUrl . 'backend/signup/signup/');
     echo $this->signupForm;
     ?>
+    <?php  $registry = Zend_Registry::getInstance();?>
+    <?php  if (!$registry->isRegistered('signupFormMasks')): ?>
+            <script type="text/javascript">
+                $(function() {
+                    var mobileMasks = JSON.parse('<?php echo json_encode($this->mobileMasks);?>'),
+                        desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>');
+
+                    $('.seotoaster-signup').each(function(index) {
+                        var desktopCountryCodeEl = $(this).find('select[name="desktopCountryCode"]'),
+                            mobileCountryCodeEl = $(this).find('select[name="mobileCountryCode"]');
+
+                        if (desktopCountryCodeEl.length > 0 && typeof desktopMasks[desktopCountryCodeEl.val()] !== 'undefined') {
+                            $(this).find('input[name="desktopPhone"]').mask(desktopMasks[desktopCountryCodeEl.val()].mask_value, {autoclear: false});
+                        } else {
+                            $(this).find('input[name="desktopPhone"]').mask('(999) 999 9999', {autoclear: false});
+                        }
+
+                        if (mobileCountryCodeEl.length > 0 && typeof mobileMasks[mobileCountryCodeEl.val()] !== 'undefined') {
+                            $(this).find('input[name="mobilePhone"]').mask(mobileMasks[mobileCountryCodeEl.val()].mask_value, {autoclear: false});
+                        } else {
+                            $(this).find('input[name="mobilePhone"]').mask('(999) 999 9999', {autoclear: false});
+                        }
+                    });
+
+                    $(document).on('change', '.seotoaster-signup select[name="desktopCountryCode"]', function(e) {
+                        var countryEl = $(e.currentTarget),
+                            chosenCountryCode = countryEl.val(),
+                            desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>');
+
+                        if (typeof desktopMasks[chosenCountryCode] !== 'undefined') {
+                            $(this).closest('form').find('input[name="desktopPhone"]').mask(desktopMasks[chosenCountryCode].mask_value, {autoclear: false});
+                        } else {
+                            $(this).closest('form').find('input[name="desktopPhone"]').mask('(999) 999 9999', {autoclear: false});
+                        }
+                    });
+
+                    $(document).on('change', '.seotoaster-signup select[name="mobileCountryCode"]', function(e) {
+                        var countryEl = $(e.currentTarget),
+                            chosenCountryCode = countryEl.val(),
+                            mobileMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>');
+
+                        if (typeof desktopMasks[chosenCountryCode] !== 'undefined') {
+                            $(this).closest('form').find('input[name="mobilePhone"]').mask(mobileMasks[chosenCountryCode].mask_value, {autoclear: false});
+                        } else {
+                            $(this).closest('form').find('input[name="mobilePhone"]').mask('(999) 999 9999', {autoclear: false});
+                        }
+                    });
+                });
+            </script >
+         <?php $registry->set('signupFormMasks', true);?>
+       <?php endif;?>
 <?php else: ?>
     <p>You have to be logged out to see the sign-up form</p>
 <?php endif; ?>
