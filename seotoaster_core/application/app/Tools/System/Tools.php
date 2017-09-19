@@ -763,7 +763,7 @@ class Tools_System_Tools {
                 if (!$verifyAction->isStatic()) {
                     continue;
                 }
-                $result = $pluginClassName::$method();
+                $result[$pluginClassName] = $pluginClassName::$method();
             }
         }
 
