@@ -744,8 +744,9 @@ class Tools_System_Tools {
     }
 
     /**
-     * @param $tag
-     * @param $method
+     * Returned array of results from each plugin by specified method
+     * @param string $tag plugin tag
+     * @param string $method method name
      * @return array
      */
     public static function firePluginMethod($tag, $method){
