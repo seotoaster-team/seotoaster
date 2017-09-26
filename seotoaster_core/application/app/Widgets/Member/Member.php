@@ -36,7 +36,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'gplusProfile',
         'mobilePhone',
         'desktopPhone',
-        'signature'
+        'signature',
+        'subscribed'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';

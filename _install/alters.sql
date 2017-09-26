@@ -194,6 +194,11 @@ INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultPhoneMobileCod
 -- Add signature field
 ALTER TABLE `user` ADD COLUMN `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 11/09/2017
+-- version: 2.5.9
+-- Add subscribed field
+ALTER TABLE `user` ADD COLUMN `subscribed` ENUM('0', '1') DEFAULT '0';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.5.9' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

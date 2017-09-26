@@ -54,6 +54,9 @@
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
                 <div class="grid_12">
+                    <label><?php echo $this->translate('Subscribed');?> <input id="user-subscribe" type="checkbox" name="subscribed" value="1" /></label>
+                </div>
+                <div class="grid_12">
                     <?php echo $this->userForm->getElement('signature'); ?>
                 </div>
                 <div class="grid_7">
@@ -227,8 +230,11 @@
                 $('#frm-user')[0].reset();
                 $('#user-attributes-section').html('');
                 $('#add-user').show("slide", { direction: "right"});
+                if (tinymce.activeEditor != null) {
+                    tinymce.activeEditor.setContent('');
+                    tinymce.remove();
+                }
 
-                tinymce.remove();
                 setTimeout(initTinyMce, 500);
 
                 if (response.responseText.defaultParams.userDefaultTimezone) {
@@ -408,5 +414,7 @@
         } else {
             $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
         }
+
+
     }
 </script>

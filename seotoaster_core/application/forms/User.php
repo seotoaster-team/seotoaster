@@ -33,8 +33,19 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_signature = null;
 
+    protected $_subscribed = null;
+
 	public function init() {
         parent::init();
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'       => 'subscribed',
+            'id'         => 'user-subscribed',
+            'label'      => 'Subscribe',
+            'required'   => false,
+            'value'      => $this->_subscribed
+        )));
+
         $email = new Zend_Form_Element_Text(array(
             'id'         => 'e-mail',
             'name'       => 'email',
@@ -372,6 +383,19 @@ class Application_Form_User extends Application_Form_Secure {
     {
         $this->_signature = $signature;
         $this->getElement('signature')->setValue($signature);
+        return $this;
+    }
+
+
+    public function getSubscribed()
+    {
+        return $this->_subscribed;
+    }
+
+    public function setSubscribed($subscribed)
+    {
+        $this->_subscribed = $subscribed;
+        $this->getElement('subscribed')->setValue($subscribed);
         return $this;
     }
 }

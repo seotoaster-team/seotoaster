@@ -40,6 +40,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_signature = '';
 
+    protected $_subscribed = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -340,6 +342,27 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getSubscribed()
+    {
+        return $this->_subscribed;
+    }
+
+    /**
+     * @param string $subscribed
+     * @return string
+     */
+    public function setSubscribed($subscribed)
+    {
+        $this->_subscribed = $subscribed;
+
+        return $this;
+    }
+
+
 
 }
 
