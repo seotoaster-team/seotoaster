@@ -327,7 +327,8 @@ class Backend_UserController extends Zend_Controller_Action {
                     $this->_helper->language->translate('Desktop country code'),
                     $this->_helper->language->translate('Desktop country code value'),
                     $this->_helper->language->translate('Desktop phone'),
-                    $this->_helper->language->translate('Signature')
+                    $this->_helper->language->translate('Signature'),
+                    $this->_helper->language->translate('Subscribed')
                 ));
                 if($exportResult) {
                     $usersArchive = Tools_System_Tools::zip($exportResult);

@@ -745,4 +745,32 @@ class Tools_System_Tools {
         return preg_replace('~[^\d]~ui', '', $number);
     }
 
+    /**
+     * Returned array of results from each plugin by specified method
+     * @param string $tag plugin tag
+     * @param string $method method name
+     * @return array
+     */
+    public static function firePluginMethod($tag, $method){
+        $result = array();
+        $availablePlugins = Tools_Plugins_Tools::getPluginsByTags(array($tag));
+        if (!empty($availablePlugins)) {
+            foreach ($availablePlugins as $plugin) {
+                $pluginClassName = $plugin->getName();
+                $pluginClass = new Zend_Reflection_Class($pluginClassName);
+                $pluginActionExists = $pluginClass->hasMethod($method);
+                if (!$pluginActionExists) {
+                    continue;
+                }
+                $verifyAction = $pluginClass->getMethod($method);
+                if (!$verifyAction->isStatic()) {
+                    continue;
+                }
+                $result[$pluginClassName] = $pluginClassName::$method();
+            }
+        }
+
+        return $result;
+    }
+
 }
