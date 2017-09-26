@@ -1,5 +1,5 @@
 <div class="seotoaster container">
-    <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties', 'helpSection' => $this->helpSection)); ?>
+    <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties' .' '. $this->translate('for'). ' '.$this->formForm->getElement('name')->getValue(), 'helpSection' => $this->helpSection)); ?>
     <form id="formWidget" class="_fajax _reload condensed" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
         <fieldset class="content-auto">
             <p id="form-code" class="grid_6 mt0px">
