@@ -215,11 +215,11 @@ ALTER TABLE `page`
   ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- 11/09/2017
--- version: 2.5.9
+-- version: 2.6.0
 -- Add subscribed field
 ALTER TABLE `user` ADD COLUMN `subscribed` ENUM('0', '1') DEFAULT '0';
 
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.0' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
