@@ -11,11 +11,17 @@
     if ($this->pageForm->getElement('url')->getValue() !== 'index') {
         $externalLink = '<label class="ml2">' . $this->formCheckbox('external-link-switch', $this->pageForm->getElement('externalLinkStatus')->getValue(), array('checked' => $this->pageForm->getElement('externalLinkStatus')->getValue())) . '&nbsp;' . $this->translate('Create a simple link') . '</label>';
     }
+
+    $switchPage = '';
+    if(!empty($this->pageId) && $this->pageForm->getElement('url')->getValue() !== 'index' && $this->pageType == '1') {
+        $switchPage = '<input class="ml2" type="checkbox" id="switch-page-to-index" name="switch-page-to-index" value=""/>'.'<label>'.' '.$this->translate("Switch this page with the index page").'</label>';
+    }
+
 	$optimizedCheck = '';
 	if($this->sambaOptimized):
 		$optimizedCheck = '<label class="ml2">' . $this->formCheckbox('sambaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized') . '</label>';
 	endif;
-	echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck. $externalLink, 'helpSection' => $this->helpSection));
+	echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck. $externalLink.$switchPage, 'helpSection' => $this->helpSection));
 	?>
 
 	<div id="templatelist" class="show-right seotoaster"></div>
@@ -50,12 +56,6 @@
             <?php if ($this->isRegularPage) : ?>
                 <p><?php echo $this->pageForm->getElement('pageFolder'); ?></p>
             <?php endif; ?>
-            <?php if(!empty($this->pageId) && $this->pageForm->getElement('url')->getValue() !== 'index' && $this->pageType == '1'):?>
-                <p class="grid_12 alpha omega mt15px mb10px">
-                    <label class="grid_8 alpha"><?php echo $this->translate('Switch this page with the index page');?></label>
-                    <input type="checkbox" id="switch-page-to-index" name="switch-page-to-index" value=""/>
-                </p>
-            <?php endif;?>
         	<p><?php echo $this->pageForm->getElement('url'); ?></p>
             <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
