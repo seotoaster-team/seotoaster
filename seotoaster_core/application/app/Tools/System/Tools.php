@@ -771,4 +771,57 @@ class Tools_System_Tools {
         return $result;
     }
 
+    /**
+     * Fire plugin method by plugin name
+     *
+     * @param string $pluginName plugin name
+     * @param string $method plugin method
+     * @param array $data data array
+     * @param bool $static flag for the method type
+     * @return array
+     * @throws Zend_Reflection_Exception
+     */
+    public static function firePluginMethodByPluginName($pluginName, $method, $data = array(), $static = true){
+        $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
+        $pluginModel = $pluginMapper->findByName($pluginName);
+        if ($pluginModel instanceof Application_Model_Models_Plugin) {
+            $status = $pluginModel->getStatus();
+            if ($status === Application_Model_Models_Plugin::ENABLED) {
+                $pluginClassName = $pluginModel->getName();
+                $pluginClass = new Zend_Reflection_Class($pluginClassName);
+                $pluginActionExists = $pluginClass->hasMethod($method);
+                if ($pluginActionExists === true) {
+                    $verifyAction = $pluginClass->getMethod($method);
+                    if (!$verifyAction->isStatic() && $static === true) {
+                        try {
+                            $result = $pluginClassName::$method();
+                        } catch (Exception $e) {
+                            return array('error' => 1, 'message' => $e->getMessage());
+                        }
+                    } else {
+                        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+                        $pageData = array('websiteUrl' => $websiteHelper->getUrl());
+                        try {
+                            $plugin = Tools_Factory_PluginFactory::createPlugin($pluginName, array(),
+                                $pageData);
+                            $result = $plugin->$method($data);
+                        } catch (Exception $e) {
+                            return array('error' => 1, 'message' => $e->getMessage());
+                        }
+                    }
+
+                } else {
+                    return array('error' => 1, 'message' => 'Plugin method doesn\'t exist');
+                }
+            } else {
+                return array('error' => 1, 'message' => 'Plugin disabled');
+            }
+        } else {
+            return array('error' => 1, 'message' => 'Plugin doesn\'t exist');
+        }
+
+        return $result;
+
+    }
+
 }
