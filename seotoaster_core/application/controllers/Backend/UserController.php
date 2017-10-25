@@ -286,6 +286,17 @@ class Backend_UserController extends Zend_Controller_Action {
         } else {
             $data['desktop_country_code_value'] = null;
         }
+
+        $roleId = $data['roleId'];
+        if ($roleId === Tools_Security_Acl::ROLE_SUPERADMIN) {
+            $this->_helper->response->fail($this->_helper->language->translate('not allowed'));
+        }
+
+        $currentLoggedUserRole = $this->_helper->session->getCurrentUser()->getRoleId();
+        if ($roleId === Tools_Security_Acl::ROLE_ADMIN && ($currentLoggedUserRole !== Tools_Security_Acl::ROLE_ADMIN && $currentLoggedUserRole !== Tools_Security_Acl::ROLE_SUPERADMIN)) {
+            $this->_helper->response->fail($this->_helper->language->translate('not allowed'));
+        }
+
         $user       = new Application_Model_Models_User($data);
         $uId = Application_Model_Mappers_UserMapper::getInstance()->save($user);
         $attrNamesArr = filter_var_array($this->getRequest()->getParam('attrName', array()), FILTER_SANITIZE_STRING);
