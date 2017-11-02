@@ -199,6 +199,11 @@ ALTER TABLE `user` ADD COLUMN `signature` TEXT COLLATE utf8_unicode_ci DEFAULT N
 -- Add subscribed field
 ALTER TABLE `user` ADD COLUMN `subscribed` ENUM('0', '1') DEFAULT '0';
 
+-- 02/11/2017
+-- version: 2.6.0
+-- Add inlineEditor status 1 by default
+UPDATE `config` SET `value` = '1' WHERE `name` = 'inlineEditor';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.0' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
