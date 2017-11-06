@@ -81,6 +81,19 @@
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
+        <div id="manage-country-codes" class="show-right">
+            <div class="header"><?php echo $this->translate('Default desktop/mobile country code'); ?></div>
+            <div class="grid_12 mt15px">
+                <input type="button" id="save-country-codes-config" class="btn mt10px"
+                       value="<?php echo $this->translate('Save config'); ?>"/>
+                <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel): ?>
+                    <p><label
+                            for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $mobilePhoneCountryCodeLabel; ?></label>
+                        <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>"
+                               type="checkbox"></p>
+                <?php endforeach; ?>
+            </div>
+        </div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
         <div id="switch-default-params-block" class="grid_12">
             <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
@@ -103,6 +116,7 @@
                     <?php endforeach;?>
                 </select>
             </p>
+            <?php echo '<a id="manage-country-codes-link" class="btn fl-right icon-user-add mt10px" href="javascript:;"> ' . $this->translate('Manage') . '</a>' ?>
         </div>
         <form class="grid_6 alpha search mt10px" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
@@ -247,6 +261,10 @@
                     $('#user-desktop-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
                 }
             });
+        });
+        $(document).on('click', '#manage-country-codes-link', function(e){
+            e.preventDefault();
+            $('#manage-country-codes').show("slide", { direction: "right"});
         });
 
         $(document).on('click', '._tedit', function(e){
