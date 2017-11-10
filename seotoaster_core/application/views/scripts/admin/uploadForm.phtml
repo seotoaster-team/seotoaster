@@ -76,11 +76,15 @@ if (!empty($this->filters)) {
 		$('#things-select-folder,#things-new-folder').attr('disabled', 'disabled');
 
 		var newfolder = $('#things-new-folder').val();
+        var uploader = window.<?php echo $jsValName; ?>;
+
 		if ( newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' ) {
+            uploader.settings.url = '<?php echo $this->websiteUrl;?>backend/backend_upload/upload/caller/media/folder/' + newfolder;
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': newfolder};
 		} else {
 			var folder = $('#things-select-folder').val();
 			if (folder != '0' && folder != '') {
+			uploader.settings.url = '<?php echo $this->websiteUrl;?>backend/backend_upload/upload/caller/media/folder/' + folder;
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': folder};
 			} else {
 				showMessage('<?php echo $this->translate('No folder specified'); ?>', true);
@@ -120,6 +124,51 @@ if (!empty($this->filters)) {
 					 '<span class="ui-icon ui-icon-alert"></span></div></div>'
 					 );
         up.refresh(); // Reposition Flash/Silverlight
+    });
+
+    <?php echo $jsValName; ?>.bind('UploadComplete', function(up, files) {
+        var newfolder = $('#things-new-folder').val();
+        var folderEl = $('#things-select-folder');
+        var folder = folderEl.val();
+
+        if(newfolder.length != 0){
+            folder = newfolder;
+            if($('#things-select-folder option[value=\"'+ folder +'\"]').length == 0){
+                folderEl.append('<option value="'+ folder +'">'+ folder +'</option>');
+            }
+            $('#things-select-folder option[value=\"'+ folder +'\"]').attr('selected', 'selected');
+            $('#things-new-folder').val('');
+        }
+
+        $.ajax({
+            url: '<?php echo $this->websiteUrl;?>/backend/backend_media/getdirectorycontent/',
+            type: 'post',
+            data: {'folder': folder},
+            dataType: 'json',
+            beforeSend: function(){
+                showSpinner()
+            },
+            complete: function(){
+                hideSpinner()
+            },
+            success: function(response){
+                if(!response.error){
+                    $('#filebrowser-images').empty();
+                    var imgPreview = '';
+                    if(response.imageList.length != 0){
+                        $('.file-container').empty();
+                        var imageList = response.imageList;
+                        $.each(imageList, function(i, val) {
+                            imgPreview += '<div class="file-container grid_4 alpha"> ' +
+                                '<img title="'+ val.name +'" alt="'+ val.name +'" border="0" src="'+ val.src +'"> ' +
+                                '<input type="checkbox" class="toremove hidden" name="removeImages[]" value="'+ val.name +'"> ' +
+                                '</div>';
+                        });
+                        $('#filebrowser-images').append(imgPreview);
+                    }
+                }
+            }
+        });
     });
 
     <?php echo $jsValName; ?>.bind('FileUploaded', function(up, file, info) {
