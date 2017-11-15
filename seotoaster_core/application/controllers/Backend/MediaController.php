@@ -50,6 +50,17 @@ class Backend_MediaController extends Zend_Controller_Action
                     $this->view->picturesPath = $picturesPath;
                 }
             }
+
+            $folderPath = realpath($this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folder);
+            if(!empty($folderPath)){
+                $this->view->filesList = array();
+                $listFiles = Tools_Filesystem_Tools::scanDirectory($folderPath, false, false);
+                foreach ($listFiles as $item) {
+                    if (!is_dir($folderPath . DIRECTORY_SEPARATOR . $item)) {
+                        array_push($this->view->filesList, array('name' => $item));
+                    }
+                }
+            }
         }
 
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);

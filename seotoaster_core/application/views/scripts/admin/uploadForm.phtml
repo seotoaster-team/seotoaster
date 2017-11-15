@@ -132,7 +132,8 @@ if (!empty($this->filters)) {
         var folder = folderEl.val();
 
         if(newfolder.length != 0){
-            folder = newfolder;
+            folder = newfolder.replace(/\s/g,'-');
+
             if($('#things-select-folder option[value=\"'+ folder +'\"]').length == 0){
                 folderEl.append('<option value="'+ folder +'">'+ folder +'</option>');
             }
@@ -154,17 +155,12 @@ if (!empty($this->filters)) {
             success: function(response){
                 if(!response.error){
                     $('#filebrowser-images').empty();
-                    var imgPreview = '';
-                    if(response.imageList.length != 0){
-                        $('.file-container').empty();
-                        var imageList = response.imageList;
-                        $.each(imageList, function(i, val) {
-                            imgPreview += '<div class="file-container grid_4 alpha"> ' +
-                                '<img title="'+ val.name +'" alt="'+ val.name +'" border="0" src="'+ val.src +'"> ' +
-                                '<input type="checkbox" class="toremove hidden" name="removeImages[]" value="'+ val.name +'"> ' +
-                                '</div>';
-                        });
-                        $('#filebrowser-images').append(imgPreview);
+                    $('.file-container').empty();
+                    if(response.imageList.length > 0){
+                        $('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
+                    }
+                    if(response.filesList.length > 0){
+                        $('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
                     }
                 }
             }
