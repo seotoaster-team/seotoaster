@@ -88,7 +88,7 @@
             </div>
             </script>
             <div class="deleteBtnBlock grid_12 mt5px alpha omega <?php echo $heddenClass;?>">
-                <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete Selected');?></button>
+                <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete selected');?></button>
             </div>
         </div>
         <div class="grid_6 mt20px mb15px">
@@ -298,6 +298,15 @@
                         $('.deleteBtnBlock').addClass('hidden');
                         $('#things-select-folder').find('option:selected').remove().end().val('0');
                     }
+                }
+                if(response.errors.length > 0){
+                    var errorsItems = response.errors;
+                    var errorsHtml = '';
+                    $.each(errorsItems, function(index, val) {
+                        errorsHtml += '<strong>'+ val.name +'</strong> <?php echo $this->translate("is used on");?> <a href="<?php echo $this->websiteUrl;?>'+ val.errors[0] +'" target="_blank"><?php echo $this->websiteUrl;?>'+ val.errors[0] +'</a><br/>';
+                    });
+                    errorsHtml += ' <?php echo $this->translate("Please go remove or replace it with another image first so that your website stays pretty.");?>';
+                    showMessage(errorsHtml, true, 5000);
                 }
             }
         });
