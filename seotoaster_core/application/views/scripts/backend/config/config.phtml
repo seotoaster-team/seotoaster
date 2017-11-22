@@ -101,7 +101,7 @@
                 <div class="fl-left mr1 mt0px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
                 <div class="wrap mt5px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></div>
 
-                <div class="cl-both grid_6 mt20px">
+                <div class="cl-both grid_6 mt15px">
                     <div class="grid_7 alpha">
                         <?php echo $this->configForm->getElement('mediaServers')->renderLabel(); ?>
                     </div>
@@ -112,7 +112,7 @@
                         <em><?php echo $this->translate(
                                 'Speed up your site. Insert the following CNAME records into your DNS server:'
                             ); ?></em>
-                        <ul class="mt10px mb0px">
+                        <ul class="mt10px mb0px scroll h100px">
                             <?php
                             $host = parse_url($this->websiteUrl, PHP_URL_HOST);
                             $host = str_replace('www.', '', $host);
@@ -124,7 +124,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="grid_6 mt20px">
+                <div class="grid_6 mt15px">
                     <div class="grid_10 alpha">
                         <?php echo $this->configForm->getElement('inlineEditor')->renderLabel(); ?>
                     </div>
@@ -136,6 +136,9 @@
                             <img src="<?php echo $this->websiteUrl; ?>system/images/zonehighlighting.jpg" class="h150"/>
                         </a>
                     </div>
+                </div>
+                <div class="grid_8">
+                    <div><?php echo $this->configForm->getElement('googleApiKey'); ?></div>
                 </div>
 
             </fieldset>

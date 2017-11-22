@@ -175,7 +175,11 @@ class Backend_ConfigController extends Zend_Controller_Action {
         }
         $trigger = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray();
         $trigger = reset($trigger);
-        $this->_helper->response->success($trigger['message']);
+        $this->_helper->response->success(array(
+            'message' => $trigger['message'],
+            'dialogTitle' => $this->_helper->language->translate('Edit mail message before sending'),
+            'dialogOkay' => $this->_helper->language->translate('Okay')
+        ));
         return true;
     }
 
