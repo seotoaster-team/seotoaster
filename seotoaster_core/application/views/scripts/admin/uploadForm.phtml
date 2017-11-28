@@ -75,11 +75,14 @@ if (!empty($this->filters)) {
 		<?php if ($this->caller == 'media'): ?>
 		$('#things-select-folder,#things-new-folder').attr('disabled', 'disabled');
 		var newfolder = $('#things-new-folder').val();
+        var uploader = window.<?php echo $jsValName; ?>;
 		if ( newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' ) {
+            uploader.settings.url = '<?php echo $this->websiteUrl;?>backend/backend_upload/upload/caller/media/folder/' + newfolder;
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': newfolder};
 		} else {
 			var folder = $('#things-select-folder').val();
 			if (folder != '0' && folder != '') {
+                uploader.settings.url = '<?php echo $this->websiteUrl;?>backend/backend_upload/upload/caller/media/folder/' + folder;
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': folder};
 			} else {
 				showMessage('<?php echo $this->translate('No folder specified'); ?>', true);
