@@ -44,8 +44,8 @@
             ); ?>
         </div>
         <div class="grid_6 mt5px image-preview">
-            <?php $heddenClass = !empty($this->listPictures) ? '' : 'hidden';?>
-            <label id="check-all-label" class="btn link grid_12 alpha omega <?php echo $heddenClass;?>"><input type="checkbox" id="check-all" class="processed hidden"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
+            <?php $hiddenClass = !empty($this->listPictures) ? '' : 'hidden';?>
+            <label id="check-all-label" class="btn link grid_12 alpha omega <?php echo $hiddenClass;?>"><input type="checkbox" id="check-all" class="processed hidden"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
             <form id="removeForm" class="">
             <div id="filebrowser" class="grid_12 alpha omega mt10px">
                 <ul>
@@ -87,7 +87,7 @@
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
             </script>
-            <div class="deleteBtnBlock grid_12 mt5px alpha omega <?php echo $heddenClass;?>">
+            <div class="deleteBtnBlock grid_12 mt5px alpha omega <?php echo $hiddenClass;?>">
                 <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete selected');?></button>
             </div>
         </div>
