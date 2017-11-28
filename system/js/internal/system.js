@@ -516,9 +516,10 @@ function generateStorageKey(){
     }
     return null;
 }
-function showMailMessageEdit(trigger, callback){
+function showMailMessageEdit(trigger, callback, recipient){
     $.getJSON($('#website_url').val()+'backend/backend_config/mailmessage/', {
-        'trigger' : trigger
+        'trigger' : trigger,
+        'recipient' : recipient
     }, function(response){
         $(msgEditScreen).remove();
         var msg = response.responseText.message,
