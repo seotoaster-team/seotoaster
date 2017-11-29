@@ -516,18 +516,27 @@ function generateStorageKey(){
     }
     return null;
 }
-function showMailMessageEdit(trigger, callback){
+function showMailMessageEdit(trigger, callback, recipient){
     $.getJSON($('#website_url').val()+'backend/backend_config/mailmessage/', {
-        'trigger' : trigger
+        'trigger' : trigger,
+        'recipient' : recipient
     }, function(response){
         $(msgEditScreen).remove();
-        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(response.responseText).css({
+        var msg = response.responseText.message,
+            dialogTitle = response.responseText.dialogTitle,
+            dialogOkay = response.responseText.dialogOkay;
+
+        dialogTitle = (dialogTitle.length > 0) ? dialogTitle : 'Edit mail message before sending';
+        dialogOkay = (dialogOkay.length > 0) ? dialogOkay : 'Okay';
+        msg = (msg) ? response.responseText.message : 'success';
+
+        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(msg).css({
             resizable : "none"
         }));
-        $('#trigger-msg').val(response.responseText);
+        $('#trigger-msg').val(msg);
         msgEditScreen.dialog({
             modal     : true,
-            title     : 'Edit mail message before sending',
+            title     : dialogTitle,
             width     : 600,
             resizable : false,
             show      : 'clip',
@@ -535,7 +544,7 @@ function showMailMessageEdit(trigger, callback){
             draggable : false,
             buttons   : [
                 {
-                    text  : "Okay",
+                    text  : dialogOkay,
                     click : function(e){
                         msgEditScreen.dialog('close');
                         callback($('#trigger-msg').val());

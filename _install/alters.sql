@@ -194,8 +194,18 @@ INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('userDefaultPhoneMobileCod
 -- Add signature field
 ALTER TABLE `user` ADD COLUMN `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
--- 07/06/2017
+-- 11/09/2017
 -- version: 2.5.9
+-- Add subscribed field
+ALTER TABLE `user` ADD COLUMN `subscribed` ENUM('0', '1') DEFAULT '0';
+
+-- 02/11/2017
+-- version: 2.6.0
+-- Add inlineEditor status 1 by default
+UPDATE `config` SET `value` = '1' WHERE `name` = 'inlineEditor';
+
+-- 07/06/2017
+-- version: 2.6.1
 -- Add subfolders support
 CREATE TABLE IF NOT EXISTS `page_folder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -214,12 +224,6 @@ ALTER TABLE `page`
 ALTER TABLE `page`
   ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
--- 11/09/2017
--- version: 2.6.0
--- Add subscribed field
-ALTER TABLE `user` ADD COLUMN `subscribed` ENUM('0', '1') DEFAULT '0';
-
-
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.1' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

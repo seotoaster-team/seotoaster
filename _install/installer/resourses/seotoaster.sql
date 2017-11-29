@@ -25,7 +25,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('mediaServers',	'0'),
 ('smtpSsl',	'0'),
 ('codeEnabled',	'0'),
-('inlineEditor',	'0'),
+('inlineEditor',	'1'),
 ('recaptchaPublicKey',	'6LcaJdASAAAAADyAWIdBYytJMmYPEykb3Otz4pp6'),
 ('recaptchaPrivateKey',	'6LcaJdASAAAAAH-e1dWpk96PACf3BQG1OGGvh5hK'),
 ('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
@@ -34,7 +34,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('userDefaultTimezone', 'America/New_York'),
 ('userDefaultPhoneMobileCode', 'US'),
 ('oldMobileFormat', '1'),
-('version',	'2.6.1');
+('version',	'2.6.2');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (

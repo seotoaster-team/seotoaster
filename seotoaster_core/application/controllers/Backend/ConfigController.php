@@ -170,12 +170,29 @@ class Backend_ConfigController extends Zend_Controller_Action {
      */
     public function mailmessageAction() {
         $triggerName = $this->getRequest()->getParam('trigger', false);
+        $recipientName = $this->getRequest()->getParam('recipient', false);
         if(!$triggerName) {
             throw new Exceptions_SeotoasterException('Not enough parameter passed!');
         }
         $trigger = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray();
+        if (!empty($trigger) && !empty($recipientName)) {
+            $trigger = array_filter($trigger, function($triggerInfo) use ($recipientName){
+                return $triggerInfo['recipient'] === $recipientName;
+            });
+
+        }
+
         $trigger = reset($trigger);
-        $this->_helper->response->success($trigger['message']);
+
+        if (empty($trigger)) {
+            $trigger['message'] = '';
+        }
+
+        $this->_helper->response->success(array(
+            'message' => $trigger['message'],
+            'dialogTitle' => $this->_helper->language->translate('Edit mail message before sending'),
+            'dialogOkay' => $this->_helper->language->translate('Okay')
+        ));
         return true;
     }
 
