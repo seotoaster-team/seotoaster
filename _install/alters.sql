@@ -207,16 +207,7 @@ UPDATE `config` SET `value` = '1' WHERE `name` = 'inlineEditor';
 -- 30/11/2017
 -- version: 2.6.1
 -- Add phone masks
-DROP TABLE IF EXISTS `masks_list`;
-CREATE TABLE `masks_list` (
-  `country_code` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  `mask_type` enum('mobile','desktop') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'mobile',
-  `mask_value` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `full_mask_value` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`country_code`,`mask_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_value`) VALUES
+INSERT IGNORE INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_value`) VALUES
 ('AC',	'mobile',	'9999',	'9999'),
 ('AC',	'desktop',	'9999',	'9999'),
 ('AD',	'mobile',	'999-999',	'999-999'),
@@ -287,8 +278,6 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('BY',	'desktop',	'(99)999-99-99',	'(99)999-99-99'),
 ('BZ',	'mobile',	'999-9999',	'999-9999'),
 ('BZ',	'desktop',	'999-9999',	'999-9999'),
-('CA',	'mobile',	'(999)999-9999',	'(999)999-9999'),
-('CA',	'desktop',	'(999)999-9999',	'(999)999-9999'),
 ('CD',	'mobile',	'(999)999-999',	'(999)999-999'),
 ('CD',	'desktop',	'(999)999-999',	'(999)999-999'),
 ('CF',	'mobile',	'99-99-9999',	'99-99-9999'),
@@ -341,8 +330,6 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('EG',	'desktop',	'(999)999-9999',	'(999)999-9999'),
 ('ER',	'mobile',	'9-999-999',	'9-999-999'),
 ('ER',	'desktop',	'9-999-999',	'9-999-999'),
-('ES',	'mobile',	'(999)999-999',	'(999)999-999'),
-('ES',	'desktop',	'(999)999-999',	'(999)999-999'),
 ('ET',	'mobile',	'99-999-9999',	'99-999-9999'),
 ('ET',	'desktop',	'99-999-9999',	'99-999-9999'),
 ('FI',	'mobile',	'(999)999-99-99',	'(999)999-99-99'),
@@ -355,12 +342,8 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('FM',	'desktop',	'999-9999',	'999-9999'),
 ('FO',	'mobile',	'999-999',	'999-999'),
 ('FO',	'desktop',	'999-999',	'999-999'),
-('FR',	'mobile',	'99999-9999',	'99999-9999'),
-('FR',	'desktop',	'99999-9999',	'99999-9999'),
 ('GA',	'mobile',	'9-99-99-99',	'9-99-99-99'),
 ('GA',	'desktop',	'9-99-99-99',	'9-99-99-99'),
-('GB',	'mobile',	'99-9999-9999',	'99-9999-9999'),
-('GB',	'desktop',	'99-9999-9999',	'99-9999-9999'),
 ('GD',	'mobile',	'(473)999-9999',	'(473)999-9999'),
 ('GD',	'desktop',	'(473)999-9999',	'(473)999-9999'),
 ('GE',	'mobile',	'(999)999-999',	'(999)999-999'),
@@ -645,8 +628,6 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('UA',	'desktop',	'(99)999-99-99',	'(99)999-99-99'),
 ('UG',	'mobile',	'(999)999-999',	'(999)999-999'),
 ('UG',	'desktop',	'(999)999-999',	'(999)999-999'),
-('US',	'mobile',	'(999)999-9999',	'(999)999-9999'),
-('US',	'desktop',	'(999)999-9999',	'(999)999-9999'),
 ('UY',	'mobile',	'9-999-99-99',	'9-999-99-99'),
 ('UY',	'desktop',	'9-999-99-99',	'9-999-99-99'),
 ('UZ',	'mobile',	'99-999-9999',	'99-999-9999'),
@@ -679,5 +660,5 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('ZW',	'desktop',	'9-999999',	'9-999999');
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.1' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
