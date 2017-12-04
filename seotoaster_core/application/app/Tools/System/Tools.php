@@ -669,8 +669,22 @@ class Tools_System_Tools {
             asort($phoneCodes);
         }
 
-        return $phoneCodes;
+        return $phoneCodes = self::applyFilterCountries($phoneCodes);
+    }
 
+    public static function applyFilterCountries($phoneCodes)
+    {
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $defaultCountriesList = $configHelper->getConfig('countriesConfig');
+        if (!empty($defaultCountriesList) && !empty($phoneCodes)) {
+            $defaultCountriesList = json_decode($defaultCountriesList);
+            foreach ($phoneCodes as $code => $countryName) {
+                if (isset($defaultCountriesList->$code) && $defaultCountriesList->$code == false) {
+                    unset($phoneCodes[$code]);
+                }
+            }
+        }
+        return $phoneCodes;
     }
 
     /**

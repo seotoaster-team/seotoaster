@@ -82,17 +82,20 @@
 			</form>
 		</div>
         <div id="manage-country-codes" class="show-right">
-            <div class="header"><?php echo $this->translate('Default desktop/mobile country code'); ?></div>
-            <div class="grid_12 mt15px">
-                <input type="button" id="save-country-codes-config" class="btn mt10px"
-                       value="<?php echo $this->translate('Save config'); ?>"/>
-                <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel): ?>
-                    <p><label
-                            for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $mobilePhoneCountryCodeLabel; ?></label>
-                        <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>"
-                               type="checkbox"></p>
-                <?php endforeach; ?>
+            <div class="header"><?php echo $this->translate('Default countries list:'); ?>
+                <div class="closebutton">
+                    <a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
+                </div>
             </div>
+            <input type="button" id="save-country-codes-config" class="btn mt10px"
+                   value="<?php echo $this->translate('Save config'); ?>"/>
+            <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel): ?>
+                <p><label
+                        for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $mobilePhoneCountryCodeLabel; ?></label>
+                    <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>"
+                           type="checkbox" checked="checked">
+                </p>
+            <?php endforeach; ?>
         </div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
         <div id="switch-default-params-block" class="grid_12">
@@ -355,6 +358,34 @@
             });
 
         }
+
+        $('#save-country-codes-config').on('click', function () {
+            var countriesList = $('#manage-country-codes input[type="checkbox"]');
+            if (countriesList.length) {
+                var countriesConfig = [];
+                countriesList.each(function (index, element) {
+                    var country = {};
+                    country.code = $(element).attr('name');
+                    country.status = $(element).prop('checked');
+                    countriesConfig.push(country);
+                });
+                $.ajax({
+                    'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/savecountriesconfig/',
+                    'type': 'POST',
+                    'dataType': 'json',
+                    'data': {
+                        'countriesConfig': JSON.stringify(countriesConfig)
+                    }
+                }).done(function (response) {
+                    if (response.error == '0') {
+                        showMessage(response.responseText, false, 5000);
+                    } else {
+                        showMessage(response.responseText, true, 5000);
+                    }
+                });
+            }
+            console.log(countriesConfig);
+        });
 
 
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].ticon-sort').addClass('ticon-sort-down');

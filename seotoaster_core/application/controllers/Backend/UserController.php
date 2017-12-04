@@ -144,7 +144,32 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true);
         $this->view->userDefaultMobileCountryCode = $userDefaultMobileCountryCode;
         $this->view->oldMobileFormat = $oldMobileFormat;
+
+        //ALTER TABLE `config` CHANGE `value` `value` text COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
 	}
+
+    public function savecountriesconfigAction()
+    {
+        if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $countriesConfig = json_decode($this->getRequest()->getParam('countriesConfig'));
+            if (!empty($countriesConfig) && is_array($countriesConfig)) {
+                $countriesList = array();
+                foreach ($countriesConfig as $country) {
+                    if ($country instanceof stdClass) {
+                        $countriesList[filter_var($country->code,
+                            FILTER_SANITIZE_STRING)] = filter_var($country->status,
+                            FILTER_VALIDATE_BOOLEAN);
+                    }
+                }
+            }
+            $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+            if (!empty($countriesList)) {
+                $configMapper->save(array('countriesConfig' => json_encode($countriesList)));
+            }
+            $this->_helper->response->success($this->_helper->language->translate('Saved'));
+            exit;
+        }
+    }
 
 	public function deleteAction() {
 		if($this->getRequest()->isDelete()) {
