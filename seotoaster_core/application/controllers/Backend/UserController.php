@@ -141,7 +141,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->userForm = $userForm;
         $this->view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
         $this->view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
-        $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true);
+        $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true, true);
         $this->view->userDefaultMobileCountryCode = $userDefaultMobileCountryCode;
         $this->view->oldMobileFormat = $oldMobileFormat;
 
@@ -166,7 +166,8 @@ class Backend_UserController extends Zend_Controller_Action {
             if (!empty($countriesList)) {
                 $configMapper->save(array('countriesConfig' => json_encode($countriesList)));
             }
-            $this->_helper->response->success($this->_helper->language->translate('Saved'));
+            $updatedCountriesList = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true, true);
+            $this->_helper->response->success(array('countriesConfig' => json_encode($updatedCountriesList), 'message' => 'Saved'));
             exit;
         }
     }

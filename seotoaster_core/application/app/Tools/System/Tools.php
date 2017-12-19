@@ -649,7 +649,7 @@ class Tools_System_Tools {
      * @param bool $reverseLabels change order for labels  Ex: Ascension Island +247
      * @return array
      */
-    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $reverseLabels = false)
+    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $reverseLabels = false, $withStatuses = false)
     {
         $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
         $countryCodes = Zend_Locale::getTranslationList('Territory');
@@ -668,8 +668,29 @@ class Tools_System_Tools {
         if ($reverseLabels === true) {
             asort($phoneCodes);
         }
+        if ($withStatuses) {
+            return $phoneCodes = self::_proceedCountriesStatus($phoneCodes);
+        }
+        return self::applyFilterCountries($phoneCodes);
+    }
 
-        return $phoneCodes = self::applyFilterCountries($phoneCodes);
+    protected static function _proceedCountriesStatus($phoneCodes)
+    {
+        $phoneCodesStatuses = array();
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $defaultCountriesList = $configHelper->getConfig('countriesConfig');
+        if (!empty($defaultCountriesList) && !empty($phoneCodes)) {
+            $defaultCountriesList = json_decode($defaultCountriesList);
+            foreach ($phoneCodes as $code => $countryName) {
+                $phoneCodesStatuses[$code]['countryName'] = $countryName;
+                if (isset($defaultCountriesList->$code)) {
+                    $phoneCodesStatuses[$code]['status'] = $defaultCountriesList->$code;
+                } else {
+                    $phoneCodesStatuses[$code]['status'] = 'true';
+                }
+            }
+        }
+        return $phoneCodesStatuses;
     }
 
     public static function applyFilterCountries($phoneCodes)
