@@ -112,5 +112,18 @@
         echo $this->inlineScript();
     }
 ?>
+<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
+<script>
+    <?php
+    $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+    ?>
+    var CaptchaCallback = function () {
+        var captchas = document.getElementsByClassName("g-recaptcha");
+        console.log(captchas.length);
+        for (var i = 0; i < captchas.length; i++) {
+            grecaptcha.render(captchas[i], {'sitekey': '<?php echo $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY];?>'});
+        }
+    };
+</script>
 </body>
 </html>
