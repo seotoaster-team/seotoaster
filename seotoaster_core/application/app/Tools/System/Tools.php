@@ -677,8 +677,8 @@ class Tools_System_Tools {
     protected static function _proceedCountriesStatus($phoneCodes)
     {
         $phoneCodesStatuses = array();
-        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
-        $defaultCountriesList = $configHelper->getConfig('countriesConfig');
+        $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+        $defaultCountriesList = $configMapper->getConfig('countriesConfig');
         if (!empty($defaultCountriesList) && !empty($phoneCodes)) {
             $defaultCountriesList = json_decode($defaultCountriesList);
             foreach ($phoneCodes as $code => $countryName) {
