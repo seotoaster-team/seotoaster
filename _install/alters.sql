@@ -204,6 +204,11 @@ ALTER TABLE `user` ADD COLUMN `subscribed` ENUM('0', '1') DEFAULT '0';
 -- Add inlineEditor status 1 by default
 UPDATE `config` SET `value` = '1' WHERE `name` = 'inlineEditor';
 
+-- 22/12/2017
+-- version: 2.6.1
+-- Change type of value to text
+ALTER TABLE `config` CHANGE `value` `value` text COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.1' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

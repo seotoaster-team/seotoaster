@@ -402,7 +402,11 @@
             if (typeof countriesConfig === 'object') {
                 for (var country in countriesConfig) {
                     if (countriesConfig[country]['status'] === true) {
-                        selectCountries.append('<option value="' + country + '">' + countriesConfig[country]['countryName'] + '</option>');
+                        if (countriesConfig[country]['selected'] === true) {
+                            selectCountries.append('<option value="' + country + '" selected>' + countriesConfig[country]['countryName'] + '</option>');
+                        } else {
+                            selectCountries.append('<option value="' + country + '">' + countriesConfig[country]['countryName'] + '</option>');
+                        }
                     }
                 }
             }

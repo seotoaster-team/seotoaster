@@ -677,19 +677,30 @@ class Tools_System_Tools {
     protected static function _proceedCountriesStatus($phoneCodes)
     {
         $phoneCodesStatuses = array();
-        $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
-        $defaultCountriesList = $configMapper->getConfig('countriesConfig');
-        if (!empty($defaultCountriesList) && !empty($phoneCodes)) {
-            $defaultCountriesList = json_decode($defaultCountriesList);
-            foreach ($phoneCodes as $code => $countryName) {
-                $phoneCodesStatuses[$code]['countryName'] = $countryName;
-                if (isset($defaultCountriesList->$code)) {
-                    $phoneCodesStatuses[$code]['status'] = $defaultCountriesList->$code;
-                } else {
-                    $phoneCodesStatuses[$code]['status'] = 'true';
+        $configData = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
+        if (!empty($configData)) {
+
+            $userDefaultMobileCountryCode = !empty($configData['userDefaultPhoneMobileCode']) ? $configData['userDefaultPhoneMobileCode'] : 'US';
+            if (!empty($configData['countriesConfig'])) {
+                $defaultCountriesList = $configData['countriesConfig'];
+
+                if (!empty($phoneCodes)) {
+                    $defaultCountriesList = json_decode($defaultCountriesList);
+                    foreach ($phoneCodes as $code => $countryName) {
+                        $phoneCodesStatuses[$code]['countryName'] = $countryName;
+                        if (isset($defaultCountriesList->$code)) {
+                            $phoneCodesStatuses[$code]['status'] = $defaultCountriesList->$code;
+                        } else {
+                            $phoneCodesStatuses[$code]['status'] = 'true';
+                        }
+                        if($code === $userDefaultMobileCountryCode){
+                            $phoneCodesStatuses[$code]['selected'] = true;
+                        }
+                    }
                 }
             }
         }
+
         return $phoneCodesStatuses;
     }
 
