@@ -74,13 +74,15 @@ if (!empty($this->filters)) {
 		});
 		<?php if ($this->caller == 'media'): ?>
 		$('#things-select-folder,#things-new-folder').attr('disabled', 'disabled');
-
 		var newfolder = $('#things-new-folder').val();
+        var uploader = window.<?php echo $jsValName; ?>;
 		if ( newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' ) {
+            uploader.settings.url = '<?php echo $this->websiteUrl;?>backend/backend_upload/upload/caller/media/folder/' + newfolder;
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': newfolder};
 		} else {
 			var folder = $('#things-select-folder').val();
 			if (folder != '0' && folder != '') {
+                uploader.settings.url = '<?php echo $this->websiteUrl;?>backend/backend_upload/upload/caller/media/folder/' + folder;
 			<?php echo $jsValName; ?>.settings.multipart_params = {'folder': folder};
 			} else {
 				showMessage('<?php echo $this->translate('No folder specified'); ?>', true);
@@ -122,6 +124,58 @@ if (!empty($this->filters)) {
         up.refresh(); // Reposition Flash/Silverlight
     });
 
+    <?php echo $jsValName; ?>.bind('UploadComplete', function(up, files) {
+        var newfolder = $('#things-new-folder').val();
+        var folderEl = $('#things-select-folder');
+        var folder = folderEl.val();
+
+        if(typeof newfolder === 'undefined'){
+            newfolder = '';
+        }
+
+        if(newfolder.length != 0){
+            folder = newfolder.replace(/\s/g,'-');
+
+            if($('#things-select-folder option[value=\"'+ folder +'\"]').length == 0){
+                folderEl.append('<option value="'+ folder +'">'+ folder +'</option>');
+            }
+            $('#things-select-folder option[value=\"'+ folder +'\"]').attr('selected', 'selected');
+        }
+
+        $.ajax({
+            url: '<?php echo $this->websiteUrl;?>/backend/backend_media/getdirectorycontent/',
+            type: 'post',
+            data: {'folder': folder},
+            dataType: 'json',
+            beforeSend: function(){
+                showSpinner()
+            },
+            complete: function(){
+                hideSpinner()
+            },
+            success: function(response){
+                if(!response.error){
+                    var fileImagesEl = $('#filebrowser-images');
+                    var fileFilesEl = $('#filebrowser-files');
+                    $('.file-container').empty();
+                        if (response.imageList.length > 0) {
+                            if(fileImagesEl.length > 0){
+                                $('#filebrowser-images').empty();
+
+                                $('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
+                            }
+                        }
+                        if (response.filesList.length > 0) {
+                            if(fileFilesEl.length > 0){
+                                $('#filebrowser-files').empty();
+                                $('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
+                            }
+                        }
+                }
+            }
+        });
+    });
+
     <?php echo $jsValName; ?>.bind('FileUploaded', function(up, file, info) {
 		response = jQuery.parseJSON(info.response);
 		if (response.error == true){
@@ -146,7 +200,6 @@ if (!empty($this->filters)) {
 		} else {
 			$('#themes-list').trigger('updateContent');
 		}
-
         $('#'+file.id).parent().fadeOut(1000);
 		<?php elseif ($this->caller == 'templatePreview'): ?>
 		if (response.error == false && response.hasOwnProperty('thumb')){
