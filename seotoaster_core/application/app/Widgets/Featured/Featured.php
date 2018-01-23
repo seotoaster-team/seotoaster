@@ -195,6 +195,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $this->_view->denyBlank = true;
         }
 
+        $this->_view->toasterOptions = array('websiteUrl' => $this->_toasterOptions['websiteUrl']);
+
         // Adding cache tag for this fa
         array_push($this->_cacheTags, 'fa_'.$params[0]);
         array_push($this->_cacheTags, 'pageTags');
