@@ -123,6 +123,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
                         'username' => $this->getRequest()->getParam('smtpLogin'),
                         'password' => $this->getRequest()->getParam('smtpPassword')
                     );
+
+                    $smtpSsl = $this->getRequest()->getParam('smtpSsl');
+
+                    if(!empty($smtpSsl)){
+                        $smtpConfig['ssl'] =  $smtpSsl;
+                    }
+
                     $smtpHost = $this->getRequest()->getParam('smtpHost');
                     $smtpPort = $this->getRequest()->getParam('smtpPort');
 
