@@ -132,6 +132,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
                     $smtpHost = filter_var($this->getRequest()->getParam('smtpHost'), FILTER_SANITIZE_STRING);
                     $smtpHost = trim(str_replace(' ','',$smtpHost));
+                    $config['smtpHost'] = $smtpHost;
 
                     $smtpPort = filter_var($this->getRequest()->getParam('smtpPort'), FILTER_SANITIZE_NUMBER_INT);
 
