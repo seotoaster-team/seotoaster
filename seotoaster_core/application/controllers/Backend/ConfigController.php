@@ -140,14 +140,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
                     try{
                         $verifySmtpConnection->connect();
+                        try{
+                            $verifySmtpConnection->helo();
+                        } catch (Exception $e){
+                            $errorMessage = $this->_helper->language->translate('Invalid login or password');
+                        }
                     } catch (Exception $e){
-                        $errorMessage = $e->getMessage();
-                    }
-
-                    try{
-                        $verifySmtpConnection->helo();
-                    } catch (Exception $e){
-                        $errorMessage = $e->getMessage();
+                        $errorMessage = $this->_helper->language->translate('Could not establish connection to '). $smtpHost. $this->_helper->language->translate(' – Double check your hostname');
                     }
                 }
 
