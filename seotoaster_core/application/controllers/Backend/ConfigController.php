@@ -130,8 +130,10 @@ class Backend_ConfigController extends Zend_Controller_Action {
                         $smtpConfig['ssl'] =  $smtpSsl;
                     }
 
-                    $smtpHost = $this->getRequest()->getParam('smtpHost');
-                    $smtpPort = $this->getRequest()->getParam('smtpPort');
+                    $smtpHost = filter_var($this->getRequest()->getParam('smtpHost'), FILTER_SANITIZE_STRING);
+                    $smtpHost = trim(str_replace(' ','',$smtpHost));
+
+                    $smtpPort = filter_var($this->getRequest()->getParam('smtpPort'), FILTER_SANITIZE_NUMBER_INT);
 
                     $verifySmtpConnection = new Zend_Mail_Protocol_Smtp_Auth_Login($smtpHost, $smtpPort, $smtpConfig);
 
