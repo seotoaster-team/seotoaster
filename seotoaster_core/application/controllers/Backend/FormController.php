@@ -204,9 +204,8 @@ class Backend_FormController extends Zend_Controller_Action {
                 }
                 //Check if email is valid
                 if (isset($formParams['email'])) {
-                    $emailValidation = new Zend_Validate_EmailAddress();
-                    $validEmail = $emailValidation->isValid($formParams['email']);
-                    if(!$validEmail){
+                    $validEmail = Tools_System_Tools::isEmailValid($formParams['email']);
+                    if ($validEmail === false) {
                         if($xmlHttpRequest){
                             $this->_helper->response->fail($this->_helper->language->translate('Please enter a valid email address'));
                         }
