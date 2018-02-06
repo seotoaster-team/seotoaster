@@ -27,7 +27,7 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 			),
 			'validators' => array(
 				new Zend_Validate_NotEmpty(),
-				new Zend_Validate_EmailAddress(),
+				new Tools_System_CustomEmailValidator(),
 				new Zend_Validate_Db_RecordExists(array(
 					'table' => 'user',
 					'field' => 'email'

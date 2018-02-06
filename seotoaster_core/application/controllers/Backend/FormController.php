@@ -87,7 +87,7 @@ class Backend_FormController extends Zend_Controller_Action {
 	}
 
     public function validateEmail($emails){
-        $emailValidation = new Zend_Validate_EmailAddress();
+        $emailValidation = new Tools_System_CustomEmailValidator();
         if(is_string($emails) && preg_match('~,~', $emails)){
             $contanctEmails = explode(',',$emails);
             foreach($contanctEmails as $email){
@@ -204,8 +204,9 @@ class Backend_FormController extends Zend_Controller_Action {
                 }
                 //Check if email is valid
                 if (isset($formParams['email'])) {
-                    $validEmail = Tools_System_Tools::isEmailValid($formParams['email']);
-                    if ($validEmail === false) {
+                    $emailValidation = new Tools_System_CustomEmailValidator();
+                    $validEmail = $emailValidation->isValid($formParams['email']);
+                    if(!$validEmail){
                         if($xmlHttpRequest){
                             $this->_helper->response->fail($this->_helper->language->translate('Please enter a valid email address'));
                         }
