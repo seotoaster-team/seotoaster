@@ -33,7 +33,7 @@ class Installer_Form_Settings extends Zend_Form {
 			'label'		=> 'Admin email',
 			'required'	=> true,
 			'allowEmpty'=> false,
-			'validators'=> array(new Zend_Validate_EmailAddress(array(
+			'validators'=> array(new Tools_System_CustomEmailValidator(array(
 				'domain'    => false,
 				'allow'     => Zend_Validate_Hostname::ALLOW_DNS || Zend_Validate_Hostname::ALLOW_LOCAL
 			)))
