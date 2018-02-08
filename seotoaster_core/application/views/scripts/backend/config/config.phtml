@@ -6,6 +6,17 @@
         $('input[title], .tooltip').tooltip({
             track: true
         });
+
+        var message = $('#message').val();
+        var errMessageFlag = $('#errMessageFlag').val();
+
+        if(message.length > 0){
+            if(errMessageFlag){
+                showMessage(message, true, 3000);
+            }else {
+                showMessage(message, false, 3000);
+            }
+        }
     });
 </script>
 <div class="seotoaster container">
@@ -13,6 +24,8 @@
         'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
         array('helpSection' => $this->helpSection)
     ); ?>
+    <input type="hidden" name="message" id="message" value="<?php echo $this->message;?>" />
+    <input type="hidden" name="errMessageFlag" id="errMessageFlag" value="<?php echo $this->errMessageFlag;?>" />
     <form id="tabs" action="<?php echo $this->configForm->getAction(); ?>" method="<?php echo $this->configForm->getMethod(); ?>">
         <ul class="header">
             <li><a href="#general-config"><?php echo $this->translate('General'); ?></a></li>
