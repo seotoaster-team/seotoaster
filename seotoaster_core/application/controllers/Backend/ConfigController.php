@@ -131,23 +131,28 @@ class Backend_ConfigController extends Zend_Controller_Action {
                     }
 
                     $smtpHost = filter_var($this->getRequest()->getParam('smtpHost'), FILTER_SANITIZE_STRING);
-                    $smtpHost = trim(str_replace(' ','',$smtpHost));
-                    $config['smtpHost'] = $smtpHost;
+                    if(!empty($smtpHost)){
+                        $smtpHost = trim(str_replace(' ','',$smtpHost));
+                        $config['smtpHost'] = $smtpHost;
 
-                    $smtpPort = filter_var($this->getRequest()->getParam('smtpPort'), FILTER_SANITIZE_NUMBER_INT);
+                        $smtpPort = filter_var($this->getRequest()->getParam('smtpPort'), FILTER_SANITIZE_NUMBER_INT);
 
-                    $verifySmtpConnection = new Zend_Mail_Protocol_Smtp_Auth_Login($smtpHost, $smtpPort, $smtpConfig);
+                        $verifySmtpConnection = new Zend_Mail_Protocol_Smtp_Auth_Login($smtpHost, $smtpPort, $smtpConfig);
 
-                    try{
-                        $verifySmtpConnection->connect();
                         try{
-                            $verifySmtpConnection->helo();
+                            $verifySmtpConnection->connect();
+                            try{
+                                $verifySmtpConnection->helo();
+                            } catch (Exception $e){
+                                $errorMessage = $this->_helper->language->translate('Invalid login or password');
+                            }
                         } catch (Exception $e){
-                            $errorMessage = $this->_helper->language->translate('Invalid login or password');
+                            $errorMessage = $this->_helper->language->translate('Could not establish connection to '). $smtpHost. $this->_helper->language->translate(' – Double check your hostname');
                         }
-                    } catch (Exception $e){
-                        $errorMessage = $this->_helper->language->translate('Could not establish connection to '). $smtpHost. $this->_helper->language->translate(' – Double check your hostname');
+                    }else{
+                        $errorMessage = $this->_helper->language->translate('Host name is empty. Please enter the host name');
                     }
+
                 }
 
                 if(!empty($errorMessage)){
