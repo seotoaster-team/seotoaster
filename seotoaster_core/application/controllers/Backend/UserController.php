@@ -144,8 +144,6 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->mobilePhoneCountryCodes = Tools_System_Tools::getFullCountryPhoneCodesList(true, array(), true, true);
         $this->view->userDefaultMobileCountryCode = $userDefaultMobileCountryCode;
         $this->view->oldMobileFormat = $oldMobileFormat;
-
-        //ALTER TABLE `config` CHANGE `value` `value` text COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
 	}
 
     public function savecountriesconfigAction()
