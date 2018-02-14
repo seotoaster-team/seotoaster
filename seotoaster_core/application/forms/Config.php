@@ -454,7 +454,7 @@ class Application_Form_Config extends Application_Form_Secure
 		$this->addElement('text', 'suLogin', array(
 			'value' => $this->_suLogin,
 			'label' => 'E-mail',
-			'validators' => array(new Zend_Validate_EmailAddress()),
+			'validators' => array(new Tools_System_CustomEmailValidator()),
 			'ignore' => true
 		));
 

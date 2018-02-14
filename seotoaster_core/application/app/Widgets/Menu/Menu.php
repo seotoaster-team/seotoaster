@@ -157,7 +157,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     continue;
                 }
                 if ($prop === 'url') {
-                    $item = $website->getUrl() . $item;
+                    $item = $website->getUrl() . str_replace('index.html', '', $item);
                     if ($page['page_folder']) {
                         if (empty($page['is_folder_index'])) {
                             $item = $website->getUrl() . $page['page_folder'] . '/' .  $page['url'];;
