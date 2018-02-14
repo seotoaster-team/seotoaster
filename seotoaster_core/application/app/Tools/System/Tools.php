@@ -681,21 +681,21 @@ class Tools_System_Tools {
         if (!empty($configData)) {
 
             $userDefaultMobileCountryCode = !empty($configData['userDefaultPhoneMobileCode']) ? $configData['userDefaultPhoneMobileCode'] : 'US';
-            if (!empty($configData['countriesConfig'])) {
-                $defaultCountriesList = $configData['countriesConfig'];
 
-                if (!empty($phoneCodes)) {
-                    $defaultCountriesList = json_decode($defaultCountriesList);
-                    foreach ($phoneCodes as $code => $countryName) {
-                        $phoneCodesStatuses[$code]['countryName'] = $countryName;
-                        if (isset($defaultCountriesList->$code)) {
-                            $phoneCodesStatuses[$code]['status'] = $defaultCountriesList->$code;
-                        } else {
-                            $phoneCodesStatuses[$code]['status'] = 'true';
-                        }
-                        if($code === $userDefaultMobileCountryCode){
-                            $phoneCodesStatuses[$code]['selected'] = true;
-                        }
+            $defaultCountriesList = array();
+            if (!empty($phoneCodes)) {
+                if(!empty($configData['countriesConfig'])){
+                    $defaultCountriesList = json_decode($configData['countriesConfig'], true);
+                }
+                foreach ($phoneCodes as $code => $countryName) {
+                    $phoneCodesStatuses[$code]['countryName'] = $countryName;
+                    if (isset($defaultCountriesList[$code])) {
+                        $phoneCodesStatuses[$code]['status'] = $defaultCountriesList[$code];
+                    } else {
+                        $phoneCodesStatuses[$code]['status'] = 'true';
+                    }
+                    if($code === $userDefaultMobileCountryCode){
+                        $phoneCodesStatuses[$code]['selected'] = true;
                     }
                 }
             }
@@ -709,9 +709,9 @@ class Tools_System_Tools {
         $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $defaultCountriesList = $configHelper->getConfig('countriesConfig');
         if (!empty($defaultCountriesList) && !empty($phoneCodes)) {
-            $defaultCountriesList = json_decode($defaultCountriesList);
+            $defaultCountriesList = json_decode($defaultCountriesList, true);
             foreach ($phoneCodes as $code => $countryName) {
-                if (isset($defaultCountriesList->$code) && $defaultCountriesList->$code == false) {
+                if (isset($defaultCountriesList[$code]) && $defaultCountriesList[$code] == false) {
                     unset($phoneCodes[$code]);
                 }
             }

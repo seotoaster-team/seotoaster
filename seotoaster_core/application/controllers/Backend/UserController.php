@@ -151,15 +151,11 @@ class Backend_UserController extends Zend_Controller_Action {
     public function savecountriesconfigAction()
     {
         if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
-            $countriesConfig = json_decode($this->getRequest()->getParam('countriesConfig'));
+            $countriesConfig = json_decode($this->getRequest()->getParam('countriesConfig'), true);
             if (!empty($countriesConfig) && is_array($countriesConfig)) {
                 $countriesList = array();
                 foreach ($countriesConfig as $country) {
-                    if ($country instanceof stdClass) {
-                        $countriesList[filter_var($country->code,
-                            FILTER_SANITIZE_STRING)] = filter_var($country->status,
-                            FILTER_VALIDATE_BOOLEAN);
-                    }
+                    $countriesList[filter_var($country['code'], FILTER_SANITIZE_STRING)] = filter_var($country['status'], FILTER_VALIDATE_BOOLEAN);
                 }
             }
             $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();

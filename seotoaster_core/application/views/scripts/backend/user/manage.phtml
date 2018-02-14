@@ -87,37 +87,39 @@
                     <a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
                 </div>
             </div>
-            <input type="button" id="save-country-codes-config" class="btn mt10px"
+            <input type="button" id="save-country-codes-config" class="grid_12 btn mt10px mb10px"
                    value="<?php echo $this->translate('Save config'); ?>"/>
             <div class="grid_12 items-list scroll">
-            <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
-                <p><label
-                        for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
-                    <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>"
-                           type="checkbox" <?php if ($params['status']) {
-                        echo 'checked="checked"';
-                    } ?>>
-                </p>
-            <?php endforeach; ?>
+                <ul class=" list-unstyled" style="height: 500px;">
+                <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
+                    <li><label
+                            for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
+                        <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>"
+                               type="checkbox" <?php if ($params['status']) {
+                            echo 'checked="checked"';
+                        } ?>>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
             </div>
         </div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
-        <div id="switch-default-params-block" class="grid_12">
+        <div id="switch-default-params-block" class="grid_12 alpha omega">
             <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
                   array_pop($timezones);
                   $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
             ?>
-            <p class="grid_6 m10px">
-                <label class="grid_4 m5px"><?php echo $this->translate('Default timezone');?>:</label>
-                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_8">
+            <p class="grid_4 alpha omega">
+                <label class="grid_5 m5px"><?php echo $this->translate('Default timezone');?>:</label>
+                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_6 alpha">
                     <?php foreach($timezones as $timezone):?>
                         <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
                     <?php endforeach;?>
                 </select>
             </p>
-            <p class="grid_6 alpha m10px">
-                <label class="grid_7 m5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
-                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5">
+            <p class="grid_6 omega alpha">
+                <label class="grid_6 alpha omega m5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
+                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 alpha omega">
                     <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
                         <?php if ($params['status']): ?>
                             <option <?php echo(((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected' : ''); ?>
@@ -126,13 +128,13 @@
                     <?php endforeach; ?>
                 </select>
             </p>
-            <?php echo '<a id="manage-country-codes-link" class="btn fl-right icon-user-add mt10px" href="javascript:;"> ' . $this->translate('Manage') . '</a>' ?>
+            <a id="manage-country-codes-link" class="btn fl-right icon-user-add grid_2 alpha omega" href="javascript:;"> <?php echo $this->translate('Manage');?> </a>
         </div>
         <form class="grid_6 alpha search mt10px" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add mt10px" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+		<a id="add-user-link" class="btn fl-right icon-user-add grid_2 alpha omega mt10px" href="javascript:;"> <?php echo $this->translate('Add new user');?> </a>
         <span class="clearfix"></span>
 		<table id="users-list" class="table-striped mt20px">
 			<thead>
