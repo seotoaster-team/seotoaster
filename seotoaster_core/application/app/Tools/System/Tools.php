@@ -870,4 +870,18 @@ class Tools_System_Tools {
 
     }
 
+    /**
+     * @param string $email email address
+     * @return bool
+     */
+    public static function isEmailValid($email)
+    {
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if (!empty($email)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

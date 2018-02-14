@@ -52,7 +52,7 @@ class Application_Form_User extends Application_Form_Secure {
             'label'      => 'E-mail',
             'value'      => $this->_email,
             'validators' => array(
-                new Zend_Validate_EmailAddress(),
+                new Tools_System_CustomEmailValidator(),
                 new Zend_Validate_Db_NoRecordExists(array(
                     'table' => 'user',
                     'field' => 'email'

@@ -909,7 +909,8 @@
     'Assign group' => 'Assigner un groupe',
     'select group' => 'Sélectionner un groupe',
     'Apply to all customers' => 'Appliquer a tous les clients',
-    'days ago' => 'Jours',
+    'days' => 'Jours',
+    'ago' => 'il y a',
     'Lost opportunity' => 'Opportunité perdu',
     'States' => 'États',
     'Countries' => 'Pays',
@@ -1216,5 +1217,8 @@
     'Please select a file' => 'Séléctionnez un fichier',
     'Your password was reset.' => 'Mot de passe réinitialisé.',
     'View default configuration' => 'Voir la configuration par défaut',
-    'Default timezone' => 'Fuseau horaire par défaut'
+    'Default timezone' => 'Fuseau horaire par défaut',
+    'is used on' => 'is used on',
+    'Please go remove or replace it with another image first so that your website stays pretty.' => 'Please go remove or replace it with another image first so that your website stays pretty.'
+
 );?>

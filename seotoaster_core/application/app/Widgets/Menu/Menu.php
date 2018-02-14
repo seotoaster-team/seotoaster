@@ -157,7 +157,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     continue;
                 }
                 if ($prop === 'url') {
-                    $item = $website->getUrl() . $item;
+                    $item = $website->getUrl() . str_replace('index.html', '', $item);
                     if ($page['external_link_status'] === '1'){
                         $item = $page['external_link'];
                         $dictionary['$page:target_blank'] = 'target=_blank';

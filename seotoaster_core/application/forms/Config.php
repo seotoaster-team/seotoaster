@@ -31,6 +31,7 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_grecaptchaPublicKey;
     protected $_recaptchaPrivateKey;
     protected $_grecaptchaPrivateKey;
+    protected $_googleApiKey;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -453,7 +454,7 @@ class Application_Form_Config extends Application_Form_Secure
 		$this->addElement('text', 'suLogin', array(
 			'value' => $this->_suLogin,
 			'label' => 'E-mail',
-			'validators' => array(new Zend_Validate_EmailAddress()),
+			'validators' => array(new Tools_System_CustomEmailValidator()),
 			'ignore' => true
 		));
 
@@ -517,6 +518,12 @@ class Application_Form_Config extends Application_Form_Secure
 			)
 		));
 
+        $this->addElement('text', 'googleApiKey', array(
+            'value' => $this->_googleApiKey,
+            'label' => 'Google API key',
+            'placeholder' => 'Browser key'
+        ));
+
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
 
@@ -557,4 +564,22 @@ class Application_Form_Config extends Application_Form_Secure
     {
 		return $this->_canonicalScheme;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getGoogleApiKey()
+    {
+        return $this->_googleApiKey;
+    }
+
+    /**
+     * @param $googleApiKey
+     */
+    public function setGoogleApiKey($googleApiKey)
+    {
+        $this->_googleApiKey = $googleApiKey;
+        $this->getElement('googleApiKey')->setValue($this->_googleApiKey);
+        return $this;
+    }
 }
