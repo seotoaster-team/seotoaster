@@ -153,7 +153,7 @@ class Backend_UserController extends Zend_Controller_Action {
             if (!empty($countriesConfig) && is_array($countriesConfig)) {
                 $countriesList = array();
                 foreach ($countriesConfig as $country) {
-                    $countriesList[filter_var($country['code'], FILTER_SANITIZE_STRING)] = filter_var($country['status'], FILTER_VALIDATE_BOOLEAN);
+                    $countriesList[filter_var($country['code'], FILTER_SANITIZE_STRING)] = filter_var($country['status'], FILTER_SANITIZE_NUMBER_INT);
                 }
             }
             $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();

@@ -87,21 +87,17 @@
                     <a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
                 </div>
             </div>
-            <input type="button" id="save-country-codes-config" class="grid_12 btn mt10px mb10px"
-                   value="<?php echo $this->translate('Save config'); ?>"/>
-            <div class="grid_12 items-list scroll">
+            <div class="grid_12 items-list scroll mt10px">
                 <ul class=" list-unstyled" style="height: 500px;">
                 <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
-                    <li><label
-                            for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
-                        <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>"
-                               type="checkbox" <?php if ($params['status']) {
-                            echo 'checked="checked"';
-                        } ?>>
+                    <li><label for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
+                        <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>" type="checkbox" <?php echo !empty($params['status']) ? 'checked="checked"' : ''; ?>>
                     </li>
                 <?php endforeach; ?>
                 </ul>
             </div>
+            <input type="button" id="save-country-codes-config" class="grid_12 btn mt10px mb0px"
+                   value="<?php echo $this->translate('Save config'); ?>"/>
         </div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
         <div id="switch-default-params-block" class="grid_12 alpha omega">
@@ -374,8 +370,11 @@
                 var countriesConfig = [];
                 countriesList.each(function (index, element) {
                     var country = {};
-                    country.code = $(element).attr('name');
-                    country.status = $(element).prop('checked');
+                    country.code = $(element).prop('name');
+                    country.status = 0;
+                    if($(element).prop('checked')){
+                        country.status = 1;
+                    }
                     countriesConfig.push(country);
                 });
                 $.ajax({
@@ -389,6 +388,7 @@
                     if (response.error == '0') {
                         var countriesConfig = response.responseText.countriesConfig;
                         countryCodesRefresh(countriesConfig);
+                        $('#manage-country-codes').hide("slide", { direction: "right"});
                         showMessage(response.responseText.message, false, 5000);
                     } else {
                         showMessage(response.responseText, true, 5000);
@@ -403,8 +403,8 @@
 
             if (typeof countriesConfig === 'object') {
                 for (var country in countriesConfig) {
-                    if (countriesConfig[country]['status'] === true) {
-                        if (countriesConfig[country]['selected'] === true) {
+                    if (countriesConfig[country]['status'] == 1) {
+                        if (countriesConfig[country]['selected'] == 1) {
                             selectCountries.append('<option value="' + country + '" selected>' + countriesConfig[country]['countryName'] + '</option>');
                         } else {
                             selectCountries.append('<option value="' + country + '">' + countriesConfig[country]['countryName'] + '</option>');

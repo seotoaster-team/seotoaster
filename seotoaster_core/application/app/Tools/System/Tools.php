@@ -683,20 +683,19 @@ class Tools_System_Tools {
             $userDefaultMobileCountryCode = !empty($configData['userDefaultPhoneMobileCode']) ? $configData['userDefaultPhoneMobileCode'] : 'US';
 
             $defaultCountriesList = array();
-            if (!empty($phoneCodes)) {
-                if(!empty($configData['countriesConfig'])){
-                    $defaultCountriesList = json_decode($configData['countriesConfig'], true);
+
+            if(!empty($configData['countriesConfig'])){
+                $defaultCountriesList = json_decode($configData['countriesConfig'], true);
+            }
+            foreach ($phoneCodes as $code => $countryName) {
+                $phoneCodesStatuses[$code]['countryName'] = $countryName;
+                if (isset($defaultCountriesList[$code])) {
+                    $phoneCodesStatuses[$code]['status'] = $defaultCountriesList[$code];
+                } else {
+                    $phoneCodesStatuses[$code]['status'] = 1;
                 }
-                foreach ($phoneCodes as $code => $countryName) {
-                    $phoneCodesStatuses[$code]['countryName'] = $countryName;
-                    if (isset($defaultCountriesList[$code])) {
-                        $phoneCodesStatuses[$code]['status'] = $defaultCountriesList[$code];
-                    } else {
-                        $phoneCodesStatuses[$code]['status'] = 'true';
-                    }
-                    if($code === $userDefaultMobileCountryCode){
-                        $phoneCodesStatuses[$code]['selected'] = true;
-                    }
+                if($code === $userDefaultMobileCountryCode){
+                    $phoneCodesStatuses[$code]['selected'] = 1;
                 }
             }
         }
@@ -711,7 +710,7 @@ class Tools_System_Tools {
         if (!empty($defaultCountriesList) && !empty($phoneCodes)) {
             $defaultCountriesList = json_decode($defaultCountriesList, true);
             foreach ($phoneCodes as $code => $countryName) {
-                if (isset($defaultCountriesList[$code]) && $defaultCountriesList[$code] == false) {
+                if (empty($defaultCountriesList[$code])) {
                     unset($phoneCodes[$code]);
                 }
             }
