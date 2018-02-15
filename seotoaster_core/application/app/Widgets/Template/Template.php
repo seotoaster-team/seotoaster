@@ -8,6 +8,11 @@ class Widgets_Template_Template extends Widgets_Abstract
     const TEMPLATE_TYPE = 'type_partial_template';
 
     /**
+     * Featuredarea template type
+     */
+    const TEMPLATE_FA_TYPE = 'type_fa_template';
+
+    /**
      * Disable cache option
      */
     const WITHOUT_CACHE = 'without-cache';
@@ -57,13 +62,13 @@ class Widgets_Template_Template extends Widgets_Abstract
         } else {
             $template = Application_Model_Mappers_TemplateMapper::getInstance()->find($templateName);
             if ($template !== null) {
-                if ($template->getType() === self::TEMPLATE_TYPE) {
+                if ($template->getType() === self::TEMPLATE_TYPE || $template->getType() === self::TEMPLATE_FA_TYPE) {
                     $content = $template->getContent();
                     if ($preParse) {
                         $content = $this->_preParseTemplate($content, $websitePath, $currentTheme, $themePath, $templateOption);
                     }
                 } else {
-                    $content = '<span style="color: red;">Choose \'Nested Template\' type</span>';
+                    $content = '<span style="color: red;">Choose \'Nested or Featuredarea Template\' type</span>';
                 }
             } else {
                 $content = $missingTemplate;
