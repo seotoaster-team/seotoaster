@@ -679,7 +679,6 @@ class Tools_System_Tools {
         $phoneCodesStatuses = array();
         $configData = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
         if (!empty($configData)) {
-
             $userDefaultMobileCountryCode = !empty($configData['userDefaultPhoneMobileCode']) ? $configData['userDefaultPhoneMobileCode'] : 'US';
 
             $defaultCountriesList = array();

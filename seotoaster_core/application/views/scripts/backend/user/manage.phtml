@@ -378,24 +378,52 @@
                     countriesConfig.push(country);
                 });
                 $.ajax({
-                    'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/savecountriesconfig/',
+                    'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/processcountries/',
                     'type': 'POST',
                     'dataType': 'json',
                     'data': {
                         'countriesConfig': JSON.stringify(countriesConfig)
                     }
                 }).done(function (response) {
-                    if (response.error == '0') {
-                        var countriesConfig = response.responseText.countriesConfig;
-                        countryCodesRefresh(countriesConfig);
-                        $('#manage-country-codes').hide("slide", { direction: "right"});
-                        showMessage(response.responseText.message, false, 5000);
+                    if(response.error == 1){
+                        var attentionMsg =  '<?php echo $this->translate('Attention!');?>' + ' <br/>',
+                            firePluginsCountryCodes = response.responseText.firePluginsCountryCodes;
+                        $.each(firePluginsCountryCodes ,function(index, value) {
+                            attentionMsg += value;
+                        });
+
+                        attentionMsg += '<?php echo $this->translate('Ignore and continue?');?>';
+
+                        showConfirm(attentionMsg, function () {
+                            saveCountryCodes(countriesConfig);
+                        }, function () {});
                     } else {
-                        showMessage(response.responseText, true, 5000);
+                        saveCountryCodes(countriesConfig);
                     }
                 });
             }
         });
+
+        function saveCountryCodes(countriesConfig) {
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/savecountriesconfig/',
+                'type': 'POST',
+                'dataType': 'json',
+                'data': {
+                    'countriesConfig': JSON.stringify(countriesConfig)
+                }
+            }).done(function (response) {
+                if (response.error == '0') {
+                    var countriesConfig = response.responseText.countriesConfig;
+                    countryCodesRefresh(countriesConfig);
+                    $('#manage-country-codes').hide("slide", { direction: "right"});
+                    showMessage(response.responseText.message, false, 5000);
+                } else {
+                    showMessage(response.responseText, true, 5000);
+                }
+            });
+        }
+
         function countryCodesRefresh(countriesConfig) {
             var countriesConfig = JSON.parse(countriesConfig);
             var selectCountries = $('#user-default-mobile-phone-country-code');

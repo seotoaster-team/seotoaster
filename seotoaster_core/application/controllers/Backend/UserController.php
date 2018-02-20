@@ -146,12 +146,58 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->oldMobileFormat = $oldMobileFormat;
 	}
 
+	public function processcountriesAction(){
+        if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
+            $countriesConfig = json_decode($this->getRequest()->getParam('countriesConfig'), true);
+
+            $countriesList = array();
+            if (!empty($countriesConfig) && is_array($countriesConfig)) {
+                foreach ($countriesConfig as $country) {
+                    $countriesList[filter_var($country['code'], FILTER_SANITIZE_STRING)] = filter_var($country['status'], FILTER_SANITIZE_NUMBER_INT);
+                }
+            }
+
+            if (!empty($countriesList)) {
+                $countries = array_count_values($countriesList);
+                if(!empty($countries[0])){
+                    $disabledCountries = array();
+                    foreach ($countriesList as $countryKey => $countryStatus){
+                        if(empty($countryStatus)){
+                            $disabledCountries[] = $countryKey;
+                        }
+                    }
+
+                    if(!empty($disabledCountries)){
+                        $availablePlugins = Tools_Plugins_Tools::getPluginsByTags(array('countrycodesfiltration'));
+                        $firePluginsCountryCodes = array();
+                        if (!empty($availablePlugins)) {
+                            foreach ($availablePlugins as $plugin) {
+                                $pluginClassName = $plugin->getName();
+                                $pluginData = Tools_System_Tools::firePluginMethodByPluginName($pluginClassName, 'getCountryCodes', $disabledCountries, false);
+                                if(!empty($pluginData)){
+                                    $firePluginsCountryCodes[$pluginClassName] = $pluginData;
+                                }
+                            }
+                        }
+
+                        if(!empty($firePluginsCountryCodes)){
+                            $this->_helper->response->fail(array('firePluginsCountryCodes' => $firePluginsCountryCodes));
+                        } else {
+                            $this->_helper->response->success('');
+                        }
+                    }
+                }
+                $this->_helper->response->success('');
+            }
+        }
+    }
+
     public function savecountriesconfigAction()
     {
         if ($this->getRequest()->isPost() && Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)) {
             $countriesConfig = json_decode($this->getRequest()->getParam('countriesConfig'), true);
+            $countriesList = array();
             if (!empty($countriesConfig) && is_array($countriesConfig)) {
-                $countriesList = array();
                 foreach ($countriesConfig as $country) {
                     $countriesList[filter_var($country['code'], FILTER_SANITIZE_STRING)] = filter_var($country['status'], FILTER_SANITIZE_NUMBER_INT);
                 }
