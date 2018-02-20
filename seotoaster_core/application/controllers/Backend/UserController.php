@@ -174,7 +174,7 @@ class Backend_UserController extends Zend_Controller_Action {
                             foreach ($availablePlugins as $plugin) {
                                 $pluginClassName = $plugin->getName();
                                 $pluginData = Tools_System_Tools::firePluginMethodByPluginName($pluginClassName, 'getCountryCodes', $disabledCountries, false);
-                                if(!empty($pluginData)){
+                                if(!empty($pluginData) && !isset($pluginData['error'])){
                                     $firePluginsCountryCodes[$pluginClassName] = $pluginData;
                                 }
                             }
