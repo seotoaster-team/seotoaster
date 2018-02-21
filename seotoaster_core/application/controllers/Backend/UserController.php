@@ -215,7 +215,7 @@ class Backend_UserController extends Zend_Controller_Action {
             $userForm->getElement('password')->setRequired(false);
             $userInvitationEmail = filter_var($this->getRequest()->getParam('email'), FILTER_SANITIZE_STRING);
             $userFullName = filter_var($this->getRequest()->getParam('fullName'), FILTER_SANITIZE_STRING);
-            $emailValidator = new Zend_Validate_EmailAddress();
+            $emailValidator = new Tools_System_CustomEmailValidator();
 
             if (!$emailValidator->isValid($userInvitationEmail)) {
                 $this->_helper->response->fail($this->_helper->language->translate('Not valid email address'));

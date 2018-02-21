@@ -107,6 +107,9 @@
                         if (response.error) {
 
                         } else {
+                            if (typeof seotoasterFormSuccessCallback === 'function') {
+                                seotoasterFormSuccessCallback();
+                            }
                             <?php if($this->trackingConversionUrl):?>
                             location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
                             return false;

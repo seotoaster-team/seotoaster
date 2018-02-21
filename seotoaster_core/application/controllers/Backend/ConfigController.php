@@ -32,6 +32,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 		$isSuperAdminLogged = ($loggedUser->getRoleId() === Tools_Security_Acl::ROLE_SUPERADMIN);
 		$this->view->isSuperAdmin = $isSuperAdminLogged;
+		$message = '';
+		$errMessageFlag = false;
 
 		if ($this->getRequest()->isPost()) {
             if (!$isSuperAdminLogged) {
@@ -112,11 +114,59 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				if ($config['inlineEditor'] !== $this->_helper->config->getConfig('inlineEditor')){
 					$this->_helper->cache->clean(false, false, array('Widgets_AbstractContent'));
 				}
-				$this->_configMapper->save($config);
-				$this->_helper->flashMessenger->addMessage('Setting saved');
+
+                $useSmtpFlag = $this->getRequest()->getParam('useSmtp');
+                $errorMessage = '';
+
+                if(!empty($useSmtpFlag)){
+                    $smtpConfig = array(
+                        'username' => $this->getRequest()->getParam('smtpLogin'),
+                        'password' => $this->getRequest()->getParam('smtpPassword')
+                    );
+
+                    $smtpSsl = $this->getRequest()->getParam('smtpSsl');
+
+                    if(!empty($smtpSsl)){
+                        $smtpConfig['ssl'] =  $smtpSsl;
+                    }
+
+                    $smtpHost = filter_var($this->getRequest()->getParam('smtpHost'), FILTER_SANITIZE_STRING);
+                    if(!empty($smtpHost)){
+                        $smtpHost = trim(str_replace(' ','',$smtpHost));
+                        $config['smtpHost'] = $smtpHost;
+
+                        $smtpPort = filter_var($this->getRequest()->getParam('smtpPort'), FILTER_SANITIZE_NUMBER_INT);
+
+                        $verifySmtpConnection = new Zend_Mail_Protocol_Smtp_Auth_Login($smtpHost, $smtpPort, $smtpConfig);
+
+                        try{
+                            $verifySmtpConnection->connect();
+                            try{
+                                $verifySmtpConnection->helo();
+                            } catch (Exception $e){
+                                $errorMessage = $this->_helper->language->translate('Invalid login or password');
+                            }
+                        } catch (Exception $e){
+                            $errorMessage = $this->_helper->language->translate('Could not establish connection to '). $smtpHost. $this->_helper->language->translate(' – Double check your hostname');
+                        }
+                    }else{
+                        $errorMessage = $this->_helper->language->translate('Host name is empty. Please enter the host name');
+                    }
+
+                }
+
+                if(!empty($errorMessage)){
+                    $errMessageFlag = true;
+                    $message = $errorMessage;
+                }else{
+                    $this->_configMapper->save($config);
+                    $message = 'Setting saved';
+                }
+
 			} else {
 				if ($configForm->proccessErrors()) {
-					$this->_helper->flashMessenger->addMessage('Some fields are wrong');
+                    $errMessageFlag = true;
+                    $message = 'Some fields are wrong';
 				}
 			}
 
@@ -158,7 +208,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			$configForm->getElement('suPassword')->setValue($suPassword);
 		}
 
-		$this->view->messages = $this->_helper->flashMessenger->getMessages();
+		$this->view->errMessageFlag = $errMessageFlag;
+		$this->view->message = $message;
 		$this->view->configForm = $configForm;
 	}
 

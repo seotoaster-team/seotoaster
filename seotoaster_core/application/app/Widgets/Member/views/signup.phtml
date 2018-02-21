@@ -62,5 +62,7 @@
          <?php $registry->set('signupFormMasks', true);?>
        <?php endif;?>
 <?php else: ?>
-    <p>You have to be logged out to see the sign-up form</p>
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)) :?>
+        <p>You have to be logged out to see the sign-up form</p>
+    <?php endif;?>
 <?php endif; ?>
