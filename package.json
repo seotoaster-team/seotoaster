@@ -1,0 +1,30 @@
+{
+  "name": "ecomm.loc",
+  "version": "1.0.0",
+  "description": "SIMPLE PWA",
+  "main": "index.html",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-sw": "workbox inject:manifest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seotoaster-team/seotoaster.git"
+  },
+  "keywords": [
+    "PWA",
+    "toaster",
+    "test"
+  ],
+  "author": "Vitalii Vyrodov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seotoaster-team/seotoaster/issues"
+  },
+  "homepage": "https://github.com/seotoaster-team/seotoaster#readme"
+}
