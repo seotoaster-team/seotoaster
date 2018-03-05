@@ -25,6 +25,11 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_FILTER_BY_H1 = 'h1';
 
+    /**
+     * Featuredarea template type
+     */
+    const TEMPLATE_FA_TYPE = 'type_fa_template';
+
     private $_configHelper = null;
 
     private $_filterable = false;
