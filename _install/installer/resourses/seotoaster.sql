@@ -395,7 +395,7 @@ INSERT INTO `template_type` (`id`, `title`) VALUES
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
 ('typeregular',	'Regular'),
-('type_partial_template',	'Nested Templates');,
+('type_partial_template',	'Nested Templates'),
 ('type_fa_template',	'Featuredarea Templates');
 
 DROP TABLE IF EXISTS `user`;
