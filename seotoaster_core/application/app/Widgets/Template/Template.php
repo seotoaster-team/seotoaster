@@ -8,11 +8,6 @@ class Widgets_Template_Template extends Widgets_Abstract
     const TEMPLATE_TYPE = 'type_partial_template';
 
     /**
-     * Featuredarea template type
-     */
-    const TEMPLATE_FA_TYPE = 'type_fa_template';
-
-    /**
      * Disable cache option
      */
     const WITHOUT_CACHE = 'without-cache';
