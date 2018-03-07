@@ -3,7 +3,7 @@ module.exports = {
   "globPatterns": [
     "system/css/**/*.css",
     "system/js/**/*.min.js",
-    "plugins/widcard/*.{png,jpg,css,html,min.js,gif,jpeg}",
+    "plugins/widcard/**/*.{png,jpg,css,html,min.js,gif,jpeg}",
     "themes/**/*.min.js",
     "themes/**/concat_*.css"
   ],

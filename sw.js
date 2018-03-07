@@ -5,7 +5,7 @@ const STATIC_FILES = [
 ];
 
 if (workbox) {
-  self.addEventListener('install', function(event) {
+  self.addEventListener('install', function (event) {
     event.waitUntil(
       caches.open('static').then(cache => {
         cache.addAll(STATIC_FILES);
@@ -13,18 +13,14 @@ if (workbox) {
     );
   });
 
-
   workbox.routing.registerRoute(
     routeData => routeData.event.request.headers.get('accept').includes('text/html'),
     args => fetch(args.event.request)
       .then(res => res)
-      .catch(err =>
-        {
-          console.log("IN ERROR", err);
+      .catch(err => {
           return caches.match('/pwa-offline.html')
-            .then(res =>  {
-                console.log("IN CACHE", err);
-               return res;
+            .then(res => {
+                return res;
               }
             )
         }
@@ -185,6 +181,162 @@ if (workbox) {
     "revision": "211148d92f180f5d5024fc05f3393b31"
   },
   {
+    "url": "plugins/widcard/system/css/landing.css",
+    "revision": "698386b29d66f610f27d043430458f72"
+  },
+  {
+    "url": "plugins/widcard/system/css/widcard.css",
+    "revision": "9623e14523be32d00b5b2efbc1c427f7"
+  },
+  {
+    "url": "plugins/widcard/system/images/edit.png",
+    "revision": "d95f1e60455e7c2fb5a435b1cdd9c25a"
+  },
+  {
+    "url": "plugins/widcard/system/images/load.gif",
+    "revision": "da104ec075ce9c1410d264983785e143"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/002.jpeg",
+    "revision": "5cd5d9240cf03a43455785406907a2d6"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/01.png",
+    "revision": "4efa872ca1087b2cd12b4b20d37bc43b"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/02.png",
+    "revision": "a1b085f6dc40f5b04bd5505d542903bd"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/03.png",
+    "revision": "86f23d157151a18c14c0b954a10f6bd7"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/032.jpeg",
+    "revision": "9df3f1ad880db8751547953354daed6a"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/04.png",
+    "revision": "8706299da592ba198bb9f3f4ce5721ef"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/05.png",
+    "revision": "bed5286bd6b854b932a2ce96de5d5cae"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/06.png",
+    "revision": "d6f53bb7378ddf711573d789d2cd3d7b"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/07.png",
+    "revision": "60259448dd791a5e3e43aac6415afd4e"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/08.png",
+    "revision": "710fc64abddcc376add723c71a96402b"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/09.png",
+    "revision": "59739957755c8fe466681f1cbd43b965"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/10.png",
+    "revision": "e251e56ea87349f81497639fb78b7436"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/11.png",
+    "revision": "fe16a28291bab2ea98ece99a2b3615f9"
+  },
+  {
+    "url": "plugins/widcard/system/images/payway/12.png",
+    "revision": "acfa8745a1eabff34314ed722f8fe768"
+  },
+  {
+    "url": "plugins/widcard/system/js/widcard.min.js",
+    "revision": "f14fdb92f36ab6c8737c4db989da340f"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/CorporateLogo.jpg",
+    "revision": "2e27b40715a2aa7e7b85d852f287acca"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/CorporateLogo.png",
+    "revision": "6156a02d95626497d9a9feb2da6e53fb"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-144x144.png",
+    "revision": "74d2028677c4c50f0b007440872db638"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-16x16.png",
+    "revision": "0a47be2bcb49458062fb0e2a740466b6"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-192x192.png",
+    "revision": "beca3a91feb5522a466215919aa8b5db"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-256x256.png",
+    "revision": "7d7afa3bc08cc32712eddd37c7315cd8"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-32x32.png",
+    "revision": "a81bbaa437bf87b7f55c450a2a7e03db"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-384x384.png",
+    "revision": "4545c27938f5202867d0e6bd72367b66"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-48x48.png",
+    "revision": "3427bfafd19e2cf3fd906ad75a87898d"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-512x512.png",
+    "revision": "5c5d4f3854994871ab6731c8926ff977"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/app-icon-96x96.png",
+    "revision": "ac90139ceb90ae8135474f4a5683084c"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-114x114.png",
+    "revision": "e40ab5fd3bac9e630b843c58dd6979ad"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-120x120.png",
+    "revision": "ad640a0d584d9670c500551c9ed6eb8b"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-144x144.png",
+    "revision": "74d2028677c4c50f0b007440872db638"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-152x152.png",
+    "revision": "a2240aa22e1b535fd4d813811e574e7f"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-180x180.png",
+    "revision": "51b46fb2201b1c0689e4792467fe8240"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-57x57.png",
+    "revision": "63951d7e57962f6e6fcce6e7ba670bbb"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-60x60.png",
+    "revision": "53591eb908a52404ac9bfc22d93eb75a"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-72x72.png",
+    "revision": "ac90139ceb90ae8135474f4a5683084c"
+  },
+  {
+    "url": "plugins/widcard/system/userdata/icons/apple-icon-76x76.png",
+    "revision": "0f051387e5a10ab52440a93ff149121a"
+  },
+  {
     "url": "themes/mobile-app/js/plugin/hammer.min.js",
     "revision": "2a78bcd922aa039e68ba0b699ac95a20"
   },
@@ -229,7 +381,7 @@ if (workbox) {
     "revision": "0765f5e164cb8ec96c33242a3edbd88f"
   }
 ]);
-  
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }

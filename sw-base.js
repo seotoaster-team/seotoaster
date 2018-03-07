@@ -5,7 +5,7 @@ const STATIC_FILES = [
 ];
 
 if (workbox) {
-  self.addEventListener('install', function(event) {
+  self.addEventListener('install', function (event) {
     event.waitUntil(
       caches.open('static').then(cache => {
         cache.addAll(STATIC_FILES);
@@ -13,18 +13,14 @@ if (workbox) {
     );
   });
 
-
   workbox.routing.registerRoute(
     routeData => routeData.event.request.headers.get('accept').includes('text/html'),
     args => fetch(args.event.request)
       .then(res => res)
-      .catch(err =>
-        {
-          console.log("IN ERROR", err);
+      .catch(err => {
           return caches.match('/pwa-offline.html')
-            .then(res =>  {
-                console.log("IN CACHE", err);
-               return res;
+            .then(res => {
+                return res;
               }
             )
         }
@@ -32,7 +28,7 @@ if (workbox) {
   );
 
   workbox.precaching.precacheAndRoute([]);
-  
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
