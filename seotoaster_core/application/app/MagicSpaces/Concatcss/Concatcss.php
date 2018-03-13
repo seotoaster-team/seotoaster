@@ -170,6 +170,7 @@ class MagicSpaces_Concatcss_Concatcss extends Tools_MagicSpaces_Abstract
 
         try {
             Tools_Filesystem_Tools::saveFile($filePath, $content);
+            Tools_System_Minify::updateConcatedSWjs(self::FILE_NAME_PREFIX, '.css', $this->_fileId, $this->_folderСssPath);
         }
         catch (Exceptions_SeotoasterException $ste) {
             return $ste->getMessage();

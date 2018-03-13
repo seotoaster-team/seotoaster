@@ -335,53 +335,7 @@ if (workbox) {
   {
     "url": "plugins/widcard/system/userdata/icons/apple-icon-76x76.png",
     "revision": "0f051387e5a10ab52440a93ff149121a"
-  },
-  {
-    "url": "themes/mobile-app/js/plugin/hammer.min.js",
-    "revision": "2a78bcd922aa039e68ba0b699ac95a20"
-  },
-  {
-    "url": "themes/mobile-app/js/plugin/jquery.carousel.min.js",
-    "revision": "33635ab9f6dfd630275772d35774bab8"
-  },
-  {
-    "url": "themes/mobile-app/js/plugin/jquery.chosen.min.js",
-    "revision": "a7460b8e26cabfe0bbfed76ea19cfd09"
-  },
-  {
-    "url": "themes/mobile-app/js/plugin/jquery.cycle2.min.js",
-    "revision": "dc78931466a6a3bdb7e4f8aef5450b02"
-  },
-  {
-    "url": "themes/mobile-app/js/scripts.min.js",
-    "revision": "06bc6555cf4ccfe39506f31e8f19e8ab"
-  },
-  {
-    "url": "themes/mobile-app/js/system/flexkit.min.js",
-    "revision": "59de8ea88ef9bf7d1604316d8986a1a1"
-  },
-  {
-    "url": "themes/mobile-app/js/system/ie-pack.min.js",
-    "revision": "280fca82ee1dc811dab1111c31430a82"
-  },
-  {
-    "url": "themes/mobile-app/css/concat_27a21354321dfb.css",
-    "revision": "0765f5e164cb8ec96c33242a3edbd88f"
-  },
-  {
-    "url": "themes/mobile-app/css/concat_6a992d5529f459.css",
-    "revision": "0765f5e164cb8ec96c33242a3edbd88f"
-  },
-  {
-    "url": "themes/mobile-app/css/concat_c21f969b5f03d3.css",
-    "revision": "0765f5e164cb8ec96c33242a3edbd88f"
-  },
-  {
-    "url": "themes/mobile-app/css/concat_c4ef352f74e502.css",
-    "revision": "0765f5e164cb8ec96c33242a3edbd88f"
   }
 ]);
 
-} else {
-  console.log(`Boo! Workbox didn't load 😬`);
 }

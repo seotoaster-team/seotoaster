@@ -260,6 +260,7 @@ CREATE TABLE `page` (
 
 INSERT INTO `page` (`id`, `template_id`, `parent_id`, `nav_name`, `meta_description`, `meta_keywords`, `header_title`, `h1`, `url`, `teaser_text`, `last_update`, `is_404page`, `show_in_menu`, `order`, `weight`, `silo_id`, `targeted_key_phrase`, `protected`, `system`, `draft`, `publish_at`, `news`, `err_login_landing`, `mem_landing`, `signup_landing`, `checkout`, `preview_image`) VALUES
 (1,	'index',	0,	'Home',	'',	'',	'Home',	'Home',	'index.html',	'',	'2012-06-20 11:30:39',	'0',	'1',	0,	0,	NULL,	'',	'0',	'0',	'0',	NULL,	'0',	'0',	'0',	'0',	'0',	NULL);
+
 DROP TABLE IF EXISTS `page_fa`;
 CREATE TABLE `page_fa` (
   `page_id` int(10) unsigned NOT NULL,
