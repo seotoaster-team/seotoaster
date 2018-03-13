@@ -34,7 +34,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('userDefaultTimezone', 'America/New_York'),
 ('userDefaultPhoneMobileCode', 'US'),
 ('oldMobileFormat', '1'),
-('version',	'2.6.3');
+('version',	'2.6.4');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -411,7 +411,8 @@ INSERT INTO `template_type` (`id`, `title`) VALUES
 ('typemenu',	'Menu'),
 ('typemobile',	'Mobile page'),
 ('typeregular',	'Regular'),
-('type_partial_template',	'Nested Templates');
+('type_partial_template',	'Nested Templates'),
+('type_fa_template',	'Featuredarea Templates');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
