@@ -3,7 +3,7 @@ module.exports = {
   "globPatterns": [
     "system/css/**/*.css",
     "system/js/**/*.min.js",
-    "plugins/widcard/**/*.{png,jpg,css,html,min.js,gif,jpeg}",
+    "plugins/widcard/system/userdata/**/*.{png,jpg,css,html,min.js,gif,jpeg}",
   ],
   "swDest": "sw.js",
   "swSrc": "./sw-base.js",
