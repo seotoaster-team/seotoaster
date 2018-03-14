@@ -182,7 +182,7 @@ if (workbox) {
   },
   {
     "url": "plugins/widcard/system/userdata/CorporateLogo.png",
-    "revision": "6156a02d95626497d9a9feb2da6e53fb"
+    "revision": "1f3d18606a60eb754716dcf010012e62"
   },
   {
     "url": "plugins/widcard/system/userdata/icons/app-icon-144x144.png",
@@ -255,7 +255,7 @@ if (workbox) {
   {
     "url": "plugins/widcard/system/userdata/icons/apple-icon-76x76.png",
     "revision": "0f051387e5a10ab52440a93ff149121a"
-  }
+  },
 ]);
 
 }

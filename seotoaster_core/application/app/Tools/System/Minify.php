@@ -210,11 +210,10 @@ class Tools_System_Minify {
                 $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
             } else {
                 $pattern = '~}(\s*)?](\s*)?\)(\s*)?;(\s*)?}~';
-                $replacement = '},
-  {
+                $replacement = '  {
     "url": "' . $path . $prefix . $hash . $suffix . '",
     "revision": "' . time() . '"
-  }
+  },
 ]);
 }';
                 $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
@@ -231,11 +230,10 @@ class Tools_System_Minify {
                 $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
             } else {
                 $pattern = '~](\s*)?\)(\s*)?;(\s*)?}~';
-                $replacement = '},
-  {
+                $replacement = '  {
     "url": "' . $path . $prefix . $name . $suffix . '",
     "revision": "' . time() . '"
-  }
+  },
 ]);
 }';
                 $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
