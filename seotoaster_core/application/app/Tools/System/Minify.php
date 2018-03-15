@@ -14,6 +14,7 @@ class Tools_System_Minify {
                 return self::minifyJs($list, $concat);
                 break;
         }
+
     }
 
     public static function minifyCss($cssList, $concat = false) {
@@ -72,6 +73,8 @@ class Tools_System_Minify {
                     $websiteHelper->getPath().$websiteHelper->getTmp().$hash.'.css', 
                     $hashStack[$path]['content']
                 );
+                Tools_System_Minify::updateConcatedSWjs('','.css', $hash, $websiteHelper->getTmp());
+
                 unset($cssContent);
             }
 
@@ -146,6 +149,8 @@ class Tools_System_Minify {
                         $websiteHelper->getPath().$websiteHelper->getTmp().$hash.'.min.js',
                         $hashStack[$path]['content']
                     );
+                    Tools_System_Minify::updateConcatedSWjs('','.min.js', $hash, $websiteHelper->getTmp());
+
                 }
 
                 if (!$concat) {
@@ -204,12 +209,9 @@ class Tools_System_Minify {
 
     public static function updateConcatedSWjs($prefix, $suffix, $hash, $path) {
         if ($SWContent = file_get_contents('sw.js')) {
-            $pattern = '~' . $path . $prefix . '.+.' . $suffix . '",\n\s+"revision":+\s"(.+)"~';
-            $replacement = $path . $prefix . $hash . $suffix . '",' . PHP_EOL . '    "revision": "' . $hash . '"';
-            if (preg_match($pattern, $SWContent)) {
-                $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
-            } else {
-                $pattern = '~}(\s*)?](\s*)?\)(\s*)?;(\s*)?}~';
+            $pattern = '~' . $path . $prefix . $hash . $suffix . '",\n\s+"revision":+\s"(.+)"~';
+            if (!preg_match($pattern, $SWContent)) {
+                $pattern = '~](\s*)?\)(\s*)?;(\s*)?}~';
                 $replacement = '  {
     "url": "' . $path . $prefix . $hash . $suffix . '",
     "revision": "' . time() . '"
@@ -217,8 +219,8 @@ class Tools_System_Minify {
 ]);
 }';
                 $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
+                Tools_Filesystem_Tools::saveFile('sw.js', $updatedSWContent);
             }
-            Tools_Filesystem_Tools::saveFile('sw.js', $updatedSWContent);
         }
     }
 

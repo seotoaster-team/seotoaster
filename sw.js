@@ -257,5 +257,4 @@ if (workbox) {
     "revision": "0f051387e5a10ab52440a93ff149121a"
   },
 ]);
-
 }
