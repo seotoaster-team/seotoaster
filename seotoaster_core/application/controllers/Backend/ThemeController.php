@@ -362,7 +362,6 @@ class Backend_ThemeController extends Zend_Controller_Action
             $jsContent = $postParams['content'];
             $jsContent = JSMin::minify($jsContent);
             Tools_Filesystem_Tools::saveFile(str_replace('.js', '.min.js', $jsPath), $jsContent);
-            Tools_System_Minify::updateNonConcatedSWjs('', '.min.js', pathinfo($jsName)['filename'], 'themes' . DIRECTORY_SEPARATOR . pathinfo($jsName)['dirname'] . DIRECTORY_SEPARATOR);
         }
         if ($postParams['jscombine'] === 'true') {
             $jsContentCombine = null;
@@ -379,8 +378,6 @@ class Backend_ThemeController extends Zend_Controller_Action
                 dirname($jsPath) . DIRECTORY_SEPARATOR . $jsParentDirName . '.min.js',
                 $jsContentCombine
             );
-            Tools_System_Minify::updateNonConcatedSWjs('', '.min.js', pathinfo($jsName)['filename'] , 'themes' . DIRECTORY_SEPARATOR . pathinfo($jsName)['dirname'] . DIRECTORY_SEPARATOR);
-
         }
     }
 

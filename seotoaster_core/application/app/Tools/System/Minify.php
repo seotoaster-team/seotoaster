@@ -73,8 +73,6 @@ class Tools_System_Minify {
                     $websiteHelper->getPath().$websiteHelper->getTmp().$hash.'.css', 
                     $hashStack[$path]['content']
                 );
-                Tools_System_Minify::updateConcatedSWjs('','.css', $hash, $websiteHelper->getTmp());
-
                 unset($cssContent);
             }
 
@@ -97,7 +95,6 @@ class Tools_System_Minify {
 
             if (!file_exists($concatPath) || sha1_file($concatPath) !== sha1($concatCss)) {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatCss);
-                Tools_System_Minify::updateConcatedSWjs('','.concat.min.css', sha1($concatCss), $websiteHelper->getTmp());
             }
 
             $cssList->appendStylesheet($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
@@ -149,8 +146,6 @@ class Tools_System_Minify {
                         $websiteHelper->getPath().$websiteHelper->getTmp().$hash.'.min.js',
                         $hashStack[$path]['content']
                     );
-                    Tools_System_Minify::updateConcatedSWjs('','.min.js', $hash, $websiteHelper->getTmp());
-
                 }
 
                 if (!$concat) {
@@ -196,7 +191,6 @@ class Tools_System_Minify {
 
             if (!file_exists($concatPath) || sha1_file($concatPath) !== sha1($concatJs)) {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatJs);
-                Tools_System_Minify::updateConcatedSWjs('','.concat.min.js', sha1($concatJs), $websiteHelper->getTmp());
             }
 
             $jsList->prependFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
@@ -205,42 +199,5 @@ class Tools_System_Minify {
         $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
 
         return $jsList;
-    }
-
-    public static function updateConcatedSWjs($prefix, $suffix, $hash, $path) {
-        if ($SWContent = file_get_contents('sw.js')) {
-            $pattern = '~' . $path . $prefix . $hash . $suffix . '",\n\s+"revision":+\s"(.+)"~';
-            if (!preg_match($pattern, $SWContent)) {
-                $pattern = '~](\s*)?\)(\s*)?;(\s*)?}~';
-                $replacement = '  {
-    "url": "' . $path . $prefix . $hash . $suffix . '",
-    "revision": "' . time() . '"
-  },
-]);
-}';
-                $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
-                Tools_Filesystem_Tools::saveFile('sw.js', $updatedSWContent);
-            }
-        }
-    }
-
-    public static function updateNonConcatedSWjs($prefix, $suffix, $name, $path) {
-        if ($SWContent = file_get_contents('sw.js')) {
-            $pattern = '~' . $path . $prefix . $name . $suffix . '",\n\s+"revision":+\s"(.+)"~';
-            $replacement = $path . $prefix . $name . $suffix .'",' . PHP_EOL . '    "revision": "' . time() . '"';
-            if(preg_match($pattern, $SWContent)) {
-                $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
-            } else {
-                $pattern = '~](\s*)?\)(\s*)?;(\s*)?}~';
-                $replacement = '  {
-    "url": "' . $path . $prefix . $name . $suffix . '",
-    "revision": "' . time() . '"
-  },
-]);
-}';
-                $updatedSWContent = preg_replace($pattern, $replacement, $SWContent);
-            }
-            Tools_Filesystem_Tools::saveFile('sw.js', $updatedSWContent);
-        }
     }
 }
