@@ -9,7 +9,9 @@ class Tools_System_Whitelabel
 {
 
 
-    const WHITE_LABEL_DEFAULT_DOMAIN = 'http://help.website-today.org/';
+    const REMOTE_URL = 'http://www.seotoaster.com/';
+
+    const WHITE_LABEL_DOCUMENTATION_DEFAULT_DOMAIN = 'http://help.website-today.org/';
 
 
     /**
@@ -52,10 +54,10 @@ class Tools_System_Whitelabel
 
             }
 
-            return self::WHITE_LABEL_DEFAULT_DOMAIN;
+            return self::WHITE_LABEL_DOCUMENTATION_DEFAULT_DOMAIN;
         }
 
-        return Zend_View_Helper_ToasterHelp::REMOTE_URL;
+        return self::REMOTE_URL;
     }
 
 
@@ -85,7 +87,7 @@ class Tools_System_Whitelabel
             return '';
         }
 
-        return Zend_View_Helper_ToasterHelp::REMOTE_URL;
+        return self::REMOTE_URL;
     }
 
     /**
