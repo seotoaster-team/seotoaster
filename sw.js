@@ -3,9 +3,13 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox
 const STATIC_FILES = [
   '/',
   '/pwa-offline.html',
+  '/tmp/offline.concat.min.css'
 ];
 
 if (workbox) {
+
+  workbox.skipWaiting();
+  workbox.clientsClaim();
 
   workbox.routing.registerRoute(
     routeData => routeData.event.request.headers.get('accept').includes('text/html'),
@@ -24,13 +28,13 @@ if (workbox) {
   );
 
   workbox.precaching.precacheAndRoute([
-  {
-    "url": "pwa-offline.html",
-    "revision": "2e27b40715a2aa7e7b85d852f287acca"
-  },
-  {
-    "url": "tmp/offline.concat.min.css",
-    "revision": "2e27b40715a2aa7e7b85d852f287accq"
-  },
-]);
+    {
+      "url": "pwa-offline.html",
+      "revision": new Date().toDateString(),
+    },
+    {
+      "url": "tmp/offline.concat.min.css",
+      "revision":  new Date().toDateString(),
+    },
+  ]);
 }
