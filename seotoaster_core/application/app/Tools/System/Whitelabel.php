@@ -16,6 +16,10 @@ class Tools_System_Whitelabel
 
     const WHITE_LABEL_DOCUMENTATION_DEFAULT_DOMAIN = 'http://help.website-today.org/';
 
+    const ORIGINAL_CMS_BRAND_NAME = 'SeoToaster';
+
+    const ORIGINAL_SERVICE_BRAND_NAME = 'SeoSamba';
+
 
     /**
      * Is website white-labeled
@@ -130,7 +134,7 @@ class Tools_System_Whitelabel
             }
         }
 
-        return 'Seotoaster';
+        return self::ORIGINAL_CMS_BRAND_NAME;
 
     }
 
@@ -150,7 +154,7 @@ class Tools_System_Whitelabel
             }
         }
 
-        return 'SeoSamba';
+        return self::ORIGINAL_SERVICE_BRAND_NAME;
 
     }
 
