@@ -25,6 +25,10 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
         if($this->_view->placeholder('logoSource')->getValue() == array()) {
             $this->_view->placeholder('logoSource')->set($websiteHelper->getUrl() . 'system/images/cpanel-img.jpg');
         }
+
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $withoutWebsiteUpdate = $configHelper->getConfig('withoutWebsiteUpdate');
+        $this->_view->withoutWebsiteUpdate = $withoutWebsiteUpdate;
         return $this->_view->render('admin/adminpanel.phtml');
 	}
 
