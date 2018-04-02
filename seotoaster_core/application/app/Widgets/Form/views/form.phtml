@@ -48,10 +48,14 @@
         <a class="tpopup" href="javascript:;" data-pwidth="960" data-pheight="750"
            data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>"
            title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
-        <a href="<?php echo Tools_System_Whitelabel::getWhiteLabeledDomain();?>free-form-maker/" target="_blank"
-           title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate(
-                'Build your form now'
-            ); ?></a> |
+        <?php if(Tools_System_Whitelabel::isWhiteLabel()):?>
+            <a href="<?php echo $this->websiteUrl;?>dashboard/workflows/" target="_blank"
+        <?php else:?>
+            <a href="https://seosamba.com/free-form-maker" target="_blank"
+        <?php endif;?>
+               title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate(
+                    'Build your form now'
+                ); ?></a> |
         <?php if ($this->form): ?>
             <a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/"
                data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;"
