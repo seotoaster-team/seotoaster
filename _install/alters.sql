@@ -664,6 +664,10 @@ INSERT IGNORE INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `ful
 -- Add new template type 'type_fa_template'
 INSERT IGNORE INTO `template_type` (`id`, `title`) VALUES ('type_fa_template', 'Featuredarea Templates');
 
+-- 28/03/2018
+-- version: 2.6.3
+-- Package version 3.0.0
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
