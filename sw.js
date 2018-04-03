@@ -31,3 +31,52 @@ if (workbox) {
     },
   ]);
 }
+
+self.addEventListener('notificationclick', event => {
+  const notification = event.notification;
+  const action = event.action;
+
+  console.log(notification);
+
+  if (action === 'confirm') {
+    console.log('Confirm was chosen');
+  } else {
+    console.log(action);
+    event.waitUntil(
+      clients.matchAll()
+        .then(clis => {
+          const client = clis.find(c => c.visibilityState === 'visible');
+          if (client !== undefined) {
+            client.navigate(notification.data.url);
+          } else {
+            clients.openWindow(notification.data.url);
+          }
+        })
+    )
+  }
+  notification.close();
+});
+
+self.addEventListener('notificationclose', event => {
+  console.log('Notification was closed', event);
+});
+
+self.addEventListener('push', event => {
+  let data = {title: 'News', content: 'News was added', openUrl: '/'};
+  if (event.data) {
+    data = JSON.parse(event.data.text());
+  }
+
+  const options = {
+    body: data.content,
+    icon: '/plugins/widcard/system/userdata/icons/app-icon-96x96.png',
+    badge: '/plugins/widcard/system/userdata/icons/app-icon-96x96.png',
+    data: {
+      url: data.openUrl
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
