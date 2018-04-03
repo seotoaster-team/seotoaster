@@ -193,7 +193,8 @@ class Backend_ThemeController extends Zend_Controller_Action
                         'isEmpty'              => 'Template name field can\'t be empty.',
                         'notAlnum'             => 'Template name contains characters which are non alphabetic and no digits',
                         'stringLengthTooLong'  => 'Template name field is too long.',
-                        'stringLengthTooShort' => 'Template name field is too short.'
+                        'stringLengthTooShort' => 'Template name field is too short.',
+                        'regexNotMatch'        => 'Template name isn\'t valid.'
                     ),
                     'content' => array(
                         'isEmpty' => 'Content can\'t be empty.'
