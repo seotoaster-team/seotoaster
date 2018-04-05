@@ -84,6 +84,31 @@ $(function() {
 			showDelConfirm();
 		}
 	})
+
+	$('#search-reindex').on('click', function () {
+		var data = {};
+		$.ajax({
+			url: $('#website_url').val() + 'api/toaster/searchreindex/',
+			method: 'POST',
+			data: JSON.stringify(data),
+			dataType: 'json',
+			beforeSend : function() {
+				smoke.signal('Indexing...');
+			},
+			success: function (response) {console.log(response);
+				hideSpinner();
+				if(!response.error) {
+					showMessage('Reindexed ' + response.responseText.totalPages + ' pages', false, 2500);
+				}
+				else {
+					smoke.alert(response.responseText);
+				}
+			},
+			error: function (e) {
+				console.error(e);
+			}
+		});
+	});
 });
 
 function showDelConfirm() {
