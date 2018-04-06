@@ -41,7 +41,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
             $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
             $indexPagesOffset = !empty($this->_sessionHelper->indexPagesOffset) ? $this->_sessionHelper->indexPagesOffset : 0;
             if (!$indexPagesOffset && !$this->_cleanSearchIndexFolder()) {
-                $responseHelper->fail($this->_translator->translate("Cannot clean a search directory"));
+                $responseHelper->fail($this->_translator->translate("Cannot clean a search folder"));
             }
             $dbAdapter = Zend_Registry::get('dbAdapter');
             $select = $dbAdapter->select()
@@ -189,7 +189,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
         $filesToRemove = Tools_Filesystem_Tools::scanDirectory($searchIndexFolder);
         if (!empty($filesToRemove)) {
             foreach ($filesToRemove as $filename) {
-                unlink($searchIndexFolder . '/' . $filename);
+                Tools_Filesystem_Tools::deleteFile($searchIndexFolder . '/' . $filename);
             }
         }
         return Tools_Filesystem_Tools::isEmptyDir($searchIndexFolder);
