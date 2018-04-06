@@ -37,7 +37,8 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
         if ($currentUserRole === Tools_Security_Acl::ROLE_SUPERADMIN) {
             $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
             $indexPagesOffset = !empty($this->_sessionHelper->indexPagesOffset) ? $this->_sessionHelper->indexPagesOffset : 0;
-            if (!$indexPagesOffset && !$this->_cleanSearchIndexFolder()) {
+            $searchIndexFolder = $this->_websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
+            if (!$indexPagesOffset && is_dir($searchIndexFolder) && !Tools_Filesystem_Tools::deleteDir($searchIndexFolder)) {
                 $responseHelper->fail($this->_translator->translate("Cannot clean a search folder"));
             }
             $dbAdapter = Zend_Registry::get('dbAdapter');
@@ -67,14 +68,11 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
             $select->limit(self::INDEX_PAGES_LIMIT, $indexPagesOffset);
             $pages = $dbAdapter->fetchAll($select);
             if (is_array($pages) && !empty($pages)) {
-                $searchIndexPath = $this->_websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
-
-                if (!is_dir($searchIndexPath)) {
-                    if (!Tools_Filesystem_Tools::mkDir($searchIndexPath)) {
-                        die('Can\'t create search index folder in ' . $searchIndexPath);
+                if (!is_dir($searchIndexFolder)) {
+                    if (!Tools_Filesystem_Tools::mkDir($searchIndexFolder)) {
+                        die('Can\'t create search index folder in ' . $searchIndexFolder);
                     }
                 }
-
                 $index = Tools_Search_Tools::initIndex();
                 $index->setMergeFactor(100);
 
@@ -168,27 +166,11 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
         }
     }
 
-
     public function putAction()
     {
     }
 
     public function deleteAction()
     {
-    }
-
-    protected function _cleanSearchIndexFolder()
-    {
-        $searchIndexFolder = $this->_websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
-        if (!is_dir($searchIndexFolder)) {
-            return false;
-        }
-        $filesToRemove = Tools_Filesystem_Tools::scanDirectory($searchIndexFolder);
-        if (!empty($filesToRemove)) {
-            foreach ($filesToRemove as $filename) {
-                Tools_Filesystem_Tools::deleteFile($searchIndexFolder . '/' . $filename);
-            }
-        }
-        return Tools_Filesystem_Tools::isEmptyDir($searchIndexFolder);
     }
 }
