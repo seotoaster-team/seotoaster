@@ -29,7 +29,7 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
 
     /*
      * Option that loads "service worker" if both sw.js and manifest.json files exist.
-     * Service worker view surrounded by "notadmin" magic-space, so it wan't be loaded if you are logged in as admin/superadmin
+     * Service worker view surrounded by "notadmin" magic-space, so it won't be loaded if you are logged-in as admin/superadmin
      */
 	private function _generateSwOption() {
         if (file_exists('sw.js') && file_exists('manifest.json')) {
