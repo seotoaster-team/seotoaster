@@ -2,6 +2,7 @@
 
 class Api_Toaster_Searchreindex extends Api_Service_Abstract
 {
+    const INDEX_PAGES_LIMIT = 200;
     /**
      * @var Helpers_Action_Session
      */
@@ -37,6 +38,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
     {
         $currentUserRole = $this->_sessionHelper->getCurrentUser()->getRoleId();
         if ($currentUserRole === Tools_Security_Acl::ROLE_SUPERADMIN) {
+            $indexPagesOffset = !empty($this->_sessionHelper->indexPagesOffset) ? $this->_sessionHelper->indexPagesOffset : 0;
             $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
             if ($this->_cleanSearchIndexFolder()) {
 
@@ -64,10 +66,9 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                     ->where("p.draft = '?'", 0)
                     ->where("p.parent_id <> '?'", -5)
                     ->group('p.id');
-
+                $select->limit(self::INDEX_PAGES_LIMIT, $indexPagesOffset);
                 $pages = $dbAdapter->fetchAll($select);
                 if (is_array($pages) && !empty($pages)) {
-                    $totalPages = count($pages);
                     $searchIndexPath = $this->_websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
 
                     if (!is_dir($searchIndexPath)) {
@@ -126,6 +127,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                     }
 
                     foreach ($pages as $i => $page) {
+                        $this->_sessionHelper->currentPageId = $page['id'];
                         // if its ecommerce and this page is a product page
                         if ($isEcommerce && array_key_exists($page['id'], $products)) {
                             $prod = $products[$page['id']];
@@ -156,9 +158,16 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                     Tools_Search_Tools::optimize();
                     Tools_Search_Tools::commit();
                 }
-
-
-                $responseHelper->success(array('totalPages' => $totalPages));
+                $this->_sessionHelper->indexPagesOffset += count($pages);
+                if (count($pages) < self::INDEX_PAGES_LIMIT) {
+                    $reindexedPagesTotal = $this->_sessionHelper->indexPagesOffset;
+                    unset($this->_sessionHelper->indexPagesOffset);
+                    $responseHelper->success(array(
+                        'indexedPages' => $reindexedPagesTotal,
+                        'final' => true
+                    ));
+                }
+                $responseHelper->success(array('indexedPages' => $this->_sessionHelper->indexPagesOffset));
             } else {
                 $responseHelper->fail($this->_translator->translate("Cannot clean a search directory"));
             }

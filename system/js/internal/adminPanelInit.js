@@ -85,31 +85,35 @@ $(function() {
 		}
 	})
 
-	$('#search-reindex').on('click', function () {
-		var data = {};
-		$.ajax({
-			url: $('#website_url').val() + 'api/toaster/searchreindex/',
-			method: 'POST',
-			data: JSON.stringify(data),
-			dataType: 'json',
-			beforeSend : function() {
-				smoke.signal('Indexing...');
-			},
-			success: function (response) {console.log(response);
-				hideSpinner();
-				if(!response.error) {
-					showMessage('Reindexed ' + response.responseText.totalPages + ' pages', false, 2500);
-				}
-				else {
-					smoke.alert(response.responseText);
-				}
-			},
-			error: function (e) {
-				console.error(e);
-			}
-		});
-	});
+	$('#search-reindex').on('click', reindexCall);
 });
+
+function reindexCall() {
+	var data = {};
+	$.ajax({
+		url: $('#website_url').val() + 'api/toaster/searchreindex/',
+		method: 'POST',
+		data: JSON.stringify(data),
+		dataType: 'json',
+		beforeSend: function () {
+			showMessage('Indexing...', false, 1000);
+		},
+		success: function (response) {
+			if (!response.error) {
+				showMessage('Reindexed ' + response.responseText.indexedPages + ' pages', false, 1000);
+				if (!response.responseText.final) {
+					reindexCall();
+				}
+			}
+			else {
+				showMessage(response.responseText, true);
+			}
+		},
+		error: function (e) {
+			showMessage('Something went wrong, please try again.', true);
+		}
+	});
+}
 
 function showDelConfirm() {
 	var pageId     = $('#del-page-id').val();
