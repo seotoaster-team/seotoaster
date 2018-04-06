@@ -16,6 +16,9 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
 		return 'Wrong widget option: <strong>' . $this->_options[0] . '</strong>';
 	}
 
+	/*
+	 * Option that renders "link" tag if manifest file exists.
+	 */
     private function _generateManifestOption()
     {
         if (file_exists('manifest.json')) {
@@ -24,6 +27,10 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
         return '';
     }
 
+    /*
+     * Option that loads "service worker" if both sw.js and manifest.json files exist.
+     * Service worker view surrounded by "notadmin" magic-space, so it wan't be loaded if you are logged in as admin/superadmin
+     */
 	private function _generateSwOption() {
         if (file_exists('sw.js') && file_exists('manifest.json')) {
             return $this->_view->render('sw.phtml');;
