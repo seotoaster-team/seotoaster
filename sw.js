@@ -2,7 +2,7 @@ const revision = 'pwa03202018';
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
 //# sourceMappingURL=workbox-sw.js.map
 
-if (workbox) {
+if (typeof workbox !== 'undefined') {
 
   workbox.routing.registerRoute(
     routeData => routeData.event.request.headers.get('accept').includes('text/html'),
