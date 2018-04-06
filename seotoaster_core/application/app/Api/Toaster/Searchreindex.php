@@ -10,8 +10,6 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
 
     protected $_websiteHelper = null;
 
-    protected $_configHelper = null;
-
     protected $_translator = null;
 
     /**
@@ -26,7 +24,6 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
         parent::init();
         $this->_sessionHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('session');
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-        $this->_configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $this->_translator = Zend_Registry::get('Zend_Translate');
     }
 
