@@ -96,9 +96,10 @@ function reindexCall() {
 		data: JSON.stringify(data),
 		dataType: 'json',
 		beforeSend: function () {
-			showMessage('Indexing...', false, 1000);
+			showMessage('Indexing...', false);
 		},
 		success: function (response) {
+			hideSpinner();
 			if (!response.error) {
 				showMessage('Reindexed ' + response.responseText.indexedPages + ' pages', false, 1000);
 				if (!response.responseText.final) {
