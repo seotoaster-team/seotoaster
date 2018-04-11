@@ -110,7 +110,6 @@ class Backend_UpdateController extends Zend_Controller_Action
         /**
          * Step 1: Checks the current version of the toaster. And if needs updating puts NextStep = 2
          */
-        //$version = $this->_storeVersion ? $this->_storeVersion : $this->_toasterVersion;
 
         if ($this->_storeVersion) {
             $version = $this->_storeVersion;
@@ -451,18 +450,6 @@ class Backend_UpdateController extends Zend_Controller_Action
     protected function _updateDataBase()
     {
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-        /*if ($this->_storeVersion) {
-            $select = $dbAdapter->select()->from('shopping_config', array('value'))->where('name = ?', 'version');
-            $dbVersion = $dbAdapter->fetchRow($select);
-            $storeAlters = $this->_getFileContent(
-                $this->_newToasterPath . 'plugins/shopping/system/store-alters.sql',
-                '-- version: ' . $dbVersion['value']
-            );
-            $revertStoreAlters = $this->_getFileContent(
-                $this->_newToasterPath . 'plugins/shopping/system/revert-store-alters.sql',
-                '-- version: ' . $dbVersion['value']
-            );
-        }*/
 
         $select = $dbAdapter->select()->from('config', array('value'))->where('name = ?', 'version');
         $dbVersion = $dbAdapter->fetchRow($select);
@@ -470,20 +457,8 @@ class Backend_UpdateController extends Zend_Controller_Action
             $this->_newToasterPath . '_install/alters.sql',
             '-- version: ' . $dbVersion['value']
         );
-        /*$revertAlters = $this->_getFileContent(
-            $this->_newToasterPath . '_install/revert-alters.sql',
-            '-- version: ' . $dbVersion['value']
-        );*/
-
-        /*if (!empty($storeAlters)) {
-            $alters = $alters . ' ' . $storeAlters;
-        }*/
-        /*if (!empty($revertStoreAlters)) {
-            $revertAlters = $revertAlters . ' ' . $revertStoreAlters;
-        }*/
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
-        //$revertSqlAlters = Tools_System_SqlSplitter::split($revertAlters);
         $cnt = 0;
         try {
             foreach ($sqlAlters as $alter) {
@@ -492,9 +467,6 @@ class Backend_UpdateController extends Zend_Controller_Action
             }
             return true;
         } catch (Exception $ex) {
-            /*for ($i = 0; $i < $cnt; $i++) {
-                $dbAdapter->query($revertSqlAlters[$i]);
-            }*/
             error_log($ex->getMessage());
             return false;
         }
