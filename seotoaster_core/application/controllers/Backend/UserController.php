@@ -41,6 +41,16 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function manageAction() {
+
+	    $usersRoles  = Application_Model_Mappers_UserMapper::getInstance()->findAllRoles();
+        $tranlationUserRoles = array();
+
+	    if(!empty($usersRoles)){
+            foreach ($usersRoles as $role){
+                $tranlationUserRoles[$role] = $this->_helper->language->translate($role);
+            }
+        }
+
 		$userForm = new Application_Form_User();
         $userForm->getElement('password')->setRequired(false);
         $listMasksMapper = Application_Model_Mappers_MasksListMapper::getInstance();
@@ -80,6 +90,11 @@ class Backend_UserController extends Zend_Controller_Action {
         $by = filter_var($this->getParam('by', 'last_login'), FILTER_SANITIZE_STRING);
         $order = filter_var($this->getParam('order', 'desc'), FILTER_SANITIZE_STRING);
         $searchKey = filter_var($this->getParam('key'), FILTER_SANITIZE_STRING);
+
+        $originalSearchKey = $searchKey;
+        if(!empty($tranlationUserRoles) && !empty($searchKey) && in_array($searchKey, $tranlationUserRoles)){
+            $searchKey = array_search($searchKey, $tranlationUserRoles);
+        }
 
         if (!in_array($order, array('asc', 'desc'))) {
             $order = 'desc';
@@ -134,7 +149,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $this->view->by = $by;
         $this->view->order = $order;
-        $this->view->key = $searchKey;
+        $this->view->key = $originalSearchKey;
         $this->view->pager = $pager;
         $this->view->users = $users;
         $this->view->helpSection = 'users';
