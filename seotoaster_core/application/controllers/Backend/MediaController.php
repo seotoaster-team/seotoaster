@@ -10,6 +10,31 @@ class Backend_MediaController extends Zend_Controller_Action
     private $_translator = null;
     private $_websiteConfig = null;
 
+    private $_mimetypesFormats = array(
+        '*.doc',
+        '*.csv',
+        '*.txt',
+        '*.docx',
+        '*.xls',
+        '*.xlsx',
+        '*.pdf',
+        '*.xml',
+        '*.zip',
+        '*.jpg',
+        '*.png',
+        '*.bmp',
+        '*.gif',
+        '*.webm',
+        '*.ogg',
+        '*.ogv',
+        '*.dwg',
+        '*.vcf',
+        '*.mp3',
+        '*.avi',
+        '*.mpeg',
+        '*.mp4'
+    );
+
     public function  init()
     {
         parent::init();
@@ -65,6 +90,8 @@ class Backend_MediaController extends Zend_Controller_Action
 
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);
         $this->view->secureToken = $secureToken;
+        $this->view->mimeTypes = $this->_mimetypesFormats;
+        $this->view->uploadMaxSize = ini_get('upload_max_filesize');
 
         $this->view->helpSection = 'uploadthings';
     }

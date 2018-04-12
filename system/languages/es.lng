@@ -262,5 +262,7 @@
       'copywriter' => 'usuario escritor',
       'admin' => 'administrador',
       'customer' => 'representante',
-      'sales person' => 'encargado de ventas'
+      'sales person' => 'encargado de ventas',
+      'File upload max size' => 'Tamaño máximo de archivo',
+      'File extension formats' => 'Extensiones de archivos'
   );?>
