@@ -91,7 +91,8 @@ class Backend_MediaController extends Zend_Controller_Action
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);
         $this->view->secureToken = $secureToken;
         $this->view->mimeTypes = $this->_mimetypesFormats;
-        $this->view->uploadMaxSize = ini_get('upload_max_filesize');
+        $uploadMaxSize = ini_get('upload_max_filesize');
+        $this->view->uploadMaxSize = !empty($uploadMaxSize) ? $uploadMaxSize : '';
 
         $this->view->helpSection = 'uploadthings';
     }
