@@ -1219,6 +1219,8 @@
     'View default configuration' => 'Voir la configuration par défaut',
     'Default timezone' => 'Fuseau horaire par défaut',
     'is used on' => 'is used on',
-    'Please go remove or replace it with another image first so that your website stays pretty.' => 'Please go remove or replace it with another image first so that your website stays pretty.'
+    'Please go remove or replace it with another image first so that your website stays pretty.' => 'Please go remove or replace it with another image first so that your website stays pretty.',
+    'File upload max size' => 'Taille maximale d\'un fichier',
+    'File extension formats' => 'Extensions de fichiers'
 
 );?>
