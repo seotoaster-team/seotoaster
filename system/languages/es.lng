@@ -252,5 +252,17 @@
       'You\'ve entered an incorrect security text. Please try again.' => 'El código introducido no es correcto.',
       'Get an image CAPTCHA' => 'Obtener un código de imagen',
       'Edit mail message before sending' => 'Editar el correo antes de enviarlo',
-      'Okay' => 'Ok'
+      'Okay' => 'Ok',
+      'Member' => 'Miembro',
+      'Copywriter' => 'Usuario escritor',
+      'Admin' => 'Administrador',
+      'Customer' => 'Representante',
+      'Sales person' => 'Encargado de ventas',
+      'member' => 'miembro',
+      'copywriter' => 'usuario escritor',
+      'admin' => 'administrador',
+      'customer' => 'representante',
+      'sales person' => 'encargado de ventas',
+      'File upload max size' => 'Tamaño máximo de archivo',
+      'File extension formats' => 'Extensiones de archivos'
   );?>
