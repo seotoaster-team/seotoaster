@@ -23,6 +23,7 @@
     });
     function reindexCall() {
         $('.reindex-progress').show();
+        $(this).addClass('disabled');
         var data = {};
         $.ajax({
             url: $('#website_url').val() + 'api/toaster/searchreindex/',
@@ -35,6 +36,10 @@
                     $('#reindex-progress').text(response.responseText.indexedPages);
                     if (!response.responseText.final) {
                         reindexCall();
+                    }else{
+                        $('#search-reindex').removeClass('disabled');
+                        $('.reindex-progress').hide();
+                        showMessage('Reindexed ' + response.responseText.pagesTotal + ' pages');
                     }
                 }
                 else {
