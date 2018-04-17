@@ -2,7 +2,7 @@
 
 class Api_Toaster_Searchreindex extends Api_Service_Abstract
 {
-    const INDEX_PAGES_LIMIT = 200;
+    const INDEX_PAGES_LIMIT = 50;
     /**
      * @var Helpers_Action_Session
      */
@@ -65,6 +65,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                 ->where("p.draft = '?'", 0)
                 ->where("p.parent_id <> '?'", -5)
                 ->group('p.id');
+            $pagesTotal = count($dbAdapter->fetchAll($select));
             $select->limit(self::INDEX_PAGES_LIMIT, $indexPagesOffset);
             $pages = $dbAdapter->fetchAll($select);
             if (is_array($pages) && !empty($pages)) {
@@ -159,10 +160,14 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                 unset($this->_sessionHelper->indexPagesOffset);
                 $responseHelper->success(array(
                     'indexedPages' => $reindexedPagesTotal,
+                    'pagesTotal' => $pagesTotal,
                     'final' => true
                 ));
             }
-            $responseHelper->success(array('indexedPages' => $this->_sessionHelper->indexPagesOffset));
+            $responseHelper->success(array(
+                'indexedPages' => $this->_sessionHelper->indexPagesOffset,
+                'pagesTotal' => $pagesTotal
+            ));
         }
     }
 
