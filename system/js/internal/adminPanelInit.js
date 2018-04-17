@@ -85,36 +85,7 @@ $(function() {
 		}
 	})
 
-	$('#search-reindex').on('click', reindexCall);
 });
-
-function reindexCall() {
-	var data = {};
-	$.ajax({
-		url: $('#website_url').val() + 'api/toaster/searchreindex/',
-		method: 'POST',
-		data: JSON.stringify(data),
-		dataType: 'json',
-		beforeSend: function () {
-			showMessage('Indexing...', false);
-		},
-		success: function (response) {
-			hideSpinner();
-			if (!response.error) {
-				showMessage('Reindexed ' + response.responseText.indexedPages + ' pages', false, 1000);
-				if (!response.responseText.final) {
-					reindexCall();
-				}
-			}
-			else {
-				showMessage(response.responseText, true);
-			}
-		},
-		error: function (e) {
-			showMessage('Something went wrong, please try again.', true);
-		}
-	});
-}
 
 function showDelConfirm() {
 	var pageId     = $('#del-page-id').val();
