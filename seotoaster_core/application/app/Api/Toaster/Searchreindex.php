@@ -39,7 +39,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
             $indexPagesOffset = !empty($this->_sessionHelper->indexPagesOffset) ? $this->_sessionHelper->indexPagesOffset : 0;
             $searchIndexFolder = $this->_websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;
             if (!$indexPagesOffset && is_dir($searchIndexFolder) && !Tools_Filesystem_Tools::deleteDir($searchIndexFolder)) {
-                $responseHelper->fail($this->_translator->translate("Cannot clean a search folder"));
+                $responseHelper->fail($this->_translator->translate('Can\'t clean a search folder'));
             }
             $dbAdapter = Zend_Registry::get('dbAdapter');
             $select = $dbAdapter->select()
@@ -65,14 +65,16 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                 ->where("p.draft = '?'", 0)
                 ->where("p.parent_id <> '?'", -5)
                 ->group('p.id');
-            $pagesTotal = count($dbAdapter->fetchAll($select));
+
+            if(empty($this->_sessionHelper->indexPagesTotal)){
+                $this->_sessionHelper->indexPagesTotal = count($dbAdapter->fetchAll($select));
+            }
+
             $select->limit(self::INDEX_PAGES_LIMIT, $indexPagesOffset);
             $pages = $dbAdapter->fetchAll($select);
             if (is_array($pages) && !empty($pages)) {
-                if (!is_dir($searchIndexFolder)) {
-                    if (!Tools_Filesystem_Tools::mkDir($searchIndexFolder)) {
-                        die('Can\'t create search index folder in ' . $searchIndexFolder);
-                    }
+                if (!is_dir($searchIndexFolder) && !Tools_Filesystem_Tools::mkDir($searchIndexFolder)) {
+                    die('Can\'t create search index folder in ' . $searchIndexFolder);
                 }
                 $index = Tools_Search_Tools::initIndex();
                 $index->setMergeFactor(100);
@@ -157,7 +159,9 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
             $this->_sessionHelper->indexPagesOffset += count($pages);
             if (count($pages) < self::INDEX_PAGES_LIMIT) {
                 $reindexedPagesTotal = $this->_sessionHelper->indexPagesOffset;
+                $pagesTotal = $this->_sessionHelper->indexPagesTotal;
                 unset($this->_sessionHelper->indexPagesOffset);
+                unset($this->_sessionHelper->indexPagesTotal);
                 $responseHelper->success(array(
                     'indexedPages' => $reindexedPagesTotal,
                     'pagesTotal' => $pagesTotal,
@@ -166,7 +170,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
             }
             $responseHelper->success(array(
                 'indexedPages' => $this->_sessionHelper->indexPagesOffset,
-                'pagesTotal' => $pagesTotal
+                'pagesTotal' => $this->_sessionHelper->indexPagesTotal
             ));
         }
     }

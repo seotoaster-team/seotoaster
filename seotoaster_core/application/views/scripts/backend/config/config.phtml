@@ -37,19 +37,26 @@
                     if (!response.responseText.final) {
                         reindexCall();
                     }else{
-                        $('#search-reindex').removeClass('disabled');
+                        removeDisabled();
                         $('.reindex-progress').hide();
-                        showMessage('Reindexed ' + response.responseText.pagesTotal + ' pages');
+                        $('#reindex-progress').text(0);
+                        showMessage("<?php echo $this->translate('Reindexed');?>" + ' ' + response.responseText.pagesTotal + ' '+ "<?php echo $this->translate('pages');?>");
                     }
                 }
                 else {
                     showMessage(response.responseText, true);
+                    removeDisabled();
                 }
             },
             error: function (e) {
-                showMessage('Something went wrong, please try again.', true);
+                showMessage("<?php echo $this->translate('Something went wrong, please try again.'); ?>", true);
+                removeDisabled();
             }
         });
+
+        function removeDisabled() {
+            $('#search-reindex').removeClass('disabled');
+        }
     }
 </script>
 <div class="seotoaster container">
@@ -146,13 +153,11 @@
                 <div class="fl-left ml-grid mr-grid mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
                 <div class="fl-left mr1 mt0px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
                 <div class="fl-right mr1 mt0px grid_5">
-                    <div class="reindex-progress grid_6 fl-left">
-                        <span><?php echo $this->translate('Indexing...'); ?></span>
-                        <span id="reindex-progress">0</span> /
-                        <span id="reindex-total">0</span>
+                    <div class="reindex-progress grid_7 alpha omega fl-left mt5px">
+                        <span><?php echo $this->translate('Indexing...'); ?> </span>
+                        <span id="reindex-progress">0</span>/<span id="reindex-total">0</span>
                     </div>
-                    <a id="search-reindex" class="btn fl-right icon-user-add mt0px" href="javascript:;">Search
-                        reindex</a>
+                    <a id="search-reindex" class="btn fl-right icon-user-add mt0px grid_5" href="javascript:;"><?php echo $this->translate('Start reindex');?></a>
                 </div>
                 <div class="wrap mt5px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></div>
 
