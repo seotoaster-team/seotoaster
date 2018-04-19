@@ -24,11 +24,11 @@
     function reindexCall() {
         $('.reindex-progress').show();
         $(this).addClass('disabled');
-        var data = {};
+        var data = {secureToken: $('.secureToken').val()};
         $.ajax({
             url: $('#website_url').val() + 'api/toaster/searchreindex/',
             method: 'POST',
-            data: JSON.stringify(data),
+            data: data,
             dataType: 'json',
             success: function (response) {
                 if (!response.error) {
@@ -70,7 +70,7 @@
         <ul class="header">
             <li><a href="#general-config"><?php echo $this->translate('General'); ?></a></li>
             <li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
-            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+            <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
             <?php if ($this->isSuperAdmin): ?>
                 <li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
                 <li><a href="#advanced-config"><?php echo $this->translate('Advanced'); ?></a></li>

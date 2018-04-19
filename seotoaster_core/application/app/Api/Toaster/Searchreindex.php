@@ -3,6 +3,7 @@
 class Api_Toaster_Searchreindex extends Api_Service_Abstract
 {
     const INDEX_PAGES_LIMIT = 50;
+
     /**
      * @var Helpers_Action_Session
      */
@@ -33,6 +34,11 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
 
     public function postAction()
     {
+        $secureToken = $this->_request->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+        $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_CONFIG);
+        if (!$tokenValid) {
+            $this->_responseHelper->fail('');
+        }
         $currentUserRole = $this->_sessionHelper->getCurrentUser()->getRoleId();
         if ($currentUserRole === Tools_Security_Acl::ROLE_SUPERADMIN) {
             $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
