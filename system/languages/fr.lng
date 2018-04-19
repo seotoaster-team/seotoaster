@@ -1221,6 +1221,13 @@
     'is used on' => 'is used on',
     'Please go remove or replace it with another image first so that your website stays pretty.' => 'Please go remove or replace it with another image first so that your website stays pretty.',
     'File upload max size' => 'Taille maximale d\'un fichier',
-    'File extension formats' => 'Extensions de fichiers'
+    'File extension formats' => 'Extensions de fichiers',
+    'Please go remove or replace it with another image first so that your website stays pretty.' => 'Please go remove or replace it with another image first so that your website stays pretty.',
+    'Reindexed' => 'Réindexées',
+    'pages' => 'pages',
+    'Something went wrong, please try again.' => 'Une erreur s\'est produite. Veuillez réessayer',
+    'Indexing...' => 'Indexation...',
+    'Start reindex' => 'Réindexer',
+    'Can\'t clean a search folder' => 'Impossible de nettoyer le dossier de recherche'
 
 );?>
