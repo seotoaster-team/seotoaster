@@ -452,7 +452,12 @@ class Tools_System_Tools {
 
     public static function makeSpace($content)
     {
-        return preg_replace("/[^A-Za-z0-9 ]/", '&nbsp;', $content);
+        return preg_replace('/[^A-Za-z0-9 ]/', '&nbsp;', $content);
+    }
+
+    public static function makeGap($content)
+    {
+        return preg_replace('~[^A-Za-z0-9]~', ' ', $content);
     }
 
     /**
