@@ -29,6 +29,8 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
         $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $withoutWebsiteUpdate = $configHelper->getConfig('withoutWebsiteUpdate');
         $this->_view->withoutWebsiteUpdate = $withoutWebsiteUpdate;
+        $this->_view->userRole = $userRole;
+
         return $this->_view->render('admin/adminpanel.phtml');
 	}
 
