@@ -75,6 +75,9 @@ self.addEventListener('push', event => {
       url: data.openUrl
     }
   };
+  if (data.image !== 'undefined') {
+    options.image = data.image;
+  }
 
   event.waitUntil(
     self.registration.showNotification(data.title, options)
