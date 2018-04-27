@@ -84,6 +84,7 @@ $(function() {
 			showDelConfirm();
 		}
 	})
+
 });
 
 function showDelConfirm() {

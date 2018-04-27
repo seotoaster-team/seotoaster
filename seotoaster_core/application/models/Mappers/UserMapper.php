@@ -80,6 +80,14 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         return new $this->_model($row->toArray());
     }
 
+    public function findAllRoles() {
+        $select = $this->getDbTable()->getAdapter()->select()->distinct()->from('user', array(
+            'role_id', 'role_id'
+        ));
+        $users = $this->getDbTable()->getAdapter()->fetchPairs($select);
+        return $users;
+    }
+
 	public function delete(Application_Model_Models_User $user) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $user->getId());
 		$deleteResult = $this->getDbTable()->delete($where);

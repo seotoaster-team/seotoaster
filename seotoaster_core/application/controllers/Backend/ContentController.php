@@ -280,10 +280,10 @@ class Backend_ContentController extends Zend_Controller_Action {
             }
             catch(Exceptions_SeotoasterException $se) {
                 $imagesData = array(
-                    'small'    => $this->_helper->language->translate('No images were found'),
-                    'medium'   => $this->_helper->language->translate('No images were found'),
-                    'large'    => $this->_helper->language->translate('No images were found'),
-                    'original' => $this->_helper->language->translate('No images were found')
+                    'small'    => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>',
+                    'medium'   => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>',
+                    'large'    => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>',
+                    'original' => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>'
                 );
             }
 			$this->getResponse()->setBody(json_encode($imagesData))->sendResponse();

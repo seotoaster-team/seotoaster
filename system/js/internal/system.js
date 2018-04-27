@@ -438,7 +438,7 @@ function loginCheck(){
     if($.cookie('PHPSESSID')===null){
         showModalMessage('Session expired', 'Your session is expired! Please, login again', function(){
             top.location.href = $('#website_url').val();
-        })
+        });
         return false;
     }
     return true;
@@ -465,6 +465,28 @@ function showConfirm(msg, yesCallback, noCallback){
             }
         }
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
+}
+function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
+    var yes = 'Yes',
+        no = 'No';
+
+    if(typeof yesValue != 'undefined'){
+        yes = yesValue;
+    }
+    if(typeof noValue != 'undefined'){
+        no = noValue;
+    }
+    smoke.confirm(msg, function(e){
+        if(e){
+            if(typeof yesCallback!='undefined'){
+                yesCallback();
+            }
+        }else{
+            if(typeof noCallback!='undefined'){
+                noCallback();
+            }
+        }
+    }, {classname : 'error', ok : yes, cancel : no});
 }
 function showSpinner(e){
     var el = (typeof text === 'string' ? e : 'body>.seotoaster');
