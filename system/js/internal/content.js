@@ -76,15 +76,27 @@ $(function() {
 		return false;
 	});
 
+	$('#nolink').change(function () {
+        if(!$(this).is(':checked')){
+            $('#nolink').val(0);
+		}else{
+            $('#nolink').val(1);
+		}
+		$('#adminselectimgfolder').trigger('change');
+    });
+
 	$('#adminselectimgfolder').change(function(){
-		var selectedFolder = $(this).val();
+		var selectedFolder = $(this).val(),
+            nolink = $('#nolink').val();
+
 		if(selectedFolder && selectedFolder != 0) {
 			$.ajax({
 				url        : $('#website_url').val() + 'backend/backend_content/loadimages',
 				type       : 'post',
 				dataType   : 'json',
 				data       : {
-					folderName: selectedFolder
+					folderName: selectedFolder,
+                    nolink: nolink
 				},
 				beforeSend : function() {
 					//console.log('loading...');
