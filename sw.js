@@ -1,6 +1,5 @@
 const revision = 'pwa03202018';
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
-//# sourceMappingURL=workbox-sw.js.map
 
 if (typeof workbox !== 'undefined') {
 
@@ -33,11 +32,9 @@ if (typeof workbox !== 'undefined') {
 }
 
 self.addEventListener('notificationclick', event => {
+  //TODO: Rewrite it.
   const notification = event.notification;
   const action = event.action;
-
-  console.log(notification);
-
   if (action === 'confirm') {
     console.log('Confirm was chosen');
   } else {

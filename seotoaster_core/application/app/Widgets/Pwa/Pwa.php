@@ -38,5 +38,13 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
         return '';
 	}
 
+    /*
+     * Option that renders add to home screen button and attaches install event to it.
+     */
+	private function _generateA2hsOption() {
+        $this->_view->buttonText = !empty($this->_options[1]) ? filter_var($this->_options[1], FILTER_SANITIZE_STRING) : $this->_translator->translate('Install App');
+        return $this->_view->render('a2hs.phtml');
+	}
+
 }
 
