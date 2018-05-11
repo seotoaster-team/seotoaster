@@ -46,5 +46,12 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
         return $this->_view->render('a2hs.phtml');
 	}
 
+    /*
+     * Option that disables add to home screen banner.
+     */
+    private function _generateDisableOption() {
+        return $this->_view->render('disable.phtml');
+    }
+
 }
 
