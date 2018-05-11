@@ -194,7 +194,7 @@ class Backend_ThemeController extends Zend_Controller_Action
                         'notAlnum'             => 'Template name contains characters which are non alphabetic and no digits',
                         'stringLengthTooLong'  => 'Template name field is too long.',
                         'stringLengthTooShort' => 'Template name field is too short.',
-                        'regexNotMatch'        => 'Template name isn\'t valid.'
+                        'regexNotMatch'        => 'Please, use only (a-z), numbers (0-9), underscores (_) or whitespaces ( ) in the email template name.'
                     ),
                     'content' => array(
                         'isEmpty' => 'Content can\'t be empty.'
