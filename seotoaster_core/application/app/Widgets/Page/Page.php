@@ -16,6 +16,11 @@ class Widgets_Page_Page extends Widgets_Abstract {
      */
     const PAGE_ORIGINAL = 'original';
 
+    /**
+     * Clear HTML Tags
+     */
+    const CLEAR_TAGS = 'clear';
+
     private $_aliases = array(
         'title' => 'headerTitle',
         'teaser' => 'teaserText',
@@ -45,6 +50,11 @@ class Widgets_Page_Page extends Widgets_Abstract {
             else {
                 $optionValue = $this->_toasterOptions[$option];
             }
+
+            if(in_array(self::CLEAR_TAGS, $this->_options)) {
+                $optionValue = strip_tags($optionValue);
+            }
+
             $optionMakerNameLocal = '_'.$optionMakerName;
             if (method_exists($this, $optionMakerNameLocal)) {
                 return $this->$optionMakerNameLocal($optionValue);
