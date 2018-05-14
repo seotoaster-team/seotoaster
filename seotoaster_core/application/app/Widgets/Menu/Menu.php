@@ -171,6 +171,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     }
                 }
                 $dictionary['$page:' . $prop] = $item;
+                $dictionary['$page:' . $prop . ':clear'] = strip_tags($item);
             }
 
             if (!empty($page['subPages'])) {
