@@ -51,7 +51,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
                 $optionValue = $this->_toasterOptions[$option];
             }
 
-            if(in_array(self::CLEAR_TAGS, $this->_options)) {
+            if(in_array(self::CLEAR_TAGS, $this->_options, true)) {
                 $optionValue = strip_tags($optionValue);
             }
 
