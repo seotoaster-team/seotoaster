@@ -42,7 +42,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
             $readmeText = '';
             if (is_readable($readmePath)) {
-                $readmeText = $this->_helper->language->translate(nl2br(htmlspecialchars(file_get_contents($readmePath))));
+                $readmeText = file_get_contents($readmePath);
             }
 
             if (empty($readmeText)) {
