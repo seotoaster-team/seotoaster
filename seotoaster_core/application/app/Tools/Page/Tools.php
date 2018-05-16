@@ -9,6 +9,7 @@ class Tools_Page_Tools
 {
 
 	const PLACEHOLDER_NOIMAGE = 'system/images/noimage.png';
+	const  PWA_OFFLINE_PAGE_URL = '/pwa-offline.html';
 
     public static function getPreview($page, $crop = false)
     {
