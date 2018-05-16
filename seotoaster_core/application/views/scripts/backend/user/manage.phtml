@@ -148,8 +148,14 @@
                         <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
                         <td class="user-row-item text-center">
                         <?php if($user['role_id'] !== 'superadmin'): ?>
-                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
-                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
+                            <?php
+                                $ignoreCustomMessage = '0';
+                                if (!in_array($user['role_id'], $this->userRolesApplyTo, true)) {
+                                    $ignoreCustomMessage = '1';
+                                }
+                            ?>
+                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
+                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -161,6 +167,7 @@
     <div class="footer grid_12 text-right">
         <?php echo $this->pager; ?>
     </div>
+    <input type="hidden" name="custom-delete-message" id="custom-delete-message" value="<?php echo $this->userDeleteCustomMessage;?>">
 </div>
 <script type="text/javascript">
 	$(function() {
