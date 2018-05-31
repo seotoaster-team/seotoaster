@@ -80,7 +80,7 @@ class Tools_Mail_Mailer {
      *
      * @return string
      */
-	public function getMessageId()
+    public function getMessageId()
     {
         return $this->_mailer->getMessageId();
     }
@@ -94,7 +94,7 @@ class Tools_Mail_Mailer {
      */
     public function setMessageId($id = true)
     {
-       return $this->_mailer->setMessageId($id);
+        return $this->_mailer->setMessageId($id);
     }
 
 	public function prepare() {
