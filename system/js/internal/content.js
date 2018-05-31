@@ -176,7 +176,9 @@ $(function() {
 //	});
 
 	var restoredContent = localStorage.getItem(generateStorageKey());
-	if(restoredContent !== null) {
+	var currentContainerContent = $(this).find('#content').val();
+
+    if(restoredContent !== null && restoredContent != currentContainerContent) {
 		showConfirm('We have found content that has not been saved! Restore?', function() {
             tinymce.activeEditor.setContent(restoredContent);
 			$('#content').val(restoredContent);
