@@ -180,7 +180,8 @@ class Application_Form_User extends Application_Form_Secure {
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'voipPhone',
             'id'    => 'voip-phone',
-            'label' => 'VOIP phone'
+            'label' => 'VOIP phone',
+            'placeholder' => 'sip:username@sipdomain.com'
         )));
 
         $this->addElement(new Zend_Form_Element_Text(array(
