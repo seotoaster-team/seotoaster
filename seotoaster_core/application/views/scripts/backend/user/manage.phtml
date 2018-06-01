@@ -48,6 +48,12 @@
                     <?php echo $this->userForm->getElement('desktopPhone'); ?>
                 </div>
                 <div class="grid_12">
+                    <?php $this->userForm->getElement('voipPhone')->getDecorator('Label')->setOptions(array('class' => 'inline-block')) ?>
+                    <?php echo $this->userForm->getElement('voipPhone')->renderLabel(); ?>
+                    <i title="<?php echo $this->translate('You need a single SambaSaaS phone number associated with this website for this feature to function, regardless of the number of VOIP phone users. Your users can use any VOIP provider for their own number.');?>" class="ticon-info tooltip icon18 mb5px"></i>
+                    <?php echo $this->userForm->getElement('voipPhone')->renderViewHelper(); ?>
+                </div>
+                <div class="grid_12">
                     <?php echo $this->userForm->getElement('timezone'); ?>
                 </div>
 				<div class="grid_12">

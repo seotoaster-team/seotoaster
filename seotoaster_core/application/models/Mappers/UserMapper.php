@@ -31,7 +31,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'desktop_country_code'       => $user->getDesktopCountryCode(),
             'desktop_country_code_value' => $user->getDesktopCountryCodeValue(),
             'signature'                  => $user->getSignature(),
-            'subscribed'                  => $user->getSubscribed()
+            'subscribed'                 => $user->getSubscribed(),
+            'voip_phone'                 => $user->getVoipPhone()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
