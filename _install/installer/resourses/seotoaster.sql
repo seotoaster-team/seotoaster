@@ -34,7 +34,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('userDefaultTimezone', 'America/New_York'),
 ('userDefaultPhoneMobileCode', 'US'),
 ('oldMobileFormat', '1'),
-('version',	'2.6.4');
+('version',	'2.6.5');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -427,6 +427,7 @@ CREATE TABLE `user` (
   `referer` tinytext COLLATE utf8_unicode_ci,
   `gplus_profile` tinytext COLLATE utf8_unicode_ci,
   `mobile_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `voip_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notes` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `timezone` VARCHAR(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile_country_code` CHAR(2) COLLATE utf8_unicode_ci DEFAULT NULL,

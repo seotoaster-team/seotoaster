@@ -146,6 +146,18 @@ class Backend_UserController extends Zend_Controller_Action {
         $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
         $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
         $this->view->userDefaultTimeZone = $userDefaultTimezone;
+        $userDeleteCustomMessages = Tools_System_Tools::firePluginMethod('userdelete', 'systemUserDeleteMessage');
+        $userDeleteCustomMessage = '';
+        $userRolesApplyTo = array();
+        if (!empty($userDeleteCustomMessages)) {
+            foreach ($userDeleteCustomMessages as $userDeleteCustomMessageData) {
+                $userDeleteCustomMessage .= $userDeleteCustomMessageData['message'];
+                $userRolesApplyTo = array_merge($userRolesApplyTo, $userDeleteCustomMessageData['userRolesApplyTo']);
+            }
+        }
+
+        $this->view->userDeleteCustomMessage = $userDeleteCustomMessage;
+        $this->view->userRolesApplyTo = $userRolesApplyTo;
 
         $this->view->by = $by;
         $this->view->order = $order;
@@ -169,11 +181,20 @@ class Backend_UserController extends Zend_Controller_Action {
 				exit;
 			}
 			$userMapper = Application_Model_Mappers_UserMapper::getInstance();
-			if($userMapper->delete($userMapper->find($userId))) {
-				$this->_helper->response->success('Removed');
-				exit;
-			}
-			$this->_helper->response->fail('Can\'t remove user...');
+			try {
+                $userModel = $userMapper->find($userId);
+                if ($userModel instanceof Application_Model_Models_User) {
+                    $userMapper->delete($userModel);
+                    $this->_helper->response->success('Removed');
+                    exit;
+                } else {
+                    $this->_helper->response->fail('Can\'t remove user...');
+                }
+
+            } catch (Exception $exception) {
+                $this->_helper->response->fail('Can\'t remove user...');
+            }
+
 		}
 	}
 
