@@ -238,7 +238,19 @@ class Widgets_Search_Search extends Widgets_Abstract
                         $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
                     }
                 } catch (Exception $e) {
-                    throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                    if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                        $searchTermArray = explode(' ', rtrim( $searchTerm, '*'));
+                        $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                        if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                            && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'), 'modified', SORT_DESC);
+                        } else {
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
+                        }
+                    } else {
+                        throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                    }
                 }
                 $cacheTags     = array('search_' . $searchTerm);
                 $searchResults = array_map(
