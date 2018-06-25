@@ -7,13 +7,21 @@
         <?php echo $this->formLabel('forms-existing', $this->translate('Select a form'), array('class' => 'grid_5 alpha')); ?>
         <?php echo $this->formSelect('formsExisting', null, array('id' => 'forms-existing', 'class' => 'grid_7 alpha omega small')); ?>
     </p>
+    <ul class="mt5px column_2">
+        <li>
+            <label class="pointer">
+                <span class="alpha"><?php echo $this->translate('Grecaptcha'); ?></span>
+                <?php echo $this->formCheckbox('formsgRecaptcha', null, array('id' => 'forms-grecaptcha')); ?>
+            </label>
+        </li>
+        <li>
+            <label class="pointer">
+                <span class="alpha"><?php echo $this->translate('Recaptcha'); ?></span>
+                <?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
+            </label>
+        </li>
+    </ul>
     <p class="mt5px">
-        <label class="pointer">
-            <span class="grid_5 alpha"><?php echo $this->translate('Use recaptcha'); ?></span>
-            <?php echo $this->formCheckbox('formsCaptcha', null, array('id' => 'forms-captcha')); ?>
-        </label>
-    </p>
-    <p>
         <label class="pointer hide">
             <span class="grid_5 alpha"><?php echo $this->translate('Recaptcha style'); ?></span>
             <?php echo $this->formSelect('formsCaptchastyle', null, array('id' => 'form-captcha-style', 'class' => 'grid_7 alpha omega small'),
@@ -40,17 +48,29 @@
 
         $("#forms-captcha").change(function(){
             if(this.checked){
-                $("#form-captcha-style").closest('label.pointer').fadeIn('slow')
+                $("#form-captcha-style").closest('label.pointer').fadeIn('slow');
+                $('#forms-grecaptcha').prop('checked', false);
             } else {
                 $("#form-captcha-style").closest('label.pointer').fadeOut('slow');
             }
-        })
+        });
+
+        $('#forms-grecaptcha').change(function() {
+            if ($(this).is(':checked')) {
+                $('#forms-captcha').prop('checked', false).change();
+            }
+        });
 
 		$(document).on('click', '.apply-widget-forms', function() {
-            var recaptchaStyle = "";
+            var WFORM_NAME_LIMIT_CHARS = 64;
+            var recaptchaStyle = "",
+                nameLength = $('#forms-newname').val().length;
             var widgetForm = $(this).closest('form');
 			var widgetHtml = '{$' + widgetForm.data('name');
 
+            if(nameLength > WFORM_NAME_LIMIT_CHARS){
+                return  showMessage("<?php echo $this->translate('Form name is limited to 64 chars!')?>", false, 3000);
+            }
 			if($('#forms-newname').val().trim() != '') {
 				widgetHtml += ':' + $('#forms-newname').val()
 			} else if($('#forms-existing').val() != 0) {
@@ -66,6 +86,10 @@
 			if(widgetHtml != '') {
                 if($('#forms-captcha').prop('checked')){
                     widgetHtml += ':recaptcha:' + recaptchaStyle ;
+                }
+
+                if($('#forms-grecaptcha').prop('checked')){
+                    widgetHtml += ':grecaptcha';
                 }
 
                 if($("#forms-submit-label").val().length != 0){

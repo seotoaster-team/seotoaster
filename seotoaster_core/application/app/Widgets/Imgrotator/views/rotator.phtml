@@ -9,7 +9,6 @@
         data-cycle-swipe="true"
         data-cycle-swipe-fx="<?php echo $this->effect; ?>"
         <?php echo ($this->pager) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
-        <?php echo ($this->prevnext) ? 'data-cycle-pager="#pager-'.$this->uniq.'"' : ''; ?>
         style="
             max-width  : <?php echo (filter_var($this->sliderWidth, FILTER_VALIDATE_INT) ? $this->sliderWidth . 'px' : $this->sliderWidth); ?>;"
         >

@@ -31,7 +31,7 @@ class Widgets_Search_Search extends Widgets_Abstract
 
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 
-        if (in_array('results', $this->_options) || in_array('links', $this->_options)) {
+        if (in_array('results', $this->_options) || in_array('links', $this->_options) || in_array('dropdown', $this->_options)) {
             $this->_cacheable = false;
         }
 
@@ -89,19 +89,42 @@ class Widgets_Search_Search extends Widgets_Abstract
         }
 
         $searchForm = new Application_Form_Search();
-        $searchFormAction = $searchResultPage->getUrl();
-        if ($searchFormAction !== 'index.html') {
+        $dropDownSearchFlag = array_search('dropdown', $this->_options);
+        if(false === $dropDownSearchFlag){
+          $searchFormAction = $searchResultPage->getUrl();
+          if ($searchFormAction !== 'index.html') {
             $searchForm->setAction($this->_websiteHelper->getUrl() . $searchFormAction);
-        } else {
+          } else {
             $searchForm->setAction($this->_websiteHelper->getUrl());
+          }
         }
         $this->_view->searchForm = $searchForm;
 
         $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(
                 Tools_Security_Acl::RESOURCE_USERS
             ) && Tools_Search_Tools::isEmpty();
-
-        return $this->_view->render('form.phtml');
+        if (false === $dropDownSearchFlag) {
+            return $this->_view->render('form.phtml');
+        } else {
+            $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
+            $filterPageType = array();
+            if (!empty($pageTypes) && !empty($this->_options[1])) {
+                $filterPageTypeConf = explode(',', $this->_options[1]);
+                $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
+            }
+            $limit = is_numeric(end($this->_options)) ? filter_var(
+                end($this->_options),
+                FILTER_SANITIZE_NUMBER_INT
+            ) : self::SEARCH_LIMIT_RESULT;
+            $this->_view->limit = $limit;
+            $this->_view->filterPageType = $filterPageType;
+            $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
+            $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
+            if(!empty($searhResultPage)){
+                $this->_view->searhResultPageUrl = $searhResultPage[0]->getUrl();
+            }
+            return $this->_view->render('dropdownForm.phtml');
+        }
     }
 
     private function _renderSearchResults()

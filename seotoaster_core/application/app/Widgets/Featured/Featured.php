@@ -25,6 +25,11 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_FILTER_BY_H1 = 'h1';
 
+    /**
+     * Featuredarea template type
+     */
+    const TEMPLATE_FA_TYPE = 'type_fa_template';
+
     private $_configHelper = null;
 
     private $_filterable = false;
@@ -46,6 +51,12 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->useImage          = false;
         $this->cropParams        = array();
         $this->cropSizeSubfolder = '';
+
+        $withoutCacheOption = array_search('without_cache', $this->_options);
+        if ($withoutCacheOption !== false) {
+            $this->_cacheable = false;
+            unset($this->_options[$withoutCacheOption]);
+        }
 
         // checking if its area and random
         if (!empty($this->_options)
@@ -184,6 +195,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;
+
+        if(in_array('deny-blank', $this->_options)){
+            $this->_view->denyBlank = true;
+        }
 
         // Adding cache tag for this fa
         array_push($this->_cacheTags, 'fa_'.$params[0]);

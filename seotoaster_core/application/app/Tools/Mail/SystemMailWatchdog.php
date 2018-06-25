@@ -33,6 +33,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     const TRIGGER_USERCHANGEATTR     = 't_userchangeattr';
 
     /**
+     * User invitation
+     *
+     */
+    const TRIGGER_USERINVITATION     = 't_userinvitation';
+
+    /**
      * Password change trigger. Launches sending of mails
      */
     const TRIGGER_PASSWORDCHANGE    = 't_passwordchange';
@@ -92,7 +98,6 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     protected function _sendTfeedbackformMailAdditionalContact(Application_Model_Models_Form $form){
         $this->_mailer = Tools_Mail_Tools::initMailer();
-        $formDetails = $this->_cleanFormData($this->_options['data']);
         $userMapper = Application_Model_Mappers_UserMapper::getInstance();
         $where = $userMapper->getDbTable()->getAdapter()->quoteInto("role_id = ?", Tools_Security_Acl::ROLE_ADMIN);
         $admins = $userMapper->fetchAll($where);
@@ -119,46 +124,40 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 return;
             break;
         }
-        $mailBody = '{form:details}';
-        $formDetailsHtml = '';
 
-        foreach($formDetails as $name => $value) {
-            if(!$value) {
-                continue;
-            }
-            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
-        }
-        $this->_entityParser->setDictionary(array(
-            'form:details' => $formDetailsHtml
-        ));
-
-        $mailBody = $this->_entityParser->parse($mailBody);
-
-        if(isset($this->_options['attachment']) && is_array($this->_options['attachment']) && !empty($this->_options['attachment'])){
-            $this->_mailer->addAttachment($this->_options['attachment']);
-        }
-        $this->_mailer->setBody($mailBody);
-        $this->_mailer->setSubject($this->_translator->translate('New form submitted'))
-            ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
-            ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
-        return $this->_mailer->send();
+        return $this->_sendFeedBackForm($form);
     }
 
     protected function _sendTfeedbackformMailReply(Application_Model_Models_Form $form) {
         $this->_mailer             = Tools_Mail_Tools::initMailer();
         $formDetails               = $this->_options['data'];
         $formReplyMessage          = $form->getReplyText();
-        $this->_options['message'] = ($formReplyMessage) ? $formReplyMessage : $this->_translator->translate('Thank you for your submission');
         $this->_mailer->setMailToLabel($formDetails['name'])
             ->setMailTo($formDetails['email']);
         if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
             $this->_options['template'] = $replyTemplate;
         }
-        if(($mailBody = $this->_prepareEmailBody()) !== false) {
+
+        if (empty($formReplyMessage)) {
+            $this->_options['message'] = $this->_translator->translate('Thank you for your submission');
+        } else {
+            $this->_options['message'] = $formReplyMessage;
+        }
+
+        $pageUrl = str_replace($this->_websiteHelper->getUrl(), '', $formDetails['formUrl']);
+        $pageModel = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
+        $pageId = 0;
+        if ($pageModel instanceof Application_Model_Models_Page) {
+            $pageId = $pageModel->getId();
+        }
+
+        if(($mailBody = $this->_prepareEmailBody($pageId)) !== false) {
+            $this->_addToDictionaryLexemes($formDetails);
             $this->_mailer->setBody($this->_entityParser->parse($mailBody));
         } else {
             $this->_mailer->setBody($this->_translator->translate('Thank you for your feedback'));
         }
+
         $this->_mailer->setSubject($form->getReplySubject())
             ->setMailFromLabel($form->getReplyFromName())
             ->setMailFrom($form->getReplyFrom());
@@ -167,47 +166,81 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     protected function _sendTfeedbackformMailContact(Application_Model_Models_Form $form) {
         $emails = $this->_prepareEmail($form->getContactEmail());
-        $formDetails = $this->_cleanFormData($this->_options['data']);
         $this->_mailer->setMailToLabel($emails[0])
             ->setMailTo($emails[0]);
         if(count($emails) > 1){
             array_shift($emails);
             $this->_mailer->setMailBcc($emails);
         }
-        $mailBody = '{form:details}';
-        $formDetailsHtml = '';
+
+        return $this->_sendFeedBackForm($form);
+    }
+
+    private function _sendFeedBackForm(Application_Model_Models_Form $form)
+    {
+        $formDetails = $this->_cleanFormData($this->_options['data']);
+
+        $adminTemplateEmail = $form->getAdminMailTemplate();
+
+        if (!empty($adminTemplateEmail)) {
+            $this->_options['template'] = $adminTemplateEmail;
+        }
+
+        $formAdminMessage  = $form->getAdminText();
+
+        if (!empty($formAdminMessage)) {
+            $this->_options['message'] = $formAdminMessage;
+        }
 
         $formUrl = '';
-        if(isset($formDetails['formUrl'])) {
+        if (isset($formDetails['formUrl'])) {
             $formUrl = $formDetails['formUrl'];
             unset($formDetails['formUrl']);
         }
 
-        foreach($formDetails as $name => $value) {
-            if(!$value) {
-                continue;
-            }
-            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
+        if (($mailBody = $this->_prepareEmailBody()) === false) {
+            $mailBody = '{form:details}';
         }
+
+        $formDetailsHtml = $this->_prepareFormDetailsHtml($formDetails);
+
         $this->_entityParser->setDictionary(array(
             'form:details' => $formDetailsHtml
         ));
 
+        $formDetails['formUrl'] = $formUrl;
+        $this->_addToDictionaryLexemes($formDetails);
         $mailBody = $this->_entityParser->parse($mailBody);
 
-        if($formUrl) {
-            $mailBody .= '<div style="background:#eee;padding:10px;">'.$this->_translator->translate('This form was submitted from').': <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
+        if ($formUrl && empty($adminTemplateEmail)) {
+            $mailBody .= '<div style="background:#eee;padding:10px;">' . $this->_translator->translate('This form was submitted from') . ': <a href="' . $formUrl . '">' . $formUrl . '</a></div>';
         }
 
-        $senderFullName = (isset($formDetails['lastname'])) ? $formDetails['name'].' '.$formDetails['lastname']: $formDetails['name'];
-
-        if(isset($this->_options['attachment']) && is_array($this->_options['attachment']) && !empty($this->_options['attachment'])){
+        if (isset($this->_options['attachment']) && is_array($this->_options['attachment']) && !empty($this->_options['attachment'])) {
             $this->_mailer->addAttachment($this->_options['attachment']);
         }
         $this->_mailer->setBody($mailBody);
-        $this->_mailer->setSubject($this->_translator->translate('New') .' '. $form->getName() . ' '.$this->_translator->translate('form submitted from'). ' '. $senderFullName)
-            ->setMailFromLabel($this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl())
-            ->setMailFrom($this->_configHelper->getConfig('adminEmail'));
+
+        $adminFormSubject = $form->getAdminSubject();
+        if (empty($adminFormSubject)) {
+            $senderFullName = (isset($formDetails['lastname'])) ? $formDetails['name'] . ' ' . $formDetails['lastname'] : $formDetails['name'];
+            $adminFormSubject = $this->_translator->translate('New') . ' ' . $form->getName() . ' ' . $this->_translator->translate('form submitted from') . ' ' . $senderFullName;
+        }
+
+        $adminFromName = $form->getAdminFromName();
+        if (empty($adminFormSubject)) {
+            $adminFromName = $this->_translator->translate('Notifications @ ') . $this->_websiteHelper->getUrl();
+        }
+
+        $adminFromEmail = $form->getAdminFrom();
+        if (empty($adminFromEmail)) {
+            $adminFromEmail = $this->_configHelper->getConfig('adminEmail');
+        }
+
+        $this->_mailer->setSubject($adminFormSubject)
+            ->setMailFromLabel($adminFromName)
+            ->setMailFrom($adminFromEmail);
+
         return $this->_mailer->send();
     }
 
@@ -341,7 +374,34 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
     }
 
-    protected function _prepareEmailBody() {
+    protected function _sendTuserinvitationMail(Application_Model_Models_User $user) {
+
+        $fullName = $user->getFullName();
+        if (empty($fullName)) {
+            $fullName = '';
+        }
+
+        $resetTokenModel = $this->_options['resetToken'];
+
+        $emailContent = $this->_prepareEmailBody();
+        $this->_entityParser->objectToDictionary($user);
+        $this->_entityParser->addToDictionary(
+            array(
+                'reset:link' => '<a href="' . $resetTokenModel->getResetUrl() . '">' . $resetTokenModel->getResetUrl() . '</a>',
+                'reset:url'  => $resetTokenModel->getResetUrl(),
+            )
+        );
+        $this->_mailer->setBody($this->_entityParser->parse($emailContent));
+        $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
+        $this->_mailer->setMailFrom($this->_options['from']);
+        $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
+        $this->_mailer->setMailFromLabel($subject);
+        $this->_mailer->setSubject($subject);
+
+        return $this->_mailer->send();
+    }
+
+    protected function _prepareEmailBody($pageId = 0) {
         $tmplMessage  = $this->_options['message'];
         $mailTemplate = Application_Model_Mappers_TemplateMapper::getInstance()->find($this->_options['template']);
         if (!empty($mailTemplate)){
@@ -376,6 +436,10 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             ->where('(container_type = 2 OR container_type = 4)')
             ->where('page_id IS NULL');
             $stat   = $cDbTable->getAdapter()->fetchAssoc($select);
+            if ($pageId) {
+                $parserOptions['id'] = $pageId;
+            }
+
             $parser = new Tools_Content_Parser($mailTemplate, array('containers' => $stat), $parserOptions);
 
             return Tools_Content_Tools::stripEditLinks($parser->parseSimple());
@@ -406,5 +470,40 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         return array($emails);
         
     }
-    
+
+    /**
+     * Adding additional lexemes
+     *
+     * @param array $params form params
+     * @param string $lexemePrefix lexeme prefix
+     */
+    private function _addToDictionaryLexemes(array $params, $lexemePrefix = 'form')
+    {
+        $paramsDictionary = array();
+        foreach ($params as $paramName => $paramValue) {
+            $paramsDictionary[$lexemePrefix . ':' . $paramName] = $paramValue;
+        }
+
+        $this->_entityParser->addToDictionary($paramsDictionary);
+    }
+
+    /**
+     * Prepare form fields info in html format
+     *
+     * @param array $formDetails form data
+     * @return string
+     */
+    private function _prepareFormDetailsHtml(array $formDetails)
+    {
+        $formDetailsHtml = '';
+        foreach ($formDetails as $name => $value) {
+            if (!$value) {
+                continue;
+            }
+            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
+        }
+
+        return $formDetailsHtml;
+    }
+
 }

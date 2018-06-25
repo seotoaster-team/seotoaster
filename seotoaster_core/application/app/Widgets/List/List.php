@@ -87,6 +87,22 @@ class Widgets_List_List extends Widgets_Abstract {
         return $this->_view->render('pages.phtml');
 	}
 
+	private function _renderThiscatpagesList() {
+		$this->_view->pagesList = Application_Model_Mappers_PageMapper::getInstance()->findByParentId(($this->_toasterOptions['parentId'] > 0) ? $this->_toasterOptions['parentId'] : $this->_toasterOptions['id']);
+		$this->_view->useImage  = (in_array('img', $this->_options) || in_array('imgc', $this->_options)) ? true : false;
+		$this->_view->crop      = (in_array('imgc', $this->_options) || in_array('crop', $this->_options)) ? true : false;
+		$class                  = current(preg_grep('/class=*/', $this->_options));
+		$this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
+		$this->_view->ajax = false;
+		if(end($this->_options) == 'ajax') {
+			$this->_view->ajax = true;
+			$this->_view->categoryName = $this->_toasterOptions['navName'];
+		}
+		$this->_view->pageId = $this->_toasterOptions['id'];
+		$this->_addCacheTags($this->_view->thiscatpagesList);
+		return $this->_view->render('pages.phtml');
+	}
+
 	private function _findPagesListByCategoryName($categoryName) {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
 		$page       = $pageMapper->findByNavName($categoryName);

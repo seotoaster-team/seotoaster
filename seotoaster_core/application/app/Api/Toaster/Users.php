@@ -87,6 +87,34 @@ class Api_Toaster_Users extends Api_Service_Abstract
 
                 Application_Model_Mappers_UserMapper::getInstance()->loadUserAttributes($user);
 
+                if (isset($data['mobilePhone'])) {
+                    $data['mobilePhone'] = preg_replace('~[^\d]~ui', '', $data['mobilePhone']);
+                }
+
+                if (isset($data['mobileCountryCode'])) {
+                    if (!empty($data['mobileCountryCode'])) {
+                        $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['mobileCountryCode'],
+                            'phoneToTerritory');
+                        $data['mobileCountryCodeValue'] = '+' . $mobileCountryPhoneCode;
+                    } else {
+                        $data['mobileCountryCodeValue'] = null;
+                    }
+                }
+
+                if (isset($data['desktopPhone'])) {
+                    $data['desktopPhone'] = preg_replace('~[^\d]~ui', '', $data['desktopPhone']);
+                }
+
+                if (isset($data['desktopCountryCode'])) {
+                    if (!empty($data['desktopCountryCode'])) {
+                        $mobileCountryPhoneCode = Zend_Locale::getTranslation($data['desktopCountryCode'],
+                            'phoneToTerritory');
+                        $data['desktopCountryCodeValue'] = '+' . $mobileCountryPhoneCode;
+                    } else {
+                        $data['desktopCountryCodeValue'] = null;
+                    }
+                }
+
                 foreach ($data as $attribute => $value) {
                     $setter = 'set' . ucfirst(strtolower($attribute));
                     if (method_exists($user, $setter)) {

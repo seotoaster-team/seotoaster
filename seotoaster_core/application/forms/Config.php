@@ -28,7 +28,10 @@ class Application_Form_Config extends Application_Form_Secure
 	protected $_inlineEditor;
 	protected $_canonicalScheme;
     protected $_recaptchaPublicKey;
+    protected $_grecaptchaPublicKey;
     protected $_recaptchaPrivateKey;
+    protected $_grecaptchaPrivateKey;
+    protected $_googleApiKey;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -289,10 +292,22 @@ class Application_Form_Config extends Application_Form_Secure
 		return $this;
 	}
 
+    public function setGrecaptchaPublicKey($grecaptchaPublicKey)
+    {
+        $this->_grecaptchaPublicKey = $grecaptchaPublicKey;
+        $this->getElement(Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY)->setValue($grecaptchaPublicKey);
+        return $this;
+    }
+
 	public function getRecaptchaPublicKey()
     {
 		return $this->_recaptchaPublicKey;
 	}
+
+    public function getGrecaptchaPublicKey()
+    {
+        return $this->_grecaptchaPublicKey;
+    }
 
     public function setRecaptchaPrivateKey($recaptchaPrivateKey)
     {
@@ -301,10 +316,22 @@ class Application_Form_Config extends Application_Form_Secure
 		return $this;
 	}
 
+    public function setGrecaptchaPrivateKey($grecaptchaPrivateKey)
+    {
+        $this->_grecaptchaPrivateKey = $grecaptchaPrivateKey;
+        $this->getElement(Tools_System_Tools::GRECAPTCHA_PRIVATE_KEY)->setValue($grecaptchaPrivateKey);
+        return $this;
+    }
+
 	public function getRecaptchaPrivateKey()
     {
 		return $this->_recaptchaPrivateKey;
 	}
+
+    public function getGrecaptchaPrivateKey()
+    {
+        return $this->_grecaptchaPrivateKey;
+    }
 
 	public function init()
     {
@@ -339,10 +366,20 @@ class Application_Form_Config extends Application_Form_Secure
 			'label' => 'reCAPTCHA public key'
 		));
 
+        $this->addElement('text', Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY, array(
+            'value' => $this->_grecaptchaPublicKey,
+            'label' => 'greCAPTCHA public key'
+        ));
+
         $this->addElement('text', Tools_System_Tools::RECAPTCHA_PRIVATE_KEY, array(
 			'value' => $this->_recaptchaPrivateKey,
 			'label' => 'reCAPTCHA private Key'
 		));
+
+        $this->addElement('text', Tools_System_Tools::GRECAPTCHA_PRIVATE_KEY, array(
+            'value' => $this->_grecaptchaPrivateKey,
+            'label' => 'greCAPTCHA private Key'
+        ));
 
 		$this->addElement('text', 'imgSmall', array(
 			'value' => $this->_imgSmall,
@@ -417,7 +454,7 @@ class Application_Form_Config extends Application_Form_Secure
 		$this->addElement('text', 'suLogin', array(
 			'value' => $this->_suLogin,
 			'label' => 'E-mail',
-			'validators' => array(new Zend_Validate_EmailAddress()),
+			'validators' => array(new Tools_System_CustomEmailValidator()),
 			'ignore' => true
 		));
 
@@ -481,6 +518,12 @@ class Application_Form_Config extends Application_Form_Secure
 			)
 		));
 
+        $this->addElement('text', 'googleApiKey', array(
+            'value' => $this->_googleApiKey,
+            'label' => 'Google API key',
+            'placeholder' => 'Browser key'
+        ));
+
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
 
@@ -513,6 +556,7 @@ class Application_Form_Config extends Application_Form_Secure
 	public function setCanonicalScheme($canonicalScheme)
     {
 		$this->_canonicalScheme = $canonicalScheme;
+        $this->getElement('canonicalScheme')->setValue($this->_canonicalScheme);
 		return $this;
 	}
 
@@ -520,4 +564,22 @@ class Application_Form_Config extends Application_Form_Secure
     {
 		return $this->_canonicalScheme;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getGoogleApiKey()
+    {
+        return $this->_googleApiKey;
+    }
+
+    /**
+     * @param $googleApiKey
+     */
+    public function setGoogleApiKey($googleApiKey)
+    {
+        $this->_googleApiKey = $googleApiKey;
+        $this->getElement('googleApiKey')->setValue($this->_googleApiKey);
+        return $this;
+    }
 }
