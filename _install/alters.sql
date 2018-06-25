@@ -670,5 +670,5 @@ INSERT IGNORE INTO `template_type` (`id`, `title`) VALUES ('type_fa_template', '
 ALTER TABLE `user` ADD COLUMN `voip_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.4' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
