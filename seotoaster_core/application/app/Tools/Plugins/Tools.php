@@ -13,6 +13,11 @@ class Tools_Plugins_Tools {
      */
     private static $_pluginsPath;
 
+    /**
+     * @var array triggersLabels if exist
+     */
+    public static $triggersLabels = array();
+
 	public static function fetchPluginsMenu($userRole = null) {
 		$additionalMenu = array();
 		$enabledPlugins = self::getEnabledPlugins();
@@ -157,6 +162,11 @@ class Tools_Plugins_Tools {
                 }
                 error_log("(plugin: " . strtolower(get_called_class()) . ") " . $zce->getMessage() . "\n" . $zce->getTraceAsString());
             }
+
+           if(!empty($configIni->actionlabel)) {
+               self::$triggersLabels = array_merge(self::$triggersLabels, $configIni->actionlabel->toArray());
+           }
+
             if(!isset($configIni->actiontriggers)) {
                 continue;
             }
