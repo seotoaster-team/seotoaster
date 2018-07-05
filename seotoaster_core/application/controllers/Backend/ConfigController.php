@@ -277,7 +277,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
         $pluginsTriggers = Tools_Plugins_Tools::fetchFromConfigIniData();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
-        $triggersLabels = Tools_Plugins_Tools::fetchFromConfigIniData('actionEmailLabel');
+        $triggersLabels  = Tools_Plugins_Tools::fetchFromConfigIniData('actionEmailLabel');
         $triggers        = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
         $services        = array('email' => 'e-mail', 'sms' => 'sms');
         $recipients                 = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);

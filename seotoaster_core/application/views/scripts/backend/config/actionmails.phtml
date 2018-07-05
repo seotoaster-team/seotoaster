@@ -14,7 +14,7 @@
 				<ul class="actions-list list-unstyled column_4 full-width" style="overflow-y: scroll;max-height: 400px;">
 					<?php foreach($this->actionsOptions as $key => $trigger):?>
 						<?php if ($trigger != $this->translate('Select event area') ): ?>
-							<li><span class="action-preview ticon-action-emails" data-action="<?php echo str_replace(" ","-",$key);?>"></span><span class="action-name"><?php echo $trigger;?></span></li>
+							<li><span class="action-preview ticon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($key));?>"></span><span class="action-name"><?php echo $trigger;?></span></li>
 						<?php endif; ?>
 					<?php endforeach;?>
 				</ul>
