@@ -198,7 +198,7 @@ class Tools_System_Minify {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatJs);
             }
 
-            $jsList->prependFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
+            $jsList->appendFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
         }
 
         $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
