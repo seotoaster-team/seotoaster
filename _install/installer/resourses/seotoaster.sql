@@ -34,7 +34,9 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('userDefaultTimezone', 'America/New_York'),
 ('userDefaultPhoneMobileCode', 'US'),
 ('oldMobileFormat', '1'),
-('version',	'2.6.4');
+('enableMinifyCss', '0'),
+('enableMinifyJs', '0'),
+('version',	'2.6.5');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (

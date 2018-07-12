@@ -669,6 +669,13 @@ INSERT IGNORE INTO `template_type` (`id`, `title`) VALUES ('type_fa_template', '
 -- Add new voip phone column
 ALTER TABLE `user` ADD COLUMN `voip_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 12/07/2018
+-- version: 2.6.4
+INSERT IGNORE INTO `config` (`name`, `value`)
+SELECT 'enableMinifyCss', `value` FROM `config` WHERE `name` = 'enableMinify';
+INSERT IGNORE INTO `config` (`name`, `value`)
+SELECT 'enableMinifyJs', `value` FROM `config` WHERE `name` = 'enableMinify';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.4' WHERE `name`='version';
+UPDATE `config` SET `value`='2.6.5' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
