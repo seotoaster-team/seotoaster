@@ -5,13 +5,20 @@
  */
 class Tools_System_Minify {
 
-    public static function minify($list, $concat = false) {
+    const MINIFY_CSS = 'minifyCss';
+
+    const MINIFY_JS = 'minifyJs';
+
+    public static function minify($list, $concat = false, $helperFlag) {
         switch ($list) {
-            case ($list instanceof Zend_View_Helper_HeadLink):
+            case ($list instanceof Zend_View_Helper_HeadLink && $helperFlag === self::MINIFY_CSS):
                 return self::minifyCss($list, $concat);
                 break;
-            case ($list instanceof Zend_View_Helper_HeadScript):
+            case ($list instanceof Zend_View_Helper_HeadScript && $helperFlag === self::MINIFY_JS):
                 return self::minifyJs($list, $concat);
+                break;
+            default:
+                return $list;
                 break;
         }
 
@@ -198,7 +205,7 @@ class Tools_System_Minify {
                 Tools_Filesystem_Tools::saveFile($concatPath, $concatJs);
             }
 
-            $jsList->appendFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
+            $jsList->prependFile($websiteHelper->getUrl().$websiteHelper->getTmp().$cname);
         }
 
         $cacheHelper->save($cacheKey, $hashStack, '', array(), Helpers_Action_Cache::CACHE_LONG);
