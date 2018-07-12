@@ -9,7 +9,7 @@ class Tools_System_Minify {
 
     const MINIFY_JS = 'minifyJs';
 
-    public static function minify($list, $concat = false, $helperFlag) {
+    public static function minify($list, $concat = false, $helperFlag = false) {
         switch ($list) {
             case ($list instanceof Zend_View_Helper_HeadLink && $helperFlag === self::MINIFY_CSS):
                 return self::minifyCss($list, $concat);
