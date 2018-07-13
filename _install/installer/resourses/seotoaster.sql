@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'2.6.5');
+('version',	'3.0.1');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
