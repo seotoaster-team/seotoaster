@@ -1,0 +1,12 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+    const btnAdd = document.querySelector('.a2hs-button');
+    if (!('serviceWorker' in navigator)) {
+      btnAdd.classList.add('hidden');
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+    });
+  });
+</script>

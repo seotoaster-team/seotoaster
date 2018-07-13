@@ -275,8 +275,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
 
-        $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
+        $pluginsTriggers = Tools_Plugins_Tools::fetchFromConfigIniData();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
+        $triggersLabels  = Tools_Plugins_Tools::fetchFromConfigIniData('actionEmailLabel');
         $triggers        = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
         $services        = array('email' => 'e-mail', 'sms' => 'sms');
         $recipients                 = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
@@ -285,9 +286,18 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $this->view->triggers       = $triggers;
         $this->view->services       = $services;
         $this->view->secureToken = $secureToken;
-        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
+        $actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
             return str_replace('-', ' ', ucfirst($trigger));
         }, array_keys($triggers))));
+
+        if(!empty($triggersLabels)) {
+            foreach ($actionsOptions as $key => $option) {
+                if(array_key_exists($key, $triggersLabels) && !empty($triggersLabels[$key]['label'])) {
+                    $actionsOptions[$key] = $triggersLabels[$key]['label'];
+                }
+            }
+        }
+        $this->view->actionsOptions = $actionsOptions;
         $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
     }
 }

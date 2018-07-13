@@ -42,6 +42,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_subscribed = '';
 
+    protected $_voipPhone = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -358,6 +360,25 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     public function setSubscribed($subscribed)
     {
         $this->_subscribed = $subscribed;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVoipPhone()
+    {
+        return $this->_voipPhone;
+    }
+
+    /**
+     * @param string $voipPhone
+     * @return string
+     */
+    public function setVoipPhone($voipPhone)
+    {
+        $this->_voipPhone = $voipPhone;
 
         return $this;
     }

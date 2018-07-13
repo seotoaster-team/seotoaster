@@ -23,3 +23,5 @@ tmp/*
 .idea/*
 feeds/*
 system/js/external/tinymce/*.gz
+.history
+manifest.json

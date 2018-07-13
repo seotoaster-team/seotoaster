@@ -75,6 +75,28 @@ class Tools_Mail_Mailer {
 		return $this->_send();
 	}
 
+    /**
+     * get unique email message id
+     *
+     * @return string
+     */
+    public function getMessageId()
+    {
+        return $this->_mailer->getMessageId();
+    }
+
+    /**
+     * set unique email message id
+     *
+     * @param bool $id if true message id will be generated automatically
+     * @return Zend_Mail
+     * @throws Zend_Mail_Exception
+     */
+    public function setMessageId($id = true)
+    {
+        return $this->_mailer->setMessageId($id);
+    }
+
 	public function prepare() {
 		$this->_prepare();
 		return $this;
