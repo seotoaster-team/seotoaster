@@ -5,13 +5,20 @@
  */
 class Tools_System_Minify {
 
-    public static function minify($list, $concat = false) {
+    const MINIFY_CSS = 'minifyCss';
+
+    const MINIFY_JS = 'minifyJs';
+
+    public static function minify($list, $concat = false, $helperFlag = false) {
         switch ($list) {
-            case ($list instanceof Zend_View_Helper_HeadLink):
+            case ($list instanceof Zend_View_Helper_HeadLink && $helperFlag === self::MINIFY_CSS):
                 return self::minifyCss($list, $concat);
                 break;
-            case ($list instanceof Zend_View_Helper_HeadScript):
+            case ($list instanceof Zend_View_Helper_HeadScript && $helperFlag === self::MINIFY_JS):
                 return self::minifyJs($list, $concat);
+                break;
+            default:
+                return $list;
                 break;
         }
 
