@@ -218,7 +218,8 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->content  = $body[2];
         $locale               = Zend_Locale::getLocaleToTerritory($this->_config->getConfig('language'));
         $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
-        $this->view->minify   = $this->_config->getConfig('enableMinify') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
+        $this->view->minifyCss   = $this->_config->getConfig('enableMinifyCss') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
+        $this->view->minifyJs   = $this->_config->getConfig('enableMinifyJs') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
 	}
 
 	private function _extendHead($pageContent) {
