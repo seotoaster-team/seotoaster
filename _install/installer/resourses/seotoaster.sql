@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.1');
+('version',	'3.0.3');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -406,6 +406,7 @@ CREATE TABLE `user` (
   `role_id` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(35) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'user password',
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `prefix` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `full_name` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `last_login` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ipaddress` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,

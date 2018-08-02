@@ -21,10 +21,13 @@
 				</div>
 			</div>
 			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
-				<div class="grid_7 omega">
+                <div class="grid_3 omega">
+                    <?php echo $this->userForm->getElement('prefix'); ?>
+                </div>
+				<div class="grid_9 mt0px">
 					<?php echo $this->userForm->getElement('fullName'); ?>
 				</div>
-				<div class="grid_5 mt0px">
+				<div class="grid_12 mt10px">
 					<?php echo $this->userForm->getElement('roleId'); ?>
 				</div>
 				<div class="grid_12">
