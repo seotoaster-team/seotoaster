@@ -20,6 +20,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
     public static $_formMandatoryFields = array(
         'email'    => true,
         'password' => true,
+        'prefix'   => false,
         'fullName' => true,
         'saveUser' => false
     );
@@ -37,7 +38,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'mobilePhone',
         'desktopPhone',
         'signature',
-        'subscribed'
+        'subscribed',
+        'voipPhone'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';
@@ -88,6 +90,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
         $translator = Zend_Registry::get('Zend_Translate');
         return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">' . $translator->translate('Logout') . '</a>';
 	}
+
 
     protected function _renderMemberSignup() {
         $pageId = $this->_toasterOptions['id'];
