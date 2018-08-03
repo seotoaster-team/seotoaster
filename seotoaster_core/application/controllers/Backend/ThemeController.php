@@ -496,7 +496,7 @@ class Backend_ThemeController extends Zend_Controller_Action
             $currentTheme = $this->_helper->config->getConfig('currentTheme');
             $types = $mapper->fetchAllTypes();
 
-            if(isset($types['type_fa_template'])) {
+            if(isset($types['type_fa_template']) && $templateInfoOnly) {
                 $listtemplates = Widgets_Featured_Featured::TEMPLATE_FA_TYPE;
             }
 
