@@ -107,7 +107,7 @@
                                 value: optVal
                             }).text(optText));
                     });
-                    self.templateHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select nested template'); ?></option>');
+                    self.templateHolder.prepend('<option value="0" selected="selected"><?php echo $this->translate('Select featured area template'); ?></option>');
                 });
 			    $.getJSON(url, function(response) {
 				    self.itemsHolder.find('option').remove().end();
