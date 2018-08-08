@@ -73,6 +73,14 @@
             <?php echo $this->formCheckbox('random', null, array('id' => 'random', 'class' => 'allowzero')); ?>
         </label>
 	</p>
+    <p class="mt5px" id="custom-page-title-wrap-block">
+        <label class="max-res-row grid_12 alpha omega suffix_6 pointer">
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Use custom page title wrap?'); ?></span>
+            <?php echo $this->formCheckbox('pageTitleWrap', null, array('id' => 'use-custom-page-title-wrap', 'class' => 'use-custom-page-title-wrap')); ?>
+        </label>
+        <input id="use-custom-page-title-wrap-elements" type="text" name="pageTitleWrapElements"
+               value="<?php echo $this->pageTitleWrap;?>" class="hidden use-custom-page-title-wrap-elements" placeholder="h3.page-title"/>
+    </p>
 	<?php echo $this->formSubmit('applyWidgetFeatured', 'Apply', array('class' => 'btn small')); ?>
 </form>
 
@@ -138,6 +146,14 @@
 		    }
 	    };
 
+	    $(document).on('change', '#use-custom-page-title-wrap', function(e){
+	        if ($(e.currentTarget).is(':checked')) {
+	            $('#use-custom-page-title-wrap-elements').removeClass('hidden');
+            } else {
+                $('#use-custom-page-title-wrap-elements').addClass('hidden');
+            }
+        });
+
 	    $(document).on('change', '#featured-item-type', function() {
 		    var type = $(this).val();
             featured.setType(type).load();
@@ -181,7 +197,8 @@
                 widgetForm = $(this).closest('form'),
                 widgetHtml = '{$' + widgetForm.data('name'),
                 cropOption = ':imgc',
-                faGroup = false;
+                faGroup = false,
+                pageTitleWrap = 'h3.page-title';
 
             widgetForm.find(':input:visible, label:visible>:checkbox').not('[type=hidden], [type=submit]').each(function () {
                 if ($(this).hasClass('crop') && $(this).prop('checked')) {
@@ -208,6 +225,14 @@
                         $(this).addClass('error');
                         error = true;
                     }
+                    return;
+                }
+
+                if ($(this).hasClass('use-custom-page-title-wrap')) {
+                    return;
+                }
+
+                if ($(this).hasClass('use-custom-page-title-wrap-elements')) {
                     return;
                 }
 
@@ -255,6 +280,13 @@
                 faGroup = true;
             }
 
+            if ($('#use-custom-page-title-wrap').is(':checked') && $('#featured-area-templates').val() == 0) {
+                if ($('#use-custom-page-title-wrap-elements').val() !== '') {
+                    pageTitleWrap = $('#use-custom-page-title-wrap-elements').val();
+                }
+                widgetHtml += ':pageTitleWrap='+pageTitleWrap;
+            }
+
             if ($('#featured-area-templates').val() != 0) {
                 widgetHtml += ':template='+$('#featured-area-templates').val();
                 if (faGroup) {
@@ -279,11 +311,13 @@
             $('#use-image-cropped').prop('checked', false).closest('label').hide();
             $('#featured-item-maxchars').closest('p').hide();
             $('.crop-size').hide();
+            $('#custom-page-title-wrap-block').hide();
         }
 
         function showParamsFa() {
             $('#use-image').closest('label').show();
             $('#featured-item-maxchars').closest('p').show();
+            $('#custom-page-title-wrap-block').show();
         }
 
     });
