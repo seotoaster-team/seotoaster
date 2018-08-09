@@ -27,6 +27,18 @@ class Widgets_User_Base extends Widgets_Abstract {
 
     protected $_editableMode = false;
 
+    /**
+     * Defined user prefixes
+     * @var array
+     */
+    public static $userPrefixes = array(
+        'Mr',
+        'Mrs',
+        'Ms',
+        'Miss',
+        'Dr'
+    );
+
     protected function _init() {
         parent::_init();
         $this->_sessionHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('session');
@@ -104,6 +116,23 @@ class Widgets_User_Base extends Widgets_Abstract {
             }
             return $value;
         }
+    }
+
+    protected function _renderPrefix() {
+        $translator = Zend_Registry::get('Zend_Translate');
+        $userPrefixes = array('' => $translator->translate('Select')) + array_combine(self::$userPrefixes, self::$userPrefixes);
+
+        $userPrefix = $this->_user->getPrefix();
+
+        if ($this->_editableMode) {
+            $this->_view->userPrefixes = $userPrefixes;
+            $this->_view->value = $userPrefix;
+            $this->_view->userId = $this->_user->getId();
+
+            return $this->_view->render('user-prefix.phtml');
+        }
+
+        return $userPrefix;
     }
 
     protected function _renderPhoto() {

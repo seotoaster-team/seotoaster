@@ -360,6 +360,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $exportResult = Tools_System_Tools::arrayToCsv($users, array(
                     $this->_helper->language->translate('E-mail'),
                     $this->_helper->language->translate('Role'),
+                    $this->_helper->language->translate('Prefix'),
                     $this->_helper->language->translate('Full name'),
                     $this->_helper->language->translate('Last login date'),
                     $this->_helper->language->translate('Registration date'),

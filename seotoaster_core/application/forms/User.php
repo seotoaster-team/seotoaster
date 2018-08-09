@@ -35,8 +35,12 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_subscribed = null;
 
+    protected $_prefix = null;
+
 	public function init() {
         parent::init();
+
+        $translator = Zend_Registry::get('Zend_Translate');
 
         $this->addElement(new Zend_Form_Element_Checkbox(array(
             'name'       => 'subscribed',
@@ -63,6 +67,14 @@ class Application_Form_User extends Application_Form_Secure {
         ));
 
         $this->addElement($email);
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'prefix',
+            'id'           => 'prefix',
+            'label'        => $translator->translate('Prefix'),
+            'value'        => $this->_prefix,
+            'multiOptions' => array('' => $translator->translate('Select')) + array_combine(Widgets_User_Base::$userPrefixes, Widgets_User_Base::$userPrefixes)
+        )));
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'name'       => 'fullName',
@@ -147,7 +159,6 @@ class Application_Form_User extends Application_Form_Secure {
 
         $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
         array_pop($timezones);
-        $translator = Zend_Registry::get('Zend_Translate');
 
         $this->addElement(new Zend_Form_Element_Select(
             array(
@@ -231,6 +242,7 @@ class Application_Form_User extends Application_Form_Secure {
 			'label'  => 'Save user',
 			'escape' => false
 		)));
+
 
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 		$this->getElement('saveUser')->removeDecorator('Label');
@@ -405,5 +417,16 @@ class Application_Form_User extends Application_Form_Secure {
         $this->getElement('subscribed')->setValue($subscribed);
         return $this;
     }
+
+    public function getPrefix() {
+        return $this->_prefix;
+    }
+
+    public function setPrefix($prefix) {
+        $this->_prefix = $prefix;
+        $this->getElement('prefix')->setValue($prefix);
+        return $this;
+    }
+
 }
 
