@@ -676,8 +676,13 @@ SELECT 'enableMinifyCss', `value` FROM `config` WHERE `name` = 'enableMinify';
 INSERT IGNORE INTO `config` (`name`, `value`)
 SELECT 'enableMinifyJs', `value` FROM `config` WHERE `name` = 'enableMinify';
 
--- 07/06/2017
+-- 31/07/2018
 -- version: 3.0.2
+-- Add new prefix column
+ALTER TABLE `user` ADD COLUMN `prefix` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL AFTER `email`;
+
+-- 07/06/2017
+-- version: 3.0.3
 -- Add subfolders support
 CREATE TABLE IF NOT EXISTS `page_folder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -697,5 +702,5 @@ ALTER TABLE `page`
   ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.4' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
