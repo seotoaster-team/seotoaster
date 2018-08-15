@@ -669,13 +669,11 @@ INSERT IGNORE INTO `template_type` (`id`, `title`) VALUES ('type_fa_template', '
 -- Add new voip phone column
 ALTER TABLE `user` ADD COLUMN `voip_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 17/05/2018
+-- version: 2.6.4
 
--- 28/03/2018
--- version: 3.0.0
--- Package version 3.0.0
-
--- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.0' WHERE `name`='version';
+-- 17/05/2018
+-- version: 2.6.5
 
 -- 12/07/2018
 -- version: 3.0.1
