@@ -12,13 +12,13 @@
 					<?php echo $this->translate('Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.'); ?>
 				</p>
 				<ul class="actions-list list-unstyled column_4 full-width" style="overflow-y: scroll;max-height: 400px;">
-					<?php foreach($this->actionsOptions as $trigger):?>
+					<?php foreach($this->actionsOptions as $key => $trigger):?>
 						<?php if ($trigger != $this->translate('Select event area') ): ?>
                             <?php $triggerLabel = $trigger;?>
                             <?php if($trigger === 'Seotoaster'):?>
                                 <?php $triggerLabel = Tools_System_Whitelabel::getCmsBrandName();?>
                             <?php endif;?>
-							<li><span class="action-preview ticon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($trigger));?>"></span><span class="action-name"><?php echo $triggerLabel;?></span></li>
+                            <li><span class="action-preview ticon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($key));?>"></span><span class="action-name"><?php echo $triggerLabel;?></span></li>
 						<?php endif; ?>
 					<?php endforeach;?>
 				</ul>

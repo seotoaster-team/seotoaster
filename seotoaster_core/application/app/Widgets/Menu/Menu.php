@@ -80,8 +80,22 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
             }
         );
 
-        foreach ($pagesList as &$catPage) {
+        $newslogEnabledPlugin = false;
+
+        if(in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+            $newslogEnabledPlugin = true;
+        }
+
+        foreach ($pagesList as $key => &$catPage) {
             $catId = $catPage['id'];
+            if(!empty($newslogEnabledPlugin) && !empty($catPage['extraOptions']) && in_array('option_newsindex', $catPage['extraOptions'])) {
+                $newsFolderUrl = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                if(!empty($newsFolderUrl)) {
+                    $newsFolderUrl = trim($newsFolderUrl, '/') . '/';
+                    $pagesList[$key]['url'] = $newsFolderUrl;
+                }
+            }
+
             $catPage['subPages'] = array_filter(
                 $pages,
                 function ($page) use ($isPageProtected, $catId) {
@@ -101,6 +115,23 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
     private function _renderFlatMenu() {
         $flatMenuPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
         if (is_array($flatMenuPages) && !empty($flatMenuPages)) {
+            $newslogEnabledPlugin = false;
+
+            if(in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+                $newslogEnabledPlugin = true;
+            }
+
+            foreach ($flatMenuPages as $key => $page) {
+                $extraOptions = $page->getExtraOptions();
+                if(!empty($newslogEnabledPlugin) && !empty($extraOptions) && in_array('option_newsindex', $extraOptions)) {
+                    $newsFolderUrl = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                    if(!empty($newsFolderUrl)) {
+                        $newsFolderUrl = trim($newsFolderUrl, '/') . '/';
+                        $flatMenuPages[$key]->setUrl($newsFolderUrl);
+                    }
+                }
+            }
+
             $this->_view->staticPages = $flatMenuPages;
             return $this->_view->render('staticmenu.phtml');
         }
@@ -164,6 +195,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     }
                 }
                 $dictionary['$page:' . $prop] = $item;
+                $dictionary['$page:' . $prop . ':clear'] = strip_tags($item);
             }
 
             if (!empty($page['subPages'])) {

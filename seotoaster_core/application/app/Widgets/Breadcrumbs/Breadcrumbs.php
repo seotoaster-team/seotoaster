@@ -34,11 +34,23 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 			return;
 		}
         $crumbs[] = '<a href="' . $this->_websiteHelper->getUrl() . '" title="' . $homePage->getH1() . '">' . $homePage->getNavName() . '</a>';
+
+        $newsFolderUrl = '';
+
+        if (!empty($this->_toasterOptions['extraOptions'])) {
+            if(in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true)) && in_array('option_newsindex', $this->_toasterOptions['extraOptions'])) {
+                $newsFolderUrl = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
+                if(!empty($newsFolderUrl)) {
+                    $newsFolderUrl = trim($newsFolderUrl, '/') . '/';
+                }
+            }
+        }
+
         if($page->getUrl() == 'index.html'){
             $this->_sessionHelper->breadCrumbList = $breadCrumbList;
 			return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
         }
-        $breadcrumb = '<a href="' . $page->getUrl() . '" title="' . $page->getH1() . '">' . $page->getNavName() . '</a>';
+        $breadcrumb = '<a href="' . $this->_websiteHelper->getUrl() . (!empty($newsFolderUrl) ? $newsFolderUrl : $page->getUrl()) . '" title="' . $page->getH1() . '">' . $page->getNavName() . '</a>';
         if(isset($this->_sessionHelper->breadCrumbList)){
             $breadCrumbList = $this->_sessionHelper->breadCrumbList;
         }

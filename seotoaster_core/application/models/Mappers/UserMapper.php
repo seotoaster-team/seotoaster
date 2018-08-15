@@ -31,7 +31,9 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'desktop_country_code'       => $user->getDesktopCountryCode(),
             'desktop_country_code_value' => $user->getDesktopCountryCodeValue(),
             'signature'                  => $user->getSignature(),
-            'subscribed'                  => $user->getSubscribed()
+            'subscribed'                 => $user->getSubscribed(),
+            'voip_phone'                 => $user->getVoipPhone(),
+            'prefix'                     => $user->getPrefix()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -160,6 +162,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         $select = $this->getDbTable()->getAdapter()->select()->from('user', array(
             'email',
             'role_id',
+            'prefix',
             'full_name',
             'last_login',
             'reg_date',

@@ -664,6 +664,31 @@ INSERT IGNORE INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `ful
 -- Add new template type 'type_fa_template'
 INSERT IGNORE INTO `template_type` (`id`, `title`) VALUES ('type_fa_template', 'Featuredarea Templates');
 
+-- 17/05/2018
+-- version: 2.6.3
+-- Add new voip phone column
+ALTER TABLE `user` ADD COLUMN `voip_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+
+
+-- 28/03/2018
+-- version: 3.0.0
+-- Package version 3.0.0
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='2.6.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.0' WHERE `name`='version';
+
+-- 12/07/2018
+-- version: 3.0.1
+INSERT IGNORE INTO `config` (`name`, `value`)
+SELECT 'enableMinifyCss', `value` FROM `config` WHERE `name` = 'enableMinify';
+INSERT IGNORE INTO `config` (`name`, `value`)
+SELECT 'enableMinifyJs', `value` FROM `config` WHERE `name` = 'enableMinify';
+
+-- 31/07/2018
+-- version: 3.0.2
+-- Add new prefix column
+ALTER TABLE `user` ADD COLUMN `prefix` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL AFTER `email`;
+
+-- These alters are always the latest and updated version of the database
+UPDATE `config` SET `value`='3.0.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

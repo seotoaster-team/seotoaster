@@ -1,0 +1,16 @@
+<?php if(empty($this->readonly)):?>
+<select class="user-attribute" data-uid="<?php echo $this->userId;?>" data-attribute="prefix">
+<?php foreach ($this->userPrefixes as $key => $prefix):?>
+    <?php if($prefix == $this->value):?>
+        <option value="<?php echo $key;?>" selected><?php echo $prefix;?></option>
+    <?php else:?>
+        <option value="<?php echo $key;?>"><?php echo $prefix;?></option>
+    <?php endif;?>
+<?php endforeach;?>
+</select>
+<?php else :?>
+    <?php echo $this->value;?>
+<?php endif;?>
+
+
+

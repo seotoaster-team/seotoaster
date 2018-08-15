@@ -132,6 +132,18 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
         unset($template);
 
+        $pageTitleWrap = current(preg_grep('/pageTitleWrap=*/', $this->_options));
+        if (!empty($pageTitleWrap)) {
+            $pageTitleWrap = preg_replace('/pageTitleWrap=/', '', $pageTitleWrap);
+            $pageTitleWrapData = explode('.', $pageTitleWrap);
+            $pageTitleWrapEl = array_shift($pageTitleWrapData);
+            $pageTitleWrapClasses = implode($pageTitleWrapData, ' ');
+            $this->_view->pageTitleWrapEl = $pageTitleWrapEl;
+            $this->_view->pageTitleWrapClasses = $pageTitleWrapClasses;
+            $this->_view->pageTitleWrap = $pageTitleWrap;
+        }
+
+
         $this->_order = current(preg_grep('/order=*/', $this->_options));
         $this->_orderType = current(preg_grep('/orderType=*/', $this->_options));
         if (method_exists($this, $rendererName)) {

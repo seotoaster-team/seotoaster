@@ -10,6 +10,12 @@
     <a id="upload_things_button" class="grid_5 alpha omega tpopup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
 	<div id="selector" class="mt10px grid_12 alpha omega">
 		<div id="borderfortoolbar">
+            <div class="mb5px">
+                <label for="nolink">
+                    <input type="checkbox" id="nolink" checked="checked" name="nolink" value="1" class="processed checkbox-upgrade filed-upgrade"><span class="checkbox_radio "></span>
+                    <?php echo $this->translate('No link'); ?>
+                </label>
+            </div>
 			<div id="adminthingsviewer">
 				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_small"></a></div>
 				<div id="images_small" class="show_div">
