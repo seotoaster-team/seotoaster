@@ -21,10 +21,13 @@
 				</div>
 			</div>
 			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
-				<div class="grid_7 omega">
+                <div class="grid_3 omega">
+                    <?php echo $this->userForm->getElement('prefix'); ?>
+                </div>
+				<div class="grid_9 mt0px">
 					<?php echo $this->userForm->getElement('fullName'); ?>
 				</div>
-				<div class="grid_5 mt0px">
+				<div class="grid_12 mt10px">
 					<?php echo $this->userForm->getElement('roleId'); ?>
 				</div>
 				<div class="grid_12">
@@ -88,35 +91,35 @@
 			</form>
 		</div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
-        <div id="switch-default-params-block" class="grid_12">
+        <div id="switch-default-params-block" class="grid_12 alpha omega">
             <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
                   array_pop($timezones);
                   $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
             ?>
-            <p class="grid_6 m10px">
-                <label class="grid_4 m5px"><?php echo $this->translate('Default timezone');?>:</label>
-                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_8">
+            <p class="grid_6 alpha">
+                <label class="grid_5 mt5px"><?php echo $this->translate('Default timezone');?>:</label>
+                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_7 omega">
                     <?php foreach($timezones as $timezone):?>
                         <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
                     <?php endforeach;?>
                 </select>
             </p>
-            <p class="grid_6 alpha m10px">
-                <label class="grid_7 m5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
-                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5">
+            <p class="grid_6 omega">
+                <label class="grid_7 mt5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
+                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 omega">
                     <?php foreach($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel):?>
                         <option <?php echo (((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected': '');?> value="<?php echo $mobilePhoneCountryCode;?>"><?php echo $mobilePhoneCountryCodeLabel;?></option>
                     <?php endforeach;?>
                 </select>
             </p>
         </div>
-        <form class="grid_6 alpha search mt10px" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+        <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add mt10px" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
-		<table id="users-list" class="table-striped mt20px">
+		<table id="users-list" class="table-striped mt15px">
 			<thead>
 				<tr>
 					<th>

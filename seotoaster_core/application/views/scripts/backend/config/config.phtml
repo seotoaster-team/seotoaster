@@ -95,16 +95,22 @@
                 <?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?>
             </div>
             <div class="grid_5 text-right">
-                <?php echo $this->configForm->getElement('enableMinify')->renderLabel(); ?>
+                <?php echo $this->configForm->getElement('enableMinifyCss')->renderLabel(); ?>
             </div>
             <div class="grid_1">
-                <?php echo $this->configForm->getElement('enableMinify')->renderViewHelper(); ?>
+                <?php echo $this->configForm->getElement('enableMinifyCss')->renderViewHelper(); ?>
             </div>
             <div class="grid_5">
                 <?php echo $this->configForm->getElement('controlPanelStatus')->renderLabel(); ?>
             </div>
             <div class="grid_1">
                 <?php echo $this->configForm->getElement('controlPanelStatus')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_5 text-right">
+                <?php echo $this->configForm->getElement('enableMinifyJs')->renderLabel(); ?>
+            </div>
+            <div class="grid_1">
+                <?php echo $this->configForm->getElement('enableMinifyJs')->renderViewHelper(); ?>
             </div>
             <div class="grid_5 text-right">
                 <?php echo $this->configForm->getElement('enableDeveloperMode')->renderLabel(); ?>

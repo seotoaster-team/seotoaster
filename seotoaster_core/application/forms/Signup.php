@@ -24,6 +24,7 @@ class Application_Form_Signup extends Application_Form_User {
         $this->getElement('mobilePhone')->setLabel('Mobile')->setOptions(array('placeholder' => ''));
         $this->getElement('desktopPhone')->setLabel('Phone')->setOptions(array('placeholder' => ''));
         $this->getElement('gplusProfile')->setLabel('GPlus')->setOptions(array('placeholder' => ''));
+        $this->getElement('prefix')->setLabel('Prefix');
         $this->getElement('fullName')->setLabel('Full name')->setOptions(array('placeholder' => ''));
 
 		$this->addElement(new Zend_Form_Element_Captcha('verification', array(
