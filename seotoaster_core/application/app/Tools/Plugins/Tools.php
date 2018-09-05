@@ -157,10 +157,62 @@ class Tools_Plugins_Tools {
                 }
                 error_log("(plugin: " . strtolower(get_called_class()) . ") " . $zce->getMessage() . "\n" . $zce->getTraceAsString());
             }
+
             if(!isset($configIni->actiontriggers)) {
                 continue;
             }
             $triggers = array_merge($triggers, $configIni->actiontriggers->toArray());
+        }
+        return $triggers;
+    }
+
+    /**
+     * Fetch plugins action custom labels from config file
+     *
+     * @param string $param
+     * @return array|bool
+     * @throws Zend_Exception
+     */
+    public static function fetchFromConfigIniData($param = '')
+    {
+        $triggers      = array();
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $miscConfig    = Zend_Registry::get('misc');
+
+        $enabledPlugins = self::getEnabledPlugins();
+        if(!is_array($enabledPlugins) || empty($enabledPlugins)) {
+            return false;
+        }
+
+        $pluginDirPath  = $websiteHelper->getPath() . $miscConfig['pluginsPath'];
+
+        foreach($enabledPlugins as $plugin) {
+            $configIniPath = $pluginDirPath . $plugin->getName() . '/' . self::CONFIGINI_PATH;
+
+            if(!file_exists($configIniPath)) {
+                continue;
+            }
+
+            try {
+                $configIni = new Zend_Config_Ini($configIniPath);
+            } catch (Zend_Config_Exception $zce) {
+                if(APPLICATION_ENV == 'development') {
+                    Zend_Debug::dump($zce->getMessage() . '<br />' . $zce->getTraceAsString());
+                }
+                error_log("(plugin: " . strtolower(get_called_class()) . ") " . $zce->getMessage() . "\n" . $zce->getTraceAsString());
+            }
+
+            if($param === 'actionEmailLabel') {
+                if(!isset($configIni->actionlabel)) {
+                    continue;
+                }
+                $triggers = array_merge($triggers, $configIni->actionlabel->toArray());
+            } else {
+                if(!isset($configIni->actiontriggers)) {
+                    continue;
+                }
+                $triggers = array_merge($triggers, $configIni->actiontriggers->toArray());
+            }
         }
         return $triggers;
     }

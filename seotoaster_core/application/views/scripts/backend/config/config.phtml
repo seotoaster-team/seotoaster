@@ -17,7 +17,47 @@
                 showMessage(message, false, 3000);
             }
         }
+        $('.reindex-progress').hide();
+        $('#search-reindex').on('click', reindexCall);
+
     });
+    function reindexCall() {
+        $('.reindex-progress').show();
+        $(this).addClass('disabled');
+        var data = {secureToken: $('.secureToken').val()};
+        $.ajax({
+            url: $('#website_url').val() + 'api/toaster/searchreindex/',
+            method: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (response) {
+                if (!response.error) {
+                    $('#reindex-total').text(response.responseText.pagesTotal);
+                    $('#reindex-progress').text(response.responseText.indexedPages);
+                    if (!response.responseText.final) {
+                        reindexCall();
+                    }else{
+                        removeDisabled();
+                        $('.reindex-progress').hide();
+                        $('#reindex-progress').text(0);
+                        showMessage("<?php echo $this->translate('Reindexed');?>" + ' ' + response.responseText.pagesTotal + ' '+ "<?php echo $this->translate('pages');?>");
+                    }
+                }
+                else {
+                    showMessage(response.responseText, true);
+                    removeDisabled();
+                }
+            },
+            error: function (e) {
+                showMessage("<?php echo $this->translate('Something went wrong, please try again.'); ?>", true);
+                removeDisabled();
+            }
+        });
+
+        function removeDisabled() {
+            $('#search-reindex').removeClass('disabled');
+        }
+    }
 </script>
 <div class="seotoaster container">
     <?php echo $this->partial(
@@ -30,7 +70,7 @@
         <ul class="header">
             <li><a href="#general-config"><?php echo $this->translate('General'); ?></a></li>
             <li><a href="#email-config"><?php echo $this->translate('Email settings'); ?></a></li>
-            <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+            <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
             <?php if ($this->isSuperAdmin): ?>
                 <li><a href="#security-config"><?php echo $this->translate('Admin access'); ?></a></li>
                 <li><a href="#advanced-config"><?php echo $this->translate('Advanced'); ?></a></li>
@@ -55,16 +95,22 @@
                 <?php echo $this->configForm->getElement('memPagesInMenu')->renderViewHelper(); ?>
             </div>
             <div class="grid_5 text-right">
-                <?php echo $this->configForm->getElement('enableMinify')->renderLabel(); ?>
+                <?php echo $this->configForm->getElement('enableMinifyCss')->renderLabel(); ?>
             </div>
             <div class="grid_1">
-                <?php echo $this->configForm->getElement('enableMinify')->renderViewHelper(); ?>
+                <?php echo $this->configForm->getElement('enableMinifyCss')->renderViewHelper(); ?>
             </div>
             <div class="grid_5">
                 <?php echo $this->configForm->getElement('controlPanelStatus')->renderLabel(); ?>
             </div>
             <div class="grid_1">
                 <?php echo $this->configForm->getElement('controlPanelStatus')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_5 text-right">
+                <?php echo $this->configForm->getElement('enableMinifyJs')->renderLabel(); ?>
+            </div>
+            <div class="grid_1">
+                <?php echo $this->configForm->getElement('enableMinifyJs')->renderViewHelper(); ?>
             </div>
             <div class="grid_5 text-right">
                 <?php echo $this->configForm->getElement('enableDeveloperMode')->renderLabel(); ?>
@@ -112,6 +158,13 @@
             <fieldset id="advanced-config" class="content-small-footer pr0 pl0">
                 <div class="fl-left ml-grid mr-grid mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>
                 <div class="fl-left mr1 mt0px"><?php echo $this->configForm->getElement('canonicalScheme')->renderViewHelper(); ?></div>
+                <div class="fl-right mr1 mt0px grid_5">
+                    <div class="reindex-progress grid_7 alpha omega fl-left mt5px">
+                        <span><?php echo $this->translate('Indexing...'); ?> </span>
+                        <span id="reindex-progress">0</span>/<span id="reindex-total">0</span>
+                    </div>
+                    <a id="search-reindex" class="btn fl-right icon-user-add mt0px grid_5" href="javascript:;"><?php echo $this->translate('Start reindex');?></a>
+                </div>
                 <div class="wrap mt5px">://<?php echo parse_url($this->websiteUrl, PHP_URL_HOST); ?></div>
 
                 <div class="cl-both grid_6 mt15px">

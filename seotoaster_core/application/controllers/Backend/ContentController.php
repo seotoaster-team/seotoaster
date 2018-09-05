@@ -270,20 +270,21 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$imagesData  = array();
 			$folderName  = $this->getRequest()->getParam('folderName');
 			$imagesPath  = $this->_websiteData['path'] . $this->_websiteData['media'] . $folderName;
+            $nolink  = $this->getRequest()->getParam('nolink');
 			try {
                 $imagesData  = array(
-                    'small'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL) . '</div>',
-                    'medium'   => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM) . '</div>',
-                    'large'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_LARGE), $imagesPath, $folderName, self::IMG_CONTENTTYPE_LARGE) . '</div>',
-                    'original' => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_ORIGINAL) . '</div>'
+                    'small'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL, $nolink) . '</div>',
+                    'medium'   => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_MEDIUM), $imagesPath, $folderName, self::IMG_CONTENTTYPE_MEDIUM, $nolink) . '</div>',
+                    'large'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_LARGE), $imagesPath, $folderName, self::IMG_CONTENTTYPE_LARGE, $nolink) . '</div>',
+                    'original' => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_ORIGINAL, $nolink) . '</div>'
                 );
             }
             catch(Exceptions_SeotoasterException $se) {
                 $imagesData = array(
-                    'small'    => $this->_helper->language->translate('No images were found'),
-                    'medium'   => $this->_helper->language->translate('No images were found'),
-                    'large'    => $this->_helper->language->translate('No images were found'),
-                    'original' => $this->_helper->language->translate('No images were found')
+                    'small'    => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>',
+                    'medium'   => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>',
+                    'large'    => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>',
+                    'original' => '<span class="text-center mt10px images-preview">' . $this->_helper->language->translate('No images were found') . '</span>'
                 );
             }
 			$this->getResponse()->setBody(json_encode($imagesData))->sendResponse();
@@ -300,11 +301,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 		}
 	}
 
-	private function _proccessImages(array $images, $path, $folder, $type) {
+	private function _proccessImages(array $images, $path, $folder, $type, $nolink) {
 		if(!empty ($images)) {
 			$imagesContent = '';
 			$srcPath = $this->_helper->website->getUrl() . $this->_helper->website->getMedia() . $folder;
             $dontWrapImages = $this->_helper->config->getConfig('dontWrapImages');
+            if(!empty($nolink)){
+                $dontWrapImages = true;
+            }
 			foreach ($images as $key => $image) {
                 $srcPath        = Tools_Content_Tools::applyMediaServers($srcPath);
 	            $imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);

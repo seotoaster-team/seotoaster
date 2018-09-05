@@ -73,14 +73,24 @@ $(function(){
     });
     //seotoaster delete item link
     $(document).on('click', 'a._tdelete', function(){
-        var el = this;
-        var url = $(this).attr('href');
-        var callback = $(this).data('callback');
-        var elId = $(this).data('eid');
+        var el = this,
+            url = $(this).attr('href'),
+            callback = $(this).data('callback'),
+            elId = $(this).data('eid'),
+            ignoreCustomMessage = $(this).data('ignore-custom-message'),
+            customDeleteMessage = $('#custom-delete-message').val(),
+            deleteDefaultMessage = 'You are about to remove an item. Are you sure?';
+
+
         if((typeof url=='undefined') || !url || url=='javascript:;'){
             url = $(this).data('url');
         }
-        smoke.confirm('You are about to remove an item. Are you sure?', function(e){
+
+        if (customDeleteMessage && !ignoreCustomMessage) {
+            deleteDefaultMessage = customDeleteMessage;
+        }
+
+        smoke.confirm(deleteDefaultMessage, function(e){
             if(e){
                 $.ajax({
                     url: url+'id/'+ elId,
@@ -438,7 +448,7 @@ function loginCheck(){
     if($.cookie('PHPSESSID')===null){
         showModalMessage('Session expired', 'Your session is expired! Please, login again', function(){
             top.location.href = $('#website_url').val();
-        })
+        });
         return false;
     }
     return true;
@@ -465,6 +475,28 @@ function showConfirm(msg, yesCallback, noCallback){
             }
         }
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
+}
+function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
+    var yes = 'Yes',
+        no = 'No';
+
+    if(typeof yesValue != 'undefined'){
+        yes = yesValue;
+    }
+    if(typeof noValue != 'undefined'){
+        no = noValue;
+    }
+    smoke.confirm(msg, function(e){
+        if(e){
+            if(typeof yesCallback!='undefined'){
+                yesCallback();
+            }
+        }else{
+            if(typeof noCallback!='undefined'){
+                noCallback();
+            }
+        }
+    }, {classname : 'error', ok : yes, cancel : no});
 }
 function showSpinner(e){
     var el = (typeof text === 'string' ? e : 'body>.seotoaster');

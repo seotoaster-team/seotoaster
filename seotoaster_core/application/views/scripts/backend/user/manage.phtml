@@ -21,10 +21,13 @@
 				</div>
 			</div>
 			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
-				<div class="grid_7 omega">
+                <div class="grid_3 omega">
+                    <?php echo $this->userForm->getElement('prefix'); ?>
+                </div>
+				<div class="grid_9 mt0px">
 					<?php echo $this->userForm->getElement('fullName'); ?>
 				</div>
-				<div class="grid_5 mt0px">
+				<div class="grid_12 mt10px">
 					<?php echo $this->userForm->getElement('roleId'); ?>
 				</div>
 				<div class="grid_12">
@@ -46,6 +49,12 @@
                 </div>
                 <div class="grid_6 mt5px">
                     <?php echo $this->userForm->getElement('desktopPhone'); ?>
+                </div>
+                <div class="grid_12">
+                    <?php $this->userForm->getElement('voipPhone')->getDecorator('Label')->setOptions(array('class' => 'inline-block')) ?>
+                    <?php echo $this->userForm->getElement('voipPhone')->renderLabel(); ?>
+                    <i title="<?php echo $this->translate('You need a single SambaSaaS phone number associated with this website for this feature to function, regardless of the number of VOIP phone users. Your users can use any VOIP provider for their own number.');?>" class="ticon-info tooltip icon18 mb5px"></i>
+                    <?php echo $this->userForm->getElement('voipPhone')->renderViewHelper(); ?>
                 </div>
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('timezone'); ?>
@@ -126,13 +135,13 @@
             </p>
             <a id="manage-country-codes-link" class="btn fl-right icon-user-add grid_2 alpha omega" href="javascript:;"> <?php echo $this->translate('Manage');?> </a>
         </div>
-        <form class="grid_6 alpha search mt10px" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+        <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
 		<a id="add-user-link" class="btn fl-right icon-user-add grid_2 alpha omega mt10px" href="javascript:;"> <?php echo $this->translate('Add new user');?> </a>
         <span class="clearfix"></span>
-		<table id="users-list" class="table-striped mt20px">
+		<table id="users-list" class="table-striped mt15px">
 			<thead>
 				<tr>
 					<th>
@@ -164,13 +173,20 @@
                     <tr class="user-row">
                         <td class="user-row-item"><?php echo $user['email']; ?></td>
                         <td class="user-row-item"><?php echo $user['full_name']; ?></td>
-                        <td class="user-row-item"><?php echo $this->translate(ucfirst($user['role_id'])); ?></td>
+
+                        <td class="user-row-item"><?php echo $this->translate($user['role_id']); ?></td>
                         <td class="user-row-item"><?php echo intval($user['last_login']) ? date('Y-m-d', strtotime($user['last_login'])) : '-'; ?></td>
                         <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
                         <td class="user-row-item text-center">
                         <?php if($user['role_id'] !== 'superadmin'): ?>
-                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
-                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
+                            <?php
+                                $ignoreCustomMessage = '0';
+                                if (!in_array($user['role_id'], $this->userRolesApplyTo, true)) {
+                                    $ignoreCustomMessage = '1';
+                                }
+                            ?>
+                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
+                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -182,6 +198,7 @@
     <div class="footer grid_12 text-right">
         <?php echo $this->pager; ?>
     </div>
+    <input type="hidden" name="custom-delete-message" id="custom-delete-message" value="<?php echo $this->userDeleteCustomMessage;?>">
 </div>
 <script type="text/javascript">
 	$(function() {
@@ -270,6 +287,7 @@
                 }
             });
         });
+
         $(document).on('click', '#manage-country-codes-link', function(e){
             e.preventDefault();
             $('#manage-country-codes').show("slide", { direction: "right"});
@@ -361,7 +379,6 @@
                 }
 
             });
-
         }
 
         $('#save-country-codes-config').on('click', function () {

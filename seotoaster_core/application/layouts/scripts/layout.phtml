@@ -40,10 +40,10 @@
     }
     $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
 
-    if (isset($this->minify) && $this->minify === true) {
-        echo Tools_System_Minify::minify($this->headLink(), true);
-    }
-    else {
+
+    if(isset($this->minifyCss) && $this->minifyCss === true) {
+        echo Tools_System_Minify::minify($this->headLink(), true, Tools_System_Minify::MINIFY_CSS);
+    } else {
         echo $this->headLink();
     }
 
@@ -74,10 +74,9 @@
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.min.js');
     }
 
-    if (isset($this->minify) && $this->minify === true)  {
-        echo Tools_System_Minify::minify($this->headScript(), true);
-    }
-    else {
+    if(isset($this->minifyJs) && $this->minifyJs === true) {
+        echo Tools_System_Minify::minify($this->headScript(), true, Tools_System_Minify::MINIFY_JS);
+    } else {
         echo $this->headScript();
     }
 
@@ -106,11 +105,37 @@
  */
     echo $this->placeholder('plugins');
 
-    if (isset($this->minify) && $this->minify === true) {
-        echo Tools_System_Minify::minify($this->inlineScript(), true);
+    if((isset($this->minifyCss) && $this->minifyCss === true) ||  (isset($this->minifyJs) && $this->minifyJs === true)) {
+        if (isset($this->minifyCss) && $this->minifyCss === true) {
+            $minifiedCssList = Tools_System_Minify::minify($this->inlineScript(), true, Tools_System_Minify::MINIFY_CSS);
+        }
+
+        if (isset($this->minifyJs) && $this->minifyJs === true) {
+            if (isset($minifiedCssList)) {
+                echo Tools_System_Minify::minify($minifiedCssList, true, Tools_System_Minify::MINIFY_JS);
+            } else {
+                echo Tools_System_Minify::minify($this->inlineScript(), true, Tools_System_Minify::MINIFY_JS);
+            }
+        } else {
+            echo $minifiedCssList;
+        }
     } else {
         echo $this->inlineScript();
     }
 ?>
+<?php $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+$grecaptchaPublicKey = $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY];
+?>
+<?php if (!empty($grecaptchaPublicKey)): ?>
+    <script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
+    <script>
+        var CaptchaCallback = function () {
+            var captchas = document.getElementsByClassName("g-recaptcha");
+            for (var i = 0; i < captchas.length; i++) {
+                grecaptcha.render(captchas[i], {'sitekey': '<?php echo $grecaptchaPublicKey;?>'});
+            }
+        };
+    </script>
+<?php endif; ?>
 </body>
 </html>

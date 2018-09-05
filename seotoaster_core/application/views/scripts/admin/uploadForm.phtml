@@ -190,6 +190,7 @@ if (!empty($this->filters)) {
 			errorMessage += '</ul>';
 			$('#' + file.id).html('<p><strong>' +file.name+'</strong>'
 			+ errorMessage.replace("'file'", file.name) + '<span class="ui-icon ui-icon-alert"></span></p>' );
+            showMessage(errorMessage, true, 5000);
 		} else {
 			$('#' + file.id).find('.pbar').remove().end().append('<span class="ui-icon ui-icon-check"></span>');
 		}

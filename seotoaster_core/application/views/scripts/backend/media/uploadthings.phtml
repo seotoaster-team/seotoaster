@@ -91,7 +91,18 @@
                 <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete selected');?></button>
             </div>
         </div>
-        <div class="grid_6 mt20px mb15px">
+        <?php
+        $mimetypes = '<div>' . $this->translate('File upload max size') . ': ' . $this->uploadMaxSize . '</div>';
+        $mimetypes .= $this->translate('File extension formats'). ': ' . '<div>';
+        foreach ($this->mimeTypes as $mimetype){
+            $mimetypes .= ' '. $mimetype . ' ';
+        }
+        $mimetypes .= '</div>';
+
+        ?>
+        <div><i title="<?php echo $mimetypes;?>" class="grid_12 info-block-detailed tooltip fl-right ticon-info icon16"></i></div>
+        <div class="grid_6 mb15px">
+
             <?php
             $thingsUploader = $this->toasterUploader(
                 array(
@@ -108,9 +119,6 @@
                                                           value="0"/> <?php echo $this->translate(
                     'Optimize image size.'
                 ); ?></label>
-            <!--div class="grid_12 seo-tip">
-			<strong><?php echo $this->translate('SEO tip'); ?></strong>: <?php echo $this->translate('Have you thought about  meaningfully naming your images files after your keywords');?>?
-		</div-->
             <div id="media-toaster-uploader-filelist" class="grid_12 alpha omega ui-widget-content scroll mt10px h300px">
                 <?php echo $this->translate('Upload progress will appear here.'); ?>
             </div>
@@ -118,7 +126,12 @@
         <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>">
     </div>
 </div>
-<script>
+<script type="text/javascript">
+
+    $('.info-block-detailed').tooltip({
+        content: "<?php echo $mimetypes;?>"
+    });
+
     var btnCheckAll = $('#check-all'),
         btnDelete   = $('#deleteBtn');
 
