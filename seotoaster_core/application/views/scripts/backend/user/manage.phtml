@@ -96,10 +96,10 @@
                     <a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
                 </div>
             </div>
-            <div class="grid_12 items-list scroll mt10px">
-                <ul class=" list-unstyled" style="height: 500px;">
+            <div class="grid_12 scroll mt10px" style="height: 500px;">
+                <ul class="list-country-codes list-unstyled clearfix">
                 <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
-                    <li><label for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
+                    <li class="grid_12"><label class="grid_11 alpha omega" for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
                         <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>" type="checkbox" <?php echo !empty($params['status']) ? 'checked="checked"' : ''; ?>>
                     </li>
                 <?php endforeach; ?>
