@@ -91,7 +91,10 @@
 			</form>
 		</div>
         <div id="manage-country-codes" class="show-right">
-            <div class="header"><?php echo $this->translate('Default countries list:'); ?>
+
+            <div class="header">
+                <?php echo $this->translate('Restricted country codes:'); ?>
+                <i title="<?php echo $this->translate('Only checked country codes will be used on the website');?>" class="ticon-info tooltip icon18"></i>
                 <div class="closebutton">
                     <a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
                 </div>

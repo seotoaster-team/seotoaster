@@ -1237,6 +1237,8 @@
     'Miss' => 'Mlle',
     'Dr' => 'Dr',
     'Ignore and continue?' => 'Ignore and continue?',
-    'Attention!' => 'Attention!'
+    'Attention!' => 'Attention!',
+    'Restricted country codes:' => 'Restricted country codes:',
+    'Only checked country codes will be used on the website' => 'Only checked country codes will be used on the website'
 
 );?>
