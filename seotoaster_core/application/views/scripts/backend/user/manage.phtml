@@ -350,6 +350,7 @@
                 if(defaultCountryCode == selectedCountryCode) {
                     showMessage('<?php echo $this->translate('Please, make sure the default country code is correctly set');?>', true, 5000);
                     $(this).find('input').prop('checked', true);
+                    return false;
                 }
 
                 $.ajax({
