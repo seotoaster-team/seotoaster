@@ -90,34 +90,59 @@
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
+        <div id="manage-country-codes" class="show-right">
+
+            <div class="header">
+                <?php echo $this->translate('Restricted country codes:'); ?>
+                <i title="<?php echo $this->translate('Only checked country codes will be used on the website');?>" class="ticon-info tooltip icon18"></i>
+                <div class="closebutton">
+                    <a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
+                </div>
+            </div>
+            <div class="grid_12 scroll mt10px" style="height: 500px;">
+                <ul class="list-country-codes list-unstyled clearfix">
+                <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
+                    <li class="grid_12"><label class="grid_11 alpha omega" for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
+                        <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>" type="checkbox" <?php echo !empty($params['status']) ? 'checked="checked"' : ''; ?>>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+            <input type="button" id="save-country-codes-config" class="grid_12 btn mt10px mb0px"
+                   value="<?php echo $this->translate('Save config'); ?>"/>
+        </div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
         <div id="switch-default-params-block" class="grid_12 alpha omega">
             <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
                   array_pop($timezones);
                   $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
             ?>
-            <p class="grid_6 alpha">
-                <label class="grid_5 mt5px"><?php echo $this->translate('Default timezone');?>:</label>
-                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_7 omega">
+            <p class="grid_4 alpha omega">
+                <label class="grid_5 m5px"><?php echo $this->translate('Default timezone');?>:</label>
+                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_6 alpha">
                     <?php foreach($timezones as $timezone):?>
                         <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
                     <?php endforeach;?>
                 </select>
             </p>
-            <p class="grid_6 omega">
-                <label class="grid_7 mt5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
-                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 omega">
-                    <?php foreach($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel):?>
-                        <option <?php echo (((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected': '');?> value="<?php echo $mobilePhoneCountryCode;?>"><?php echo $mobilePhoneCountryCodeLabel;?></option>
-                    <?php endforeach;?>
+            <p class="grid_6 omega alpha">
+                <label class="grid_6 alpha omega m5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
+                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 alpha omega">
+                    <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
+                        <?php if ($params['status']): ?>
+                            <option <?php echo(((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected' : ''); ?>
+                                value="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </select>
             </p>
+            <a id="manage-country-codes-link" class="btn fl-right icon-user-add grid_2 alpha omega" href="javascript:;"> <?php echo $this->translate('Manage');?> </a>
         </div>
         <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+		<a id="add-user-link" class="btn fl-right icon-user-add grid_2 alpha omega" href="javascript:;"> <?php echo $this->translate('Add new user');?> </a>
         <span class="clearfix"></span>
 		<table id="users-list" class="table-striped mt15px">
 			<thead>
@@ -266,6 +291,11 @@
             });
         });
 
+        $(document).on('click', '#manage-country-codes-link', function(e){
+            e.preventDefault();
+            $('#manage-country-codes').show("slide", { direction: "right"});
+        });
+
         $(document).on('click', '._tedit', function(e){
             $('#frm-user')[0].reset();
             $('#user-attributes-section').html('');
@@ -352,7 +382,84 @@
                 }
 
             });
+        }
 
+        $('#save-country-codes-config').on('click', function () {
+            var countriesList = $('#manage-country-codes input[type="checkbox"]');
+            if (countriesList.length) {
+                var countriesConfig = [];
+                countriesList.each(function (index, element) {
+                    var country = {};
+                    country.code = $(element).prop('name');
+                    country.status = 0;
+                    if($(element).prop('checked')){
+                        country.status = 1;
+                    }
+                    countriesConfig.push(country);
+                });
+                $.ajax({
+                    'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/processcountries/',
+                    'type': 'POST',
+                    'dataType': 'json',
+                    'data': {
+                        'countriesConfig': JSON.stringify(countriesConfig)
+                    }
+                }).done(function (response) {
+                    if(response.error == 1){
+                        var attentionMsg =  '<?php echo $this->translate('Attention!');?>' + ' <br/>',
+                            firePluginsCountryCodes = response.responseText.firePluginsCountryCodes;
+                        $.each(firePluginsCountryCodes ,function(index, value) {
+                            attentionMsg += value;
+                        });
+
+                        attentionMsg += '<?php echo $this->translate('Ignore and continue?');?>';
+
+                        showConfirm(attentionMsg, function () {
+                            saveCountryCodes(countriesConfig);
+                        }, function () {});
+                    } else {
+                        saveCountryCodes(countriesConfig);
+                    }
+                });
+            }
+        });
+
+        function saveCountryCodes(countriesConfig) {
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/savecountriesconfig/',
+                'type': 'POST',
+                'dataType': 'json',
+                'data': {
+                    'countriesConfig': JSON.stringify(countriesConfig)
+                }
+            }).done(function (response) {
+                if (response.error == '0') {
+                    var countriesConfig = response.responseText.countriesConfig;
+                    countryCodesRefresh(countriesConfig);
+                    $('#manage-country-codes').hide("slide", { direction: "right"});
+                    showMessage(response.responseText.message, false, 5000);
+                } else {
+                    showMessage(response.responseText, true, 5000);
+                }
+            });
+        }
+
+        function countryCodesRefresh(countriesConfig) {
+            var countriesConfig = JSON.parse(countriesConfig);
+            var selectCountries = $('#user-default-mobile-phone-country-code');
+            $('#user-default-mobile-phone-country-code option').remove();
+
+            if (typeof countriesConfig === 'object') {
+                for (var country in countriesConfig) {
+                    if (countriesConfig[country]['status'] == 1) {
+                        if (countriesConfig[country]['selected'] == 1) {
+                            selectCountries.append('<option value="' + country + '" selected>' + countriesConfig[country]['countryName'] + '</option>');
+                        } else {
+                            selectCountries.append('<option value="' + country + '">' + countriesConfig[country]['countryName'] + '</option>');
+                        }
+                    }
+                }
+            }
         }
 
 

@@ -1235,6 +1235,10 @@
     'Mrs' => 'Mme',
     'Ms' => 'Mme',
     'Miss' => 'Mlle',
-    'Dr' => 'Dr'
+    'Dr' => 'Dr',
+    'Ignore and continue?' => 'Ignore and continue?',
+    'Attention!' => 'Attention!',
+    'Restricted country codes:' => 'Restricted country codes:',
+    'Only checked country codes will be used on the website' => 'Only checked country codes will be used on the website'
 
 );?>

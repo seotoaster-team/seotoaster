@@ -5,7 +5,7 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.3');
+('version',	'3.0.4');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
