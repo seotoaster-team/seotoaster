@@ -185,5 +185,22 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         $users = $this->getDbTable()->getAdapter()->fetchAll($select, 'role_id ASC');
         return $users;
     }
+
+    /**
+     * @param $countryCode
+     * @return mixed
+     */
+    public function findByCountryCode($countryCode) {
+        $where = '('.$this->getDbTable()->getAdapter()->quoteInto('user.mobile_country_code = ?', $countryCode);
+        $where .= ' OR ' . $this->getDbTable()->getAdapter()->quoteInto('user.desktop_country_code = ?', $countryCode).')';
+
+        $select = $this->getDbTable()->getAdapter()->select()->distinct()->from(array('user' => 'user'), array(
+            'count' => 'COUNT(user.id)'
+        ))->where($where);
+
+        $users = $this->getDbTable()->getAdapter()->fetchRow($select);
+
+        return $users;
+    }
 }
 

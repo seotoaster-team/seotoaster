@@ -91,7 +91,6 @@
 			</form>
 		</div>
         <div id="manage-country-codes" class="show-right">
-
             <div class="header">
                 <?php echo $this->translate('Restricted country codes:'); ?>
                 <i title="<?php echo $this->translate('Only checked country codes will be used on the website');?>" class="ticon-info tooltip icon18"></i>
@@ -102,7 +101,7 @@
             <div class="grid_12 scroll mt10px" style="height: 500px;">
                 <ul class="list-country-codes list-unstyled clearfix">
                 <?php foreach ($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $params): ?>
-                    <li class="grid_12"><label class="grid_11 alpha omega" for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
+                    <li class="grid_12 country-codes-selection" data-country-code="<?php echo $mobilePhoneCountryCode; ?>"><label class="grid_11 alpha omega" for="<?php echo $mobilePhoneCountryCode; ?>"><?php echo $params['countryName']; ?></label>
                         <input id="<?php echo $mobilePhoneCountryCode; ?>" name="<?php echo $mobilePhoneCountryCode; ?>" type="checkbox" <?php echo !empty($params['status']) ? 'checked="checked"' : ''; ?>>
                     </li>
                 <?php endforeach; ?>
@@ -263,6 +262,7 @@
 
         $(document).on('click', '#add-user-link', function(e){
             e.preventDefault();
+            $('#add-user').show("slide", { direction: "right"});
             $.ajax({
                 'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/getdefaultparams/',
                 'data' : {},
@@ -271,7 +271,6 @@
             }).done(function(response){
                 $('#frm-user')[0].reset();
                 $('#user-attributes-section').html('');
-                $('#add-user').show("slide", { direction: "right"});
                 if (tinymce.activeEditor != null) {
                     tinymce.activeEditor.setContent('');
                     tinymce.remove();
@@ -280,13 +279,18 @@
                 setTimeout(initTinyMce, 500);
 
                 if (response.responseText.defaultParams.userDefaultTimezone) {
-                    $('#user-timezone').val(response.responseText.defaultParams.userDefaultTimezone);
+                    $('#user-timezone option[value="'+ response.responseText.defaultParams.userDefaultTimezone +'"]').prop('selected','selected');
                 }
+
+                var optionsMobile = $('#user-default-mobile-phone-country-code > option').clone();
+                var optionsDesktop = $('#user-default-mobile-phone-country-code > option').clone();
+
                 if (response.responseText.defaultParams.userDefaultMobileCountryCode) {
-                    $('#user-mobile-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
-                }
-                if (response.responseText.defaultParams.userDefaultMobileCountryCode) {
-                    $('#user-desktop-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
+                    $('#user-mobile-country-code').empty().append(optionsMobile);
+                    $('#user-mobile-country-code option[value="'+ response.responseText.defaultParams.userDefaultMobileCountryCode +'"]').prop('selected','selected');
+
+                    $('#user-desktop-country-code').empty().append(optionsDesktop);
+                    $('#user-desktop-country-code option[value="'+ response.responseText.defaultParams.userDefaultMobileCountryCode +'"]').prop('selected','selected');
                 }
             });
         });
@@ -335,6 +339,41 @@
                     }
                 });
             });
+        });
+
+        $(document).on('change', '.country-codes-selection', function (e) {
+            var self = $(this);
+            if(!self.find('input').prop('checked')) {
+                var defaultCountryCode = $('#user-default-mobile-phone-country-code').val(),
+                    selectedCountryCode = $(this).data('country-code');
+
+                if(defaultCountryCode == selectedCountryCode) {
+                    showMessage('<?php echo $this->translate('Please, make sure the default country code is correctly set');?>', true, 5000);
+                    $(this).find('input').prop('checked', true);
+                }
+
+                $.ajax({
+                    'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/processcountries/',
+                    'type': 'POST',
+                    'dataType': 'json',
+                    'data': {
+                        'selectedCountryCode': selectedCountryCode
+                    }
+                }).done(function (response) {
+                    if(response.error == 1){
+                        var attentionMsg =  '<?php echo $this->translate('Attention!');?>' + ' <br/>',
+                            errorMessage = response.responseText.errorMessage;
+
+                        attentionMsg += errorMessage;
+                        attentionMsg += '<?php echo $this->translate('Ignore and continue?');?>';
+
+                        showConfirm(attentionMsg, function () {
+                        }, function () {
+                            self.find('input').prop('checked', true);
+                        });
+                    }
+                });
+            }
         });
 
         $('#user-attributes').on('change', function() {
@@ -397,30 +436,7 @@
                     }
                     countriesConfig.push(country);
                 });
-                $.ajax({
-                    'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/processcountries/',
-                    'type': 'POST',
-                    'dataType': 'json',
-                    'data': {
-                        'countriesConfig': JSON.stringify(countriesConfig)
-                    }
-                }).done(function (response) {
-                    if(response.error == 1){
-                        var attentionMsg =  '<?php echo $this->translate('Attention!');?>' + ' <br/>',
-                            firePluginsCountryCodes = response.responseText.firePluginsCountryCodes;
-                        $.each(firePluginsCountryCodes ,function(index, value) {
-                            attentionMsg += value;
-                        });
-
-                        attentionMsg += '<?php echo $this->translate('Ignore and continue?');?>';
-
-                        showConfirm(attentionMsg, function () {
-                            saveCountryCodes(countriesConfig);
-                        }, function () {});
-                    } else {
-                        saveCountryCodes(countriesConfig);
-                    }
-                });
+                saveCountryCodes(countriesConfig);
             }
         });
 
