@@ -57,7 +57,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             'preview_image'       => $page->getPreviewImage(),
             'external_link_status' => $page->getExternalLinkStatus(),
             'external_link'       => $page->getExternalLink(),
-            'page_type'          => $page->getPageType()
+            'page_type'           => $page->getPageType(),
+            'exclude_category'    => $page->getExcludeCategory()
         );
 
 
