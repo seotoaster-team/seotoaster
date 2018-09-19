@@ -316,11 +316,21 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $deleteResult;
     }
 
-    public function fetchIdUrlPairs()
+
+    /**
+     * @param bool $withoutQuote
+     * @return array
+     * @throws Zend_Db_Table_Exception
+     */
+    public function fetchIdUrlPairs($withoutQuote = false)
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
-                ->from($this->getDbTable()->info('name'), array('id', 'url'))
-                ->order('url');
+                ->from($this->getDbTable()->info('name'), array('id', 'url'));
+
+        if(!empty($withoutQuote)) {
+            $select->where("page.parent_id != '?'", -5);
+        }
+        $select->order('url');
 
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }

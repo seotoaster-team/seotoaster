@@ -74,7 +74,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$pageMapper     = Application_Model_Mappers_PageMapper::getInstance();
 		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
         $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
-        $pages = $pageMapper->fetchIdUrlPairs();
+        $pages = $pageMapper->fetchIdUrlPairs(true);
 
         if(!empty($notFoundPages)){
             foreach ($notFoundPages as $page){
@@ -225,7 +225,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$deeplinksForm    = new Application_Form_Deeplink();
 		$pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
         $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
-        $pages = $pageMapper->fetchIdUrlPairs();
+        $pages = $pageMapper->fetchIdUrlPairs(true);
 
         if(!empty($notFoundPages)){
             foreach ($notFoundPages as $page){
