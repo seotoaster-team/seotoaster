@@ -1,5 +1,5 @@
 <form id="<?php echo $this->searchForm->getAttrib('id'); ?>" class="<?php echo $this->searchForm->getAttrib('class'); ?>" action="<?php echo $this->searchForm->getAction(); ?>"
       method="<?php echo $this->searchForm->getMethod(); ?>">
     <?php echo $this->searchForm->getElement('search'); ?>
-    <p><input type="submit" value="<?php echo $this->translate('Search'); ?>"/></p>
+    <button type="submit"><?php echo $this->translate('Search'); ?></button>
 </form>

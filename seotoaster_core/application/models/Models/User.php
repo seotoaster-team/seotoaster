@@ -26,6 +26,26 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_notes = '';
 
+    protected $_timezone = '';
+
+    protected $_mobileCountryCode = '';
+
+    protected $_mobileCountryCodeValue = '';
+
+    protected $_desktopPhone = '';
+
+    protected $_desktopCountryCode = '';
+
+    protected $_desktopCountryCodeValue = '';
+
+    protected $_signature = '';
+
+    protected $_subscribed = '';
+
+    protected $_voipPhone = '';
+
+    protected $_prefix = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -190,5 +210,201 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     public function loadAttributes() {
         return Application_Model_Mappers_UserMapper::getInstance()->loadUserAttributes($this);
     }
+
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->_timezone;
+    }
+
+    /**
+     * @param string $timezone
+     * @return string
+     */
+    public function setTimezone($timezone)
+    {
+        if (empty($timezone)) {
+            $timezone = null;
+        }
+        $this->_timezone = $timezone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobileCountryCode()
+    {
+        return $this->_mobileCountryCode;
+    }
+
+    /**
+     * @param string $mobileCountryCode
+     * @return string
+     */
+    public function setMobileCountryCode($mobileCountryCode)
+    {
+        $this->_mobileCountryCode = $mobileCountryCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobileCountryCodeValue()
+    {
+        return $this->_mobileCountryCodeValue;
+    }
+
+    /**
+     * @param string $mobileCountryCodeValue
+     * @return string
+     */
+    public function setMobileCountryCodeValue($mobileCountryCodeValue)
+    {
+        $this->_mobileCountryCodeValue = $mobileCountryCodeValue;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesktopPhone()
+    {
+        return $this->_desktopPhone;
+    }
+
+    /**
+     * @param string $desktopPhone
+     * @return string
+     */
+    public function setDesktopPhone($desktopPhone)
+    {
+        $this->_desktopPhone = $desktopPhone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesktopCountryCode()
+    {
+        return $this->_desktopCountryCode;
+    }
+
+    /**
+     * @param string $desktopCountryCode
+     * @return string
+     */
+    public function setDesktopCountryCode($desktopCountryCode)
+    {
+        $this->_desktopCountryCode = $desktopCountryCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesktopCountryCodeValue()
+    {
+        return $this->_desktopCountryCodeValue;
+    }
+
+    /**
+     * @param string $desktopCountryCodeValue
+     * @return string
+     */
+    public function setDesktopCountryCodeValue($desktopCountryCodeValue)
+    {
+        $this->_desktopCountryCodeValue = $desktopCountryCodeValue;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSignature()
+    {
+        return $this->_signature;
+    }
+
+    /**
+     * @param string $signature
+     * @return string
+     */
+    public function setSignature($signature)
+    {
+        $this->_signature = $signature;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubscribed()
+    {
+        return $this->_subscribed;
+    }
+
+    /**
+     * @param string $subscribed
+     * @return string
+     */
+    public function setSubscribed($subscribed)
+    {
+        $this->_subscribed = $subscribed;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVoipPhone()
+    {
+        return $this->_voipPhone;
+    }
+
+    /**
+     * @param string $voipPhone
+     * @return string
+     */
+    public function setVoipPhone($voipPhone)
+    {
+        $this->_voipPhone = $voipPhone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->_prefix;
+    }
+
+    /**
+     * @param string $prefix
+     * @return string
+     */
+    public function setPrefix($prefix)
+    {
+        $this->_prefix = $prefix;
+
+        return $this;
+    }
+
+
+
 }
 

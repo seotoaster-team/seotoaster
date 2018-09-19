@@ -12,6 +12,36 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
     protected $_translator      = false;
 
+    /**
+     * Fields names that must be always present on the member form
+     *
+     * @var array
+     */
+    public static $_formMandatoryFields = array(
+        'email'    => true,
+        'password' => true,
+        'prefix'   => false,
+        'fullName' => true,
+        'saveUser' => false
+    );
+
+    /**
+     * Fields to remove to keep backward compatibility
+     *
+     * @var array
+     */
+    public static $_oldCompatibilityFields = array(
+        'mobileCountryCode',
+        'desktopCountryCode',
+        'timezone',
+        'gplusProfile',
+        'mobilePhone',
+        'desktopPhone',
+        'signature',
+        'subscribed',
+        'voipPhone'
+    );
+
     const  OPTION_NOCAPTCHA = 'nocaptcha';
 
 	protected function  _init() {
@@ -61,22 +91,65 @@ class Widgets_Member_Member extends Widgets_Abstract {
         return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">' . $translator->translate('Logout') . '</a>';
 	}
 
+
     protected function _renderMemberSignup() {
         $pageId = $this->_toasterOptions['id'];
-        $signupForm = $this->_view->signupForm       = new Application_Form_Signup();
-        $signupForm->addElement('text','PageId',array(
+        $signupForm = new Application_Form_Signup();
+        $signupForm->addElement('hidden','PageId',array(
                 'value' => $pageId,
-                'class' => 'hidden',
                 'id'    => 'PageId'));
-        if(in_array(self::OPTION_NOCAPTCHA,$this->_options)) {
+
+        $noCaptchaOption = array_search(self::OPTION_NOCAPTCHA, $this->_options);
+        if ($noCaptchaOption !== false) {
             $signupForm->removeElement('verification');
-            $signupForm->addElement('text','token',array(
+            $signupForm->addElement('hidden','token',array(
                     'value' => '',
-                    'class' => 'hide',
                     'id'    => 'token'));
             $key = md5('signup'.$pageId);
             $this->_session->$key = $key;
+            unset($this->_options[$noCaptchaOption]);
         }
+
+        $options = array();
+        $fieldsOptions = preg_grep('~formFields-~ui', $this->_options);
+        if (!empty($fieldsOptions)) {
+            $options = explode(',' ,str_replace('formFields-', '', array_pop($fieldsOptions)));
+        }
+
+        if (empty($options)) {
+            foreach (self::$_oldCompatibilityFields as $field) {
+                $signupForm->removeElement($field);
+            }
+        }
+
+        $signupFormKeyParams = 'signUpKeyParams'.$pageId;
+        $this->_session->$signupFormKeyParams = $options;
+
+        $signupForm = Tools_System_Tools::adjustFormFields($signupForm, $options, self::$_formMandatoryFields);
+
+        $this->_view->signupForm = $signupForm;
+
+        $mobileEl = $signupForm->getElement('mobilePhone');
+        $mobileCountryCodeEl = $signupForm->getElement('mobileCountryCode');
+        $desktopPhoneEl = $signupForm->getElement('desktopPhone');
+        $desktopCountryCodeEl = $signupForm->getElement('desktopCountryCode');
+
+        if (!empty($mobileEl) && !empty($mobileCountryCodeEl)) {
+            $signupForm->getElement('mobilePhone')->setLabel(null);
+            $signupForm->getElement('mobileCountryCode')->setLabel('Mobile');
+            $this->_view->withMobileMask = true;
+        }
+
+        if (!empty($desktopPhoneEl) && !empty($desktopCountryCodeEl)) {
+            $signupForm->getElement('desktopPhone')->setLabel(null);
+            $signupForm->getElement('desktopCountryCode')->setLabel('Phone');
+            $this->_view->withDesktopMask = true;
+        }
+
+        $listMasksMapper = Application_Model_Mappers_MasksListMapper::getInstance();
+        $this->_view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
+        $this->_view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
+
 		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
 		$errorMessages                 = $flashMessenger->getMessages();
 		$this->_session->signupPageUrl = $this->_toasterOptions['url'];

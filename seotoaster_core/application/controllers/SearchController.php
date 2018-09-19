@@ -98,4 +98,53 @@ class SearchController extends Zend_Controller_Action
         }
         $this->_helper->json($response);
     }
+
+    public function dropdownAction()
+    {
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $params = $request->getParams();
+        $searchPhrase = filter_var($params['search'], FILTER_SANITIZE_STRING);
+        $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
+        $filterPageType = array();
+        if (!empty($pageTypes) && !empty($params['filterPageType'])) {
+            $filterPageTypeConf = explode(',', $params['filterPageType']);
+            $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
+        }
+
+        $toasterSearchIndex = Tools_Search_Tools::initIndex();
+        $toasterSearchIndex->setResultSetLimit(filter_var($params['limit'], FILTER_SANITIZE_NUMBER_INT));
+        $searchTermArray = explode(' ', $searchPhrase);
+        $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+        $searchResults = array_map(
+            function ($hit) use ($filterPageType, $searchPhrase) {
+                $exclude = false;
+                try {
+                    $draft = (bool)$hit->draft;
+                    $pageType = (int)$hit->pageType;
+                } catch (Zend_Search_Lucene_Exception $e) {
+                    $draft = false;
+                    $pageType = 1;
+                }
+
+                if (!empty($filterPageType) && !array_key_exists($pageType, $filterPageType)) {
+                    $exclude = true;
+                }
+                if (!$draft && !$exclude) {
+                    return array(
+                        'pageId' => $hit->pageId,
+                        'url' => $hit->url,
+                        'label' => $searchPhrase,
+                        'text' => $hit->teaserText,
+                        'navName' => $hit->navName,
+                        'value' => $hit->h1,
+                        'src' => Tools_Page_Tools::getPreview($hit->pageId),
+                    );
+                }
+            },
+            $hits
+        );
+        $searchResults = array_values(array_filter($searchResults));
+        $this->_helper->json($searchResults);
+    }
 }

@@ -10,6 +10,31 @@ class Backend_MediaController extends Zend_Controller_Action
     private $_translator = null;
     private $_websiteConfig = null;
 
+    private $_mimetypesFormats = array(
+        '*.doc',
+        '*.csv',
+        '*.txt',
+        '*.docx',
+        '*.xls',
+        '*.xlsx',
+        '*.pdf',
+        '*.xml',
+        '*.zip',
+        '*.jpg',
+        '*.png',
+        '*.bmp',
+        '*.gif',
+        '*.webm',
+        '*.ogg',
+        '*.ogv',
+        '*.dwg',
+        '*.vcf',
+        '*.mp3',
+        '*.avi',
+        '*.mpeg',
+        '*.mp4'
+    );
+
     public function  init()
     {
         parent::init();
@@ -41,7 +66,34 @@ class Backend_MediaController extends Zend_Controller_Action
         // if folder selected from somewhere else (using this feature when click upload things on editor screen)
         if (($folder = $this->getRequest()->getParam('folder')) != '') {
             $this->view->currFolder = $folder;
+            $picturesPath = $this->_websiteConfig['media'] . $folder . '/small/';
+            if(is_dir($this->_websiteConfig['path'] . $picturesPath)){
+                $listPictures = Tools_Filesystem_Tools::scanDirectory($this->_websiteConfig['path'] . $picturesPath);
+
+                if(!empty($listPictures)){
+                    $this->view->listPictures = $listPictures;
+                    $this->view->picturesPath = $picturesPath;
+                }
+            }
+
+            $folderPath = realpath($this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folder);
+            if(!empty($folderPath)){
+                $this->view->filesList = array();
+                $listFiles = Tools_Filesystem_Tools::scanDirectory($folderPath, false, false);
+                foreach ($listFiles as $item) {
+                    if (!is_dir($folderPath . DIRECTORY_SEPARATOR . $item)) {
+                        array_push($this->view->filesList, array('name' => $item));
+                    }
+                }
+            }
         }
+
+        $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);
+        $this->view->secureToken = $secureToken;
+        $this->view->mimeTypes = $this->_mimetypesFormats;
+        $uploadMaxSize = ini_get('upload_max_filesize');
+        $this->view->uploadMaxSize = !empty($uploadMaxSize) ? $uploadMaxSize : '';
+
         $this->view->helpSection = 'uploadthings';
     }
 

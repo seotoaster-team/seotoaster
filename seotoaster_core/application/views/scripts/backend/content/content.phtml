@@ -36,6 +36,10 @@
         <?php echo $this->tabContainer('tabs', array(), array('class' => 'grid_4 alpha tabs tabs-gray'));?>
         <input type="hidden" id="reset_css" value="<?php echo $this->linkResetCss; ?>" />
         <input type="hidden" id="content_css" value="<?php echo $this->linkContentCss; ?>" />
+        <?php if($this->showMoreflag):?>
+            <input type="hidden" class="show-more-content-widget" value="" />
+        <?php endif;?>
+
     </div>
 
     <div class="footer grid_12">

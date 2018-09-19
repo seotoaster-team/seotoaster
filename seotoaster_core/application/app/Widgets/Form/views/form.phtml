@@ -27,6 +27,12 @@
                 <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>"/>
             </div>
         <?php endif; ?>
+        <?php if ($this->useGoogleRecaptcha): ?>
+            <?php
+            $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
+            ?>
+            <div class="g-recaptcha" data-sitekey="<?php echo $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY];?>"></div>
+        <?php endif; ?>
         <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
         <?php if ($this->trackingConversionUrl): ?>
             <input type="hidden" name="conversionPageUrl"
@@ -72,8 +78,8 @@
         $(document).on('submit', '#<?php echo $this->formId; ?>', function (e) {
             var valid = validateRequired('<?php echo $this->formId; ?>'),
                 fileField = $(form).find('input[type="file"]');
-            if (fileField.attr("required")) {
-                if(!fileField.val().length){
+            if (fileField.length > 0) {
+                if(fileField.attr("required") && !fileField.val().length){
                     showMessage('<?php echo $this->translate('Please select a file') ?>',true, 5000);
                     return false;
                 }
@@ -101,6 +107,9 @@
                         if (response.error) {
 
                         } else {
+                            if (typeof seotoasterFormSuccessCallback === 'function') {
+                                seotoasterFormSuccessCallback();
+                            }
                             <?php if($this->trackingConversionUrl):?>
                             location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
                             return false;
@@ -130,6 +139,9 @@
                         <?php endif;?>
                         <?php if($this->useRecaptcha):?>
                         Recaptcha.reload();
+                        <?php endif;?>
+                        <?php if($this->useGoogleRecaptcha):?>
+                        grecaptcha.reset();
                         <?php endif;?>
                         showMessage(response.responseText, response.error);
                     }

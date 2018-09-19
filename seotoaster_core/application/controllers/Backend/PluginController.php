@@ -42,7 +42,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
             $readmeText = '';
             if (is_readable($readmePath)) {
-                $readmeText = $this->_helper->language->translate(nl2br(htmlspecialchars(file_get_contents($readmePath))));
+                $readmeText =nl2br(htmlspecialchars(file_get_contents($readmePath)));
             }
 
             if (empty($readmeText)) {
@@ -94,6 +94,10 @@ class Backend_PluginController extends Zend_Controller_Action {
             if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
                 $pluginDependencyFilePath = $this->_helper->website->getPath() . $miscData['pluginsPath'] .
                     $plugin->getName() . DIRECTORY_SEPARATOR . 'system'. DIRECTORY_SEPARATOR . Application_Model_Models_Plugin::DEPENDENCY_FILE_NAME;
+                $loaderCanExec = Tools_Plugins_Tools::loaderCanExec($plugin->getName());
+                if ($loaderCanExec === false) {
+                    $this->_helper->response->fail($this->_helper->language->translate('You must install "IonCube Loader™" extension before start using the plugin.'));
+                }
                 if (file_exists($pluginDependencyFilePath)) {
                     $pluginDependencyContent = Tools_Filesystem_Tools::getFile($pluginDependencyFilePath);
                     if (!empty($pluginDependencyContent)) {
