@@ -15,16 +15,25 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 			throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_User instance');
 		}
 		$data = array(
-			'role_id'       => $user->getRoleId(),
-			'password'      => md5($user->getPassword()),
-			'email'         => $user->getEmail(),
-			'full_name'     => $user->getFullName(),
-			'last_login'    => $user->getLastLogin(),
-			'ipaddress'     => $user->getIpaddress(),
-            'gplus_profile' => $user->getGplusProfile(),
-            'mobile_phone'  => $user->getMobilePhone(),
-            'notes'         => $user->getNotes(),
-            'timezone'      => $user->getTimezone()
+			'role_id'                    => $user->getRoleId(),
+			'password'                   => md5($user->getPassword()),
+			'email'                      => $user->getEmail(),
+			'full_name'                  => $user->getFullName(),
+			'last_login'                 => $user->getLastLogin(),
+			'ipaddress'                  => $user->getIpaddress(),
+            'gplus_profile'              => $user->getGplusProfile(),
+            'mobile_phone'               => $user->getMobilePhone(),
+            'notes'                      => $user->getNotes(),
+            'timezone'                   => $user->getTimezone(),
+            'mobile_country_code'        => $user->getMobileCountryCode(),
+            'mobile_country_code_value'  => $user->getMobileCountryCodeValue(),
+            'desktop_phone'              => $user->getDesktopPhone(),
+            'desktop_country_code'       => $user->getDesktopCountryCode(),
+            'desktop_country_code_value' => $user->getDesktopCountryCodeValue(),
+            'signature'                  => $user->getSignature(),
+            'subscribed'                 => $user->getSubscribed(),
+            'voip_phone'                 => $user->getVoipPhone(),
+            'prefix'                     => $user->getPrefix()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -71,6 +80,14 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             return null;
         }
         return new $this->_model($row->toArray());
+    }
+
+    public function findAllRoles() {
+        $select = $this->getDbTable()->getAdapter()->select()->distinct()->from('user', array(
+            'role_id', 'role_id'
+        ));
+        $users = $this->getDbTable()->getAdapter()->fetchPairs($select);
+        return $users;
     }
 
 	public function delete(Application_Model_Models_User $user) {
@@ -145,15 +162,23 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         $select = $this->getDbTable()->getAdapter()->select()->from('user', array(
             'email',
             'role_id',
+            'prefix',
             'full_name',
             'last_login',
             'reg_date',
             'ipaddress',
             'referer',
             'gplus_profile',
+            'mobile_country_code',
+            'mobile_country_code_value',
             'mobile_phone',
             'notes',
-            'timezone'
+            'timezone',
+            'desktop_country_code',
+            'desktop_country_code_value',
+            'desktop_phone',
+            'signature',
+            'subscribed'
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 

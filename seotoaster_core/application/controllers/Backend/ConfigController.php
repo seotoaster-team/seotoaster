@@ -32,6 +32,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
 		$isSuperAdminLogged = ($loggedUser->getRoleId() === Tools_Security_Acl::ROLE_SUPERADMIN);
 		$this->view->isSuperAdmin = $isSuperAdminLogged;
+		$message = '';
+		$errMessageFlag = false;
 
 		if ($this->getRequest()->isPost()) {
             if (!$isSuperAdminLogged) {
@@ -112,11 +114,59 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				if ($config['inlineEditor'] !== $this->_helper->config->getConfig('inlineEditor')){
 					$this->_helper->cache->clean(false, false, array('Widgets_AbstractContent'));
 				}
-				$this->_configMapper->save($config);
-				$this->_helper->flashMessenger->addMessage('Setting saved');
+
+                $useSmtpFlag = $this->getRequest()->getParam('useSmtp');
+                $errorMessage = '';
+
+                if(!empty($useSmtpFlag)){
+                    $smtpConfig = array(
+                        'username' => $this->getRequest()->getParam('smtpLogin'),
+                        'password' => $this->getRequest()->getParam('smtpPassword')
+                    );
+
+                    $smtpSsl = $this->getRequest()->getParam('smtpSsl');
+
+                    if(!empty($smtpSsl)){
+                        $smtpConfig['ssl'] =  $smtpSsl;
+                    }
+
+                    $smtpHost = filter_var($this->getRequest()->getParam('smtpHost'), FILTER_SANITIZE_STRING);
+                    if(!empty($smtpHost)){
+                        $smtpHost = trim(str_replace(' ','',$smtpHost));
+                        $config['smtpHost'] = $smtpHost;
+
+                        $smtpPort = filter_var($this->getRequest()->getParam('smtpPort'), FILTER_SANITIZE_NUMBER_INT);
+
+                        $verifySmtpConnection = new Zend_Mail_Protocol_Smtp_Auth_Login($smtpHost, $smtpPort, $smtpConfig);
+
+                        try{
+                            $verifySmtpConnection->connect();
+                            try{
+                                $verifySmtpConnection->helo();
+                            } catch (Exception $e){
+                                $errorMessage = $this->_helper->language->translate('Invalid login or password');
+                            }
+                        } catch (Exception $e){
+                            $errorMessage = $this->_helper->language->translate('Could not establish connection to '). $smtpHost. $this->_helper->language->translate(' – Double check your hostname');
+                        }
+                    }else{
+                        $errorMessage = $this->_helper->language->translate('Host name is empty. Please enter the host name');
+                    }
+
+                }
+
+                if(!empty($errorMessage)){
+                    $errMessageFlag = true;
+                    $message = $errorMessage;
+                }else{
+                    $this->_configMapper->save($config);
+                    $message = 'Setting saved';
+                }
+
 			} else {
 				if ($configForm->proccessErrors()) {
-					$this->_helper->flashMessenger->addMessage('Some fields are wrong');
+                    $errMessageFlag = true;
+                    $message = 'Some fields are wrong';
 				}
 			}
 
@@ -158,7 +208,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			$configForm->getElement('suPassword')->setValue($suPassword);
 		}
 
-		$this->view->messages = $this->_helper->flashMessenger->getMessages();
+		$this->view->errMessageFlag = $errMessageFlag;
+		$this->view->message = $message;
 		$this->view->configForm = $configForm;
 	}
 
@@ -170,12 +221,29 @@ class Backend_ConfigController extends Zend_Controller_Action {
      */
     public function mailmessageAction() {
         $triggerName = $this->getRequest()->getParam('trigger', false);
+        $recipientName = $this->getRequest()->getParam('recipient', false);
         if(!$triggerName) {
             throw new Exceptions_SeotoasterException('Not enough parameter passed!');
         }
         $trigger = Application_Model_Mappers_EmailTriggersMapper::getInstance()->findByTriggerName($triggerName)->toArray();
+        if (!empty($trigger) && !empty($recipientName)) {
+            $trigger = array_filter($trigger, function($triggerInfo) use ($recipientName){
+                return $triggerInfo['recipient'] === $recipientName;
+            });
+
+        }
+
         $trigger = reset($trigger);
-        $this->_helper->response->success($trigger['message']);
+
+        if (empty($trigger)) {
+            $trigger['message'] = '';
+        }
+
+        $this->_helper->response->success(array(
+            'message' => $trigger['message'],
+            'dialogTitle' => $this->_helper->language->translate('Edit mail message before sending'),
+            'dialogOkay' => $this->_helper->language->translate('Okay')
+        ));
         return true;
     }
 
@@ -207,8 +275,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
 
-        $pluginsTriggers = Tools_Plugins_Tools::fetchPluginsTriggers();
+        $pluginsTriggers = Tools_Plugins_Tools::fetchFromConfigIniData();
         $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
+        $triggersLabels  = Tools_Plugins_Tools::fetchFromConfigIniData('actionEmailLabel');
         $triggers        = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
         $services        = array('email' => 'e-mail', 'sms' => 'sms');
         $recipients                 = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
@@ -217,9 +286,18 @@ class Backend_ConfigController extends Zend_Controller_Action {
         $this->view->triggers       = $triggers;
         $this->view->services       = $services;
         $this->view->secureToken = $secureToken;
-        $this->view->actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
+        $actionsOptions = array_merge(array('0' => $this->_helper->language->translate('Select event area')), array_combine(array_keys($triggers), array_map(function($trigger) {
             return str_replace('-', ' ', ucfirst($trigger));
         }, array_keys($triggers))));
+
+        if(!empty($triggersLabels)) {
+            foreach ($actionsOptions as $key => $option) {
+                if(array_key_exists($key, $triggersLabels) && !empty($triggersLabels[$key]['label'])) {
+                    $actionsOptions[$key] = $triggersLabels[$key]['label'];
+                }
+            }
+        }
+        $this->view->actionsOptions = $actionsOptions;
         $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
     }
 }

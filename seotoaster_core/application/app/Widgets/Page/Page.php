@@ -16,6 +16,11 @@ class Widgets_Page_Page extends Widgets_Abstract {
      */
     const PAGE_ORIGINAL = 'original';
 
+    /**
+     * Clear HTML Tags
+     */
+    const CLEAR_TAGS = 'clear';
+
     private $_aliases = array(
         'title' => 'headerTitle',
         'teaser' => 'teaserText',
@@ -31,12 +36,25 @@ class Widgets_Page_Page extends Widgets_Abstract {
 	    if(isset($this->_toasterOptions[$option])) {
             $original = (isset($this->_options[1]) && $this->_options[1] == self::PAGE_ORIGINAL);
             $optionMakerName = 'get' . ucfirst($option);
+
             if($original) {
                 $page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_toasterOptions['id'], $original);
                 $optionValue = $page->$optionMakerName();
-            } else {
+            }elseif (in_array('external', $this->_options)){
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($this->_toasterOptions['id'], $original);
+                if(!$page->getExternalLinkStatus()){
+                    return  $page->$optionMakerName();
+                }
+                $optionValue = $page->getExternalLink();
+            }
+            else {
                 $optionValue = $this->_toasterOptions[$option];
             }
+
+            if(in_array(self::CLEAR_TAGS, $this->_options, true)) {
+                $optionValue = strip_tags($optionValue);
+            }
+
             $optionMakerNameLocal = '_'.$optionMakerName;
             if (method_exists($this, $optionMakerNameLocal)) {
                 return $this->$optionMakerNameLocal($optionValue);
@@ -131,15 +149,20 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
  		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
 		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg)$~', $files));
+		$fileInfo = array();
 
 		if(!empty ($pagePreviews)) {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
-            $src =  $websiteHelper->getUrl().$path.$pagePreviews[0];
+            $src =  $websiteHelper->getUrl().$path.$pagePreviews[0].'?'.strtotime('now');
+            $imagePath =  $websiteHelper->getPath().$path.$pagePreviews[0];
+            if (!empty($imagePath)) {
+                $fileInfo = getimagesize($imagePath);
+            }
             if (isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC){
                 return $src;
             }
-			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" />';
+			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" '.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
 		}
 		return;
 	}

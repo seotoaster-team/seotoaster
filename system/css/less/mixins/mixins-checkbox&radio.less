@@ -179,4 +179,68 @@
             }
         }
     }
+    .triple-switch {
+        border    : 1px solid @input-border-color;
+        font-size : 0;
+        input {
+            display : none;
+
+            &:nth-of-type(1):checked {
+                & ~ span {
+                    //.translate(0; 0);
+                    left             : 0;
+                    background-color : @brand-success;
+                }
+                & + label {
+                    color : @primary-color;
+                }
+            }
+            &:nth-of-type(2):checked {
+                & ~ span {
+                    //.translate(33.31%; 0);
+                    left : 33.31%;
+                }
+                & + label {
+                    color : @gray;
+                }
+            }
+            &:nth-of-type(3):checked {
+                & ~ span {
+                    //.translate(66.69%; 0);
+                    left             : 66.69%;
+                    background-color : @brand-error;
+                }
+                & + label {
+                    color : @primary-color;
+                }
+            }
+        }
+        label {
+            font-family : @font-family-text;
+            font-size   : @font-size-mini;
+            font-size   : unit(@font-size-mini, rem);
+            line-height : @font-size-mini * 2.5;
+            font-weight : bold;
+            .grid-elements(3; 0);
+            display     : inline-block;
+            text-align  : center;
+            position    : relative;
+            z-index     : 2;
+            cursor      : pointer;
+        }
+
+        span {
+            .transition(all, 0.3s);
+            .box-sizing();
+            background : @input-border-color;
+            position   : absolute;
+            border     : 1px solid @input-bg;
+            left       : 0;
+            top        : 0;
+            bottom     : 0;
+            width      : 33.31%;
+            z-index    : 1;
+
+        }
+    }
 }

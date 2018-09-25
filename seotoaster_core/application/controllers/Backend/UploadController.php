@@ -269,6 +269,8 @@ class Backend_UploadController extends Zend_Controller_Action
                 // filtering the img name
                 $expFileName = explode('.', $this->getRequest()->getParam('name', false));
                 $fileExt = array_pop($expFileName);
+                $fileExt = strtolower($fileExt);
+
                 if (!in_array($fileExt, array('jpeg', 'jpg', 'png', 'gif'))) {
                     return array('error' => true, 'result' => "Wrong file extension");
                 }
@@ -332,6 +334,11 @@ class Backend_UploadController extends Zend_Controller_Action
 
         $fileInfo = $this->_uploadHandler->getFileInfo();
         $file = reset($fileInfo);
+
+        $expFileName = explode('.',$file['name']);
+        $fileExt = array_pop($expFileName);
+        $file['name'] = implode($expFileName). '.' . strtolower($fileExt);
+
         preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $file['name'], $match);
         if (!$match) {
             return array('result' => 'Corrupted filename', 'error' => true);

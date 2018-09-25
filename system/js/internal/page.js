@@ -124,7 +124,7 @@ $(function () {
         var optCheck = $(this),
             optimized = optCheck.is(':checked') ? 1 : 0;
         if (!optimized) {
-            showConfirm('Are you sure? You will lose experts optimization once you save your changes !', function () {
+            showConfirm('Are you sure? You will lose expert optimization once you save your changes !', function () {
                 toggleOptimized(optimized);
             }, function () {
                 optCheck.prop('checked', true);

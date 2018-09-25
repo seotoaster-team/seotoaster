@@ -198,7 +198,8 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->content  = $body[2];
         $locale               = Zend_Locale::getLocaleToTerritory($this->_config->getConfig('language'));
         $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
-        $this->view->minify   = $this->_config->getConfig('enableMinify') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
+        $this->view->minifyCss   = $this->_config->getConfig('enableMinifyCss') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
+        $this->view->minifyJs   = $this->_config->getConfig('enableMinifyJs') && !Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT);
 	}
 
 	private function _extendHead($pageContent) {
@@ -266,6 +267,28 @@ class IndexController extends Zend_Controller_Action {
 							}
 						}
 						break;
+                    case 'style':
+                        $attributes = array();
+                        foreach($node->attributes as $attr){
+                            $attributes[$attr->name] = $attr->value;
+                            unset($attr);
+                        }
+                        if (isset($attributes['type'])){
+                            $type = $attributes['type'];
+                            unset($attributes['type']);
+                        } else {
+                            $type = 'text/css';
+                        }
+                        if ($node->hasAttribute('src')){
+                            $this->view->headStyle()->appendStyle($node->getAttribute('src'), $type, $attributes);
+                        } else {
+                            if ($type !== 'text/css'){
+                                $this->view->placeholder('misc')->set($this->view->placeholder('misc').PHP_EOL.$dom->saveXML($node));
+                            } else {
+                                $this->view->headStyle()->appendStyle($node->nodeValue, $type);
+                            }
+                        }
+                        break;
 					case 'link':
 						if (strtolower($node->getAttribute('rel')) === 'stylesheet' ){
 							$this->view->headLink()->appendStylesheet(

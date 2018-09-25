@@ -1,11 +1,18 @@
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js')
+    ->addJavascriptFile($this->websiteUrl.'system/js/external/tinymce/tinymce.min.js');?>
 <div class="seotoaster container">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
+    <?php $innerHtml = '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>';?>
+    <?php if (empty($this->oldMobileFormat)) :?>
+        <?php $innerHtml =  '<a id="process-old-mobile-phone-format" class="btn fl-right mt5px" href="javascript:;">'.$this->translate('Process old mobile phone format').'</a>'.$innerHtml;?>
+    <?php endif;?>
+
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
 		'headerText'      => $this->translate('Manage users'),
         'helpSection'     => $this->helpSection,
-        'innerHeaderHtml' => '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'
+        'innerHeaderHtml' => $innerHtml
 
     )); ?>
-	<div class="content-footer grid_12">
+	<div class="content-footer mb50px grid_12">
 		<div id="add-user" class="show-right">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
@@ -14,10 +21,13 @@
 				</div>
 			</div>
 			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
-				<div class="grid_7 omega">
+                <div class="grid_3 omega">
+                    <?php echo $this->userForm->getElement('prefix'); ?>
+                </div>
+				<div class="grid_9 mt0px">
 					<?php echo $this->userForm->getElement('fullName'); ?>
 				</div>
-				<div class="grid_5 mt0px">
+				<div class="grid_12 mt10px">
 					<?php echo $this->userForm->getElement('roleId'); ?>
 				</div>
 				<div class="grid_12">
@@ -26,8 +36,25 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('password'); ?>
 				</div>
-                <div class="grid_12">
+                <label for="user-mobile-country-code" class="optional grid_12 mt10px mb0px"><?php echo $this->translate('Mobile');?></label>
+                <div class="grid_6 mt5px">
+                    <?php echo $this->userForm->getElement('mobileCountryCode'); ?>
+                </div>
+                <div class="grid_6 mt5px">
                     <?php echo $this->userForm->getElement('mobilePhone'); ?>
+                </div>
+                <label for="user-desktop-country-code" class="optional grid_12 mt10px mb0px"><?php echo $this->translate('Desktop');?></label>
+                <div class="grid_6 mt5px">
+                    <?php echo $this->userForm->getElement('desktopCountryCode'); ?>
+                </div>
+                <div class="grid_6 mt5px">
+                    <?php echo $this->userForm->getElement('desktopPhone'); ?>
+                </div>
+                <div class="grid_12">
+                    <?php $this->userForm->getElement('voipPhone')->getDecorator('Label')->setOptions(array('class' => 'inline-block')) ?>
+                    <?php echo $this->userForm->getElement('voipPhone')->renderLabel(); ?>
+                    <i title="<?php echo $this->translate('You need a single SambaSaaS phone number associated with this website for this feature to function, regardless of the number of VOIP phone users. Your users can use any VOIP provider for their own number.');?>" class="ticon-info tooltip icon18 mb5px"></i>
+                    <?php echo $this->userForm->getElement('voipPhone')->renderViewHelper(); ?>
                 </div>
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('timezone'); ?>
@@ -35,26 +62,64 @@
 				<div class="grid_12">
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
+                <div class="grid_12">
+                    <label><?php echo $this->translate('Subscribed');?> <input id="user-subscribe" type="checkbox" name="subscribed" value="1" /></label>
+                </div>
+                <div class="grid_12">
+                    <?php echo $this->userForm->getElement('signature'); ?>
+                </div>
                 <div class="grid_7">
                     <?php echo $this->userForm->getElement('userAttributes'); ?>
                 </div>
-                <div class="grid_5 mt20px">
+                <div class="grid_5 mt20px text-right">
                     <input type="button" id="add-user-attribute" class="btn mt10px" value="<?php echo $this->translate('Add attribute');?>"/>
                 </div>
-                <div class="grid_12"  id="user-attributes-section">
+                <?php echo $this->userForm->getElement('mobileCountryCodeValue'); ?>
+                <?php echo $this->userForm->getElement('desktopCountryCodeValue'); ?>
+                <div class="grid_12 alpha omega"  id="user-attributes-section">
                 </div>
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
-				<?php echo $this->userForm->getElement('saveUser'); ?>
+                <div class="grid_12 alpha omega">
+                    <div class="prefix_2 grid_6 text-right omega">
+                        <input type="button" id="send-email-invite" class="btn mt15px" value="<?php echo $this->translate('Save & email invite');?>"/>
+                    </div>
+                    <div class="grid_4 alpha">
+                        <?php echo $this->userForm->getElement('saveUser'); ?>
+                    </div>
+                </div>
 				<?php echo $this->userForm->getElement('id'); ?>
 			</form>
 		</div>
+        <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
+        <div id="switch-default-params-block" class="grid_12 alpha omega">
+            <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+                  array_pop($timezones);
+                  $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
+            ?>
+            <p class="grid_6 alpha">
+                <label class="grid_5 mt5px"><?php echo $this->translate('Default timezone');?>:</label>
+                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_7 omega">
+                    <?php foreach($timezones as $timezone):?>
+                        <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
+                    <?php endforeach;?>
+                </select>
+            </p>
+            <p class="grid_6 omega">
+                <label class="grid_7 mt5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
+                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 omega">
+                    <?php foreach($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel):?>
+                        <option <?php echo (((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected': '');?> value="<?php echo $mobilePhoneCountryCode;?>"><?php echo $mobilePhoneCountryCodeLabel;?></option>
+                    <?php endforeach;?>
+                </select>
+            </p>
+        </div>
         <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
             <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
         </form>
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
-		<table id="users-list" class="table-striped mt20px">
+		<table id="users-list" class="table-striped mt15px">
 			<thead>
 				<tr>
 					<th>
@@ -86,13 +151,20 @@
                     <tr class="user-row">
                         <td class="user-row-item"><?php echo $user['email']; ?></td>
                         <td class="user-row-item"><?php echo $user['full_name']; ?></td>
-                        <td class="user-row-item"><?php echo $this->translate(ucfirst($user['role_id'])); ?></td>
+
+                        <td class="user-row-item"><?php echo $this->translate($user['role_id']); ?></td>
                         <td class="user-row-item"><?php echo intval($user['last_login']) ? date('Y-m-d', strtotime($user['last_login'])) : '-'; ?></td>
                         <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
                         <td class="user-row-item text-center">
                         <?php if($user['role_id'] !== 'superadmin'): ?>
-                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil"></a>
-                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
+                            <?php
+                                $ignoreCustomMessage = '0';
+                                if (!in_array($user['role_id'], $this->userRolesApplyTo, true)) {
+                                    $ignoreCustomMessage = '1';
+                                }
+                            ?>
+                            <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
+                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -104,9 +176,55 @@
     <div class="footer grid_12 text-right">
         <?php echo $this->pager; ?>
     </div>
+    <input type="hidden" name="custom-delete-message" id="custom-delete-message" value="<?php echo $this->userDeleteCustomMessage;?>">
 </div>
 <script type="text/javascript">
 	$(function() {
+
+        var websiteUrl = '<?php echo $this->websiteUrl;?>';
+
+        function dispatchEditorKeyup(editor, event, keyTime) {
+            var keyTimer = keyTime;
+            if(keyTimer === null) {
+                keyTimer = setTimeout(function() {
+                    keyTimer = null;
+                }, 1000)
+            }
+        }
+
+        function initTinyMce() {
+            tinymce.init({
+                script_url              : websiteUrl+'system/js/external/tinymce/tinymce.gzip.php',
+                selector                : '#signature',
+                skin                    : 'seotoaster',
+                menubar                 : false,
+                resize                  : false,
+                convert_urls            : false,
+                relative_urls           : false,
+                statusbar               : false,
+                allow_script_urls       : true,
+                force_p_newlines        : true,
+                forced_root_block       : false,
+                entity_encoding         : "raw",
+                plugins: [
+                    "advlist lists link anchor image charmap visualblocks code media table paste textcolor fullscreen"
+                ],
+                toolbar1                : 'link unlink | image | hr | bold italic | fontsizeselect | pastetext | forecolor backcolor | formatselect | code | fullscreen |',
+                fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
+                block_formats           : "Block=div;Paragraph=p;Block Quote=blockquote;Cite=cite;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
+                extended_valid_elements : "a[*],input[*],select[*],textarea[*]",
+                image_advtab            : true,
+                setup                   : function(ed){
+                    var keyTime = null;
+                    ed.on('change blur keyup', function(ed, e){
+                        //@see content.js for this function
+                        dispatchEditorKeyup(ed, e, keyTime);
+                        this.save();
+                    });
+                }
+            });
+        }
+
         $('#export-users').click(function() {
             if ($('#users-list tbody tr').length > 1) {
                 $('#expusrs').submit();
@@ -115,16 +233,78 @@
             }
         });
 
-        $(document).on('click', '#add-user-link, ._tedit', function(e){
+        $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
+        $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
+
+        $(document).on('click', '#add-user-link', function(e){
             e.preventDefault();
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/getdefaultparams/',
+                'data' : {},
+                'type' : 'GET',
+                'dataType': 'json'
+            }).done(function(response){
+                $('#frm-user')[0].reset();
+                $('#user-attributes-section').html('');
+                $('#add-user').show("slide", { direction: "right"});
+                if (tinymce.activeEditor != null) {
+                    tinymce.activeEditor.setContent('');
+                    tinymce.remove();
+                }
+
+                setTimeout(initTinyMce, 500);
+
+                if (response.responseText.defaultParams.userDefaultTimezone) {
+                    $('#user-timezone').val(response.responseText.defaultParams.userDefaultTimezone);
+                }
+                if (response.responseText.defaultParams.userDefaultMobileCountryCode) {
+                    $('#user-mobile-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
+                }
+                if (response.responseText.defaultParams.userDefaultMobileCountryCode) {
+                    $('#user-desktop-country-code').val(response.responseText.defaultParams.userDefaultMobileCountryCode);
+                }
+            });
+        });
+
+        $(document).on('click', '._tedit', function(e){
             $('#frm-user')[0].reset();
             $('#user-attributes-section').html('');
             $('#add-user').show("slide", { direction: "right"});
+
+            tinymce.remove();
+            setTimeout(initTinyMce, 500);
+        });
+
+        $(document).on('click', '#process-old-mobile-phone-format', function(e){
+            e.preventDefault();
+            showConfirm('<?php echo $this->translate('Are you sure you want to process phone numbers?');?>', function(){
+                updatePhoneMobileFormat();
+            });
         });
 
         $('#add-user-attribute').on('click', function(e){
             e.preventDefault();
             addUserAttribute('');
+        });
+
+        $(document).on('click', '#send-email-invite', function(e){
+            var form = $(e.currentTarget).closest('form');
+
+            e.preventDefault();
+            showConfirm('<?php echo $this->translate('Are you sure you want to send an invitation?');?>', function(){
+                $.ajax({
+                    'url': '<?php echo $this->websiteUrl;?>'+'backend/backend_user/sendinvitation/',
+                    'data' : form.serialize(),
+                    'type' : 'POST',
+                    'dataType': 'json'
+                }).done(function(response){
+                    if (response.error == '0'){
+                        showMessage(response.responseText, false, 5000);
+                    } else {
+                        showMessage(response.responseText, true, 5000);
+                    }
+                });
+            });
         });
 
         $('#user-attributes').on('change', function() {
@@ -135,9 +315,90 @@
             addUserAttribute(attrName);
         });
 
+        window.parent.$('.ui-dialog').css({'height':600});
+
+        $('#user-default-timezone').on('change', function(){
+           var defaultAttrValue = $(this).val(),
+               defaultAttrName = $(this).data('default-attr');
+
+            saveDefaultParam(defaultAttrName, defaultAttrValue);
+
+        });
+
+        $('#user-default-mobile-phone-country-code').on('change', function(){
+            var defaultAttrValue = $(this).val(),
+                defaultAttrName = $(this).data('default-attr');
+
+            saveDefaultParam(defaultAttrName, defaultAttrValue);
+
+        });
+
+        function saveDefaultParam(defaultAttrName, defaultAttrValue) {
+
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/savedefault/',
+                'type': 'POST',
+                'dataType': 'json',
+                'data': {
+                    'defaultAttrName': defaultAttrName,
+                    'defaultAttrValue': defaultAttrValue,
+                    'secureToken': $('#secure-token-user-default-attribute').val()
+                }
+            }).done(function (response) {
+                if (response.error == '0') {
+                    showMessage(response.responseText, false, 5000);
+                } else {
+                    showMessage(response.responseText, true, 5000);
+                }
+
+            });
+
+        }
+
+
         $('a[href*="by/<?php echo $this->by ;?>/order/asc"].ticon-sort').addClass('ticon-sort-down');
         $('a[href*="by/<?php echo $this->by ;?>/order/desc"].ticon-sort').addClass('ticon-sort-up');
+
+        $(document).on('change', '.mobile-phone-country-codes', function(e) {
+            var countryEl = $(e.currentTarget),
+                chosenCountryCode = countryEl.val(),
+                deviceType = countryEl.data('device-type'),
+                desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>'),
+                mobileMasks = JSON.parse('<?php echo json_encode($this->mobileMasks);?>');
+
+            if (deviceType === 'mobile') {
+                if (typeof mobileMasks[chosenCountryCode] !== 'undefined') {
+                    $('#user-mobile-phone').mask(mobileMasks[chosenCountryCode].mask_value, {autoclear: false});
+                } else {
+                    $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
+                }
+            }
+
+            if (deviceType === 'desktop') {
+                if (typeof desktopMasks[chosenCountryCode] !== 'undefined') {
+                    $('#user-desktop-phone').mask(desktopMasks[chosenCountryCode].mask_value, {autoclear: false});
+                } else {
+                    $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
+                }
+            }
+        });
 	});
+
+    function updatePhoneMobileFormat(){
+        $.ajax({
+            url:'<?php echo $this->websiteUrl;?>backend/backend_update/updatemobilephonenumbers/',
+            type:"POST",
+            dataType:"json"
+        }).done(function(response) {
+            if(response.error == '0'){
+                updatePhoneMobileFormat();
+            } else {
+                showMessage(response.responseText.message, true, 5000);
+                $('#process-old-mobile-phone-format').remove();
+            }
+        });
+    }
+
     function userCallback() {
         location.reload();
     }
@@ -150,5 +411,27 @@
         var html = '<div class="grid_6"><input class="user-custom-attribute-name" type="text" name="attrName[]" value="' + attrName + '"></div>' +
             '<div class="grid_6"><input type="text" name="attrValue[]" value=""></div>';
         $('#user-attributes-section').append(html);
+    }
+
+    function afterUserEdit()
+    {
+        var mobileMasks = JSON.parse('<?php echo json_encode($this->mobileMasks);?>'),
+            desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>'),
+            mobileCountryCode = $('#user-mobile-country-code').val(),
+            desktopCountryCode = $('#user-desktop-country-code').val();
+
+        if (typeof mobileMasks[mobileCountryCode] !== 'undefined') {
+            $('#user-mobile-phone').mask(mobileMasks[mobileCountryCode].mask_value, {autoclear: false});
+        } else {
+            $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
+        }
+
+        if (typeof desktopMasks[desktopCountryCode] !== 'undefined') {
+            $('#user-desktop-phone').mask(desktopMasks[desktopCountryCode].mask_value, {autoclear: false});
+        } else {
+            $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
+        }
+
+
     }
 </script>

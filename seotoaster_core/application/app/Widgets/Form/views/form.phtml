@@ -29,7 +29,6 @@
         <?php endif; ?>
         <?php if ($this->useGoogleRecaptcha): ?>
             <?php
-            $this->inlineScript()->appendFile('https://www.google.com/recaptcha/api.js');
             $websiteConfig = Zend_Controller_Action_HelperBroker::getExistingHelper('config')->getConfig();
             ?>
             <div class="g-recaptcha" data-sitekey="<?php echo $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY];?>"></div>
@@ -108,6 +107,9 @@
                         if (response.error) {
 
                         } else {
+                            if (typeof seotoasterFormSuccessCallback === 'function') {
+                                seotoasterFormSuccessCallback();
+                            }
                             <?php if($this->trackingConversionUrl):?>
                             location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
                             return false;

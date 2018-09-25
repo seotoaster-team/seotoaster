@@ -73,14 +73,24 @@ $(function(){
     });
     //seotoaster delete item link
     $(document).on('click', 'a._tdelete', function(){
-        var el = this;
-        var url = $(this).attr('href');
-        var callback = $(this).data('callback');
-        var elId = $(this).data('eid');
+        var el = this,
+            url = $(this).attr('href'),
+            callback = $(this).data('callback'),
+            elId = $(this).data('eid'),
+            ignoreCustomMessage = $(this).data('ignore-custom-message'),
+            customDeleteMessage = $('#custom-delete-message').val(),
+            deleteDefaultMessage = 'You are about to remove an item. Are you sure?';
+
+
         if((typeof url=='undefined') || !url || url=='javascript:;'){
             url = $(this).data('url');
         }
-        smoke.confirm('You are about to remove an item. Are you sure?', function(e){
+
+        if (customDeleteMessage && !ignoreCustomMessage) {
+            deleteDefaultMessage = customDeleteMessage;
+        }
+
+        smoke.confirm(deleteDefaultMessage, function(e){
             if(e){
                 $.ajax({
                     url: url+'id/'+ elId,
@@ -198,7 +208,8 @@ $(function(){
     //seotoaster edit item link
     $(document).on('click', 'a._tedit', function(e){
         e.preventDefault();
-        var handleUrl = $(this).data('url');
+        var handleUrl = $(this).data('url'),
+            callback = $(this).data('callback');
         if(!handleUrl || handleUrl=='undefined'){
             handleUrl = $(this).attr('href');
         }
@@ -206,7 +217,16 @@ $(function(){
         $.post(handleUrl, {id : eid}, function(response){
             var formToLoad = $('#'+response.responseText.formId);
             for(var i in response.responseText.data){
-                $('[name='+i+']').val(response.responseText.data[i]);
+                if ($('[name='+i+']').length && $('[name='+i+']').is(':checkbox')) {
+                    if (response.responseText.data[i] == '1') {
+                        $('[name='+i+']').prop('checked', true);
+                    } else {
+                        $('[name='+i+']').prop('checked', false);
+                    }
+                } else {
+                    $('[name='+i+']').val(response.responseText.data[i]);
+                }
+
                 if(i=='password'){
                     $('[name='+i+']').val('');
                 }
@@ -216,6 +236,9 @@ $(function(){
                         '<div class="grid_6"><input type="text" name="attrValue[]" value="' + attrValue + '"></div>');
                     })
                 }
+            }
+            if (typeof callback != 'undefined' && callback != null) {
+                eval(callback + '()');
             }
         })
     });
@@ -253,6 +276,24 @@ $(function(){
         hideSpinner();
         checkboxRadioStyle();
     });
+    /// Show more widget ///
+    var elNode = $(this).find('.show-more-widget-close');
+    if(elNode.length > 0) {
+        elNode.addClass('text-close').hide();
+        $('.show-more-widget-button-show').on('click', function (e) {
+            e.preventDefault();
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close');
+            curentNode.show();
+            $(this).hide();
+        });
+        $('.show-more-widget-button-less').on('click', function (e) {
+            e.preventDefault();
+            var curentNode = $(this).closest('.show-more-content').find('.show-more-widget-close'),
+            showButton = $(this).closest('.show-more-content').find('.show-more-widget-button-show');
+            curentNode.hide();
+            showButton.show();
+        });
+    }
 });
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
@@ -264,7 +305,7 @@ $(document).on('click', '.screen-size', function(e){
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]')
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();
@@ -355,6 +396,24 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
 ///////// checkbox & radio button //////////////
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
+        $('.triple-switch').each(function(){
+            $('input:radio', this).not('.swt-processed').each(function(){
+                var id = $(this).prop('id'), labelClass;
+                if(!id.length){
+                    id = 'chr-'+Math.floor((Math.random()*100000)+1);
+                    $(this).prop('id', id);
+                }
+                if($(this).prop('class') || $(this).prop('class') !== 'undefined'){
+                    labelClass = $(this).prop('class');
+                }
+                $(this).after('<label for="'+ id +'" class="'+labelClass+'">'+ $(this).data("title") +'</label>');
+                $(this).addClass('swt-processed');
+            });
+            if(!$(this).find('span').length) {
+                $(this).append('<span></span>');
+            }
+        });
+
         $('input:checkbox, input:radio', '.seotoaster').not('.processed, .icon, .hidden').each(function(){
             var id = $(this).prop('id'), labelClass;
             if(!id.length){
@@ -389,7 +448,7 @@ function loginCheck(){
     if($.cookie('PHPSESSID')===null){
         showModalMessage('Session expired', 'Your session is expired! Please, login again', function(){
             top.location.href = $('#website_url').val();
-        })
+        });
         return false;
     }
     return true;
@@ -416,6 +475,28 @@ function showConfirm(msg, yesCallback, noCallback){
             }
         }
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
+}
+function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
+    var yes = 'Yes',
+        no = 'No';
+
+    if(typeof yesValue != 'undefined'){
+        yes = yesValue;
+    }
+    if(typeof noValue != 'undefined'){
+        no = noValue;
+    }
+    smoke.confirm(msg, function(e){
+        if(e){
+            if(typeof yesCallback!='undefined'){
+                yesCallback();
+            }
+        }else{
+            if(typeof noCallback!='undefined'){
+                noCallback();
+            }
+        }
+    }, {classname : 'error', ok : yes, cancel : no});
 }
 function showSpinner(e){
     var el = (typeof text === 'string' ? e : 'body>.seotoaster');
@@ -467,18 +548,27 @@ function generateStorageKey(){
     }
     return null;
 }
-function showMailMessageEdit(trigger, callback){
+function showMailMessageEdit(trigger, callback, recipient){
     $.getJSON($('#website_url').val()+'backend/backend_config/mailmessage/', {
-        'trigger' : trigger
+        'trigger' : trigger,
+        'recipient' : recipient
     }, function(response){
         $(msgEditScreen).remove();
-        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(response.responseText).css({
+        var msg = response.responseText.message,
+            dialogTitle = response.responseText.dialogTitle,
+            dialogOkay = response.responseText.dialogOkay;
+
+        dialogTitle = (dialogTitle.length > 0) ? dialogTitle : 'Edit mail message before sending';
+        dialogOkay = (dialogOkay.length > 0) ? dialogOkay : 'Okay';
+        msg = (msg) ? response.responseText.message : 'success';
+
+        var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(msg).css({
             resizable : "none"
         }));
-        $('#trigger-msg').val(response.responseText);
+        $('#trigger-msg').val(msg);
         msgEditScreen.dialog({
             modal     : true,
-            title     : 'Edit mail message before sending',
+            title     : dialogTitle,
             width     : 600,
             resizable : false,
             show      : 'clip',
@@ -486,7 +576,7 @@ function showMailMessageEdit(trigger, callback){
             draggable : false,
             buttons   : [
                 {
-                    text  : "Okay",
+                    text  : dialogOkay,
                     click : function(e){
                         msgEditScreen.dialog('close');
                         callback($('#trigger-msg').val());
