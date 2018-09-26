@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.4');
+('version',	'3.0.5');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -159,6 +159,7 @@ CREATE TABLE `form` (
   `admin_from` VARCHAR(255) DEFAULT NULL,
   `admin_from_name` VARCHAR (255) DEFAULT NULL,
   `admin_text` TEXT DEFAULT NULL,
+  `reply_email` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

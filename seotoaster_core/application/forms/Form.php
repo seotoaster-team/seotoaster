@@ -35,6 +35,8 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_id = null;
 
+    protected $_replyEmail = 0;
+
     public function init()
     {
         parent::init();
@@ -209,6 +211,15 @@ class Application_Form_Form extends Application_Form_Secure
                 'cols' => '45',
                 'rows' => '2',
                 'filters' => array('StringTrim')
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'reply-email',
+                'name' => 'replyEmail',
+                'label' => 'Don\'t send reply email',
+                'value' => $this->_replyEmail,
             ))
         );
 

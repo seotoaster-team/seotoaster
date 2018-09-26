@@ -89,13 +89,15 @@ class Backend_UpdateController extends Zend_Controller_Action
         if (count($this->_whatIsNew)) {
             $this->view->whatIsNew = $this->_whatIsNew;
         }
-        if ($this->_storeVersion) {
+
+        $this->view->localVersion = $this->_toasterVersion;
+        /*if ($this->_storeVersion) {
             $this->view->localVersion = $this->_storeVersion;
         } elseif ($this->_crmVersion) {
             $this->view->localVersion = $this->_crmVersion;
         } else {
             $this->view->localVersion = $this->_toasterVersion;
-        }
+        }*/
         if (!$this->_session->nextStep) {
             $this->_session->nextStep = 1;
         }
@@ -111,13 +113,15 @@ class Backend_UpdateController extends Zend_Controller_Action
          * Step 1: Checks the current version of the toaster. And if needs updating puts NextStep = 2
          */
 
-        if ($this->_storeVersion) {
+        $version = $this->_toasterVersion;
+
+        /*if ($this->_storeVersion) {
             $version = $this->_storeVersion;
         } elseif ($this->_crmVersion) {
             $version = $this->_crmVersion;
         } else {
             $version = $this->_toasterVersion;
-        }
+        }*/
 
         if ($this->_session->nextStep === 1) {
             $updateStatus = version_compare($this->_remoteVersion, $version);

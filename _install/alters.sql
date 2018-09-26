@@ -687,11 +687,16 @@ SELECT 'enableMinifyJs', `value` FROM `config` WHERE `name` = 'enableMinify';
 -- Add new prefix column
 ALTER TABLE `user` ADD COLUMN `prefix` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL AFTER `email`;
 
--- 11/09/2018
+-- 19/09/2018
 -- version: 3.0.3
+-- Add new reply_email column
+ALTER TABLE `form` ADD COLUMN `reply_email` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0' AFTER `admin_text`;
+
+-- 11/09/2018
+-- version: 3.0.4
 -- Add new exclude_category column
 ALTER TABLE `page` ADD COLUMN `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' AFTER `page_type`;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.4' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.5' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

@@ -34,6 +34,13 @@ class Backend_FormController extends Zend_Controller_Action {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         if($this->getRequest()->isPost()) {
             $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
+
+            $replyEmail = $this->getRequest()->getParam('replyEmail');
+            if(!empty($replyEmail)) {
+                $formForm->getElement('replySubject')->setRequired(false);
+                $formForm->getElement('replyFrom')->setRequired(false);
+            }
+
             if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
@@ -77,9 +84,17 @@ class Backend_FormController extends Zend_Controller_Action {
         
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		$formForm->getElement('adminMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
+
+        $replyEmail = 0;
 		if($form !== null) {
+		    if($form->getReplyEmail()) {
+                $replyEmail = 1;
+            }
+
 			$formForm->populate($form->toArray());
 		}
+
+        $this->view->replyEmail = $replyEmail;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
