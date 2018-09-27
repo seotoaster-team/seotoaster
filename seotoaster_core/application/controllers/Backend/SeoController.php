@@ -163,10 +163,14 @@ class Backend_SeoController extends Zend_Controller_Action {
         $pageNum = filter_var($request->getParam('paginationPnum'), FILTER_SANITIZE_NUMBER_INT);
         $searchName = filter_var($request->getParam('searchName'), FILTER_SANITIZE_STRING);
 
+        $searchParamFlag = false;
+
         if (!empty($searchName)) {
             $pages = $redirectMapper->fetchAllPages(true, $generalLimit, $searchName);
             $generalLimit = $pages['count'];
             $pages = $pages['select'];
+
+            $searchParamFlag = true;
         } else {
             $pages = $redirectMapper->fetchAllPages(false, $generalLimit);
         }
@@ -215,6 +219,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
             $this->view->pager = $pager;
         }
+        $this->view->searchParamFlag = $searchParamFlag;
         $this->view->redirects = $existingListing;
         $this->view->redirectsList = $this->view->render('backend/seo/loadredirectslist.phtml');
 	}

@@ -1,12 +1,20 @@
+<?php
+    $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/chosen/chosen.jquery.min.js');
+    $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css');
+?>
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
-		<form id="frm-redirects-search" class="grid_12 mb5px form-inline" action="/backend/backend_seo/loadredirectslist" method="post">
-			<div class="grid_12 alpha omega">
-				<label for="redirect-search"><?php echo $this->translate('Search');?>:</label>
-				<input type="text" name="redirect-search" id="redirect-search"/>
-				<input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
-			</div>
-		</form>
+        <div>
+            <form id="frm-redirects-search" class="grid_12 form-inline" action="/backend/backend_seo/loadredirectslist" method="post">
+                <div class="grid_10 alpha omega redirect-search-block">
+                    <?php echo $this->form->getElement('redirectSearch'); ?>
+                    <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+                </div>
+                <div class="grid_2 btn alpha omega clear-btn" style="margin-top:23px; display:none;">
+                    <?php echo $this->translate('Clear'); ?>
+                </div>
+            </form>
+        </div>
 	<div class="content-footer">
 		<form id="frm-redirects" class="_fajax grid_12 mb5px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
 			<div class="grid_5 alpha">
@@ -36,20 +44,3 @@
 	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.min.js'); ?>
-
-<script type="text/javascript">
-	$('#frm-redirects-search').submit(function(e) {
-		e.preventDefault();
-		var name = $('#redirect-search').val();
-		showSpinner();
-		$.ajax({
-			url: $('#website_url').val() + 'backend/backend_seo/loadredirectslist/searchName/' + name,
-			type: 'post',
-			dataType: 'json',
-			success: function (response) {
-				hideSpinner();
-				$('#redirects-box').find('#redirects-list').html(response.redirectsList);
-			}
-		});
-	});
-</script>

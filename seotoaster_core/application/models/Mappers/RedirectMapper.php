@@ -80,6 +80,8 @@ class Application_Model_Mappers_RedirectMapper extends Application_Model_Mappers
         if($flagLimit){
             if(!empty($searchName)){
                 $where = 'to_url LIKE "%' . $searchName . '%"';
+                $where .= ' OR from_url LIKE "%' . $searchName . '%"';
+                $where .= ' OR domain_from LIKE "%' . $searchName . '%"';
                 $select->where($where);
             }
             $resultSet = $this->getDbTable()->fetchAll($select);
