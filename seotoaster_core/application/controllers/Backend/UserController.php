@@ -103,13 +103,33 @@ class Backend_UserController extends Zend_Controller_Action {
         $select = $select->order($by . ' ' . $order);
 
         $paginatorOrderLink = '/by/' . $by . '/order/' . $order;
-        if (!empty($searchKey)) {
-            $select->where('email LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('full_name LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('role_id LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('last_login LIKE ?', '%'. date("Y-m-d", strtotime($searchKey)).'%')
-                ->orWhere('ipaddress LIKE ?', '%'.$searchKey.'%');
-            $paginatorOrderLink .= '/key/' . $searchKey;
+
+        $filterRole = filter_var($this->getParam('filter-by-user-role'), FILTER_SANITIZE_STRING);
+
+        if (!empty($searchKey) || !empty($filterRole)) {
+            $where = '';
+            if(!empty($filterRole)) {
+                $where = $this->_zendDbTable->getAdapter()->quoteInto('role_id = ?', $filterRole);
+
+                $this->view->userRole = $filterRole;
+                $paginatorOrderLink .= '/filter-by-user-role/' . $filterRole;
+            }
+
+            if(!empty($searchKey)) {
+                if(!empty($where)) {
+                    $where .= ' AND ';
+                }
+
+                $where .= '('.$this->_zendDbTable->getAdapter()->quoteInto('email LIKE ?', '%'.$searchKey.'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('full_name LIKE ?', '%'.$searchKey.'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('role_id LIKE ?', '%'.$searchKey.'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('last_login LIKE ?', '%'. date("Y-m-d", strtotime($searchKey)).'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('ipaddress LIKE ?', '%'.$searchKey.'%');
+                $where .= ')';
+                $paginatorOrderLink .= '/key/' . $searchKey;
+            }
+
+            $select->where($where);
         }
 
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
