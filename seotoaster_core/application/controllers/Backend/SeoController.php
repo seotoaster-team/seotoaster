@@ -11,7 +11,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
     const SILOCAT_REMOVE = 'remove';
 
-    const SEO_PAGINATION_LIMIT = 3;
+    const SEO_PAGINATION_LIMIT = 100;
 
     /**
      * @var Helpers_Action_Config
