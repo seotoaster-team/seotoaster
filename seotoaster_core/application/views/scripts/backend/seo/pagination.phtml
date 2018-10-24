@@ -1,5 +1,11 @@
 <?php if ($this->pageCount && $this->pageCount > 1): ?>
-    <div class="paginator grid_12 omega">
+    <div class="paginator seo-paginator grid_12 omega">
+        <?php if ($this->first != $this->current): ?>
+            <a class="paginations" data-page="<?php echo $this->first.$this->filterUrl;?>"> <?php echo $this->translate('First');?></a>
+        <?php else: ?>
+            <span class="disabled"><?php echo $this->translate('First'); ?></span>
+        <?php endif; ?>
+
         <?php if (isset($this->previous)): ?>
             <a class="paginations" data-page="<?php echo $this->previous.$this->filterUrl;?>"><?php echo $this->translate('Previous'); ?></a>
         <?php else: ?>
@@ -19,10 +25,21 @@
         <?php else: ?>
             <span class="disabled"><?php echo $this->translate('Next'); ?></span>
         <?php endif; ?>
+
+        <?php if ($this->last != $this->current): ?>
+            <a class="paginations" data-page="<?php echo $this->last.$this->filterUrl;?>"> <?php echo $this->translate('Last');?></a>
+        <?php else: ?>
+            <span class="disabled"><?php echo $this->translate('Last'); ?></span>
+        <?php endif; ?>
     </div>
 <?php endif; ?>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        var seoPaginator = $('.seo-paginator').detach();
+        $('#redirects-box').append(seoPaginator.get(0));
+    });
+
     $('.paginations').click(function(e) {
         showSpinner();
         e.preventDefault();

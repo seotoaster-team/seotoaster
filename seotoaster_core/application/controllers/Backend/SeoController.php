@@ -11,6 +11,8 @@ class Backend_SeoController extends Zend_Controller_Action {
 
     const SILOCAT_REMOVE = 'remove';
 
+    const SEO_PAGINATION_LIMIT = 3;
+
     /**
      * @var Helpers_Action_Config
      */
@@ -155,7 +157,7 @@ class Backend_SeoController extends Zend_Controller_Action {
 
 	public function loadredirectslistAction() {
         $redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
-        $paginationLimit = 100;
+        $paginationLimit = self::SEO_PAGINATION_LIMIT;
         $generalLimit = $redirectMapper->fetchAllPages(true);
         $generalLimit = $generalLimit['count'];
 
