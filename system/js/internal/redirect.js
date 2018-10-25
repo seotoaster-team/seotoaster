@@ -4,8 +4,10 @@ $(function() {
 	var toUrlDropDown = $('#to-url');
 	$('#urlType').click(function() {
 		if($(this).prop('checked')){
+            $('#to_url_chosen').show();
 			$('#to-url').replaceWith(toUrlDropDown);
 		}else{
+			$('#to_url_chosen').hide();
 			$('#to-url').replaceWith('<input type="text" id="to-url" name="toUrl" value="http://" />');
 		}
 	});
@@ -49,6 +51,37 @@ $(function() {
 			});
 		});
 	})
+});
+
+$(document).ready(function() {
+    $('#to-url').chosen({search_contains: true});
+
+    $('#frm-redirects-search').submit(function(e) {
+        e.preventDefault();
+        var name = $('#redirect-search').val();
+        showSpinner();
+        $.ajax({
+            url: $('#website_url').val() + 'backend/backend_seo/loadredirectslist/searchName/' + name,
+            type: 'post',
+            dataType: 'json',
+            success: function (response) {
+                hideSpinner();
+                $('#redirects-box').find('#redirects-list').html(response.redirectsList);
+            }
+        });
+    });
+
+    $(document).on('click', '.clear-btn', function () {
+        $('#redirect-search').val('');
+        $('#frm-redirects-search').trigger('submit');
+    });
+
+    $('#redirects-box').append($('.paginator'));
+    var count = $('.paginator').size();
+    var paginator = $('.not-mutch-paginator').size();
+    if(count > 1 || paginator == 1){
+        $('.paginator:last').remove();
+    }
 });
 
 //callback function for the ajax forms

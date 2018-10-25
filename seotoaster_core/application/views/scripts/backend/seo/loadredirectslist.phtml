@@ -17,14 +17,13 @@
 <?php endif;?>
 
 <script type="text/javascript">
-
-	$(function() {
-		$('#redirects-box').append($('.paginator'));
-		var count = $('.paginator').size();
-		var paginator = $('.not-mutch-paginator').size();
-		if(count > 1 || paginator == 1){
-			$('.paginator:last').remove();
-		}
-	})
-
+    $(document).ready(function() {
+        if('<?php echo $this->searchParamFlag;?>') {
+            $('.redirect-search-block').removeClass('grid_12').addClass('grid_10');
+            $('.clear-btn').show();
+        } else {
+            $('.redirect-search-block').removeClass('grid_10').addClass('grid_12');
+            $('.clear-btn').hide();
+        }
+    });
 </script>
