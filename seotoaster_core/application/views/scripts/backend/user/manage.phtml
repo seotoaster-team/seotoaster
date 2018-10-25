@@ -113,9 +113,29 @@
                 </select>
             </p>
         </div>
-        <form class="grid_6 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
-            <input class="grid_9 alpha omega" type="text" name="key" value="<?php echo $this->key ?>">
-            <button class="btn grid_3 alpha omega mt0px ticon-search" type="submit"><?php echo $this->translate('Search'); ?></button>
+        <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+            <div class="grid_3 alpha">
+                <?php
+                $acl = Zend_Registry::get('acl');
+                $roles = array_filter($acl->getRoles(), function($role){
+                    return (($role !== Tools_Security_Acl::ROLE_SUPERADMIN) && $role !== Tools_Security_Acl::ROLE_GUEST);
+                });
+                asort($roles);
+                ?>
+
+                <select id="filter-by-user-role" name="filter-by-user-role" class="grid_12 alpha omega">
+                    <option value="0"><?php echo $this->translate('Filter by role');?></option>
+                    <option value="superadmin" <?php echo ($this->userRole == 'superadmin') ? 'selected' : '';?>><?php echo $this->translate('Superadmin');?></option>
+                    <?php foreach($roles as $role) :?>
+                        <option value="<?php echo $role;?>" <?php echo ($this->userRole == $role) ? 'selected' : '';?>><?php echo $this->translate(ucfirst($role));?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <div class="grid_8 alpha omega mt0px">
+                <input class="<?php echo ($this->key != '' || $this->userRole != null) ? 'grid_7' : 'grid_8';?> alpha omega search-input" type="text" name="key" value="<?php echo $this->key ?>">
+                <button class="btn grid_4 alpha omega mt0px ticon-search search-btn" type="submit"><?php echo $this->translate('Search'); ?></button>
+                <span class="btn alpha grid_1 mt0px search-btn-clear" style="display:<?php echo ($this->key != '' || $this->userRole != null) ? 'block' : 'none';?>"><?php echo $this->translate('X'); ?></span>
+            </div>
         </form>
 		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
         <span class="clearfix"></span>
@@ -434,4 +454,15 @@
 
 
     }
+
+    $(document).on('change', '#filter-by-user-role', function () {
+        $('.search-btn').trigger('click');
+    });
+
+    $(document).on('click', '.search-btn-clear', function () {
+       $('#filter-by-user-role').val(0);
+       $('.search-input').val('');
+
+        $('.search-btn').trigger('click');
+    });
 </script>
