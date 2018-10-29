@@ -115,15 +115,20 @@
         </div>
         <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
             <div class="grid_3 alpha">
+                <?php
+                $acl = Zend_Registry::get('acl');
+                $roles = array_filter($acl->getRoles(), function($role){
+                    return (($role !== Tools_Security_Acl::ROLE_SUPERADMIN) && $role !== Tools_Security_Acl::ROLE_GUEST);
+                });
+                asort($roles);
+                ?>
+
                 <select id="filter-by-user-role" name="filter-by-user-role" class="grid_12 alpha omega">
                     <option value="0"><?php echo $this->translate('Filter by role');?></option>
                     <option value="superadmin" <?php echo ($this->userRole == 'superadmin') ? 'selected' : '';?>><?php echo $this->translate('Superadmin');?></option>
-                    <option value="admin" <?php echo ($this->userRole == 'admin') ? 'selected' : '';?>><?php echo $this->translate('Admin');?></option>
-                    <option value="member" <?php echo ($this->userRole == 'member') ? 'selected' : '';?>><?php echo $this->translate('Member');?></option>
-                    <option value="copywriter" <?php echo ($this->userRole == 'copywriter') ? 'selected' : '';?>><?php echo $this->translate('Copywriter');?></option>
-                    <option value="customer" <?php echo ($this->userRole == 'customer') ? 'selected' : '';?>><?php echo $this->translate('Customer');?></option>
-                    <option value="sales person" <?php echo ($this->userRole == 'sales person') ? 'selected' : '';?>><?php echo $this->translate('Sales person');?></option>
-
+                    <?php foreach($roles as $role) :?>
+                        <option value="<?php echo $role;?>" <?php echo ($this->userRole == $role) ? 'selected' : '';?>><?php echo $this->translate(ucfirst($role));?></option>
+                    <?php endforeach;?>
                 </select>
             </div>
             <div class="grid_8 alpha omega mt0px">
