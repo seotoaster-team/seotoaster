@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.5');
+('version',	'3.0.6');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -450,6 +450,24 @@ CREATE TABLE `page_types` (
 
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
+
+DROP TABLE IF EXISTS `page_types_access`;
+CREATE TABLE `page_types_access` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `resource_type` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`, `resource_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
+('1', 'list_pages'),
+('1', 'link_list'),
+('1', 'organize_pages'),
+('1', 'seo_pages'),
+('2', 'seo_pages'),
+('3', 'seo_pages'),
+('1', 'sitemap_pages'),
+('2', 'sitemap_pages'),
+('3', 'sitemap_pages');
 
 DROP TABLE IF EXISTS `masks_list`;
 CREATE TABLE `masks_list` (
@@ -921,3 +939,4 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('ZM',	'desktop',	'99-999-9999',	'99-999-9999'),
 ('ZW',	'mobile',	'9-999999',	'9-999999'),
 ('ZW',	'desktop',	'9-999999',	'9-999999');
+

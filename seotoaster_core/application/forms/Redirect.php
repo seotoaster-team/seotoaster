@@ -11,6 +11,8 @@ class Application_Form_Redirect extends Application_Form_Secure {
 
 	protected $_toUrl        = '';
 
+	protected $_search        = '';
+
 	protected $_toasterPages = array();
 
 
@@ -23,6 +25,7 @@ class Application_Form_Redirect extends Application_Form_Secure {
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'         => 'from-url',
 			'name'       => 'fromUrl',
+            'attribs'    => array('autocomplete' => 'off'),
 			'label'      => 'Former url',
 			'value'      => $this->_fromUrl,
 			'required'   => true,
@@ -34,6 +37,17 @@ class Application_Form_Redirect extends Application_Form_Secure {
 				new Filters_UrlScheme()
 			)
 		)));
+
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'id'         => 'redirect-search',
+            'name'       => 'redirectSearch',
+            'attribs'    => array('autocomplete' => 'off'),
+            'label'      => 'Search',
+            'value'      => $this->_search,
+            'filters'    => array(
+                new Zend_Filter_StringTrim()
+            )
+        )));
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
 			'name'    => 'urlType',
@@ -47,7 +61,8 @@ class Application_Form_Redirect extends Application_Form_Secure {
 			'id'         => 'to-url',
 			'value'      => $this->_toUrl,
 			//'label'      => 'Url',
-			'class'      => '_tdropdown',
+            'attribs'    => array('data-placeholder' => 'Select local url'),
+			'class'      => '_tdropdown chosen-select',
 			'filters'    => array(
 				new Zend_Filter_StringTrim(),
 				new Filters_UrlScheme()
@@ -79,6 +94,16 @@ class Application_Form_Redirect extends Application_Form_Secure {
 		$this->getElement('fromUrl')->setValue($fromUrl);
 		return $this;
 	}
+
+    public function getSearch() {
+        return $this->_search;
+    }
+
+    public function setSearch($search) {
+        $this->_search = $search;
+        $this->getElement('search')->setValue($search);
+        return $this;
+    }
 
 	public function getToUrl() {
 		return $this->_toUrl;
