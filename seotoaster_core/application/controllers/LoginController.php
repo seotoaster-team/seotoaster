@@ -51,7 +51,7 @@ class LoginController extends Zend_Controller_Action {
 						}
 
                         if($authUserData->role_id == Tools_Security_Acl::ROLE_SUPERADMIN) {
-                            $superAdminRedirectPageModel = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption('option_superadminredirect', true);
+                            $superAdminRedirectPageModel = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption('option_adminredirect', true);
                             if ($superAdminRedirectPageModel instanceof Application_Model_Models_Page) {
                                 $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
                             }

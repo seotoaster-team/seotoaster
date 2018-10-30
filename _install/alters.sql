@@ -715,7 +715,7 @@ INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
 -- 30/10/18
 -- version: 3.0.5
 INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) VALUES
-  ('option_superadminredirect',	'Page where superadmin will be redirected after login',	'Redirect',	1,	'once');
+  ('option_adminredirect',	'Page where superadmin will be redirected after login',	'Redirect',	1,	'once');
 
 -- These alters are always the latest and updated version of the database
 UPDATE `config` SET `value`='3.0.6' WHERE `name`='version';
