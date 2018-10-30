@@ -11,10 +11,15 @@
                     <img src="<?php echo $image['path']; ?>"
                          alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
                          width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
-                </a>
+                <?php if (!isset($this->block)): ?></a><?php endif;?>
                 <?php if ($this->useCaption): ?>
-                    <p class="image_caption"><?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?></p>
+                    <p class="image_caption"><?php echo Tools_System_Tools::makeGap(Tools_System_Tools::cutExtension($image['name'])); ?></p>
                 <?php endif; ?>
+                <?php if (!empty($this->withContainer)):?>
+                    <div class="gallery_image_description">
+                        {$content:gallContent-<?php echo md5($this->folder . $image['name']);?>}
+                    </div>
+                <?php endif;?>
             </li>
         <?php endforeach; ?>
     </ul>

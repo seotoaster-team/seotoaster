@@ -97,6 +97,12 @@ class Tools_Content_Parser
         return $this->_content;
     }
 
+    public function parseWidgetsOnly()
+    {
+        $this->_runWidgets();
+        return $this->_content;
+    }
+
     /**
      * @return $this
      */

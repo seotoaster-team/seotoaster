@@ -4,13 +4,18 @@ class Widgets_Gal_Gal extends Widgets_Abstract
 {
     const DEFAULT_THUMB_SIZE = '250';
 
+    const WITH_CONTAINER_CONTENT = 'withContent';
+
     private $_websiteHelper  = null;
+
+    protected $_session = null;
 
     protected function _init()
     {
         parent::_init();
         $this->_view             = new Zend_View(array('scriptPath' => dirname(__FILE__).'/views'));
         $this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $this->_session  = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
         $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
         array_push($this->_cacheTags, __CLASS__);
     }
@@ -25,7 +30,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         ) {
             throw new Exceptions_SeotoasterException($this->_translator->translate('You should specify folder.'));
         }
-
+        $userRole = $this->_session->getCurrentUser()->getRoleId();
         $path = $this->_websiteHelper->getPath().$this->_websiteHelper->getMedia().$this->_options[0]
             .DIRECTORY_SEPARATOR;
         $configHelper        = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
@@ -33,7 +38,11 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         unset($configHelper);
 
         if (!is_dir($path)) {
-            throw new Exceptions_SeotoasterException($path . ' is not a directory.');
+            if($userRole == Tools_Security_Acl::ROLE_ADMIN || $userRole == Tools_Security_Acl::ROLE_SUPERADMIN){
+                throw new Exceptions_SeotoasterException($path . ' is not a directory.');
+            }else{
+                return '';
+            }
         }
 
         $pathFileOriginal = $path.Tools_Image_Tools::FOLDER_ORIGINAL.DIRECTORY_SEPARATOR;
@@ -122,6 +131,10 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $this->_view->block = $this->_options[4];
         }
 
+        $withContainer = array_search(self::WITH_CONTAINER_CONTENT, $this->_options);
+        if ($withContainer !== false) {
+            $this->_view->withContainer = true;
+        }
 
         return $this->_view->render('gallery.phtml');
     }

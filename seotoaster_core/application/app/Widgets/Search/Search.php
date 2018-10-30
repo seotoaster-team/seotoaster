@@ -9,6 +9,8 @@ class Widgets_Search_Search extends Widgets_Abstract
 {
     const INDEX_FOLDER        = 'search';
 
+    const SEARCH_STRICT        = 'strict';
+
     const PAGE_OPTION_SEARCH  = 'option_search';
 
     const SEARCH_LIMIT_RESULT = 20;
@@ -21,6 +23,8 @@ class Widgets_Search_Search extends Widgets_Abstract
 
     private $_websiteHelper   = null;
 
+    private $_strict   = false;
+
     protected function _init()
     {
         parent::_init();
@@ -31,7 +35,7 @@ class Widgets_Search_Search extends Widgets_Abstract
 
         $this->_websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 
-        if (in_array('results', $this->_options) || in_array('links', $this->_options)) {
+        if (in_array('results', $this->_options) || in_array('links', $this->_options) || in_array('dropdown', $this->_options)) {
             $this->_cacheable = false;
         }
 
@@ -89,19 +93,42 @@ class Widgets_Search_Search extends Widgets_Abstract
         }
 
         $searchForm = new Application_Form_Search();
-        $searchFormAction = $searchResultPage->getUrl();
-        if ($searchFormAction !== 'index.html') {
+        $dropDownSearchFlag = array_search('dropdown', $this->_options);
+        if(false === $dropDownSearchFlag){
+          $searchFormAction = $searchResultPage->getUrl();
+          if ($searchFormAction !== 'index.html') {
             $searchForm->setAction($this->_websiteHelper->getUrl() . $searchFormAction);
-        } else {
+          } else {
             $searchForm->setAction($this->_websiteHelper->getUrl());
+          }
         }
         $this->_view->searchForm = $searchForm;
 
         $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(
                 Tools_Security_Acl::RESOURCE_USERS
             ) && Tools_Search_Tools::isEmpty();
-
-        return $this->_view->render('form.phtml');
+        if (false === $dropDownSearchFlag) {
+            return $this->_view->render('form.phtml');
+        } else {
+            $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
+            $filterPageType = array();
+            if (!empty($pageTypes) && !empty($this->_options[1])) {
+                $filterPageTypeConf = explode(',', $this->_options[1]);
+                $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
+            }
+            $limit = is_numeric(end($this->_options)) ? filter_var(
+                end($this->_options),
+                FILTER_SANITIZE_NUMBER_INT
+            ) : self::SEARCH_LIMIT_RESULT;
+            $this->_view->limit = $limit;
+            $this->_view->filterPageType = $filterPageType;
+            $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
+            $searhResultPage = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption(self::PAGE_OPTION_SEARCH);
+            if(!empty($searhResultPage)){
+                $this->_view->searhResultPageUrl = $searhResultPage[0]->getUrl();
+            }
+            return $this->_view->render('dropdownForm.phtml');
+        }
     }
 
     private function _renderSearchResults()
@@ -110,6 +137,12 @@ class Widgets_Search_Search extends Widgets_Abstract
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
         $params = $request->getParams();
+
+        $strictNumber = array_search(self::SEARCH_STRICT, $this->_options);
+        if ($strictNumber !== false)  {
+            $this->_strict = true;
+            unset($this->_options[$strictNumber]);
+        }
 
         $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
         $filterPageType = array();
@@ -184,8 +217,18 @@ class Widgets_Search_Search extends Widgets_Abstract
             ) {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
-                $searchTermArray = explode(' ', $searchTerm);
-                $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                if (empty($this->_strict)) {
+                    $searchTermArray = trim($searchTerm, '*') . '*';
+                    $pattern = new Zend_Search_Lucene_Index_Term($searchTermArray);
+                    $query = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
+                } else {
+                    $searchTermArray = explode(' ', $searchTerm);
+                    $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                }
+
+                if (empty($this->_strict)) {
+                    $querySearch = $query;
+                }
                 try {
                     if (in_array(self::OPTION_SORT_RECENT, $this->_options)
                         && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
@@ -195,7 +238,19 @@ class Widgets_Search_Search extends Widgets_Abstract
                         $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
                     }
                 } catch (Exception $e) {
-                    throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                    if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                        $searchTermArray = explode(' ', rtrim( $searchTerm, '*'));
+                        $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                        if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                            && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'), 'modified', SORT_DESC);
+                        } else {
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
+                        }
+                    } else {
+                        throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                    }
                 }
                 $cacheTags     = array('search_' . $searchTerm);
                 $searchResults = array_map(

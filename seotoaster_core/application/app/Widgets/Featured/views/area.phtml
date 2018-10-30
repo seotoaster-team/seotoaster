@@ -9,13 +9,16 @@
     <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
         <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order') . ' - <em>' . $this->faName . '</em>';?></a>
     <?php endif; ?>
-    <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem <?php echo $this->listClass; ?>">
+    <ul class="featureditem <?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?> <?php echo $this->listClass; ?>">
+        <?php $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance(); ?>
         <?php foreach($this->faPages as $page): ?>
         <?php if (isset($this->tmplFaContent)) : ?>
             <li>
             <?php
                 if ($page instanceof Application_Model_Models_Page) {
-                    $parser = new Tools_Content_Parser($this->tmplFaContent, $page->toArray());
+                    $pageData = $page->toArray();
+                    $pageData['containers'] = $containerMapper->getContainersWithHash($page->getId());
+                    $parser = new Tools_Content_Parser($this->tmplFaContent, $pageData);
                     echo $parser->parseSimple();
                     unset($parser);
                 }
@@ -41,7 +44,19 @@
 
                 <?php if($page->getExternalLinkStatus() === '1'):?>
                     <?php $pageUrl = $this->escape($page->getExternalLink());?>
-                    <?php $targetBlank = 'target="_blank"';?>
+                    <?php
+                        $targetBlank = '';
+                        if(!empty($this->denyBlank)){
+                            $host = parse_url($pageUrl, PHP_URL_HOST);
+                            $toasterHost = parse_url($this->websiteUrl, PHP_URL_HOST);
+                            if($toasterHost != $host){
+                                $targetBlank = 'target="_blank"';
+                            }
+                        }else{
+                            $targetBlank = 'target="_blank"';
+                        }
+                    ?>
+
                 <?php else:?>
                     <?php $pageUrl = $this->escape($this->websiteUrl.$url);?>
                     <?php $targetBlank = '';?>
@@ -80,8 +95,14 @@
                     ?>
                     <a class="page-teaser-image" href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?>><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->websiteUrl.$this->escape($path); ?>" /></a>
                 <?php endif; ?>
+                <?php if (!empty($this->pageTitleWrapEl)): ?>
+                    <<?php echo trim($this->pageTitleWrapEl);?> class="<?php echo $this->pageTitleWrapClasses;?>">
+                <?php endif;?>
                 <a href="<?php echo $pageUrl; ?>" title="<?php echo strip_tags($page->getH1()); ?>" <?php echo $targetBlank;?> class="page-title"><?php echo $page->getNavName(); ?></a>
-	            <?php if ($this->faPageDescriptionLength): ?>
+                <?php if (!empty($this->pageTitleWrapEl)): ?>
+                    </<?php echo trim($this->pageTitleWrapEl);?>>
+                <?php endif;?>
+                <?php if ($this->faPageDescriptionLength): ?>
                 <span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
                 <?php endif;?>
             </li>

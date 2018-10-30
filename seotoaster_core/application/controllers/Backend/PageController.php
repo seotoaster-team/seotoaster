@@ -8,9 +8,24 @@ class Backend_PageController extends Zend_Controller_Action {
 
     const DEFAULT_TEMPLATE = 'default';
 
-    public static $_allowedActions = array('publishpages', 'listpages');
+    public static $_allowedActions = array('publishpages');
 
     protected $_mapper             = null;
+
+    /**
+     * Resource for list pages action
+     */
+    const LIST_PAGES = 'list_pages';
+
+    /**
+     * Resource for link list action
+     */
+    const LINK_LIST = 'link_list';
+
+    /**
+     * Resource for organize pages action
+     */
+    const ORGANIZE_PAGES = 'organize_pages';
 
     public function init() {
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
@@ -46,9 +61,14 @@ class Backend_PageController extends Zend_Controller_Action {
 
         $this->view->secureToken = $secureToken;
 
+        $this->view->pageId = '';
+        $this->view->pageType = '1';
         if ($pageId) {
             // search page by id
             $page = $mapper->find($pageId);
+            $this->view->pageId = $pageId;
+            $this->view->pageType = $page->getPageType();
+            $this->view->excludeCategory = $page->getExcludeCategory();
         } else {
             // load new page
             $page = new Application_Model_Models_Page(array('showInMenu' => Application_Model_Models_Page::IN_MAINMENU));
@@ -375,10 +395,10 @@ class Backend_PageController extends Zend_Controller_Action {
         }
 
         $tree = array();
-        $categories = $pageMapper->findByParentId(0);
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::ORGANIZE_PAGES);
+        $categories = $pageMapper->findByParentId(0, false, $allowedPageTypes);
         if(is_array($categories) && !empty ($categories)) {
             foreach ($categories as $category) {
-	            // TODO: remove next check and code something smart
 	            if ($category->getDraft()){
 		            continue;
 	            }
@@ -393,18 +413,28 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->view->secureToken = $secureToken;
         $this->view->helpSection = 'organize';
         $this->view->staticMenu  = $pageMapper->fetchAllStaticMenuPages();
-        $this->view->noMenu      = $pageMapper->fetchAllNomenuPages();
+        $this->view->noMenu      = $pageMapper->fetchAllNomenuPages($allowedPageTypes);
     }
 
     public function listpagesAction() {
-        $where        = $this->_getProductCategoryPageWhere();
-        $templateName = $this->getRequest()->getParam('template', '');
+        $where = '';
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LIST_PAGES);
+        if (!empty($allowedPageTypes)) {
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $allowedPageTypes);
+        }
+        $templateName = filter_var($this->getRequest()->getParam('template', ''), FILTER_SANITIZE_STRING);
+
         if($templateName) {
             $this->view->templateName = $templateName;
-            $where                    = 'template_id="' . $templateName . '"';
+            if (!empty($where)) {
+                $where .= ' AND ';
+            }
+            $where .= 'template_id="' . $templateName . '"';
+
         }
         if($this->getRequest()->getParam('categoryName', false)) {
-            $page = Application_Model_Mappers_PageMapper::getInstance()->findByNavName($this->getRequest()->getParam('categoryName'));
+            $page = $pageMapper->findByNavName($this->getRequest()->getParam('categoryName'));
             $pageId = $page->getId();
         }
         elseif($this->getRequest()->getParam('pageId', false)) {
@@ -412,7 +442,7 @@ class Backend_PageController extends Zend_Controller_Action {
         }
 
         if(isset($pageId) && $pageId) {
-            if($where == null) {
+            if (empty($where)) {
                 $where .= ' parent_id ="' . $pageId . '"';
             }
             else {
@@ -420,8 +450,8 @@ class Backend_PageController extends Zend_Controller_Action {
             }
         }
 
-        $pages    = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'));
-        $sysPages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1 ASC'), true);
+        $pages    = $pageMapper->fetchAll($where, array('h1 ASC'));
+        $sysPages = $pageMapper->fetchAll($where, array('h1 ASC'), true);
         $pages    = array_merge((array)$pages, (array)$sysPages);
         $this->view->responseData = array_map(function($page) {
             return $page->toArray();
@@ -432,15 +462,14 @@ class Backend_PageController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        $where = $this->_getProductCategoryPageWhere();
-        $whereQuote = $this->_getQuotePageWhere();
-        if($where !== null && $whereQuote !== null) {
-            $where .= ' AND ' . $whereQuote;
+        $where = null;
+        $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+        $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LINK_LIST);
+        if (!empty($allowedPageTypes)) {
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $allowedPageTypes);
         }
-        else {
-            $where .= $whereQuote;
-        }
-        $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array('h1'));
+
+        $pages = $pageMapper->fetchAll($where, array('h1'));
         if(!empty ($pages)) {
             $links = array();
             foreach ($pages as $page) {
@@ -501,19 +530,6 @@ class Backend_PageController extends Zend_Controller_Action {
         return sizeof($subpages);
     }
 
-    private function _getProductCategoryPageWhere() {
-        $productCategoryPage = Tools_Page_Tools::getProductCategoryPage();
-        return (($productCategoryPage instanceof Application_Model_Models_Page) ? 'parent_id != "' . $productCategoryPage->getId() . '"' : null);
-    }
-
-    private function _getQuotePageWhere() {
-        $quotePlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('quote');
-        if($quotePlugin !== null && $quotePlugin->getStatus() === Application_Model_Models_Plugin::ENABLED) {
-            return 'parent_id != "' . Quote::QUOTE_CATEGORY_ID . '"';
-        }
-        return null;
-    }
-
     private function _restoreOriginalValues($pageData) {
         $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageData['pageId'], true);
         $pageData['h1']              = $page->getH1();
@@ -552,7 +568,7 @@ class Backend_PageController extends Zend_Controller_Action {
 
         } else {
             $params['templateId'] = self::DEFAULT_TEMPLATE;
-            $params['h1'] = self::DEFAULT_TEMPLATE;
+            $params['h1'] = $params['navName'];
             $params['headerTitle'] = self::DEFAULT_TEMPLATE;
             $this->_helper->cache->clean();
         }
@@ -568,6 +584,111 @@ class Backend_PageController extends Zend_Controller_Action {
             $this->_helper->response->success(Application_Model_Mappers_PageMapper::getInstance()->isDraftCategory($categoryID));
         }
 
+    }
+
+    public function switchindexpageAction()
+    {
+        $data = $this->_request->getParams();
+        if ($this->getRequest()->isPost() && !empty($data['pageId'])) {
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_PAGES);
+            if (!$valid) {
+                $this->_helper->response->fail($this->_helper->language->translate('Token expired'));
+            }
+            $currentPageId = $data['pageId'];
+            $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+
+            $indexRenamedUrl = 'index-old.html';
+            $pageToRenameModel = $pageMapper->find($currentPageId);
+
+            if (!$pageToRenameModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('Page doesn\'t exist'));
+            }
+
+            $pageToRenameUrl = $pageToRenameModel->getUrl();
+            if ($pageToRenameUrl === 'index.html') {
+                $this->_helper->response->fail($this->_helper->language->translate('You can\'t assign index as index'));
+            }
+
+            $pageToRenameOptimized = $pageToRenameModel->getOptimized();
+            if (!empty($pageToRenameOptimized)) {
+                $this->_helper->response->fail($this->_helper->language->translate('This page is optimized. Remove the optimization before assigning it as Index page'));
+            }
+
+            $pageToRenameExternalLink = $pageToRenameModel->getExternalLinkStatus();
+            if (!empty($pageToRenameExternalLink)) {
+                $this->_helper->response->fail($this->_helper->language->translate('This page leads to an external site. Remove the link before assigning it as Index page'));
+            }
+
+            $pageToRenamePageType = $pageToRenameModel->getPageType();
+            if ($pageToRenamePageType !== '1') {
+                $this->_helper->response->fail($this->_helper->language->translate('You can\'t assign not regular pages as index page'));
+            }
+
+            $pageToRenameParentId = $pageToRenameModel->getParentId();
+            if ($pageToRenameParentId === '0') {
+                $this->_helper->response->fail($this->_helper->language->translate('A category page can\'t be assigned as Index page'));
+            }
+
+            $pageToRenamePageOptions = $pageToRenameModel->getExtraOptions();
+            if (!empty($pageToRenamePageOptions)) {
+                $this->_helper->response->fail($this->_helper->language->translate('This page has external options. Remove them before assign it as Index page'));
+            }
+
+            $oldIndexPageModel = $pageMapper->findByUrl($indexRenamedUrl);
+            if ($oldIndexPageModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('You already have index-old.html please remove or rename it'));
+            }
+
+            //processing original index page to temporary index-old page
+            $indexPageModel = $pageMapper->findByUrl('index.html');
+            if (!$indexPageModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('Index page missing'));
+            }
+
+            $indexOptimized = $indexPageModel->getOptimized();
+            if (!empty($indexOptimized)) {
+                $this->_helper->response->fail($this->_helper->language->translate('Index page has optimization. Please remove it'));
+            }
+
+            $indexPageModel->setUrl($indexRenamedUrl);
+
+            $indexPreviewImagePath = $this->_helper->website->getPath() . $this->_helper->website->getPreview() . $indexPageModel->getPreviewImage();
+            $indexPreviewImageName = Tools_Page_Tools::processPagePreviewImage($indexRenamedUrl,
+                $indexPreviewImagePath);
+            $indexPageModel->setPreviewImage($indexPreviewImageName);
+
+            $pageMapper->save($indexPageModel);
+
+            //processing new index page
+            $newIndexPreviewImagePath = $this->_helper->website->getPath() . $this->_helper->website->getPreview() . $pageToRenameModel->getPreviewImage();
+            $newPreviewIndexImageName = Tools_Page_Tools::processPagePreviewImage('index.html',
+                $newIndexPreviewImagePath);
+            $pageToRenameModel->setUrl('index.html');
+            $pageToRenameModel->setPreviewImage($newPreviewIndexImageName);
+            $pageToRenameModel->setParentId('0');
+            $pageToRenameModel->setShowInMenu('1');
+            $pageMapper->save($pageToRenameModel);
+
+
+            //processing temporary index page to the renamed page
+            $renamedIndexPageModel = $pageMapper->findByUrl('index-old.html');
+            if (!$renamedIndexPageModel instanceof Application_Model_Models_Page) {
+                $this->_helper->response->fail($this->_helper->language->translate('Temporary index page not found'));
+            }
+            $indexRenamedImagePath = $this->_helper->website->getPath() . $this->_helper->website->getPreview() . $renamedIndexPageModel->getPreviewImage();
+            $previewIndexRenamedImageName = Tools_Page_Tools::processPagePreviewImage($pageToRenameUrl,
+                $indexRenamedImagePath);
+            $renamedIndexPageModel->setUrl($pageToRenameUrl);
+            $renamedIndexPageModel->setPreviewImage($previewIndexRenamedImageName);
+            $renamedIndexPageModel->setParentId('-1');
+            $pageMapper->save($renamedIndexPageModel);
+
+            $this->_helper->cache->clean();
+
+            $this->_helper->response->success($this->_helper->language->translate('Switch has been done'));
+
+        }
     }
 }
 

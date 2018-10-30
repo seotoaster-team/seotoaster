@@ -30,7 +30,13 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
             'reply_text' => $form->getReplyText(),
             'captcha' => $form->getCaptcha(),
             'mobile' => $form->getMobile(),
-            'enable_sms' => $form->getEnableSms()
+            'enable_sms' => $form->getEnableSms(),
+            'admin_subject' => $form->getAdminSubject(),
+            'admin_from' => $form->getAdminFrom(),
+            'admin_from_name' => $form->getAdminFromName(),
+            'admin_text' => $form->getAdminText(),
+            'admin_mail_template' => $form->getAdminMailTemplate(),
+            'reply_email' => $form->getReplyEmail()
         );
 
         if (!($id = $form->getId())) {

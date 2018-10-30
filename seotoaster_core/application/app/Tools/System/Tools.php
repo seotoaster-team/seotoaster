@@ -21,6 +21,10 @@ class Tools_System_Tools {
 
     const RECAPTCHA_PRIVATE_KEY = 'recaptchaPrivateKey';
 
+    const GRECAPTCHA_PUBLIC_KEY = 'grecaptchaPublicKey';
+
+    const GRECAPTCHA_PRIVATE_KEY = 'grecaptchaPrivateKey';
+
     const CSRF_SECURE_TOKEN = 'secureToken';
 
     const ACTION_PREFIX_CONFIG = 'Config';
@@ -30,6 +34,8 @@ class Tools_System_Tools {
     const ACTION_PREFIX_PAGES = 'Pages';
 
     const ACTION_PREFIX_USERS = 'Users';
+
+    const ACTION_PREFIX_LOGIN = 'Login';
 
     const ACTION_PREFIX_FORMS = 'Forms';
 
@@ -138,7 +144,7 @@ class Tools_System_Tools {
             $files = array_diff($files, $exclude);
 
 		}
-		$zipArch->open($destinationFile, ZipArchive::OVERWRITE);
+		$zipArch->open($destinationFile, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
 		if(!empty ($files)) {
 			foreach ($files as $key => $path) {
 				$zipArch->addFile($path, substr($path, strpos($path, $localName)));
@@ -280,12 +286,30 @@ class Tools_System_Tools {
 		}
 	}
 
-    public static function fetchSystemtriggers() {
-        $triggers      = array();
-        $config        = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
-        if($config) {
+    /**
+     * Fetch system action emails triggers
+     *
+     * @return array
+     */
+    public static function fetchSystemtriggers()
+    {
+        $triggers = array();
+        $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/' . SITE_NAME . '.ini', 'actiontriggers');
+        if ($config) {
             $triggers = $config->actiontriggers->toArray();
+            $additionalSystemTriggersPath = Zend_Controller_Action_HelperBroker::getExistingHelper('website')->getPath() . 'system'.DIRECTORY_SEPARATOR.'system-action-emails.ini';
+            if (file_exists($additionalSystemTriggersPath)) {
+                $additionalSystemTriggers = new Zend_Config_Ini($additionalSystemTriggersPath, 'actiontriggers');
+                if (!empty($additionalSystemTriggers) && !empty($triggers['seotoaster']['trigger'])) {
+                    $additionalSystemTriggers = $additionalSystemTriggers->actiontriggers->toArray();
+                    if (!empty($additionalSystemTriggers['seotoaster']) && !empty($additionalSystemTriggers['seotoaster']['trigger'])) {
+                        $triggers['seotoaster']['trigger'] = array_merge($triggers['seotoaster']['trigger'],
+                            $additionalSystemTriggers['seotoaster']['trigger']);
+                    }
+                }
+            }
         }
+
         return $triggers;
     }
 
@@ -373,23 +397,40 @@ class Tools_System_Tools {
         return ($version && intval($version) < $notBelowVersion) ? false : true;
     }
 
-    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array()) {
+    public static function getCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $withoutCache = false) {
+        if ($withoutCache === true) {
+            return self::processPhoneCodes($withCountryCode, $intersect);
+        }
         $cache       = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
         $cachePrefix = strtolower(__CLASS__).'_';
         $cacheId     = strtolower(__FUNCTION__) . '_' . (int)$withCountryCode . '_' . json_encode($intersect);
         if (null === ($phoneCodes = $cache->load($cacheId, $cachePrefix))) {
-            $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
-            array_shift($phoneCodes);
-            if(!empty($intersect)) {
-                $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
-            }
-            array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
-                    $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
-                });
+            $phoneCodes = self::processPhoneCodes($withCountryCode, $intersect);
             $cache->save($cacheId, $phoneCodes, $cachePrefix, array(), Helpers_Action_Cache::CACHE_SHORT);
         }
         return $phoneCodes;
 
+    }
+
+    /**
+     * Process phone codes
+     *
+     * @param bool $withCountryCode with country code flag
+     * @param array $intersect intersect with params
+     * @return array
+     */
+    public static function processPhoneCodes($withCountryCode, $intersect)
+    {
+        $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+        array_shift($phoneCodes);
+        if(!empty($intersect)) {
+            $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+        }
+        array_walk($phoneCodes, function(&$item, $key) use($withCountryCode) {
+            $item = ($withCountryCode) ? '+' . $item . ' ' . $key : '+' . $item;
+        });
+
+        return $phoneCodes;
     }
 
     public static function getWebsiteCountryCode() {
@@ -411,7 +452,12 @@ class Tools_System_Tools {
 
     public static function makeSpace($content)
     {
-        return preg_replace("/[^A-Za-z0-9 ]/", '&nbsp;', $content);
+        return preg_replace('/[^A-Za-z0-9 ]/', '&nbsp;', $content);
+    }
+
+    public static function makeGap($content)
+    {
+        return preg_replace('~[^A-Za-z0-9]~', ' ', $content);
     }
 
     /**
@@ -515,4 +561,286 @@ class Tools_System_Tools {
         }
         return $sessionHelper->$tokenName;
     }
+
+    /**
+     * @param $email
+     * @param $userId
+     * @param string $expireIn
+     * @return Application_Model_Models_PasswordRecoveryToken|bool
+     */
+    public static function saveResetToken ($email, $userId, $expireIn = '+1 day') {
+        $resetToken = new Application_Model_Models_PasswordRecoveryToken(array(
+            'saltString' => $email,
+            'expiredAt'  => date(Tools_System_Tools::DATE_MYSQL, strtotime($expireIn, time())),
+            'userId'     => $userId
+        ));
+        $resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
+        if ($resetTokenId) {
+            return $resetToken;
+        }
+        return false;
+    }
+
+    /**
+     * Find user timezone by id.
+     * If id does not provided then timezone based on logged user id will be returned
+     *
+     * @param int $userId system user id
+     * @return string
+     */
+    public static function getUserTimezone($userId = 0)
+    {
+        if (empty($userId)) {
+            $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
+            $userId = $sessionHelper->getCurrentUser()->getId();
+        }
+
+        if (empty($userId)) {
+            return 'UTC';
+        }
+        $userModel = Application_Model_Mappers_UserMapper::getInstance()->find($userId);
+        if (!$userModel instanceof Application_Model_Models_User) {
+            return 'UTC';
+        }
+
+        $userTimeZone = $userModel->getTimezone();
+
+        if (empty($userTimeZone)) {
+            return 'UTC';
+        }
+
+        return $userTimeZone;
+    }
+
+    /**
+     * Get offset of UTC
+     *
+     * @param string $format format to
+     * @return string
+     */
+    public static function getUtcOffset($format)
+    {
+        $userTimeZone = new DateTimeZone(self::getUserTimezone());
+        $currentUserDate = new DateTime('now', $userTimeZone);
+        return $currentUserDate->format($format);
+    }
+
+    /**
+     * Convert date from one to another timezone
+     *
+     * @param string $date date
+     * @param bool $timezoneFrom valid timezone name America/Los_Angeles
+     * @param string $timezoneTo valid timezone name America/Los_Angeles
+     * @param string $format date format
+     * @return string
+     */
+    public static function convertDateFromTimezone($date, $timezoneFrom = false, $timezoneTo = 'UTC', $format = self::DATE_MYSQL)
+    {
+        if (empty($timezoneFrom)) {
+            $timezoneFrom = self::getUserTimezone();
+        }
+        $date = new DateTime($date, new DateTimeZone($timezoneFrom));
+        $date->setTimezone(new DateTimeZone($timezoneTo));
+
+        return $date->format($format);
+    }
+
+
+    /**
+     * get country phone codes list
+     *
+     * @param bool $withCountryCode flag to use country code
+     * @param array $intersect
+     * @param bool $reverseLabels change order for labels  Ex: Ascension Island +247
+     * @return array
+     */
+    public static function getFullCountryPhoneCodesList($withCountryCode = true, $intersect = array(), $reverseLabels = false)
+    {
+        $phoneCodes = Zend_Locale::getTranslationList('phoneToTerritory');
+        $countryCodes = Zend_Locale::getTranslationList('Territory');
+        array_shift($phoneCodes);
+        if (!empty($intersect)) {
+            $phoneCodes = array_intersect_key($phoneCodes, array_flip($intersect));
+        }
+        array_walk($phoneCodes, function (&$item, $key) use ($withCountryCode, $countryCodes, $reverseLabels) {
+            if ($reverseLabels === true) {
+                $item = ($withCountryCode) ? $countryCodes[$key].' +' . $item : '+' . $item;
+            } else {
+                $item = ($withCountryCode) ? '+' . $item . ' ' . $countryCodes[$key] : '+' . $item;
+            }
+        });
+
+        if ($reverseLabels === true) {
+            asort($phoneCodes);
+        }
+
+        return $phoneCodes;
+
+    }
+
+    /**
+     * Reassign zend form fields
+     *
+     * @param Zend_Form $form zend form
+     * @param array $formFields form fields
+     * @param array $mandatoryFields mandatory fields
+     * @param bool $keepHiddenFields keep hidden fields
+     * @return Quote_Forms_Quote
+     * @throws Zend_Form_Exception
+     */
+    public static function adjustFormFields(Zend_Form $form, $formFields = array(), $mandatoryFields = array(), $keepHiddenFields = true)
+    {
+        if (empty($formFields)) {
+            return $form;
+        }
+
+        $currentElements = $form->getElements();
+
+        // fields that should stay
+        $fields = array();
+        foreach ($formFields as $field) {
+            $required = false;
+            if (substr($field, strlen($field) - 1) == '*') {
+                $required = true;
+                $field = str_replace('*', '', $field);
+            }
+            $fields[$field] = $required;
+        }
+
+        foreach ($currentElements as $element) {
+            $elementType = $element->getType();
+            if ($keepHiddenFields === true && $elementType === 'Zend_Form_Element_Hidden') {
+                continue;
+            }
+
+            $form->removeElement($element->getName());
+        }
+
+        $fields = array_merge($fields, $mandatoryFields);
+        $i = 1;
+        foreach ($fields as $name => $required) {
+             if (!array_key_exists($name, $currentElements)) {
+                continue;
+            }
+            $currentElements[$name]->setAttribs(array(
+                'class' => ($required) ? 'required' : 'optional'
+            ))->setRequired($required);
+            $form->addElement($currentElements[$name])->setOrder($i);
+            ++$i;
+        }
+
+        $displayGroups = $form->getDisplayGroups();
+        array_walk($displayGroups, function ($dGroup) use ($form) {
+            $form->removeDisplayGroup($dGroup->getName());
+        });
+
+        return $form;
+    }
+
+    /**
+     * Remove all non digits
+     *
+     * @param string $number
+     * @return mixed
+     */
+    public static function cleanNumber($number)
+    {
+        return preg_replace('~[^\d]~ui', '', $number);
+    }
+
+    /**
+     * Returned array of results from each plugin by specified method
+     * @param string $tag plugin tag
+     * @param string $method method name
+     * @return array
+     */
+    public static function firePluginMethod($tag, $method){
+        $result = array();
+        $availablePlugins = Tools_Plugins_Tools::getPluginsByTags(array($tag));
+        if (!empty($availablePlugins)) {
+            foreach ($availablePlugins as $plugin) {
+                $pluginClassName = $plugin->getName();
+                $pluginClass = new Zend_Reflection_Class($pluginClassName);
+                $pluginActionExists = $pluginClass->hasMethod($method);
+                if (!$pluginActionExists) {
+                    continue;
+                }
+                $verifyAction = $pluginClass->getMethod($method);
+                if (!$verifyAction->isStatic()) {
+                    continue;
+                }
+                $result[$pluginClassName] = $pluginClassName::$method();
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Fire plugin method by plugin name
+     *
+     * @param string $pluginName plugin name
+     * @param string $method plugin method
+     * @param array $data data array
+     * @param bool $static flag for the method type
+     * @return array
+     * @throws Zend_Reflection_Exception
+     */
+    public static function firePluginMethodByPluginName($pluginName, $method, $data = array(), $static = true){
+        $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
+        $pluginModel = $pluginMapper->findByName($pluginName);
+        if ($pluginModel instanceof Application_Model_Models_Plugin) {
+            $status = $pluginModel->getStatus();
+            if ($status === Application_Model_Models_Plugin::ENABLED) {
+                $pluginClassName = $pluginModel->getName();
+                $pluginClass = new Zend_Reflection_Class($pluginClassName);
+                $pluginActionExists = $pluginClass->hasMethod($method);
+                if ($pluginActionExists === true) {
+                    $verifyAction = $pluginClass->getMethod($method);
+                    if (!$verifyAction->isStatic() && $static === true) {
+                        try {
+                            $result = $pluginClassName::$method();
+                        } catch (Exception $e) {
+                            return array('error' => 1, 'message' => $e->getMessage());
+                        }
+                    } else {
+                        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+                        $pageData = array('websiteUrl' => $websiteHelper->getUrl());
+                        try {
+                            $plugin = Tools_Factory_PluginFactory::createPlugin($pluginName, array(),
+                                $pageData);
+                            $result = $plugin->$method($data);
+                        } catch (Exception $e) {
+                            return array('error' => 1, 'message' => $e->getMessage());
+                        }
+                    }
+
+                } else {
+                    return array('error' => 1, 'message' => 'Plugin method doesn\'t exist');
+                }
+            } else {
+                return array('error' => 1, 'message' => 'Plugin disabled');
+            }
+        } else {
+            return array('error' => 1, 'message' => 'Plugin doesn\'t exist');
+        }
+
+        return $result;
+
+    }
+
+    /**
+     * @param string $email email address
+     * @return bool
+     */
+    public static function isEmailValid($email)
+    {
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if (!empty($email)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

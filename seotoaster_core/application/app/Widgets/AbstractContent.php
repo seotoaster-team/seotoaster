@@ -49,20 +49,25 @@ abstract class Widgets_AbstractContent extends Widgets_Abstract
         if (!$hint) {
             $hint = 'edit '.($widgetName == 'content' ? '' : $widgetName).' content';
         }
+        //Show more widget//
+        $additionalParamShowMore = '';
+        if(in_array('show-more',  $this->_options)){
+            $additionalParamShowMore = '/showMore/1';
+        }
 
         $containerId = ($this->_container !== null) ? $this->_container->getId() : null;
         if ($containerId) {
             return '<a class="tpopup generator-links" data-pwidth="'.$width.'" data-pheight="'.$height
-                .'" title="Click to '.$hint.'" href="javascript:;" data-url="'.$this->_toasterOptions['websiteUrl']
-                .'backend/backend_content/edit/id/'.$containerId.'/containerType/'.$this->_type
-                .'"><img width="26" height="26" src="'.$this->_toasterOptions['websiteUrl'].'system/images/'
-                .$controlIcon.'" alt="'.$hint.'" /></a>';
+            .'" title="Click to '.$hint.'" href="javascript:;" data-url="'.$this->_toasterOptions['websiteUrl']
+            .'backend/backend_content/edit/id/'.$containerId.'/containerType/'.$this->_type . $additionalParamShowMore
+            .'"><img width="26" height="26" src="'.$this->_toasterOptions['websiteUrl'].'system/images/'
+            .$controlIcon.'" alt="'.$hint.'" /></a>';
         }
 
         return '<a class="tpopup generator-links" data-pwidth="'.$width.'" data-pheight="'.$height.'" title="Click to '
             .$hint.'" href="javascript:;" data-url="'.$this->_toasterOptions['websiteUrl']
             .'backend/backend_content/add/containerType/'.$this->_type.'/containerName/'.$this->_name.'/pageId/'
-            .$this->_toasterOptions['id'].'"><img width="26" height="26" src="'.$this->_toasterOptions['websiteUrl']
+            .$this->_toasterOptions['id'].$additionalParamShowMore.'"><img width="26" height="26" src="'.$this->_toasterOptions['websiteUrl']
             .'system/images/'.$controlIcon.'" alt="'.$hint.'" /></a>';
     }
 

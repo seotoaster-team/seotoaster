@@ -25,6 +25,11 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
     const FEATURED_FILTER_BY_H1 = 'h1';
 
+    /**
+     * Featuredarea template type
+     */
+    const TEMPLATE_FA_TYPE = 'type_fa_template';
+
     private $_configHelper = null;
 
     private $_filterable = false;
@@ -32,6 +37,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract
     private $_order = false;
 
     private $_orderType = false;
+
+    private $_acceptedOrderTypes = array('ASC', 'DESC');
+
+    private $_acceptedPageOrderFields = array('nav_name', 'header_title', 'url', 'last_update');
 
     protected function _init()
     {
@@ -42,6 +51,12 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->useImage          = false;
         $this->cropParams        = array();
         $this->cropSizeSubfolder = '';
+
+        $withoutCacheOption = array_search('without_cache', $this->_options);
+        if ($withoutCacheOption !== false) {
+            $this->_cacheable = false;
+            unset($this->_options[$withoutCacheOption]);
+        }
 
         // checking if its area and random
         if (!empty($this->_options)
@@ -117,6 +132,18 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
         unset($template);
 
+        $pageTitleWrap = current(preg_grep('/pageTitleWrap=*/', $this->_options));
+        if (!empty($pageTitleWrap)) {
+            $pageTitleWrap = preg_replace('/pageTitleWrap=/', '', $pageTitleWrap);
+            $pageTitleWrapData = explode('.', $pageTitleWrap);
+            $pageTitleWrapEl = array_shift($pageTitleWrapData);
+            $pageTitleWrapClasses = implode($pageTitleWrapData, ' ');
+            $this->_view->pageTitleWrapEl = $pageTitleWrapEl;
+            $this->_view->pageTitleWrapClasses = $pageTitleWrapClasses;
+            $this->_view->pageTitleWrap = $pageTitleWrap;
+        }
+
+
         $this->_order = current(preg_grep('/order=*/', $this->_options));
         $this->_orderType = current(preg_grep('/orderType=*/', $this->_options));
         if (method_exists($this, $rendererName)) {
@@ -143,7 +170,22 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             return $this->_filterFa($limit, $params[0]);
         }
 
-        $featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($params[0]);
+        $customOrder = false;
+        $customOrderType = 'ASC';
+        if (!empty($this->_order)) {
+            $setOrder = preg_replace('/order=/', '', $this->_order);
+            if (in_array($setOrder, $this->_acceptedPageOrderFields)) {
+                $customOrder = $setOrder;
+            }
+        }
+        if (!empty($this->_orderType)) {
+            $setCustomType = preg_replace('/orderType=/', '', $this->_orderType);
+            if (in_array($setCustomType, $this->_acceptedOrderTypes)) {
+                $customOrderType = $setCustomType;
+            }
+        }
+
+        $featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->findByName($params[0], true, $customOrder, $customOrderType);
         if ($featuredArea === null) {
             if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
                 return '';
@@ -165,6 +207,10 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;
+
+        if(in_array('deny-blank', $this->_options)){
+            $this->_view->denyBlank = true;
+        }
 
         // Adding cache tag for this fa
         array_push($this->_cacheTags, 'fa_'.$params[0]);
@@ -232,8 +278,9 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $pnum = intval(filter_var($request->getParam('fanum', 0), FILTER_SANITIZE_NUMBER_INT));
             $pageUrl = filter_var($request->getParam('page'), FILTER_SANITIZE_STRING);
             if (isset($this->_toasterOptions['fareaNamesSearch'])) {
-                $fareaTagsExists = array_filter($fareaTagsExists, function ($faName) {
-                    if (in_array(strtolower($faName['name']), explode(',', strtolower($this->_toasterOptions['fareaNamesSearch'])))) {
+                $fareaNamesSearch = strtolower($this->_toasterOptions['fareaNamesSearch']);
+                $fareaTagsExists = array_filter($fareaTagsExists, function ($faName) use ($fareaNamesSearch) {
+                    if (in_array(strtolower($faName['name']), explode(',', $fareaNamesSearch))) {
                         return $faName['name'];
                     }
                 });

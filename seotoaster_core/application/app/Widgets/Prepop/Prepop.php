@@ -73,6 +73,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_prepopContent = $prepop->getContent();
             $this->_prepopContainerId = $prepop->getId();
         }
+
+        if(in_array('customscriptinclude',$this->_options)){
+            $key = array_search('customscriptinclude',$this->_options);
+            $this->_view->customScriptInclude = true;
+            unset($this->_options[$key]);
+        }
+
         // User role should be a member or not only for reading at least to be able to edit
         if (!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) || $this->_readonly) {
             if($this->_options[0] == self::TYPE_CHECKBOX) {
@@ -88,7 +95,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 return $this->_view->render('prepopLink.phtml');
             }
             elseif ($this->_readonly) {
-                return $this->_prepopContent;
+                if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
+                    return $this->processDefaultContent();
+                }else{
+                    return $this->_prepopContent;
+                }
             }
             else {
                 return '<span class="prepop-content" id="prepop-' . $this->_prepopName . '">' . $this->_prepopContent . '</span>';
@@ -105,6 +116,16 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $this->_view->elementType      = $this->_options[0];
 
         $rendererName = '_renderPrepop' . ucfirst(array_shift($this->_options));
+
+        if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options)){
+            if(empty($this->_prepopContent)){
+                $defaultText = $this->processDefaultContent();
+                $this->_view->defaultText = $defaultText;
+            }elseif (!empty($this->_prepopContent)){
+                $this->processDefaultContent();
+            }
+        }
+
         $secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         $this->_view->secureToken = $secureToken;
         if(method_exists($this, $rendererName)) {
@@ -114,12 +135,28 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
 
     }
 
+    protected function processDefaultContent(){
+        $optionKey = array_search(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options);
+
+        if(isset($this->_options[$optionKey+1])){
+            $defaultText = filter_var($this->_options[$optionKey+1], FILTER_SANITIZE_STRING);
+            unset($this->_options[$optionKey+1]);
+        }
+        unset($this->_options[$optionKey]);
+        if(!empty($defaultText)){
+            return $defaultText;
+        }else{
+            return '';
+        }
+    }
+
     protected function _renderPrepopTextarea() {
         if(!$this->_prepopContent && isset($this->_options[0])) {
             $this->_view->prepopContent = $this->_options[0];
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
+
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -140,12 +177,14 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
         asort($options);
         $this->_view->options = $options;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
     protected function _renderPrepopRadio() {
         $this->_view->onJsElementAction = 'click';
         $this->_view->options           = $this->_generateSelectOptions();
+
         return $this->_view->render('element.prepop.phtml');
     }
 
@@ -155,6 +194,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
         $this->_view->onJsElementAction = 'blur';
+
         return $this->_view->render('element.prepop.phtml');
     }
 

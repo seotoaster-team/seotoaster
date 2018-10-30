@@ -269,6 +269,11 @@ class Backend_UploadController extends Zend_Controller_Action
                 // filtering the img name
                 $expFileName = explode('.', $this->getRequest()->getParam('name', false));
                 $fileExt = array_pop($expFileName);
+                $fileExt = strtolower($fileExt);
+
+                if (!in_array($fileExt, array('jpeg', 'jpg', 'png', 'gif'))) {
+                    return array('error' => true, 'result' => "Wrong file extension");
+                }
                 $name = implode($expFileName);
                 $newName = $filterChain->filter($name) . '.' . $fileExt;
 
@@ -329,6 +334,11 @@ class Backend_UploadController extends Zend_Controller_Action
 
         $fileInfo = $this->_uploadHandler->getFileInfo();
         $file = reset($fileInfo);
+
+        $expFileName = explode('.',$file['name']);
+        $fileExt = array_pop($expFileName);
+        $file['name'] = implode($expFileName). '.' . strtolower($fileExt);
+
         preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $file['name'], $match);
         if (!$match) {
             return array('result' => 'Corrupted filename', 'error' => true);
@@ -340,11 +350,12 @@ class Backend_UploadController extends Zend_Controller_Action
         ));
 
         //Adding file extension validation
-        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,mp3,avi,mpeg,mp4,webm');
+        $this->_uploadHandler->addValidator('Extension', false, 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,mp3,avi,mpeg,mp4,webm,ogg,ogv,dwg,vcf');
         //Adding mime types validation
         $this->_uploadHandler->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
                 'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','audio/mpeg3','audio/mpeg','video/avi','video/x-msvideo','video/mp4','video/mpeg', 'video/mp4'));
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','audio/mpeg3','audio/mpeg','video/avi','video/x-msvideo','video/mp4','video/mpeg', 'video/mp4',
+                'application/ogg', 'video/webm','application/acad','image/vnd.dwg','image/x-dwg', 'text/x-vcard'));
 
         if ($this->_uploadHandler->isUploaded() && $this->_uploadHandler->isValid()) {
             try {

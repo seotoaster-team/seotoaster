@@ -30,7 +30,7 @@ class Widgets_Meta_Meta extends Widgets_Abstract {
 				$metaContent = $this->_toasterOptions['metaDescription'];
 			break;
 		}
-		return $metaContent;
+		return strip_tags($metaContent);
 	}
 }
 

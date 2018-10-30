@@ -66,18 +66,17 @@
 <?php if(!empty($this->nomenuPages)): ?>
     <ul class="sitemap">
         <?php foreach ($this->nomenuPages as $key => $page): ?>
-            <?php $page = $page->toArray(); ?>
             <li class="page">
-                <?php if($page['externalLinkStatus'] === '1'):?>
-                    <?php $pageUrl = $page['externalLink'];?>
+                <?php if($page['external_link_status'] === '1'):?>
+                    <?php $pageUrl = $page['external_link'];?>
                     <?php $targetBlank = 'target="_blank"';?>
                 <?php else:?>
                     <?php $targetBlank = '';?>
-                    <?php $pageUrl = $this->websiteUrl . (isset($page['optimizedUrl']) ? $page['optimizedUrl'] : $page['url']);?>
+                    <?php $pageUrl = $this->websiteUrl . $page['url'];?>
                 <?php endif;?>
-                <a title="<?php echo isset($page['optimizedH1']) ? $page['optimizedH1'] : $page['h1']; ?>"
+                <a title="<?php echo $page['h1']; ?>"
                    href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?>>
-                    <?php echo (isset($page['optimizedNavName']) ? $page['optimizedNavName'] : $page['navName']) ; ?>
+                    <?php echo $page['nav_name'] ; ?>
                 </a>
             </li>
         <?php endforeach; ?>

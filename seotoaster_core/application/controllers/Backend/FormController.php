@@ -34,15 +34,17 @@ class Backend_FormController extends Zend_Controller_Action {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         if($this->getRequest()->isPost()) {
             $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
+
+            $replyEmail = $this->getRequest()->getParam('replyEmail');
+            if(!empty($replyEmail)) {
+                $formForm->getElement('replySubject')->setRequired(false);
+                $formForm->getElement('replyFrom')->setRequired(false);
+            }
+
             if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
 				$form = new Application_Model_Models_Form($this->getRequest()->getParams());
-                $contactEmail = $form->getContactEmail();
-                $validEmail = $this->validateEmail($contactEmail);
-                if(isset($validEmail['error'])){
-                    $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml(array('contactEmail'=>$validEmail['error']), get_class($formForm)));
-                }
                 if(isset($formData['thankyouTemplate']) && $formData['thankyouTemplate'] != 'select'){
                     $trackingPageUrl = $this->_createTrackingPage($formData['name'], $formData['thankyouTemplate']);
                 }
@@ -52,7 +54,6 @@ class Backend_FormController extends Zend_Controller_Action {
                 $formPageConversionModel->setConversionCode($formData['trackingCode']);
                 $formPageConversionMapper->save($formPageConversionModel);
                 Application_Model_Mappers_FormMapper::getInstance()->save($form);
-                $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
 			}
 			else {
@@ -82,9 +83,18 @@ class Backend_FormController extends Zend_Controller_Action {
 		$formForm->getElement('name')->setValue($formName);
         
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
+		$formForm->getElement('adminMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
+
+        $replyEmail = 0;
 		if($form !== null) {
+		    if($form->getReplyEmail()) {
+                $replyEmail = 1;
+            }
+
 			$formForm->populate($form->toArray());
 		}
+
+        $this->view->replyEmail = $replyEmail;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
@@ -92,7 +102,7 @@ class Backend_FormController extends Zend_Controller_Action {
 	}
 
     public function validateEmail($emails){
-        $emailValidation = new Zend_Validate_EmailAddress();
+        $emailValidation = new Tools_System_CustomEmailValidator();
         if(is_string($emails) && preg_match('~,~', $emails)){
             $contanctEmails = explode(',',$emails);
             foreach($contanctEmails as $email){
@@ -111,7 +121,6 @@ class Backend_FormController extends Zend_Controller_Action {
         if ($this->_request->isDelete()) {
             $id = filter_var($this->getRequest()->getParam('id'), FILTER_SANITIZE_NUMBER_INT);
             $formMapper = Application_Model_Mappers_FormMapper::getInstance();
-            $this->_helper->cache->clean('', '', array(Widgets_Form_Form::WFORM_CACHE_TAG));
             return $formMapper->delete($formMapper->find($id));
         }
     }
@@ -152,7 +161,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 unset($formParams[md5($formName.$formId)]);
 
                 //validating recaptcha
-                if($useCaptcha == 1){
+                if($useCaptcha == 1 && !isset($formParams['g-recaptcha-response'])){
                     if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
                             && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PRIVATE_KEY])
                             && isset($formParams['recaptcha_challenge_field']) || isset($formParams['captcha'])){
@@ -193,11 +202,24 @@ class Backend_FormController extends Zend_Controller_Action {
                         $sessionHelper->toasterFormError = $this->_helper->language->translate('You\'ve entered an incorrect security text. Please try again.');
                         $this->_redirect($formParams['formUrl']);
                     }
-                                   
+
+                } elseif ($useCaptcha == 1 && isset($formParams['g-recaptcha-response'])) {
+
+                    $googleRecaptcha = new Tools_System_GoogleRecaptcha();
+                    if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
+                        if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
+                            if ($xmlHttpRequest) {
+                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                            }
+                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                            $this->_redirect($formParams['formUrl']);
+                        }
+                    }
+
                 }
                 //Check if email is valid
                 if (isset($formParams['email'])) {
-                    $emailValidation = new Zend_Validate_EmailAddress();
+                    $emailValidation = new Tools_System_CustomEmailValidator();
                     $validEmail = $emailValidation->isValid($formParams['email']);
                     if(!$validEmail){
                         if($xmlHttpRequest){
@@ -228,7 +250,7 @@ class Backend_FormController extends Zend_Controller_Action {
                     $uploader->addValidator('Size', false, $formParams['uploadLimitSize']*1024*1024);
                     //Adding mime types validation
                     $uploader->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
-                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel'));
+                                                                    'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
                     $files = $uploader->getFileInfo();
                     foreach($files as $file => $fileInfo) {
                         if($fileInfo['name'] != ''){
@@ -264,6 +286,7 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 }
                 unset($formParams['uploadLimitSize']);
+                unset($formParams['g-recaptcha-response']);
                	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
@@ -275,6 +298,18 @@ class Backend_FormController extends Zend_Controller_Action {
                     'data'     => $formParams,
                     'attachment' => $attachment
                 ));
+
+                $form->setAdminFrom($this->_parseData($form->getAdminFrom()));
+                $form->setAdminSubject(html_entity_decode($this->_parseData($form->getAdminSubject()), null, 'UTF-8'));
+                $form->setAdminFromName(html_entity_decode($this->_parseData($form->getAdminFromName()), null, 'UTF-8'));
+                $form->setAdminText($this->_parseData($form->getAdminText()));
+                $form->setReplyText($this->_parseData($form->getReplyText()));
+                $form->setContactEmail($this->_parseData($form->getContactEmail()));
+                $form->setReplyFrom($this->_parseData($form->getReplyFrom()));
+                $form->setReplyFromName(html_entity_decode($this->_parseData($form->getReplyFromName()), null, 'UTF-8'));
+                $form->setReplySubject(html_entity_decode($this->_parseData($form->getReplySubject()), null, 'UTF-8'));
+                $form->setMobile($this->_parseData($form->getMobile()));
+
                 $mailWatchdog->notify($form);
                 $mailsSent = $sysMailWatchdog->notify($form);
                 if($mailsSent) {
@@ -298,6 +333,28 @@ class Backend_FormController extends Zend_Controller_Action {
                 $this->_redirect($formParams['formUrl']);
 			}
         }
+    }
+
+    /**
+     * Parse widgets for template
+     *
+     * @param string $data
+     * @return null
+     * @throws Zend_Exception
+     */
+    private function _parseData($data)
+    {
+        $themeData = Zend_Registry::get('theme');
+        $extConfig = Zend_Registry::get('extConfig');
+        $parserOptions = array(
+            'websiteUrl'   => $this->_helper->website->getUrl(),
+            'websitePath'  => $this->_helper->website->getPath(),
+            'currentTheme' => $extConfig['currentTheme'],
+            'themePath'    => Tools_Filesystem_Tools::cleanWinPath($themeData['path']),
+        );
+        $parser = new Tools_Content_Parser($data, array(), $parserOptions);
+
+        return $parser->parseSimple();
     }
 
     private function _removeAttachedFiles(array $removeFiles)

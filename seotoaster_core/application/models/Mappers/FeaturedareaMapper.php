@@ -82,7 +82,7 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 		return $featuredArea;
 	}
 
-	public function findByName($name, $loadPages = true) {
+	public function findByName($name, $loadPages = true, $order = false, $orderType = 'ASC') {
 		$row = $this->getDbTable()->fetchRow($this->getDbTable()->getAdapter()->quoteInto('name = ?', $name));
 		if ($row === null) {
 			return null;
@@ -90,7 +90,7 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
 
 		$featuredArea = new $this->_model($row->toArray());
 		if ($loadPages) {
-			$featuredArea->setPages($this->_findFarowPages($featuredArea));
+			$featuredArea->setPages($this->_findFarowPages($featuredArea, $order, $orderType));
 		}
 
 		return $featuredArea;
@@ -137,12 +137,19 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
         return $entries;
     }
 
-    private function _findFarowPages($faModel)
+    private function _findFarowPages($faModel, $order = false, $orderType = 'ASC')
     {
         $faPageDbTable = new Application_Model_DbTable_PageFeaturedarea();
-        $pageIds = $faPageDbTable->getAdapter()->fetchCol(
-            $faPageDbTable->select()->where('fa_id = ?', $faModel->getId())->order('order ASC')
-        );
+        if (!$order) {
+            $pageIds = $faPageDbTable->getAdapter()->fetchCol(
+                $faPageDbTable->select()->where('fa_id = ?', $faModel->getId())->order('order ASC')
+            );
+        } else {
+            $pageIds = $faPageDbTable->getAdapter()->fetchCol($faPageDbTable->getAdapter()->select()
+                ->from(array('p' => 'page'), array('id' => 'p.id'))
+                ->joinleft(array('pf' => 'page_fa'), 'p.id = pf.page_id', array())
+                ->where('fa_id IN (?)', $faModel->getId())->order('p.'.$order.' '.$orderType));
+        }
         unset($faPageDbTable);
 
         $faPages = array();

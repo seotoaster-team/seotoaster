@@ -3,6 +3,7 @@
 class Application_Form_Login extends Zend_Form {
 
     public function init() {
+		parent::init();
 
 		$this->setMethod(Zend_Form::METHOD_POST);
 
@@ -14,11 +15,15 @@ class Application_Form_Login extends Zend_Form {
 			'label'      => 'E-mail',
 			'required'   => true,
 			'filters'    => array('StringTrim'),
-			'validators' => array(new Zend_Validate_EmailAddress())
+			'validators' => array(new Tools_System_CustomEmailValidator())
 		));
 
 		$this->addElement('password', 'password', array(
 			'label'    => 'Password',
+			'required' => true
+		));
+
+		$this->addElement('hidden', 'secureToken', array(
 			'required' => true
 		));
 

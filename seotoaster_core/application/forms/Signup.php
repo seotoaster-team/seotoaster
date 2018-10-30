@@ -18,8 +18,14 @@ class Application_Form_Signup extends Application_Form_User {
 		$this->removeElement('roleId');
 		$saveButton = $this->getElement('saveUser');
 		$this->removeElement('saveUser');
-        $this->removeElement('gplusProfile');
         $this->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
+        $this->removeElement('userAttributes');
+
+        $this->getElement('mobilePhone')->setLabel('Mobile')->setOptions(array('placeholder' => ''));
+        $this->getElement('desktopPhone')->setLabel('Phone')->setOptions(array('placeholder' => ''));
+        $this->getElement('gplusProfile')->setLabel('GPlus')->setOptions(array('placeholder' => ''));
+        $this->getElement('prefix')->setLabel('Prefix');
+        $this->getElement('fullName')->setLabel('Full name')->setOptions(array('placeholder' => ''));
 
 		$this->addElement(new Zend_Form_Element_Captcha('verification', array(
 			'label'   => "Please verify you're a human",

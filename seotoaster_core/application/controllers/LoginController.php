@@ -14,7 +14,16 @@ class LoginController extends Zend_Controller_Action {
 		}
 
         $loginForm = new Application_Form_Login();
+		$secureToken = Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_LOGIN);
+		$this->view->secureToken = $secureToken;
+
 		if($this->getRequest()->isPost()) {
+			$secureToken = $this->_request->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_LOGIN);
+			if (!$tokenValid) {
+				$this->_checkRedirect(false, array());
+			}
+			$loginForm->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
 			if($loginForm->isValid($this->getRequest()->getParams())) {
 				$authAdapter = new Zend_Auth_Adapter_DbTable(
 					Zend_Registry::get('dbAdapter'),
@@ -35,13 +44,27 @@ class LoginController extends Zend_Controller_Action {
 						$this->_helper->session->setCurrentUser($user);
 						Application_Model_Mappers_UserMapper::getInstance()->save($user);
 						unset($user);
+						Zend_Session::regenerateId();
 						$this->_helper->cache->clean();
 						if($authUserData->role_id == Tools_Security_Acl::ROLE_MEMBER) {
 							$this->_memberRedirect();
 						}
+
+                        if($authUserData->role_id == Tools_Security_Acl::ROLE_SUPERADMIN) {
+                            $superAdminRedirectPageModel = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption('option_adminredirect', true);
+                            if ($superAdminRedirectPageModel instanceof Application_Model_Models_Page) {
+                                $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
+                            }
+                        }
+
 						if(isset($this->_helper->session->redirectUserTo)) {
 							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
 						}
+                        if (isset($this->_helper->session->loginCustomRedirect)) {
+                            $customRedirect = $this->_helper->session->loginCustomRedirect;
+                            unset($this->_helper->session->loginCustomRedirect);
+                            $this->redirect($customRedirect, array('exit' => true));
+                        }
 						$this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
 					}
 				}
@@ -123,17 +146,16 @@ class LoginController extends Zend_Controller_Action {
 				$retrieveData = $form->getValues();
 				$user = Application_Model_Mappers_UserMapper::getInstance()->findByEmail(filter_var($retrieveData['email'], FILTER_SANITIZE_EMAIL));
 				//create new reset token and send e-mail to the user
-				$resetToken = new Application_Model_Models_PasswordRecoveryToken(array(
-					'saltString' => $retrieveData['email'],
-					'expiredAt'  => date(Tools_System_Tools::DATE_MYSQL, strtotime('+1 day', time())),
-					'userId'     => $user->getId()
-				));
-				$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
-                    'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRESET
-				)));
-				$resetTokenId = Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
-				if($resetTokenId) {
-					$this->_helper->flashMessenger->setNamespace('passreset')->addMessage('We\'ve sent an email to '.$user->getEmail().' containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.');
+				$resetToken = Tools_System_Tools::saveResetToken($retrieveData['email'], $user->getId());
+				if($resetToken instanceof Application_Model_Models_PasswordRecoveryToken) {
+					$resetToken->registerObserver(new Tools_Mail_Watchdog(array(
+						'trigger' => Tools_Mail_SystemMailWatchdog::TRIGGER_PASSWORDRESET
+					)));
+					$resetToken->notifyObservers();
+					$this->_helper->flashMessenger->setNamespace('passreset')->addMessage($this->_helper->language->translate('We\'ve sent an email to')
+						. ' ' . $user->getEmail() . ' ' .
+						$this->_helper->language->translate('containing a temporary url that will allow you to reset your password for the next 24 hours. Please check your spam folder if the email doesn\'t appear within a few minutes.')
+					);
                     if(isset($this->_helper->session->retrieveRedirect)){
                         $redirectTo = $this->_helper->session->retrieveRedirect;
                         unset($this->_helper->session->retrieveRedirect);
@@ -192,6 +214,7 @@ class LoginController extends Zend_Controller_Action {
 		$form  = new Application_Form_PasswordReset();
 		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);
 		$token = filter_var($this->getRequest()->getParam('key', false), FILTER_SANITIZE_STRING);
+		$newUser = filter_var($this->getRequest()->getParam('new', false), FILTER_SANITIZE_STRING);
 
 		if(!$email || !$token) {
 			$error = true;
@@ -233,6 +256,7 @@ class LoginController extends Zend_Controller_Action {
 		}
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		$this->view->form = $form;
+		$this->view->newUser = $newUser;
 	}
 
 	/**

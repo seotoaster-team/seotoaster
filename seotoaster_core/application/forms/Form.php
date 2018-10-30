@@ -23,7 +23,19 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_name = '';
 
+    protected $_adminSubject = '';
+
+    protected $_adminMailTemplate = '';
+
+    protected $_adminFrom = '';
+
+    protected $_adminFromName = '';
+
+    protected $_adminText = '';
+
     protected $_id = null;
+
+    protected $_replyEmail = 0;
 
     public function init()
     {
@@ -47,7 +59,7 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'contact-mail',
                 'name' => 'contactEmail',
-                'label' => 'Contact mail',
+                'label' => 'Lead delivery email',
                 'value' => $this->_contactEmail,
                 'required' => true,
                 'filters' => array('StringTrim')
@@ -65,8 +77,6 @@ class Application_Form_Form extends Application_Form_Secure
             ))
         );
 
-        //new Zend_Validate_Alnum(array('allowWhiteSpace' => true))
-
         $this->addElement(
             new Zend_Form_Element_Text(array(
                 'id' => 'reply-from',
@@ -74,8 +84,7 @@ class Application_Form_Form extends Application_Form_Secure
                 'label' => 'Auto reply from email',
                 'value' => $this->_replyFrom,
                 'required' => true,
-                'filters' => array('StringTrim'),
-                'validators' => array(new Zend_Validate_EmailAddress())
+                'filters' => array('StringTrim')
             ))
         );
 
@@ -125,6 +134,63 @@ class Application_Form_Form extends Application_Form_Secure
         );
 
         $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'admin-subject',
+                'name' => 'adminSubject',
+                'label' => 'Lead delivery subject',
+                'value' => $this->_adminSubject,
+                'required' => false,
+                'filters' => array('StringTrim'),
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Select(array(
+                'id' => 'admin-mail-template',
+                'name' => 'adminMailTemplate',
+                'label' => 'Lead delivery mail template',
+                'value' => $this->_adminMailTemplate,
+                'required' => false,
+                'registerInArrayValidator' => false
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'admin-from',
+                'name' => 'adminFrom',
+                'label' => 'Lead delivery from email',
+                'value' => $this->_adminFrom,
+                'required' => false,
+                'filters' => array('StringTrim')
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'admin-from-name',
+                'name' => 'adminFromName',
+                'label' => 'Lead delivery from name',
+                'value' => $this->_adminFromName,
+                'required' => false,
+                'filters' => array('StringTrim', new Zend_Filter_StripTags())
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Textarea(array(
+                'id' => 'admin-text',
+                'name' => 'adminText',
+                'label' => 'Lead delivery text',
+                'value' => $this->_adminText,
+                'cols' => '45',
+                'rows' => '2',
+                'filters' => array('StringTrim')
+            ))
+        );
+
+
+        $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'tracking-code',
                 'name' => 'trackingCode',
@@ -149,6 +215,15 @@ class Application_Form_Form extends Application_Form_Secure
         );
 
         $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'reply-email',
+                'name' => 'replyEmail',
+                'label' => 'Don\'t send reply email',
+                'value' => $this->_replyEmail,
+            ))
+        );
+
+        $this->addElement(
             new Zend_Form_Element_Hidden(array(
                 'id' => 'form-name',
                 'name' => 'name',
@@ -160,7 +235,8 @@ class Application_Form_Form extends Application_Form_Secure
             new Zend_Form_Element_Text(array(
                 'id' => 'mobile',
                 'name' => 'mobile',
-                'label' => 'Mobile number for admin notification',
+                'placeholder' => 'Never lose another opportunity',
+                'label' => 'Add your mobile to also receive lead details via SMS',
                 'value' => $this->_mobile,
                 'filters' => array('StringTrim'),
             ))

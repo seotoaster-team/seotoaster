@@ -38,6 +38,8 @@ class Application_Form_Page extends Application_Form_Secure {
 
     protected $_externalLink = '';
 
+    protected $_excludeCategory = '';
+
 	public function init() {
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
@@ -210,6 +212,10 @@ class Application_Form_Page extends Application_Form_Secure {
             'name'  => 'removePreviousOption',
             'value' => $this->_removePreviousOption
         )));
+
+        $this->addElement('checkbox', 'excludeCategory', array(
+            'value' => $this->excludeCategory
+        ));
 
 		//$this->setDecorators(array('ViewScript'));
 		$this->setElementDecorators(array('ViewHelper', 'Label'));

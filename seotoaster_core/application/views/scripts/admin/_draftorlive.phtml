@@ -8,7 +8,8 @@
 		((intval($this->publishAt)) ? date('M j, Y', strtotime($this->publishAt)) : ''),
 		array(
 			'defaultDate' => '',
-			'onSelect'    => (isset($this->onselectCallback)) ? new Zend_Json_Expr($this->onselectCallback) : ''
+			'onSelect'    => (isset($this->onselectCallback)) ? new Zend_Json_Expr($this->onselectCallback) : '',
+            'dateFormat' => 'M d, yy'
 		),
 		array(
 			'style' => 'width:100px;',

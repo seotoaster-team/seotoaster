@@ -12,6 +12,11 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
      */
     const SITEMAP_NOMENU_PAGES = 'nomenuPages';
 
+    /**
+     * Resource for sitemap pages
+     */
+    const SITEMAP_PAGES = 'sitemap_pages';
+
 	protected function  _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
@@ -28,7 +33,6 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
         $showMemberPages = (boolean) $configHelper->getConfig('memPagesInMenu');
         $isAllowed       = Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED);
         $flatPages       = Application_Model_Mappers_PageMapper::getInstance()->fetchAllStaticMenuPages();
-        $nomenuPages     = Application_Model_Mappers_PageMapper::getInstance()->fetchAllNoMenuPages();
         foreach($pages as $key => $page) {
             if($page['parentId'] == 0) {
                 if((bool)$page['protected'] && !$isAllowed && !$showMemberPages) {
@@ -48,6 +52,9 @@ class Widgets_Sitemap_Sitemap extends Widgets_Abstract {
         $this->_view->pages        = $pagesList;
         $this->_view->flatPages    = $flatPages;
         if(isset($this->_options[0]) && $this->_options[0] === self::SITEMAP_NOMENU_PAGES) {
+            $pageMapper       = Application_Model_Mappers_PageMapper::getInstance();
+            $allowedPageTypes = $pageMapper->getPageTypeByResource(self::SITEMAP_PAGES);
+            $nomenuPages     = Application_Model_Mappers_PageMapper::getInstance()->fetchAllNomenuPagesArray($allowedPageTypes);
             $this->_view->nomenuPages  = $nomenuPages;
         }
         $newslogPlugin = Application_Model_Mappers_PluginMapper::getInstance()->findByName('newslog');

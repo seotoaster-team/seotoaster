@@ -25,5 +25,10 @@ abstract class Tools_System_Observable implements Interfaces_Observable {
 			$observer->notify($this);
 		}
 	}
+
+    public function removeAllObservers() {
+        $this->_observers = array();
+        return $this;
+    }
 }
 
