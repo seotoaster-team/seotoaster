@@ -129,13 +129,13 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     }
 
     protected function _sendTfeedbackformMailReply(Application_Model_Models_Form $form) {
-	    if(!$form->getReplyEmail()) {
-            $this->_mailer             = Tools_Mail_Tools::initMailer();
-            $formDetails               = $this->_options['data'];
-            $formReplyMessage          = $form->getReplyText();
+	    if (!$form->getReplyEmail()) {
+            $this->_mailer = Tools_Mail_Tools::initMailer();
+            $formDetails = $this->_options['data'];
+            $formReplyMessage = $form->getReplyText();
             $this->_mailer->setMailToLabel($formDetails['name'])
                 ->setMailTo($formDetails['email']);
-            if(($replyTemplate = $form->getReplyMailTemplate()) != null) {
+            if (($replyTemplate = $form->getReplyMailTemplate()) != null) {
                 $this->_options['template'] = $replyTemplate;
             }
 
@@ -149,10 +149,10 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             $pageModel = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
             $pageId = 0;
             if ($pageModel instanceof Application_Model_Models_Page) {
-                $pageId = $pageModel->getId();
+               $pageId = $pageModel->getId();
             }
 
-            if(($mailBody = $this->_prepareEmailBody($pageId)) !== false) {
+            if (($mailBody = $this->_prepareEmailBody($pageId)) !== false) {
                 $this->_addToDictionaryLexemes($formDetails);
                 $this->_mailer->setBody($this->_entityParser->parse($mailBody));
             } else {
@@ -160,8 +160,9 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             }
 
             $this->_mailer->setSubject($form->getReplySubject())
-                ->setMailFromLabel($form->getReplyFromName())
-                ->setMailFrom($form->getReplyFrom());
+               ->setMailFromLabel($form->getReplyFromName())
+               ->setMailFrom($form->getReplyFrom());
+
             return $this->_mailer->send();
         }
 
@@ -443,7 +444,6 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             if ($pageId) {
                 $parserOptions['id'] = $pageId;
             }
-
             $parser = new Tools_Content_Parser($mailTemplate, array('containers' => $stat), $parserOptions);
 
             return Tools_Content_Tools::stripEditLinks($parser->parseSimple());
@@ -472,7 +472,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             return $mailArray;
         }
         return array($emails);
-        
+
     }
 
     /**
