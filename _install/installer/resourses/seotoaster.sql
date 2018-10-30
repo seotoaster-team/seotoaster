@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.5');
+('version',	'3.0.6');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -306,7 +306,8 @@ INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) V
 ('option_member_loginerror',	'Our membership login error page',	'Seotoaster membership',	1, 'once'),
 ('option_member_signuplanding',	'Where members land after signed-up',	'Seotoaster membership',	1, 'once'),
 ('option_protected',	'Accessible only to logged-in members',	'Seotoaster pages',	1, 'many'),
-('option_search',	'Search landing page',	'Seotoaster pages',	1, 'once');
+('option_search',	'Search landing page',	'Seotoaster pages',	1, 'once'),
+('option_superadminredirect',	'Page where superadmin will be redirected after login',	'Redirect',	1,	'once');
 
 DROP TABLE IF EXISTS `password_reset_log`;
 CREATE TABLE `password_reset_log` (
