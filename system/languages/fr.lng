@@ -1235,6 +1235,7 @@
     'Mrs' => 'Mme',
     'Ms' => 'Mme',
     'Miss' => 'Mlle',
-    'Dr' => 'Dr'
+    'Dr' => 'Dr',
+    'Exclude category from the menu' => 'Exclure la catégorie du menu'
 
 );?>

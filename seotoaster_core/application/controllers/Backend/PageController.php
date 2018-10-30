@@ -68,6 +68,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $page = $mapper->find($pageId);
             $this->view->pageId = $pageId;
             $this->view->pageType = $page->getPageType();
+            $this->view->excludeCategory = $page->getExcludeCategory();
         } else {
             // load new page
             $page = new Application_Model_Models_Page(array('showInMenu' => Application_Model_Models_Page::IN_MAINMENU));

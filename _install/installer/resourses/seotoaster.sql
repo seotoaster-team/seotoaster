@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.6');
+('version',	'3.0.7');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -250,6 +250,7 @@ CREATE TABLE `page` (
   `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1',
+  `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
   KEY `indUrl` (`url`),
