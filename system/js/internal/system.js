@@ -99,13 +99,15 @@ $(function(){
                     beforeSend : showSpinner(el),
                     success: function(response){
                         var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
+                        var delay;
                         if(typeof response.responseText.userDeleteError !== 'undefined') {
                             responseText = response.responseText.userDeleteError.quote;
+                            delay = 2000;
                         }
 
-                        showMessage(responseText, (!(typeof response.error=='undefined' || !response.error)), 5000);
+                        showMessage(responseText, (!(typeof response.error=='undefined' || !response.error)), 3000);
                         if(typeof callback!='undefined'){
-                            eval(callback+'()');
+                            eval(callback+'('+ delay +')');
                         }
                         hideSpinner();
                     }
