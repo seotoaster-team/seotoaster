@@ -99,7 +99,11 @@ $(function(){
                     beforeSend : showSpinner(el),
                     success: function(response){
                         var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
-                        showMessage(responseText, (!(typeof response.error=='undefined' || !response.error)));
+                        if(typeof response.responseText.userDeleteError !== 'undefined') {
+                            responseText = response.responseText.userDeleteError.quote;
+                        }
+
+                        showMessage(responseText, (!(typeof response.error=='undefined' || !response.error)), 5000);
                         if(typeof callback!='undefined'){
                             eval(callback+'()');
                         }

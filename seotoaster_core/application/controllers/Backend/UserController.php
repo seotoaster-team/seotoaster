@@ -212,6 +212,12 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
 
             } catch (Exception $exception) {
+                $userDeleteErrorMessage = Tools_System_Tools::firePluginMethod('userdeleteerror', 'systemUserDeleteErrorMessage');
+
+                if(!empty($userDeleteErrorMessage)) {
+                    $this->_helper->response->fail(array('userDeleteError' => $userDeleteErrorMessage));
+                }
+
                 $this->_helper->response->fail('Can\'t remove user...');
             }
 
