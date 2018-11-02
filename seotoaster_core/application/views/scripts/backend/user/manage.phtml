@@ -184,7 +184,7 @@
                                 }
                             ?>
                             <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
-                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallback" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
+                            <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallbackDelay" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -421,6 +421,18 @@
 
     function userCallback() {
         location.reload();
+    }
+
+    function userCallbackDelay(delay) {
+        var delayTime = 0;
+
+        if(typeof delay !== 'undefined') {
+            delayTime = delay;
+        }
+
+        setTimeout(function(){
+            location.reload();
+        }, delayTime);
     }
 
     function addUserAttribute(attrName)
