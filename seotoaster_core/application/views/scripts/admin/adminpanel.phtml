@@ -2,7 +2,7 @@
     ->appendFile($this->websiteUrl . 'system/js/external/polyfill/polyfill.min.js', null, array('conditional' => 'lte IE 9')) // classList and addEventListener
     ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js', null, array('async' => 'true'));
 ?>
-<div class="seotoaster-panel aside s">
+<div class="seotoaster-panel aside p-show">
     <div class="logo-wrap">
         <span class="_i-logo logo-icon tooltip" data-position="left"
               title="<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?>"></span>
@@ -26,6 +26,7 @@
                                         <li class="item"><a href="javascript:;"
                                                             data-cid="<?php echo $this->pageData['parentId']; ?>"
                                                             id="del-this-page"
+                                                            class="error"
                                                             title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a>
                                         </li>
                                         <input type="hidden" id="del-page-id"
@@ -354,7 +355,8 @@
                         </li>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <li class="section under_empty">
+            </ul><ul class="section-list">
+                <li class="section ">
                     <a href="#" class="section-btn _i-notification"></a>
 
                     <div class="section-wrap">

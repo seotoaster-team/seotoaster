@@ -1,87 +1,66 @@
 // brand colors
-@panel-brand-primary                : @brand-info;
+@panel-brand-primary : #03A9F4; //@brand-info;
 //#6B8DF9;//#6261FA;
 
 // aside styles
-@panel-aside-bg                     : #54565F;
-@panel-aside-color                  : #CCCCCC;
-@panel-aside-width                  : 60px;
+@panel-aside-bg : #27282B; //#54565F;
+@panel-aside-color : #CCCCCC;
+@panel-aside-width : 65px;
 
 // aside buttons styles
-@panel-aside-btn-bg                 : transparent;
-@panel-aside-btn-bg-hover           : darken(@panel-aside-bg, 4%);
-@panel-aside-btn-bg-active          : darken(@panel-aside-bg, 8%);
+@panel-aside-btn-bg : transparent;
+@panel-aside-btn-bg-hover : darken(@panel-aside-bg, 4%);
+@panel-aside-btn-bg-active : @panel-brand-primary; //darken(@panel-aside-bg, 8%);
 
-@panel-aside-btn-color              : @panel-aside-color;
-@panel-aside-btn-color-hover        : inherit;
-@panel-aside-btn-color-active       : inherit;
+@panel-aside-btn-color : @panel-aside-color;
+@panel-aside-btn-color-hover : lighten(@panel-aside-color, 10%);
+@panel-aside-btn-color-active : #FFFFFF; //lighten(@panel-aside-color,10%);
 
-@panel-aside-btn-collapse-height    : 20px;
-
-// section styles
-@panel-section-bg                   : #FCFCFC;
-@panel-section-color                : darken(@panel-section-bg, 40%);
-@panel-section-title-color          : #999999;
-
-@panel-section-width                : 240px;
-@panel-section-space                : 25px;
-@panel-section-shadow-height        : 60px;
-
-@panel-section-btn-bg-hover         : darken(@panel-section-bg, 10%);
-@panel-section-btn-color-hover      : darken(@panel-section-color, 10%);
-
-// dark styles (If you want the dark styles/colors for the panel - uncomment this  )
-//==================================================
-/*
-// brand colors
-@panel-brand-primary                : #6261FA;
-
-// aside styles
-@panel-aside-bg                     : #323541;
-@panel-aside-color                  : lighten(@panel-aside-bg, 45%);
-
-// aside buttons styles
-@panel-aside-btn-bg                 : transparent;
-@panel-aside-btn-bg-hover           : darken(@panel-aside-bg, 6%);
-@panel-aside-btn-bg-active          : fade(@panel-brand-primary, 35%);
-
-@panel-aside-btn-color              : @panel-aside-color;
-@panel-aside-btn-color-hover        : lighten(@panel-aside-btn-color , 10%);
-@panel-aside-btn-color-active       : lighten(@panel-aside-btn-color , 35%);
+@panel-aside-btn-collapse-height : @panel-show-hide-btn-height + @panel-aside-width;
 
 // section styles
-@panel-section-bg                   : #292C37;
-@panel-section-color                : #9CA5B3;
-@panel-section-title-color          : darken(desaturate(@panel-section-color, 2%), 30%);
+@panel-section-bg : #FFFFFF;
+@panel-section-color : darken(@panel-section-bg, 40%);
+@panel-section-title-color : #999999;
 
-@panel-section-btn-bg-hover         : darken(@panel-section-bg, 10%);
-@panel-section-btn-color-hover      : #A0A6AE;
-*/
+@panel-section-width : 240px;
+@panel-section-space : 25px;
+@panel-section-shadow-height : 60px;
+
+@panel-section-btn-bg-hover : darken(@panel-section-bg, 10%);
+@panel-section-btn-color-hover : darken(@panel-section-color, 10%);
+
+@panel-show-hide-btn-height : 30px;
 
 // Seotoaster panel
 //==================================================
-.seotoaster-panel{
+.seotoaster-panel {
     // styles
     background-color : @panel-aside-bg;
     color            : @panel-aside-color;
     font             : 14px/1.5 Arial, Helvetica, "Helvetica Neue", sans-serif;
     .transition(all; 0.3s; ease);
 
+    display          : flex;
+    flex-direction   : column;
+    flex-wrap        : nowrap;
+    padding-bottom   : @panel-show-hide-btn-height;
+
     /* reset styles */
-    a, a:hover{
+    a, a:hover {
         text-decoration : none;
     }
-    ul, li{
+    ul, li {
         list-style-type : none;
     }
-    ul{
+    ul {
         margin  : 0;
         padding : 0;
     }
 
-    &.aside{
+    &.aside {
         // styles
-        .box-shadow(0 0 2px 0 #aaa);
+        .box-shadow(0 0 2px 0 #AAAAAA);
         // box
         width    : @panel-aside-width;
         //height   : 100%;
@@ -90,16 +69,16 @@
         right    : 0;
         top      : 0;
         z-index  : 1001;
-        &:hover{
+        &:hover {
             z-index : 1005;
         }
     }
 
     // show and hide button
     //==================================================
-    .show-hide{
+    .show-hide {
         // styles
-        background-color : darken(@panel-aside-bg, 3%);
+        background-color : darken(@panel-aside-bg, 7%);
         cursor           : pointer;
         // box
         display          : block;
@@ -109,22 +88,28 @@
         position         : absolute;
         bottom           : 0;
         left             : 0;
+
+        display          : flex;
+        justify-content  : center;
+        align-items      : center;
+        height           : @panel-show-hide-btn-height;
     }
 
     // show and hide panel
     //==================================================
-    &.s{
+    &.p-show {
         height : 100%;
     }
-    &.h{
+    &.p-hide {
         height   : @panel-aside-btn-collapse-height;
         overflow : hidden;
     }
 
     // Logo
     //==================================================
-    .logo-wrap{ }
-    .logo-icon{
+    .logo-wrap {
+    }
+    .logo-icon {
         // styles
         background-color : @panel-aside-bg;
         color            : lighten(@panel-aside-bg, 20%);
@@ -139,31 +124,41 @@
 
     // section list
     //==================================================
-    .section-list{
+    .section-list {
         // styles
         background-color : @panel-aside-bg;
         // position
         position         : static;
         // box
-        height           : 100%;
 
-        .section{
+        display          : flex;
+        flex-direction   : column;
+        flex-wrap        : nowrap;
+
+        &:nth-of-type(1) {
+            //height : 100%;
+            flex : 1 1 auto;
+        }
+
+        .section {
             margin : 0;
+            flex   : 0 1 @panel-aside-width;
 
-            &.active{
-                .section-btn{
-                    background-color : @panel-aside-btn-bg-active;
-                    color            : @panel-aside-btn-color-active;
-                }
-                .section-wrap{
+            &.active {
+                background-color : @panel-aside-btn-bg-active;
+                color            : @panel-aside-btn-color-active;
+                //.section-btn {
+                //
+                //}
+                .section-wrap {
                     right   : @panel-aside-width;
                     opacity : 1;
                 }
             }
-            &.under_empty{
+            &.under_empty {
                 margin-bottom : @panel-aside-width / 2;
             }
-            &.over_empty{
+            &.over_empty {
                 margin-top : @panel-aside-width / 2;
             }
         }
@@ -171,25 +166,28 @@
 
     // section btn
     //==================================================
-    .section-btn{
+    .section-btn {
         // styles
-        font-size   : 18px;
-        color       : inherit;
+        font-size       : 18px;
+        color           : inherit;
         // box
-        display     : block;
-        height      : @panel-aside-width;
-        line-height : @panel-aside-width + 2;
-        text-align  : center;
+        //display         : block;
+        height          : @panel-aside-width;
+        //line-height     : @panel-aside-width + 2;
+        text-align      : center;
+        display         : flex;
+        justify-content : center;
+        align-items     : center;
 
-        &:before{
-            vertical-align : baseline;
+        &:before {
+            vertical-align : middle;
         }
 
-        &:hover{
+        &:hover {
             background-color : @panel-aside-btn-bg-hover;
             color            : @panel-aside-btn-color-hover;
         }
-        &:active{
+        &:active {
             background-color : @panel-aside-btn-bg-active;
             color            : @panel-aside-btn-color-active;
         }
@@ -197,7 +195,7 @@
 
     // section wrap
     //==================================================
-    .section-wrap{
+    .section-wrap {
         // styles
         background-color : @panel-section-bg;
         opacity          : 0;
@@ -211,16 +209,16 @@
         top              : 0;
         z-index          : -1;
         .transition(all; 0.3s; ease);
-        .box-shadow(0 0 2px 0 #aaa);
+        .box-shadow(0 0 20px 0 rgba(0, 0, 0, 0.15));
 
-        .section-box{
+        .section-box {
             padding      : 0 @panel-section-space;
             height       : 100%;
             overflow-y   : scroll;
             position     : relative;
             margin-right : -18px;
         }
-        &:after{
+        &:after {
             position       : absolute;
             z-index        : 1;
             bottom         : 0;
@@ -238,7 +236,7 @@
 
     // section title
     //==================================================
-    .section-title{
+    .section-title {
         // styles
         color       : @panel-section-title-color;
         line-height : @panel-aside-width;
@@ -250,45 +248,49 @@
 
     // category list
     //==================================================
-    .category-list{
-        padding         : 0 0 8px;
+    .category-list {
+        padding         : 0 0 10px;
         list-style-type : none;
         margin          : 0;
         font-size       : 14px;
 
-        & + .category-list{
-            padding-top : 8px;
+        & + .category-list {
+            padding-top : 10px;
             border-top  : 1px solid darken(@panel-section-bg, 4%);
         }
 
-        &:last-child{
+        &:last-child {
             margin-bottom : @panel-section-shadow-height;
         }
 
-        & > li{
+        & > li {
             margin : 0;
 
-            &.title{
+            &.title {
                 color       : #5C6779;
                 //padding     : 0 10px;
                 //font-size   : 16px;
                 font-weight : bold;
 
                 & ~ .title {
-                    color: #A9B0BA;
+                    color : #A9B0BA;
                 }
             }
 
-            & > a{
+            & > a {
                 color   : @panel-section-color;
-                padding : 6px 14px;
+                padding : 7px 14px;
                 display : block;
                 .border-radius(3px);
                 .transition(background-color; 0.3s; ease);
 
-                &:hover{
+                &:hover {
                     background-color : darken(@panel-section-bg, 5%);
                     color            : @panel-section-btn-color-hover;
+                }
+
+                &.error {
+                    color: @brand-error;
                 }
             }
         }
@@ -296,160 +298,161 @@
 
     // notifications messages
     //==================================================
-    .notice-messages{ }
-    .notice-msg{
-        display        : none;
-        font-size      : 13px;
-        color          : @panel-section-color;
-        padding-bottom : 12px;
-
-        p{
-            margin : 0 0 5px;
-        }
-
-        &:before{
-            content      : "";
-            width        : 8px;
-            height       : 8px;
-            float        : left;
-            margin-top   : 6px;
-            margin-right : 6px;
-            .border-radius(50%);
-        }
-        &.info{
-            &:before{
-                background-color : @panel-brand-primary;
-            }
-        }
-        &.success{
-            &:before{
-                background-color : @brand-success;
-            }
-        }
-        &.error{
-            &:before{
-                background-color : @brand-error;
-            }
-        }
-        &.warning{
-            &:before{
-                background-color : @brand-warning;
-            }
-        }
-
-        &._new-version{
-        }
-
-        &.show{
-            display : block;
-
-            & ~ .show{
-                padding-top : 12px;
-                border-top  : 1px solid darken(@panel-section-bg, 4%);
-            }
-
-            & ~ .no-notices{
-                display : none;
-            }
-        }
-    }
-    .no-notices{
-        text-align : center;
-        display    : block;
-        font-size  : 14px;
-    }
+    //.notice-messages {
+    //}
+    //.notice-msg {
+    //    display        : none;
+    //    font-size      : 13px;
+    //    color          : @panel-section-color;
+    //    padding-bottom : 12px;
+    //
+    //    p {
+    //        margin : 0 0 5px;
+    //    }
+    //
+    //    &:before {
+    //        content      : "";
+    //        width        : 8px;
+    //        height       : 8px;
+    //        float        : left;
+    //        margin-top   : 6px;
+    //        margin-right : 6px;
+    //        .border-radius(50%);
+    //    }
+    //    &.info {
+    //        &:before {
+    //            background-color : @panel-brand-primary;
+    //        }
+    //    }
+    //    &.success {
+    //        &:before {
+    //            background-color : @brand-success;
+    //        }
+    //    }
+    //    &.error {
+    //        &:before {
+    //            background-color : @brand-error;
+    //        }
+    //    }
+    //    &.warning {
+    //        &:before {
+    //            background-color : @brand-warning;
+    //        }
+    //    }
+    //
+    //    &._new-version {
+    //    }
+    //
+    //    &.show {
+    //        display : block;
+    //
+    //        & ~ .show {
+    //            padding-top : 12px;
+    //            border-top  : 1px solid darken(@panel-section-bg, 4%);
+    //        }
+    //
+    //        & ~ .no-notices {
+    //            display : none;
+    //        }
+    //    }
+    //}
+    //.no-notices {
+    //    text-align : center;
+    //    display    : block;
+    //    font-size  : 14px;
+    //}
 
     // helper classes
     //==================================================
-    ._i-logo{
-        &:before{
+    ._i-logo {
+        &:before {
             content : "\e054";
         }
     }
-    ._i-editing{
-        &:before{
-            content : "\e021";
+    ._i-editing {
+        &:before {
+            content : "\e901";
         }
     }
-    ._i-marketing-seo{
-        &:before{
+    ._i-marketing-seo {
+        &:before {
             content : "\e15d";
         }
     }
-    ._i-plugins{
-        &:before{
+    ._i-plugins {
+        &:before {
             content : "\e1c0";
         }
     }
-    ._i-store{
-        &:before{
+    ._i-store {
+        &:before {
             content : "\e09f";
         }
     }
-    ._i-setup{
-        &:before{
+    ._i-setup {
+        &:before {
             content : "\e140";
         }
     }
-    ._i-notification{
-        &:before{
+    ._i-notification {
+        &:before {
             content : "\e0ee";
         }
     }
-    ._i-loading{
-        &:before{
+    ._i-loading {
+        &:before {
             content : "\e112";
         }
     }
-    ._i-refresh{
-        &:before{
-            content : "\e2a9";
+    ._i-refresh {
+        &:before {
+            content : "\e900";
         }
     }
-    ._i-exit{
-        &:before{
+    ._i-exit {
+        &:before {
             content : "\e28d";
         }
     }
-    ._i-panel-hide{
-        &:before{
+    ._i-panel-hide {
+        &:before {
             content : "\e018";
         }
     }
-    ._i-panel-show{
-        &:before{
+    ._i-panel-show {
+        &:before {
             content : "\e01b";
         }
     }
 
-    .new-notices{
-        position : relative;
-        &:after{
-            content          : "";
-            display          : block;
-            position         : absolute;
-            bottom           : 15px;
-            right            : 15px;
-            background-color : @panel-brand-primary;
-            width            : 6px;
-            height           : 6px;
-            border           : 4px solid @panel-aside-bg;
-            .box-sizing(content-box);
-            .border-radius(50%);
-        }
-    }
-
-    .active .new-notices{
-        &:after{
-            border-color : @panel-aside-btn-bg-active;
-        }
-    }
+    //.new-notices {
+    //    position : relative;
+    //    &:after {
+    //        content          : "";
+    //        display          : block;
+    //        position         : absolute;
+    //        bottom           : 15px;
+    //        right            : 15px;
+    //        background-color : @panel-brand-primary;
+    //        width            : 6px;
+    //        height           : 6px;
+    //        border           : 4px solid @panel-aside-bg;
+    //        .box-sizing(content-box);
+    //        .border-radius(50%);
+    //    }
+    //}
+    //
+    //.active .new-notices {
+    //    &:after {
+    //        border-color : @panel-aside-btn-bg-active;
+    //    }
+    //}
 
 }
 
-#cleancache{
-    &.run{
-        line-height : 63px;
+#cleancache {
+    &.run {
+        //line-height : 63px;
         .animated();
         .animate-repeat();
         .animate-rotate();
@@ -457,7 +460,7 @@
         .animate-timing-function(linear);
         .animate-duration(600ms);
         color       : @panel-brand-primary;
-        &:hover{
+        &:hover {
             background-color : transparent !important;
         }
     }

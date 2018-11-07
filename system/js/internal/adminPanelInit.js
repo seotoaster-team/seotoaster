@@ -146,8 +146,8 @@
     document.getElementsByClassName('show-hide')[0].addEventListener('click', function (event) {
         event.target.classList.toggle('_i-panel-hide');
         event.target.classList.toggle('_i-panel-show');
-        toasterPanel.classList.toggle('s');
-        toasterPanel.classList.toggle('h');
+        toasterPanel.classList.toggle('p-show');
+        toasterPanel.classList.toggle('p-hide');
     });
 
     /**
@@ -193,6 +193,36 @@
             }
         }
     });
+
+    document.getElementById('cleancache').addEventListener('click', function(e){
+        // showMessage('Clearing cache...', false);
+        e.target.classList.add('run');
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", websiteUrl + '/backend/backend_content/cleancache/', false);
+        xmlHttp.send(null);
+        var response = JSON.parse(xmlHttp.responseText);
+        if (xmlHttp.status == 200) {
+            showMessage(response.responseText, false, 2500);
+            e.target.classList.remove('run');
+        }else {
+            showMessage(response.responseText, true);
+            e.target.classList.remove('run');
+        }
+
+    });
+    // $('#cleancache').on('click', function() {
+    //     showMessage('Clearing cache...', false);
+    //
+    //     $.get($('#website_url').val() + 'backend/backend_content/cleancache/', function(response) {
+    //         if (response.error == 0) {
+    //             showMessage(response.responseText, false, 2500);
+    //         }
+    //         else {
+    //             showMessage(response.responseText, true);
+    //         }
+    //     });
+    // });
 })();
 
 function showDelConfirm() {
