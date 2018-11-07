@@ -437,6 +437,12 @@
     & when (@ie){ -ms-flex-direction : @direction; }
     flex-direction : @direction;
 }
+// @wrap = flex-start, flex-end, center, space-around, space-between
+.flex-justify-content(@align : flex-start) {
+    & when (@webkit) { -webkit-justify-content : @align; }
+    //& when (@ie) { -ms-justify-content: @align; }
+    justify-content : @align;
+}
 
 // @wrap = nowrap, wrap, wrap-reverse
 .flex-wrap(@wrap : nowrap) {
@@ -463,12 +469,12 @@
     order : @order;
 }
 
-.flex-box-size(@size : 1) {
-    & when (@webkit){ -webkit-box-flex : @size; }
+.flex-box-size(@grow: 0, @shrink: 1, @basis : auto) {
+    & when (@webkit){ -webkit-box-flex : @grow; }
 //    & when (@moz){ -moz-box-flex : @size; }
-    & when (@webkit){ -webkit-flex : @size 1 auto; }
-    & when (@ie){ -ms-flex : @size 1 auto; }
-    flex : @size 1 auto;
+    & when (@webkit){ -webkit-flex : @grow @shrink @basis; }
+    & when (@ie){ -ms-flex : @grow @shrink @basis; }
+    flex : @grow @shrink @basis;
 }
 
 // @align = auto, flex-start, flex-end, center, baseline, stretch
