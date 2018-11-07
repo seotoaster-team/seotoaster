@@ -242,14 +242,16 @@
                                         $this->translate('Manage plugins'), false, false,
                                         array('width' => '960', 'height' => '560')); ?></li>
                             </ul>
-                            <ul class="category-list">
+
                                 <!-- output plugins additional menus -->
                                 <?php if (isset($this->additionalMenu['DEFAULT'])): ?>
                                     <?php foreach ($this->additionalMenu['DEFAULT'] as $categoryName => $category): ?>
+                                        <ul class="category-list">
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
                                             <li class="item title"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
+
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
                                                 <?php if (isset($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index])): ?>
                                                     <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
@@ -260,10 +262,11 @@
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         <?php endforeach; ?>
+                                        </ul>
                                     <?php endforeach; ?>
                                     <?php unset($this->additionalMenu['DEFAULT']); ?>
                                 <?php endif; ?>
-                            </ul>
+                          
                         </div>
                     </div>
                 </li>
@@ -358,8 +361,8 @@
                                                 <?php endforeach; ?>
                                             <?php endforeach; ?>
                                             <?php unset($this->additionalMenu[$addName]); ?>
+                                            </ul>
                                         <?php endif; ?>
-                                    </ul>
                                 </div>
                             </div>
                         </li>
