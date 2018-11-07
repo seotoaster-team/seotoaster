@@ -1,6 +1,5 @@
 // brand colors
-@panel-brand-primary : #673AB7; //@brand-info;
-//#6B8DF9;//#6261FA;
+@panel-brand-primary : #673AB7; //@brand-info;//#6B8DF9;//#6261FA;
 
 // aside styles
 @panel-aside-bg : #202123; //#27282B; //#54565F;
@@ -39,12 +38,9 @@
     background-color : @panel-aside-bg;
     color            : @panel-aside-color;
     font             : 14px/1.5 Arial, Helvetica, "Helvetica Neue", sans-serif;
-    .transition(all; 0.3s; ease);
-
-    display          : flex;
-    flex-direction   : column;
-    flex-wrap        : nowrap;
-    padding-bottom   : @panel-show-hide-btn-height;
+    //padding-bottom   : @panel-show-hide-btn-height;
+    .transition(height; 0.3s; ease);
+    .flexbox(column; nowrap);
 
     /* reset styles */
     a, a:hover {
@@ -59,12 +55,7 @@
     }
 
     &.aside {
-        // styles
-        .box-shadow(0 0 2px 0 #AAAAAA);
-        // box
         width    : @panel-aside-width;
-        //height   : 100%;
-        // position
         position : fixed;
         right    : 0;
         top      : 0;
@@ -77,22 +68,20 @@
     // show and hide button
     //==================================================
     .show-hide {
+        // box
+        .flexbox(row; wrap; center);
+        .flex-justify-content(center);
+        width            : 100%;
+        text-align       : center;
         // styles
         background-color : darken(@panel-aside-bg, 7%);
         cursor           : pointer;
-        // box
-        display          : block;
-        width            : 100%;
-        text-align       : center;
         // position
-        position         : absolute;
+        //position         : absolute;
         bottom           : 0;
         left             : 0;
         font-size        : 16px;
 
-        display          : flex;
-        justify-content  : center;
-        align-items      : center;
         height           : @panel-show-hide-btn-height;
     }
 
@@ -104,6 +93,10 @@
     &.p-hide {
         height   : @panel-aside-btn-collapse-height;
         overflow : hidden;
+
+        .show-hide {
+            position: absolute;
+        }
     }
 
     // Logo
@@ -126,24 +119,23 @@
     // section list
     //==================================================
     .section-list {
+        // position
+        .flexbox(column;nowrap);
+        position         : static;
         // styles
         background-color : @panel-aside-bg;
-        // position
-        position         : static;
         // box
 
-        display          : flex;
-        flex-direction   : column;
-        flex-wrap        : nowrap;
-
         &:nth-of-type(1) {
-            //height : 100%;
-            flex : 1 1 auto;
+            .flex-box-size(1, 0, auto);
+        }
+        &:nth-of-type(2) {
+            .flex-box-size(0, 1, auto);
         }
 
         .section {
             margin : 0;
-            flex   : 0 1 @panel-aside-width;
+            .flex-box-size(0, 1, @panel-aside-width);
 
             &:hover {
                 .section-btn {
@@ -153,7 +145,6 @@
             }
 
             &.active {
-
                 .section-btn {
                     background-color : @panel-aside-btn-bg-active;
                     color            : @panel-aside-btn-color-active;
@@ -175,26 +166,20 @@
     // section btn
     //==================================================
     .section-btn {
+
+        // box
+        .flexbox(row; wrap; center);
+        .flex-justify-content(center);
+        height          : @panel-aside-width;
+        text-align      : center;
         // styles
         font-size       : 16px;
         color           : inherit;
-        // box
-        //display         : block;
-        height          : @panel-aside-width;
-        //line-height     : @panel-aside-width + 2;
-        text-align      : center;
-        display         : flex;
-        justify-content : center;
-        align-items     : center;
         .transition(all, 0.25s, ease);
 
         &:before {
             vertical-align : middle;
         }
-        //.active & {
-        //    background-color : @panel-aside-btn-bg-active;
-        //    color            : @panel-aside-btn-color-active;
-        //}
     }
 
     // section wrap
@@ -276,7 +261,7 @@
                 //font-size   : 16px;
                 font-weight : bold;
 
-                & ~ .title {
+                & ~ .title:not(.item) {
                     color : #A9B0BA;
                 }
             }
@@ -410,15 +395,16 @@
     }
     ._i-crm {
         &:before {
-            content : "\e095";
+            content : "\e09a";
         }
     }
-    ._i-id-card {
+    ._i-website-id-card {
         &:before {
             content : "\e07a";
         }
     }
-    ._i-news {
+
+    ._i-blog-and-news {
         &:before {
             content : "\e903";
         }
@@ -467,24 +453,32 @@
     //    }
     //}
 
+    @media only screen and (max-height : 780px) {
+        & {
+            .section-list {
+                .section {
+                    .flex-box-size(0, 1, 50px);
+                }
+                .section-btn {
+                    height: 50px;
+                }
+            }
+
+        }
+    }
+
 }
 
 #cleancache {
-    .transition(all, 0.25s, ease);
+    .transition(transform, 0.25s, ease);
     .scale(1);
     &::before {
 
     }
 
-    //&:hover {
-    //    background-color : transparent;
-    //}
     &.run {
-        //line-height : 63px;
         .scale(1.65);
-        //font-size: 24px;
-
-        color     : #FFF;//@panel-brand-primary;
+        color : #FFFFFF;
 
         &:before {
             .animated();
@@ -494,9 +488,8 @@
             .animate-timing-function(linear);
             .animate-duration(600ms);
 
-
         }
-        //font-size : 22px;
+
         &:hover {
             background-color : transparent !important;
         }
