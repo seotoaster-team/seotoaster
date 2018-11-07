@@ -84,11 +84,13 @@ class Tools_Plugins_Tools {
 
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
 
-                $additionalMenu[$section][$subsection][$title] = array(
-                    'title'       => $title,
-                    'items'       => array(),
-                    'values'      => array()
-                );
+				if (!isset($additionalMenu[$section][$subsection][$title])) {
+                    $additionalMenu[$section][$subsection][$title] = array(
+                        'title' => $title,
+                        'items' => array(),
+                        'values' => array()
+                    );
+                }
 
                 foreach ($values as $value) {
                     array_push($additionalMenu[$section][$subsection][$title]['values'], $value);
