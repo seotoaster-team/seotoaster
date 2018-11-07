@@ -110,10 +110,11 @@
      * Event on the panel item
      */
     sectionList.addEventListener('click', function (event) {
-        event.preventDefault();
+        // event.preventDefault();
 
         var item = event.target.parentNode,
             itemWithClass = sectionList.querySelector('.section.active');
+
 
         if (event.target.className.indexOf('section-btn') == -1 || event.target.className.indexOf('no-open-section') != -1) {
             return false;
@@ -203,11 +204,16 @@
         xmlHttp.send(null);
         var response = JSON.parse(xmlHttp.responseText);
         if (xmlHttp.status == 200) {
-            showMessage(response.responseText, false, 2500);
-            e.target.classList.remove('run');
+            setTimeout(function(){
+                e.target.classList.remove('run');
+                showMessage(response.responseText, false, 2500);
+            }, 2000);
+
         }else {
-            showMessage(response.responseText, true);
-            e.target.classList.remove('run');
+            setTimeout(function(){
+                e.target.classList.remove('run');
+                showMessage(response.responseText, true);
+            }, 2000);
         }
 
     });

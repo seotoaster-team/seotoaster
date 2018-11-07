@@ -101,8 +101,8 @@ a.generator-links.plugin {
   box-shadow: 3px 3px 10px #000;
 }
 .seotoaster-panel {
-  background-color: #27282B;
-  color: #CCCCCC;
+  background-color: #202123;
+  color: #999999;
   font: 14px/1.5 Arial, Helvetica, "Helvetica Neue", sans-serif;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
@@ -136,7 +136,7 @@ a.generator-links.plugin {
   z-index: 1005;
 }
 .seotoaster-panel .show-hide {
-  background-color: #161718;
+  background-color: #0f0f10;
   cursor: pointer;
   display: block;
   width: 100%;
@@ -144,6 +144,7 @@ a.generator-links.plugin {
   position: absolute;
   bottom: 0;
   left: 0;
+  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -157,8 +158,8 @@ a.generator-links.plugin {
   overflow: hidden;
 }
 .seotoaster-panel .logo-icon {
-  background-color: #27282B;
-  color: #585a60;
+  background-color: #202123;
+  color: #515358;
   font-size: 34px;
   text-align: center;
   line-height: 65px;
@@ -167,7 +168,7 @@ a.generator-links.plugin {
   cursor: default;
 }
 .seotoaster-panel .section-list {
-  background-color: #27282B;
+  background-color: #202123;
   position: static;
   display: flex;
   flex-direction: column;
@@ -180,8 +181,12 @@ a.generator-links.plugin {
   margin: 0;
   flex: 0 1 65px;
 }
-.seotoaster-panel .section-list .section.active {
-  background-color: #03A9F4;
+.seotoaster-panel .section-list .section:hover .section-btn {
+  background-color: #000000;
+  color: #bfbfbf;
+}
+.seotoaster-panel .section-list .section.active .section-btn {
+  background-color: #673AB7;
   color: #FFFFFF;
 }
 .seotoaster-panel .section-list .section.active .section-wrap {
@@ -195,24 +200,18 @@ a.generator-links.plugin {
   margin-top: 32.5px;
 }
 .seotoaster-panel .section-btn {
-  font-size: 18px;
+  font-size: 16px;
   color: inherit;
   height: 65px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 .seotoaster-panel .section-btn:before {
   vertical-align: middle;
-}
-.seotoaster-panel .section-btn:hover {
-  background-color: #1d1e20;
-  color: #e6e6e6;
-}
-.seotoaster-panel .section-btn:active {
-  background-color: #03A9F4;
-  color: #FFFFFF;
 }
 .seotoaster-panel .section-wrap {
   background-color: #FFFFFF;
@@ -318,11 +317,20 @@ a.generator-links.plugin {
 .seotoaster-panel ._i-loading:before {
   content: "\e112";
 }
+.seotoaster-panel ._i-crm:before {
+  content: "\e095";
+}
+.seotoaster-panel ._i-id-card:before {
+  content: "\e07a";
+}
+.seotoaster-panel ._i-news:before {
+  content: "\e903";
+}
 .seotoaster-panel ._i-refresh:before {
   content: "\e900";
 }
 .seotoaster-panel ._i-exit:before {
-  content: "\e28d";
+  content: "\e904";
 }
 .seotoaster-panel ._i-panel-hide:before {
   content: "\e018";
@@ -330,7 +338,20 @@ a.generator-links.plugin {
 .seotoaster-panel ._i-panel-show:before {
   content: "\e01b";
 }
+#cleancache {
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
 #cleancache.run {
+  -webkit-transform: scale(1.65);
+  -ms-transform: scale(1.65);
+  transform: scale(1.65);
+  color: #FFF;
+}
+#cleancache.run:before {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   -webkit-animation-duration: 50ms;
@@ -343,9 +364,8 @@ a.generator-links.plugin {
   animation-timing-function: linear;
   -webkit-animation-duration: 600ms;
   animation-duration: 600ms;
-  color: #03A9F4;
 }
-#cleancache.run.hinge {
+#cleancache.run:before.hinge {
   -webkit-animation-duration: 2s;
   animation-duration: 2s;
 }

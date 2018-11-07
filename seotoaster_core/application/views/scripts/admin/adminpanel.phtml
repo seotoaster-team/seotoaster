@@ -356,25 +356,6 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </ul><ul class="section-list">
-                <li class="section ">
-                    <a href="#" class="section-btn _i-notification"></a>
-
-                    <div class="section-wrap">
-                        <div class="section-box notifications-box">
-                            <span class="section-title"><?php echo $this->translate('Notification'); ?></span>
-
-                            <div class="notice-msg info _new-version">
-                                <p><?php echo $this->translate('Good news! Detected a new version. You can upgrade to it'); ?></p>
-                                <?php echo $this->toasterLink('backend_update', 'index', $this->translate('Update now'),
-                                    false,
-                                    false, array('width' => '480', 'height' => '560')); ?>
-                            </div>
-                            <div class="no-notices">
-                                <p><?php echo $this->translate('You do not have any notifications'); ?></p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
             <?php endif; ?>
             <li class="section">
                 <a class="section-btn _i-refresh no-open-section" href="javascript:;" id="cleancache"

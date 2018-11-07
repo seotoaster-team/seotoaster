@@ -1,19 +1,19 @@
 // brand colors
-@panel-brand-primary : #03A9F4; //@brand-info;
+@panel-brand-primary : #673AB7; //@brand-info;
 //#6B8DF9;//#6261FA;
 
 // aside styles
-@panel-aside-bg : #27282B; //#54565F;
-@panel-aside-color : #CCCCCC;
+@panel-aside-bg : #202123; //#27282B; //#54565F;
+@panel-aside-color : #999999;
 @panel-aside-width : 65px;
 
 // aside buttons styles
 @panel-aside-btn-bg : transparent;
-@panel-aside-btn-bg-hover : darken(@panel-aside-bg, 4%);
+@panel-aside-btn-bg-hover : darken(@panel-aside-bg, 15%);
 @panel-aside-btn-bg-active : @panel-brand-primary; //darken(@panel-aside-bg, 8%);
 
 @panel-aside-btn-color : @panel-aside-color;
-@panel-aside-btn-color-hover : lighten(@panel-aside-color, 10%);
+@panel-aside-btn-color-hover : lighten(@panel-aside-color, 15%);
 @panel-aside-btn-color-active : #FFFFFF; //lighten(@panel-aside-color,10%);
 
 @panel-aside-btn-collapse-height : @panel-show-hide-btn-height + @panel-aside-width;
@@ -88,6 +88,7 @@
         position         : absolute;
         bottom           : 0;
         left             : 0;
+        font-size        : 16px;
 
         display          : flex;
         justify-content  : center;
@@ -144,12 +145,19 @@
             margin : 0;
             flex   : 0 1 @panel-aside-width;
 
+            &:hover {
+                .section-btn {
+                    background-color : @panel-aside-btn-bg-hover;
+                    color            : @panel-aside-btn-color-hover;
+                }
+            }
+
             &.active {
-                background-color : @panel-aside-btn-bg-active;
-                color            : @panel-aside-btn-color-active;
-                //.section-btn {
-                //
-                //}
+
+                .section-btn {
+                    background-color : @panel-aside-btn-bg-active;
+                    color            : @panel-aside-btn-color-active;
+                }
                 .section-wrap {
                     right   : @panel-aside-width;
                     opacity : 1;
@@ -168,7 +176,7 @@
     //==================================================
     .section-btn {
         // styles
-        font-size       : 18px;
+        font-size       : 16px;
         color           : inherit;
         // box
         //display         : block;
@@ -178,19 +186,15 @@
         display         : flex;
         justify-content : center;
         align-items     : center;
+        .transition(all, 0.25s, ease);
 
         &:before {
             vertical-align : middle;
         }
-
-        &:hover {
-            background-color : @panel-aside-btn-bg-hover;
-            color            : @panel-aside-btn-color-hover;
-        }
-        &:active {
-            background-color : @panel-aside-btn-bg-active;
-            color            : @panel-aside-btn-color-active;
-        }
+        //.active & {
+        //    background-color : @panel-aside-btn-bg-active;
+        //    color            : @panel-aside-btn-color-active;
+        //}
     }
 
     // section wrap
@@ -290,7 +294,7 @@
                 }
 
                 &.error {
-                    color: @brand-error;
+                    color : @brand-error;
                 }
             }
         }
@@ -404,6 +408,21 @@
             content : "\e112";
         }
     }
+    ._i-crm {
+        &:before {
+            content : "\e095";
+        }
+    }
+    ._i-id-card {
+        &:before {
+            content : "\e07a";
+        }
+    }
+    ._i-news {
+        &:before {
+            content : "\e903";
+        }
+    }
     ._i-refresh {
         &:before {
             content : "\e900";
@@ -411,7 +430,7 @@
     }
     ._i-exit {
         &:before {
-            content : "\e28d";
+            content : "\e904";
         }
     }
     ._i-panel-hide {
@@ -451,15 +470,33 @@
 }
 
 #cleancache {
+    .transition(all, 0.25s, ease);
+    .scale(1);
+    &::before {
+
+    }
+
+    //&:hover {
+    //    background-color : transparent;
+    //}
     &.run {
         //line-height : 63px;
-        .animated();
-        .animate-repeat();
-        .animate-rotate();
-        .animation-name(rotate);
-        .animate-timing-function(linear);
-        .animate-duration(600ms);
-        color       : @panel-brand-primary;
+        .scale(1.65);
+        //font-size: 24px;
+
+        color     : #FFF;//@panel-brand-primary;
+
+        &:before {
+            .animated();
+            .animate-repeat();
+            .animate-rotate();
+            .animation-name(rotate);
+            .animate-timing-function(linear);
+            .animate-duration(600ms);
+
+
+        }
+        //font-size : 22px;
         &:hover {
             background-color : transparent !important;
         }
