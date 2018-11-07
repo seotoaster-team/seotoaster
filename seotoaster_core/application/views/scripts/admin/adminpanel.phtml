@@ -336,6 +336,16 @@
                                                     <li class="item title"><?php echo $categoryName; ?></li>
                                                 <?php endif; ?>
                                                 <?php foreach ($category as $pluginName => $plugin): ?>
+                                                    <?php $itemsWithLinks = preg_grep('~open-new-link-admin-panel~', $plugin['items']);?>
+                                                    <?php if(!empty($itemsWithLinks)) :?>
+                                                        <?php foreach($itemsWithLinks as $itemWithLinkKey => $itemWithLinkValue) :?>
+                                                            <?php unset($plugin['items'][$itemWithLinkKey]);?>
+                                                            <?php $plugin['items'][] = $itemWithLinkValue;?>
+                                                            <?php end($plugin['items']);?>
+                                                            <?php $this->additionalMenu[$addName][$categoryName][$pluginName]['values'][key($plugin['items'])] = $this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$itemWithLinkKey];?>
+                                                            <?php unset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$itemWithLinkKey]);?>
+                                                        <?php endforeach;?>
+                                                     <?php endif;?>
                                                     <?php foreach ($plugin['items'] as $index => $item): ?>
                                                         <?php if (isset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index])): ?>
                                                             <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
