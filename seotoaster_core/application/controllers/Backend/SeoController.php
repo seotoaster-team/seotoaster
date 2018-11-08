@@ -599,8 +599,14 @@ class Backend_SeoController extends Zend_Controller_Action {
                             $offset = $sitemapType * $limit - 1;
                         }
                     }
-                    $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array(), false,
-                        false, $limit, $offset);
+                    try {
+                        $pages = Application_Model_Mappers_PageMapper::getInstance()->fetchAll($where, array(), false,
+                            false, $limit, $offset);
+                    } catch (Exception $e) {
+                        $this->getResponse()->setHeader('Content-Type', 'text/html', true);
+
+                        return $this->forward('index', 'index', null, array('page' => 'sitemap' . $sitemapType . '.xml'));
+                    }
                     if (is_array($pages) && !empty($pages)) {
                         $quoteInstalled = Tools_Plugins_Tools::findPluginByName('quote')->getStatus() == Application_Model_Models_Plugin::ENABLED;
                         $pages = array_filter($pages, function ($page) use ($quoteInstalled) {
@@ -625,20 +631,7 @@ class Backend_SeoController extends Zend_Controller_Action {
                 }
         }
 
-        switch ($sitemapType) {
-            case Tools_Content_Feed::SMFEED_TYPE_INDEX:
-                $template = 'sitemap' . $sitemapType . '.xml.phtml';
-                break;
-            case 'news':
-                $template = 'sitemap' . $sitemapType . '.xml.phtml';
-                break;
-            case 'products':
-                $template = 'sitemap' . $sitemapType . '.xml.phtml';
-                break;
-            default:
-                $template = 'sitemap.xml.phtml';
-
-        }
+        $template = 'sitemap' . $sitemapType . '.xml.phtml';
         if (null === ($sitemapContent = $this->_helper->cache->load($sitemapType,
                 Helpers_Action_Cache::PREFIX_SITEMAPS))
         ) {
