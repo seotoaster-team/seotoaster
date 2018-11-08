@@ -590,7 +590,7 @@ class Backend_SeoController extends Zend_Controller_Action {
                     $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('external_link_status <> ?', '1');
                     $limit = $this->_siteMapDefaultPages;
                     $offset = 0;
-                    if ($sitemapType != 'news' && $sitemapType != 'product') {
+                    if ($sitemapType != 'news' && $sitemapType != 'products') {
                         $limit = $config['pagesLimit'];
                         if (empty($sitemapType)) {
                             $limit -= 1;
@@ -632,9 +632,8 @@ class Backend_SeoController extends Zend_Controller_Action {
             case 'news':
                 $template = 'sitemap' . $sitemapType . '.xml.phtml';
                 break;
-            case 'product':
+            case 'products':
                 $template = 'sitemap' . $sitemapType . '.xml.phtml';
-                $sitemapType = 'products';
                 break;
             default:
                 $template = 'sitemap.xml.phtml';
