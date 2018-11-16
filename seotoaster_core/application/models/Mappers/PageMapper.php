@@ -367,6 +367,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
 
+    public function fetchIdUrlOptimized($pageTypes = array())
+    {
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from(array('p' => $this->getDbTable()->info('name')), array(
+                'p.id',
+                'p.url',
+                'optimized_url' => 'opt.url'
+            ))
+            ->joinLeft(array('opt' => 'optimized'), 'p.id=opt.page_id', array())
+            ->order('p.url');
+        if (!empty($pageTypes)) {
+            $select->where('page_type IN (?)', $pageTypes);
+        }
+        return $this->getDbTable()->getAdapter()->fetchAssoc($select);
+    }
+
     protected function  _findWhere($where, $fetchSysPages = false)
     {
         $whereExploded = explode('=', $where);

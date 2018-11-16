@@ -89,10 +89,21 @@ class Backend_SeoController extends Zend_Controller_Action {
 		$redirectMapper = Application_Model_Mappers_RedirectMapper::getInstance();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::SEO_PAGES);
         $notFoundPages = $pageMapper::getInstance()->fetchByOption(Application_Model_Models_Page::OPT_404PAGE, false);
-        $pages = $pageMapper->fetchIdUrlPairs($allowedPageTypes);
+
+        $pages = $pageMapper->fetchIdUrlOptimized($allowedPageTypes);
         if(!empty($notFoundPages)){
             foreach ($notFoundPages as $page){
                 unset($pages[$page->getId()]);
+            }
+        }
+
+        if(!empty($pages)) {
+            foreach ($pages as $pageId => $pageData) {
+                if(!empty($pageData['optimized_url'])) {
+                    $pages[$pageId] = $pageData['optimized_url'];
+                } else {
+                    $pages[$pageId] = $pageData['url'];
+                }
             }
         }
 
