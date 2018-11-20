@@ -226,6 +226,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->fetchAll($where);
     }
 
+
     public function fetchAllNomenuPagesArray($pageTypes = array(), $fetchSysPages = false, $fetchProtected = false)
     {
         $table = $this->getDbTable();
@@ -369,18 +370,19 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
 
     public function fetchIdUrlOptimized($pageTypes = array())
     {
-        $select = $this->getDbTable()->getAdapter()->select()
-            ->from(array('p' => $this->getDbTable()->info('name')), array(
-                'p.id',
-                'p.url',
-                'optimized_url' => 'opt.url'
-            ))
-            ->joinLeft(array('opt' => 'optimized'), 'p.id=opt.page_id', array())
-            ->order('p.url');
+        $table = $this->getDbTable();
+        $select = $table->select()
+            ->from(array('p' => 'page'), array('id',
+                'url' => new Zend_Db_Expr('COALESCE(o.url, p.url)')))
+            ->joinLeft(array('o' => 'optimized'), 'p.id = o.page_id', 'p.id')
+            ->where('p.protected = ?', '0')
+            ->where('p.system = ?', '0');
+
         if (!empty($pageTypes)) {
-            $select->where('page_type IN (?)', $pageTypes);
+            $select->where('p.page_type IN (?)', $pageTypes);
         }
-        return $this->getDbTable()->getAdapter()->fetchAssoc($select);
+        $select->order('url');
+        return $table->getAdapter()->fetchPairs($select);
     }
 
     protected function  _findWhere($where, $fetchSysPages = false)

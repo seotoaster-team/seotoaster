@@ -97,16 +97,6 @@ class Backend_SeoController extends Zend_Controller_Action {
             }
         }
 
-        if(!empty($pages)) {
-            foreach ($pages as $pageId => $pageData) {
-                if(!empty($pageData['optimized_url'])) {
-                    $pages[$pageId] = $pageData['optimized_url'];
-                } else {
-                    $pages[$pageId] = $pageData['url'];
-                }
-            }
-        }
-
         $redirectForm->setToasterPages($pages);
 		$redirectForm->setDefault('fromUrl', 'http://');
 
