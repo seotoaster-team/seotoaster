@@ -191,5 +191,13 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
         return $this->getDbTable()->getAdapter()->fetchAssoc($select);
 
     }
+
+    /**
+     * @param $oldName
+     * @param $newName
+     */
+    public function replaceSearchedValue($oldName, $newName) {
+        $this->getDbTable()->update(array("content" => new Zend_Db_Expr("REPLACE(content, '".$oldName."','".$newName."')")), array());
+    }
         
 }

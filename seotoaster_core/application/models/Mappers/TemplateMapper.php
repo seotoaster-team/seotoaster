@@ -71,5 +71,14 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
         $dbTable = new Application_Model_DbTable_TemplateType();
         return $dbTable->getAdapter()->fetchPairs($dbTable->select()->order('title ASC'));
     }
+
+    /**
+     * @param $oldName
+     * @param $newName
+     * @throws Exception
+     */
+    public function replaceSearchedValue($oldName, $newName) {
+        $this->getDbTable()->update(array("content" => new Zend_Db_Expr("REPLACE(content, '".$oldName."','".$newName."')")), array());
+    }
 }
 

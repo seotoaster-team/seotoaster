@@ -85,5 +85,14 @@ class Application_Model_Mappers_LinkContainerMapper extends Application_Model_Ma
 		$where = $this->getDbTable()->getAdapter()->quoteInto('id_container=?', $id);
 		return $this->getDbTable()->delete($where);
 	}
+
+    /**
+     * @param $oldName
+     * @param $newName
+     * @throws Exception
+     */
+    public function replaceSearchedValue($oldName, $newName) {
+        $this->getDbTable()->update(array("link" => new Zend_Db_Expr("REPLACE(link, '".$oldName."','".$newName."')")), array());
+    }
 }
 
