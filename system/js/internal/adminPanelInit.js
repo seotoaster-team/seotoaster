@@ -217,6 +217,7 @@
         }
 
     });
+    showTooltip('.tooltip-admin-panel', 'info', 'left');
     // $('#cleancache').on('click', function() {
     //     showMessage('Clearing cache...', false);
     //
@@ -256,4 +257,43 @@ function showDelConfirm() {
             })
         }
     }, {'classname': 'error', 'ok': 'Yes', 'cancel': 'No'});
+}
+
+function showTooltip(el, addClass, position){
+    $(el+"[title]").tooltip();
+    var my = '';
+    var at = '';
+    switch(position){
+        case 'right' :
+            my = "left+10 center";
+            at = "right center";
+            break;
+
+        case 'left' :
+            my = "right-10 center";
+            at = "left center";
+            break;
+
+        case 'top' :
+            my = "center bottom-10";
+            at = "center top";
+            break;
+
+        case 'bottom' :
+            my = "center top+10";
+            at = "center bottom";
+            break;
+    }
+
+    $(el+"[title]").tooltip("option", {
+        tooltipClass : addClass,
+        position     : {
+            my    : my,
+            at    : at,
+            using : function(position, feedback){
+                $(this).css(position);
+                $("<span>").addClass("arrow").addClass(feedback.vertical).addClass(feedback.horizontal).appendTo(this);
+            }
+        }
+    });
 }
