@@ -110,13 +110,16 @@
      * Event on the panel item
      */
     sectionList.addEventListener('click', function (event) {
-        // event.preventDefault();
+        if(event.target.classList.contains('section-btn')){
+            event.preventDefault();
+        }
 
         var item = event.target.parentNode,
             itemWithClass = sectionList.querySelector('.section.active');
 
 
         if (event.target.className.indexOf('section-btn') == -1 || event.target.className.indexOf('no-open-section') != -1) {
+            // event.preventDefault();
             return false;
         }
         // if haven't class
@@ -127,6 +130,7 @@
         } else {
             _removeActiveClass(item);
         }
+
     });
 
     /**
@@ -217,21 +221,11 @@
         }
 
     });
-    showTooltip('.tooltip-admin-panel', 'info', 'left');
-    // $('#cleancache').on('click', function() {
-    //     showMessage('Clearing cache...', false);
-    //
-    //     $.get($('#website_url').val() + 'backend/backend_content/cleancache/', function(response) {
-    //         if (response.error == 0) {
-    //             showMessage(response.responseText, false, 2500);
-    //         }
-    //         else {
-    //             showMessage(response.responseText, true);
-    //         }
-    //     });
-    // });
 })();
 
+/**
+ *
+ */
 function showDelConfirm() {
     var pageId = $('#del-page-id').val();
     var websiteUrl = $('#website_url').val();
@@ -257,43 +251,4 @@ function showDelConfirm() {
             })
         }
     }, {'classname': 'error', 'ok': 'Yes', 'cancel': 'No'});
-}
-
-function showTooltip(el, addClass, position){
-    $(el+"[title]").tooltip();
-    var my = '';
-    var at = '';
-    switch(position){
-        case 'right' :
-            my = "left+10 center";
-            at = "right center";
-            break;
-
-        case 'left' :
-            my = "right-10 center";
-            at = "left center";
-            break;
-
-        case 'top' :
-            my = "center bottom-10";
-            at = "center top";
-            break;
-
-        case 'bottom' :
-            my = "center top+10";
-            at = "center bottom";
-            break;
-    }
-
-    $(el+"[title]").tooltip("option", {
-        tooltipClass : addClass,
-        position     : {
-            my    : my,
-            at    : at,
-            using : function(position, feedback){
-                $(this).css(position);
-                $("<span>").addClass("arrow").addClass(feedback.vertical).addClass(feedback.horizontal).appendTo(this);
-            }
-        }
-    });
 }

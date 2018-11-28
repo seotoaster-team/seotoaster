@@ -3,13 +3,12 @@
     ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js', null, array('async' => 'true'));
 ?>
 <div class="seotoaster-panel aside p-show">
-    <div class="logo-wrap">
-        <span class="_i-logo logo-icon tooltip-admin-panel"
-              title="<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?>"></span>
+    <div class="logo-wrap" data-tooltip-title="<?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?><?php echo $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION); ?>">
+        <span class="_i-logo logo-icon"></span>
     </div>
     <ul class="section-list">
         <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
-            <li class="section">
+            <li class="section" data-tooltip-title="<?php echo $this->translate('Website editing'); ?>">
                 <a href="#" class="section-btn _i-editing"></a>
 
                 <div class="section-wrap">
@@ -164,7 +163,7 @@
                 </div>
             </li>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_SEO)): ?>
-                <li class="section">
+                <li class="section" data-tooltip-title="<?php echo $this->translate('Marketing & SEO configs'); ?>">
                     <a href="#" class="section-btn _i-marketing-seo"></a>
 
                     <div class="section-wrap">
@@ -231,7 +230,7 @@
             <?php endif; ?>
             <?php unset($this->additionalMenu['SEO']); ?>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
-                <li class="section">
+                <li class="section" data-tooltip-title="<?php echo $this->translate('Plugins manager'); ?>">
                     <a href="#" class="section-btn _i-plugins"></a>
 
                     <div class="section-wrap">
@@ -272,8 +271,8 @@
                 </li>
             <?php endif; ?>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
-                <li class="section">
-                    <a href="#" class="section-btn _i-setup"></a>
+                <li class="section" data-tooltip-title="<?php echo $this->translate('Website configs'); ?>">
+                    <a href="#" class="section-btn _i-setup "></a>
 
                     <div class="section-wrap">
                         <div class="section-box">
@@ -325,7 +324,7 @@
                         <?php if ($addName === 'DEFAULT') : ?>
                             <?php continue; ?>
                         <?php endif; ?>
-                        <li class="section">
+                        <li class="section" data-tooltip-title="<?php echo $this->translate(ucfirst(strtolower($addName))); ?>">
                             <a href="#" class="section-btn _i-<?php echo strtolower(str_replace(' ', '-', str_replace('&', 'and', $addName))); ?>"></a>
 
                             <div class="section-wrap">
@@ -370,14 +369,14 @@
                 <?php endif; ?>
             </ul><ul class="section-list">
             <?php endif; ?>
-            <li class="section">
-                <a class="section-btn _i-refresh no-open-section" href="javascript:;" id="cleancache"
-                   title="<?php echo $this->translate('CLEAN CACHE'); ?>"></a>
+            <li class="section" data-tooltip-title="<?php echo $this->translate('Clean system cache'); ?>">
+                <a class="section-btn no-open-section _i-refresh" href="javascript:;" id="cleancache">
+<!--                    <img src="system/images/spin.svg" width="16" height="16">-->
+                </a>
             </li>
         <?php endif; ?>
-        <li class="section">
-            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn _i-exit no-open-section"
-               title="<?php echo $this->translate('LOGOUT'); ?>"></a>
+        <li class="section" data-tooltip-title="<?php echo $this->translate('logout'); ?>">
+            <a href="<?php echo $this->websiteUrl; ?>logout/" class="section-btn _i-exit no-open-section"></a>
         </li>
     </ul>
     <span class="show-hide _i-panel-hide"></span>
