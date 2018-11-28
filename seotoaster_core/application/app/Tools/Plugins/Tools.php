@@ -90,6 +90,12 @@ class Tools_Plugins_Tools {
                         'items' => array(),
                         'values' => array()
                     );
+
+                    if(isset($configIni->$userRole->forceurl)) {
+                        $additionalMenu[$section][$subsection][$title]['forceurl'] = $configIni->$userRole->forceurl;
+                        $additionalMenu[$section][$subsection][$title]['forcepwidth'] = $configIni->$userRole->forcepwidth;
+                        $additionalMenu[$section][$subsection][$title]['forcepheight'] = $configIni->$userRole->forcepheight;
+                    }
                 }
 
                 foreach ($values as $value) {

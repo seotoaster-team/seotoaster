@@ -326,7 +326,22 @@
                             <?php continue; ?>
                         <?php endif; ?>
                         <li class="section">
-                            <a href="#" class="section-btn _i-<?php echo strtolower(str_replace(' ', '-', str_replace('&', 'and', $addName))); ?>"></a>
+                            <?php $hiddeSectionWrap = false;?>
+                            <?php if(isset($additionalMenuItem[$addName][$addName]['forceurl'])) :?>
+                                <?php
+                                    $forcepwidth = isset($additionalMenuItem[$addName][$addName]['forcepwidth']) ? $additionalMenuItem[$addName][$addName]['forcepwidth'] : '';
+                                    $forcepheight = isset($additionalMenuItem[$addName][$addName]['forcepheight']) ? $additionalMenuItem[$addName][$addName]['forcepheight'] : '';
+                                    $hiddeSectionWrap = true;
+                                ?>
+                                <a href="javascript:;" class="tpopup section-btn _i-<?php echo strtolower(str_replace(' ', '-', str_replace('&', 'and', $addName))); ?>" data-url="<?php echo $this->websiteUrl . $additionalMenuItem[$addName][$addName]['forceurl'];?>" data-pwidth="<?php echo $forcepwidth;?>" data-pheight="<?php echo $forcepheight;?>"></a>
+                            <?php else :?>
+                                <a href="#" class="section-btn _i-<?php echo strtolower(str_replace(' ', '-', str_replace('&', 'and', $addName))); ?>"></a>
+                            <?php endif;?>
+
+                            <?php if (!empty($hiddeSectionWrap)) : ?>
+                                </li>
+                                <?php continue; ?>
+                            <?php endif; ?>
 
                             <div class="section-wrap">
                                 <div class="section-box">
