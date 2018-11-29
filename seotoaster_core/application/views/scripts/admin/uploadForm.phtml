@@ -164,9 +164,9 @@ if (!empty($this->filters)) {
 
                                 $('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
                             }
-                            $('#delete-info-msg').show();
+                            $('#delete-info-msg').removeClass('hide');
                             $('#deleteBtn').hide();
-                            $('#attention-info-msg').hide();
+                            $('#attention-info-msg').addClass('hide');
                         }
                         if (response.filesList.length > 0) {
                             if(fileFilesEl.length > 0){
