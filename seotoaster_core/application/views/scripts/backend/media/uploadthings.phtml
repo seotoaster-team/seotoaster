@@ -340,11 +340,13 @@
                         $(fileName).val(fileOldName);
                     } else {
                         $(fileName).val(response.responseText.fileNewName).data('current-name', response.responseText.fileNewName);
-                        $('.success-btn').hide();
-                        $('#attention-info-msg').addClass('hide');
-                        $('#delete-info-msg').addClass('hide');
                         showMessage('<?php echo $this->translate("Renamed");?>', false, 3000);
                     }
+                    $('.success-btn').hide();
+                    $('#attention-info-msg').addClass('hide');
+                    $('#delete-info-msg').addClass('hide');
+                    $(fileName).closest('.editing').removeClass('editing');
+                    $(fileName).toggleClass('grid_9 grid_12');
                 }
             });
         }
@@ -372,11 +374,9 @@
         e.preventDefault();
         var currentEl = $(e.currentTarget);
         if(currentEl.val() != currentEl.data('current-name')) {
-            showConfirmCustom('<?php echo $this->translate("Do you want to rename the file?");?>', '<?php echo $this->translate("Rename");?>', '<?php echo $this->translate("Cancel changes");?>', function(){
+            showConfirmCustom('<?php echo $this->translate("Do you want to rename the file?");?>', '<?php echo $this->translate("Rename");?>', '<?php echo $this->translate("Cancel changes");?>',
+                function(){
                     renameImg(currentEl, currentEl.data('current-name'), currentEl.data('extension'));
-                    $(currentEl).closest('.editing').removeClass('editing');
-                    $(currentEl).toggleClass('grid_9 grid_12');
-
                 },
                 function(){
                     $('.success-btn').hide();
