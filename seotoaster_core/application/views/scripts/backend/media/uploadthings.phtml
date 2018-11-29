@@ -78,11 +78,12 @@
 
             <script id="imageContainerTemplate" type="text/x-jquery-tmpl">
             <div class="file-container grid_3 alpha">
-                <img class="img-container" src="${src}" alt="${name}" title="${name}" />
+                <div class="img-wrap-box"><img class="img-container" src="${src}" alt="${name}" title="${name}" /></div>
                 <input type="checkbox" class="toremove hidden" name="removeImages[]" value="${name}" />
-                <div class="grid_12 alpha omega">
-                    <input type="text" class="img-name grid_10 alpha omega" data-extension="${imgExtension}" data-current-name="${clearImgName}" value="${clearImgName}" />
-                    <span class="btn success success-btn ticon-ok-sign grid_2 alpha omega" style="display:none;"></span>
+                <div class="grid_12 alpha omega img-edit-box">
+                    <span class="btn ticon-pencil edit-name grid_3 omega"></span>
+                    <input type="text" class="img-name grid_12 alpha omega" data-extension="${imgExtension}" data-current-name="${clearImgName}" value="${clearImgName}" />
+                    <span class="btn success success-btn ticon-checkmark grid_3 alpha omega" style="display:none;"></span>
                 </div>
             </div>
             </script>
@@ -93,7 +94,7 @@
             </div>
             </script>
             <hr class="mb0px mt5px">
-            <div class="deleteBtnBlock grid_12 mt5px alpha omega">
+            <div class="deleteBtnBlock grid_12 mt5px alpha omega text-center">
                 <span id="delete-info-msg"><?php echo $this->translate('Please select least one element to delete');?></span>
                 <span id="attention-info-msg" class="error" style="display: none;"><?php echo $this->translate('Be careful when renaming files! The link to the file will be modified!');?></span>
                 <button id="deleteBtn" class="btn error grid_12" style="display: none;"><?php echo $this->translate('Delete selected');?></button>
@@ -174,27 +175,30 @@
                 $('#check-all').prop('checked', false);
                 fileContainerEl.css({'background': ''});
                 fileContainerEl.find('img').css({'opacity': ''});
+                $('.img-name').removeClass('grid_9').addClass('grid_12');
+                $('.file-container').removeClass('editing');
                 if($parent.find('.active').size() == 0) {
                     $('#delete-info-msg').show();
                     $('#deleteBtn').hide();
-                    $('.img-name').prop('disabled',false).removeClass('grid_12').addClass('grid_10');
+                    $('.img-name').prop('disabled',false);
                 }
             }
             if($('#removeForm').find('input.toremove:checked').size() == 0) {
                 $('#delete-info-msg').show();
                 $('#deleteBtn').hide();
-                $('.img-name').prop('disabled',false).removeClass('grid_12').addClass('grid_10');
+                $('.img-name').prop('disabled',false);
             }
         } else {
-            fileContainerEl.addClass('active').css({'background': 'rgba(231,76,60,.2)'});
-            fileContainerEl.find('img').css({'opacity': '0.5'});
+            // fileContainerEl.addClass('active').css({'background': 'rgba(231,76,60,.2)'});
+            fileContainerEl.addClass('active');
+            fileContainerEl.find('img');
             $flag.prop('checked', true);
             if ($parent.find('.file-container:not(.active)').size() === 0){
                 btnCheckAll.prop('checked', true);
             } else {
                 if(selectedIndex == 0) {
                     $('.img-name').prop('disabled',true);
-                    fileContainerEl.find('.img-name').removeClass('grid_10').addClass('grid_12');
+                    fileContainerEl.find('.img-name').removeClass('grid_9').addClass('grid_12');
                 }
             }
                 $('#delete-info-msg').hide();
@@ -214,13 +218,13 @@
         } else {
             var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
             if(selectedIndex == 0) {
-                $('.img-name').prop('disabled',false).removeClass('grid_12').addClass('grid_10');
+                $('.img-name').prop('disabled',false);
             }
         }
         if (items.size()){
             if(selectedIndex == 0) {
                 items.find('.img-container').trigger('toggleActive');
-                $('.img-name').prop('disabled',true).removeClass('grid_10').addClass('grid_12');
+                $('.img-name').prop('disabled',true).removeClass('grid_9').addClass('grid_12');
             } else {
                 items.trigger('toggleActive');
             }
@@ -278,6 +282,15 @@
         });
     });
 
+    $(document).on('click', '.success-btn', function (e) {
+        var currentEl = $(e.currentTarget).prev();
+        if(currentEl.val() == currentEl.data('current-name')) {
+            $('.success-btn').hide();
+            $('.img-name').removeClass('grid_9').addClass('grid_12');
+            $('.file-container').removeClass('editing');
+        }
+    });
+
     $(document).on('click', '.switch-tab', function () {
         var type = $(this).data('tab-type'),
             typeBlock = $('#filebrowser-' + type),
@@ -333,14 +346,22 @@
         }
     }
 
-    $(document).on('click', '.img-name', function (e) {
+    $(document).on('click', '.edit-name', function(e){
+        $('.img-name').removeClass('grid_9').addClass('grid_12');
+        $('.file-container').removeClass('editing');
         if($('#filebrowser-image').find('input.toremove:checked').size() == 0) {
             e.preventDefault();
             $('.success-btn').hide();
-            $(e.currentTarget).next().show();
+            $(e.currentTarget).closest('.file-container').addClass('editing');
+            $(e.currentTarget).closest('.img-edit-box').find('input').toggleClass('grid_12 grid_9').next().show();
+            // $(e.currentTarget).toggleClass('grid_12 grid_9').next().show();
             $('#delete-info-msg').hide();
             $('#attention-info-msg').show();
         }
+    });
+
+    $(document).on('click', '.img-name', function (e) {
+        $(e.currentTarget).prev().trigger('click');
     });
 
     $(document).on('blur', '.img-name', function (e) {
@@ -354,6 +375,8 @@
                     $('.success-btn').hide();
                     $('#delete-info-msg').hide();
                     $('#attention-info-msg').hide();
+                    $(currentEl).closest('.editing').removeClass('editing');
+                    $(currentEl).toggleClass('grid_12 grid_9');
 
                     currentEl.val(currentEl.data('current-name'));
             });
