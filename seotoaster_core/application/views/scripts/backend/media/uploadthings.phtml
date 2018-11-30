@@ -337,6 +337,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if(response.error == 1) {
+                        showMessage('<?php echo $this->translate("File with this name already exists");?>', true, 3000);
                         $(fileName).val(fileOldName);
                     } else {
                         $(fileName).val(response.responseText.fileNewName).data('current-name', response.responseText.fileNewName);

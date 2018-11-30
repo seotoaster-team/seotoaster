@@ -229,7 +229,13 @@ class Backend_MediaController extends Zend_Controller_Action
                     if(!file_exists($fileOldPath) || $folder == 'product') {
                         continue;
                     }
+
                     $fileNewPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
+
+                    if(file_exists($fileNewPath)) {
+                        $responseHelper->fail('');
+                    }
+
                     rename($fileOldPath, $fileNewPath);
                 }
 
