@@ -88,7 +88,7 @@
             </div>
             </script>
             <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="file-container img-container">
+            <div class="file-container img-wrap-box img-container">
                 <label data-type="${name}">${name}</label>
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
@@ -312,7 +312,7 @@
             } else {
                 $('#delete-info-msg').removeClass('hide');
                 $('#deleteBtn').hide();
-                $('#attention-info-msg').removeClass('hide');
+                $('#attention-info-msg').addClass('hide');
                 $('.success-btn').hide();
             }
         }else{
