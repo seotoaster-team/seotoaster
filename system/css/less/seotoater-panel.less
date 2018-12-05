@@ -302,8 +302,9 @@
             color            : #FFFFFF;
             padding          : 8px 12px;
             line-height      : 1;
+            pointer-events   : none;
             position         : absolute;
-            right            : ~'calc(100% + 7px)';
+            right            : ~'calc(100% + 6px)';
             //top              : 50%;
             .translate(0, 19px);
             white-space      : nowrap;
@@ -316,17 +317,18 @@
         .section-btn, .logo-icon {
             position : relative;
             &::after {
-                opacity       : 0;
-                position      : absolute;
-                right         : 104%;
-                top           : 50%;
+                opacity        : 0;
+                position       : absolute;
+                right          : 104%;
+                top            : 50%;
                 .translate(0, -50%);
-                content       : "";
-                width         : 0;
-                height        : 0;
-                border-top    : 4px solid transparent;
-                border-bottom : 4px solid transparent;
-                border-left   : 4px solid #000000;
+                pointer-events : none;
+                content        : "";
+                width          : 0;
+                height         : 0;
+                border-top     : 4px solid transparent;
+                border-bottom  : 4px solid transparent;
+                border-left    : 4px solid #000000;
                 .transition(opacity, 0.5s, ease);
             }
         }
@@ -517,7 +519,7 @@
                 .section {
                     .flex-box-size(0, 1, 50px);
 
-                    &[data-tooltip-title]{
+                    &[data-tooltip-title] {
                         &::before {
                             .translate(0, 11px);
                         }
