@@ -127,6 +127,21 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
         $signupForm = Tools_System_Tools::adjustFormFields($signupForm, $options, self::$_formMandatoryFields);
 
+        if(!empty($this->_session->signupEmailField)) {
+            $signupEmailField = $this->_session->signupEmailField;
+            $signupForm->setEmail($signupEmailField);
+        }
+
+        if(!empty($this->_session->signupFullNameField)) {
+            $signupFullNameField = $this->_session->signupFullNameField;
+            $signupForm->setFullName($signupFullNameField);
+        }
+
+        if(!empty($this->_session->signupPrefixField)) {
+            $signupPrefixField = $this->_session->signupPrefixField;
+            $signupForm->setPrefix($signupPrefixField);
+        }
+
         $this->_view->signupForm = $signupForm;
 
         $mobileEl = $signupForm->getElement('mobilePhone');
@@ -152,6 +167,21 @@ class Widgets_Member_Member extends Widgets_Abstract {
 
 		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
 		$errorMessages                 = $flashMessenger->getMessages();
+
+		if(empty($errorMessages)) {
+            if(!empty($this->_session->signupEmailField)) {
+                $signupForm->setEmail('');
+            }
+
+            if(!empty($this->_session->signupFullNameField)) {
+                $signupForm->setFullName('');
+            }
+
+            if(!empty($this->_session->signupPrefixField)) {
+                $signupForm->setPrefix('');
+            }
+        }
+
 		$this->_session->signupPageUrl = $this->_toasterOptions['url'];
 		$this->_view->errors           = ($errorMessages) ? $errorMessages : null;
 		return $this->_view->render('signup.phtml');
