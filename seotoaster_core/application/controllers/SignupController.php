@@ -50,6 +50,7 @@ class SignupController extends Zend_Controller_Action {
             }
 
             $signupForm = Tools_System_Tools::adjustFormFields($signupForm, $options, Widgets_Member_Member::$_formMandatoryFields);
+
             $formParams = $this->getRequest()->getParams();
 
             $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
@@ -62,6 +63,18 @@ class SignupController extends Zend_Controller_Action {
 
             if (!empty($formParams['desktopPhone'])) {
                 $formParams['desktopPhone'] = Tools_System_Tools::cleanNumber($formParams['desktopPhone']);
+            }
+
+            if(!empty($formParams['email'])) {
+                $this->_helper->session->signupEmailField = $formParams['email'];
+            }
+
+            if(!empty($formParams['fullName'])) {
+                $this->_helper->session->signupFullNameField = $formParams['fullName'];
+            }
+
+            if(!empty($formParams['prefix'])) {
+                $this->_helper->session->signupPrefixField = $formParams['prefix'];
             }
 
 			if($signupForm->isValid($formParams)) {
