@@ -189,7 +189,7 @@
                 & ~ span {
                     //.translate(0; 0);
                     left             : 0;
-                    background-color : @brand-success;
+                    //background-color : @brand-success;
                 }
                 & + label {
                     color : @primary-color;
@@ -208,11 +208,21 @@
                 & ~ span {
                     //.translate(66.69%; 0);
                     left             : 66.69%;
-                    background-color : @brand-error;
+                    //background-color : @brand-error;
                 }
                 & + label {
                     color : @primary-color;
                 }
+            }
+            &.processed-success:checked {
+                & ~ span {
+                    background-color : @brand-success;
+                }
+            }
+            &.processed-error:checked {
+                 & ~ span {
+                     background-color : @brand-error;
+                 }
             }
         }
         label {
