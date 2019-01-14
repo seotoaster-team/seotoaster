@@ -2,10 +2,14 @@
 
 class Widgets_Pwa_Pwa extends Widgets_Abstract {
 
+    public $websiteUrl = '';
+
     protected function _init()
     {
         parent::_init();
         $this->_view = new Zend_View(array('scriptPath' => __DIR__ . '/views'));
+        $this->_websiteHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $this->websiteUrl = $this->_websiteHelper->getUrl();
     }
 
     protected function  _load() {
@@ -22,7 +26,7 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
     private function _generateManifestOption()
     {
         if (file_exists('manifest.json')) {
-           return '<link rel="manifest" href="manifest.json">';
+           return '<link rel="manifest" href="' . $this->websiteUrl . 'manifest.json">';
         }
         return '';
     }
@@ -33,7 +37,8 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
      */
 	private function _generateSwOption() {
         if (file_exists('sw.js') && file_exists('manifest.json')) {
-            return $this->_view->render('sw.phtml');;
+            $this->_view->websiteUrl = $this->websiteUrl;
+            return $this->_view->render('sw.phtml');
         }
         return '';
 	}
