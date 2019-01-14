@@ -30,8 +30,12 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_recaptchaPublicKey;
     protected $_grecaptchaPublicKey;
     protected $_recaptchaPrivateKey;
+
+    protected $_pagesLimit;
+
     protected $_grecaptchaPrivateKey;
     protected $_googleApiKey;
+
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -346,9 +350,26 @@ class Application_Form_Config extends Application_Form_Secure
 		return $this->_recaptchaPrivateKey;
 	}
 
+    /**
+     * @return mixed
+     */
+    public function getPagesLimit()
+    {
+        return $this->_pagesLimit;
+    }
+
+    public function setPagesLimit($pagesLimit)
+    {
+        $this->_pagesLimit = $pagesLimit;
+        $this->getElement('pagesLimit')->setValue($this->_pagesLimit);
+
+        return $this;
+    }
+
     public function getGrecaptchaPrivateKey()
     {
         return $this->_grecaptchaPrivateKey;
+
     }
 
 	public function init()
@@ -541,6 +562,18 @@ class Application_Form_Config extends Application_Form_Secure
 				Zend_Controller_Request_Http::SCHEME_HTTPS => 'https'
 			)
 		));
+
+        $this->addElement('select', 'pagesLimit', array(
+            'label' => 'Select page number limit for sitemapindex.xml',
+            'class' => 'optional',
+            'multiOptions' => array(
+                '50000'  => '50.000',
+                '40000'  => '40.000',
+                '30000'  => '30.000',
+                '20000'  => '20.000',
+                '10000'  => '10.000'
+            )
+        ));
 
         $this->addElement('text', 'googleApiKey', array(
             'value' => $this->_googleApiKey,

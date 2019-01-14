@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.5');
+('version',	'3.0.7');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -252,6 +252,7 @@ CREATE TABLE `page` (
   `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1',
   `page_folder` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_folder_index` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
+  `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
   KEY `indUrl` (`url`),
@@ -322,7 +323,8 @@ INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) V
 ('option_member_loginerror',	'Our membership login error page',	'Seotoaster membership',	1, 'once'),
 ('option_member_signuplanding',	'Where members land after signed-up',	'Seotoaster membership',	1, 'once'),
 ('option_protected',	'Accessible only to logged-in members',	'Seotoaster pages',	1, 'many'),
-('option_search',	'Search landing page',	'Seotoaster pages',	1, 'once');
+('option_search',	'Search landing page',	'Seotoaster pages',	1, 'once'),
+('option_adminredirect',	'Page where superadmin will be redirected after login',	'Redirect',	1,	'once');
 
 DROP TABLE IF EXISTS `password_reset_log`;
 CREATE TABLE `password_reset_log` (
@@ -465,6 +467,24 @@ CREATE TABLE `page_types` (
 
 INSERT INTO `page_types` (`page_type_id`, `page_type_name`)
 VALUES ('1', 'page');
+
+DROP TABLE IF EXISTS `page_types_access`;
+CREATE TABLE `page_types_access` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `resource_type` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`, `resource_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
+('1', 'list_pages'),
+('1', 'link_list'),
+('1', 'organize_pages'),
+('1', 'seo_pages'),
+('2', 'seo_pages'),
+('3', 'seo_pages'),
+('1', 'sitemap_pages'),
+('2', 'sitemap_pages'),
+('3', 'sitemap_pages');
 
 DROP TABLE IF EXISTS `masks_list`;
 CREATE TABLE `masks_list` (
@@ -936,14 +956,3 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('ZM',	'desktop',	'99-999-9999',	'99-999-9999'),
 ('ZW',	'mobile',	'9-999999',	'9-999999'),
 ('ZW',	'desktop',	'9-999999',	'9-999999');
-
-DROP TABLE IF EXISTS `page_folder`;
-CREATE TABLE `page_folder` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `index_page` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `index_page` (`index_page`),
-  CONSTRAINT `page_folder_ibfk_4` FOREIGN KEY (`index_page`) REFERENCES `page` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

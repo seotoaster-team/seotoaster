@@ -140,7 +140,6 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('grecaptchaPublicKey', '6LdZLBQUAAAAAGkmICdj_M7bsgYV68HgUAQzUi1o'),
 ('grecaptchaPrivateKey', '6LdZLBQUAAAAAPrpbakuqApNJlyonUsVN_bm_Pcx');
 
-
 -- 20/04/2017
 -- version: 2.5.3
 -- Add mobile and phone masks table
@@ -709,6 +708,37 @@ ALTER TABLE `page`
 ALTER TABLE `page`
   ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
+-- 10.11.2015
+-- version: 3.0.4
+-- Add page type access
+DROP TABLE IF EXISTS `page_types_access`;
+CREATE TABLE `page_types_access` (
+  `page_type_id` TINYINT(3) unsigned NOT NULL,
+  `resource_type` VARCHAR(60),
+  PRIMARY KEY (`page_type_id`, `resource_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `page_types_access` (`page_type_id`, `resource_type`) VALUES
+('1', 'list_pages'),
+('1', 'link_list'),
+('1', 'organize_pages'),
+('1', 'seo_pages'),
+('2', 'seo_pages'),
+('3', 'seo_pages'),
+('1', 'sitemap_pages'),
+('2', 'sitemap_pages'),
+('3', 'sitemap_pages');
+
+-- 30/10/18
+-- version: 3.0.5
+INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) VALUES
+  ('option_adminredirect',	'Page where superadmin will be redirected after login',	'Redirect',	1,	'once');
+
+-- 11/09/2018
+-- version: 3.0.6
+-- Add new exclude_category column
+ALTER TABLE `page` ADD COLUMN `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' AFTER `page_type`;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.5' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.7' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

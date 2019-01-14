@@ -88,6 +88,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_isFolderIndex = 0;
 
+    protected $_excludeCategory = 0;
+
     /**
      * @param array $containers
      */
@@ -476,6 +478,23 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
     public function setIsFolderIndex($isFolderIndex)
     {
         $this->_isFolderIndex = $isFolderIndex;
+
+        return $this;
+
+    }
+    public function getExcludeCategory()
+    {
+        return $this->_excludeCategory;
+    }
+
+    /**
+     * @param int $excludeCategory
+     * @return int
+     */
+    public function setExcludeCategory($excludeCategory)
+    {
+        $this->_excludeCategory = $excludeCategory;
+
         return $this;
     }
 
