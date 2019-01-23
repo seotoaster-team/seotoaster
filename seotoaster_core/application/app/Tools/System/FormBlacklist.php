@@ -11,36 +11,6 @@ class Tools_System_FormBlacklist
      */
     public static function isBlacklisted($email, $ipAddress = '')
     {
-        $params = array('1' => array('type' => 'domain', 'value' => 5), '2' => array('type' => 'email', 'value' => 'sdfsdf'));
-        $formBlacklistRulesMapper = Application_Model_Mappers_FormBlacklistRulesMapper::getInstance();
-        $formBlacklistRulesMapper->deleteAllData();
-        if (!empty($params)) {
-            $importData = array();
-            foreach ($params as $paramData) {
-                $importData[] = $paramData['type'];
-                $importData[] = $paramData['value'];
-
-            }
-            $headers = array('type', 'value');
-            $columnNames = implode($headers, ', ');
-            $whereStm = substr(str_repeat('?,', count($headers)), 0, -1);
-            $quantity = count($importData) / count($headers);
-            $values = implode(
-                ',',
-                array_fill(0, $quantity, '(' . $whereStm . ')')
-            );
-            $importStmt = $formBlacklistRulesMapper->getDbTable()->getAdapter()
-                ->prepare(
-                    'INSERT INTO ' . $formBlacklistRulesMapper->getDbTable()->info(Zend_Db_Table::NAME) . ' (' . $columnNames . ') VALUES ' . $values . ''
-                );
-            try {
-                $importStmt->execute($importData);
-                $data['done'] = true;
-            } catch (Exception $e) {
-                $data['done'] = false;
-            }
-        }
-
         if (self::isBlacklistedEmail($email)) {
             return true;
         }
