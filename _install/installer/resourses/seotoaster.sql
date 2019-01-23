@@ -36,7 +36,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.7');
+('version',	'3.0.8');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -941,3 +941,11 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('ZW',	'mobile',	'9-999999',	'9-999999'),
 ('ZW',	'desktop',	'9-999999',	'9-999999');
 
+DROP TABLE IF EXISTS `form_blacklist_rules`;
+CREATE TABLE `form_blacklist_rules` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`type`,`value`),
+  UNIQUE (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
