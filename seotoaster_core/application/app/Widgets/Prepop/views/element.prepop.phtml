@@ -8,6 +8,9 @@
             echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
         break;
         case Widgets_Prepop_Prepop::TYPE_SELECT:
+            if(!empty($this->defaultOptionSelection)) {
+                array_unshift($this->options, $this->defaultOptionSelection);
+            }
             echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => $this->prepopName . ' prepop-' . $this->elementType), $this->options);
         break;
         case Widgets_Prepop_Prepop::TYPE_RADIO:
