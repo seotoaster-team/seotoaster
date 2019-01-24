@@ -9,7 +9,8 @@
         break;
         case Widgets_Prepop_Prepop::TYPE_SELECT:
             if(!empty($this->defaultOptionSelection)) {
-                array_unshift($this->options, $this->defaultOptionSelection);
+                $defaultOptionSelection[0] = $this->defaultOptionSelection;
+                $this->options = $defaultOptionSelection + $this->options;
             }
             echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => $this->prepopName . ' prepop-' . $this->elementType), $this->options);
         break;

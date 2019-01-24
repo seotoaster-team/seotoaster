@@ -143,7 +143,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             unset($this->_options[$optionKey+1]);
         }
         unset($this->_options[$optionKey]);
-        if(!empty($defaultText)){
+        if(isset($defaultText)){
             return $defaultText;
         }else{
             return '';
