@@ -190,7 +190,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     protected function _renderPrepopText() {
-        if(!$this->_prepopContent && isset($this->_options[0])) {
+        if(!$this->_prepopContent && isset($this->_options[0]) && $this->_prepopContent != '0') {
             $this->_view->prepopContent = $this->_options[0];
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
