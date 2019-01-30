@@ -8,36 +8,36 @@
 
 //	Custom style
 //==================================================
-form, .form{
+form, .form {
     .clearfix-mixin();
 
-    p{
+    p {
         margin : 0
     }
 
-    &, fieldset{
-        & > p, & > div{
+    &, fieldset {
+        & > p, & > div {
             margin-top : 0.65em;
             .clearfix-mixin();
 
-            &:first-child{
+            &:first-child {
                 margin-top : 0;
             }
         }
     }
 
-    &.condensed{
-        &, fieldset{
-            & > p, & > div{
+    &.condensed {
+        &, fieldset {
+            & > p, & > div {
                 margin-top : .5em;
             }
         }
     }
 
-    fieldset{
+    fieldset {
         padding : 0;
         border  : none;
-        legend{
+        legend {
             padding     : 0;
             border      : 0;
             line-height : 1;
@@ -45,36 +45,36 @@ form, .form{
     }
 
     // -- Recaptcha & Captcha style
-    .captcha{
+    .captcha {
 
-        .captcha_image{
+        .captcha_image {
             width      : 65% !important;
             height     : auto !important;
             float      : left;
             text-align : center;
 
-            .sidebar &{
+            .sidebar & {
                 width : 100% !important;
             }
         }
 
-        label, input{
+        label, input {
             float       : left;
             width       : 35%;
             font-weight : normal;
             font-size   : @font-size-small;
 
-            .sidebar &{
+            .sidebar & {
                 width : 100%;
             }
         }
 
-        .recaptcha_links{
+        .recaptcha_links {
             clear       : both;
             font-size   : @font-size-small;
             padding-top : 1em;
 
-            a + a{
+            a + a {
                 border-left  : 1px solid @gray;
                 padding-left : 1em;
                 margin-left  : 1em;
@@ -83,67 +83,70 @@ form, .form{
     }
 
     // -- Buttons
-    [type="submit"]{
+    [type="submit"] {
         float      : right;
         margin-top : @footer-height - @button-height-base - 10px;
 
-        &:hover{
+        &:hover {
         }
     }
 
-    &.form-inline{
-        &, fieldset{
-            & > p, & > div{
+    &.form-inline {
+        &, fieldset {
+            & > p, & > div {
                 margin-top : 0;
             }
         }
 
         // -- Buttons
-        & > [type="submit"], & > [type="button"]{
+        & > [type="submit"], & > [type="button"] {
             clear      : none;
             margin-top : 24px;
         }
     }
 
-    &.form-grid{
-        label:first-child{
+    &.form-grid {
+        label:first-child {
             float        : left;
             margin-right : @grid-margin-width / 2;
             width        : percentage((6 / @grid-columns)) - @grid-margin-width / 2;
         }
-        select, textarea, input{
+        select, textarea, input {
             float       : left;
             margin-left : @grid-margin-width / 2;
             width       : percentage((6 / @grid-columns)) - @grid-margin-width / 2;
         }
     }
 
-    label{
+    label {
         display       : block;
         margin-bottom : 0.235em;
         color         : @label-color;
 
-        &.notvalid:before{
+        &.notvalid:before {
         }
 
-        &[for]{
+        &[for] {
             cursor : pointer;
         }
     }
 }
-.required:after{
+
+.required:after {
     color   : @brand-error;
     content : ' *';
 }
-.notvalid{
+
+.notvalid {
     color : @brand-error !important;
-    &:before{
+    &:before {
         font-family  : @icon-family;
         content      : "\f06a";
         margin-right : 5px;
     }
 }
-select, textarea, input{
+
+select, textarea, input {
     padding          : @padding-base-vertical;
     border-width     : @input-border-width;
     border-style     : solid;
@@ -154,13 +157,13 @@ select, textarea, input{
     max-width        : 100%;
     width            : 100%;
     .border-radius(@input-border-radius);
-    .activate-transition() when (@button-transition = true){
+    .activate-transition() when (@button-transition = true) {
         .transition(all, 0.3s);
     }
     .activate-transition();
 
     //    &:focus:not([type="submit"]):not([type="button"]){
-    &:focus{
+    &:focus {
         border-color : @input-border-color-focus;
         .box-shadow(0 0 @input-shadow-size @input-border-color-focus, @input-shadow-focus);
     }
@@ -168,22 +171,22 @@ select, textarea, input{
     &.success when (@color-success = true) and (@colors = true){
         border-color : @brand-success;
         color        : @brand-success;
-        &:focus{
+        &:focus {
             .box-shadow(0 0 @input-shadow-size @brand-success, @input-shadow-focus);
         }
     }
     &.warning when (@color-warning = true) and (@colors = true){
         border-color : @brand-warning;
         color        : @brand-warning;
-        &:focus{
+        &:focus {
             .box-shadow(0 0 @input-shadow-size @brand-warning, @input-shadow-focus);
         }
     }
-    &.error, &.notvalid{
+    &.error, &.notvalid {
         & when (@color-error = true) and (@colors = true){
             border-color : @brand-error;
             color        : @brand-error;
-            &:focus{
+            &:focus {
                 .box-shadow(0 0 @input-shadow-size @brand-error, @input-shadow-focus);
             }
         }
@@ -191,19 +194,20 @@ select, textarea, input{
     &.info when (@color-info = true) and (@colors = true){
         border-color : @brand-info;
         color        : @brand-info;
-        &:focus{
+        &:focus {
             .box-shadow(0 0 @input-shadow-size @brand-info, @input-shadow-focus);
         }
     }
 
-    &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit, &.noedit:focus{
+    &[disabled], &.disabled, &[disabled]:focus, &.disabled:focus, &.noedit, &.noedit:focus {
         border-color : darken(@input-bg-disabled, 10%) !important;
         background   : @input-bg-disabled !important;
         color        : darken(@input-bg-disabled, 30%) !important;
         .box-shadow(none) !important;
     }
 }
-input{
+
+input {
     height : @button-height-base;
 
     &.larger when (@field-size-larger = true) and (@field-sizes = true){
@@ -219,7 +223,8 @@ input{
         padding : @padding-small-vertical;
     }
 }
-select{
+
+select {
     height      : @button-height-base;
     line-height : @button-height-base - @padding-base-vertical;
     padding     : @padding-base-vertical / 2 @padding-base-vertical;
@@ -240,25 +245,27 @@ select{
         padding     : @padding-small-vertical / 2 @padding-small-vertical;
     }
 
-    option{
+    option {
         color : @text-color;
     }
 }
-textarea{
+
+textarea {
     //min-height : 3em;
 }
-.labeled when (@form-labeled = true){
+
+.labeled when (@form-labeled = true) {
     position : relative;
     .clearfix-mixin();
 
-    label, .label{
+    label, .label {
         margin-top    : 0;
         margin-bottom : 0;
         height        : @button-height-base;
         line-height   : @button-height-base;
         background    : @input-border-color;
         text-align    : center;
-        color         : #fff !important;
+        color         : #FFFFFF !important;
         .transition(all, 0.3s);
 
         &.larger when (@field-size-larger = true) and (@field-sizes = true){
@@ -274,28 +281,30 @@ textarea{
             padding : @padding-small-vertical 0;
         }
 
-        option{ color : @text-color; }
+        option {
+            color : @text-color;
+        }
     }
 
-    &:not(.icon){
-        input:focus, select:focus{
+    &:not(.icon) {
+        input:focus, select:focus {
             .box-shadow(none, @input-shadow-focus) !important;
 
-            & ~ label, & ~ .label{
+            & ~ label, & ~ .label {
                 background : @input-border-color-focus;
             }
         }
     }
 
-    &.icon when (@form-labeled-icon = true){
-        input, select, textarea{
+    &.icon when (@form-labeled-icon = true) {
+        input, select, textarea {
 
-            &:focus ~ [class*="@{icon-prefix}-"]{
+            &:focus ~ [class*="@{icon-prefix}-"] {
                 .opacity(1);
             }
         }
 
-        [class*="@{icon-prefix}-"]{
+        [class*="@{icon-prefix}-"] {
             position : absolute;
             margin   : auto;
             top      : 0;
@@ -305,123 +314,194 @@ textarea{
             .icon-size(@font-size-base);
         }
 
-        &.right{
-            [class*="@{icon-prefix}-"]{
+        &.right {
+            [class*="@{icon-prefix}-"] {
                 right : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
 
-            input, textarea{
+            input, textarea {
                 padding-right : @padding-base-vertical * 4;
             }
 
-            select{
+            select {
                 padding-right : @padding-base-vertical * 6;
 
-                & ~ [class*="@{icon-prefix}-"]{
+                & ~ [class*="@{icon-prefix}-"] {
                     right : (@padding-base-vertical * 4) - (@font-size-base / 2);
                 }
             }
         }
 
-        &.left{
-            [class*="@{icon-prefix}-"]{
+        &.left {
+            [class*="@{icon-prefix}-"] {
                 left : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
-            input, textarea{
+            input, textarea {
                 padding-left : @padding-base-vertical * 4;
             }
         }
 
-        &.top{
-            [class*="@{icon-prefix}-"]{
+        &.top {
+            [class*="@{icon-prefix}-"] {
                 margin : 0;
                 top    : (@padding-base-vertical * 2) - (@font-size-base / 2);
             }
         }
     }
 
-    .activate-form-labeled-social() when (@form-labeled-social = true){
+    .activate-form-labeled-social() when (@form-labeled-social = true) {
         // Social Filed
-        &.rss{
-            :checked ~ input, input:focus{ border-color : @rss; }
-            *:checked, *:focus{
-                & ~ label, & ~ .label{ background : @rss; }
-                & ~ [class*="@{icon-prefix}-"]{ color : @rss; }
+        &.rss {
+            :checked ~ input, input:focus {
+                border-color : @rss;
             }
-            &.filled{
-                label, .label{ background : @rss; }
-                [class*="@{icon-prefix}-"]{ color : @rss; }
+            *:checked, *:focus {
+                & ~ label, & ~ .label {
+                    background : @rss;
+                }
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @rss;
+                }
             }
-        }
-        &.gplus{
-            :checked ~ input, input:focus{ border-color : @gplus; }
-            *:checked, *:focus{
-                & ~ label, & ~ .label{ background : @gplus; }
-                & ~ [class*="@{icon-prefix}-"]{ color : @gplus; }
-            }
-            &.filled{
-                label, .label{ background : @gplus; }
-                [class*="@{icon-prefix}-"]{ color : @gplus; }
-            }
-        }
-        &.twitter{
-            :checked ~ input, input:focus{ border-color : @twitter; }
-            *:checked, *:focus{
-                & ~ label, & ~ .label{ background : @twitter; }
-                & ~ [class*="@{icon-prefix}-"]{ color : @twitter; }
-            }
-            &.filled{
-                label, .label{ background : @twitter; }
-                [class*="@{icon-prefix}-"]{ color : @twitter; }
+            &.filled {
+                label, .label {
+                    background : @rss;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @rss;
+                }
             }
         }
-        &.youtube{
-            :checked ~ input, input:focus{ border-color : @youtube; }
-            *:checked, *:focus{
-                & ~ [class*="@{icon-prefix}-"]{ color : @youtube; }
-                & ~ label, & ~ .label{ background : @youtube; }
+        &.gplus {
+            :checked ~ input, input:focus {
+                border-color : @gplus;
             }
-            &.filled{
-                label, .label{ background : @youtube; }
-                [class*="@{icon-prefix}-"]{ color : @youtube; }
+            *:checked, *:focus {
+                & ~ label, & ~ .label {
+                    background : @gplus;
+                }
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @gplus;
+                }
             }
-        }
-        &.linkedin{
-            :checked ~ input, input:focus{ border-color : @linkedin; }
-            *:checked, *:focus{
-                & ~ label, & ~ .label{ background : @linkedin; }
-                & ~ [class*="@{icon-prefix}-"]{ color : @linkedin; }
-            }
-            &.filled{
-                label, .label{ background : @linkedin; }
-                [class*="@{icon-prefix}-"]{ color : @linkedin; }
-            }
-        }
-        &.facebook{
-            :checked ~ input, input:focus{ border-color : @facebook; }
-            *:checked, *:focus{
-                & ~ label, & ~ .label{ background : @facebook; }
-                & ~ [class*="@{icon-prefix}-"]{ color : @facebook; }
-            }
-            &.filled{
-                label, .label{ background : @facebook; }
-                [class*="@{icon-prefix}-"]{ color : @facebook; }
+            &.filled {
+                label, .label {
+                    background : @gplus;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @gplus;
+                }
             }
         }
-        &.pinterest{
-            :checked ~ input, input:focus{ border-color : @pinterest; }
-            *:checked, *:focus{
-                & ~ label, & ~ .label{ background : @pinterest; }
-                & ~ [class*="@{icon-prefix}-"]{ color : @pinterest; }
+        &.twitter {
+            :checked ~ input, input:focus {
+                border-color : @twitter;
             }
-            &.filled{
-                label, .label{ background : @pinterest; }
-                [class*="@{icon-prefix}-"]{ color : @pinterest; }
+            *:checked, *:focus {
+                & ~ label, & ~ .label {
+                    background : @twitter;
+                }
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @twitter;
+                }
+            }
+            &.filled {
+                label, .label {
+                    background : @twitter;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @twitter;
+                }
+            }
+        }
+        &.youtube {
+            :checked ~ input, input:focus {
+                border-color : @youtube;
+            }
+            *:checked, *:focus {
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @youtube;
+                }
+                & ~ label, & ~ .label {
+                    background : @youtube;
+                }
+            }
+            &.filled {
+                label, .label {
+                    background : @youtube;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @youtube;
+                }
+            }
+        }
+        &.linkedin {
+            :checked ~ input, input:focus {
+                border-color : @linkedin;
+            }
+            *:checked, *:focus {
+                & ~ label, & ~ .label {
+                    background : @linkedin;
+                }
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @linkedin;
+                }
+            }
+            &.filled {
+                label, .label {
+                    background : @linkedin;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @linkedin;
+                }
+            }
+        }
+        &.facebook {
+            :checked ~ input, input:focus {
+                border-color : @facebook;
+            }
+            *:checked, *:focus {
+                & ~ label, & ~ .label {
+                    background : @facebook;
+                }
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @facebook;
+                }
+            }
+            &.filled {
+                label, .label {
+                    background : @facebook;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @facebook;
+                }
+            }
+        }
+        &.pinterest {
+            :checked ~ input, input:focus {
+                border-color : @pinterest;
+            }
+            *:checked, *:focus {
+                & ~ label, & ~ .label {
+                    background : @pinterest;
+                }
+                & ~ [class*="@{icon-prefix}-"] {
+                    color : @pinterest;
+                }
+            }
+            &.filled {
+                label, .label {
+                    background : @pinterest;
+                }
+                [class*="@{icon-prefix}-"] {
+                    color : @pinterest;
+                }
             }
         }
     }
     .activate-form-labeled-social();
 }
+
 // -- Social field style
 //.social-field(@width : 250px);
 
@@ -430,25 +510,25 @@ textarea{
 
 //	Search form
 //==================================================
-#search-form when (@widget-search = true){
-    p{
+#search-form when (@widget-search = true) {
+    p {
         float  : left;
         width  : 30%;
         margin : 0;
 
-        &:first-child{
+        &:first-child {
             width : 70%;
         }
 
     }
 
-    input{
+    input {
 
-        &[type="text"]{
+        &[type="text"] {
             border-color : @brand-primary;
         }
 
-        &[type="submit"]{
+        &[type="submit"] {
             width         : 100%;
             padding-left  : 0;
             padding-right : 0;
@@ -457,7 +537,191 @@ textarea{
     }
 }
 
-#frm-user{
-  overflow-y: auto;
-  max-height: 490px;
+#frm-user {
+    overflow-y : auto;
+    max-height : 490px;
+}
+
+.wrap-seotoaster-form-login {
+    height   : 100vh;
+    width    : 100vw;
+    overflow : hidden;
+    position : relative;
+    .flexbox(row; wrap; center);
+    .flex-justify-content(center);
+
+    &::before {
+        // right: 0;
+        transform     : translate(50%, 0);
+        content       : "";
+        display       : block;
+        width         : 100vmax;
+        height        : 100vmax;
+        position      : absolute;
+        z-index       : 1;
+        background    : #673AB7;
+        border-radius : ~"30% 70% 30% 70% / 30% 30% 70% 70%";
+        .animation(decor-animation 35s linear infinite);
+    }
+}
+
+@keyframes decor-animation {
+    50% {
+        border-radius : ~"68% 32% 72% 28% / 65% 73% 27% 35%";
+        // transform: translate(50%, 0);
+    }
+    100% {
+        border-radius : ~"30% 70% 30% 70% / 30% 30% 70% 70%";
+    }
+}
+
+.page-seotoaster-form-login {
+    .flexbox(row; wrap; center);
+    .flex-justify-content(center);
+}
+
+.seotoaster-form-login {
+    @brand-primary : #673AB7; //#0071e5;
+
+    width       : 500px;
+    font-family : "Open Sans";
+    font-size   : 14px;
+
+    .card-title {
+        .flex-justify-content(space-between);
+        padding-left  : 60px;
+        padding-right : 60px;
+    }
+
+    .card-content {
+        padding-left  : 60px;
+        padding-right : 60px;
+    }
+
+    .lang-select {
+        height    : 41px;
+        font-size : 14px;
+        width     : auto;
+    }
+    .btn-area {
+        padding-left  : 60px;
+        padding-right : 60px;
+        .flex-justify-content(space-between);
+
+        a {
+            color           : lighten(@gray, 20%);
+            text-decoration : none;
+            font-weight     : 400;
+            .transition(color; 0.3s; ease);
+
+            &:hover {
+                color : @brand-primary;
+            }
+        }
+    }
+
+    .field-line {
+        & + .field-line {
+            margin-top : 1.5em;
+        }
+    }
+
+    label {
+        display       : block;
+        color         : lighten(@gray, 20%);
+        font-weight   : 400;
+        margin-bottom : 2px;
+    }
+
+    select, input:not([type="submit"]) {
+        height  : 51px;
+        border  : 1px solid darken(#F0F0F0, 5%);
+        .border-radius(3px);
+        padding : 0 1em;
+        cursor  : pointer;
+        .transition(all 0.35s ease);
+        color   : lighten(@gray, 10%);
+
+        &:focus {
+            outline      : none;
+            color        : @gray-dark;
+            border-color : @brand-primary;
+            box-shadow   : none;
+        }
+    }
+
+    input:not([type="submit"]) {
+        cursor : text;
+        width  : 100%;
+        .box-sizing(border-box);
+    }
+
+    input[type="submit"] {
+
+        // reset some styles
+        float            : none;
+        margin-top       : initial;
+
+        background-color : @brand-primary;
+        border           : 0 solid @brand-primary;
+        color            : @primary-color;
+        .border-radius(3px);
+        line-height      : 51px;
+        height           : 51px;
+        font-size        : 16px;
+        padding          : 0 2em;
+        cursor           : pointer;
+        .transition(background; 0.3s; ease);
+
+        &:hover {
+            background-color : lighten(@brand-primary, 12%);
+        }
+        &:focus {
+            outline          : none;
+            background-color : darken(@brand-primary, 10%);
+        }
+    }
+}
+
+@media only screen and (max-width : 460px) {
+    body {
+        &::before {
+            content : none;
+        }
+    }
+
+    .seotoaster-form-login {
+        max-width : 450px;
+        width     : 90%;
+        min-width : 300px;
+
+        // box-shadow: none;
+
+        .card-title {
+            height         : auto;
+            padding        : 20px 0;
+            flex-direction : column;
+            span {
+                margin-bottom : 15px;
+            }
+        }
+
+        .card-content {
+            padding-right : 30px;
+            padding-left  : 30px;
+        }
+        // border: none;
+    }
+
+    .btn-area {
+        flex-direction : column;
+
+        button {
+            margin-bottom : 20px;
+            order         : 1;
+        }
+        a {
+            order : 2;
+        }
+    }
 }
