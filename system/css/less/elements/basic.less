@@ -408,7 +408,7 @@ input[type="submit"], input[type="reset"], input[type="button"] {
         font-weight      : normal;
         //font-size        : 1em;
         margin-bottom    : 0;
-        margin-top       : 0;
+        margin-top       : -1px;
         padding-top      : 0.75em;
         padding-bottom   : 0.75em;
         padding-left     : @card-ui-content-padding;
@@ -419,11 +419,12 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 
         &.error {
 
-            background-color    : lighten(@brand-error, 25%);
+            background-color    : lighten(@brand-error, 40%);
             color               : darken(@brand-error, 25%);
             font-weight         : 600;
-            border-top-color    : lighten(@brand-error, 20%);
-            border-bottom-color : lighten(@brand-error, 20%);
+            font-size           : 13px;
+            border-top-color    : lighten(@brand-error, 35%);
+            border-bottom-color : lighten(@brand-error, 35%);
         }
 
         li {

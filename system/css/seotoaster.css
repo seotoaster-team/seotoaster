@@ -3187,7 +3187,7 @@ input[type="button"].block {
 .card-ui .card-messages {
   font-weight: normal;
   margin-bottom: 0;
-  margin-top: 0;
+  margin-top: -1px;
   padding-top: 0.75em;
   padding-bottom: 0.75em;
   padding-left: 30px;
@@ -3197,11 +3197,12 @@ input[type="button"].block {
   border-bottom: 1px solid #f2f2f2;
 }
 .card-ui .card-messages.error {
-  background-color: #f5b4ae;
+  background-color: #fdf3f2;
   color: #921e12;
   font-weight: 600;
-  border-top-color: #f29f97;
-  border-bottom-color: #f29f97;
+  font-size: 13px;
+  border-top-color: #fbdedb;
+  border-bottom-color: #fbdedb;
 }
 .card-ui .card-messages li {
   margin: 0.25em 0;
@@ -4175,11 +4176,17 @@ label[for*="chr-"] {
   .seotoaster-form-pass-reset .card-title span {
     margin-bottom: 15px;
   }
+  .seotoaster-form-login .card-messages,
+  .seotoaster-form-retrieve .card-messages,
+  .seotoaster-form-pass-reset .card-messages {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+  }
   .seotoaster-form-login .card-content,
   .seotoaster-form-retrieve .card-content,
   .seotoaster-form-pass-reset .card-content {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding: 15px 20px;
   }
   .seotoaster-form-login .btn-area,
   .seotoaster-form-retrieve .btn-area,
