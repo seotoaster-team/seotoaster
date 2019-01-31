@@ -95,7 +95,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 return $this->_view->render('prepopLink.phtml');
             }
             elseif ($this->_readonly) {
-                if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
+                if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent) && $this->_prepopContent != '0'){
                     return $this->processDefaultContent();
                 }else{
                     return $this->_prepopContent;
