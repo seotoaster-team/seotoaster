@@ -592,6 +592,12 @@ textarea {
         padding-right : 60px;
     }
 
+    .box-language {
+        img {
+            width : 32px;
+        }
+    }
+
     .card-messages {
         padding-left : 60px;
     }
@@ -636,14 +642,18 @@ textarea {
         margin-bottom : 2px;
     }
 
-    select, input:not([type="submit"]) {
-        height  : 51px;
-        border  : 1px solid darken(#F0F0F0, 5%);
+    select, input {
+        height             : 51px;
+        border             : 1px solid darken(#F0F0F0, 5%);
         .border-radius(3px);
-        padding : 0 1em;
-        cursor  : pointer;
+        padding            : 0 1em;
+        cursor             : pointer;
         .transition(all 0.35s ease);
-        color   : lighten(@gray, 10%);
+        color              : lighten(@gray, 10%);
+
+        -webkit-appearance : none;
+        -moz-appearance    : none;
+        appearance         : none;
 
         &:focus {
             outline      : none;
@@ -651,19 +661,20 @@ textarea {
             border-color : @brand-primary;
             box-shadow   : none;
         }
+
     }
 
-    input:not([type="submit"]) {
+    input {
         cursor : text;
         width  : 100%;
         .box-sizing(border-box);
 
         &.notvalid {
-            border-color: @brand-error;
+            border-color : @brand-error;
         }
     }
 
-    input[type="submit"] {
+    button {
 
         // reset some styles
         float            : none;
@@ -690,6 +701,13 @@ textarea {
     }
 }
 
+.seotoaster-form-pass-reset {
+    .btn-area {
+        .flex-justify-content(flex-end);
+
+    }
+}
+
 @media only screen and (max-width : 460px) {
     body {
         &::before {
@@ -697,14 +715,16 @@ textarea {
         }
     }
 
-    .seotoaster-form-login {
+    .seotoaster-form-login,
+    .seotoaster-form-retrieve,
+    .seotoaster-form-pass-reset {
         max-width : 450px;
         width     : 90%;
         min-width : 300px;
 
         .card-title {
             height  : auto;
-            padding : 20px 0;
+            padding : 20px 15px;
             .flex-direction(column);
             span {
                 margin-bottom : 15px;
@@ -712,16 +732,18 @@ textarea {
         }
 
         .card-content {
-            padding-right : 30px;
-            padding-left  : 30px;
+            padding-right : 15px;
+            padding-left  : 15px;
         }
 
         .btn-area {
+            padding-right : 15px;
+            padding-left  : 15px;
             .flex-direction(column);
             .flex-justify-content(center);
             .flex-box-align(center);
 
-            input[type="submit"] {
+            button {
                 margin-bottom : 20px;
                 order         : 1;
             }
@@ -731,4 +753,25 @@ textarea {
         }
     }
 
+}
+
+@media only screen and (max-height : 400px) {
+    .seotoaster-form-login,
+    .seotoaster-form-retrieve,
+    .seotoaster-form-pass-reset {
+        .card-content {
+            padding-top    : 10px;
+            padding-bottom : 10px;
+        }
+
+        .btn-area {
+            padding-bottom : 10px;
+        }
+
+        .field-line {
+            & + .field-line {
+                margin-top : 1em;
+            }
+        }
+    }
 }

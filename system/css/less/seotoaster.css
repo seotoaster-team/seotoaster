@@ -3187,6 +3187,7 @@ input[type="button"].block {
 .card-ui .card-messages {
   font-weight: normal;
   margin-bottom: 0;
+  margin-top: 0;
   padding-top: 0.75em;
   padding-bottom: 0.75em;
   padding-left: 30px;
@@ -3197,7 +3198,7 @@ input[type="button"].block {
 }
 .card-ui .card-messages.error {
   background-color: #f5b4ae;
-  color: #d62c1a;
+  color: #921e12;
   font-weight: 600;
   border-top-color: #f29f97;
   border-bottom-color: #f29f97;
@@ -4016,6 +4017,11 @@ label[for*="chr-"] {
   padding-left: 60px;
   padding-right: 60px;
 }
+.seotoaster-form-login .box-language img,
+.seotoaster-form-retrieve .box-language img,
+.seotoaster-form-pass-reset .box-language img {
+  width: 32px;
+}
 .seotoaster-form-login .card-messages,
 .seotoaster-form-retrieve .card-messages,
 .seotoaster-form-pass-reset .card-messages {
@@ -4072,9 +4078,9 @@ label[for*="chr-"] {
 .seotoaster-form-login select,
 .seotoaster-form-retrieve select,
 .seotoaster-form-pass-reset select,
-.seotoaster-form-login input:not([type="submit"]),
-.seotoaster-form-retrieve input:not([type="submit"]),
-.seotoaster-form-pass-reset input:not([type="submit"]) {
+.seotoaster-form-login input,
+.seotoaster-form-retrieve input,
+.seotoaster-form-pass-reset input {
   height: 51px;
   border: 1px solid #e3e3e3;
   border-radius: 3px;
@@ -4083,33 +4089,36 @@ label[for*="chr-"] {
   -webkit-transition: all 0.35s ease 0.5s ease;
   transition: all 0.35s ease 0.5s ease;
   color: #808080;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .seotoaster-form-login select:focus,
 .seotoaster-form-retrieve select:focus,
 .seotoaster-form-pass-reset select:focus,
-.seotoaster-form-login input:not([type="submit"]):focus,
-.seotoaster-form-retrieve input:not([type="submit"]):focus,
-.seotoaster-form-pass-reset input:not([type="submit"]):focus {
+.seotoaster-form-login input:focus,
+.seotoaster-form-retrieve input:focus,
+.seotoaster-form-pass-reset input:focus {
   outline: none;
   color: #333;
   border-color: #673AB7;
   box-shadow: none;
 }
-.seotoaster-form-login input:not([type="submit"]),
-.seotoaster-form-retrieve input:not([type="submit"]),
-.seotoaster-form-pass-reset input:not([type="submit"]) {
+.seotoaster-form-login input,
+.seotoaster-form-retrieve input,
+.seotoaster-form-pass-reset input {
   cursor: text;
   width: 100%;
   box-sizing: border-box;
 }
-.seotoaster-form-login input:not([type="submit"]).notvalid,
-.seotoaster-form-retrieve input:not([type="submit"]).notvalid,
-.seotoaster-form-pass-reset input:not([type="submit"]).notvalid {
+.seotoaster-form-login input.notvalid,
+.seotoaster-form-retrieve input.notvalid,
+.seotoaster-form-pass-reset input.notvalid {
   border-color: #E74C3C;
 }
-.seotoaster-form-login input[type="submit"],
-.seotoaster-form-retrieve input[type="submit"],
-.seotoaster-form-pass-reset input[type="submit"] {
+.seotoaster-form-login button,
+.seotoaster-form-retrieve button,
+.seotoaster-form-pass-reset button {
   float: none;
   margin-top: initial;
   background-color: #673AB7;
@@ -4124,43 +4133,59 @@ label[for*="chr-"] {
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
-.seotoaster-form-login input[type="submit"]:hover,
-.seotoaster-form-retrieve input[type="submit"]:hover,
-.seotoaster-form-pass-reset input[type="submit"]:hover {
+.seotoaster-form-login button:hover,
+.seotoaster-form-retrieve button:hover,
+.seotoaster-form-pass-reset button:hover {
   background-color: #8861cd;
 }
-.seotoaster-form-login input[type="submit"]:focus,
-.seotoaster-form-retrieve input[type="submit"]:focus,
-.seotoaster-form-pass-reset input[type="submit"]:focus {
+.seotoaster-form-login button:focus,
+.seotoaster-form-retrieve button:focus,
+.seotoaster-form-pass-reset button:focus {
   outline: none;
   background-color: #512e90;
+}
+.seotoaster-form-pass-reset .btn-area {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
 }
 @media only screen and (max-width: 460px) {
   body::before {
     content: none;
   }
-  .seotoaster-form-login {
+  .seotoaster-form-login,
+  .seotoaster-form-retrieve,
+  .seotoaster-form-pass-reset {
     max-width: 450px;
     width: 90%;
     min-width: 300px;
   }
-  .seotoaster-form-login .card-title {
+  .seotoaster-form-login .card-title,
+  .seotoaster-form-retrieve .card-title,
+  .seotoaster-form-pass-reset .card-title {
     height: auto;
-    padding: 20px 0;
+    padding: 20px 15px;
     -webkit-box-direction: normal;
     -webkit-box-orient: vertical;
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
   }
-  .seotoaster-form-login .card-title span {
+  .seotoaster-form-login .card-title span,
+  .seotoaster-form-retrieve .card-title span,
+  .seotoaster-form-pass-reset .card-title span {
     margin-bottom: 15px;
   }
-  .seotoaster-form-login .card-content {
-    padding-right: 30px;
-    padding-left: 30px;
+  .seotoaster-form-login .card-content,
+  .seotoaster-form-retrieve .card-content,
+  .seotoaster-form-pass-reset .card-content {
+    padding-right: 15px;
+    padding-left: 15px;
   }
-  .seotoaster-form-login .btn-area {
+  .seotoaster-form-login .btn-area,
+  .seotoaster-form-retrieve .btn-area,
+  .seotoaster-form-pass-reset .btn-area {
+    padding-right: 15px;
+    padding-left: 15px;
     -webkit-box-direction: normal;
     -webkit-box-orient: vertical;
     -webkit-flex-direction: column;
@@ -4172,12 +4197,34 @@ label[for*="chr-"] {
     -ms-flex-item-align: center;
     align-self: center;
   }
-  .seotoaster-form-login .btn-area input[type="submit"] {
+  .seotoaster-form-login .btn-area button,
+  .seotoaster-form-retrieve .btn-area button,
+  .seotoaster-form-pass-reset .btn-area button {
     margin-bottom: 20px;
     order: 1;
   }
-  .seotoaster-form-login .btn-area a {
+  .seotoaster-form-login .btn-area a,
+  .seotoaster-form-retrieve .btn-area a,
+  .seotoaster-form-pass-reset .btn-area a {
     order: 2;
+  }
+}
+@media only screen and (max-height: 400px) {
+  .seotoaster-form-login .card-content,
+  .seotoaster-form-retrieve .card-content,
+  .seotoaster-form-pass-reset .card-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .seotoaster-form-login .btn-area,
+  .seotoaster-form-retrieve .btn-area,
+  .seotoaster-form-pass-reset .btn-area {
+    padding-bottom: 10px;
+  }
+  .seotoaster-form-login .field-line + .field-line,
+  .seotoaster-form-retrieve .field-line + .field-line,
+  .seotoaster-form-pass-reset .field-line + .field-line {
+    margin-top: 1em;
   }
 }
 #meta-description {
