@@ -95,14 +95,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 return $this->_view->render('prepopLink.phtml');
             }
             elseif ($this->_readonly) {
-
-
-
                 if($this->_prepopContent == '0' && in_array(self::TYPE_TEXT, $this->_options)) {
                     return $this->_prepopContent;
                 } elseif (in_array(self::TYPE_SELECT, $this->_options) && $this->_prepopContent == '0') {
                     return '';
-                } elseif(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent) /*&& $this->_prepopContent != '0'*/){
+                } elseif(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
                     return $this->processDefaultContent();
                 }else{
                     return $this->_prepopContent;
