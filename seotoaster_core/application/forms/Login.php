@@ -27,15 +27,13 @@ class Application_Form_Login extends Zend_Form {
 			'required' => true
 		));
 
-		$this->addElement('submit', 'submit', array(
-			'label'  => 'Let me in',
-			'ignore' => true,
-			'id'     => 'submit',
-			'class'  => 'btn'
-		));
+        $this->addElement(new Zend_Form_Element_Button(array(
+            'name'   => 'submit',
+            'ignore' => true,
+            'label'  => 'Let me in',
+            'type'   => 'submit'
+        )));
 
-		$this->getElement('submit')->removeDecorator('DtDdWrapper');
-		$this->getElement('submit')->removeDecorator('Label');
 	    $this->removeDecorator('DtDdWrapper');
 	    $this->removeDecorator('DlWrapper');
     }

@@ -35,12 +35,12 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 			),
 		)));
 
-        $this->addElement('submit', 'submit', array(
-			'name'   => 'retrieve',
-			'ignore' => true,
-			'label'  => 'Retrieve',
-			'class'  => 'btn'
-		));
+        $this->addElement(new Zend_Form_Element_Button(array(
+            'name'   => 'retrieve',
+            'ignore' => true,
+            'label'  => 'Retrieve',
+            'type'   => 'submit'
+        )));
 
         $this->setElementDecorators(array(
             'ViewHelper',
@@ -48,9 +48,6 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
             array('HtmlTag', array('tag' => 'p'))
         ));
 
-        $this->getElement('submit')->removeDecorator('DtDdWrapper');
-        $this->getElement('submit')->removeDecorator('Label');
-        $this->getElement('submit')->removeDecorator('HtmlTag');
         $this->removeDecorator('DtDdWrapper');
         $this->removeDecorator('DlWrapper');
 	}
