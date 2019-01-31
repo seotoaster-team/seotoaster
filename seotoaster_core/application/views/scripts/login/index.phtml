@@ -30,6 +30,17 @@
             </div>
         </div>
 
+        <?php if (!empty(($this->messages)) && is_array($this->messages)) : ?>
+            <div class="card-messages error">
+                <ul id="messages" class="list-unstyled">
+                    <?php $this->messages = array_pop($this->messages);?>
+                    <?php foreach ($this->messages as $message) : ?>
+                        <li><?php echo $this->escape($message); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
         <div class="card-content">
             <div class="field-line"><?php
                 echo $this->loginForm->getElement('email')->renderLabel();
