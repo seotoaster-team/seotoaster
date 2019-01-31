@@ -378,7 +378,7 @@ input[type="submit"], input[type="reset"], input[type="button"] {
     @card-ui-bg : #FFFFFF;
     @card-ui-border-color : #F0F0F0;
     @card-ui-border-radius : 3px;
-    @card-ui-shadow : 0px 2px 45px rgba(0, 0, 0, 0.075);
+    @card-ui-shadow : 0px 0px 2px rgba(0, 0, 0, 0.15), 0px 2px 45px rgba(0, 0, 0, 0.075);
     @card-ui-content-padding : 30px;
 
     /////////////////
@@ -386,7 +386,7 @@ input[type="submit"], input[type="reset"], input[type="button"] {
     z-index          : 5;
     font-size        : 14px;
     background-color : @card-ui-bg;
-    border           : 1px solid @card-ui-border-color;
+    //border           : 1px solid @card-ui-border-color;
     box-shadow       : @card-ui-shadow;
     border-radius    : @card-ui-border-radius;
 
@@ -401,6 +401,32 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 
         &::after {
             content : none;
+        }
+    }
+
+    .card-messages {
+        font-weight      : normal;
+        //font-size        : 1em;
+        margin-bottom    : 0;
+        padding-top      : 0.75em;
+        padding-bottom   : 0.75em;
+        padding-left     : @card-ui-content-padding;
+        color            : @gray-light;
+        background-color : darken(#FFFFFF, 2%);
+        border-top       : 1px solid darken(#FFFFFF, 5%);;
+        border-bottom    : 1px solid darken(#FFFFFF, 5%);
+
+        &.error {
+
+            background-color    : lighten(@brand-error, 25%);
+            color               : darken(@brand-error, 10%);
+            font-weight         : 600;
+            border-top-color    : lighten(@brand-error, 20%);
+            border-bottom-color : lighten(@brand-error, 20%);
+        }
+
+        li {
+            margin : 0.25em 0;
         }
     }
 

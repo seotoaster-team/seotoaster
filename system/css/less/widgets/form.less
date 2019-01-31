@@ -542,7 +542,9 @@ textarea {
     max-height : 490px;
 }
 
-.wrap-seotoaster-form-login {
+.wrap-seotoaster-form-login,
+.wrap-seotoaster-form-retrieve,
+.wrap-seotoaster-form-pass-reset {
     height   : 100vh;
     width    : 100vw;
     overflow : hidden;
@@ -575,12 +577,9 @@ textarea {
     }
 }
 
-.page-seotoaster-form-login {
-    .flexbox(row; wrap; center);
-    .flex-justify-content(center);
-}
-
-.seotoaster-form-login {
+.seotoaster-form-login,
+.seotoaster-form-retrieve,
+.seotoaster-form-pass-reset {
     @brand-primary : #673AB7; //#0071e5;
 
     width       : 500px;
@@ -591,6 +590,10 @@ textarea {
         .flex-justify-content(space-between);
         padding-left  : 60px;
         padding-right : 60px;
+    }
+
+    .card-messages {
+        padding-left : 60px;
     }
 
     .card-content {
@@ -654,6 +657,10 @@ textarea {
         cursor : text;
         width  : 100%;
         .box-sizing(border-box);
+
+        &.notvalid {
+            border-color: @brand-error;
+        }
     }
 
     input[type="submit"] {
@@ -695,12 +702,10 @@ textarea {
         width     : 90%;
         min-width : 300px;
 
-        // box-shadow: none;
-
         .card-title {
-            height         : auto;
-            padding        : 20px 0;
-            flex-direction : column;
+            height  : auto;
+            padding : 20px 0;
+            .flex-direction(column);
             span {
                 margin-bottom : 15px;
             }
@@ -710,18 +715,20 @@ textarea {
             padding-right : 30px;
             padding-left  : 30px;
         }
-        // border: none;
+
+        .btn-area {
+            .flex-direction(column);
+            .flex-justify-content(center);
+            .flex-box-align(center);
+
+            input[type="submit"] {
+                margin-bottom : 20px;
+                order         : 1;
+            }
+            a {
+                order : 2;
+            }
+        }
     }
 
-    .btn-area {
-        flex-direction : column;
-
-        button {
-            margin-bottom : 20px;
-            order         : 1;
-        }
-        a {
-            order : 2;
-        }
-    }
 }
