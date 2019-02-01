@@ -74,7 +74,7 @@ class LoginController extends Zend_Controller_Action {
 					$this->_memberRedirect(false);
 				}
 
-				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
+				$this->_checkRedirect(false, array('password' => $this->_helper->language->translate('There is no user with such login and password.')));
 			}
 			else {
 				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Login should be a valid email address')));
@@ -89,7 +89,7 @@ class LoginController extends Zend_Controller_Action {
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $message) {
                     foreach ($message as $elementName => $msg) {
-                        $loginForm->getElement($elementName)->setAttribs(array('class' => 'notvalid', 'title' => $msg));
+                        $loginForm->getElement($elementName)->setAttribs(array('class' => 'notvalid'));
                     }
                 }
             }
@@ -190,7 +190,7 @@ class LoginController extends Zend_Controller_Action {
         if (!empty($errorMessages)) {
             foreach ($errorMessages as $message) {
                 foreach ($message as $elementName => $msg) {
-                    $form->getElement($elementName)->setAttribs(array('class' => 'notvalid', 'title' => $msg));
+                    $form->getElement($elementName)->setAttribs(array('class' => 'notvalid'));
                 }
             }
         }
@@ -198,6 +198,9 @@ class LoginController extends Zend_Controller_Action {
         if (!empty($passResetMsg)) {
             $this->view->retrieveSuccessMessage = join($passResetMsg, PHP_EOL);
         }
+
+        $this->view->messages   = $this->_helper->flashMessenger->getMessages();
+
         $form->removeDecorator('HtmlTag');
         $form->setElementDecorators(array(
                 'ViewHelper',

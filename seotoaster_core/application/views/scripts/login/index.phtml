@@ -67,15 +67,13 @@
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
 	$('.lang-select').on('change', function(e) {
         e.preventDefault();
-        console.log($(this).find(':selected').data('lng'));
 		$.post( $('#website_url').val() + 'language/', {lng: $(this).find(':selected').data('lng')}, function() {
 			window.location.reload();
 		})
 	});
-    showTooltip('.notvalid', 'error', 'right');
     $('.notvalid').on('keyup', function(){
-        $(this).tooltip('destroy').removeClass('notvalid').removeAttr('title');
+        $(this).removeClass('notvalid');
         $(this).unbind();
-    })
+    });
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>
