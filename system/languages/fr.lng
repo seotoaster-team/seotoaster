@@ -121,7 +121,7 @@
     'Keywords' => 'Mots-cles',
     '(.jpg .gif .png | .mp4 .avi .mov .flv)' => '(.jpg .gif .png | .mp4 .avi .mov .flv)',
     'Service' => 'Service',
-    'Sign in' => 'Connexion',
+    'Sign In' => 'Se connecter',
     'Login in service' => 'Importer des images',
     'Manage 301 redirect' => 'Gerer les ordres de redirection 301',
     'Former URL:' => 'Ancien URL',
