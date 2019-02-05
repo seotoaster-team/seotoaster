@@ -611,6 +611,7 @@ textarea {
         height    : 41px;
         font-size : 14px;
         width     : auto;
+        color: darken(@gray, 10%);
     }
     .btn-area {
         padding-left  : 60px;
@@ -618,13 +619,13 @@ textarea {
         .flex-justify-content(space-between);
 
         a {
-            color           : lighten(@gray, 20%);
+            color           : @brand-primary;
             text-decoration : none;
             font-weight     : 400;
             .transition(color; 0.3s; ease);
 
             &:hover {
-                color : @brand-primary;
+                color : lighten(@brand-primary, 10%);
             }
         }
     }
@@ -637,7 +638,7 @@ textarea {
 
     label {
         display       : block;
-        color         : lighten(@gray, 20%);
+        color         : darken(@gray, 10%);
         font-weight   : 400;
         margin-bottom : 2px;
     }

@@ -4040,6 +4040,7 @@ label[for*="chr-"] {
   height: 41px;
   font-size: 14px;
   width: auto;
+  color: #4d4d4d;
 }
 .seotoaster-form-login .btn-area,
 .seotoaster-form-retrieve .btn-area,
@@ -4052,7 +4053,7 @@ label[for*="chr-"] {
 .seotoaster-form-login .btn-area a,
 .seotoaster-form-retrieve .btn-area a,
 .seotoaster-form-pass-reset .btn-area a {
-  color: #999999;
+  color: #673AB7;
   text-decoration: none;
   font-weight: 400;
   -webkit-transition: color 0.3s ease;
@@ -4061,7 +4062,7 @@ label[for*="chr-"] {
 .seotoaster-form-login .btn-area a:hover,
 .seotoaster-form-retrieve .btn-area a:hover,
 .seotoaster-form-pass-reset .btn-area a:hover {
-  color: #673AB7;
+  color: #8259cb;
 }
 .seotoaster-form-login .field-line + .field-line,
 .seotoaster-form-retrieve .field-line + .field-line,
@@ -4072,7 +4073,7 @@ label[for*="chr-"] {
 .seotoaster-form-retrieve label,
 .seotoaster-form-pass-reset label {
   display: block;
-  color: #999999;
+  color: #4d4d4d;
   font-weight: 400;
   margin-bottom: 2px;
 }

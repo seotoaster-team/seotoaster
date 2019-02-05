@@ -1,7 +1,7 @@
 <?php
     $this->headTitle($this->translate('Sign In'));
     $this->headMeta()->setCharset('UTF-8');
-    $this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1, user-scalable=no');
+    $this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1');
     $this->headLink()
         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css')
@@ -9,7 +9,7 @@
         ->prependStylesheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 
 ?>
-<div class="wrap-seotoaster-form-login">
+<main class="wrap-seotoaster-form-login">
 
     <form class="card-ui seotoaster-form-login" action="<?php echo $this->url(); ?>" method="post">
         <div class="card-title">
@@ -60,7 +60,7 @@
         <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
     </form>
 
-</div>
+</main>
 
 <script type="text/javascript" charset="utf-8">
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
