@@ -4164,7 +4164,7 @@ label[for*="chr-"] {
   .seotoaster-form-retrieve .card-title,
   .seotoaster-form-pass-reset .card-title {
     height: auto;
-    padding: 20px 15px;
+    padding: 10px 15px;
     -webkit-box-direction: normal;
     -webkit-box-orient: vertical;
     -webkit-flex-direction: column;
@@ -4174,7 +4174,7 @@ label[for*="chr-"] {
   .seotoaster-form-login .card-title span,
   .seotoaster-form-retrieve .card-title span,
   .seotoaster-form-pass-reset .card-title span {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   .seotoaster-form-login .card-messages,
   .seotoaster-form-retrieve .card-messages,
@@ -4186,13 +4186,14 @@ label[for*="chr-"] {
   .seotoaster-form-login .card-content,
   .seotoaster-form-retrieve .card-content,
   .seotoaster-form-pass-reset .card-content {
-    padding: 15px 20px;
+    padding: 10px 20px;
   }
   .seotoaster-form-login .btn-area,
   .seotoaster-form-retrieve .btn-area,
   .seotoaster-form-pass-reset .btn-area {
     padding-right: 15px;
     padding-left: 15px;
+    padding-bottom: 15px;
     -webkit-box-direction: normal;
     -webkit-box-orient: vertical;
     -webkit-flex-direction: column;
@@ -4207,7 +4208,7 @@ label[for*="chr-"] {
   .seotoaster-form-login .btn-area button,
   .seotoaster-form-retrieve .btn-area button,
   .seotoaster-form-pass-reset .btn-area button {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     order: 1;
   }
   .seotoaster-form-login .btn-area a,
