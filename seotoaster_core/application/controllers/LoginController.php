@@ -230,7 +230,7 @@ class LoginController extends Zend_Controller_Action {
 		}
 		if($error) {
 			$error = false;
-			$this->_helper->flashMessenger->addMessage('Token is incorrect. Please, enter your e-mail one more time.');
+			$this->_helper->flashMessenger->addMessage(array('email' => 'Token is incorrect. Please, enter your e-mail one more time.'));
 			return $this->redirect($this->_helper->website->getUrl() . 'login/retrieve/');
 		}
 
@@ -246,7 +246,7 @@ class LoginController extends Zend_Controller_Action {
 				$mapper->save($user);
 				$resetToken->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_USED);
 				Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
-				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
+				//$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
                 $roleId = $user->getRoleId();
                 if($roleId != Tools_Security_Acl::ROLE_ADMIN && $roleId != Tools_Security_Acl::ROLE_SUPERADMIN){
                     return $this->redirect($this->_helper->website->getUrl());
