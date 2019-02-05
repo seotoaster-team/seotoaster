@@ -13,6 +13,7 @@ class Application_Form_Login extends Zend_Form {
 
 		$this->addElement('text', 'email', array(
 			'label'      => 'E-mail',
+			'aria-label' => 'E-mail',
 			'required'   => true,
 			'filters'    => array('StringTrim'),
 			'validators' => array(new Tools_System_CustomEmailValidator())
@@ -20,7 +21,8 @@ class Application_Form_Login extends Zend_Form {
 
 		$this->addElement('password', 'password', array(
 			'label'    => 'Password',
-			'required' => true
+			'required' => true,
+            'aria-label' => 'Password',
 		));
 
 		$this->addElement('hidden', 'secureToken', array(
@@ -31,7 +33,8 @@ class Application_Form_Login extends Zend_Form {
             'name'   => 'submit',
             'ignore' => true,
             'label'  => 'Let me in',
-            'type'   => 'submit'
+            'type'   => 'submit',
+            'aria-label' => 'Let me in'
         )));
 
 	    $this->removeDecorator('DtDdWrapper');

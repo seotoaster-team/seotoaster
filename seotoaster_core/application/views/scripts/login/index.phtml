@@ -1,4 +1,5 @@
 <?php
+    $this->headTitle($this->translate('Sign In'));
     $this->headMeta()->setCharset('UTF-8');
     $this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1, user-scalable=no');
     $this->headLink()
@@ -8,8 +9,6 @@
         ->prependStylesheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 
 ?>
-<?php echo $this->headMeta(); ?>
-<?php echo $this->headLink(); ?>
 <div class="wrap-seotoaster-form-login">
 
     <form class="card-ui seotoaster-form-login" action="<?php echo $this->url(); ?>" method="post">

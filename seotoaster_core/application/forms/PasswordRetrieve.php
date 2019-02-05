@@ -21,6 +21,7 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
 			'name'       => 'email',
 			'id'         => 'retrieveEmail',
 			'label'      => 'E-mail',
+            'aria-label' => 'E-mail',
 			'allowEmpty' => false,
 			'filters'    => array(
 				new Zend_Filter_StringTrim()
@@ -39,6 +40,7 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
             'name'   => 'retrieve',
             'ignore' => true,
             'label'  => 'Retrieve',
+            'aria-label' => 'Retrieve',
             'type'   => 'submit'
         )));
 
