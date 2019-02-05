@@ -84,6 +84,8 @@ class LoginController extends Zend_Controller_Action {
 			//getting available system translations
             $this->view->languages = $this->_helper->language->getLanguages();
 			$this->view->currentLanguage = strtolower(Zend_Registry::get('Zend_Locale')->getRegion());
+            $locale               = Zend_Locale::getLocaleToTerritory(strtolower(Zend_Registry::get('Zend_Locale')->getRegion()));
+            $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
 			//getting messages
             $errorMessages = $this->_helper->flashMessenger->getMessages();
             if (!empty($errorMessages)) {
@@ -141,6 +143,8 @@ class LoginController extends Zend_Controller_Action {
 
 	public function passwordretrieveAction() {
 		$form = new Application_Form_PasswordRetrieve();
+        $locale               = Zend_Locale::getLocaleToTerritory(strtolower(Zend_Registry::get('Zend_Locale')->getRegion()));
+        $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
 		if($this->getRequest()->isPost()) {
 			if($form->isValid($this->getRequest()->getParams())) {
 				$retrieveData = $form->getValues();
@@ -215,6 +219,8 @@ class LoginController extends Zend_Controller_Action {
 		//check the get string for the tokens http://mytoaster.com/login/reset/email/myemail@mytoaster.com/token/adadajqwek123klajdlkasdlkq2e3
 		$error = false;
 		$form  = new Application_Form_PasswordReset();
+        $locale               = Zend_Locale::getLocaleToTerritory(strtolower(Zend_Registry::get('Zend_Locale')->getRegion()));
+        $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
 		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);
 		$token = filter_var($this->getRequest()->getParam('key', false), FILTER_SANITIZE_STRING);
 		$newUser = filter_var($this->getRequest()->getParam('new', false), FILTER_SANITIZE_STRING);

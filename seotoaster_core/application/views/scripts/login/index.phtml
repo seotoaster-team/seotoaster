@@ -16,7 +16,7 @@
             <span><?php echo $this->translate('Sign In'); ?></span>
             <div class="box-language">
                 <img alt="<?php echo $this->currentLanguage; ?>" data-lng="" src="<?php echo $this->websiteUrl . "system/images/flags/" . $this->currentLanguage . ".png" ; ?>" border="0" width="32" height="24" />
-                <select class="lang-select">
+                <select class="lang-select" aria-label="<?php echo $this->translate('Select your language'); ?>">
                     <option class="flag-button"  value="English"><?php echo $this->translate('Select your language'); ?>
                     <?php if(isset($this->languages) && is_array($this->languages) && !empty($this->languages)): ?>
                         <?php foreach($this->languages as $lang): ?>
