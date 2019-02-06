@@ -457,5 +457,6 @@
     'There is no user with such login and password.' => 'Ada tidak ada user tersebut login dan sandi',
     'Login should be a valid email address' => 'Alamat email untuk login tidak falid',
     'Image only' => 'Hanya gambar',
-    'Order featured area pages' => 'Pilih fitur halaman'
+    'Order featured area pages' => 'Pilih fitur halaman',
+    'Sign In' => 'Masuk'
 ); ?>

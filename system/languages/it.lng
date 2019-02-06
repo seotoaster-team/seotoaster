@@ -120,7 +120,7 @@
     'H1 Title Text' => 'testo titolo H1',
     'Keywords' => 'Keywords','(.jpg .gif .png | .mp4 .avi .mov .flv)' => '(.jpg .gif .png | .mp4 .avi .mov .flv)',
     'Service' => 'Service',
-    'Sign in' => 'Sign in',
+    'Sign In' => 'Autenticati',
     'Login in service' => 'Servizio login',
     'Manage 301 redirect' => 'Redirezioni e 301',
     'Former URL:' => 'URL precedente',

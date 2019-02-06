@@ -1,67 +1,78 @@
 <?php
+    $this->headTitle($this->translate('Sign In'));
     $this->headMeta()->setCharset('UTF-8');
+    $this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1');
     $this->headLink()
         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
         ->prependStylesheet($this->websiteUrl . 'system/css/seotoaster-ui.css')
-        ->prependStylesheet($this->websiteUrl . 'system/css/reset.css');
+        ->prependStylesheet($this->websiteUrl . 'system/css/reset.css')
+        ->prependStylesheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+
 ?>
-<?php echo $this->headMeta(); ?>
-<?php echo $this->headLink(); ?>
+<main class="wrap-seotoaster-form-login">
 
-<div>
-	<a href="<?php echo $this->websiteUrl; ?>" title="<?php echo $this->translate('Are you lost?'); ?>">&larr; <?php echo $this->translate('back to'); ?>&nbsp;<?php echo $_SERVER['SERVER_NAME']; ?></a>
-</div>
-
-<div class="seotoaster container go-form">
-	<div class="header">
-        <img alt="<?php echo $this->currentLanguage; ?>" class="lang-select" data-lng="" src="<?php echo $this->websiteUrl . "system/images/flags/" . $this->currentLanguage . ".png" ; ?>" border="0" />
-        <?php echo $this->translate('Welcome Back'); ?>
-        <div class="fl-right">
-            <select class="lang-select">
-                <option class="flag-button"  value="English"><?php echo $this->translate('Select your language'); ?>
-                <?php if(isset($this->languages) && is_array($this->languages) && !empty($this->languages)): ?>
-                    <?php foreach($this->languages as $lang): ?>
-                        <option data-lng="<?php echo $lang['name'];?>" value="<?php echo $lang['name'];?>">
-                            <?php echo $lang['language'];?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </select>
+    <form class="card-ui seotoaster-form-login" action="<?php echo $this->url(); ?>" method="post">
+        <div class="card-title">
+            <span><?php echo $this->translate('Sign In'); ?></span>
+            <div class="box-language">
+                <img alt="<?php echo $this->currentLanguage; ?>" data-lng="" src="<?php echo $this->websiteUrl . "system/images/flags/" . $this->currentLanguage . ".png" ; ?>" border="0" width="32" height="24" />
+                <select class="lang-select" aria-label="<?php echo $this->translate('Select your language'); ?>">
+                    <option class="flag-button"  value="English"><?php echo $this->translate('Select your language'); ?>
+                    <?php if(isset($this->languages) && is_array($this->languages) && !empty($this->languages)): ?>
+                        <?php foreach($this->languages as $lang): ?>
+                            <option data-lng="<?php echo $lang['name'];?>" value="<?php echo $lang['name'];?>">
+                                <?php echo $lang['language'];?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
         </div>
-	</div>
 
-	<form class="grid_12 mt15px pl2 pr2" action="<?php echo $this->url(); ?>" method="post" >
-		<p><?php
+        <?php if (!empty(($this->messages)) && is_array($this->messages)) : ?>
+            <div class="card-messages error">
+                <ul id="messages" class="list-unstyled">
+                    <?php $this->messages = array_pop($this->messages);?>
+                    <?php foreach ($this->messages as $message) : ?>
+                        <li><?php echo $this->escape($message); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <div class="card-content">
+            <div class="field-line"><?php
                 echo $this->loginForm->getElement('email')->renderLabel();
-			    echo $this->loginForm->getElement('email')->renderViewHelper();
-            ?>
-        </p>
-        <p><?php
+                echo $this->loginForm->getElement('email')->renderViewHelper();
+                ?>
+            </div>
+            <div class="field-line"><?php
                 echo $this->loginForm->getElement('password')->renderLabel();
                 echo $this->loginForm->getElement('password')->renderViewHelper();
-		    ?>
-        </p>
-        <div class="footer">
-            <?php echo $this->loginForm->getElement('submit')->renderViewHelper();?>
+                ?>
+            </div>
+        </div>
+
+        <div class="btn-area">
             <a id="forgot-password" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
+            <?php echo $this->loginForm->getElement('submit')->renderViewHelper();?>
         </div>
         <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
-	</form>
-</div>
+    </form>
+
+</main>
 
 <script type="text/javascript" charset="utf-8">
 <?php $this->jQuery()->onLoadCaptureStart(); ?>
 	$('.lang-select').on('change', function(e) {
         e.preventDefault();
-        console.log($(this).find(':selected').data('lng'));
 		$.post( $('#website_url').val() + 'language/', {lng: $(this).find(':selected').data('lng')}, function() {
 			window.location.reload();
 		})
 	});
-    showTooltip('.notvalid', 'error', 'right');
     $('.notvalid').on('keyup', function(){
-        $(this).tooltip('destroy').removeClass('notvalid').removeAttr('title');
+        $(this).removeClass('notvalid');
         $(this).unbind();
-    })
+    });
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>

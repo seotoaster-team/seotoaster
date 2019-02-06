@@ -168,5 +168,6 @@
 	/* Widget mobile */
 	'Go to full site' => 'Полная версия сайта',
 	'Go to mobile site' => 'Мобильная версия сайта',
+	'Sign In' => 'Войти в систему'
 );
 ?>
