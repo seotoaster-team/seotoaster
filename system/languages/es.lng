@@ -272,5 +272,6 @@
       'Mrs' => 'Sra',
       'Ms' => 'Sra',
       'Miss' => 'Srta',
-      'Dr' => 'Dr'
+      'Dr' => 'Dr',
+      'Sign In' => 'Déjeme entrar'
   );?>

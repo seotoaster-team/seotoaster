@@ -444,6 +444,15 @@
     justify-content : @align;
 }
 
+// @wrap = flex-start, flex-end, center, space-around, space-between
+.flex-justify-content(@align : flex-start) {
+    & when (@webkit) {
+        -webkit-justify-content : @align;
+    }
+    //& when (@ie) { -ms-justify-content: @align; }
+    justify-content : @align;
+}
+
 // @wrap = nowrap, wrap, wrap-reverse
 .flex-wrap(@wrap : nowrap) {
     & when (@webkit){ -webkit-flex-wrap : @wrap; }

@@ -196,4 +196,5 @@ return array(
 	'Manage drafts ('						=> 'Uredi osnutke (',
 	'Search'    => 'Išči',
 	'Send'      => 'Pošlji',
+	'Sign In' => 'Prijaviti'
 );

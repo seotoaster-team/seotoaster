@@ -2822,7 +2822,7 @@ body {
   font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
   line-height: 1.42857143;
   color: #333;
-  background: #fff;
+  background: #FFFFFF;
 }
 .seotoaster {
   color: #333;
@@ -2833,7 +2833,7 @@ body {
   padding: 2px;
   height: auto;
   width: 400px;
-  box-shadow: 0 5px 15px #777;
+  box-shadow: 0 5px 15px #777777;
 }
 .seotoaster.go-form .flag-button {
   float: left;
@@ -2850,7 +2850,7 @@ body {
   position: relative;
 }
 .header .shadow {
-  box-shadow: 0 5px 15px #fff;
+  box-shadow: 0 5px 15px #FFFFFF;
 }
 .header > * {
   font-size: 14px;
@@ -2948,7 +2948,7 @@ body {
   margin-top: 0 !important;
   padding-top: 0;
   padding-bottom: 0;
-  border-top: 15px solid #fff !important;
+  border-top: 15px solid #FFFFFF !important;
   clear: both;
 }
 .seotoaster .content-auto:after,
@@ -2998,7 +2998,7 @@ body {
 .content-auto,
 .content-screen {
   margin-bottom: 0 !important;
-  border-bottom: 10px solid #fff;
+  border-bottom: 10px solid #FFFFFF;
 }
 .content,
 .with-content > .ui-tabs-panel {
@@ -3060,15 +3060,15 @@ footer [type="button"] {
   right: 0;
 }
 .page-preview {
-  box-shadow: 0 1px 1px #BBB;
+  box-shadow: 0 1px 1px #BBBBBB;
   border: 1px solid rgba(0, 0, 0, 0);
   padding: 0;
-  background: #FFF;
+  background: #FFFFFF;
   height: 130px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  border-top-color: #EEE;
+  border-top-color: #EEEEEE;
 }
 .page-preview.error {
   border-color: #E74C3C;
@@ -3148,6 +3148,94 @@ input[type="button"].block {
 .save-and-close,
 #save-btn {
   float: right;
+}
+.card-ui {
+  position: relative;
+  z-index: 5;
+  font-size: 14px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15), 0px 2px 45px rgba(0, 0, 0, 0.075);
+  border-radius: 3px;
+}
+.card-ui .card-title {
+  font-size: 1.5em;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 70px;
+  color: #454545;
+  border-bottom: 1px solid #F0F0F0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.card-ui .card-title::after {
+  content: none;
+}
+.card-ui .card-messages {
+  font-weight: normal;
+  margin-bottom: 0;
+  margin-top: -1px;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+  padding-left: 30px;
+  color: #eaeaea;
+  background-color: #fafafa;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+}
+.card-ui .card-messages.error {
+  background-color: #fdf3f2;
+  color: #921e12;
+  font-weight: 600;
+  font-size: 13px;
+  border-top-color: #fbdedb;
+  border-bottom-color: #fbdedb;
+}
+.card-ui .card-messages li {
+  margin: 0.25em 0;
+}
+.card-ui .card-content {
+  padding: 30px 30px;
+  position: relative;
+  z-index: 3;
+}
+.card-ui .card-content::after {
+  content: none;
+}
+.card-ui .btn-area {
+  padding: 0 30px 30px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.card-ui .btn-area::after {
+  content: none;
 }
 form:after,
 .form:after {
@@ -3458,7 +3546,7 @@ select option {
   line-height: 30px;
   background: #ccc;
   text-align: center;
-  color: #fff !important;
+  color: #FFFFFF !important;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
@@ -3812,7 +3900,6 @@ label[for*="chr-"] {
 }
 .triple-switch input:nth-of-type(1):checked ~ span {
   left: 0;
-  background-color: #2ECC71;
 }
 .triple-switch input:nth-of-type(1):checked + label {
   color: #FFF;
@@ -3825,10 +3912,15 @@ label[for*="chr-"] {
 }
 .triple-switch input:nth-of-type(3):checked ~ span {
   left: 66.69%;
-  background-color: #E74C3C;
 }
 .triple-switch input:nth-of-type(3):checked + label {
   color: #FFF;
+}
+.triple-switch input.processed-success:checked ~ span {
+  background-color: #2ECC71;
+}
+.triple-switch input.processed-error:checked ~ span {
+  background-color: #E74C3C;
 }
 .triple-switch label {
   font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
@@ -3861,6 +3953,288 @@ label[for*="chr-"] {
 #frm-user {
   overflow-y: auto;
   max-height: 490px;
+}
+.wrap-seotoaster-form-login,
+.wrap-seotoaster-form-retrieve,
+.wrap-seotoaster-form-pass-reset {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.wrap-seotoaster-form-login::before,
+.wrap-seotoaster-form-retrieve::before,
+.wrap-seotoaster-form-pass-reset::before {
+  transform: translate(50%, 0);
+  content: "";
+  display: block;
+  width: 100vmax;
+  height: 100vmax;
+  position: absolute;
+  z-index: 1;
+  background: #673AB7;
+  border-radius: 30% 70% 30% 70% / 30% 30% 70% 70%;
+  -webkit-animation: decor-animation 35s linear infinite;
+  animation: decor-animation 35s linear infinite;
+}
+@keyframes decor-animation {
+  50% {
+    border-radius: 68% 32% 72% 28% / 65% 73% 27% 35%;
+  }
+  100% {
+    border-radius: 30% 70% 30% 70% / 30% 30% 70% 70%;
+  }
+}
+.seotoaster-form-login,
+.seotoaster-form-retrieve,
+.seotoaster-form-pass-reset {
+  width: 500px;
+  font-family: "Open Sans";
+  font-size: 14px;
+}
+.seotoaster-form-login .card-title,
+.seotoaster-form-retrieve .card-title,
+.seotoaster-form-pass-reset .card-title {
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+.seotoaster-form-login .box-language img,
+.seotoaster-form-retrieve .box-language img,
+.seotoaster-form-pass-reset .box-language img {
+  width: 32px;
+}
+.seotoaster-form-login .card-messages,
+.seotoaster-form-retrieve .card-messages,
+.seotoaster-form-pass-reset .card-messages {
+  padding-left: 60px;
+}
+.seotoaster-form-login .card-content,
+.seotoaster-form-retrieve .card-content,
+.seotoaster-form-pass-reset .card-content {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+.seotoaster-form-login .lang-select,
+.seotoaster-form-retrieve .lang-select,
+.seotoaster-form-pass-reset .lang-select {
+  height: 41px;
+  font-size: 14px;
+  width: auto;
+  color: #4d4d4d;
+}
+.seotoaster-form-login .btn-area,
+.seotoaster-form-retrieve .btn-area,
+.seotoaster-form-pass-reset .btn-area {
+  padding-left: 60px;
+  padding-right: 60px;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.seotoaster-form-login .btn-area a,
+.seotoaster-form-retrieve .btn-area a,
+.seotoaster-form-pass-reset .btn-area a {
+  color: #673AB7;
+  text-decoration: none;
+  font-weight: 400;
+  -webkit-transition: color 0.3s ease;
+  transition: color 0.3s ease;
+}
+.seotoaster-form-login .btn-area a:hover,
+.seotoaster-form-retrieve .btn-area a:hover,
+.seotoaster-form-pass-reset .btn-area a:hover {
+  color: #8259cb;
+}
+.seotoaster-form-login .field-line + .field-line,
+.seotoaster-form-retrieve .field-line + .field-line,
+.seotoaster-form-pass-reset .field-line + .field-line {
+  margin-top: 1.5em;
+}
+.seotoaster-form-login label,
+.seotoaster-form-retrieve label,
+.seotoaster-form-pass-reset label {
+  display: block;
+  color: #4d4d4d;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+.seotoaster-form-login select,
+.seotoaster-form-retrieve select,
+.seotoaster-form-pass-reset select,
+.seotoaster-form-login input,
+.seotoaster-form-retrieve input,
+.seotoaster-form-pass-reset input {
+  height: 51px;
+  border: 1px solid #e3e3e3;
+  border-radius: 3px;
+  padding: 0 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.35s ease 0.5s ease;
+  transition: all 0.35s ease 0.5s ease;
+  color: #808080;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.seotoaster-form-login select:focus,
+.seotoaster-form-retrieve select:focus,
+.seotoaster-form-pass-reset select:focus,
+.seotoaster-form-login input:focus,
+.seotoaster-form-retrieve input:focus,
+.seotoaster-form-pass-reset input:focus {
+  outline: none;
+  color: #333;
+  border-color: #673AB7;
+  box-shadow: none;
+}
+.seotoaster-form-login input,
+.seotoaster-form-retrieve input,
+.seotoaster-form-pass-reset input {
+  cursor: text;
+  width: 100%;
+  box-sizing: border-box;
+}
+.seotoaster-form-login input.notvalid,
+.seotoaster-form-retrieve input.notvalid,
+.seotoaster-form-pass-reset input.notvalid {
+  border-color: #E74C3C;
+}
+.seotoaster-form-login button,
+.seotoaster-form-retrieve button,
+.seotoaster-form-pass-reset button {
+  float: none;
+  margin-top: initial;
+  background-color: #673AB7;
+  border: 0 solid #673AB7;
+  color: #FFF;
+  border-radius: 3px;
+  line-height: 51px;
+  height: 51px;
+  font-size: 16px;
+  padding: 0 2em;
+  cursor: pointer;
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+}
+.seotoaster-form-login button:hover,
+.seotoaster-form-retrieve button:hover,
+.seotoaster-form-pass-reset button:hover {
+  background-color: #8861cd;
+}
+.seotoaster-form-login button:focus,
+.seotoaster-form-retrieve button:focus,
+.seotoaster-form-pass-reset button:focus {
+  outline: none;
+  background-color: #512e90;
+}
+.seotoaster-form-pass-reset .btn-area {
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+@media only screen and (max-width: 460px) {
+  body::before {
+    content: none;
+  }
+  .seotoaster-form-login,
+  .seotoaster-form-retrieve,
+  .seotoaster-form-pass-reset {
+    max-width: 450px;
+    width: 90%;
+    min-width: 300px;
+  }
+  .seotoaster-form-login .card-title,
+  .seotoaster-form-retrieve .card-title,
+  .seotoaster-form-pass-reset .card-title {
+    height: auto;
+    padding: 10px 15px;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .seotoaster-form-login .card-title span,
+  .seotoaster-form-retrieve .card-title span,
+  .seotoaster-form-pass-reset .card-title span {
+    margin-bottom: 10px;
+  }
+  .seotoaster-form-login .card-messages,
+  .seotoaster-form-retrieve .card-messages,
+  .seotoaster-form-pass-reset .card-messages {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+  }
+  .seotoaster-form-login .card-content,
+  .seotoaster-form-retrieve .card-content,
+  .seotoaster-form-pass-reset .card-content {
+    padding: 10px 20px;
+  }
+  .seotoaster-form-login .btn-area,
+  .seotoaster-form-retrieve .btn-area,
+  .seotoaster-form-pass-reset .btn-area {
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+  }
+  .seotoaster-form-login .btn-area button,
+  .seotoaster-form-retrieve .btn-area button,
+  .seotoaster-form-pass-reset .btn-area button {
+    margin-bottom: 15px;
+    order: 1;
+  }
+  .seotoaster-form-login .btn-area a,
+  .seotoaster-form-retrieve .btn-area a,
+  .seotoaster-form-pass-reset .btn-area a {
+    order: 2;
+  }
+}
+@media only screen and (max-height: 400px) {
+  .seotoaster-form-login .card-content,
+  .seotoaster-form-retrieve .card-content,
+  .seotoaster-form-pass-reset .card-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .seotoaster-form-login .btn-area,
+  .seotoaster-form-retrieve .btn-area,
+  .seotoaster-form-pass-reset .btn-area {
+    padding-bottom: 10px;
+  }
+  .seotoaster-form-login .field-line + .field-line,
+  .seotoaster-form-retrieve .field-line + .field-line,
+  .seotoaster-form-pass-reset .field-line + .field-line {
+    margin-top: 1em;
+  }
 }
 #meta-description {
   height: 85px;
@@ -5192,3 +5566,4 @@ label[for*="chr-"] {
   color: #eaeaea;
   text-transform: uppercase;
 }
+/*# sourceMappingURL=seotoaster.css.map */

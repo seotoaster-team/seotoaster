@@ -111,8 +111,7 @@
 .ui-dialog:before,
 .ui-accordion-header-icon:before,
 .ui-dialog-titlebar-close:before,
-.search-choice-close:before,
-[class*="_i-"]:before {
+.search-choice-close:before {
   font-family: 'system-icons';
   speak: none;
   font-style: normal;
@@ -910,42 +909,6 @@
 }
 .ticon-earth:before {
   content: "\e004";
-}
-.ticon-bell:before {
-  content: "\e0ee";
-}
-.ticon-bell-error:before {
-  content: "\e0ef";
-}
-.ticon-bell-success:before {
-  content: "\e0f0";
-}
-.ticon-redo:before {
-  content: "\e0f1";
-}
-.ticon-loading2:before {
-  content: "\e112";
-}
-.ticon-loading:before {
-  content: "\e113";
-}
-.ticon-cog2:before {
-  content: "\e140";
-}
-.ticon-stats-up:before {
-  content: "\e15d";
-}
-.ticon-puzzle:before {
-  content: "\e1c0";
-}
-.ticon-exit:before {
-  content: "\e28d";
-}
-.ticon-loop:before {
-  content: "\e900";
-}
-.ticon-files:before {
-  content: "\e901";
 }
 .smoke-base .smokebg {
   position: fixed;
@@ -2025,3 +1988,4 @@ button.btn-load,
   clear: both;
   margin-bottom: 10px;
 }
+/*# sourceMappingURL=seotoaster-ui.css.map */
