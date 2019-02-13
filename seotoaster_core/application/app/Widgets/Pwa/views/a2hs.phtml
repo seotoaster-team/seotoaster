@@ -3,7 +3,7 @@
   $(document).ready(function () {
     let deferredPrompt;
     const btnAdd = document.querySelector('.a2hs-button');
-    if (!('serviceWorker' in navigator)) {
+    if (!('serviceWorker' in navigator) || window.onbeforeinstallprompt === undefined) {
       btnAdd.classList.add('hidden');
     }
     window.addEventListener('beforeinstallprompt', (e) => {

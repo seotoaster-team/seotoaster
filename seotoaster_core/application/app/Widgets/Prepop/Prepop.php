@@ -143,7 +143,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             unset($this->_options[$optionKey+1]);
         }
         unset($this->_options[$optionKey]);
-        if(!empty($defaultText)){
+        if(isset($defaultText)){
             return $defaultText;
         }else{
             return '';
@@ -174,8 +174,9 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
         $options              = $this->_generateSelectOptions();
-        $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
+        //$options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
         asort($options);
+        $this->_view->defaultOptionSelection = '-- ' . $this->_translator->translate('select one') . ' --';
         $this->_view->options = $options;
 
         return $this->_view->render('element.prepop.phtml');

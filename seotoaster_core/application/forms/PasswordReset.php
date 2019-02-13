@@ -20,6 +20,7 @@ class Application_Form_PasswordReset extends Zend_Form {
 			'name'     => 'password',
 			'id'       => 'password',
 			'label'    => 'Password',
+            'aria-label' => 'Password',
 			'errorMessages' => array(
 				'isEmpty' => 'Invalid password'
 			),
@@ -30,6 +31,7 @@ class Application_Form_PasswordReset extends Zend_Form {
 			'name'     => 'confirmPassword',
 			'id'       => 'confirm-password',
 			'label'    => 'Confirm password',
+            'aria-label' => 'Confirm password',
 			'validators' => array(
 				new Zend_Validate_Identical('password')
 			),
@@ -59,7 +61,8 @@ class Application_Form_PasswordReset extends Zend_Form {
 			'name'   => 'reset',
 			'ignore' => true,
 			'label'  => 'Update',
-            'type'   => 'submit'
+            'type'   => 'submit',
+            'aria-label' => 'Update'
 		)));
 	}
 
