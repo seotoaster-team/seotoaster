@@ -246,14 +246,17 @@ body{
 // -- Page preview
 .page-preview{
     .box-shadow(0 1px 1px #BBB);
-    border           : 1px solid rgba(0, 0, 0, 0);
+    border           : 1px solid rgba(255, 255, 255, 1);
     padding          : 0;
-    background       : #FFF;
     height           : 130px;
     overflow         : hidden;
     position         : relative;
     cursor           : pointer;
     border-top-color : #EEE;
+    background-color: white;
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    .gradient(linear-gradient(45deg, #d9d9d9 25%, transparent 25%, transparent 75%, #d9d9d9 75%, #d9d9d9), linear-gradient(45deg, #d9d9d9 25%, transparent 25%, transparent 75%, #d9d9d9 75%, #d9d9d9));
 
     &.error{
         border-color : @brand-error;
