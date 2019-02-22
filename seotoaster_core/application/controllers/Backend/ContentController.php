@@ -119,7 +119,21 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$containerData = $this->_contentForm->getValues();
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
-			$container     = new Application_Model_Models_Container();
+            $containerName = $containerData['containerName'];
+            $containerType = $containerData['containerType'];
+			$containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
+            $container = null;
+			if (empty($containerId)) {
+                if ($pageId === null) {
+                    $container = $containerMapper->findByName($containerName, 0, $containerType);
+                } else {
+                    $container = $containerMapper->findByName($containerName, $pageId, $containerType);
+                }
+            }
+
+            if (!$container instanceof Application_Model_Models_Container) {
+                $container = new Application_Model_Models_Container();
+            }
 
 			$container->registerObserver(new Tools_Seo_Watchdog());
 			$container->registerObserver(new Tools_Search_Watchdog());
@@ -127,8 +141,11 @@ class Backend_ContentController extends Zend_Controller_Action {
 				'action' => Tools_System_GarbageCollector::CLEAN_ONUPDATE
 			)));
 
-			$container->setId($containerId)
-				->setName($containerData['containerName'])
+            if (!empty($containerId)) {
+                $container->setId($containerId);
+            }
+
+			$container->setName($containerData['containerName'])
 				->setContainerType($containerData['containerType'])
 				->setPageId($pageId)
 				->setContent($containerData['content']);
