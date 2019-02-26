@@ -29,7 +29,7 @@ class SignupController extends Zend_Controller_Action {
             $pageId = $formData['PageId'];
             $signupFormKeyParams = 'signUpKeyParams'.$pageId;
             if (!isset($this->_helper->session->$signupFormKeyParams)) {
-                $this->_helper->flashMessenger->addMessage('missing signup key');
+                $this->_helper->flashMessenger->addMessage('Error: missing signup key. Please, try again');
                 $signupPageUrl = $this->_helper->session->signupPageUrl;
                 $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
             }
