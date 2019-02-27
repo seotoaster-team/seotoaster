@@ -21,7 +21,7 @@ class Widgets_Website_Website extends Widgets_Abstract {
 				$content = $this->_toasterOptions['websiteUrl'];
 			break;
             case self::OPT_HOST:
-                $content = Tools_System_Tools::getUrlHost($this->_toasterOptions['websiteUrl']);
+                $content = Tools_System_Tools::getUrlHost(str_replace('www.', '', $this->_toasterOptions['websiteUrl']));
                 break;
 		}
 		return $content;
