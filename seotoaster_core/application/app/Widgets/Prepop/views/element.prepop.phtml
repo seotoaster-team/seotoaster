@@ -3,16 +3,18 @@
         echo $this->defaultText;
     }
 
+    $staticOption = (!empty($this->staticOption)) ? $this->staticOption : '';
+
     switch($this->elementType) {
         case Widgets_Prepop_Prepop::TYPE_TEXT:
-            echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . $this->staticOption . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+            echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . $staticOption . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
         break;
         case Widgets_Prepop_Prepop::TYPE_SELECT:
             if(!empty($this->defaultOptionSelection)) {
                 $defaultOptionSelection[0] = $this->defaultOptionSelection;
                 $this->options = $defaultOptionSelection + $this->options;
             }
-            echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => $this->prepopName . ' prepop-' . $this->elementType), $this->options);
+            echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => $this->prepopName . $staticOption . ' prepop-' . $this->elementType), $this->options);
         break;
         case Widgets_Prepop_Prepop::TYPE_RADIO:
             echo $this->formRadio($this->prepopName, $this->prepopContent, array(
@@ -91,8 +93,7 @@
     <?php $this->jQuery()->onLoadCaptureStart(); ?>
 <?php endif;?>
 
-
-    $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo (($this->prepopName) ? ('.' . $this->prepopName . $this->staticOption) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function (e) {
+    $(document).on('<?php echo $this->onJsElementAction; ?>', '<?php echo (($this->prepopName) ? ('.' . $this->prepopName . $staticOption) : ''); ?>.prepop-<?php echo $this->elementType; ?>', function (e) {
         //init prepop specific fields
         prepop.pageId = '<?php echo $this->commonOptions['pageId']; ?>';
         prepop.container.type = '<?php echo $this->commonOptions['containerType']; ?>';

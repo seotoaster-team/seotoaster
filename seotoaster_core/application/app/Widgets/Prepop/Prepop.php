@@ -187,6 +187,12 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
         $this->_view->defaultOptionSelection = '-- ' . $this->_translator->translate('select one') . ' --';
         $this->_view->options = $options;
 
+        $staticOption = '';
+        if($this->_type == Application_Model_Models_Container::TYPE_PREPOPSTATIC) {
+            $staticOption = '_static';
+        }
+        $this->_view->staticOption = $staticOption;
+
         return $this->_view->render('element.prepop.phtml');
     }
 
