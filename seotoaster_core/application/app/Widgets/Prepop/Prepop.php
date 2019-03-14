@@ -202,6 +202,13 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             $this->_view->prepopContent = $this->_options[0];
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
+
+        $staticOption = '';
+        if($this->_type == Application_Model_Models_Container::TYPE_PREPOPSTATIC) {
+            $staticOption = '_static';
+        }
+        $this->_view->staticOption = $staticOption;
+
         $this->_view->onJsElementAction = 'blur';
 
         return $this->_view->render('element.prepop.phtml');
