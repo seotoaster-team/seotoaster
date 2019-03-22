@@ -105,19 +105,20 @@ class Tools_Image_Tools {
                 $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($pathFile)
             );
         }
+        $configData = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
 
         // If width or height > original size
         if ($newHeight !== 'auto' && ($imgWidth < $newWidth || $imgHeight < $newHeight)) {
-            list($newWidth, $newHeight) = array_values(
-                self::calculateImageProportion($newWidth, $newHeight, $imgWidth, $imgHeight)
-            );
-        }
-        elseif ($imgWidth >= $newWidth) {
-            if ($newHeight == 'auto') {
+            if(empty($configData['cropNewFormat'])) {
+                list($newWidth, $newHeight) = array_values(
+                    self::calculateImageProportion($newWidth, $newHeight, $imgWidth, $imgHeight)
+                );
+            }
+        } elseif ($imgWidth >= $newWidth) {
+            if ($newHeight == 'auto' && empty($configData['cropNewFormat'])) {
                 $newHeight = ($saveProportion) ? ($imgHeight*$newWidth/$imgWidth) : $newWidth;
             }
-        }
-        else {
+        } else {
             // if the original size less then it needs to resized at
             // copying original file to destination and exiting
             if ($destination) {
@@ -151,8 +152,7 @@ class Tools_Image_Tools {
                             imageDestroy($bg);
                             break;
                     }
-                }
-                else {
+                } else {
                     if (!is_dir($destination)) {
                         Tools_Filesystem_Tools::mkDir($destination);
                     }
@@ -218,30 +218,71 @@ class Tools_Image_Tools {
         }
 
         if ($crop) {
-            $originalAspect = $imgWidth / $imgHeight;
-            $thumbAspect    = $newWidth / $newHeight;
-            if ($originalAspect >= $thumbAspect) {
-                $thumbHeight = $newHeight;
-                $thumbWidth  = $imgWidth / ($imgHeight / $newHeight);
+            if (!empty($configData['cropNewFormat'])) {
+                if($newWidth > $imgWidth && $newHeight < $imgHeight) {
+                    $resultWidth = $imgWidth;
+                    $resultHeight = $newHeight * $imgWidth / $newWidth;
+
+                    self::_calculateCropPicture($resultWidth, $resultHeight, $imgWidth, $imgHeight, $newWidth, $newHeight, $image, $newImage);
+                } elseif ($newWidth < $imgWidth && $newHeight > $imgHeight) {
+                    $resultHeight = $imgHeight;
+                    $resultWidth =  $newWidth * $imgHeight / $newHeight;
+
+                    self::_calculateCropPicture($resultWidth, $resultHeight, $imgWidth, $imgHeight, $newWidth, $newHeight, $image, $newImage);
+                } elseif ($newWidth >= $imgWidth && $newHeight >= $imgHeight) {
+                   $cropAspect = $newWidth/$imgHeight;
+                   $originalAspect = $imgWidth/$imgHeight;
+
+                    $resultWidth = $imgWidth;
+                    $resultHeight = $imgHeight;
+
+                   if($cropAspect > $originalAspect) {
+                       //case 1
+                       $resultWidth = $imgWidth;
+                       $resultHeight = $newHeight * $imgWidth / $newWidth;
+                   } elseif ($cropAspect < $originalAspect) {
+                       //case 2
+                       $resultHeight = $imgHeight;
+                       $resultWidth =  $newWidth * $imgHeight / $newHeight;
+                   }
+
+                    self::_calculateCropPicture($resultWidth, $resultHeight, $imgWidth, $imgHeight, $newWidth, $newHeight, $image, $newImage);
+                } else {
+                    //default
+                    $resultWidth = $newWidth;
+                    $resultHeight = $newHeight;
+
+                    self::_calculateCropPicture($resultWidth, $resultHeight, $imgWidth, $imgHeight, $newWidth, $newHeight, $image, $newImage);
+                }
+            } else {
+                $resultWidth = $newWidth;
+                $resultHeight = $newHeight;
+
+                self::_calculateCropPicture($resultWidth, $resultHeight, $imgWidth, $imgHeight, $newWidth, $newHeight, $image, $newImage);
+
+                /*$originalAspect = $imgWidth / $imgHeight;
+                $thumbAspect    = $newWidth / $newHeight;
+                if ($originalAspect >= $thumbAspect) {
+                    $thumbHeight = $newHeight;
+                    $thumbWidth  = $imgWidth / ($imgHeight / $newHeight);
+                } else {
+                    $thumbWidth  = $newWidth;
+                    $thumbHeight = $imgHeight / ($imgWidth / $newWidth);
+                }
+                imagecopyresampled(
+                    $newImage,
+                    $image,
+                    0 - ($thumbWidth - $newWidth) / 2,
+                    0 - ($thumbHeight - $newHeight) / 2,
+                    0,
+                    0,
+                    $thumbWidth,
+                    $thumbHeight,
+                    $imgWidth,
+                    $imgHeight
+                );*/
             }
-            else {
-                $thumbWidth  = $newWidth;
-                $thumbHeight = $imgHeight / ($imgWidth / $newWidth);
-            }
-            imagecopyresampled(
-                $newImage,
-                $image,
-                0 - ($thumbWidth - $newWidth) / 2,
-                0 - ($thumbHeight - $newHeight) / 2,
-                0,
-                0,
-                $thumbWidth,
-                $thumbHeight,
-                $imgWidth,
-                $imgHeight
-            );
-        }
-        else {
+        } else {
             imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $imgWidth, $imgHeight);
         }
 
@@ -280,6 +321,43 @@ class Tools_Image_Tools {
         imagedestroy($image);
 
         return true;
+    }
+
+    /**
+     * Сalculate Crop Picture
+     *
+     * @param $cropWidth
+     * @param $cropHeight
+     * @param $imgWidth
+     * @param $imgHeight
+     * @param $newWidth
+     * @param $newHeight
+     * @param $image
+     * @param $newImage
+     */
+    protected static function _calculateCropPicture($cropWidth, $cropHeight, $imgWidth, $imgHeight, $newWidth, $newHeight, $image, $newImage) {
+        $originalAspect = $imgWidth / $imgHeight;
+        $thumbAspect    = $cropWidth / $cropHeight;
+        if ($originalAspect >= $thumbAspect) {
+            $thumbHeight = $newHeight;
+            $thumbWidth  = $imgWidth / ($imgHeight / $newHeight);
+        } else {
+            $thumbWidth  = $newWidth;
+            $thumbHeight = $imgHeight / ($imgWidth / $newWidth);
+        }
+
+        imagecopyresampled(
+            $newImage,
+            $image,
+            0 - ($thumbWidth - $newWidth) / 2,
+            0 - ($thumbHeight - $newHeight) / 2,
+            0,
+            0,
+            $thumbWidth,
+            $thumbHeight,
+            $imgWidth,
+            $imgHeight
+        );
     }
 
     /**
