@@ -11,6 +11,7 @@ function initContent(url){
         menubar                 : false,
         convert_urls            : false,
         relative_urls           : false,
+        browser_spellcheck      : true,
         script_url              : websiteUrl+'system/js/external/tinymce/tinymce.gzip.php',
 //        content_css             : $('#reset_css').val()+','+$('#content_css').val(),
 //        importcss_file_filter   : "content.css",
