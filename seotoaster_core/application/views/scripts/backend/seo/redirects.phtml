@@ -1,7 +1,22 @@
+<?php
+    $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/chosen/chosen.jquery.min.js');
+    $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css');
+?>
 <div class="seotoaster container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
+        <div>
+            <form id="frm-redirects-search" class="grid_12 form-inline" action="/backend/backend_seo/loadredirectslist" method="post">
+                <div class="grid_10 alpha omega redirect-search-block">
+                    <?php echo $this->form->getElement('redirectSearch'); ?>
+                    <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+                </div>
+                <div class="grid_2 btn alpha omega clear-btn" style="margin-top:23px; display:none;">
+                    <?php echo $this->translate('Clear'); ?>
+                </div>
+            </form>
+        </div>
 	<div class="content-footer">
-		<form id="frm-redirects" class="_fajax grid_12 mb15px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
+		<form id="frm-redirects" class="_fajax grid_12 mb5px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadRedirectsList">
 			<div class="grid_5 alpha">
 				<?php echo $this->form->getElement('fromUrl'); ?>
 			</div>
@@ -18,11 +33,14 @@
 			<div class="grid_5 alpha omega ml-grid mr-grid"><?php echo $this->translate('Former url'); ?></div>
 			<div class="grid_6 mr0"><?php echo $this->translate('New url'); ?></div>
 		</div>
-		<div id="redirects-list" class="grid_12 items-list"></div>
+		<div id="redirects-box">
+			<div id="redirects-list" class="grid_12 items-list"></div>
+			<hr class="mb10px" style="border-top:none;"/>
+		</div>
 	</div>
-	<div class="grid_12 footer">
+	<div class="grid_12">
 		<a href="javascript:;" id="massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
 		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
-	</dv>
+	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/redirect.min.js'); ?>

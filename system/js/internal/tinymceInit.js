@@ -13,6 +13,7 @@ $(function(){
         skin                    : 'seotoaster',
         width                   : '100%',
         height                  : '350px',
+        browser_spellcheck      : true,
         menubar                 : false,
         resize                  : false,
         convert_urls            : false,

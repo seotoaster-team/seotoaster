@@ -35,7 +35,8 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
             'admin_from' => $form->getAdminFrom(),
             'admin_from_name' => $form->getAdminFromName(),
             'admin_text' => $form->getAdminText(),
-            'admin_mail_template' => $form->getAdminMailTemplate()
+            'admin_mail_template' => $form->getAdminMailTemplate(),
+            'reply_email' => $form->getReplyEmail()
         );
 
         if (!($id = $form->getId())) {

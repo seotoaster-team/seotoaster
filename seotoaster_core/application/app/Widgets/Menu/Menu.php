@@ -9,6 +9,8 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
     private $_menuTemplate = null;
 
+    protected $_cacheable = false;
+
     protected function  _init() {
         $this->_cacheTags = array(strtolower(__CLASS__));
         $this->_cacheId   = strtolower(__CLASS__).'_lifeTime_'.$this->_cacheLifeTime;
@@ -88,6 +90,10 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
 
         foreach ($pagesList as $key => &$catPage) {
             $catId = $catPage['id'];
+
+            if($catPage['exclude_category'] == 1) {
+                unset($pagesList[$key]);
+            }
             if(!empty($newslogEnabledPlugin) && !empty($catPage['extraOptions']) && in_array('option_newsindex', $catPage['extraOptions'])) {
                 $newsFolderUrl = Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder');
                 if(!empty($newsFolderUrl)) {
@@ -188,7 +194,11 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     continue;
                 }
                 if ($prop === 'url') {
-                    $item = $website->getUrl() . str_replace('index.html', '', $item);
+                    if($item == 'index.html') {
+                        $item = '';
+                    }
+
+                    $item = $website->getUrl() . $item;
                     if ($page['external_link_status'] === '1'){
                         $item = $page['external_link'];
                         $dictionary['$page:target_blank'] = 'target=_blank';

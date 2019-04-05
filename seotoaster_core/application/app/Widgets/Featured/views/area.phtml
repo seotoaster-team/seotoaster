@@ -18,6 +18,7 @@
                 if ($page instanceof Application_Model_Models_Page) {
                     $pageData = $page->toArray();
                     $pageData['containers'] = $containerMapper->getContainersWithHash($page->getId());
+                    $pageData['websiteUrl'] = $this->websiteUrl;
                     $parser = new Tools_Content_Parser($this->tmplFaContent, $pageData);
                     echo $parser->parseSimple();
                     unset($parser);
