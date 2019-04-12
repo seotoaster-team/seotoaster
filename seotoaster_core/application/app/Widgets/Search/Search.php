@@ -178,6 +178,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                     $searchTerm
                 );
             }
+
             $this->_view->urlData = array('search' => $searchTerm);
             $results = $this->_searchResultsByTerm($searchTerm, $filterPageType);
         } elseif ($request->has('queryID')) {
@@ -218,6 +219,25 @@ class Widgets_Search_Search extends Widgets_Abstract
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
                 if (empty($this->_strict)) {
+                    if(!empty($searchTerm)) {
+                        $tmpSerachTerm = explode(' ', $searchTerm);
+                        $filteredSearchStr = array();
+
+                        if(is_array($tmpSerachTerm)) {
+                            foreach ($tmpSerachTerm as $term) {
+                                if(mb_strlen($term) < 3) {
+                                    continue;
+                                } else {
+                                    $filteredSearchStr[] = $term;
+                                }
+                            }
+                        }
+
+                        if(!empty($filteredSearchStr)) {
+                            $searchTerm = implode(' ', $filteredSearchStr);
+                        }
+                    }
+
                     $searchTermArray = trim($searchTerm, '*') . '*';
                     $pattern = new Zend_Search_Lucene_Index_Term($searchTermArray);
                     $query = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
