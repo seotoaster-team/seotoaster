@@ -220,11 +220,11 @@ class Widgets_Search_Search extends Widgets_Abstract
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
                 if (empty($this->_strict)) {
                     if(!empty($searchTerm)) {
-                        $tmpSerachTerm = explode(' ', $searchTerm);
+                        $tmpSearchTerm = explode(' ', $searchTerm);
                         $filteredSearchStr = array();
 
-                        if(is_array($tmpSerachTerm)) {
-                            foreach ($tmpSerachTerm as $term) {
+                        if(is_array($tmpSearchTerm)) {
+                            foreach ($tmpSearchTerm as $term) {
                                 if(mb_strlen($term) < 3) {
                                     continue;
                                 } else {
