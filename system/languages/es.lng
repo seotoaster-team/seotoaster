@@ -266,7 +266,7 @@
       'File upload max size' => 'Tamaño máximo de archivo',
       'File extension formats' => 'Extensiones de archivos',
       'Please enter a valid email address' => 'Por favor introduce una dirección de correo electrónico válida',
-      'Incorrect recaptcha result' => 'ReCaptcha inválido',
+      'Please check the anti-spam \'I am not a robot\' checkbox!' => 'Por favor, marque la casilla de \'No soy un robot\'',
       'Select' => 'Seleccionar',
       'Mr' => 'Sr',
       'Mrs' => 'Sra',

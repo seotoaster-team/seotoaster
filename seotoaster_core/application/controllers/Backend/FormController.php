@@ -211,9 +211,9 @@ class Backend_FormController extends Zend_Controller_Action {
                     if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
                         if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
                             if ($xmlHttpRequest) {
-                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                                $this->_helper->response->fail($this->_helper->language->translate('Please check the anti-spam \'I am not a robot\' checkbox!'));
                             }
-                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Please check the anti-spam \'I am not a robot\' checkbox!');
                             $this->_redirect($formParams['formUrl']);
                         }
                     }
