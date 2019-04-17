@@ -1229,7 +1229,7 @@
     'Indexing...' => 'Indexation...',
     'Start reindex' => 'Réindexer',
     'Can\'t clean a search folder' => 'Impossible de nettoyer le dossier de recherche',
-    'Incorrect recaptcha result' => 'ReCaptcha invalide',
+    'Please check the anti-spam \'I am not a robot\' checkbox!' => 'Merci de cocher la case \'je ne suis pas un robot\' et réessayer',
     'Select'=>'Sélectionner',
     'Mr' => 'M',
     'Mrs' => 'Mme',

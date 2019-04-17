@@ -66,7 +66,7 @@ class Tools_Content_GarbageCollector extends Tools_System_GarbageCollector {
 	}
 
 	public function _cleanEmptyContainer() {
-		if(!$this->_object->getContent()) {
+		if(!$this->_object->getContent() && $this->_object->getContent() != '0') {
 			$this->_object->removeObserver($this);
 			Application_Model_Mappers_ContainerMapper::getInstance()->delete($this->_object);
 		}

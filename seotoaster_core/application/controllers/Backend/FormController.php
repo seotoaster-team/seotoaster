@@ -160,6 +160,8 @@ class Backend_FormController extends Zend_Controller_Action {
                 }
                 unset($formParams[md5($formName.$formId)]);
 
+
+
                 //validating recaptcha
                 if($useCaptcha == 1 && !isset($formParams['g-recaptcha-response'])){
                     if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
@@ -209,14 +211,29 @@ class Backend_FormController extends Zend_Controller_Action {
                     if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
                         if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
                             if ($xmlHttpRequest) {
-                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                                $this->_helper->response->fail($this->_helper->language->translate('Please check the anti-spam \'I am not a robot\' checkbox!'));
                             }
-                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Please check the anti-spam \'I am not a robot\' checkbox!');
                             $this->_redirect($formParams['formUrl']);
                         }
                     }
 
                 }
+
+                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'])) {
+                    if($xmlHttpRequest){
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+
+                    if(isset($formParams['conversionPageUrl'])) {
+                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                        $this->redirect($conversionPageUrl);
+                    }
+
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->redirect($formParams['formUrl']);
+                }
+
                 //Check if email is valid
                 if (isset($formParams['email'])) {
                     $emailValidation = new Tools_System_CustomEmailValidator();
