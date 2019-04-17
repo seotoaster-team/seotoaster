@@ -69,6 +69,10 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $height = 'auto';
         }
 
+        if(is_numeric($width) && !$useCrop) {
+            $galFolder = $path.Webbuilder_Tools_Filesystem::getMediaSubFolderByWidth($width).DIRECTORY_SEPARATOR;
+        }
+
         if (!is_dir($galFolder)) {
             Tools_Filesystem_Tools::mkDir($galFolder);
         }
@@ -79,7 +83,17 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             // Update image
             if (is_file($galFolder.$image)) {
                 $imgInfo = getimagesize($galFolder.$image);
-                if ($imgInfo[0] != $width && ($imgInfo[1] != $height || $height != 'auto')) {
+
+                if($height == 'auto') {
+                    $imgDataWidth = $imgInfo[0];
+                    $imgDataHeight = $imgInfo[1];
+                    $customWidth = $width;
+
+                    $resultHeight = $imgDataHeight/($imgDataWidth/$customWidth);
+                    $height = round($resultHeight);
+                }
+
+                if ($imgInfo[0] != $width && ($imgInfo[1] != $height)) {
                     Tools_Image_Tools::resizeByParameters(
                         $pathFileOriginal.$image,
                         $width,
