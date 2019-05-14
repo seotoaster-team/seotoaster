@@ -85,6 +85,7 @@ class SignupController extends Zend_Controller_Action {
                 $isGrecaptchaValid = $googleRecaptcha->isValid($formParams['g-recaptcha-response']);
 
                 if($isGrecaptchaValid) {
+                    $signupForm->removeElement('verification');
                     $isValid = true;
                 }
             } elseif (isset($formParams['verification'])) {
