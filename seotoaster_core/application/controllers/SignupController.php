@@ -156,12 +156,13 @@ class SignupController extends Zend_Controller_Action {
 				}
 			}
 			else {
+                $errMsgs = $signupForm->getMessages();
+
 			    if(!$isValid) {
                     $translator = Zend_Registry::get('Zend_Translate');
-                    $this->_helper->flashMessenger->addMessage($translator->translate('Recaptcha failed'));
-                } else {
-                    $this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($signupForm->getMessages(), get_class($signupForm)));
+                    $errMsgs['verification']['missingValue'] = $translator->translate('Recaptcha failed');
                 }
+                $this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($errMsgs, get_class($signupForm)));
 
 				$signupPageUrl = $this->_helper->session->signupPageUrl;
 				unset($this->_helper->session->signupPageUrl);
