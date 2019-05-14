@@ -159,8 +159,7 @@ class SignupController extends Zend_Controller_Action {
                 $errMsgs = $signupForm->getMessages();
 
 			    if(!$isValid) {
-                    $translator = Zend_Registry::get('Zend_Translate');
-                    $errMsgs['verification']['missingValue'] = $translator->translate('Recaptcha failed');
+                    $errMsgs['verification']['missingValue'] = 'Recaptcha failed';
                 }
                 $this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($errMsgs, get_class($signupForm)));
 
