@@ -95,7 +95,15 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
                 return $this->_view->render('prepopLink.phtml');
             }
             elseif ($this->_readonly) {
-                if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
+                if($this->_prepopContent == '0' && in_array(self::TYPE_TEXT, $this->_options)) {
+                    return $this->_prepopContent;
+                } elseif ($this->_prepopContent == '0' && in_array(self::TYPE_SELECT, $this->_options)) {
+                    if(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options)) {
+                       return $this->processDefaultContent();
+                    } else {
+                       return '';
+                    }
+                } elseif(in_array(Widgets_Content_Content::DEFAULT_CONTENT, $this->_options) && empty($this->_prepopContent)){
                     return $this->processDefaultContent();
                 }else{
                     return $this->_prepopContent;
@@ -143,7 +151,7 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
             unset($this->_options[$optionKey+1]);
         }
         unset($this->_options[$optionKey]);
-        if(!empty($defaultText)){
+        if(isset($defaultText)){
             return $defaultText;
         }else{
             return '';
@@ -174,9 +182,16 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
         $options              = $this->_generateSelectOptions();
-        $options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
+        //$options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
         asort($options);
+        $this->_view->defaultOptionSelection = '-- ' . $this->_translator->translate('select one') . ' --';
         $this->_view->options = $options;
+
+        $staticOption = '';
+        if($this->_type == Application_Model_Models_Container::TYPE_PREPOPSTATIC) {
+            $staticOption = '_static';
+        }
+        $this->_view->staticOption = $staticOption;
 
         return $this->_view->render('element.prepop.phtml');
     }
@@ -189,10 +204,17 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     }
 
     protected function _renderPrepopText() {
-        if(!$this->_prepopContent && isset($this->_options[0])) {
+        if(!$this->_prepopContent && isset($this->_options[0]) && $this->_prepopContent != '0') {
             $this->_view->prepopContent = $this->_options[0];
         }
         $this->_view->limit             = isset($this->_options[1]) ? $this->_options[1] : 0;
+
+        $staticOption = '';
+        if($this->_type == Application_Model_Models_Container::TYPE_PREPOPSTATIC) {
+            $staticOption = '_static';
+        }
+        $this->_view->staticOption = $staticOption;
+
         $this->_view->onJsElementAction = 'blur';
 
         return $this->_view->render('element.prepop.phtml');

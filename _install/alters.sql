@@ -722,6 +722,22 @@ INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) V
 -- Add new exclude_category column
 ALTER TABLE `page` ADD COLUMN `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' AFTER `page_type`;
 
+-- 23/01/2019
+-- version: 3.0.7
+-- Add form blacklist rules
+CREATE TABLE `form_blacklist_rules` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`type`,`value`),
+  UNIQUE (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- 20/03/2019
+-- version: 3.0.8
+-- Add crop new format
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('cropNewFormat', '0');
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.7' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.9' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
