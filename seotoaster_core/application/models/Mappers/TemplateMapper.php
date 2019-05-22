@@ -75,10 +75,13 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
     /**
      * @param $oldName
      * @param $newName
+     * @param $oldOrigFileName
+     * @param $newOrigFileName
      * @throws Exception
      */
-    public function replaceSearchedValue($oldName, $newName) {
+    public function replaceSearchedValue($oldName, $newName, $oldOrigFileName, $newOrigFileName) {
         $this->getDbTable()->update(array("content" => new Zend_Db_Expr("REPLACE(content, '".$oldName."','".$newName."')")), array());
+        $this->getDbTable()->update(array("content" => new Zend_Db_Expr("REPLACE(content, 'alt=\"".$oldOrigFileName."\"','alt=\"".$newOrigFileName."\"')")), array());
     }
 }
 

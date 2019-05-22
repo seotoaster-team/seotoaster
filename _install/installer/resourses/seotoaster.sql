@@ -37,7 +37,8 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
 ('cropNewFormat', '0'),
-('version',	'3.0.9');
+('bisabledRenamedImagePrefixes', '["wb_"]'),
+('version',	'3.1.0');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (

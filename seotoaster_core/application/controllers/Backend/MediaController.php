@@ -139,6 +139,13 @@ class Backend_MediaController extends Zend_Controller_Action
                     false,
                     false
                 );
+                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+                $bisabledRenamedImagePrefixes = $configHelper->getConfig('bisabledRenamedImagePrefixes');
+
+                if(isset($bisabledRenamedImagePrefixes)) {
+                    $bisabledRenamedImagePrefixes = json_decode($bisabledRenamedImagePrefixes, false);
+                }
+
                 foreach ($listImages as $image) {
                     $imgInfo   = getimagesize($this->_helper->website->getUrl() . $this->_websiteConfig['media'] . $folderName . '/original/' . $image);
                     $imgMimeType   = $imgInfo['mime'];
@@ -161,6 +168,16 @@ class Backend_MediaController extends Zend_Controller_Action
 
                     $clearImgName = str_replace($imageExtension, '', $image);
 
+                    if(!empty($bisabledRenamedImagePrefixes) && is_array($bisabledRenamedImagePrefixes)) {
+                        $disabledEdit = '';
+                        foreach ($bisabledRenamedImagePrefixes as $prefix) {
+                          $denyedPrefixExist = preg_match('/^'.$prefix.'/i', $clearImgName);
+                          if($denyedPrefixExist) {
+                              $disabledEdit = 'disabled';
+                          }
+                        }
+                    }
+
                     array_push(
                         $this->view->imageList,
                         array(
@@ -170,7 +187,8 @@ class Backend_MediaController extends Zend_Controller_Action
                                         ) . $this->_websiteConfig['media'] . $folderName . '/original/' . $image
                                     ),
                             'clearImgName' => $clearImgName,
-                            'imgExtension' => $imageExtension
+                            'imgExtension' => $imageExtension,
+                            'disabledEdit' => $disabledEdit
                         )
                     );
                 }
@@ -242,8 +260,8 @@ class Backend_MediaController extends Zend_Controller_Action
                 $oldFileName = $fileOldName . $fileExtension;
                 $newFileName = $fileNewName . $fileExtension;
 
-                Application_Model_Mappers_ContainerMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName);
-                Application_Model_Mappers_TemplateMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName);
+                Application_Model_Mappers_ContainerMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName, $fileOldName, $fileNewName);
+                Application_Model_Mappers_TemplateMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName, $fileOldName, $fileNewName);
                 Application_Model_Mappers_LinkContainerMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName);
 
                 $responseHelper->success(array('fileNewName' => $fileNewName));

@@ -82,7 +82,7 @@
                 <input type="checkbox" class="toremove hidden" name="removeImages[]" value="${name}" />
                 <div class="grid_12 alpha omega img-edit-box">
                     <span class="btn ticon-pencil edit-name grid_3 alpha omega"></span>
-                    <input type="text" class="img-name grid_12 alpha omega" data-extension="${imgExtension}" data-current-name="${clearImgName}" value="${clearImgName}" />
+                    <input type="text" class="img-name grid_12 alpha omega ${disabledEdit}" data-extension="${imgExtension}" ${disabledEdit} data-current-name="${clearImgName}" value="${clearImgName}" />
                     <span class="btn success success-btn ticon-checkmark grid_3 alpha omega" style="display:none;"></span>
                 </div>
             </div>
@@ -160,46 +160,64 @@
         }
     });
 
+
     $(document).on('toggleActive', '.img-wrap-box', function() {
         var fileContainerEl = $(this).closest('.file-container');
-        var $flag   = fileContainerEl.find('input.toremove');
-        var $parent = $(this).closest('.filebrowser-zone');
+        var flag   = fileContainerEl.find('input.toremove');
+        var parent = $(this).closest('.filebrowser-zone');
         var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
+        var images = $('.img-name');
 
         $('.success-btn').hide();
         $('#attention-info-msg').addClass('hide');
-        if ($flag.prop('checked')){
-            $flag.prop('checked', false);
+        if (flag.prop('checked')){
+            flag.prop('checked', false);
             fileContainerEl.removeClass('active');
-            if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
+            if (parent.find('.active').size() < parent.find('.file-container').size() ) {
                 $('#check-all').prop('checked', false);
                 fileContainerEl.css({'background': ''});
                 fileContainerEl.find('img').css({'opacity': ''});
-                $('.img-name').removeClass('grid_9').addClass('grid_12');
+                images.removeClass('grid_9').addClass('grid_12');
                 $('.file-container').removeClass('editing');
-                if($parent.find('.active').size() == 0) {
+                if(parent.find('.active').size() == 0) {
                     $('#delete-info-msg').removeClass('hide');
                     $('#deleteBtn').hide();
-                    $('.img-name').prop('disabled',false);
+
+                    if(images.length) {
+                        $.each(images, function(index, el) {
+                            if(!$(el).hasClass('disabled')) {
+                                $(el).prop('disabled',false);
+                            }
+                        });
+                    }
+
                     $('.edit-name').removeClass('hidden');
                 }
             }
             if($('#removeForm').find('input.toremove:checked').size() == 0) {
                 $('#delete-info-msg').removeClass('hide');
                 $('#deleteBtn').hide();
-                $('.img-name').prop('disabled',false);
+
+                if(images.length) {
+                    $.each(images, function(index, el) {
+                        if(!$(el).hasClass('disabled')) {
+                            $(el).prop('disabled',false);
+                        }
+                    });
+                }
+
                 $('.edit-name').removeClass('hidden');
             }
         } else {
             // fileContainerEl.addClass('active').css({'background': 'rgba(231,76,60,.2)'});
             fileContainerEl.addClass('active');
             fileContainerEl.find('img');
-            $flag.prop('checked', true);
-            if ($parent.find('.file-container:not(.active)').size() === 0){
+            flag.prop('checked', true);
+            if (parent.find('.file-container:not(.active)').size() === 0){
                 btnCheckAll.prop('checked', true);
             } else {
                 if(selectedIndex == 0) {
-                    $('.img-name').prop('disabled',true).removeClass('grid_9').addClass('grid_12');
+                    images.prop('disabled',true).removeClass('grid_9').addClass('grid_12');
                 }
             }
                 $('#delete-info-msg').addClass('hide');
@@ -213,14 +231,20 @@
         $(this).parent('.file-container').trigger('toggleActive');
     });
 
+
     $(document).on('change', '#check-all', function() {
         var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
+        var images = $('.img-name');
         if (this.checked === true) {
             var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container:not(.active)')
         } else {
             var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
-            if(selectedIndex == 0) {
-                $('.img-name').prop('disabled',false);
+            if(selectedIndex == 0 && images.length) {
+                $.each(images, function(index, el) {
+                    if(!$(el).hasClass('disabled')) {
+                        $(el).prop('disabled',false);
+                    }
+                });
             }
         }
         if (items.size()){
@@ -463,7 +487,15 @@
                     showMessage(errorsHtml, true, 5000);
                 }
 
-                $('.img-name').prop('disabled',false);
+                var images = $('.img-name');
+
+                if(images.length) {
+                    $.each(images, function(index, el) {
+                        if(!$(el).hasClass('disabled')) {
+                            $(el).prop('disabled',false);
+                        }
+                    });
+                }
                 $('#delete-info-msg').removeClass('hide');
                 $('#deleteBtn').hide();
                 $('#attention-info-msg').addClass('hide');
