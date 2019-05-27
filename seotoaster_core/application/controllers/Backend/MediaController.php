@@ -7,6 +7,10 @@
  */
 class Backend_MediaController extends Zend_Controller_Action
 {
+    const REPLACE_IMAGES_CONTAINERS = 'containers';
+
+    const REPLACE_IMAGES_TEMPLATES = 'templates';
+
     private $_translator = null;
     private $_websiteConfig = null;
 
@@ -206,7 +210,10 @@ class Backend_MediaController extends Zend_Controller_Action
     }
 
     /**
+     * Method search and rename the pictures names in templates/containers/links contents
+     *
      * @throws Exceptions_SeotoasterException
+     * @throws Zend_Exception
      */
     public function renamefileAction() {
         $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
@@ -255,14 +262,30 @@ class Backend_MediaController extends Zend_Controller_Action
                     }
 
                     rename($fileOldPath, $fileNewPath);
+
+                    $searchedFilePAth = $this->_websiteConfig['url'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileOldName . $fileExtension;
+
+                    $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
+                    $foundContainers = $containerMapper->findByContent($searchedFilePAth);
+
+                    //process containers content
+                    if(!empty($foundContainers)) {
+                        Tools_Image_Tools::processToReplaceImagesInDb($foundContainers, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_CONTAINERS);
+                    }
+
+                    $templateMapper = Application_Model_Mappers_TemplateMapper::getInstance();
+                    $foundTemplates = $templateMapper->findByContent($searchedFilePAth);
+
+                    //process templates content
+                    if(!empty($foundTemplates)) {
+                        Tools_Image_Tools::processToReplaceImagesInDb($foundTemplates, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_TEMPLATES);
+                    }
+
+                    $newFileName = $this->_websiteConfig['url'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
+
+                    //process link content
+                    Application_Model_Mappers_LinkContainerMapper::getInstance()->replaceSearchedValue($searchedFilePAth, $newFileName);
                 }
-
-                $oldFileName = $fileOldName . $fileExtension;
-                $newFileName = $fileNewName . $fileExtension;
-
-                Application_Model_Mappers_ContainerMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName, $fileOldName, $fileNewName);
-                Application_Model_Mappers_TemplateMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName, $fileOldName, $fileNewName);
-                Application_Model_Mappers_LinkContainerMapper::getInstance()->replaceSearchedValue($oldFileName, $newFileName);
 
                 $responseHelper->success(array('fileNewName' => $fileNewName));
             }

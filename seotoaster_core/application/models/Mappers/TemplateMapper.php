@@ -73,15 +73,19 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
     }
 
     /**
-     * @param $oldName
-     * @param $newName
-     * @param $oldOrigFileName
-     * @param $newOrigFileName
+     * Method finds teplate which contains query string inside itself
+     *
+     * @param $findString
+     * @return array|null
      * @throws Exception
      */
-    public function replaceSearchedValue($oldName, $newName, $oldOrigFileName, $newOrigFileName) {
-        $this->getDbTable()->update(array("content" => new Zend_Db_Expr("REPLACE(content, '".$oldName."','".$newName."')")), array());
-        $this->getDbTable()->update(array("content" => new Zend_Db_Expr("REPLACE(content, 'alt=\"".$oldOrigFileName."\"','alt=\"".$newOrigFileName."\"')")), array());
+    public function findByContent($findString) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto("content LIKE ?", '%'.$findString.'%');
+        $row = $this->fetchAll($where);
+        if (empty($row)){
+            return null;
+        }
+        return $row;
     }
 }
 

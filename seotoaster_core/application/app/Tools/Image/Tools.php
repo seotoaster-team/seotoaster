@@ -591,4 +591,54 @@ class Tools_Image_Tools {
         return false;
     }
 
+    /**
+     * Renamed images in container/template content
+     *
+     * @param $data
+     * @param $folderName
+     * @param $folder
+     * @param $fileNewName
+     * @param $fileExtension
+     * @param $dataType
+     * @throws Exceptions_SeotoasterException
+     * @throws Zend_Exception
+     */
+    public static function processToReplaceImagesInDb($data, $folderName, $folder, $fileNewName, $fileExtension, $dataType) {
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+        $websiteConfig = Zend_Registry::get('website');
+
+        if($dataType == Backend_MediaController::REPLACE_IMAGES_CONTAINERS) {
+            $dataMapper = Application_Model_Mappers_ContainerMapper::getInstance();
+        }
+
+        if($dataType == Backend_MediaController::REPLACE_IMAGES_TEMPLATES) {
+            $dataMapper = Application_Model_Mappers_TemplateMapper::getInstance();
+        }
+
+        if(!empty($dataType)) {
+            foreach ($data as $dataContent) {
+                $currentContent = $dataContent->getContent();
+
+                preg_match('/(src="(http|https):\/\/.*\salt=".*")/mUiu', $currentContent, $matches);
+
+                if(!empty($matches)) {
+                    if(!empty($matches)) {
+                        $matchesContent = $matches[0];
+
+                        $preparedSrc = $websiteHelper->getUrl() . $websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
+                        $preparedAlt = str_replace('-', ' ', $fileNewName);
+
+                        $toReplace = 'src="'. $preparedSrc .'" alt="'. $preparedAlt .'"';
+
+                        $currentContent = str_replace($matchesContent, $toReplace, $currentContent);
+
+                        $dataContent->setContent($currentContent);
+
+                        $dataMapper->save($dataContent);
+                    }
+                }
+            }
+        }
+    }
+
 }
