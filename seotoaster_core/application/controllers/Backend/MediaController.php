@@ -201,7 +201,8 @@ class Backend_MediaController extends Zend_Controller_Action
             $listFiles = Tools_Filesystem_Tools::scanDirectory($folderPath, false, false);
             foreach ($listFiles as $item) {
                 if (!is_dir($folderPath . DIRECTORY_SEPARATOR . $item)) {
-                    array_push($this->view->filesList, array('name' => $item));
+                    $fileUrl = $this->_helper->website->getUrl() . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $item;
+                    $this->view->filesList[] = array('name' => $item, 'url' => $fileUrl);
                 }
             }
         } else {

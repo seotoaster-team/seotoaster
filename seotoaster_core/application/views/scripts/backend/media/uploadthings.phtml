@@ -49,6 +49,7 @@
             <label id="check-all-label" class="btn link grid_12 alpha omega <?php echo $hiddenClass;?>"><input type="checkbox" id="check-all" class="processed hidden"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
             <form id="removeForm" class="">
             <div id="filebrowser" class="grid_12 alpha omega mt0px">
+
                 <ul>
                     <li><a href="#filebrowser-images" class="switch-tab" data-tab-type="images"><?php echo $this->translate('Images');?></a></li>
                     <li><a href="#filebrowser-files" class="switch-tab" data-tab-type="files"><?php echo $this->translate('Files');?></a></li>
@@ -66,10 +67,11 @@
                 <div id="filebrowser-files" class="filebrowser-zone grid_12 alpha omega scroll" style="height: 330px;">
                     <?php if(!empty($this->filesList)):?>
                         <?php foreach ($this->filesList as $file):?>
-                            <div class="file-container">
+                            <div class="grid_11 alpha omega file-container">
                                 <label data-type="<?php echo $file['name'];?>"><?php echo $file['name'];?></label>
                                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="<?php echo $file['name'];?>">
                             </div>
+                            <div class="grid_1 alpha text-center"><a class="ticon-file3  icon16" title="<?php echo $this->translate('Go to file');?>" href="<?php echo $file['url'];?>" target="_blank"></a></div>
                         <?php endforeach;?>
                     <?php endif;?>
                 </div>
@@ -88,10 +90,11 @@
             </div>
             </script>
             <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="file-container img-wrap-box img-container">
+            <div class="grid_11 alpha omega file-container img-wrap-box img-container">
                 <label data-type="${name}">${name}</label>
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
+            <div class="grid_1 alpha text-center"><a class="ticon-file3 icon16" href="${url}" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
             </script>
             <hr class="mb0px mt5px">
             <div class="deleteBtnBlock grid_12 mt5px alpha omega text-center">
@@ -385,7 +388,6 @@
             $('.success-btn').hide();
             $(e.currentTarget).closest('.file-container').addClass('editing');
             $(e.currentTarget).closest('.img-edit-box').find('input').toggleClass('grid_12 grid_9').next().show();
-            // $(e.currentTarget).toggleClass('grid_12 grid_9').next().show();
             $('#delete-info-msg').addClass('hide');
             $('#attention-info-msg').removeClass('hide');
         }
@@ -466,7 +468,9 @@
                     var removedFiles = [];
                     for (var i in response.deleted) {
                         $('#filebrowser').queue(function(next){
-                            $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').remove();
+                            var tiRemoveEl = $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])');
+                            $(tiRemoveEl).next().remove();
+                            $(tiRemoveEl).remove();
                             next();
                         });
                     }
