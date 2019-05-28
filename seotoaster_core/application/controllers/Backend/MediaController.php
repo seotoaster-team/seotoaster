@@ -143,12 +143,6 @@ class Backend_MediaController extends Zend_Controller_Action
                     false,
                     false
                 );
-                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
-                $bisabledRenamedImagePrefixes = $configHelper->getConfig('bisabledRenamedImagePrefixes');
-
-                if(isset($bisabledRenamedImagePrefixes)) {
-                    $bisabledRenamedImagePrefixes = json_decode($bisabledRenamedImagePrefixes, false);
-                }
 
                 foreach ($listImages as $image) {
                     $imgInfo   = getimagesize($this->_helper->website->getUrl() . $this->_websiteConfig['media'] . $folderName . '/original/' . $image);
@@ -172,13 +166,19 @@ class Backend_MediaController extends Zend_Controller_Action
 
                     $clearImgName = str_replace($imageExtension, '', $image);
 
-                    if(!empty($bisabledRenamedImagePrefixes) && is_array($bisabledRenamedImagePrefixes)) {
-                        $disabledEdit = '';
-                        foreach ($bisabledRenamedImagePrefixes as $prefix) {
-                          $denyedPrefixExist = preg_match('/^'.$prefix.'/i', $clearImgName);
-                          if($denyedPrefixExist) {
-                              $disabledEdit = 'disabled';
-                          }
+                    $prefixesRules = Tools_System_Tools::firePluginMethod('prefixesrules', 'getPrefixesRules');
+
+                    $disabledEdit = '';
+                    if(!empty($prefixesRules)) {
+                        foreach ($prefixesRules as $rules) {
+                            if(!empty($rules['denyToRenameImgPrefixes']) && is_array($rules['denyToRenameImgPrefixes'])) {
+                                foreach ($rules['denyToRenameImgPrefixes'] as $prefix) {
+                                    $denyedPrefixExist = preg_match('/^'.$prefix.'/i', $clearImgName);
+                                    if($denyedPrefixExist) {
+                                        $disabledEdit = 'disabled';
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -251,12 +251,12 @@ class Backend_MediaController extends Zend_Controller_Action
             );
             if (!empty ($listFolders)) {
                 foreach ($listFolders as $key => $folder) {
-                    $fileOldPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileOldName . $fileExtension;
+                    $fileOldPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileOldName . $fileExtension;
                     if(!file_exists($fileOldPath) || $folder == 'product') {
                         continue;
                     }
 
-                    $fileNewPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
+                    $fileNewPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileNewName . $fileExtension;
 
                     if(file_exists($fileNewPath)) {
                         $responseHelper->fail('');
@@ -264,7 +264,7 @@ class Backend_MediaController extends Zend_Controller_Action
 
                     rename($fileOldPath, $fileNewPath);
 
-                    $searchedFilePAth = $this->_websiteConfig['url'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileOldName . $fileExtension;
+                    $searchedFilePAth = $this->_websiteConfig['url'] . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileOldName . $fileExtension;
 
                     $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
                     $foundContainers = $containerMapper->findByContent($searchedFilePAth);
@@ -273,6 +273,27 @@ class Backend_MediaController extends Zend_Controller_Action
                     if(!empty($foundContainers)) {
                         Tools_Image_Tools::processToReplaceImagesInDb($foundContainers, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_CONTAINERS);
                     }
+
+                    $prefixesRules = Tools_System_Tools::firePluginMethod('prefixesrules', 'getPrefixesRules');
+
+                   $additionalContainerPrefixes = array();
+                    if(!empty($prefixesRules)) {
+                        foreach ($prefixesRules as $rules) {
+                            if(!empty($rules['additionalSearcContainerPrefixes']) && is_array($rules['additionalSearcContainerPrefixes'])) {
+                                foreach ($rules['additionalSearcContainerPrefixes'] as $containerPrefix) {
+                                    $additionalContainerPrefixes[] = $containerPrefix;
+                                }
+                            }
+                        }
+                    }
+                    
+                    $searchedFilePAthJson = '{"folder":"' . $folderName . '","image":"' . $fileOldName . $fileExtension .'"';
+
+                    $foundContainers = $containerMapper->findByContent($searchedFilePAthJson, $additionalContainerPrefixes);
+                    if(!empty($foundContainers)) {
+                        Tools_Image_Tools::processToReplaceImagesInDb($foundContainers, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_CONTAINERS, 'imgonly');
+                    }
+
 
                     $templateMapper = Application_Model_Mappers_TemplateMapper::getInstance();
                     $foundTemplates = $templateMapper->findByContent($searchedFilePAth);

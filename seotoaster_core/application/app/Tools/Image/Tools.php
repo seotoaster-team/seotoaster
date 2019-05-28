@@ -603,7 +603,8 @@ class Tools_Image_Tools {
      * @throws Exceptions_SeotoasterException
      * @throws Zend_Exception
      */
-    public static function processToReplaceImagesInDb($data, $folderName, $folder, $fileNewName, $fileExtension, $dataType) {
+    public static function processToReplaceImagesInDb($data, $folderName, $folder, $fileNewName, $fileExtension, $dataType, $subType = '') {
+
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
         $websiteConfig = Zend_Registry::get('website');
 
@@ -619,16 +620,25 @@ class Tools_Image_Tools {
             foreach ($data as $dataContent) {
                 $currentContent = $dataContent->getContent();
 
-                preg_match('/(src="(http|https):\/\/.*\salt=".*")/mUiu', $currentContent, $matches);
+                if($subType == 'imgonly') {
+                    preg_match('/({"folder":"([\w\-]*)","image":"([\w\-]*\.jpg|png|jpeg|gif)")/mUiu', $currentContent, $matches);
+                } else {
+                    preg_match('/(src="(http|https):\/\/.*\salt=".*")/mUiu', $currentContent, $matches);
+                }
 
                 if(!empty($matches)) {
                     if(!empty($matches)) {
                         $matchesContent = $matches[0];
 
-                        $preparedSrc = $websiteHelper->getUrl() . $websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
-                        $preparedAlt = str_replace('-', ' ', $fileNewName);
 
-                        $toReplace = 'src="'. $preparedSrc .'" alt="'. $preparedAlt .'"';
+                        if($subType == 'imgonly') {
+                            $toReplace = '{"folder":"'. $folderName .'","image":"'. $fileNewName.$fileExtension .'"';
+                        } else {
+                            $preparedSrc = $websiteHelper->getUrl() . $websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
+                            $preparedAlt = str_replace('-', ' ', $fileNewName);
+
+                            $toReplace = 'src="'. $preparedSrc .'" alt="'. $preparedAlt .'"';
+                        }
 
                         $currentContent = str_replace($matchesContent, $toReplace, $currentContent);
 

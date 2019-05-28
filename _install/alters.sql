@@ -738,11 +738,6 @@ CREATE TABLE `form_blacklist_rules` (
 -- Add crop new format
 INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('cropNewFormat', '0');
 
--- 22/05/2019
--- version: 3.0.9
--- Add bisabled to rename image prefixes
-INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('bisabledRenamedImagePrefixes', '["wb_"]');
-
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.1.0' WHERE `name`='version';
+UPDATE `config` SET `value`='3.0.9' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
