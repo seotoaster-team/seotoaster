@@ -80,6 +80,11 @@ class Tools_Content_Tools {
 					return;
 				}
 
+				$containerContent = json_decode($container->getContent(), true);
+				if (empty($containerContent)) {
+				    continue;
+                }
+
 				$container->setContent(self::applyDeeplink($deeplink, $container->getContent()));
 				$container->registerObserver(new Tools_Seo_Watchdog(array(
 					'unwatch' => '_updateDeeplinks'
