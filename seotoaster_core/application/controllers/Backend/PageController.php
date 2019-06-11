@@ -131,6 +131,9 @@ class Backend_PageController extends Zend_Controller_Action {
                 $this->_helper->session->oldPageH1    = $page->getH1();
                 $this->_helper->session->oldPageDraft = $page->getDraft();
 
+                $optimizedPage = $page->getOptimized();
+                $currentOptimizedParam = $params['optimized'];
+
                 if(!$optimized) {
                     $page->registerObserver(new Tools_Seo_Watchdog());
                 }
@@ -237,6 +240,10 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 if($checkFaPull) {
                     $this->_processFaPull($page->getId());
+                }
+
+                if($optimizedPage && !$currentOptimizedParam) {
+                    Tools_System_SystemNotifications::sendHtmlToEmails($page);
                 }
 
                 $page->notifyObservers();
