@@ -2,7 +2,7 @@
 
 class Tools_System_SystemNotifications {
 
-    const OPTIMIZED_EMAIL = 'optimizedemail';
+    const OPTIMIZED_NOTIFICATIONS = 'optimizedNotifications';
 
     private static $_htmlRenderer = null;
 
@@ -29,11 +29,11 @@ class Tools_System_SystemNotifications {
             $renderer->pageUrl = $page->getUrl();
             $renderer->pageName = $page->getNavName();
 
-            $optimizedEmailBody = $renderer->render(self::OPTIMIZED_EMAIL . '.phtml');
+            $optimizedEmailBody = $renderer->render('optimizedemail.phtml');
         }
 
         if(!empty($optimizedEmailBody)) {
-            self::sendEmails('optimizedNotifications', $optimizedEmailBody);
+            self::sendEmails(self::OPTIMIZED_NOTIFICATIONS, $optimizedEmailBody);
         }
     }
 

@@ -738,6 +738,11 @@ CREATE TABLE `form_blacklist_rules` (
 -- Add crop new format
 INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('cropNewFormat', '0');
 
+-- 12/06/2019
+-- version: 3.0.9
+-- Add optimizedNotifications param. value (email1,email2,...)
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('optimizedNotifications', '');
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.9' WHERE `name`='version';
+UPDATE `config` SET `value`='3.1.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
