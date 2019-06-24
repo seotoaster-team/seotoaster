@@ -33,7 +33,15 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 		if($page->getIs404page()) {
 			return;
 		}
-        $crumbs[] = '<a href="' . $this->_websiteHelper->getUrl() . '" title="' . $homePage->getH1() . '">' . $homePage->getNavName() . '</a>';
+
+        $homePageNameToDisplay = $homePage->getNavName();
+        $pNameToDisplay = $page->getNavName();
+		if(in_array('h1', $this->_options)) {
+            $homePageNameToDisplay = strip_tags($homePage->getH1());
+            $pNameToDisplay = strip_tags($page->getH1());
+        }
+
+        $crumbs[] = '<a href="' . $this->_websiteHelper->getUrl() . '" title="' . $homePage->getH1() . '">' . $homePageNameToDisplay . '</a>';
 
         $newsFolderUrl = '';
 
@@ -50,7 +58,8 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
             $this->_sessionHelper->breadCrumbList = $breadCrumbList;
 			return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
         }
-        $breadcrumb = '<a href="' . $this->_websiteHelper->getUrl() . (!empty($newsFolderUrl) ? $newsFolderUrl : $page->getUrl()) . '" title="' . $page->getH1() . '">' . $page->getNavName() . '</a>';
+
+        $breadcrumb = '<a href="' . $this->_websiteHelper->getUrl() . (!empty($newsFolderUrl) ? $newsFolderUrl : $page->getUrl()) . '" title="' . $page->getH1() . '">' . $pNameToDisplay . '</a>';
         if(isset($this->_sessionHelper->breadCrumbList)){
             $breadCrumbList = $this->_sessionHelper->breadCrumbList;
         }
@@ -69,10 +78,10 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
         $this->_sessionHelper->breadCrumbList = $breadCrumbList;
         
         if(end($crumbs) != $breadcrumb){
-            $crumbs[] = $page->getNavName();
+            $crumbs[] = $pNameToDisplay;
         }else{
             array_pop($crumbs);
-            $crumbs[] = $page->getNavName();
+            $crumbs[] =  $pNameToDisplay;
         }
 		return '<div class="breadcrumbs">' . implode(' ' . $separator . ' ', $crumbs) . '</div>';
 	}
