@@ -21,20 +21,37 @@ class Tools_System_SystemNotifications {
         return self::$_htmlRenderer;
     }
 
-    public static function sendHtmlToEmails($page)
+    /**
+     * Main render method
+     *
+     * @param $obj
+     * @param $type
+     * @return mixed
+     */
+    public static function sendSystemNotification($obj, $type)
     {
-        if($page instanceof Application_Model_Models_Page) {
-            $renderer         = self::_getHtmlRenderer();
+        if(!empty($type)) {
+            $methodName = '_render' . ucfirst($type);
 
-            $renderer->pageUrl = $page->getUrl();
-            $renderer->pageName = $page->getNavName();
-
-            $optimizedEmailBody = $renderer->render('optimizedemail.phtml');
+            if (method_exists(__CLASS__, $methodName)) {
+               return self::$methodName($obj);
+            }
         }
+    }
 
-        if(!empty($optimizedEmailBody)) {
-            self::sendEmails(self::OPTIMIZED_NOTIFICATIONS, $optimizedEmailBody);
-        }
+    private static function _renderRevokeOptimization($obj) {
+        if($obj instanceof Application_Model_Models_Page) {
+           $renderer         = self::_getHtmlRenderer();
+
+           $renderer->pageUrl = $obj->getUrl();
+           $renderer->pageName = $obj->getNavName();
+
+           $optimizedEmailBody = $renderer->render('optimizedemail.phtml');
+       }
+
+       if(!empty($optimizedEmailBody)) {
+           self::sendEmails(self::OPTIMIZED_NOTIFICATIONS, $optimizedEmailBody);
+       }
     }
 
     public static function sendEmails($param, $notificationContent)

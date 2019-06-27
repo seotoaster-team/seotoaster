@@ -27,6 +27,11 @@ class Backend_PageController extends Zend_Controller_Action {
      */
     const ORGANIZE_PAGES = 'organize_pages';
 
+    /**
+     * Param for system notifications tools
+     */
+    const REVOKE_OPTOMIZATION = 'revokeOptimization';
+
     public function init() {
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
@@ -243,7 +248,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 }
 
                 if($optimizedPage && !$currentOptimizedParam) {
-                    Tools_System_SystemNotifications::sendHtmlToEmails($page);
+                    Tools_System_SystemNotifications::sendSystemNotification($page, self::REVOKE_OPTOMIZATION);
                 }
 
                 $page->notifyObservers();
