@@ -248,7 +248,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 }
 
                 if($optimizedPage && !$currentOptimizedParam) {
-                    Tools_System_SystemNotifications::sendSystemNotification($page, self::REVOKE_OPTOMIZATION);
+                    Tools_System_SystemNotifications::sendSystemNotification($page, self::REVOKE_OPTOMIZATION, 'The optimization has been removed');
                 }
 
                 $page->notifyObservers();

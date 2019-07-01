@@ -28,18 +28,18 @@ class Tools_System_SystemNotifications {
      * @param $type
      * @return mixed
      */
-    public static function sendSystemNotification($obj, $type)
+    public static function sendSystemNotification($obj, $type, $emailSubjectMessage = '')
     {
         if(!empty($type)) {
             $methodName = '_render' . ucfirst($type);
 
             if (method_exists(__CLASS__, $methodName)) {
-               return self::$methodName($obj);
+               return self::$methodName($obj, $emailSubjectMessage);
             }
         }
     }
 
-    private static function _renderRevokeOptimization($obj) {
+    private static function _renderRevokeOptimization($obj, $emailSubjectMessage) {
         if($obj instanceof Application_Model_Models_Page) {
            $renderer         = self::_getHtmlRenderer();
 
@@ -50,11 +50,11 @@ class Tools_System_SystemNotifications {
        }
 
        if(!empty($optimizedEmailBody)) {
-           self::sendEmails(self::OPTIMIZED_NOTIFICATIONS, $optimizedEmailBody);
+           self::sendEmails(self::OPTIMIZED_NOTIFICATIONS, $optimizedEmailBody, $emailSubjectMessage);
        }
     }
 
-    public static function sendEmails($param, $notificationContent)
+    public static function sendEmails($param, $notificationContent, $emailSubjectMessage)
     {
         if(!empty($param) && !empty($notificationContent)) {
             $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
@@ -80,9 +80,10 @@ class Tools_System_SystemNotifications {
                     $adminEmail = $configHelper->getConfig('adminEmail');
 
                     $adminEmail = !empty($adminEmail) ? $adminEmail : 'admin@localhost';
+                    $emailSubjectMessage = !empty($emailSubjectMessage) ? $emailSubjectMessage : 'System notifications';
 
                     $mailer   = Tools_Mail_Tools::initMailer();
-                    $subject = $translator->translate('The optimization has been removed');
+                    $subject = $translator->translate($emailSubjectMessage);
                     $mailer->setMailFrom($adminEmail);
                     $mailer->setMailTo($validBssEmails);
                     $mailer->setBody($notificationContent);
