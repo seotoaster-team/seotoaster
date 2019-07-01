@@ -82,7 +82,7 @@ class Tools_System_SystemNotifications {
                     $adminEmail = !empty($adminEmail) ? $adminEmail : 'admin@localhost';
 
                     $mailer   = Tools_Mail_Tools::initMailer();
-                    $subject = $translator->translate('System notifications');
+                    $subject = $translator->translate('The optimization has been removed');
                     $mailer->setMailFrom($adminEmail);
                     $mailer->setMailTo($validBssEmails);
                     $mailer->setBody($notificationContent);
