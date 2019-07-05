@@ -6,7 +6,7 @@
         <input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>"/>
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>"/>
         <input style="display: none;" type="text" id="<?php echo md5($this->form->getName() . $this->form->getId()); ?>"
-               name="<?php echo md5($this->form->getName() . $this->form->getId()); ?>" value="" data-secur="smart"/>
+               name="<?php echo md5($this->form->getName() . $this->form->getId()); ?>" value="" aria-label="smart" data-secur="smart"/>
         <?php if ($this->useRecaptcha && $this->recaptchaCode) : ?>
             <?php
             if ($this->customRecaptcha) {
