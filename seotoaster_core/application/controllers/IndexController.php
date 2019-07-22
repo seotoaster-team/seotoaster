@@ -293,7 +293,9 @@ class IndexController extends Zend_Controller_Action {
 						if (strtolower($node->getAttribute('rel')) === 'stylesheet' ){
 							$this->view->headLink()->appendStylesheet(
 								$node->getAttribute('href'),
-								$node->getAttribute('media')
+								$node->getAttribute('media'),
+                                false,
+                                array('noconcat' => $node->getAttribute('noconcat'))
 							);
 							break;
 						}
