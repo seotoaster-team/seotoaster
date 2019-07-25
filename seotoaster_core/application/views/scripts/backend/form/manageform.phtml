@@ -69,7 +69,8 @@
                     <?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?>
                 </p>
-                <p class="grid_12">
+                <p class="grid_12" id="admin-text-code">
+                    <a class="screen-size ticon-expand warning inverse fl-right" data-size="admin-text-code"></a>
                     <?php echo $this->formForm->getElement('adminText')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminText')->renderViewHelper(); ?>
                 </p>
@@ -102,7 +103,8 @@
                         <?php echo $this->formForm->getElement('replySubject')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?>
                     </p>
-                    <p class="grid_12">
+                    <p class="grid_12" id="reply-text-code">
+                        <a class="screen-size ticon-expand warning inverse fl-right" data-size="reply-text-code"></a>
                         <?php echo $this->formForm->getElement('replyText')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
                     </p>
@@ -116,16 +118,3 @@
         <?php echo $this->formForm->getElement('submit')->renderViewHelper();?>
     </form>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#reply-email').on('change', function (e) {
-            var el = e.currentTarget;
-            if(el.checked) {
-                $('.reply-info').hide();
-            } else {
-                $('.reply-info').show();
-            }
-        });
-    });
-</script>

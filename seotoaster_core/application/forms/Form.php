@@ -45,6 +45,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'code',
+                'class' => 'code-area',
                 'name' => 'code',
                 'label' => 'Form code',
                 'value' => $this->_code,
@@ -180,6 +181,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'admin-text',
+                'class' => 'code-area',
                 'name' => 'adminText',
                 'label' => 'Lead delivery text',
                 'value' => $this->_adminText,
@@ -205,6 +207,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'reply-text',
+                'class' => 'code-area',
                 'name' => 'replyText',
                 'label' => 'Reply text',
                 'value' => $this->_replyText,
