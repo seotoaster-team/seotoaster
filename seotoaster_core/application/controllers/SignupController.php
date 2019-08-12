@@ -77,7 +77,22 @@ class SignupController extends Zend_Controller_Action {
                 $this->_helper->session->signupPrefixField = $formParams['prefix'];
             }
 
-			if($signupForm->isValid($formParams)) {
+            $isValid = false;
+            if(isset($formParams['token'])) {
+                $isValid = true;
+            } elseif (!empty($formParams['g-recaptcha-response'])) {
+                $googleRecaptcha = new Tools_System_GoogleRecaptcha();
+                $isGrecaptchaValid = $googleRecaptcha->isValid($formParams['g-recaptcha-response']);
+
+                if($isGrecaptchaValid) {
+                    $signupForm->removeElement('verification');
+                    $isValid = true;
+                }
+            } elseif (isset($formParams['verification'])) {
+                $isValid = true;
+            }
+
+			if($signupForm->isValid($formParams) && $isValid) {
 				//save new user
 				$user = new Application_Model_Models_User($signupForm->getValues());
 
@@ -141,7 +156,13 @@ class SignupController extends Zend_Controller_Action {
 				}
 			}
 			else {
-				$this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($signupForm->getMessages(), get_class($signupForm)));
+                $errMsgs = $signupForm->getMessages();
+
+			    if(!$isValid) {
+                    $errMsgs['verification']['missingValue'] = 'Recaptcha failed';
+                }
+                $this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($errMsgs, get_class($signupForm)));
+
 				$signupPageUrl = $this->_helper->session->signupPageUrl;
 				unset($this->_helper->session->signupPageUrl);
 				$this->_redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));

@@ -143,10 +143,10 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                         $page['teaserText'] = implode(
                             PHP_EOL,
                             array(
-                                $prod['short_description'],
-                                $prod['full_description'],
-                                $page['teaserText'],
-                                $prod['tags']
+                                '<div class="search-product-short-description">'.$prod['short_description'].'</div>',
+                                '<div class="search-product-full-description">'.$prod['full_description'].'</div>',
+                                '<div class="search-teaser-text">'.$page['teaserText'].'</div>',
+                                '<div class="search-product-tags">'.$prod['tags'].'</div>'
                             )
                         );
                     }
