@@ -116,13 +116,15 @@ class Widgets_Gal_Gal extends Widgets_Abstract
                 );
             }
 
+            $sourcePartPath = $sourcePart;
+
             if ($mediaServersAllowed) {
                 $mediaServer     = Tools_Content_Tools::getMediaServer();
                 $cleanWebsiteUrl = str_replace('www.', '', $websiteData['url']);
-                $sourcePart      = str_replace($websiteData['url'], $mediaServer.'.'.$cleanWebsiteUrl, $sourcePart);
+                $sourcePartPath  = str_replace($websiteData['url'], $mediaServer.'.'.$cleanWebsiteUrl, $sourcePart);
             }
             $sourceImages[$key] = array(
-                'path' => $sourcePart.$image,
+                'path' => $sourcePartPath.$image,
                 'name' => $image
             );
         }
