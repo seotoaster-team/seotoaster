@@ -146,15 +146,18 @@ class Widgets_Page_Page extends Widgets_Abstract {
 
 	private function _generatePreviewOption() {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+        $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Config');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
  		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
 		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg)$~', $files));
 		$fileInfo = array();
 
+        $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+
 		if(!empty ($pagePreviews)) {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
-            $src =  $websiteHelper->getUrl().$path.$pagePreviews[0].'?'.strtotime('now');
+            $src =  $websiteUrlMediaServer.$path.$pagePreviews[0].'?'.strtotime('now');
             $imagePath =  $websiteHelper->getPath().$path.$pagePreviews[0];
             if (!empty($imagePath)) {
                 $fileInfo = getimagesize($imagePath);

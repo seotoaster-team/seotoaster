@@ -220,6 +220,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             array_push($this->_cacheTags, 'pageid_'.$page->getId());
         }
 
+        $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+
+        $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+
+        $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
+
         return $this->_view->render('area.phtml');
     }
 
@@ -253,6 +260,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->descLength = (isset($params[1]) && is_numeric($params[1])) ? intval($params[1])
             : self::AREA_DESC_LENGTH;
         array_push($this->_cacheTags, 'pageid_'.$page->getId());
+
+        $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+
+        $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+
+        $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
 
         return $this->_view->render('page.phtml');
     }
