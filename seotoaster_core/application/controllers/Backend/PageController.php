@@ -27,6 +27,11 @@ class Backend_PageController extends Zend_Controller_Action {
      */
     const ORGANIZE_PAGES = 'organize_pages';
 
+    /**
+     * Param for system notifications tools
+     */
+    const REVOKE_OPTOMIZATION = 'revokeOptimization';
+
     public function init() {
         if(!Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES) && !Tools_Security_Acl::isActionAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) {
             $this->redirect($this->_helper->website->getUrl(), array('exit' => true));
@@ -130,6 +135,9 @@ class Backend_PageController extends Zend_Controller_Action {
                 $this->_helper->session->oldPageUrl   = $page->getUrl();
                 $this->_helper->session->oldPageH1    = $page->getH1();
                 $this->_helper->session->oldPageDraft = $page->getDraft();
+
+                $optimizedPage = $page->getOptimized();
+                $currentOptimizedParam = $params['optimized'];
 
                 if(!$optimized) {
                     $page->registerObserver(new Tools_Seo_Watchdog());
@@ -237,6 +245,10 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 if($checkFaPull) {
                     $this->_processFaPull($page->getId());
+                }
+
+                if($optimizedPage && !$currentOptimizedParam) {
+                    Tools_System_SystemNotifications::sendSystemNotification($page, self::REVOKE_OPTOMIZATION, 'The optimization has been removed');
                 }
 
                 $page->notifyObservers();

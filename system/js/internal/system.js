@@ -303,10 +303,34 @@ $(function(){
 });
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
+    e.preventDefault();
     var name = $(this).data('size');
     $('.closebutton').toggle();
-    $(this).toggleClass('ticon-expand ticon-turn');
+
+    if(!$(this).hasClass('open')) {
+        $(this).addClass('open');
+    }
+
+    var screenSizeEl = $('.screen-size');
+
+    $.each(screenSizeEl, function(key, el){
+        if(!$(el).hasClass('open')) {
+            $(el).toggle();
+        } else {
+            $(el).removeClass('open').toggleClass('ticon-expand ticon-turn');
+        }
+    });
     $('body, #'+name+', .'+name).toggleClass('full-screen');
+});
+
+///////// Show/Hide 'Reply email setup' block //////////////
+$(document).on('change', '#reply-email', function (e) {
+    var el = e.currentTarget;
+    if(el.checked) {
+        $('.reply-info').hide();
+    } else {
+        $('.reply-info').show();
+    }
 });
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
