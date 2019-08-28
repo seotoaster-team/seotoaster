@@ -81,12 +81,17 @@
             </div>
             </script>
             <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="file-container">
+            <div class="grid_10 alpha omega file-container img-wrap-box img-container">
                 <label data-type="${name}">${name}</label>
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
+            <div class="grid_1 omega text-center copy-file">
+                <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy link');?>"></a>
+                <input type="hidden" id="copy-file-link" class="copy-file-link" name="file-url" value="${url}">
+            </div>
+            <div class="grid_1 alpha omega text-center"><a class="ticon-file3 icon16" href="${url}" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
             </script>
-            <div class="deleteBtnBlock grid_12 mt5px alpha omega <?php echo $hiddenClass;?>">
+            <div class="deleteBtnBlock grid_12 alpha omega <?php echo $hiddenClass;?>">
                 <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete selected');?></button>
             </div>
         </div>
@@ -245,6 +250,20 @@
         }else{
             $('#check-all-label').addClass('hidden');
             $('.deleteBtnBlock').addClass('hidden');
+        }
+    });
+
+    $(document).on('click', '.copy-file', function(e){
+        e.preventDefault();
+        if(document.queryCommandSupported('copy')) {
+            var copyUrl = $(e.currentTarget).find('.copy-file-link').val();
+            var tmpTextarea = document.createElement('textarea');
+            tmpTextarea.value = copyUrl;
+            document.body.appendChild(tmpTextarea);
+            tmpTextarea.select();
+            document.execCommand('copy', true);
+            tmpTextarea.remove();
+            showMessage('<?php echo $this->translate("Copied to clipboard");?>', false, 2000);
         }
     });
 
