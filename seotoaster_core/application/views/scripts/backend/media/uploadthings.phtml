@@ -86,7 +86,7 @@
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
             <div class="grid_1 omega text-center copy-file">
-                <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy link');?>"></a>
+                <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy a link to this file to your clipboard');?>"></a>
                 <input type="hidden" id="copy-file-link" class="copy-file-link" name="file-url" value="${url}">
             </div>
             <div class="grid_1 alpha omega text-center"><a class="ticon-file3 icon16" href="${url}" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
@@ -263,7 +263,7 @@
             tmpTextarea.select();
             document.execCommand('copy', true);
             tmpTextarea.remove();
-            showMessage('<?php echo $this->translate("Copied to clipboard");?>', false, 2000);
+            showMessage('<?php echo $this->translate("A link to this file has been copied to your clipboard");?>', false, 2000);
         }
     });
 
