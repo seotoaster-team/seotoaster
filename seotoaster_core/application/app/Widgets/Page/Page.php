@@ -21,6 +21,10 @@ class Widgets_Page_Page extends Widgets_Abstract {
      */
     const CLEAR_TAGS = 'clear';
 
+    const DEFAULT_THUMB_SIZE  = 250;
+
+    const DEFAULT_THUMB_SIZE_HEIGHT  = 166;
+
     private $_aliases = array(
         'title' => 'headerTitle',
         'teaser' => 'teaserText',
@@ -145,6 +149,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
     }
 
 	private function _generatePreviewOption() {
+        $configData = Application_Model_Mappers_ConfigMapper::getInstance()->getConfig();
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
         $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Config');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
@@ -154,7 +159,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
 
         $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
 
-		if(!empty ($pagePreviews)) {
+		if(!empty($pagePreviews)) {
             $path = (isset($this->_options) && end($this->_options) == 'crop') ? $websiteHelper->getPreviewCrop()
                 : $websiteHelper->getPreview();
             $src =  $websiteUrlMediaServer.$path.$pagePreviews[0].'?'.strtotime('now');
@@ -162,7 +167,60 @@ class Widgets_Page_Page extends Widgets_Abstract {
             if (!empty($imagePath)) {
                 $fileInfo = getimagesize($imagePath);
             }
-            if (isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC){
+
+            if(in_array('crop', $this->_options) && !empty($configData['cropNewFormat'])) {
+                $cropOptionKey = array_search('crop', $this->_options);
+                $cropOptionParams = $this->_options[$cropOptionKey +1];
+
+                $cropSizeSubfolder = '';
+                $cropParams = array();
+
+                $newWidth = self::DEFAULT_THUMB_SIZE;
+                $newHeight = 'auto';
+
+                if(!empty($cropOptionParams)) {
+                    preg_match('/^([0-9]+)x?([0-9]*)/i', $cropOptionParams, $cropParams);
+
+                    if (isset($cropParams[1], $cropParams[2]) && is_numeric($cropParams[1]) && $cropParams[2] == '') {
+                        $cropParams[2] = $cropParams[1];
+                    }
+                    unset($cropParams[0]);
+
+                    if (!empty($cropParams)) {
+                        $cropSizeSubfolder = implode($cropParams, '-').DIRECTORY_SEPARATOR;
+
+                        $newWidth = $cropParams[1];
+                        $newHeight = $cropParams[2];
+                    }
+                }
+
+                // Create a folder crop-size subfolder
+                if(!empty($cropSizeSubfolder)) {
+                    $pathPreview   = $websiteHelper->getPath().$websiteHelper->getPreviewCrop().$cropSizeSubfolder;
+                    if (!is_dir($pathPreview)) {
+                        Tools_Filesystem_Tools::mkDir($pathPreview);
+                    }
+                }
+
+                $cropStatus = Tools_Image_Tools::resizeByParameters(
+                    $imagePath,
+                    $newWidth,
+                    $newHeight,
+                    true,
+                    $websiteHelper->getPath() . $websiteHelper->getPreviewCrop() . $cropSizeSubfolder,
+                    true
+                );
+
+                if($cropStatus) {
+                    $src = $websiteUrlMediaServer . $websiteHelper->getPreviewCrop() . $cropSizeSubfolder . $pagePreviews[0].'?'.strtotime('now');
+
+                    if($newHeight == 'auto') {
+                        $newHeight = self::DEFAULT_THUMB_SIZE_HEIGHT;
+                    }
+
+                    return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" width="'. $newWidth .'" height="'. $newHeight .'" />';
+                }
+            } else if(isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC) {
                 return $src;
             }
 			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" '.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
