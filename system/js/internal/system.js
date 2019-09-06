@@ -307,19 +307,24 @@ $(document).on('click', '.screen-size', function(e){
     var name = $(this).data('size');
     $('.closebutton').toggle();
 
-    if(!$(this).hasClass('open')) {
-        $(this).addClass('open');
+    if($(this).data('type') == 'form') {
+        if(!$(this).hasClass('open')) {
+            $(this).addClass('open');
+        }
+
+        var screenSizeEl = $('.screen-size');
+
+        $.each(screenSizeEl, function(key, el){
+            if(!$(el).hasClass('open')) {
+                $(el).toggle();
+            } else {
+                $(el).removeClass('open').toggleClass('ticon-expand ticon-turn');
+            }
+        });
+    } else {
+        $(this).toggleClass('ticon-expand ticon-turn');
     }
 
-    var screenSizeEl = $('.screen-size');
-
-    $.each(screenSizeEl, function(key, el){
-        if(!$(el).hasClass('open')) {
-            $(el).toggle();
-        } else {
-            $(el).removeClass('open').toggleClass('ticon-expand ticon-turn');
-        }
-    });
     $('body, #'+name+', .'+name).toggleClass('full-screen');
 });
 
