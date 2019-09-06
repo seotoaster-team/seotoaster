@@ -66,6 +66,11 @@ class Tools_System_Minify {
                     $cssContent
                 );
 
+//                // Ignore file if file should be excluded
+//                if (isset($css->extras) && $css->extras['noconcat'] === 'noconcat') {
+//                    continue;
+//                }
+
                 // Ignoring minify files created by magicspace concatcss
                 if ((bool)preg_match('/'.$concatCssPrefix.'[a-zA-Z0-9]+\.css/i', $path) === false) {
                     $cssContent = $compressor->run($cssContent);

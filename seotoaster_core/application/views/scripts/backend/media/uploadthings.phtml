@@ -1,6 +1,5 @@
 <script>
     <?php $this->jQuery()->onLoadCaptureStart();?>
-    $('.change-image-quality').attr('checked', true);
     $('#things-new-folder')
             .focus(function () {
                 if ($(this).val() == $(this).attr('data-defaultlabel')) {
@@ -82,12 +81,19 @@
             </div>
             </script>
             <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="file-container">
+            <div class="grid_10 alpha omega file-container img-wrap-box img-container">
                 <label data-type="${name}">${name}</label>
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
+            <div class="grid_2 alpha omega copy-file-block">
+                <div class="grid_6 omega text-center copy-file">
+                    <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy a link to this file to your clipboard');?>"></a>
+                    <input type="hidden" id="copy-file-link" class="copy-file-link" name="file-url" value="${url}">
+                </div>
+                <div class="grid_6 alpha omega text-center"><a class="ticon-file3 icon16" href="${url}" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
+            </div>
             </script>
-            <div class="deleteBtnBlock grid_12 mt5px alpha omega <?php echo $hiddenClass;?>">
+            <div class="deleteBtnBlock grid_12 alpha omega <?php echo $hiddenClass;?>">
                 <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete selected');?></button>
             </div>
         </div>
@@ -249,6 +255,20 @@
         }
     });
 
+    $(document).on('click', '.copy-file', function(e){
+        e.preventDefault();
+        if(document.queryCommandSupported('copy')) {
+            var copyUrl = $(e.currentTarget).find('.copy-file-link').val();
+            var tmpTextarea = document.createElement('textarea');
+            tmpTextarea.value = copyUrl;
+            document.body.appendChild(tmpTextarea);
+            tmpTextarea.select();
+            document.execCommand('copy', true);
+            tmpTextarea.remove();
+            showMessage('<?php echo $this->translate("A link to this file has been copied to your clipboard");?>', false, 2000);
+        }
+    });
+
     $(document).on('click', '#deleteBtn', function(e) {
         e.preventDefault();
         var fileForm = $('#removeForm');
@@ -300,7 +320,10 @@
                     var removedFiles = [];
                     for (var i in response.deleted) {
                         $('#filebrowser').queue(function(next){
-                            $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])').remove();
+                            var fileEl = $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])');
+                            fileEl.next().remove();
+                            fileEl.remove();
+
                             next();
                         });
                     }
