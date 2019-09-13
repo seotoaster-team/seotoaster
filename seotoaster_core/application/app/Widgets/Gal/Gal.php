@@ -83,17 +83,8 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             // Update image
             if (is_file($galFolder.$image)) {
                 $imgInfo = getimagesize($galFolder.$image);
-
-                if($height == 'auto') {
-                    $imgDataWidth = $imgInfo[0];
-                    $imgDataHeight = $imgInfo[1];
-                    $customWidth = $width;
-
-                    $resultHeight = $imgDataHeight/($imgDataWidth/$customWidth);
-                    $height = round($resultHeight);
-                }
-
-                if ($imgInfo[0] != $width && ($imgInfo[1] != $height)) {
+                
+                if ($imgInfo[0] != $width && ($imgInfo[1] != $height || $height != 'auto')) {
                     Tools_Image_Tools::resizeByParameters(
                         $pathFileOriginal.$image,
                         $width,
