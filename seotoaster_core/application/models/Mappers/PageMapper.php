@@ -608,5 +608,15 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $this->getDbTable()->update(['page_folder' => null, 'is_folder_index' => 0], $where);
     }
 
+    public function findPagesByPageFolderName($pageFolder) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('page.page_folder IN (?)', $pageFolder);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('is_folder_index <> ?', '1');
+        $select = $this->getDbTable()->getAdapter()->select()->from('page', array('id', 'page_folder'))->where($where);
+
+        $data = $this->getDbTable()->getAdapter()->fetchPairs($select);
+
+        return $data;
+    }
+
 
 }
