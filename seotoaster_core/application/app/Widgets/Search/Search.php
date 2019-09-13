@@ -104,6 +104,14 @@ class Widgets_Search_Search extends Widgets_Abstract
         }
         $this->_view->searchForm = $searchForm;
 
+        $subfolders = '';
+
+        if(in_array('subfolders', $this->_options)) {
+            $subfolders = 'subfolders';
+        }
+
+        $this->_view->subfolders = $subfolders;
+
         $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(
                 Tools_Security_Acl::RESOURCE_USERS
             ) && Tools_Search_Tools::isEmpty();
@@ -153,9 +161,17 @@ class Widgets_Search_Search extends Widgets_Abstract
 
         $subfolderOptions = array();
 
-        foreach ($this->_options as $option) {
-            if (preg_match('/^(subfolder)-(.*)$/u', $option, $parts)) {
-                $subfolderOptions = explode(',', $parts[2]);
+        if(in_array('subfolders', $params)) {
+            $widgetOpt = $this->_options;
+
+            foreach ($this->_options as $option) {
+                if (preg_match('/^(uniq)-(.*)$/u', $option, $uniqParts) && !empty($params[$uniqParts[2]])) {
+                    foreach ($widgetOpt as $wOption) {
+                        if (preg_match('/^(folder)-(.*)$/u', $wOption, $parts)) {
+                            $subfolderOptions = explode(',', $parts[2]);
+                        }
+                    }
+                }
             }
         }
 
