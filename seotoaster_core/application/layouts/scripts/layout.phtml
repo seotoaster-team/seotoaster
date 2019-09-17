@@ -14,26 +14,36 @@
     <?php echo $this->headTitle(); ?>
     <?php echo $this->headMeta()->setIndent(8); ?>
     <?php
+
+    $excludeSystemCss = false;
+
+    if($this->minifyCss && $this->excludeSystemCss) {
+        $excludeSystemCss = true;
+    }
+
     // link and script block start
     // adding canonical link
     if ($this->tplType !== 'typemail') {
         if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-            if (empty($this->bodyTag)) {
+            if (empty($this->bodyTag) && !$excludeSystemCss) {
                 $this->headLink()
                     ->prependStylesheet($this->websiteUrl.'system/css/seotoaster.css');
             }
         }
-        $this->headLink()->setIndent(8)
-             ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
-             ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
 
-        if (!empty($this->bodyTag)) {
-            $this->headLink()
-                 ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
+        if(!$excludeSystemCss) {
+            $this->headLink()->setIndent(8)
+                ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
+                ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
+
+            if (!empty($this->bodyTag)) {
+                $this->headLink()
+                    ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
+            }
         }
     }
     if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-        if (!empty($this->bodyTag)) {
+        if (!empty($this->bodyTag) && !$excludeSystemCss) {
             $this->headLink()
                 ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
         }
