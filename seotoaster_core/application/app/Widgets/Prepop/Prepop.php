@@ -182,8 +182,11 @@ class Widgets_Prepop_Prepop extends Widgets_AbstractContent {
     protected function _renderPrepopSelect() {
         $this->_view->onJsElementAction = 'change';
         $options              = $this->_generateSelectOptions();
-        //$options[0]           = '-- ' . $this->_translator->translate('select one') . ' --';
-        asort($options);
+
+        if(!in_array('nonsort', $this->_options)) {
+            asort($options);
+        }
+
         $this->_view->defaultOptionSelection = '-- ' . $this->_translator->translate('select one') . ' --';
         $this->_view->options = $options;
 
