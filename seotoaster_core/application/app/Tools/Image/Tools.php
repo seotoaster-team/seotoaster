@@ -117,6 +117,8 @@ class Tools_Image_Tools {
         } elseif ($imgWidth >= $newWidth) {
             if ($newHeight == 'auto' && empty($configData['cropNewFormat'])) {
                 $newHeight = ($saveProportion) ? ($imgHeight*$newWidth/$imgWidth) : $newWidth;
+            } else {
+                $newHeight = ($saveProportion) ? ($imgHeight*$newWidth/$imgWidth) : $newWidth;
             }
         } else {
             // if the original size less then it needs to resized at
