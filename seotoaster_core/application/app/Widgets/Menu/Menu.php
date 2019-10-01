@@ -194,11 +194,14 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     continue;
                 }
                 if ($prop === 'url') {
-                    if($item == 'index.html') {
-                        $item = '';
+                    $item = $website->getUrl() . str_replace('index.html', '', $item);
+                    if ($page['page_folder']) {
+                        if (empty($page['is_folder_index'])) {
+                            $item = $website->getUrl() . $page['page_folder'] . '/' .  $page['url'];;
+                        } else {
+                            $item = $website->getUrl() . $page['page_folder'] . '/';
+                        }
                     }
-
-                    $item = $website->getUrl() . $item;
                     if ($page['external_link_status'] === '1'){
                         $item = $page['external_link'];
                         $dictionary['$page:target_blank'] = 'target=_blank';

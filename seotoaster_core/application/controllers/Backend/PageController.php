@@ -48,6 +48,7 @@ class Backend_PageController extends Zend_Controller_Action {
             ->addActionContexts(array(
             'edit404page'      => 'json',
             'rendermenu'       => 'json',
+            'loadpagefolders'  => 'json',
             'listpages'        => array('json', 'html'),
             'publishpages'     => 'json',
             'checkforsubpages' => 'json',
@@ -91,7 +92,9 @@ class Backend_PageController extends Zend_Controller_Action {
                 //will be like this for now until page will support multiple options set (from the interface)
                 $pageOptions = $page->getExtraOptions();
                 $pageForm->getElement('extraOptions')->setValue(isset($pageOptions[0]) ? $pageOptions[0] : 0);
-
+                if ($page->getPageFolder()) {
+                    $pageForm->getElement('pageFolder')->setValue(Application_Model_Mappers_PageFolderMapper::getInstance()->findByName($page->getPageFolder())->getId());
+                }
                 $defaultPageUrl = $this->_helper->website->getDefaultpage();
                 if($pageForm->getElement('url')->getValue() == $this->_helper->page->clean($defaultPageUrl)) {
                     $pageForm->getElement('url')->setAttribs(array(
@@ -106,6 +109,21 @@ class Backend_PageController extends Zend_Controller_Action {
             $messages  = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
             $optimized = (isset($params['optimized']) && $params['optimized']);
             $externalLink = (isset($params['externalLinkStatus']) && $params['externalLinkStatus']);
+
+            if(!empty($params['pageFolder'])) {
+                $folder = Application_Model_Mappers_PageFolderMapper::getInstance()->find($params['pageFolder']);
+                if ($folder instanceof Application_Model_Models_PageFolder) {
+                    $params['pageFolder'] = $folder->getName();
+                } else {
+                    $params['pageFolder'] = null;
+                }
+            } else {
+                $params['pageFolder'] = null;
+            }
+
+            if (!empty($page->getIsFolderIndex())) {
+                $params['pageFolder'] = $page->getPageFolder();
+            }
 
             //if page is optimized by samba unset optimized values from update
             if($optimized) {
@@ -132,7 +150,7 @@ class Backend_PageController extends Zend_Controller_Action {
                 }
 
                 //saving old data for seo routine
-                $this->_helper->session->oldPageUrl   = $page->getUrl();
+                $this->_helper->session->oldPageUrl   = Tools_Page_Tools::getPageUrlWithSubFolders($page);
                 $this->_helper->session->oldPageH1    = $page->getH1();
                 $this->_helper->session->oldPageDraft = $page->getDraft();
 
@@ -278,6 +296,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $pageForm->lockFields(array('h1', 'headerTitle', 'url', 'navName', 'metaDescription', 'metaKeywords', 'teaserText'));
         }
         $this->view->pageForm = $pageForm;
+        $this->view->isRegularPage = ($page->getPageType() == 1 && empty($page->getExtraOptions()) && !$page->getIsFolderIndex()) ? true : false;
     }
 
     private function _processFaPull($pageId) {
@@ -356,6 +375,71 @@ class Backend_PageController extends Zend_Controller_Action {
     public function draftAction() {
         $this->view->helpSection = 'draft';
         $this->view->draftPages  = Tools_Page_Tools::getDraftPages();
+    }
+
+    public function pagefoldersAction() {
+        $this->view->helpSection = 'pagefolders';
+        $folderForm = new Application_Form_PageFolders();
+        $folderForm->getElement('indexPage')->setMultioptions(Application_Model_Mappers_PageMapper::getInstance()->fetchRegularPagesIdUrlPairs());
+        $secureToken = Tools_System_Tools::initZendFormCsrfToken($folderForm, Tools_System_Tools::ACTION_PREFIX_FOLDERS);
+        $this->view->secureToken = $secureToken;
+        $this->view->form = $folderForm;
+        $this->view->pageFolders  = Tools_Page_Tools::getPageFolders();
+        if ($this->getRequest()->isPost()) {
+            $folderForm = Tools_System_Tools::addTokenValidatorZendForm($folderForm, Tools_System_Tools::ACTION_PREFIX_FOLDERS);
+            if($folderForm->isValid($this->getRequest()->getParams())) {
+                $data          = $folderForm->getValues();
+                $folder    = new Application_Model_Models_PageFolder();
+                $inNameDbValidator = new Zend_Validate_Db_NoRecordExists(array(
+                    'table' => 'page_folder',
+                    'field' => 'name',
+                ));
+                $inIndexPageDbValidator = new Zend_Validate_Db_NoRecordExists(array(
+                    'table' => 'page_folder',
+                    'field' => 'index_page',
+                ));
+                // Is news-index page
+                if (in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))) {
+                    $newsFolder = trim(Newslog_Models_Mapper_ConfigurationMapper::getInstance()->fetchConfigParam('folder'),'/');
+                    if ($newsFolder === $data['pageFolder']) {
+                        $this->_helper->response->fail('This name is already in use as a Blog&News plugin folder name. Please choose another one.');
+                        exit;
+                    }
+                }
+                if(!$inNameDbValidator->isValid($data['pageFolder'])) {
+                    $this->_helper->response->fail(implode('<br />', $inNameDbValidator->getMessages()));
+                    exit;
+                }
+                if(!$inIndexPageDbValidator->isValid($data['indexPage'])) {
+                    $this->_helper->response->fail('This page is already in use as an index page for another folder. Please choose another page.');
+                    exit;
+                }
+                $folder->setName($data['pageFolder']);
+                $folder->setIndexPage($data['indexPage']);
+                Application_Model_Mappers_PageFolderMapper::getInstance()->save($folder);
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($data['indexPage']);
+                if ($page instanceof Application_Model_Models_Page) {
+                    $websiteUrl = $this->_helper->website->getUrl();
+                    Application_Model_Mappers_RedirectMapper::getInstance()->deleteByRedirect($page->getUrl(), $data['pageFolder']);
+                    $redirect = new Application_Model_Models_Redirect();
+                    $redirect->setFromUrl(Tools_Page_Tools::getPageUrlWithSubFolders($page));
+                    $redirect->setToUrl($data['pageFolder']);
+                    $redirect->setPageId($page->getId());
+                    $redirect->setDomainFrom($websiteUrl);
+                    $redirect->setDomainTo($websiteUrl);
+                    Application_Model_Mappers_RedirectMapper::getInstance()->save($redirect);
+                    $this->_helper->cache->clean('toaster_301redirects', '301redirects');
+                    $page->setPageFolder($data['pageFolder']);
+                    $page->setIsFolderIndex(1);
+                    Application_Model_Mappers_PageMapper::getInstance()->save($page);
+                }
+
+                $this->_helper->response->success('Folder saved');
+            } else {
+                $this->_helper->response->fail(Tools_Content_Tools::proccessFormMessagesIntoHtml($folderForm->getMessages(), get_class($folderForm)));
+                exit;
+            }
+        }
     }
 
     public function organizeAction() {
@@ -488,6 +572,14 @@ class Backend_PageController extends Zend_Controller_Action {
                 if ($page->getExtraOption(Application_Model_Models_Page::OPT_404PAGE)) {
                     continue;
                 }
+                if ($page->getPageFolder()) {
+                    if (empty($page->getIsFolderIndex())) {
+                        $url = $page->getPageFolder() . '/' . $page->getUrl();
+                    } else {
+                        $url = $page->getPageFolder() . '/';
+                    }
+                    $page->setUrl($url);
+                }
                 array_push($links, array('title'=>$page->getH1(), 'value'=>$this->_helper->website->getUrl() . $page->getUrl()));
             }
             $this->getResponse()->setBody(Zend_Json::encode($links));
@@ -596,6 +688,37 @@ class Backend_PageController extends Zend_Controller_Action {
             $this->_helper->response->success(Application_Model_Mappers_PageMapper::getInstance()->isDraftCategory($categoryID));
         }
 
+    }
+
+    public function loadpagefoldersAction() {
+        $this->view->folders  = Application_Model_Mappers_PageFolderMapper::getInstance()->fetchFoldersWithIndexPageUrl();
+        $this->view->pagefolders = $this->view->render('backend/page/loadpagefolders.phtml');
+    }
+
+    public function removepagefolderAction() {
+         if ($this->getRequest()->isDelete()) {
+            $message = 'Can\'t remove this folder.';
+            $status = 'error';
+            $id = (int) $this->getRequest()->getParam('id');
+            if (!empty($id)) {
+                $folder = Application_Model_Mappers_PageFolderMapper::getInstance()->find($id);
+                $page = Application_Model_Mappers_PageMapper::getInstance()->find($folder->getIndexPage());
+                if ($page instanceof Application_Model_Models_Page) {
+                    if (!$page->getOptimized()) {
+                        Application_Model_Mappers_RedirectMapper::getInstance()->deleteByRedirect($page->getUrl(), $folder->getName());
+                    }
+                }
+                Application_Model_Mappers_PageMapper::getInstance()->removeSubfolderInfo($folder->getName());
+                $result = Application_Model_Mappers_PageFolderMapper::getInstance()->delete($id);
+                if($result) {
+                    $message = 'Folder removed.';
+                    $status = 'success';
+                };
+            } else {
+                $message = 'Can\'t find this folder.';
+            }
+            $this->_helper->response->$status($this->_helper->language->translate($message));
+        }
     }
 
     public function switchindexpageAction()

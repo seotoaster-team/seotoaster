@@ -19,7 +19,7 @@
                     $pageData = $page->toArray();
                     $pageData['containers'] = $containerMapper->getContainersWithHash($page->getId());
                     $pageData['websiteUrl'] = $this->websiteUrl;
-                    $parser = new Tools_Content_Parser($this->tmplFaContent, $pageData);
+                    $parser = new Tools_Content_Parser($this->tmplFaContent, $pageData, $this->toasterOptions);
                     echo $parser->parseSimple();
                     unset($parser);
                 }
@@ -30,7 +30,7 @@
                 <?php
                 $url          = $page->getUrl();
                 $extraOptions = $page->getExtraOptions();
-
+                $url = Tools_Page_Tools::getPageUrlWithSubFolders($page);
                 // Is news-index page
                 if (!empty($extraOptions)
                     && in_array('newslog', Tools_Plugins_Tools::getEnabledPlugins(true))
