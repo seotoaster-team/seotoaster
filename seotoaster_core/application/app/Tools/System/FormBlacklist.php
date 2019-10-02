@@ -109,6 +109,10 @@ class Tools_System_FormBlacklist
             return false;
         }
 
+        if (empty($result['htmltags'])) {
+            return false;
+        }
+
         foreach ($params as $param) {
             if ($param != strip_tags($param)) {
                 return true;
