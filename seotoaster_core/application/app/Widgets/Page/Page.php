@@ -92,6 +92,17 @@ class Widgets_Page_Page extends Widgets_Abstract {
         return $optionValue;
     }
 
+    private function _getUrl($url)
+    {
+        if ($this->_toasterOptions['pageFolder']) {
+            if (empty($this->_toasterOptions['isFolderIndex'])) {
+                $url = $this->_toasterOptions['pageFolder'] . '/' . $url;
+            } else {
+                $url = $this->_toasterOptions['pageFolder'] . '/';
+            }
+        }
+        return $url;
+    }
 
 	private function _generateIdOption() {
 		return $this->_toasterOptions['id'];

@@ -117,7 +117,7 @@ class Tools_Image_Tools {
         } elseif ($imgWidth >= $newWidth) {
             if ($newHeight == 'auto' && empty($configData['cropNewFormat'])) {
                 $newHeight = ($saveProportion) ? ($imgHeight*$newWidth/$imgWidth) : $newWidth;
-            } else {
+            } elseif($newHeight == 'auto') {
                 $newHeight = ($saveProportion) ? ($imgHeight*$newWidth/$imgWidth) : $newWidth;
             }
         } else {

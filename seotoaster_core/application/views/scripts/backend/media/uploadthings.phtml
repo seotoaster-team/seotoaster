@@ -54,7 +54,7 @@
                 <div id="filebrowser-images" class="filebrowser-zone list-images grid_12 alpha omega scroll h350px">
                     <?php if(!empty($this->listPictures) && !empty($this->picturesPath)):?>
                         <?php foreach ($this->listPictures as $picture):?>
-                            <div class="file-container grid_4 alpha">
+                            <div class="file-container grid_4 alpha" data-type="picture">
                                 <img title="<?php echo $picture;?>" alt="<?php echo $picture;?>" border="0" src="<?php echo $this->websiteUrl . $this->picturesPath . $picture;?>">
                                 <input type="checkbox" class="toremove hidden" name="removeImages[]" value="<?php echo $picture;?>" />
                             </div>
@@ -75,7 +75,7 @@
             </form>
 
             <script id="imageContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="file-container grid_4 alpha">
+            <div class="file-container grid_4 alpha" data-type="picture">
                 <img src="${src}" alt="${name}" title="${name}" />
                 <input type="checkbox" class="toremove hidden" name="removeImages[]" value="${name}" />
             </div>
@@ -321,7 +321,10 @@
                     for (var i in response.deleted) {
                         $('#filebrowser').queue(function(next){
                             var fileEl = $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])');
-                            fileEl.next().remove();
+                            if(fileEl.data('type') != 'picture') {
+                                fileEl.next().remove();
+                            }
+
                             fileEl.remove();
 
                             next();
