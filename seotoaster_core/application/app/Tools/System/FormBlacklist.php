@@ -109,7 +109,7 @@ class Tools_System_FormBlacklist
             return false;
         }
 
-        if (empty($result['htmltags'])) {
+        if (empty($result[0]['value'])) {
             return false;
         }
 
