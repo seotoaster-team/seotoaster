@@ -9,6 +9,8 @@ class Application_Model_Models_FormBlacklistRules extends Application_Model_Mode
 
     const RULE_TYPE_EMAIL = 'email';
 
+    const RULE_TYPE_HTMLTAGS = 'htmltags';
+
     protected $_type = '';
 
     protected $_value = '';

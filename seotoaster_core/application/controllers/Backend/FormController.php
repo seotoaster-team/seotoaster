@@ -233,7 +233,7 @@ class Backend_FormController extends Zend_Controller_Action {
                     }
                 }
 
-                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'])) {
+                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'], $formParams)) {
                     if($xmlHttpRequest){
                         $this->_helper->response->success($form->getMessageSuccess());
                     }
