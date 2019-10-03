@@ -2,6 +2,9 @@
     <ul class="sitemap">
         <?php foreach ($this->pages as $key => $page): ?>
             <li>
+                <?php if($page['category']['url'] == 'index.html'):?>
+                    <?php $page['category']['url'] = ''; ?>
+                <?php endif;?>
                 <?php if($page['category']['external_link_status'] === '1'):?>
                     <?php $pageUrl = $page['category']['external_link'];?>
                     <?php $targetBlank = 'target="_blank"';?>
