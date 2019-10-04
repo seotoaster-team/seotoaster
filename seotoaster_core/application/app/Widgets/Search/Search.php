@@ -360,6 +360,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                                 $pageTags = $hit->pageTags;
                                 if(!empty($pageTags)) {
                                     $pageTags = explode(',', $pageTags);
+                                    $pageTags = array_map('trim', $pageTags);
 
                                     foreach ($pageAdditionalOptions['pageTagsOptions'] as $option) {
                                         if(in_array($option, $pageTags)) {
