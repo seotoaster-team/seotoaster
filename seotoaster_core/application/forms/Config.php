@@ -58,7 +58,14 @@ class Application_Form_Config extends Application_Form_Secure
      */
     protected $_enableMinifyJs            = false;
 
-     /**
+    /**
+     * Exclude system css files to minification
+     *
+     * @var boolean
+     */
+    protected $_excludeSystemCss            = false;
+
+    /**
      * Enable Developer mode
      *
      * @var boolean
@@ -257,6 +264,17 @@ class Application_Form_Config extends Application_Form_Secure
     {
         $this->_enableMinifyJs = $enableMinifyJs;
         $this->getElement('enableMinifyJs')->setValue($enableMinifyJs);
+    }
+
+    public function getExcludeSystemCss()
+    {
+        return $this->_excludeSystemCss;
+    }
+
+    public function setExcludeSystemCss($excludeSystemCss)
+    {
+        $this->_excludeSystemCss = $excludeSystemCss;
+        $this->getElement('excludeSystemCss')->setValue($excludeSystemCss);
     }
 
     public function getControlPanelStatus()
@@ -521,6 +539,12 @@ class Application_Form_Config extends Application_Form_Secure
             'name'  => 'enableMinifyJs',
             'value' => $this->_enableMinifyJs,
             'label' => 'Enable assets minification js?'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'excludeSystemCss',
+            'value' => $this->_excludeSystemCss,
+            'label' => 'Exclude system css?'
         )));
 
         $this->addElement(new Zend_Form_Element_Checkbox(array(

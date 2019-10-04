@@ -62,9 +62,15 @@ class Widgets_Related_Related extends Widgets_Abstract
             $this->cropSizeSubfolder = implode($this->cropParams, '-').DIRECTORY_SEPARATOR;
         }
 
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Config');
+
+        $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+
+        $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
+
         // Create a folder crop-size subfolder
         if ($this->useImage == 'imgc' && $this->cropSizeSubfolder != '') {
-            $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
             $pathPreview   = $websiteHelper->getPath().$websiteHelper->getPreviewCrop().$this->cropSizeSubfolder;
             if (!is_dir($pathPreview)) {
                 Tools_Filesystem_Tools::mkDir($pathPreview);

@@ -115,7 +115,7 @@ class Widgets_Form_Form extends Widgets_Abstract {
         $this->_view->formId            = $filter->filter($this->_options[0]);
         $this->_view->pageId            = $this->_toasterOptions['id'];
 		$this->_view->websiteTmp        = $this->_websiteHelper->getTmp();
-        $this->_view->formUrl           = $this->_toasterOptions['url'];
+        $this->_view->formUrl           = $this->getPageUrl();
         $this->_view->buttonValue       = $buttonLabel;
 		return $this->_view->render('form.phtml');
 	}
@@ -157,5 +157,16 @@ class Widgets_Form_Form extends Widgets_Abstract {
 		unset($translator);
 		return $data;
 	}
+
+	protected function getPageUrl() {
+        $url = $this->_toasterOptions['url'];
+        if ($this->_toasterOptions['pageFolder']) {
+            $url = $this->_toasterOptions['pageFolder'] . '/';
+            if (empty($this->_toasterOptions['isFolderIndex'])) {
+                $url .=  $this->_toasterOptions['url'];
+            }
+        }
+        return $url;
+    }
 
 }

@@ -58,6 +58,8 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             'external_link_status' => $page->getExternalLinkStatus(),
             'external_link'       => $page->getExternalLink(),
             'page_type'           => $page->getPageType(),
+            'page_folder'         => $page->getPageFolder(),
+            'is_folder_index'         => $page->getisFolderIndex(),
             'exclude_category'    => $page->getExcludeCategory()
         );
 
@@ -360,11 +362,19 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     public function fetchIdUrlPairs($pageTypes = array())
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
-                ->from($this->getDbTable()->info('name'), array('id', 'url'))
-                ->order('url');
+            ->from($this->getDbTable()->info('name'),
+                [
+                    'id',
+                    "url" => new Zend_Db_Expr("IF(page_folder IS NOT null, IF(is_folder_index = '1', CONCAT(page_folder, '/'), CONCAT(page_folder, '/', url)), url)")
+                ]
+            )
+            ->order('url');
+
+
         if (!empty($pageTypes)) {
             $select->where('page_type IN (?)', $pageTypes);
         }
+
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
     }
 
@@ -569,6 +579,43 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         }
         $where = $this->getDbTable()->getAdapter()->quoteInto("id IN (?)", $ids);
         return $this->getDbTable()->delete($where);
+    }
+
+
+    /**
+     * return key pair id folder_name
+     */
+    public function getFolders()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('page_folder', array('id', 'name'));
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
+    public function fetchRegularPagesIdUrlPairs()
+    {
+        $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
+            ->from($this->getDbTable()->info('name'), ['id', 'url'])
+            ->where('page_type = 1 AND id NOT IN (SELECT page_id from page_has_option)')
+            ->order('url');
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
+    public function removeSubfolderInfo($folderName) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('page_folder = ?', $folderName);
+        $this->getDbTable()->update(['page_folder' => null, 'is_folder_index' => 0], $where);
+    }
+
+    public function findPagesByPageFolderName($pageFolder) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('page.page_folder IN (?)', $pageFolder);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('is_folder_index <> ?', '1');
+        $select = $this->getDbTable()->getAdapter()->select()->from('page', array('id', 'page_folder'))->where($where);
+
+        $data = $this->getDbTable()->getAdapter()->fetchPairs($select);
+
+        return $data;
     }
 
 

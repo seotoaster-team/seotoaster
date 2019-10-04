@@ -64,4 +64,5 @@
        'Get ready to toast:'   => 'Prepare-se para o brinde:',
        'You must remove the <b>&#147;install&#148;</b> folder in order to access your software.' => 'Você deve remover a pasta <b>&#147;install&#148;</b>, a fim de acessar o seu software.',
        'Fill in your business information, or website ID Card as we like to call it, in order to facilitate your website indexation with search engines.' => 'Preencha as informações da empresa, ou site de cartões de identificação como gostamos de chamá-lo, a fim de facilitar o seu site de indexação com motores de busca.',
+       'Sign In' => 'Entrar'
 ); ?>

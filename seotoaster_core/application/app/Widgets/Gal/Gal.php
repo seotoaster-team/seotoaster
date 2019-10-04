@@ -69,6 +69,10 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $height = 'auto';
         }
 
+        if(is_numeric($width) && !$useCrop) {
+            $galFolder = $path.Webbuilder_Tools_Filesystem::getMediaSubFolderByWidth($width).DIRECTORY_SEPARATOR;
+        }
+
         if (!is_dir($galFolder)) {
             Tools_Filesystem_Tools::mkDir($galFolder);
         }
@@ -79,6 +83,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             // Update image
             if (is_file($galFolder.$image)) {
                 $imgInfo = getimagesize($galFolder.$image);
+
                 if ($imgInfo[0] != $width && ($imgInfo[1] != $height || $height != 'auto')) {
                     Tools_Image_Tools::resizeByParameters(
                         $pathFileOriginal.$image,
@@ -102,13 +107,15 @@ class Widgets_Gal_Gal extends Widgets_Abstract
                 );
             }
 
+            $sourcePartPath = $sourcePart;
+
             if ($mediaServersAllowed) {
                 $mediaServer     = Tools_Content_Tools::getMediaServer();
                 $cleanWebsiteUrl = str_replace('www.', '', $websiteData['url']);
-                $sourcePart      = str_replace($websiteData['url'], $mediaServer.'.'.$cleanWebsiteUrl, $sourcePart);
+                $sourcePartPath  = str_replace($websiteData['url'], $mediaServer.'.'.$cleanWebsiteUrl, $sourcePart);
             }
             $sourceImages[$key] = array(
-                'path' => $sourcePart.$image,
+                'path' => $sourcePartPath.$image,
                 'name' => $image
             );
         }

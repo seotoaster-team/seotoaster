@@ -90,7 +90,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
 
         if(!empty($redirectMap)) {
 		    $pageUrl = $this->_website->getUrl() . $pageUrl;
-            if(isset($redirectMap[$pageUrl]) && $redirectMap[$pageUrl]) {
+            if(!empty($redirectMap[$pageUrl])) {
                 $this->_redirector->gotoUrl($redirectMap[$pageUrl]);
     		}
         }

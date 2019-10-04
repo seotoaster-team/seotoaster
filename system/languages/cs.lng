@@ -420,5 +420,6 @@ return array(
 	'flatrateshipping' => 'Jednotná přepravní sazba',
 	'Shipping information' => 'INFORMACE O DOPRAVĚ',
 	'Your cart is empty.' => 'Váš nákupní košík je prázdný.',
-	'Edit product' => 'Upravit produkt'
+	'Edit product' => 'Upravit produkt',
+	'Sign In' => 'Přihlásit se'
 );

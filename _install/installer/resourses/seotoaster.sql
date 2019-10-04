@@ -36,7 +36,9 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('oldMobileFormat', '1'),
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
-('version',	'3.0.7');
+('cropNewFormat', '0'),
+('optimizedNotifications', ''),
+('version',	'3.1.1');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -250,6 +252,8 @@ CREATE TABLE `page` (
   `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1',
+  `page_folder` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_folder_index` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
@@ -259,7 +263,21 @@ CREATE TABLE `page` (
   KEY `indProtected` (`protected`),
   KEY `draft` (`draft`),
   KEY `news` (`news`),
-  KEY `nav_name` (`nav_name`)
+  KEY `nav_name` (`nav_name`),
+  KEY `page_folder` (`page_folder`),
+  CONSTRAINT `page_ibfk_2` FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `page_folder`;
+CREATE TABLE `page_folder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `index_page` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `index_page` (`index_page`),
+  CONSTRAINT `page_folder_ibfk_4` FOREIGN KEY (`index_page`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `page` (`id`, `template_id`, `parent_id`, `nav_name`, `meta_description`, `meta_keywords`, `header_title`, `h1`, `url`, `teaser_text`, `last_update`, `is_404page`, `show_in_menu`, `order`, `weight`, `silo_id`, `targeted_key_phrase`, `protected`, `system`, `draft`, `publish_at`, `news`, `err_login_landing`, `mem_landing`, `signup_landing`, `checkout`, `preview_image`) VALUES
@@ -941,3 +959,11 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('ZW',	'mobile',	'9-999999',	'9-999999'),
 ('ZW',	'desktop',	'9-999999',	'9-999999');
 
+DROP TABLE IF EXISTS `form_blacklist_rules`;
+CREATE TABLE `form_blacklist_rules` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`type`,`value`),
+  UNIQUE (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

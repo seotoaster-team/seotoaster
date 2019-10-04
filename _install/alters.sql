@@ -669,9 +669,6 @@ INSERT IGNORE INTO `template_type` (`id`, `title`) VALUES ('type_fa_template', '
 ALTER TABLE `user` ADD COLUMN `voip_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
 
 -- 17/05/2018
--- version: 2.6.4
-
--- 17/05/2018
 -- version: 2.6.5
 
 -- 12/07/2018
@@ -722,6 +719,47 @@ INSERT INTO `page_option` (`id`, `title`, `context`, `active`, `option_usage`) V
 -- Add new exclude_category column
 ALTER TABLE `page` ADD COLUMN `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' AFTER `page_type`;
 
+-- 23/01/2019
+-- version: 3.0.7
+-- Add form blacklist rules
+CREATE TABLE `form_blacklist_rules` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`type`,`value`),
+  UNIQUE (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- 20/03/2019
+-- version: 3.0.8
+-- Add crop new format
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('cropNewFormat', '0');
+
+-- 12/06/2019
+-- version: 3.0.9
+-- Add optimizedNotifications param. value (email1,email2,...)
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('optimizedNotifications', '');
+
+-- 07/06/2017
+-- version: 3.1.0
+-- Add subfolders support
+CREATE TABLE IF NOT EXISTS `page_folder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `index_page` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `index_page` (`index_page`),
+  CONSTRAINT `page_folder_ibfk_4` FOREIGN KEY (`index_page`) REFERENCES `page` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `page`
+  ADD `page_folder` varchar(255) NULL,
+  ADD `is_folder_index` enum('0','1') NOT NULL DEFAULT '0' AFTER `page_folder`;
+
+ALTER TABLE `page`
+  ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.0.7' WHERE `name`='version';
+UPDATE `config` SET `value`='3.1.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
