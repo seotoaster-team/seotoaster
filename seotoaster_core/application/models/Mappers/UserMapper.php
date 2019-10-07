@@ -33,7 +33,10 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'signature'                  => $user->getSignature(),
             'subscribed'                 => $user->getSubscribed(),
             'voip_phone'                 => $user->getVoipPhone(),
-            'prefix'                     => $user->getPrefix()
+            'prefix'                     => $user->getPrefix(),
+            'allow_remote_authorization' => $user->getAllowRemoteAuthorization(),
+            'remote_authorization_info'  => $user->getRemoteAuthorizationInfo(),
+            'remote_authorization_token' => $user->getRemoteAuthorizationToken()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -184,6 +187,16 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 
         $users = $this->getDbTable()->getAdapter()->fetchAll($select, 'role_id ASC');
         return $users;
+    }
+
+    /**
+     * @param $token
+     * @return Application_Model_Models_User
+     */
+    public function findByRemoteAuthToken($token)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('remote_authorization_token = ?', $token);
+        return $this->_findWhere($where);
     }
 }
 
