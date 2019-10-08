@@ -260,6 +260,9 @@ class Backend_UserController extends Zend_Controller_Action {
                     }
                 }
 
+                unset($userData['remoteAuthorizationToken']);
+                unset($userData['remoteAuthorizationInfo']);
+
                 $result = array(
                     'formId' => 'frm-user',
                     'data' => $userData
