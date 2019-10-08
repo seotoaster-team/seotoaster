@@ -91,12 +91,7 @@ class Widgets_Remoteauthorization_Remoteauthorization extends Widgets_Abstract
         $optionName = ucfirst(strtolower($this->_options[0]));
         $methodName = '_render' . $optionName;
         $currentUser = $this->_sessionHelper->getCurrentUser();
-        $roleId = $currentUser->getRoleId();
         $userId = $currentUser->getId();
-        if (in_array($optionName, self::$_authorizationRequiredMethods)) {
-            return '';
-        }
-
         if (in_array($optionName, self::$_authorizationRequiredMethods)) {
             if (!Zend_Registry::isRegistered('userAuthorizationParams') || !Zend_Registry::isRegistered('userAuthorizationModel')) {
                 $userMapper = Application_Model_Mappers_UserMapper::getInstance();

@@ -33,6 +33,7 @@ class Tools_Remoteauthorization_Tools
             }
             $hash = sha1($params['email'] . uniqid(microtime()));
             $userModel->setRemoteAuthorizationToken($hash);
+            $userModel->setPassword('');
             $userModel->setRemoteAuthorizationInfo(json_encode($params['additionalParams']));
             $userMapper->save($userModel);
 

@@ -23,6 +23,7 @@ class Api_Remoteauth_Auth extends Api_Service_Abstract
             if ($userModel instanceof Application_Model_Models_User) {
                 $userModel->setRemoteAuthorizationToken('');
                 $additionalParams = json_decode($userModel->getRemoteAuthorizationInfo(), true);
+                $userModel->setPassword('');
                 $userModel->setLastLogin(date(Tools_System_Tools::DATE_MYSQL));
                 $userModel->setIpaddress($_SERVER['REMOTE_ADDR']);
                 $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
