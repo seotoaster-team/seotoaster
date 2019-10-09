@@ -34,11 +34,16 @@ class Api_Remoteauth_Auth extends Api_Service_Abstract
                 $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
                 $websiteUrl = $websiteHelper->getUrl();
                 $redirector = new Zend_Controller_Action_Helper_Redirector();
-                if (empty($additionalParams['redirectLink'])) {
-                    $redirector->gotoUrl($websiteUrl);
+                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+                $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
+                $redirectTo = $websiteUrl;
+                if (!empty($remoteLoginRedirect)) {
+                    $redirectTo = $remoteLoginRedirect;
+                } elseif (!empty($additionalParams['redirectLink'])) {
+                    $redirectTo = $websiteUrl . $additionalParams['redirectLink'];
                 }
-                $redirector->gotoUrl($websiteUrl . $additionalParams['redirectLink']);
 
+                $redirector->gotoUrl($redirectTo);
             }
         }
     }

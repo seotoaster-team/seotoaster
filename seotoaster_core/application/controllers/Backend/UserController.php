@@ -20,7 +20,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_session;
 
-    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode');
+    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode', 'remoteLoginRedirect');
 
 	public function init() {
 		parent::init();
@@ -165,7 +165,12 @@ class Backend_UserController extends Zend_Controller_Action {
         $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
         $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+        $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
+        if (empty($remoteLoginRedirect)) {
+            $remoteLoginRedirect = '';
+        }
         $this->view->userDefaultTimeZone = $userDefaultTimezone;
+        $this->view->remoteLoginRedirect = $remoteLoginRedirect;
         $userDeleteCustomMessages = Tools_System_Tools::firePluginMethod('userdelete', 'systemUserDeleteMessage');
         $userDeleteCustomMessage = '';
         $userRolesApplyTo = array();
