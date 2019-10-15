@@ -16,11 +16,21 @@ class Api_Remoteauth_Auth extends Api_Service_Abstract
 
     public function getAction()
     {
-        $token = filter_var($this->_request->getParam('authorizationToken'), FILTER_SANITIZE_STRING);
-        if (!empty($token)) {
+        $token = filter_var(trim($this->_request->getParam('authorizationToken')), FILTER_SANITIZE_STRING);
+        if (!empty($token) && mb_strlen($token) == 40) {
             $userMapper = Application_Model_Mappers_UserMapper::getInstance();
             $userModel = $userMapper->findByRemoteAuthToken($token);
             if ($userModel instanceof Application_Model_Models_User) {
+                $allowRemoteAuth = $userModel->getAllowRemoteAuthorization();
+                $redirector = new Zend_Controller_Action_Helper_Redirector();
+                $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+                $websiteUrl = $websiteHelper->getUrl();
+                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+                $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
+                $redirectTo = $websiteUrl;
+                if (empty($allowRemoteAuth)) {
+                    $redirector->gotoUrl($redirectTo);
+                }
                 $userModel->setRemoteAuthorizationToken('');
                 $additionalParams = json_decode($userModel->getRemoteAuthorizationInfo(), true);
                 $userModel->setPassword('');
@@ -31,12 +41,6 @@ class Api_Remoteauth_Auth extends Api_Service_Abstract
                 $userMapper->save($userModel);
                 $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
                 $cacheHelper->clean();
-                $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
-                $websiteUrl = $websiteHelper->getUrl();
-                $redirector = new Zend_Controller_Action_Helper_Redirector();
-                $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
-                $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
-                $redirectTo = $websiteUrl;
                 if (!empty($remoteLoginRedirect)) {
                     $redirectTo = $remoteLoginRedirect;
                 } elseif (!empty($additionalParams['redirectLink'])) {
