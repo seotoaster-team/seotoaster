@@ -760,6 +760,14 @@ ALTER TABLE `page`
 ALTER TABLE `page`
   ADD FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
+-- 07/10/2019
+-- version: 3.1.1
+-- Add users remote authorization
+ALTER TABLE `user` ADD COLUMN `allow_remote_authorization` ENUM('1', '0') DEFAULT '0' NOT NULL;
+ALTER TABLE `user` ADD COLUMN `remote_authorization_info` TEXT COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'additional info';
+ALTER TABLE `user` ADD COLUMN `remote_authorization_token` CHAR(40) DEFAULT NULL;
+
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.1.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.1.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

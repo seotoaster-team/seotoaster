@@ -38,7 +38,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMinifyJs', '0'),
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
-('version',	'3.1.1');
+('version',	'3.1.2');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -445,6 +445,9 @@ CREATE TABLE `user` (
   `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `subscribed` ENUM('0', '1') DEFAULT '0',
+  `allow_remote_authorization` ENUM('1', '0') DEFAULT '0' NOT NULL,
+  `remote_authorization_info` TEXT COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'additional info',
+  `remote_authorization_token` CHAR(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
