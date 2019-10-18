@@ -141,6 +141,10 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $this->_view->block = $this->_options[4];
         }
 
+        if (isset($this->_options[5]) && $this->_options[5]) {
+            $this->_view->useLazyload = $this->_options[5];
+        }
+
         $withContainer = array_search(self::WITH_CONTAINER_CONTENT, $this->_options);
         if ($withContainer !== false) {
             $this->_view->withContainer = true;
