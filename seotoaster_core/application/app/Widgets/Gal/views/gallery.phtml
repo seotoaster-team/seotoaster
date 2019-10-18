@@ -12,7 +12,7 @@
                    title="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>">
                     <?php endif; ?>
                     <img data-original="<?php echo $image['path']; ?>"
-                         src="<?php echo $image['firstloadPath']; ?>"
+                         src="<?php echo $image['path']; ?>"
                          alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
                          width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
                 <?php if (!isset($this->block)): ?></a><?php endif;?>
