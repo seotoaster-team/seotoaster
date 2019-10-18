@@ -11,7 +11,8 @@
                    data-fancybox-group="<?php echo $this->folder; ?>"
                    title="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>">
                     <?php endif; ?>
-                    <img class="lazyload" data-original="<?php echo $image['path']; ?>"
+                    <img data-original="<?php echo $image['path']; ?>"
+                         src="<?php echo $image['firstloadPath']; ?>"
                          alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
                          width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
                 <?php if (!isset($this->block)): ?></a><?php endif;?>
