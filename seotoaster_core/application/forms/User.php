@@ -37,6 +37,8 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_prefix = null;
 
+    protected $_allowRemoteAuthorization = '0';
+
 	public function init() {
         parent::init();
 
@@ -49,6 +51,17 @@ class Application_Form_User extends Application_Form_Secure {
             'required'   => false,
             'value'      => $this->_subscribed
         )));
+
+
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'       => 'allowRemoteAuthorization',
+            'id'         => 'allow-remote-login',
+            'label'      => 'Allow remote login',
+            'required'   => false,
+            'value'      => $this->_allowRemoteAuthorization
+        )));
+
 
         $email = new Zend_Form_Element_Text(array(
             'id'         => 'e-mail',
@@ -425,6 +438,17 @@ class Application_Form_User extends Application_Form_Secure {
     public function setPrefix($prefix) {
         $this->_prefix = $prefix;
         $this->getElement('prefix')->setValue($prefix);
+        return $this;
+    }
+
+
+    public function getAllowRemoteAuthorization() {
+        return $this->_allowRemoteAuthorization;
+    }
+
+    public function setAllowRemoteAuthorization($allowRemoteAuthorization) {
+        $this->_allowRemoteAuthorization = $allowRemoteAuthorization;
+        $this->getElement('allowRemoteAuthorization')->setValue($allowRemoteAuthorization);
         return $this;
     }
 

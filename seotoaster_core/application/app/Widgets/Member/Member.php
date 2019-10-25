@@ -39,7 +39,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'desktopPhone',
         'signature',
         'subscribed',
-        'voipPhone'
+        'voipPhone',
+        'allowRemoteAuthorization'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';

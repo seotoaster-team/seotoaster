@@ -1,3 +1,6 @@
+<?php
+    $this->headScript()->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js');
+?>
 <?php if (isset($this->images) && is_array($this->images) && !empty($this->images)): ?>
     <ul class="img_gallery">
         <?php foreach ($this->images as $image): ?>
@@ -8,7 +11,8 @@
                    data-fancybox-group="<?php echo $this->folder; ?>"
                    title="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>">
                     <?php endif; ?>
-                    <img src="<?php echo $image['path']; ?>"
+                    <img data-original="<?php echo $image['path']; ?>"
+                         src="<?php echo $image['path']; ?>"
                          alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
                          width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
                 <?php if (!isset($this->block)): ?></a><?php endif;?>
@@ -24,3 +28,9 @@
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
+
+<script>
+    $(function() {
+        $('.lazyload').lazyload();
+    });
+</script>

@@ -50,6 +50,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         $useCrop          = isset($this->_options[2]) ? (boolean)$this->_options[2] : false;
         $galFolder        = $path.(($useCrop) ? Tools_Image_Tools::FOLDER_CROP : Tools_Image_Tools::FOLDER_THUMBNAILS)
             .DIRECTORY_SEPARATOR;
+        $galFolderFirstLoad        = $path.Tools_Image_Tools::FOLDER_SMALL .DIRECTORY_SEPARATOR;
         if (!is_dir($galFolder)) {
             Tools_Filesystem_Tools::mkDir($galFolder);
         }
@@ -79,6 +80,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
 
         $websiteData = ($mediaServersAllowed) ? Zend_Registry::get('website') : null;
         $sourcePart  = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
+        $sourcePartFirstLoad  = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolderFirstLoad);
         foreach ($sourceImages as $key => $image) {
             // Update image
             if (is_file($galFolder.$image)) {
@@ -116,7 +118,8 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             }
             $sourceImages[$key] = array(
                 'path' => $sourcePartPath.$image,
-                'name' => $image
+                'name' => $image,
+                'firstloadPath' =>  $sourcePartFirstLoad.$image
             );
         }
 
