@@ -74,6 +74,7 @@
             ->prependFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.min.js');
     }else{
         $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
@@ -81,6 +82,7 @@
             ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.min.js');
     }
 
@@ -147,5 +149,10 @@ $grecaptchaPublicKey = $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY]
         };
     </script>
 <?php endif; ?>
+<script>
+    $(function() {
+        $('.lazyload-img').lazyload();
+    });
+</script>
 </body>
 </html>
