@@ -90,6 +90,8 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_excludeCategory = 0;
 
+    protected $_pageTags = '';
+
     /**
      * @param array $containers
      */
@@ -482,6 +484,10 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
         return $this;
 
     }
+
+    /**
+     * @return int
+     */
     public function getExcludeCategory()
     {
         return $this->_excludeCategory;
@@ -494,6 +500,25 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
     public function setExcludeCategory($excludeCategory)
     {
         $this->_excludeCategory = $excludeCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageTags()
+    {
+        return $this->_pageTags;
+    }
+
+    /**
+     * @param int $pageTags
+     * @return int
+     */
+    public function setPageTags($pageTags)
+    {
+        $this->_pageTags = $pageTags;
 
         return $this;
     }
