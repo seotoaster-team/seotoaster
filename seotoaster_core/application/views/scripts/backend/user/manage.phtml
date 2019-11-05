@@ -188,7 +188,7 @@
                             <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
                             <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallbackDelay" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
                             <?php if ($this->currentLoggedUserRole === Tools_Security_Acl::ROLE_ADMIN || $this->currentLoggedUserRole === Tools_Security_Acl::ROLE_SUPERADMIN): ?>
-                                <a data-url="<?php echo $this->toasterLink('user', 'loginas', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="ticon-pencil login-as-user"></a>
+                                <a data-url="<?php echo $this->toasterLink('user', 'loginas', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="ticon-users2 login-as-user"></a>
                             <?php endif;?>
                         <?php endif; ?>
                         </td>
