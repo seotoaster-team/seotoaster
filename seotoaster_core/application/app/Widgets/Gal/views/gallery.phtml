@@ -1,6 +1,3 @@
-<?php
-    $this->headScript()->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js');
-?>
 <?php if (isset($this->images) && is_array($this->images) && !empty($this->images)): ?>
     <ul class="img_gallery">
         <?php foreach ($this->images as $image): ?>
@@ -28,9 +25,3 @@
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
-
-<script>
-    $(function() {
-        $('.lazyload').lazyload();
-    });
-</script>
