@@ -78,6 +78,9 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $secureToken = Tools_System_Tools::initZendFormCsrfToken($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
         $this->view->secureToken = $secureToken;
+        $currentUser = $this->_session->getCurrentUser();
+        $currentUserRole = $currentUser->getRoleId();
+        $this->view->currentLoggedUserRole = $currentUserRole;
 
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
         $offset = 0;
@@ -458,6 +461,44 @@ class Backend_UserController extends Zend_Controller_Action {
 
         }
 
+    }
+
+    public function loginasAction()
+    {
+        $currentUser = $this->_session->getCurrentUser();
+        $currentUserRole = $currentUser->getRoleId();
+        if ($currentUserRole !== Tools_Security_Acl::ROLE_ADMIN && $currentUserRole !== Tools_Security_Acl::ROLE_SUPERADMIN) {
+            $this->_helper->response->fail($this->_helper->language->translate('Access not allowed'));
+        }
+
+        $secureToken = $this->getRequest()->getParam('secureToken', false);
+        $userId = $this->getRequest()->getParam('userId', false);
+        $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_USERS);
+        if (!$tokenValid) {
+            $this->_helper->response->fail($this->_helper->language->translate('Invalid token'));
+        }
+
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $userModel = $userMapper->find($userId);
+        if (!$userModel instanceof Application_Model_Models_User) {
+            $this->_helper->response->fail($this->_helper->language->translate('User not found'));
+        }
+
+        $userRoleId = $userModel->getRoleId();
+        if ($userRoleId === Tools_Security_Acl::ROLE_SUPERADMIN || $userRoleId === Tools_Security_Acl::ROLE_ADMIN) {
+            $this->_helper->response->fail($this->_helper->language->translate('It\'s not allowed to login as this user'));
+        }
+
+        $userModel->setPassword('');
+        $userModel->setLastLogin(date(Tools_System_Tools::DATE_MYSQL));
+        $userModel->setIpaddress($_SERVER['REMOTE_ADDR']);
+        $this->_session->setCurrentUser($userModel);
+        $userMapper->save($userModel);
+        Zend_Session::regenerateId();
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+        $cacheHelper->clean();
+
+        $this->_helper->response->success('');
     }
 
 }
