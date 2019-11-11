@@ -30,8 +30,12 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_recaptchaPublicKey;
     protected $_grecaptchaPublicKey;
     protected $_recaptchaPrivateKey;
+
+    protected $_pagesLimit;
+
     protected $_grecaptchaPrivateKey;
     protected $_googleApiKey;
+
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -41,13 +45,27 @@ class Application_Form_Config extends Application_Form_Secure
 	protected $_showProtectedPagesInMenu = true;
 
     /**
-     * Enable minification css and js files
+     * Enable minification css files
      *
      * @var boolean
      */
-    protected $_enableMinify             = false;
+    protected $_enableMinifyCss             = false;
 
-     /**
+    /**
+     * Enable minification js files
+     *
+     * @var boolean
+     */
+    protected $_enableMinifyJs            = false;
+
+    /**
+     * Exclude system css files to minification
+     *
+     * @var boolean
+     */
+    protected $_excludeSystemCss            = false;
+
+    /**
      * Enable Developer mode
      *
      * @var boolean
@@ -226,15 +244,37 @@ class Application_Form_Config extends Application_Form_Secure
 		return $this;
 	}
 
-    public function getEnableMinify()
+    public function getEnableMinifyCss()
     {
-        return $this->_enableMinify;
+        return $this->_enableMinifyCss;
     }
 
-    public function setEnableMinify($enableMinify)
+    public function getEnableMinifyJs()
     {
-        $this->_enableMinify = $enableMinify;
-        $this->getElement('enableMinify')->setValue($enableMinify);
+        return $this->_enableMinifyJs;
+    }
+
+    public function setEnableMinifyCss($enableMinifyCss)
+    {
+        $this->_enableMinifyCss = $enableMinifyCss;
+        $this->getElement('enableMinifyCss')->setValue($enableMinifyCss);
+    }
+
+    public function setEnableMinifyJs($enableMinifyJs)
+    {
+        $this->_enableMinifyJs = $enableMinifyJs;
+        $this->getElement('enableMinifyJs')->setValue($enableMinifyJs);
+    }
+
+    public function getExcludeSystemCss()
+    {
+        return $this->_excludeSystemCss;
+    }
+
+    public function setExcludeSystemCss($excludeSystemCss)
+    {
+        $this->_excludeSystemCss = $excludeSystemCss;
+        $this->getElement('excludeSystemCss')->setValue($excludeSystemCss);
     }
 
     public function getControlPanelStatus()
@@ -328,9 +368,26 @@ class Application_Form_Config extends Application_Form_Secure
 		return $this->_recaptchaPrivateKey;
 	}
 
+    /**
+     * @return mixed
+     */
+    public function getPagesLimit()
+    {
+        return $this->_pagesLimit;
+    }
+
+    public function setPagesLimit($pagesLimit)
+    {
+        $this->_pagesLimit = $pagesLimit;
+        $this->getElement('pagesLimit')->setValue($this->_pagesLimit);
+
+        return $this;
+    }
+
     public function getGrecaptchaPrivateKey()
     {
         return $this->_grecaptchaPrivateKey;
+
     }
 
 	public function init()
@@ -473,9 +530,21 @@ class Application_Form_Config extends Application_Form_Secure
 		)));
 
         $this->addElement(new Zend_Form_Element_Checkbox(array(
-            'name'  => 'enableMinify',
-            'value' => $this->_enableMinify,
-            'label' => 'Enable assets minification (css/js)?'
+            'name'  => 'enableMinifyCss',
+            'value' => $this->_enableMinifyCss,
+            'label' => 'Enable assets minification css?'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'enableMinifyJs',
+            'value' => $this->_enableMinifyJs,
+            'label' => 'Enable assets minification js?'
+        )));
+
+        $this->addElement(new Zend_Form_Element_Checkbox(array(
+            'name'  => 'excludeSystemCss',
+            'value' => $this->_excludeSystemCss,
+            'label' => 'Exclude system css?'
         )));
 
         $this->addElement(new Zend_Form_Element_Checkbox(array(
@@ -517,6 +586,18 @@ class Application_Form_Config extends Application_Form_Secure
 				Zend_Controller_Request_Http::SCHEME_HTTPS => 'https'
 			)
 		));
+
+        $this->addElement('select', 'pagesLimit', array(
+            'label' => 'Select page number limit for sitemapindex.xml',
+            'class' => 'optional',
+            'multiOptions' => array(
+                '50000'  => '50.000',
+                '40000'  => '40.000',
+                '30000'  => '30.000',
+                '20000'  => '20.000',
+                '10000'  => '10.000'
+            )
+        ));
 
         $this->addElement('text', 'googleApiKey', array(
             'value' => $this->_googleApiKey,

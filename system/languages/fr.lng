@@ -121,7 +121,7 @@
     'Keywords' => 'Mots-cles',
     '(.jpg .gif .png | .mp4 .avi .mov .flv)' => '(.jpg .gif .png | .mp4 .avi .mov .flv)',
     'Service' => 'Service',
-    'Sign in' => 'Connexion',
+    'Sign In' => 'Se connecter',
     'Login in service' => 'Importer des images',
     'Manage 301 redirect' => 'Gerer les ordres de redirection 301',
     'Former URL:' => 'Ancien URL',
@@ -1229,6 +1229,13 @@
     'Indexing...' => 'Indexation...',
     'Start reindex' => 'Réindexer',
     'Can\'t clean a search folder' => 'Impossible de nettoyer le dossier de recherche',
-    'Incorrect recaptcha result' => 'ReCaptcha invalide'
+    'Please check the anti-spam \'I am not a robot\' checkbox!' => 'Merci de cocher la case \'je ne suis pas un robot\' et réessayer',
+    'Select'=>'Sélectionner',
+    'Mr' => 'M',
+    'Mrs' => 'Mme',
+    'Ms' => 'Mme',
+    'Miss' => 'Mlle',
+    'Dr' => 'Dr',
+    'Exclude category from the menu' => 'Exclure la catégorie du menu'
 
 );?>

@@ -1,7 +1,13 @@
 <ul class="static_menu">
 	<?php foreach ($this->staticPages as $staticPage): ?>
-        <?php $targetBlank = '';?>
-        <?php $staticUrl = $this->websiteUrl . str_replace('index.html', '', $staticPage->getUrl());?>
+        <?php
+            $targetBlank = '';
+            $staticPageUrl = $staticPage->getUrl();
+        ?>
+        <?php if($staticPageUrl == 'index.html') {
+            $staticPageUrl = '';
+        }?>
+        <?php $staticUrl = $this->websiteUrl . $staticPageUrl;?>
         <?php if($staticPage->getExternalLinkStatus() === '1'):?>
             <?php $staticUrl = $staticPage->getExternalLink();?>
             <?php $targetBlank = 'target="_blank"';?>

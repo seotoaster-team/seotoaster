@@ -1,0 +1,11 @@
+<?php if(!empty($this->folders)): ?>
+	<?php foreach($this->folders as $folder): ?>
+		<div class="folder-row list-row">
+			<div class="list-row-item grid_5 alpha omega ml-grid mr-grid" title="<?= $folder['name']; ?>"><?= $folder['name']; ?></div>
+			<div class="list-row-item grid_5 alpha omega ml-grid" title="<?= $folder['url']; ?>"><?= $folder['url']; ?></div>
+			<div class="grid_1 omega ml0 text-center">
+				<a class="remove-redirect _tdelete ticon-remove error icon16" data-callback="reloadPageFolders" data-url="<?= $this->toasterLink('page', 'removepagefolder', '', null, true)?>" data-eid="<?= $folder['id']; ?>" href="javascript:;"></a>
+			</div>
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>

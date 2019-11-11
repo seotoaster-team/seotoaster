@@ -3,7 +3,7 @@
     <form id="formWidget" class="_fajax _reload condensed" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
         <fieldset class="content-auto">
             <p id="form-code" class="grid_6 mt0px">
-                <a class="screen-size ticon-expand warning inverse fl-right" data-size="form-code"></a>
+                <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="form-code"></a>
                 <?php echo $this->formForm->getElement('code')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>
             </p>
@@ -49,11 +49,11 @@
             <p class="clear-both"></p>
             <fieldset class="grid_6 background mt10px">
                 <legend class="h2 background m0px p5px"><?php echo $this->translate('Lead delivery email setup');?></legend>
-                <p class="grid_6">
+                <p class="grid_6 mt10px">
                     <?php echo $this->formForm->getElement('adminMailTemplate')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminMailTemplate')->renderViewHelper(); ?>
                 </p>
-                <p class="grid_6">
+                <p class="grid_6 mt10px">
                     <?php echo $this->formForm->getElement('adminFrom')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminFrom')->renderViewHelper(); ?>
                 </p>
@@ -69,7 +69,8 @@
                     <?php echo $this->formForm->getElement('contactEmail')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('contactEmail')->renderViewHelper(); ?>
                 </p>
-                <p class="grid_12">
+                <p class="grid_12" id="admin-text-code">
+                    <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="admin-text-code"></a>
                     <?php echo $this->formForm->getElement('adminText')->renderLabel(); ?>
                     <?php echo $this->formForm->getElement('adminText')->renderViewHelper(); ?>
                 </p>
@@ -77,27 +78,37 @@
 
             <fieldset class="grid_6 background mt10px">
                 <legend class="h2 background m0px p5px"><?php echo $this->translate('Reply email setup');?></legend>
-
-                <p class="grid_6">
-                    <?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
-                </p>
-                <p class="grid_6">
-                    <?php echo $this->formForm->getElement('replyFrom')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('replyFrom')->renderViewHelper(); ?>
-                </p>
-                <p class="grid_6">
-                    <?php echo $this->formForm->getElement('replyFromName')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('replyFromName')->renderViewHelper(); ?>
-                </p>
-                <p class="grid_12">
-                    <?php echo $this->formForm->getElement('replySubject')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?>
-                </p>
-                <p class="grid_12">
-                    <?php echo $this->formForm->getElement('replyText')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
-                </p>
+                <div class="reply-email-flag grid_12 alpha">
+                    <p class="grid_5">
+                        <b><?php echo $this->formForm->getElement('replyEmail')->renderLabel(); ?></b>
+                    </p>
+                    <p class="grid_7">
+                        <?php echo $this->formForm->getElement('replyEmail')->renderViewHelper(); ?>
+                    </p>
+                </div>
+                <div class="reply-info grid_12 alpha omega" style="display: <?php echo $this->replyEmail ? 'none' : 'block';?>">
+                    <p class="grid_6">
+                        <?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
+                    </p>
+                    <p class="grid_6">
+                        <?php echo $this->formForm->getElement('replyFrom')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('replyFrom')->renderViewHelper(); ?>
+                    </p>
+                    <p class="grid_6">
+                        <?php echo $this->formForm->getElement('replyFromName')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('replyFromName')->renderViewHelper(); ?>
+                    </p>
+                    <p class="grid_12">
+                        <?php echo $this->formForm->getElement('replySubject')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?>
+                    </p>
+                    <p class="grid_12" id="reply-text-code">
+                        <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="reply-text-code"></a>
+                        <?php echo $this->formForm->getElement('replyText')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
+                    </p>
+                </div>
             </fieldset>
         </fieldset>
         <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />

@@ -57,7 +57,10 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             'preview_image'       => $page->getPreviewImage(),
             'external_link_status' => $page->getExternalLinkStatus(),
             'external_link'       => $page->getExternalLink(),
-            'page_type'          => $page->getPageType()
+            'page_type'           => $page->getPageType(),
+            'page_folder'         => $page->getPageFolder(),
+            'is_folder_index'         => $page->getisFolderIndex(),
+            'exclude_category'    => $page->getExcludeCategory()
         );
 
 
@@ -90,7 +93,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $page;
     }
 
-    public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false)
+    public function fetchAll($where = '', $order = array(), $fetchSysPages = false, $originalsOnly = false, $limit = null, $offset = null)
     {
         $dbTable = $this->getDbTable();
 
@@ -99,7 +102,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $where .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
         $order[] = 'order';
         $entries = array();
-        $resultSet = $dbTable->fetchAllPages($where, $order, $originalsOnly);
+        $resultSet = $dbTable->fetchAllPages($where, $order, $originalsOnly, $limit, $offset);
 
         if (null === $resultSet) {
             return null;
@@ -215,15 +218,44 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $table->getAdapter()->fetchOne($select);
     }
 
-    public function fetchAllNomenuPages()
+    public function fetchAllNomenuPages($pageTypes = array())
     {
-        $where = sprintf(
-            "show_in_menu = '%s' AND parent_id = %d AND news != '%s'",
-            Application_Model_Models_Page::IN_NOMENU,
-            Application_Model_Models_Page::IDCATEGORY_DEFAULT,
-            Application_Model_Models_Page::IS_NEWS_PAGE
-        );
+        $where = $this->getDbTable()->getAdapter()->quoteInto('show_in_menu = ?', (string) Application_Model_Models_Page::IN_NOMENU);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', (string) Application_Model_Models_Page::IDCATEGORY_DEFAULT);
+        if (!empty($pageTypes)) {
+            $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $pageTypes);
+        }
         return $this->fetchAll($where);
+    }
+
+
+    public function fetchAllNomenuPagesArray($pageTypes = array(), $fetchSysPages = false, $fetchProtected = false)
+    {
+        $table = $this->getDbTable();
+        $select = $table->select()
+            ->from(array('p' => 'page'), null)
+            ->joinLeft(array('o' => 'optimized'), 'p.id = o.page_id', 'p.id')
+            ->columns(
+                array(
+                    'nav_name' => new Zend_Db_Expr('COALESCE(o.nav_name, p.nav_name)'),
+                    'h1' => new Zend_Db_Expr('COALESCE(o.h1, p.h1)'),
+                    'url' => new Zend_Db_Expr('COALESCE(o.url, p.url)'),
+                    'external_link_status', 'external_link',
+                )
+            )
+            ->where('p.show_in_menu = ?', (string) Application_Model_Models_Page::IN_NOMENU)
+            ->where('p.parent_id = ?', (string) Application_Model_Models_Page::IDCATEGORY_DEFAULT);
+        if (!$fetchSysPages) {
+            $select->where('p.protected = ?', '0');
+        }
+        if (!$fetchProtected) {
+            $select->where('p.system = ?', '0');
+        }
+        if (!empty($pageTypes)) {
+            $select->where('p.page_type IN (?)', $pageTypes);
+        }
+
+        return $table->getAdapter()->fetchAll($select);
     }
 
     public function findByUrl($pageUrl)
@@ -262,11 +294,22 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $this->_findWhere($where);
     }
 
-    public function findByParentId($parentId, $draft = false)
+    /**
+     * Get pages by parent id
+     *
+     * @param int $parentId parent id
+     * @param bool $draft flag for draft page
+     * @param array $pageTypes page types ids array
+     * @return array|null
+     */
+    public function findByParentId($parentId, $draft = false, $pageTypes = array())
     {
         $where = $this->getDbTable()->getAdapter()->quoteInto('parent_id = ?', $parentId);
         if ($draft) {
             $where .= ' OR ' . $this->getDbTable()->getAdapter()->quoteInto('draft = ?', '1');
+        }
+        if (!empty($pageTypes)) {
+            $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $pageTypes);
         }
         return $this->fetchAll($where);
     }
@@ -316,13 +359,40 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $deleteResult;
     }
 
-    public function fetchIdUrlPairs()
+    public function fetchIdUrlPairs($pageTypes = array())
     {
         $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
-                ->from($this->getDbTable()->info('name'), array('id', 'url'))
-                ->order('url');
+            ->from($this->getDbTable()->info('name'),
+                [
+                    'id',
+                    "url" => new Zend_Db_Expr("IF(page_folder IS NOT null, IF(is_folder_index = '1', CONCAT(page_folder, '/'), CONCAT(page_folder, '/', url)), url)")
+                ]
+            )
+            ->order('url');
+
+
+        if (!empty($pageTypes)) {
+            $select->where('page_type IN (?)', $pageTypes);
+        }
 
         return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
+    public function fetchIdUrlOptimized($pageTypes = array())
+    {
+        $table = $this->getDbTable();
+        $select = $table->select()
+            ->from(array('p' => 'page'), array('id',
+                'url' => new Zend_Db_Expr('COALESCE(o.url, p.url)')))
+            ->joinLeft(array('o' => 'optimized'), 'p.id = o.page_id', 'p.id')
+            ->where('p.protected = ?', '0')
+            ->where('p.system = ?', '0');
+
+        if (!empty($pageTypes)) {
+            $select->where('p.page_type IN (?)', $pageTypes);
+        }
+        $select->order('url');
+        return $table->getAdapter()->fetchPairs($select);
     }
 
     protected function  _findWhere($where, $fetchSysPages = false)
@@ -483,6 +553,21 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
     }
 
     /**
+     * Get page types for resource
+     *
+     * @param string $resource
+     * @return array
+     */
+    public function getPageTypeByResource($resource)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('resource_type = ?', $resource);
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('page_types_access', array('page_type_id', 'resource_type'))->where($where);
+
+        return array_keys($this->getDbTable()->getAdapter()->fetchPairs($select));
+    }
+
+    /**
      * This method delete pages by ids
      * @param array $ids
      * @return int  - number of deleted pages
@@ -495,5 +580,43 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $where = $this->getDbTable()->getAdapter()->quoteInto("id IN (?)", $ids);
         return $this->getDbTable()->delete($where);
     }
+
+
+    /**
+     * return key pair id folder_name
+     */
+    public function getFolders()
+    {
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('page_folder', array('id', 'name'));
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
+    public function fetchRegularPagesIdUrlPairs()
+    {
+        $select = $this->getDbTable()->select(Zend_Db_Table::SELECT_WITHOUT_FROM_PART)
+            ->from($this->getDbTable()->info('name'), ['id', 'url'])
+            ->where('page_type = 1 AND id NOT IN (SELECT page_id from page_has_option)')
+            ->order('url');
+
+        return $this->getDbTable()->getAdapter()->fetchPairs($select);
+    }
+
+    public function removeSubfolderInfo($folderName) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('page_folder = ?', $folderName);
+        $this->getDbTable()->update(['page_folder' => null, 'is_folder_index' => 0], $where);
+    }
+
+    public function findPagesByPageFolderName($pageFolder) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('page.page_folder IN (?)', $pageFolder);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('is_folder_index <> ?', '1');
+        $select = $this->getDbTable()->getAdapter()->select()->from('page', array('id', 'page_folder'))->where($where);
+
+        $data = $this->getDbTable()->getAdapter()->fetchPairs($select);
+
+        return $data;
+    }
+
 
 }

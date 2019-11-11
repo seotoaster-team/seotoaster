@@ -84,6 +84,14 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_pageType = 1;
 
+    protected $_pageFolder = null;
+
+    protected $_isFolderIndex = 0;
+
+    protected $_excludeCategory = 0;
+
+    protected $_pageTags = '';
+
     /**
      * @param array $containers
      */
@@ -435,6 +443,82 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
     public function setPageType($pageType)
     {
         $this->_pageType = $pageType;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPageFolder()
+    {
+        return $this->_pageFolder;
+    }
+
+    /**
+     * @param int $folder
+     * @return int
+     */
+    public function setPageFolder($folder)
+    {
+        $this->_pageFolder = $folder;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsFolderIndex()
+    {
+        return $this->_isFolderIndex;
+    }
+
+    /**
+     * @param int $isFolderIndex
+     * @return int
+     */
+    public function setIsFolderIndex($isFolderIndex)
+    {
+        $this->_isFolderIndex = $isFolderIndex;
+
+        return $this;
+
+    }
+
+    /**
+     * @return int
+     */
+    public function getExcludeCategory()
+    {
+        return $this->_excludeCategory;
+    }
+
+    /**
+     * @param int $excludeCategory
+     * @return int
+     */
+    public function setExcludeCategory($excludeCategory)
+    {
+        $this->_excludeCategory = $excludeCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageTags()
+    {
+        return $this->_pageTags;
+    }
+
+    /**
+     * @param int $pageTags
+     * @return int
+     */
+    public function setPageTags($pageTags)
+    {
+        $this->_pageTags = $pageTags;
 
         return $this;
     }

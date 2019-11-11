@@ -53,6 +53,9 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
+            <?php if ($this->isRegularPage) : ?>
+                <p><?php echo $this->pageForm->getElement('pageFolder'); ?></p>
+            <?php endif; ?>
         	<p><?php echo $this->pageForm->getElement('url'); ?></p>
             <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
@@ -64,9 +67,17 @@
 			<div class="btn-set mt0px">
 				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
 			</div>
-			<div class="grid_12 alpha omega cl-both background mt0px">
-				<?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
-				<div class="menu-info mt5px">Please select menu for this page</div>
+			<div class="grid_12 alpha omega background mt0px">
+                <div class="<?php echo $this->pageForm->getParentId() == 0 ? 'grid_10' : 'grid_12 omega';?> alpha main-menu-selection">
+                    <?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
+                </div>
+
+                    <div class="grid_2 omega mt5px exclude-category" data-exclude-category-current="<?php echo $this->excludeCategory;?>" style="<?php echo $this->pageForm->getParentId() != 0 ? 'display:none;' : 'display:block;';?>">
+                        <?php echo $this->pageForm->getElement('excludeCategory')->setValue($this->excludeCategory);?>
+                        <span class="ticon-info tooltip icon18" title="<?php echo $this->translate('Exclude category from the menu');?>"></span>
+                    </div>
+
+				<div class="menu-info mt5px" style="display: none;"></div>
 			</div>
 		</fieldset>
 		<fieldset class="grid_6 settings mb1-75em">
@@ -155,6 +166,25 @@
 
 	});
 
+	$('.menu-selector').on('change', function (e) {
+	    var el = $(e.currentTarget);
+
+	    if(el.get(0).id == 'inMenu-1') {
+            $('.main-menu-selection').removeClass('grid_10').addClass('grid_12 omega');
+            $('.menu-info').hide();
+	        if($('#pageCategory').val() == 0) {
+	            if($('.exclude-category').data('exclude-category-current') == 1) {
+	                $('#excludeCategory').prop('checked', true);
+                }
+                $('.exclude-category').show();
+                $('.main-menu-selection').removeClass('grid_12 omega').addClass('grid_10');
+            }
+        } else {
+            $('.exclude-category').hide();
+            $('.menu-info').show();
+        }
+    });
+
     function checkOptions(){
         $('#removePreviousOption').val('yes');
         $('#frm-page').submit();
@@ -162,6 +192,20 @@
 
     $('#pageCategory').on('change', function () {
         var self = this;
+
+        if($(self).val() != '0') {
+            if($('#excludeCategory').prop('checked')) {
+                $('#excludeCategory').prop('checked', false);
+            }
+            $('.exclude-category').hide();
+            $('.main-menu-selection').removeClass('grid_10').addClass('grid_12 omega');
+        } else {
+            if($('.exclude-category').data('exclude-category-current') == 1) {
+                $('#excludeCategory').prop('checked', true);
+            }
+            $('.exclude-category').show();
+            $('.main-menu-selection').removeClass('grid_12 omega').addClass('grid_10');
+        }
         $.ajax({
             url: $('#website_url').val() + 'backend/backend_page/is-draft-category/',
             type: 'POST',

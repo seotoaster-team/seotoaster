@@ -20,6 +20,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
     public static $_formMandatoryFields = array(
         'email'    => true,
         'password' => true,
+        'prefix'   => false,
         'fullName' => true,
         'saveUser' => false
     );
@@ -37,7 +38,9 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'mobilePhone',
         'desktopPhone',
         'signature',
-        'subscribed'
+        'subscribed',
+        'voipPhone',
+        'allowRemoteAuthorization'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';
@@ -89,6 +92,7 @@ class Widgets_Member_Member extends Widgets_Abstract {
         return '<a href="' . $this->_website->getUrl() . 'logout" class="logout">' . $translator->translate('Logout') . '</a>';
 	}
 
+
     protected function _renderMemberSignup() {
         $pageId = $this->_toasterOptions['id'];
         $signupForm = new Application_Form_Signup();
@@ -107,6 +111,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
             unset($this->_options[$noCaptchaOption]);
         }
 
+        $this->_view->noCaptchaOption = $noCaptchaOption;
+
         $options = array();
         $fieldsOptions = preg_grep('~formFields-~ui', $this->_options);
         if (!empty($fieldsOptions)) {
@@ -123,6 +129,21 @@ class Widgets_Member_Member extends Widgets_Abstract {
         $this->_session->$signupFormKeyParams = $options;
 
         $signupForm = Tools_System_Tools::adjustFormFields($signupForm, $options, self::$_formMandatoryFields);
+
+        if(!empty($this->_session->signupEmailField)) {
+            $signupEmailField = $this->_session->signupEmailField;
+            $signupForm->setEmail($signupEmailField);
+        }
+
+        if(!empty($this->_session->signupFullNameField)) {
+            $signupFullNameField = $this->_session->signupFullNameField;
+            $signupForm->setFullName($signupFullNameField);
+        }
+
+        if(!empty($this->_session->signupPrefixField)) {
+            $signupPrefixField = $this->_session->signupPrefixField;
+            $signupForm->setPrefix($signupPrefixField);
+        }
 
         $this->_view->signupForm = $signupForm;
 
@@ -143,12 +164,36 @@ class Widgets_Member_Member extends Widgets_Abstract {
             $this->_view->withDesktopMask = true;
         }
 
+        $useOldCaptcha = false;
+        if(in_array('oldcaptcha', $this->_options) && !$noCaptchaOption) {
+            $useOldCaptcha = true;
+        } else {
+            $signupForm->removeElement('verification');
+        }
+
+        $this->_view->useOldCaptcha = $useOldCaptcha;
+
         $listMasksMapper = Application_Model_Mappers_MasksListMapper::getInstance();
         $this->_view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
         $this->_view->desktopMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_DESKTOP);
 
 		$flashMessenger                = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
 		$errorMessages                 = $flashMessenger->getMessages();
+
+		if(empty($errorMessages)) {
+            if(!empty($this->_session->signupEmailField)) {
+                $signupForm->setEmail('');
+            }
+
+            if(!empty($this->_session->signupFullNameField)) {
+                $signupForm->setFullName('');
+            }
+
+            if(!empty($this->_session->signupPrefixField)) {
+                $signupForm->setPrefix('');
+            }
+        }
+
 		$this->_session->signupPageUrl = $this->_toasterOptions['url'];
 		$this->_view->errors           = ($errorMessages) ? $errorMessages : null;
 		return $this->_view->render('signup.phtml');

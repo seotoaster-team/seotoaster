@@ -1,3 +1,8 @@
+/**
+ *  ATTENTION: Do not format this file.
+ *  This file can be automatically modified from the widcard and notifier plugins.
+ */
+
 const revision = 'pwa03202018';
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
 
@@ -7,8 +12,12 @@ if (typeof workbox !== 'undefined') {
     routeData => routeData.event.request.headers.get('accept').includes('text/html'),
     args => fetch(args.event.request)
       .then(res => res)
-      .catch(() => caches.match('/pwa-offline.html')
-        .then(res => res))
+      .catch(() => {
+        return caches.match(args.event.request)
+          .then(res => {
+            return res || caches.match('/pwa-offline.html').then(res => res);
+          })
+      })
   );
 
   workbox.routing.registerRoute(/.*(?:woff|ttf)$/,
@@ -21,12 +30,16 @@ if (typeof workbox !== 'undefined') {
 
   workbox.precaching.precacheAndRoute([
     {
+      "url": "/",
+      "revision": revision,
+    },
+    {
       "url": "/pwa-offline.html",
       "revision": revision,
     },
     {
       "url": "/tmp/offline.concat.min.css",
-      "revision":  revision,
+      "revision": revision,
     },
   ]);
 }

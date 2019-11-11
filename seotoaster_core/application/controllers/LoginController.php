@@ -49,6 +49,14 @@ class LoginController extends Zend_Controller_Action {
 						if($authUserData->role_id == Tools_Security_Acl::ROLE_MEMBER) {
 							$this->_memberRedirect();
 						}
+
+                        if($authUserData->role_id == Tools_Security_Acl::ROLE_SUPERADMIN) {
+                            $superAdminRedirectPageModel = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption('option_adminredirect', true);
+                            if ($superAdminRedirectPageModel instanceof Application_Model_Models_Page) {
+                                $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
+                            }
+                        }
+
 						if(isset($this->_helper->session->redirectUserTo)) {
 							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
 						}
@@ -76,12 +84,14 @@ class LoginController extends Zend_Controller_Action {
 			//getting available system translations
             $this->view->languages = $this->_helper->language->getLanguages();
 			$this->view->currentLanguage = strtolower(Zend_Registry::get('Zend_Locale')->getRegion());
+            $locale               = Zend_Locale::getLocaleToTerritory(strtolower(Zend_Registry::get('Zend_Locale')->getRegion()));
+            $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
 			//getting messages
             $errorMessages = $this->_helper->flashMessenger->getMessages();
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $message) {
                     foreach ($message as $elementName => $msg) {
-                        $loginForm->getElement($elementName)->setAttribs(array('class' => 'notvalid', 'title' => $msg));
+                        $loginForm->getElement($elementName)->setAttribs(array('class' => 'notvalid'));
                     }
                 }
             }
@@ -133,6 +143,8 @@ class LoginController extends Zend_Controller_Action {
 
 	public function passwordretrieveAction() {
 		$form = new Application_Form_PasswordRetrieve();
+        $locale               = Zend_Locale::getLocaleToTerritory(strtolower(Zend_Registry::get('Zend_Locale')->getRegion()));
+        $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
 		if($this->getRequest()->isPost()) {
 			if($form->isValid($this->getRequest()->getParams())) {
 				$retrieveData = $form->getValues();
@@ -182,7 +194,7 @@ class LoginController extends Zend_Controller_Action {
         if (!empty($errorMessages)) {
             foreach ($errorMessages as $message) {
                 foreach ($message as $elementName => $msg) {
-                    $form->getElement($elementName)->setAttribs(array('class' => 'notvalid', 'title' => $msg));
+                    $form->getElement($elementName)->setAttribs(array('class' => 'notvalid'));
                 }
             }
         }
@@ -190,6 +202,9 @@ class LoginController extends Zend_Controller_Action {
         if (!empty($passResetMsg)) {
             $this->view->retrieveSuccessMessage = join($passResetMsg, PHP_EOL);
         }
+
+        $this->view->messages   = $this->_helper->flashMessenger->getMessages();
+
         $form->removeDecorator('HtmlTag');
         $form->setElementDecorators(array(
                 'ViewHelper',
@@ -204,6 +219,8 @@ class LoginController extends Zend_Controller_Action {
 		//check the get string for the tokens http://mytoaster.com/login/reset/email/myemail@mytoaster.com/token/adadajqwek123klajdlkasdlkq2e3
 		$error = false;
 		$form  = new Application_Form_PasswordReset();
+        $locale               = Zend_Locale::getLocaleToTerritory(strtolower(Zend_Registry::get('Zend_Locale')->getRegion()));
+        $this->view->htmlLang = substr($locale, 0, strpos($locale, '_'));
 		$email = filter_var($this->getRequest()->getParam('email', false), FILTER_SANITIZE_EMAIL);
 		$token = filter_var($this->getRequest()->getParam('key', false), FILTER_SANITIZE_STRING);
 		$newUser = filter_var($this->getRequest()->getParam('new', false), FILTER_SANITIZE_STRING);
@@ -219,7 +236,7 @@ class LoginController extends Zend_Controller_Action {
 		}
 		if($error) {
 			$error = false;
-			$this->_helper->flashMessenger->addMessage('Token is incorrect. Please, enter your e-mail one more time.');
+			$this->_helper->flashMessenger->addMessage(array('email' => 'Token is incorrect. Please, enter your e-mail one more time.'));
 			return $this->redirect($this->_helper->website->getUrl() . 'login/retrieve/');
 		}
 
@@ -235,7 +252,7 @@ class LoginController extends Zend_Controller_Action {
 				$mapper->save($user);
 				$resetToken->setStatus(Application_Model_Models_PasswordRecoveryToken::STATUS_USED);
 				Application_Model_Mappers_PasswordRecoveryMapper::getInstance()->save($resetToken);
-				$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
+				//$this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Your password was reset.'));
                 $roleId = $user->getRoleId();
                 if($roleId != Tools_Security_Acl::ROLE_ADMIN && $roleId != Tools_Security_Acl::ROLE_SUPERADMIN){
                     return $this->redirect($this->_helper->website->getUrl());

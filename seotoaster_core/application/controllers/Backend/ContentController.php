@@ -271,6 +271,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 			$folderName  = $this->getRequest()->getParam('folderName');
 			$imagesPath  = $this->_websiteData['path'] . $this->_websiteData['media'] . $folderName;
             $nolink  = $this->getRequest()->getParam('nolink');
+
 			try {
                 $imagesData  = array(
                     'small'    => '<div class="images-preview list-images">' . $this->_proccessImages(Tools_Filesystem_Tools::scanDirectory($imagesPath . '/' . self::IMG_CONTENTTYPE_SMALL), $imagesPath, $folderName, self::IMG_CONTENTTYPE_SMALL, $nolink) . '</div>',
@@ -309,8 +310,10 @@ class Backend_ContentController extends Zend_Controller_Action {
             if(!empty($nolink)){
                 $dontWrapImages = true;
             }
+            $sourcePartPath = $srcPath;
+
 			foreach ($images as $key => $image) {
-                $srcPath        = Tools_Content_Tools::applyMediaServers($srcPath);
+                $srcPath        = Tools_Content_Tools::applyMediaServers($sourcePartPath);
 	            $imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
                 if ($dontWrapImages) {

@@ -44,6 +44,14 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_voipPhone = '';
 
+    protected $_prefix = '';
+
+    protected $_allowRemoteAuthorization = '0';
+
+    protected $_remoteAuthorizationInfo = '';
+
+    protected $_remoteAuthorizationToken = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -383,6 +391,81 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->_prefix;
+    }
+
+    /**
+     * @param string $prefix
+     * @return string
+     */
+    public function setPrefix($prefix)
+    {
+        $this->_prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAllowRemoteAuthorization()
+    {
+        return $this->_allowRemoteAuthorization;
+    }
+
+    /**
+     * @param string $allowRemoteAuthorization
+     * @return string
+     */
+    public function setAllowRemoteAuthorization($allowRemoteAuthorization)
+    {
+        $this->_allowRemoteAuthorization = $allowRemoteAuthorization;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoteAuthorizationInfo()
+    {
+        return $this->_remoteAuthorizationInfo;
+    }
+
+    /**
+     * @param string $remoteAuthorizationInfo
+     * @return string
+     */
+    public function setRemoteAuthorizationInfo($remoteAuthorizationInfo)
+    {
+        $this->_remoteAuthorizationInfo = $remoteAuthorizationInfo;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoteAuthorizationToken()
+    {
+        return $this->_remoteAuthorizationToken;
+    }
+
+    /**
+     * @param string $remoteAuthorizationToken
+     * @return string
+     */
+    public function setRemoteAuthorizationToken($remoteAuthorizationToken)
+    {
+        $this->_remoteAuthorizationToken = $remoteAuthorizationToken;
+
+        return $this;
+    }
 
 
 }

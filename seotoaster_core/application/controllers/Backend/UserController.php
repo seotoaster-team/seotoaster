@@ -20,7 +20,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_session;
 
-    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode');
+    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode', 'remoteLoginRedirect');
 
 	public function init() {
 		parent::init();
@@ -80,6 +80,9 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $secureToken = Tools_System_Tools::initZendFormCsrfToken($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
         $this->view->secureToken = $secureToken;
+        $currentUser = $this->_session->getCurrentUser();
+        $currentUserRole = $currentUser->getRoleId();
+        $this->view->currentLoggedUserRole = $currentUserRole;
 
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
         $offset = 0;
@@ -105,13 +108,33 @@ class Backend_UserController extends Zend_Controller_Action {
         $select = $select->order($by . ' ' . $order);
 
         $paginatorOrderLink = '/by/' . $by . '/order/' . $order;
-        if (!empty($searchKey)) {
-            $select->where('email LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('full_name LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('role_id LIKE ?', '%'.$searchKey.'%')
-                ->orWhere('last_login LIKE ?', '%'. date("Y-m-d", strtotime($searchKey)).'%')
-                ->orWhere('ipaddress LIKE ?', '%'.$searchKey.'%');
-            $paginatorOrderLink .= '/key/' . $searchKey;
+
+        $filterRole = filter_var($this->getParam('filter-by-user-role'), FILTER_SANITIZE_STRING);
+
+        if (!empty($searchKey) || !empty($filterRole)) {
+            $where = '';
+            if(!empty($filterRole)) {
+                $where = $this->_zendDbTable->getAdapter()->quoteInto('role_id = ?', $filterRole);
+
+                $this->view->userRole = $filterRole;
+                $paginatorOrderLink .= '/filter-by-user-role/' . $filterRole;
+            }
+
+            if(!empty($searchKey)) {
+                if(!empty($where)) {
+                    $where .= ' AND ';
+                }
+
+                $where .= '('.$this->_zendDbTable->getAdapter()->quoteInto('email LIKE ?', '%'.$searchKey.'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('full_name LIKE ?', '%'.$searchKey.'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('role_id LIKE ?', '%'.$searchKey.'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('last_login LIKE ?', '%'. date("Y-m-d", strtotime($searchKey)).'%');
+                $where .= ' OR ' . $this->_zendDbTable->getAdapter()->quoteInto('ipaddress LIKE ?', '%'.$searchKey.'%');
+                $where .= ')';
+                $paginatorOrderLink .= '/key/' . $searchKey;
+            }
+
+            $select->where($where);
         }
 
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
@@ -147,7 +170,12 @@ class Backend_UserController extends Zend_Controller_Action {
         $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
         $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
         $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
+        $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
+        if (empty($remoteLoginRedirect)) {
+            $remoteLoginRedirect = '';
+        }
         $this->view->userDefaultTimeZone = $userDefaultTimezone;
+        $this->view->remoteLoginRedirect = $remoteLoginRedirect;
         $userDeleteCustomMessages = Tools_System_Tools::firePluginMethod('userdelete', 'systemUserDeleteMessage');
         $userDeleteCustomMessage = '';
         $userRolesApplyTo = array();
@@ -196,6 +224,12 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
 
             } catch (Exception $exception) {
+                $userDeleteErrorMessage = Tools_System_Tools::firePluginMethod('userdeleteerror', 'systemUserDeleteErrorMessage');
+
+                if(!empty($userDeleteErrorMessage)) {
+                    $this->_helper->response->fail(array('userDeleteError' => $userDeleteErrorMessage));
+                }
+
                 $this->_helper->response->fail('Can\'t remove user...');
             }
 
@@ -237,6 +271,9 @@ class Backend_UserController extends Zend_Controller_Action {
                         $userData['mobileCountryCode'] = $userDefaultMobileCountryCode;
                     }
                 }
+
+                unset($userData['remoteAuthorizationToken']);
+                unset($userData['remoteAuthorizationInfo']);
 
                 $result = array(
                     'formId' => 'frm-user',
@@ -366,6 +403,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $exportResult = Tools_System_Tools::arrayToCsv($users, array(
                     $this->_helper->language->translate('E-mail'),
                     $this->_helper->language->translate('Role'),
+                    $this->_helper->language->translate('Prefix'),
                     $this->_helper->language->translate('Full name'),
                     $this->_helper->language->translate('Last login date'),
                     $this->_helper->language->translate('Registration date'),
@@ -429,6 +467,44 @@ class Backend_UserController extends Zend_Controller_Action {
 
         }
 
+    }
+
+    public function loginasAction()
+    {
+        $currentUser = $this->_session->getCurrentUser();
+        $currentUserRole = $currentUser->getRoleId();
+        if ($currentUserRole !== Tools_Security_Acl::ROLE_ADMIN && $currentUserRole !== Tools_Security_Acl::ROLE_SUPERADMIN) {
+            $this->_helper->response->fail($this->_helper->language->translate('Access not allowed'));
+        }
+
+        $secureToken = $this->getRequest()->getParam('secureToken', false);
+        $userId = $this->getRequest()->getParam('userId', false);
+        $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_USERS);
+        if (!$tokenValid) {
+            $this->_helper->response->fail($this->_helper->language->translate('Invalid token'));
+        }
+
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $userModel = $userMapper->find($userId);
+        if (!$userModel instanceof Application_Model_Models_User) {
+            $this->_helper->response->fail($this->_helper->language->translate('User not found'));
+        }
+
+        $userRoleId = $userModel->getRoleId();
+        if ($userRoleId === Tools_Security_Acl::ROLE_SUPERADMIN || $userRoleId === Tools_Security_Acl::ROLE_ADMIN) {
+            $this->_helper->response->fail($this->_helper->language->translate('It\'s not allowed to login as this user'));
+        }
+
+        $userModel->setPassword('');
+        $userModel->setLastLogin(date(Tools_System_Tools::DATE_MYSQL));
+        $userModel->setIpaddress($_SERVER['REMOTE_ADDR']);
+        $this->_session->setCurrentUser($userModel);
+        $userMapper->save($userModel);
+        Zend_Session::regenerateId();
+        $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
+        $cacheHelper->clean();
+
+        $this->_helper->response->success('');
     }
 
 }

@@ -34,6 +34,13 @@ class Backend_FormController extends Zend_Controller_Action {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         if($this->getRequest()->isPost()) {
             $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
+
+            $replyEmail = $this->getRequest()->getParam('replyEmail');
+            if(!empty($replyEmail)) {
+                $formForm->getElement('replySubject')->setRequired(false);
+                $formForm->getElement('replyFrom')->setRequired(false);
+            }
+
             if($formForm->isValid($this->getRequest()->getParams())) {
                 $formPageConversionModel = new Application_Model_Models_FormPageConversion();
                 $formData = $this->getRequest()->getParams();
@@ -77,9 +84,17 @@ class Backend_FormController extends Zend_Controller_Action {
         
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		$formForm->getElement('adminMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
+
+        $replyEmail = 0;
 		if($form !== null) {
+		    if($form->getReplyEmail()) {
+                $replyEmail = 1;
+            }
+
 			$formForm->populate($form->toArray());
 		}
+
+        $this->view->replyEmail = $replyEmail;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
@@ -145,6 +160,8 @@ class Backend_FormController extends Zend_Controller_Action {
                 }
                 unset($formParams[md5($formName.$formId)]);
 
+
+
                 //validating recaptcha
                 if($useCaptcha == 1 && !isset($formParams['g-recaptcha-response'])){
                     if(!empty($websiteConfig) && !empty($websiteConfig[Tools_System_Tools::RECAPTCHA_PUBLIC_KEY])
@@ -194,14 +211,15 @@ class Backend_FormController extends Zend_Controller_Action {
                     if(!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])){
                         if (!$googleRecaptcha->isValid($formParams['g-recaptcha-response'])) {
                             if ($xmlHttpRequest) {
-                                $this->_helper->response->fail($this->_helper->language->translate('Incorrect recaptcha result'));
+                                $this->_helper->response->fail($this->_helper->language->translate('Please check the anti-spam \'I am not a robot\' checkbox!'));
                             }
-                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Incorrect recaptcha result');
+                            $sessionHelper->toasterFormError = $this->_helper->language->translate('Please check the anti-spam \'I am not a robot\' checkbox!');
                             $this->_redirect($formParams['formUrl']);
                         }
                     }
 
                 }
+
                 //Check if email is valid
                 if (isset($formParams['email'])) {
                     $emailValidation = new Tools_System_CustomEmailValidator();
@@ -214,6 +232,21 @@ class Backend_FormController extends Zend_Controller_Action {
                         $this->redirect($formParams['formUrl']);
                     }
                 }
+
+                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'], $formParams)) {
+                    if($xmlHttpRequest){
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+
+                    if(isset($formParams['conversionPageUrl'])) {
+                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                        $this->redirect($conversionPageUrl);
+                    }
+
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->redirect($formParams['formUrl']);
+                }
+
                 $sessionHelper->formName   = $formParams['formName'];
                 $sessionHelper->formPageId = $formParams['formPageId'];
 				unset($formParams['formPageId']);

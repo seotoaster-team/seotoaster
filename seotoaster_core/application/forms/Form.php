@@ -35,6 +35,8 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_id = null;
 
+    protected $_replyEmail = 0;
+
     public function init()
     {
         parent::init();
@@ -43,6 +45,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'code',
+                'class' => 'code-area',
                 'name' => 'code',
                 'label' => 'Form code',
                 'value' => $this->_code,
@@ -178,6 +181,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'admin-text',
+                'class' => 'code-area',
                 'name' => 'adminText',
                 'label' => 'Lead delivery text',
                 'value' => $this->_adminText,
@@ -203,12 +207,22 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'reply-text',
+                'class' => 'code-area',
                 'name' => 'replyText',
                 'label' => 'Reply text',
                 'value' => $this->_replyText,
                 'cols' => '45',
                 'rows' => '2',
                 'filters' => array('StringTrim')
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'reply-email',
+                'name' => 'replyEmail',
+                'label' => 'Don\'t send reply email',
+                'value' => $this->_replyEmail,
             ))
         );
 

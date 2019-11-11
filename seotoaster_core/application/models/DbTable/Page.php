@@ -25,7 +25,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         $where    = $this->getAdapter()->quoteInto("show_in_menu = '?'", $menuType);
         $sysWhere = $this->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
         $select   = $this->getAdapter()->select()
-            ->from('page', array('id', 'parentId' => 'parent_id', 'protected', 'external_link_status', 'external_link'))
+            ->from('page', array('id', 'parentId' => 'parent_id', 'protected', 'external_link_status', 'external_link', 'page_folder', 'is_folder_index', 'exclude_category'))
             ->joinLeft('optimized', 'page_id = id', null)
             ->columns(array(
                 'url'          => new Zend_Db_Expr('COALESCE(optimized.url, page.url)'),
@@ -77,10 +77,11 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
         ));
     }
 
-    public function fetchAllPages($where = '', $order = array(), $originalsOnly = false) {
+    public function fetchAllPages($where = '', $order = array(), $originalsOnly = false, $limit = null, $offset = null) {
         $select = $this->_getOptimizedSelect($originalsOnly)
             ->where($where)
-            ->order($order);
+            ->order($order)
+            ->limit($limit, $offset);
 
         $data = $this->getAdapter()->fetchAll($select);
         if(!$data) {
@@ -96,8 +97,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
     public function findByUrl($pageUrl = Helpers_Action_Website::DEFAULT_PAGE) {
         $where      = $this->getAdapter()->quoteInto('page.url = ?', $pageUrl);
         $orWhere    = $this->getAdapter()->quoteInto('optimized.url = ?', $pageUrl);
-        $select     = $this->_getOptimizedSelect(false, array('id', 'parent_id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news', 'preview_image', 'original_url' => 'page.url'));
-
+        $select     = $this->_getOptimizedSelect(false, array('id', 'parent_id', 'template_id', 'last_update', 'silo_id', 'protected', 'system', 'news', 'preview_image', 'original_url' => 'page.url', 'page_folder', 'is_folder_index', 'exclude_category'));
         $select->join('template', 'page.template_id=template.name', null)
             ->columns(array(
                 'content' => 'template.content'
@@ -164,7 +164,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
     private function _getOptimizedSelect($originalsOnly, $pageFields = array()) {
         if(empty($pageFields)) {
-            $pageFields = array('id', 'template_id', 'parent_id', 'last_update', 'is_404page', 'show_in_menu', 'order', 'weight', 'silo_id', 'protected', 'system', 'draft', 'publish_at', 'news', 'err_login_landing', 'mem_landing', 'signup_landing', 'preview_image', 'external_link_status', 'external_link', 'page_type');
+            $pageFields = array('id', 'template_id', 'parent_id', 'last_update', 'is_404page', 'show_in_menu', 'order', 'weight', 'silo_id', 'protected', 'system', 'draft', 'publish_at', 'news', 'err_login_landing', 'mem_landing', 'signup_landing', 'preview_image', 'external_link_status', 'external_link', 'page_type', 'page_folder', 'is_folder_index', 'exclude_category');
         }
         $select = $this->getAdapter()->select();
         if($originalsOnly) {

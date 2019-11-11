@@ -50,6 +50,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         $useCrop          = isset($this->_options[2]) ? (boolean)$this->_options[2] : false;
         $galFolder        = $path.(($useCrop) ? Tools_Image_Tools::FOLDER_CROP : Tools_Image_Tools::FOLDER_THUMBNAILS)
             .DIRECTORY_SEPARATOR;
+        $galFolderFirstLoad        = $path.Tools_Image_Tools::FOLDER_SMALL .DIRECTORY_SEPARATOR;
         if (!is_dir($galFolder)) {
             Tools_Filesystem_Tools::mkDir($galFolder);
         }
@@ -69,16 +70,22 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $height = 'auto';
         }
 
+        if(is_numeric($width) && !$useCrop) {
+            $galFolder = $path.Webbuilder_Tools_Filesystem::getMediaSubFolderByWidth($width).DIRECTORY_SEPARATOR;
+        }
+
         if (!is_dir($galFolder)) {
             Tools_Filesystem_Tools::mkDir($galFolder);
         }
 
         $websiteData = ($mediaServersAllowed) ? Zend_Registry::get('website') : null;
         $sourcePart  = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolder);
+        $sourcePartFirstLoad  = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $galFolderFirstLoad);
         foreach ($sourceImages as $key => $image) {
             // Update image
             if (is_file($galFolder.$image)) {
                 $imgInfo = getimagesize($galFolder.$image);
+
                 if ($imgInfo[0] != $width && ($imgInfo[1] != $height || $height != 'auto')) {
                     Tools_Image_Tools::resizeByParameters(
                         $pathFileOriginal.$image,
@@ -102,14 +109,17 @@ class Widgets_Gal_Gal extends Widgets_Abstract
                 );
             }
 
+            $sourcePartPath = $sourcePart;
+
             if ($mediaServersAllowed) {
                 $mediaServer     = Tools_Content_Tools::getMediaServer();
                 $cleanWebsiteUrl = str_replace('www.', '', $websiteData['url']);
-                $sourcePart      = str_replace($websiteData['url'], $mediaServer.'.'.$cleanWebsiteUrl, $sourcePart);
+                $sourcePartPath  = str_replace($websiteData['url'], $mediaServer.'.'.$cleanWebsiteUrl, $sourcePart);
             }
             $sourceImages[$key] = array(
-                'path' => $sourcePart.$image,
-                'name' => $image
+                'path' => $sourcePartPath.$image,
+                'name' => $image,
+                'firstloadPath' =>  $sourcePartFirstLoad.$image
             );
         }
 

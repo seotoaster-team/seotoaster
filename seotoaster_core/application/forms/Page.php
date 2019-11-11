@@ -8,6 +8,8 @@ class Application_Form_Page extends Application_Form_Secure {
 
 	protected $_url             = '';
 
+	protected $_pageFolder      = 0;
+
 	protected $_navName         = '';
 
 	protected $_metaDescription = '';
@@ -38,6 +40,8 @@ class Application_Form_Page extends Application_Form_Secure {
 
     protected $_externalLink = '';
 
+    protected $_excludeCategory = '';
+
 	public function init() {
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
@@ -59,6 +63,15 @@ class Application_Form_Page extends Application_Form_Secure {
 			'required' => true,
 			'filters'  => array('StringTrim')
 		)));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'pageFolder',
+            'id'           => 'folder',
+            'class'        => 'grid_8 alpha omega',
+            'multiOptions' => ['0' => 'Select a folder'] + Tools_Page_Tools::getPageFolders(),
+            'registerInArrayValidator' => false,
+            'value' => $this->_pageFolder
+        )));
 
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'id'       => 'url',
@@ -211,6 +224,10 @@ class Application_Form_Page extends Application_Form_Secure {
             'value' => $this->_removePreviousOption
         )));
 
+        $this->addElement('checkbox', 'excludeCategory', array(
+            'value' => $this->excludeCategory
+        ));
+
 		//$this->setDecorators(array('ViewScript'));
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 		$this->getElement('updatePage')->removeDecorator('Label');
@@ -235,6 +252,16 @@ class Application_Form_Page extends Application_Form_Secure {
 		$this->getElement('headerTitle')->setValue($headerTitle);
 		return $this;
 	}
+
+    public function getPageFolder() {
+        return $this->_pageFolder;
+    }
+
+    public function setPageFolder($folder) {
+        $this->_pageFolder = $folder;
+        $this->getElement('pageFolder')->setValue($folder);
+        return $this;
+    }
 
 	public function getUrl() {
 		return $this->_url;

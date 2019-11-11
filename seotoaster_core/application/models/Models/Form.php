@@ -44,6 +44,8 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
 
     protected $_adminMailTemplate = '';
 
+    protected $_replyEmail = '';
+
     public function getId()
     {
         return $this->_id;
@@ -289,6 +291,25 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
     public function setAdminMailTemplate($adminMailTemplate)
     {
         $this->_adminMailTemplate = $adminMailTemplate;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReplyEmail()
+    {
+        return $this->_replyEmail;
+    }
+
+    /**
+     * @param string $replyEmail
+     * @return string
+     */
+    public function setReplyEmail($replyEmail)
+    {
+        $this->_replyEmail = $replyEmail;
 
         return $this;
     }
