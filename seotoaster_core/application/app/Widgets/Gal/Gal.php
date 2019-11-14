@@ -123,8 +123,8 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             );
         }
 
-        $this->_view->original = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path)
-            .Tools_Image_Tools::FOLDER_ORIGINAL.DIRECTORY_SEPARATOR;
+        $this->_view->small = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path)
+            .Tools_Image_Tools::FOLDER_SMALL.DIRECTORY_SEPARATOR;
         $this->_view->folder              = $this->_options[0];
         $this->_view->images              = $sourceImages;
         $this->_view->thumbnails          = $this->_options[1];

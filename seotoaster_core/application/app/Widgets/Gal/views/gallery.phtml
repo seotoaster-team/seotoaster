@@ -4,7 +4,7 @@
             <?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
             <li class="gallery_image">
                 <?php if (!isset($this->block)): ?>
-                <a class="gall" href="<?php echo $this->original . $image['name']; ?>"
+                <a class="gall" href="<?php echo $this->small . $image['name']; ?>"
                    data-fancybox-group="<?php echo $this->folder; ?>"
                    title="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>">
                     <?php endif; ?>
