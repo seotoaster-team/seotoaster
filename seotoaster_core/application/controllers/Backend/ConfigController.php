@@ -297,6 +297,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 }
             }
         }
+
+        $cmsBrandName =  strtolower(Tools_System_Whitelabel::getCmsBrandName());
+
+        if(strtolower($actionsOptions['seotoaster']) != $cmsBrandName) {
+            $actionsOptions['seotoaster'] = ucfirst($cmsBrandName);
+        }
+
         $this->view->actionsOptions = $actionsOptions;
         $this->view->actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
     }
