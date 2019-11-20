@@ -6,10 +6,10 @@ class Tools_System_FormBlacklist
      * Check whether params are blacklisted
      *
      * @param string $email email address
-     * @param string $ipAddress email address
+     * @param array $params array of params
      * @return bool
      */
-    public static function isBlacklisted($email, $ipAddress = '')
+    public static function isBlacklisted($email, $params = array())
     {
         if (self::isBlacklistedEmail($email)) {
             return true;
@@ -26,6 +26,11 @@ class Tools_System_FormBlacklist
         $emailParts = explode('@', $email);
         if (self::isBlacklistedDomain('@'.$emailParts[1])) {
             return true;
+        }
+
+
+        if (!empty($params)) {
+            return self::isBlacklistedHtmlTags($params);
         }
 
         return false;
@@ -87,6 +92,35 @@ class Tools_System_FormBlacklist
 
     }
 
+    /**
+     * Check whether html tags are blacklisted
+     * @param array $params array of params
+     * @return bool
+     */
+    public static function isBlacklistedHtmlTags($params)
+    {
+        $formBlacklistRulesMapper = Application_Model_Mappers_FormBlacklistRulesMapper::getInstance();
+        $result = $formBlacklistRulesMapper->getByHtmlTags();
+        if (empty($result)) {
+            return false;
+        }
+
+        if (empty($params)) {
+            return false;
+        }
+
+        if (empty($result[0]['value'])) {
+            return false;
+        }
+
+        foreach ($params as $param) {
+            if ($param != strip_tags($param)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 }
