@@ -149,7 +149,7 @@
                         <?php if($this->useGoogleRecaptcha):?>
                         grecaptcha.reset();
                         <?php endif;?>
-                        showMessage(response.responseText, response.error);
+                        showMessage(response.responseText, response.error, 5000);
                     }
                 })
             }
