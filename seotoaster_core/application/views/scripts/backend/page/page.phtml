@@ -101,6 +101,7 @@
 		<fieldset class="grid_6">
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
+                <span class="remove-teaser-image icon12 ticon-close error <?php echo (empty($this->existedPreviewImage) ? 'hide' : ''); ?>"><?php echo $this->translate('Delete image');?></span>
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
 				<span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
 				<?php
@@ -115,7 +116,6 @@
                 ); ?>
 			</div>
 		</fieldset>
-        <span class="btn red remove-teaser-image <?php echo (empty($this->existedPreviewImage) ? 'hide' : ''); ?>"><?php echo $this->translate('Delete image');?></span>
         <?php echo $this->pageForm->getElement('removePreviousOption'); ?>
 		<?php echo $this->pageForm->getElement('pageId'); ?>
 		<?php echo $this->pageForm->getElement('draft'); ?>
