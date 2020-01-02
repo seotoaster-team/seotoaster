@@ -10,149 +10,149 @@
 //==================================================
 
 .reset-style {
-    .reset-style;
+	.reset-style;
 }
 
 html, body, .seotoaster {
-    height : 100%;
+	height : 100%;
 }
 
 body {
-    font-family : @font-family-text;
-    line-height : @line-height;
-    color       : @text-color;
-    background  : #FFFFFF;
-    //    .user-select();
+	font-family : @font-family-text;
+	line-height : @line-height;
+	color       : @text-color;
+	background  : #FFFFFF;
+	//    .user-select();
 }
 
 .seotoaster {
-    //background : @body-bg;
-    color     : @text-color;
-    font-size : @font-size-base;
-    //    .user-select();
+	//background : @body-bg;
+	color     : @text-color;
+	font-size : @font-size-base;
+	//    .user-select();
 
-    &.go-form {
-        margin-top : 15%;
-        padding    : 2px;
-        height     : auto;
-        width      : 400px;
-        .box-shadow(0 5px 15px #777777);
+	&.go-form {
+		margin-top : 15%;
+		padding    : 2px;
+		height     : auto;
+		width      : 400px;
+		.box-shadow(0 5px 15px #777777);
 
-        .flag-button {
-            float       : left;
-            margin-left : 8px;
-        }
-    }
+		.flag-button {
+			float       : left;
+			margin-left : 8px;
+		}
+	}
 }
 
 .header {
-    background  : @header-bg;
-    color       : @header-color;
-    overflow    : hidden;
-    line-height : @header-height;
-    height      : @header-height;
-    padding     : 0 15px;
-    font-size   : @font-size-large;
-    position    : relative;
+	background  : @header-bg;
+	color       : @header-color;
+	overflow    : hidden;
+	line-height : @header-height;
+	height      : @header-height;
+	padding     : 0 15px;
+	font-size   : @font-size-large;
+	position    : relative;
 
-    .shadow {
-        .box-shadow(0 5px 15px #FFFFFF);
-    }
+	.shadow {
+		.box-shadow(0 5px 15px #FFFFFF);
+	}
 
-    & > * {
-        font-size : @font-size-base;
-    }
+	& > * {
+		font-size : @font-size-base;
+	}
 
-    .ui-tabs &.ui-tabs-nav {
-        //        padding-right : 8%;
+	.ui-tabs &.ui-tabs-nav {
+		//        padding-right : 8%;
 
-        .ui-tabs-anchor {
-            padding-top    : 0 !important;
-            padding-bottom : 0 !important;
-        }
-    }
+		.ui-tabs-anchor {
+			padding-top    : 0 !important;
+			padding-bottom : 0 !important;
+		}
+	}
 
-    a {
-        text-decoration : none;
-    }
+	a {
+		text-decoration : none;
+	}
 }
 
 .header-inner {
-    background     : @header-inner-bg;
-    color          : @header-inner-color;
-    overflow       : hidden;
-    padding-top    : @padding-base-vertical;
-    padding-bottom : @padding-base-vertical;
+	background     : @header-inner-bg;
+	color          : @header-inner-color;
+	overflow       : hidden;
+	padding-top    : @padding-base-vertical;
+	padding-bottom : @padding-base-vertical;
 
-    a {
-        color : inherit;
-    }
+	a {
+		color : inherit;
+	}
 }
 
 .pluginspace {
-    float        : right;
-    margin-right : @grid-margin-width;
+	float        : right;
+	margin-right : @grid-margin-width;
 }
 
 .closebutton {
-    //    position    : absolute;
-    //    top         : 0;
-    //    right       : 2%;
-    //    z-index     : 100;
-    background  : @header-bg;
-    float       : right;
-    line-height : 40px;
-    padding     : 0 15px;
-    position    : relative;
-    z-index     : 100;
+	//    position    : absolute;
+	//    top         : 0;
+	//    right       : 2%;
+	//    z-index     : 100;
+	background  : @header-bg;
+	float       : right;
+	line-height : 40px;
+	padding     : 0 15px;
+	position    : relative;
+	z-index     : 100;
 
-    &:before {
-        //        content : "\a0";
-        content : "";
-        width   : 0;
-        .inline-block();
-    }
+	&:before {
+		//        content : "\a0";
+		content : "";
+		width   : 0;
+		.inline-block();
+	}
 
-    .header > & {
-        padding : 0;
-        //        float       : right;
-        //        margin-left : 0;
-        //        position    : static;
-    }
+	.header > & {
+		padding : 0;
+		//        float       : right;
+		//        margin-left : 0;
+		//        position    : static;
+	}
 
-    .show-left & {
-        float : left;
-    }
+	.show-left & {
+		float : left;
+	}
 
-    a {
-        text-decoration : none;
-        padding         : 0 3px;
-        .inline-block(top);
-        .box-sizing(content-box);
-    }
+	a {
+		text-decoration : none;
+		padding         : 0 3px;
+		.inline-block(top);
+		.box-sizing(content-box);
+	}
 
-    .help {
-        .link-color(@gray, @brand-info);
-        .icon-size(14px) !important;
-        //        margin-right : 5px;
+	.help {
+		.link-color(@gray, @brand-info);
+		.icon-size(14px) !important;
+		//        margin-right : 5px;
 
-        &:hover {
-        }
-    }
+		&:hover {
+		}
+	}
 
-    .close {
-        .icon-size(13px) !important;
-    }
+	.close {
+		.icon-size(13px) !important;
+	}
 
-    .hide-block {
-        .icon-size(15px) !important;
-    }
+	.hide-block {
+		.icon-size(15px) !important;
+	}
 
-    .close, .hide-block {
-        .link-color(@gray, @brand-error);
-        &:hover {
-        }
-    }
+	.close, .hide-block {
+		.link-color(@gray, @brand-error);
+		&:hover {
+		}
+	}
 }
 
 @content-margin-top : 15px;
@@ -160,294 +160,302 @@ body {
 @footer-height : @button-height-base + @content-margin-top + @content-margin-bottom;
 
 .seotoaster {
-    .content-auto,
-    .content, .content-footer,
-    .content-medium, .content-medium-footer,
-    .content-small, .content-small-footer,
-    .content-screen, .content-screen-footer,
-    .with-content > .ui-tabs-panel, .with-content-footer > .ui-tabs-panel {
-        position       : static;
-        background     : @body-bg;
-        margin-top     : 0 !important;
-        padding-top    : 0;
-        padding-bottom : 0;
-        border-top     : @content-margin-top solid #FFFFFF !important;
-        clear          : both;
-        .clearfix-mixin();
+	.content-auto,
+	.content, .content-footer,
+	.content-medium, .content-medium-footer,
+	.content-small, .content-small-footer,
+	.content-screen, .content-screen-footer,
+	.with-content > .ui-tabs-panel, .with-content-footer > .ui-tabs-panel {
+		position       : static;
+		background     : @body-bg;
+		margin-top     : 0 !important;
+		padding-top    : 0;
+		padding-bottom : 0;
+		border-top     : @content-margin-top solid #FFFFFF !important;
+		clear          : both;
+		.clearfix-mixin();
 
-        &.screen-expand {
-            height : auto !important;
-        }
+		&.screen-expand {
+			height : auto !important;
+		}
 
-        .ui-tabs &.ui-tabs-panel {
-            padding : 10px @grid-margin-width / 2 0;
-        }
-    }
+		.ui-tabs &.ui-tabs-panel {
+			padding : 10px @grid-margin-width / 2 0;
+		}
+	}
 }
 
 .content, .content-medium, .content-small, .content-auto, .content-screen {
-    margin-bottom : 0 !important;
-    border-bottom : @content-margin-bottom solid #FFFFFF;
+	margin-bottom : 0 !important;
+	border-bottom : @content-margin-bottom solid #FFFFFF;
 }
 
 .content, .with-content > .ui-tabs-panel {
-    height : @tpopup-base-height - @header-height;
+	height : @tpopup-base-height - @header-height;
 }
 
 .content-footer, .with-content-footer > .ui-tabs-panel {
-    height : @tpopup-base-height - @header-height - @footer-height;
+	height : @tpopup-base-height - @header-height - @footer-height;
 }
 
 .content-medium {
-    height : @tpopup-medium-height - @header-height;
+	height : @tpopup-medium-height - @header-height;
 }
 
 .content-medium-footer {
-    height : @tpopup-medium-height - @header-height - @footer-height;
+	height : @tpopup-medium-height - @header-height - @footer-height;
 }
 
 .content-small {
-    height : @tpopup-small-height - @header-height;
+	height : @tpopup-small-height - @header-height;
 }
 
 .content-small-footer {
-    height : @tpopup-small-height - @header-height - @footer-height;
+	height : @tpopup-small-height - @header-height - @footer-height;
 }
 
 .content-screen, .content-screen-footer {
-    position : absolute !important;
-    top      : @header-height;
-    left     : 0;
-    right    : 0;
-    bottom   : 0;
+	position : absolute !important;
+	top      : @header-height;
+	left     : 0;
+	right    : 0;
+	bottom   : 0;
 }
 
 .content-screen-footer {
-    bottom : @footer-height;
+	bottom : @footer-height;
 }
 
 .footer, footer {
-    clear         : both;
-    margin-top    : @content-margin-top !important;
-    margin-bottom : @content-margin-bottom !important;
-    height        : @button-height-base;
-    line-height   : @button-height-base;
+	clear         : both;
+	margin-top    : @content-margin-top !important;
+	margin-bottom : @content-margin-bottom !important;
+	height        : @button-height-base;
+	line-height   : @button-height-base;
 
-    //    [class*="content"].grid_12+&{
-    //        padding-left  : @grid-margin-width / 2;
-    //        padding-right : @grid-margin-width / 2;
-    //    }
+	//    [class*="content"].grid_12+&{
+	//        padding-left  : @grid-margin-width / 2;
+	//        padding-right : @grid-margin-width / 2;
+	//    }
 
-    [type="submit"], [type="button"] {
-        margin-top : 0 !important;
-    }
+	[type="submit"], [type="button"] {
+		margin-top : 0 !important;
+	}
 
-    [class*="content-"] > &, .content > & {
-        background    : @body-bg;
-        margin-bottom : 0 !important;
-    }
+	[class*="content-"] > &, .content > & {
+		background    : @body-bg;
+		margin-bottom : 0 !important;
+	}
 
-    .content-screen-footer + & {
-        position : absolute;
-        bottom   : 0;
-        left     : 0;
-        right    : 0;
-    }
+	.content-screen-footer + & {
+		position : absolute;
+		bottom   : 0;
+		left     : 0;
+		right    : 0;
+	}
 }
 
 // -- Page preview
 .page-preview {
-    .box-shadow(0 1px 1px #BBBBBB);
-    border           : 1px solid rgba(0, 0, 0, 0);
-    padding          : 0;
-    background       : #FFFFFF;
-    height           : 130px;
-    overflow         : hidden;
-    position         : relative;
-    cursor           : pointer;
-    border-top-color : #EEEEEE;
+	.box-shadow(0 1px 1px #BBBBBB);
+	border           : 1px solid rgba(0, 0, 0, 0);
+	padding          : 0;
+	background       : #FFFFFF;
+	height           : 130px;
+	overflow         : hidden;
+	position         : relative;
+	cursor           : pointer;
+	border-top-color : #EEEEEE;
 
-    &.error {
-        border-color : @brand-error;
-    }
+	&.error {
+		border-color : @brand-error;
+	}
 
-    img {
-        height   : 100%;
-        width    : 100%;
-        position : relative;
-        z-index  : 0;
-    }
+	img {
+		height   : 100%;
+		width    : 100%;
+		position : relative;
+		z-index  : 0;
+	}
 
-    img[src*="noimage.png"] {
-        & + span {
-            background  : @body-bg;
-            display     : block;
-            position    : absolute;
-            top         : 0;
-            left        : 0;
-            bottom      : 0;
-            right       : 0;
-            padding     : 0 20px;
-            text-align  : center;
-            color       : lighten(@gray, 20%);
-            line-height : normal;
-            font-size   : 16px;
+	img[src*="noimage.png"] {
+		& + span {
+			background  : @body-bg;
+			display     : block;
+			position    : absolute;
+			top         : 0;
+			left        : 0;
+			bottom      : 0;
+			right       : 0;
+			padding     : 0 20px;
+			text-align  : center;
+			color       : lighten(@gray, 20%);
+			line-height : normal;
+			font-size   : 16px;
 
-            &:before {
-                font-size : 54px;
-                color     : @gray-light;
-                display   : block;
-                margin    : 10px;
-            }
-        }
-    }
+			&:before {
+				font-size : 54px;
+				color     : @gray-light;
+				display   : block;
+				margin    : 10px;
+			}
+		}
+	}
 
-    & > [id*="teaser-uploader"] {
-        position : absolute;
-        top      : 0;
-        left     : 0;
-        right    : 0;
-        bottom   : 0;
+	& > [id*="teaser-uploader"] {
+		position : absolute;
+		top      : 0;
+		left     : 0;
+		right    : 0;
+		bottom   : 0;
 
-        button {
-            height     : 100%;
-            padding    : 0;
-            width      : 100%;
-            background : transparent;
-            color      : transparent;
-            z-index    : 50;
+		button {
+			height     : 100%;
+			padding    : 0;
+			width      : 100%;
+			background : transparent;
+			color      : transparent;
+			z-index    : 50;
 
-            &:active {
-                .box-shadow(none);
-            }
-        }
-    }
+			&:active {
+				.box-shadow(none);
+			}
+		}
+	}
 
-    [id*="teaser-uploader-filelist"] {
-        //        display : none;
-        top        : auto;
-        height     : 20px;
-        text-align : left;
-        overflow   : hidden;
-    }
+	[id*="teaser-uploader-filelist"] {
+		//        display : none;
+		top        : auto;
+		height     : 20px;
+		text-align : left;
+		overflow   : hidden;
+	}
 
-    &:hover {
-        img[src*="noimage.png"] {
-            & + span {
-                color : lighten(@gray, 10%);
+	&:hover {
+		img[src*="noimage.png"] {
+			& + span {
+				color : lighten(@gray, 10%);
 
-                &:before {
-                    color : darken(@gray-light, 5%);
-                }
-            }
-        }
-    }
+				&:before {
+					color : darken(@gray-light, 5%);
+				}
+			}
+		}
+	}
+	.remove-teaser-image {
+		position   : absolute;
+		top        : 0;
+		right      : 0;
+		z-index    : 51;
+		padding    : 5px;
+		background : #eaeaea;
+	}
 }
 
 .plupload {
-    display : none;
+	display : none;
 
-    &.html5 {
-        // margin-top : -0.75em;
-    }
+	&.html5 {
+		// margin-top : -0.75em;
+	}
 
-    input {
-        height : 100%;
-        cursor : pointer;
-    }
+	input {
+		height : 100%;
+		cursor : pointer;
+	}
 
-    & + form {
-        z-index : 999999;
-    }
+	& + form {
+		z-index : 999999;
+	}
 }
 
 // Specificity overrides
 input[type="submit"], input[type="reset"], input[type="button"] {
-    &.block {
-        width : 100%;
-    }
+	&.block {
+		width : 100%;
+	}
 }
 
 //	User button
 // --------------------------------------------------
 [type="submit"], .save-and-close, #save-btn {
-    float : right;
+	float : right;
 }
 
 .card-ui {
-    @card-ui-bg : #FFFFFF;
-    @card-ui-border-color : #F0F0F0;
-    @card-ui-border-radius : 3px;
-    @card-ui-shadow : 0px 0px 2px rgba(0, 0, 0, 0.15), 0px 2px 45px rgba(0, 0, 0, 0.075);
-    @card-ui-content-padding : 30px;
+	@card-ui-bg : #FFFFFF;
+	@card-ui-border-color : #F0F0F0;
+	@card-ui-border-radius : 3px;
+	@card-ui-shadow : 0px 0px 2px rgba(0, 0, 0, 0.15), 0px 2px 45px rgba(0, 0, 0, 0.075);
+	@card-ui-content-padding : 30px;
 
-    /////////////////
-    position         : relative;
-    z-index          : 5;
-    font-size        : 14px;
-    background-color : @card-ui-bg;
-    //border           : 1px solid @card-ui-border-color;
-    box-shadow       : @card-ui-shadow;
-    border-radius    : @card-ui-border-radius;
+	/////////////////
+	position         : relative;
+	z-index          : 5;
+	font-size        : 14px;
+	background-color : @card-ui-bg;
+	//border           : 1px solid @card-ui-border-color;
+	box-shadow       : @card-ui-shadow;
+	border-radius    : @card-ui-border-radius;
 
-    .card-title {
-        font-size     : 1.5em;
-        padding-left  : @card-ui-content-padding;
-        padding-right : @card-ui-content-padding;
-        height        : 70px;
-        color         : #454545;
-        border-bottom : 1px solid @card-ui-border-color;
-        .flexbox(row; wrap; center);
+	.card-title {
+		font-size     : 1.5em;
+		padding-left  : @card-ui-content-padding;
+		padding-right : @card-ui-content-padding;
+		height        : 70px;
+		color         : #454545;
+		border-bottom : 1px solid @card-ui-border-color;
+		.flexbox(row; wrap; center);
 
-        &::after {
-            content : none;
-        }
-    }
+		&::after {
+			content : none;
+		}
+	}
 
-    .card-messages {
-        font-weight      : normal;
-        //font-size        : 1em;
-        margin-bottom    : 0;
-        margin-top       : -1px;
-        padding-top      : 0.75em;
-        padding-bottom   : 0.75em;
-        padding-left     : @card-ui-content-padding;
-        color            : @gray-light;
-        background-color : darken(#FFFFFF, 2%);
-        border-top       : 1px solid darken(#FFFFFF, 5%);;
-        border-bottom    : 1px solid darken(#FFFFFF, 5%);
+	.card-messages {
+		font-weight      : normal;
+		//font-size        : 1em;
+		margin-bottom    : 0;
+		margin-top       : -1px;
+		padding-top      : 0.75em;
+		padding-bottom   : 0.75em;
+		padding-left     : @card-ui-content-padding;
+		color            : @gray-light;
+		background-color : darken(#FFFFFF, 2%);
+		border-top       : 1px solid darken(#FFFFFF, 5%);;
+		border-bottom    : 1px solid darken(#FFFFFF, 5%);
 
-        &.error {
+		&.error {
 
-            background-color    : lighten(@brand-error, 40%);
-            color               : darken(@brand-error, 25%);
-            font-weight         : 600;
-            font-size           : 13px;
-            border-top-color    : lighten(@brand-error, 35%);
-            border-bottom-color : lighten(@brand-error, 35%);
-        }
+			background-color    : lighten(@brand-error, 40%);
+			color               : darken(@brand-error, 25%);
+			font-weight         : 600;
+			font-size           : 13px;
+			border-top-color    : lighten(@brand-error, 35%);
+			border-bottom-color : lighten(@brand-error, 35%);
+		}
 
-        li {
-            margin : 0.25em 0;
-        }
-    }
+		li {
+			margin : 0.25em 0;
+		}
+	}
 
-    .card-content {
-        padding  : @card-ui-content-padding @card-ui-content-padding;
-        position : relative;
-        z-index  : 3;
+	.card-content {
+		padding  : @card-ui-content-padding @card-ui-content-padding;
+		position : relative;
+		z-index  : 3;
 
-        &::after {
-            content : none;
-        }
-    }
+		&::after {
+			content : none;
+		}
+	}
 
-    .btn-area {
-        padding : 0 @card-ui-content-padding @card-ui-content-padding;
-        .flexbox(row; wrap; center);
+	.btn-area {
+		padding : 0 @card-ui-content-padding @card-ui-content-padding;
+		.flexbox(row; wrap; center);
 
-        &::after {
-            content : none;
-        }
-    }
+		&::after {
+			content : none;
+		}
+	}
 }
