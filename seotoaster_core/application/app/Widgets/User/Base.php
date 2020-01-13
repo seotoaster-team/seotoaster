@@ -120,7 +120,7 @@ class Widgets_User_Base extends Widgets_Abstract {
 
     protected function _renderPrefix() {
         $translator = Zend_Registry::get('Zend_Translate');
-        $userPrefixes = array('' => $translator->translate('Select')) + array_combine(self::$userPrefixes, self::$userPrefixes);
+        $userPrefixes = array('' => $translator->translate('Select')) + Tools_System_Tools::getAllowedPrefixesList();
 
         $userPrefix = $this->_user->getPrefix();
 

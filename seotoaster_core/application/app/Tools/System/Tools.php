@@ -865,4 +865,24 @@ class Tools_System_Tools {
         return $ip;
     }
 
+    /**
+     * Get allowed prefixes
+     *
+     * @return array
+     * @throws Zend_Exception
+     */
+    public static function getAllowedPrefixesList()
+    {
+        $restrictedLanguagesList = array('fr', 'fr_FR');
+        $locale = Zend_Registry::get('Zend_Locale');
+        $language = $locale->getLanguage();
+        $prefixes = Widgets_User_Base::$userPrefixes;
+        $prefixes = array_combine($prefixes, $prefixes);
+        if (in_array($language, $restrictedLanguagesList, true)) {
+            unset($prefixes['Mrs']);
+        }
+
+        return $prefixes;
+    }
+
 }
