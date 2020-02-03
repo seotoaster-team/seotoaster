@@ -65,7 +65,9 @@
 				</div>
                 <div class="grid_12">
                     <label><?php echo $this->translate('Subscribed');?> <input id="user-subscribe" type="checkbox" name="subscribed" value="1" /></label>
-                    <label><?php echo $this->translate('Allow remote login');?> <input id="allow-remote-login" type="checkbox" name="allowRemoteAuthorization" value="1" /></label>
+                    <label class="inline-block"><?php echo $this->translate('Allow remote login');?></label>
+                    <i title="<?php echo $this->translate('Aka: Single Sign On - Let you log into your system from your Marketing hub dashboard.');?>" class="ticon-info tooltip icon18"></i>
+                    <input id="allow-remote-login" type="checkbox" name="allowRemoteAuthorization" value="1" />
                 </div>
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('signature'); ?>
@@ -205,6 +207,8 @@
 </div>
 <script type="text/javascript">
 	$(function() {
+
+        $('.tooltip').tooltip();
 
         var websiteUrl = '<?php echo $this->websiteUrl;?>';
 
