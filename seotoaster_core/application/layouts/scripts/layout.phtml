@@ -36,10 +36,11 @@
                 ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
                 ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
 
-            if (!empty($this->bodyTag)) {
-                $this->headLink()
-                    ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
-            }
+        }
+
+        if (!empty($this->bodyTag)) {
+            $this->headLink()
+                ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
         }
     }
     if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {

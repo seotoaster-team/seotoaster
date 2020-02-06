@@ -65,7 +65,9 @@
 				</div>
                 <div class="grid_12">
                     <label><?php echo $this->translate('Subscribed');?> <input id="user-subscribe" type="checkbox" name="subscribed" value="1" /></label>
-                    <label><?php echo $this->translate('Allow remote login');?> <input id="allow-remote-login" type="checkbox" name="allowRemoteAuthorization" value="1" /></label>
+                    <label class="inline-block"><?php echo $this->translate('Allow remote login');?></label>
+                    <i title="<?php echo $this->translate('Aka: Single Sign On - Let you log into your system from your Marketing hub dashboard.');?>" class="ticon-info tooltip icon18"></i>
+                    <input id="allow-remote-login" type="checkbox" name="allowRemoteAuthorization" value="1" />
                 </div>
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('signature'); ?>
@@ -187,6 +189,9 @@
                             ?>
                             <a data-url="<?php echo $this->toasterLink('user', 'load', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="_tedit ticon-pencil" data-callback="afterUserEdit"></a>
                             <a data-url="<?php echo $this->toasterLink('user', 'delete', '', null, true); ?>" data-ignore-custom-message="<?php echo $ignoreCustomMessage;?>" data-eid="<?php echo $user['id']; ?>" data-callback="userCallbackDelay" class="del-user _tdelete error ticon-remove" href="javascript:;"></a>
+                            <?php if ($this->currentLoggedUserRole === Tools_Security_Acl::ROLE_ADMIN || $this->currentLoggedUserRole === Tools_Security_Acl::ROLE_SUPERADMIN): ?>
+                                <a data-url="<?php echo $this->toasterLink('user', 'loginas', '', null, true); ?>" data-eid="<?php echo $user['id']; ?>" href="javascript:;" class="ticon-users2 login-as-user"></a>
+                            <?php endif;?>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -202,6 +207,8 @@
 </div>
 <script type="text/javascript">
 	$(function() {
+
+        $('.tooltip').tooltip();
 
         var websiteUrl = '<?php echo $this->websiteUrl;?>';
 
@@ -258,6 +265,26 @@
 
         $('#user-mobile-phone').mask('(999) 999 9999', {autoclear: false});
         $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
+
+        $(document).on('click', '.login-as-user', function(e){
+            e.preventDefault();
+            $.ajax({
+                'url': '<?php echo $this->websiteUrl;?>' + 'backend/backend_user/loginas/',
+                'type': 'POST',
+                'dataType': 'json',
+                'data': {
+                    'userId': $(this).data('eid'),
+                    'secureToken': $('#secure-token-user-default-attribute').val()
+                }
+            }).done(function (response) {
+                if (response.error == '0') {
+                    window.parent.location.reload();
+                } else {
+                    showMessage(response.responseText, true, 5000);
+                }
+
+            });
+        });
 
         $(document).on('click', '#add-user-link', function(e){
             e.preventDefault();
