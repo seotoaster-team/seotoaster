@@ -1018,7 +1018,7 @@
     'SMTP Password' => 'SMTP : Mot de Passe',
     'Set canonicalization tag to' => 'Changer le Tag de Canonicalisation',
     'Enable edit zones highlighting?' => 'Activer le Surlignage des zones d\'édition ?',
-    'Speed up your site. Insert the following CNAME records into your DNS server' => 'Accélérez votre site. Indiquez l\'information CNAME suivante dans votre serveur DNS',
+    'Speed up your site. Insert the following CNAME records into your DNS server:' => 'Accélérez votre site. Insérez de tels enregistrements CNAME dans votre serveur DNS:',
     'reCAPTCHA public key' => 'reCAPTCHA : Clé Publique',
     'reCAPTCHA private Key' => 'reCAPTCHA : Clé Privée',
     'Get your own reCAPTCHA key here now.'=> 'Récupérer votre propre clé reCAPTCHA ici',
@@ -1236,6 +1236,20 @@
     'Ms' => 'Mme',
     'Miss' => 'Mlle',
     'Dr' => 'Dr',
-    'Exclude category from the menu' => 'Exclure la catégorie du menu'
+    'Exclude category from the menu' => 'Exclure la catégorie du menu',
+    'Member pages in menu?' => 'Page Membre est dans le menu?',
+    'Image size' => 'Taille d\'image',
+    'greCAPTCHA public key' => 'greCAPTCHA : Clé Publique',
+    'greCAPTCHA private Key' => 'greCAPTCHA : Clé Privée',
+    'Enable assets minification js?' => 'Activer les modifications d\'assets js?',
+    'Enable assets minification css?' => 'Activer les modifications d\'assets css?',
+    'Enable developer mode?' => 'Activer le mode développeur?',
+    'Exclude system css?' => 'Exclure le système css?',
+    'Use mediaServers?' => 'Utiliser des serveurs média?',
+    'Site map settings' => 'Carte du site',
+    'Select page number limit for sitemapindex.xml' => 'Sélectionnez la limite du nombre de pages pour sitemapindex.xml',
+    'Attention!' => 'Attention!',
+    'When enabled "Developer mode" disables some functionality that speeds up your sites. Do not forget to turn off the "Developer mode" after work.' => 'Quand "Le mode développeur" activé met certaine fonctionnalité hors service, cela accélère vos sites. N\'oubliez pas d\'éteindre "Le mode développeur" après le travail.',
+    'Google API key' => 'Google API clé'
 
 );?>
