@@ -21,7 +21,7 @@ class SignupController extends Zend_Controller_Action {
 			$signupForm = new Application_Form_Signup();
             $formData = $this->_request->getParams();
             if (empty($formData['PageId'])) {
-                $this->_helper->flashMessenger->addMessage('missing page id');
+                $this->_helper->flashMessenger->addMessage($this->_helper->language->translate('missing page id'));
                 $signupPageUrl = $this->_helper->session->signupPageUrl;
                 $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
             }
@@ -29,7 +29,7 @@ class SignupController extends Zend_Controller_Action {
             $pageId = $formData['PageId'];
             $signupFormKeyParams = 'signUpKeyParams'.$pageId;
             if (!isset($this->_helper->session->$signupFormKeyParams)) {
-                $this->_helper->flashMessenger->addMessage('Error: missing signup key. Please, try again');
+                $this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Error: missing signup key. Please, try again'));
                 $signupPageUrl = $this->_helper->session->signupPageUrl;
                 $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
             }
@@ -159,7 +159,7 @@ class SignupController extends Zend_Controller_Action {
                 $errMsgs = $signupForm->getMessages();
 
 			    if(!$isValid) {
-                    $errMsgs['verification']['missingValue'] = 'Recaptcha failed';
+                    $errMsgs['verification']['missingValue'] =  $this->_helper->language->translate('Recaptcha failed');
                 }
                 $this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($errMsgs, get_class($signupForm)));
 
