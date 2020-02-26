@@ -201,7 +201,7 @@ class Widgets_Search_Search extends Widgets_Abstract
         $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
         if ($request->has('search')) {
-            $searchTerm = strip_tags($request->getParam('search'));
+            $searchTerm = strip_tags(rtrim($request->getParam('search'), ")"));
             if (mb_strlen($searchTerm) < 3) {
                 return sprintf(
                     $this->_translator->translate(
