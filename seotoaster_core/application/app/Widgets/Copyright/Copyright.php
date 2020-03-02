@@ -16,7 +16,7 @@ class Widgets_Copyright_Copyright extends Widgets_Abstract
     protected function _load()
     {
         $currentYear = Tools_System_Tools::convertDateFromTimezone('now', false, 'UTC', 'Y');
-        return self::COPYRIGHT_SYMBOL . ' ' . $currentYear;
+        return '<span class="copyright-symbol">' . self::COPYRIGHT_SYMBOL . '</span> ' . $currentYear;
     }
 }
 
