@@ -103,11 +103,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
         }
 
         if(in_array('clearindex', $this->_options)) {
-            if($url == Helpers_Action_Website::DEFAULT_PAGE) {
-                $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
-
-                $url = $websiteHelper->getUrl();
-            }
+            $url = ($url === Helpers_Action_Website::DEFAULT_PAGE) ? '' : $url;
         }
 
         return $url;
