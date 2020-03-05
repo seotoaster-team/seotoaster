@@ -101,6 +101,15 @@ class Widgets_Page_Page extends Widgets_Abstract {
                 $url = $this->_toasterOptions['pageFolder'] . '/';
             }
         }
+
+        if(in_array('clearindex', $this->_options)) {
+            if($url == Helpers_Action_Website::DEFAULT_PAGE) {
+                $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
+
+                $url = $websiteHelper->getUrl();
+            }
+        }
+
         return $url;
     }
 
