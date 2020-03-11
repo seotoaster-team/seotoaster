@@ -1267,7 +1267,17 @@
     'Error: missing signup key. Please, try again' => 'Erreur: clé d\'inscription n\'est pas indiquée. Veuillez réessayer',
     'Recaptcha failed' => 'Recaptcha est manqué',
     'Token is incorrect. Please, enter your e-mail one more time.' => 'Le jeton est incorrecte. Veuillez indiquer votre adresse mail encore une fois.',
-    'Passwords should match' => 'Mot de passe doit correspondre'
+    'Passwords should match' => 'Mot de passe doit correspondre',
+    'Add / Edit deeplink' => 'Ajouter / Modifier un lien ciblé',
+    ' Local url' => ' Url local',
+    'No follow?' => 'Pas de suivi?',
+    'No follow' => 'Pas de suivi',
+    'Anchor text' => 'Texte d\'ancrage',
+    'Url' => 'Url',
+    'Rel' => 'Rel',
+    'Delete selected' => 'Supprimer le selectionné',
+    'Follow' => 'Suivre',
+    'Add deeplink' => 'Ajouter lien ciblé'
 
 
 );?>

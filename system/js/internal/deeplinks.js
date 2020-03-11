@@ -54,6 +54,8 @@ $(function() {
 						eval(callback + '()');
 					}
 				}
+			}, function () {
+				hideSpinner();
 			});
 		});
 	});
