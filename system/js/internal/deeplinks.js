@@ -1,5 +1,7 @@
 $(function() {
 
+	$('.chosen-select').chosen();
+
 	$('#urlType-label').hide();
 
 	loadDeeplinksList();

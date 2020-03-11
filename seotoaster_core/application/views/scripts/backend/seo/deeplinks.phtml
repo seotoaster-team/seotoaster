@@ -1,3 +1,8 @@
+<?php
+    $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/chosen/chosen.jquery.min.js');
+    $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css');
+?>
+
 <div class="seotoaster container refreshOnClose">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit deeplink', 'helpSection' => $this->helpSection)); ?>
 	<div class="content-footer">
