@@ -152,7 +152,11 @@ $grecaptchaPublicKey = $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY]
 <?php endif; ?>
 <script>
     $(function() {
-        $('.lazyload-img').lazyload();
+        var lazyload = $('.lazyload-img');
+
+        if(lazyload.length) {
+            lazyload.lazyload();
+        }
     });
 </script>
 </body>
