@@ -1,7 +1,7 @@
 $(function(){
     var currentUrl = decodeURI(window.location.href);
     if(currentUrl && typeof currentUrl!='undefined'){
-        var $currentLink = $("a[href='"+currentUrl+"']");
+        var $currentLink = $('a[href="'+currentUrl+'"]');
         $currentLink.addClass('current');
         if($currentLink.closest("li").length > 0 && $currentLink.closest("li").hasClass('category')){
                 $currentLink.closest("li").addClass('category-current');
@@ -15,7 +15,7 @@ $(function(){
             }
         }
         if(currentUrl==$('#website_url').val()){
-            var indexEl = $("a[href='"+$('#website_url').val()+"index.html']");
+            var indexEl = $('a[href="'+$('#website_url').val()+'index.html"]');
             indexEl.addClass('current');
             if(indexEl.closest("li").length > 0){
                 indexEl.closest("li").addClass('category-current');
