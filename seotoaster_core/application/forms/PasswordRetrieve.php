@@ -49,7 +49,8 @@ class Application_Form_PasswordRetrieve extends Zend_Form {
             'ignore' => true,
             'label'  => $translator->translate('Retrieve'),
             'aria-label' => 'Retrieve',
-            'type'   => 'submit'
+            'type'   => 'submit',
+            'decorators'=> array('ViewHelper')
         )));
 
         $this->removeDecorator('DtDdWrapper');
