@@ -4,12 +4,22 @@
             <?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
             <li class="gallery_image">
                 <?php if (!isset($this->block)): ?>
-                <a class="gall" href="<?php echo $this->original . $image['name']; ?>"
+                <a class="gall" href="<?php echo $this->small . $image['name']; ?>"
                    data-fancybox-group="<?php echo $this->folder; ?>"
                    title="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>">
                     <?php endif; ?>
-                    <img data-original="<?php echo $image['path']; ?>"
-                         src="<?php echo $image['path']; ?>"
+
+                    <?php
+                        $defaultSrc = $image['path'];
+                        $lazyload = '';
+                        if(!empty($this->useLazyload)) {
+                            $lazyload = 'lazyload-img';
+                            $defaultSrc = $image['firstloadPath'];
+                        }
+                    ?>
+
+                    <img class="<?php echo $lazyload; ?>" data-original="<?php echo $image['path']; ?>"
+                         src="<?php echo $defaultSrc; ?>"
                          alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
                          width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
                 <?php if (!isset($this->block)): ?></a><?php endif;?>
