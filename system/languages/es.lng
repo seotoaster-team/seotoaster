@@ -273,5 +273,12 @@
       'Ms' => 'Sra',
       'Miss' => 'Srta',
       'Dr' => 'Dr',
-      'Sign In' => 'Déjeme entrar'
+      'Sign In' => 'Déjeme entrar',
+      'Retrieve password' => 'Recuperar contraseña',
+      'I remembered my password' => 'Recordé mi contraseña',
+      'Retrieve' => 'Reiniciar',
+      'There is no user with such login and password.' => 'Datos de acceso no válidos',
+      'Login should be a valid email address' => 'La dirección de email no es válida'
+
+
   );?>

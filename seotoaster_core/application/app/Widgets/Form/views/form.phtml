@@ -6,7 +6,7 @@
         <input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>"/>
         <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>"/>
         <input style="display: none;" type="text" id="<?php echo md5($this->form->getName() . $this->form->getId()); ?>"
-               name="<?php echo md5($this->form->getName() . $this->form->getId()); ?>" value="" data-secur="smart"/>
+               name="<?php echo md5($this->form->getName() . $this->form->getId()); ?>" value="" aria-label="smart" data-secur="smart"/>
         <?php if ($this->useRecaptcha && $this->recaptchaCode) : ?>
             <?php
             if ($this->customRecaptcha) {
@@ -87,8 +87,7 @@
             } else if (!valid) {
                 showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true, 5000);
                 return false;
-            }
-            else {
+            } else {
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
@@ -140,12 +139,12 @@
                         }, 'json');
                         <?php endif;?>
                         <?php if($this->useRecaptcha):?>
-                        Recaptcha.reload();
+                            Recaptcha.reload();
                         <?php endif;?>
                         <?php if($this->useGoogleRecaptcha):?>
-                        grecaptcha.reset();
+                            grecaptcha.reset();
                         <?php endif;?>
-                        showMessage(response.responseText, response.error);
+                        showMessage(response.responseText, response.error, 5000);
                     }
                 })
             }

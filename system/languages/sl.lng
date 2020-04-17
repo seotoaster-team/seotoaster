@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 return array(
 	'Seotoaster install'            				   => 'Namesti Seotoaser',
 	'Step 1: System setup'                             => 'Korak 1: Nastavitve sistema',

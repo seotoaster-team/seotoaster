@@ -212,6 +212,8 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $this->_view->denyBlank = true;
         }
 
+        $this->_view->toasterOptions = array('websiteUrl' => $this->_toasterOptions['websiteUrl']);
+
         // Adding cache tag for this fa
         array_push($this->_cacheTags, 'fa_'.$params[0]);
         array_push($this->_cacheTags, 'pageTags');
@@ -219,6 +221,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         foreach ($areaPages as $page) {
             array_push($this->_cacheTags, 'pageid_'.$page->getId());
         }
+
+        $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+
+        $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+
+        $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
 
         return $this->_view->render('area.phtml');
     }
@@ -253,6 +262,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->descLength = (isset($params[1]) && is_numeric($params[1])) ? intval($params[1])
             : self::AREA_DESC_LENGTH;
         array_push($this->_cacheTags, 'pageid_'.$page->getId());
+
+        $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+
+        $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
+
+        $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
 
         return $this->_view->render('page.phtml');
     }

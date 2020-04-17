@@ -220,7 +220,20 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 }
 
-                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'])) {
+                //Check if email is valid
+                if (isset($formParams['email'])) {
+                    $emailValidation = new Tools_System_CustomEmailValidator();
+                    $validEmail = $emailValidation->isValid($formParams['email']);
+                    if(!$validEmail){
+                        if($xmlHttpRequest){
+                            $this->_helper->response->fail($this->_helper->language->translate('Please enter a valid email address'));
+                        }
+                        $sessionHelper->toasterFormError = $this->_helper->language->translate('Please enter a valid email address');
+                        $this->redirect($formParams['formUrl']);
+                    }
+                }
+
+                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'], $formParams)) {
                     if($xmlHttpRequest){
                         $this->_helper->response->success($form->getMessageSuccess());
                     }
@@ -234,18 +247,6 @@ class Backend_FormController extends Zend_Controller_Action {
                     $this->redirect($formParams['formUrl']);
                 }
 
-                //Check if email is valid
-                if (isset($formParams['email'])) {
-                    $emailValidation = new Tools_System_CustomEmailValidator();
-                    $validEmail = $emailValidation->isValid($formParams['email']);
-                    if(!$validEmail){
-                        if($xmlHttpRequest){
-                            $this->_helper->response->fail($this->_helper->language->translate('Please enter a valid email address'));
-                        }
-                        $sessionHelper->toasterFormError = $this->_helper->language->translate('Please enter a valid email address');
-                        $this->redirect($formParams['formUrl']);
-                    }
-                }
                 $sessionHelper->formName   = $formParams['formName'];
                 $sessionHelper->formPageId = $formParams['formPageId'];
 				unset($formParams['formPageId']);

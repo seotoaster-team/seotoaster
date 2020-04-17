@@ -264,5 +264,22 @@ class Tools_Page_Tools
         return $pagePreviewImage;
     }
 
+    public static function getPageFolders()
+    {
+        return Application_Model_Mappers_PageFolderMapper::getInstance()->getPageFolders();
+    }
+
+    public static function getPageUrlWithSubFolders(Application_Model_Models_Page $page) {
+        $url = $page->getUrl();
+        if ($page->getPageFolder()) {
+            if (empty($page->getIsFolderIndex())) {
+                $url = $page->getPageFolder() . '/' . $page->getUrl();
+            } else {
+                $url = $page->getPageFolder() . '/';
+            }
+        }
+        return $url;
+    }
+
 }
 

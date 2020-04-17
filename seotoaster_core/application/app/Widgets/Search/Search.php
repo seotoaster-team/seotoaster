@@ -104,6 +104,22 @@ class Widgets_Search_Search extends Widgets_Abstract
         }
         $this->_view->searchForm = $searchForm;
 
+        $subfolders = '';
+
+        if(in_array('subfolders', $this->_options)) {
+            $subfolders = 'subfolders';
+        }
+
+        $this->_view->subfolders = $subfolders;
+
+        $pagetags = '';
+
+        if(in_array('pagetags', $this->_options)) {
+            $pagetags = 'pagetags';
+        }
+
+        $this->_view->pagetags = $pagetags;
+
         $this->_view->showReindexOption = Tools_Security_Acl::isAllowed(
                 Tools_Security_Acl::RESOURCE_USERS
             ) && Tools_Search_Tools::isEmpty();
@@ -151,11 +167,27 @@ class Widgets_Search_Search extends Widgets_Abstract
             $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
         }
 
+        $additionalOptions = array();
+
+        if(in_array('subfolders', $params) || in_array('pagetags', $params)) {
+            $widgetOpt = $this->_options;
+
+            foreach ($this->_options as $option) {
+                if (preg_match('/^(uniq)-(.*)$/u', $option, $uniqParts) && !empty($params[$uniqParts[2]])) {
+                    foreach ($widgetOpt as $wOption) {
+                        if (preg_match('/^(folder)-(.*)$/u', $wOption, $parts)) {
+                            $additionalOptions['subfolderOptions'] = explode(',', $parts[2]);
+                        }
+                        if (preg_match('/^(tag)-(.*)$/u', $wOption, $parts)) {
+                            $additionalOptions['pageTagsOptions'] = explode(',', $parts[2]);
+                        }
+                    }
+                }
+            }
+        }
+
         $results = array();
-        $limit = is_numeric(end($this->_options)) ? filter_var(
-            end($this->_options),
-            FILTER_SANITIZE_NUMBER_INT
-        ) : self::SEARCH_LIMIT_RESULT;
+        $limit = is_numeric(end($this->_options)) ? filter_var(end($this->_options), FILTER_SANITIZE_NUMBER_INT) : self::SEARCH_LIMIT_RESULT;
 
         // check for image option
         if (in_array('img', $this->_options)) {
@@ -169,7 +201,7 @@ class Widgets_Search_Search extends Widgets_Abstract
         $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
 
         if ($request->has('search')) {
-            $searchTerm = strip_tags($request->getParam('search'));
+            $searchTerm = strip_tags(rtrim($request->getParam('search'), ")"));
             if (mb_strlen($searchTerm) < 3) {
                 return sprintf(
                     $this->_translator->translate(
@@ -180,7 +212,8 @@ class Widgets_Search_Search extends Widgets_Abstract
             }
 
             $this->_view->urlData = array('search' => $searchTerm);
-            $results = $this->_searchResultsByTerm($searchTerm, $filterPageType);
+
+            $results = $this->_searchResultsByTerm($searchTerm, $filterPageType, $additionalOptions);
         } elseif ($request->has('queryID')) {
             $queryID = filter_var($request->getParam('queryID'), FILTER_SANITIZE_STRING);
             $this->_view->urlData = array('queryID' => $queryID);
@@ -201,7 +234,7 @@ class Widgets_Search_Search extends Widgets_Abstract
         return $this->_view->render('results.phtml');
     }
 
-    private function _searchResultsByTerm($searchTerm, $filterPageType = array())
+    private function _searchResultsByTerm($searchTerm, $filterPageType = array(), array $additionalOptions = array())
     {
         $searchForm = new Application_Form_Search();
         if ($searchForm->getElement('search')->isValid($searchTerm)) {
@@ -213,9 +246,7 @@ class Widgets_Search_Search extends Widgets_Abstract
             if ($this->_developerModeStatus) {
                 $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
             }
-            if (null === ($searchResults = $this->_cache->load($cacheId, $cachePrefix))
-                || empty($searchResults['data'][$key])
-            ) {
+            if (null === ($searchResults = $this->_cache->load($cacheId, $cachePrefix)) || empty($searchResults['data'][$key])) {
                 $toasterSearchIndex = Tools_Search_Tools::initIndex();
                 $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
                 if (empty($this->_strict)) {
@@ -273,8 +304,20 @@ class Widgets_Search_Search extends Widgets_Abstract
                     }
                 }
                 $cacheTags     = array('search_' . $searchTerm);
+
+                $pageAdditionalOptions = array();
+
+                if(!empty($additionalOptions['subfolderOptions'])) {
+                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                    $pageAdditionalOptions['pageSubfildersIds'] = $pageMapper->findPagesByPageFolderName($additionalOptions['subfolderOptions']);
+                }
+
+                if(!empty($additionalOptions['pageTagsOptions'])) {
+                    $pageAdditionalOptions['pageTagsOptions'] = $additionalOptions['pageTagsOptions'];
+                }
+
                 $searchResults = array_map(
-                    function ($hit) use (&$cacheTags, $filterPageType) {
+                    function ($hit) use (&$cacheTags, $filterPageType, $pageAdditionalOptions) {
                         array_push($cacheTags, 'pageid_' . $hit->pageId);
                         $exclude = false;
                         try {
@@ -290,14 +333,56 @@ class Widgets_Search_Search extends Widgets_Abstract
                         if (!empty($filterPageType) && !array_key_exists($pageType, $filterPageType)) {
                             $exclude = true;
                         }
+                        $url = $hit->url;
+                        $fields = $hit->getDocument()->getFieldNames();
+                        if(in_array('pageFolder', $fields) && in_array('isFolderIndex', $fields)) {
+                            if ($hit->pageFolder) {
+                                $url = $hit->pageFolder . '/';
+                                if (!$hit->isFolderIndex) {
+                                    $url .= $hit->url;
+                                }
+                            }
+                        }
                         if (!$draft && !$exclude) {
-                            return array(
-                                'pageId'     => $hit->pageId,
-                                'url'        => $hit->url,
-                                'h1'         => $hit->h1,
-                                'navName'    => $hit->navName,
-                                'teaserText' => $hit->teaserText
-                            );
+                            if(!empty($pageAdditionalOptions['pageSubfildersIds'])) {
+                                $pageId = $hit->pageId;
+
+                                if(array_key_exists($pageId, $pageAdditionalOptions['pageSubfildersIds'])) {
+                                    return array(
+                                        'pageId'     => $hit->pageId,
+                                        'url'        => $url,
+                                        'h1'         => $hit->h1,
+                                        'navName'    => $hit->navName,
+                                        'teaserText' => $hit->teaserText
+                                    );
+                                }
+                            } elseif (!empty($pageAdditionalOptions['pageTagsOptions'])) {
+                                $pageTags = $hit->pageTags;
+                                if(!empty($pageTags)) {
+                                    $pageTags = explode(',', $pageTags);
+                                    $pageTags = array_map('trim', $pageTags);
+
+                                    foreach ($pageAdditionalOptions['pageTagsOptions'] as $option) {
+                                        if(in_array($option, $pageTags)) {
+                                            return array(
+                                                'pageId'     => $hit->pageId,
+                                                'url'        => $url,
+                                                'h1'         => $hit->h1,
+                                                'navName'    => $hit->navName,
+                                                'teaserText' => $hit->teaserText
+                                            );
+                                        }
+                                    }
+                                }
+                            } else {
+                                return array(
+                                    'pageId'     => $hit->pageId,
+                                    'url'        => $url,
+                                    'h1'         => $hit->h1,
+                                    'navName'    => $hit->navName,
+                                    'teaserText' => $hit->teaserText
+                                );
+                            }
                         }
                     },
                     $hits

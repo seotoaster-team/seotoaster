@@ -504,7 +504,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             if (!$value) {
                 continue;
             }
-            $formDetailsHtml .= $name . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
+            $formDetailsHtml .= '<b>' . str_replace(array('_', '-'), ' ', ucfirst($name)) . '</b>' . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
         }
 
         return $formDetailsHtml;

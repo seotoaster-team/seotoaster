@@ -21,7 +21,7 @@ class SignupController extends Zend_Controller_Action {
 			$signupForm = new Application_Form_Signup();
             $formData = $this->_request->getParams();
             if (empty($formData['PageId'])) {
-                $this->_helper->flashMessenger->addMessage('missing page id');
+                $this->_helper->flashMessenger->addMessage($this->_helper->language->translate('missing page id'));
                 $signupPageUrl = $this->_helper->session->signupPageUrl;
                 $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
             }
@@ -29,7 +29,7 @@ class SignupController extends Zend_Controller_Action {
             $pageId = $formData['PageId'];
             $signupFormKeyParams = 'signUpKeyParams'.$pageId;
             if (!isset($this->_helper->session->$signupFormKeyParams)) {
-                $this->_helper->flashMessenger->addMessage('Error: missing signup key. Please, try again');
+                $this->_helper->flashMessenger->addMessage($this->_helper->language->translate('Error: missing signup key. Please, try again'));
                 $signupPageUrl = $this->_helper->session->signupPageUrl;
                 $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
             }
@@ -77,7 +77,22 @@ class SignupController extends Zend_Controller_Action {
                 $this->_helper->session->signupPrefixField = $formParams['prefix'];
             }
 
-			if($signupForm->isValid($formParams)) {
+            $isValid = false;
+            if(isset($formParams['token'])) {
+                $isValid = true;
+            } elseif (!empty($formParams['g-recaptcha-response'])) {
+                $googleRecaptcha = new Tools_System_GoogleRecaptcha();
+                $isGrecaptchaValid = $googleRecaptcha->isValid($formParams['g-recaptcha-response']);
+
+                if($isGrecaptchaValid) {
+                    $signupForm->removeElement('verification');
+                    $isValid = true;
+                }
+            } elseif (isset($formParams['verification'])) {
+                $isValid = true;
+            }
+
+			if($signupForm->isValid($formParams) && $isValid) {
 				//save new user
 				$user = new Application_Model_Models_User($signupForm->getValues());
 
@@ -141,7 +156,13 @@ class SignupController extends Zend_Controller_Action {
 				}
 			}
 			else {
-				$this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($signupForm->getMessages(), get_class($signupForm)));
+                $errMsgs = $signupForm->getMessages();
+
+			    if(!$isValid) {
+                    $errMsgs['verification']['missingValue'] =  $this->_helper->language->translate('Recaptcha failed');
+                }
+                $this->_helper->flashMessenger->addMessage(Tools_Content_Tools::proccessFormMessagesIntoHtml($errMsgs, get_class($signupForm)));
+
 				$signupPageUrl = $this->_helper->session->signupPageUrl;
 				unset($this->_helper->session->signupPageUrl);
 				$this->_redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));

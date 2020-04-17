@@ -39,7 +39,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'desktopPhone',
         'signature',
         'subscribed',
-        'voipPhone'
+        'voipPhone',
+        'allowRemoteAuthorization'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';
@@ -110,6 +111,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
             unset($this->_options[$noCaptchaOption]);
         }
 
+        $this->_view->noCaptchaOption = $noCaptchaOption;
+
         $options = array();
         $fieldsOptions = preg_grep('~formFields-~ui', $this->_options);
         if (!empty($fieldsOptions)) {
@@ -160,6 +163,15 @@ class Widgets_Member_Member extends Widgets_Abstract {
             $signupForm->getElement('desktopCountryCode')->setLabel('Phone');
             $this->_view->withDesktopMask = true;
         }
+
+        $useOldCaptcha = false;
+        if(in_array('oldcaptcha', $this->_options) && !$noCaptchaOption) {
+            $useOldCaptcha = true;
+        } else {
+            $signupForm->removeElement('verification');
+        }
+
+        $this->_view->useOldCaptcha = $useOldCaptcha;
 
         $listMasksMapper = Application_Model_Mappers_MasksListMapper::getInstance();
         $this->_view->mobileMasks = $listMasksMapper->getListOfMasksByType(Application_Model_Models_MaskList::MASK_TYPE_MOBILE);
