@@ -692,7 +692,7 @@
     'bigger image'=>'grande image',
     'custom url'=>'URL personnalisée',
     'Remove image '=>'Supprimer l&rsquo;image',
-    'Save and close '=>'Sauvegardez et fermez',
+    'Save and close'=>'Sauvegardez et fermez',
     'No image'=>'Aucune image',
     'External url field can not be empty!'=>'Champ url externe ne peut pas être vide!',
     'Image gallery'=>'Galerie d&rsquo;images',
