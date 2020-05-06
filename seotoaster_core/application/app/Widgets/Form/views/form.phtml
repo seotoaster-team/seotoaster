@@ -87,8 +87,7 @@
             } else if (!valid) {
                 showMessage('<?php echo $this->translate('Fill in the required fields') ?>', true, 5000);
                 return false;
-            }
-            else {
+            } else {
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
@@ -140,12 +139,12 @@
                         }, 'json');
                         <?php endif;?>
                         <?php if($this->useRecaptcha):?>
-                        Recaptcha.reload();
+                            Recaptcha.reload();
                         <?php endif;?>
                         <?php if($this->useGoogleRecaptcha):?>
-                        grecaptcha.reset();
+                            grecaptcha.reset();
                         <?php endif;?>
-                        showMessage(response.responseText, response.error);
+                        showMessage(response.responseText, response.error, 5000);
                     }
                 })
             }

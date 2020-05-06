@@ -101,6 +101,7 @@
 		<fieldset class="grid_6">
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
+                <span class="remove-teaser-image icon12 ticon-close error <?php echo (empty($this->existedPreviewImage) ? 'hide' : ''); ?>"><?php echo $this->translate('Delete image');?></span>
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
 				<span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
 			</div>
@@ -121,6 +122,7 @@
 		<?php echo $this->pageForm->getElement('pageType'); ?>
         <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>"/>
         <?php echo $this->pageForm->getElement('updatePage'); ?>
+        <input type="hidden" name="removePageTeaser" id="removePageTeaser" value="0">
         <input type="hidden" name="original-page-url" id="original-page-url" value="<?php echo $this->pageForm->getElement('url')->getValue(); ?>">
 	</form>
 </div>
@@ -136,6 +138,27 @@
 		}).on('click', '.featured', function(){
             $('#falist').show("slide", { direction: "right"});
         });
+        //
+        //
+        //var container = jsPageTeaserUploader;
+        //
+        //container.bind('FileUploaded', function (uploader, file, info) {
+        //    var info = $.parseJSON(info.response);
+        //    if (info === false) {
+        //        showMessage('<?php //echo $this->translate('Error during upload file');?>//', true, 3000);
+        //    }
+        //    if (info.error === true) {
+        //        var errorMessage = '';
+        //        $.each(info.result, function (name, value) {
+        //            errorMessage += value + '<br />';
+        //        });
+        //        showMessage(errorMessage, true, 3000);
+        //    } else {
+        //        $('#removePageTeaser').val(0);
+        //        $('#page-teaser-uploader-filelist').show();
+        //        $('.remove-teaser-image').show();
+        //    }
+        //});
 
         $('#external-link-status').on('change', function() {
             $('#external-link').prop('readonly', !$(this).is(':checked')).toggleClass('noedit');
@@ -225,6 +248,18 @@
                 }
 
             }
+        });
+    });
+
+    $(document).on('click', '.remove-teaser-image', function (e) {
+        e.preventDefault();
+        var timestamp = new Date().getTime();
+        showConfirm('<?php echo $this->translate('Are you sure want to delete teaser image?');?>', function() {
+            $('#removePageTeaser').val(1);
+            var src = $('#website_url').val() + 'system/images/noimage.png' + timestamp;
+            $('#page-preview-image').attr('src', src);
+            $('#page-teaser-uploader-filelist').hide();
+            $('.remove-teaser-image').hide();
         });
     });
 </script>

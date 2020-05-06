@@ -101,6 +101,11 @@ class Widgets_Page_Page extends Widgets_Abstract {
                 $url = $this->_toasterOptions['pageFolder'] . '/';
             }
         }
+
+        if(in_array('clearindex', $this->_options)) {
+            $url = ($url === Helpers_Action_Website::DEFAULT_PAGE) ? '' : $url;
+        }
+
         return $url;
     }
 

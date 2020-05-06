@@ -109,6 +109,7 @@ class Backend_PageController extends Zend_Controller_Action {
             $messages  = ($params['pageCategory'] == -4) ? array('pageCategory' => array('Please make your selection')) : array();
             $optimized = (isset($params['optimized']) && $params['optimized']);
             $externalLink = (isset($params['externalLinkStatus']) && $params['externalLinkStatus']);
+            $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
 
             if(!empty($params['pageFolder'])) {
                 $folder = Application_Model_Mappers_PageFolderMapper::getInstance()->find($params['pageFolder']);
@@ -175,7 +176,6 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 //Analyze if system have options one time used
                 if ($pageData['removePreviousOption'] === '' && !empty($pageData['extraOptions'])) {
-                    $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
                     $options = Application_Model_Mappers_PageOptionMapper::getInstance()->checkOptionUsage(
                         $pageData['extraOptions'],
                         $pageData['url']
@@ -214,6 +214,21 @@ class Backend_PageController extends Zend_Controller_Action {
                         $optionsMapper->deletePageHasOption(
                             $pageData['extraOptions']
                         );
+                    }
+                }
+
+                if(!empty($params['removePageTeaser'])) {
+                    $previewImgName = $page->getPreviewImage();
+
+                    if(!empty($previewImgName)) {
+                        $websitePath = $websiteHelper->getPath();
+                        $filePath = $websitePath . 'previews' . DIRECTORY_SEPARATOR . $previewImgName;
+
+                        if(is_file($filePath)) {
+                            unlink($filePath);
+                        }
+
+                        $pageData['previewImage'] = '';
                     }
                 }
 
@@ -288,6 +303,7 @@ class Backend_PageController extends Zend_Controller_Action {
         //page preview image
         $this->view->pagePreviewImage = Tools_Page_Tools::getPreview($page);//Tools_Page_Tools::processPagePreviewImage($page->getUrl());
         $this->view->sambaOptimized   = $page->getOptimized();
+        $this->view->existedPreviewImage = $page->getPreviewImage();
 
         // page help section
         $this->view->helpSection = ($pageId) ? 'editpage' : 'addpage';
@@ -346,6 +362,20 @@ class Backend_PageController extends Zend_Controller_Action {
                 $page->registerObserver(new Tools_Page_GarbageCollector(array(
                     'action' => Tools_System_GarbageCollector::CLEAN_ONDELETE
                 )));
+
+                $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+
+                $previewImgName = $page->getPreviewImage();
+
+                if(!empty($previewImgName)) {
+                    $websitePath = $websiteHelper->getPath();
+                    $filePath = $websitePath . 'previews' . DIRECTORY_SEPARATOR . $previewImgName;
+
+                    if(is_file($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+
                 $pageMapper->delete($page);
                 unset($page);
             }

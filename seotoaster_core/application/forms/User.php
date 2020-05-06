@@ -86,7 +86,7 @@ class Application_Form_User extends Application_Form_Secure {
             'id'           => 'prefix',
             'label'        => $translator->translate('Prefix'),
             'value'        => $this->_prefix,
-            'multiOptions' => array('' => $translator->translate('Select')) + array_combine(Widgets_User_Base::$userPrefixes, Widgets_User_Base::$userPrefixes)
+            'multiOptions' => array('' => $translator->translate('Select')) + Tools_System_Tools::getAllowedPrefixesList()
         )));
 
 		$this->addElement(new Zend_Form_Element_Text(array(

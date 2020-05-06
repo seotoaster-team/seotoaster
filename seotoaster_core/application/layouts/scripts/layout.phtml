@@ -36,14 +36,15 @@
                 ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-ui.css')
                 ->prependStylesheet($this->websiteUrl.'system/css/reset.css');
 
-            if (!empty($this->bodyTag)) {
-                $this->headLink()
-                    ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
-            }
+        }
+
+        if (!empty($this->bodyTag)) {
+            $this->headLink()
+                ->appendStylesheet($this->websiteUrl.'system/js/external/magnific-popup/magnific-popup.css');
         }
     }
     if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-        if (!empty($this->bodyTag) && !$excludeSystemCss) {
+        if (!empty($this->bodyTag)) {
             $this->headLink()
                 ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
         }
@@ -74,6 +75,7 @@
             ->prependFile($this->websiteUrl.'system/js/external/magnific-popup/jquery.magnific-popup.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.min.js');
     }else{
         $this->headScript()->setIndent(8)->setAllowArbitraryAttributes(true)
@@ -81,6 +83,7 @@
             ->prependFile($this->websiteUrl.'system/js/internal/system.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/mousewheel/jquery.mousewheel.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+            ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js')
             ->prependFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.min.js');
     }
 
@@ -147,5 +150,14 @@ $grecaptchaPublicKey = $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY]
         };
     </script>
 <?php endif; ?>
+<script>
+    $(function() {
+        var lazyload = $('.lazyload-img');
+
+        if(lazyload.length) {
+            lazyload.lazyload();
+        }
+    });
+</script>
 </body>
 </html>

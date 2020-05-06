@@ -61,6 +61,7 @@ class Backend_MediaController extends Zend_Controller_Action
      */
     public function uploadthingsAction()
     {
+
         //creating list of folder in 'images' directory
         $this->view->listFolders = array('select folder') +  $this->_getFoldersList();
         // if folder selected from somewhere else (using this feature when click upload things on editor screen)
@@ -329,6 +330,8 @@ class Backend_MediaController extends Zend_Controller_Action
                 }
             }
             $listFolders = array_combine($listFolders, $listFolders);
+
+            natcasesort($listFolders);
         }
         return $listFolders;
     }

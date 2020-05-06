@@ -10,7 +10,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_popupHeighth   = '163';
 
-    protected $_iterationLimit = 100;
+    protected $_iterationLimit = 500;
 
     protected $_separatorOrder = ',';
 

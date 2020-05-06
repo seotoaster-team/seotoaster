@@ -1,7 +1,7 @@
 <?php $this->inlineScript()
            ->appendFile($this->websiteUrl . 'system/js/internal/adminPanelInit.min.js'); ?>
 <div id="seotoaster-cpanel" class="seotoaster">
-    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGES)): ?>
         <div id="showhide"><a href="javascript:;"><?php echo $this->translate('Collapse menu'); ?></a></div>
         <div id="seotoaster-logowrap">
             <?php $this->placeholder(Tools_System_Tools::PLACEHOLDER_SYSTEM_VERSION)->prepend($this->translate('CMS version ') . Tools_System_Tools::getSystemVersion()); ?>

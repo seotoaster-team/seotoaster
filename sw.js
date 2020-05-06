@@ -56,9 +56,9 @@ self.addEventListener('notificationclick', event => {
       clients.matchAll()
         .then(clis => {
           const client = clis.find(c => c.visibilityState === 'visible');
-          if (client !== undefined) {
+          if (client !== undefined && notification.data && notification.data.url) {
             client.navigate(notification.data.url);
-          } else {
+          } else if (notification.data && notification.data.url) {
             clients.openWindow(notification.data.url);
           }
         })
