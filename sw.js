@@ -2,44 +2,65 @@
  *  ATTENTION: Do not format this file.
  *  This file can be automatically modified from the widcard and notifier plugins.
  */
-
-const revision = 'pwa03202018';
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+const {precacheAndRoute} = workbox.precaching;
+const {registerRoute} = workbox.routing;
 
 if (typeof workbox !== 'undefined') {
 
-  workbox.routing.registerRoute(
-    routeData => routeData.event.request.headers.get('accept').includes('text/html'),
-    args => fetch(args.event.request)
-      .then(res => res)
-      .catch(() => {
-        return caches.match(args.event.request)
-          .then(res => {
-            return res || caches.match('/pwa-offline.html').then(res => res);
-          })
-      })
+  const fontsStrategy = new workbox.strategies.StaleWhileRevalidate({cacheName: 'fonts'});
+  const imagesStrategy = new workbox.strategies.StaleWhileRevalidate({cacheName: 'images'});
+
+  registerRoute(
+      routeData => routeData.event.request.headers.get('accept').includes('text/html'),
+      args => {
+        let encodedUrl = encodeURI(decodeURIComponent(escape(decodeURIComponent(args.event.request.url))));
+        let newRequest = new Request(encodedUrl,
+            {
+              method: args.event.request.method,
+              headers: args.event.request.headers,
+              destination: args.event.request.destination,
+              referrer: args.event.request.referrer,
+              referrerPolicy: args.event.request.referrerPolicy,
+              mode: 'cors',
+              credentials: args.event.request.credentials,
+              cache: args.event.request.cache,
+              redirect: args.event.request.redirect,
+              integrity: args.event.request.integrity,
+              keepalive: args.event.request.keepalive,
+              signal: args.event.request.signal,
+              isHistoryNavigation: args.event.request.isHistoryNavigation,
+              bodyUsed: args.event.request.bodyUsed,
+            });
+        return fetch(newRequest)
+            .then(res => res)
+            .catch(() => {
+              return caches.match(newRequest)
+                  .then(res => {
+                    return res || caches.match('/pwa-offline.html').then(res => res);
+                  })
+            })
+      });
+
+  registerRoute(/.*(?:woff|ttf)$/,
+      fontsStrategy
+  );
+  registerRoute(/\/plugins\/widcard\/system\/userdata\/.*\.(png|jpg)$/,
+      imagesStrategy
   );
 
-  workbox.routing.registerRoute(/.*(?:woff|ttf)$/,
-    workbox.strategies.staleWhileRevalidate({cacheName: 'fonts'})
-  );
-
-  workbox.routing.registerRoute(/\/plugins\/widcard\/system\/userdata\/.*\.(png|jpg)$/,
-    workbox.strategies.staleWhileRevalidate({cacheName: 'images'})
-  );
-
-  workbox.precaching.precacheAndRoute([
+  precacheAndRoute([
     {
       "url": "/",
-      "revision": revision,
+      "revision": null,
     },
     {
       "url": "/pwa-offline.html",
-      "revision": revision,
+      "revision": null,
     },
     {
       "url": "/tmp/offline.concat.min.css",
-      "revision": revision,
+      "revision": null,
     },
   ]);
 }
@@ -53,15 +74,15 @@ self.addEventListener('notificationclick', event => {
   } else {
     console.log(action);
     event.waitUntil(
-      clients.matchAll()
-        .then(clis => {
-          const client = clis.find(c => c.visibilityState === 'visible');
-          if (client !== undefined && notification.data && notification.data.url) {
-            client.navigate(notification.data.url);
-          } else if (notification.data && notification.data.url) {
-            clients.openWindow(notification.data.url);
-          }
-        })
+        clients.matchAll()
+            .then(clis => {
+              const client = clis.find(c => c.visibilityState === 'visible');
+              if (client !== undefined && notification.data && notification.data.url) {
+                client.navigate(notification.data.url);
+              } else if (notification.data && notification.data.url) {
+                clients.openWindow(notification.data.url);
+              }
+            })
     )
   }
   notification.close();
@@ -90,6 +111,6 @@ self.addEventListener('push', event => {
   }
 
   event.waitUntil(
-    self.registration.showNotification(data.title, options)
+      self.registration.showNotification(data.title, options)
   );
 });
