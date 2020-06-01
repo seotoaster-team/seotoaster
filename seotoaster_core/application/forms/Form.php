@@ -162,7 +162,7 @@ class Application_Form_Form extends Application_Form_Secure
                 'name' => 'adminFrom',
                 'label' => 'Lead delivery from email',
                 'value' => $this->_adminFrom,
-                'required' => false,
+                'required' => true,
                 'filters' => array('StringTrim')
             ))
         );
