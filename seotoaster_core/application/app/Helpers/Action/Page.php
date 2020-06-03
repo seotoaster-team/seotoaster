@@ -82,7 +82,7 @@ class Helpers_Action_Page extends Zend_Controller_Action_Helper_Abstract {
             if(!in_array($this->_website->getUrl() . $pageUrl, $redirectMap)) {
                 $redirect = Application_Model_Mappers_RedirectMapper::getInstance()->fetchRedirectMap($pageUrl);
                 if($redirect !== null) {
-                    $redirectMap[$redirect->getDomainFrom() . $redirect->getFromUrl()] = $redirect->getdomainTo() . $redirect->getToUrl();
+                    $redirectMap[$redirect->getDomainFrom() . $redirect->getFromUrl()] = $redirect->getdomainTo() . rawurlencode($redirect->getToUrl());
                     $this->_cache->save('toaster_301redirects', $redirectMap, '301redirects', array(), Helpers_Action_Cache::CACHE_NORMAL);
                 }
             }
