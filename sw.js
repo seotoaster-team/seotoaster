@@ -119,7 +119,9 @@ self.addEventListener('push', event => {
         options.image = data.image;
     }
 
-    event.waitUntil(
-        self.registration.showNotification(data.title, options)
-    );
+
+  event.waitUntil(
+      self.registration.showNotification(data.title, options)
+  );
+
 });
