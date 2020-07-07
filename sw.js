@@ -5,69 +5,69 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 const {precacheAndRoute} = workbox.precaching;
 const {registerRoute} = workbox.routing;
-const {StaleWhileRevalidate} = workbox.strategies;
 
 if (typeof workbox !== 'undefined') {
 
-    const fontsStrategy = new StaleWhileRevalidate({cacheName: 'fonts'});
-    const imagesStrategy = new StaleWhileRevalidate({cacheName: 'images'});
+  const fontsStrategy = new workbox.strategies.StaleWhileRevalidate({cacheName: 'fonts'});
+  const imagesStrategy = new workbox.strategies.StaleWhileRevalidate({cacheName: 'images'});
 
-    registerRoute(
-        routeData => routeData.event.request.headers.get('accept').includes('text/html'),
-        args => fetch(args.event.request)
-            .then(res => res)
-            .catch(() => {
-                return caches.match(args.event.request)
-                    .then(res => {
-                        return res || caches.match('/pwa-offline.html').then(res => res);
-                    })
-            })
-    );
+  registerRoute(
+      routeData => routeData.event.request.headers.get('accept').includes('text/html'),
+      args => fetch(args.event.request)
+          .then(res => res)
+          .catch(() => {
+            return caches.match(args.event.request)
+                .then(res => {
+                  return res || caches.match('/pwa-offline.html').then(res => res);
+                })
+          })
+  );
 
-    registerRoute(/.*(?:woff|ttf)$/,
-        fontsStrategy
-    );
-    registerRoute(/\/plugins\/widcard\/system\/userdata\/.*\.(png|jpg)$/,
-        imagesStrategy
-    );
+  registerRoute(/.*(?:woff|ttf)$/,
+      fontsStrategy
+  );
+  registerRoute(/\/plugins\/widcard\/system\/userdata\/.*\.(png|jpg)$/,
+      imagesStrategy
+  );
 
-    precacheAndRoute([
-        {
-            "url": "/",
-            "revision": null,
-        },
-        {
-            "url": "/pwa-offline.html",
-            "revision": null,
-        },
-        {
-            "url": "/tmp/offline.concat.min.css",
-            "revision": null,
-        },
-    ]);
+  precacheAndRoute([
+    {
+      "url": "/",
+      "revision": null,
+    },
+    {
+      "url": "/pwa-offline.html",
+      "revision": null,
+    },
+    {
+      "url": "/tmp/offline.concat.min.css",
+      "revision": null,
+    },
+  ]);
 }
 
 self.addEventListener('notificationclick', event => {
-    //TODO: Rewrite it.
-    const notification = event.notification;
-    const action = event.action;
-    if (action === 'confirm') {
-        console.log('Confirm was chosen');
-    } else {
-        console.log(action);
-        event.waitUntil(
-            clients.matchAll()
-                .then(clis => {
-                    const client = clis.find(c => c.visibilityState === 'visible');
-                    if (client !== undefined && notification.data && notification.data.url) {
-                        client.navigate(notification.data.url);
-                    } else if (notification.data && notification.data.url) {
-                        clients.openWindow(notification.data.url);
-                    }
-                })
-        )
-    }
-    notification.close();
+  //TODO: Rewrite it.
+  const notification = event.notification;
+  const action = event.action;
+  if (action === 'confirm') {
+    console.log('Confirm was chosen');
+  } else {
+    console.log(action);
+    event.waitUntil(
+        clients.matchAll()
+            .then(clis => {
+              const client = clis.find(c => c.visibilityState === 'visible');
+              if (client !== undefined && notification.data && notification.data.url) {
+                client.navigate(notification.data.url);
+              } else if (notification.data && notification.data.url) {
+                clients.openWindow(notification.data.url);
+              }
+            })
+    )
+  }
+  notification.close();
+
 });
 
 self.addEventListener('notificationclose', event => {
@@ -92,7 +92,9 @@ self.addEventListener('push', event => {
         options.image = data.image;
     }
 
-    event.waitUntil(
-        self.registration.showNotification(data.title, options)
-    );
+
+  event.waitUntil(
+      self.registration.showNotification(data.title, options)
+  );
+
 });
