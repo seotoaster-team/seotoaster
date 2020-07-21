@@ -777,5 +777,5 @@ UPDATE `masks_list` SET `full_mask_value` = '9 99 99 99 99?9' WHERE `country_cod
 
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.1.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.2.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
