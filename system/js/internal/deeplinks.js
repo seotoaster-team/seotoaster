@@ -1,5 +1,7 @@
 $(function() {
 
+	$('.chosen-select').chosen();
+
 	$('#urlType-label').hide();
 
 	loadDeeplinksList();
@@ -16,7 +18,7 @@ $(function() {
 
 	$('#chk-all').click(function() {
 		 $('.deeplink-massdel').prop('checked', ($(this).prop('checked')) ? true : false);
-	})
+	});
 
 	 $('.deeplink-massdel').on('click', function() {
 		if(!$('.deeplink-massdel').not(':checked').length) {
@@ -25,7 +27,7 @@ $(function() {
 		else {
 			$('#chk-all').attr('checked', false);
 		}
-	 })
+	 });
 
 	$('#deeplink-massdel-run').click(function() {
         showSpinner();
@@ -53,6 +55,8 @@ $(function() {
 					}
 				}
 			});
+		}, function () {
+			hideSpinner();
 		});
 	});
 });

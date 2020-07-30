@@ -768,7 +768,15 @@ ALTER TABLE `user` ADD COLUMN `allow_remote_authorization` ENUM('1', '0') DEFAUL
 ALTER TABLE `user` ADD COLUMN `remote_authorization_info` TEXT COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'additional info';
 ALTER TABLE `user` ADD COLUMN `remote_authorization_token` CHAR(40) DEFAULT NULL;
 
+-- 07/10/2019
+-- version: 3.1.2
+-- Add users remote authorization
+UPDATE `masks_list` SET `mask_value` = '99-9999-9999?9' WHERE `country_code` = 'GB';
+UPDATE `masks_list` SET `full_mask_value` = '99-9999-9999?9' WHERE `country_code` = 'GB';
+UPDATE `masks_list` SET `mask_value` = '9 99 99 99 99?9' WHERE `country_code` = 'FR';
+UPDATE `masks_list` SET `full_mask_value` = '9 99 99 99 99?9' WHERE `country_code` = 'FR';
+
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.1.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.2.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
