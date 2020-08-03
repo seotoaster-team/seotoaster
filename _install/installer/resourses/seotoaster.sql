@@ -38,7 +38,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMinifyJs', '0'),
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
-('version',	'3.1.2');
+('version',	'3.2.0');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -639,12 +639,12 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('FM',	'desktop',	'999-9999',	'999-9999'),
 ('FO',	'mobile',	'999-999',	'999-999'),
 ('FO',	'desktop',	'999-999',	'999-999'),
-('FR',  'mobile', '9 99 99 99 99', '9 99 99 99 99'),
-('FR',  'desktop', '9 99 99 99 99', '9 99 99 99 99'),
+('FR',  'mobile', '9 99 99 99 99?9', '9 99 99 99 99?9'),
+('FR',  'desktop', '9 99 99 99 99?9', '9 99 99 99 99?9'),
 ('GA',	'mobile',	'9-99-99-99',	'9-99-99-99'),
 ('GA',	'desktop',	'9-99-99-99',	'9-99-99-99'),
-('GB',	'mobile',	'99-9999-9999',	'99-9999-9999'),
-('GB',	'desktop',	'99-9999-9999',	'99-9999-9999'),
+('GB',	'mobile',	'99-9999-9999?9',	'99-9999-9999?9'),
+('GB',	'desktop',	'99-9999-9999?9',	'99-9999-9999?9'),
 ('GD',	'mobile',	'(473)999-9999',	'(473)999-9999'),
 ('GD',	'desktop',	'(473)999-9999',	'(473)999-9999'),
 ('GE',	'mobile',	'(999)999-999',	'(999)999-999'),
