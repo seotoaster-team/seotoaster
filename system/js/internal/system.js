@@ -600,6 +600,11 @@ function showMailMessageEdit(trigger, callback, recipient){
         var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(msg).css({
             resizable : "none"
         }));
+        $(msgEditScreen).append('<div class="mt10px">' +
+            '<label> Additional emails <a href="javascript:;" class="ticon-info tooltip icon18" title="You can enter emails separated by comma. ex: John@mail.com,Doe@mail.com"></a> : </label>' +
+            '<input type="text" name="additional-emails" id="additional-emails" value="" />' +
+            '</div>');
+
         $('#trigger-msg').val(msg);
         msgEditScreen.dialog({
             modal     : true,
@@ -614,7 +619,7 @@ function showMailMessageEdit(trigger, callback, recipient){
                     text  : dialogOkay,
                     click : function(e){
                         msgEditScreen.dialog('close');
-                        callback($('#trigger-msg').val());
+                        callback($('#trigger-msg').val(), $('#additional-emails').val());
                     }
                 }
             ]
