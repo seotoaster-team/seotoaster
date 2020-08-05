@@ -618,11 +618,35 @@ function showMailMessageEdit(trigger, callback, recipient){
                 {
                     text  : dialogOkay,
                     click : function(e){
-                        msgEditScreen.dialog('close');
-                        callback($('#trigger-msg').val(), $('#additional-emails').val());
+                        var additionalEmails = $('#additional-emails').val(),
+                        closeDialog = true;
+
+                        if(additionalEmails.length) {
+                            additionalEmails = additionalEmails.split(',');
+
+                           var regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                            $.each(additionalEmails, function(key, email){
+                                var clearEmail = email.toString().replace(/\s/g, ''),
+                                isValidEmail = regularExpression.test(clearEmail);
+
+                                if(!isValidEmail) {
+                                    closeDialog = false;
+                                    showMessage('Not valid ' + clearEmail + ' email address', true, 3000);
+                                }
+                            });
+                        }
+
+                        if(closeDialog) {
+                            msgEditScreen.dialog('close');
+                            callback($('#trigger-msg').val(), $('#additional-emails').val());
+                        }
                     }
                 }
-            ]
+            ],
+            close: function(event, ui){
+                $(this).dialog('close').remove();
+            }
         });
     }, 'json');
 }
