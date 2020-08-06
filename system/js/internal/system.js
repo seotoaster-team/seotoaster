@@ -632,7 +632,7 @@ function showMailMessageEdit(trigger, callback, recipient){
 
                                 if(!isValidEmail) {
                                     closeDialog = false;
-                                    showMessage('Not valid ' + clearEmail + ' email address', true, 3000);
+                                    showMessage('Not valid email address - "' + clearEmail + '"', true, 3000);
                                 }
                             });
                         }
