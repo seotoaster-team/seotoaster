@@ -1131,7 +1131,7 @@
     'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Votre serveur doit avoir la configuration pour minimale pour assurer le fonctionnement de SeoToaster.',
     'Web server' => 'Serveur Web',
     'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache 2, Nginx. N\'importe quel serveur web qui support le PHP (non testé).',
-    '<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> ou ultérieure',
+    '<strong>PHP 7.2.0</strong>' => '<strong>PHP 7.2.0</strong>',
     '<strong>PDO</strong> extension for PHP' => 'Extension <strong>PDO</strong> pour PHP',
     '<strong>MBString:</strong> Works with any language' => '<strong>Mbstring:</strong> Fonctionne avec Fonctionne avec toutes les langues',
     '<strong>GD Library 2.0</strong> or newer: Works with images' => 'Libaries <strong>GD 2.0</strong> ou plus récent: Fonctionne avec images',

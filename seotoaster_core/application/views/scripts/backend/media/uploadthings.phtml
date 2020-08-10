@@ -146,8 +146,8 @@
 
     $('#filebrowser').tabs({
         select: function(event, ui) {
-            var total = $(ui.panel).find('input.toremove').size();
-            var checked = $(ui.panel).find('input.toremove:checked').size();
+            var total = $(ui.panel).find('input.toremove').length;
+            var checked = $(ui.panel).find('input.toremove:checked').length;
             if (total > 0 && total === checked) {
                 btnCheckAll.prop('checked', true);
             } else {
@@ -164,7 +164,7 @@
         if ($flag.prop('checked')){
             $flag.prop('checked', false);
             $(this).removeClass('active');
-            if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
+            if ($parent.find('.active').length < $parent.find('.file-container').length ) {
                 $('#check-all').prop('checked', false);
                 $(this).css({'background': ''});
                 $(this).find('img').css({'opacity': ''});
@@ -173,7 +173,7 @@
             $(this).addClass('active').css({'background': 'rgba(231,76,60,.2)'});
             $(this).find('img').css({'opacity': '0.5'});
             $flag.prop('checked', true);
-            if ($parent.find('.file-container:not(.active)').size() === 0){
+            if ($parent.find('.file-container:not(.active)').length === 0){
                 btnCheckAll.prop('checked', true);
             }
         }
@@ -191,7 +191,7 @@
         } else {
             var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
         }
-        if (items.size()){
+        if (items.length){
             items.trigger('toggleActive');
         }
     });
@@ -279,7 +279,7 @@
             return false;
         }
 
-        if (fileForm.find('input.toremove:checked').size() == 0) {
+        if (fileForm.find('input.toremove:checked').length == 0) {
             showMessage('<?php echo $this->translate("Nothing to remove");?>', true, 5000);
             return false;
         }
@@ -287,7 +287,7 @@
         //images
         var images = imagesBlock.find('input.toremove:checked');
         var imagesArr = [];
-        if(images.size() != 0){
+        if(images.length != 0){
             $(images).each(function(index, el) {
                 var img = el.value;
                 imagesArr.push(img);
@@ -297,7 +297,7 @@
         //files
         var files = filesBlock.find('input.toremove:checked');
         var filesArr = [];
-        if(files.size() != 0){
+        if(files.length != 0){
             $(files).each(function(index, el) {
                 var file = el.value;
                 filesArr.push(file);

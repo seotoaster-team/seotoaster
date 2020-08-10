@@ -9,18 +9,6 @@
     </p>
 
     <p class="mt5px grid_6 alpha">
-        <label class="pointer">
-            <span class="grid_8 alpha"><?php echo $this->translate('Caption'); ?></span>
-            <?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption', 'class' => 'allowzero')); ?>
-        </label>
-    </p>
-    <p class="mt5px grid_6 omega">
-        <label class="pointer">
-            <span class="grid_8 alpha"><?php echo $this->translate('Nolink'); ?></span>
-            <?php echo $this->formCheckbox('galBlock', null, array('id' => 'gal-block', 'class' => 'allowzero')); ?>
-        </label>
-    </p>
-    <p class="mt5px grid_6 alpha">
         <label class="pointer cropped-img">
             <span class="grid_8 alpha"><?php echo $this->translate('Crop image'); ?></span>
             <?php echo $this->formCheckbox('galCrop', null, array('id' => 'gal-crop', 'class' => 'crop allowzero')); ?>
@@ -34,6 +22,18 @@
             <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_3 alpha omega small', 'placeholder' => $this->translate('Height'))); ?>
         </p>
     </div>
+    <p class="mt5px grid_6 omega">
+        <label class="pointer">
+            <span class="grid_8 alpha"><?php echo $this->translate('Caption'); ?></span>
+            <?php echo $this->formCheckbox('galCaption', null, array('id' => 'gal-caption', 'class' => 'allowzero')); ?>
+        </label>
+    </p>
+    <p class="mt5px grid_6 alpha">
+        <label class="pointer">
+            <span class="grid_8 alpha"><?php echo $this->translate('Nolink'); ?></span>
+            <?php echo $this->formCheckbox('galBlock', null, array('id' => 'gal-block', 'class' => 'allowzero')); ?>
+        </label>
+    </p>
     <p class="mt5px grid_6 omega">
         <label class="pointer">
             <span class="grid_8 alpha"><?php echo $this->translate('Lazyload'); ?></span>

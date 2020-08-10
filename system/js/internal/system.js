@@ -600,6 +600,11 @@ function showMailMessageEdit(trigger, callback, recipient){
         var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(msg).css({
             resizable : "none"
         }));
+        $(msgEditScreen).append('<div class="mt10px">' +
+            '<label> Additional emails <a href="javascript:;" class="ticon-info tooltip icon18" title="You can enter emails separated by comma. ex: John@mail.com,Doe@mail.com"></a> : </label>' +
+            '<input type="text" name="additional-emails" id="additional-emails" value="" />' +
+            '</div>');
+
         $('#trigger-msg').val(msg);
         msgEditScreen.dialog({
             modal     : true,
@@ -613,11 +618,35 @@ function showMailMessageEdit(trigger, callback, recipient){
                 {
                     text  : dialogOkay,
                     click : function(e){
-                        msgEditScreen.dialog('close');
-                        callback($('#trigger-msg').val());
+                        var additionalEmails = $('#additional-emails').val(),
+                        closeDialog = true;
+
+                        if(additionalEmails.length) {
+                            additionalEmails = additionalEmails.split(',');
+
+                           var regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                            $.each(additionalEmails, function(key, email){
+                                var clearEmail = email.toString().replace(/\s/g, ''),
+                                isValidEmail = regularExpression.test(clearEmail);
+
+                                if(!isValidEmail) {
+                                    closeDialog = false;
+                                    showMessage('Not valid email address - "' + clearEmail + '"', true, 3000);
+                                }
+                            });
+                        }
+
+                        if(closeDialog) {
+                            msgEditScreen.dialog('close');
+                            callback($('#trigger-msg').val(), $('#additional-emails').val());
+                        }
                     }
                 }
-            ]
+            ],
+            close: function(event, ui){
+                $(this).dialog('close').remove();
+            }
         });
     }, 'json');
 }
