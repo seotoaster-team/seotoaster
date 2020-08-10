@@ -56,7 +56,7 @@ if (!empty($this->filters)) {
 	window.<?php echo $jsValName; ?> = new plupload.Uploader(<?php echo json_encode($pluploadOptions); ?>);
 
 	<?php echo $jsValName; ?>.bind('Init', function(up, params) {
-		if ($('#<?php echo $this->formId;?>-filelist').size() == 0) {
+		if ($('#<?php echo $this->formId;?>-filelist').length == 0) {
 			$('#<?php echo $this->formId;?>').after('<div id="<?php echo $this->formId;?>-filelist"></div>');
 		}
 		$('#<?php echo $this->formId; ?>-filelist').html('');
@@ -212,7 +212,7 @@ if (!empty($this->filters)) {
 		<?php elseif ($this->caller == 'pagePreview'): ?>
 		if (response.error == false && response.hasOwnProperty('src')){
 			$('#page-preview-image').attr('src', response.src);
-			if ( $('input[name="pagePreviewImage"]').size() == 0 ){
+			if ( $('input[name="pagePreviewImage"]').length == 0 ){
 				$('<input type="hidden" name="pagePreviewImage" />').val(response.src).appendTo("#frm-page");
 			} else {
 				$('#frm-page input[name="pagePreviewImage"]').val(response.src);

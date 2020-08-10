@@ -66,10 +66,21 @@ class IndexController extends Zend_Controller_Action {
 		$permissionsFail = false;
 			
 		//check for PHP version
-		$phpRequirements['php'] = version_compare(PHP_VERSION, $this->_requirements['minPHPVersion'], '>=');
+        $phpRequirements['php'] = false;
+        if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
+            $phpRequirements['php'] = true;
+        }
 
 		//check for disabled magic quotes
 		$phpRequirements['magicquotes'] = !get_magic_quotes_gpc();
+
+        //check ionCube Loader
+        $extensions = get_loaded_extensions();
+
+        $phpRequirements['ionCube'] = false;
+        if (in_array('ionCube Loader', $extensions)) {
+            $phpRequirements['ionCube'] = true;
+        }
 		
 		//checking if required libraries are installed
 		foreach ($this->_requirements['phpExtensions'] as $name) {

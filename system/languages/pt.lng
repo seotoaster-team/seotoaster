@@ -7,7 +7,7 @@
        'Your server needs to meet the minimum requirements configuration in order to run the toaster.' => 'Seu servidor precisa atender aos requisitos mínimos configuração, a fim de executar a torradeira.',
        'Web server' => 'Servidor Web',
        'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache2, Nginx. Qualquer servidor web que pode fazer re-escreve e suporte php deve funcionar também (não testado).',
-       '<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> ou superior',
+       '<strong>PHP 7.2.0</strong>' => '<strong>PHP 7.2.0</strong>',
        '<strong>PDO</strong> extension for PHP' => 'Extensão <strong>PDO</strong> do PHP',
        '<strong>MBString:</strong> Works with any language' => '<strong>Mbstring:</strong> Funciona com qualquer língua ',
        '<strong>GD Library 2.0</strong> or newer: Works with images' => '<strong>GD libaries 2.0</strong> ou mais recentes: Funciona com imagens ',

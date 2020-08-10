@@ -36,21 +36,8 @@ class Application_Form_Deeplink extends Application_Form_Secure {
 			'filters'    => array('StringTrim')
 		)));
 
-		/*$this->addElement(new Zend_Form_Element_Radio(array(
-			'name'         => 'urlType',
-			'multiOptions' => array(
-				0 => 'Local url',
-				1 => 'External url'
-			),
-			//'label'     => 'Url',
-			'required'  => true,
-			'separator' => '',
-			'value'     => 'local'
-		)));*/
-
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
 			'name'    => 'urlType',
-			//'label'   => 'Local url',
 			'required'  => true,
 			'value'   => 'local',
 			'checked' => 'checked'
@@ -60,8 +47,7 @@ class Application_Form_Deeplink extends Application_Form_Secure {
 			'name'                     => 'url',
 			'id'                       => 'url',
 			'value'                    => $this->_url,
-			'class'                    => '_tdropdown',
-			//'label'                    => 'Select page',
+			'class'                    => '_tdropdown chosen-select',
 			'filters'                  => array(
 				new Zend_Filter_StringTrim(),
 				new Filters_UrlScheme()

@@ -10,7 +10,7 @@ return array(
 	'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' =>
 	'Apache2, Nginx. Každý webový server, který může dělat přepisuje a podpora php by fungovat i (netestováno).',
 	'For Apache 2 only' => 'Pouze pro Apache 2',
-	'<strong>PHP 5.3.3</strong> or higher' => '<strong>PHP 5.3.3</strong> nebo vyšší',
+	'<strong>PHP 7.2.0</strong>' => '<strong>PHP 7.2.0</strong>',
 	'<strong>PDO</strong> extension for PHP' => '<strong> PDO </strong> rozšíření PHP',
 	'<strong>MBString:</strong> Works with any language' => '<strong>MBString:</strong> Pracuje s jakýmkoliv jazykem',
 	'<strong>GD Library 2.0</strong> or newer: Works with images' => '<strong>GD libaries 2.0</strong> nebo novější: Práce s obrázky',
