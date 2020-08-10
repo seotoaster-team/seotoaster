@@ -322,7 +322,7 @@ class Backend_ContentController extends Zend_Controller_Action {
                     $imageElement = htmlspecialchars('<a class="_lbox" href="' . $srcPath . '/' . self::IMG_CONTENTTYPE_ORIGINAL . '/' . $image . '" title="' . str_replace('-', '&nbsp;', $imageName) . '"><img border="0" alt="' . str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" /></a>');
                 }
 				$imagesContent .= '<a href="javascript:;" onmousedown="tinymce.activeEditor.execCommand(\'mceInsertContent\', false, \'' . $imageElement . '\');">';
-				$imagesContent .= '<img title="' . $image . '" border="0" width="80" src="' . $srcPath . '/product/' . $image .'" /></a>';
+				$imagesContent .= '<img title="' . $image . '" border="0" width="80" src="' . $srcPath . '/original/' . $image .'" /></a>';
 			}
 			return $imagesContent;
 		}

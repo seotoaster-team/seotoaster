@@ -20,38 +20,40 @@
         array('headerText' => 'Upload your files and images', 'helpSection' => $this->helpSection)
     ); ?>
     <div class="grid_12 content">
-        <div class="grid_5">
-            <?php echo $this->formSelect(
-                'things-select-folder',
-                (isset($this->currFolder) ? $this->currFolder : null),
-                null,
-                $this->listFolders
-            ); ?>
-        </div>
-        <span class="grid_2 or"><?php echo $this->translate('OR'); ?></span>
-
-        <div class="grid_5">
-            <?php
-            $newFolderLabel = $this->translate('create new folder');
-            echo $this->formText(
-                'things-new-folder',
-                null,
-                array(
-                    'placeholder'       => $newFolderLabel,
-                    'data-defaultlabel' => $newFolderLabel
-                )
-            ); ?>
-        </div>
-        <div class="grid_6 mt5px image-preview">
+        <fieldset class="background mb10px">
+            <div class="grid_5">
+                <?php echo $this->formSelect(
+                    'things-select-folder',
+                    (isset($this->currFolder) ? $this->currFolder : null),
+                    null,
+                    $this->listFolders
+                ); ?>
+            </div>
+            <span class="grid_2 or"><?php echo $this->translate('OR'); ?></span>
+            <div class="grid_5">
+                <?php
+                $newFolderLabel = $this->translate('create new folder');
+                echo $this->formText(
+                    'things-new-folder',
+                    null,
+                    array(
+                        'placeholder'       => $newFolderLabel,
+                        'data-defaultlabel' => $newFolderLabel
+                    )
+                ); ?>
+            </div>
+        </fieldset>
+        <div class="grid_8 alpha omega mt5px image-preview">
             <?php $hiddenClass = !empty($this->listPictures) ? '' : 'hidden';?>
             <label id="check-all-label" class="btn link grid_12 alpha omega <?php echo $hiddenClass;?>"><input type="checkbox" id="check-all" class="processed hidden"/>[ <?php echo $this->translate('Check all?'); ?> ]</label>
             <form id="removeForm" class="">
-            <div id="filebrowser" class="grid_12 alpha omega mt10px">
+            <div id="filebrowser" class="grid_12 alpha omega mt0px">
+
                 <ul>
                     <li><a href="#filebrowser-images" class="switch-tab" data-tab-type="images"><?php echo $this->translate('Images');?></a></li>
                     <li><a href="#filebrowser-files" class="switch-tab" data-tab-type="files"><?php echo $this->translate('Files');?></a></li>
                 </ul>
-                <div id="filebrowser-images" class="filebrowser-zone list-images grid_12 alpha omega scroll h350px">
+                <div id="filebrowser-images" class="filebrowser-zone list-images1 content scroll column_4 full-width" style="height: 330px;">
                     <?php if(!empty($this->listPictures) && !empty($this->picturesPath)):?>
                         <?php foreach ($this->listPictures as $picture):?>
                             <div class="file-container grid_4 alpha" data-type="picture">
@@ -61,13 +63,14 @@
                         <?php endforeach;?>
                     <?php endif;?>
                 </div>
-                <div id="filebrowser-files" class="filebrowser-zone grid_12 alpha omega scroll h350px">
+                <div id="filebrowser-files" class="filebrowser-zone grid_12 alpha omega scroll" style="height: 330px;">
                     <?php if(!empty($this->filesList)):?>
                         <?php foreach ($this->filesList as $file):?>
-                            <div class="file-container">
+                            <div class="grid_11 alpha omega file-container">
                                 <label data-type="<?php echo $file['name'];?>"><?php echo $file['name'];?></label>
                                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="<?php echo $file['name'];?>">
                             </div>
+                            <div class="grid_1 alpha text-center"><a class="ticon-file3  icon16" title="<?php echo $this->translate('Go to file');?>" href="<?php echo $file['url'];?>" target="_blank"></a></div>
                         <?php endforeach;?>
                     <?php endif;?>
                 </div>
@@ -75,26 +78,28 @@
             </form>
 
             <script id="imageContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="file-container grid_4 alpha" data-type="picture">
-                <img src="${src}" alt="${name}" title="${name}" />
+            <div class="file-container grid_3 alpha">
+                <div class="img-wrap-box"><img class="img-container" src="${src}" alt="${name}" title="${name}" /></div>
                 <input type="checkbox" class="toremove hidden" name="removeImages[]" value="${name}" />
+                <div class="grid_12 alpha omega img-edit-box">
+                    <span class="btn ticon-pencil edit-name grid_3 alpha omega"></span>
+                    <input type="text" class="img-name grid_12 alpha omega ${disabledEdit}" data-extension="${imgExtension}" ${disabledEdit} data-current-name="${clearImgName}" value="${clearImgName}" />
+                    <span class="btn success success-btn ticon-checkmark grid_3 alpha omega" style="display:none;"></span>
+                </div>
             </div>
             </script>
             <script id="fileContainerTemplate" type="text/x-jquery-tmpl">
-            <div class="grid_10 alpha omega file-container img-wrap-box img-container">
+            <div class="grid_11 alpha omega file-container img-wrap-box img-container">
                 <label data-type="${name}">${name}</label>
                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="${name}" />
             </div>
-            <div class="grid_2 alpha omega copy-file-block">
-                <div class="grid_6 omega text-center copy-file">
-                    <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy a link to this file to your clipboard');?>"></a>
-                    <input type="hidden" id="copy-file-link" class="copy-file-link" name="file-url" value="${url}">
-                </div>
-                <div class="grid_6 alpha omega text-center"><a class="ticon-file3 icon16" href="${url}" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
-            </div>
+            <div class="grid_1 alpha text-center"><a class="ticon-file3 icon16" href="${url}" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
             </script>
-            <div class="deleteBtnBlock grid_12 alpha omega <?php echo $hiddenClass;?>">
-                <button id="deleteBtn" class="btn block error"><?php echo $this->translate('Delete selected');?></button>
+            <hr class="mb0px mt5px">
+            <div class="deleteBtnBlock grid_12 mt5px alpha omega text-center">
+                <div id="delete-info-msg" class="mt5px"><?php echo $this->translate('Please select least one element to delete');?></div>
+                <div id="attention-info-msg" class="error hide mt5px"><?php echo $this->translate('Be careful when renaming files! The link to the file will be modified!');?></div>
+                <button id="deleteBtn" class="btn error grid_12" style="display: none;"><?php echo $this->translate('Delete selected');?></button>
             </div>
         </div>
         <?php
@@ -107,7 +112,7 @@
 
         ?>
         <div><i title="<?php echo $mimetypes;?>" class="grid_12 info-block-detailed tooltip fl-right ticon-info icon16"></i></div>
-        <div class="grid_6 mb15px">
+        <div class="grid_4 omega mb15px">
 
             <?php
             $thingsUploader = $this->toasterUploader(
@@ -157,42 +162,100 @@
         }
     });
 
-    $(document).on('toggleActive', '.file-container', function() {
-        var $flag   = $(this).children('input.toremove');
-        var $parent = $(this).parent('.filebrowser-zone');
 
-        if ($flag.prop('checked')){
-            $flag.prop('checked', false);
-            $(this).removeClass('active');
-            if ($parent.find('.active').size() < $parent.find('.file-container').size() ) {
+    $(document).on('toggleActive', '.img-wrap-box', function() {
+        var fileContainerEl = $(this).closest('.file-container');
+        var flag   = fileContainerEl.find('input.toremove');
+        var parent = $(this).closest('.filebrowser-zone');
+        var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
+        var images = $('.img-name');
+
+        $('.success-btn').hide();
+        $('#attention-info-msg').addClass('hide');
+        if (flag.prop('checked')){
+            flag.prop('checked', false);
+            fileContainerEl.removeClass('active');
+            if (parent.find('.active').size() < parent.find('.file-container').size() ) {
                 $('#check-all').prop('checked', false);
-                $(this).css({'background': ''});
-                $(this).find('img').css({'opacity': ''});
+                fileContainerEl.css({'background': ''});
+                fileContainerEl.find('img').css({'opacity': ''});
+                images.removeClass('grid_9').addClass('grid_12');
+                $('.file-container').removeClass('editing');
+                if(parent.find('.active').size() == 0) {
+                    $('#delete-info-msg').removeClass('hide');
+                    $('#deleteBtn').hide();
+
+                    if(images.length) {
+                        $.each(images, function(index, el) {
+                            if(!$(el).hasClass('disabled')) {
+                                $(el).prop('disabled',false);
+                            }
+                        });
+                    }
+
+                    $('.edit-name').removeClass('hidden');
+                }
+            }
+            if($('#removeForm').find('input.toremove:checked').size() == 0) {
+                $('#delete-info-msg').removeClass('hide');
+                $('#deleteBtn').hide();
+
+                if(images.length) {
+                    $.each(images, function(index, el) {
+                        if(!$(el).hasClass('disabled')) {
+                            $(el).prop('disabled',false);
+                        }
+                    });
+                }
+
+                $('.edit-name').removeClass('hidden');
             }
         } else {
-            $(this).addClass('active').css({'background': 'rgba(231,76,60,.2)'});
-            $(this).find('img').css({'opacity': '0.5'});
-            $flag.prop('checked', true);
-            if ($parent.find('.file-container:not(.active)').size() === 0){
+            // fileContainerEl.addClass('active').css({'background': 'rgba(231,76,60,.2)'});
+            fileContainerEl.addClass('active');
+            fileContainerEl.find('img');
+            flag.prop('checked', true);
+            if (parent.find('.file-container:not(.active)').size() === 0){
                 btnCheckAll.prop('checked', true);
+            } else {
+                if(selectedIndex == 0) {
+                    images.prop('disabled',true).removeClass('grid_9').addClass('grid_12');
+                }
             }
+                $('#delete-info-msg').addClass('hide');
+                $('#deleteBtn').show();
+                $('.edit-name').addClass('hidden');
         }
         btnCheckAll.button('refresh');
-    }).on('click', '.file-container', function() {
+    }).on('click', '.img-wrap-box', function() {
         $(this).trigger('toggleActive');
     }).on('click', '.file-container > input.toremove', function(event) {
         $(this).parent('.file-container').trigger('toggleActive');
     });
 
+
     $(document).on('change', '#check-all', function() {
         var selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
+        var images = $('.img-name');
         if (this.checked === true) {
             var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container:not(.active)')
         } else {
             var items = $('.filebrowser-zone:eq('+selectedIndex+')').find('.file-container.active');
+            if(selectedIndex == 0 && images.length) {
+                $.each(images, function(index, el) {
+                    if(!$(el).hasClass('disabled')) {
+                        $(el).prop('disabled',false);
+                    }
+                });
+            }
         }
         if (items.size()){
-            items.trigger('toggleActive');
+            if(selectedIndex == 0) {
+                items.find('.img-wrap-box').trigger('toggleActive');
+                $('.img-name').prop('disabled',true).removeClass('grid_9').addClass('grid_12');
+            } else {
+                items.trigger('toggleActive');
+            }
         }
     });
 
@@ -207,7 +270,9 @@
 
         if ($(this).val() == 0){
             $('#check-all-label').addClass('hidden');
-            $('.deleteBtnBlock').addClass('hidden');
+            $('#delete-info-msg').removeClass('hide');
+            $('#deleteBtn').hide();
+            $('#attention-info-msg').addClass('hide');
             return false;
         }
 
@@ -229,7 +294,10 @@
 
                 $('.file-container').empty();
                 $('#check-all-label').removeClass('hidden');
-                $('.deleteBtnBlock').removeClass('hidden');
+                $('#delete-info-msg').removeClass('hide');
+                $('#deleteBtn').hide();
+                $('#attention-info-msg').addClass('hide');
+
 
                 if(response.imageList.length > 0){
                     $('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
@@ -242,16 +310,109 @@
         });
     });
 
+    $(document).on('click', '.success-btn', function (e) {
+        var currentEl = $(e.currentTarget).prev();
+        if(currentEl.val() == currentEl.data('current-name')) {
+            $('.success-btn').hide();
+            $('.img-name').removeClass('grid_9').addClass('grid_12');
+            $('.file-container').removeClass('editing');
+            $('#attention-info-msg').addClass('hide');
+            $('#delete-info-msg').removeClass('hide');
+        }
+    });
+
     $(document).on('click', '.switch-tab', function () {
         var type = $(this).data('tab-type'),
             typeBlock = $('#filebrowser-' + type),
-            content = typeBlock.find('.file-container');
+            content = typeBlock.find('.file-container'),
+            selectedIndex = $( "#filebrowser" ).tabs('option', 'active');
         if(content.length > 0){
             $('#check-all-label').removeClass('hidden');
-            $('.deleteBtnBlock').removeClass('hidden');
+            if(typeBlock.find('input.toremove:checked').size() > 0) {
+                $('#delete-info-msg').addClass('hide');
+                $('#deleteBtn').show();
+                $('#attention-info-msg').addClass('hide');
+                if(selectedIndex == 0) {
+                    $('.img-name').prop('disabled',true).removeClass('grid_10').addClass('grid_12');
+                }
+            } else {
+                $('#delete-info-msg').removeClass('hide');
+                $('#deleteBtn').hide();
+                $('#attention-info-msg').addClass('hide');
+                $('.success-btn').hide();
+            }
         }else{
             $('#check-all-label').addClass('hidden');
-            $('.deleteBtnBlock').addClass('hidden');
+            $('#delete-info-msg').removeClass('hide');
+            $('#deleteBtn').hide();
+            $('#attention-info-msg').addClass('hide');
+        }
+    });
+
+    function renameImg(fileName, oldName, extension) {
+        var fileNewName = fileName.val(),
+            fileOldName = oldName,
+            fileExtension = extension,
+            folderName = $('#things-select-folder').val();
+
+        if(fileNewName.length > 0) {
+            $.ajax({
+                url: '<?php echo $this->websiteUrl;?>backend/backend_media/renamefile/',
+                type: 'post',
+                data: {'fileNewName': fileNewName, 'fileExtension': fileExtension, 'fileOldName': fileOldName, 'folderName': folderName, 'secureToken': $('.secureToken').val()},
+                dataType: 'json',
+                success: function(response) {
+                    if(response.error == 1) {
+                        showMessage('<?php echo $this->translate("File with this name already exists");?>', true, 3000);
+                        $(fileName).val(fileOldName);
+                    } else {
+                        $(fileName).val(response.responseText.fileNewName).data('current-name', response.responseText.fileNewName);
+                        showMessage('<?php echo $this->translate("Renamed");?>', false, 3000);
+                    }
+                    $('.success-btn').hide();
+                    $('#attention-info-msg').addClass('hide');
+                    $('#delete-info-msg').addClass('hide');
+                    $(fileName).closest('.editing').removeClass('editing');
+                    $(fileName).toggleClass('grid_9 grid_12');
+                }
+            });
+        }
+    }
+
+    $(document).on('click', '.edit-name', function(e){
+        $('.img-name').removeClass('grid_9').addClass('grid_12');
+        $('.file-container').removeClass('editing');
+        if($('#filebrowser-image').find('input.toremove:checked').size() == 0) {
+            e.preventDefault();
+            $('.success-btn').hide();
+            $(e.currentTarget).closest('.file-container').addClass('editing');
+            $(e.currentTarget).closest('.img-edit-box').find('input').toggleClass('grid_12 grid_9').next().show();
+            $('#delete-info-msg').addClass('hide');
+            $('#attention-info-msg').removeClass('hide');
+        }
+    });
+
+    $(document).on('click', '.img-name', function (e) {
+        $(e.currentTarget).prev().trigger('click');
+    });
+
+    $(document).on('blur', '.img-name', function (e) {
+        e.preventDefault();
+        var currentEl = $(e.currentTarget);
+        if(currentEl.val() != currentEl.data('current-name')) {
+            showConfirmCustom('<?php echo $this->translate("Do you want to rename the file?");?>', '<?php echo $this->translate("Rename");?>', '<?php echo $this->translate("Cancel changes");?>',
+                function(){
+                    renameImg(currentEl, currentEl.data('current-name'), currentEl.data('extension'));
+                },
+                function(){
+                    $('.success-btn').hide();
+                    $('#delete-info-msg').addClass('hide');
+                    $('#attention-info-msg').addClass('hide');
+                    $(currentEl).closest('.editing').removeClass('editing');
+                    $(currentEl).toggleClass('grid_12 grid_9');
+
+                    currentEl.val(currentEl.data('current-name'));
+            });
         }
     });
 
@@ -320,13 +481,9 @@
                     var removedFiles = [];
                     for (var i in response.deleted) {
                         $('#filebrowser').queue(function(next){
-                            var fileEl = $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])');
-                            if(fileEl.data('type') != 'picture') {
-                                fileEl.next().remove();
-                            }
-
-                            fileEl.remove();
-
+                            var tiRemoveEl = $('.file-container:has(input.toremove:checked[value="'+response.deleted[i]+'"])');
+                            $(tiRemoveEl).next().remove();
+                            $(tiRemoveEl).remove();
                             next();
                         });
                     }
@@ -334,7 +491,6 @@
                 if (response.hasOwnProperty('folderRemoved')) {
                     if (response.folderRemoved === true){
                         $('#check-all-label').addClass('hidden');
-                        $('.deleteBtnBlock').addClass('hidden');
                         $('#things-select-folder').find('option:selected').remove().end().val('0');
                     }
                 }
@@ -347,6 +503,19 @@
                     errorsHtml += ' <?php echo $this->translate("Please go remove or replace it with another image first so that your website stays pretty.");?>';
                     showMessage(errorsHtml, true, 5000);
                 }
+
+                var images = $('.img-name');
+
+                if(images.length) {
+                    $.each(images, function(index, el) {
+                        if(!$(el).hasClass('disabled')) {
+                            $(el).prop('disabled',false);
+                        }
+                    });
+                }
+                $('#delete-info-msg').removeClass('hide');
+                $('#deleteBtn').hide();
+                $('#attention-info-msg').addClass('hide');
             }
         });
     });

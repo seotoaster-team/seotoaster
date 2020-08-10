@@ -71,5 +71,21 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
         $dbTable = new Application_Model_DbTable_TemplateType();
         return $dbTable->getAdapter()->fetchPairs($dbTable->select()->order('title ASC'));
     }
+
+    /**
+     * Method finds teplate which contains query string inside itself
+     *
+     * @param $findString
+     * @return array|null
+     * @throws Exception
+     */
+    public function findByContent($findString) {
+        $where = $this->getDbTable()->getAdapter()->quoteInto("content LIKE ?", '%'.$findString.'%');
+        $row = $this->fetchAll($where);
+        if (empty($row)){
+            return null;
+        }
+        return $row;
+    }
 }
 

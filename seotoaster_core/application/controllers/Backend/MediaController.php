@@ -7,6 +7,10 @@
  */
 class Backend_MediaController extends Zend_Controller_Action
 {
+    const REPLACE_IMAGES_CONTAINERS = 'containers';
+
+    const REPLACE_IMAGES_TEMPLATES = 'templates';
+
     private $_translator = null;
     private $_websiteConfig = null;
 
@@ -134,21 +138,62 @@ class Backend_MediaController extends Zend_Controller_Action
                 return false;
             }
             $this->view->imageList = array();
-            if (is_dir($folderPath . DIRECTORY_SEPARATOR . 'product')) {
+            if (is_dir($folderPath . DIRECTORY_SEPARATOR . 'original')) {
                 $listImages = Tools_Filesystem_Tools::scanDirectory(
-                    $folderPath . DIRECTORY_SEPARATOR . 'product',
+                    $folderPath . DIRECTORY_SEPARATOR . 'original',
                     false,
                     false
                 );
+
                 foreach ($listImages as $image) {
+                    $imgInfo   = getimagesize($this->_helper->website->getUrl() . $this->_websiteConfig['media'] . $folderName . '/original/' . $image);
+                    $imgMimeType   = $imgInfo['mime'];
+
+                    $imageExtension = '';
+                    switch ($imgMimeType) {
+                        case 'image/gif':
+                            $imageExtension = '.gif';
+                            break;
+                        case 'image/jpeg':
+                            $imageExtension = '.jpg';
+                            break;
+                        case 'image/png':
+                            $imageExtension = '.png';
+                            break;
+                        case 'image/bmp':
+                            $imageExtension = '.bmp';
+                            break;
+                    }
+
+                    $clearImgName = str_replace($imageExtension, '', $image);
+
+                    $prefixesRules = Tools_System_Tools::firePluginMethod('prefixesrules', 'getPrefixesRules');
+
+                    $disabledEdit = '';
+                    if(!empty($prefixesRules)) {
+                        foreach ($prefixesRules as $rules) {
+                            if(!empty($rules['denyToRenameImgPrefixes']) && is_array($rules['denyToRenameImgPrefixes'])) {
+                                foreach ($rules['denyToRenameImgPrefixes'] as $prefix) {
+                                    $denyedPrefixExist = preg_match('/^'.$prefix.'/i', $clearImgName);
+                                    if($denyedPrefixExist) {
+                                        $disabledEdit = 'disabled';
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     array_push(
                         $this->view->imageList,
                         array(
                             'name' => $image,
                             'src'  => Tools_Content_Tools::applyMediaServers(
                                         $this->_helper->website->getUrl(
-                                        ) . $this->_websiteConfig['media'] . $folderName . '/product/' . $image
-                                    )
+                                        ) . $this->_websiteConfig['media'] . $folderName . '/original/' . $image
+                                    ),
+                            'clearImgName' => $clearImgName,
+                            'imgExtension' => $imageExtension,
+                            'disabledEdit' => $disabledEdit
                         )
                     );
                 }
@@ -163,6 +208,112 @@ class Backend_MediaController extends Zend_Controller_Action
             }
         } else {
             $this->_redirect($this->_helper->website->getUrl(), array('exit' => true));
+        }
+    }
+
+    /**
+     * Method search and rename the pictures names in templates/containers/links contents
+     *
+     * @throws Exceptions_SeotoasterException
+     * @throws Zend_Exception
+     */
+    public function renamefileAction() {
+        $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
+        if ($this->getRequest()->isPost()) {
+            $fileNewName = $this->getRequest()->getParam('fileNewName');
+            $fileOldName = $this->getRequest()->getParam('fileOldName');
+            $folderName = $this->getRequest()->getParam('folderName');
+
+            $filterChain = new Zend_Filter();
+            $filterChain->addFilter(new Zend_Filter_StringTrim())
+                ->addFilter(new Zend_Filter_StringToLower('UTF-8'))
+                ->addFilter(new Zend_Filter_PregReplace(array('match' => '/[^\w\d_]+/u', 'replace' => '-')));
+
+            $fileNewName = $filterChain->filter($fileNewName);
+
+            if(empty($fileNewName)) {
+                $responseHelper->fail($this->_translator->translate('File name can\'t be empty!'));
+            }
+
+            if (empty ($folderName)) {
+                $responseHelper->fail($this->_translator->translate('No folder specified'));
+            }
+
+            $tokenToValidate = $this->getRequest()->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
+            $valid = Tools_System_Tools::validateToken($tokenToValidate, Tools_System_Tools::ACTION_PREFIX_REMOVETHINGS);
+            if (!$valid) {
+                $responseHelper->fail($this->_translator->translate('Token not valid'));
+            }
+            $fileExtension = $this->getRequest()->getParam('fileExtension');
+
+
+            $listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs(
+                $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName
+            );
+            if (!empty ($listFolders)) {
+                foreach ($listFolders as $key => $folder) {
+                    $fileOldPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileOldName . $fileExtension;
+                    if(!file_exists($fileOldPath) || $folder == 'product') {
+                        continue;
+                    }
+
+                    $fileNewPath   = $this->_websiteConfig['path'] . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileNewName . $fileExtension;
+
+                    if(file_exists($fileNewPath)) {
+                        $responseHelper->fail('');
+                    }
+
+                    rename($fileOldPath, $fileNewPath);
+
+                    $searchedFilePAth = $this->_websiteConfig['url'] . $this->_websiteConfig['media'] . $folderName . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileOldName . $fileExtension;
+
+                    $containerMapper = Application_Model_Mappers_ContainerMapper::getInstance();
+                    $foundContainers = $containerMapper->findByContent($searchedFilePAth);
+
+                    //process containers content
+                    if(!empty($foundContainers)) {
+                        Tools_Image_Tools::processToReplaceImagesInDb($foundContainers, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_CONTAINERS);
+                    }
+
+                    $prefixesRules = Tools_System_Tools::firePluginMethod('prefixesrules', 'getPrefixesRules');
+
+                   $additionalContainerPrefixes = array();
+                    if(!empty($prefixesRules)) {
+                        foreach ($prefixesRules as $rules) {
+                            if(!empty($rules['additionalSearcContainerPrefixes']) && is_array($rules['additionalSearcContainerPrefixes'])) {
+                                foreach ($rules['additionalSearcContainerPrefixes'] as $containerPrefix) {
+                                    $additionalContainerPrefixes[] = $containerPrefix;
+                                }
+                            }
+                        }
+                    }
+                    
+                    $searchedFilePAthJson = '{"folder":"' . $folderName . '","image":"' . $fileOldName . $fileExtension .'"';
+
+                    $foundContainers = $containerMapper->findByContent($searchedFilePAthJson, $additionalContainerPrefixes);
+                    if(!empty($foundContainers)) {
+                        Tools_Image_Tools::processToReplaceImagesInDb($foundContainers, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_CONTAINERS, 'imgonly');
+                    }
+
+
+                    $templateMapper = Application_Model_Mappers_TemplateMapper::getInstance();
+                    $foundTemplates = $templateMapper->findByContent($searchedFilePAth);
+
+                    //process templates content
+                    if(!empty($foundTemplates)) {
+                        Tools_Image_Tools::processToReplaceImagesInDb($foundTemplates, $folderName, $folder, $fileNewName, $fileExtension, self::REPLACE_IMAGES_TEMPLATES);
+                    }
+
+                    $newFileName = $this->_websiteConfig['url'] . $this->_websiteConfig['media'] . $folderName . '/'. $folder .'/' . $fileNewName . $fileExtension;
+
+                    //process link content
+                    Application_Model_Mappers_LinkContainerMapper::getInstance()->replaceSearchedValue($searchedFilePAth, $newFileName);
+                }
+
+                $responseHelper->success(array('fileNewName' => $fileNewName));
+            }
+        } else {
+            $responseHelper->fail('');
         }
     }
 

@@ -80,11 +80,17 @@ class Application_Model_Mappers_ContainerMapper extends Application_Model_Mapper
 	/**
 	 * Method finds container which contains query string inside itself
 	 * @param string $findString String to be find
-	 * @param boolean $attachPage Flag to attach page or not
+	 * @param array $containerPrefixes Additional param to serch by container prefixes
 	 * @return mixed Array of containers objects or null if no matches found.
 	 */
-	public function findByContent($findString, $attachPage = false) {
+	public function findByContent($findString, array $containerPrefixes = array()) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto("content LIKE ?", '%'.$findString.'%');
+
+		if(!empty($containerPrefixes)) {
+		    foreach ($containerPrefixes as $prefix) {
+                $where .= ' OR ' . $this->getDbTable()->getAdapter()->quoteInto("name LIKE ?", '%'.$prefix);
+            }
+        }
 		$row = $this->fetchAll($where);
 		if (empty($row)){
 			return null;
