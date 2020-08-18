@@ -300,7 +300,13 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if(!isset($this->_options['from'])) {
             $this->_options['from'] = Application_Model_Mappers_UserMapper::getInstance()->findByRole(Tools_Security_Acl::ROLE_SUPERADMIN)->getEmail();
         }
-        return $this->_mailer->setMailFrom($this->_options['from'])
+
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
+        $this->_entityParser->setDictionary( array(
+            'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
+        ));
+
+        return $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']))
             ->setBody($this->_entityParser->parse($mailBody))
             ->send();
     }
@@ -308,16 +314,18 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     protected function _sendTpasswordresetMail(Application_Model_Models_PasswordRecoveryToken $token) {
 	    $mailBody = $this->_prepareEmailBody();
 
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
 	    $this->_entityParser->setDictionary(
 		    array(
 			    'reset:link' => '<a href="' . $token->getResetUrl() . '">' . $token->getResetUrl() . '</a>',
 			    'reset:url'  => $token->getResetUrl(),
+                'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
 		    )
 	    );
 
 	    $mailer   = Tools_Mail_Tools::initMailer();
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() .' '.$this->_translator->translate('Please reset your password'):$this->_options['subject'];
-	    $mailer->setMailFrom($this->_options['from']);
+	    $mailer->setMailFrom($this->_entityParser->parse($this->_options['from']));
         $mailer->setMailTo($token->getUserEmail());
         $mailer->setBody($this->_entityParser->parse($mailBody));
         $mailer->setSubject($subject);
@@ -328,10 +336,15 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     protected function _sendTpasswordchangeMail(Application_Model_Models_PasswordRecoveryToken $token) {
 	    $mailBody = $this->_prepareEmailBody();
 
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
+        $this->_entityParser->setDictionary(array(
+            'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
+        ));
+
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('Your password successfully changed'):$this->_options['subject'];
-        $this->_mailer->setMailFrom($this->_options['from'])
+        $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']))
                ->setMailTo($token->getUserEmail())
-		       ->setBody($this->_prepareEmailBody())
+		       ->setBody($mailBody)
 	           ->setSubject($subject);
         return $this->_mailer->send();
     }
@@ -339,7 +352,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     protected function _sendTuserchangeattrMail(Application_Model_Models_User $user) {
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('User attribute changed'):$this->_options['subject'];
 
-        $this->_mailer->setMailFrom($this->_options['from'])
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
+        $this->_entityParser->setDictionary( array(
+            'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
+        ));
+
+        $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']))
             ->setBody($this->_prepareEmailBody())
             ->setSubject($subject);
         $this->_entityParser->objectToDictionary($user);
@@ -387,6 +405,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         }
 
         $resetTokenModel = $this->_options['resetToken'];
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
 
         $emailContent = $this->_prepareEmailBody();
         $this->_entityParser->objectToDictionary($user);
@@ -394,11 +413,12 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             array(
                 'reset:link' => '<a href="' . $resetTokenModel->getResetUrl() . '">' . $resetTokenModel->getResetUrl() . '</a>',
                 'reset:url'  => $resetTokenModel->getResetUrl(),
+                'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
             )
         );
         $this->_mailer->setBody($this->_entityParser->parse($emailContent));
         $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
-        $this->_mailer->setMailFrom($this->_options['from']);
+        $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']));
         $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
         $this->_mailer->setMailFromLabel($subject);
         $this->_mailer->setSubject($subject);
