@@ -18,12 +18,13 @@ class Application_Form_Search extends Zend_Form {
 			->setAttrib('class', 'search-form');
 
         $this->addElement(new Zend_Form_Element_Text(array(
-            'id'       => 'search',
-            'name'     => 'search',
-            'label'    => '',
-            'value'    => $this->_search,
-            'required' => true,
-            'filters'  => array(new Zend_Filter_StringTrim())
+            'id'         => 'search',
+            'name'       => 'search',
+            'label'      => 'search',
+            'aria-label' => 'search',
+            'value'      => $this->_search,
+            'required'   => true,
+            'filters'    => array(new Zend_Filter_StringTrim())
         )));
 
 		$this->_initDecorators();
@@ -43,7 +44,7 @@ class Application_Form_Search extends Zend_Form {
 			'ViewHelper',
 			'Errors',
 			'Label',
-			array()
+			array('Label', array('class' => 'hidden'))
 		));
 	}
 
