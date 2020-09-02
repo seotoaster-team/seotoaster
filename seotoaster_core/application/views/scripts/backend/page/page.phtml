@@ -265,6 +265,12 @@
             $('.remove-teaser-image').hide();
         });
     });
+
+    $(document).on('click', '.hide-block-template', function(e){
+        $('#templatelist.show-left').hide("slide", { direction: "left"});
+        $('#templatelist.show-right').hide("slide", { direction: "right"});
+        return false;
+    });
 </script>
 
 <?php $this->headScript()

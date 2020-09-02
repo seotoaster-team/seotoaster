@@ -15,6 +15,7 @@
         )
     ); ?>
     <div class="content">
+
         <div id="templatelist" class="show-right"></div>
         <div id="listpages" class="show-right"></div>
         <?php $this->templateForm->setAction($this->url()); ?>
@@ -60,6 +61,12 @@
     $(function () {
         $('#useful-shortcuts').on('change', function () {
             editor.insert(this.value);
-        })
-    })
+        });
+
+    $(document).on('click', '.hide-block-template', function(e){
+        $('#templatelist.show-left').hide("slide", { direction: "left"});
+            $('#templatelist.show-right').hide("slide", { direction: "right"});
+            return false;
+        });
+    });
 </script>
