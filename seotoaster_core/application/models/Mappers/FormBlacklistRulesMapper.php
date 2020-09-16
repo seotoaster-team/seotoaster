@@ -80,6 +80,23 @@ class Application_Model_Mappers_FormBlacklistRulesMapper extends Application_Mod
 
     }
 
+    /**
+     * get all ip part C
+     *
+     * @param string $value
+     * @return array
+     */
+    public function getByIpPartc($value)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('type = ?',
+            Application_Model_Models_FormBlacklistRules::RULE_TYPE_IP_ADDRESS_PART_C);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('value LIKE  ?', $value.'%');
+
+        $select = $this->getDbTable()->getAdapter()->select()->from('form_blacklist_rules')->where($where);
+        return $this->getDbTable()->getAdapter()->fetchAll($select);
+
+    }
+
 
     /**
      * get all with html tags
