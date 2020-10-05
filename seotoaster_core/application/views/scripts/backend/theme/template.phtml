@@ -3,7 +3,7 @@
            ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
            ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js')
            ->appendFile($this->websiteUrl . 'system/js/internal/theme.min.js'); ?>
-<div class="seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
+<div class="seotoaster-block seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
     : 'refreshOnClose'; ?>">
     <?php echo $this->partial(
         'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
@@ -60,6 +60,6 @@
     $(function () {
         $('#useful-shortcuts').on('change', function () {
             editor.insert(this.value);
-        })
-    })
+        });
+});
 </script>

@@ -533,12 +533,20 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
         }
     }, {classname : 'error', ok : yes, cancel : no});
 }
-function showSpinner(e){
-    var el = (typeof text === 'string' ? e : 'body>.seotoaster');
-    $(el).append('<span class="spinner"></span>');
+function showSpinner(e, customSelector){
+    var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
+    if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
+        $(el).append('<span class="'+customSelector+'"></span>');
+    } else {
+        $(el).append('<span class="spinner"></span>');
+    }
 }
-function hideSpinner(){
-    $('.spinner').remove();
+function hideSpinner(customSelector){
+    if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
+        $(customSelector).remove();
+    } else {
+        $('.spinner').remove();
+    }
 }
 function showLoader(text){
     var event = document.activeElement;
