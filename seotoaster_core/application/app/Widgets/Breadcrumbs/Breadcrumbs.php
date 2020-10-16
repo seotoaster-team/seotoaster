@@ -107,6 +107,10 @@ class Widgets_Breadcrumbs_Breadcrumbs extends Widgets_Abstract {
 	public static function getAllowedOptions() {
 		$translator = Zend_Registry::get('Zend_Translate');
 		return array(
+            array(
+                'alias'  => $translator->translate('Break Page in PDF'),
+                'option' => 'pagebreak'
+            ),
 			array(
 				'alias'   => $translator->translate('Breadcrumbs'),
 				'option' => 'breadcrumbs'
