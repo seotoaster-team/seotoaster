@@ -302,7 +302,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         }
 
         $wicEmail = $this->_configHelper->getConfig('wicEmail');
-        $this->_entityParser->setDictionary( array(
+        $this->_entityParser->addToDictionary(array(
             'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
         ));
 
@@ -337,7 +337,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 	    $mailBody = $this->_prepareEmailBody();
 
         $wicEmail = $this->_configHelper->getConfig('wicEmail');
-        $this->_entityParser->setDictionary(array(
+        $this->_entityParser->addToDictionary(array(
             'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
         ));
 
@@ -353,7 +353,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('User attribute changed'):$this->_options['subject'];
 
         $wicEmail = $this->_configHelper->getConfig('wicEmail');
-        $this->_entityParser->setDictionary( array(
+        $this->_entityParser->addToDictionary(array(
             'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
         ));
 
