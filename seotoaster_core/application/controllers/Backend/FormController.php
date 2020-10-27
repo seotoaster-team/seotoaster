@@ -7,7 +7,7 @@
 class Backend_FormController extends Zend_Controller_Action {
 
     const FORM_THANKYOU_PAGE = 'option_formthankyoupage';
-    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx';
+    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,jpeg';
 
 	public static $_allowedActions = array(
 		'receiveform',
