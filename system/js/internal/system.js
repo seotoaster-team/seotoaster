@@ -234,7 +234,7 @@ $(function(){
                 }
 
                 if(i=='password'){
-                    $('[name='+i+']').val('');
+                    $('[name='+i+']').attr('placeholder', '********').val('');
                 }
                 if (i=='attributes') {
                     $.each(response.responseText.data[i], function(attrName, attrValue) {

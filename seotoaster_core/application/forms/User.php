@@ -111,7 +111,7 @@ class Application_Form_User extends Application_Form_Secure {
 					'min'      => 4
 				)),
 			),
-			'placeholder' => '******',
+			//'placeholder' => '********',
 			'value'      => $this->_password
 		)));
 
