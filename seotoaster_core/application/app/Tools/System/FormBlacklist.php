@@ -28,6 +28,14 @@ class Tools_System_FormBlacklist
             return true;
         }
 
+        $splitIpAddress = explode('.', $ipAddress);
+        if (!empty($splitIpAddress)) {
+            $ipCpartAddressMask = $splitIpAddress[0] . '.' . $splitIpAddress[1] . '.' . $splitIpAddress[2] . '.*';
+            if (self::isBlacklistedIpAddressCpart($ipCpartAddressMask)) {
+                return true;
+            }
+        }
+
 
         if (!empty($params)) {
             return self::isBlacklistedHtmlTags($params);
@@ -65,6 +73,25 @@ class Tools_System_FormBlacklist
     {
         $formBlacklistRulesMapper = Application_Model_Mappers_FormBlacklistRulesMapper::getInstance();
         $result = $formBlacklistRulesMapper->getByDomainType($domain);
+        if (empty($result)) {
+            return false;
+        }
+
+        return true;
+
+
+    }
+
+    /**
+     * Check whether domain is blacklisted
+     *
+     * @param string $ipAddress domain Ex: 5.188.84.*
+     * @return bool
+     */
+    public static function isBlacklistedIpAddressCpart($ipAddress)
+    {
+        $formBlacklistRulesMapper = Application_Model_Mappers_FormBlacklistRulesMapper::getInstance();
+        $result = $formBlacklistRulesMapper->getByIpPartc($ipAddress);
         if (empty($result)) {
             return false;
         }

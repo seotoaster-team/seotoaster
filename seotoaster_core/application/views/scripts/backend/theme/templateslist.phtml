@@ -1,6 +1,6 @@
 <div class="header">
 	<div class="closebutton">
-		<a class="hide-block ticon-chevron-right" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
+		<a class="hide-block-template hide-block ticon-chevron-right" href="javascript:;" title="<?php echo $this->translate('Close'); ?>"></a>
 	</div>
     <select id="template-categories" class="grid_9 alpha mt5px">
         <?php foreach ($this->types as $type => $caption ) : ?>
@@ -22,7 +22,7 @@
 		<?php foreach ($templates as $template) : ?>
 		<div class="template_item <?php echo ((isset($template['isCurrent']) && $template['isCurrent']) ? 'curr-template' : ''); ?>" title="<?php echo sprintf($this->translate('%s template'), $template['fullName']); ?>">
 			<?php if (!in_array($template['name'], $this->protectedTemplates)): ?>
-				<span class="template_delete ticon-remove icon16" title="<?php echo $this->translate('Delete');?>" />
+				<span class="template_delete ticon-remove icon16" title="<?php echo $this->translate('Delete');?>" /></span>
 			<?php endif; ?>
             <?php if (isset($template['isCurrent']) && $template['isCurrent']): ?>
                 <span class="template-check ticon-check icon16"/></span>

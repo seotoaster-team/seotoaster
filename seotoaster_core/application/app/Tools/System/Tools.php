@@ -778,6 +778,30 @@ class Tools_System_Tools {
         return $result;
     }
 
+
+    /**
+     * Fire plugin by tag name
+     *
+     * @param string $tagName plugin name
+     * @param string $method plugin method
+     * @param array $data data array
+     * @param bool $static flag for the method type
+     * @return array
+     * @throws Zend_Reflection_Exception
+     */
+    public static function firePluginMethodByTagName($tagName, $method, $data = array(), $static = true){
+        $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
+        $plugins = $pluginMapper->findEnabled();
+        foreach ($plugins as $plugin) {
+            $pluginTags = $plugin->getTags();
+            if (in_array($tagName, $pluginTags, true)) {
+                return self::firePluginMethodByPluginName($plugin->getName(), $method, $data, $static);
+            }
+        }
+
+
+    }
+
     /**
      * Fire plugin method by plugin name
      *

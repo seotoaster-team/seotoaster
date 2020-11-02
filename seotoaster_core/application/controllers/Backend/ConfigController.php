@@ -196,6 +196,10 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			if (is_array($currentConfig) && !empty ($currentConfig)){
 				$configForm->setOptions($currentConfig);
 			}
+
+            if(!empty($currentConfig['smtpPassword'])) {
+                $configForm->getElement('smtpPassword')->setAttrib('placeholder', '********');
+            }
 		}
 
 		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
@@ -207,7 +211,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
             $suadminEmail = $suadmin->getEmail();
             $suPassword = $suadmin->getPassword();
             $configForm->getElement('suLogin')->setValue($suadminEmail);
-			$configForm->getElement('suPassword')->setValue($suPassword);
+			$configForm->getElement('suPassword')->setAttrib('placeholder', '********')->setValue($suPassword);
 		}
 
 		$this->view->errMessageFlag = $errMessageFlag;

@@ -776,6 +776,9 @@ UPDATE `masks_list` SET `full_mask_value` = '99-9999-9999?9' WHERE `country_code
 UPDATE `masks_list` SET `mask_value` = '9 99 99 99 99?9' WHERE `country_code` = 'FR';
 UPDATE `masks_list` SET `full_mask_value` = '9 99 99 99 99?9' WHERE `country_code` = 'FR';
 
+-- 20/07/2020
+-- version: 3.1.3
+-- Pre package version
 
 -- These alters are always the latest and updated version of the database
 UPDATE `config` SET `value`='3.2.0' WHERE `name`='version';

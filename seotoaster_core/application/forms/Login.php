@@ -23,6 +23,7 @@ class Application_Form_Login extends Zend_Form {
 			'label'    => 'Password',
 			'required' => true,
             'aria-label' => 'Password',
+            //'placeholder' => '********',
 		));
 
 		$this->addElement('hidden', 'secureToken', array(

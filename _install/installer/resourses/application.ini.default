@@ -62,9 +62,9 @@ cache.backend.cache_dir                = "cache{directory_separator}"
 [misc]
 misc.debug                 = 0
 misc.jquery                = "cdn"
-misc.jqversion             = "1.11.2"
+misc.jqversion             = "3.5.1"
 misc.jqueryui              = "cdn"
-misc.jquversion            = "1.10.3"
+misc.jquversion            = "1.12.1"
 misc.pluginsPath           = "plugins{directory_separator}"
 misc.imgProduct	           = 100
 misc.imgQuality	           = 90

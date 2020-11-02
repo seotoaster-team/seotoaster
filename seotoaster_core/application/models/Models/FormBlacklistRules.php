@@ -7,6 +7,8 @@ class Application_Model_Models_FormBlacklistRules extends Application_Model_Mode
 
     const RULE_TYPE_IP_ADDRESS = 'ipaddress';
 
+    const RULE_TYPE_IP_ADDRESS_PART_C = 'ipaddresspartc';
+
     const RULE_TYPE_EMAIL = 'email';
 
     const RULE_TYPE_HTMLTAGS = 'htmltags';
