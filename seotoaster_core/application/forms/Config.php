@@ -481,6 +481,7 @@ class Application_Form_Config extends Application_Form_Secure
 			'value'  => $this->_smtpPassword,
 			'label'  => 'SMTP Password',
             'autocomplete' => 'off',
+            //'placeholder' => '********',
 			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
@@ -520,7 +521,7 @@ class Application_Form_Config extends Application_Form_Secure
 			'label' => 'Password',
 			'validators' => array(array('StringLength', true, array(4))),
 			'ignore' => true,
-			'placeholder' => '*******'
+			//'placeholder' => '********'
 		));
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
