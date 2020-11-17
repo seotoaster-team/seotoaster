@@ -306,7 +306,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
         ));
 
-        return $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']))
+        return $this->_mailer->setMailFrom($this->_parseMailFrom($this->_entityParser->parse($this->_options['from'])))
             ->setBody($this->_entityParser->parse($mailBody))
             ->send();
     }
@@ -325,7 +325,8 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
 
 	    $mailer   = Tools_Mail_Tools::initMailer();
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() .' '.$this->_translator->translate('Please reset your password'):$this->_options['subject'];
-	    $mailer->setMailFrom($this->_entityParser->parse($this->_options['from']));
+
+        $mailer->setMailFrom($this->_parseMailFrom($this->_entityParser->parse($this->_options['from'])));
         $mailer->setMailTo($token->getUserEmail());
         $mailer->setBody($this->_entityParser->parse($mailBody));
         $mailer->setSubject($subject);
@@ -342,7 +343,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         ));
 
         $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl().' '.$this->_translator->translate('Your password successfully changed'):$this->_options['subject'];
-        $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']))
+        $this->_mailer->setMailFrom($this->_parseMailFrom($this->_entityParser->parse($this->_options['from'])))
                ->setMailTo($token->getUserEmail())
 		       ->setBody($mailBody)
 	           ->setSubject($subject);
@@ -357,7 +358,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
         ));
 
-        $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']))
+        $this->_mailer->setMailFrom($this->_parseMailFrom($this->_entityParser->parse($this->_options['from'])))
             ->setBody($this->_prepareEmailBody())
             ->setSubject($subject);
         $this->_entityParser->objectToDictionary($user);
@@ -418,7 +419,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         );
         $this->_mailer->setBody($this->_entityParser->parse($emailContent));
         $this->_mailer->setMailTo($user->getEmail())->setMailToLabel($fullName);
-        $this->_mailer->setMailFrom($this->_entityParser->parse($this->_options['from']));
+        $this->_mailer->setMailFrom($this->_parseMailFrom($this->_entityParser->parse($this->_options['from'])));
         $subject = ($this->_options['subject'] == '') ? $this->_translator->translate('invitation'):$this->_options['subject'];
         $this->_mailer->setMailFromLabel($subject);
         $this->_mailer->setSubject($subject);
@@ -528,6 +529,21 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         }
 
         return $formDetailsHtml;
+    }
+
+    protected function _parseMailFrom($mailFrom)
+    {
+        $themeData = Zend_Registry::get('theme');
+        $extConfig = Zend_Registry::get('extConfig');
+        $parserOptions = array(
+            'websiteUrl' => $this->_websiteHelper->getUrl(),
+            'websitePath' => $this->_websiteHelper->getPath(),
+            'currentTheme' => $extConfig['currentTheme'],
+            'themePath' => $themeData['path'],
+        );
+        $parser = new Tools_Content_Parser($mailFrom, array(), $parserOptions);
+
+        return Tools_Content_Tools::stripEditLinks($parser->parseSimple());
     }
 
 }
