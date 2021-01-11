@@ -44,6 +44,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $configForm->removeElement('grecapthaPublicKey');
                 $configForm->removeElement('recapthaPrivateKey');
                 $configForm->removeElement('grecapthaPrivateKey');
+                $configForm->removeElement('googleApiKey');
             }
             else {
                 //initializing current superadmin user
