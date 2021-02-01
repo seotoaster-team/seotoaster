@@ -34,7 +34,7 @@ $(function(){
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
         var pheight = link.data('pheight') || 560;
-        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup');
+        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopupDraggable'}).addClass('__tpopup');
         popup.parent().css({background : 'none'});
         popup.dialog({
             width     : pwidth,
@@ -45,7 +45,7 @@ $(function(){
             open      : function(){
                 this.onload = function(){
                     $(this).contents().find('.close, .save-and-close').on('click', function(){
-                        var urlFrame = $('#toasterPopup').prop('src');
+                        var urlFrame = $('#toasterPopupDraggable').prop('src');
                         var restored = localStorage.getItem(generateStorageKey());
                         if(restored!==null && $.inArray('uploadthings',urlFrame.split('/')) == -1 ){
                             showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function(){
@@ -64,7 +64,7 @@ $(function(){
                     margin   : '0px',
                     overflow : 'hidden'
                 });
-                $('[aria-describedby="toasterPopup"] .ui-dialog-titlebar').remove();
+                //$('[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar').remove();
             },
             close     : function(){
                 $(this).remove();
@@ -340,7 +340,7 @@ $(document).on('change', '#reply-email', function (e) {
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();

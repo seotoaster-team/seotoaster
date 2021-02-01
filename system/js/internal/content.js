@@ -20,7 +20,7 @@ $(function() {
     });
 
     $(document).on('click', '[aria-label="Fullscreen"]', function() {
-        var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
+        var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
         popup.toggleClass('screen-expand');
         var $tabs = $('#tabs'),
             height = $tabs.height(),
