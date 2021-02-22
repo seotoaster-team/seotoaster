@@ -1,4 +1,4 @@
-<div class="seotoaster container" id="addedit-page">
+<div class="seotoaster seotoaster-block container" id="addedit-page">
 
 	<?php
 	$draftOrLive = $this->toasterDraftorlive(array(
@@ -53,6 +53,9 @@
 			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
 			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
 			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
+            <?php if ($this->isRegularPage) : ?>
+                <p><?php echo $this->pageForm->getElement('pageFolder'); ?></p>
+            <?php endif; ?>
         	<p><?php echo $this->pageForm->getElement('url'); ?></p>
             <span class="clearfix"></span>
 			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
@@ -98,6 +101,7 @@
 		<fieldset class="grid_6">
 			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
 			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
+                <span class="remove-teaser-image icon12 ticon-close error <?php echo (empty($this->existedPreviewImage) ? 'hide' : ''); ?>"><?php echo $this->translate('Delete image');?></span>
 				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
 				<span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
 				<?php
@@ -122,6 +126,7 @@
 		<?php echo $this->pageForm->getElement('pageType'); ?>
         <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>"/>
         <?php echo $this->pageForm->getElement('updatePage'); ?>
+        <input type="hidden" name="removePageTeaser" id="removePageTeaser" value="0">
         <input type="hidden" name="original-page-url" id="original-page-url" value="<?php echo $this->pageForm->getElement('url')->getValue(); ?>">
 	</form>
 </div>
@@ -151,6 +156,10 @@
                     errorMessage += value + '<br />';
                 });
                 showMessage(errorMessage, true, 3000);
+            } else {
+                $('#removePageTeaser').val(0);
+                $('#page-teaser-uploader-filelist').show();
+                $('.remove-teaser-image').show();
             }
         });
 
@@ -243,6 +252,31 @@
 
             }
         });
+    });
+
+    $(document).on('click', '.remove-teaser-image', function (e) {
+        e.preventDefault();
+        var timestamp = new Date().getTime();
+        showConfirm('<?php echo $this->translate('Are you sure want to delete teaser image?');?>', function() {
+            $('#removePageTeaser').val(1);
+            var src = $('#website_url').val() + 'system/images/noimage.png' + timestamp;
+            $('#page-preview-image').attr('src', src);
+            $('#page-teaser-uploader-filelist').hide();
+            $('.remove-teaser-image').hide();
+        });
+    });
+
+    $(document).on('mouseup', '.seotoaster-block', function (e) {
+        var container = $(".show-left, .show-right");
+        if (container.has(e.target).length === 0){
+            $('#templatelist.show-left').hide("slide", { direction: "left"});
+            $('#templatelist.show-right').hide("slide", { direction: "right"});
+            return false;
+        }
+    }).on('click', '.hide-block-template', function(){
+        $('#templatelist.show-left').hide("slide", { direction: "left"});
+        $('#templatelist.show-right').hide("slide", { direction: "right"});
+        return false;
     });
 </script>
 

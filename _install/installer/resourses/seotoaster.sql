@@ -37,7 +37,8 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMinifyCss', '0'),
 ('enableMinifyJs', '0'),
 ('cropNewFormat', '0'),
-('version',	'3.0.9');
+('optimizedNotifications', ''),
+('version',	'3.2.0');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -251,6 +252,8 @@ CREATE TABLE `page` (
   `external_link_status` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `external_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `page_type` TINYINT(3) unsigned NOT NULL DEFAULT '1',
+  `page_folder` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_folder_index` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
@@ -260,7 +263,21 @@ CREATE TABLE `page` (
   KEY `indProtected` (`protected`),
   KEY `draft` (`draft`),
   KEY `news` (`news`),
-  KEY `nav_name` (`nav_name`)
+  KEY `nav_name` (`nav_name`),
+  KEY `page_folder` (`page_folder`),
+  CONSTRAINT `page_ibfk_2` FOREIGN KEY (`page_folder`) REFERENCES `page_folder` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `page_folder`;
+CREATE TABLE `page_folder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `index_page` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `index_page` (`index_page`),
+  CONSTRAINT `page_folder_ibfk_4` FOREIGN KEY (`index_page`) REFERENCES `page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `page` (`id`, `template_id`, `parent_id`, `nav_name`, `meta_description`, `meta_keywords`, `header_title`, `h1`, `url`, `teaser_text`, `last_update`, `is_404page`, `show_in_menu`, `order`, `weight`, `silo_id`, `targeted_key_phrase`, `protected`, `system`, `draft`, `publish_at`, `news`, `err_login_landing`, `mem_landing`, `signup_landing`, `checkout`, `preview_image`) VALUES
@@ -428,6 +445,9 @@ CREATE TABLE `user` (
   `desktop_country_code_value` VARCHAR(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `signature` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `subscribed` ENUM('0', '1') DEFAULT '0',
+  `allow_remote_authorization` ENUM('1', '0') DEFAULT '0' NOT NULL,
+  `remote_authorization_info` TEXT COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'additional info',
+  `remote_authorization_token` CHAR(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
@@ -619,12 +639,12 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('FM',	'desktop',	'999-9999',	'999-9999'),
 ('FO',	'mobile',	'999-999',	'999-999'),
 ('FO',	'desktop',	'999-999',	'999-999'),
-('FR',  'mobile', '9 99 99 99 99', '9 99 99 99 99'),
-('FR',  'desktop', '9 99 99 99 99', '9 99 99 99 99'),
+('FR',  'mobile', '9 99 99 99 99?9', '9 99 99 99 99?9'),
+('FR',  'desktop', '9 99 99 99 99?9', '9 99 99 99 99?9'),
 ('GA',	'mobile',	'9-99-99-99',	'9-99-99-99'),
 ('GA',	'desktop',	'9-99-99-99',	'9-99-99-99'),
-('GB',	'mobile',	'99-9999-9999',	'99-9999-9999'),
-('GB',	'desktop',	'99-9999-9999',	'99-9999-9999'),
+('GB',	'mobile',	'99-9999-9999?9',	'99-9999-9999?9'),
+('GB',	'desktop',	'99-9999-9999?9',	'99-9999-9999?9'),
 ('GD',	'mobile',	'(473)999-9999',	'(473)999-9999'),
 ('GD',	'desktop',	'(473)999-9999',	'(473)999-9999'),
 ('GE',	'mobile',	'(999)999-999',	'(999)999-999'),
@@ -950,3 +970,5 @@ CREATE TABLE `form_blacklist_rules` (
   PRIMARY KEY (`type`,`value`),
   UNIQUE (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+INSERT IGNORE INTO `email_triggers_actions` (`service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject`)
+SELECT CONCAT('email'),	CONCAT('t_userinvitation'),	NULL,	CONCAT('guest'),	CONCAT('Hello {user:fullname},<br><br>You have a new account at {$website:url}<br><br>Account details:<br><b>Login: </b>{user:email}<br><br>Start using your new account by <a href={reset:url}>setting up a password</a>'),	CONCAT('admin@{$website:domain}'),	CONCAT('Complete your account setup') FROM email_triggers WHERE NOT EXISTS (SELECT `service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject` FROM `email_triggers_actions` WHERE `service` = 'email' AND `recipient` = 'guest' AND `trigger` = 't_userinvitation') LIMIT 1;

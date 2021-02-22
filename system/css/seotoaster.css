@@ -3129,6 +3129,14 @@ footer [type="button"] {
 .page-preview:hover img[src*="noimage.png"] + span:before {
   color: #dddddd;
 }
+.page-preview .remove-teaser-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 52;
+  padding: 5px;
+  background: #eaeaea;
+}
 .plupload {
   display: none;
 }
@@ -5512,13 +5520,13 @@ label[for*="chr-"] {
   float: left;
   line-height: 1;
 }
-#formWidget #tracking-code {
+#tracking-code {
   height: 70px;
 }
-#formWidget #code {
+#code {
   height: 70px;
 }
-#formWidget .full-screen #code {
+#formWidget .full-screen .code-area {
   height: 480px;
 }
 .directupload-wrapper {

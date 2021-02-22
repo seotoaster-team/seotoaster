@@ -40,6 +40,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
             $this->_responseHelper->fail('');
         }
         $currentUserRole = $this->_sessionHelper->getCurrentUser()->getRoleId();
+
         if ($currentUserRole === Tools_Security_Acl::ROLE_SUPERADMIN) {
             $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
             $indexPagesOffset = !empty($this->_sessionHelper->indexPagesOffset) ? $this->_sessionHelper->indexPagesOffset : 0;
@@ -143,10 +144,10 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                         $page['teaserText'] = implode(
                             PHP_EOL,
                             array(
-                                $prod['short_description'],
-                                $prod['full_description'],
-                                $page['teaserText'],
-                                $prod['tags']
+                                '<div class="search-product-short-description">'.$prod['short_description'].'</div>',
+                                '<div class="search-product-full-description">'.$prod['full_description'].'</div>',
+                                '<div class="search-teaser-text">'.$page['teaserText'].'</div>',
+                                '<div class="search-product-tags">'.$prod['tags'].'</div>'
                             )
                         );
                     }
@@ -156,6 +157,8 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                             ', ',
                             array($page['metaDescription'], $singleNews['content'], $singleNews['tags'])
                         );
+
+                        $page['pageTags'] = $singleNews['tags'];
                     }
                     Tools_Search_Tools::addPageToIndex($page);
                 }

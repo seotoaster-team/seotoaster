@@ -234,7 +234,7 @@ $(function(){
                 }
 
                 if(i=='password'){
-                    $('[name='+i+']').val('');
+                    $('[name='+i+']').attr('placeholder', '********').val('');
                 }
                 if (i=='attributes') {
                     $.each(response.responseText.data[i], function(attrName, attrValue) {
@@ -303,10 +303,39 @@ $(function(){
 });
 ///////// Full screen //////////////
 $(document).on('click', '.screen-size', function(e){
+    e.preventDefault();
     var name = $(this).data('size');
     $('.closebutton').toggle();
-    $(this).toggleClass('ticon-expand ticon-turn');
+
+    if($(this).data('type') == 'form') {
+        if(!$(this).hasClass('open')) {
+            $(this).addClass('open');
+        }
+
+        var screenSizeEl = $('.screen-size');
+
+        $.each(screenSizeEl, function(key, el){
+            if(!$(el).hasClass('open')) {
+                $(el).toggle();
+            } else {
+                $(el).removeClass('open').toggleClass('ticon-expand ticon-turn');
+            }
+        });
+    } else {
+        $(this).toggleClass('ticon-expand ticon-turn');
+    }
+
     $('body, #'+name+', .'+name).toggleClass('full-screen');
+});
+
+///////// Show/Hide 'Reply email setup' block //////////////
+$(document).on('change', '#reply-email', function (e) {
+    var el = e.currentTarget;
+    if(el.checked) {
+        $('.reply-info').hide();
+    } else {
+        $('.reply-info').show();
+    }
 });
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
@@ -504,12 +533,20 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
         }
     }, {classname : 'error', ok : yes, cancel : no});
 }
-function showSpinner(e){
-    var el = (typeof text === 'string' ? e : 'body>.seotoaster');
-    $(el).append('<span class="spinner"></span>');
+function showSpinner(e, customSelector){
+    var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
+    if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
+        $(el).append('<span class="'+customSelector+'"></span>');
+    } else {
+        $(el).append('<span class="spinner"></span>');
+    }
 }
-function hideSpinner(){
-    $('.spinner').remove();
+function hideSpinner(customSelector){
+    if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
+        $(customSelector).remove();
+    } else {
+        $('.spinner').remove();
+    }
 }
 function showLoader(text){
     var event = document.activeElement;
@@ -571,6 +608,11 @@ function showMailMessageEdit(trigger, callback, recipient){
         var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(msg).css({
             resizable : "none"
         }));
+        $(msgEditScreen).append('<div class="mt10px">' +
+            '<label> Additional emails <a href="javascript:;" class="ticon-info tooltip icon18" title="You can enter emails separated by comma. ex: John@mail.com,Doe@mail.com"></a> : </label>' +
+            '<input type="text" name="additional-emails" id="additional-emails" value="" />' +
+            '</div>');
+
         $('#trigger-msg').val(msg);
         msgEditScreen.dialog({
             modal     : true,
@@ -584,11 +626,35 @@ function showMailMessageEdit(trigger, callback, recipient){
                 {
                     text  : dialogOkay,
                     click : function(e){
-                        msgEditScreen.dialog('close');
-                        callback($('#trigger-msg').val());
+                        var additionalEmails = $('#additional-emails').val(),
+                        closeDialog = true;
+
+                        if(additionalEmails.length) {
+                            additionalEmails = additionalEmails.split(',');
+
+                           var regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                            $.each(additionalEmails, function(key, email){
+                                var clearEmail = email.toString().replace(/\s/g, ''),
+                                isValidEmail = regularExpression.test(clearEmail);
+
+                                if(!isValidEmail) {
+                                    closeDialog = false;
+                                    showMessage('Not valid email address - "' + clearEmail + '"', true, 3000);
+                                }
+                            });
+                        }
+
+                        if(closeDialog) {
+                            msgEditScreen.dialog('close');
+                            callback($('#trigger-msg').val(), $('#additional-emails').val());
+                        }
                     }
                 }
-            ]
+            ],
+            close: function(event, ui){
+                $(this).dialog('close').remove();
+            }
         });
     }, 'json');
 }

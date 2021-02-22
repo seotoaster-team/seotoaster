@@ -74,7 +74,7 @@ class LoginController extends Zend_Controller_Action {
 					$this->_memberRedirect(false);
 				}
 
-				$this->_checkRedirect(false, array('password' => $this->_helper->language->translate('There is no user with such login and password.')));
+				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
 			}
 			else {
 				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Login should be a valid email address')));
@@ -176,7 +176,7 @@ class LoginController extends Zend_Controller_Action {
 				foreach($messages as $messageData) {
 					if(is_array($messageData)) {
 						array_walk($messageData, function($msg) use($flashMessanger) {
-							$flashMessanger->addMessage(array('email' => $msg));
+							$flashMessanger->addMessage(array('email' => $this->_helper->language->translate($msg)));
 						});
 					} else {
 						$flashMessanger->addMessage(array('email' => $messageData));
@@ -236,7 +236,7 @@ class LoginController extends Zend_Controller_Action {
 		}
 		if($error) {
 			$error = false;
-			$this->_helper->flashMessenger->addMessage(array('email' => 'Token is incorrect. Please, enter your e-mail one more time.'));
+			$this->_helper->flashMessenger->addMessage(array('email' => $this->_helper->language->translate('Token is incorrect. Please, enter your e-mail one more time.')));
 			return $this->redirect($this->_helper->website->getUrl() . 'login/retrieve/');
 		}
 

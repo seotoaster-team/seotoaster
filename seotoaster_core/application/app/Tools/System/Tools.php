@@ -43,6 +43,8 @@ class Tools_System_Tools {
 
     const ACTION_PREFIX_REDIRECTS = 'Redirects';
 
+    const ACTION_PREFIX_FOLDERS = 'Folders';
+
     const ACTION_PREFIX_DEEPLINKS = 'Deeplinks';
 
     const ACTION_PREFIX_SILOS = 'Silos';
@@ -776,6 +778,30 @@ class Tools_System_Tools {
         return $result;
     }
 
+
+    /**
+     * Fire plugin by tag name
+     *
+     * @param string $tagName plugin name
+     * @param string $method plugin method
+     * @param array $data data array
+     * @param bool $static flag for the method type
+     * @return array
+     * @throws Zend_Reflection_Exception
+     */
+    public static function firePluginMethodByTagName($tagName, $method, $data = array(), $static = true){
+        $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
+        $plugins = $pluginMapper->findEnabled();
+        foreach ($plugins as $plugin) {
+            $pluginTags = $plugin->getTags();
+            if (in_array($tagName, $pluginTags, true)) {
+                return self::firePluginMethodByPluginName($plugin->getName(), $method, $data, $static);
+            }
+        }
+
+
+    }
+
     /**
      * Fire plugin method by plugin name
      *
@@ -861,6 +887,26 @@ class Tools_System_Tools {
         }
 
         return $ip;
+    }
+
+    /**
+     * Get allowed prefixes
+     *
+     * @return array
+     * @throws Zend_Exception
+     */
+    public static function getAllowedPrefixesList()
+    {
+        $restrictedLanguagesList = array('fr', 'fr_FR');
+        $locale = Zend_Registry::get('Zend_Locale');
+        $language = $locale->getLanguage();
+        $prefixes = Widgets_User_Base::$userPrefixes;
+        $prefixes = array_combine($prefixes, $prefixes);
+        if (in_array($language, $restrictedLanguagesList, true)) {
+            unset($prefixes['Mrs']);
+        }
+
+        return $prefixes;
     }
 
 }

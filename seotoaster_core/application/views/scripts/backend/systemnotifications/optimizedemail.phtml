@@ -1,0 +1,8 @@
+<div>
+    <p><?php echo $this->translate('Hello SeoSamba Team'); ?>,
+        <?php echo $this->translate('The optimization from the following page has been removed'); ?>:
+        <?php if($this->pageUrl) :?>
+            <a href="<?php echo $this->websiteUrl . $this->pageUrl;?>" title="<?php echo $this->pageName;?>" target="_blank"><?php echo $this->pageName;?></a>
+        <?php endif;?>
+    </p>
+</div>

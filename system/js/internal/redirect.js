@@ -77,8 +77,8 @@ $(document).ready(function() {
     });
 
     $('#redirects-box').append($('.paginator'));
-    var count = $('.paginator').size();
-    var paginator = $('.not-mutch-paginator').size();
+    var count = $('.paginator').length;
+    var paginator = $('.not-mutch-paginator').length;
     if(count > 1 || paginator == 1){
         $('.paginator:last').remove();
     }

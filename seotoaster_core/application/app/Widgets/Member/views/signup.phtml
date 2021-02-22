@@ -14,6 +14,14 @@
     <?php  if (!$registry->isRegistered('signupFormMasks')): ?>
             <script type="text/javascript">
                 $(function() {
+                    <?php if($this->noCaptchaOption === false && !$this->useOldCaptcha) :?>
+                        var grecaptchaContainer = document.createElement("div");
+                        grecaptchaContainer.classList.add('g-recaptcha');
+                        var grecaptchaPlace = $('#save-user');
+                        if (grecaptchaPlace.length) {
+                            grecaptchaPlace.before(grecaptchaContainer);
+                        }
+                    <?php endif;?>
                     var mobileMasks = JSON.parse('<?php echo json_encode($this->mobileMasks);?>'),
                         desktopMasks = JSON.parse('<?php echo json_encode($this->desktopMasks);?>');
 
