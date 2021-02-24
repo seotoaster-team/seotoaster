@@ -437,7 +437,7 @@ $(document).on('mousedown', '.sneak-peek', function(e){
 });
 $(document).on('mouseup', '.sneak-peek', function(e){
     if($(e.currentTarget).length) {
-        $(e.currentTarget).closest('.sneak-peek-eye').find('input:password').prop("type", "password").focus();
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:text').prop("type", "password").focus();
     }
 });
 
