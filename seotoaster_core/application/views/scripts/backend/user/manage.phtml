@@ -39,7 +39,7 @@
 					<?php echo $this->userForm->getElement('password')->renderLabel(); ?>
                     <div class="sneak-peek-eye">
                         <?php echo $this->userForm->getElement('password')->renderViewHelper(); ?>
-                        <span class="hidden sneak-peek"></span>
+                        <span class="sneak-peek"></span>
                     </div>
 				</div>
                 <label for="user-mobile-country-code" class="optional grid_12 mt10px mb0px"><?php echo $this->translate('Mobile');?></label>
@@ -324,7 +324,7 @@
                     sneakPeek = $(passwdBlock).find('.sneak-peek');
 
                 if(!sneakPeek.length) {
-                    $('.sneak-peek-eye').append('<span class="hidden sneak-peek"></span>');
+                    $('.sneak-peek-eye').append('<span class="sneak-peek"></span>');
                 }
             });
         });

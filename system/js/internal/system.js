@@ -428,6 +428,19 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
         });
     }
 });
+
+//sneak-peek password
+$(document).on('mousedown', '.sneak-peek', function(e){
+    if($(e.currentTarget).length) {
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:password').prop("type", "text");
+    }
+});
+$(document).on('mouseup', '.sneak-peek', function(e){
+    if($(e.currentTarget).length) {
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:password').prop("type", "password").focus();
+    }
+});
+
 ///////// checkbox & radio button //////////////
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
