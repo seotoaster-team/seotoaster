@@ -3253,8 +3253,8 @@ input[type="button"].block {
   cursor: pointer;
   right: 2%;
   top: 50%;
-  font-size: 1.5em;
-  color: #5d5d5d;
+  font-size: 1.25em;
+  color: #4d4d4d;
   -webkit-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
   transform: translate(0, -50%);
