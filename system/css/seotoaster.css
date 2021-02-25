@@ -3245,6 +3245,34 @@ input[type="button"].block {
 .card-ui .btn-area::after {
   content: none;
 }
+.sneak-peek-eye {
+  position: relative;
+}
+.sneak-peek-eye .sneak-peek {
+  position: absolute;
+  cursor: pointer;
+  right: 2%;
+  top: 50%;
+  font-size: 1.25em;
+  color: #4d4d4d;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}
+.sneak-peek-eye .sneak-peek::before {
+  content: "\e902";
+  font-family: 'system-icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: none;
+  line-height: 1;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 form:after,
 .form:after {
   content: "";

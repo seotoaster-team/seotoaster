@@ -154,7 +154,15 @@
                 <?php echo $this->configForm->getElement('smtpSsl')->renderViewHelper(); ?>
             </div>
             <div class="grid_12"><?php echo $this->configForm->getElement('smtpLogin'); ?></div>
-            <div class="grid_12"><?php echo $this->configForm->getElement('smtpPassword'); ?></div>
+            <div class="grid_12">
+                <?php echo $this->configForm->getElement('smtpPassword')->renderLabel(); ?>
+                <div class="<?php echo $this->useEye ? 'sneak-peek-eye' : '';?>">
+                    <?php echo $this->configForm->getElement('smtpPassword')->renderViewHelper(); ?>
+                    <?php if($this->useEye) :?>
+                        <span class="sneak-peek"></span>
+                    <?php endif;?>
+                </div>
+            </div>
         </fieldset>
 
         <?php if ($this->isSuperAdmin): ?>
