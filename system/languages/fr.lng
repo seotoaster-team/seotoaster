@@ -1279,7 +1279,15 @@
     'Rel' => 'Rel',
     'Delete selected' => 'Supprimer le selectionné',
     'Follow' => 'Suivre',
-    'Add deeplink' => 'Ajouter lien ciblé'
+    'Add deeplink' => 'Ajouter lien ciblé',
+    'This is a beta version of the updater. Use at your own risk. Please backup your database before updating your system.' => 'С\'est la version beta de la mise en jour. À utiliser à vos risques. Veuillez sauvegarder votre base de données avant de mettre à jour votre système.',
+    'Local toaster version' => 'Version locale',
+    'Remote toaster version' => 'Version à distance',
+    ', click on "Apply changes to the website config" button to update.' => ', cliquez sur le bouton "Veuillez appliquer" pour mettre à jour',
+    'Apply changes to the website config' => 'Veuillez appliquer',
+    'Without backup' => 'Sans sauvegarde',
+    'Update' => 'Mettre à jour',
+    'jQuery version is outdated' => 'Version de jQuery est obsolète'
 
 
 );?>
