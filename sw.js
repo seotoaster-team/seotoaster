@@ -12,7 +12,7 @@ if (typeof workbox !== 'undefined') {
   const imagesStrategy = new workbox.strategies.StaleWhileRevalidate({cacheName: 'images'});
 
   registerRoute(
-      routeData => routeData.event.request.headers.get('accept').includes('text/html'),
+      routeData => routeData.event.request.headers.get('accept') !== null && routeData.event.request.headers.get('accept').includes('text/html'),
       args => fetch(args.event.request)
           .then(res => res)
           .catch(() => {
