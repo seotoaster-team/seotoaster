@@ -41,7 +41,7 @@
                     <div class="trigger-title mt0px">
                         <?php echo $this->translate('When'); ?> <strong>${title}</strong><br />
                     </div>
-                    {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber'}}
+                    {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber' || typeof data.withsms !== 'undefined'}}
                     <p>
                         <?php echo $this->formLabel('recipients', 'send', array('class' => 'grid_4 mt5px')); ?>
                         <?php echo $this->formSelect('actions[${index}][service]', '${sendto}', array('class' => 'grid_8'), $this->services); ?>
@@ -69,7 +69,7 @@
 						<?php echo $this->formLabel('subject', 'with subject', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][subject]', '${subject}', array('class' => 'grid_8')); ?>
 					</p>
-                    {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber'}}
+                    {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber' || typeof data.withsms !== 'undefined'}}
                     <p class="{{if serviceName != 'sms'}}hide{{/if}}">
                         <?php echo $this->formLabel('smsText', 'insert plain text message only', array('class' => 'grid_12')); ?>
                         <?php echo $this->formTextarea('actions[${index}][smsText]', '', array('class' => 'grid_12', 'placeholder' => 'SMS are text only', 'rows' => '5', 'style' => 'height:172px;')); ?>

@@ -111,8 +111,7 @@
 .ui-dialog:before,
 .ui-accordion-header-icon:before,
 .ui-dialog-titlebar-close:before,
-.search-choice-close:before,
-[class*="_i-"]:before {
+.search-choice-close:before {
   font-family: 'system-icons';
   speak: none;
   font-style: normal;
@@ -133,6 +132,9 @@
 }
 .ticon-thumb_down:before {
   content: "\e901";
+}
+.ticon-eye:before {
+  content: "\e902";
 }
 .ticon-home:before {
   content: "\e003";
@@ -1951,6 +1953,27 @@
 .paginator :last-child,
 .dataTables_paginate :last-child {
   font-weight: bold;
+}
+.paginator-list {
+  padding: 10px 0;
+  font-size: 0;
+  font-weight: bold;
+}
+.paginator-list > * {
+  font-size: 13px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.paginator-list .active a {
+  color: #666666;
+}
+.paginator-list a {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #d8d8d8;
+  padding: 4px 8px;
+  margin: 0 0.1em;
+  border-radius: 3px;
 }
 .ui-effects-transfer {
   border: 1px dashed #666;
