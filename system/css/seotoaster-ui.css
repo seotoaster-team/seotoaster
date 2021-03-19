@@ -111,7 +111,8 @@
 .ui-dialog:before,
 .ui-accordion-header-icon:before,
 .ui-dialog-titlebar-close:before,
-.search-choice-close:before {
+.search-choice-close:before,
+[class*="_i-"]:before {
   font-family: 'system-icons';
   speak: none;
   font-style: normal;
@@ -126,15 +127,6 @@
 }
 [data-icon]:before {
   content: attr(data-icon);
-}
-.ticon-thumb_up:before {
-  content: "\e900";
-}
-.ticon-thumb_down:before {
-  content: "\e901";
-}
-.ticon-eye:before {
-  content: "\e902";
 }
 .ticon-home:before {
   content: "\e003";
@@ -947,13 +939,28 @@
   content: "\e1c0";
 }
 .ticon-exit:before {
-  content: "\e28d";
+  content: "\e904";
 }
 .ticon-loop:before {
   content: "\e900";
 }
+.ticon-address-card:before {
+  content: "\e902";
+}
+.ticon-news:before {
+  content: "\e903";
+}
 .ticon-files:before {
   content: "\e901";
+}
+.ticon-thumb_up:before {
+  content: "\e905";
+}
+.ticon-thumb_down:before {
+  content: "\e906";
+}
+.ticon-eye:before {
+  content: "\e907";
 }
 .smoke-base .smokebg {
   position: fixed;

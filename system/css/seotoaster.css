@@ -3260,7 +3260,7 @@ input[type="button"].block {
   transform: translate(0, -50%);
 }
 .sneak-peek-eye .sneak-peek::before {
-  content: "\e902";
+  content: "\e907";
   font-family: 'system-icons';
   speak: none;
   font-style: normal;
