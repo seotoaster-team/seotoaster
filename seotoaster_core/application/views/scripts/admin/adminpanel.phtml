@@ -161,15 +161,19 @@
                 </div>
             </li>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_SEO)): ?>
-                <li class="section" data-tooltip-title="<?php echo $this->translate('Marketing & SEO configs'); ?>">
+                <li class="section" data-tooltip-title="<?php echo $this->translate('Search Engine Optimization'); ?>">
                     <a href="#" class="section-btn _i-marketing-seo"></a>
 
                     <div class="section-wrap">
                         <div class="section-box">
                             <span
-                                class="section-title"><?php echo $this->translate('Marketing & SEO configs'); ?></span>
+                                class="section-title"><?php echo $this->translate('Search Engine Optimization'); ?></span>
                             <ul class="category-list">
-                                <li class="item title"><?php echo $this->translate('SEO'); ?></li>
+                                <?php
+                                    $prompt =  $this->translate('Get additional capabilities with a subscription to $hubagencyname.');
+                                    $prompt = str_replace('$hubagencyname', $this->mojoCompanyAgencyName, $prompt);
+                                ?>
+                                <li class="item title"><?php echo $prompt; ?></li>
                                 <li class="item"><?php echo $this->toasterLink('backend_seo', 'robots',
                                         $this->translate('Edit robots.txt'), false, false,
                                         array('width' => '360', 'height' => '350')); ?></li>
@@ -269,14 +273,14 @@
                 </li>
             <?php endif; ?>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
-                <li class="section" data-tooltip-title="<?php echo $this->translate('Website configs'); ?>">
+                <li class="section" data-tooltip-title="<?php echo $this->translate('System configuration'); ?>">
                     <a href="#" class="section-btn _i-setup "></a>
 
                     <div class="section-wrap">
                         <div class="section-box">
-                            <span class="section-title"><?php echo $this->translate('Website configs'); ?></span>
+                            <span class="section-title"><?php echo $this->translate('System configuration'); ?></span>
                             <ul class="category-list">
-                                <li class="item title"><?php echo $this->translate('OTHER'); ?></li>
+                                <li class="item title"><?php echo $this->translate('Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.'); ?></li>
                                 <li class="item"><?php echo $this->toasterLink('backend_config', 'config',
                                         $this->translate('Website configs'), false, false,
                                         array('width' => '720', 'height' => '360')); ?></li>
@@ -322,7 +326,12 @@
                         <?php if ($addName === 'DEFAULT') : ?>
                             <?php continue; ?>
                         <?php endif; ?>
-                        <li class="section" data-tooltip-title="<?php echo $this->translate(ucfirst(strtolower($addName))); ?>">
+                        <?php $sectionBtn = $addName;?>
+                        <?php if(!empty($additionalMenuItem[$addName][$addName]['sectionAlias'])) {
+                            $sectionBtn = $additionalMenuItem[$addName][$addName]['sectionAlias'];
+                        }?>
+
+                        <li class="section" data-tooltip-title="<?php echo $this->translate(ucfirst(strtolower($sectionBtn))); ?>">
                             <?php $hiddeSectionWrap = false;?>
                             <?php if(isset($additionalMenuItem[$addName][$addName]['forceurl'])) :?>
                                 <?php
@@ -342,13 +351,16 @@
 
                             <div class="section-wrap">
                                 <div class="section-box">
-                                <span
-                                    class="section-title"><?php echo $this->translate(ucfirst(strtolower($addName))); ?></span>
+                                <span class="section-title"><?php echo $this->translate(ucfirst(strtolower($sectionBtn))); ?></span>
                                     <ul class="category-list">
                                         <?php if (isset($this->additionalMenu)): ?>
                                             <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
                                                 <?php if ($categoryName !== 'DEFAULT') : ?>
-                                                    <li class="item title"><?php echo $categoryName; ?></li>
+                                                    <?php if(!empty($category[$addName]['prompt'])) :?>
+                                                        <li class="item title"><?php echo $category[$addName]['prompt']; ?></li>
+                                                    <?php else: ?>
+                                                        <li class="item title"><?php echo $categoryName; ?></li>
+                                                    <?php endif;?>
                                                 <?php endif; ?>
                                                 <?php foreach ($category as $pluginName => $plugin): ?>
                                                     <?php $itemsWithLinks = preg_grep('~open-new-link-admin-panel~', $plugin['items']);?>

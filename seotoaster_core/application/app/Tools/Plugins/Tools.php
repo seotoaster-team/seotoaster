@@ -25,6 +25,16 @@ class Tools_Plugins_Tools {
 		$websiteData    = Zend_Registry::get('website');
 		$pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
 
+        $translator = Zend_Registry::get('Zend_Translate');
+        $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+        $toasterConfig = $configMapper->getConfig();
+
+        $mojoCompanyAgencyName = Tools_System_Tools::DEFAUL_MOJO_COMPANY_AGENCY_NAME;
+
+        if(!empty($toasterConfig['mojoCompanyAgencyName'])) {
+            $mojoCompanyAgencyName = $toasterConfig['mojoCompanyAgencyName'];
+        }
+
 		foreach ($enabledPlugins as $plugin) {
 
 			if(!$plugin instanceof Application_Model_Models_Plugin) {
@@ -60,6 +70,11 @@ class Tools_Plugins_Tools {
                     }
                 }
 
+                $sectionAlias = (isset($configIni->cpanel->sectionAlias)) ? $configIni->cpanel->sectionAlias : '';
+				if(!empty($sectionAlias)) {
+                    $sectionAlias = $translator->translate($sectionAlias);
+                }
+
 				$subsection = strtoupper((isset($configIni->cpanel->subsection)) ? $configIni->cpanel->subsection : 'DEFAULT');
 				if($subsection === 'DEFAULT') {
                     if(isset($configIni->$userRole) && isset($configIni->$userRole->subsection)) {
@@ -82,13 +97,21 @@ class Tools_Plugins_Tools {
                     $values = array_merge($values, array_values($configIni->$userRole->values->toArray()));
                 }
 
+                $prompt = (isset($configIni->cpanel->prompt)) ? $configIni->cpanel->prompt : '';
+                if(!empty($prompt)) {
+                    $prompt = $translator->translate($prompt);
+                    $prompt = str_replace('$hubagencyname', $mojoCompanyAgencyName, $prompt);
+                }
+
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
 
 				if (!isset($additionalMenu[$section][$subsection][$title])) {
                     $additionalMenu[$section][$subsection][$title] = array(
-                        'title' => $title,
-                        'items' => array(),
-                        'values' => array()
+                        'title'        => $title,
+                        'items'        => array(),
+                        'values'       => array(),
+                        'sectionAlias' => $sectionAlias,
+                        'prompt'       => $prompt
                     );
 
                     if(isset($configIni->$userRole->forceurl)) {

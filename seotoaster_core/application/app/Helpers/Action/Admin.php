@@ -26,6 +26,18 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
             $this->_view->placeholder('logoSource')->set($websiteHelper->getUrl() . 'system/images/cpanel-img.jpg');
         }
         $this->_view->userRole = $userRole;
+
+        $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+        $toasterConfig = $configMapper->getConfig();
+
+        $mojoCompanyAgencyName = Tools_System_Tools::DEFAUL_MOJO_COMPANY_AGENCY_NAME;
+
+        if(!empty(Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('mojoCompanyAgencyName'))) {
+            $mojoCompanyAgencyName = $toasterConfig['mojoCompanyAgencyName'];
+        }
+
+        $this->_view->mojoCompanyAgencyName = $mojoCompanyAgencyName;
+
         return $this->_view->render('admin/adminpanel.phtml');
 	}
 
