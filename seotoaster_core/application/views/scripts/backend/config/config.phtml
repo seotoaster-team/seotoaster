@@ -130,6 +130,12 @@
                 <?php echo '<strong>' . $this->translate("Attention!") . '</strong> '. $this->translate('When enabled "Developer mode" disables some functionality that speeds up your sites. Do not forget to turn off the "Developer mode" after work.'); ?>
             </p>
             <?php endif; ?>
+            <div class="grid_5">
+                <?php echo $this->configForm->getElement('validateFormEmails')->renderLabel(); ?>
+            </div>
+            <div class="grid_1">
+                <?php echo $this->configForm->getElement('validateFormEmails')->renderViewHelper(); ?>
+            </div>
 
             <?php echo $this->configForm->getElement('currentTheme'); ?>
             <?php echo $this->configForm->getElement('adminEmail'); ?>
