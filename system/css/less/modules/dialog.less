@@ -1,4 +1,4 @@
-.ui-dialog{
+.ui-dialog {
     font-size        : @font-size-base;
     padding          : 0;
     border-width     : @dialog-border-width;
@@ -9,7 +9,7 @@
     //    max-width        : 90%;
     //    .box-shadow(4px 4px 4px @gray-dark);
     // Title bar
-    .ui-dialog-titlebar{
+    .ui-dialog-titlebar {
         font-size   : @font-size-large;
         background  : @dialog-header-bg;
         color       : @dialog-header-color;
@@ -19,22 +19,22 @@
         padding     : 0 @grid-margin-width/2;
         overflow    : hidden;
 
-        & > *{
+        & > * {
             font-size : @font-size-base;
         }
 
-        .ui-draggable &{
+        .ui-draggable & {
             cursor : move;
         }
     }
 
-    .ui-dialog-title{
+    .ui-dialog-title {
         max-width      : 90%;
         text-transform : capitalize;
         .text-overflow;
     }
 
-    .ui-dialog-titlebar-close{
+    .ui-dialog-titlebar-close {
         position   : absolute;
         top        : 0;
         bottom     : 0;
@@ -46,24 +46,24 @@
         .link-color(@dialog-header-color, @brand-error);
         .icon-size(13px);
 
-        &:before{
+        &:before {
             margin : 0;
         }
 
-        &:hover{
+        &:hover {
             background : transparent;
         }
 
-        .ui-icon-closethick{
+        .ui-icon-closethick {
         }
 
-        .ui-button-text{
+        .ui-button-text {
             display : none;
         }
     }
 
     // Content
-    .ui-dialog-content{
+    .ui-dialog-content {
         position   : relative;
         border     : 0;
         padding    : 0 @grid-margin-width/2;
@@ -72,79 +72,111 @@
     }
 
     // Buttons
-    .ui-dialog-buttonpane{
+    .ui-dialog-buttonpane {
         overflow         : hidden;
         text-align       : left;
         border-width     : 1px 0 0 0;
         background-image : none;
         padding          : @padding-base-vertical (@grid-margin-width / 2) 10px;
 
-        .ui-dialog-buttonset{
+        .ui-dialog-buttonset {
             float : right;
         }
 
-        .ui-dialog-buttonpane button{
+        .ui-dialog-buttonpane button {
             margin : .5em .4em .5em 0;
             cursor : pointer;
         }
     }
+    &[aria-describedby="toasterPopupDraggable"] {
+        .ui-dialog-titlebar {
+            z-index    : 1;
+            position   : absolute;
+            left       : 0;
+            right      : 0;
+            width      : 250px;
+            padding    : 7px;
+            margin     : auto;
+            text-align : center;
+            color      : #666;
+            background : transparent;
+            &::before {
+                content                 : "\e005";
+                font-family             : @icon-family;
+                speak                   : none;
+                font-style              : normal;
+                font-weight             : normal;
+                text-transform          : none;
+                line-height             : 1;
+                position                : relative;
+                text-align              : center;
+                vertical-align          : middle;
+                // Better Font Rendering
+                -webkit-font-smoothing  : antialiased;
+                -moz-osx-font-smoothing : grayscale;
+            }
+            button {
+                display : none;
+            }
+        }
+    }
 }
 
-& when (@dialog-resizable = true){
-    .ui-resizable-handle{
+& when (@dialog-resizable = true) {
+    .ui-resizable-handle {
         position  : absolute;
         font-size : 0.1px;
         display   : block;
     }
-    .ui-resizable-n{
+    .ui-resizable-n {
         cursor : n-resize;
         height : 7px;
         width  : 100%;
         top    : -5px;
         left   : 0;
     }
-    .ui-resizable-e{
+    .ui-resizable-e {
         cursor : e-resize;
         width  : 7px;
         right  : -5px;
         top    : 0;
         height : 100%;
     }
-    .ui-resizable-s{
+    .ui-resizable-s {
         cursor : s-resize;
         height : 7px;
         width  : 100%;
         bottom : -5px;
         left   : 0;
     }
-    .ui-resizable-w{
+    .ui-resizable-w {
         cursor : w-resize;
         width  : 7px;
         left   : -5px;
         top    : 0;
         height : 100%;
     }
-    .ui-resizable-se{
+    .ui-resizable-se {
         width  : 12px;
         height : 12px;
         right  : -5px;
         bottom : -5px;
     }
-    .ui-resizable-sw{
+    .ui-resizable-sw {
         cursor : sw-resize;
         width  : 9px;
         height : 9px;
         left   : -5px;
         bottom : -5px;
     }
-    .ui-resizable-ne{
+    .ui-resizable-ne {
         cursor : ne-resize;
         width  : 9px;
         height : 9px;
         right  : -5px;
         top    : -5px;
     }
-    .ui-resizable-nw{
+    .ui-resizable-nw {
         cursor : nw-resize;
         width  : 9px;
         height : 9px;
@@ -153,38 +185,38 @@
     }
 }
 
-@media only screen and (max-height : @tpopup-base-height){
-    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"]{
+@media only screen and (max-height : @tpopup-base-height) {
+    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-base-height};"] {
         margin-top : 0 !important;
     }
 }
 
-@media only screen and (max-height : @tpopup-medium-height){
-    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-medium-height};"]{
+@media only screen and (max-height : @tpopup-medium-height) {
+    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-medium-height};"] {
         margin-top : 0 !important;
     }
 }
 
-@media only screen and (max-height : @tpopup-small-height){
-    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-small-height};"]{
+@media only screen and (max-height : @tpopup-small-height) {
+    body > [aria-describedby="toasterPopup"][style*="height: @{tpopup-small-height};"] {
         margin-top : 0 !important;
     }
 }
 
-@media only screen and (max-width : @tpopup-base-width){
-    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-base-width};"]{
+@media only screen and (max-width : @tpopup-base-width) {
+    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-base-width};"] {
         margin-left : 0 !important;
     }
 }
 
-@media only screen and (max-width : @tpopup-medium-width){
-    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-medium-width};"]{
+@media only screen and (max-width : @tpopup-medium-width) {
+    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-medium-width};"] {
         margin-left : 0 !important;
     }
 }
 
-@media only screen and (max-width : @tpopup-small-width){
-    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"]{
+@media only screen and (max-width : @tpopup-small-width) {
+    body > [aria-describedby="toasterPopup"][style*="width: @{tpopup-small-width};"] {
         margin-left : 0 !important;
     }
 }
