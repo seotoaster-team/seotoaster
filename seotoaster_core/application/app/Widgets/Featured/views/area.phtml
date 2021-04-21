@@ -93,8 +93,19 @@
                     else {
                         $path = 'system/images/noimage.png';
                     }
+
+                    $width = $this->width;
+                    $height = $this->height;
+                    if(empty($this->width) && empty($this->height)) {
+                        $fileInfo = getimagesize($this->websiteUrlMediaServer.$this->escape($path));
+
+                        if(!empty($fileInfo)) {
+                            $width = $fileInfo[0];
+                            $height = $fileInfo[1];
+                        }
+                    }
                     ?>
-                    <a class="page-teaser-image" href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?>><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->websiteUrlMediaServer.$this->escape($path); ?>" /></a>
+                    <a class="page-teaser-image" href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?>><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->websiteUrlMediaServer.$this->escape($path); ?>" width="<?php echo $width;?>" height="<?php echo $height;?>" /></a>
                 <?php endif; ?>
                 <?php if (!empty($this->pageTitleWrapEl)): ?>
                     <<?php echo trim($this->pageTitleWrapEl);?> class="<?php echo $this->pageTitleWrapClasses;?>">

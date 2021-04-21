@@ -133,6 +133,9 @@
 .ticon-thumb_down:before {
   content: "\e901";
 }
+.ticon-eye:before {
+  content: "\e902";
+}
 .ticon-home:before {
   content: "\e003";
 }

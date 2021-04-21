@@ -130,6 +130,12 @@
                 <?php echo '<strong>' . $this->translate("Attention!") . '</strong> '. $this->translate('When enabled "Developer mode" disables some functionality that speeds up your sites. Do not forget to turn off the "Developer mode" after work.'); ?>
             </p>
             <?php endif; ?>
+            <div class="grid_5">
+                <?php echo $this->configForm->getElement('validateFormEmails')->renderLabel(); ?>
+            </div>
+            <div class="grid_1">
+                <?php echo $this->configForm->getElement('validateFormEmails')->renderViewHelper(); ?>
+            </div>
 
             <?php echo $this->configForm->getElement('currentTheme'); ?>
             <?php echo $this->configForm->getElement('adminEmail'); ?>
@@ -154,7 +160,15 @@
                 <?php echo $this->configForm->getElement('smtpSsl')->renderViewHelper(); ?>
             </div>
             <div class="grid_12"><?php echo $this->configForm->getElement('smtpLogin'); ?></div>
-            <div class="grid_12"><?php echo $this->configForm->getElement('smtpPassword'); ?></div>
+            <div class="grid_12">
+                <?php echo $this->configForm->getElement('smtpPassword')->renderLabel(); ?>
+                <div class="<?php echo $this->useEye ? 'sneak-peek-eye' : '';?>">
+                    <?php echo $this->configForm->getElement('smtpPassword')->renderViewHelper(); ?>
+                    <?php if($this->useEye) :?>
+                        <span class="sneak-peek"></span>
+                    <?php endif;?>
+                </div>
+            </div>
         </fieldset>
 
         <?php if ($this->isSuperAdmin): ?>

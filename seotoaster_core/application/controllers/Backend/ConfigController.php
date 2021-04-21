@@ -34,6 +34,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$this->view->isSuperAdmin = $isSuperAdminLogged;
 		$message = '';
 		$errMessageFlag = false;
+        $useEye = true;
 
 		if ($this->getRequest()->isPost()) {
             if (!$isSuperAdminLogged) {
@@ -111,6 +112,10 @@ class Backend_ConfigController extends Zend_Controller_Action {
 				if ($config['smtpPassword'] === null && null === $this->getRequest()->getParam('smtpPassword', null)){
 					unset($config['smtpPassword']);
 				}
+
+				if(!empty($config['smtpPassword'])) {
+                    $useEye = false;
+                }
 
 				if ($config['inlineEditor'] !== $this->_helper->config->getConfig('inlineEditor')){
 					$this->_helper->cache->clean(false, false, array('Widgets_AbstractContent'));
@@ -198,8 +203,11 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
             if(!empty($currentConfig['smtpPassword'])) {
                 $configForm->getElement('smtpPassword')->setAttrib('placeholder', '********');
+                $useEye = false;
             }
 		}
+
+        $this->view->useEye = $useEye;
 
 		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
 
