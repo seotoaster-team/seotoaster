@@ -253,6 +253,12 @@
             $('.excludeSystemCssEl').show();
         }
 
+        if($('#enableMinifyCss').prop('checked')) {
+            $('.validateFormEmails').removeClass('text-right');
+        } else {
+            $('.validateFormEmails').addClass('text-right');
+        }
+
         $(document).on('click', '#enableMinifyCss', function(){
             if($('#enableMinifyCss').prop('checked')) {
                 $('.excludeSystemCssEl').show();
