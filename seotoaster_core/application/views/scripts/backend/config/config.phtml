@@ -125,17 +125,17 @@
             <div class="grid_1 excludeSystemCssEl hide">
                 <?php echo $this->configForm->getElement('excludeSystemCss')->renderViewHelper(); ?>
             </div>
-            <?php if($this->configForm->getElement('enableDeveloperMode')->getValue()): ?>
-            <p class="warning message grid_12">
-                <?php echo '<strong>' . $this->translate("Attention!") . '</strong> '. $this->translate('When enabled "Developer mode" disables some functionality that speeds up your sites. Do not forget to turn off the "Developer mode" after work.'); ?>
-            </p>
-            <?php endif; ?>
-            <div class="grid_5">
+            <div class="grid_5 validateFormEmails text-right">
                 <?php echo $this->configForm->getElement('validateFormEmails')->renderLabel(); ?>
             </div>
             <div class="grid_1">
                 <?php echo $this->configForm->getElement('validateFormEmails')->renderViewHelper(); ?>
             </div>
+            <?php if($this->configForm->getElement('enableDeveloperMode')->getValue()): ?>
+            <p class="warning message grid_10">
+                <?php echo '<strong>' . $this->translate("Attention!") . '</strong> '. $this->translate('When enabled "Developer mode" disables some functionality that speeds up your sites. Do not forget to turn off the "Developer mode" after work.'); ?>
+            </p>
+            <?php endif; ?>
 
             <?php echo $this->configForm->getElement('currentTheme'); ?>
             <?php echo $this->configForm->getElement('adminEmail'); ?>
@@ -253,11 +253,20 @@
             $('.excludeSystemCssEl').show();
         }
 
+        if($('#enableMinifyCss').prop('checked')) {
+            $('.validateFormEmails').removeClass('text-right');
+        } else {
+            $('.validateFormEmails').addClass('text-right');
+        }
+
         $(document).on('click', '#enableMinifyCss', function(){
             if($('#enableMinifyCss').prop('checked')) {
                 $('.excludeSystemCssEl').show();
+
+                $('.validateFormEmails').removeClass('text-right');
             } else {
                 $('.excludeSystemCssEl').hide();
+                $('.validateFormEmails').addClass('text-right');
             }
         });
     });
