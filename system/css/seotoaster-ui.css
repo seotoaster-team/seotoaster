@@ -1431,6 +1431,7 @@
   margin: auto;
   text-align: center;
   color: #666;
+  border: none;
   background: transparent;
 }
 .ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar::before {
@@ -1447,6 +1448,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar span,
 .ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar button {
   display: none;
 }

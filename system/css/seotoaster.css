@@ -1195,11 +1195,6 @@ p {
   margin-top: 0;
   margin-bottom: 15px;
 }
-p:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 p img {
   margin: 0;
 }
@@ -2900,7 +2895,7 @@ body {
   text-decoration: none;
   padding: 0 3px;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   box-sizing: content-box;
 }
 .closebutton .help {
