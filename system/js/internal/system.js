@@ -41,6 +41,11 @@ $(function(){
             iframeId = 'toasterPopup';
         }
 
+        var editProductBtn = false;
+        if($(this).hasClass('edit-product-btn')) {
+            editProductBtn = true;
+        }
+
         var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : iframeId}).addClass('__tpopup');
         popup.parent().css({background : 'none'});
         popup.dialog({
@@ -71,7 +76,7 @@ $(function(){
                     margin   : '0px',
                     overflow : 'hidden'
                 });
-                if(adminPanelEl.length) {
+                if(adminPanelEl.length || editProductBtn) {
                     $('[aria-describedby="'+ iframeId +'"] .ui-dialog-titlebar').remove();
                 }
             },
