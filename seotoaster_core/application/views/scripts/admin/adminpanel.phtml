@@ -232,95 +232,6 @@
             <?php endif; ?>
             <?php unset($this->additionalMenu['SEO']); ?>
             <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
-                <li class="section" data-tooltip-title="<?php echo $this->translate('Plugins manager'); ?>">
-                    <a href="#" class="section-btn _i-plugins"></a>
-
-                    <div class="section-wrap">
-                        <div class="section-box">
-                            <span class="section-title"><?php echo $this->translate('Plugins manager'); ?></span>
-                            <ul class="category-list">
-                                <li class="item"><?php echo $this->toasterLink('backend_plugin', 'plugin',
-                                        $this->translate('Manage plugins'), false, false,
-                                        array('width' => '960', 'height' => '560')); ?></li>
-                            </ul>
-
-                                <!-- output plugins additional menus -->
-                                <?php if (isset($this->additionalMenu['DEFAULT'])): ?>
-                                    <?php foreach ($this->additionalMenu['DEFAULT'] as $categoryName => $category): ?>
-                                        <ul class="category-list">
-                                        <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
-                                        <?php endif; ?>
-                                        <?php foreach ($category as $pluginName => $plugin): ?>
-
-                                            <?php foreach ($plugin['items'] as $index => $item): ?>
-                                                <?php if (isset($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index])): ?>
-                                                    <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
-                                                        $this->translate($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index]),
-                                                        $item)); ?>
-                                                <?php else: ?>
-                                                    <?php echo $this->toasterAdminpanelItem($item); ?>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        <?php endforeach; ?>
-                                        </ul>
-                                    <?php endforeach; ?>
-                                    <?php unset($this->additionalMenu['DEFAULT']); ?>
-                                <?php endif; ?>
-                          
-                        </div>
-                    </div>
-                </li>
-            <?php endif; ?>
-            <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
-                <li class="section" data-tooltip-title="<?php echo $this->translate('System configuration'); ?>">
-                    <a href="#" class="section-btn _i-setup "></a>
-
-                    <div class="section-wrap">
-                        <div class="section-box">
-                            <span class="section-title"><?php echo $this->translate('System configuration'); ?></span>
-                            <ul class="category-list">
-                                <li class="item title"><?php echo $this->translate('Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.'); ?></li>
-                                <li class="item"><?php echo $this->toasterLink('backend_config', 'config',
-                                        $this->translate('Website configs'), false, false,
-                                        array('width' => '720', 'height' => '360')); ?></li>
-                                <li class="item"><?php echo $this->toasterLink('backend_config', 'actionmails',
-                                        $this->translate('E-mails & SMS actions'), false, false,
-                                        array('width' => '960', 'height' => '560')); ?></li>
-                                <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes',
-                                        $this->translate('Organize themes'), false, false,
-                                        array('width' => '960', 'height' => '560')); ?></li>
-                                <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
-                                    <li class="item"><?php echo $this->toasterLink('backend_user', 'manage',
-                                            $this->translate('Manage users'), false, false,
-                                            array('width' => '960', 'height' => '560')); ?></li>
-                                <?php endif; ?>
-                            </ul>
-                            <!-- start section: SETUP -->
-                            <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['SETUP'])): ?>
-                                <?php foreach ($this->additionalMenu['SETUP'] as $categoryName => $category): ?>
-                                    <ul class="category-list">
-                                        <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
-                                        <?php endif; ?>
-                                        <?php foreach ($category as $pluginName => $plugin): ?>
-                                            <?php foreach ($plugin['items'] as $index => $item): ?>
-                                                <?php if (isset($this->additionalMenu['SETUP'][$categoryName][$pluginName]['values'][$index])): ?>
-                                                    <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
-                                                            $this->translate($this->additionalMenu['SETUP'][$categoryName][$pluginName]['values'][$index]),
-                                                            $item)); ?>
-                                                <?php else: ?>
-                                                    <?php echo $this->toasterAdminpanelItem($item); ?>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                            <?php unset($this->additionalMenu['SETUP']); ?>
-                        </div>
-                    </div>
-                </li>
                 <?php if (!empty($this->additionalMenu)): ?>
                     <?php foreach ($this->additionalMenu as $addName => $additionalMenuItem): ?>
                         <?php if ($addName === 'DEFAULT') : ?>
@@ -331,7 +242,16 @@
                             $sectionBtn = $additionalMenuItem[$addName][$addName]['sectionAlias'];
                         }?>
 
-                        <li class="section" data-tooltip-title="<?php echo $this->translate(ucfirst(strtolower($sectionBtn))); ?>">
+                        <?php if (!empty($this->bottomsort) && !empty($additionalMenuItem[$addName][$addName]['bottomsort'])) : ?>
+                            <?php continue; ?>
+                        <?php endif; ?>
+
+                        <?php $tooltipTitle = ucfirst(strtolower($sectionBtn));?>
+                        <?php if($addName == 'CRM'):?>
+                            <?php $tooltipTitle = $sectionBtn;?>
+                        <?php endif;?>
+
+                        <li class="section" data-tooltip-title="<?php echo $this->translate($tooltipTitle); ?>">
                             <?php $hiddeSectionWrap = false;?>
                             <?php if(isset($additionalMenuItem[$addName][$addName]['forceurl'])) :?>
                                 <?php
@@ -351,7 +271,13 @@
 
                             <div class="section-wrap">
                                 <div class="section-box">
-                                <span class="section-title"><?php echo $this->translate(ucfirst(strtolower($sectionBtn))); ?></span>
+
+                                <?php $titleBtn = ucfirst(strtolower($sectionBtn));?>
+                                <?php if($addName == 'CRM'):?>
+                                    <?php $titleBtn = $addName;?>
+                                <?php endif;?>
+
+                                <span class="section-title"><?php echo $this->translate($titleBtn); ?></span>
                                     <ul class="category-list">
                                         <?php if (isset($this->additionalMenu)): ?>
                                             <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
@@ -392,6 +318,171 @@
                         </li>
                     <?php endforeach; ?>
                 <?php endif; ?>
+                <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONFIG)): ?>
+                    <li class="section" data-tooltip-title="<?php echo $this->translate('Plugins manager'); ?>">
+                        <a href="#" class="section-btn _i-plugins"></a>
+
+                        <div class="section-wrap">
+                            <div class="section-box">
+                                <span class="section-title"><?php echo $this->translate('Plugins manager'); ?></span>
+                                <ul class="category-list">
+                                    <li class="item"><?php echo $this->toasterLink('backend_plugin', 'plugin',
+                                            $this->translate('Manage plugins'), false, false,
+                                            array('width' => '960', 'height' => '560')); ?></li>
+                                </ul>
+
+                                <!-- output plugins additional menus -->
+                                <?php if (isset($this->additionalMenu['DEFAULT'])): ?>
+                                    <?php foreach ($this->additionalMenu['DEFAULT'] as $categoryName => $category): ?>
+                                        <ul class="category-list">
+                                            <?php if ($categoryName !== 'DEFAULT') : ?>
+                                                <li class="item title"><?php echo $categoryName; ?></li>
+                                            <?php endif; ?>
+                                            <?php foreach ($category as $pluginName => $plugin): ?>
+
+                                                <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                    <?php if (isset($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                        <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                            $this->translate($this->additionalMenu['DEFAULT'][$categoryName][$pluginName]['values'][$index]),
+                                                            $item)); ?>
+                                                    <?php else: ?>
+                                                        <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endforeach; ?>
+                                    <?php unset($this->additionalMenu['DEFAULT']); ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="section" data-tooltip-title="<?php echo $this->translate('System configuration'); ?>">
+                        <a href="#" class="section-btn _i-setup "></a>
+
+                        <div class="section-wrap">
+                            <div class="section-box">
+                                <span class="section-title"><?php echo $this->translate('System configuration'); ?></span>
+                                <ul class="category-list">
+                                    <li class="item title"><?php echo $this->translate('Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.'); ?></li>
+                                    <li class="item"><?php echo $this->toasterLink('backend_config', 'config',
+                                            $this->translate('Website configs'), false, false,
+                                            array('width' => '720', 'height' => '360')); ?></li>
+                                    <li class="item"><?php echo $this->toasterLink('backend_config', 'actionmails',
+                                            $this->translate('E-mails & SMS actions'), false, false,
+                                            array('width' => '960', 'height' => '560')); ?></li>
+                                    <li class="item"><?php echo $this->toasterLink('backend_theme', 'themes',
+                                            $this->translate('Organize themes'), false, false,
+                                            array('width' => '960', 'height' => '560')); ?></li>
+                                    <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)): ?>
+                                        <li class="item"><?php echo $this->toasterLink('backend_user', 'manage',
+                                                $this->translate('Manage users'), false, false,
+                                                array('width' => '960', 'height' => '560')); ?></li>
+                                    <?php endif; ?>
+                                </ul>
+                                <!-- start section: SETUP -->
+                                <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['SETUP'])): ?>
+                                    <?php foreach ($this->additionalMenu['SETUP'] as $categoryName => $category): ?>
+                                        <ul class="category-list">
+                                            <?php if ($categoryName !== 'DEFAULT') : ?>
+                                                <li class="item title"><?php echo $categoryName; ?></li>
+                                            <?php endif; ?>
+                                            <?php foreach ($category as $pluginName => $plugin): ?>
+                                                <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                    <?php if (isset($this->additionalMenu['SETUP'][$categoryName][$pluginName]['values'][$index])): ?>
+                                                        <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                            $this->translate($this->additionalMenu['SETUP'][$categoryName][$pluginName]['values'][$index]),
+                                                            $item)); ?>
+                                                    <?php else: ?>
+                                                        <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                                <?php unset($this->additionalMenu['SETUP']); ?>
+                            </div>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if(!empty($this->bottomsort)) :?>
+                    <?php if (!empty($this->additionalMenu)): ?>
+                        <?php foreach ($this->bottomsort as $item => $itemPosition) :?>
+                            <?php foreach ($this->additionalMenu as $addName => $additionalMenuItem): ?>
+                                <?php if($item == $addName):?>
+                                    <?php if ($addName === 'DEFAULT') : ?>
+                                        <?php continue; ?>
+                                    <?php endif; ?>
+                                    <?php $sectionBtn = $addName;?>
+                                    <?php if(!empty($additionalMenuItem[$addName][$addName]['sectionAlias'])) {
+                                        $sectionBtn = $additionalMenuItem[$addName][$addName]['sectionAlias'];
+                                    }?>
+
+                                <li class="section" data-tooltip-title="<?php echo $this->translate(ucfirst(strtolower($sectionBtn))); ?>">
+                                    <?php $hiddeSectionWrap = false;?>
+                                    <?php if(isset($additionalMenuItem[$addName][$addName]['forceurl'])) :?>
+                                        <?php
+                                            $forcepwidth = isset($additionalMenuItem[$addName][$addName]['forcepwidth']) ? $additionalMenuItem[$addName][$addName]['forcepwidth'] : '';
+                                            $forcepheight = isset($additionalMenuItem[$addName][$addName]['forcepheight']) ? $additionalMenuItem[$addName][$addName]['forcepheight'] : '';
+                                            $hiddeSectionWrap = true;
+                                        ?>
+                                        <a href="javascript:;" class="tpopup section-btn _i-<?php echo strtolower(str_replace(' ', '-', str_replace('&', 'and', $addName))); ?>" data-url="<?php echo $this->websiteUrl . $additionalMenuItem[$addName][$addName]['forceurl'];?>" data-pwidth="<?php echo $forcepwidth;?>" data-pheight="<?php echo $forcepheight;?>"></a>
+                                    <?php else :?>
+                                        <a href="#" class="section-btn _i-<?php echo strtolower(str_replace(' ', '-', str_replace('&', 'and', $addName))); ?>"></a>
+                                    <?php endif;?>
+
+                                    <?php if (!empty($hiddeSectionWrap)) : ?>
+                                        </li>
+                                        <?php continue; ?>
+                                    <?php endif; ?>
+
+                                    <div class="section-wrap">
+                                        <div class="section-box">
+                                            <span class="section-title"><?php echo $this->translate(ucfirst(strtolower($sectionBtn))); ?></span>
+                                            <ul class="category-list">
+                                                <?php if (isset($this->additionalMenu)): ?>
+                                                <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
+                                                    <?php if ($categoryName !== 'DEFAULT') : ?>
+                                                        <?php if(!empty($category[$addName]['prompt'])) :?>
+                                                            <li class="item title"><?php echo $category[$addName]['prompt']; ?></li>
+                                                        <?php else: ?>
+                                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                                        <?php endif;?>
+                                                    <?php endif; ?>
+                                                    <?php foreach ($category as $pluginName => $plugin): ?>
+                                                        <?php $itemsWithLinks = preg_grep('~open-new-link-admin-panel~', $plugin['items']);?>
+                                                        <?php if(!empty($itemsWithLinks)) :?>
+                                                            <?php foreach($itemsWithLinks as $itemWithLinkKey => $itemWithLinkValue) :?>
+                                                                <?php unset($plugin['items'][$itemWithLinkKey]);?>
+                                                                <?php $plugin['items'][] = $itemWithLinkValue;?>
+                                                                <?php end($plugin['items']);?>
+                                                                <?php $this->additionalMenu[$addName][$categoryName][$pluginName]['values'][key($plugin['items'])] = $this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$itemWithLinkKey];?>
+                                                                <?php unset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$itemWithLinkKey]);?>
+                                                            <?php endforeach;?>
+                                                        <?php endif;?>
+                                                        <?php foreach ($plugin['items'] as $index => $item): ?>
+                                                            <?php if (isset($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index])): ?>
+                                                                <?php echo $this->toasterAdminpanelItem(str_replace('{value}',
+                                                                    $this->translate($this->additionalMenu[$addName][$categoryName][$pluginName]['values'][$index]),
+                                                                    $item)); ?>
+                                                            <?php else: ?>
+                                                                <?php echo $this->toasterAdminpanelItem($item); ?>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endforeach; ?>
+                                                <?php unset($this->additionalMenu[$addName]); ?>
+                                            </ul>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    </li>
+                                <?php endif;?>
+                            <?php endforeach;?>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                <?php endif;?>
             </ul><ul class="section-list">
             <?php endif; ?>
             <li class="section" data-tooltip-title="<?php echo $this->translate('Clean system cache'); ?>">

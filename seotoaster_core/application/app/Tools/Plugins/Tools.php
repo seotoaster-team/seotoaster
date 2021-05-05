@@ -13,8 +13,9 @@ class Tools_Plugins_Tools {
      */
     private static $_pluginsPath;
 
-	public static function fetchPluginsMenu($userRole = null) {
+	public static function fetchPluginsMenu($userRole = null, $useSort = false) {
 		$additionalMenu = array();
+        $useSortParams = array();
 		$enabledPlugins = self::getEnabledPlugins();
 
 		if(!is_array($enabledPlugins) || empty ($enabledPlugins)) {
@@ -102,6 +103,7 @@ class Tools_Plugins_Tools {
                     $prompt = $translator->translate($prompt);
                     $prompt = str_replace('$hubagencyname', $mojoCompanyAgencyName, $prompt);
                 }
+                $bottomsort = (isset($configIni->cpanel->bottomsort)) ? $configIni->cpanel->bottomsort : '';
 
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
 
@@ -111,8 +113,13 @@ class Tools_Plugins_Tools {
                         'items'        => array(),
                         'values'       => array(),
                         'sectionAlias' => $sectionAlias,
-                        'prompt'       => $prompt
+                        'prompt'       => $prompt,
+                        'bottomsort'   => $bottomsort
                     );
+
+                    if(!empty($useSort) && !empty($bottomsort)) {
+                        $useSortParams[$title] = $bottomsort;
+                    }
 
                     if(isset($configIni->$userRole->forceurl)) {
                         $additionalMenu[$section][$subsection][$title]['forceurl'] = $configIni->$userRole->forceurl;
@@ -143,8 +150,11 @@ class Tools_Plugins_Tools {
 			}
             }
 
-        //sort($additionalMenu);
-		return $additionalMenu;
+        if(!empty($useSort) && !empty($useSortParams)) {
+            return array('useSortParams' => $useSortParams, 'additionalMenu' => $additionalMenu);
+        } else {
+            return $additionalMenu;
+        }
 	}
 
 
