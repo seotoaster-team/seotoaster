@@ -1693,6 +1693,13 @@ table tbody + tbody {
 table table {
   background-color: #fff;
 }
+table.manage-saved-config-table thead a {
+  margin: 0 3px;
+  color: #333;
+}
+table.manage-saved-config-table thead a:hover {
+  color: #fff;
+}
 table.table-bordered {
   border: 1px solid #dddddd;
   border-collapse: separate;
