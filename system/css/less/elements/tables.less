@@ -1,40 +1,48 @@
 // BASELINE STYLES
 //==================================================
-table{
+table {
     width            : 100%;
     background-color : @table-bg;
 
-    th, td{
+    th, td {
         padding        : .5em .75em;
         border-top     : 1px solid @table-border-color;
         vertical-align : middle;
     }
 
-    th{
+    th {
         border-top     : 0;
         vertical-align : bottom;
         text-align     : left;
     }
 
-    td{
-        &:first-child{
+    td {
+        &:first-child {
             vertical-align : top;
         }
     }
 
-    thead{
+    thead {
         background-color : @header-inner-bg;
         color            : @header-inner-color;
     }
 
     // Account for multiple tbody instances
-    tbody + tbody{
+    tbody + tbody {
         border-top : 2px solid @table-border-color;
     }
 
     // Nesting
-    table{
+    table {
         background-color : #fff;
+    }
+    &.manage-saved-config-table {
+        thead {
+            i {
+                color  : #333;
+                margin : 0 3px;
+            }
+        }
     }
 
     // BORDERED VERSION
@@ -45,7 +53,7 @@ table{
         border-left     : 0;
 
         tr > th,
-        tr > td{
+        tr > td {
             border-left : 1px solid @table-border-color;
         }
     }
@@ -55,10 +63,10 @@ table{
     // Default zebra-stripe styles (alternating gray and transparent backgrounds)
     &.table-striped when (@table-striped = true) and (@table-styles = true){
 
-        tr > td{
+        tr > td {
             border-top : 0;
         }
-        & > tr:nth-child(even) > td, tbody tr:nth-child(odd) > td{
+        & > tr:nth-child(even) > td, tbody tr:nth-child(odd) > td {
             background-color : @table-row-bg;
         }
     }
@@ -68,16 +76,16 @@ table{
     // Placed here since it has to come after the potential zebra striping
     &.table-hover when (@table-hover = true) and (@table-styles = true){
 
-        thead, tfoot{
-            tr:hover, td:hover{
+        thead, tfoot {
+            tr:hover, td:hover {
                 background : inherit;
             }
         }
 
-        tr:hover, td:hover{
+        tr:hover, td:hover {
             background-color : @table-row-bg-hover;
 
-            &.primary when (@colors = true){
+            &.primary when (@colors = true) {
                 background-color : darken(@state-primary-bg, 5%);
                 border-color     : darken(@state-primary-border, 5%);
             }
@@ -102,20 +110,22 @@ table{
 
     //  Table responsive
     //==================================================
-    &.responsive when ( @responsive = true){
+    &.responsive when ( @responsive = true) {
 
-        .table-head{
+        .table-head {
             display : none;
         }
 
-        @media only screen and (max-width : @responsive-size-tablet){
-            thead, th{
+        @media only screen and (max-width : @responsive-size-tablet) {
+            thead, th {
                 display : none;
             }
-            td{
+
+            td {
                 display : block;
             }
-            .table-head{
+
+            .table-head {
                 display       : block;
                 color         : @brand-primary;
                 border-bottom : 1px dashed @gray-light;
@@ -124,26 +134,26 @@ table{
         }
     }
 
-    &.small{
+    &.small {
         zoom : 1;
 
-        th, td{
+        th, td {
             padding : 5px;
         }
     }
 
-    &.large{
+    &.large {
         zoom : 1;
 
-        th, td{
+        th, td {
             padding : @padding-large-vertical;
         }
     }
 
-    &.larger{
+    &.larger {
         zoom : 1;
 
-        th, td{
+        th, td {
             padding : @padding-large-vertical;
         }
     }
@@ -152,8 +162,8 @@ table{
 // TABLE BACKGROUNDS
 // -----------------
 // Exact selectors below required to override .table-striped
-tr, td{
-    &.primary when (@colors = true){
+tr, td {
+    &.primary when (@colors = true) {
         color            : @text-color;
         background-color : @state-primary-bg;
         border-color     : @state-primary-border;
@@ -187,28 +197,28 @@ tr, td{
 
 //  Table scroll
 //==================================================
-.table-scroll{
+.table-scroll {
     overflow : auto;
     position : relative;
     display  : block;
 
-    thead{
+    thead {
         background-color : @header-inner-bg;
         color            : @header-inner-color;
         display          : block;
     }
 
-    tbody{
+    tbody {
         display  : block;
         overflow : auto;
     }
 
-    tr{
+    tr {
         display  : block;
         overflow : hidden;
     }
 
-    th, td{
+    th, td {
         //padding-left  : 0;
         //padding-right : 0;
     }
@@ -216,29 +226,29 @@ tr, td{
 
 // DataTable
 //==================================================
-.dataTables_wrapper{
+.dataTables_wrapper {
     float : left;
     width : 100%;
 
-    .dataTables_filter{
+    .dataTables_filter {
         //margin-bottom : 12px;
 
-        label{
+        label {
             width   : 30%;
             display : block;
 
-            input{
+            input {
                 width : 75%;
             }
         }
     }
 
-    .dataTable{
+    .dataTable {
     }
-    .sorting, .sorting_asc, .sorting_desc{
+    .sorting, .sorting_asc, .sorting_desc {
         cursor : pointer;
 
-        &:after{
+        &:after {
             font-size   : 10px;
             margin-left : 3px;
             top         : -1px;

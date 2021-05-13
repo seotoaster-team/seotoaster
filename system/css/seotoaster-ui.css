@@ -127,15 +127,6 @@
 [data-icon]:before {
   content: attr(data-icon);
 }
-.ticon-thumb_up:before {
-  content: "\e900";
-}
-.ticon-thumb_down:before {
-  content: "\e901";
-}
-.ticon-eye:before {
-  content: "\e902";
-}
 .ticon-home:before {
   content: "\e003";
 }
@@ -918,6 +909,21 @@
 }
 .ticon-earth:before {
   content: "\e004";
+}
+.ticon-thumb_up:before {
+  content: "\e900";
+}
+.ticon-thumb_down:before {
+  content: "\e901";
+}
+.ticon-eye:before {
+  content: "\e902";
+}
+.ticon-download-android:before {
+  content: "\e903";
+}
+.ticon-download-ios:before {
+  content: "\e904";
 }
 .smoke-base .smokebg {
   position: fixed;

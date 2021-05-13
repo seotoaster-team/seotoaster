@@ -1693,6 +1693,10 @@ table tbody + tbody {
 table table {
   background-color: #fff;
 }
+table.manage-saved-config-table thead i {
+  color: #333;
+  margin: 0 3px;
+}
 table.table-bordered {
   border: 1px solid #dddddd;
   border-collapse: separate;
