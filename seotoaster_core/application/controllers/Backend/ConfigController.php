@@ -205,6 +205,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
             if(!empty($currentConfig['smtpPassword'])) {
                 $configForm->getElement('smtpPassword')->setValue('');
+            } else {
+                $configForm->getElement('smtpPassword')->setAttrib('placeholder', '');
             }
 		}
 
