@@ -67,7 +67,7 @@
                         <?php unset($this->additionalMenu['PAGES']); ?>
                         <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_MEDIA)): ?>
                             <ul class="category-list">
-                                <li class="item title"><?php echo $this->translate('MEDIA'); ?></li>
+                                <li class="item description"><?php echo $this->translate('MEDIA'); ?></li>
                                 <li class="item">
                                     <?php echo $this->toasterLink('backend_media', 'uploadthings',
                                         $this->translate('Upload things'), false, false,
@@ -76,7 +76,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['MEDIA'])): ?>
                                     <?php foreach ($this->additionalMenu['MEDIA'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                            <li class="item description"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -96,7 +96,7 @@
                         <?php unset($this->additionalMenu['MEDIA']); ?>
                         <?php if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_LAYOUT)): ?>
                             <ul class="category-list">
-                                <li class="item title"><?php echo $this->translate('LAYOUT'); ?></li>
+                                <li class="item description"><?php echo $this->translate('LAYOUT'); ?></li>
                                 <li class="item"><?php echo $this->toasterLink('backend_theme', 'template',
                                         $this->translate('Add a new template'), array('pid' => $this->pageData['id']),
                                         false, array('width' => '960', 'height' => '560')); ?></li>
@@ -114,7 +114,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['LAYOUT'])): ?>
                                     <?php foreach ($this->additionalMenu['LAYOUT'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                            <li class="item description"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -140,7 +140,7 @@
                             <?php foreach ($this->additionalMenu['EDITING'] as $categoryName => $category): ?>
                                 <ul class="category-list">
                                 <?php if ($categoryName !== 'DEFAULT') : ?>
-                                    <li class="item title"><?php echo $categoryName; ?></li>
+                                    <li class="item description"><?php echo $categoryName; ?></li>
                                 <?php endif; ?>
                                 <?php foreach ($category as $pluginName => $plugin): ?>
                                     <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -173,7 +173,8 @@
                                     $prompt =  $this->translate('Get additional capabilities with a subscription to $hubagencyname.');
                                     $prompt = str_replace('$hubagencyname', $this->mojoCompanyAgencyName, $prompt);
                                 ?>
-                                <li class="item title"><?php echo $prompt; ?></li>
+
+                                <li class="item description"><?php echo $prompt; ?></li>
                                 <li class="item"><?php echo $this->toasterLink('backend_seo', 'robots',
                                         $this->translate('Edit robots.txt'), false, false,
                                         array('width' => '360', 'height' => '350')); ?></li>
@@ -188,7 +189,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['SEO'])): ?>
                                     <?php foreach ($this->additionalMenu['SEO'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                            <li class="item description"><?php echo $categoryName; ?></li>
                                         <?php endif ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -209,7 +210,7 @@
                                 <?php foreach ($this->additionalMenu['MARKETINGSEO'] as $categoryName => $category): ?>
                                     <ul class="category-list">
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                            <li class="item description"><?php echo $categoryName; ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -283,9 +284,9 @@
                                             <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
                                                 <?php if ($categoryName !== 'DEFAULT') : ?>
                                                     <?php if(!empty($category[$addName]['prompt'])) :?>
-                                                        <li class="item title"><?php echo $category[$addName]['prompt']; ?></li>
+                                                        <li class="item description"><?php echo $category[$addName]['prompt']; ?></li>
                                                     <?php else: ?>
-                                                        <li class="item title"><?php echo $categoryName; ?></li>
+                                                        <li class="item description"><?php echo $categoryName; ?></li>
                                                     <?php endif;?>
                                                 <?php endif; ?>
                                                 <?php foreach ($category as $pluginName => $plugin): ?>
@@ -364,7 +365,7 @@
                             <div class="section-box">
                                 <span class="section-title"><?php echo $this->translate('System configuration'); ?></span>
                                 <ul class="category-list">
-                                    <li class="item title"><?php echo $this->translate('Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.'); ?></li>
+                                    <li class="item description"><?php echo $this->translate('Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.'); ?></li>
                                     <li class="item"><?php echo $this->toasterLink('backend_config', 'config',
                                             $this->translate('Website configs'), false, false,
                                             array('width' => '720', 'height' => '360')); ?></li>
@@ -385,7 +386,7 @@
                                     <?php foreach ($this->additionalMenu['SETUP'] as $categoryName => $category): ?>
                                         <ul class="category-list">
                                             <?php if ($categoryName !== 'DEFAULT') : ?>
-                                                <li class="item title"><?php echo $categoryName; ?></li>
+                                                <li class="item description"><?php echo $categoryName; ?></li>
                                             <?php endif; ?>
                                             <?php foreach ($category as $pluginName => $plugin): ?>
                                                 <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -445,9 +446,9 @@
                                                 <?php foreach ($this->additionalMenu[$addName] as $categoryName => $category): ?>
                                                     <?php if ($categoryName !== 'DEFAULT') : ?>
                                                         <?php if(!empty($category[$addName]['prompt'])) :?>
-                                                            <li class="item title"><?php echo $category[$addName]['prompt']; ?></li>
+                                                            <li class="item description"><?php echo $category[$addName]['prompt']; ?></li>
                                                         <?php else: ?>
-                                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                                            <li class="item description"><?php echo $categoryName; ?></li>
                                                         <?php endif;?>
                                                     <?php endif; ?>
                                                     <?php foreach ($category as $pluginName => $plugin): ?>
