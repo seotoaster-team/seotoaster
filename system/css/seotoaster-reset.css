@@ -272,7 +272,7 @@ a.generator-links.plugin {
   justify-content: center;
   height: 65px;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   color: inherit;
   -webkit-transition: all 0.25s ease;
   transition: all 0.25s ease;
@@ -287,7 +287,7 @@ a.generator-links.plugin {
   width: 240px;
   margin: 0;
   position: absolute;
-  right: -265px;
+  right: -260px;
   top: 0;
   z-index: -1;
   -webkit-transition: all 0.3s ease;
@@ -295,7 +295,7 @@ a.generator-links.plugin {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
 }
 .seotoaster-panel .section-wrap .section-box {
-  padding: 0 25px;
+  padding: 0 20px;
   height: 100%;
   overflow-y: scroll;
   position: relative;
@@ -317,7 +317,7 @@ a.generator-links.plugin {
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
 }
 .seotoaster-panel .section-title {
-  color: #999999;
+  color: #9198a7;
   line-height: 65px;
   font-weight: bold;
   display: block;
@@ -330,7 +330,7 @@ a.generator-links.plugin {
 }
 .seotoaster-panel .category-list + .category-list {
   padding-top: 10px;
-  border-top: 1px solid #f5f5f5;
+  border-top: 1px solid #ededed;
 }
 .seotoaster-panel .category-list:last-child {
   margin-bottom: 60px;
@@ -340,10 +340,15 @@ a.generator-links.plugin {
 }
 .seotoaster-panel .category-list > li.title {
   color: #5C6779;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 .seotoaster-panel .category-list > li.title ~ .title:not(.item) {
   color: #A9B0BA;
+}
+.seotoaster-panel .category-list > li.description {
+  font-size: 0.95em;
+  margin-bottom: 10px;
 }
 .seotoaster-panel .category-list > li > a {
   color: #999999;
