@@ -541,9 +541,10 @@ function showConfirm(msg, yesCallback, noCallback){
         }
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
 }
-function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
+function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback, additionalHtmlClass){
     var yes = 'Yes',
-        no = 'No';
+        no = 'No',
+        additionalClass = '';
 
     if(typeof yesValue != 'undefined'){
         yes = yesValue;
@@ -551,6 +552,10 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
     if(typeof noValue != 'undefined'){
         no = noValue;
     }
+    if(additionalHtmlClass != '' || typeof additionalHtmlClass != 'undefined') {
+        additionalClass = additionalHtmlClass;
+    }
+
     smoke.confirm(msg, function(e){
         if(e){
             if(typeof yesCallback!='undefined'){
@@ -561,7 +566,7 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
                 noCallback();
             }
         }
-    }, {classname : 'error', ok : yes, cancel : no});
+    },   {classname : 'error' + ' ' + additionalClass, ok : yes, cancel : no});
 }
 function showSpinner(e, customSelector){
     var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
