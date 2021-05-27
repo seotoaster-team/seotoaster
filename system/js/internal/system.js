@@ -552,7 +552,7 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback, addi
     if(typeof noValue != 'undefined'){
         no = noValue;
     }
-    if(additionalHtmlClass != '' || typeof additionalHtmlClass != 'undefined') {
+    if(typeof additionalHtmlClass != 'undefined' || additionalHtmlClass != '') {
         additionalClass = additionalHtmlClass;
     }
 
