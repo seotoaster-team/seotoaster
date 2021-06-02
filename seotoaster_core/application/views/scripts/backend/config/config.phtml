@@ -162,11 +162,9 @@
             <div class="grid_12"><?php echo $this->configForm->getElement('smtpLogin'); ?></div>
             <div class="grid_12">
                 <?php echo $this->configForm->getElement('smtpPassword')->renderLabel(); ?>
-                <div class="<?php echo $this->useEye ? 'sneak-peek-eye' : '';?>">
+                <div class="sneak-peek-eye">
                     <?php echo $this->configForm->getElement('smtpPassword')->renderViewHelper(); ?>
-                    <?php if($this->useEye) :?>
-                        <span class="sneak-peek"></span>
-                    <?php endif;?>
+                    <span class="sneak-peek"></span>
                 </div>
             </div>
         </fieldset>
@@ -174,7 +172,11 @@
         <?php if ($this->isSuperAdmin): ?>
             <fieldset id="security-config" class="content-small-footer pt50px">
                 <div><?php echo $this->configForm->getElement('suLogin'); ?></div>
-                <div><?php echo $this->configForm->getElement('suPassword'); ?></div>
+                <?php echo $this->configForm->getElement('suPassword')->renderLabel(); ?>
+                <div class="sneak-peek-eye">
+                    <?php echo $this->configForm->getElement('suPassword')->renderViewHelper(); ?>
+                    <span class="sneak-peek"></span>
+                </div>
             </fieldset>
             <fieldset id="advanced-config" class="content-small-footer pr0 pl0">
                 <div class="fl-left ml-grid mr-grid mt5px"><?php echo $this->configForm->getElement('canonicalScheme')->renderLabel(); ?></div>

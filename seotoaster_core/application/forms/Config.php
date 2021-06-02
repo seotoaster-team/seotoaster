@@ -503,7 +503,7 @@ class Application_Form_Config extends Application_Form_Secure
 			'value'  => $this->_smtpPassword,
 			'label'  => 'SMTP Password',
             'autocomplete' => 'off',
-            //'placeholder' => '********',
+            'placeholder' => '********',
 			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
