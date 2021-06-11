@@ -43,7 +43,7 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
         $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
         $toasterConfig = $configMapper->getConfig();
 
-        $mojoCompanyAgencyName = Tools_System_Tools::DEFAUL_MOJO_COMPANY_AGENCY_NAME;
+        $mojoCompanyAgencyName = Tools_System_Tools::DEFAULT_MOJO_COMPANY_AGENCY_NAME;
 
         if(!empty(Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('mojoCompanyAgencyName'))) {
             $mojoCompanyAgencyName = $toasterConfig['mojoCompanyAgencyName'];

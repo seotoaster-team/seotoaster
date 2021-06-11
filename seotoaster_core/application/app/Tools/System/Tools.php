@@ -70,7 +70,7 @@ class Tools_System_Tools {
     /**
      * Default Mojo Agency name
      */
-    const DEFAUL_MOJO_COMPANY_AGENCY_NAME = 'SeoSamba';
+    const DEFAULT_MOJO_COMPANY_AGENCY_NAME = 'SeoSamba';
 
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);

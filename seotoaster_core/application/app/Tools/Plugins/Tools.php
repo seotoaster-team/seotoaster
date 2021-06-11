@@ -30,7 +30,7 @@ class Tools_Plugins_Tools {
         $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
         $toasterConfig = $configMapper->getConfig();
 
-        $mojoCompanyAgencyName = Tools_System_Tools::DEFAUL_MOJO_COMPANY_AGENCY_NAME;
+        $mojoCompanyAgencyName = Tools_System_Tools::DEFAULT_MOJO_COMPANY_AGENCY_NAME;
 
         if(!empty($toasterConfig['mojoCompanyAgencyName'])) {
             $mojoCompanyAgencyName = $toasterConfig['mojoCompanyAgencyName'];
