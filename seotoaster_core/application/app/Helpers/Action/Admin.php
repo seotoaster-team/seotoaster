@@ -24,6 +24,7 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
 			if(!empty($additionalMenu['useSortParams'])) {
                 asort($additionalMenu['useSortParams'], SORT_NUMERIC);
                 $bottomsort = $additionalMenu['useSortParams'];
+                $this->_cache->save('admin_addmenu_btnsort', $bottomsort, $userRole, array(), '7200');
             }
 
 			if(!empty($additionalMenu['additionalMenu'])) {
@@ -33,6 +34,13 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
 			$this->_cache->save('admin_addmenu', $additionalMenu, $userRole, array(), '7200');
 		}
 		$this->_view->additionalMenu = $additionalMenu;
+
+        $bottomsortCache = $this->_cache->load('admin_addmenu_btnsort', $userRole);
+
+		if(!empty($bottomsortCache)) {
+            $bottomsort = $bottomsortCache;
+        }
+
         $this->_view->bottomsort = $bottomsort;
 
         if($this->_view->placeholder('logoSource')->getValue() == array()) {
