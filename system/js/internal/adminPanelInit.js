@@ -81,6 +81,10 @@
         list[localStorage.getItem('panel-section-active')].classList.add('active');
     }
 
+    document.querySelector('._i-exit').addEventListener('click', () => {
+        localStorage.removeItem('panel-section-active')
+    })
+
     /**
      * Get CMS version
      * @private
