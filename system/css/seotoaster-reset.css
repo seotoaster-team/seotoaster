@@ -71,7 +71,8 @@ a.generator-links.plugin {
 .ui-widget-overlay ~ .ui-widget-overlay {
   display: none;
 }
-[aria-describedby="toasterPopup"] {
+[aria-describedby="toasterPopup"],
+[aria-describedby="toasterPopupDraggable"] {
   max-width: none !important;
   border: none !important;
   padding: 0 !important;
@@ -86,12 +87,14 @@ a.generator-links.plugin {
   font-size: 14px;
   box-shadow: 3px 3px 10px #000;
 }
-[aria-describedby="toasterPopup"] iframe {
+[aria-describedby="toasterPopup"] iframe,
+[aria-describedby="toasterPopupDraggable"] iframe {
   background-image: url("../images/spinner.gif");
   background-position: center center;
   background-repeat: no-repeat;
 }
-[aria-describedby="toasterPopup"].screen-expand {
+[aria-describedby="toasterPopup"].screen-expand,
+[aria-describedby="toasterPopupDraggable"].screen-expand {
   height: 98% !important;
   min-width: 960px;
 }

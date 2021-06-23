@@ -589,7 +589,8 @@ button:focus,
 .ui-widget-overlay ~ .ui-widget-overlay {
   display: none;
 }
-[aria-describedby="toasterPopup"] {
+[aria-describedby="toasterPopup"],
+[aria-describedby="toasterPopupDraggable"] {
   position: fixed !important;
   right: 0 !important;
   left: 0 !important;
