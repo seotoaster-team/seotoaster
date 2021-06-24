@@ -210,24 +210,53 @@
         .section-box {
             padding      : 0 @panel-section-space;
             height       : 100%;
-            overflow-y   : scroll;
+            overflow-y   : auto;
             position     : relative;
-            margin-right : -18px;
+
+            // ie
+            scrollbar-base-color: #C0C0C0;
+            scrollbar-3dlight-color: #C0C0C0;
+            scrollbar-highlight-color: #C0C0C0;
+            scrollbar-track-color: #EBEBEB;
+            scrollbar-arrow-color: black;
+            scrollbar-shadow-color: #C0C0C0;
+            scrollbar-dark-shadow-color: #C0C0C0;
+
+            // chrome
+            //====== scroll line width
+            &::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+
+            //==== scroll line background
+            &::-webkit-scrollbar-track {
+                background: @panel-aside-color;
+                .border-radius(2px);
+            }
+
+            //==== scroll thumb background
+            &::-webkit-scrollbar-thumb {
+                .border-radius(2px);
+                background: lighten(@panel-brand-primary, 20%);
+            }
+
+
         }
-        &:after {
-            position       : absolute;
-            z-index        : 1;
-            bottom         : 0;
-            right          : 0;
-            left           : 0;
-            height         : @panel-section-shadow-height;
-            content        : "";
-            pointer-events : none;
-            .gradient(linear-gradient(
-                    to bottom,
-                    rgba(red(@panel-section-bg), green(@panel-section-bg), blue(@panel-section-bg), 0) 0%,
-                    rgba(red(@panel-section-bg), green(@panel-section-bg), blue(@panel-section-bg), 1) 100%));
-        }
+        //&:after {
+        //    position       : absolute;
+        //    z-index        : 1;
+        //    bottom         : 0;
+        //    right          : 0;
+        //    left           : 0;
+        //    height         : @panel-section-shadow-height;
+        //    content        : "";
+        //    pointer-events : none;
+        //    .gradient(linear-gradient(
+        //            to bottom,
+        //            rgba(red(@panel-section-bg), green(@panel-section-bg), blue(@panel-section-bg), 0) 0%,
+        //            rgba(red(@panel-section-bg), green(@panel-section-bg), blue(@panel-section-bg), 1) 100%));
+        //}
     }
 
     // section title
