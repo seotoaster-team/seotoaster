@@ -914,4 +914,60 @@ class Tools_System_Tools {
         return $prefixes;
     }
 
+    /**
+     * Find mask by mask type and country code
+     *
+     * @param string $text to format
+     * @param string $maskType mask type (mobile|desktop)
+     * @param string $countryCode country code ISO Alpha-2
+     * @return null
+     */
+    public static function formatPhoneMobileMask($text, $maskType, $countryCode)
+    {
+        $masksListMapper = Application_Model_Mappers_MasksListMapper::getInstance();
+        $maskListModel = $masksListMapper->findMaskByTypeCountryCode($maskType, $countryCode);
+        if (!$maskListModel instanceof Application_Model_Models_MaskList) {
+            return $text;
+        }
+
+        $fullMask = $maskListModel->getFullMaskValue();
+
+        if (!preg_match_all('/\d/', $fullMask, $maskMatchesDigits, PREG_OFFSET_CAPTURE) !== false) {
+            return $text;
+        }
+
+        if (!preg_match_all('/\D/', $fullMask, $maskMatchesNoneDigits, PREG_OFFSET_CAPTURE) !== false) {
+            return $text;
+        }
+
+        $maskedDigitsKeys = array();
+        $maskMatchesNoneDigitsKeys = array();
+
+        foreach ($maskMatchesDigits[0] as $maskMatchesDigit) {
+            $maskedDigitsKeys[$maskMatchesDigit['1']] = $maskMatchesDigit['1'];
+        }
+
+        foreach ($maskMatchesNoneDigits[0] as $maskMatchesNoneDigit) {
+            $maskMatchesNoneDigitsKeys[$maskMatchesNoneDigit['1']] = $maskMatchesNoneDigit['0'];
+        }
+
+        $formattedString = '';
+        $textPositionStart = 0;
+        for ($i = 0; $i < mb_strlen($fullMask); $i++) {
+            if (isset($maskedDigitsKeys[$i])) {
+                if (isset($text[$textPositionStart])) {
+                    $formattedString = substr_replace($formattedString, $text[$textPositionStart], $i, 0);
+                    ++$textPositionStart;
+                }
+            }
+
+            if (isset($maskMatchesNoneDigitsKeys[$i]) && $maskMatchesNoneDigitsKeys[$i] !== '?') {
+                $formattedString = substr_replace($formattedString, $maskMatchesNoneDigitsKeys[$i], $i, 0);
+            }
+
+        }
+
+        return $formattedString;
+    }
+
 }

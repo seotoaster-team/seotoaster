@@ -34,7 +34,6 @@ class Backend_ConfigController extends Zend_Controller_Action {
 		$this->view->isSuperAdmin = $isSuperAdminLogged;
 		$message = '';
 		$errMessageFlag = false;
-        $useEye = true;
 
 		if ($this->getRequest()->isPost()) {
             if (!$isSuperAdminLogged) {
@@ -113,10 +112,6 @@ class Backend_ConfigController extends Zend_Controller_Action {
 					unset($config['smtpPassword']);
 				}
 
-				if(!empty($config['smtpPassword'])) {
-                    $useEye = false;
-                }
-
 				if ($config['inlineEditor'] !== $this->_helper->config->getConfig('inlineEditor')){
 					$this->_helper->cache->clean(false, false, array('Widgets_AbstractContent'));
 				}
@@ -129,6 +124,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
                         'username' => $this->getRequest()->getParam('smtpLogin'),
                         'password' => $this->getRequest()->getParam('smtpPassword')
                     );
+
+                    $smtpPassword = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('smtpPassword');
+
+                    if(empty($smtpConfig['password']) && !empty($smtpPassword)) {
+                        $smtpConfig['password'] = $smtpPassword;
+                        unset($config['smtpPassword']);
+                    }
 
                     $smtpSsl = $this->getRequest()->getParam('smtpSsl');
 
@@ -202,12 +204,11 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			}
 
             if(!empty($currentConfig['smtpPassword'])) {
-                $configForm->getElement('smtpPassword')->setAttrib('placeholder', '********');
-                $useEye = false;
+                $configForm->getElement('smtpPassword')->setValue('');
+            } else {
+                $configForm->getElement('smtpPassword')->setAttrib('placeholder', '');
             }
 		}
-
-        $this->view->useEye = $useEye;
 
 		$secureToken = Tools_System_Tools::initZendFormCsrfToken($configForm, Tools_System_Tools::ACTION_PREFIX_CONFIG);
 
