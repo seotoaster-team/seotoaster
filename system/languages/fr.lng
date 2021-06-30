@@ -1287,7 +1287,11 @@
     'Apply changes to the website config' => 'Veuillez appliquer',
     'Without backup' => 'Sans sauvegarde',
     'Update' => 'Mettre à jour',
-    'jQuery version is outdated' => 'Version de jQuery est obsolète'
+    'jQuery version is outdated' => 'Version de jQuery est obsolète',
+    'System configuration' => 'Configuration du système',
+    'Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.' => 'Veuillez trouver des paramètres supplémentaires dans le menu du Blog, de la Boutique, de la GRC et l\'ID Card du site.',
+    'Search Engine Optimization' => 'L\'optimisation pour les moteurs de recherche',
+    'Get additional capabilities with a subscription to $hubagencyname.' => 'Ayez des fonctionnalités supplémentaires avec une souscription auprès de $hubagencyname',
 
 
 );?>

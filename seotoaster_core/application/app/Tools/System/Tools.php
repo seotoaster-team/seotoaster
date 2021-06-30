@@ -67,6 +67,11 @@ class Tools_System_Tools {
 
     const ACTION_PREFIX_PLUGINS = 'Plugins';
 
+    /**
+     * Default Mojo Agency name
+     */
+    const DEFAULT_MOJO_COMPANY_AGENCY_NAME = 'SeoSamba';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : '';

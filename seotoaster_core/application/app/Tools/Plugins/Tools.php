@@ -13,8 +13,9 @@ class Tools_Plugins_Tools {
      */
     private static $_pluginsPath;
 
-	public static function fetchPluginsMenu($userRole = null) {
+	public static function fetchPluginsMenu($userRole = null, $useSort = false) {
 		$additionalMenu = array();
+        $useSortParams = array();
 		$enabledPlugins = self::getEnabledPlugins();
 
 		if(!is_array($enabledPlugins) || empty ($enabledPlugins)) {
@@ -24,6 +25,16 @@ class Tools_Plugins_Tools {
 		$miscData       = Zend_Registry::get('misc');
 		$websiteData    = Zend_Registry::get('website');
 		$pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
+
+        $translator = Zend_Registry::get('Zend_Translate');
+        $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+        $toasterConfig = $configMapper->getConfig();
+
+        $mojoCompanyAgencyName = Tools_System_Tools::DEFAULT_MOJO_COMPANY_AGENCY_NAME;
+
+        if(!empty($toasterConfig['mojoCompanyAgencyName'])) {
+            $mojoCompanyAgencyName = $toasterConfig['mojoCompanyAgencyName'];
+        }
 
 		foreach ($enabledPlugins as $plugin) {
 
@@ -60,6 +71,11 @@ class Tools_Plugins_Tools {
                     }
                 }
 
+                $sectionAlias = (isset($configIni->cpanel->sectionAlias)) ? $configIni->cpanel->sectionAlias : '';
+				if(!empty($sectionAlias)) {
+                    $sectionAlias = $translator->translate($sectionAlias);
+                }
+
 				$subsection = strtoupper((isset($configIni->cpanel->subsection)) ? $configIni->cpanel->subsection : 'DEFAULT');
 				if($subsection === 'DEFAULT') {
                     if(isset($configIni->$userRole) && isset($configIni->$userRole->subsection)) {
@@ -82,14 +98,28 @@ class Tools_Plugins_Tools {
                     $values = array_merge($values, array_values($configIni->$userRole->values->toArray()));
                 }
 
+                $prompt = (isset($configIni->cpanel->prompt)) ? $configIni->cpanel->prompt : '';
+                if(!empty($prompt)) {
+                    $prompt = $translator->translate($prompt);
+                    $prompt = str_replace('$hubagencyname', $mojoCompanyAgencyName, $prompt);
+                }
+                $bottomsort = (isset($configIni->cpanel->bottomsort)) ? $configIni->cpanel->bottomsort : '';
+
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
 
 				if (!isset($additionalMenu[$section][$subsection][$title])) {
                     $additionalMenu[$section][$subsection][$title] = array(
-                        'title' => $title,
-                        'items' => array(),
-                        'values' => array()
+                        'title'        => $title,
+                        'items'        => array(),
+                        'values'       => array(),
+                        'sectionAlias' => $sectionAlias,
+                        'prompt'       => $prompt,
+                        'bottomsort'   => $bottomsort
                     );
+
+                    if(!empty($useSort) && !empty($bottomsort)) {
+                        $useSortParams[$title] = $bottomsort;
+                    }
 
                     if(isset($configIni->$userRole->forceurl)) {
                         $additionalMenu[$section][$subsection][$title]['forceurl'] = $configIni->$userRole->forceurl;
@@ -120,8 +150,11 @@ class Tools_Plugins_Tools {
 			}
             }
 
-        //sort($additionalMenu);
-		return $additionalMenu;
+        if(!empty($useSort) && !empty($useSortParams)) {
+            return array('useSortParams' => $useSortParams, 'additionalMenu' => $additionalMenu);
+        } else {
+            return $additionalMenu;
+        }
 	}
 
 
