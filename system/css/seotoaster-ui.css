@@ -962,6 +962,14 @@
 .ticon-eye:before {
   content: "\e907";
 }
+.ticon-download-ios:before {
+  content: "\e908";
+  color: #4c4c4c;
+}
+.ticon-download-android:before {
+  content: "\e909";
+  color: #4c4c4c;
+}
 .smoke-base .smokebg {
   position: fixed;
   left: 0;
