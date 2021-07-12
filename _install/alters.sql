@@ -787,6 +787,11 @@ ALTER TABLE `config` CHANGE `value` `value` TEXT COLLATE utf8_unicode_ci NOT NUL
 -- version: 3.2.1
 -- Pre package version
 
+-- 07/07/2021
+-- version: 3.3.0
+ALTER TABLE `user` ADD COLUMN `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.3.0' WHERE `name`='version';
+UPDATE `config` SET `value`='3.3.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
