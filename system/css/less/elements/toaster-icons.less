@@ -24,7 +24,8 @@
 [class^="ui-icon-"]:before, [class*=" ui-icon-"]:before,
 .sorting:after, .sorting_asc:after, .sorting_desc:after,
 .ui-datepicker-prev:before, .ui-datepicker-next:before, .ui-dialog:before, .ui-accordion-header-icon:before, .ui-dialog-titlebar-close:before,
-.search-choice-close:before{
+.search-choice-close:before,
+[class*="_i-"]:before{
     font-family             : @icon-family;
     speak                   : none;
     font-style              : normal;
@@ -811,17 +812,64 @@
 .@{icon-prefix}-earth:before{
     content : "\e004";
 }
-.@{icon-prefix}-thumb_up:before {
+.@{icon-prefix}-bell:before {
+    content: "\e0ee";
+}
+.@{icon-prefix}-bell-error:before {
+    content: "\e0ef";
+}
+.@{icon-prefix}-bell-success:before {
+    content: "\e0f0";
+}
+.@{icon-prefix}-redo:before {
+    content: "\e0f1";
+}
+.@{icon-prefix}-loading2:before {
+    content: "\e112";
+}
+.@{icon-prefix}-loading:before {
+    content: "\e113";
+}
+.@{icon-prefix}-cog2:before {
+    content: "\e140";
+}
+.@{icon-prefix}-stats-up:before {
+    content: "\e15d";
+}
+.@{icon-prefix}-puzzle:before {
+    content: "\e1c0";
+}
+.@{icon-prefix}-exit:before {
+    content: "\e904";
+}
+.@{icon-prefix}-loop:before {
     content: "\e900";
 }
-.@{icon-prefix}-thumb_down:before {
-    content: "\e901";
-}
-.@{icon-prefix}-eye:before {
+.@{icon-prefix}-address-card:before {
     content: "\e902";
 }
-.@{icon-prefix}-download-android:before {
+.@{icon-prefix}-news:before {
     content: "\e903";
+}
+.@{icon-prefix}-files:before {
+    content: "\e901";
+}
+.@{icon-prefix}-thumb_up:before {
+    content: "\e905";
+}
+.@{icon-prefix}-thumb_down:before {
+    content: "\e906";
+}
+.@{icon-prefix}-eye:before {
+    content: "\e907";
+}
+.@{icon-prefix}-download-ios:before {
+    content: "\e908";
+    color: #4c4c4c;
+}
+.@{icon-prefix}-download-android:before {
+    content: "\e909";
+    color: #4c4c4c;
 }
 .@{icon-prefix}-download-ios:before {
     content: "\e904";

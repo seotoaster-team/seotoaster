@@ -111,7 +111,8 @@
 .ui-dialog:before,
 .ui-accordion-header-icon:before,
 .ui-dialog-titlebar-close:before,
-.search-choice-close:before {
+.search-choice-close:before,
+[class*="_i-"]:before {
   font-family: 'system-icons';
   speak: none;
   font-style: normal;
@@ -910,20 +911,64 @@
 .ticon-earth:before {
   content: "\e004";
 }
-.ticon-thumb_up:before {
+.ticon-bell:before {
+  content: "\e0ee";
+}
+.ticon-bell-error:before {
+  content: "\e0ef";
+}
+.ticon-bell-success:before {
+  content: "\e0f0";
+}
+.ticon-redo:before {
+  content: "\e0f1";
+}
+.ticon-loading2:before {
+  content: "\e112";
+}
+.ticon-loading:before {
+  content: "\e113";
+}
+.ticon-cog2:before {
+  content: "\e140";
+}
+.ticon-stats-up:before {
+  content: "\e15d";
+}
+.ticon-puzzle:before {
+  content: "\e1c0";
+}
+.ticon-exit:before {
+  content: "\e904";
+}
+.ticon-loop:before {
   content: "\e900";
 }
-.ticon-thumb_down:before {
-  content: "\e901";
-}
-.ticon-eye:before {
+.ticon-address-card:before {
   content: "\e902";
 }
-.ticon-download-android:before {
+.ticon-news:before {
   content: "\e903";
 }
+.ticon-files:before {
+  content: "\e901";
+}
+.ticon-thumb_up:before {
+  content: "\e905";
+}
+.ticon-thumb_down:before {
+  content: "\e906";
+}
+.ticon-eye:before {
+  content: "\e907";
+}
 .ticon-download-ios:before {
-  content: "\e904";
+  content: "\e908";
+  color: #4c4c4c;
+}
+.ticon-download-android:before {
+  content: "\e909";
+  color: #4c4c4c;
 }
 .ticon-go-to-file:before {
   content: "\e905";
