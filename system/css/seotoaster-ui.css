@@ -970,6 +970,9 @@
   content: "\e909";
   color: #4c4c4c;
 }
+.ticon-go-to-file:before {
+  content: "\e905";
+}
 .smoke-base .smokebg {
   position: fixed;
   left: 0;

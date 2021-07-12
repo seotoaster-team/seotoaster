@@ -1292,6 +1292,21 @@
     'Additional settings can be found in the Blog, Store, CRM and Website ID Card menu.' => 'Veuillez trouver des paramètres supplémentaires dans le menu du Blog, de la Boutique, de la GRC et l\'ID Card du site.',
     'Search Engine Optimization' => 'L\'optimisation pour les moteurs de recherche',
     'Get additional capabilities with a subscription to $hubagencyname.' => 'Ayez des fonctionnalités supplémentaires avec une souscription auprès de $hubagencyname',
-
+    'Subscribe' => 'Souscrire',
+    'Allow remote login' => 'Autoriser la connexion à distance',
+    'E-mail' => 'E-mail',
+    'Prefix' => 'Préfixe',
+    'Full name' => 'Nom et prénom',
+    'Password' => 'Mot de passe',
+    'Role' => 'Rôle',
+    'Desktop' => 'Desktop',
+    'Timezone' => 'Fuseau horaire',
+    'Signature' => 'Signature',
+    'VOIP phone' => 'Téléphone VOIP',
+    'Mobile' => 'Mobile',
+    'User attributes' => 'Attributs utilisateur',
+    'Personal calendar url' => 'URL de l\'agenda personnel',
+    'Avatar link' => 'Lien de l\'avatar',
+    'Save user' => 'Sauvegarder l\'utilisateur'
 
 );?>

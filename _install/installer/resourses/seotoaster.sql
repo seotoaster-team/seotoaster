@@ -38,7 +38,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMinifyJs', '0'),
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
-('version',	'3.3.0');
+('version',	'3.3.1');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -448,6 +448,8 @@ CREATE TABLE `user` (
   `allow_remote_authorization` ENUM('1', '0') DEFAULT '0' NOT NULL,
   `remote_authorization_info` TEXT COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'additional info',
   `remote_authorization_token` CHAR(40) DEFAULT NULL,
+  `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
