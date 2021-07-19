@@ -1287,7 +1287,23 @@
     'Apply changes to the website config' => 'Veuillez appliquer',
     'Without backup' => 'Sans sauvegarde',
     'Update' => 'Mettre à jour',
-    'jQuery version is outdated' => 'Version de jQuery est obsolète'
+    'jQuery version is outdated' => 'Version de jQuery est obsolète',
+    'Subscribe' => 'Souscrire',
+    'Allow remote login' => 'Autoriser la connexion à distance',
+    'E-mail' => 'E-mail',
+    'Prefix' => 'Préfixe',
+    'Full name' => 'Nom et prénom',
+    'Password' => 'Mot de passe',
+    'Role' => 'Rôle',
+    'Desktop' => 'Desktop',
+    'Timezone' => 'Fuseau horaire',
+    'Signature' => 'Signature',
+    'VOIP phone' => 'Téléphone VOIP',
+    'Mobile' => 'Mobile',
+    'User attributes' => 'Attributs utilisateur',
+    'Personal calendar url' => 'URL de l\'agenda personnel',
+    'Avatar link' => 'Lien de l\'avatar',
+    'Save user' => 'Sauvegarder l\'utilisateur'
 
 
 );?>

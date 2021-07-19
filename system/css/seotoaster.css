@@ -1195,11 +1195,6 @@ p {
   margin-top: 0;
   margin-bottom: 15px;
 }
-p:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 p img {
   margin: 0;
 }
@@ -1697,6 +1692,13 @@ table tbody + tbody {
 }
 table table {
   background-color: #fff;
+}
+table.manage-saved-config-table thead a {
+  margin: 0 3px;
+  color: #333;
+}
+table.manage-saved-config-table thead a:hover {
+  color: #fff;
 }
 table.table-bordered {
   border: 1px solid #dddddd;
@@ -2900,7 +2902,7 @@ body {
   text-decoration: none;
   padding: 0 3px;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   box-sizing: content-box;
 }
 .closebutton .help {

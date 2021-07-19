@@ -66,9 +66,15 @@
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('timezone'); ?>
                 </div>
-				<div class="grid_12">
+				<div class="grid_12 hide">
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
+                <div class="grid_12">
+                    <?php echo $this->userForm->getElement('personalCalendarUrl'); ?>
+                </div>
+                <div class="grid_12">
+                    <?php echo $this->userForm->getElement('avatarLink'); ?>
+                </div>
                 <div class="grid_12">
                     <label><?php echo $this->translate('Subscribed');?> <input id="user-subscribe" type="checkbox" name="subscribed" value="1" /></label>
                     <label class="inline-block"><?php echo $this->translate('Allow remote login');?></label>
@@ -330,9 +336,6 @@
         });
 
         $(document).on('click', '._tedit', function(e){
-            var passwdBlock = $('#frm-user').find('.password-block');
-            $(passwdBlock).find('.sneak-peek').remove();
-
             $('#frm-user')[0].reset();
             $('#user-attributes-section').html('');
             $('#add-user').show("slide", { direction: "right"});

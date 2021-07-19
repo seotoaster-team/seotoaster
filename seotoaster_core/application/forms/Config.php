@@ -36,6 +36,7 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_grecaptchaPrivateKey;
     protected $_googleApiKey;
 
+    protected $_validateFormEmails;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -390,6 +391,27 @@ class Application_Form_Config extends Application_Form_Secure
 
     }
 
+    /**
+     * @return mixed
+     */
+    public function getValidateFormEmails()
+    {
+        return $this->_validateFormEmails;
+    }
+
+
+    /**
+     * @return mixed
+     * string $validateFormEmails mixed
+     */
+    public function setValidateFormEmails($validateFormEmails)
+    {
+        $this->_validateFormEmails = $validateFormEmails;
+        $this->getElement('validateFormEmails')->setValue($this->_validateFormEmails);
+
+        return $this;
+    }
+
 	public function init()
     {
         parent::init();
@@ -481,7 +503,7 @@ class Application_Form_Config extends Application_Form_Secure
 			'value'  => $this->_smtpPassword,
 			'label'  => 'SMTP Password',
             'autocomplete' => 'off',
-            //'placeholder' => '********',
+            'placeholder' => '********',
 			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
@@ -604,6 +626,11 @@ class Application_Form_Config extends Application_Form_Secure
             'value' => $this->_googleApiKey,
             'label' => 'Google API key',
             'placeholder' => 'Browser key'
+        ));
+
+        $this->addElement('checkbox', 'validateFormEmails', array(
+            'value' => $this->_validateFormEmails,
+            'label' => 'Enable form emails validation?'
         ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
