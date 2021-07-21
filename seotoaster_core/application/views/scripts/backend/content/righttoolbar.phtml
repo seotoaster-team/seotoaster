@@ -1,4 +1,5 @@
 <div class="tab_content">
+    <p class="ticon-refresh refresh-items pointer mb5px" data-type="folder"> <?php echo $this->translate('Refresh directories'); ?></p>
 	<select id="adminselectimgfolder" class="grid_7 alpha omega" name="adminselectimgfolder">
 		<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>
 		<?php if(isset($this->imageFolders) && is_array($this->imageFolders)): ?>
@@ -71,13 +72,20 @@
                 el.data('url', dataUrl);
             }
         }).on('focus', '#adminselectimgfolder',function(){
-                var el = $(this);
+                var el = $(this),
+                    currentSelection = $(el).val();
+
                 $.get('<?php echo $this->websiteUrl; ?>backend/backend_content/refreshfolders/', function(response){
                     if(!response.error){
                         el.empty();
-                        el.append('<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>');
+
+                        el.append('<option value="0"><?php echo $this->translate('Select folder'); ?></option>');
                         $.each(response.responseText, function(id, folderName){
-                            el.append('<option value="'+folderName+'">'+folderName+'</option>')
+                            var selectedVal = ''
+                            if(currentSelection && currentSelection == folderName) {
+                                selectedVal = 'selected="selected"';
+                            }
+                            el.append('<option value="'+folderName+'" '+ selectedVal +'>'+folderName+'</option>')
                         });
                     }
                 });

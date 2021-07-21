@@ -111,7 +111,15 @@ $(function() {
 					$('#images_large').find('.images-preview').replaceWith(images.large);
 					$('#images_original').find('.images-preview').replaceWith(images.original);
 
+					var activeFilesTab = $('#files').hasClass('ui-state-active');
+					if(activeFilesTab) {
+						$('#files').trigger('click').trigger('click');
+					}
 
+					var openedTab = $('.ui-accordion-content-active');
+					if(openedTab.length < 1){
+						$('#files').trigger('click');
+					}
 				},
 				error: function() {
 					//console.log('error');
@@ -190,6 +198,10 @@ $(function() {
 			localStorage.removeItem(generateStorageKey());
 		}, 'success');
 	}
+
+	$(document).on('click', 'p.refresh-items', function() {
+		$('#adminselectimgfolder').trigger('change');
+	});
 });
 
 function dispatchEditorKeyup(editor, event, keyTime) {
