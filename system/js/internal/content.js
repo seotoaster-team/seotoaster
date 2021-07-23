@@ -199,7 +199,8 @@ $(function() {
 		}, 'success');
 	}
 
-	$(document).on('click', 'p.refresh-items', function() {
+	$(document).on('click', 'span.refresh-items', function(e) {
+		e.preventDefault();
 		$('#adminselectimgfolder').trigger('change');
 	});
 });
