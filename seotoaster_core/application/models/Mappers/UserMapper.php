@@ -36,7 +36,9 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'prefix'                     => $user->getPrefix(),
             'allow_remote_authorization' => $user->getAllowRemoteAuthorization(),
             'remote_authorization_info'  => $user->getRemoteAuthorizationInfo(),
-            'remote_authorization_token' => $user->getRemoteAuthorizationToken()
+            'remote_authorization_token' => $user->getRemoteAuthorizationToken(),
+            'personal_calendar_url'      => $user->getPersonalCalendarUrl(),
+            'avatar_link'                => $user->getAvatarLink()
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -181,7 +183,9 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'desktop_country_code_value',
             'desktop_phone',
             'signature',
-            'subscribed'
+            'subscribed',
+            'personal_calendar_url',
+            'avatar_link'
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 

@@ -925,6 +925,9 @@
 .ticon-download-ios:before {
   content: "\e904";
 }
+.ticon-go-to-file:before {
+  content: "\e905";
+}
 .smoke-base .smokebg {
   position: fixed;
   left: 0;
