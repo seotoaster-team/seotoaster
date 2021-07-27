@@ -1430,40 +1430,6 @@
   margin: 0.5em 0.4em 0.5em 0;
   cursor: pointer;
 }
-.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar {
-  z-index: 1;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  width: 40px;
-  height: 30px;
-  padding: 3px;
-  margin: auto;
-  text-align: center;
-  color: #666;
-  border: none;
-  background: #eaeaea;
-  border-radius: 5px 5px 0 0;
-}
-.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar::before {
-  content: "\e005";
-  font-family: 'system-icons';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  text-transform: none;
-  line-height: 1;
-  position: relative;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar span,
-.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar button {
-  display: none;
-}
 @media only screen and (max-height: 560px) {
   body > [aria-describedby="toasterPopup"][style*="height: 560px;"] {
     margin-top: 0 !important;
