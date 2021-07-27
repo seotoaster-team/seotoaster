@@ -1435,13 +1435,16 @@
   position: absolute;
   left: 0;
   right: 0;
-  width: 250px;
-  padding: 7px;
+  bottom: 100%;
+  width: 40px;
+  height: 30px;
+  padding: 3px;
   margin: auto;
   text-align: center;
   color: #666;
   border: none;
-  background: transparent;
+  background: #eaeaea;
+  border-radius: 5px 5px 0 0;
 }
 .ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar::before {
   content: "\e005";
