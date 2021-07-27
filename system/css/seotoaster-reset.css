@@ -94,7 +94,7 @@ a.generator-links.plugin {
   height: 98% !important;
   min-width: 960px;
 }
-[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar {
+.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar {
   z-index: 1;
   position: absolute;
   left: 0;
@@ -110,7 +110,7 @@ a.generator-links.plugin {
   background: #eaeaea;
   border-radius: 5px 5px 0 0;
 }
-[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar::before {
+.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar::before {
   content: "\e005";
   font-family: 'system-icons';
   speak: none;
@@ -124,8 +124,8 @@ a.generator-links.plugin {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar span,
-[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar button {
+.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar span,
+.ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar button {
   display: none;
 }
 .ui-overlay + .ui-widget-content {
