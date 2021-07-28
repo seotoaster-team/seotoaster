@@ -49,6 +49,9 @@
                 ->prependStylesheet($this->websiteUrl.'system/css/seotoaster-reset.css');
         }
     }
+
+    $this->headLink()->setIndent(8)->prependStylesheet($this->websiteUrl.'system/css/icons.css');
+
     $this->headLink()->headLink(array('rel' => 'canonical', 'href' => $this->canonicalUrl), 'PREPEND');
 
 
