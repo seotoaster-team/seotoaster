@@ -13,8 +13,9 @@ class Tools_Plugins_Tools {
      */
     private static $_pluginsPath;
 
-	public static function fetchPluginsMenu($userRole = null) {
+	public static function fetchPluginsMenu($userRole = null, $useSort = false) {
 		$additionalMenu = array();
+        $useSortParams = array();
 		$enabledPlugins = self::getEnabledPlugins();
 
 		if(!is_array($enabledPlugins) || empty ($enabledPlugins)) {
@@ -24,6 +25,16 @@ class Tools_Plugins_Tools {
 		$miscData       = Zend_Registry::get('misc');
 		$websiteData    = Zend_Registry::get('website');
 		$pluginDirPath  = $websiteData['path'] . $miscData['pluginsPath'];
+
+        $translator = Zend_Registry::get('Zend_Translate');
+        $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+        $toasterConfig = $configMapper->getConfig();
+
+        $mojoCompanyAgencyName = Tools_System_Tools::DEFAULT_MOJO_COMPANY_AGENCY_NAME;
+
+        if(!empty($toasterConfig['mojoCompanyAgencyName'])) {
+            $mojoCompanyAgencyName = $toasterConfig['mojoCompanyAgencyName'];
+        }
 
 		foreach ($enabledPlugins as $plugin) {
 
@@ -38,45 +49,87 @@ class Tools_Plugins_Tools {
 			}
 
 			try {
-				$configIni = new Zend_Config_Ini($pluginConfigPath);
-				$items     = array();
+                $configIni = new Zend_Config_Ini($pluginConfigPath);
+                $items     = array();
                 $values    = array();
 
-				if(!isset($configIni->cpanel)) {
-					continue;
-				}
+                if (!isset($configIni->cpanel)) {
+                    continue;
+                }
 
 				$title = strtoupper((isset($configIni->cpanel->title)) ? $configIni->cpanel->title : '');
 				if(!$title) {
                     if(isset($configIni->$userRole) && isset($configIni->$userRole->title)) {
                         $title = strtoupper($configIni->$userRole->title);
+                        }
+                    }
+
+				$section = strtoupper((isset($configIni->cpanel->section)) ? $configIni->cpanel->section : 'DEFAULT');
+				if($section === 'DEFAULT') {
+                    if(isset($configIni->$userRole) && isset($configIni->$userRole->section)) {
+                        $section = strtoupper($configIni->$userRole->section);
                     }
                 }
 
-                if (!isset($additionalMenu[$title])){
-					$additionalMenu[$title] = array(
-						'title' => $title,
-						'items' => array(),
-                        'values' => array()
-					);
-				}
+                $sectionAlias = (isset($configIni->cpanel->sectionAlias)) ? $configIni->cpanel->sectionAlias : '';
+				if(!empty($sectionAlias)) {
+                    $sectionAlias = $translator->translate($sectionAlias);
+                }
 
-				if(isset($configIni->cpanel->items)) {
-					$items = array_values($configIni->cpanel->items->toArray());
-				}
+				$subsection = strtoupper((isset($configIni->cpanel->subsection)) ? $configIni->cpanel->subsection : 'DEFAULT');
+				if($subsection === 'DEFAULT') {
+                    if(isset($configIni->$userRole) && isset($configIni->$userRole->subsection)) {
+                        $subsection = strtoupper($configIni->$userRole->subsection);
+                    } else {
+                        $subsection = strtoupper($configIni->$userRole->title);
+                    }
+                }
+
+                if(isset($configIni->cpanel->items)) {
+                    $items = array_values($configIni->cpanel->items->toArray());
+                }
                 if(isset($configIni->cpanel->values)) {
                     $values = array_values($configIni->cpanel->values->toArray());
                 }
 				if(isset($configIni->$userRole) && isset($configIni->$userRole->items)) {
-					$items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
-				}
+                    $items = array_merge($items, array_values($configIni->$userRole->items->toArray()));
+                }
                 if(isset($configIni->$userRole) && isset($configIni->$userRole->values)) {
                     $values = array_merge($values, array_values($configIni->$userRole->values->toArray()));
                 }
 
+                $prompt = (isset($configIni->cpanel->prompt)) ? $configIni->cpanel->prompt : '';
+                if(!empty($prompt)) {
+                    $prompt = $translator->translate($prompt);
+                    $prompt = str_replace('$hubagencyname', $mojoCompanyAgencyName, $prompt);
+                }
+                $bottomsort = (isset($configIni->cpanel->bottomsort)) ? $configIni->cpanel->bottomsort : '';
+
 				$websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+
+				if (!isset($additionalMenu[$section][$subsection][$title])) {
+                    $additionalMenu[$section][$subsection][$title] = array(
+                        'title'        => $title,
+                        'items'        => array(),
+                        'values'       => array(),
+                        'sectionAlias' => $sectionAlias,
+                        'prompt'       => $prompt,
+                        'bottomsort'   => $bottomsort
+                    );
+
+                    if(!empty($useSort) && !empty($bottomsort)) {
+                        $useSortParams[$title] = $bottomsort;
+                    }
+
+                    if(isset($configIni->$userRole->forceurl)) {
+                        $additionalMenu[$section][$subsection][$title]['forceurl'] = $configIni->$userRole->forceurl;
+                        $additionalMenu[$section][$subsection][$title]['forcepwidth'] = $configIni->$userRole->forcepwidth;
+                        $additionalMenu[$section][$subsection][$title]['forcepheight'] = $configIni->$userRole->forcepheight;
+                    }
+                }
+
                 foreach ($values as $value) {
-                    array_push($additionalMenu[$title]['values'], $value);
+                    array_push($additionalMenu[$section][$subsection][$title]['values'], $value);
                     unset($value);
                 }
 
@@ -86,30 +139,8 @@ class Tools_Plugins_Tools {
 							'{url}' => $websiteUrl,
 							'\''    => '"'
 						));
-					} elseif (is_array($item)) {
-						$item = array_merge(
-							array(
-								'run'       => 'index',
-								'name'      => $plugin->getName(),
-								'width'     => null,
-								'height'    => null
-							),
-							$item
-						);
-						if (isset($item['section'])){
-							$subTitle = strtoupper($item['section']);
-							if (!isset($additionalMenu[$subTitle])){
-								$additionalMenu[$subTitle] = array(
-									'title' => $subTitle,
-									'items' => array()
-								);
-							}
-							array_push($additionalMenu[$subTitle]['items'], $item);
-							unset($subTitle);
-							continue;
-						}
 					}
-					array_push($additionalMenu[$title]['items'], $item);
+                    array_push($additionalMenu[$section][$subsection][$title]['items'], $item);
 					unset($item);
 				}
 			}
@@ -117,10 +148,13 @@ class Tools_Plugins_Tools {
 				//Zend_Debug::dump($zce->getMessage()); die(); //development
 				continue; //production
 			}
-		}
+            }
 
-        sort($additionalMenu);
-		return $additionalMenu;
+        if(!empty($useSort) && !empty($useSortParams)) {
+            return array('useSortParams' => $useSortParams, 'additionalMenu' => $additionalMenu);
+        } else {
+            return $additionalMenu;
+        }
 	}
 
 
