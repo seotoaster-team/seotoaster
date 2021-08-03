@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
+        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen | wrapLink',
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -70,6 +70,28 @@ $(function(){
                             ed.focus();
                             ed.selection.setContent(SHOWMORE);
                         }
+                    }
+                }
+            });
+            ed.addButton('wrapLink', {
+                title:'wrapLink',
+                text: 'wrap link',
+                icon: 'mce-ico mce-i-link',
+                onclick : function() {
+                    var selectedText = ed.selection.getContent({format : 'text'}),
+                        targetBlank = '';
+                    $('.mce-i-unlink').trigger('click');
+                    if(selectedText.length) {
+                        showConfirm('Add target _blank?',
+                            function(){
+                                targetBlank = 'target="_blank"';
+                                ed.focus();
+                                ed.selection.setContent('<a href="'+ selectedText +'" '+ targetBlank +'>' + selectedText + '</a>');
+                            }, function(){
+                                targetBlank = '';
+                                ed.focus();
+                                ed.selection.setContent('<a href="'+ selectedText +'" '+ targetBlank +'>' + selectedText + '</a>');
+                            });
                     }
                 }
             });
