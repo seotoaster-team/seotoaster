@@ -928,3 +928,6 @@
 .ticon-go-to-file:before {
   content: "\e905";
 }
+.ticon-exit:before {
+  content: "\e906";
+}
