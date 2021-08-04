@@ -5271,7 +5271,7 @@ label[for*="chr-"] {
   display: block;
 }
 #edit-content #tabs-frag-1 .ui-accordion-content {
-  max-height: 202px;
+  max-height: 172px;
   overflow-y: scroll;
 }
 #edit-content #tabs-frag-2 .ui-accordion-content {
