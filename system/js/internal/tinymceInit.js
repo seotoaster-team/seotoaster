@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen | wrapLink',
+        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen ',//| wrapLink
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -73,7 +73,7 @@ $(function(){
                     }
                 }
             });
-            ed.addButton('wrapLink', {
+            /*ed.addButton('wrapLink', {
                 title:'wrapLink',
                 text: 'wrap link',
                 icon: 'mce-ico mce-i-link',
@@ -94,7 +94,7 @@ $(function(){
                             });
                     }
                 }
-            });
+            });*/
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);
