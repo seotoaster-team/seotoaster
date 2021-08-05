@@ -1,9 +1,10 @@
 <?php if(!empty($this->files)): ?>
-	<?php foreach ($this->files as $file): ?>
-		<p>
-			<a href="javascript:;" title="<?php echo $file; ?>" onclick="insertFileLink('<?php echo $file; ?>');"><?php echo $file; ?></a>
-		</p>
-	<?php endforeach; ?>
+    <?php foreach ($this->files as $file): ?>
+        <div>
+            <a href="javascript:;" class="grid_11 alpga omega" data-file-folder="<?php echo $this->fileFolder;?>" data-file-name="<?php echo $file; ?>" title="<?php echo $file; ?>"><?php echo $file; ?></a>
+            <div class="grid_1 alpha omega text-center"><a class="ticon-go-to-file icon12" href="<?php echo $this->filesPathUrl . $file;?>" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
+        </div>
+    <?php endforeach; ?>
 <?php else: ?>
-		<h3 class="text-center mt10px"><?php echo $this->translate('You have no files yet...'); ?></h3>
+    <h3 class="text-center mt10px"><?php echo $this->translate('You have no files yet...'); ?></h3>
 <?php endif; ?>
