@@ -38,7 +38,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('enableMinifyJs', '0'),
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
-('version',	'3.3.1');
+('version',	'3.4.0');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
