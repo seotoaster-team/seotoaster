@@ -29,7 +29,7 @@
 			<li <?php if (function_exists('apache_get_modules')){ if (!in_array('mod_rewrite', apache_get_modules())) echo 'class="error important"';  } ?>><strong>mod_rewrite <?php echo $this->translate('module');?>:</strong>&nbsp;<?php echo $this->translate('For Apache 2 only');?></li>
 			<?php endif; ?>
             <li <?php if (!$this->checks['ionCube']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>ionCube Loader</strong>'); ?></li>
-            <li <?php if (!$this->checks['php']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PHP 7.2.0</strong>'); ?></li>
+            <li <?php if (!$this->checks['php']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PHP 7.2.0</strong>  or higher'); ?></li>
 			<li <?php if (!$this->checks['pdo']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>PDO</strong> extension for PHP'); ?></li>
 			<li <?php if (!$this->checks['mbstring']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>MBString:</strong> Works with any language');?></li>
 			<li <?php if (!$this->checks['gd']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GD Library 2.0</strong> or newer: Works with images');?></li>
