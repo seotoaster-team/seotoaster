@@ -780,6 +780,23 @@ UPDATE `masks_list` SET `full_mask_value` = '9 99 99 99 99?9' WHERE `country_cod
 -- version: 3.1.3
 -- Pre package version
 
+-- 01/03/2021
+-- version: 3.2.0
+ALTER TABLE `config` CHANGE `value` `value` TEXT COLLATE utf8_unicode_ci NOT NULL;
+
+-- 09/03/2020
+-- version: 3.2.1
+-- Pre package version
+
+-- 07/07/2021
+-- version: 3.3.0
+ALTER TABLE `user` ADD COLUMN `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 05/08/2021
+-- version: 3.3.1
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.2.0' WHERE `name`='version';
+UPDATE `config` SET `value`='3.4.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

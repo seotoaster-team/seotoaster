@@ -42,15 +42,45 @@
             e.preventDefault();
             update();
         });
+
+        $(document).on('click', '#apply-changes', function (e) {
+            e.preventDefault();
+            showSpinner();
+            $.ajax({
+                url: '<?php echo $this->websiteUrl; ?>backend/backend_update/applywebsiteconfigchanges',
+                type: 'POST',
+                dataType: 'json',
+                data: {'jqversion' : '<?php echo $this->jqversion;?>', 'jquversion' : '<?php echo $this->jquversion;?>'}
+            }).done(function (response) {
+                hideSpinner();
+                if (!response.error) {
+                    $('.apply-changes-block').hide();
+                    $('.list-bordered').removeClass('h250px').addClass('h350px');
+                    showMessage(response.responseText.message, false, 2000);
+                }else {
+                    showMessage(response.responseText.message, true, 2000);
+                }
+            }).fail(function(response){
+                hideSpinner();
+                showMessage(response.responseText.message, true, 2000);
+            });
+        });
+
     });
 </script>
 <div class="seotoaster container">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Updater', 'helpSection' => $this->helpSection)); ?>
     <div class="content-footer update-form grid_12">
-        <p class="message info">This is a beta version of the updater. Use at your own risk. Please backup your database before updating your system.</p>
-        <p class="grid_6 text-center"><i class="ticon-notice icon16 error"></i> Local toaster version: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
-        <p class="grid_6 text-center"><i class="ticon-check icon16 success"></i> Remote toaster version: <strong><?php echo $this->remoteVersion; ?></strong></p>
-        <ul id="news" class="grid_12 mb0px list-bordered h350px scroll">
+        <p class="message info"><?php echo $this->translate('This is a beta version of the updater. Use at your own risk. Please backup your database before updating your system.'); ?></p>
+        <p class="grid_6 text-center"><i class="ticon-notice icon16 error"></i> <?php echo $this->translate('Local toaster version'); ?>: <strong class="current-version"><?php echo $this->localVersion; ?></strong></p>
+        <p class="grid_6 text-center"><i class="ticon-check icon16 success"></i> <?php echo $this->translate('Remote toaster version'); ?>: <strong><?php echo $this->remoteVersion; ?></strong></p>
+        <?php if($this->updateconfigFlag):?>
+            <fieldset class="background apply-changes-block">
+                <p class="text-center"><?php echo $this->attentionMessage;?><?php echo $this->translate(', click on "Apply changes to the website config" button to update.'); ?></p>
+                <input id="apply-changes" class="btn center" type="text" name="apply-changes" value="<?php echo $this->translate('Apply changes to the website config'); ?>"/>
+            </fieldset>
+        <?php endif;?>
+        <ul id="news" class="grid_12 mb0px list-bordered <?php echo $this->updateconfigFlag ? 'h250px' : 'h350px'; ?> scroll">
             <?php if (is_array($this->whatIsNew)) : ?>
                 <?php foreach ($this->whatIsNew as $news) : ?>
                     <li><i class="ticon-pencil2 gray mr2"></i><?php echo $news ?></li>
@@ -60,7 +90,7 @@
     </div>
     <div class="footer grid_12">
         <form id="update" action="<?php echo $this->websiteUrl ?>backend/backend_update/update" method="get">
-            <label class="fl-left">Without backup: <input type ="checkbox" name="withoutBackup" value = "true"></label>
+            <label class="fl-left"><?php echo $this->translate('Without backup'); ?>: <input type ="checkbox" name="withoutBackup" value = "true"></label>
             <button class="btn ticon-refresh" type="submit" name="update"><?php echo $this->translate('Update'); ?></button>
         </form>
     </div>

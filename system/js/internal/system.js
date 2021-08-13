@@ -34,7 +34,9 @@ $(function(){
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
         var pheight = link.data('pheight') || 560;
-        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup');
+        var iframeId = 'toasterPopupDraggable';
+
+        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : iframeId}).addClass('__tpopup');
         popup.parent().css({background : 'none'});
         popup.dialog({
             width     : pwidth,
@@ -45,7 +47,7 @@ $(function(){
             open      : function(){
                 this.onload = function(){
                     $(this).contents().find('.close, .save-and-close').on('click', function(){
-                        var urlFrame = $('#toasterPopup').prop('src');
+                        var urlFrame = $('#'+iframeId).prop('src');
                         var restored = localStorage.getItem(generateStorageKey());
                         if(restored!==null && $.inArray('uploadthings',urlFrame.split('/')) == -1 ){
                             showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function(){
@@ -64,7 +66,6 @@ $(function(){
                     margin   : '0px',
                     overflow : 'hidden'
                 });
-                $('[aria-describedby="toasterPopup"] .ui-dialog-titlebar').remove();
             },
             close     : function(){
                 $(this).remove();
@@ -340,7 +341,7 @@ $(document).on('change', '#reply-email', function (e) {
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();
@@ -428,6 +429,19 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
         });
     }
 });
+
+//sneak-peek password
+$(document).on('mousedown', '.sneak-peek', function(e){
+    if($(e.currentTarget).length) {
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:password').prop("type", "text");
+    }
+});
+$(document).on('mouseup', '.sneak-peek', function(e){
+    if($(e.currentTarget).length) {
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:text').prop("type", "password").focus();
+    }
+});
+
 ///////// checkbox & radio button //////////////
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
@@ -511,9 +525,10 @@ function showConfirm(msg, yesCallback, noCallback){
         }
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
 }
-function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
+function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback, additionalHtmlClass){
     var yes = 'Yes',
-        no = 'No';
+        no = 'No',
+        additionalClass = '';
 
     if(typeof yesValue != 'undefined'){
         yes = yesValue;
@@ -521,6 +536,10 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
     if(typeof noValue != 'undefined'){
         no = noValue;
     }
+    if(typeof additionalHtmlClass != 'undefined' || additionalHtmlClass != '') {
+        additionalClass = additionalHtmlClass;
+    }
+
     smoke.confirm(msg, function(e){
         if(e){
             if(typeof yesCallback!='undefined'){
@@ -531,7 +550,7 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
                 noCallback();
             }
         }
-    }, {classname : 'error', ok : yes, cancel : no});
+    },   {classname : 'error' + ' ' + additionalClass, ok : yes, cancel : no});
 }
 function showSpinner(e, customSelector){
     var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');

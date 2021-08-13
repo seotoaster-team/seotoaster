@@ -17,6 +17,12 @@ class Backend_UpdateController extends Zend_Controller_Action
     const BACKUP_NAME = 'backup.zip';
     const PACK_NAME = 'toaster.zip';
 
+    //new misc.jqversion in application.ini
+    const JQVERSION = '3.5.1';
+
+    //new misc.jquversion in application.ini
+    const JQUVERSION = '1.12.1';
+
     protected $_redirector;
     protected $_session;
     protected $_downloadLink;
@@ -103,6 +109,31 @@ class Backend_UpdateController extends Zend_Controller_Action
         if (!$this->_session->nextStep) {
             $this->_session->nextStep = 1;
         }
+
+        $appIni = CORE . 'application/configs/' . SITE_NAME . '.ini';
+
+        $updateconfigFlag = false;
+        $jqversion = '';
+        $jquversion = '';
+        $attentionMessage = '';
+        if (is_file($appIni)) {
+            $appIniArray = parse_ini_file($appIni);
+
+            if(!empty($appIniArray)) {
+                if($appIniArray['misc.jqversion'] < self::JQVERSION || $appIniArray['misc.jquversion'] < self::JQUVERSION) {
+                    $updateconfigFlag = true;
+                    $jqversion = $appIniArray['misc.jqversion'];
+                    $jquversion = $appIniArray['misc.jquversion'];
+                    $attentionMessage = $this->_helper->language->translate('jQuery version is outdated');
+                }
+            }
+        }
+
+        $this->view->updateconfigFlag = $updateconfigFlag;
+        $this->view->jqversion  = $jqversion;
+        $this->view->jquversion  = $jquversion;
+
+        $this->view->attentionMessage  = $attentionMessage;
     }
 
     /**
@@ -111,6 +142,8 @@ class Backend_UpdateController extends Zend_Controller_Action
      */
     public function updateAction()
     {
+        ini_set('memory_limit','400M');
+
         error_log('Disabled for demo');
         exit();
         /**
@@ -543,6 +576,42 @@ class Backend_UpdateController extends Zend_Controller_Action
             unlink($cache);
         }
         return true;
+    }
+
+    /**
+     * Update application.ini
+     * @return mixed
+     */
+    public function applywebsiteconfigchangesAction() {
+        $appIniPath = CORE . 'application/configs/' . SITE_NAME . '.ini';
+        $appIniFile = file_get_contents(CORE . 'application/configs/' . SITE_NAME . '.ini');
+
+        $oldJqversion = $this->_request->getParam('jqversion');
+        $oldJquversion = $this->_request->getParam('jquversion');
+
+        if(!empty($oldJqversion) || !empty($oldJquversion)) {
+
+            $replacements = array(
+                $oldJqversion   => self::JQVERSION,
+                $oldJquversion  => self::JQUVERSION
+            );
+
+            $appIniFile = strtr($appIniFile, $replacements);
+        }
+
+
+        if(!empty($oldJqversion) || !empty($oldJquversion)) {
+            try {
+                file_put_contents($appIniPath, $appIniFile);
+
+                return $this->_response('success', 1, 'Success!');
+            } catch (Exception $e){
+                error_log($e->getMessage());
+                error_log($e->getTraceAsString());
+            }
+        }
+
+        return $this->_response('fail', 0, 'Can\'t update config.');
     }
 
 }

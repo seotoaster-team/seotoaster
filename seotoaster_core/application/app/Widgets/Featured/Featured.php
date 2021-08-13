@@ -114,7 +114,15 @@ class Widgets_Featured_Featured extends Widgets_Abstract
                 Tools_Filesystem_Tools::mkDir($pathPreview);
             }
         }
+        $width = '';
+        $height = '';
+        if(!empty($this->cropParams)) {
+            $width = $this->cropParams[1];
+            $height = $this->cropParams[2];
+        }
 
+        $this->_view->width             = $width;
+        $this->_view->height            = $height;
         $this->_view->useImage          = $this->useImage;
         $this->_view->cropParams        = $this->cropParams;
         $this->_view->cropSizeSubfolder = $this->cropSizeSubfolder;

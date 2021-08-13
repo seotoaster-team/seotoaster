@@ -46,6 +46,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
                 $configForm->removeElement('grecapthaPublicKey');
                 $configForm->removeElement('recapthaPrivateKey');
                 $configForm->removeElement('grecapthaPrivateKey');
+                $configForm->removeElement('googleApiKey');
             }
             else {
                 //initializing current superadmin user
@@ -126,6 +127,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
                         'password' => $this->getRequest()->getParam('smtpPassword')
                     );
 
+                    $smtpPassword = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('smtpPassword');
+
+                    if(empty($smtpConfig['password']) && !empty($smtpPassword)) {
+                        $smtpConfig['password'] = $smtpPassword;
+                        unset($config['smtpPassword']);
+                    }
+
                     $smtpSsl = $this->getRequest()->getParam('smtpSsl');
 
                     if(!empty($smtpSsl)){
@@ -198,7 +206,9 @@ class Backend_ConfigController extends Zend_Controller_Action {
 			}
 
             if(!empty($currentConfig['smtpPassword'])) {
-                $configForm->getElement('smtpPassword')->setAttrib('placeholder', '********');
+                $configForm->getElement('smtpPassword')->setValue('');
+            } else {
+                $configForm->getElement('smtpPassword')->setAttrib('placeholder', '');
             }
 		}
 
