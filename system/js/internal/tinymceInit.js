@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen ',//| wrapLink
+        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen ',
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -73,28 +73,16 @@ $(function(){
                     }
                 }
             });
-            /*ed.addButton('wrapLink', {
-                title:'wrapLink',
-                text: 'wrap link',
-                icon: 'mce-ico mce-i-link',
-                onclick : function() {
-                    var selectedText = ed.selection.getContent({format : 'text'}),
-                        targetBlank = '';
-                    $('.mce-i-unlink').trigger('click');
-                    if(selectedText.length) {
-                        showConfirm('Add target _blank?',
-                            function(){
-                                targetBlank = 'target="_blank"';
-                                ed.focus();
-                                ed.selection.setContent('<a href="'+ selectedText +'" '+ targetBlank +'>' + selectedText + '</a>');
-                            }, function(){
-                                targetBlank = '';
-                                ed.focus();
-                                ed.selection.setContent('<a href="'+ selectedText +'" '+ targetBlank +'>' + selectedText + '</a>');
-                            });
-                    }
+            ed.on('paste',function(editor, e) {
+                editor.preventDefault();
+
+                var content = ((editor.originalEvent || editor).clipboardData || window.clipboardData).getData('Text');
+                if(content.length) {
+                   var containerContent = ed.getContent();
+                   containerContent += content.replace(/(http|https)\:\/\/(\S+)/g, '<a href="$1://$2" target="_blank">$1://$2</a>');
                 }
-            });*/
+                ed.setContent(containerContent);
+            });
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);
