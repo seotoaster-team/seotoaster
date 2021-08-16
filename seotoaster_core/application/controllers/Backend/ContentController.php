@@ -131,7 +131,7 @@ class Backend_ContentController extends Zend_Controller_Action {
                         $found = false;
                         if(!empty($links[0])) {
                             foreach ($links[0] as $link) {
-                                if(strpos($link, $match) !== false) {
+                                if(mb_strpos($link, $match) !== false) {
                                     $found = true;
                                 }
                             }
