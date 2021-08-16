@@ -138,10 +138,16 @@ class Backend_ContentController extends Zend_Controller_Action {
                         }
 
                         if(!$found) {
-                            $replacement = '<a href="http://'. $match .'" target="_blank">' . $match . '</a>';
+                            /*$replacement = '<a href="http://'. $match .'" target="_blank">' . $match . '</a>';
+                            $containerData['content'] = str_replace($match, $replacement, $containerData['content']);*/
+
+                            $replacement = 'http://'. $match;
                             $containerData['content'] = str_replace($match, $replacement, $containerData['content']);
+                            $containerData['content'] = str_replace('http://http://', 'http://', $containerData['content']);
                         }
                     }
+
+                    $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[a-zA-Z0-9_\-\.]+[\.]*[a-zA-Z0-9\/]+)#', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
                 }
             }
 
