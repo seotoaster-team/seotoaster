@@ -36,6 +36,10 @@ $(function(){
         var pheight = link.data('pheight') || 560;
         var iframeId = 'toasterPopupDraggable';
 
+        if($(link).hasClass('default-popup')) {
+            iframeId = 'toasterPopup';
+        }
+
         var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : iframeId}).addClass('__tpopup');
         popup.parent().css({background : 'none'});
         popup.dialog({
