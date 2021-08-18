@@ -1303,7 +1303,9 @@
     'User attributes' => 'Attributs utilisateur',
     'Personal calendar url' => 'URL de l\'agenda personnel',
     'Avatar link' => 'Lien de l\'avatar',
-    'Save user' => 'Sauvegarder l\'utilisateur'
+    'Save user' => 'Sauvegarder l\'utilisateur',
+    'Other' => 'Autre',
+    'Enable automatic link wrapping?' => 'Voulez-vous activer l\'habillage automatique des liens?'
 
 
 );?>
