@@ -94,10 +94,6 @@ a.generator-links.plugin {
   height: 98% !important;
   min-width: 960px;
 }
-[aria-describedby="toasterPopup"] .ui-dialog-titlebar,
-[aria-describedby="toasterPopup"] .ui-widget-overlay {
-  display: none;
-}
 .ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar {
   cursor: move;
   z-index: 1;

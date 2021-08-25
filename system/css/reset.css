@@ -589,6 +589,10 @@ button:focus,
 .ui-widget-overlay ~ .ui-widget-overlay {
   display: none;
 }
+[aria-describedby="toasterPopup"] .ui-dialog-titlebar,
+[aria-describedby="toasterPopup"] .ui-widget-overlay {
+  display: none;
+}
 .clear {
   display: block;
   clear: both;
