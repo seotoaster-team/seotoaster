@@ -138,9 +138,6 @@ class Backend_ContentController extends Zend_Controller_Action {
                         }
 
                         if(!$found) {
-                            /*$replacement = '<a href="http://'. $match .'" target="_blank">' . $match . '</a>';
-                            $containerData['content'] = str_replace($match, $replacement, $containerData['content']);*/
-
                             $replacement = 'http://'. $match;
                             $containerData['content'] = str_replace($match, $replacement, $containerData['content']);
                             $containerData['content'] = str_replace('http://http://', 'http://', $containerData['content']);
