@@ -95,6 +95,7 @@ a.generator-links.plugin {
   min-width: 960px;
 }
 .ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar {
+  cursor: move;
   z-index: 1;
   position: absolute;
   left: 0;
@@ -104,9 +105,10 @@ a.generator-links.plugin {
   height: 30px;
   padding: 3px;
   margin: auto;
+  line-height: 1.5;
   text-align: center;
-  color: #666;
   border: none;
+  color: #666;
   background: #eaeaea;
   border-radius: 5px 5px 0 0;
 }

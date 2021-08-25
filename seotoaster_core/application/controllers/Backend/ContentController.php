@@ -330,10 +330,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function loadfilesAction() {
 		if($this->getRequest()->isPost()) {
-			$folder             = $this->getRequest()->getParam('folder');
-			$filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
-			$this->view->files  = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
-			$this->view->html   = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 class="text-center mt10px">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
+            $folder = $this->_request->getParam('folder');
+            $filesPathUrl = $this->_helper->website->getUrl() . $this->_websiteData['media'] . $folder . DIRECTORY_SEPARATOR;
+            $filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
+            $this->view->files = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
+            $this->view->fileFolder = $folder;
+            $this->view->filesPathUrl = $filesPathUrl;
+            $html = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 class="text-center mt10px">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
+            $this->view->html = $html;
 		}
 	}
 

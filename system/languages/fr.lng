@@ -1304,6 +1304,8 @@
     'Personal calendar url' => 'URL de l\'agenda personnel',
     'Avatar link' => 'Lien de l\'avatar',
     'Save user' => 'Sauvegarder l\'utilisateur',
+    'Go to file' => 'Voir le fichier',
+    'Refresh' => 'Rafraîchir',
     'Other' => 'Autre',
     'Enable automatic link wrapping?' => 'Voulez-vous activer l\'habillage automatique des liens?'
 

@@ -1,24 +1,25 @@
 @import "base/variables";
-.reset-style{
-    &, *{
+
+.reset-style {
+    &, * {
         .reset-style;
     }
 }
 
-.unpublished{
+.unpublished {
     border : 1px dashed @brand-error;
 }
 
-.container-wrapper{
+.container-wrapper {
     padding : @padding-small-vertical;
 
-    &:hover{
+    &:hover {
         outline : 1px dashed @gray;
     }
 }
 
-.generator-links, .tpopup{
-    img{
+.generator-links, .tpopup {
+    img {
         width      : auto !important;
         height     : auto !important;
         border     : none !important;
@@ -27,7 +28,8 @@
         .box-shadow(~'none !important');
     }
 }
-a.generator-links.plugin{
+
+a.generator-links.plugin {
     font-family     : @font-family-text;
     background      : url('../../system/images/editadd-plugin.png') no-repeat #F68B0E left center !important;
     border          : 1px solid #333 !important;
@@ -38,10 +40,12 @@ a.generator-links.plugin{
     font-weight     : bold !important;
 }
 
-.ui-helper-hidden, .hidden{ display : none; }
+.ui-helper-hidden, .hidden {
+    display : none;
+}
 
 // Overlays
-.ui-widget-overlay{
+.ui-widget-overlay {
     position   : fixed;
     top        : 0;
     right      : 0;
@@ -51,13 +55,13 @@ a.generator-links.plugin{
     background : #000;
     .opacity(0.5);
 
-    & ~ .ui-widget-overlay{
+    & ~ .ui-widget-overlay {
         display : none;
     }
 }
 
 [aria-describedby="toasterPopup"],
-[aria-describedby="toasterPopupDraggable"]{
+[aria-describedby="toasterPopupDraggable"] {
     // Reset style for system dialogs
     max-width   : none !important;
     border      : none !important;
@@ -75,32 +79,35 @@ a.generator-links.plugin{
     font-size   : @font-size-base;
     .box-shadow(3px 3px 10px #000);
 
-    iframe{
+    iframe {
         background-image    : url("../images/spinner.gif");
         background-position : center center;
         background-repeat   : no-repeat;
     }
 
-    &.screen-expand{
+    &.screen-expand {
         height    : 98% !important;
         min-width : 960px;
     }
 }
-.ui-dialog[aria-describedby="toasterPopupDraggable"]{
+
+.ui-dialog[aria-describedby="toasterPopupDraggable"] {
     .ui-dialog-titlebar {
-        z-index    : 1;
-        position   : absolute;
-        left       : 0;
-        right      : 0;
-        bottom     : 100%;
-        width      : 40px;
-        height     : 30px;
-        padding    : 3px;
-        margin     : auto;
-        text-align : center;
-        color      : #666;
-        border     : none;
-        background : #eaeaea;
+        cursor      : move;
+        z-index     : 1;
+        position    : absolute;
+        left        : 0;
+        right       : 0;
+        bottom      : 100%;
+        width       : 40px;
+        height      : 30px;
+        padding     : 3px;
+        margin      : auto;
+        line-height : 1.5;
+        text-align  : center;
+        border      : none;
+        color       : #666;
+        background  : #eaeaea;
         .border-radius(5px 5px 0 0);
 
         &::before {
@@ -125,7 +132,7 @@ a.generator-links.plugin{
     }
 }
 
-.ui-overlay + .ui-widget-content{
+.ui-overlay + .ui-widget-content {
     background : @body-bg;
     z-index    : 1001;
     .box-shadow(3px 3px 10px #000);
@@ -133,7 +140,7 @@ a.generator-links.plugin{
 
 // Control Panel
 //==================================================
-#seotoaster-cpanel{
+#seotoaster-cpanel {
     text-align : left;
     width      : 200px;
     position   : absolute;
@@ -144,23 +151,23 @@ a.generator-links.plugin{
     color      : @text-color;
     .box-shadow(0 0 10px @gray-dark);
 
-    *{
+    * {
         /*Reset style*/
         .reset-style();
         /*end reset*/
     }
 
-    &:hover{
+    &:hover {
         z-index : 1005;
     }
 
-    & > *{
+    & > * {
         background : #fff;
         position   : relative;
         width      : 200px;
     }
 
-    #showhide a{
+    #showhide a {
         text-decoration : none;
         background      : @cpanel-header-bg;
         color           : @cpanel-header-color;
@@ -171,13 +178,15 @@ a.generator-links.plugin{
         display         : block;
     }
 
-    #seotoaster-logowrap{
+    #seotoaster-logowrap {
         background : #fff;
         text-align : center;
 
-        img{ max-width : 200px; }
+        img {
+            max-width : 200px;
+        }
 
-        #system-version{
+        #system-version {
             font-family   : tahoma, geneva, verdana, sans-serif !important;
             font-size     : 7px !important;
             text-align    : right;
@@ -185,13 +194,13 @@ a.generator-links.plugin{
         }
     }
 
-    ul{
+    ul {
         margin : 0;
 
-        li{
+        li {
             list-style : none;
 
-            a{
+            a {
                 margin-top      : 1px;
                 padding         : @padding-small-vertical @padding-small-horizontal;
                 display         : block;
@@ -201,39 +210,39 @@ a.generator-links.plugin{
                 color           : @cpanel-header-color;
                 background      : @cpanel-header-bg;
 
-                &:hover{
+                &:hover {
                     background : @cpanel-header-bg-hover;
                     color      : @cpanel-header-color-hover;
                 }
             }
 
-            .ui-accordion-header{
+            .ui-accordion-header {
 
-                &.ui-accordion-header-active{
+                &.ui-accordion-header-active {
                     background : @cpanel-header-bg-active;
                     color      : @cpanel-header-color-active;
                 }
             }
-            .ui-accordion-content{
+            .ui-accordion-content {
                 margin  : 0;
                 padding : 0;
                 border  : none;
 
-                li + li{
+                li + li {
                     border-top : 1px dashed @gray-light;
                 }
 
-                a{
+                a {
                     background  : none;
                     color       : @link-color;
                     font-weight : normal;
 
-                    &:hover{
+                    &:hover {
                         color : @link-color-hover;
                     }
                 }
 
-                .cpanelsubtitle{
+                .cpanelsubtitle {
                     padding    : @padding-base-vertical @padding-base-horizontal;
                     background : @cpanel-subtitle-bg;
                 }
@@ -241,7 +250,7 @@ a.generator-links.plugin{
         }
     }
 
-    a.logout{
+    a.logout {
         margin-top      : 1px;
         padding         : @padding-small-vertical @padding-small-horizontal;
         display         : block;
@@ -251,12 +260,12 @@ a.generator-links.plugin{
         color           : @cpanel-header-color;
         background      : @cpanel-header-bg;
 
-        &.logout:hover{
-          background : desaturate(@brand-error, 20%);
+        &.logout:hover {
+            background : desaturate(@brand-error, 20%);
         }
-        &:hover{
-          background : @cpanel-header-bg-hover;
-          color      : @cpanel-header-color-hover;
+        &:hover {
+            background : @cpanel-header-bg-hover;
+            color      : @cpanel-header-color-hover;
         }
     }
 }
