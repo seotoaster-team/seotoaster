@@ -590,7 +590,7 @@ button:focus,
   display: none;
 }
 .ui-dialog[aria-describedby="toasterPopup"] .ui-dialog-titlebar,
-.ui-dialog[aria-describedby="toasterPopup"] .ui-widget-overlay {
+.ui-dialog[aria-describedby="toasterPopup"] + .ui-widget-overlay {
   display: none;
 }
 .clear {
