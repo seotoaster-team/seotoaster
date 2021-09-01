@@ -34,16 +34,10 @@ $(function(){
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
         var pheight = link.data('pheight') || 560;
-        var adminPanelEl = $(this).closest('ul');
-
         var iframeId = 'toasterPopupDraggable';
-        if(adminPanelEl.length) {
-            iframeId = 'toasterPopup';
-        }
 
-        var editProductBtn = false;
-        if($(this).hasClass('edit-product-btn')) {
-            editProductBtn = true;
+        if($(link).hasClass('default-popup')) {
+            iframeId = 'toasterPopup';
         }
 
         var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : iframeId}).addClass('__tpopup');
@@ -76,9 +70,6 @@ $(function(){
                     margin   : '0px',
                     overflow : 'hidden'
                 });
-                if(adminPanelEl.length || editProductBtn) {
-                    $('[aria-describedby="'+ iframeId +'"] .ui-dialog-titlebar').remove();
-                }
             },
             close     : function(){
                 $(this).remove();
@@ -354,10 +345,7 @@ $(document).on('change', '#reply-email', function (e) {
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
-    if(!popup.length) {
-        popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
-    }
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();

@@ -20,10 +20,7 @@ $(function() {
     });
 
     $(document).on('click', '[aria-label="Fullscreen"]', function() {
-		var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
-		if(!popup.length) {
-			popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
-		}
+		var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
 
         popup.toggleClass('screen-expand');
         var $tabs = $('#tabs'),
@@ -111,7 +108,15 @@ $(function() {
 					$('#images_large').find('.images-preview').replaceWith(images.large);
 					$('#images_original').find('.images-preview').replaceWith(images.original);
 
+					var activeFilesTab = $('#files').hasClass('ui-state-active');
+					if(activeFilesTab) {
+						$('#files').trigger('click').trigger('click');
+					}
 
+					var openedTab = $('.ui-accordion-content-active');
+					if(openedTab.length < 1){
+						$('#files').trigger('click');
+					}
 				},
 				error: function() {
 					//console.log('error');
@@ -190,6 +195,11 @@ $(function() {
 			localStorage.removeItem(generateStorageKey());
 		}, 'success');
 	}
+
+	$(document).on('click', 'span.refresh-items', function(e) {
+		e.preventDefault();
+		$('#adminselectimgfolder').trigger('change');
+	});
 });
 
 function dispatchEditorKeyup(editor, event, keyTime) {

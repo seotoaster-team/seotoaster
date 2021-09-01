@@ -38,6 +38,8 @@ class Application_Form_Config extends Application_Form_Secure
 
     protected $_validateFormEmails;
 
+    protected $_wrapLinks;
+
 	/**
 	 * Wether or not to include protected pages into the menus
 	 *
@@ -633,6 +635,11 @@ class Application_Form_Config extends Application_Form_Secure
             'label' => 'Enable form emails validation?'
         ));
 
+        $this->addElement('checkbox', 'wrapLinks', array(
+            'value' => $this->_wrapLinks,
+            'label' => 'Enable automatic link wrapping?'
+        ));
+
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
 
@@ -690,5 +697,24 @@ class Application_Form_Config extends Application_Form_Secure
         $this->_googleApiKey = $googleApiKey;
         $this->getElement('googleApiKey')->setValue($this->_googleApiKey);
         return $this;
+    }
+
+    /**
+     * @param $wrapLinks
+     * @return $this
+     */
+    public function setWrapLinks($wrapLinks)
+    {
+        $this->_wrapLinks = $wrapLinks;
+        $this->getElement('wrapLinks')->setValue($this->_wrapLinks);
+        return $this;
+    }
+
+    /**
+     * @param $wrapLinks
+     */
+    public function getWrapLinks()
+    {
+        return $this->_wrapLinks;
     }
 }

@@ -7,7 +7,7 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</select>
-    <a id="upload_things_button" class="grid_5 alpha omega tpopup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
+    <a id="upload_things_button" class="grid_5 alpha omega tpopup default-popup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
 	<div id="selector" class="mt10px grid_12 alpha omega">
 		<div id="borderfortoolbar">
             <div class="mb5px">
@@ -17,31 +17,31 @@
                 </label>
             </div>
 			<div id="adminthingsviewer">
-				<div id="small"><?php echo $this->translate('Small'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['small']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_small"></a></div>
+                <div id="small"><span><?php echo $this->translate('Small'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_small"></a><span class="ticon-refresh refresh-items pointer grid_5 fl-right text-center" data-type="folder"> <?php echo $this->translate('Refresh'); ?></span></div>
 				<div id="images_small" class="show_div">
                     <span class="title hide"><?php echo $this->translate('Small'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
                     <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
                 </div>
 
-				<div id="medium"><?php echo $this->translate('Medium'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['medium']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_medium"></a></div>
+				<div id="medium"><span><?php echo $this->translate('Medium'); ?>&nbsp;(<?php echo $this->imagesSizes['medium']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_medium"></a><span class="ticon-refresh refresh-items pointer grid_5 fl-right text-center" data-type="folder"> <?php echo $this->translate('Refresh'); ?></span></div>
 				<div id="images_medium" class="show_div">
                     <span class="title hide"><?php echo $this->translate('Medium'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
                     <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
                 </div>
 
-				<div id="large"><?php echo $this->translate('Large'); ?>&nbsp;<span>(<?php echo $this->imagesSizes['large']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_large"></a></div>
+				<div id="large"><span><?php echo $this->translate('Large'); ?>&nbsp;(<?php echo $this->imagesSizes['large']; ?>px)</span><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_large"></a><span class="ticon-refresh refresh-items pointer grid_5 fl-right text-center" data-type="folder"> <?php echo $this->translate('Refresh'); ?></span></div>
 				<div id="images_large" class="show_div">
                     <span class="title hide"><?php echo $this->translate('Large'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
                     <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
                 </div>
 
-				<div id="original"><?php echo $this->translate('Original'); ?><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_original"></a></div>
+				<div id="original"><span><?php echo $this->translate('Original'); ?><a class="screen-size ticon-expand icon16 fl-right" href="javascript:;" data-size="images_original"></a><span class="ticon-refresh refresh-items pointer grid_5 fl-right text-center" data-type="folder"> <?php echo $this->translate('Refresh'); ?></span></div>
 				<div id="images_original" class="show_div">
                     <span class="title hide"><?php echo $this->translate('Original'); ?>&nbsp;(<?php echo $this->imagesSizes['small']; ?>px)</span>
                     <h3 class="text-center mt10px images-preview"><?php echo $this->translate('Please, select a folder'); ?></h3>
                 </div>
 
-				<div id="files"><?php echo $this->translate('Files'); ?></div>
+				<div id="files"><?php echo $this->translate('Files'); ?><span class="ticon-refresh refresh-items pointer grid_5 fl-right text-center" data-type="folder"> <?php echo $this->translate('Refresh'); ?></span></div>
 				<div id="list_files" class="show_div"></div>
 			</div>
 		</div>
@@ -52,16 +52,19 @@
         $('#adminthingsviewer').accordion({
             heightStyle    : "content",
             navigation     : true,
-            collapsible    : true,
+            //collapsible    : true,
             active         : false,
             beforeActivate : function(event, ui){
                 if($(event.toElement).hasClass('screen-size')){
                     return false;
                 }
+                if(typeof event.originalEvent !== 'undefined' && $(event.originalEvent.target).hasClass('ticon-refresh')){
+                    return false;
+                }
             },
             icons          : {
-                "header"       : "ticon-arrow-right",
-                "activeHeader" : "ticon-arrow-down"
+                "header"       : "ticon-arrow-right grid_1 alpha",
+                "activeHeader" : "ticon-arrow-down grid_1 alpha"
             } // or false
         });
         $(document).on('change', '#adminselectimgfolder',function(){
@@ -71,13 +74,20 @@
                 el.data('url', dataUrl);
             }
         }).on('focus', '#adminselectimgfolder',function(){
-                var el = $(this);
+                var el = $(this),
+                    currentSelection = $(el).val();
+
                 $.get('<?php echo $this->websiteUrl; ?>backend/backend_content/refreshfolders/', function(response){
                     if(!response.error){
                         el.empty();
-                        el.append('<option value="0" selected="selected"><?php echo $this->translate('Select folder'); ?></option>');
+
+                        el.append('<option value="0"><?php echo $this->translate('Select folder'); ?></option>');
                         $.each(response.responseText, function(id, folderName){
-                            el.append('<option value="'+folderName+'">'+folderName+'</option>')
+                            var selectedVal = ''
+                            if(currentSelection && currentSelection == folderName) {
+                                selectedVal = 'selected="selected"';
+                            }
+                            el.append('<option value="'+folderName+'" '+ selectedVal +'>'+folderName+'</option>')
                         });
                     }
                 });

@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen',
+        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen ',
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -33,16 +33,27 @@ $(function(){
             {title : 'h4', filter : /^(h4\.)/},
             {title : 'h5', filter : /^(h5\.)/},
             {title : 'h6', filter : /^(h6\.)/},
-            {title : 'Button', filter : /^(.btn*|button\.)/},
-            {title : 'Table', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
-            {title : 'List', filter : /^(.list*|ul\.|ol\.)/},
-            {title : 'Image', filter : /^(.image*|img\.)/},
+            //{title : 'Button', filter : /^(.btn*|button\.)/},
+            {title : 'Button', filter : /^(\.btn.*|button\.)/},
+            {title : 'Icons', filter : /^(\.no-icon|\.icon-.*)/},
+            //{title : 'Table', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
+            {title : 'Table', filter : /^(\.table.*|table\.)/},
+            //{title : 'List', filter : /^(.list*|ul\.|ol\.)/},
+            {title : 'List', filter : /^(\.list.*|ul\.|ol\.)/},
+            //{title : 'Image', filter : /^(.image*|img\.)/},
+            {title : 'Image', filter : /^(\.image.*|\.img.*|img\.)/},
             {title : 'Blockquote', filter : /^(blockquote\.)/},
             {title : 'Separator', filter : /^(hr\.)/},
-            {title : 'Message', filter : /^(\.message*)/},
-            {title : 'Badge', filter : /^(\.badge*)/},
-            {title : 'Color', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
-            {title : 'Size', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
+            // {title : 'Message', filter : /^(\.message*)/},
+            {title : 'Message', filter : /^(\.message.*)/},
+            // {title : 'Badge', filter : /^(\.badge*)/},
+            {title : 'Badge', filter : /^(\.badge.*)/},
+            // {title : 'Color', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
+            {title : 'Color', filter : /^(\.primary|\.success|\.info|\.warning|\.error|\.green|\.blue|\.orange|\.red|\.gray-darker|\.gray-dark|\.gray|\.gray-light|\.gray-lighter|\..*color.*)$/},
+            {title : 'Background', filter : /^(\..*-bg.*)/},      //new group
+            // {title : 'Size', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
+            {title : 'Size', filter : /^(\.larger|\.large|\.small|\.mini|\.size.*|\.fs.*)$/},
+            {title : 'Text', filter : /^(\.uppercase|\.lowecase)$/},
             {title : 'Other styles'}
         ],
         importcss_merge_classes: true,
@@ -72,6 +83,16 @@ $(function(){
                         }
                     }
                 }
+            });
+            ed.on('paste',function(editor, e) {
+                editor.preventDefault();
+
+                var content = ((editor.originalEvent || editor).clipboardData || window.clipboardData).getData('Text');
+                if(content.length) {
+                   var containerContent = ed.getContent();
+                   containerContent += content.replace(/(http|https)\:\/\/(\S+)/g, '<a href="$1://$2" target="_blank">$1://$2</a>');
+                }
+                ed.setContent(containerContent);
             });
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function

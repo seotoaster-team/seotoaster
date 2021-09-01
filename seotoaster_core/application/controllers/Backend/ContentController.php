@@ -46,6 +46,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function addAction() {
 		if($this->getRequest()->isPost()) {
+
 			$this->_processContent();
 		}
 		if ($this->getRequest()->isXmlHttpRequest()){
@@ -117,6 +118,36 @@ class Backend_ContentController extends Zend_Controller_Action {
         $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
+            $wraplinks = $this->_helper->config->getConfig('wraplinks');
+
+            if(!empty($wraplinks)) {
+                $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[a-zA-Z0-9_\-\.]+[\.]*[a-zA-Z0-9\/]+)#', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+
+                preg_match_all("#((\w+)\.)?(([\w-]+)?)(\.[\w-]+){1,2}#", $containerData['content'], $matches, PREG_PATTERN_ORDER);
+                $links = array_unique(Tools_Content_Tools::findLinksInContent($containerData['content']));
+
+                if(!empty($matches[0])) {
+                    foreach ($matches[0] as $match) {
+                        $found = false;
+                        if(!empty($links[0])) {
+                            foreach ($links[0] as $link) {
+                                if(mb_strpos($link, $match) !== false) {
+                                    $found = true;
+                                }
+                            }
+                        }
+
+                        if(!$found) {
+                            $replacement = 'http://'. $match;
+                            $containerData['content'] = str_replace($match, $replacement, $containerData['content']);
+                            $containerData['content'] = str_replace('http://http://', 'http://', $containerData['content']);
+                        }
+                    }
+
+                    $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[a-zA-Z0-9_\-\.]+[\.]*[a-zA-Z0-9\/]+)#', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                }
+            }
+
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
 			$container     = new Application_Model_Models_Container();
@@ -146,6 +177,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
             $cacheTag = preg_replace('/[^\w\d_]/', '', $container->getName() . '_' . $container->getContainerType() . '_pid_' . $container->getPageId());
 			$this->_helper->cache->clean(null, null, array($cacheTag));
+
 			$saveResult = Application_Model_Mappers_ContainerMapper::getInstance()->save($container);
 
 			if(!$container->getId()) {
@@ -295,10 +327,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function loadfilesAction() {
 		if($this->getRequest()->isPost()) {
-			$folder             = $this->getRequest()->getParam('folder');
-			$filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
-			$this->view->files  = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
-			$this->view->html   = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 class="text-center mt10px">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
+            $folder = $this->_request->getParam('folder');
+            $filesPathUrl = $this->_helper->website->getUrl() . $this->_websiteData['media'] . $folder . DIRECTORY_SEPARATOR;
+            $filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
+            $this->view->files = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
+            $this->view->fileFolder = $folder;
+            $this->view->filesPathUrl = $filesPathUrl;
+            $html = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 class="text-center mt10px">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
+            $this->view->html = $html;
 		}
 	}
 
