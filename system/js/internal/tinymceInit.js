@@ -84,7 +84,7 @@ $(function(){
                     }
                 }
             });
-            ed.on('paste',function(editor, e) {
+            /*ed.on('paste',function(editor, e) {
                 editor.preventDefault();
 
                 var content = ((editor.originalEvent || editor).clipboardData || window.clipboardData).getData('Text');
@@ -93,7 +93,7 @@ $(function(){
                    containerContent += content.replace(/(http|https)\:\/\/(\S+)/g, '<a href="$1://$2" target="_blank">$1://$2</a>');
                 }
                 ed.setContent(containerContent);
-            });
+            });*/
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);
