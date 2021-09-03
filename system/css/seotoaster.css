@@ -1700,6 +1700,10 @@ table.manage-saved-config-table thead a {
 table.manage-saved-config-table thead a:hover {
   color: #fff;
 }
+table.manage-saved-config-table th,
+table.manage-saved-config-table td {
+  text-align: center;
+}
 table.table-bordered {
   border: 1px solid #dddddd;
   border-collapse: separate;
@@ -3005,10 +3009,56 @@ body {
 .content,
 .with-content > .ui-tabs-panel {
   height: 520px;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.content::-webkit-scrollbar,
+.with-content > .ui-tabs-panel::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.content::-webkit-scrollbar-track,
+.with-content > .ui-tabs-panel::-webkit-scrollbar-track {
+  background: #bfbfbf;
+}
+.content::-webkit-scrollbar-thumb,
+.with-content > .ui-tabs-panel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #4496aa;
 }
 .content-footer,
 .with-content-footer > .ui-tabs-panel {
   height: 465px;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.content-footer::-webkit-scrollbar,
+.with-content-footer > .ui-tabs-panel::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.content-footer::-webkit-scrollbar-track,
+.with-content-footer > .ui-tabs-panel::-webkit-scrollbar-track {
+  background: #bfbfbf;
+}
+.content-footer::-webkit-scrollbar-thumb,
+.with-content-footer > .ui-tabs-panel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #4496aa;
 }
 .content-medium {
   height: 440px;
