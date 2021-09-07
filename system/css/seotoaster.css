@@ -2954,7 +2954,7 @@ body {
   margin-top: 0 !important;
   padding-top: 0;
   padding-bottom: 0;
-  border-top: 15px solid #FFFFFF !important;
+  border-top: 10px solid #FFFFFF !important;
   clear: both;
 }
 .seotoaster .content-auto:after,
@@ -3008,7 +3008,7 @@ body {
 }
 .content,
 .with-content > .ui-tabs-panel {
-  height: 520px;
+  height: 530px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -3035,7 +3035,7 @@ body {
 }
 .content-footer,
 .with-content-footer > .ui-tabs-panel {
-  height: 465px;
+  height: 480px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -3061,16 +3061,16 @@ body {
   background: #4496aa;
 }
 .content-medium {
-  height: 440px;
+  height: 445px;
 }
 .content-medium-footer {
-  height: 385px;
+  height: 395px;
 }
 .content-small {
   height: 320px;
 }
 .content-small-footer {
-  height: 265px;
+  height: 270px;
 }
 .content-screen,
 .content-screen-footer {
@@ -3081,12 +3081,12 @@ body {
   bottom: 0;
 }
 .content-screen-footer {
-  bottom: 55px;
+  bottom: 50px;
 }
 .footer,
 footer {
   clear: both;
-  margin-top: 15px !important;
+  margin-top: 10px !important;
   margin-bottom: 10px !important;
   height: 30px;
   line-height: 30px;
@@ -3429,7 +3429,7 @@ form .captcha .recaptcha_links a + a,
 form [type="submit"],
 .form [type="submit"] {
   float: right;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 form.form-inline > p,
 .form.form-inline > p,
@@ -5402,7 +5402,7 @@ label[for*="chr-"] {
   color: #666;
 }
 #adminthingsviewer .ui-accordion-content.show_div.full-screen .list-images {
-  height: 500px;
+  height: 510px;
 }
 #adminthingsviewer .ui-accordion-content.show_div.full-screen a {
   width: 9%;

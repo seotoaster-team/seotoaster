@@ -500,13 +500,13 @@
   margin: 0.5em 0.4em 0.5em 0;
   cursor: pointer;
 }
-@media only screen and (max-height: 560px) {
-  body > [aria-describedby="toasterPopup"][style*="height: 560px;"] {
+@media only screen and (max-height: 570px) {
+  body > [aria-describedby="toasterPopup"][style*="height: 570px;"] {
     margin-top: 0 !important;
   }
 }
-@media only screen and (max-height: 480px) {
-  body > [aria-describedby="toasterPopup"][style*="height: 480px;"] {
+@media only screen and (max-height: 485px) {
+  body > [aria-describedby="toasterPopup"][style*="height: 485px;"] {
     margin-top: 0 !important;
   }
 }
