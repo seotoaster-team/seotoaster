@@ -86,6 +86,8 @@ $(function(){
             });
             ed.on('ExecCommand', function(editor, prop) {
                 if (editor.command === 'mceInsertContent') {
+                    ed.selection.setContent('<span id="cursor-position-temp-span"/>');
+
                     var urlRegex = /(\b(https?):\/\/[^ ]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu,
                         contentDomains = editor.value.content.match(urlRegex),
                         containerContent = tinymce.activeEditor.getContent();
@@ -97,6 +99,10 @@ $(function(){
                         });
 
                         tinymce.activeEditor.setContent(containerContent);
+
+                        var newNode = ed.dom.select('span#cursor-position-temp-span');
+                        ed.selection.select(newNode[0]);
+                        ed.selection.setContent('');
                     }
                 }
             });
