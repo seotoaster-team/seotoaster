@@ -500,8 +500,8 @@
   margin: 0.5em 0.4em 0.5em 0;
   cursor: pointer;
 }
-@media only screen and (max-height: 570px) {
-  body > [aria-describedby="toasterPopup"][style*="height: 570px;"] {
+@media only screen and (max-height: 560px) {
+  body > [aria-describedby="toasterPopup"][style*="height: 560px;"] {
     margin-top: 0 !important;
   }
 }

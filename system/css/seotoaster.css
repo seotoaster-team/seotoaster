@@ -3008,7 +3008,7 @@ body {
 }
 .content,
 .with-content > .ui-tabs-panel {
-  height: 530px;
+  height: 520px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -3035,7 +3035,7 @@ body {
 }
 .content-footer,
 .with-content-footer > .ui-tabs-panel {
-  height: 480px;
+  height: 470px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -5402,7 +5402,7 @@ label[for*="chr-"] {
   color: #666;
 }
 #adminthingsviewer .ui-accordion-content.show_div.full-screen .list-images {
-  height: 510px;
+  height: 500px;
 }
 #adminthingsviewer .ui-accordion-content.show_div.full-screen a {
   width: 9%;
