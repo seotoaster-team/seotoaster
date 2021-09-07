@@ -86,7 +86,7 @@ $(function(){
             });
             ed.on('ExecCommand', function(editor, prop) {
                 if (editor.command === 'mceInsertContent') {
-                    var urlRegex = /(\b(https?):\/\/[^ ]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/ig,
+                    var urlRegex = /(\b(https?):\/\/[^ ]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu,
                         contentDomains = editor.value.content.match(urlRegex),
                         containerContent = tinymce.activeEditor.getContent();
 
