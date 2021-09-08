@@ -84,16 +84,28 @@ $(function(){
                     }
                 }
             });
-            /*ed.on('paste',function(editor, e) {
-                editor.preventDefault();
+            ed.on('ExecCommand', function(editor, prop) {
+                if (editor.command === 'mceInsertContent') {
+                    ed.selection.setContent('<span id="cursor-position-temp-span"/>');
 
-                var content = ((editor.originalEvent || editor).clipboardData || window.clipboardData).getData('Text');
-                if(content.length) {
-                   var containerContent = ed.getContent();
-                   containerContent += content.replace(/(http|https)\:\/\/(\S+)/g, '<a href="$1://$2" target="_blank">$1://$2</a>');
+                    var urlRegex = /(\b(https?):\/\/[^ ]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu,
+                        contentDomains = editor.value.content.match(urlRegex),
+                        containerContent = tinymce.activeEditor.getContent();
+
+                    if(contentDomains) {
+                        var urlToLinkExp = /(\b(?:https?):\/\/[\w\-\.]*[\w\/\-.\?#=&;%]+)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu;
+                        containerContent = containerContent.replace(urlToLinkExp, function(url) {
+                            return '<a href="' + url + '" target="_blank">' + url.replace(/(^\w+:|^)\/\//, '') + '</a>';
+                        });
+
+                        tinymce.activeEditor.setContent(containerContent);
+
+                        var newNode = ed.dom.select('span#cursor-position-temp-span');
+                        ed.selection.select(newNode[0]);
+                        ed.selection.setContent('');
+                    }
                 }
-                ed.setContent(containerContent);
-            });*/
+            });
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
                 dispatchEditorKeyup(ed, e, keyTime);
