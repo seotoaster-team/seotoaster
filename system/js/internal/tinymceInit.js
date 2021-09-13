@@ -99,11 +99,11 @@ $(function(){
                         });
 
                         tinymce.activeEditor.setContent(containerContent);
-
-                        var newNode = ed.dom.select('span#cursor-position-temp-span');
-                        ed.selection.select(newNode[0]);
-                        ed.selection.setContent('');
                     }
+
+                    var newNode = ed.dom.select('span#cursor-position-temp-span');
+                    ed.selection.select(newNode[0]);
+                    ed.selection.setContent('');
                 }
             });
             ed.on('change blur keyup', function(ed, e){

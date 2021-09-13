@@ -121,30 +121,32 @@ class Backend_ContentController extends Zend_Controller_Action {
             $wraplinks = $this->_helper->config->getConfig('wraplinks');
 
             if(!empty($wraplinks)) {
-                $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[a-zA-Z0-9_\-\.]+[\.]*[a-zA-Z0-9\/]+)#', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                //wrap domains with http|https protocol
+                $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
 
-                preg_match_all("#((\w+)\.)?(([\w-]+)?)(\.[\w-]+){1,2}#", $containerData['content'], $matches, PREG_PATTERN_ORDER);
-                $links = array_unique(Tools_Content_Tools::findLinksInContent($containerData['content']));
+                //get all domains and wrap into p|span|div tags without http|https protocol
+                //preg_match_all("/(<(p|span|div)>)([\w\.\-]+)(<\/(p|span|div)>)/mu", $containerData['content'], $matchesIntoTags);
+                preg_match_all("/(<(p|span|div)>)([\w\.\-]+)/mu", $containerData['content'], $matchesIntoTags);
+                if(!empty($matchesIntoTags[1])) {
+                    foreach ($matchesIntoTags[3] as $key => $match) {
+                        $replacement = 'http://'. $match;
+                        $replasedVal = $matchesIntoTags[1][$key] . $replacement /*. $matchesIntoTags[4][$key]*/;
 
-                if(!empty($matches[0])) {
-                    foreach ($matches[0] as $match) {
-                        $found = false;
-                        if(!empty($links[0])) {
-                            foreach ($links[0] as $link) {
-                                if(mb_strpos($link, $match) !== false) {
-                                    $found = true;
-                                }
-                            }
-                        }
-
-                        if(!$found) {
-                            $replacement = 'http://'. $match;
-                            $containerData['content'] = str_replace($match, $replacement, $containerData['content']);
-                            $containerData['content'] = str_replace('http://http://', 'http://', $containerData['content']);
-                        }
+                        $containerData['content'] = str_replace($matchesIntoTags[0][$key], $replasedVal, $containerData['content']);
                     }
 
-                    $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[a-zA-Z0-9_\-\.]+[\.]*[a-zA-Z0-9\/]+)#', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                    $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                }
+
+                //get all domains wrap without http|https protocol
+                preg_match_all("/[^(http|https):\/\/\.\w\->;]([\w\-\.]*\.[\w\/\?#=&;%\-]+)/mu", $containerData['content'], $matches);
+                if(!empty($matches[1])) {
+                    foreach ($matches[1] as $match) {
+                        $replacement = ' http://'. $match;
+                        $containerData['content'] = preg_replace('/[^(http|https):\/\/\.\w\->;]([\w\-\.]*\.[\w\/\?#=&;%\-]+)/u', $replacement, $containerData['content']);
+                    }
+
+                    $containerData['content'] = preg_replace('#(?<!(href=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
                 }
             }
 
