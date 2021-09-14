@@ -126,9 +126,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 
                 //get all domains and wrap into p|span|div tags without http|https protocol
                 //preg_match_all("/(<(p|span|div)>)([\w\.\-]+)(<\/(p|span|div)>)/mu", $containerData['content'], $matchesIntoTags);
-                preg_match_all("/(<(p|span|div)>)([\w\.\-]+)/mu", $containerData['content'], $matchesIntoTags);
-                if(!empty($matchesIntoTags[1])) {
-                    foreach ($matchesIntoTags[3] as $key => $match) {
+                preg_match_all("/(>)([\w\-]+\.[\w\-]+[\w\/\#\=\&\;\%\.]+)/mu", $containerData['content'], $matchesIntoTags);
+                if(!empty($matchesIntoTags[2])) {
+                    foreach ($matchesIntoTags[2] as $key => $match) {
                         $replacement = 'http://'. $match;
                         $replasedVal = $matchesIntoTags[1][$key] . $replacement /*. $matchesIntoTags[4][$key]*/;
 
