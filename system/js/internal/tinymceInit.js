@@ -86,24 +86,26 @@ $(function(){
             });
             ed.on('ExecCommand', function(editor, prop) {
                 if (editor.command === 'mceInsertContent') {
-                    ed.selection.setContent('<span id="cursor-position-temp-span"/>');
+                    if(typeof editor.value.content !== 'undefined') {
+                        ed.selection.setContent('<span id="cursor-position-temp-span"/>');
 
-                    var urlRegex = /(\b(https?):\/\/[^ ]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu,
-                        contentDomains = editor.value.content.match(urlRegex),
-                        containerContent = tinymce.activeEditor.getContent();
+                        var urlRegex = /(\b(https?):\/\/[\w\-]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu,
+                            contentDomains = editor.value.content.match(urlRegex),
+                            containerContent = tinymce.activeEditor.getContent();
 
-                    if(contentDomains) {
-                        var urlToLinkExp = /(\b(?:https?):\/\/[\w\-\.]*[\w\/\-.\?#=&;%]+)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu;
-                        containerContent = containerContent.replace(urlToLinkExp, function(url) {
-                            return '<a href="' + url + '" target="_blank">' + url.replace(/(^\w+:|^)\/\//, '') + '</a>';
-                        });
+                        if(contentDomains) {
+                            var urlToLinkExp = /(\b(https?):\/\/[\w\/#=&;%\-?\.]*)((?![^<>]*>(?:(?!(<\/?a\b|<img\b)).)*))/igu;
+                            containerContent = containerContent.replace(urlToLinkExp, function(url) {
+                                return '<a href="' + url + '" target="_blank">' + url.replace(/(^\w+:|^)\/\//, '') + '</a>';
+                            });
 
-                        tinymce.activeEditor.setContent(containerContent);
+                            tinymce.activeEditor.setContent(containerContent);
+                        }
+
+                        var newNode = ed.dom.select('span#cursor-position-temp-span');
+                        ed.selection.select(newNode[0]);
+                        ed.selection.setContent('');
                     }
-
-                    var newNode = ed.dom.select('span#cursor-position-temp-span');
-                    ed.selection.select(newNode[0]);
-                    ed.selection.setContent('');
                 }
             });
             ed.on('change blur keyup', function(ed, e){
