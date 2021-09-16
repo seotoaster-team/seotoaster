@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = 'stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen ',
+        toolbar2 = ' styleselect | formatselect | fontsizeselect | link unlink visualblocks pastetext removeformat | hr code fullscreen',//stw fontselect
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -8,6 +8,111 @@ $(function(){
     }
 
     tinymce.init({
+        selector : "textarea.tinymce",
+        skin: 'oxide',
+        width  : '608px',
+        height : '450px',
+        menubar: false,
+        resize: false,
+        convert_urls: false,
+        browser_spellcheck: true,
+        relative_urls: false,
+        statusbar: false,
+        allow_script_urls: true,
+        force_p_newlines: false,
+        force_br_newlines : true,
+        forced_root_block: '',
+        remove_linebreaks : false,
+        convert_newlines_to_br: true,
+        entity_encoding: "raw",
+        plugins: [
+            "importcss advlist lists link anchor image charmap visualblocks code fullscreen media table paste textcolor hr quickbars"// stw
+        ],
+        toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor | anchor image media table |",
+        toolbar2                : toolbar2,
+        toolbar_sticky: true,
+        content_css             : $('#reset_css').val()+','+$('#content_css').val(),
+        importcss_file_filter   : "content.css",
+        importcss_append: true,
+        importcss_selector_filter: /^(?!\.h1|\.h2|\.h3|\.h4|\.h5|\.h6|\.social-links*|\.callout*|\.callout*|\.panel*|.icon-*|\.icon12|\.icon14|\.icon16|\.icon18|\.icon24|\.icon32|\.icon48|\.toaster-icon|hr\.)/,
+        importcss_groups : [
+            {title : 'h1', filter : /^(h1\.)/},
+            {title : 'h2', filter : /^(h2\.)/},
+            {title : 'h3', filter : /^(h3\.)/},
+            {title : 'h4', filter : /^(h4\.)/},
+            {title : 'h5', filter : /^(h5\.)/},
+            {title : 'h6', filter : /^(h6\.)/},
+            {title : 'Button', filter : /^(\.btn.*|button\.)/},
+            {title : 'Icons', filter : /^(\.no-icon|\.icon-.*)/},
+            {title : 'Table', filter : /^(\.table.*|table\.)/},
+            {title : 'List', filter : /^(\.list.*|ul\.|ol\.)/},
+            {title : 'Image', filter : /^(\.image.*|\.img.*|img\.)/},
+            {title : 'Blockquote', filter : /^(blockquote\.)/},
+            {title : 'Separator', filter : /^(hr\.)/},
+            {title : 'Message', filter : /^(\.message.*)/},
+            {title : 'Badge', filter : /^(\.badge.*)/},
+            {title : 'Color', filter : /^(\.primary|\.success|\.info|\.warning|\.error|\.green|\.blue|\.orange|\.red|\.gray-darker|\.gray-dark|\.gray|\.gray-light|\.gray-lighter|\..*color.*)$/},
+            {title : 'Background', filter : /^(\..*-bg.*)/},      //new group
+            {title : 'Size', filter : /^(\.larger|\.large|\.small|\.mini|\.size.*|\.fs.*)$/},
+            {title : 'Text', filter : /^(\.uppercase|\.lowecase)$/},
+            {title : 'Other styles'}
+        ],
+        importcss_merge_classes: true,
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
+        block_formats: "Block=div;Block Quote=blockquote;Paragraph=p;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
+        advlist_number_styles: 'default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman',
+        extended_valid_elements: "a[*],input[*],select[*],textarea[*]",
+        image_advtab: true,
+        setup : function(ed){
+            var keyTime = null;
+            ed.on('change blur keyup', function(ed, e){
+                //@see content.js for this function
+                self.dispatchEditorKeyup(ed, e, keyTime);
+                this.save();
+            });
+
+            ed.ui.registry.addButton('showMoreButton', {
+                title:'showMoreButton',
+                text: 'Show more widget',
+                onclick : function() {
+                    if(showMoreFlag) {
+                        var SHOWMORE = '#show-more#';
+                        if (ed.getContent().indexOf(SHOWMORE) + 1) {
+                            showMessage('Widget ' + SHOWMORE + ' already exists in content', false, 2000);
+                        } else {
+                            ed.focus();
+                            ed.selection.setContent(SHOWMORE);
+                        }
+                    }
+                }
+            });
+            ed.on('ExecCommand', function(editor, prop) {
+                if (editor.command === 'mceInsertContent') {
+                    ed.selection.setContent('<span id="cursor-position-temp-span"/>');
+
+                    var urlRegex = /(\b(https?):\/\/[^ ]*)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu,
+                        contentDomains = editor.value.content.match(urlRegex),
+                        containerContent = tinymce.activeEditor.getContent();
+
+                    if(contentDomains) {
+                        var urlToLinkExp = /(\b(?:https?):\/\/[\w\-\.]*[\w\/\-.\?#=&;%]+)(?![^<>]*>(?:(?!<\/?a\b).)*<\/a>)/igu;
+                        containerContent = containerContent.replace(urlToLinkExp, function(url) {
+                            return '<a href="' + url + '" target="_blank">' + url.replace(/(^\w+:|^)\/\//, '') + '</a>';
+                        });
+
+                        tinymce.activeEditor.setContent(containerContent);
+
+                        var newNode = ed.dom.select('span#cursor-position-temp-span');
+                        ed.selection.select(newNode[0]);
+                        ed.selection.setContent('');
+                    }
+                }
+            });
+        }
+    });
+
+    /*tinymce.init({
         script_url              : websiteUrl+'system/js/external/tinymce/tinymce.gzip.php',
         selector                : "textarea.tinymce",
         skin                    : 'seotoaster',
@@ -33,25 +138,17 @@ $(function(){
             {title : 'h4', filter : /^(h4\.)/},
             {title : 'h5', filter : /^(h5\.)/},
             {title : 'h6', filter : /^(h6\.)/},
-            //{title : 'Button', filter : /^(.btn*|button\.)/},
             {title : 'Button', filter : /^(\.btn.*|button\.)/},
             {title : 'Icons', filter : /^(\.no-icon|\.icon-.*)/},
-            //{title : 'Table', filter : /^(.table*|table\.|tr\.|td\.|th\.)/},
             {title : 'Table', filter : /^(\.table.*|table\.)/},
-            //{title : 'List', filter : /^(.list*|ul\.|ol\.)/},
             {title : 'List', filter : /^(\.list.*|ul\.|ol\.)/},
-            //{title : 'Image', filter : /^(.image*|img\.)/},
             {title : 'Image', filter : /^(\.image.*|\.img.*|img\.)/},
             {title : 'Blockquote', filter : /^(blockquote\.)/},
             {title : 'Separator', filter : /^(hr\.)/},
-            // {title : 'Message', filter : /^(\.message*)/},
             {title : 'Message', filter : /^(\.message.*)/},
-            // {title : 'Badge', filter : /^(\.badge*)/},
             {title : 'Badge', filter : /^(\.badge.*)/},
-            // {title : 'Color', filter : /^(\.primary*|\.success*|\.info*|\.warning*|\.error*|\.green*|\.blue*|\.orange*|\.red*|\.color*)/},
             {title : 'Color', filter : /^(\.primary|\.success|\.info|\.warning|\.error|\.green|\.blue|\.orange|\.red|\.gray-darker|\.gray-dark|\.gray|\.gray-light|\.gray-lighter|\..*color.*)$/},
             {title : 'Background', filter : /^(\..*-bg.*)/},      //new group
-            // {title : 'Size', filter : /^(\.larger*|\.large*|\.small*|\.mini*|\.size*)/},
             {title : 'Size', filter : /^(\.larger|\.large|\.small|\.mini|\.size.*|\.fs.*)$/},
             {title : 'Text', filter : /^(\.uppercase|\.lowecase)$/},
             {title : 'Other styles'}
@@ -112,5 +209,5 @@ $(function(){
                 this.save();
             });
         }
-    });
+    });*/
 });
