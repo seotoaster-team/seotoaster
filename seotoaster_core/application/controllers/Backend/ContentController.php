@@ -380,7 +380,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function refreshfoldersAction() {
 		$websiteData = Zend_Registry::get('website');
-		$this->_helper->response->success(Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . $websiteData['media']));
+        $listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . $websiteData['media']);
+        array_unshift($listFolders, $this->_helper->language->translate('Select folder'));
+		$this->_helper->response->success($listFolders);
 	}
 
     /**
