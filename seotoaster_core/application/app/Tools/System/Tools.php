@@ -797,13 +797,15 @@ class Tools_System_Tools {
     public static function firePluginMethodByTagName($tagName, $method, $data = array(), $static = true){
         $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
         $plugins = $pluginMapper->findEnabled();
+        $response = array();
         foreach ($plugins as $plugin) {
             $pluginTags = $plugin->getTags();
             if (in_array($tagName, $pluginTags, true)) {
-                return self::firePluginMethodByPluginName($plugin->getName(), $method, $data, $static);
+                $response[] = self::firePluginMethodByPluginName($plugin->getName(), $method, $data, $static);
             }
         }
 
+        return $response;
 
     }
 
