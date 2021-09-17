@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = ' styleselect | formatselect | fontsizeselect | link unlink visualblocks pastetext removeformat | hr code fullscreen',//stw fontselect
+        toolbar2 = ' stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen |',// fontselect
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -9,8 +9,8 @@ $(function(){
 
     tinymce.init({
         selector : "textarea.tinymce",
-        skin: 'oxide',
-        width  : '608px',
+        skin: 'oxide',//'seotoaster'
+        width  : '100%',//'608px',
         height : '450px',
         menubar: false,
         resize: false,
@@ -26,9 +26,9 @@ $(function(){
         convert_newlines_to_br: true,
         entity_encoding: "raw",
         plugins: [
-            "importcss advlist lists link anchor image charmap visualblocks code fullscreen media table paste textcolor hr quickbars"// stw
+            "importcss advlist lists link anchor image charmap visualblocks code fullscreen media table paste hr quickbars stw"//textcolor moved to core
         ],
-        toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor | anchor image media table |",
+        toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor | link unlink anchor image media table hr |",
         toolbar2                : toolbar2,
         toolbar_sticky: true,
         content_css             : $('#reset_css').val()+','+$('#content_css').val(),
