@@ -81,6 +81,12 @@ class IndexController extends Zend_Controller_Action {
         if (in_array('ionCube Loader', $extensions)) {
             $phpRequirements['ionCube'] = true;
         }
+
+        //GMP library for PHP
+        $phpRequirements['gmp'] = false;
+        if (in_array('gmp', $extensions)) {
+            $phpRequirements['gmp'] = true;
+        }
 		
 		//checking if required libraries are installed
 		foreach ($this->_requirements['phpExtensions'] as $name) {
