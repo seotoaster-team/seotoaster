@@ -139,11 +139,12 @@ class Backend_ContentController extends Zend_Controller_Action {
                 }
 
                 //get all domains wrap without http|https protocol
-                preg_match_all("/[^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+)/mu", $containerData['content'], $matches);
-                if(!empty($matches[1])) {
-                    foreach ($matches[1] as $match) {
+                //preg_match_all("/[^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+)/mu", $containerData['content'], $matches);
+                preg_match_all("/(?![^<>]+>)(?![^<]*?<\/a>)([^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+))/mu", $containerData['content'], $matches);
+                if(!empty($matches[2])) {
+                    foreach ($matches[2] as $match) {
                         $replacement = ' http://'. $match;
-                        $containerData['content'] = preg_replace('/[^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-]+)/u', $replacement, $containerData['content']);
+                        $containerData['content'] = preg_replace('/(?![^<>]+>)(?![^<]*?<\/a>)([^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+))/u', $replacement, $containerData['content']);
                     }
 
                     $containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
