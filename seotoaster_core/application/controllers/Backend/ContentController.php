@@ -126,16 +126,18 @@ class Backend_ContentController extends Zend_Controller_Action {
 
                 //get all domains and wrap into p|span|div tags without http|https protocol
                 //preg_match_all("/(<(p|span|div)>)([\w\.\-]+)(<\/(p|span|div)>)/mu", $containerData['content'], $matchesIntoTags);
-                preg_match_all("/(<(p|span|div)>)([\w\-]+\.[\w\-]+[\w\/\#\=\&\;\%\.\-?]+)/mu", $containerData['content'], $matchesIntoTags);
-                if(!empty($matchesIntoTags[3])) {
-                    foreach ($matchesIntoTags[3] as $key => $match) {
+                //preg_match_all("/(<(p|span|div)>)([\w\-]+\.[\w\-]+[\w\/\#\=\&\;\%\.\-?]+)/mu", $containerData['content'], $matchesIntoTags);
+                preg_match_all("/(<[\w\"\'\=\-\s]+>)([\w\-]+\.[\w\-]+[\w\/\#\=\&\;\%\.\-?]+)/mu", $containerData['content'], $matchesIntoTags);
+                if(!empty($matchesIntoTags[2])) {
+                    foreach ($matchesIntoTags[2] as $key => $match) {
                         $replacement = 'http://'. $match;
                         $replasedVal = $matchesIntoTags[1][$key] . $replacement /*. $matchesIntoTags[4][$key]*/;
 
                         $containerData['content'] = str_replace($matchesIntoTags[0][$key], $replasedVal, $containerData['content']);
                     }
 
-                    $containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                    //$containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                    $containerData['content'] = preg_replace('#(<[\w\"\'\=\s]+>)(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '$1<a href="$2" target="_blank">$2</a>', $containerData['content']);
                 }
 
                 //get all domains wrap without http|https protocol
