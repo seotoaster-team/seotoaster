@@ -7,7 +7,7 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</select>
-    <a id="upload_things_button" class="grid_5 alpha omega tpopup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
+    <a id="upload_things_button" class="grid_5 alpha omega tpopup default-popup btn pl0 pr0" title="<?php echo $this->translate('Upload Things'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_media/uploadthings/" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Upload Things'); ?></a>
 	<div id="selector" class="mt10px grid_12 alpha omega">
 		<div id="borderfortoolbar">
             <div class="mb5px">
@@ -81,7 +81,6 @@
                     if(!response.error){
                         el.empty();
 
-                        el.append('<option value="0"><?php echo $this->translate('Select folder'); ?></option>');
                         $.each(response.responseText, function(id, folderName){
                             var selectedVal = ''
                             if(currentSelection && currentSelection == folderName) {

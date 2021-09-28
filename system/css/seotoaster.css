@@ -1700,6 +1700,10 @@ table.manage-saved-config-table thead a {
 table.manage-saved-config-table thead a:hover {
   color: #fff;
 }
+table.manage-saved-config-table th,
+table.manage-saved-config-table td {
+  text-align: center;
+}
 table.table-bordered {
   border: 1px solid #dddddd;
   border-collapse: separate;
@@ -2950,7 +2954,7 @@ body {
   margin-top: 0 !important;
   padding-top: 0;
   padding-bottom: 0;
-  border-top: 15px solid #FFFFFF !important;
+  border-top: 10px solid #FFFFFF !important;
   clear: both;
 }
 .seotoaster .content-auto:after,
@@ -3005,22 +3009,68 @@ body {
 .content,
 .with-content > .ui-tabs-panel {
   height: 520px;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.content::-webkit-scrollbar,
+.with-content > .ui-tabs-panel::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.content::-webkit-scrollbar-track,
+.with-content > .ui-tabs-panel::-webkit-scrollbar-track {
+  background: #bfbfbf;
+}
+.content::-webkit-scrollbar-thumb,
+.with-content > .ui-tabs-panel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #4496aa;
 }
 .content-footer,
 .with-content-footer > .ui-tabs-panel {
-  height: 465px;
+  height: 470px;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.content-footer::-webkit-scrollbar,
+.with-content-footer > .ui-tabs-panel::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.content-footer::-webkit-scrollbar-track,
+.with-content-footer > .ui-tabs-panel::-webkit-scrollbar-track {
+  background: #bfbfbf;
+}
+.content-footer::-webkit-scrollbar-thumb,
+.with-content-footer > .ui-tabs-panel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #4496aa;
 }
 .content-medium {
   height: 440px;
 }
 .content-medium-footer {
-  height: 385px;
+  height: 390px;
 }
 .content-small {
   height: 320px;
 }
 .content-small-footer {
-  height: 265px;
+  height: 270px;
 }
 .content-screen,
 .content-screen-footer {
@@ -3031,12 +3081,12 @@ body {
   bottom: 0;
 }
 .content-screen-footer {
-  bottom: 55px;
+  bottom: 50px;
 }
 .footer,
 footer {
   clear: both;
-  margin-top: 15px !important;
+  margin-top: 10px !important;
   margin-bottom: 10px !important;
   height: 30px;
   line-height: 30px;
@@ -3379,7 +3429,7 @@ form .captcha .recaptcha_links a + a,
 form [type="submit"],
 .form [type="submit"] {
   float: right;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 form.form-inline > p,
 .form.form-inline > p,
