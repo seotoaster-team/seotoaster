@@ -118,7 +118,7 @@ class Backend_ContentController extends Zend_Controller_Action {
         $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
-            $wraplinks = $this->_helper->config->getConfig('wraplinks');
+            /*$wraplinks = $this->_helper->config->getConfig('wraplinks');
 
             if(!empty($wraplinks)) {
                 //wrap domains with http|https protocol
@@ -131,7 +131,7 @@ class Backend_ContentController extends Zend_Controller_Action {
                 if(!empty($matchesIntoTags[2])) {
                     foreach ($matchesIntoTags[2] as $key => $match) {
                         $replacement = 'http://'. $match;
-                        $replasedVal = $matchesIntoTags[1][$key] . $replacement /*. $matchesIntoTags[4][$key]*/;
+                        $replasedVal = $matchesIntoTags[1][$key] . $replacement; //. $matchesIntoTags[4][$key];
 
                         $containerData['content'] = str_replace($matchesIntoTags[0][$key], $replasedVal, $containerData['content']);
                     }
@@ -151,7 +151,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
                     $containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
                 }
-            }
+            }*/
 
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
