@@ -3490,7 +3490,7 @@ form label[for],
   position: absolute;
   right: 10px;
   top: -35px;
-  margin-top: 0;
+  margin-top: 0 !important;
   padding: 0.5em;
   border-top: 1px solid #eee;
   box-shadow: 0 1px 1px #bbb;
@@ -3501,7 +3501,7 @@ form label[for],
   vertical-align: middle;
 }
 .reply-email-flag > p label {
-  margin-top: 0;
+  margin-bottom: 0;
 }
 .reply-email-flag > p:first-child {
   margin-right: 10px;
