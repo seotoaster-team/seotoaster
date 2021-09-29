@@ -78,9 +78,9 @@
 
             <fieldset class="grid_6 background mt10px">
                 <legend class="h2 background m0px p5px"><?php echo $this->translate('Reply email setup');?></legend>
-                <div class="reply-email-flag grid_12 alpha">
+                <div class="reply-email-flag">
                     <p class="grid_5">
-                        <b><?php echo $this->formForm->getElement('replyEmail')->renderLabel(); ?></b>
+                        <?php echo $this->formForm->getElement('replyEmail')->renderLabel(); ?>
                     </p>
                     <p class="grid_7">
                         <?php echo $this->formForm->getElement('replyEmail')->renderViewHelper(); ?>
@@ -95,15 +95,15 @@
                         <?php echo $this->formForm->getElement('replyFrom')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replyFrom')->renderViewHelper(); ?>
                     </p>
-                    <p class="grid_6">
+                    <p class="grid_6 mt5px">
                         <?php echo $this->formForm->getElement('replyFromName')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replyFromName')->renderViewHelper(); ?>
                     </p>
-                    <p class="grid_12">
+                    <p class="grid_6 mt5px">
                         <?php echo $this->formForm->getElement('replySubject')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replySubject')->renderViewHelper(); ?>
                     </p>
-                    <p class="grid_12" id="reply-text-code">
+                    <p class="grid_12 mt5px" id="reply-text-code">
                         <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="reply-text-code"></a>
                         <?php echo $this->formForm->getElement('replyText')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
