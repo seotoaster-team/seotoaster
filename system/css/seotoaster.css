@@ -3486,6 +3486,26 @@ form label[for],
   content: "\f06a";
   margin-right: 5px;
 }
+.reply-email-flag {
+  position: absolute;
+  right: 10px;
+  top: -35px;
+  margin-top: 0;
+  padding: 0.5em;
+  border-top: 1px solid #eee;
+  box-shadow: 0 1px 1px #bbb;
+  background-color: #fff;
+}
+.reply-email-flag > p {
+  display: inline-block;
+  vertical-align: middle;
+}
+.reply-email-flag > p label {
+  margin-top: 0;
+}
+.reply-email-flag > p:first-child {
+  margin-right: 10px;
+}
 select,
 textarea,
 input {
