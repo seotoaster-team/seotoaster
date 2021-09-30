@@ -1,7 +1,10 @@
 <?php if(!empty($this->files)): ?>
     <?php foreach ($this->files as $file): ?>
         <div>
-            <a href="javascript:;" class="grid_11 alpga omega" data-file-folder="<?php echo $this->fileFolder;?>" data-file-name="<?php echo $file; ?>" title="<?php echo $file; ?>"><?php echo $file; ?></a>
+            <?php
+                $fileTitle = preg_replace('/\.[^.]+/u', '', $file);
+            ?>
+            <a href="javascript:;" class="grid_11 alpga omega" onclick="insertFileLink('<?php echo $file; ?>', '<?php echo $fileTitle; ?>');" title="<?php echo $fileTitle; ?>"><?php echo $file; ?></a>
             <div class="grid_1 alpha omega text-center"><a class="ticon-go-to-file icon12" href="<?php echo $this->filesPathUrl . $file;?>" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
         </div>
     <?php endforeach; ?>
