@@ -455,6 +455,9 @@ class Backend_UploadController extends Zend_Controller_Action
             case 'image/gif':
                 $newName = $name . '.gif';
                 break;
+            case 'image/webp':
+                $newName = $name . '.webp';
+                break;
             default:
                 return false;
                 break;
@@ -509,6 +512,9 @@ class Backend_UploadController extends Zend_Controller_Action
                 break;
             case 'image/gif':
                 $newName = '.gif';
+                break;
+            case 'image/webp':
+                $newName = '.webp';
                 break;
             default:
                 return false;
