@@ -1,7 +1,9 @@
 $(function(){
     var currentUrl = decodeURI(window.location.href);
     if(currentUrl && typeof currentUrl!='undefined'){
-        var $currentLink = $("a[href='"+currentUrl+"']");
+        var aEl = document.createElement("a");
+        aEl.setAttribute('href', currentUrl);
+        var $currentLink = $('a[href="'+aEl.href+'"]');
         $currentLink.addClass('current');
         if($currentLink.closest("li").length > 0 && $currentLink.closest("li").hasClass('category')){
                 $currentLink.closest("li").addClass('category-current');
