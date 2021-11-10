@@ -65,6 +65,12 @@ class Backend_UserController extends Zend_Controller_Action {
 
             $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
 
+            $userForm->getElement('fullName')->setValidators(array(
+                array(new Zend_Validate_NotEmpty(), true),
+                //array(new Zend_Validate_Regex(array('pattern' => '/^[a-zA-Z0-9\s\']*$/u'))
+                array(new Zend_Validate_Regex(array('pattern' => '/^[\w\s\']*$/u'))
+            )));
+            $userForm->getElement('fullName')->getValidator('Zend_Validate_Regex')->setMessage("'%value%' contains characters which are non alphabetic and no digits", Zend_Validate_Regex::NOT_MATCH);
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
                 $this->_processUser($data, $userId);
@@ -217,6 +223,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userModel = $userMapper->find($userId);
                 if ($userModel instanceof Application_Model_Models_User) {
                     $userMapper->delete($userModel);
+                    $userDeleteExternalStatus = Tools_System_Tools::firePluginMethodByTagName('userdelete', 'deleteSystemUser', array('userId' => $userId));
                     $this->_helper->response->success('Removed');
                     exit;
                 } else {
@@ -419,7 +426,9 @@ class Backend_UserController extends Zend_Controller_Action {
                     $this->_helper->language->translate('Desktop country code value'),
                     $this->_helper->language->translate('Desktop phone'),
                     $this->_helper->language->translate('Signature'),
-                    $this->_helper->language->translate('Subscribed')
+                    $this->_helper->language->translate('Subscribed'),
+                    $this->_helper->language->translate('Personal calendar url'),
+                    $this->_helper->language->translate('Avatar link')
                 ));
                 if($exportResult) {
                     $usersArchive = Tools_System_Tools::zip($exportResult);

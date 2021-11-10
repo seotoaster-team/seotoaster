@@ -163,4 +163,18 @@ function deleteTemplate(templateContainer) {
     });
 }
 
+$(document).on('mouseup', '.seotoaster-block', function (e) {
+    var container = $(".show-left, .show-right");
+    if (container.has(e.target).length === 0){
+        $('#templatelist.show-left').hide("slide", { direction: "left"});
+        $('#templatelist.show-right').hide("slide", { direction: "right"});
+        return false;
+    }
+}).on('click', '.hide-block-template', function(){
+    $('#templatelist.show-left').hide("slide", { direction: "left"});
+    $('#templatelist.show-right').hide("slide", { direction: "right"});
+    return false;
+});
+
+
 

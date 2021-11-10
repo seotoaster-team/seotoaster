@@ -1,7 +1,9 @@
 $(function(){
     var currentUrl = decodeURI(window.location.href);
     if(currentUrl && typeof currentUrl!='undefined'){
-        var $currentLink = $("a[href='"+currentUrl+"']");
+        var aEl = document.createElement("a");
+        aEl.setAttribute('href', currentUrl);
+        var $currentLink = $('a[href="'+aEl.href+'"]');
         $currentLink.addClass('current');
         if($currentLink.closest("li").length > 0 && $currentLink.closest("li").hasClass('category')){
                 $currentLink.closest("li").addClass('category-current');
@@ -34,7 +36,13 @@ $(function(){
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
         var pheight = link.data('pheight') || 560;
-        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : 'toasterPopup'}).addClass('__tpopup');
+        var iframeId = 'toasterPopupDraggable';
+
+        if($(link).hasClass('default-popup')) {
+            iframeId = 'toasterPopup';
+        }
+
+        var popup = $(document.createElement('iframe')).attr({'scrolling' : 'no', 'frameborder' : 'no', 'allowTransparency' : 'allowTransparency', 'id' : iframeId}).addClass('__tpopup');
         popup.parent().css({background : 'none'});
         popup.dialog({
             width     : pwidth,
@@ -45,7 +53,7 @@ $(function(){
             open      : function(){
                 this.onload = function(){
                     $(this).contents().find('.close, .save-and-close').on('click', function(){
-                        var urlFrame = $('#toasterPopup').prop('src');
+                        var urlFrame = $('#'+iframeId).prop('src');
                         var restored = localStorage.getItem(generateStorageKey());
                         if(restored!==null && $.inArray('uploadthings',urlFrame.split('/')) == -1 ){
                             showConfirm('Hey, you did not save your work? Are you sure you want discard all changes?', function(){
@@ -64,7 +72,6 @@ $(function(){
                     margin   : '0px',
                     overflow : 'hidden'
                 });
-                $('[aria-describedby="toasterPopup"] .ui-dialog-titlebar').remove();
             },
             close     : function(){
                 $(this).remove();
@@ -234,7 +241,7 @@ $(function(){
                 }
 
                 if(i=='password'){
-                    $('[name='+i+']').val('');
+                    $('[name='+i+']').attr('placeholder', '********').val('');
                 }
                 if (i=='attributes') {
                     $.each(response.responseText.data[i], function(attrName, attrValue) {
@@ -340,7 +347,7 @@ $(document).on('change', '#reply-email', function (e) {
 ///////// Full screen //////////////
 $(document).on('click', '#screen-expand', function(e){
     $(this).toggleClass('ticon-expand ticon-turn');
-    var popup = $(window.parent.document).find('[aria-describedby="toasterPopup"]');
+    var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
     popup.toggleClass('screen-expand');
     $('.content').toggleClass('screen-expand');
     var popupH = popup.height();
@@ -428,6 +435,19 @@ $(document).on('click', '.tabs-nav-wrap .arrow', function(){
         });
     }
 });
+
+//sneak-peek password
+$(document).on('mousedown', '.sneak-peek', function(e){
+    if($(e.currentTarget).length) {
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:password').prop("type", "text");
+    }
+});
+$(document).on('mouseup', '.sneak-peek', function(e){
+    if($(e.currentTarget).length) {
+        $(e.currentTarget).closest('.sneak-peek-eye').find('input:text').prop("type", "password").focus();
+    }
+});
+
 ///////// checkbox & radio button //////////////
 function checkboxRadioStyle(){
     if($('.seotoaster').length && !$('.ie8').length){
@@ -511,9 +531,10 @@ function showConfirm(msg, yesCallback, noCallback){
         }
     }, {classname : 'error', ok : 'Yes', cancel : 'No'});
 }
-function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
+function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback, additionalHtmlClass){
     var yes = 'Yes',
-        no = 'No';
+        no = 'No',
+        additionalClass = '';
 
     if(typeof yesValue != 'undefined'){
         yes = yesValue;
@@ -521,6 +542,10 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
     if(typeof noValue != 'undefined'){
         no = noValue;
     }
+    if(typeof additionalHtmlClass != 'undefined' || additionalHtmlClass != '') {
+        additionalClass = additionalHtmlClass;
+    }
+
     smoke.confirm(msg, function(e){
         if(e){
             if(typeof yesCallback!='undefined'){
@@ -531,14 +556,22 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback){
                 noCallback();
             }
         }
-    }, {classname : 'error', ok : yes, cancel : no});
+    },   {classname : 'error' + ' ' + additionalClass, ok : yes, cancel : no});
 }
-function showSpinner(e){
-    var el = (typeof text === 'string' ? e : 'body>.seotoaster');
-    $(el).append('<span class="spinner"></span>');
+function showSpinner(e, customSelector){
+    var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
+    if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
+        $(el).append('<span class="'+customSelector+'"></span>');
+    } else {
+        $(el).append('<span class="spinner"></span>');
+    }
 }
-function hideSpinner(){
-    $('.spinner').remove();
+function hideSpinner(customSelector){
+    if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
+        $(customSelector).remove();
+    } else {
+        $('.spinner').remove();
+    }
 }
 function showLoader(text){
     var event = document.activeElement;
@@ -600,6 +633,11 @@ function showMailMessageEdit(trigger, callback, recipient){
         var msgEditScreen = $('<div class="msg-edit-screen"></div>').append($('<textarea id="trigger-msg" rows="10"></textarea>').val(msg).css({
             resizable : "none"
         }));
+        $(msgEditScreen).append('<div class="mt10px">' +
+            '<label> Additional emails <a href="javascript:;" class="ticon-info tooltip icon18" title="You can enter emails separated by comma. ex: John@mail.com,Doe@mail.com"></a> : </label>' +
+            '<input type="text" name="additional-emails" id="additional-emails" value="" />' +
+            '</div>');
+
         $('#trigger-msg').val(msg);
         msgEditScreen.dialog({
             modal     : true,
@@ -613,11 +651,35 @@ function showMailMessageEdit(trigger, callback, recipient){
                 {
                     text  : dialogOkay,
                     click : function(e){
-                        msgEditScreen.dialog('close');
-                        callback($('#trigger-msg').val());
+                        var additionalEmails = $('#additional-emails').val(),
+                        closeDialog = true;
+
+                        if(additionalEmails.length) {
+                            additionalEmails = additionalEmails.split(',');
+
+                           var regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                            $.each(additionalEmails, function(key, email){
+                                var clearEmail = email.toString().replace(/\s/g, ''),
+                                isValidEmail = regularExpression.test(clearEmail);
+
+                                if(!isValidEmail) {
+                                    closeDialog = false;
+                                    showMessage('Not valid email address - "' + clearEmail + '"', true, 3000);
+                                }
+                            });
+                        }
+
+                        if(closeDialog) {
+                            msgEditScreen.dialog('close');
+                            callback($('#trigger-msg').val(), $('#additional-emails').val());
+                        }
                     }
                 }
-            ]
+            ],
+            close: function(event, ui){
+                $(this).dialog('close').remove();
+            }
         });
     }, 'json');
 }

@@ -768,7 +768,39 @@ ALTER TABLE `user` ADD COLUMN `allow_remote_authorization` ENUM('1', '0') DEFAUL
 ALTER TABLE `user` ADD COLUMN `remote_authorization_info` TEXT COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'additional info';
 ALTER TABLE `user` ADD COLUMN `remote_authorization_token` CHAR(40) DEFAULT NULL;
 
+-- 07/10/2019
+-- version: 3.1.2
+-- Add users remote authorization
+UPDATE `masks_list` SET `mask_value` = '99-9999-9999?9' WHERE `country_code` = 'GB';
+UPDATE `masks_list` SET `full_mask_value` = '99-9999-9999?9' WHERE `country_code` = 'GB';
+UPDATE `masks_list` SET `mask_value` = '9 99 99 99 99?9' WHERE `country_code` = 'FR';
+UPDATE `masks_list` SET `full_mask_value` = '9 99 99 99 99?9' WHERE `country_code` = 'FR';
+
+-- 20/07/2020
+-- version: 3.1.3
+-- Pre package version
+
+-- 01/03/2021
+-- version: 3.2.0
+ALTER TABLE `config` CHANGE `value` `value` TEXT COLLATE utf8_unicode_ci NOT NULL;
+
+-- 09/03/2020
+-- version: 3.2.1
+-- Pre package version
+
+-- 07/07/2021
+-- version: 3.3.0
+ALTER TABLE `user` ADD COLUMN `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `user` ADD COLUMN `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
+
+-- 05/08/2021
+-- version: 3.3.1
+-- Pre package version
+
+-- 13/08/2021
+-- version: 3.4.0
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('wraplinks', '0');
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.1.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.4.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

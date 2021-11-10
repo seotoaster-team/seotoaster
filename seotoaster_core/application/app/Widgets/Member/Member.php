@@ -40,7 +40,9 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'signature',
         'subscribed',
         'voipPhone',
-        'allowRemoteAuthorization'
+        'allowRemoteAuthorization',
+        'personalCalendarUrl',
+        'avatarLink'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';

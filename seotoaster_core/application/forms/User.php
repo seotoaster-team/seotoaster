@@ -39,6 +39,10 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_allowRemoteAuthorization = '0';
 
+    protected $_personalCalendarUrl = null;
+
+    protected $_avatarLink = null;
+
 	public function init() {
         parent::init();
 
@@ -47,7 +51,7 @@ class Application_Form_User extends Application_Form_Secure {
         $this->addElement(new Zend_Form_Element_Checkbox(array(
             'name'       => 'subscribed',
             'id'         => 'user-subscribed',
-            'label'      => 'Subscribe',
+            'label'      => $translator->translate('Subscribe'),
             'required'   => false,
             'value'      => $this->_subscribed
         )));
@@ -57,7 +61,7 @@ class Application_Form_User extends Application_Form_Secure {
         $this->addElement(new Zend_Form_Element_Checkbox(array(
             'name'       => 'allowRemoteAuthorization',
             'id'         => 'allow-remote-login',
-            'label'      => 'Allow remote login',
+            'label'      => $translator->translate('Allow remote login'),
             'required'   => false,
             'value'      => $this->_allowRemoteAuthorization
         )));
@@ -66,7 +70,7 @@ class Application_Form_User extends Application_Form_Secure {
         $email = new Zend_Form_Element_Text(array(
             'id'         => 'e-mail',
             'name'       => 'email',
-            'label'      => 'E-mail',
+            'label'      => $translator->translate('E-mail'),
             'value'      => $this->_email,
             'validators' => array(
                 new Tools_System_CustomEmailValidator(),
@@ -92,7 +96,7 @@ class Application_Form_User extends Application_Form_Secure {
 		$this->addElement(new Zend_Form_Element_Text(array(
 			'name'       => 'fullName',
 			'id'         => 'full-name',
-			'label'      => 'Full name',
+			'label'      => $translator->translate('Full name'),
 			'required'   => true,
 			'validators' => array(
 				new Zend_Validate_Alnum(array('allowWhiteSpace' => true)),
@@ -103,7 +107,7 @@ class Application_Form_User extends Application_Form_Secure {
 		$this->addElement(new Zend_Form_Element_Password(array(
 			'name'       => 'password',
 			'id'         => 'password',
-			'label'      => 'Password',
+			'label'      => $translator->translate('Password'),
 			'required'   => true,
 			'validators' => array(
 				new Zend_Validate_StringLength(array(
@@ -111,6 +115,7 @@ class Application_Form_User extends Application_Form_Secure {
 					'min'      => 4
 				)),
 			),
+			//'placeholder' => '********',
 			'value'      => $this->_password
 		)));
 
@@ -122,7 +127,7 @@ class Application_Form_User extends Application_Form_Secure {
 		$this->addElement(new Zend_Form_Element_Select(array(
 			'name'         => 'roleId',
 			'id'           => 'role-id',
-			'label'        => 'Role',
+			'label'        => $translator->translate('Role'),
 			'value'        => $this->_roleId,
 			'multiOptions' => array_combine($roles, array_map('ucfirst', $roles)),
 			'required'     => true
@@ -133,7 +138,7 @@ class Application_Form_User extends Application_Form_Secure {
             'id'         => 'user-desktop-phone',
             'label'      => '',
             'value'      => $this->_desktopPhone,
-            'placeholder' => 'Desktop'
+            'placeholder' => $translator->translate('Desktop')
         )));
 
         $this->addElement(new Zend_Form_Element_Select(array(
@@ -177,7 +182,7 @@ class Application_Form_User extends Application_Form_Secure {
             array(
                 'name' => 'timezone',
                 'id' => 'user-timezone',
-                'label' => 'Timezone',
+                'label' => $translator->translate('Timezone'),
                 'multiOptions' => array('0' => $translator->translate('Select timezone')) + array_combine($timezones, $timezones)
             )
         ));
@@ -196,7 +201,7 @@ class Application_Form_User extends Application_Form_Secure {
         $this->addElement(new Zend_Form_Element_Textarea(array(
             'name'  => 'signature',
             'id'    => 'signature',
-            'label' => 'Signature',
+            'label' => $translator->translate('Signature'),
             'cols' => '15',
             'rows' => '4'
         )));
@@ -204,14 +209,15 @@ class Application_Form_User extends Application_Form_Secure {
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'voipPhone',
             'id'    => 'voip-phone',
-            'label' => 'VOIP phone',
+            'label' => $translator->translate('VOIP phone'),
             'placeholder' => 'sip:username@sipdomain.com'
         )));
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'name'  => 'gplusProfile',
             'id'    => 'gplus-profile',
-            'label' => 'Google+ profile'
+            'label' => 'Google+ profile',
+            'class' => 'hide'
         )));
 
         $this->addElement(new Zend_Form_Element_Text(array(
@@ -219,7 +225,7 @@ class Application_Form_User extends Application_Form_Secure {
             'id'         => 'user-mobile-phone',
             'label'      => '',
             'value'      => $this->_mobilePhone,
-            'placeholder' => 'Mobile'
+            'placeholder' => $translator->translate('Mobile')
         )));
 
         $this->addElement(new Zend_Form_Element_Select(array(
@@ -227,17 +233,29 @@ class Application_Form_User extends Application_Form_Secure {
             'id'    => 'user-attributes',
             'value' => array(''),
             'multiOptions' => $this->getUniqueAttributesNames(),
-            'label' => 'User attributes'
+            'label' => $translator->translate('User attributes')
         )));
 
 
         $this->addElement(new Zend_Form_Element_Select(array(
             'name'         => 'roleId',
             'id'           => 'role-id',
-            'label'        => 'Role',
+            'label'        => $translator->translate('Role'),
             'value'        => $this->_roleId,
             'multiOptions' => array_combine($roles, array_map('ucfirst', $roles)),
             'required'     => true
+        )));
+
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'name'  => 'personalCalendarUrl',
+            'id'    => 'personal-calendar-url',
+            'label' => $translator->translate('Personal calendar url')
+        )));
+
+        $this->addElement(new Zend_Form_Element_Text(array(
+            'name'  => 'avatarLink',
+            'id'    => 'avatar-link',
+            'label' => $translator->translate('Avatar link')
         )));
 
 		$this->addElement(new Zend_Form_Element_Hidden(array(
@@ -249,10 +267,10 @@ class Application_Form_User extends Application_Form_Secure {
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'   => 'saveUser',
 			'id'     => 'save-user',
-			'value'  => 'Save user',
+			'value'  => $translator->translate('Save user'),
 			'class'  => 'btn',
 			'ignore' => true,
-			'label'  => 'Save user',
+			'label'  => $translator->translate('Save user'),
 			'escape' => false
 		)));
 
@@ -449,6 +467,30 @@ class Application_Form_User extends Application_Form_Secure {
     public function setAllowRemoteAuthorization($allowRemoteAuthorization) {
         $this->_allowRemoteAuthorization = $allowRemoteAuthorization;
         $this->getElement('allowRemoteAuthorization')->setValue($allowRemoteAuthorization);
+        return $this;
+    }
+
+    public function getPersonalCalendarUrl()
+    {
+        return $this->_personalCalendarUrl;
+    }
+
+    public function setPersonalCalendarUrl($personalCalendarUrl)
+    {
+        $this->_personalCalendarUrl = $personalCalendarUrl;
+        $this->getElement('personalCalendarUrl')->setValue($personalCalendarUrl);
+        return $this;
+    }
+
+    public function getAvatarLink()
+    {
+        return $this->_avatarLink;
+    }
+
+    public function setAvatarLink($avatarLink)
+    {
+        $this->_avatarLink = $avatarLink;
+        $this->getElement('avatarLink')->setValue($avatarLink);
         return $this;
     }
 

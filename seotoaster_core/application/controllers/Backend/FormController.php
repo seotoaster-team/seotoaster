@@ -7,7 +7,7 @@
 class Backend_FormController extends Zend_Controller_Action {
 
     const FORM_THANKYOU_PAGE = 'option_formthankyoupage';
-    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx';
+    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,jpeg';
 
 	public static $_allowedActions = array(
 		'receiveform',
@@ -230,6 +230,34 @@ class Backend_FormController extends Zend_Controller_Action {
                         }
                         $sessionHelper->toasterFormError = $this->_helper->language->translate('Please enter a valid email address');
                         $this->redirect($formParams['formUrl']);
+                    }
+                }
+
+                if (!empty($websiteConfig) && !empty($websiteConfig['validateFormEmails'])) {
+                    $response = Apps::apiCall('GET', 'appsValidationCredits', array());
+                    if (!empty($response) && empty($response['error'])) {
+                        if (!empty($response['balance'])) {
+                            $validateData = array();
+                            $validateData[] = array('email' => $formParams['email']);
+                            $data = array('data' => $validateData);
+                            $response = Apps::apiCall('POST', 'appsValidateEmail', array(), $data);
+                            if (!empty($response) && empty($response['error']) && !empty($response['data'])) {
+                                $currentResult = current($response['data']);
+                                if ($currentResult['status'] === 'invalid' || ($currentResult['status'] === 'risky' && $currentResult['score'] < 0.25)) {
+                                    if($xmlHttpRequest){
+                                        $this->_helper->response->success($form->getMessageSuccess());
+                                    }
+
+                                    if (isset($formParams['conversionPageUrl'])) {
+                                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                                        $this->redirect($conversionPageUrl);
+                                    }
+
+                                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                                    $this->redirect($formParams['formUrl']);
+                                }
+                            }
+                        }
                     }
                 }
 

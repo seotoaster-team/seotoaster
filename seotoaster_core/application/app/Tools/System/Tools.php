@@ -67,6 +67,11 @@ class Tools_System_Tools {
 
     const ACTION_PREFIX_PLUGINS = 'Plugins';
 
+    /**
+     * Default Mojo Agency name
+     */
+    const DEFAULT_MOJO_COMPANY_AGENCY_NAME = 'SeoSamba';
+
 	public static function getUrlPath($url) {
 		$parsedUrl = self::_proccessUrl($url);
 		return (isset($parsedUrl['path'])) ? trim($parsedUrl['path'], '/')  . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') : '';
@@ -778,6 +783,32 @@ class Tools_System_Tools {
         return $result;
     }
 
+
+    /**
+     * Fire plugin by tag name
+     *
+     * @param string $tagName plugin name
+     * @param string $method plugin method
+     * @param array $data data array
+     * @param bool $static flag for the method type
+     * @return array
+     * @throws Zend_Reflection_Exception
+     */
+    public static function firePluginMethodByTagName($tagName, $method, $data = array(), $static = true){
+        $pluginMapper = Application_Model_Mappers_PluginMapper::getInstance();
+        $plugins = $pluginMapper->findEnabled();
+        $response = array();
+        foreach ($plugins as $plugin) {
+            $pluginTags = $plugin->getTags();
+            if (in_array($tagName, $pluginTags, true)) {
+                $response[] = self::firePluginMethodByPluginName($plugin->getName(), $method, $data, $static);
+            }
+        }
+
+        return $response;
+
+    }
+
     /**
      * Fire plugin method by plugin name
      *
@@ -883,6 +914,62 @@ class Tools_System_Tools {
         }
 
         return $prefixes;
+    }
+
+    /**
+     * Find mask by mask type and country code
+     *
+     * @param string $text to format
+     * @param string $maskType mask type (mobile|desktop)
+     * @param string $countryCode country code ISO Alpha-2
+     * @return null
+     */
+    public static function formatPhoneMobileMask($text, $maskType, $countryCode)
+    {
+        $masksListMapper = Application_Model_Mappers_MasksListMapper::getInstance();
+        $maskListModel = $masksListMapper->findMaskByTypeCountryCode($maskType, $countryCode);
+        if (!$maskListModel instanceof Application_Model_Models_MaskList) {
+            return $text;
+        }
+
+        $fullMask = $maskListModel->getFullMaskValue();
+
+        if (!preg_match_all('/\d/', $fullMask, $maskMatchesDigits, PREG_OFFSET_CAPTURE) !== false) {
+            return $text;
+        }
+
+        if (!preg_match_all('/\D/', $fullMask, $maskMatchesNoneDigits, PREG_OFFSET_CAPTURE) !== false) {
+            return $text;
+        }
+
+        $maskedDigitsKeys = array();
+        $maskMatchesNoneDigitsKeys = array();
+
+        foreach ($maskMatchesDigits[0] as $maskMatchesDigit) {
+            $maskedDigitsKeys[$maskMatchesDigit['1']] = $maskMatchesDigit['1'];
+        }
+
+        foreach ($maskMatchesNoneDigits[0] as $maskMatchesNoneDigit) {
+            $maskMatchesNoneDigitsKeys[$maskMatchesNoneDigit['1']] = $maskMatchesNoneDigit['0'];
+        }
+
+        $formattedString = '';
+        $textPositionStart = 0;
+        for ($i = 0; $i < mb_strlen($fullMask); $i++) {
+            if (isset($maskedDigitsKeys[$i])) {
+                if (isset($text[$textPositionStart])) {
+                    $formattedString = substr_replace($formattedString, $text[$textPositionStart], $i, 0);
+                    ++$textPositionStart;
+                }
+            }
+
+            if (isset($maskMatchesNoneDigitsKeys[$i]) && $maskMatchesNoneDigitsKeys[$i] !== '?') {
+                $formattedString = substr_replace($formattedString, $maskMatchesNoneDigitsKeys[$i], $i, 0);
+            }
+
+        }
+
+        return $formattedString;
     }
 
 }

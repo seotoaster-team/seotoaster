@@ -36,6 +36,7 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_grecaptchaPrivateKey;
     protected $_googleApiKey;
 
+    protected $_validateFormEmails;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -390,6 +391,27 @@ class Application_Form_Config extends Application_Form_Secure
 
     }
 
+    /**
+     * @return mixed
+     */
+    public function getValidateFormEmails()
+    {
+        return $this->_validateFormEmails;
+    }
+
+
+    /**
+     * @return mixed
+     * string $validateFormEmails mixed
+     */
+    public function setValidateFormEmails($validateFormEmails)
+    {
+        $this->_validateFormEmails = $validateFormEmails;
+        $this->getElement('validateFormEmails')->setValue($this->_validateFormEmails);
+
+        return $this;
+    }
+
 	public function init()
     {
         parent::init();
@@ -481,6 +503,7 @@ class Application_Form_Config extends Application_Form_Secure
 			'value'  => $this->_smtpPassword,
 			'label'  => 'SMTP Password',
             'autocomplete' => 'off',
+            'placeholder' => '********',
 			'renderPassword' => Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_USERS)
 		));
 
@@ -520,7 +543,7 @@ class Application_Form_Config extends Application_Form_Secure
 			'label' => 'Password',
 			'validators' => array(array('StringLength', true, array(4))),
 			'ignore' => true,
-			'placeholder' => '*******'
+			//'placeholder' => '********'
 		));
 
 		$this->addElement(new Zend_Form_Element_Checkbox(array(
@@ -605,6 +628,11 @@ class Application_Form_Config extends Application_Form_Secure
             'placeholder' => 'Browser key'
         ));
 
+        $this->addElement('checkbox', 'validateFormEmails', array(
+            'value' => $this->_validateFormEmails,
+            'label' => 'Enable form emails validation?'
+        ));
+
         $this->setElementDecorators(array('ViewHelper', 'Label'));
 	}
 
@@ -663,4 +691,5 @@ class Application_Form_Config extends Application_Form_Secure
         $this->getElement('googleApiKey')->setValue($this->_googleApiKey);
         return $this;
     }
+
 }

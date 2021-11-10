@@ -46,6 +46,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function addAction() {
 		if($this->getRequest()->isPost()) {
+
 			$this->_processContent();
 		}
 		if ($this->getRequest()->isXmlHttpRequest()){
@@ -117,6 +118,41 @@ class Backend_ContentController extends Zend_Controller_Action {
         $this->_contentForm = Tools_System_Tools::addTokenValidatorZendForm($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         if($this->_contentForm->isValid($this->getRequest()->getParams())) {
 			$containerData = $this->_contentForm->getValues();
+            /*$wraplinks = $this->_helper->config->getConfig('wraplinks');
+
+            if(!empty($wraplinks)) {
+                //wrap domains with http|https protocol
+                $containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+
+                //get all domains and wrap into p|span|div tags without http|https protocol
+                //preg_match_all("/(<(p|span|div)>)([\w\.\-]+)(<\/(p|span|div)>)/mu", $containerData['content'], $matchesIntoTags);
+                //preg_match_all("/(<(p|span|div)>)([\w\-]+\.[\w\-]+[\w\/\#\=\&\;\%\.\-?]+)/mu", $containerData['content'], $matchesIntoTags);
+                preg_match_all("/(<[\w\"\'\=\-\s]+>)([\w\-]+\.[\w\-]+[\w\/\#\=\&\;\%\.\-?]+)/mu", $containerData['content'], $matchesIntoTags);
+                if(!empty($matchesIntoTags[2])) {
+                    foreach ($matchesIntoTags[2] as $key => $match) {
+                        $replacement = 'http://'. $match;
+                        $replasedVal = $matchesIntoTags[1][$key] . $replacement; //. $matchesIntoTags[4][$key];
+
+                        $containerData['content'] = str_replace($matchesIntoTags[0][$key], $replasedVal, $containerData['content']);
+                    }
+
+                    //$containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                    $containerData['content'] = preg_replace('#(<[\w\"\'\=\s]+>)(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '$1<a href="$2" target="_blank">$2</a>', $containerData['content']);
+                }
+
+                //get all domains wrap without http|https protocol
+                //preg_match_all("/[^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+)/mu", $containerData['content'], $matches);
+                preg_match_all("/(?![^<>]+>)(?![^<]*?<\/a>)([^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+))/mu", $containerData['content'], $matches);
+                if(!empty($matches[2])) {
+                    foreach ($matches[2] as $match) {
+                        $replacement = ' http://'. $match;
+                        $containerData['content'] = preg_replace('/(?![^<>]+>)(?![^<]*?<\/a>)([^(http|https):\/\/\.\w\->;\"\']([\w\-\.]*\.[\w\/\?#=&;%\-\.]+))/u', $replacement, $containerData['content']);
+                    }
+
+                    $containerData['content'] = preg_replace('#(?<!(href=")|(src=")|(">))(http[s]?:\/\/[\w+?\.\w+]+[\w\-\.]+[\.]*[\w\/\#\=\&\;\%\-?\.]+)#u', '<a href="$0" target="_blank">$0</a>', $containerData['content']);
+                }
+            }*/
+
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
 			$container     = new Application_Model_Models_Container();
@@ -146,6 +182,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
             $cacheTag = preg_replace('/[^\w\d_]/', '', $container->getName() . '_' . $container->getContainerType() . '_pid_' . $container->getPageId());
 			$this->_helper->cache->clean(null, null, array($cacheTag));
+
 			$saveResult = Application_Model_Mappers_ContainerMapper::getInstance()->save($container);
 
 			if(!$container->getId()) {
@@ -295,10 +332,14 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function loadfilesAction() {
 		if($this->getRequest()->isPost()) {
-			$folder             = $this->getRequest()->getParam('folder');
-			$filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
-			$this->view->files  = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
-			$this->view->html   = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 class="text-center mt10px">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
+            $folder = $this->_request->getParam('folder');
+            $filesPathUrl = $this->_helper->website->getUrl() . $this->_websiteData['media'] . $folder . DIRECTORY_SEPARATOR;
+            $filesPath          = $this->_websiteData['path'] . $this->_websiteData['media'] . $folder;
+            $this->view->files = ((is_dir($filesPath))) ? Tools_Filesystem_Tools::findFilesByExtension($filesPath, '.*', false, false, false) : array();
+            $this->view->fileFolder = $folder;
+            $this->view->filesPathUrl = $filesPathUrl;
+            $html = (($folder) ? $this->view->render('backend/content/files.phtml') : '<h3 class="text-center mt10px">' . $this->_helper->language->translate('Please, select a folder') . '</h3>');
+            $this->view->html = $html;
 		}
 	}
 
@@ -344,7 +385,9 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 	public function refreshfoldersAction() {
 		$websiteData = Zend_Registry::get('website');
-		$this->_helper->response->success(Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . $websiteData['media']));
+        $listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs($websiteData['path'] . $websiteData['media']);
+        array_unshift($listFolders, $this->_helper->language->translate('Select folder'));
+		$this->_helper->response->success($listFolders);
 	}
 
     /**

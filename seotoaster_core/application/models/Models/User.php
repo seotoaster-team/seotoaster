@@ -52,6 +52,10 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_remoteAuthorizationToken = '';
 
+    protected $_personalCalendarUrl = '';
+
+    protected $_avatarLink = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -463,6 +467,44 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     public function setRemoteAuthorizationToken($remoteAuthorizationToken)
     {
         $this->_remoteAuthorizationToken = $remoteAuthorizationToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonalCalendarUrl()
+    {
+        return $this->_personalCalendarUrl;
+    }
+
+    /**
+     * @param string $personalCalendarUrl
+     * @return string
+     */
+    public function setPersonalCalendarUrl($personalCalendarUrl)
+    {
+        $this->_personalCalendarUrl = $personalCalendarUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarLink()
+    {
+        return $this->_avatarLink;
+    }
+
+    /**
+     * @param string $avatarLink
+     * @return string
+     */
+    public function setAvatarLink($avatarLink)
+    {
+        $this->_avatarLink = $avatarLink;
 
         return $this;
     }

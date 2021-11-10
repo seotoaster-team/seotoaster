@@ -46,10 +46,12 @@
                 echo $this->loginForm->getElement('email')->renderViewHelper();
                 ?>
             </div>
-            <div class="field-line"><?php
-                echo $this->loginForm->getElement('password')->renderLabel();
-                echo $this->loginForm->getElement('password')->renderViewHelper();
-                ?>
+            <div class="field-line">
+                <?php echo $this->loginForm->getElement('password')->renderLabel(); ?>
+                <div class="sneak-peek-eye">
+                    <?php echo $this->loginForm->getElement('password')->renderViewHelper(); ?>
+                    <span class="sneak-peek"></span>
+                </div>
             </div>
         </div>
 
