@@ -39,6 +39,7 @@
 			<?php if ($this->checks['magicquotes'] !== true) : ?>
 			<li class="error important"><?php echo $this->translate("<strong>Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the package or in your PHP.ini (Otherwise you will get a bunch of'\' in the templates when loading themes)."); ?></li>
 			<?php endif;?>
+            <li <?php if (!$this->checks['gmp']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GMP library for PHP:</strong> GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers.'); ?></li>
 			<?php if(!extension_loaded('IonCube Loader')): ?>
 			<li class="important error">
                 <?php echo $this->translate('<strong>Optional but recommended:</strong>');?>&nbsp;<strong>IonCube Loader</strong>

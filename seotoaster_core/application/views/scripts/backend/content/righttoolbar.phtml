@@ -81,7 +81,6 @@
                     if(!response.error){
                         el.empty();
 
-                        el.append('<option value="0"><?php echo $this->translate('Select folder'); ?></option>');
                         $.each(response.responseText, function(id, folderName){
                             var selectedVal = ''
                             if(currentSelection && currentSelection == folderName) {

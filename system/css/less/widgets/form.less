@@ -146,6 +146,26 @@ form, .form {
     }
 }
 
+.reply-email-flag {
+    position         : absolute;
+    right            : 10px;
+    top              : -35px;
+    margin-top       : 0 !important;
+    padding          : 0.5em;
+    border-top       : 1px solid #eee;
+    box-shadow       : 0 1px 1px #bbb;
+    background-color : #fff;
+    > p {
+        .inline-block();
+        label {
+            margin-bottom : 0;
+        }
+        &:first-child{
+            margin-right: 10px;
+        }
+    }
+}
+
 select, textarea, input {
     padding          : @padding-base-vertical;
     border-width     : @input-border-width;
@@ -611,7 +631,7 @@ textarea {
         height    : 41px;
         font-size : 14px;
         width     : auto;
-        color: darken(@gray, 10%);
+        color     : darken(@gray, 10%);
     }
     .btn-area {
         padding-left  : 60px;
