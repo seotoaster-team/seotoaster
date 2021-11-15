@@ -618,5 +618,16 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $data;
     }
 
+    /**
+     * @param string $templateName template name
+     * @return mixed|null
+     */
+    public function findPageIdByTemplateName($templateName)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('template_id = ?', $templateName);
+        $select = $this->getDbTable()->getAdapter()->select()->from('page')->where($where);
+        return $this->getDbTable()->getAdapter()->fetchOne($select);
+    }
+
 
 }
