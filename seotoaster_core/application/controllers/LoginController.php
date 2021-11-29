@@ -57,6 +57,16 @@ class LoginController extends Zend_Controller_Action {
                             }
                         }
 
+                        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS, $authUserData->role_id)) {
+                            $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+                            $redirectAdminAfterLogin = $configHelper->getConfig('redirectAdminAfterLogin');
+
+                            if (!empty($redirectAdminAfterLogin)) {
+                                $redirector = new Zend_Controller_Action_Helper_Redirector();
+                                $redirector->gotoUrl($this->_helper->website->getUrl().$redirectAdminAfterLogin);
+                            }
+                        }
+
 						if(isset($this->_helper->session->redirectUserTo)) {
 							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
 						}
