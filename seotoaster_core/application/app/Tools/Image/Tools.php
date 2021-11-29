@@ -180,6 +180,10 @@ class Tools_Image_Tools {
                 $image = imagecreatefrompng($pathFile);
                 $saveAlphaChannel = true;
                 break;
+            case 'image/webp':
+                $image = imagecreatefromwebp($pathFile);
+                $saveAlphaChannel = true;
+                break;
             default:
                 return 'Unknow MIME type';
                 break;
@@ -305,6 +309,9 @@ class Tools_Image_Tools {
                     break;
                 case 'image/png':
                     imagepng($newImage, $pathFile, $pngQuality);
+                    break;
+                case 'image/webp':
+                    imagewebp($newImage, $pathFile, $quality);
                     break;
                 default:
                     return 'Unknow MIME type';
