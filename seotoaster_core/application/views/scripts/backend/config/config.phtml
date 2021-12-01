@@ -80,7 +80,7 @@
                 <li><a href="#securityForm-config"><?php echo $this->translate('Security'); ?></a></li>
             <?php endif; ?>
             <li><a href="#site-map-config"><?php echo $this->translate('Site map settings'); ?></a></li>
-            <li><a href="#other-config"><?php echo $this->translate('Other'); ?></a></li>
+            <!--li><a href="#other-config">< ?php echo $this->translate('Other'); ?></a></li-->
         </ul>
         </div>
         <fieldset id="general-config" class="content-small-footer pr0 pl0">
@@ -250,14 +250,9 @@
             <div class="grid_5"><?php echo $this->configForm->getElement('pagesLimit')->renderLabel(); ?></div>
             <div class="grid_7 mt0px"><?php echo $this->configForm->getElement('pagesLimit')->renderViewHelper(); ?></div>
         </fieldset>
-        <fieldset id="other-config" class="content-small-footer pr0 pl0">
-            <div class="grid_4 omega">
-                <?php echo $this->configForm->getElement('wrapLinks')->renderLabel(); ?>
-            </div>
-            <div class="grid_1 alpha mt0px">
-                <?php echo $this->configForm->getElement('wrapLinks')->renderViewHelper(); ?>
-            </div>
-        </fieldset>
+        <!--fieldset id="other-config" class="content-small-footer pr0 pl0">
+
+        </fieldset-->
         <?php echo $this->configForm->getElement('submit')->renderViewHelper(); ?>
     </form>
 </div>

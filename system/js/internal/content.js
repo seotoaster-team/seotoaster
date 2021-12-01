@@ -212,10 +212,16 @@ function dispatchEditorKeyup(editor, event, keyTime) {
     }
 }
 
-function insertFileLink(fileName) {
+function insertFileLink(fileName, fileTitle) {
+	var title = '';
+
+	if(typeof fileTitle !== 'undefined') {
+		title = fileTitle;
+	}
+
     tinymce.activeEditor.execCommand(
 		'mceInsertContent',
 		false,
-		'<a href="' + $('#website_url').val() + 'media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + fileName + '">' + fileName + '</a>'
+		'<a href="' + $('#website_url').val() + 'media/' + $('#adminselectimgfolder').val() + '/' + fileName + '" title="' + title + '">' + fileName + '</a>'
 	);
 }

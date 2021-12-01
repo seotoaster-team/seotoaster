@@ -66,6 +66,8 @@ class Tools_Filesystem_Tools {
 					unset ($foundDirs[$key]);
 				}
 			}
+
+            natcasesort($foundDirs);
 		}
 		return $foundDirs;
 	}
