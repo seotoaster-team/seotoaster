@@ -109,7 +109,7 @@ class Tools_System_Minify {
             $websitePath = parse_url($websiteUrl, PHP_URL_PATH);
             $subFolder = '';
             if (!empty($websitePath)) {
-                $subFolder = rtrim($websitePath, '/');
+                $subFolder = $websitePath;
             }
 
             if ($websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL || $subFolder.$websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL) {
