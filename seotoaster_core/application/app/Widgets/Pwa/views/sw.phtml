@@ -5,7 +5,7 @@
       <?php if(empty($this->scope)):?>
         navigator.serviceWorker.register('<?= $this->websiteUrl ?>sw.js');
       <?php else:?>
-        navigator.serviceWorker.register('<?= $this->websiteUrl ?>sw.js', {scope: '<?php echo $this->scope;?>'});
+        navigator.serviceWorker.register('<?= $this->websiteUrl ?>sw.js', {scope: '<?php echo $this->scope;?>/'});
       <?php endif;?>
     });
   }
