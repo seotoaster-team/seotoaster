@@ -109,10 +109,10 @@ class Tools_System_Minify {
             $websitePath = parse_url($websiteUrl, PHP_URL_PATH);
             $subFolder = '';
             if (!empty($websitePath)) {
-                $subFolder = $websitePath;
+                $subFolder = rtrim($websitePath, '/');
             }
 
-            if ($websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL || $subFolder.$websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL) {
+            if ($websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL || $websiteHelper->getRequest()->getRequestUri() === $subFolder.Tools_Page_Tools::PWA_OFFLINE_PAGE_URL) {
                 $pwaOfflineConcatCssPath = $websiteHelper->getPath().$websiteHelper->getTmp().'offline.concat.min.css';
                 if (!file_exists($pwaOfflineConcatCssPath) || sha1_file($pwaOfflineConcatCssPath) !== sha1($concatCss)) {
                     Tools_Filesystem_Tools::saveFile($pwaOfflineConcatCssPath, $concatCss);
