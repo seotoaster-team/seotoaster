@@ -38,6 +38,15 @@ class Widgets_Pwa_Pwa extends Widgets_Abstract {
 	private function _generateSwOption() {
         if (file_exists('sw.js') && file_exists('manifest.json')) {
             $this->_view->websiteUrl = $this->websiteUrl;
+            $websiteUrl = Zend_Controller_Action_HelperBroker::getStaticHelper('website')->getUrl();
+            $websitePath = parse_url($websiteUrl, PHP_URL_PATH);
+            $scope = '';
+            if (!empty($websitePath)) {
+                $scope = rtrim($websitePath, '/');
+            }
+
+            $this->_view->scope = $scope;
+
             return $this->_view->render('sw.phtml');
         }
         return '';
