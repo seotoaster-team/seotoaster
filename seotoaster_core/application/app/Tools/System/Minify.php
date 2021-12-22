@@ -142,7 +142,7 @@ class Tools_System_Minify {
         foreach ($container->getArrayCopy() as $key => $js) {
             if (isset($js->attributes['src'])) {
                 // Ignore file if file from remote
-                if (strpos($js->attributes['src'], $websiteHelper->getUrl()) === false || isset($js->attributes['noconcat'])) {
+                if (strpos($js->attributes['src'], $websiteHelper->getUrl()) === false || (isset($js->attributes['noconcat']) || isset($js->attributes['data-noconcat']))) {
                     continue;
                 }
 
