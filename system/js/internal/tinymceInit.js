@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = ' stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen |',// fontselect
+        toolbar2 = ' stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen |',// fontselect formatselect
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -31,7 +31,9 @@ $(function(){
         toolbar1                : "bold italic underline alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor | link unlink anchor image media table hr |",
         toolbar2                : toolbar2,
         toolbar_sticky: true,
-        content_css             : $('#reset_css').val()+','+$('#content_css').val(),
+        link_list               : websiteUrl+'backend/backend_page/linkslist/',
+        //content_css             : $('#reset_css').val()+','+$('#content_css').val(),
+        content_css             : $('#content_css').val(),
         importcss_file_filter   : "content.css",
         importcss_append: true,
         importcss_selector_filter: /^(?!\.h1|\.h2|\.h3|\.h4|\.h5|\.h6|\.social-links*|\.callout*|\.callout*|\.panel*|.icon-*|\.icon12|\.icon14|\.icon16|\.icon18|\.icon24|\.icon32|\.icon48|\.toaster-icon|hr\.)/,
@@ -58,10 +60,10 @@ $(function(){
             {title : 'Other styles'}
         ],
         importcss_merge_classes: true,
-        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        //quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        quickbars_selection_toolbar: false,
         fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
-        block_formats: "Block=div;Block Quote=blockquote;Paragraph=p;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6",
-        advlist_number_styles: 'default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman',
+        block_formats: "Block=div;Paragraph=p;Block Quote=blockquote;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6;",
         extended_valid_elements: "a[*],input[*],select[*],textarea[*]",
         image_advtab: true,
         setup : function(ed){
