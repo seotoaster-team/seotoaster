@@ -160,12 +160,20 @@ class Tools_System_FormBlacklist
             $filteredFormParams['ip'] = $ip;
             $filteredFormParams['createdAt'] = $createdAt;
             $filteredFormParams['formName'] = $formName;
-            Apps::apiCall('POST', 'appsValidateLeadFormData', array(), array(
+            $response = Apps::apiCall('POST', 'appsValidateLeadFormData', array(), array(
                 'data' => array(
                     'formParams' => $filteredFormParams
                 )
             ), 1);
-        }
+
+            if (empty($response)) {
+                return false;
+            }
+
+            if (!empty($response['isContentSpam'])) {
+                return true;
+            }
+         }
 
         return false;
     }
