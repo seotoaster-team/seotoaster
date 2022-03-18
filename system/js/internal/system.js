@@ -35,7 +35,7 @@ $(function(){
         e.preventDefault();
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
-        var pheight = link.data('pheight') || 560;
+        var pheight = link.data('pheight') || 570;
         var iframeId = 'toasterPopupDraggable';
 
         if($(link).hasClass('default-popup')) {

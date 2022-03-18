@@ -169,8 +169,8 @@ class Widgets_Page_Page extends Widgets_Abstract {
 		$websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Website');
         $confiHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Config');
 		$pageHelper    = Zend_Controller_Action_HelperBroker::getStaticHelper('Page');
- 		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg)', false, false, false);
-		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg)$~', $files));
+ 		$files         = Tools_Filesystem_Tools::findFilesByExtension($websiteHelper->getPath() . $websiteHelper->getPreview(), '(jpg|gif|png|jpeg|webp)', false, false, false);
+		$pagePreviews  = array_values(preg_grep('~^' . $pageHelper->clean(preg_replace('~/+~', '-', $this->_toasterOptions['url'])) . '\.(png|jpg|gif|jpeg|webp)$~', $files));
 		$fileInfo = array();
 
         $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
