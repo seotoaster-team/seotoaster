@@ -275,6 +275,20 @@ class Backend_FormController extends Zend_Controller_Action {
                     $this->redirect($formParams['formUrl']);
                 }
 
+                if (Tools_System_FormBlacklist::isSpam($formParams)) {
+                    if($xmlHttpRequest){
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+
+                    if(isset($formParams['conversionPageUrl'])) {
+                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                        $this->redirect($conversionPageUrl);
+                    }
+
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->redirect($formParams['formUrl']);
+                }
+
                 $sessionHelper->formName   = $formParams['formName'];
                 $sessionHelper->formPageId = $formParams['formPageId'];
 				unset($formParams['formPageId']);
