@@ -111,6 +111,7 @@ $(function(){
             ed.addButton('darkmode', {
                 text: 'Dark mode',
                 icon: false,
+                tooltip: "Don't see white text? click here",
                 onclick: function() {
                     var tinyContent =  $('#content_ifr').contents().find('body').get(0);
 
