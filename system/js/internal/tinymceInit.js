@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar2 = ' stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen |',// fontselect formatselect
+        toolbar2 = ' stw | styleselect | formatselect | fontsizeselect | pastetext visualblocks code removeformat | fullscreen | darkmode',// fontselect formatselect
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
@@ -34,6 +34,7 @@ $(function(){
         link_list               : websiteUrl+'backend/backend_page/linkslist/',
         //content_css             : $('#reset_css').val()+','+$('#content_css').val(),
         content_css             : $('#content_css').val(),
+        //content_css             : $('#content_css').val()+ ','+ 'dark',
         importcss_file_filter   : "content.css",
         importcss_append: true,
         importcss_selector_filter: /^(?!\.h1|\.h2|\.h3|\.h4|\.h5|\.h6|\.social-links*|\.callout*|\.callout*|\.panel*|.icon-*|\.icon12|\.icon14|\.icon16|\.icon18|\.icon24|\.icon32|\.icon48|\.toaster-icon|hr\.)/,
@@ -77,7 +78,7 @@ $(function(){
             ed.ui.registry.addButton('showMoreButton', {
                 title:'showMoreButton',
                 text: 'Show more widget',
-                onclick : function() {
+                onAction : function(_) {
                     if(showMoreFlag) {
                         var SHOWMORE = '#show-more#';
                         if (ed.getContent().indexOf(SHOWMORE) + 1) {
@@ -110,6 +111,38 @@ $(function(){
                         var newNode = ed.dom.select('span#cursor-position-temp-span');
                         ed.selection.select(newNode[0]);
                         ed.selection.setContent('');
+                    }
+                }
+            });
+            ed.ui.registry.addButton('darkmode', {
+                title:'darkmode',
+                text: 'Dark mode',
+                tooltip: "Don't see white text? click here",
+                onAction: function(_) {
+                    /*var contentCSS = tinymce.activeEditor.contentCSS,
+                        searchDarkModeUrl = websiteUrl+'system/js/external/tinymce5/skins/content/dark/content.min.css',
+                        tinyContent =  $('#content_ifr').contents().find('body').get(0);
+
+                    if(typeof tinyContent !== 'undefined') {
+                        if(contentCSS.indexOf(searchDarkModeUrl) == '-1') {
+                            debugger;
+                            tinymce.activeEditor.contentCSS.push(searchDarkModeUrl);
+                        } else {
+                            debugger;
+                        }
+                    }*/
+
+                    var tinyContent =  $('#content_ifr').contents().find('body').get(0);
+
+                    if(typeof tinyContent !== 'undefined') {
+                        var existStyle = tinyContent.getAttribute('style');
+
+                        if(existStyle) {
+                            tinyContent.style = null;
+                        } else {
+                            tinyContent.style.background = "#2f3742";
+                            tinyContent.style.color = "#dfe0e4";
+                        }
                     }
                 }
             });
