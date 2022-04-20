@@ -5308,6 +5308,9 @@ label[for*="chr-"] {
 #frm_content {
   background: #FFF;
 }
+#frm_content .mce-flow-layout-item {
+  margin-right: 0;
+}
 #edit-content {
   background: #FFF;
 }
