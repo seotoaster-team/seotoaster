@@ -3035,7 +3035,7 @@ body {
 }
 .content-footer,
 .with-content-footer > .ui-tabs-panel {
-  height: 481px;
+  max-height: 481px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
