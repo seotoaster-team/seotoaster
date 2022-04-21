@@ -4752,7 +4752,7 @@ label[for*="chr-"] {
   cursor: pointer;
 }
 #redirects-list {
-  height: 315px;
+  height: 305px;
   overflow: auto;
 }
 #frm-deeplinks .type-url {
