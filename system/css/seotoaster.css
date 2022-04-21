@@ -3017,7 +3017,21 @@ body {
   margin-bottom: 0 !important;
   border-bottom: 10px solid #FFFFFF;
 }
+.content-footer,
 .content,
+.form-content {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.form-content {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
 .with-content > .ui-tabs-panel {
   height: 531px;
   scrollbar-base-color: #C0C0C0;
@@ -3030,34 +3044,16 @@ body {
   overflow: auto;
   overflow-x: hidden;
 }
-.content::-webkit-scrollbar,
 .with-content > .ui-tabs-panel::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
-.content::-webkit-scrollbar-track,
 .with-content > .ui-tabs-panel::-webkit-scrollbar-track {
   background: #bfbfbf;
 }
-.content::-webkit-scrollbar-thumb,
 .with-content > .ui-tabs-panel::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: #4496aa;
-}
-.content-footer {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  max-height: 481px;
-  scrollbar-base-color: #C0C0C0;
-  scrollbar-3dlight-color: #C0C0C0;
-  scrollbar-highlight-color: #C0C0C0;
-  scrollbar-track-color: #EBEBEB;
-  scrollbar-arrow-color: black;
-  scrollbar-shadow-color: #C0C0C0;
-  scrollbar-dark-shadow-color: #C0C0C0;
-  overflow: auto;
-  overflow-x: hidden;
 }
 .with-content-footer > .ui-tabs-panel {
   max-height: 481px;
@@ -3081,18 +3077,6 @@ body {
 .with-content-footer > .ui-tabs-panel::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: #4496aa;
-}
-.content-medium {
-  height: 440px;
-}
-.content-medium-footer {
-  height: 390px;
-}
-.content-small {
-  height: 320px;
-}
-.content-small-footer {
-  height: 270px;
 }
 .content-screen,
 .content-screen-footer {
