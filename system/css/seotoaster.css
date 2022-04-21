@@ -2845,6 +2845,17 @@ body {
   float: left;
   margin-left: 8px;
 }
+.seotoaster.container {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+}
 .header {
   background: #eaeaea;
   color: #666;
@@ -3033,7 +3044,21 @@ body {
   border-radius: 10px;
   background: #4496aa;
 }
-.content-footer,
+.content-footer {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  max-height: 481px;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+  overflow: auto;
+  overflow-x: hidden;
+}
 .with-content-footer > .ui-tabs-panel {
   max-height: 481px;
   scrollbar-base-color: #C0C0C0;
@@ -3046,16 +3071,13 @@ body {
   overflow: auto;
   overflow-x: hidden;
 }
-.content-footer::-webkit-scrollbar,
 .with-content-footer > .ui-tabs-panel::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
-.content-footer::-webkit-scrollbar-track,
 .with-content-footer > .ui-tabs-panel::-webkit-scrollbar-track {
   background: #bfbfbf;
 }
-.content-footer::-webkit-scrollbar-thumb,
 .with-content-footer > .ui-tabs-panel::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: #4496aa;
