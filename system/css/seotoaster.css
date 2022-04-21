@@ -5672,8 +5672,8 @@ label[for*="chr-"] {
   width: 18%;
 }
 #webbuilder-image-only-inner #webbuilder-main-image {
-  height: 275px;
-  line-height: 275px;
+  height: 250px;
+  line-height: 250px;
 }
 #webbuilder-image-only-inner #webbuilder-main-image img {
   max-height: 100%;
