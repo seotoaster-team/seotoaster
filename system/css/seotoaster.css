@@ -3123,6 +3123,11 @@ footer [type="button"] {
   -ms-flex-align: stretch;
   align-items: stretch;
 }
+.f-container .header {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
 .f-wrapper,
 .f-content {
   -webkit-flex: 1 1 auto;
@@ -3131,6 +3136,26 @@ footer [type="button"] {
 }
 .f-content {
   margin: 10px 0;
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-highlight-color: #C0C0C0;
+  scrollbar-track-color: #EBEBEB;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.f-content::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.f-content::-webkit-scrollbar-track {
+  background: #bfbfbf;
+}
+.f-content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #4496aa;
 }
 .f-footer {
   margin: 0 0 10px;

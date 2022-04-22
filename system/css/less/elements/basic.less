@@ -317,6 +317,15 @@ body {
 	align-items            : stretch;
 }
 
+.f-container {
+	.header {
+		-webkit-flex : 0 0 auto;
+		-ms-flex     : 0 0 auto;
+		flex         : 0 0 auto;
+	}
+}
+
+
 .f-wrapper,
 .f-content {
 	-webkit-flex : 1 1 auto;
@@ -325,7 +334,30 @@ body {
 }
 
 .f-content {
-	margin : 10px 0;
+	margin                      : 10px 0;
+	scrollbar-base-color        : #C0C0C0;
+	scrollbar-3dlight-color     : #C0C0C0;
+	scrollbar-highlight-color   : #C0C0C0;
+	scrollbar-track-color       : #EBEBEB;
+	scrollbar-arrow-color       : black;
+	scrollbar-shadow-color      : #C0C0C0;
+	scrollbar-dark-shadow-color : #C0C0C0;
+	overflow                    : auto;
+	overflow-x                  : hidden;
+	
+	&::-webkit-scrollbar {
+		width  : 7px;
+		height : 7px;
+	}
+	
+	&::-webkit-scrollbar-track {
+		background : #bfbfbf;
+	}
+	
+	&::-webkit-scrollbar-thumb {
+		border-radius : 10px;
+		background    : #4496aa;
+	}
 }
 
 .f-footer {
