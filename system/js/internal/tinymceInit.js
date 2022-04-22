@@ -10,7 +10,7 @@ $(function(){
     tinymce.init({
         selector : "textarea.tinymce",
         skin: 'oxide',//'seotoaster'
-        width  : '620px',//'100%''608px',
+        width  : '100%',//'608px',
         height : '450px',
         menubar: false,
         resize: false,
