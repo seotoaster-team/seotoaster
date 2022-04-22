@@ -18,8 +18,10 @@
         </div>
         <div id="folders-list" class="grid_12 items-list"></div>
     </div>
-    <div class="grid_12 footer">
-        <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+    <div class="footer">
+        <div class="grid_12">
+            <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+        </div>
     </div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/folders.js'); ?>
