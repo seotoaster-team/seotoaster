@@ -3129,13 +3129,14 @@ footer [type="button"] {
   flex: 0 0 auto;
 }
 .f-wrapper,
-.f-content {
+.f-content,
+.f-scroll {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
-.f-content {
-  margin: 10px 0;
+.f-content,
+.f-scroll {
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -3146,16 +3147,27 @@ footer [type="button"] {
   overflow: auto;
   overflow-x: hidden;
 }
-.f-content::-webkit-scrollbar {
+.f-content::-webkit-scrollbar,
+.f-scroll::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
-.f-content::-webkit-scrollbar-track {
+.f-content::-webkit-scrollbar-track,
+.f-scroll::-webkit-scrollbar-track {
   background: #bfbfbf;
 }
-.f-content::-webkit-scrollbar-thumb {
+.f-content::-webkit-scrollbar-thumb,
+.f-scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: #4496aa;
+}
+.f-content {
+  margin: 10px 0;
+}
+.f-content .list-title {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 .f-footer {
   margin: 0 0 10px;
@@ -3393,20 +3405,20 @@ form > p,
 .form > p,
 form fieldset > p,
 .form fieldset > p,
-form > div,
-.form > div,
-form fieldset > div,
-.form fieldset > div {
+form > div:not(.f-content),
+.form > div:not(.f-content),
+form fieldset > div:not(.f-content),
+.form fieldset > div:not(.f-content) {
   margin-top: 0.65em;
 }
 form > p:after,
 .form > p:after,
 form fieldset > p:after,
 .form fieldset > p:after,
-form > div:after,
-.form > div:after,
-form fieldset > div:after,
-.form fieldset > div:after {
+form > div:not(.f-content):after,
+.form > div:not(.f-content):after,
+form fieldset > div:not(.f-content):after,
+.form fieldset > div:not(.f-content):after {
   content: "";
   display: table;
   clear: both;
@@ -3415,10 +3427,10 @@ form > p:first-child,
 .form > p:first-child,
 form fieldset > p:first-child,
 .form fieldset > p:first-child,
-form > div:first-child,
-.form > div:first-child,
-form fieldset > div:first-child,
-.form fieldset > div:first-child {
+form > div:not(.f-content):first-child,
+.form > div:not(.f-content):first-child,
+form fieldset > div:not(.f-content):first-child,
+.form fieldset > div:not(.f-content):first-child {
   margin-top: 0;
 }
 form.condensed > p,
