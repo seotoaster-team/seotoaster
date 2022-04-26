@@ -3129,8 +3129,7 @@ footer [type="button"] {
   flex: 0 0 auto;
 }
 .f-wrapper,
-.f-content,
-.f-scroll {
+.f-content {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
