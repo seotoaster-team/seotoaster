@@ -4831,10 +4831,6 @@ label[for*="chr-"] {
   top: 0;
   right: 0px;
 }
-#deeplinks-list {
-  height: 350px;
-  overflow: auto;
-}
 #sculpting-list {
   height: 380px;
   overflow: auto;
