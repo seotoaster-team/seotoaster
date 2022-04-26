@@ -1,12 +1,12 @@
-<div class="seotoaster container">
+<div class="seotoaster f-container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
         'headerText' => $this->editjsForm->getElement('jsname')->removeDecorator('DtDdWrapper'),
         'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
         'helpSection' => $this->helpSection)); ?>
     <?php $this->editjsForm->setAction($this->url()); ?>
-    <form action="<?php echo $this->editjsForm->getAction(); ?>" id="<?php echo $this->editjsForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editjsForm->getMethod(); ?>">
-        <div id="editor" style="height: 450px;"><?php echo $this->editjsForm->getElement('content'); ?></div>
-        <div class="footer">
+    <form action="<?php echo $this->editjsForm->getAction(); ?>" id="<?php echo $this->editjsForm->getId(); ?>" class="f-wrapper grid_12" method="<?php echo $this->editjsForm->getMethod(); ?>">
+        <div id="editor" class="f-content mt5px" style="height: 450px;"><?php echo $this->editjsForm->getElement('content'); ?></div>
+        <div class="f-footer">
             <label class="grid_3 pointer">
                 <?php echo $this->editjsForm->getElement('jsminify'); ?>
                 <?php echo $this->editjsForm->getElement('jsminify')->getLabel(); ?>

@@ -2,9 +2,9 @@
     $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/chosen/chosen.jquery.min.js');
     $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css');
 ?>
-<div class="seotoaster container">
+<div class="seotoaster f-container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
-	<div class="content-footer">
+	<div class="f-content">
         <form id="frm-redirects-search" class="grid_12 form-inline mb10px" action="/backend/backend_seo/loadredirectslist" method="post">
             <div class="grid_10 alpha omega redirect-search-block">
                 <?php echo $this->form->getElement('redirectSearch'); ?>
@@ -35,7 +35,7 @@
 			<div id="redirects-list" class="items-list"></div>
 		</div>
 	</div>
-	<div class="footer">
+	<div class="f-footer">
         <div class="grid_6">
             <a href="javascript:;" id="massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
         </div>
