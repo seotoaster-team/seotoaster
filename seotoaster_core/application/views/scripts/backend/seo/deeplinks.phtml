@@ -3,9 +3,9 @@
     $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css');
 ?>
 
-<div class="seotoaster container refreshOnClose">
+<div class="seotoaster f-container refreshOnClose">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => $this->translate('Add / Edit deeplink') , 'helpSection' => $this->helpSection)); ?>
-	<div class="content-footer">
+	<div class="f-content">
 			<form id="frm-deeplinks" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mb15px form-inline" data-callback="loadDeeplinksList">
 				<div class="grid_5 alpha">
 					<?php echo $this->form->getElement('anchorText'); ?>
@@ -32,7 +32,7 @@
 		</div>
 		<div id="deeplinks-list" class="grid_12 items-list"></div>
 	</div>
-	<div class="footer">
+	<div class="f-footer">
         <div class="grid_6">
             <a href="javascript:;" id="deeplink-massdel-run" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected'); ?> ]</a>
         </div>

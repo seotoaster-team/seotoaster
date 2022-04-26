@@ -1,5 +1,5 @@
 <?php $collapseTitle = $this->translate('collapse'); ?>
-<div class="seotoaster container refreshOnClose">
+<div class="seotoaster f-container refreshOnClose">
     <?php echo $this->partial(
         'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
         array(
@@ -8,7 +8,7 @@
             'helpSection' => $this->helpSection
         )
     ); ?>
-    <div id="sortable-main" class="content-footer scroll">
+    <div id="sortable-main" class="f-content scroll">
 		<?php if(isset($this->tree) && is_array($this->tree) && !empty($this->tree)): ?>
             <?php  foreach($this->tree as $key => $treeData): ?>
                 <div class="category-data" data-menu="<?php echo Application_Model_Models_Page::IN_MAINMENU; ?>" id="<?php echo $treeData['category']->getId(); ?>">
@@ -76,9 +76,13 @@
 		<!-- end no menu -->
         <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>" />
 	</div>
-	<div class="grid_12 footer">
-		<a href="javascript:;" id="mass-del" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected');?> ]</a>
-        <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+	<div class="f-footer">
+        <div class="grid_6">
+            <a href="javascript:;" id="mass-del" class="delete-selected btn link error">[ <?php echo $this->translate('Delete selected');?> ]</a>
+        </div>
+        <div class="grid_6">
+            <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+        </div>
 	</div>
 </div>
 <?php $this->headScript()

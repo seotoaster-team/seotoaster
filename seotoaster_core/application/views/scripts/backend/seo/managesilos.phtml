@@ -1,5 +1,5 @@
-<div class="seotoaster container">
-    <div class="content-footer">
+<div class="seotoaster f-container">
+    <div class="f-content">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12 mb15px form-inline" data-callback="siloslist">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
@@ -12,7 +12,7 @@
 		</div>
 		<div id="silos-list" class="grid_12 items-list scroll"></div>
 	</div>
-	<div class="footer">
+	<div class="f-footer">
         <div class="grid_12">
             <a href="javascript:;" id="mass-del" class="delete-selected btn block error"><?php echo $this->translate('Delete selected');?></a>
         </div>
