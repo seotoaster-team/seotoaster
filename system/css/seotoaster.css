@@ -4831,10 +4831,6 @@ label[for*="chr-"] {
   top: 0;
   right: 0px;
 }
-#sculpting-list {
-  height: 380px;
-  overflow: auto;
-}
 #sculpting-list .sculpting-row {
   background: #fafafa;
   padding: 10px;
