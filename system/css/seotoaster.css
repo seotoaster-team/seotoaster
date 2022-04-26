@@ -4817,10 +4817,6 @@ label[for*="chr-"] {
   width: 50%;
   cursor: pointer;
 }
-#redirects-list {
-  height: 315px;
-  overflow: auto;
-}
 #frm-deeplinks .type-url {
   position: relative;
 }
