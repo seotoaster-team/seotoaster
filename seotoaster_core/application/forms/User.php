@@ -268,7 +268,7 @@ class Application_Form_User extends Application_Form_Secure {
 			'name'   => 'saveUser',
 			'id'     => 'save-user',
 			'value'  => $translator->translate('Save user'),
-			'class'  => 'btn',
+			'class'  => 'btn mt0px',
 			'ignore' => true,
 			'label'  => $translator->translate('Save user'),
 			'escape' => false

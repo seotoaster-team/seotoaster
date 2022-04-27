@@ -4,7 +4,7 @@
 ?>
 <div class="seotoaster f-container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
-	<div class="f-content">
+	<div class="f-content f-container">
         <form id="frm-redirects-search" class="grid_12 form-inline mb10px" action="/backend/backend_seo/loadredirectslist" method="post">
             <div class="grid_10 alpha omega redirect-search-block">
                 <?php echo $this->form->getElement('redirectSearch'); ?>
@@ -31,8 +31,8 @@
 			<div class="grid_5 alpha omega ml-grid mr-grid"><?php echo $this->translate('Former url'); ?></div>
 			<div class="grid_6 mr0"><?php echo $this->translate('New url'); ?></div>
 		</div>
-		<div id="redirects-box" class="grid_12">
-			<div id="redirects-list" class="items-list"></div>
+		<div id="redirects-box" class="f-scroll grid_12">
+			<div id="redirects-list"></div>
 		</div>
 	</div>
 	<div class="f-footer">

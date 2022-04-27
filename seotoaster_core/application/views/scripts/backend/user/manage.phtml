@@ -1,6 +1,6 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js')
     ->addJavascriptFile($this->websiteUrl.'system/js/external/tinymce/tinymce.min.js');?>
-<div class="seotoaster container">
+<div class="seotoaster f-container">
     <?php $innerHtml = '<input class="grid_4 mt5px fl-right" data-default-attr="remoteLoginRedirect" name="remoteLoginRedirect" id="remote-login-redirect" value="'.$this->remoteLoginRedirect.'" placeholder="'.$this->translate('Remote login redirect url').'">';?>
     <?php $innerHtml = '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'.$innerHtml;?>
     <?php if (empty($this->oldMobileFormat)) :?>
@@ -13,7 +13,7 @@
         'innerHeaderHtml' => $innerHtml
 
     )); ?>
-	<div class="content-footer mb40px grid_12">
+	<div class="f-content mb40px grid_12">
 		<div id="add-user" class="show-right">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
@@ -97,7 +97,7 @@
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
                 <div class="grid_12 alpha omega">
                     <div class="prefix_2 grid_6 text-right omega">
-                        <input type="button" id="send-email-invite" class="btn mt15px" value="<?php echo $this->translate('Save & email invite');?>"/>
+                        <input type="button" id="send-email-invite" class="btn" value="<?php echo $this->translate('Save & email invite');?>"/>
                     </div>
                     <div class="grid_4 alpha">
                         <?php echo $this->userForm->getElement('saveUser'); ?>
@@ -212,8 +212,10 @@
 			</tbody>
 		</table>
 	</div>
-    <div class="footer grid_12 text-right">
-        <?php echo $this->pager; ?>
+    <div class="f-footer">
+        <div class="grid_12 text-right">
+            <?php echo $this->pager; ?>
+        </div>
     </div>
     <input type="hidden" name="custom-delete-message" id="custom-delete-message" value="<?php echo $this->userDeleteCustomMessage;?>">
 </div>
