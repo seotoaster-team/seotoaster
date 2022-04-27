@@ -1,5 +1,5 @@
 <div class="seotoaster f-container">
-    <div class="f-content">
+    <div class="f-content f-container">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12 mb15px form-inline" data-callback="siloslist">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
@@ -10,7 +10,7 @@
 			<div class="grid_9"><?php echo $this->translate('Name'); ?></div>
 			<div class="grid_2 text-center"><?php echo $this->translate('Action'); ?></div>
 		</div>
-		<div id="silos-list" class="grid_12 items-list scroll"></div>
+		<div id="silos-list" class="grid_12 items-list f-scroll"></div>
 	</div>
 	<div class="f-footer">
         <div class="grid_12">
@@ -24,7 +24,8 @@
 		$('#addSilo-label').hide();
 		siloslist();
 
-		$('.check-all-silos').click(function() {
+        $(document).on('change', 'input.check-all-silos', function(e){
+            e.preventDefault();
 			$('.rem-silos').prop('checked', ($(this).prop('checked')) ? true : false);
 		});
 
