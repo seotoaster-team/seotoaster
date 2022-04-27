@@ -317,6 +317,15 @@ body {
 	align-items            : stretch;
 }
 
+.flex-column {
+	display                : -ms-flexbox;
+	display                : -webkit-flex;
+	display                : flex;
+	-webkit-flex-direction : column;
+	-ms-flex-direction     : column;
+	flex-direction         : column;
+}
+
 .f-container {
 	.header {
 		-webkit-flex : 0 0 auto;
@@ -362,7 +371,8 @@ body {
 
 .f-content {
 	margin : 10px 0;
-	.list-title{
+	
+	.list-title {
 		-webkit-flex : 0 0 auto;
 		-ms-flex     : 0 0 auto;
 		flex         : 0 0 auto;
