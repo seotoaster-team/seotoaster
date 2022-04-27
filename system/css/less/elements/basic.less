@@ -333,8 +333,8 @@ body {
 	flex         : 1 1 auto;
 }
 
-.f-content {
-	margin                      : 10px 0;
+.f-content,
+.f-scroll {
 	scrollbar-base-color        : #C0C0C0;
 	scrollbar-3dlight-color     : #C0C0C0;
 	scrollbar-highlight-color   : #C0C0C0;
@@ -357,6 +357,15 @@ body {
 	&::-webkit-scrollbar-thumb {
 		border-radius : 10px;
 		background    : #4496aa;
+	}
+}
+
+.f-content {
+	margin : 10px 0;
+	.list-title{
+		-webkit-flex : 0 0 auto;
+		-ms-flex     : 0 0 auto;
+		flex         : 0 0 auto;
 	}
 }
 
