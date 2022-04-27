@@ -1,6 +1,6 @@
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/maskedinput/jquery.maskedinput.js')
     ->addJavascriptFile($this->websiteUrl.'system/js/external/tinymce/tinymce.min.js');?>
-<div class="seotoaster container">
+<div class="seotoaster f-container">
     <?php $innerHtml = '<input class="grid_4 mt5px fl-right" data-default-attr="remoteLoginRedirect" name="remoteLoginRedirect" id="remote-login-redirect" value="'.$this->remoteLoginRedirect.'" placeholder="'.$this->translate('Remote login redirect url').'">';?>
     <?php $innerHtml = '<form id="expusrs" action="' . $this->websiteUrl . 'backend/backend_user/export/" method="post"><a href="javascript:;" id="export-users">[ '. $this->translate('export as csv file') . ' ]</a></form>'.$innerHtml;?>
     <?php if (empty($this->oldMobileFormat)) :?>
@@ -13,7 +13,7 @@
         'innerHeaderHtml' => $innerHtml
 
     )); ?>
-	<div class="content-footer mb40px grid_12">
+	<div class="f-content flex-column mb40px grid_12">
 		<div id="add-user" class="show-right">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
@@ -97,7 +97,7 @@
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/ >
                 <div class="grid_12 alpha omega">
                     <div class="prefix_2 grid_6 text-right omega">
-                        <input type="button" id="send-email-invite" class="btn mt15px" value="<?php echo $this->translate('Save & email invite');?>"/>
+                        <input type="button" id="send-email-invite" class="btn" value="<?php echo $this->translate('Save & email invite');?>"/>
                     </div>
                     <div class="grid_4 alpha">
                         <?php echo $this->userForm->getElement('saveUser'); ?>
@@ -107,55 +107,57 @@
 			</form>
 		</div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
-        <div id="switch-default-params-block" class="grid_12 alpha omega">
-            <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
-                  array_pop($timezones);
-                  $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
-            ?>
-            <p class="grid_6 alpha">
-                <label class="grid_5 mt5px"><?php echo $this->translate('Default timezone');?>:</label>
-                <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_7 omega">
-                    <?php foreach($timezones as $timezone):?>
-                        <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
-                    <?php endforeach;?>
-                </select>
-            </p>
-            <p class="grid_6 omega">
-                <label class="grid_7 mt5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
-                <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 omega">
-                    <?php foreach($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel):?>
-                        <option <?php echo (((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected': '');?> value="<?php echo $mobilePhoneCountryCode;?>"><?php echo $mobilePhoneCountryCodeLabel;?></option>
-                    <?php endforeach;?>
-                </select>
-            </p>
-        </div>
-        <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
-            <div class="grid_3 alpha">
-                <?php
-                $acl = Zend_Registry::get('acl');
-                $roles = array_filter($acl->getRoles(), function($role){
-                    return (($role !== Tools_Security_Acl::ROLE_SUPERADMIN) && $role !== Tools_Security_Acl::ROLE_GUEST);
-                });
-                asort($roles);
+        <div class="grid_12">
+            <div id="switch-default-params-block" class="grid_12 alpha omega">
+                <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+                      array_pop($timezones);
+                      $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
                 ?>
+                <p class="grid_6 alpha">
+                    <label class="grid_5 mt5px"><?php echo $this->translate('Default timezone');?>:</label>
+                    <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_7 omega">
+                        <?php foreach($timezones as $timezone):?>
+                            <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
+                        <?php endforeach;?>
+                    </select>
+                </p>
+                <p class="grid_6 omega">
+                    <label class="grid_7 mt5px"><?php echo $this->translate('Default desktop/mobile country code');?>:</label>
+                    <select data-default-attr="userDefaultPhoneMobileCode" id="user-default-mobile-phone-country-code" name="user-default-mobile-phone-country-code" class="grid_5 omega">
+                        <?php foreach($this->mobilePhoneCountryCodes as $mobilePhoneCountryCode => $mobilePhoneCountryCodeLabel):?>
+                            <option <?php echo (((!empty($this->userDefaultMobileCountryCode) && $mobilePhoneCountryCode === $this->userDefaultMobileCountryCode)) ? 'selected': '');?> value="<?php echo $mobilePhoneCountryCode;?>"><?php echo $mobilePhoneCountryCodeLabel;?></option>
+                        <?php endforeach;?>
+                    </select>
+                </p>
+            </div>
+            <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+                <div class="grid_3 alpha">
+                    <?php
+                    $acl = Zend_Registry::get('acl');
+                    $roles = array_filter($acl->getRoles(), function($role){
+                        return (($role !== Tools_Security_Acl::ROLE_SUPERADMIN) && $role !== Tools_Security_Acl::ROLE_GUEST);
+                    });
+                    asort($roles);
+                    ?>
 
-                <select id="filter-by-user-role" name="filter-by-user-role" class="grid_12 alpha omega">
-                    <option value="0"><?php echo $this->translate('Filter by role');?></option>
-                    <option value="superadmin" <?php echo ($this->userRole == 'superadmin') ? 'selected' : '';?>><?php echo $this->translate('Superadmin');?></option>
-                    <?php foreach($roles as $role) :?>
-                        <option value="<?php echo $role;?>" <?php echo ($this->userRole == $role) ? 'selected' : '';?>><?php echo $this->translate(ucfirst($role));?></option>
-                    <?php endforeach;?>
-                </select>
-            </div>
-            <div class="grid_8 alpha omega mt0px">
-                <input class="<?php echo ($this->key != '' || $this->userRole != null) ? 'grid_7' : 'grid_8';?> alpha omega search-input" type="text" name="key" value="<?php echo $this->key ?>">
-                <button class="btn grid_4 alpha omega mt0px ticon-search search-btn" type="submit"><?php echo $this->translate('Search'); ?></button>
-                <span class="btn alpha grid_1 mt0px search-btn-clear" style="display:<?php echo ($this->key != '' || $this->userRole != null) ? 'block' : 'none';?>"><?php echo $this->translate('X'); ?></span>
-            </div>
-        </form>
-		<?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
-        <span class="clearfix"></span>
-		<table id="users-list" class="table-striped mt15px">
+                    <select id="filter-by-user-role" name="filter-by-user-role" class="grid_12 alpha omega">
+                        <option value="0"><?php echo $this->translate('Filter by role');?></option>
+                        <option value="superadmin" <?php echo ($this->userRole == 'superadmin') ? 'selected' : '';?>><?php echo $this->translate('Superadmin');?></option>
+                        <?php foreach($roles as $role) :?>
+                            <option value="<?php echo $role;?>" <?php echo ($this->userRole == $role) ? 'selected' : '';?>><?php echo $this->translate(ucfirst($role));?></option>
+                        <?php endforeach;?>
+                    </select>
+                </div>
+                <div class="grid_8 alpha omega mt0px">
+                    <input class="<?php echo ($this->key != '' || $this->userRole != null) ? 'grid_7' : 'grid_8';?> alpha omega search-input" type="text" name="key" value="<?php echo $this->key ?>">
+                    <button class="btn grid_4 alpha omega mt0px ticon-search search-btn" type="submit"><?php echo $this->translate('Search'); ?></button>
+                    <span class="btn alpha grid_1 mt0px search-btn-clear" style="display:<?php echo ($this->key != '' || $this->userRole != null) ? 'block' : 'none';?>"><?php echo $this->translate('X'); ?></span>
+                </div>
+            </form>
+            <?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
+            <span class="clearfix"></span>
+        </div>
+		<table id="users-list" class="table-striped mt15px grid_12 f-scroll">
 			<thead>
 				<tr>
 					<th>
@@ -212,8 +214,10 @@
 			</tbody>
 		</table>
 	</div>
-    <div class="footer grid_12 text-right">
-        <?php echo $this->pager; ?>
+    <div class="f-footer">
+        <div class="grid_12 text-right">
+            <?php echo $this->pager; ?>
+        </div>
     </div>
     <input type="hidden" name="custom-delete-message" id="custom-delete-message" value="<?php echo $this->userDeleteCustomMessage;?>">
 </div>

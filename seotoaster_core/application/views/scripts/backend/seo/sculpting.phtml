@@ -1,12 +1,12 @@
 <div class="seotoaster f-container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage Page Rank Sculpting', 'helpSection' => $this->helpSection)); ?>
-	<div class="f-content">
+	<div class="f-content f-container">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->url(); ?>" class="_fajax grid_12 mb15px form-inline" data-callback="sculptingCallback">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
             <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
 		</form>
-		<div id="sculpting-list" class="grid_12"></div>
+		<div id="sculpting-list" class="f-scroll grid_12"></div>
 	</div>
 	<div class="f-footer" id="button-wrapper">
         <div class="grid_6">
