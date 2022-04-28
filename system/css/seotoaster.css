@@ -3176,6 +3176,9 @@ footer [type="button"] {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
+.f-content table[class*="grid_"] {
+  display: table;
+}
 .f-footer {
   margin: 0 0 10px;
   height: 30px;
