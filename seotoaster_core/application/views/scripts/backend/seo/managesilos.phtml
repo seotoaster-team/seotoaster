@@ -1,4 +1,5 @@
 <div class="seotoaster f-container">
+    <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage silos')); ?>
     <div class="f-content f-container">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->websiteUrl;?>backend/backend_seo/sculpting/" class="_fajax grid_12 mb15px form-inline" data-callback="siloslist">
             <?php echo $this->siloForm->getElement('name'); ?>
