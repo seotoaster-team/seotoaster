@@ -21,7 +21,7 @@
 					<a class="hide-block ticon-chevron-right" href="javascript:;" title="Close"></a>
 				</div>
 			</div>
-			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="_fajax grid_12 mt15px" data-callback="userCallback">
+			<form id="frm-user" action="<?php echo $this->url(); ?>" method="post" class="f-scroll _fajax grid_12 mt15px" data-callback="userCallback">
                 <div class="grid_3 omega">
                     <?php echo $this->userForm->getElement('prefix'); ?>
                 </div>
@@ -107,7 +107,7 @@
 			</form>
 		</div>
         <input type="hidden" id="secure-token-user-default-attribute" name="secureTokenUserDefaultAttribute" value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_USERS);?>"/ >
-        <div class="grid_12">
+        <div>
             <div id="switch-default-params-block" class="grid_12 alpha omega">
                 <?php $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
                       array_pop($timezones);
@@ -157,7 +157,7 @@
             <?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
             <span class="clearfix"></span>
         </div>
-		<table id="users-list" class="table-striped mt15px grid_12 f-scroll">
+		<table id="users-list" class="table-striped mt15px f-scroll">
 			<thead>
 				<tr>
 					<th>
