@@ -3131,10 +3131,16 @@ footer [type="button"] {
   -ms-flex-direction: column;
   flex-direction: column;
 }
+.f-container {
+  height: 100%;
+}
 .f-container .header {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
+}
+.f-wrapper {
+  overflow: hidden;
 }
 .f-wrapper,
 .f-content {
