@@ -3143,6 +3143,9 @@ footer [type="button"] {
   position: absolute;
   right: 0;
 }
+.f-container .ui-tabs-panel {
+  padding: 0;
+}
 .f-wrapper {
   overflow: hidden;
 }
