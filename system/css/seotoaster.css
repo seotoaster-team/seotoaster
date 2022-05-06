@@ -3139,6 +3139,10 @@ footer [type="button"] {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
+.f-container .closebutton {
+  position: absolute;
+  right: 0;
+}
 .f-wrapper {
   overflow: hidden;
 }
