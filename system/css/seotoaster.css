@@ -3144,7 +3144,8 @@ footer [type="button"] {
   right: 0;
 }
 .f-container .ui-tabs-panel {
-  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 .f-wrapper {
   overflow: hidden;
