@@ -3195,8 +3195,7 @@ footer [type="button"] {
 }
 .f-footer {
   margin: 0 0 10px;
-  height: 30px;
-  line-height: 30px;
+  line-height: 1.5;
 }
 .f-footer [type="submit"] {
   margin: 0;
