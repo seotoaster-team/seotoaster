@@ -1,6 +1,6 @@
 $(function(){
     var websiteUrl = $('#website_url').val(),
-        toolbar = 'bold italic underline alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor link unlink anchor image media table hr styleselect formatselect fontsizeselect pastetext visualblocks removeformat wordcount searchreplace codesample code fullscreen stw darkmode ',
+        toolbar = 'bold italic underline lineheight alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor link unlink anchor image media table hr styleselect formatselect fontsizeselect pastetext visualblocks removeformat wordcount searchreplace codesample code fullscreen stw darkmode ',
         showMoreFlag = $('.show-more-content-widget').length;
 
     if(showMoreFlag){
