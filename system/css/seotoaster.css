@@ -3008,7 +3008,7 @@ body {
 }
 .content,
 .with-content > .ui-tabs-panel {
-  height: 520px;
+  height: 531px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -3035,7 +3035,7 @@ body {
 }
 .content-footer,
 .with-content-footer > .ui-tabs-panel {
-  height: 470px;
+  height: 481px;
   scrollbar-base-color: #C0C0C0;
   scrollbar-3dlight-color: #C0C0C0;
   scrollbar-highlight-color: #C0C0C0;
@@ -5308,6 +5308,9 @@ label[for*="chr-"] {
 #frm_content {
   background: #FFF;
 }
+#frm_content .mce-flow-layout-item {
+  margin-right: 0;
+}
 #edit-content {
   background: #FFF;
 }
@@ -5422,7 +5425,7 @@ label[for*="chr-"] {
   color: #666;
 }
 #adminthingsviewer .ui-accordion-content.show_div.full-screen .list-images {
-  height: 500px;
+  height: 511px;
 }
 #adminthingsviewer .ui-accordion-content.show_div.full-screen a {
   width: 9%;

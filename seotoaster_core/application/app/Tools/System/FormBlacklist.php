@@ -149,5 +149,85 @@ class Tools_System_FormBlacklist
         return false;
     }
 
+    public static function isSpam($params = array())
+    {
+        if (!empty($params)) {
+            $createdAt = Tools_System_Tools::convertDateFromTimezone('now');
+            $ip = self::getIpAddress();
+            $formName = $params['formName'];
+            $cleanedFormParams = self::cleanFormData($params);
+            $filteredFormParams = $cleanedFormParams;
+            $filteredFormParams['ip'] = $ip;
+            $filteredFormParams['createdAt'] = $createdAt;
+            $filteredFormParams['formName'] = $formName;
+            $response = Apps::apiCall('POST', 'appsValidateLeadFormData', array(), array(
+                'data' => array(
+                    'formParams' => $filteredFormParams
+                )
+            ), 1);
+
+            if (empty($response)) {
+                return false;
+            }
+
+            if (!empty($response['isContentSpam'])) {
+                return true;
+            }
+         }
+
+        return false;
+    }
+
+    public static function getIpAddress()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return $ip;
+    }
+
+    /**
+     * Clean form data fields
+     *
+     * @param array $data form data
+     * @return mixed
+     */
+    public static function cleanFormData($data)
+    {
+        if (!empty($data['formName'])) {
+            $formName = $data['formName'];
+            $formModel = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
+            if ($formModel instanceof Application_Model_Models_Form) {
+                unset($data[md5($formName . $formModel->getId())]);
+            }
+        }
+
+        unset($data['controller']);
+        unset($data['action']);
+        unset($data['module']);
+        unset($data['formName']);
+        unset($data['captcha']);
+        unset($data['captchaId']);
+        unset($data['recaptcha']);
+        unset($data['recaptcha_challenge_field']);
+        unset($data['recaptcha_response_field']);
+        unset($data['formPageId']);
+        unset($data['submit']);
+        unset($data['uploadLimitSize']);
+        unset($data['g-recaptcha-response']);
+        unset($data['run']);
+        unset($data['handle']);
+        unset($data['pid']);
+        if (isset($data['conversionPageUrl'])) {
+            unset($data['conversionPageUrl']);
+        }
+
+        return $data;
+    }
 
 }
