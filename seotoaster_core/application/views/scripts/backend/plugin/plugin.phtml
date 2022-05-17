@@ -1,10 +1,10 @@
-<div class="seotoaster container">
+<div class="seotoaster f-container">
     <?php echo $this->partial(
         'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
         array('headerText' => 'Manage plugins', 'helpSection' => $this->helpSection)
     ); ?>
 
-    <div class="content">
+    <div class="f-content">
         <!--  Plugin upload box  -->
         <div id="upload-plugin" class="grid_12">
             <div class="grid_5 alpha"><?php if (extension_loaded('zip')): ?>
@@ -38,7 +38,7 @@
         <!--  /Plugin upload box  -->
 
         <!--  Plugins tabs  -->
-        <div class="grid_12 mt10px">
+        <div class="f-scroll grid_12 mt10px">
             <?php
             $this->tabPane(
                 'plugintab',
