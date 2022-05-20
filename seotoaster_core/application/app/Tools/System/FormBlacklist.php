@@ -160,9 +160,44 @@ class Tools_System_FormBlacklist
             $filteredFormParams['ip'] = $ip;
             $filteredFormParams['createdAt'] = $createdAt;
             $filteredFormParams['formName'] = $formName;
+
+            $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+            $websitePathTemp = $websiteHelper->getPath().$websiteHelper->getTmp();
+            $uploader = new Zend_File_Transfer_Adapter_Http();
+            $uploader->setDestination($websitePathTemp);
+            $uploader->addValidator('Extension', false, Backend_FormController::ATTACHMENTS_FILE_TYPES);
+            //Adding Size limitation
+            $uploader->addValidator('Size', false, $params['uploadLimitSize']*1024*1024);
+            //Adding mime types validation
+            $uploader->addValidator('MimeType', true, array('application/pdf','application/xml', 'application/zip', 'text/csv', 'text/plain', 'image/png','image/jpeg',
+                'image/gif', 'image/bmp', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
+            $files = $uploader->getFileInfo();
+
+            $filesDataToNotify = array();
+            if (!empty($files)) {
+                foreach ($files as $file => $fileInfo) {
+                    if ($fileInfo['name'] != '') {
+                        if ($uploader->isValid($file)) {
+                            //$uploader->receive($file);
+                            $storedData = self::generateStoredName($fileInfo);
+                            $file = file_get_contents($uploader->getFileName($file));
+                            if ($file) {
+                                $filesDataToNotifyInfo = array(
+                                    'fileExtension' => $storedData['fileExtension'],
+                                    'fileName' => $storedData['fileName'],
+                                    'file' => base64_encode($file)
+                                );
+                            }
+                            $filesDataToNotify[] = $filesDataToNotifyInfo;
+                        }
+                    }
+                }
+            }
+
             $response = Apps::apiCall('POST', 'appsValidateLeadFormData', array(), array(
                 'data' => array(
-                    'formParams' => $filteredFormParams
+                    'formParams' => $filteredFormParams,
+                    'formFilesData' => $filesDataToNotify
                 )
             ), 1);
 
@@ -177,6 +212,33 @@ class Tools_System_FormBlacklist
 
         return false;
     }
+
+    /**
+     * Generate stored and hash
+     *
+     * @param array $file file info
+     * @return array
+     * @throws Zend_Exception
+     */
+    public static function generateStoredName($file)
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        $storedData = array();
+
+        preg_match('~[^\x00-\x1F"<>\|:\*\?/]+\.[\w\d]{2,8}$~iU', $file['name'], $match);
+        if (!$match) {
+            $storedData['error'] = array('result' => $translator->translate('Corrupted filename'), 'error' => 1);
+        }
+
+        $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
+
+        $storedData['fileExtension'] = $fileExtension;
+        $storedData['fileName'] = $fileName;
+
+        return $storedData;
+    }
+
 
     public static function getIpAddress()
     {
