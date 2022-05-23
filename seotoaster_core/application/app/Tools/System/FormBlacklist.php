@@ -177,17 +177,15 @@ class Tools_System_FormBlacklist
             if (!empty($files)) {
                 foreach ($files as $file => $fileInfo) {
                     if ($fileInfo['name'] != '') {
-                        if ($uploader->isValid($file)) {
-                            //$uploader->receive($file);
-                            $storedData = self::generateStoredName($fileInfo);
-                            $file = file_get_contents($uploader->getFileName($file));
-                            if ($file) {
-                                $filesDataToNotifyInfo = array(
-                                    'fileExtension' => $storedData['fileExtension'],
-                                    'fileName' => $storedData['fileName'],
-                                    'file' => base64_encode($file)
-                                );
-                            }
+                        $storedData = self::generateStoredName($fileInfo);
+                        $file = file_get_contents($uploader->getFileName($file));
+                        if ($file) {
+                            $filesDataToNotifyInfo = array(
+                                'fileExtension' => $storedData['fileExtension'],
+                                'fileName' => $storedData['fileName'],
+                                'file' => base64_encode($file)
+                            );
+
                             $filesDataToNotify[] = $filesDataToNotifyInfo;
                         }
                     }
