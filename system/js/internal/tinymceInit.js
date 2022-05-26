@@ -124,6 +124,30 @@ $(function(){
                         ed.selection.setContent('');
                     }
                 }
+
+                if (editor.command === 'mceFullScreen') {
+                    var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
+                    popup.toggleClass('screen-expand');
+                    var $tabs = $('#tabs'),
+                        height = $tabs.height(),
+                        tabNavHeight = $tabs.find('.ui-tabs-nav').height(),
+                        $tabHeader = $tabs.find('#adminthingsviewer .ui-accordion-header'),
+                        tabHeaderLenght = $tabHeader.length,
+                        tabHeaderHeight = $tabHeader.outerHeight(),
+                        tabFolderFieldHeight = $tabs.find('#adminselectimgfolder').outerHeight(),
+                        tabProductButton = $tabs.find('#btn-create').outerHeight(),
+                        tabNetContentButton = $tabs.find('#widgetSync').outerHeight() + 5;
+
+                    $tabs.find('#adminthingsviewer .ui-accordion-content').css({
+                        'max-height' : height - tabNavHeight - (tabHeaderHeight + 2) * tabHeaderLenght  - tabFolderFieldHeight - 30
+                    });
+                    $tabs.find('#product-products').css({
+                        'height' : height - tabNavHeight - tabProductButton - 116
+                    });
+                    $tabs.find('.netcontent-widget-list').css({
+                        'height' : height - tabNavHeight - tabNetContentButton - 12
+                    });
+                }
             });
             ed.ui.registry.addButton('darkmode', {
                 title:'darkmode',
