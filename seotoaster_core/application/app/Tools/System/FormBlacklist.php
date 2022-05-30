@@ -2,6 +2,9 @@
 
 class Tools_System_FormBlacklist
 {
+
+    const ATTACHMENTS_FILE_TYPES = 'xml,csv,doc,zip,jpg,png,bmp,gif,xls,pdf,docx,txt,xlsx,jpeg';
+
     /**
      * Check whether params are blacklisted
      *
@@ -165,7 +168,7 @@ class Tools_System_FormBlacklist
             $websitePathTemp = $websiteHelper->getPath().$websiteHelper->getTmp();
             $uploader = new Zend_File_Transfer_Adapter_Http();
             $uploader->setDestination($websitePathTemp);
-            $uploader->addValidator('Extension', false, Backend_FormController::ATTACHMENTS_FILE_TYPES);
+            $uploader->addValidator('Extension', false, self::ATTACHMENTS_FILE_TYPES);
             //Adding Size limitation
             $uploader->addValidator('Size', false, $params['uploadLimitSize']*1024*1024);
             //Adding mime types validation
