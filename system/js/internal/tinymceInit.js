@@ -19,7 +19,7 @@ $(function(){
         relative_urls: false,
         statusbar: false,
         allow_script_urls: true,
-        force_p_newlines: false,
+        force_p_newlines: true,
         force_br_newlines : true,
         forced_root_block: '',
         remove_linebreaks : false,
