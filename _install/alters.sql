@@ -800,6 +800,9 @@ ALTER TABLE `user` ADD COLUMN `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT
 -- version: 3.4.0
 INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('wraplinks', '0');
 
+-- 10/06/2022
+-- version: 3.4.1
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.4.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.4.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

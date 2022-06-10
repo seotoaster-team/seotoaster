@@ -38,7 +38,7 @@ class Application_Form_Template extends Application_Form_Secure
                 'decorators' => array('ViewHelper', 'Label'),
                 'validators' => array(
                     array('stringLength', false, array(3, 45)),
-                    new Zend_Validate_Regex(array('pattern' => '/^[\s\w-_]*$/u'))
+                    new Zend_Validate_Regex(array('pattern' => '/^[\s\w\-_]*$/u'))
                 )
             )
         );
