@@ -3,7 +3,7 @@
            ->appendFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js')
            ->appendFile($this->websiteUrl . 'system/js/external/aceajax/mode-html.js')
            ->appendFile($this->websiteUrl . 'system/js/internal/theme.min.js'); ?>
-<div class="seotoaster-block seotoaster container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
+<div class="seotoaster-block seotoaster f-container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
     : 'refreshOnClose'; ?>">
     <?php echo $this->partial(
         'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
@@ -14,45 +14,51 @@
             'helpSection'     => $this->helpSection
         )
     ); ?>
-    <div class="content">
+    <div class="f-wrapper">
         <div id="templatelist" class="show-right"></div>
         <div id="listpages" class="show-right"></div>
         <?php $this->templateForm->setAction($this->url()); ?>
         <form action="<?php echo $this->templateForm->getAction(); ?>" id="<?php echo $this->templateForm->getId(); ?>"
-              method="<?php echo $this->templateForm->getMethod(); ?>" class="grid_12">
-            <div class="grid_4 alpha">
-                <?php echo $this->templateForm->getElement('name'); ?>
+              method="<?php echo $this->templateForm->getMethod(); ?>" class="grid_12 f-wrapper">
+            <div class="f-content">
+                <div class="grid_4 alpha mb5px">
+                    <?php echo $this->templateForm->getElement('name'); ?>
+                </div>
+                <div class="fl-left mt0px mb5px">
+                    <?php echo $this->templateForm->getElement('templateType'); ?>
+                </div>
+                <?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
+                    <div id="other-templates" class="fl-right mt2em">
+                        <a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate(
+                                'Edit other templates'
+                            ); ?> ]</a>
+                    </div>
+                    <div id="other-listpages" class="wrap text-center mt2em">
+                        <a id="listpages-btn" href="javascript:;">
+                            [ <?php echo $this->translate(
+                                'Used in %s pages',
+                                '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'
+                            ); ?> ]
+                        </a>
+                    </div>
+                <?php endif; ?>
+                <div class="grid_12 alpha omega">
+                    <div id="edittemplate" class="" style="height: 385px">
+                        <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
+                    </div>
+                </div>
+                <?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
+                <?php echo $this->templateForm->getElement('pageId'); ?>
+                <input class="template-secure-token" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
             </div>
-            <div class="fl-left mt0px">
-                <?php echo $this->templateForm->getElement('templateType'); ?>
-            </div>
-            <?php if ($this->templateForm->getElement('id')->getValue() != ''): ?>
-                <div id="other-templates" class="fl-right mt2em">
-                    <a id="listtemplates-btn" href="javascript:;">[ <?php echo $this->translate(
-                            'Edit other templates'
-                        ); ?> ]</a>
-                </div>
-                <div id="other-listpages" class="wrap text-center mt2em">
-                    <a id="listpages-btn" href="javascript:;">
-                        [ <?php echo $this->translate(
-                            'Used in %s pages',
-                            '<span id="pcount">' . $this->pagesUsingTemplate . '</span>'
-                        ); ?> ]
-                    </a>
-                </div>
-            <?php endif; ?>
-            <div class="grid_12 alpha omega">
-                <div id="edittemplate" class="" style="height: 385px">
-                    <?php echo $this->templateForm->getElement('content')->renderViewHelper(); ?>
-                </div>
-                <div class="footer">
+            <div class="f-footer">
+                <div class="grid_6 alpha">
                     <?php echo $this->templateForm->getElement('shortcuts'); ?>
+                </div>
+                <div class="grid_6 omega">
                     <?php echo $this->templateForm->getElement('submit'); ?>
                 </div>
             </div>
-            <?php echo $this->templateForm->getElement('id')->setDecorators(array('ViewHelper')); ?>
-            <?php echo $this->templateForm->getElement('pageId'); ?>
-            <input class="template-secure-token" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
         </form>
     </div>
 </div>

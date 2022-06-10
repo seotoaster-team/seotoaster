@@ -73,7 +73,7 @@ class Application_Form_Template extends Application_Form_Secure
                 'name'         => 'shortcuts',
                 'id'           => 'useful-shortcuts',
                 'label'        => 'Useful shortcuts',
-                'class'        => 'grid_4 alpha',
+                'class'        => '',
                 'multiOptions' => $this->_prepareShortcuts(),
                 'value'        => ($this->_shortcuts) ? $this->_shortcuts : ''
             ))
@@ -100,7 +100,7 @@ class Application_Form_Template extends Application_Form_Secure
                 'name'   => 'submit',
                 'type'   => 'submit',
                 'label'  => 'Save changes',
-                'class'  => 'btn ticon-save formsubmit mt15px',
+                'class'  => 'btn ticon-save formsubmit',
                 'ignore' => true,
                 'escape' => false
             ))
