@@ -28,6 +28,8 @@ class Application_Model_Models_Template extends Application_Model_Models_Abstrac
 
     const TYPE_MENU     = 'typemenu';
 
+    const TYPE_PDF_AUTO_REPLY  = 'type_form_auto_reply_pdf';
+
 	protected $_name         = '';
 
 	protected $_oldName      = null;

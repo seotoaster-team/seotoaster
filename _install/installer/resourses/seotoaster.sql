@@ -39,7 +39,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
-('version',	'3.4.2');
+('version',	'3.4.3');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -163,6 +163,7 @@ CREATE TABLE `form` (
   `admin_from_name` VARCHAR (255) DEFAULT NULL,
   `admin_text` TEXT DEFAULT NULL,
   `reply_email` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
+  `auto_reply_pdf_template` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -420,7 +421,8 @@ INSERT INTO `template_type` (`id`, `title`) VALUES
 ('typemobile',	'Mobile page'),
 ('typeregular',	'Regular'),
 ('type_partial_template',	'Nested Templates'),
-('type_fa_template',	'Featuredarea Templates');
+('type_fa_template',	'Featuredarea Templates'),
+('type_form_auto_reply_pdf', 'Form auto reply pdf');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (

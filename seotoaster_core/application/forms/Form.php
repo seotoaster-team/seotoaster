@@ -37,6 +37,8 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_replyEmail = 0;
 
+    protected $_autoReplyPdfTemplate = '';
+
     public function init()
     {
         parent::init();
@@ -251,6 +253,17 @@ class Application_Form_Form extends Application_Form_Secure
                 'name' => 'enableSms',
                 'label' => 'Send the reply text as an sms to the user',
                 'value' => $this->_enableSms,
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Select(array(
+                'id' => 'auto-reply-pdf-template',
+                'name' => 'autoReplyPdfTemplate',
+                'label' => 'Auto reply pdf template name',
+                'value' => $this->_autoReplyPdfTemplate,
+                //'required'   => true,
+                'registerInArrayValidator' => false
             ))
         );
 
