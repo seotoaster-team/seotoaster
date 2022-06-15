@@ -46,6 +46,8 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
 
     protected $_replyEmail = '';
 
+    protected $_autoReplyPdfTemplate = '';
+
     public function getId()
     {
         return $this->_id;
@@ -313,5 +315,23 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getAutoReplyPdfTemplate()
+    {
+        return $this->_autoReplyPdfTemplate;
+    }
+
+    /**
+     * @param string $autoReplyPdfTemplate
+     */
+    public function setAutoReplyPdfTemplate($autoReplyPdfTemplate)
+    {
+        $this->_autoReplyPdfTemplate = $autoReplyPdfTemplate;
+    }
+
+
 
 }
