@@ -113,10 +113,16 @@ class Tools_Mail_Tools {
         }
 
         $entityParser->addToDictionary($paramsDictionary);
+
+        $formDetailsHtml = self::prepareFormDetailsHtml($formDetails);
+        $entityParser->addToDictionary(array(
+            'form:details' => $formDetailsHtml
+        ));
+
         $content = $entityParser->parse($content);
 
         $pdfFile->WriteHTML($content);
-        $pdfFileName = 'autoreply_'.sha1(microtime()).'.pdf';
+        $pdfFileName = $autoReplyPdfTemplate.'.pdf';
 
         $filePath = $websiteHelper->getPath() . $websiteHelper->getTmp() . $pdfFileName;
         $pdfFile->Output($filePath, 'F');
@@ -141,6 +147,25 @@ class Tools_Mail_Tools {
         unset($data['captchaId']);
 
         return $data;
+    }
+
+    /**
+     * Prepare form fields info in html format
+     *
+     * @param array $formDetails form data
+     * @return string
+     */
+    public static function prepareFormDetailsHtml(array $formDetails)
+    {
+        $formDetailsHtml = '';
+        foreach ($formDetails as $name => $value) {
+            if (!$value) {
+                continue;
+            }
+            $formDetailsHtml .= '<b>' . str_replace(array('_', '-'), ' ', ucfirst($name)) . '</b>' . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
+        }
+
+        return $formDetailsHtml;
     }
 
 	public static function sendSignupEmail() {
