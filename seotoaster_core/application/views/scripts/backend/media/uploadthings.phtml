@@ -64,9 +64,16 @@
                 <div id="filebrowser-files" class="filebrowser-zone grid_12 alpha omega scroll h350px">
                     <?php if(!empty($this->filesList)):?>
                         <?php foreach ($this->filesList as $file):?>
-                            <div class="file-container">
+                            <div class="grid_10 alpha omega file-container img-wrap-box img-container">
                                 <label data-type="<?php echo $file['name'];?>"><?php echo $file['name'];?></label>
                                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="<?php echo $file['name'];?>">
+                            </div>
+                            <div class="grid_2 alpha omega copy-file-block">
+                                <div class="grid_6 omega text-center copy-file">
+                                    <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy a link to this file to your clipboard');?>"></a>
+                                    <input type="hidden" id="copy-file-link" class="copy-file-link" name="file-url" value="<?php echo $this->websiteUrl.'media/'.$this->currFolder.'/'.$file['name'];?>">
+                                </div>
+                                <div class="grid_6 alpha omega text-center"><a class="ticon-go-to-file icon12" href="<?php echo $this->websiteUrl.'media/'.$this->currFolder.'/'.$file['name'];?>" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
                             </div>
                         <?php endforeach;?>
                     <?php endif;?>
