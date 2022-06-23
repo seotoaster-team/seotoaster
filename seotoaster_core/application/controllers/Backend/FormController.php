@@ -85,6 +85,10 @@ class Backend_FormController extends Zend_Controller_Action {
 		$formForm->getElement('replyMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 		$formForm->getElement('adminMailTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $mailTemplates));
 
+
+        $autoReplyPdfTemplates = Tools_Mail_Tools::getAutoReplyPdfTemplatesHash();
+        $formForm->getElement('autoReplyPdfTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $autoReplyPdfTemplates));
+
         $replyEmail = 0;
 		if($form !== null) {
 		    if($form->getReplyEmail()) {
@@ -285,6 +289,7 @@ class Backend_FormController extends Zend_Controller_Action {
                 }
 
                 $attachment = array();
+                $autoReplyAttachment = array();
                 $removeFiles = array();
                 if(!$xmlHttpRequest){
                     //Adding attachments to email
@@ -331,18 +336,46 @@ class Backend_FormController extends Zend_Controller_Action {
                     }
 
                 }
+
+                if (Tools_System_FormBlacklist::isSpam($formParams)) {
+                    if($xmlHttpRequest){
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+
+                    if(isset($formParams['conversionPageUrl'])) {
+                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                        $this->redirect($conversionPageUrl);
+                    }
+
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->redirect($formParams['formUrl']);
+                }
+
                 unset($formParams['uploadLimitSize']);
                 unset($formParams['g-recaptcha-response']);
+                
+                //prepare form auto reply pdf
+                $autoReplyPdfTemplate = $form->getAutoReplyPdfTemplate();
+                if (!empty($autoReplyPdfTemplate)) {
+                    $autoReplyAttachmentData = Tools_Mail_Tools::prepareAutoReplyAttachmentPdf($autoReplyPdfTemplate, $formParams);
+                    if (!empty($autoReplyAttachmentData)) {
+                        $autoReplyAttachment[] = $autoReplyAttachmentData['attachment'];
+                        $removeFiles[] =  $autoReplyAttachmentData['filePath'];
+                    }
+                }
+
                	// sending mails
                 $sysMailWatchdog = new Tools_Mail_SystemMailWatchdog(array(
                     'trigger'    => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
                     'data'       => $formParams,
-                    'attachment' => $attachment
+                    'attachment' => $attachment,
+                    'autoReplyAttachment' => $autoReplyAttachment
                 ));
                 $mailWatchdog = new Tools_Mail_Watchdog(array(
                     'trigger'  => Tools_Mail_SystemMailWatchdog::TRIGGER_FORMSENT,
                     'data'     => $formParams,
-                    'attachment' => $attachment
+                    'attachment' => $attachment,
+                    'autoReplyAttachment' => $autoReplyAttachment
                 ));
 
                 $form->setAdminFrom($this->_parseData($form->getAdminFrom()));

@@ -1,16 +1,24 @@
-<div class="seotoaster container">
-	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => $this->translate('Manage drafts (') . Tools_Page_Tools::getDraftPagesCount() . ')', 'helpSection' => $this->helpSection)); ?>
+<div class="seotoaster f-container">
+    <?php echo $this->partial(
+        'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
+        array(
+            'headerText' => $this->translate('Manage drafts (') . Tools_Page_Tools::getDraftPagesCount() . ')',
+            'helpSection' => $this->helpSection
+        )
+    ); ?>
 
-    <ol class="grid_12 items-list content scroll">
-    <?php if($this->draftPages && is_array($this->draftPages)): ?>
-        <?php foreach($this->draftPages as $number => $draftPage): ?>
-            <li class="list-row">
-                <span class="list-row-count grid_1 alpha omega">#<?php echo ++$number; ?></span>
-                <a class="list-row-item draft-page-link grid_11" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
-            </li>
-        <?php endforeach; ?>
-	<?php endif; ?>
-    </ol>
+    <div class="f-content">
+        <ol class="grid_12 items-list">
+            <?php if($this->draftPages && is_array($this->draftPages)): ?>
+                <?php foreach($this->draftPages as $number => $draftPage): ?>
+                    <li class="list-row">
+                        <span class="list-row-count grid_1 alpha omega">#<?php echo ++$number; ?></span>
+                        <a class="list-row-item draft-page-link grid_11" data-url="<?php echo $this->websiteUrl . $draftPage->getUrl(); ?>"  href="javascript:;" title="<?php echo 'Go to page: ', $draftPage->getH1(); ?>"><?php echo $draftPage->getNavName(); ?></a>
+                    </li>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </ol>
+    </div>
 </div>
 <script type="text/javascript">
 	$(function(){

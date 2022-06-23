@@ -9,7 +9,7 @@ class Application_Form_Robots extends Application_Form_Secure
     {
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST)
-                ->setAttrib('class', '_fajax grid_12')
+                ->setAttrib('class', '_fajax')
                 ->setAttrib('id', 'frm-robots');
 
         $this->addElement(

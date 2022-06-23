@@ -145,6 +145,10 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
                 $this->_options['message'] = $formReplyMessage;
             }
 
+            if (!empty($this->_options['autoReplyAttachment'])) {
+                $this->_mailer->addAttachment($this->_options['autoReplyAttachment']);
+            }
+
             $pageUrl = str_replace($this->_websiteHelper->getUrl(), '', $formDetails['formUrl']);
             $pageModel = Application_Model_Mappers_PageMapper::getInstance()->findByUrl($pageUrl);
             $pageId = 0;

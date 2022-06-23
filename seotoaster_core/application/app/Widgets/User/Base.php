@@ -97,7 +97,7 @@ class Widgets_User_Base extends Widgets_Abstract {
                 $attrName = array_merge(array($attrName), $this->_options);
                 $attrName = implode('_', $attrName);
             }
-            $attrName = preg_replace('/[^\w\d-_]/ui', '', $attrName);
+            $attrName = preg_replace('/[^\w\d\-_]/ui', '', $attrName);
 
             // check if we have a getter for this property
             $getter = 'get'.ucfirst($attrName);
