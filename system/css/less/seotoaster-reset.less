@@ -1,274 +1,281 @@
 @import "base/variables";
 
 .reset-style {
-    &, * {
-        .reset-style;
-    }
+	&, * {
+		.reset-style;
+	}
 }
 
 .unpublished {
-    border : 1px dashed @brand-error;
+	border : 1px dashed @brand-error;
 }
 
 .container-wrapper {
-    padding : @padding-small-vertical;
-
-    &:hover {
-        outline : 1px dashed @gray;
-    }
+	padding : @padding-small-vertical;
+	
+	&:hover {
+		outline : 1px dashed @gray;
+	}
 }
 
 .generator-links, .tpopup {
-    img {
-        width      : auto !important;
-        height     : auto !important;
-        border     : none !important;
-        min-width  : 0 !important;
-        min-height : 0 !important;
-        .box-shadow(~'none !important');
-    }
+	img {
+		width      : auto !important;
+		height     : auto !important;
+		border     : none !important;
+		min-width  : 0 !important;
+		min-height : 0 !important;
+		.box-shadow(~'none !important');
+	}
 }
 
 a.generator-links.plugin {
-    font-family     : @font-family-text;
-    background      : url('../../system/images/editadd-plugin.png') no-repeat #F68B0E left center !important;
-    border          : 1px solid #333 !important;
-    padding         : 3px 3px 3px 20px !important;
-    font-size       : 12px !important;
-    text-decoration : none !important;
-    color           : #000 !important;
-    font-weight     : bold !important;
+	font-family     : @font-family-text;
+	background      : url('../../system/images/editadd-plugin.png') no-repeat #F68B0E left center !important;
+	border          : 1px solid #333 !important;
+	padding         : 3px 3px 3px 20px !important;
+	font-size       : 12px !important;
+	text-decoration : none !important;
+	color           : #000 !important;
+	font-weight     : bold !important;
 }
 
 .ui-helper-hidden, .hidden {
-    display : none;
+	display : none;
 }
 
 // Overlays
 .ui-widget-overlay {
-    position   : fixed;
-    top        : 0;
-    right      : 0;
-    bottom     : 0;
-    left       : 0;
-    z-index    : 1000;
-    background : #000;
-    .opacity(0.5);
-
-    & ~ .ui-widget-overlay {
-        display : none;
-    }
+	position   : fixed;
+	top        : 0;
+	right      : 0;
+	bottom     : 0;
+	left       : 0;
+	z-index    : 1000;
+	background : #000;
+	.opacity(0.5);
+	
+	& ~ .ui-widget-overlay {
+		display : none;
+	}
 }
 
 [aria-describedby="toasterPopup"],
 [aria-describedby="toasterPopupDraggable"] {
-    // Reset style for system dialogs
-    max-width   : none !important;
-    border      : none !important;
-    padding     : 0 !important;
-    line-height : 0 !important;
-
-    // Style for system dialogs
-    position    : fixed !important;
-    z-index     : 1002 !important;
-    //top         : 0 !important;
-    //bottom      : 0 !important;
-    //left        : 0 !important;
-    //right       : 0 !important;
-    margin      : auto !important;
-    font-size   : @font-size-base;
-    .box-shadow(3px 3px 10px #000);
-
-    iframe {
-        background-image    : url("../images/spinner.gif");
-        background-position : center center;
-        background-repeat   : no-repeat;
-    }
-
-    &.screen-expand {
-        height    : 98% !important;
-        min-width : 960px;
-    }
+	// Reset style for system dialogs
+	max-width   : none !important;
+	border      : none !important;
+	padding     : 0 !important;
+	line-height : 0 !important;
+	
+	// Style for system dialogs
+	position    : fixed !important;
+	z-index     : 1002 !important;
+	//top         : 0 !important;
+	//bottom      : 0 !important;
+	//left        : 0 !important;
+	//right       : 0 !important;
+	margin      : auto !important;
+	font-size   : @font-size-base;
+	.box-shadow(3px 3px 10px #000);
+	
+	iframe {
+		background-image    : url("../images/spinner.gif");
+		background-position : center center;
+		background-repeat   : no-repeat;
+	}
+	
+	&.screen-expand {
+		height : 100% !important;
+		width  : 100% !important;
+		top    : 0 !important;
+		bottom : 0 !important;
+		left   : 0 !important;
+		right  : 0 !important;
+	}
 }
 
 .ui-dialog[aria-describedby="toasterPopupDraggable"] {
-    .ui-dialog-titlebar {
-        cursor      : move;
-        z-index     : 1;
-        position    : absolute;
-        left        : 0;
-        right       : 0;
-        bottom      : 100%;
-        width       : 40px;
-        height      : 30px;
-        padding     : 3px;
-        margin      : auto;
-        line-height : 1.5;
-        text-align  : center;
-        border      : none;
-        font-size   : 16px;
-        color       : #666;
-        background  : #eaeaea;
-        .border-radius(5px 5px 0 0);
-
-        &::before {
-            content                 : "\e005";
-            font-family             : @icon-family;
-            speak                   : none;
-            font-style              : normal;
-            font-weight             : normal;
-            text-transform          : none;
-            line-height             : 1;
-            position                : relative;
-            text-align              : center;
-            vertical-align          : middle;
-            // Better Font Rendering
-            -webkit-font-smoothing  : antialiased;
-            -moz-osx-font-smoothing : grayscale;
-        }
-        span,
-        button {
-            display : none;
-        }
-    }
+	.ui-dialog-titlebar {
+		cursor      : move;
+		z-index     : 1;
+		position    : absolute;
+		left        : 0;
+		right       : 0;
+		bottom      : 100%;
+		width       : 40px;
+		height      : 30px;
+		padding     : 3px;
+		margin      : auto;
+		line-height : 1.5;
+		text-align  : center;
+		border      : none;
+		font-size   : 16px;
+		color       : #666;
+		background  : #eaeaea;
+		.border-radius(5px 5px 0 0);
+		
+		&::before {
+			content                 : "\e005";
+			font-family             : @icon-family;
+			speak                   : none;
+			font-style              : normal;
+			font-weight             : normal;
+			text-transform          : none;
+			line-height             : 1;
+			position                : relative;
+			text-align              : center;
+			vertical-align          : middle;
+			// Better Font Rendering
+			-webkit-font-smoothing  : antialiased;
+			-moz-osx-font-smoothing : grayscale;
+		}
+		
+		span,
+		button {
+			display : none;
+		}
+	}
 }
 
 .ui-overlay + .ui-widget-content {
-    background : @body-bg;
-    z-index    : 1001;
-    .box-shadow(3px 3px 10px #000);
+	background : @body-bg;
+	z-index    : 1001;
+	.box-shadow(3px 3px 10px #000);
 }
 
 // Control Panel
 //==================================================
 #seotoaster-cpanel {
-    text-align : left;
-    width      : 200px;
-    position   : absolute;
-    right      : 5px;
-    top        : 0;
-    z-index    : 1001;
-    background : @body-bg;
-    color      : @text-color;
-    .box-shadow(0 0 10px @gray-dark);
-
-    * {
-        /*Reset style*/
-        .reset-style();
-        /*end reset*/
-    }
-
-    &:hover {
-        z-index : 1005;
-    }
-
-    & > * {
-        background : #fff;
-        position   : relative;
-        width      : 200px;
-    }
-
-    #showhide a {
-        text-decoration : none;
-        background      : @cpanel-header-bg;
-        color           : @cpanel-header-color;
-        font-size       : 11pt;
-        padding         : @padding-base-vertical @padding-base-horizontal;
-        font-weight     : bold;
-        text-align      : center;
-        display         : block;
-    }
-
-    #seotoaster-logowrap {
-        background : #fff;
-        text-align : center;
-
-        img {
-            max-width : 200px;
-        }
-
-        #system-version {
-            font-family   : tahoma, geneva, verdana, sans-serif !important;
-            font-size     : 7px !important;
-            text-align    : right;
-            padding-right : 5px;
-        }
-    }
-
-    ul {
-        margin : 0;
-
-        li {
-            list-style : none;
-
-            a {
-                margin-top      : 1px;
-                padding         : @padding-small-vertical @padding-small-horizontal;
-                display         : block;
-                text-decoration : none;
-                font-size       : 16px;
-                font-weight     : bold;
-                color           : @cpanel-header-color;
-                background      : @cpanel-header-bg;
-
-                &:hover {
-                    background : @cpanel-header-bg-hover;
-                    color      : @cpanel-header-color-hover;
-                }
-            }
-
-            .ui-accordion-header {
-
-                &.ui-accordion-header-active {
-                    background : @cpanel-header-bg-active;
-                    color      : @cpanel-header-color-active;
-                }
-            }
-            .ui-accordion-content {
-                margin  : 0;
-                padding : 0;
-                border  : none;
-
-                li + li {
-                    border-top : 1px dashed @gray-light;
-                }
-
-                a {
-                    background  : none;
-                    color       : @link-color;
-                    font-weight : normal;
-
-                    &:hover {
-                        color : @link-color-hover;
-                    }
-                }
-
-                .cpanelsubtitle {
-                    padding    : @padding-base-vertical @padding-base-horizontal;
-                    background : @cpanel-subtitle-bg;
-                }
-            }
-        }
-    }
-
-    a.logout {
-        margin-top      : 1px;
-        padding         : @padding-small-vertical @padding-small-horizontal;
-        display         : block;
-        text-decoration : none;
-        font-size       : 16px;
-        font-weight     : bold;
-        color           : @cpanel-header-color;
-        background      : @cpanel-header-bg;
-
-        &.logout:hover {
-            background : desaturate(@brand-error, 20%);
-        }
-        &:hover {
-            background : @cpanel-header-bg-hover;
-            color      : @cpanel-header-color-hover;
-        }
-    }
+	text-align : left;
+	width      : 200px;
+	position   : absolute;
+	right      : 5px;
+	top        : 0;
+	z-index    : 1001;
+	background : @body-bg;
+	color      : @text-color;
+	.box-shadow(0 0 10px @gray-dark);
+	
+	* {
+		/*Reset style*/
+		.reset-style();
+		/*end reset*/
+	}
+	
+	&:hover {
+		z-index : 1005;
+	}
+	
+	& > * {
+		background : #fff;
+		position   : relative;
+		width      : 200px;
+	}
+	
+	#showhide a {
+		text-decoration : none;
+		background      : @cpanel-header-bg;
+		color           : @cpanel-header-color;
+		font-size       : 11pt;
+		padding         : @padding-base-vertical @padding-base-horizontal;
+		font-weight     : bold;
+		text-align      : center;
+		display         : block;
+	}
+	
+	#seotoaster-logowrap {
+		background : #fff;
+		text-align : center;
+		
+		img {
+			max-width : 200px;
+		}
+		
+		#system-version {
+			font-family   : tahoma, geneva, verdana, sans-serif !important;
+			font-size     : 7px !important;
+			text-align    : right;
+			padding-right : 5px;
+		}
+	}
+	
+	ul {
+		margin : 0;
+		
+		li {
+			list-style : none;
+			
+			a {
+				margin-top      : 1px;
+				padding         : @padding-small-vertical @padding-small-horizontal;
+				display         : block;
+				text-decoration : none;
+				font-size       : 16px;
+				font-weight     : bold;
+				color           : @cpanel-header-color;
+				background      : @cpanel-header-bg;
+				
+				&:hover {
+					background : @cpanel-header-bg-hover;
+					color      : @cpanel-header-color-hover;
+				}
+			}
+			
+			.ui-accordion-header {
+				
+				&.ui-accordion-header-active {
+					background : @cpanel-header-bg-active;
+					color      : @cpanel-header-color-active;
+				}
+			}
+			
+			.ui-accordion-content {
+				margin  : 0;
+				padding : 0;
+				border  : none;
+				
+				li + li {
+					border-top : 1px dashed @gray-light;
+				}
+				
+				a {
+					background  : none;
+					color       : @link-color;
+					font-weight : normal;
+					
+					&:hover {
+						color : @link-color-hover;
+					}
+				}
+				
+				.cpanelsubtitle {
+					padding    : @padding-base-vertical @padding-base-horizontal;
+					background : @cpanel-subtitle-bg;
+				}
+			}
+		}
+	}
+	
+	a.logout {
+		margin-top      : 1px;
+		padding         : @padding-small-vertical @padding-small-horizontal;
+		display         : block;
+		text-decoration : none;
+		font-size       : 16px;
+		font-weight     : bold;
+		color           : @cpanel-header-color;
+		background      : @cpanel-header-bg;
+		
+		&.logout:hover {
+			background : desaturate(@brand-error, 20%);
+		}
+		
+		&:hover {
+			background : @cpanel-header-bg-hover;
+			color      : @cpanel-header-color-hover;
+		}
+	}
 }
 
 // Alert Styles

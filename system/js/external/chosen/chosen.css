@@ -63,7 +63,7 @@
   border-top-color: #31B0D5;
   position: absolute;
   top: 100%;
-  left: -2000px;
+  left: 2000px;
   z-index: 500;
   width: 100%;
 }

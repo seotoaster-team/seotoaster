@@ -1865,10 +1865,10 @@ body.tox-dialog__disable-scroll {
   display: none;
 }
 .tox-fullscreen .tox.tox-tinymce.tox-fullscreen {
-  z-index: 1200;
+  z-index: 100;
 }
-.tox-fullscreen .tox.tox-tinymce-aux {
-  z-index: 1201;
+.tox-fullscreen .tox-fullscreen .tox.tox-tinymce-aux {
+  z-index: 101;
 }
 .tox .tox-help__more-link {
   list-style: none;
