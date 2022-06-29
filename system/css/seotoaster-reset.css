@@ -91,8 +91,12 @@ a.generator-links.plugin {
 }
 [aria-describedby="toasterPopup"].screen-expand,
 [aria-describedby="toasterPopupDraggable"].screen-expand {
-  height: 98% !important;
-  min-width: 960px;
+  height: 100% !important;
+  width: 100% !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 .ui-dialog[aria-describedby="toasterPopupDraggable"] .ui-dialog-titlebar {
   cursor: move;
