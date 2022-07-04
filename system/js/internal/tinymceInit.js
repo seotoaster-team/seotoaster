@@ -1,4 +1,13 @@
 $(function(){
+    const dispatchEditorKeyup = (editor, event, keyTime) => {
+        var keyTimer = keyTime;
+        if(keyTimer === null) {
+            keyTimer = setTimeout(function() {
+                keyTimer = null;
+            }, 1000)
+        }
+    };
+
     var websiteUrl = $('#website_url').val(),
         toolbar = 'bold italic underline lineheight alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor link unlink anchor image media table hr styleselect formatselect fontsizeselect pastetext visualblocks removeformat wordcount searchreplace codesample code fullscreen stw darkmode ',
         showMoreFlag = $('.show-more-content-widget').length;
@@ -19,6 +28,7 @@ $(function(){
         relative_urls: false,
         statusbar: false,
         allow_script_urls: true,
+        extended_valid_elements: "a[*],input[*],select[*],textarea[*],script[src|async|defer|type|charset]",
         force_p_newlines: true,
         force_br_newlines : true,
         forced_root_block: '',
@@ -76,13 +86,12 @@ $(function(){
         quickbars_selection_toolbar: false,
         fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
         block_formats: "Block=div;Paragraph=p;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6;",//Block Quote=blockquote;
-        extended_valid_elements: "a[*],input[*],select[*],textarea[*]",
         image_advtab: true,
         setup : function(ed){
             var keyTime = null;
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
-                self.dispatchEditorKeyup(ed, e, keyTime);
+                dispatchEditorKeyup(ed, e, keyTime);
                 this.save();
             });
 
