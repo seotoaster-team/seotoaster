@@ -140,6 +140,7 @@ class Backend_UpdateController extends Zend_Controller_Action
      */
     public function updateAction()
     {
+        ini_set('max_execution_time','360');
         ini_set('memory_limit','700M');
 
         /**
