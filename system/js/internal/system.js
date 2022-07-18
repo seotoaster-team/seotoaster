@@ -3,7 +3,7 @@ $(function(){
     if(currentUrl && typeof currentUrl!='undefined'){
         var aEl = document.createElement("a");
         aEl.setAttribute('href', currentUrl);
-        var $currentLink = $('a[href="'+aEl.href+'"]');
+        var $currentLink = $('a[href="'+decodeURI(aEl.href)+'"]');
         $currentLink.addClass('current');
         if($currentLink.closest("li").length > 0 && $currentLink.closest("li").hasClass('category')){
                 $currentLink.closest("li").addClass('category-current');
@@ -35,7 +35,7 @@ $(function(){
         e.preventDefault();
         var link = $(this);
         var pwidth = link.data('pwidth') || 960;
-        var pheight = link.data('pheight') || 560;
+        var pheight = link.data('pheight') || 570;
         var iframeId = 'toasterPopupDraggable';
 
         if($(link).hasClass('default-popup')) {

@@ -42,6 +42,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
 	public function manageAction() {
 
+
 	    $usersRoles  = Application_Model_Mappers_UserMapper::getInstance()->findAllRoles();
         $tranlationUserRoles = array();
 
@@ -387,7 +388,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
         if ($attrNamesArr) {
             foreach ($attrNamesArr as $key => $value) {
-                if(empty($value) || empty($attrValuesArr[$key])) {
+                if(empty($value)) {
                     continue;
                 }
                 $user->setAttribute($value, $attrValuesArr[$key]);

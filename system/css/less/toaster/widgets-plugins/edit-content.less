@@ -16,6 +16,9 @@
 }
 #frm_content{
     background : @body-bg;
+    .mce-flow-layout-item {
+        margin-right: 0;
+    }
 }
 #edit-content{
     background : @body-bg;
@@ -81,7 +84,8 @@
                 overflow      : auto;
                 padding       : 5px;
 
-                .mce-fullscreen &{
+                .mce-fullscreen &,
+                .tox-fullscreen &{
                     max-height : none;
                 }
 
@@ -224,6 +228,7 @@
         }
     }
 }
+.tox-fullscreen,
 .mce-fullscreen{
 
     .mce-edit-area{

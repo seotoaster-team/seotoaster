@@ -1,16 +1,20 @@
-<div class="seotoaster container">
+<div class="seotoaster f-container">
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Manage Page Rank Sculpting', 'helpSection' => $this->helpSection)); ?>
-	<div class="content-footer">
+	<div class="f-content f-container">
 		<form id="frm-sculpting" method="post" action="<?php echo $this->url(); ?>" class="_fajax grid_12 mb15px form-inline" data-callback="sculptingCallback">
             <?php echo $this->siloForm->getElement('name'); ?>
 			<?php echo $this->siloForm->getElement('addSilo'); ?>
             <input class="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
 		</form>
-		<div id="sculpting-list" class="grid_12"></div>
+		<div id="sculpting-list" class="f-scroll grid_12"></div>
 	</div>
-	<div class="grid_12 footer" id="button-wrapper">
-		<a id="manage-silos" class="tpopup btn link info" data-pwidth="480" data-pheight="560" href="javascript:;" data-url="<?php echo $this->websiteUrl;?>backend/backend_seo/managesilos/">[ <?php echo $this->translate('Manage silos'); ?> ]</a>
-		<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+	<div class="f-footer" id="button-wrapper">
+        <div class="grid_6">
+            <a id="manage-silos" class="tpopup default-popup btn link info" data-pwidth="480" data-pheight="570" href="javascript:;" data-url="<?php echo $this->websiteUrl;?>backend/backend_seo/managesilos/">[ <?php echo $this->translate('Manage silos'); ?> ]</a>
+        </div>
+        <div class="grid_6">
+            <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+        </div>
 	</div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/sculpting.min.js'); ?>

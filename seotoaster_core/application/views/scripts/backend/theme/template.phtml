@@ -1,5 +1,6 @@
 <div
-    class="seotoaster container_12 h570 rounded3px <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? '' : 'refreshOnClose'; ?>">
+    class="seotoaster-block seotoaster f-container <?php echo ($this->templateForm->getElement('id')->getValue() == '') ? ''
+        : 'refreshOnClose'; ?>">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
         'headerText' => $this->templateForm->getElement('id')->getValue() == '' ? 'Add template' : 'Edit template',
         'helpSection' => $this->helpSection

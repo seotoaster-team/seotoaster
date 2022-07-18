@@ -4,7 +4,7 @@ class Widgets_Content_Content extends Widgets_AbstractContent {
 
     const POPUP_WIDTH  = 960;
 
-    const POPUP_HEIGHT = 560;
+    const POPUP_HEIGHT = 570;
 
     /**
      * Unique separator for show-more in content

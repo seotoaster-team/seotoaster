@@ -1,6 +1,6 @@
-<div class="seotoaster container">
+<div class="seotoaster f-container">
     <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Remove subfolder', 'helpSection' => $this->helpSection)); ?>
-    <div class="content-footer">
+    <div class="f-content">
         <form id="frm-pagefolder" class="_fajax grid_12 mb15px form-inline" action="<?php echo $this->url(); ?>" method="post" data-callback="reloadPageFolders">
             <div class="grid_5 alpha">
                 <?php echo $this->form->getElement('pageFolder'); ?>
@@ -18,8 +18,10 @@
         </div>
         <div id="folders-list" class="grid_12 items-list"></div>
     </div>
-    <div class="grid_12 footer">
-        <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+    <div class="f-footer">
+        <div class="grid_12">
+            <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_saveandclose.phtml'); ?>
+        </div>
     </div>
 </div>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/folders.js'); ?>

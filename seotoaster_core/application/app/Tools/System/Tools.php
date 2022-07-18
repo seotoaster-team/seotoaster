@@ -826,7 +826,7 @@ class Tools_System_Tools {
             $status = $pluginModel->getStatus();
             if ($status === Application_Model_Models_Plugin::ENABLED) {
                 $pluginClassName = $pluginModel->getName();
-                $pluginClass = new Zend_Reflection_Class($pluginClassName);
+                $pluginClass = new Zend_Reflection_Class(ucfirst(strtolower($pluginClassName)));
                 $pluginActionExists = $pluginClass->hasMethod($method);
                 if ($pluginActionExists === true) {
                     $verifyAction = $pluginClass->getMethod($method);

@@ -242,11 +242,11 @@ class Backend_UploadController extends Zend_Controller_Action
         }
 
         $this->_uploadHandler->clearValidators()
-            ->addValidator('Extension', false, array('jpeg', 'jpg', 'png', 'gif'))
+            ->addValidator('Extension', false, array('jpeg', 'jpg', 'png', 'gif', 'webp'))
             ->addValidator('ImageSize', false, array('maxwidth' => $miscConfig['imgMaxWidth'], 'maxheight' => $miscConfig['imgMaxWidth']));
 
         if ($this->_checkMime) {
-            $this->_uploadHandler->addValidator(new Validators_MimeType(array('image/gif', 'image/jpeg', 'image/jpg', 'image/png')), false);
+            $this->_uploadHandler->addValidator(new Validators_MimeType(array('image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp')), false);
         }
 
         $receivePath = ($resize ? $savePath . DIRECTORY_SEPARATOR . 'original' : $savePath);
@@ -273,7 +273,7 @@ class Backend_UploadController extends Zend_Controller_Action
                 $fileExt = array_pop($expFileName);
                 $fileExt = strtolower($fileExt);
 
-                if (!in_array($fileExt, array('jpeg', 'jpg', 'png', 'gif'))) {
+                if (!in_array($fileExt, array('jpeg', 'jpg', 'png', 'gif', 'webp'))) {
                     return array('error' => true, 'result' => "Wrong file extension");
                 }
                 $name = implode($expFileName);
@@ -393,6 +393,7 @@ class Backend_UploadController extends Zend_Controller_Action
             case 'image/jpg':
             case 'image/jpeg':
             case 'image/gif':
+            case 'image/webp':
                 $result = $this->_uploadImages($savePath);
                 break;
             default:
@@ -456,6 +457,9 @@ class Backend_UploadController extends Zend_Controller_Action
             case 'image/gif':
                 $newName = $name . '.gif';
                 break;
+            case 'image/webp':
+                $newName = $name . '.webp';
+                break;
             default:
                 return false;
                 break;
@@ -510,6 +514,9 @@ class Backend_UploadController extends Zend_Controller_Action
                 break;
             case 'image/gif':
                 $newName = '.gif';
+                break;
+            case 'image/webp':
+                $newName = '.webp';
                 break;
             default:
                 return false;
