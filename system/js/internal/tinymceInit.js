@@ -35,6 +35,7 @@ $(function(){
         remove_linebreaks : false,
         convert_newlines_to_br: true,
         entity_encoding: "raw",
+        contextmenu: false,
         plugins: [
             "imagetools wordcount searchreplace importcss advlist lists autolink link anchor image charmap visualblocks codesample code fullscreen media table paste hr quickbars stw"
         ],
