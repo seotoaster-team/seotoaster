@@ -237,11 +237,17 @@
                     if(existedImages.length < 1) {
                         $('#check-all-label').addClass('hidden');
                         $('.deleteBtnBlock').addClass('hidden');
+                    } else {
+                        $('#check-all-label').removeClass('hidden');
+                        $('.deleteBtnBlock').removeClass('hidden');
                     }
                 } else {
                     if(existedFiles.length < 1) {
                         $('#check-all-label').addClass('hidden');
                         $('.deleteBtnBlock').addClass('hidden');
+                    } else {
+                        $('#check-all-label').removeClass('hidden');
+                        $('.deleteBtnBlock').removeClass('hidden');
                     }
                 }
 
