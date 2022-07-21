@@ -148,7 +148,7 @@
                         <?php endforeach;?>
                     </select>
                 </div>
-                <div class="grid_8 alpha omega mt0px">
+                <div class="grid_8 alpha omega mt0px search-block-element">
                     <input class="<?php echo ($this->key != '' || $this->userRole != null) ? 'grid_7' : 'grid_8';?> alpha omega search-input" type="text" name="key" value="<?php echo $this->key ?>">
                     <button class="btn grid_4 alpha omega mt0px ticon-search search-btn" type="submit"><?php echo $this->translate('Search'); ?></button>
                     <span class="btn alpha grid_1 mt0px search-btn-clear" style="display:<?php echo ($this->key != '' || $this->userRole != null) ? 'block' : 'none';?>"><?php echo $this->translate('X'); ?></span>
