@@ -1,4 +1,4 @@
-<form id="<?php echo $this->searchForm->getAttrib('id'); ?>" class="<?php echo $this->searchForm->getAttrib('class'); ?>" action="<?php echo $this->searchForm->getAction(); ?>"
+<form id="<?php echo $this->searchForm->getAttrib('id'); ?>" class="<?php echo $this->searchForm->getAttrib('class'); ?> search-block-element" action="<?php echo $this->searchForm->getAction(); ?>"
       method="<?php echo $this->searchForm->getMethod(); ?>">
     <?php echo $this->searchForm->getElement('search'); ?>
     <?php if(!empty($this->subfolders)) :?>
