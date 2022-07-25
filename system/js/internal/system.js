@@ -687,7 +687,7 @@ function showMailMessageEdit(trigger, callback, recipient){
 // Fast clearing search inputs
 $(document).ready(function() {
     var searchBlockElement = $('.search-input').closest('.search-block-element'),
-        cancelEl = '<span class="icon-cancel clear-input hidden"></span>';
+        cancelEl = '<span class="ticon-cancel-search clear-input hidden"></span>';
 
     if(typeof searchBlockElement !== 'undefined' && searchBlockElement.length) {
         $.each(searchBlockElement, function(key, searchBlockEl){

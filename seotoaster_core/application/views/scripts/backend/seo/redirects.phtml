@@ -6,7 +6,7 @@
 	<?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('headerText' => 'Add / Edit 301 redirect', 'helpSection' => $this->helpSection)); ?>
 	<div class="f-content f-container">
         <form id="frm-redirects-search" class="grid_12 form-inline mb10px" action="/backend/backend_seo/loadredirectslist" method="post">
-            <div class="grid_10 alpha omega redirect-search-block search-block-element">
+            <div class="grid_10 alpha omega redirect-search-block">
                 <?php echo $this->form->getElement('redirectSearch'); ?>
                 <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
             </div>

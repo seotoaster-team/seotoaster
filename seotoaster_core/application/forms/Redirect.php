@@ -40,7 +40,6 @@ class Application_Form_Redirect extends Application_Form_Secure {
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'id'         => 'redirect-search',
-            'class'      => 'search-input',
             'name'       => 'redirectSearch',
             'attribs'    => array('autocomplete' => 'off'),
             'label'      => 'Search',
