@@ -1,6 +1,8 @@
-<form id="<?php echo $this->searchForm->getAttrib('id'); ?>" class="<?php echo $this->searchForm->getAttrib('class'); ?> search-block-element" action="<?php echo $this->searchForm->getAction(); ?>"
+<form id="<?php echo $this->searchForm->getAttrib('id'); ?>" class="<?php echo $this->searchForm->getAttrib('class'); ?>" action="<?php echo $this->searchForm->getAction(); ?>"
       method="<?php echo $this->searchForm->getMethod(); ?>">
-    <?php echo $this->searchForm->getElement('search'); ?>
+    <span class="search-block-element">
+        <?php echo $this->searchForm->getElement('search'); ?>
+    </span>
     <?php if(!empty($this->subfolders)) :?>
         <input type="hidden" name="subfolders" id="subfolders" value="<?php echo $this->subfolders;?>">
     <?php endif;?>
