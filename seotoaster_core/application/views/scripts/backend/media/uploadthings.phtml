@@ -1,20 +1,5 @@
-<script>
-    <?php $this->jQuery()->onLoadCaptureStart();?>
-    $('#things-new-folder')
-            .focus(function () {
-                if ($(this).val() == $(this).attr('data-defaultlabel')) {
-                    $(this).val('')
-                }
-            })
-            .blur(function () {
-                if ($(this).val() == '') {
-                    $(this).val($(this).attr('data-defaultlabel'))
-                }
-            });
-    <?php $this->jQuery()->onLoadCaptureEnd();?>
-</script>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js'); ?>
-<div class="seotoaster container">
+<div class="seotoaster f-container">
     <?php echo $this->partial(
         'admin' . DIRECTORY_SEPARATOR . '_header.phtml',
         array('headerText' => 'Upload your files and images', 'helpSection' => $this->helpSection)
@@ -64,9 +49,16 @@
                 <div id="filebrowser-files" class="filebrowser-zone grid_12 alpha omega scroll h350px">
                     <?php if(!empty($this->filesList)):?>
                         <?php foreach ($this->filesList as $file):?>
-                            <div class="file-container">
+                            <div class="grid_10 alpha omega file-container img-wrap-box img-container">
                                 <label data-type="<?php echo $file['name'];?>"><?php echo $file['name'];?></label>
                                 <input type="checkbox" class="toremove toremove-file hidden" name="removeFiles[]" value="<?php echo $file['name'];?>">
+                            </div>
+                            <div class="grid_2 alpha omega copy-file-block">
+                                <div class="grid_6 omega text-center copy-file">
+                                    <a class="ticon-link icon16" href="javascript:;" title="<?php echo $this->translate('Copy a link to this file to your clipboard');?>"></a>
+                                    <input type="hidden" id="copy-file-link" class="copy-file-link" name="file-url" value="<?php echo $this->websiteUrl.'media/'.$this->currFolder.'/'.$file['name'];?>">
+                                </div>
+                                <div class="grid_6 alpha omega text-center"><a class="ticon-go-to-file icon12" href="<?php echo $this->websiteUrl.'media/'.$this->currFolder.'/'.$file['name'];?>" title="<?php echo $this->translate('Go to file');?>" target="_blank"></a></div>
                             </div>
                         <?php endforeach;?>
                     <?php endif;?>
@@ -228,8 +220,6 @@
                 var imgPreview = '';
 
                 $('.file-container').empty();
-                $('#check-all-label').removeClass('hidden');
-                $('.deleteBtnBlock').removeClass('hidden');
 
                 if(response.imageList.length > 0){
                     $('#imageContainerTemplate').tmpl(response.imageList).appendTo('#filebrowser-images');
@@ -237,6 +227,30 @@
                 if(response.filesList.length > 0){
                     $('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
                 }
+
+                var activeTab = $("ul.ui-tabs-nav li.ui-state-active");
+
+                var existedFiles = $('#filebrowser-files').find('.file-container');
+                var existedImages = $('#filebrowser-images').find('.file-container');
+
+                if(activeTab.find('a').data('tab-type') == 'images') {
+                    if(existedImages.length < 1) {
+                        $('#check-all-label').addClass('hidden');
+                        $('.deleteBtnBlock').addClass('hidden');
+                    } else {
+                        $('#check-all-label').removeClass('hidden');
+                        $('.deleteBtnBlock').removeClass('hidden');
+                    }
+                } else {
+                    if(existedFiles.length < 1) {
+                        $('#check-all-label').addClass('hidden');
+                        $('.deleteBtnBlock').addClass('hidden');
+                    } else {
+                        $('#check-all-label').removeClass('hidden');
+                        $('.deleteBtnBlock').removeClass('hidden');
+                    }
+                }
+
                 hideSpinner();
             }
         });
@@ -338,6 +352,24 @@
                         $('#things-select-folder').find('option:selected').remove().end().val('0');
                     }
                 }
+
+                var activeTab = $("ul.ui-tabs-nav li.ui-state-active");
+
+                var existedFiles = $('#filebrowser-files').find('.file-container');
+                var existedImages = $('#filebrowser-images').find('.file-container');
+
+                if(activeTab.find('a').data('tab-type') == 'images') {
+                    if(existedImages.length < 1) {
+                        $('#check-all-label').addClass('hidden');
+                        $('.deleteBtnBlock').addClass('hidden');
+                    }
+                } else {
+                    if(existedFiles.length < 1) {
+                        $('#check-all-label').addClass('hidden');
+                        $('.deleteBtnBlock').addClass('hidden');
+                    }
+                }
+
                 if(response.errors.length > 0){
                     var errorsItems = response.errors;
                     var errorsHtml = '';

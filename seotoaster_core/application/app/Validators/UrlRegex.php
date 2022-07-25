@@ -15,7 +15,7 @@ class Validators_UrlRegex extends Zend_Validate_Abstract {
 
 	public function isValid($value) {
 		$validator = new Zend_Validate_Regex(array(
-            'pattern' => '~^(ht|f)tps?\://((\d{1,3}\.){3}\d{1,3}|([\w-]*\.){1,}[a-z]{2,10})(:\d{2,5})?(|/([\w-.?,/+&%$#=\~])*(?<![.,]))$~'
+            'pattern' => '~^(ht|f)tps?\://((\d{1,3}\.){3}\d{1,3}|([\w-]*\.){1,}[a-z]{2,10})(:\d{2,5})?(|/([\w\-.?,/+&%$#=\~])*(?<![.,]))$~'
 		));
 
 		$this->_setValue($value);

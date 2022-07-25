@@ -10,79 +10,100 @@
 
 // Reset & Basics
 //==================================================
-*{
+* {
     -webkit-touch-callout       : none; //если надо, то запрещаем выделение текста
     -webkit-tap-highlight-color : rgba(0, 0, 0, 0); //убираем фон подсветки ссылок и кнопок
     -webkit-text-size-adjust    : none; //фиксим баг в IOS cо шкалированием в landscape
 }
-::-moz-selection{
-    background : @text-select-bg;
-    color      : @text-select-color;
-}
-::selection{
+
+::-moz-selection {
     background : @text-select-bg;
     color      : @text-select-color;
 }
 
-body{
+::selection {
+    background : @text-select-bg;
+    color      : @text-select-color;
+}
+
+body {
     -webkit-font-smoothing : subpixel-antialiased !important;
     -ms-touch-action       : manipulation;
     touch-action           : manipulation;
 }
-blockquote, q{
+
+blockquote, q {
     quotes : none;
 }
+
 blockquote:before, blockquote:after,
-q:before, q:after{
+q:before, q:after {
     content : '';
     content : none;
 }
-em{ font-style : italic; }
-table{
+
+em {
+    font-style : italic;
+}
+
+table {
     border-spacing  : 0;
     border-collapse : collapse;
     //    word-break      : break-all
 }
-a:focus, [type="checkbox"]:focus, [type="radio"]:focus, *:focus{
+
+a:focus, [type="checkbox"]:focus, [type="radio"]:focus, *:focus {
     outline : none;
 }
-a, [type="submit"], [type="button"], button, [type="checkbox"], [type="radio"]{ cursor : pointer; }
-img, [type="checkbox"], [type="radio"]{ vertical-align : middle; }
-img{
+
+a, [type="submit"], [type="button"], button, [type="checkbox"], [type="radio"] {
+    cursor : pointer;
+}
+
+img, [type="checkbox"], [type="radio"] {
+    vertical-align : middle;
+}
+
+img {
     max-width : 100%;
     height    : auto;
 }
 
-.fb-like-box{
-    & > span, iframe{
+.fb-like-box {
+    & > span, iframe {
         position : relative !important;
         width    : 100% !important;
         //        height   : auto !important;
     }
 }
-.mobile iframe{
+
+.mobile iframe {
     width : 100%;
 }
-.gall{
+
+.gall {
     .inline-block;
 }
-.gmaps{
+
+.gmaps {
     color     : #000;
     max-width : 100%;
-    img{ max-width : none; }
+    img {
+        max-width : none;
+    }
 }
 
-.ltr{
+.ltr {
     direction    : ltr;
     unicode-bidi : bidi-override;
 }
 
-.rtl{
+.rtl {
     direction    : rtl;
     unicode-bidi : bidi-override;
 }
 
-[contenteditable="true"]{
+[contenteditable="true"] {
     .inline-block();
     background : @input-bg;
     border     : @input-border-width solid @input-border-color;
@@ -92,10 +113,11 @@ img{
 
 //// Reset Form
 ////==================================================
-dl, dt, dd{
+dl, dt, dd {
     margin : 0;
 }
-input, select, textarea, button{
+
+input, select, textarea, button {
     font-family : inherit;
     font-weight : normal;
     .placeholder();
@@ -109,63 +131,65 @@ button,
 [type="reset"],
 [type="button"],
 [type="radio"],
-[type="checkbox"]{
+[type="checkbox"] {
     width : auto; // Override of generic input selector
 }
-[type="file"]{
+
+[type="file"] {
     border  : none;
     padding : 0;
 }
-[type="color"]{
+
+[type="color"] {
     padding : 0;
 }
 
-textarea{
+textarea {
     vertical-align : top;
     line-height    : normal;
     .resize();
 }
 
-[type="checkbox"], [type="radio"]{
+[type="checkbox"], [type="radio"] {
     padding : 0;
     border  : none;
     height  : auto;
 
-    &:focus{
+    &:focus {
         .box-shadow(none; @input-shadow-focus) !important;
     }
 }
 
 // Make multiple select elements height not fixed
 select[multiple],
-select[size]{
+select[size] {
     height : auto;
 }
 
 // Fix optgroup Firefox bug per https://github.com/twitter/bootstrap/issues/7611
-select optgroup{
+select optgroup {
     font-style  : inherit;
     font-size   : inherit;
     font-family : inherit;
 }
 
-button, [type="button"], [type="reset"], [type="submit"]{
+button, [type="button"], [type="reset"], [type="submit"] {
     -webkit-appearance : button;
 
-    &:focus{
+    &:focus {
         .box-shadow(none; @input-shadow-focus);
     }
 }
 
-[disabled]{
+[disabled] {
     cursor : default;
 }
 
-.reset-style{
+.reset-style {
     .reset-style;
 }
 
-.seotoaster-loader{
+.seotoaster-loader {
     position   : fixed;
     left       : 2px;
     right      : 2px;
@@ -180,7 +204,7 @@ button, [type="button"], [type="reset"], [type="submit"]{
 }
 
 // Overlays
-.ui-widget-overlay{
+.ui-widget-overlay {
     position   : fixed;
     top        : 0;
     right      : 0;
@@ -190,24 +214,32 @@ button, [type="button"], [type="reset"], [type="submit"]{
     background : #000;
     .opacity(0.5);
 
-    & ~ .ui-widget-overlay{
+    & ~ .ui-widget-overlay {
         display : none;
     }
 }
 
-[aria-describedby="toasterPopup"],
-[aria-describedby="toasterPopupDraggable"]{
-    position    : fixed !important;
-    right       : 0 !important;
-    left        : 0 !important;
-    line-height : 0 !important;
-    margin      : auto !important;
-    padding     : auto !important;
-    border      : none !important;
-    max-width   : none !important;
+.ui-dialog[aria-describedby="toasterPopup"] {
+    top    : auto !important;
+    bottom : 100%;
+    .ui-dialog-titlebar {
+        display : none;
+    }
 }
 
-.clear{
+//[aria-describedby="toasterPopup"],
+//[aria-describedby="toasterPopupDraggable"]{
+//    position    : fixed !important;
+//    right       : 0 !important;
+//    left        : 0 !important;
+//    line-height : 0 !important;
+//    margin      : auto !important;
+//    padding     : auto !important;
+//    border      : none !important;
+//    max-width   : none !important;
+//}
+
+.clear {
     display    : block;
     clear      : both;
     overflow   : hidden;
@@ -215,10 +247,10 @@ button, [type="button"], [type="reset"], [type="submit"]{
     height     : 0;
 }
 
-.clearfix{
+.clearfix {
     .clearfix-mixin() !important;
 
-    span&{
+    span& {
         display : block;
     }
 }

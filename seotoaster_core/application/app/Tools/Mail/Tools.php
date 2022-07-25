@@ -50,6 +50,124 @@ class Tools_Mail_Tools {
 		return $hash;
 	}
 
+    public static function getAutoReplyPdfTemplatesHash() {
+        $hash          = array();
+        $mailTemplates = Application_Model_Mappers_TemplateMapper::getInstance()->findByType(Application_Model_Models_Template::TYPE_PDF_AUTO_REPLY);
+        if(!empty ($mailTemplates)) {
+            foreach ($mailTemplates as $temlate) {
+                $hash[$temlate->getName()] = ucfirst($temlate->getName());
+            }
+        }
+        return $hash;
+    }
+
+    /**
+     * Prepare auto reply attachment pdf
+     *
+     * @param string $autoReplyPdfTemplate auto reply form template name
+     * @param array $formParams form params
+     * @return  string
+     */
+    public static function prepareAutoReplyAttachmentPdf($autoReplyPdfTemplate, $formParams)
+    {
+
+        $templateModel = Application_Model_Mappers_TemplateMapper::getInstance()->find($autoReplyPdfTemplate);
+        if (!$templateModel instanceof Application_Model_Models_Template) {
+            return false;
+        }
+
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $websiteConfig = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig();
+        $themeData = Zend_Registry::get('theme');
+
+        $pdfTmpPath = $websiteConfig['path'] . 'plugins' . DIRECTORY_SEPARATOR . 'invoicetopdf' . DIRECTORY_SEPARATOR . 'invoices' . DIRECTORY_SEPARATOR;
+        if (!file_exists($pdfTmpPath)) {
+            return false;
+        }
+
+        require_once($websiteConfig['path'] . 'plugins' . DIRECTORY_SEPARATOR . 'invoicetopdf' . DIRECTORY_SEPARATOR.'system/library/mpdflatest/vendor/autoload.php');
+
+        $pdfFile = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'tempDir' => $pdfTmpPath
+        ]);
+
+        $parserOptions = array(
+            'websiteUrl' => $websiteHelper->getUrl(),
+            'websitePath' => $websiteHelper->getPath(),
+            'currentTheme' => $websiteHelper->getConfig('currentTheme'),
+            'themePath' => $themeData['path'],
+        );
+
+        $parser = new Tools_Content_Parser($templateModel->getContent(), array(), $parserOptions);
+        $content = $parser->parse();
+        $entityParser  = new Tools_Content_EntityParser();
+
+        $formDetails = self::cleanFormParams($formParams);
+        $lexemePrefix = 'form';
+
+        $paramsDictionary = array();
+        foreach ($formDetails as $paramName => $paramValue) {
+            $paramsDictionary[$lexemePrefix . ':' . $paramName] = $paramValue;
+        }
+
+        $entityParser->addToDictionary($paramsDictionary);
+
+        $formDetailsHtml = self::prepareFormDetailsHtml($formDetails);
+        $entityParser->addToDictionary(array(
+            'form:details' => $formDetailsHtml
+        ));
+
+        $content = $entityParser->parse($content);
+
+        $pdfFile->WriteHTML($content);
+        $pdfFileName = $autoReplyPdfTemplate.'.pdf';
+
+        $filePath = $websiteHelper->getPath() . $websiteHelper->getTmp() . $pdfFileName;
+        $pdfFile->Output($filePath, 'F');
+
+        $attachment = new Zend_Mime_Part(file_get_contents($filePath));
+        $attachment->type = 'application/pdf';
+        $attachment->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
+        $attachment->encoding = Zend_Mime::ENCODING_BASE64;
+        $attachment->filename = $pdfFileName;
+
+        return array('attachment' => $attachment, 'filePath' => $filePath);
+
+    }
+
+    public static function cleanFormParams($data)
+    {
+        unset($data['controller']);
+        unset($data['action']);
+        unset($data['module']);
+        unset($data['formName']);
+        unset($data['captcha']);
+        unset($data['captchaId']);
+
+        return $data;
+    }
+
+    /**
+     * Prepare form fields info in html format
+     *
+     * @param array $formDetails form data
+     * @return string
+     */
+    public static function prepareFormDetailsHtml(array $formDetails)
+    {
+        $formDetailsHtml = '';
+        foreach ($formDetails as $name => $value) {
+            if (!$value) {
+                continue;
+            }
+            $formDetailsHtml .= '<b>' . str_replace(array('_', '-'), ' ', ucfirst($name)) . '</b>' . ': ' . (is_array($value) ? implode(', ', $value) : $value) . '<br />';
+        }
+
+        return $formDetailsHtml;
+    }
+
 	public static function sendSignupEmail() {
 
 	}

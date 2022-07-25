@@ -792,6 +792,26 @@ ALTER TABLE `config` CHANGE `value` `value` TEXT COLLATE utf8_unicode_ci NOT NUL
 ALTER TABLE `user` ADD COLUMN `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 ALTER TABLE `user` ADD COLUMN `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 05/08/2021
+-- version: 3.3.1
+-- Pre package version
+
+-- 13/08/2021
+-- version: 3.4.0
+INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('wraplinks', '0');
+
+-- 10/06/2022
+-- version: 3.4.1
+
+-- 13/06/2022
+-- version: 3.4.2
+INSERT INTO `template_type` (`id`, `title`) VALUES ('type_form_auto_reply_pdf', 'Form auto reply pdf');
+ALTER TABLE `form` ADD COLUMN `auto_reply_pdf_template` VARCHAR(255) DEFAULT NULL;
+
+-- 04/07/2022
+-- version: 3.4.3
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.3.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.5.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

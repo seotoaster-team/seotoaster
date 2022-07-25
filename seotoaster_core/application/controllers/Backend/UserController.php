@@ -42,6 +42,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
 	public function manageAction() {
 
+
 	    $usersRoles  = Application_Model_Mappers_UserMapper::getInstance()->findAllRoles();
         $tranlationUserRoles = array();
 
@@ -63,6 +64,12 @@ class Backend_UserController extends Zend_Controller_Action {
 
             $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
 
+            $userForm->getElement('fullName')->setValidators(array(
+                array(new Zend_Validate_NotEmpty(), true),
+                //array(new Zend_Validate_Regex(array('pattern' => '/^[a-zA-Z0-9\s\']*$/u'))
+                array(new Zend_Validate_Regex(array('pattern' => '/^[\w\s\']*$/u'))
+            )));
+            $userForm->getElement('fullName')->getValidator('Zend_Validate_Regex')->setMessage("'%value%' contains characters which are non alphabetic and no digits", Zend_Validate_Regex::NOT_MATCH);
             if($userForm->isValid($this->getRequest()->getParams())) {
 				$data       = $userForm->getValues();
                 $this->_processUser($data, $userId);
@@ -213,6 +220,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userModel = $userMapper->find($userId);
                 if ($userModel instanceof Application_Model_Models_User) {
                     $userMapper->delete($userModel);
+                    $userDeleteExternalStatus = Tools_System_Tools::firePluginMethodByTagName('userdelete', 'deleteSystemUser', array('userId' => $userId));
                     $this->_helper->response->success('Removed');
                     exit;
                 } else {
@@ -376,7 +384,7 @@ class Backend_UserController extends Zend_Controller_Action {
         $attrValuesArr = filter_var_array($this->getRequest()->getParam('attrValue', array()), FILTER_SANITIZE_STRING);
         if ($attrNamesArr) {
             foreach ($attrNamesArr as $key => $value) {
-                if(empty($value) || empty($attrValuesArr[$key])) {
+                if(empty($value)) {
                     continue;
                 }
                 $user->setAttribute($value, $attrValuesArr[$key]);

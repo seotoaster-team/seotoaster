@@ -104,7 +104,15 @@ class Tools_System_Minify {
         if (isset($concatCss) && !empty($concatCss)) {
             $cname      = sha1($concatCss).'.concat.min.css';
             $concatPath = $websiteHelper->getPath().$websiteHelper->getTmp().$cname;
-            if ($websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL) {
+
+            $websiteUrl = $websiteHelper->getUrl();
+            $websitePath = parse_url($websiteUrl, PHP_URL_PATH);
+            $subFolder = '';
+            if (!empty($websitePath)) {
+                $subFolder = rtrim($websitePath, '/');
+            }
+
+            if ($websiteHelper->getRequest()->getRequestUri() === Tools_Page_Tools::PWA_OFFLINE_PAGE_URL || $websiteHelper->getRequest()->getRequestUri() === $subFolder.Tools_Page_Tools::PWA_OFFLINE_PAGE_URL) {
                 $pwaOfflineConcatCssPath = $websiteHelper->getPath().$websiteHelper->getTmp().'offline.concat.min.css';
                 if (!file_exists($pwaOfflineConcatCssPath) || sha1_file($pwaOfflineConcatCssPath) !== sha1($concatCss)) {
                     Tools_Filesystem_Tools::saveFile($pwaOfflineConcatCssPath, $concatCss);
@@ -134,7 +142,7 @@ class Tools_System_Minify {
         foreach ($container->getArrayCopy() as $key => $js) {
             if (isset($js->attributes['src'])) {
                 // Ignore file if file from remote
-                if (strpos($js->attributes['src'], $websiteHelper->getUrl()) === false || isset($js->attributes['noconcat'])) {
+                if (strpos($js->attributes['src'], $websiteHelper->getUrl()) === false || (isset($js->attributes['noconcat']) || isset($js->attributes['data-noconcat']))) {
                     continue;
                 }
 

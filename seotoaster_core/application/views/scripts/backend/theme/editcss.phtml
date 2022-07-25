@@ -1,15 +1,19 @@
-<div class="seotoaster container">
+<div class="seotoaster f-container">
 	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array(
         'headerText' => $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'),
         'innerHeaderHtml' => '<div class="fl-right mr2"><a id="screen-expand" class="icon16 ticon-expand warning inverse" href="javascript:;"></a></div>',
         'helpSection' => $this->helpSection)); ?>
     <?php $this->editcssForm->setAction($this->url()); ?>
-    <form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="content grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
-        <div id="editor" style="height: 450px;"><?php echo $this->editcssForm->getElement('content'); ?></div>
+    <form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" class="f-wrapper grid_12" method="<?php echo $this->editcssForm->getMethod(); ?>">
+        <div id="editor" class="f-content mt5px" style="height: 450px;"><?php echo $this->editcssForm->getElement('content'); ?></div>
         <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>" />
-        <div class="footer">
-            <a id="reformat-code" class="inverse" href="javascript:;">[ <?php echo $this->translate('Reformat code'); ?> ]</a>
-            <?php echo $this->editcssForm->getElement('submit'); ?>
+        <div class="f-footer">
+            <div class="grid_6">
+                <a id="reformat-code" class="inverse" href="javascript:;">[ <?php echo $this->translate('Reformat code'); ?> ]</a>
+            </div>
+            <div class="grid_6">
+                <?php echo $this->editcssForm->getElement('submit'); ?>
+            </div>
         </div>
     </form>
 </div>

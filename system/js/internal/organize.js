@@ -103,6 +103,9 @@ $(function() {
     });
 });
 
+$(document).ready(function(){
+    $('.tpopup.page').addClass('default-popup');
+});
 
 function saveCategoriesOrder() {
     var rankins = 0;

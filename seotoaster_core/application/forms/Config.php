@@ -691,4 +691,5 @@ class Application_Form_Config extends Application_Form_Secure
         $this->getElement('googleApiKey')->setValue($this->_googleApiKey);
         return $this;
     }
+
 }
