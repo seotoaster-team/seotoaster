@@ -711,7 +711,7 @@ $(document).ready(function() {
         var searchInput = $(e.currentTarget).closest('.search-block-element').find('input.search-input');
 
         if(typeof searchInput !== 'undefined') {
-            searchInput.val('');
+            searchInput.val('').focus().trigger('keyup').trigger('change').off();
             $(this).addClass('hidden');
         }
     });
