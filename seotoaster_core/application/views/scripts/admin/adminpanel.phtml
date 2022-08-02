@@ -47,7 +47,7 @@
                                 <?php if (isset($this->additionalMenu) && isset($this->additionalMenu['PAGES'])): ?>
                                     <?php foreach ($this->additionalMenu['PAGES'] as $categoryName => $category): ?>
                                         <?php if ($categoryName !== 'DEFAULT') : ?>
-                                            <li class="item title"><?php echo $categoryName; ?></li>
+                                            <li class="item title"><?php echo $this->translate($categoryName); ?></li>
                                         <?php endif; ?>
                                         <?php foreach ($category as $pluginName => $plugin): ?>
                                             <?php foreach ($plugin['items'] as $index => $item): ?>
@@ -286,7 +286,7 @@
                                                     <?php if(!empty($category[$addName]['prompt'])) :?>
                                                         <li class="item"><?php echo $category[$addName]['prompt']; ?></li>
                                                     <?php else: ?>
-                                                        <li class="item title"><?php echo $categoryName; ?></li>
+                                                        <li class="item title"><?php echo $this->translate($categoryName); ?></li>
                                                     <?php endif;?>
                                                 <?php endif; ?>
                                                 <?php foreach ($category as $pluginName => $plugin): ?>
@@ -337,7 +337,7 @@
                                     <?php foreach ($this->additionalMenu['DEFAULT'] as $categoryName => $category): ?>
                                         <ul class="category-list">
                                             <?php if ($categoryName !== 'DEFAULT') : ?>
-                                                <li class="item title"><?php echo $categoryName; ?></li>
+                                                <li class="item title"><?php echo $this->translate($categoryName); ?></li>
                                             <?php endif; ?>
                                             <?php foreach ($category as $pluginName => $plugin): ?>
 
