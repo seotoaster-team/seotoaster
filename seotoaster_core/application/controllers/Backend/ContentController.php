@@ -425,6 +425,12 @@ class Backend_ContentController extends Zend_Controller_Action {
             $model->setId($data->getId());
 
             $content = explode(':', $data->getContent());
+            $excludeItems = preg_grep('/^excludeItems-.*$/', $content);
+            if (!empty($excludeItems)) {
+                $configRepeat->setExcludeItems(str_replace('excludeItems-', '', array_values($excludeItems)[0]));
+                unset($content[array_keys($excludeItems)[0]]);
+                $content = array_values($content);
+            }
             if (isset($content[0], $content[1], $content[2])) {
                 $configRepeat->setQuantity($content[0])->setOrderContent($content[1])->setInversion($content[2]);
             }
@@ -440,6 +446,7 @@ class Backend_ContentController extends Zend_Controller_Action {
             $quantity     = filter_var($this->getRequest()->getParam('quantity'), FILTER_SANITIZE_NUMBER_INT);
             $orderContent = $this->getRequest()->getParam('orderContent');
             $inversion    = $this->getRequest()->getParam('inversion');
+            $excludeItems    = $this->getRequest()->getParam('excludeItems');
             $model->setName($name)->setContainerType($type)->setPageId($pageId);
             // Delete
             if (empty($quantity) && empty($orderContent) && empty($inversion)) {
@@ -451,11 +458,18 @@ class Backend_ContentController extends Zend_Controller_Action {
             }
             // Save
             else {
-                $configRepeat->setQuantity($quantity)->setOrderContent($orderContent)->setInversion($inversion);
+                $configRepeat->setQuantity($quantity)->setOrderContent($orderContent)->setInversion($inversion)->setExcludeItems($excludeItems);
 
-                $model->setContent(
-                    $configRepeat->getQuantity().':'.$configRepeat->getOrderContent().':'.$configRepeat->getInversion()
-                );
+                if (!empty($excludeItems)) {
+                    $model->setContent(
+                        $configRepeat->getQuantity().':'.$configRepeat->getOrderContent().':'.'excludeItems-'.$excludeItems.':'.$configRepeat->getInversion()
+                    );
+                } else {
+                    $model->setContent(
+                        $configRepeat->getQuantity().':'.$configRepeat->getOrderContent().':'.$configRepeat->getInversion()
+                    );
+                }
+
                 $mapper->save($model);
             }
         }
