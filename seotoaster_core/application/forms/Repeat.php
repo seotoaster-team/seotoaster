@@ -7,6 +7,7 @@ class Application_Form_Repeat extends Zend_Form
     protected $_replace;
     protected $_orderContent;
     protected $_inversion;
+    protected $_excludeItems;
 
     public function getQuantity() {
         return $this->_quantity;
@@ -41,6 +42,18 @@ class Application_Form_Repeat extends Zend_Form
         return $this->_inversion;
     }
 
+    public function setExcludeItems($_excludeItems)
+    {
+        $this->_excludeItems = $_excludeItems;
+        $this->getElement('excludeItems')->setValue($this->_excludeItems);
+        return $this;
+    }
+
+    public function getExcludeItems() {
+        return $this->_excludeItems;
+    }
+
+
     public function init()
     {
         $this->setName($this->_name)
@@ -63,6 +76,12 @@ class Application_Form_Repeat extends Zend_Form
 
         $this->addElement('text', 'orderContent', array(
             'value'       => $this->_orderContent,
+            'validators'  => array(new Zend_Validate_StringLength()),
+            'placeholder' => '2,5,1...'
+        ));
+
+        $this->addElement('text', 'excludeItems', array(
+            'value'       => $this->_excludeItems,
             'validators'  => array(new Zend_Validate_StringLength()),
             'placeholder' => '2,5,1...'
         ));

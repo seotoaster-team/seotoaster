@@ -8,7 +8,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_popupWidth     = '480';
 
-    protected $_popupHeighth   = '163';
+    protected $_popupHeighth   = '283';
 
     protected $_iterationLimit = 500;
 
@@ -21,6 +21,8 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
     protected $_parseBefore    = true;
 
     protected $_recursiveParse = false;
+
+    protected $_excludeItems = '';
 
     protected function _init()
     {
@@ -65,6 +67,13 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
             if ($data instanceof Application_Model_Models_Container) {
                 $content = explode(':', $data->getContent());
+                $excludeItems = preg_grep('/^excludeItems-.*$/', $content);
+                if (!empty($excludeItems)) {
+                    $explodeItemsString = str_replace('excludeItems-', '', array_values($excludeItems)[0]);
+                    $this->_excludeItems = explode(',', $explodeItemsString);
+                    unset($content[array_keys($excludeItems)[0]]);
+                    $content = array_values($content);
+                }
                 if (!empty($content[0])) {
                     $this->_qty = (int)$content[0];
                 }
@@ -123,6 +132,10 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
         $content      = '';
         for ($i = ($this->_invert ? $this->_qty : 1); $i !== 0 && $i <= $this->_qty; ($this->_invert ? $i-- : $i++)) {
             $val = str_replace($this->_replace, $i, $this->_spaceContent);
+            if (in_array($i, $this->_excludeItems)) {
+                continue;
+            }
+
             if (!empty($this->_order) && (false !== ($key = array_search($i, $this->_order)))) {
                 unset($this->_order[$key]);
                 $orderContent[$key] = $val;
