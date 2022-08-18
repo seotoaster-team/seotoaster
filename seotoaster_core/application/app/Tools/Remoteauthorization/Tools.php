@@ -28,9 +28,9 @@ class Tools_Remoteauthorization_Tools
             }
 
             $allowRemoteAuthorization = $userModel->getAllowRemoteAuthorization();
-            if (empty($allowRemoteAuthorization)) {
-                return array('done' => false, 'message' => $translator->translate('remote authorization not allowed'));
-            }
+//            if (empty($allowRemoteAuthorization)) {
+//                return array('done' => false, 'message' => $translator->translate('remote authorization not allowed'));
+//            }
             $hash = sha1($params['email'] . uniqid(microtime()));
             $userModel->setRemoteAuthorizationToken($hash);
             $userModel->setPassword('');

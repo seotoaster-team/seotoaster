@@ -28,9 +28,9 @@ class Api_Remoteauth_Auth extends Api_Service_Abstract
                 $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
                 $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
                 $redirectTo = $websiteUrl;
-                if (empty($allowRemoteAuth)) {
-                    $redirector->gotoUrl($redirectTo);
-                }
+//                if (empty($allowRemoteAuth)) {
+//                    $redirector->gotoUrl($redirectTo);
+//                }
                 $userModel->setRemoteAuthorizationToken('');
                 $additionalParams = json_decode($userModel->getRemoteAuthorizationInfo(), true);
                 $userModel->setPassword('');
