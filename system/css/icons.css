@@ -127,6 +127,9 @@
 [data-icon]:before {
   content: attr(data-icon);
 }
+.ticon-cancel-search:before {
+  content: "\e907";
+}
 .ticon-home:before {
   content: "\e003";
 }
