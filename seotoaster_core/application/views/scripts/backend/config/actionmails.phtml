@@ -18,7 +18,7 @@
                 <?php endforeach;?>
             </ul>
         </div>
-        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
+        <input type="hidden" id="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>" />
     </form>
     <div class="f-footer">
         <div class="grid_12">
@@ -119,7 +119,20 @@
 
 
         $(document).on('change', '#actions',function(){
-            showAction($(this).val());
+            //showAction($(this).val());
+            var actionName = $(this).val();
+            $.ajax({
+                url: $('#website_url').val()+'backend/backend_config/actionmails/',
+                type: 'POST',
+                dataType: 'json',
+                data:{'secureToken' : $('#secureToken').val(), 'loadSingleAction' : '1'}
+            }).done(function(response){
+                if(response.error != 1) {
+                    actionTriggers = response.responseText.triggers;
+                    actions = response.responseText.actions;
+                    showAction(actionName);
+                }
+            });
         }).on('click', '.actions-list li',function(){
             showAction($(this).find('.action-preview').data('action'));
         }).on('click', '.new-trigger-action',function(e){
