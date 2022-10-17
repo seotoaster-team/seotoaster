@@ -148,10 +148,12 @@ class Backend_UserController extends Zend_Controller_Action {
         $userPaginator->setCurrentPageNumber($pnum);
         $userPaginator->setItemCountPerPage(10);
 
+
         $pager = $this->view->paginationControl($userPaginator, 'Sliding', 'backend/user/pager.phtml',
             array(
                 'urlData' => $this->_websiteUrl . 'backend/backend_user/manage',
-                'order'   => $paginatorOrderLink
+                'order'   => $paginatorOrderLink,
+                'totalItems' => $userPaginator->getTotalItemCount()
             )
         );
 
