@@ -3147,6 +3147,11 @@ footer [type="button"] {
   padding-left: 0;
   padding-right: 0;
 }
+.f-container #ui-id-4,
+.f-container #ui-id-6 {
+  height: 100%;
+  padding: 0;
+}
 .f-wrapper {
   overflow: hidden;
 }
@@ -3192,6 +3197,12 @@ footer [type="button"] {
 }
 .f-content table[class*="grid_"] {
   display: table;
+}
+.f-content .f-content {
+  margin-top: 0;
+}
+.f-content .f-footer {
+  margin: 0;
 }
 .f-footer {
   margin: 0 0 10px;
@@ -3428,20 +3439,20 @@ form > p,
 .form > p,
 form fieldset > p,
 .form fieldset > p,
-form > div:not(.f-content),
-.form > div:not(.f-content),
-form fieldset > div:not(.f-content),
-.form fieldset > div:not(.f-content) {
+form > div:not(.f-content, .ui-widget-content),
+.form > div:not(.f-content, .ui-widget-content),
+form fieldset > div:not(.f-content, .ui-widget-content),
+.form fieldset > div:not(.f-content, .ui-widget-content) {
   margin-top: 0.65em;
 }
 form > p:after,
 .form > p:after,
 form fieldset > p:after,
 .form fieldset > p:after,
-form > div:not(.f-content):after,
-.form > div:not(.f-content):after,
-form fieldset > div:not(.f-content):after,
-.form fieldset > div:not(.f-content):after {
+form > div:not(.f-content, .ui-widget-content):after,
+.form > div:not(.f-content, .ui-widget-content):after,
+form fieldset > div:not(.f-content, .ui-widget-content):after,
+.form fieldset > div:not(.f-content, .ui-widget-content):after {
   content: "";
   display: table;
   clear: both;
@@ -3450,10 +3461,10 @@ form > p:first-child,
 .form > p:first-child,
 form fieldset > p:first-child,
 .form fieldset > p:first-child,
-form > div:not(.f-content):first-child,
-.form > div:not(.f-content):first-child,
-form fieldset > div:not(.f-content):first-child,
-.form fieldset > div:not(.f-content):first-child {
+form > div:not(.f-content, .ui-widget-content):first-child,
+.form > div:not(.f-content, .ui-widget-content):first-child,
+form fieldset > div:not(.f-content, .ui-widget-content):first-child,
+.form fieldset > div:not(.f-content, .ui-widget-content):first-child {
   margin-top: 0;
 }
 form.condensed > p,
@@ -4160,6 +4171,17 @@ label[for*="chr-"] {
   bottom: 0;
   width: 33.31%;
   z-index: 1;
+}
+.search-block-element {
+  position: relative;
+}
+.search-block-element .ticon-cancel-search {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
 }
 #frm-user {
   overflow-y: auto;
@@ -5436,7 +5458,8 @@ label[for*="chr-"] {
   overflow: auto;
   padding: 5px;
 }
-.mce-fullscreen #edit-content #tabs-frag-2 .ui-accordion-content form {
+.mce-fullscreen #edit-content #tabs-frag-2 .ui-accordion-content form,
+.tox-fullscreen #edit-content #tabs-frag-2 .ui-accordion-content form {
   max-height: none;
 }
 #edit-content #tabs-frag-2 .ui-accordion-content form [type="submit"] {
@@ -5526,6 +5549,7 @@ label[for*="chr-"] {
 .mce-tinymce:not(.mce-fullscreen) .mce-toolbar-grp[style="display: none;"] + .mce-edit-area iframe {
   height: 448px !important;
 }
+.tox-fullscreen .mce-edit-area,
 .mce-fullscreen .mce-edit-area {
   border-bottom-width: 1px !important;
   position: absolute;
@@ -5534,12 +5558,15 @@ label[for*="chr-"] {
   right: 0;
   bottom: 0;
 }
+.tox-fullscreen .mce-toolbar-grp,
 .mce-fullscreen .mce-toolbar-grp {
   display: block;
 }
+.tox-fullscreen iframe,
 .mce-fullscreen iframe {
   height: 100% !important;
 }
+.tox-fullscreen #tabs,
 .mce-fullscreen #tabs {
   margin: 0 !important;
   position: fixed;
@@ -5551,9 +5578,11 @@ label[for*="chr-"] {
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
+.tox-fullscreen #tabs.grid_8,
 .mce-fullscreen #tabs.grid_8 {
   right: -64.667%;
 }
+.tox-fullscreen #tabs:before,
 .mce-fullscreen #tabs:before {
   content: "\e012";
   font-family: 'system-icons';
@@ -5567,13 +5596,16 @@ label[for*="chr-"] {
   border-radius: 0.5em 0 0 0.5em;
   box-shadow: 0 0 10px #ccc;
 }
+.tox-fullscreen #tabs:hover,
 .mce-fullscreen #tabs:hover {
   right: 0;
   box-shadow: 0 0 10px #ccc;
 }
+.full-screen .tox-fullscreen #tabs,
 .full-screen .mce-fullscreen #tabs {
   right: -31.333%;
 }
+.tox-fullscreen .footer,
 .mce-fullscreen .footer {
   position: fixed;
   z-index: 100;
@@ -5608,6 +5640,9 @@ label[for*="chr-"] {
   padding: 0 6px;
   overflow: auto;
   height: 275px;
+}
+.show-more.products-loading {
+  pointer-events: none;
 }
 .productlisting {
   position: relative;

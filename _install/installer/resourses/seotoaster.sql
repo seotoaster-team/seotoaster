@@ -39,7 +39,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
-('version',	'3.4.3');
+('version',	'3.5.0');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (

@@ -263,27 +263,44 @@ class Backend_ConfigController extends Zend_Controller_Action {
 
     public function actionmailsAction() {
         if($this->getRequest()->isPost()) {
-            $actions = $this->getRequest()->getParam('actions', false);
-            $secureToken = $this->getRequest()->getParam('secureToken', false);
-			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
-			if (!$tokenValid) {
-				$this->_helper->response->fail('');
-			}
-            if($actions !== false) {
-                $removeActions =  array();
-                $emailTriggerMapper = Application_Model_Mappers_EmailTriggersMapper::getInstance();
-                foreach($actions as $action) {
-                    if (isset($action['delete']) && $action['delete'] === "true"){
-                        array_push($removeActions, $action['id']);
-                        continue;
+            $loadSingleAction = $this->getRequest()->getParam('loadSingleAction', false);
+
+            if(!empty($loadSingleAction)) {
+                $secureToken = $this->getRequest()->getParam('secureToken', false);
+                $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
+                if (!$tokenValid) {
+                    $this->_helper->response->fail('');
+                }
+
+                $pluginsTriggers = Tools_Plugins_Tools::fetchFromConfigIniData();
+                $systemTriggers  = Tools_System_Tools::fetchSystemtriggers();
+                $triggers        = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
+                $actions        = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
+                $this->_helper->response->success(array('triggers' => $triggers, 'actions' => $actions));
+
+            } else {
+                $actions = $this->getRequest()->getParam('actions', false);
+                $secureToken = $this->getRequest()->getParam('secureToken', false);
+                $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
+                if (!$tokenValid) {
+                    $this->_helper->response->fail('');
+                }
+                if($actions !== false) {
+                    $removeActions =  array();
+                    $emailTriggerMapper = Application_Model_Mappers_EmailTriggersMapper::getInstance();
+                    foreach($actions as $action) {
+                        if (isset($action['delete']) && $action['delete'] === "true"){
+                            array_push($removeActions, $action['id']);
+                            continue;
+                        }
+                        $emailTriggerMapper->save($action);
                     }
-                    $emailTriggerMapper->save($action);
+                    if (!empty($removeActions)) {
+                        $emailTriggerMapper->delete($removeActions);
+                    }
+                    $this->_helper->response->success($this->_helper->language->translate('Changes saved'));
+                    return true;
                 }
-                if (!empty($removeActions)) {
-                    $emailTriggerMapper->delete($removeActions);
-                }
-                $this->_helper->response->success($this->_helper->language->translate('Changes saved'));
-                return true;
             }
         }
 

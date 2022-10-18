@@ -5,13 +5,12 @@
 		'innerHeaderHtml' =>  $this->formSelect('actions', null, array('class' => 'fl-none grid_4'), $this->actionsOptions),
 		'helpSection' => 'actionemails'
 	)); ?>
-    <div class="content-footer">
 		<form class="f-content" action="javascript:;" method="post" id="ations-triggers-frm">
 			<div class="grid_12" id="action-triggers">
 				<p>
 					<?php echo $this->translate('Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.'); ?>
 				</p>
-				<ul class="actions-list list-unstyled column_4 full-width" style="overflow-y: scroll;max-height: 400px;">
+				<ul class="actions-list list-unstyled column_4 full-width">
 					<?php foreach($this->actionsOptions as $key => $trigger):?>
 						<?php if ($trigger != $this->translate('Select event area') ): ?>
                             <li><span class="action-preview ticon-action-emails" data-action="<?php echo str_replace(" ","-",strtolower($key));?>"></span><span class="action-name"><?php echo $trigger;?></span></li>
@@ -21,11 +20,13 @@
 			</div>
             <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
 		</form>
-	</div>
 	<?php //echo $this->formSubmit('saveActions', 'Save changes', array('id' => 'save-actions', 'class' => 'btn ticon-save')); ?>
-    <div class="footer grid_12">
-        <button id="save-actions" class="btn ticon-save" name="saveActions" type="submit"><?php echo $this->translate('Save changes'); ?></button>
+    <div class="f-footer">
+        <div class="grid_12">
+            <button id="save-actions" class="btn ticon-save" name="saveActions" type="submit"><?php echo $this->translate('Save changes'); ?></button>
+        </div>
     </div>
+
 
 <script id="triggerActionTemplate" type="text/x-jquery-tmpl">
     {{each(key, trigger) triggers}}
@@ -120,7 +121,20 @@
 
 
         $(document).on('change', '#actions',function(){
-            showAction($(this).val());
+            //showAction($(this).val());
+            var actionName = $(this).val();
+            $.ajax({
+                url: $('#website_url').val()+'backend/backend_config/actionmails/',
+                type: 'POST',
+                dataType: 'json',
+                data:{'secureToken' : $('#secureToken').val(), 'loadSingleAction' : '1'}
+            }).done(function(response){
+                if(response.error != 1) {
+                    actionTriggers = response.responseText.triggers;
+                    actions = response.responseText.actions;
+                    showAction(actionName);
+                }
+            });
         }).on('click', '.actions-list li',function(){
             showAction($(this).find('.action-preview').data('action'));
         }).on('click', '.new-trigger-action',function(e){

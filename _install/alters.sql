@@ -808,6 +808,10 @@ INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('wraplinks', '0');
 INSERT INTO `template_type` (`id`, `title`) VALUES ('type_form_auto_reply_pdf', 'Form auto reply pdf');
 ALTER TABLE `form` ADD COLUMN `auto_reply_pdf_template` VARCHAR(255) DEFAULT NULL;
 
+-- 04/07/2022
+-- version: 3.4.3
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.4.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.5.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

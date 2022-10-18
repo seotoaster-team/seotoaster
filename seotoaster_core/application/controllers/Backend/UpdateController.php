@@ -140,7 +140,8 @@ class Backend_UpdateController extends Zend_Controller_Action
      */
     public function updateAction()
     {
-        ini_set('memory_limit','400M');
+        ini_set('max_execution_time','360');
+        ini_set('memory_limit','700M');
 
         /**
          * Step 1: Checks the current version of the toaster. And if needs updating puts NextStep = 2

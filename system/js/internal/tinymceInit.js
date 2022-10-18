@@ -1,4 +1,13 @@
 $(function(){
+    const dispatchEditorKeyup = (editor, event, keyTime) => {
+        var keyTimer = keyTime;
+        if(keyTimer === null) {
+            keyTimer = setTimeout(function() {
+                keyTimer = null;
+            }, 1000)
+        }
+    };
+
     var websiteUrl = $('#website_url').val(),
         toolbar = 'bold italic underline lineheight alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor link unlink anchor image media table hr styleselect formatselect fontsizeselect pastetext visualblocks removeformat wordcount searchreplace codesample code fullscreen stw darkmode ',
         showMoreFlag = $('.show-more-content-widget').length;
@@ -19,14 +28,16 @@ $(function(){
         relative_urls: false,
         statusbar: false,
         allow_script_urls: true,
+        extended_valid_elements: "a[*],input[*],select[*],textarea[*],script[src|async|defer|type|charset]",
         force_p_newlines: true,
         force_br_newlines : true,
         forced_root_block: '',
         remove_linebreaks : false,
         convert_newlines_to_br: true,
         entity_encoding: "raw",
+        contextmenu: false,
         plugins: [
-            "wordcount searchreplace importcss advlist lists autolink link anchor image charmap visualblocks codesample code fullscreen media table paste hr quickbars stw"//textcolor moved to core
+            "imagetools wordcount searchreplace importcss advlist lists autolink link anchor image charmap visualblocks codesample code fullscreen media table paste hr quickbars stw"
         ],
         toolbar1 : toolbar,
         codesample_languages: [
@@ -76,13 +87,12 @@ $(function(){
         quickbars_selection_toolbar: false,
         fontsize_formats        : "8px 10px 12px 14px 16px 18px 24px 36px",
         block_formats: "Block=div;Paragraph=p;Address=address;Code=code;Preformatted=pre;H2=h2;H3=h3;H4=h4;H5=h5;H6=h6;",//Block Quote=blockquote;
-        extended_valid_elements: "a[*],input[*],select[*],textarea[*]",
         image_advtab: true,
         setup : function(ed){
             var keyTime = null;
             ed.on('change blur keyup', function(ed, e){
                 //@see content.js for this function
-                self.dispatchEditorKeyup(ed, e, keyTime);
+                dispatchEditorKeyup(ed, e, keyTime);
                 this.save();
             });
 
@@ -123,6 +133,30 @@ $(function(){
                         ed.selection.select(newNode[0]);
                         ed.selection.setContent('');
                     }
+                }
+
+                if (editor.command === 'mceFullScreen') {
+                    var popup = $(window.parent.document).find('[aria-describedby="toasterPopupDraggable"]');
+                    popup.toggleClass('screen-expand');
+                    var $tabs = $('#tabs'),
+                        height = $tabs.height(),
+                        tabNavHeight = $tabs.find('.ui-tabs-nav').height(),
+                        $tabHeader = $tabs.find('#adminthingsviewer .ui-accordion-header'),
+                        tabHeaderLenght = $tabHeader.length,
+                        tabHeaderHeight = $tabHeader.outerHeight(),
+                        tabFolderFieldHeight = $tabs.find('#adminselectimgfolder').outerHeight(),
+                        tabProductButton = $tabs.find('#btn-create').outerHeight(),
+                        tabNetContentButton = $tabs.find('#widgetSync').outerHeight() + 5;
+
+                    $tabs.find('#adminthingsviewer .ui-accordion-content').css({
+                        'max-height' : height - tabNavHeight - (tabHeaderHeight + 2) * tabHeaderLenght  - tabFolderFieldHeight - 30
+                    });
+                    $tabs.find('#product-products').css({
+                        'height' : height - tabNavHeight - tabProductButton - 116
+                    });
+                    $tabs.find('.netcontent-widget-list').css({
+                        'height' : height - tabNavHeight - tabNetContentButton - 12
+                    });
                 }
             });
             ed.ui.registry.addButton('darkmode', {

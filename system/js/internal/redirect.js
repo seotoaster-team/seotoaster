@@ -66,6 +66,12 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (response) {
                 hideSpinner();
+				if(response.redirects.length) {
+					$('.seo-paginator').show();
+				} else {
+					$('.seo-paginator').hide();
+				}
+
                 $('#redirects-box').find('#redirects-list').html(response.redirectsList);
             }
         });
