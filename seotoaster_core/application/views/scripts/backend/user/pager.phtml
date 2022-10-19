@@ -1,5 +1,9 @@
 <?php if ($this->pageCount && $this->pageCount > 1): ?>
 <div class="paginator">
+     <span class="fl-left"><?php echo $this->translate('Total ');?> <?php echo $this->totalItems; ?>
+         <?php echo $this->translate('users found');?>
+     </span>
+
     <?php if ($this->current !== $this->first) :?>
         <a href="<?php echo $this->urlData?>/pnum/<?php echo $this->first, $this->order; ?>"><?php echo $this->translate('First'); ?></a>
     <?php endif; ?>
