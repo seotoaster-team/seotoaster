@@ -683,3 +683,36 @@ function showMailMessageEdit(trigger, callback, recipient){
         });
     }, 'json');
 }
+
+// Fast clearing search inputs
+$(document).ready(function() {
+    var searchBlockElement = $('.search-input').closest('.search-block-element'),
+        cancelEl = '<span class="ticon-cancel-search clear-input hidden"></span>';
+
+    if(typeof searchBlockElement !== 'undefined' && searchBlockElement.length) {
+        $.each(searchBlockElement, function(key, searchBlockEl){
+            $(searchBlockEl).find('input.search-input').after(cancelEl);
+        });
+    }
+
+    $(document).on('input', '.search-input', function(e){
+        var clearInputEl = $(e.currentTarget).closest('.search-block-element').find('span.clear-input');
+
+        if(typeof clearInputEl !== 'undefined') {
+            if(this.value.length > 0) {
+                $(clearInputEl).removeClass('hidden');
+            } else {
+                $(clearInputEl).addClass('hidden');
+            }
+        }
+    });
+
+    $(document).on('click', '.clear-input', function(e){
+        var searchInput = $(e.currentTarget).closest('.search-block-element').find('input.search-input');
+
+        if(typeof searchInput !== 'undefined') {
+            searchInput.val('').focus().trigger('keyup').trigger('change').off();
+            $(this).addClass('hidden');
+        }
+    });
+});

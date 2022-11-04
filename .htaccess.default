@@ -5,3 +5,6 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 
 RewriteRule !\.(js|ico|jpe?g|gif|png|css|pdf|avi|mov|mp(3|4|e?g)|lng|(r|t)ar|tgz|zip|swf|ttf|eot|svg|woff)$ index.php [NC,L]
+
+Options -Indexes
+RedirectMatch 404 /\.git

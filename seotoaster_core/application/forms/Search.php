@@ -19,6 +19,7 @@ class Application_Form_Search extends Zend_Form {
 
         $this->addElement(new Zend_Form_Element_Text(array(
             'id'         => 'search',
+            'class'      => 'search-input',
             'name'       => 'search',
             'label'      => 'search',
             'aria-label' => 'search',

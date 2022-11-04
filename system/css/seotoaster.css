@@ -3147,6 +3147,11 @@ footer [type="button"] {
   padding-left: 0;
   padding-right: 0;
 }
+.f-container #ui-id-4,
+.f-container #ui-id-6 {
+  height: 100%;
+  padding: 0;
+}
 .f-wrapper {
   overflow: hidden;
 }
@@ -3192,6 +3197,12 @@ footer [type="button"] {
 }
 .f-content table[class*="grid_"] {
   display: table;
+}
+.f-content .f-content {
+  margin-top: 0;
+}
+.f-content .f-footer {
+  margin: 0;
 }
 .f-footer {
   margin: 0 0 10px;
@@ -3428,20 +3439,20 @@ form > p,
 .form > p,
 form fieldset > p,
 .form fieldset > p,
-form > div:not(.f-content),
-.form > div:not(.f-content),
-form fieldset > div:not(.f-content),
-.form fieldset > div:not(.f-content) {
+form > div:not(.f-content, .ui-widget-content),
+.form > div:not(.f-content, .ui-widget-content),
+form fieldset > div:not(.f-content, .ui-widget-content),
+.form fieldset > div:not(.f-content, .ui-widget-content) {
   margin-top: 0.65em;
 }
 form > p:after,
 .form > p:after,
 form fieldset > p:after,
 .form fieldset > p:after,
-form > div:not(.f-content):after,
-.form > div:not(.f-content):after,
-form fieldset > div:not(.f-content):after,
-.form fieldset > div:not(.f-content):after {
+form > div:not(.f-content, .ui-widget-content):after,
+.form > div:not(.f-content, .ui-widget-content):after,
+form fieldset > div:not(.f-content, .ui-widget-content):after,
+.form fieldset > div:not(.f-content, .ui-widget-content):after {
   content: "";
   display: table;
   clear: both;
@@ -3450,10 +3461,10 @@ form > p:first-child,
 .form > p:first-child,
 form fieldset > p:first-child,
 .form fieldset > p:first-child,
-form > div:not(.f-content):first-child,
-.form > div:not(.f-content):first-child,
-form fieldset > div:not(.f-content):first-child,
-.form fieldset > div:not(.f-content):first-child {
+form > div:not(.f-content, .ui-widget-content):first-child,
+.form > div:not(.f-content, .ui-widget-content):first-child,
+form fieldset > div:not(.f-content, .ui-widget-content):first-child,
+.form fieldset > div:not(.f-content, .ui-widget-content):first-child {
   margin-top: 0;
 }
 form.condensed > p,
@@ -4160,6 +4171,17 @@ label[for*="chr-"] {
   bottom: 0;
   width: 33.31%;
   z-index: 1;
+}
+.search-block-element {
+  position: relative;
+}
+.search-block-element .ticon-cancel-search {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
 }
 #frm-user {
   overflow-y: auto;
@@ -5618,6 +5640,9 @@ label[for*="chr-"] {
   padding: 0 6px;
   overflow: auto;
   height: 275px;
+}
+.show-more.products-loading {
+  pointer-events: none;
 }
 .productlisting {
   position: relative;

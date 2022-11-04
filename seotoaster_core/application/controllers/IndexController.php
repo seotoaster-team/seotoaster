@@ -17,6 +17,18 @@ class IndexController extends Zend_Controller_Action {
 	    // tracking referer
 	    if (!isset($this->_helper->session->refererUrl)){
 		    $refererUrl = $this->getRequest()->getHeader('referer');
+            if (!empty($refererUrl)) {
+                $getParamsInLink = parse_url($refererUrl,PHP_URL_QUERY);
+                if (empty($getParamsInLink)) {
+                    $params = $this->getRequest()->getParams();
+                    if (!empty($params)) {
+                        unset($params['page']);
+                        unset($params['controller']);
+                        unset($params['action']);
+                        $refererUrl .= '?'.http_build_query($params);
+                    }
+                }
+            }
 		    $currentUser->setReferer($refererUrl);
 		    $this->_helper->session->setCurrentUser($currentUser);
 		    $this->_helper->session->refererUrl = $refererUrl;

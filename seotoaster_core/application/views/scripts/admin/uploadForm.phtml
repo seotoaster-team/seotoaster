@@ -171,6 +171,23 @@ if (!empty($this->filters)) {
                                 $('#fileContainerTemplate').tmpl(response.filesList).appendTo('#filebrowser-files');
                             }
                         }
+
+                    var activeTab = $("ul.ui-tabs-nav li.ui-state-active");
+
+                    var files = $('#filebrowser-files').find('.file-container');
+                    var images = $('#filebrowser-images').find('.file-container');
+
+                    if(activeTab.find('a').data('tab-type') == 'images') {
+                        if(images.length) {
+                            $('#check-all-label').removeClass('hidden');
+                            $('.deleteBtnBlock').removeClass('hidden');
+                        }
+                    } else {
+                        if(files.length) {
+                            $('#check-all-label').removeClass('hidden');
+                            $('.deleteBtnBlock').removeClass('hidden');
+                        }
+                    }
                 }
             }
         });
