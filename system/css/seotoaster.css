@@ -3425,6 +3425,28 @@ input[type="button"].block {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.separator-block {
+  margin-bottom: -12px;
+  margin-top: 0 !important;
+  -webkit-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+}
+.separator-block .separator {
+  z-index: 1;
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+  margin-left: 31%;
+  line-height: 1.5;
+  text-align: center;
+  font-size: 10px;
+  border: 1px solid #31B0D5;
+  border-radius: 50%;
+  background-color: #fff;
+}
 form:after,
 .form:after {
   content: "";
