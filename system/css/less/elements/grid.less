@@ -1,51 +1,31 @@
-.container when (@container-class) {
-    position : relative;
-    & when not(@grid-container-width = 100%) and not(@adaptive) {
-        margin-left  : auto;
-        margin-right : auto;
-        width        : @grid-container-width;
-        
-        & when (@responsive), (@container-responsive) {
-            max-width : @grid-container-maxWidth;
-            & when (@grid-container-minWidth > 0) {
-                min-width : @grid-container-minWidth;
-            }
-        }
+.container{
+    position     : relative;
+    margin-left  : auto;
+    margin-right : auto;
+    .activate-container-style() when (@responsive = false) and not (@grid-container-width = 100%){
+        width : @grid-container-width;
     }
-    & when (@adaptive) {
-        margin-left  : auto;
-        margin-right : auto;
-        & when (@grid-container-minWidth > 0) {
-            min-width : @grid-container-minWidth;
-        }
-        
-        & when not(@grid-container-width > @responsive-size-big-screen) and not(@grid-container-width > @responsive-size-desktop) {
-            max-width : @responsive-size-big-screen;
-        }
-        & when (@grid-container-width > @responsive-size-big-screen), (@grid-container-width > @responsive-size-desktop) {
-            max-width : @grid-container-width;
-        }
-        
-        & when (@grid-container-width > @responsive-size-desktop), (@grid-container-width = 100%) {
-            @media only screen and (max-width : @responsive-size-big-screen) {
-                & {
-                    max-width : @responsive-size-desktop;
-                }
-            }
-        }
-        @media only screen and (max-width : @responsive-size-desktop) {
-            & {
-                max-width : @responsive-size-tablet;
-            }
-        }
-        @media only screen and (max-width : @responsive-size-tablet) {
-            & {
-                max-width : @responsive-size-mobile;
-            }
-        }
+    .activate-container-style() when (@responsive = true) and not (@grid-container-width = 100%){
+        width     : 90%;
+        max-width : @grid-container-width;
     }
-    //.clearfix-mixin();
+    .activate-container-style();
+    .clearfix-mixin();
 }
+
+// GRID CSS
+//==================================================
+[class*=" grid_"], [class^="grid_"], [class*="-grid_"], [class*="_grid_"]{
+    & when (@grid-system = true){
+        display      : inline;
+        float        : left;
+        position     : relative;
+        width        : 100% - @grid-margin-width;
+        margin-left  : (@grid-margin-width / 2) !important;
+        margin-right : (@grid-margin-width / 2) !important;
+    }
+}
+.grid();
 
 // FLEX CSS
 //==================================================
@@ -65,7 +45,7 @@
         .flex-align(flex-start);
         
         //flex-start | flex-end | center | space-between | space-around | stretch (default)   //doesn't work with flex-wrap: nowrap !!!!!!!!!!!!!!!
-        .flex-align-content(flex-start);
+        //.flex-align-content(flex-start);
         
         // flex-start(default) | flex-end | center | space-between | space-around | space-evenly   // main axis
         //.flex-justify-content(flex-start);
@@ -106,12 +86,6 @@
     }
     
     .flex-grid();
-}
-
-// GRID CSS
-//==================================================
-& when (@grid-system){
-    .grid();
 }
 
 // COLUMN LIST CSS
