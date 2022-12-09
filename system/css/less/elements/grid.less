@@ -1,108 +1,193 @@
-.container{
-    position     : relative;
-    margin-left  : auto;
-    margin-right : auto;
-    .activate-container-style() when (@responsive = false) and not (@grid-container-width = 100%){
-        width : @grid-container-width;
+.container when (@container-class) {
+    position : relative;
+    & when not(@grid-container-width = 100%) and not(@adaptive) {
+        margin-left  : auto;
+        margin-right : auto;
+        width        : @grid-container-width;
+        
+        & when (@responsive), (@container-responsive) {
+            max-width : @grid-container-maxWidth;
+            & when (@grid-container-minWidth > 0) {
+                min-width : @grid-container-minWidth;
+            }
+        }
     }
-    .activate-container-style() when (@responsive = true) and not (@grid-container-width = 100%){
-        width     : 90%;
-        max-width : @grid-container-width;
+    & when (@adaptive) {
+        margin-left  : auto;
+        margin-right : auto;
+        & when (@grid-container-minWidth > 0) {
+            min-width : @grid-container-minWidth;
+        }
+        
+        & when not(@grid-container-width > @responsive-size-big-screen) and not(@grid-container-width > @responsive-size-desktop) {
+            max-width : @responsive-size-big-screen;
+        }
+        & when (@grid-container-width > @responsive-size-big-screen), (@grid-container-width > @responsive-size-desktop) {
+            max-width : @grid-container-width;
+        }
+        
+        & when (@grid-container-width > @responsive-size-desktop), (@grid-container-width = 100%) {
+            @media only screen and (max-width : @responsive-size-big-screen) {
+                & {
+                    max-width : @responsive-size-desktop;
+                }
+            }
+        }
+        @media only screen and (max-width : @responsive-size-desktop) {
+            & {
+                max-width : @responsive-size-tablet;
+            }
+        }
+        @media only screen and (max-width : @responsive-size-tablet) {
+            & {
+                max-width : @responsive-size-mobile;
+            }
+        }
     }
-    .activate-container-style();
-    .clearfix-mixin();
+    //.clearfix-mixin();
+}
+
+// FLEX CSS
+//==================================================
+& when (@flex-system){
+    // TODO more tests and rework
+    .flex-row {
+        display: -ms-flexbox;
+        display: flex;
+        
+        // row(default), row-reverse, column, column-reverse
+        .flex-direction(row);
+        
+        // nowrap(default) | wrap | wrap-reverse
+        .flex-wrap(wrap);
+        
+        // flex-start | flex-end | center | baseline | stretch (default)   // perpendicular axis
+        .flex-align(flex-start);
+        
+        //flex-start | flex-end | center | space-between | space-around | stretch (default)   //doesn't work with flex-wrap: nowrap !!!!!!!!!!!!!!!
+        .flex-align-content(flex-start);
+        
+        // flex-start(default) | flex-end | center | space-between | space-around | space-evenly   // main axis
+        //.flex-justify-content(flex-start);
+        
+        & > * {
+            flex-basis   : 100-@grid-margin-width;
+            max-width    : 100-@grid-margin-width;
+            margin-left  : @grid-margin-width/2 !important;
+            margin-right : @grid-margin-width/2 !important;
+        }
+    }
+    
+    .flex-column {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        
+        // row(default), row-reverse, column, column-reverse
+        .flex-direction(column);
+        
+        // nowrap(default) | wrap | wrap-reverse
+        .flex-wrap(nowrap);
+        
+        // flex-start | flex-end | center | baseline | stretch (default)
+        .flex-align(stretch);
+        
+        //flex-start | flex-end | center | space-between | space-around | stretch (default)
+        //.flex-align-content(flex-start);
+        
+        // flex-start(default) | flex-end | center | space-between | space-around | space-evenly
+        .flex-justify-content(flex-start);
+    }
+    
+    [class*="flex_"] {
+        &::after {
+            content : none;
+        }
+    }
+    
+    .flex-grid();
 }
 
 // GRID CSS
 //==================================================
-[class*=" grid_"], [class^="grid_"], [class*="-grid_"], [class*="_grid_"]{
-    & when (@grid-system = true){
-        display      : inline;
-        float        : left;
-        position     : relative;
-        width        : 100% - @grid-margin-width;
-        margin-left  : (@grid-margin-width / 2) !important;
-        margin-right : (@grid-margin-width / 2) !important;
-    }
+& when (@grid-system){
+    .grid();
 }
-.grid();
 
 // COLUMN LIST CSS
 //==================================================
-.column();
-[class*=" column_"], [class^="column_"], [class*="-column_"], [class*="_column_"]{
-    & when (@column-system = true){
+[class*=" column_"], [class^="column_"], [class*="-column_"], [class*="_column_"] {
+    & when (@column-system) {
         font-size : 0 !important;
-        width     : 100%;
-
-        & > *{
-            font-size      : @font-size-base;
-            float          : none !important;
-            display        : inline-block;
-            vertical-align : top;
-            width          : 100% - @column-margin-width;
-            margin-left    : (@column-margin-width / 2) !important;
-            margin-right   : (@column-margin-width / 2) !important;
-            margin-bottom  : @column-margin-width;
+        
+        & > * {
+            font-size    : @font-size-base;
+            float        : none !important;
+            .inline-block(top);
+            width        : 100% - @column-margin-width !important;
+            margin-left  : (@column-margin-width / 2) !important;
+            margin-right : (@column-margin-width / 2) !important;
         }
-
-        fieldset& > *{
-            margin-top : 0;
+        
+        &.mb {
+            & > * {
+                margin-bottom : @column-margin-width;
+            }
         }
-
-        &.bottom{
-            & > *{
+        
+        &.bottom {
+            & > * {
                 vertical-align : bottom;
             }
         }
-
-        &.middle{
-            & > *{
+        
+        &.middle {
+            & > * {
                 vertical-align : middle;
             }
         }
-
-        &.full-width when (@column-system-fullWidth = true){
-            & > *{
-                width        : 100%;
+        
+        &.full-width when (@column-system-fullWidth) {
+            & > * {
+                width        : 100% !important;
                 margin-right : @column-margin-width !important;
                 margin-left  : 0 !important;
             }
         }
-
-        &.margin-none when (@column-system-marginNone = true){
-            & > *{
-                width        : 100%;
+        
+        &.margin-none when (@column-system-marginNone) {
+            & > * {
+                width        : 100% !important;
                 margin-left  : 0 !important;
                 margin-right : 0 !important;
             }
         }
-
-        &.one-line{
-            & > *{
+        
+        &.one-line {
+            & > * {
                 margin-bottom : 0;
             }
         }
-
-        .column-none, .spinner{
-            width : auto !important;
+        
+        & > .generator-links {
+            display : block;
         }
-
-        & > .generator-links{ display : block; }
-
-        & > .larger{
-            font-size : @font-size-base * @font-size-larger !important;
+        
+        &.larger > *, & > .larger {
+            font-size : unit(@font-size-base * @font-size-larger, px) !important;
         }
-
-        & > .large{
-            font-size : @font-size-base * @font-size-large !important;
+        
+        &.large > *, & > .large {
+            font-size : unit(@font-size-base * @font-size-large, px) !important;
         }
-
-        & > .small{
-            font-size : @font-size-base * @font-size-small !important;
+        
+        &.small > *, & > .small {
+            font-size : unit(@font-size-base * @font-size-small, px) !important;
         }
     }
 }
+
+.column();
 
 .clear{
     display    : block;
