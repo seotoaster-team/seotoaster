@@ -107,6 +107,7 @@
 // Grid system
 //==================================================
 .grid() when (@grid-system){
+    
     & when (@responsive){
         //& when (@grid-global-classes){
         //    .grid-list(@prefix: _);
@@ -154,6 +155,7 @@
 // Flex system
 //==================================================
 .flex-grid() when (@flex-system) {
+    
     & when (@responsive) {
         //& when (@flex-global-classes) {
         //    .flex-grid-list(@prefix: _);
@@ -161,6 +163,7 @@
         @media only screen and (min-width : (@responsive-size-tablet + 1)) {
             .flex-grid-list(@prefix: f-);
         }
+        
         & when (@grid-columns-big-screen > 0) and (isnumber(@grid-columns-big-screen)) {
             @media only screen and (min-width : (@responsive-size-big-screen)) {
                 .flex-grid-list(@grid-columns-big-screen; b-);
@@ -198,7 +201,7 @@
         }
     }
     & when not(@responsive) and not(@adaptive) {
-        .flex-grid-list();
+        .flex-grid-list(@prefix: f-);
     }
 }
 

@@ -17,25 +17,6 @@
 .plugins-list .plugin-item:nth-child(5n + 1) {
   margin-left: 0;
 }
-@media only screen and (max-width: 768px) and (min-width: 481px) {
-  .plugins-list .plugin-item {
-    width: 49%;
-  }
-  .plugins-list .plugin-item:nth-child(n) {
-    margin-left: 2%;
-  }
-  .plugins-list .plugin-item:nth-child(2n + 1) {
-    margin-left: 0;
-  }
-}
-@media only screen and (max-width: 480px) {
-  .plugins-list .plugin-item {
-    width: 100%;
-  }
-  .plugins-list .plugin-item:nth-child(1n + 1) {
-    margin-left: 0;
-  }
-}
 .plugins-list .plugin-item:hover .readme-plugin,
 .plugins-list .plugin-item:hover .del-plugin {
   opacity: 1;
