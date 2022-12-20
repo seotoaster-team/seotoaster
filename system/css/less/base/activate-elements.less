@@ -12,21 +12,36 @@
 @activate-pie                  : false;
 
 // Responsive (MediaQueries)
-@responsive : false;
+// [MediaQueries]
 @print      : false;
+@adaptive   : false;
+@responsive : false;
+
+// [Container]
+@container-class      : true;
+@container-responsive : false;
 
 // [Grid system]
 @grid-system : true;
-    @grid-system-push-pull     : true;
-    @grid-system-prefix-suffix : true;
+    //@grid-system-push-pull     : true;
+    //@grid-system-prefix-suffix : true;
     @grid-system-alpha-omega   : true;
-    @grid-global-classes       : true;
+    @grid-global-classes       : false;
+
+// [GLOBAL FOR flex AND grid]
+@system-push-pull     : true;
+@system-prefix-suffix : true;
+
+// [Flex system]
+@flex-system : true;
+    @flex-system-alpha-omega   : true;
+    @flex-global-classes       : false; // DO NOT TURN ON !!!
 
 // [Column system]
 @column-system : true;
     @column-system-fullWidth  : true;
     @column-system-marginNone : true;
-    @column-global-classes    : true;
+    @column-global-classes    : false; // DO NOT TURN ON !!!
 
 // Connection / Disconnection modules.less OR each individually
 @modules : true;
