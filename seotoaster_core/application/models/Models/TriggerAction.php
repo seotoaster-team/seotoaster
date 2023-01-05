@@ -25,9 +25,12 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
     protected $_service;
 
+    protected $_preheader;
+
 
 	public function setMessage($message) {
 		$this->_message = $message;
+        return $this;
 	}
 
 	public function getMessage() {
@@ -47,6 +50,7 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
 	public function setRecipient($recipient) {
 		$this->_recipient = $recipient;
+        return $this;
 	}
 
 	public function getRecipient() {
@@ -55,6 +59,7 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
 	public function setTemplate($templateName) {
 		$this->_template = $templateName;
+        return $this;
 	}
 
 	public function getTemplate() {
@@ -63,6 +68,7 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
 	public function setTrigger($triggerName) {
 		$this->_trigger = $triggerName;
+        return $this;
 	}
 
 	public function getTrigger() {
@@ -98,6 +104,23 @@ class Application_Model_Models_TriggerAction extends Application_Model_Models_Ab
 
     public function unsetSmsTextProperty() {
         unset($this->_smsText);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPreheader()
+    {
+        return $this->_preheader;
+    }
+
+    /**
+     * @param mixed $preheader
+     */
+    public function setPreheader($preheader)
+    {
+        $this->_preheader = $preheader;
+        return $this;
     }
 
 }

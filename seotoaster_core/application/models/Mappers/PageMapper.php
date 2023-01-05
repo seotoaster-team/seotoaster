@@ -213,7 +213,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $select = $table->select()
             ->from($table, array('count' => new Zend_Db_Expr('COUNT(draft)')))
             ->where('draft = ?', '1')
-            ->where('system = ?', '1');
+            ->where('`system` = ?', '1');
 
         return $table->getAdapter()->fetchOne($select);
     }

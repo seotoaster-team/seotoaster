@@ -70,6 +70,17 @@
 						<?php echo $this->formLabel('subject', 'with subject', array('class' => 'grid_4 mt5px')); ?>
 						<?php echo $this->formText('actions[${index}][subject]', '${subject}', array('class' => 'grid_8')); ?>
 					</p>
+
+					{{if typeof data.preheader !== 'undefined' && typeof data.withsms === 'undefined'}}
+                        <p>
+                            <label class="grid_4 mt5px"><?php echo $this->translate('preheader'); ?>
+                                    <a href="javascript:;" class="ticon-info tooltip icon18" title="<?php echo $this->translate('A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.');?>"></a>
+                            </label>
+                            <!--? php echo $this->formLabel('preheader', 'preheader', array('class' => 'grid_4 mt5px')); ?-->
+                            <?php echo $this->formText('actions[${index}][preheader]', '${preheader}', array('class' => 'grid_8')); ?>
+                        </p>
+					{{/if}}
+
                     {{if triggerName == 'store_neworder' || triggerName == 'store_trackingnumber' || typeof data.withsms !== 'undefined'}}
                     <p class="{{if serviceName != 'sms'}}hide{{/if}}">
                         <?php echo $this->formLabel('smsText', 'insert plain text message only', array('class' => 'grid_12')); ?>
@@ -174,12 +185,14 @@
             var smsTextEl  = rootEl.find('[id*="smsText"]');
             var recipientEl  = rootEl.find('[id*="recipient"]');
             var recipientIndex = $('[value="customer"]', recipientEl).index();
+            var preheaderEl = rootEl.find('[id*="preheader"]');
             if($(this).val() === 'sms') {
                 $(templateEl).closest('p').hide();
                 $(fromEl).closest('p').hide();
                 $(subjectEl).closest('p').hide();
                 $(messageEl).closest('p').hide();
                 $(smsTextEl).closest('p').show();
+                $(preheaderEl).closest('p').hide();
                 /*Hide all recipients except client*/
                 $('option:eq('+recipientIndex+')', recipientEl).prop("selected", "selected");
                 $('option:gt('+recipientIndex+')',recipientEl).hide();
@@ -191,6 +204,7 @@
                 $(fromEl).closest('p').show();
                 $(subjectEl).closest('p').show();
                 $(messageEl).closest('p').show();
+                $(preheaderEl).closest('p').show();
                 $(smsTextEl).closest('p').hide();
                 $('option:gt('+recipientIndex+')',recipientEl).show();
                 $('option:lt('+recipientIndex+')',recipientEl).show();
@@ -223,6 +237,7 @@
                                 $('select[name*=template]', action).closest('p').hide();
                                 $('input[name*=from]', action).closest('p').hide();
                                 $('input[name*=subject]', action).closest('p').hide();
+                                $('input[name*=preheader]', action).closest('p').hide();
                                 var recipientIndex = $('select[name*=recipient] option[value="customer"]', action).index();
                                 $('select[name*=recipient] option:gt('+recipientIndex+')', action).hide();
                                 $('select[name*=recipient] option:lt('+recipientIndex+')', action).hide();
@@ -237,7 +252,12 @@
 							$('select[name*=template]', action).val(item.template);
 							$('input[name*=from]', action).val(item.from);
 							$('input[name*=subject]', action).val(item.subject);
+							$('input[name*=preheader]', action).val(item.preheader);
 							$(triggerHolder).prepend(action);
+
+                            if(actionName == 'email-remarketing') {
+                                triggerHolder.find('.new-trigger-action').css("font-size", "86px");
+                            }
 						});
 					}
 				});

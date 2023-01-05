@@ -972,4 +972,45 @@ class Tools_System_Tools {
         return $formattedString;
     }
 
+    /**
+     * Create preheader HTML element
+     *
+     * @param $preheaderText
+     * @return string
+     */
+    public static function createPreheaderHTMLElement($preheaderText)
+    {
+        $preheaderHTML = '';
+
+        if(!empty($preheaderText)) {
+            $preheaderHTML =  "<span class=\"preheader\" style=\"color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;\">" . $preheaderText . "</span>";
+        }
+
+        return $preheaderHTML;
+
+    }
+
+    /**
+     * Insert email preheader text to body
+     *
+     * @param $emailTemplate
+     * @param $preheaderText
+     * @return array|mixed|string|string[]
+     */
+    public static function insertEmailPreheaderToBody($emailTemplate, $preheaderText)
+    {
+        if(!empty($preheaderText)) {
+            $preheaderTextElement = self::createPreheaderHTMLElement($preheaderText);
+
+            $emailTemplateWithPreheader = preg_replace("~(<body[^>]*>)~ui", "$1" . $preheaderTextElement,  $emailTemplate);
+
+            if(!empty($emailTemplateWithPreheader)) {
+                $emailTemplate = $emailTemplateWithPreheader;
+            }
+        }
+
+        return $emailTemplate;
+
+    }
+
 }

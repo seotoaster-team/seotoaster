@@ -39,7 +39,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
-('version',	'3.5.0');
+('version',	'3.5.1');
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -107,6 +107,7 @@ CREATE TABLE `email_triggers_actions` (
   `message` text COLLATE utf8_unicode_ci,
   `from` tinytext COLLATE utf8_unicode_ci NOT NULL COMMENT 'can be used in the From field of e-mail',
   `subject` tinytext COLLATE utf8_unicode_ci NOT NULL COMMENT 'can be used in the "Subject" field of e-mail',
+  `preheader` TEXT COLLATE utf8_unicode_ci COMMENT 'Email preheader text is a small line of text that appears after the subject line in an email inbox.',
   PRIMARY KEY (`id`),
   KEY `trigger` (`trigger`),
   KEY `template` (`template`),

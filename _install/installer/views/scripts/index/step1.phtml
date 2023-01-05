@@ -42,7 +42,7 @@
             <li <?php if (!$this->checks['gmp']) echo 'class="error"'; ?> ><?php echo $this->translate('<strong>GMP library for PHP:</strong> GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers.'); ?></li>
 			<?php if(!extension_loaded('IonCube Loader')): ?>
 			<li class="important error">
-                <?php echo $this->translate('<strong>Optional but recommended:</strong>');?>&nbsp;<strong>IonCube Loader</strong>
+                <strong>IonCube Loader</strong>
 				<p style="text-align:justify;">
                 <?php echo $this->translate("We've detected that your web server is not equipped with the Ion Cube encryption loader. Don't settle for less than the entire Seotoaster experience! Seotoaster uses IonCube to encrypt great time-saving plug-ins available on the marketplace, get your website instantly setup with free real-time web analytics, create a KML file so that your local business can be found online. It is free and easy to download and install IonCube. Do it or contact your web host to do it for you."); ?>
                 <a target="_blank"  title="<?php echo $this->translate('download and install IonCube loader'); ?>" href="http://www.ioncube.com/loaders.php">(<?php echo $this->translate('download and install IonCube loader'); ?>)</a>

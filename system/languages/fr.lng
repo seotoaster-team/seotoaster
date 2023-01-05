@@ -1307,7 +1307,10 @@
     'Go to file' => 'Voir le fichier',
     'Refresh' => 'Rafraîchir',
     'Other' => 'Autre',
-    'Enable automatic link wrapping?' => 'Voulez-vous activer l\'habillage automatique des liens?'
+    'Enable automatic link wrapping?' => 'Voulez-vous activer l\'habillage automatique des liens?',
+    'preheader' => 'pré-header',
+    'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.' => 'Le pré-header c\'est le court texte récapitulatif qui suit la ligne d\'objet lorsqu\'un e-mail est affiché dans la boîte de réception. De nombreux mobiles, ordinateur de bureau et Web les fournissent pour vous indiquer le contenu de l\'e-mail avant de l\'ouvrir.'
+
 
 
 );?>
