@@ -80,17 +80,17 @@
 .column-list(@column : @columns; @prefix : ~''; @type : false) when (@column > 0) and (@type = false){
     .column-list(@column - 1; @prefix; false);
     .@{prefix}column_@{column} > *{
-        width : round((100% / @column) - @column-margin-width, 3) !important;
+        width : round((100% / @column) - @column-margin-width, 3);
     }
 }
 .column-list(@column : @columns; @prefix : ~''; @type : full-width) when (@column > 0) and (@type = full-width) and  (@column-system-fullWidth = true){
     .column-list(@column - 1; @prefix; full-width);
     .full-width{
         &.@{prefix}column_@{column} > *{
-            width : round((100% / @column) - @column-margin-width + (@column-margin-width / @column), 3) !important;
+            width : round((100% / @column) - @column-margin-width + (@column-margin-width / @column), 3);
             @num : ~'@{column}n';
             &:nth-child(@{num}){
-                margin-right : 0 !important;
+                margin-right : 0 ;
             }
         }
     }
@@ -99,7 +99,7 @@
     .column-list(@column - 1; @prefix; margin-none);
     .margin-none{
         &.@{prefix}column_@{column} > *{
-            width : round(100% / @column, 3) !important;
+            width : round(100% / @column, 3);
         }
     }
 }
