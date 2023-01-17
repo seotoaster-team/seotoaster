@@ -191,7 +191,8 @@
                         <td class="user-row-item"><?php echo $user['full_name']; ?></td>
 
                         <td class="user-row-item"><?php echo $this->translate($user['role_id']); ?></td>
-                        <td class="user-row-item"><?php echo intval($user['last_login']) ? date('Y-m-d', strtotime($user['last_login'])) : '-'; ?></td>
+
+                        <td class="user-row-item"><?php echo intval($user['last_login']) ? date('d-M-Y', strtotime($user['last_login'])) : '-'; ?></td>
                         <td class="user-row-item"><?php echo ($user['ipaddress']) ? $user['ipaddress'] : '-'; ?></td>
                         <td class="user-row-item text-center">
                         <?php if($user['role_id'] !== 'superadmin'): ?>
