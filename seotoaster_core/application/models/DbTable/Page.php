@@ -23,7 +23,7 @@ class Application_Model_DbTable_Page extends Zend_Db_Table_Abstract {
 
     public function fetchAllMenu($menuType, $fetchSysPages = false) {
         $where    = $this->getAdapter()->quoteInto("show_in_menu = '?'", $menuType);
-        $sysWhere = $this->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+        $sysWhere = $this->getAdapter()->quoteInto("`system` = '?'", intval($fetchSysPages));
         $select   = $this->getAdapter()->select()
             ->from('page', array('id', 'parentId' => 'parent_id', 'protected', 'external_link_status', 'external_link', 'page_folder', 'is_folder_index', 'exclude_category'))
             ->joinLeft('optimized', 'page_id = id', null)
