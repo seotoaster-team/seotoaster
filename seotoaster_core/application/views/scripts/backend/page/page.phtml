@@ -79,6 +79,16 @@
 
 				<div class="menu-info mt5px" style="display: none;"></div>
 			</div>
+            <div id="additional-navigation-block" class="additional-navigation-block grid_12 mt10px">
+                <label class="grid_6">
+                    <?php echo $this->translate('Open page in new tab');?>
+                    <input id="page-target-blank" type="checkbox" name="pageTargetBlank" <?php echo (!empty($this->pageForm->getElement('pageTargetBlank')->getValue()) ? 'checked':'');?> value="1">
+                </label>
+                <label class="grid_6">
+                    <?php echo $this->translate('Make not clickable in menu');?>
+                    <input type="checkbox" name="notClickable" <?php echo (!empty($this->pageForm->getElement('notClickable')->getValue()) ? 'checked':'');?> value="1">
+                </label>
+            </div>
 		</fieldset>
 		<fieldset class="grid_6 settings mb1-75em">
 			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>

@@ -42,6 +42,10 @@ class Application_Form_Page extends Application_Form_Secure {
 
     protected $_excludeCategory = '';
 
+    protected $_pageTargetBlank = 0;
+
+    protected $_notClickable = 0;
+
 	public function init() {
         parent::init();
         $this->setMethod(Zend_Form::METHOD_POST);
@@ -228,6 +232,14 @@ class Application_Form_Page extends Application_Form_Secure {
             'value' => $this->excludeCategory
         ));
 
+        $this->addElement('checkbox', 'pageTargetBlank', array(
+            'value' => $this->pageTargetBlank
+        ));
+
+        $this->addElement('checkbox', 'notClickable', array(
+            'value' => $this->notClickable
+        ));
+
 		//$this->setDecorators(array('ViewScript'));
 		$this->setElementDecorators(array('ViewHelper', 'Label'));
 		$this->getElement('updatePage')->removeDecorator('Label');
@@ -398,6 +410,30 @@ class Application_Form_Page extends Application_Form_Secure {
     public function getExternalLink()
     {
         return $this->_externalLink;
+    }
+
+    public function setPageTargetBlank($pageTargetBlank)
+    {
+        $this->_pageTargetBlank = $pageTargetBlank;
+        $this->getElement('pageTargetBlank')->setValue($pageTargetBlank);
+        return $this;
+    }
+
+    public function getPageTargetBlank()
+    {
+        return $this->_pageTargetBlank;
+    }
+
+    public function setNotClickable($notClickable)
+    {
+        $this->_notClickable = $notClickable;
+        $this->getElement('notClickable')->setValue($notClickable);
+        return $this;
+    }
+
+    public function getNotClickable()
+    {
+        return $this->_notClickable;
     }
 
 	public function lockField($fieldName) {
