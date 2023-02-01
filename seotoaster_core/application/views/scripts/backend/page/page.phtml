@@ -86,7 +86,7 @@
                 </label>
                 <label class="grid_6">
                     <?php echo $this->translate('Make not clickable in menu');?>
-                    <input type="checkbox" name="notClickable" <?php echo (!empty($this->pageForm->getElement('notClickable')->getValue()) ? 'checked':'');?> value="1">
+                    <input id="page-not-clickable" type="checkbox" name="notClickable" <?php echo (!empty($this->pageForm->getElement('notClickable')->getValue()) ? 'checked':'');?> value="1">
                 </label>
             </div>
 		</fieldset>

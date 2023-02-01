@@ -93,6 +93,19 @@ $(document).on('change', '#template-categories', function(){
     $('.template_group').hide();
     $('#'+cat).show();
 });
+
+$(document).on('change', '#page-target-blank', function(){
+    if ($(this).is(':checked')) {
+        $('#page-not-clickable').prop('checked', false);
+    }
+});
+
+$(document).on('change', '#page-not-clickable', function(){
+    if ($(this).is(':checked')) {
+        $('#page-target-blank').prop('checked', false);
+    }
+});
+
 function showTemplatesList() {
     var $templateList = $('#templatelist');
     $.post($('#website_url').val() + 'backend/backend_theme/gettemplate/pageId/' + $('#pageId').val(), {

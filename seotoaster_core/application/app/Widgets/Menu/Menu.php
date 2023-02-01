@@ -206,6 +206,10 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                         $item = $page['external_link'];
                         $dictionary['$page:target_blank'] = 'target=_blank';
                     }
+
+                    if ($page['page_target_blank'] === '1') {
+                        $dictionary['$page:target_blank'] = 'target=_blank';
+                    }
                 }
                 $dictionary['$page:' . $prop] = $item;
                 $dictionary['$page:' . $prop . ':clear'] = strip_tags($item);
