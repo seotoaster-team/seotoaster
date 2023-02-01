@@ -210,6 +210,12 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                     if ($page['page_target_blank'] === '1') {
                         $dictionary['$page:target_blank'] = 'target=_blank';
                     }
+
+                    if ($page['not_clickable'] === '1') {
+                        $dictionary['$page:not_clickable'] = '';
+                    } else {
+                        $dictionary['$page:not_clickable'] = 'href="{$page:url}"';
+                    }
                 }
                 $dictionary['$page:' . $prop] = $item;
                 $dictionary['$page:' . $prop . ':clear'] = strip_tags($item);
