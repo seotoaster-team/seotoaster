@@ -816,6 +816,12 @@ ALTER TABLE `form` ADD COLUMN `auto_reply_pdf_template` VARCHAR(255) DEFAULT NUL
 -- version: 3.5.0
 ALTER TABLE `email_triggers_actions` ADD COLUMN `preheader` TEXT COLLATE utf8_unicode_ci COMMENT 'Email preheader text is a small line of text that appears after the subject line in an email inbox.';
 
+ -- 31.01.2023
+-- Add external links to pages
+-- version: 3.5.1
+ALTER TABLE `page` ADD COLUMN `page_target_blank` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
+ALTER TABLE `page` ADD COLUMN `not_clickable` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.5.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.5.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
