@@ -822,6 +822,10 @@ ALTER TABLE `email_triggers_actions` ADD COLUMN `preheader` TEXT COLLATE utf8_un
 ALTER TABLE `page` ADD COLUMN `page_target_blank` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
 ALTER TABLE `page` ADD COLUMN `not_clickable` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
 
+-- 06/02/2023
+-- version: 3.5.2
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.5.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.6.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
