@@ -28,12 +28,16 @@ function toggleExternalLink(){
                 $('#'+fieldId).prop('readonly', externalLinkStatus).toggleClass('noedit');
             });
             if (externalLinkStatus) {
+                $('#additional-navigation-block').addClass('hidden');
+                $('#additional-navigation-block').find('checkbox').prop('checked', false);
+                $('#additional-navigation-block').find('#page-target-blank').prop('checked', true);
                 $('.template-section').css({'visibility':'hidden'});
                 $('#url').val($('#external-link').val());
                 if($.trim($('#url').val()) === ''){
                     $('#url').prop('placeholder','Your link to an external website');
                 }
             } else {
+                $('#additional-navigation-block').removeClass('hidden');
                 $('#url').val($('#original-page-url').val());
                 $('.template-section').css({'visibility':'visible'});
                 $('#url').prop('placeholder','');
@@ -89,6 +93,19 @@ $(document).on('change', '#template-categories', function(){
     $('.template_group').hide();
     $('#'+cat).show();
 });
+
+$(document).on('change', '#page-target-blank', function(){
+    if ($(this).is(':checked')) {
+        $('#page-not-clickable').prop('checked', false);
+    }
+});
+
+$(document).on('change', '#page-not-clickable', function(){
+    if ($(this).is(':checked')) {
+        $('#page-target-blank').prop('checked', false);
+    }
+});
+
 function showTemplatesList() {
     var $templateList = $('#templatelist');
     $.post($('#website_url').val() + 'backend/backend_theme/gettemplate/pageId/' + $('#pageId').val(), {

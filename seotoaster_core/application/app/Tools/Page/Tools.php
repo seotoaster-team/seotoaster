@@ -202,7 +202,7 @@ class Tools_Page_Tools
         $previewPath        = $websiteHelper->getPath() . $websiteHelper->getPreview();
 
 //        $filelist           = Tools_Filesystem_Tools::findFilesByExtension($previewPath, '(jpg|gif|png)', false, false, false);
-        $currentPreviewList = glob($previewPath.$pageUrl.'.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $currentPreviewList = glob($previewPath.$pageUrl.'.{jpg,jpeg,png,gif,webp}', GLOB_BRACE);
 
         if ($tmpPreviewFile) {
             $tmpPreviewFile = str_replace($websiteHelper->getUrl(), $websiteHelper->getPath(), $tmpPreviewFile);

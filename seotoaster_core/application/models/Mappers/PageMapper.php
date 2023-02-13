@@ -60,7 +60,9 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             'page_type'           => $page->getPageType(),
             'page_folder'         => $page->getPageFolder(),
             'is_folder_index'         => $page->getisFolderIndex(),
-            'exclude_category'    => $page->getExcludeCategory()
+            'exclude_category'    => $page->getExcludeCategory(),
+            'page_target_blank'    => $page->getPageTargetBlank(),
+            'not_clickable'    => $page->getNotClickable(),
         );
 
 
@@ -213,7 +215,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $select = $table->select()
             ->from($table, array('count' => new Zend_Db_Expr('COUNT(draft)')))
             ->where('draft = ?', '1')
-            ->where('system = ?', '1');
+            ->where('`system` = ?', '1');
 
         return $table->getAdapter()->fetchOne($select);
     }

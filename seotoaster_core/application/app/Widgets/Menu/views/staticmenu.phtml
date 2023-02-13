@@ -11,8 +11,16 @@
         <?php if($staticPage->getExternalLinkStatus() === '1'):?>
             <?php $staticUrl = $staticPage->getExternalLink();?>
             <?php $targetBlank = 'target="_blank"';?>
+        <?php elseif($staticPage->getPageTargetBlank()):?>
+            <?php $targetBlank = 'target="_blank"';?>
         <?php endif;?>
-        <li><a href="<?php echo $staticUrl;?>" <?php echo $targetBlank;?> title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a></li>
+        <li>
+            <?php if($staticPage->getNotClickable() === '1'):?>
+                <a title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a>
+            <?php else:?>
+                <a href="<?php echo $staticUrl;?>" <?php echo $targetBlank;?> title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a>
+            <?php endif;?>
+        </li>
 
 	<?php endforeach; ?>
 </ul>
