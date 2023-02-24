@@ -130,7 +130,7 @@
                     </select>
                 </p>
             </div>
-            <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->order; ?>" method="get">
+            <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->order; ?>" method="get">
                 <div class="grid_3 alpha">
                     <?php
                     $acl = Zend_Registry::get('acl');
@@ -149,9 +149,9 @@
                     </select>
                 </div>
                 <div class="grid_8 alpha omega mt0px">
-                    <input class="<?php echo ($this->key != '' || $this->userRole != null) ? 'grid_7' : 'grid_8';?> alpha omega search-input" type="text" name="key" value="<?php echo $this->key ?>">
+                    <input class="<?php echo ($this->key != '' || !empty($this->userRole)) ? 'grid_7' : 'grid_8';?> alpha omega search-input" type="text" name="key" value="<?php echo $this->key ?>">
                     <button class="btn grid_4 alpha omega mt0px ticon-search search-btn" type="submit"><?php echo $this->translate('Search'); ?></button>
-                    <span class="btn alpha grid_1 mt0px search-btn-clear" style="display:<?php echo ($this->key != '' || $this->userRole != null) ? 'block' : 'none';?>"><?php echo $this->translate('X'); ?></span>
+                    <span class="btn alpha grid_1 mt0px search-btn-clear" style="display:<?php echo ($this->key != '' || !empty($this->userRole)) ? 'block' : 'none';?>"><?php echo $this->translate('X'); ?></span>
                 </div>
             </form>
             <?php echo '<a id="add-user-link" class="btn fl-right icon-user-add" href="javascript:;"> ' . $this->translate('Add new user') . '</a>' ?>
@@ -162,23 +162,24 @@
 				<tr>
 					<th>
                         <?php echo $this->translate('E-mail'); ?>
-                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->orderParam; ?>"></a>
+
+                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/email/order/<?php echo $this->orderParam; ?>/filter-by-user-role/<?php echo $this->userRole;?>"></a>
                     </th>
 					<th>
                         <?php echo $this->translate('Full name'); ?>
-                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/full_name/order/<?php echo $this->orderParam; ?>"></a>
+                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/full_name/order/<?php echo $this->orderParam; ?>/filter-by-user-role/<?php echo $this->userRole;?>"></a>
                     </th>
                     <th>
                         <?php echo $this->translate('Role'); ?>
-                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/role_id/order/<?php echo $this->orderParam; ?>"></a>
+                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/role_id/order/<?php echo $this->orderParam; ?>/filter-by-user-role/<?php echo $this->userRole;?>"></a>
                     </th>
                     <th>
                         <?php echo $this->translate('Last login'); ?>
-                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->orderParam; ?>"></a>
+                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->orderParam; ?>/filter-by-user-role/<?php echo $this->userRole;?>"></a>
                     </th>
                     <th>
                         <?php echo $this->translate('Ip address'); ?>
-                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/ipaddress/order/<?php echo $this->orderParam; ?>"></a>
+                        <a class="ticon-sort" href="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/ipaddress/order/<?php echo $this->orderParam; ?>/filter-by-user-role/<?php echo $this->userRole;?>"></a>
                     </th>
                     <th class="text-center"><?php echo $this->translate('Actions'); ?></th>
 				</tr>
