@@ -41,9 +41,8 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function manageAction() {
-
-
-	    $usersRoles  = Application_Model_Mappers_UserMapper::getInstance()->findAllRoles();
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+	    $usersRoles  = $userMapper->findAllRoles();
         $tranlationUserRoles = array();
 
 	    if(!empty($usersRoles)){
@@ -71,7 +70,20 @@ class Backend_UserController extends Zend_Controller_Action {
             )));
             $userForm->getElement('fullName')->getValidator('Zend_Validate_Regex')->setMessage("'%value%' contains characters which are non alphabetic and no digits", Zend_Validate_Regex::NOT_MATCH);
             if($userForm->isValid($this->getRequest()->getParams())) {
-				$data       = $userForm->getValues();
+                $data       = $userForm->getValues();
+
+                if(!empty($userId)) {
+                    $existedUser = $userMapper->find($userId);
+                    if($existedUser instanceof Application_Model_Models_User) {
+                        $data['lastLogin'] = $existedUser->getLastLogin();
+                        $data['ipaddress'] = $existedUser->getIpaddress();
+                        $data['notes'] = $existedUser->getNotes();
+                        $data['allowRemoteAuthorization'] = $existedUser->getAllowRemoteAuthorization();
+                        $data['remoteAuthorizationInfo'] = $existedUser->getRemoteAuthorizationInfo();
+                        $data['remoteAuthorizationToken'] = $existedUser->getRemoteAuthorizationToken();
+                    }
+                }
+
                 $this->_processUser($data, $userId);
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
@@ -116,12 +128,13 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $filterRole = filter_var($this->getParam('filter-by-user-role'), FILTER_SANITIZE_STRING);
 
+        $defaultRole = '0';
         if (!empty($searchKey) || !empty($filterRole)) {
             $where = '';
             if(!empty($filterRole)) {
                 $where = $this->_zendDbTable->getAdapter()->quoteInto('role_id = ?', $filterRole);
 
-                $this->view->userRole = $filterRole;
+                $defaultRole = $filterRole;
                 $paginatorOrderLink .= '/filter-by-user-role/' . $filterRole;
             }
 
@@ -142,6 +155,8 @@ class Backend_UserController extends Zend_Controller_Action {
             $select->where($where);
         }
 
+        $this->view->userRole = $defaultRole;
+
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
         $users = $adapter->getItems($offset, 10);
         $userPaginator = new Zend_Paginator($adapter);
@@ -157,16 +172,15 @@ class Backend_UserController extends Zend_Controller_Action {
             )
         );
 
+        $orderParam = 'desc';
         if ($order === 'desc') {
-            $order = 'asc';
-        } else {
-            $order = 'desc';
+            $orderParam = 'asc';
         }
 
         if (!empty($searchKey)){
-            $this->view->orderParam = $order . '/key/' . $searchKey;
+            $this->view->orderParam = $orderParam . '/key/' . $searchKey;
         } else {
-            $this->view->orderParam = $order;
+            $this->view->orderParam = $orderParam;
         }
 
         $oldMobileFormat = $this->_helper->config->getConfig('oldMobileFormat');
