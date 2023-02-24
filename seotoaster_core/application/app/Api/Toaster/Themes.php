@@ -351,7 +351,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 			$contentImages = array(); // list of images from containers
 			if (!empty($data['container'])) {
 				foreach ($data['container'] as $container) {
-					preg_match_all('~media[^"\']*\.(?:jpe?g|gif|png)~iu', $container['content'], $matches);
+					preg_match_all('~media[^"\']*\.(?:jpe?g|gif|png|webp)~iu', $container['content'], $matches);
 					if (!empty($matches[0])) {
 						$contentImages = array_merge($contentImages, array_map(function ($file) {
 							$file = explode(DIRECTORY_SEPARATOR, $file);
@@ -501,7 +501,7 @@ class Api_Toaster_Themes extends Api_Service_Abstract {
 		$contentImages = array();
 		if ($containers) {
 			foreach ($containers as $container) {
-				preg_match_all('~media[^"\']*\.(?:jpe?g|gif|png)~iu', $container['content'], $matches);
+				preg_match_all('~media[^"\']*\.(?:jpe?g|gif|png|webp)~iu', $container['content'], $matches);
 				if (!empty($matches[0])) {
 					$contentImages = array_merge($contentImages, array_map(function ($file) {
 						$file = explode(DIRECTORY_SEPARATOR, $file);
