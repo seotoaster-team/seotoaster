@@ -654,6 +654,11 @@
   -ms-flex-pack: end;
   justify-content: flex-end;
 }
+.f-space-between {
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
 .f-top {
   -ms-flex-align: start;
   align-items: flex-start;
