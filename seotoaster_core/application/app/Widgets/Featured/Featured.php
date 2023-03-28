@@ -215,16 +215,21 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $class = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
 
         $template = current(preg_grep('/template=*/', $params));
-        $template = ($template !== null) ? preg_replace('/template=/', '', $template) : '';
+        $templateClass = ($template !== null) ? preg_replace('/template=/', '', $template) : '';
 
-        $classes = '';
+        $classesArray = array();
 
-        if(!empty($class)) {
-            $classes = $class;
+        if(!empty($class) && !in_array($class, $classesArray)) {
+            $classesArray[] = $class;
         }
 
-        if(!empty($template)) {
-            $classes .= ' '. $template;
+        if(!empty($templateClass) && !in_array($templateClass, $classesArray)) {
+            $classesArray[] = $templateClass;
+        }
+
+        $classes = '';
+        if(!empty($classesArray)) {
+            $classes = implode(' ', $classesArray);
         }
 
         $this->_view->listClass = $classes;
