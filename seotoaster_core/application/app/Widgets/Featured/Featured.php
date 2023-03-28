@@ -212,7 +212,22 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->faId      = $featuredArea->getId();
         $this->_view->faName    = $featuredArea->getName();
         $class                  = current(preg_grep('/class=*/', $params));
-        $this->_view->listClass = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
+        $class = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
+
+        $template = current(preg_grep('/template=*/', $params));
+        $template = ($template !== null) ? preg_replace('/template=/', '', $template) : '';
+
+        $classes = '';
+
+        if(!empty($class)) {
+            $classes = $class;
+        }
+
+        if(!empty($template)) {
+            $classes .= ' '. $template;
+        }
+
+        $this->_view->listClass = $classes;
         $this->_view->faPageDescriptionLength = (isset($params[2]) && is_numeric($params[2])) ? intval($params[2])
             : self::AREA_DESC_LENGTH;
 
