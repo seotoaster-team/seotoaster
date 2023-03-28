@@ -212,7 +212,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $this->_view->faId      = $featuredArea->getId();
         $this->_view->faName    = $featuredArea->getName();
         $class                  = current(preg_grep('/class=*/', $params));
-        $class = ($class !== null) ? preg_replace('/class=/', '', str_replace(' ', '', $class)) : '';
+        $class = ($class !== null) ? preg_replace('/class=/', '', $class) : '';
 
         $template = current(preg_grep('/template=*/', $params));
         $templateClass = ($template !== null) ? preg_replace('/template=/', '', str_replace(' ', '', $template)) : '';
