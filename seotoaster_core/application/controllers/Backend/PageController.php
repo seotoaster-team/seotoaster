@@ -238,6 +238,7 @@ class Backend_PageController extends Zend_Controller_Action {
                         $optionsMapper->deletePageAllPreviousHasOptions(
                             $pageData['pageId']
                         );
+                        $page->setExtraOptions(array('0' => $pageData['extraOptions']), true);
                     }
                 }
 
