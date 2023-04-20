@@ -42,6 +42,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('takeATour', '1'),
 ('version',	'3.6.1');
 
+
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
