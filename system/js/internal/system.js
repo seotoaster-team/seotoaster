@@ -558,10 +558,14 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback, addi
         }
     },   {classname : 'error' + ' ' + additionalClass, ok : yes, cancel : no});
 }
-function showSpinner(e, customSelector){
+function showSpinner(e, customSelector, msg){
     var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
     if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
-        $(el).append('<span class="'+customSelector+'"></span>');
+        if (typeof msg !== 'undefined') {
+            $(el).append('<div class="' + customSelector + '"><span class="system-spinner system-spinner-with-text">'+msg+'</span></div>');
+        } else {
+            $(el).append('<span class="' + customSelector + '"></span>');
+        }
     } else {
         $(el).append('<span class="spinner"></span>');
     }
