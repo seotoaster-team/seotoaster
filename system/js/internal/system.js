@@ -562,7 +562,7 @@ function showSpinner(e, customSelector, msg){
     var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
     if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
         if (typeof msg !== 'undefined') {
-            $(el).append('<div class="' + customSelector + ' system-spinner-block"><div class="system-spinner system-spinner-with-text"><span></span><p>'+msg+'</p></div></div>');
+            $(el).append('<div class="' + customSelector + ' system-spinner-block"><div class="system-spinner system-spinner-with-text"><p>'+msg+'</p></div></div>');
         } else {
             $(el).append('<span class="' + customSelector + '"></span>');
         }
