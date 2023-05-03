@@ -2984,8 +2984,7 @@ a.inherit-color:hover {
     transform: rotate(360deg);
   }
 }
-.core-spinner,
-#core-spinner {
+.system-spinner {
   display: block;
   position: absolute;
   top: 0;
@@ -2995,13 +2994,12 @@ a.inherit-color:hover {
   width: auto;
   margin: 0;
   z-index: 11;
-  background: rgba(255, 255, 255, 0.85);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#d9ffffff', EndColorStr='#d9ffffff')";
-  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#d9ffffff', EndColorStr='#d9ffffff');
+  background: #ffffff;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff')";
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff');
   zoom: 1 !important;
 }
-.core-spinner::before,
-#core-spinner::before {
+.system-spinner::before {
   margin: auto;
   content: "";
   display: block;
@@ -3014,11 +3012,42 @@ a.inherit-color:hover {
   top: 0;
   border-radius: 50%;
 }
-.core-spinner::before,
-#core-spinner::before {
+.system-spinner::before {
   animation: rotate 1.85s linear infinite;
   width: 4.75em;
   height: 4.75em;
+}
+.system-spinner-block {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: auto;
+  margin: 0;
+  z-index: 11;
+  background: #ffffff;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff')";
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff');
+  zoom: 1 !important;
+}
+.system-spinner-with-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  right: auto;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  background: transparent;
+}
+.system-spinner-with-text.system-spinner::before {
+  position: static;
+  margin: 0 auto 1em;
+}
+.system-spinner-with-text p {
+  font-size: 1.5rem;
 }
 .spinner {
   position: absolute;
