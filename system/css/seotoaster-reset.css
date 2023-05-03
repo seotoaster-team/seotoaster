@@ -314,10 +314,7 @@ a.generator-links.plugin {
   width: auto;
   margin: 0;
   z-index: 11;
-  background: #ffffff;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff')";
-  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff');
-  zoom: 1 !important;
+  background-color: #fff;
 }
 .system-spinner::before {
   margin: auto;
@@ -347,10 +344,7 @@ a.generator-links.plugin {
   width: auto;
   margin: 0;
   z-index: 11;
-  background: #ffffff;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff')";
-  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffffff', EndColorStr='#ffffffff');
-  zoom: 1 !important;
+  background-color: #fff;
 }
 .system-spinner-with-text {
   position: absolute;
@@ -368,4 +362,13 @@ a.generator-links.plugin {
 }
 .system-spinner-with-text p {
   font-size: 1.5rem;
+}
+.spinner-opacity-medium {
+  background: rgba(255, 255, 255, 0.75);
+}
+.spinner-opacity-low {
+  background: rgba(255, 255, 255, 0.5);
+}
+.spinner-opacity-high {
+  background: rgba(255, 255, 255, 0.9);
 }
