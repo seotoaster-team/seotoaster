@@ -488,18 +488,19 @@
 		transform : rotate(360deg)
 	}
 }
-.core-spinner,
-#core-spinner {
-	display          : block;
-	position         : absolute;
-	top              : 0;
-	left             : 0;
-	bottom           : 0;
-	right            : 0;
-	width            : auto;
-	margin           : 0;
-	z-index          : 11;
-	.rgba(#fff, 0.85);
+
+//
+.system-spinner {
+	display  : block;
+	position : absolute;
+	top      : 0;
+	left     : 0;
+	bottom   : 0;
+	right    : 0;
+	width    : auto;
+	margin   : 0;
+	z-index  : 11;
+	.rgba(#fff, 85%);
 	
 	&::before {
 		margin           : auto;
@@ -519,6 +520,41 @@
 		animation : rotate 1.85s linear infinite;
 		width     : 4.75em;
 		height    : 4.75em;
+	}
+}
+
+.system-spinner-block {
+	display  : block;
+	position : absolute;
+	top      : 0;
+	left     : 0;
+	bottom   : 0;
+	right    : 0;
+	width    : auto;
+	margin   : 0;
+	z-index  : 11;
+	.rgba(#fff, 85%);
+}
+
+.system-spinner-with-text {
+	position   : absolute;
+	top        : 50%;
+	left       : 50%;
+	bottom     : auto;
+	right      : auto;
+	text-align : center;
+	transform  : translate(-50%, -50%);
+	background : transparent;
+	
+	&.system-spinner {
+		&::before {
+			position : static;
+			margin   : 0 auto 1em;
+		}
+	}
+	
+	p {
+		font-size : 1.5rem;
 	}
 }
 
