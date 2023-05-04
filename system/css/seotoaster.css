@@ -2976,50 +2976,6 @@ a.inherit-color:hover {
 .move:hover .ticon-move {
   color: #9e9e9e;
 }
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.core-spinner,
-#core-spinner {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: auto;
-  margin: 0;
-  z-index: 11;
-  background: rgba(255, 255, 255, 0.85);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#d9ffffff', EndColorStr='#d9ffffff')";
-  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#d9ffffff', EndColorStr='#d9ffffff');
-  zoom: 1 !important;
-}
-.core-spinner::before,
-#core-spinner::before {
-  margin: auto;
-  content: "";
-  display: block;
-  border: 5px solid #c1eaff;
-  border-top-color: #3399CC;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  border-radius: 50%;
-}
-.core-spinner::before,
-#core-spinner::before {
-  animation: rotate 1.85s linear infinite;
-  width: 4.75em;
-  height: 4.75em;
-}
 .spinner {
   position: absolute;
   top: 0;

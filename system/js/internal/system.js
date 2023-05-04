@@ -558,10 +558,16 @@ function showConfirmCustom(msg, yesValue, noValue, yesCallback, noCallback, addi
         }
     },   {classname : 'error' + ' ' + additionalClass, ok : yes, cancel : no});
 }
-function showSpinner(e, customSelector){
-    var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster');
+function showSpinner(e, customSelector, msg, customOpacity){
+    var el = (typeof e !== 'undefined' && typeof e === 'string' ? e : 'body>.seotoaster'),
+        customOpacityVal = (typeof customOpacity !== 'undefined' && typeof customOpacity === 'string' ? customOpacity : '');
+
     if (typeof customSelector !== 'undefined' && typeof customSelector === 'string') {
-        $(el).append('<span class="'+customSelector+'"></span>');
+        if (typeof msg !== 'undefined') {
+            $(el).append('<div class="' + customSelector + ' '+ customOpacityVal+' system-spinner-block"><div class="system-spinner system-spinner-with-text"><p>'+msg+'</p></div></div>');
+        } else {
+            $(el).append('<span class="' + customSelector + '"></span>');
+        }
     } else {
         $(el).append('<span class="spinner"></span>');
     }

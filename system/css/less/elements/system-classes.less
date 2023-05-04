@@ -479,49 +479,6 @@
 	}
 }
 
-//Core-spinner
-@keyframes rotate {
-	0% {
-		transform : rotate(0deg)
-	}
-	100% {
-		transform : rotate(360deg)
-	}
-}
-.core-spinner,
-#core-spinner {
-	display          : block;
-	position         : absolute;
-	top              : 0;
-	left             : 0;
-	bottom           : 0;
-	right            : 0;
-	width            : auto;
-	margin           : 0;
-	z-index          : 11;
-	.rgba(#fff, 0.85);
-	
-	&::before {
-		margin           : auto;
-		content          : "";
-		display          : block;
-		border           : 5px solid #c1eaff;
-		border-top-color : #3399CC;
-		position         : absolute;
-		left             : 0;
-		right            : 0;
-		bottom           : 0;
-		top              : 0;
-		.border-radius(50%);
-	}
-	
-	&::before {
-		animation : rotate 1.85s linear infinite;
-		width     : 4.75em;
-		height    : 4.75em;
-	}
-}
-
 //Spinner
 .spinner {
 	position            : absolute;
