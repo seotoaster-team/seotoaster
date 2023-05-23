@@ -85,6 +85,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
 
                 $this->_processUser($data, $userId);
+                $updateUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName('userupdate', 'updateUserInfo', $userId);
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
