@@ -11,6 +11,8 @@ class Widgets_Search_Search extends Widgets_Abstract
 
     const SEARCH_STRICT        = 'strict';
 
+    const SEARCH_DOUBLE_PRECISION  = 'double_precision';
+
     const PAGE_OPTION_SEARCH  = 'option_search';
 
     const SEARCH_LIMIT_RESULT = 20;
@@ -24,6 +26,8 @@ class Widgets_Search_Search extends Widgets_Abstract
     private $_websiteHelper   = null;
 
     private $_strict   = false;
+
+    private $_doublePrecision   = false;
 
     protected function _init()
     {
@@ -158,6 +162,12 @@ class Widgets_Search_Search extends Widgets_Abstract
         if ($strictNumber !== false)  {
             $this->_strict = true;
             unset($this->_options[$strictNumber]);
+        }
+
+        $doublePrecision = array_search(self::SEARCH_DOUBLE_PRECISION, $this->_options);
+        if ($doublePrecision !== false)  {
+            $this->_doublePrecision = true;
+            unset($this->_options[$doublePrecision]);
         }
 
         $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
@@ -305,6 +315,55 @@ class Widgets_Search_Search extends Widgets_Abstract
                 }
                 $cacheTags     = array('search_' . $searchTerm);
 
+                if ($this->_doublePrecision === true && empty($hits) && $this->_strict === false && !empty($searchTerm)) {
+                    $tmpSearchTerm = explode(' ', $searchTerm);
+                    $filteredSearchStr = array();
+
+                    if(is_array($tmpSearchTerm)) {
+                        foreach ($tmpSearchTerm as $term) {
+                            if(mb_strlen($term) < 3) {
+                                continue;
+                            } else {
+                                $filteredSearchStr[] = $term;
+                            }
+                        }
+                    }
+
+                    if(!empty($filteredSearchStr)) {
+                        $searchTerm = implode(' ', $filteredSearchStr);
+                    }
+
+                    //$searchTermArray = '*4022*';
+                    $searchTermArray = '*'. trim($searchTerm, '*') . '*';
+                    $pattern = new Zend_Search_Lucene_Index_Term($searchTermArray);
+                    $query = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
+
+                    try {
+                        if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                            && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($query, 'utf-8'), 'modified', SORT_DESC);
+                        } else {
+                            Zend_Search_Lucene_Search_Query_Wildcard::setMinPrefixLength(0);
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($query, 'utf-8'));
+                        }
+                    } catch (Exception $e) {
+                        if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                            $searchTermArray = explode(' ', rtrim( $searchTerm, '*'));
+                            $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                            if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                                && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                                $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'), 'modified', SORT_DESC);
+                            } else {
+                                $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch,'utf-8'));
+                            }
+                        } else {
+                            throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                        }
+                    }
+                }
+
                 $pageAdditionalOptions = array();
 
                 if(!empty($additionalOptions['subfolderOptions'])) {
@@ -353,7 +412,8 @@ class Widgets_Search_Search extends Widgets_Abstract
                                         'url'        => $url,
                                         'h1'         => $hit->h1,
                                         'navName'    => $hit->navName,
-                                        'teaserText' => $hit->teaserText
+                                        'teaserText' => $hit->teaserText,
+                                        'score'     => $hit->score
                                     );
                                 }
                             } elseif (!empty($pageAdditionalOptions['pageTagsOptions'])) {
@@ -369,7 +429,8 @@ class Widgets_Search_Search extends Widgets_Abstract
                                                 'url'        => $url,
                                                 'h1'         => $hit->h1,
                                                 'navName'    => $hit->navName,
-                                                'teaserText' => $hit->teaserText
+                                                'teaserText' => $hit->teaserText,
+                                                'score'     => $hit->score
                                             );
                                         }
                                     }
@@ -380,7 +441,8 @@ class Widgets_Search_Search extends Widgets_Abstract
                                     'url'        => $url,
                                     'h1'         => $hit->h1,
                                     'navName'    => $hit->navName,
-                                    'teaserText' => $hit->teaserText
+                                    'teaserText' => $hit->teaserText,
+                                    'score'     => $hit->score
                                 );
                             }
                         }
