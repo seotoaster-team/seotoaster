@@ -13,6 +13,8 @@ class Widgets_Search_Search extends Widgets_Abstract
 
     const PAGE_OPTION_SEARCH  = 'option_search';
 
+    const SEARCH_DEEP_SEARCH  = 'deep_search';
+
     const SEARCH_LIMIT_RESULT = 20;
 
     const OPTION_SORT_RECENT  = 'sort-recent';
@@ -24,6 +26,8 @@ class Widgets_Search_Search extends Widgets_Abstract
     private $_websiteHelper   = null;
 
     private $_strict   = false;
+
+    private $_deepSearch   = false;
 
     protected function _init()
     {
@@ -158,6 +162,12 @@ class Widgets_Search_Search extends Widgets_Abstract
         if ($strictNumber !== false)  {
             $this->_strict = true;
             unset($this->_options[$strictNumber]);
+        }
+
+        $deepSearch = array_search(self::SEARCH_DEEP_SEARCH, $this->_options);
+        if ($deepSearch !== false)  {
+            $this->_deepSearch = true;
+            unset($this->_options[$deepSearch]);
         }
 
         $pageTypes = Application_Model_Mappers_PageMapper::getInstance()->getPageTypes();
@@ -353,7 +363,8 @@ class Widgets_Search_Search extends Widgets_Abstract
                                         'url'        => $url,
                                         'h1'         => $hit->h1,
                                         'navName'    => $hit->navName,
-                                        'teaserText' => $hit->teaserText
+                                        'teaserText' => $hit->teaserText,
+                                        'score'      => $hit->score
                                     );
                                 }
                             } elseif (!empty($pageAdditionalOptions['pageTagsOptions'])) {
@@ -369,7 +380,8 @@ class Widgets_Search_Search extends Widgets_Abstract
                                                 'url'        => $url,
                                                 'h1'         => $hit->h1,
                                                 'navName'    => $hit->navName,
-                                                'teaserText' => $hit->teaserText
+                                                'teaserText' => $hit->teaserText,
+                                                'score'      => $hit->score
                                             );
                                         }
                                     }
@@ -380,7 +392,8 @@ class Widgets_Search_Search extends Widgets_Abstract
                                     'url'        => $url,
                                     'h1'         => $hit->h1,
                                     'navName'    => $hit->navName,
-                                    'teaserText' => $hit->teaserText
+                                    'teaserText' => $hit->teaserText,
+                                    'score'      => $hit->score
                                 );
                             }
                         }
