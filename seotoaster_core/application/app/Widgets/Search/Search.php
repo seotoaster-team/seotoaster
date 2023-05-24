@@ -13,7 +13,7 @@ class Widgets_Search_Search extends Widgets_Abstract
 
     const PAGE_OPTION_SEARCH  = 'option_search';
 
-    const SEARCH_DEEP_SEARCH  = 'deep_search';
+    const SEARCH_DEEP_SEARCH  = 'deepsearch';
 
     const SEARCH_LIMIT_RESULT = 20;
 
@@ -223,7 +223,11 @@ class Widgets_Search_Search extends Widgets_Abstract
 
             $this->_view->urlData = array('search' => $searchTerm);
 
-            $results = $this->_searchResultsByTerm($searchTerm, $filterPageType, $additionalOptions);
+            if ($this->_deepSearch === true) {
+                $results = $this->_searchDeepResults($searchTerm, $filterPageType, $additionalOptions);
+            } else {
+                $results = $this->_searchResultsByTerm($searchTerm, $filterPageType, $additionalOptions);
+            }
         } elseif ($request->has('queryID')) {
             $queryID = filter_var($request->getParam('queryID'), FILTER_SANITIZE_STRING);
             $this->_view->urlData = array('queryID' => $queryID);
@@ -423,6 +427,307 @@ class Widgets_Search_Search extends Widgets_Abstract
             throw new Exceptions_SeotoasterWidgetException($error);
         }
     }
+
+    /**
+     * @link https://framework.zend.com/manual/1.12/en/zend.search.lucene.query-api.html
+     * @param $searchTerm
+     * @param array $filterPageType
+     * @param array $additionalOptions
+     * @return array|mixed
+     * @throws Exceptions_SeotoasterWidgetException
+     * @throws Zend_Search_Lucene_Exception
+     * @throws Zend_Search_Lucene_Search_QueryParserException
+     */
+    private function _searchDeepResults($searchTerm, $filterPageType = array(), array $additionalOptions = array())
+    {
+        $searchForm = new Application_Form_Search();
+        if ($searchForm->getElement('search')->isValid($searchTerm)) {
+            $searchTerm             = $searchForm->getElement('search')->getValue();
+            if (empty($searchTerm)) {
+                return array();
+            }
+
+            $this->_view->pagerData = array('search' => $searchTerm);
+            $cacheId                = strtolower(__FUNCTION__);
+            $key                    = md5($searchTerm.implode(',', $this->_options));
+            $cachePrefix            = strtolower(__CLASS__);
+            if ($this->_developerModeStatus) {
+                $this->_cache = Zend_Controller_Action_HelperBroker::getStaticHelper('Cache');
+            }
+            if (null === ($searchResults = $this->_cache->load($cacheId, $cachePrefix)) || empty($searchResults['data'][$key])) {
+                $toasterSearchIndex = Tools_Search_Tools::initIndex();
+                $toasterSearchIndex->setResultSetLimit(self::SEARCH_LIMIT_RESULT * 10);
+                $searchTermArray = explode(' ', $searchTerm);
+
+                //Direct search
+                $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+
+                try {
+                    if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                        && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                    } else {
+                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                    }
+                } catch (Exception $e) {
+                    if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                        $searchTermArray = explode(' ', rtrim($searchTerm, '*'));
+                        $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                        if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                            && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                        } else {
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                        }
+                    } else {
+                        throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                    }
+                }
+
+                //tags and another special info
+                $cacheTags = array('search_' . $searchTerm);
+
+                $pageAdditionalOptions = array();
+
+                if (!empty($additionalOptions['subfolderOptions'])) {
+                    $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+                    $pageAdditionalOptions['pageSubfildersIds'] = $pageMapper->findPagesByPageFolderName($additionalOptions['subfolderOptions']);
+                }
+
+                if (!empty($additionalOptions['pageTagsOptions'])) {
+                    $pageAdditionalOptions['pageTagsOptions'] = $additionalOptions['pageTagsOptions'];
+                }
+
+                if (empty($hits)) {
+                    //Direct search with slop
+                    $searchTermArray = explode(' ', $searchTerm);
+                    $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                    //Search for 'word1 word2', 'word1 ... word2',
+                    //'word1 ... ... word2', 'word2 word1'
+                    $querySearch->setSlop(2);
+
+                    try {
+                        if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                            && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                        } else {
+                            $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                        }
+                    } catch (Exception $e) {
+                        if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                            $searchTermArray = explode(' ', rtrim($searchTerm, '*'));
+                            $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                            if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                                && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                                $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                            } else {
+                                $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                            }
+                        } else {
+                            throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                        }
+                    }
+
+                    if (empty($hits)) {
+
+                        //search one more time with full text LIKE %
+                        $tmpSearchTerm = explode(' ', $searchTerm);
+                        $filteredSearchStr = array();
+
+                        if (is_array($tmpSearchTerm)) {
+                            foreach ($tmpSearchTerm as $term) {
+                                if (mb_strlen($term) < 3) {
+                                    continue;
+                                } else {
+                                    $filteredSearchStr[] = $term . '*';
+                                }
+                            }
+                        }
+
+                        $searchTermStr = $searchTerm;
+                        if (!empty($filteredSearchStr)) {
+                            $searchTermStr = implode(' ', $filteredSearchStr);
+                        }
+
+                        $searchTermArray = trim($searchTermStr, '*') . '*';
+                        $pattern = new Zend_Search_Lucene_Index_Term($searchTermArray);
+                        $querySearch = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
+                        try {
+                            if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                                && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                                $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                            } else {
+                                $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                            }
+                        } catch (Exception $e) {
+                            if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                                $searchTermArray = explode(' ', rtrim($searchTerm, '*'));
+                                $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                                if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                                    && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                                    $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                                } else {
+                                    $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                                }
+                            } else {
+                                throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                            }
+                        }
+
+                        if (empty($hits)) {
+                            //search one more time with full text %LIKE %
+                            $tmpSearchTerm = explode(' ', $searchTerm);
+                            $filteredSearchStr = array();
+
+                            if (is_array($tmpSearchTerm)) {
+                                foreach ($tmpSearchTerm as $term) {
+                                    if (mb_strlen($term) < 3) {
+                                        continue;
+                                    } else {
+                                        $filteredSearchStr[] =  $term;
+                                    }
+                                }
+                            }
+
+                            if (!empty($filteredSearchStr)) {
+                                $searchTerm = implode(' ', $filteredSearchStr);
+                            }
+
+                            $searchTermArray = '*'. trim($searchTerm, '*') . '*';
+                            $pattern = new Zend_Search_Lucene_Index_Term($searchTermArray);
+                            $querySearch = new Zend_Search_Lucene_Search_Query_Wildcard($pattern);
+                            try {
+                                Zend_Search_Lucene_Search_Query_Wildcard::setMinPrefixLength(0);
+                                if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                                    && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+                                    $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                                } else {
+                                    $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                                }
+                            } catch (Exception $e) {
+                                if ($e->getMessage() === 'Wildcard search is supported only for non-multiple word terms') {
+                                    $searchTermArray = explode(' ', rtrim($searchTerm, '*'));
+                                    $querySearch = new Zend_Search_Lucene_Search_Query_Phrase($searchTermArray);
+                                    if (in_array(self::OPTION_SORT_RECENT, $this->_options)
+                                        && array_key_exists('modified', $toasterSearchIndex->getFieldNames())) {
+
+                                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'), 'modified', SORT_DESC);
+                                    } else {
+                                        $hits = $toasterSearchIndex->find(Zend_Search_Lucene_Search_QueryParser::parse($querySearch, 'utf-8'));
+                                    }
+                                } else {
+                                    throw new Exceptions_SeotoasterWidgetException($e->getMessage());
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                $searchResults = array_map(
+                    function ($hit) use (&$cacheTags, $filterPageType, $pageAdditionalOptions) {
+                        array_push($cacheTags, 'pageid_' . $hit->pageId);
+                        $exclude = false;
+                        try {
+                            // checking if page is in drafts
+                            $draft = (bool)$hit->draft;
+                            $pageType = (int) $hit->pageType;
+                        } catch (Zend_Search_Lucene_Exception $e) {
+                            // seems we are on old release
+                            $draft = false;
+                            $pageType = 1;
+                        }
+
+                        if (!empty($filterPageType) && !array_key_exists($pageType, $filterPageType)) {
+                            $exclude = true;
+                        }
+                        $url = $hit->url;
+                        $fields = $hit->getDocument()->getFieldNames();
+                        if(in_array('pageFolder', $fields) && in_array('isFolderIndex', $fields)) {
+                            if ($hit->pageFolder) {
+                                $url = $hit->pageFolder . '/';
+                                if (!$hit->isFolderIndex) {
+                                    $url .= $hit->url;
+                                }
+                            }
+                        }
+                        if (!$draft && !$exclude) {
+                            if(!empty($pageAdditionalOptions['pageSubfildersIds'])) {
+                                $pageId = $hit->pageId;
+
+                                if(array_key_exists($pageId, $pageAdditionalOptions['pageSubfildersIds'])) {
+                                    return array(
+                                        'pageId'     => $hit->pageId,
+                                        'url'        => $url,
+                                        'h1'         => $hit->h1,
+                                        'navName'    => $hit->navName,
+                                        'teaserText' => $hit->teaserText,
+                                        'score'      => $hit->score
+                                    );
+                                }
+                            } elseif (!empty($pageAdditionalOptions['pageTagsOptions'])) {
+                                $pageTags = $hit->pageTags;
+                                if(!empty($pageTags)) {
+                                    $pageTags = explode(',', $pageTags);
+                                    $pageTags = array_map('trim', $pageTags);
+
+                                    foreach ($pageAdditionalOptions['pageTagsOptions'] as $option) {
+                                        if(in_array($option, $pageTags)) {
+                                            return array(
+                                                'pageId'     => $hit->pageId,
+                                                'url'        => $url,
+                                                'h1'         => $hit->h1,
+                                                'navName'    => $hit->navName,
+                                                'teaserText' => $hit->teaserText,
+                                                'score'      => $hit->score
+                                            );
+                                        }
+                                    }
+                                }
+                            } else {
+                                return array(
+                                    'pageId'     => $hit->pageId,
+                                    'url'        => $url,
+                                    'h1'         => $hit->h1,
+                                    'navName'    => $hit->navName,
+                                    'teaserText' => $hit->teaserText,
+                                    'score'      => $hit->score
+                                );
+                            }
+                        }
+                    },
+                    $hits
+                );
+
+                $searchResults = array_filter($searchResults);
+                array_merge($this->_cacheTags, $cacheTags);
+                $this->_cache->update(
+                    $cacheId,
+                    $key,
+                    $searchResults,
+                    $cachePrefix,
+                    $this->_cacheTags,
+                    Helpers_Action_Cache::CACHE_SHORT
+                );
+
+                return $searchResults;
+            }
+
+            return $searchResults['data'][$key];
+        }
+        else {
+            $msg = $searchForm->getElement('search')->getMessages();
+            $error = $this->_translator->translate('Search error. ' . implode(PHP_EOL, $msg));
+            throw new Exceptions_SeotoasterWidgetException($error);
+        }
+    }
+
 
     private function _searchResultsByQueryID($queryID)
     {
