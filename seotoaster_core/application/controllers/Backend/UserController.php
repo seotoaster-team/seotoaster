@@ -72,9 +72,11 @@ class Backend_UserController extends Zend_Controller_Action {
             if($userForm->isValid($this->getRequest()->getParams())) {
                 $data       = $userForm->getValues();
 
+                $oldUserEmailAddress = '';
                 if(!empty($userId)) {
                     $existedUser = $userMapper->find($userId);
                     if($existedUser instanceof Application_Model_Models_User) {
+                        $oldUserEmailAddress = $existedUser->getEmail();
                         $data['lastLogin'] = $existedUser->getLastLogin();
                         $data['ipaddress'] = $existedUser->getIpaddress();
                         $data['notes'] = $existedUser->getNotes();
@@ -85,6 +87,16 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
 
                 $this->_processUser($data, $userId);
+                if ($oldUserEmailAddress !== $data['email']) {
+                    $updateUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                        'userupdate', 'updateUserInfo',
+                        array(
+                            'userId' => $userId,
+                            'oldEmail' => $oldUserEmailAddress,
+                            'newEmail' => $data['email']
+                        )
+                    );
+                }
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
