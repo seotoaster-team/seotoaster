@@ -87,14 +87,16 @@ class Backend_UserController extends Zend_Controller_Action {
                 }
 
                 $this->_processUser($data, $userId);
-                $updateUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
-                    'userupdate', 'updateUserInfo',
-                    array(
-                        'userId' => $userId,
-                        'oldEmail' => $oldUserEmailAddress,
-                        'newEmail' => $data['email']
-                    )
-                );
+                if ($oldUserEmailAddress !== $data['email']) {
+                    $updateUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                        'userupdate', 'updateUserInfo',
+                        array(
+                            'userId' => $userId,
+                            'oldEmail' => $oldUserEmailAddress,
+                            'newEmail' => $data['email']
+                        )
+                    );
+                }
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
