@@ -80,12 +80,19 @@ class Tools_Search_Watchdog implements Interfaces_Observer {
                 $prod = $product[$pageObject->getId()];
                 $pageObject->setH1(implode(', ', array($prod['name'], $prod['sku'], $prod['mpn'], $pageObject->getH1())));
 
+                if ($pageObject->getOptimized() === true) {
+                    $page = Application_Model_Mappers_PageMapper::getInstance()->find($pageObject->getId());
+                    $teaserText = $page->getTeaserText();
+                } else {
+                    $teaserText = $pageObject->getTeaserText();
+                }
+
                 $pageObject->setTeaserText(implode(
                     PHP_EOL,
                     array(
                         '<div class="search-product-short-description">'.$prod['short_description'].'</div>',
                         '<div class="search-product-full-description">'.$prod['full_description'].'</div>',
-                        '<div class="search-teaser-text">'.$pageObject->getTeaserText().'</div>',
+                        '<div class="search-teaser-text">'.$teaserText.'</div>',
                         '<div class="search-product-tags">'.$prod['tags'].'</div>'
                     ))
                 );
