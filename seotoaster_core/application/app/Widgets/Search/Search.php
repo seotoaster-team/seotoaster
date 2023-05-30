@@ -367,8 +367,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                                         'url'        => $url,
                                         'h1'         => $hit->h1,
                                         'navName'    => $hit->navName,
-                                        'teaserText' => $hit->teaserText,
-                                        'score'      => $hit->score
+                                        'teaserText' => $hit->teaserText
                                     );
                                 }
                             } elseif (!empty($pageAdditionalOptions['pageTagsOptions'])) {
@@ -384,8 +383,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                                                 'url'        => $url,
                                                 'h1'         => $hit->h1,
                                                 'navName'    => $hit->navName,
-                                                'teaserText' => $hit->teaserText,
-                                                'score'      => $hit->score
+                                                'teaserText' => $hit->teaserText
                                             );
                                         }
                                     }
@@ -396,8 +394,7 @@ class Widgets_Search_Search extends Widgets_Abstract
                                     'url'        => $url,
                                     'h1'         => $hit->h1,
                                     'navName'    => $hit->navName,
-                                    'teaserText' => $hit->teaserText,
-                                    'score'      => $hit->score
+                                    'teaserText' => $hit->teaserText
                                 );
                             }
                         }
