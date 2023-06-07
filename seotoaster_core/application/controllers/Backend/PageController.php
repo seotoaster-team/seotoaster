@@ -174,6 +174,9 @@ class Backend_PageController extends Zend_Controller_Action {
                     }
                 }
 
+                $optionsMapper = Application_Model_Mappers_PageOptionMapper::getInstance();
+                $pageOptions = $optionsMapper->fetchOptions(false, true);
+
                 //Analyze if system have options one time used
                 if ($pageData['removePreviousOption'] === '' && !empty($pageData['extraOptions'])) {
                     $options = Application_Model_Mappers_PageOptionMapper::getInstance()->checkOptionUsage(
@@ -208,8 +211,6 @@ class Backend_PageController extends Zend_Controller_Action {
 
                 } else {
                     //Removing page options that have one time options
-                    $optionsMapper = Application_Model_Mappers_PageOptionMapper::getInstance();
-                    $pageOptions = $optionsMapper->fetchOptions(false, true);
                     if (array_key_exists($pageData['extraOptions'], $pageOptions)) {
                         $optionsMapper->deletePageHasOption(
                             $pageData['extraOptions']
@@ -229,6 +230,15 @@ class Backend_PageController extends Zend_Controller_Action {
                         }
 
                         $pageData['previewImage'] = '';
+                    }
+                }
+
+                if (!empty($pageData['extraOptions']) && !empty($pageData['pageId'])) {
+                    if (array_key_exists($pageData['extraOptions'], $pageOptions)) {
+                        $optionsMapper->deletePageAllPreviousHasOptions(
+                            $pageData['pageId']
+                        );
+                        $page->setExtraOptions(array('0' => $pageData['extraOptions']), true);
                     }
                 }
 

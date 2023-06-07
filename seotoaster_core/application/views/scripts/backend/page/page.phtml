@@ -1,4 +1,4 @@
-<div class="seotoaster seotoaster-block container" id="addedit-page">
+<div class="seotoaster f-container" id="addedit-page">
 
 	<?php
 	$draftOrLive = $this->toasterDraftorlive(array(
@@ -48,84 +48,98 @@
 			<div id="fa-list" class="grid_12 items-list scroll"></div>
 		</div>
 	</div>
-	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload content" data-dialog-box-callback="checkOptions" data-dialog-box="true">
-		<fieldset class="grid_6 mb0px">
-			<legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
-			<p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
-			<p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
-            <?php if ($this->isRegularPage) : ?>
-                <p><?php echo $this->pageForm->getElement('pageFolder'); ?></p>
-            <?php endif; ?>
-        	<p><?php echo $this->pageForm->getElement('url'); ?></p>
-            <span class="clearfix"></span>
-			<p><?php echo $this->pageForm->getElement('navName'); ?></p>
-			<p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
-			<p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
-		</fieldset>
-		<fieldset class="grid_6 navigation mb2em">
-			<legend class="h2 required"><?php echo $this->translate('Navigation'); ?></legend>
-			<div class="btn-set mt0px">
-				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
-			</div>
-			<div class="grid_12 alpha omega background mt0px">
-                <div class="<?php echo $this->pageForm->getParentId() == 0 ? 'grid_10' : 'grid_12 omega';?> alpha main-menu-selection">
-                    <?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload f-wrapper" data-dialog-box-callback="checkOptions" data-dialog-box="true">
+		<div class="f-content">
+            <fieldset class="grid_6 mb0px">
+                <legend class="h2"><?php echo $this->translate('Page Information'); ?></legend>
+                <p class="mt0px"><?php echo $this->pageForm->getElement('h1'); ?></p>
+                <p><?php echo $this->pageForm->getElement('headerTitle'); ?></p>
+                <?php if ($this->isRegularPage) : ?>
+                    <p><?php echo $this->pageForm->getElement('pageFolder'); ?></p>
+                <?php endif; ?>
+                <p><?php echo $this->pageForm->getElement('url'); ?></p>
+                <span class="clearfix"></span>
+                <p><?php echo $this->pageForm->getElement('navName'); ?></p>
+                <p><?php echo $this->pageForm->getElement('metaKeywords'); ?></p>
+                <p><?php echo $this->pageForm->getElement('metaDescription'); ?></p>
+            </fieldset>
+            <fieldset class="grid_6 navigation mb2em">
+                <legend class="h2 required"><?php echo $this->translate('Navigation'); ?></legend>
+                <div class="btn-set mt0px">
+                    <?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
                 </div>
-
-                    <div class="grid_2 omega mt5px exclude-category" data-exclude-category-current="<?php echo $this->excludeCategory;?>" style="<?php echo $this->pageForm->getParentId() != 0 ? 'display:none;' : 'display:block;';?>">
-                        <?php echo $this->pageForm->getElement('excludeCategory')->setValue($this->excludeCategory);?>
-                        <span class="ticon-info tooltip icon18" title="<?php echo $this->translate('Exclude category from the menu');?>"></span>
+                <div class="grid_12 alpha omega background mt0px">
+                    <div class="<?php echo $this->pageForm->getParentId() == 0 ? 'grid_10' : 'grid_12 omega';?> alpha main-menu-selection">
+                        <?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
                     </div>
 
-				<div class="menu-info mt5px" style="display: none;"></div>
-			</div>
-		</fieldset>
-		<fieldset class="grid_6 settings mb1-75em">
-			<legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
-			<div class="grid_8 alpha omega text-right featured-link mt0px">
-				<span class="ticon-tags icon14"></span>
-				<?php
-					echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Tag this page') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
-				?>
-			</div>
-			<div class="cl-both background mt5px template-section">
-				<label class="grid_4 alpha omega required"><?php echo $this->pageForm->getElement('templateId')->getLabel(); ?>:</label>
-                <?php echo $this->pageForm->getElement('templateId')->renderViewHelper(); ?>
-                <div class="grid_8 alpha omega mb10px">
-					<a id="curr-template" for="templateId" href="javascript:;"><?php echo $this->translate('Select template');?></a>
-				</div>
-				<label class="grid_4 alpha omega mt5px"> <?php echo $this->translate('This page is'); ?></label>
-				<?php echo $this->pageForm->getElement('extraOptions'); ?>
-			</div>
-		</fieldset>
-		<fieldset class="grid_6">
-			<legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
-			<div id="page-preview" class="grid_4 ml0 mr4 page-preview">
-                <span class="remove-teaser-image icon12 ticon-close error <?php echo (empty($this->existedPreviewImage) ? 'hide' : ''); ?>"><?php echo $this->translate('Delete image');?></span>
-				<img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
-				<span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
-				<?php
-					$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
-					echo $uploader;
-				?>
-			</div>
-			<div  class="grid_8 alpha omega">
-				<?php echo $this->pageForm->getElement('teaserText')->setAttrib(
-                    'placeholder',
-                    $this->translate('Insert a text snippet. You can then call that text when creating page lists. It can also be used by the integrated search engine.')
-                ); ?>
-			</div>
-		</fieldset>
-        <?php echo $this->pageForm->getElement('removePreviousOption'); ?>
-		<?php echo $this->pageForm->getElement('pageId'); ?>
-		<?php echo $this->pageForm->getElement('draft'); ?>
-		<?php echo $this->pageForm->getElement('optimized'); ?>
-		<?php echo $this->pageForm->getElement('publishAt'); ?>
-        <?php echo $this->pageForm->getElement('externalLinkStatus'); ?>
-        <?php echo $this->pageForm->getElement('externalLink'); ?>
-		<?php echo $this->pageForm->getElement('pageType'); ?>
+                        <div class="grid_2 omega mt5px exclude-category" data-exclude-category-current="<?php echo $this->excludeCategory;?>" style="<?php echo $this->pageForm->getParentId() != 0 ? 'display:none;' : 'display:block;';?>">
+                            <?php echo $this->pageForm->getElement('excludeCategory')->setValue($this->excludeCategory);?>
+                            <span class="ticon-info tooltip icon18" title="<?php echo $this->translate('Exclude category from the menu');?>"></span>
+                        </div>
+
+                    <div class="menu-info mt5px" style="display: none;"></div>
+                </div>
+                <div id="additional-navigation-block" class="additional-navigation-block grid_12 mt10px">
+                    <label class="grid_6">
+                        <?php echo $this->translate('Open page in new tab');?>
+                        <input id="page-target-blank" type="checkbox" name="pageTargetBlank" <?php echo (!empty($this->pageForm->getElement('pageTargetBlank')->getValue()) ? 'checked':'');?> value="1">
+                    </label>
+                    <label class="grid_6">
+                        <?php echo $this->translate('Make not clickable in menu');?>
+                        <input id="page-not-clickable" type="checkbox" name="notClickable" <?php echo (!empty($this->pageForm->getElement('notClickable')->getValue()) ? 'checked':'');?> value="1">
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="grid_6 settings mb1-75em">
+                <legend class="h2 grid_4 alpha"><?php echo $this->translate('Settings'); ?></legend>
+                <div class="grid_8 alpha omega text-right featured-link mt0px">
+                    <span class="ticon-tags icon14"></span>
+                    <?php
+                        echo !$this->faCount ? '<a class="featured" href="javascript:;" title="tags">' . $this->translate('Tag this page') . '</a>' : $this->translate('Page was added') . ' <span class="featured-count">' . $this->faCount . '</span> ' . $this->translate('times in') . ' <a class="featured" href="javascript:;" title="tags">tags</a>';
+                    ?>
+                </div>
+                <div class="cl-both background mt5px template-section">
+                    <label class="grid_4 alpha omega required"><?php echo $this->pageForm->getElement('templateId')->getLabel(); ?>:</label>
+                    <?php echo $this->pageForm->getElement('templateId')->renderViewHelper(); ?>
+                    <div class="grid_8 alpha omega mb10px">
+                        <a id="curr-template" for="templateId" href="javascript:;"><?php echo $this->translate('Select template');?></a>
+                    </div>
+                    <label class="grid_4 alpha omega mt5px"> <?php echo $this->translate('This page is'); ?></label>
+                    <?php echo $this->pageForm->getElement('extraOptions'); ?>
+                </div>
+            </fieldset>
+            <fieldset class="grid_6">
+                <legend class="h2 mb0px"><?php echo $this->translate('Page Teasers'); ?></legend>
+                <div id="page-preview" class="grid_4 ml0 mr4 page-preview">
+                    <span class="remove-teaser-image icon12 ticon-close error <?php echo (empty($this->existedPreviewImage) ? 'hide' : ''); ?>"><?php echo $this->translate('Delete image');?></span>
+                    <img id="page-preview-image" src="<?php echo $this->pagePreviewImage ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
+                    <span class="ticon-folder-upload hide"><?php echo $this->translate('Upload an image');?></span>
+                    <?php
+                        $uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => " "));
+                        echo $uploader;
+                    ?>
+                </div>
+                <div  class="grid_8 alpha omega">
+                    <?php echo $this->pageForm->getElement('teaserText')->setAttrib(
+                        'placeholder',
+                        $this->translate('Insert a text snippet. You can then call that text when creating page lists. It can also be used by the integrated search engine.')
+                    ); ?>
+                </div>
+            </fieldset>
+            <?php echo $this->pageForm->getElement('removePreviousOption'); ?>
+            <?php echo $this->pageForm->getElement('pageId'); ?>
+            <?php echo $this->pageForm->getElement('draft'); ?>
+            <?php echo $this->pageForm->getElement('optimized'); ?>
+            <?php echo $this->pageForm->getElement('publishAt'); ?>
+            <?php echo $this->pageForm->getElement('externalLinkStatus'); ?>
+            <?php echo $this->pageForm->getElement('externalLink'); ?>
+            <?php echo $this->pageForm->getElement('pageType'); ?>
+        </div>
         <input type="hidden" class="secureToken" name="secureToken" value="<?php echo $this->secureToken;?>"/>
-        <?php echo $this->pageForm->getElement('updatePage'); ?>
+        <div class="f-footer">
+            <?php echo $this->pageForm->getElement('updatePage'); ?>
+        </div>
         <input type="hidden" name="removePageTeaser" id="removePageTeaser" value="0">
         <input type="hidden" name="original-page-url" id="original-page-url" value="<?php echo $this->pageForm->getElement('url')->getValue(); ?>">
 	</form>
