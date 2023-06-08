@@ -16,6 +16,7 @@
         <a href="<?php echo $pageUrl; ?>" title="<?php echo $hit['h1']; ?>" class="page-title">
         <?php echo $hit['navName']; ?>
         </a>
+        <input type="hidden" name="search-score" value="<?php echo $hit['score']; ?>"/>
         <div class="search-results-teaser-text"><?php echo $hit['teaserText']; ?></div>
     </li>
 <?php endforeach; ?>
