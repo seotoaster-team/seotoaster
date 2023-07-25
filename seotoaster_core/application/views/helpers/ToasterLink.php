@@ -19,9 +19,13 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 	 * @param string $winSizeType
 	 * @return string
 	 */
-	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE, $translate = true) {
+	public function toasterLink($controller, $action, $linkText, $params = '', $hrefOnly = false, $winSizeType = self::WSIZE_LARGE, $translate = true, $customClass = '') {
 		$linkText = htmlspecialchars(($translate) ? $this->view->translate($linkText) : $linkText);
 		$winsize  = $this->_getValidWinSize($winSizeType);
+
+        if(!empty($customClass)) {
+            $customClass = str_replace(' ', '-', $customClass);
+        }
 
 		switch ($controller){
 			case (strpos($controller, 'backend') === 0):
@@ -51,7 +55,7 @@ class Zend_View_Helper_ToasterLink extends Zend_View_Helper_Abstract {
 		$scheme = Zend_Controller_Front::getInstance()->getRequest()->getScheme();
 		$host = Zend_Controller_Front::getInstance()->getRequest()->getHttpHost();
 		$href = $scheme.'://'.$host. $this->view->url($routeParams, $routeName) .(is_string($params)?'/'.$params:null) . '/';
-		$link = '<a class="tpopup ' . strtolower($action) . '" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
+		$link = '<a class="tpopup ' . strtolower($action) . ' ' . strtolower($customClass) . '" href="javascript:;" data-pwidth="' . $winsize['width'] . '" data-pheight="' . $winsize['height'] . '" data-url="' . $href . '" title="' . $linkText . '">' . $linkText . '</a>';
 		if($hrefOnly) {
 			return $href;
 		}
