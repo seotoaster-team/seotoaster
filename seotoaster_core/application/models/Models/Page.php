@@ -92,6 +92,10 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
     protected $_pageTags = '';
 
+    protected $_pageTargetBlank = 0;
+
+    protected $_notClickable = 0;
+
     /**
      * @param array $containers
      */
@@ -522,6 +526,39 @@ class Application_Model_Models_Page extends Application_Model_Models_Abstract im
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getPageTargetBlank()
+    {
+        return $this->_pageTargetBlank;
+    }
+
+    /**
+     * @param int $pageTargetBlank
+     */
+    public function setPageTargetBlank($pageTargetBlank)
+    {
+        $this->_pageTargetBlank = $pageTargetBlank;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNotClickable()
+    {
+        return $this->_notClickable;
+    }
+
+    /**
+     * @param int $notClickable
+     */
+    public function setNotClickable($notClickable)
+    {
+        $this->_notClickable = $notClickable;
+    }
+
 
 
 

@@ -6,6 +6,12 @@
             <?php if($page['external_link_status'] === '1'):?>
                 <?php $pageCategoryUrl = $page['external_link'];?>
                 <?php $targetBlank = 'target="_blank"';?>
+            <?php elseif($page['page_target_blank'] === '1'):?>
+                <?php $targetBlank = 'target="_blank"';?>
+                <?php if($page['url'] == 'index.html') {
+                    $page['url'] = '';
+                }?>
+                <?php $pageCategoryUrl = $this->websiteUrl . $page['url'];?>
             <?php else:?>
                 <?php $targetBlank = '';?>
                 <?php if($page['url'] == 'index.html') {
@@ -13,13 +19,23 @@
                 }?>
                 <?php $pageCategoryUrl = $this->websiteUrl . $page['url'];?>
             <?php endif;?>
-            <a title="<?php echo $page['h1']; ?>" href="<?php echo $pageCategoryUrl ?>" <?php echo $targetBlank;?>><?php echo $page['navName'] ; ?></a>
+            <?php if ($page['not_clickable'] === '1') :?>
+                <a title="<?php echo $page['h1']; ?>"><?php echo $page['navName'] ; ?></a>
+            <?php else:?>
+                <a title="<?php echo $page['h1']; ?>" href="<?php echo $pageCategoryUrl ?>" <?php echo $targetBlank;?>><?php echo $page['navName'] ; ?></a>
+            <?php endif;?>
             <?php if(isset($page['subPages']) && !empty($page['subPages']) ): ?>
                 <ul class="<?php echo str_replace('.html', '', $page['url']); ?>">
                     <?php foreach($page['subPages'] as $subPage): ?>
                         <?php if($subPage['external_link_status'] === '1'):?>
                             <?php $subPageUrl = $subPage['external_link'];?>
                             <?php $targetBlank = 'target="_blank"';?>
+                        <?php elseif($subPage['page_target_blank'] === '1'):?>
+                            <?php $targetBlank = 'target="_blank"';?>
+                            <?php if($subPage['url'] == 'index.html') {
+                                $subPage['url'] = '';
+                            }?>
+                            <?php $subPageUrl = $this->websiteUrl . $subPage['url'];?>
                         <?php else:?>
                             <?php $targetBlank = '';?>
                             <?php if($subPage['url'] == 'index.html') {
@@ -27,7 +43,13 @@
                             }?>
                             <?php $subPageUrl = $this->websiteUrl . $subPage['url'];?>
                         <?php endif;?>
-                        <li class="page"><a title="<?php echo $subPage['h1']; ?>" <?php echo $targetBlank;?> href="<?php echo $subPageUrl;?>"><?php echo $subPage['navName']; ?></a></li>
+                        <li class="page">
+                            <?php if ($subPage['not_clickable'] === '1') :?>
+                                <a title="<?php echo $subPage['h1']; ?>"><?php echo $subPage['navName']; ?></a>
+                            <?php else:?>
+                                <a title="<?php echo $subPage['h1']; ?>" <?php echo $targetBlank;?> href="<?php echo $subPageUrl;?>"><?php echo $subPage['navName']; ?></a>
+                            <?php endif;?>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>

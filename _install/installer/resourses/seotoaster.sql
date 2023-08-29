@@ -39,7 +39,9 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('cropNewFormat', '0'),
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
-('version',	'3.5.1');
+('takeATour', '1'),
+('version',	'3.6.1');
+
 
 DROP TABLE IF EXISTS `container`;
 CREATE TABLE `container` (
@@ -258,6 +260,8 @@ CREATE TABLE `page` (
   `page_folder` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_folder_index` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `exclude_category` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `page_target_blank` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `not_clickable` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indParentId` (`parent_id`),
   KEY `indUrl` (`url`),

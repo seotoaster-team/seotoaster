@@ -60,7 +60,6 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 			}
 			$this->view->responseData = $names;
 		}
-        asort($featuredAreas);
 		$this->view->faeaturedAreas = $featuredAreas;
 		$pageId                     = $this->getRequest()->getParam('pid');
 		if($pageId) {

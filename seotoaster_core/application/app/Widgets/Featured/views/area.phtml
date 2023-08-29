@@ -5,8 +5,7 @@
         <?php echo $this->translate('<!-- There are no pages for this tag -->'); ?>
     <?php endif; ?>
 <?php else: ?>
-    <!-- probably for we have to change resource passing to the isAllowed. Not it is not obivious why we are checking RESOURCE_PLUGINS -->
-    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
         <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order') . ' - <em>' . $this->faName . '</em>';?></a>
     <?php endif; ?>
     <ul class="featureditem <?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?> <?php echo $this->listClass; ?>">
