@@ -142,7 +142,7 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             if (empty($formReplyMessage)) {
                 $this->_options['message'] = $this->_translator->translate('Thank you for your submission');
             } else {
-                $this->_options['message'] = $formReplyMessage;
+                $this->_options['message'] = $this->_entityParser->parse($formReplyMessage);
             }
 
             if (!empty($this->_options['autoReplyAttachment'])) {
@@ -162,6 +162,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
             } else {
                 $this->_mailer->setBody($this->_translator->translate('Thank you for your feedback'));
             }
+
+            $wicEmail = $this->_configHelper->getConfig('wicEmail');
+            $this->_entityParser->addToDictionary(array(
+                'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
+            ));
 
             $this->_mailer->setSubject($form->getReplySubject())
                ->setMailFromLabel($form->getReplyFromName())
@@ -245,6 +250,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         if (empty($adminFromEmail)) {
             $adminFromEmail = $this->_configHelper->getConfig('adminEmail');
         }
+
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
+        $this->_entityParser->addToDictionary(array(
+            'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
+        ));
 
         $this->_mailer->setSubject($adminFormSubject)
             ->setMailFromLabel($adminFromName)
