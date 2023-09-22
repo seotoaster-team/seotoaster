@@ -26,7 +26,7 @@
        'Bravo! All good to go!' => 'Bravo! Tudo de bom para ir!',
        'Step 2: Database setup' => 'Passo 2: Configuração do banco de dados',
        'Setting up the Database.' => 'Configurando o Banco de Dados.',
-       'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' => 'Su servidor debe tener la configuración mínima para usar SEO Toaster. (Debe tener base de datos en el servidor MySQL 5.x)',
+       'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x/8.x running)' => 'Su servidor debe tener la configuración mínima para usar SEO Toaster. (Debe tener base de datos en el servidor MySQL 5.x/8.x)',
        'Database server address' => 'L\'adresse du serveur de base de données',
        'User allowed to connect to database server' => 'Utilisateur autorisé à se connecter au serveur de base de données',
        'Password for database' => 'Mot de passe pour la base de données',
