@@ -24,8 +24,8 @@ return array(
 	'Next'                                             => 'Dále',
 	'Step 2: Database setup'                           => 'Krok 2: Nastavení databáze',
 	'Setting up the Database.'                         => 'Nastavení Databáze.',
-	'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' =>
-	'Váš server musí splňovat minimální požadavky na konfiguraci, aby bylo možné spustit toaster. (Musíte serveru MySQL 5.x chod)',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x/8.x running)' =>
+	'Váš server musí splňovat minimální požadavky na konfiguraci, aby bylo možné spustit toaster. (Musíte serveru MySQL 5.x/8.x chod)',
 	'Host'                                             => 'Databázový Server',
 	'Database name'                                    => 'Název databáze',
 	'Advanced settings (Optional)'                     => 'Pokročilá nastavení (volitelné)',

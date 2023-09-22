@@ -507,7 +507,7 @@
     'Bravo! All good to go!' => 'Bravo! Siamo pronti a partire!',
     'Step 2: Database setup' => 'Passo 2: Installazione database',
     'Setting up the Database.' => 'Impostazioni del Database.',
-    'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' => 'Il tuo server deve rispettare la configurazione minima per installare Seotoaster. (Serve MySQL server 5.x attivo)',
+    'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x/8.x running)' => 'Il tuo server deve rispettare la configurazione minima per installare Seotoaster. (Serve MySQL server 5.x/8.x attivo)',
     'Database server address' => 'L\'adresse du serveur de base de données',
     'User allowed to connect to database server' => 'Utilisateur autorisé à se connecter au serveur de base de données',
     'Password for database' => 'Mot de passe pour la base de données',
