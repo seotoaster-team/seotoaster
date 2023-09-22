@@ -831,6 +831,10 @@ ALTER TABLE `page` ADD COLUMN `not_clickable` enum('0','1') COLLATE utf8_unicode
 -- Add take a tour
 INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('takeATour', '1');
 
+-- 22/09/2023
+-- version: 3.6.1
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.6.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.7.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
