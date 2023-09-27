@@ -156,7 +156,7 @@ class Application_Model_Mappers_FeaturedareaMapper extends Application_Model_Map
         if (!empty($pageIds)) {
             $pageIds = implode(',', $pageIds);
             $faPages = Application_Model_Mappers_PageMapper::getInstance()
-                ->fetchAll('id IN ('.$pageIds.") AND system = '0'", array('FIELD(id, '.$pageIds.')'));
+                ->fetchAll('id IN ('.$pageIds.") AND `system` = '0'", array('FIELD(id, '.$pageIds.')'));
         }
 
         return $faPages;

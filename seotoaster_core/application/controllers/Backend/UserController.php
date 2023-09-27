@@ -248,7 +248,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userModel = $userMapper->find($userId);
                 if ($userModel instanceof Application_Model_Models_User) {
                     $userMapper->delete($userModel);
-                    $userDeleteExternalStatus = Tools_System_Tools::firePluginMethodByTagName('userdelete', 'deleteSystemUser', array('userId' => $userId));
+                    $userDeleteExternalStatus = Tools_System_Tools::firePluginMethodByTagName('userdelete', 'deleteSystemUser', array('userId' => $userId, 'email' => $userModel->getEmail()));
                     $this->_helper->response->success('Removed');
                     exit;
                 } else {

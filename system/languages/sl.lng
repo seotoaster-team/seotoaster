@@ -11,7 +11,7 @@ return array(
 	'Next'                                             => 'Nadaljuj',
 	'Step 2: Database setup'                           => 'Korak 2: Nastavitve podatkovne baze',
 	'Setting up the Database.'                         => 'Nastavitve podatkovne baze.',
-	'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' => 	'Vaš strežnik mora imeti minimalne zahteve za delovanje ( Potrebujete MySQL server 5.x )',
+	'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x/8.x running)' => 	'Vaš strežnik mora imeti minimalne zahteve za delovanje ( Potrebujete MySQL server 5.x/8.x )',
 	'Host'                                             => 'Gostitelj',
 	'Database name'                                    => 'Ime podatkovne baze',
 	'Advanced settings (Optional)'                     => 'Napredne nastavitve ( možnosti)',

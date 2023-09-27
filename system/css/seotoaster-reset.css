@@ -296,6 +296,20 @@ a.generator-links.plugin {
   background: #595959;
   color: #fff;
 }
+#search-form .search-block-element {
+  position: relative;
+}
+#search-form .clear-input {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 1%;
+  line-height: 1;
+  font-size: 0.85em;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
