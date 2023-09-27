@@ -41,10 +41,14 @@ class Api_Remoteauth_Auth extends Api_Service_Abstract
                 $userMapper->save($userModel);
                 $cacheHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('cache');
                 $cacheHelper->clean();
+                $configMapper = Application_Model_Mappers_ConfigMapper::getInstance();
+                $configParams = $configMapper->getConfig();
                 if (!empty($remoteLoginRedirect)) {
                     $redirectTo = $remoteLoginRedirect;
                 } elseif (!empty($additionalParams['redirectLink'])) {
                     $redirectTo = $websiteUrl . $additionalParams['redirectLink'];
+                } elseif (!empty($configParams['redirectAdminAfterLogin'])) {
+                    $redirectTo = $websiteUrl . $configParams['redirectAdminAfterLogin'];
                 }
 
                 $redirector->gotoUrl($redirectTo);
