@@ -72,6 +72,7 @@ class Backend_UserController extends Zend_Controller_Action {
             if($userForm->isValid($this->getRequest()->getParams())) {
                 $data       = $userForm->getValues();
 
+                $notifyNewUser = false;
                 $oldUserEmailAddress = '';
                 if(!empty($userId)) {
                     $existedUser = $userMapper->find($userId);
@@ -84,16 +85,29 @@ class Backend_UserController extends Zend_Controller_Action {
                         $data['remoteAuthorizationInfo'] = $existedUser->getRemoteAuthorizationInfo();
                         $data['remoteAuthorizationToken'] = $existedUser->getRemoteAuthorizationToken();
                     }
+                } else {
+                    $notifyNewUser = true;
                 }
 
                 $this->_processUser($data, $userId);
-                if ($oldUserEmailAddress !== $data['email']) {
+                if ($oldUserEmailAddress !== $data['email'] && !empty($userId)) {
                     $updateUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
                         'userupdate', 'updateUserInfo',
                         array(
                             'userId' => $userId,
                             'oldEmail' => $oldUserEmailAddress,
                             'newEmail' => $data['email']
+                        )
+                    );
+                }
+
+                if ($notifyNewUser === true) {
+                    $userModel = Application_Model_Mappers_UserMapper::getInstance()->findByEmail($data['email']);
+                    $createUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                        'usercreate', 'createUserInfo',
+                        array(
+                            'userId' => $userModel->getId(),
+                            'email' => $data['email']
                         )
                     );
                 }
@@ -335,8 +349,11 @@ class Backend_UserController extends Zend_Controller_Action {
             }
 
             $userId = $this->getRequest()->getParam('id');
+            $notifyNewUser = false;
             if (!empty($userId) && is_numeric($userId)) {
                 $userForm->setId($userId);
+            } else {
+                $notifyNewUser = true;
             }
 
             $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
@@ -356,6 +373,14 @@ class Backend_UserController extends Zend_Controller_Action {
                         )));
 
                         $userModel->notifyObservers();
+
+                        $createUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                            'usercreate', 'createUserInfo',
+                            array(
+                                'userId' => $userModel->getId(),
+                                'email' => $data['email']
+                            )
+                        );
 
                         $this->_helper->response->success($this->_helper->language->translate('Invitation email has been sent'));
                     } else {
