@@ -76,7 +76,12 @@ class Tools_Search_Tools
             return false;
         }
 
-        $hits = self::$_index->find(strval($term));
+        $query = new Zend_Search_Lucene_Search_Query_Phrase(
+            array(strval($term)), null, 'pageId'
+        );
+
+        $hits = self::$_index->find(Zend_Search_Lucene_Search_QueryParser::parse($query, 'utf-8'));
+
         if (is_array($hits) && !empty ($hits)) {
             foreach ($hits as $hit) {
                 self::$_index->delete($hit->id);

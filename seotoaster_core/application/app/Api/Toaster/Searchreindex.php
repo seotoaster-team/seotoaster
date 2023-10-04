@@ -68,7 +68,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
                         'pageType' => 'p.page_type'
                     )
                 )
-                ->where("p.system = '?'", 0)
+                ->where("`p`.`system` = '?'", 0)
                 ->where("p.draft = '?'", 0)
                 ->where("p.parent_id <> '?'", -5)
                 ->group('p.id');

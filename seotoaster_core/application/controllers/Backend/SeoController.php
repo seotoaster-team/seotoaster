@@ -540,7 +540,7 @@ class Backend_SeoController extends Zend_Controller_Action {
             case Tools_Content_Feed::SMFEED_TYPE_INDEX:
                 $pageDbTable = new Application_Model_DbTable_Page();
                 $pagesCount = $pageDbTable->getAdapter()->fetchOne($pageDbTable->select()->from($pageDbTable,
-                    'COUNT(id)')->where('external_link_status <> "1" AND system = "0"'));
+                    'COUNT(id)')->where('external_link_status <> "1" AND `system` = "0"'));
 
                 //default sitemaps
                 $sitemaps = array(

@@ -15,8 +15,8 @@
 		<li>
 			<a href="javascript:;"><span><?php echo $this->translate('PAGES'); ?></span></a>
 			<ul>
-				<li class="cpanelsubtitle"><?php echo $this->translate('This page'); ?></li>
-				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '960', 'height' => '600')); ?></li>
+				<li class="cpanelsubtitle page-control"><?php echo $this->translate('This page'); ?></li>
+				<li><?php echo $this->toasterLink('backend_page', 'page', $this->translate('Edit page properties'), array('id' => $this->pageData['id']), false, array('width' => '960', 'height' => '600'), true, 'edit-page-link'); ?></li>
                 <?php if($this->newsPage !== true): ?>
 					<?php if($this->websiteMainPage != $this->pageData['url']): ?>
 						<li><a href="javascript:;" data-cid="<?php echo $this->pageData['parentId']; ?>" id="del-this-page" title="<?php echo $this->translate('Delete this page'); ?>"><?php echo $this->translate('Delete this page'); ?></a></li>

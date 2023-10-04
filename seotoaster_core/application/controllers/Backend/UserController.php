@@ -41,9 +41,8 @@ class Backend_UserController extends Zend_Controller_Action {
 	}
 
 	public function manageAction() {
-
-
-	    $usersRoles  = Application_Model_Mappers_UserMapper::getInstance()->findAllRoles();
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+	    $usersRoles  = $userMapper->findAllRoles();
         $tranlationUserRoles = array();
 
 	    if(!empty($usersRoles)){
@@ -73,8 +72,47 @@ class Backend_UserController extends Zend_Controller_Action {
             )));
             $userForm->getElement('fullName')->getValidator('Zend_Validate_Regex')->setMessage("'%value%' contains characters which are non alphabetic and no digits", Zend_Validate_Regex::NOT_MATCH);
             if($userForm->isValid($this->getRequest()->getParams())) {
-				$data       = $userForm->getValues();
+                $data       = $userForm->getValues();
+
+                $notifyNewUser = false;
+                $oldUserEmailAddress = '';
+                if(!empty($userId)) {
+                    $existedUser = $userMapper->find($userId);
+                    if($existedUser instanceof Application_Model_Models_User) {
+                        $oldUserEmailAddress = $existedUser->getEmail();
+                        $data['lastLogin'] = $existedUser->getLastLogin();
+                        $data['ipaddress'] = $existedUser->getIpaddress();
+                        $data['notes'] = $existedUser->getNotes();
+                        $data['allowRemoteAuthorization'] = $existedUser->getAllowRemoteAuthorization();
+                        $data['remoteAuthorizationInfo'] = $existedUser->getRemoteAuthorizationInfo();
+                        $data['remoteAuthorizationToken'] = $existedUser->getRemoteAuthorizationToken();
+                    }
+                } else {
+                    $notifyNewUser = true;
+                }
+
                 $this->_processUser($data, $userId);
+                if ($oldUserEmailAddress !== $data['email'] && !empty($userId)) {
+                    $updateUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                        'userupdate', 'updateUserInfo',
+                        array(
+                            'userId' => $userId,
+                            'oldEmail' => $oldUserEmailAddress,
+                            'newEmail' => $data['email']
+                        )
+                    );
+                }
+
+                if ($notifyNewUser === true) {
+                    $userModel = Application_Model_Mappers_UserMapper::getInstance()->findByEmail($data['email']);
+                    $createUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                        'usercreate', 'createUserInfo',
+                        array(
+                            'userId' => $userModel->getId(),
+                            'email' => $data['email']
+                        )
+                    );
+                }
 
                 $this->_helper->response->success($this->_helper->language->translate('Saved'));
 				exit;
@@ -118,12 +156,13 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $filterRole = filter_var($this->getParam('filter-by-user-role'), FILTER_SANITIZE_STRING);
 
+        $defaultRole = '0';
         if (!empty($searchKey) || !empty($filterRole)) {
             $where = '';
             if(!empty($filterRole)) {
                 $where = $this->_zendDbTable->getAdapter()->quoteInto('role_id = ?', $filterRole);
 
-                $this->view->userRole = $filterRole;
+                $defaultRole = $filterRole;
                 $paginatorOrderLink .= '/filter-by-user-role/' . $filterRole;
             }
 
@@ -144,6 +183,8 @@ class Backend_UserController extends Zend_Controller_Action {
             $select->where($where);
         }
 
+        $this->view->userRole = $defaultRole;
+
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
         $users = $adapter->getItems($offset, 10);
         $userPaginator = new Zend_Paginator($adapter);
@@ -159,16 +200,15 @@ class Backend_UserController extends Zend_Controller_Action {
             )
         );
 
+        $orderParam = 'desc';
         if ($order === 'desc') {
-            $order = 'asc';
-        } else {
-            $order = 'desc';
+            $orderParam = 'asc';
         }
 
         if (!empty($searchKey)){
-            $this->view->orderParam = $order . '/key/' . $searchKey;
+            $this->view->orderParam = $orderParam . '/key/' . $searchKey;
         } else {
-            $this->view->orderParam = $order;
+            $this->view->orderParam = $orderParam;
         }
 
         $oldMobileFormat = $this->_helper->config->getConfig('oldMobileFormat');
@@ -226,7 +266,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 $userModel = $userMapper->find($userId);
                 if ($userModel instanceof Application_Model_Models_User) {
                     $userMapper->delete($userModel);
-                    $userDeleteExternalStatus = Tools_System_Tools::firePluginMethodByTagName('userdelete', 'deleteSystemUser', array('userId' => $userId));
+                    $userDeleteExternalStatus = Tools_System_Tools::firePluginMethodByTagName('userdelete', 'deleteSystemUser', array('userId' => $userId, 'email' => $userModel->getEmail()));
                     $this->_helper->response->success('Removed');
                     exit;
                 } else {
@@ -313,8 +353,11 @@ class Backend_UserController extends Zend_Controller_Action {
             }
 
             $userId = $this->getRequest()->getParam('id');
+            $notifyNewUser = false;
             if (!empty($userId) && is_numeric($userId)) {
                 $userForm->setId($userId);
+            } else {
+                $notifyNewUser = true;
             }
 
             $userForm = Tools_System_Tools::addTokenValidatorZendForm($userForm, Tools_System_Tools::ACTION_PREFIX_USERS);
@@ -334,6 +377,14 @@ class Backend_UserController extends Zend_Controller_Action {
                         )));
 
                         $userModel->notifyObservers();
+
+                        $createUserInfoStatus = Tools_System_Tools::firePluginMethodByTagName(
+                            'usercreate', 'createUserInfo',
+                            array(
+                                'userId' => $userModel->getId(),
+                                'email' => $data['email']
+                            )
+                        );
 
                         $this->_helper->response->success($this->_helper->language->translate('Invitation email has been sent'));
                     } else {

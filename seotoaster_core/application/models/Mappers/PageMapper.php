@@ -100,7 +100,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $dbTable = $this->getDbTable();
 
         //exclude system pages from select
-        $sysWhere = $dbTable->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+        $sysWhere = $dbTable->getAdapter()->quoteInto("`system` = '?'", intval($fetchSysPages));
         $where .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
         $order[] = 'order';
         $entries = array();
@@ -251,7 +251,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
             $select->where('p.protected = ?', '0');
         }
         if (!$fetchProtected) {
-            $select->where('p.system = ?', '0');
+            $select->where('`p`.`system` = ?', '0');
         }
         if (!empty($pageTypes)) {
             $select->where('p.page_type IN (?)', $pageTypes);
@@ -388,7 +388,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
                 'url' => new Zend_Db_Expr('COALESCE(o.url, p.url)')))
             ->joinLeft(array('o' => 'optimized'), 'p.id = o.page_id', 'p.id')
             ->where('p.protected = ?', '0')
-            ->where('p.system = ?', '0');
+            ->where('`p`.`system` = ?', '0');
 
         if (!empty($pageTypes)) {
             $select->where('p.page_type IN (?)', $pageTypes);
@@ -407,7 +407,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         $where = implode('=', $whereExploded);
         $where = '(page.' . $where . ' OR optimized.' . $where . ')';
 
-        $sysWhere = $this->getDbTable()->getAdapter()->quoteInto("system = '?'", intval($fetchSysPages));
+        $sysWhere = $this->getDbTable()->getAdapter()->quoteInto("`system` = '?'", intval($fetchSysPages));
         $where .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
 
         $row = $this->getDbTable()->fetchAllPages($where);
@@ -510,7 +510,7 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
                         'content'         => new Zend_Db_Expr('GROUP_CONCAT(c.content)')
                     )
                 )
-                ->where("p.system = '?'", 0)
+                ->where("`p`.`system` = '?'", 0)
                 ->group('p.id');
 
         if (!is_null($offset) && is_numeric($offset)) {

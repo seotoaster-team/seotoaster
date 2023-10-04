@@ -119,7 +119,7 @@
 	/* шаг 2 */
 	'Step 2: Database setup' => 'Шаг 2: Установка базы данных',
 	'Setting up the Database.' => 'Настройка базы данных',
-    'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x running)' => 'Ваш сервер должен соответствовать минимальным требования к конфигурации для запуска Seotoaster (У вас должен быть установлен и запущен MySQL сервер версии 5.x)',
+    'Your server needs to meet the minimum requirements configuration in order to run the toaster. (You need MySQL server 5.x/8.x running)' => 'Ваш сервер должен соответствовать минимальным требования к конфигурации для запуска Seotoaster (У вас должен быть установлен и запущен MySQL сервер версии 5.x/8.x)',
     'Database server address' => 'Адрес сервера базы данных',
     'User allowed to connect to database server' => 'Пользователь для доступа к базе данных',
     'Password for database' => 'Пароль для базы данных',

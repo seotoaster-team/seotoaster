@@ -76,4 +76,11 @@ class Application_Model_Mappers_PageOptionMapper extends Application_Model_Mappe
         $where = $pageHasOptionDbTable->getAdapter()->quoteInto('option_id=?', $optionId);
         $pageHasOptionDbTable->delete($where);
     }
+
+    public function deletePageAllPreviousHasOptions($pageId)
+    {
+        $pageHasOptionDbTable = new Application_Model_DbTable_PageHasOption();
+        $where = $pageHasOptionDbTable->getAdapter()->quoteInto('page_id=?', $pageId);
+        $pageHasOptionDbTable->delete($where);
+    }
 }
