@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.7.0');
+('version',	'3.7.1');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -982,3 +982,12 @@ CREATE TABLE `form_blacklist_rules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT IGNORE INTO `email_triggers_actions` (`service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject`)
 SELECT CONCAT('email'),	CONCAT('t_userinvitation'),	NULL,	CONCAT('guest'),	CONCAT('Hello {user:fullname},<br><br>You have a new account at {$website:url}<br><br>Account details:<br><b>Login: </b>{user:email}<br><br>Start using your new account by <a href={reset:url}>setting up a password</a>'),	CONCAT('admin@{$website:domain}'),	CONCAT('Complete your account setup') FROM email_triggers WHERE NOT EXISTS (SELECT `service`, `trigger`, `template`, `recipient`, `message`, `from`, `subject` FROM `email_triggers_actions` WHERE `service` = 'email' AND `recipient` = 'guest' AND `trigger` = 't_userinvitation') LIMIT 1;
+
+DROP TABLE IF EXISTS `user_whitelist_ips`;
+CREATE TABLE `user_whitelist_ips` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `role_id` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `ip_address` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`role_id`,`ip_address`),
+  UNIQUE (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

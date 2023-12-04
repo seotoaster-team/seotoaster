@@ -835,6 +835,16 @@ INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('takeATour', '1');
 -- version: 3.6.1
 -- Pre package version
 
+-- 04/12/2023
+-- version: 3.7.0
+CREATE TABLE `user_whitelist_ips` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `role_id` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `ip_address` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`role_id`,`ip_address`),
+  UNIQUE (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.7.0' WHERE `name`='version';
+UPDATE `config` SET `value`='3.7.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
