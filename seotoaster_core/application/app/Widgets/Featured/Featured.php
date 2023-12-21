@@ -257,6 +257,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
         $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
 
+        $loadingLazy = '';
+        if(in_array('lazy', $params)) {
+            $loadingLazy = 'loading="lazy"';
+        }
+
+        $this->_view->lazyLoad = $loadingLazy;
+
         return $this->_view->render('area.phtml');
     }
 

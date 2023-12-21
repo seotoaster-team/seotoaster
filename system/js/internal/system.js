@@ -401,11 +401,17 @@ function showTooltip(el, addClass, position){
 ///////// Show/Hide 'cropped' options //////////////
 $(document).on('click', '[name="useImage"]:checkbox', function() {
     var form       = $(this).closest('form'),
-        croppedImg = form.find('.cropped-img');
+        croppedImg = form.find('.cropped-img'),
+        lazyLoadClock = form.find('.lazy-block');
 
     croppedImg.fadeToggle(function() {
         if (!croppedImg.is(':visible')) {
             croppedImg.find('input:checkbox').prop('checked', false);
+        }
+    });
+    lazyLoadClock.fadeToggle(function() {
+        if (!lazyLoadClock.is(':visible')) {
+            lazyLoadClock.find('input:checkbox').prop('checked', false);
         }
     });
     form.find('.crop-size').hide().find('input:text').val('');
