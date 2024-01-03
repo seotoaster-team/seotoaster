@@ -69,7 +69,7 @@
     </div>
     <p class="mt5px lazy-block hide">
         <label class="grid_6 alpha omega pointer">
-            <span class="grid_10 alpha omega"><?php echo $this->translate('Lazyload'); ?></span>
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Disable lazyload'); ?></span>
             <?php echo $this->formCheckbox('lazyLoad', 'img', array('id' => 'lazy-load', 'class' => 'lazy-load')); ?>
         </label>
     </p>
@@ -320,7 +320,7 @@
             }
 
             if ($('#lazy-load').is(':checked') && $('#use-image').is(':checked') && $('#featured-area-templates').val() == 0) {
-                widgetHtml += ':lazy';
+                widgetHtml += ':disablelazy';
             }
 
             if (!error) {

@@ -184,9 +184,9 @@ class Widgets_Page_Page extends Widgets_Abstract {
                 $fileInfo = getimagesize($imagePath);
             }
 
-            $loadingLazy = '';
-            if(in_array('lazy', $this->_options)) {
-                $loadingLazy = 'loading="lazy"';
+            $loadingLazy = 'loading="lazy"';
+            if(in_array('disablelazy', $this->_options)) {
+                $loadingLazy = '';
             }
 
             if(in_array('crop', $this->_options) && !empty($configData['cropNewFormat'])) {

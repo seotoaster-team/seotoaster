@@ -257,9 +257,9 @@ class Widgets_Featured_Featured extends Widgets_Abstract
 
         $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
 
-        $loadingLazy = '';
-        if(in_array('lazy', $params)) {
-            $loadingLazy = 'loading="lazy"';
+        $loadingLazy = 'loading="lazy"';
+        if(in_array('disablelazy', $params)) {
+            $loadingLazy = '';
         }
 
         $this->_view->lazyLoad = $loadingLazy;
