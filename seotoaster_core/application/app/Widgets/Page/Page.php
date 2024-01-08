@@ -184,6 +184,11 @@ class Widgets_Page_Page extends Widgets_Abstract {
                 $fileInfo = getimagesize($imagePath);
             }
 
+            $loadingLazy = 'loading="lazy"';
+            if(in_array('disablelazy', $this->_options)) {
+                $loadingLazy = '';
+            }
+
             if(in_array('crop', $this->_options) && !empty($configData['cropNewFormat'])) {
                 $cropOptionKey = array_search('crop', $this->_options);
                 $cropOptionParams = $this->_options[$cropOptionKey +1];
@@ -234,12 +239,12 @@ class Widgets_Page_Page extends Widgets_Abstract {
                         $newHeight = self::DEFAULT_THUMB_SIZE_HEIGHT;
                     }
 
-                    return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" width="'. $newWidth .'" height="'. $newHeight .'" />';
+                    return '<img '. $loadingLazy .' class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" width="'. $newWidth .'" height="'. $newHeight .'" />';
                 }
             } else if(isset($this->_options[1]) && $this->_options[1] === self::PAGE_PREVIEW_SRC) {
                 return $src;
             }
-			return '<img class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" '.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
+			return '<img '. $loadingLazy .' class="page-teaser-image" src="'.$src.'" alt="'.$pageHelper->clean($this->_toasterOptions['h1']).'" '.(isset($fileInfo[3]) ? $fileInfo[3] : "").' />';
 		}
 		return;
 	}
