@@ -800,7 +800,7 @@ class Tools_System_Tools {
         $response = array();
         foreach ($plugins as $plugin) {
             $pluginTags = $plugin->getTags();
-            if (in_array($tagName, $pluginTags, true)) {
+            if (!empty($pluginTags) && in_array($tagName, $pluginTags, true)) {
                 $response[] = self::firePluginMethodByPluginName($plugin->getName(), $method, $data, $static);
             }
         }

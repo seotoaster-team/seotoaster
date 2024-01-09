@@ -67,6 +67,12 @@
             <?php echo $this->formText('galHeight', null, array('class' => 'gal-height grid_3 alpha omega small', 'placeholder' => $this->translate('Height'))); ?>
         </p>
     </div>
+    <p class="mt5px lazy-block hide">
+        <label class="grid_6 alpha omega pointer">
+            <span class="grid_10 alpha omega"><?php echo $this->translate('Disable lazyload'); ?></span>
+            <?php echo $this->formCheckbox('lazyLoad', 'img', array('id' => 'lazy-load', 'class' => 'lazy-load')); ?>
+        </label>
+    </p>
     <p class="mt5px">
         <label class="max-res-row grid_6 alpha omega suffix_6 pointer">
             <span class="grid_10 alpha omega"><?php echo $this->translate('Random'); ?></span>
@@ -154,6 +160,14 @@
             }
         });
 
+        $(document).on('change', '#use-image', function(e){
+            if ($(e.currentTarget).is(':checked')) {
+                $('.lazy-block').show();
+            } else {
+                $('.lazy-block').hide();
+            }
+        });
+
 	    $(document).on('change', '#featured-item-type', function() {
 		    var type = $(this).val();
             featured.setType(type).load();
@@ -236,6 +250,10 @@
                     return;
                 }
 
+                if ($(this).hasClass('lazy-load')) {
+                    return;
+                }
+
                 if ($(this).hasClass('gal-width')) {
                     if ($(this).val()) {
                         cropOption = cropOption+'-'+$(this).val();
@@ -300,6 +318,11 @@
             if (faGroup) {
                 widgetHtml += ':filterable';
             }
+
+            if ($('#lazy-load').is(':checked') && $('#use-image').is(':checked') && $('#featured-area-templates').val() == 0) {
+                widgetHtml += ':disablelazy';
+            }
+
             if (!error) {
                 widgetHtml += '}';
                 tinymce.activeEditor.execCommand('mceInsertContent', false, widgetHtml);
@@ -309,6 +332,7 @@
         function hideParamsFa() {
             $('#use-image').prop('checked', false).closest('label').hide();
             $('#use-image-cropped').prop('checked', false).closest('label').hide();
+            $('#lazy-load').prop('checked', false).closest('p').hide();
             $('#featured-item-maxchars').closest('p').hide();
             $('.crop-size').hide();
             $('#custom-page-title-wrap-block').hide();
