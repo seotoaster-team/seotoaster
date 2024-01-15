@@ -466,7 +466,7 @@ class Backend_FormController extends Zend_Controller_Action {
         $trackingPageExist = $pageMapper->findByUrl($trackingPageUrl);
         if(empty($trackingPageExist)){
             $pageModel->setParentId(-1);
-            $pageModel->setDraft(0);
+            $pageModel->setDraft(1);
             $pageModel->setTemplateId($templateName);
             $pageModel->setH1($trackingName);
             $pageModel->setHeaderTitle($trackingName);
