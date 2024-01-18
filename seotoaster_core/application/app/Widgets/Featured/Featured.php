@@ -103,7 +103,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
 
         if (!empty($this->cropParams)) {
-            $this->cropSizeSubfolder = implode($this->cropParams, '-').DIRECTORY_SEPARATOR;
+            $this->cropSizeSubfolder = implode('-', $this->cropParams).DIRECTORY_SEPARATOR;
         }
 
         // Create a folder crop-size subfolder
