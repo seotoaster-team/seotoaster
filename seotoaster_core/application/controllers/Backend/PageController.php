@@ -671,7 +671,11 @@ class Backend_PageController extends Zend_Controller_Action {
 
     private function _hasSubpages($pageId) {
         $subpages = Application_Model_Mappers_PageMapper::getInstance()->findByParentId($pageId);
-        return sizeof($subpages);
+        if (is_array($subpages)) {
+            return  sizeof($subpages);
+        }
+
+        return 0;
     }
 
     private function _restoreOriginalValues($pageData) {
