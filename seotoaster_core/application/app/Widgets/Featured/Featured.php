@@ -145,7 +145,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $pageTitleWrap = preg_replace('/pageTitleWrap=/', '', $pageTitleWrap);
             $pageTitleWrapData = explode('.', $pageTitleWrap);
             $pageTitleWrapEl = array_shift($pageTitleWrapData);
-            $pageTitleWrapClasses = implode($pageTitleWrapData, ' ');
+            $pageTitleWrapClasses = implode(' ', $pageTitleWrapData);
             $this->_view->pageTitleWrapEl = $pageTitleWrapEl;
             $this->_view->pageTitleWrapClasses = $pageTitleWrapClasses;
             $this->_view->pageTitleWrap = $pageTitleWrap;
