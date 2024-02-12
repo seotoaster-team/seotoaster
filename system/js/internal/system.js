@@ -107,7 +107,7 @@ $(function(){
                     success: function(response){
                         var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
                         var delay;
-                        if(typeof response.responseText.userDeleteError !== 'undefined') {
+                        if(typeof response.responseText !== 'undefined' && typeof response.responseText.userDeleteError !== 'undefined') {
                             responseText = response.responseText.userDeleteError.quote;
                             delay = 2000;
                         }

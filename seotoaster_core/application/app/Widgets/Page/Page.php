@@ -208,7 +208,7 @@ class Widgets_Page_Page extends Widgets_Abstract {
                     unset($cropParams[0]);
 
                     if (!empty($cropParams)) {
-                        $cropSizeSubfolder = implode($cropParams, '-').DIRECTORY_SEPARATOR;
+                        $cropSizeSubfolder = implode('-', $cropParams).DIRECTORY_SEPARATOR;
 
                         $newWidth = $cropParams[1];
                         $newHeight = $cropParams[2];

@@ -72,7 +72,11 @@ class IndexController extends Zend_Controller_Action {
         }
 
 		//check for disabled magic quotes
-		$phpRequirements['magicquotes'] = !get_magic_quotes_gpc();
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $phpRequirements['magicquotes'] = true;
+        } else {
+            $phpRequirements['magicquotes'] = !get_magic_quotes_gpc();
+        }
 
         //check ionCube Loader
         $extensions = get_loaded_extensions();

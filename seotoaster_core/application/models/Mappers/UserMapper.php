@@ -45,7 +45,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 		}
 
         if ($user->getAttributes()) {
-            Application_Model_Mappers_UserMapper::saveUserAttributes($user);
+            Application_Model_Mappers_UserMapper::getInstance()->saveUserAttributes($user);
         }
 
 		if(null === ($id = $user->getId())) {
@@ -189,7 +189,9 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 
-        $users = $this->getDbTable()->getAdapter()->fetchAll($select, 'role_id ASC');
+        $select->order('role_id ASC');
+
+        $users = $this->getDbTable()->getAdapter()->fetchAll($select);
         return $users;
     }
 
