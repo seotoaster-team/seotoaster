@@ -602,25 +602,31 @@ class Backend_PageController extends Zend_Controller_Action {
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         $allowedPageTypes = $pageMapper->getPageTypeByResource(self::LINK_LIST);
         if (!empty($allowedPageTypes)) {
-            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('page_type IN (?)', $allowedPageTypes);
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('p.page_type IN (?)', $allowedPageTypes);
         }
+        $pages = $pageMapper->fetchAllPagesWithOptions($where, array('h1'));
 
-        $pages = $pageMapper->fetchAll($where, array('h1'));
         if(!empty ($pages)) {
             $links = array();
             foreach ($pages as $page) {
-                if ($page->getExtraOption(Application_Model_Models_Page::OPT_404PAGE)) {
+                $extraOptions = array();
+                if(!empty($page['extraOptions'])) {
+                    $extraOptions = explode(',', $page['extraOptions']);
+                }
+
+                if(in_array(Application_Model_Models_Page::OPT_404PAGE, $extraOptions)) {
                     continue;
                 }
-                if ($page->getPageFolder()) {
-                    if (empty($page->getIsFolderIndex())) {
-                        $url = $page->getPageFolder() . '/' . $page->getUrl();
+
+                if($page['page_folder']) {
+                    if (empty($page['is_folder_index'])) {
+                        $url = $page['page_folder'] . '/' . $page['url'];
                     } else {
-                        $url = $page->getPageFolder() . '/';
+                        $url = $page['page_folder'] . '/';
                     }
-                    $page->setUrl($url);
+                    $page['url'] = $url;
                 }
-                array_push($links, array('title'=>$page->getH1(), 'value'=>$this->_helper->website->getUrl() . $page->getUrl()));
+                array_push($links, array('title'=>$page['h1'], 'value'=>$this->_helper->website->getUrl() . $page['url']));
             }
             $this->getResponse()->setBody(Zend_Json::encode($links));
         }
