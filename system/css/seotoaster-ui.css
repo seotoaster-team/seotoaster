@@ -427,8 +427,8 @@
   border-color: #28a1c4;
   background-color: #FFF;
   z-index: 1001;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 100% !important;
+  max-height: 100% !important;
 }
 .ui-dialog .ui-dialog-titlebar {
   font-size: 1.25em;
