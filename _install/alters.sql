@@ -845,6 +845,10 @@ CREATE TABLE `user_whitelist_ips` (
   UNIQUE (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- 19/03/2024
+-- version: 3.7.1
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.7.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.8.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
