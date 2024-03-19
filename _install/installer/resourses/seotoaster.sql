@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.7.1');
+('version',	'3.8.0');
 
 
 DROP TABLE IF EXISTS `container`;
