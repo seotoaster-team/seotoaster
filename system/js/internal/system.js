@@ -107,7 +107,7 @@ $(function(){
                     success: function(response){
                         var responseText = (response.hasOwnProperty(responseText)) ? response.responseText : 'Removed.';
                         var delay;
-                        if(typeof response.responseText.userDeleteError !== 'undefined') {
+                        if(typeof response.responseText !== 'undefined' && typeof response.responseText.userDeleteError !== 'undefined') {
                             responseText = response.responseText.userDeleteError.quote;
                             delay = 2000;
                         }
@@ -398,18 +398,26 @@ function showTooltip(el, addClass, position){
     });
 }
 
-///////// Show/Hide 'cropped' options //////////////
+//Show/Hide 'disablelazy' option
 $(document).on('click', '[name="useImage"]:checkbox', function() {
     var form       = $(this).closest('form'),
-        croppedImg = form.find('.cropped-img');
+        croppedImg = form.find('.cropped-img'),
+        lazyLoadBlock = form.find('.lazy-block');
 
     croppedImg.fadeToggle(function() {
         if (!croppedImg.is(':visible')) {
             croppedImg.find('input:checkbox').prop('checked', false);
         }
     });
+    lazyLoadBlock.fadeToggle(function() {
+        if (!lazyLoadBlock.is(':visible')) {
+            lazyLoadBlock.find('input:checkbox').prop('checked', false);
+        }
+    });
     form.find('.crop-size').hide().find('input:text').val('');
 });
+
+///////// Show/Hide 'cropped' options //////////////
 $(document).on('click', '.cropped-img input:checkbox', function() {
     var form     = $(this).closest('form'),
         cropSize = form.find('.crop-size');

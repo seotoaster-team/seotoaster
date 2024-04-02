@@ -103,7 +103,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         }
 
         if (!empty($this->cropParams)) {
-            $this->cropSizeSubfolder = implode($this->cropParams, '-').DIRECTORY_SEPARATOR;
+            $this->cropSizeSubfolder = implode('-', $this->cropParams).DIRECTORY_SEPARATOR;
         }
 
         // Create a folder crop-size subfolder
@@ -145,7 +145,7 @@ class Widgets_Featured_Featured extends Widgets_Abstract
             $pageTitleWrap = preg_replace('/pageTitleWrap=/', '', $pageTitleWrap);
             $pageTitleWrapData = explode('.', $pageTitleWrap);
             $pageTitleWrapEl = array_shift($pageTitleWrapData);
-            $pageTitleWrapClasses = implode($pageTitleWrapData, ' ');
+            $pageTitleWrapClasses = implode(' ', $pageTitleWrapData);
             $this->_view->pageTitleWrapEl = $pageTitleWrapEl;
             $this->_view->pageTitleWrapClasses = $pageTitleWrapClasses;
             $this->_view->pageTitleWrap = $pageTitleWrap;
@@ -256,6 +256,13 @@ class Widgets_Featured_Featured extends Widgets_Abstract
         $websiteUrlMediaServer = ($confiHelper->getConfig('mediaServers') ? Tools_Content_Tools::applyMediaServers($websiteHelper->getUrl()) : $websiteHelper->getUrl());
 
         $this->_view->websiteUrlMediaServer = $websiteUrlMediaServer;
+
+        $loadingLazy = 'loading="lazy"';
+        if(in_array('disablelazy', $params)) {
+            $loadingLazy = '';
+        }
+
+        $this->_view->lazyLoad = $loadingLazy;
 
         return $this->_view->render('area.phtml');
     }

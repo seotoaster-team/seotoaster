@@ -132,6 +132,65 @@ class Application_Model_Mappers_PageMapper extends Application_Model_Mappers_Abs
         return $entries;
     }
 
+    public function fetchAllPagesWithOptions($where = '', $order = array(), $fetchSysPages = false, $limit = null, $offset = null)
+    {
+        $sysWhere = $this->getDbTable()->getAdapter()->quoteInto("p.`system` = '?'", intval($fetchSysPages));
+        $where .= (($where) ? ' AND ' . $sysWhere : $sysWhere);
+        $order[] = 'order';
+
+        $select = $this->getDbTable()->getAdapter()->select()->from(array('p' => 'page'), array(
+            'id',
+            'template_id',
+            'parent_id',
+            'last_update',
+            'is_404page',
+            'show_in_menu',
+            'order',
+            'weight',
+            'silo_id',
+            'protected',
+            'system',
+            'draft',
+            'publish_at',
+            'news',
+            'err_login_landing',
+            'mem_landing',
+            'signup_landing',
+            'preview_image',
+            'external_link_status',
+            'external_link',
+            'page_type',
+            'page_folder',
+            'is_folder_index',
+            'exclude_category',
+            'page_target_blank',
+            'not_clickable',
+            'extraOptions' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT(po.id) SEPARATOR ',')")
+        ))
+            ->joinLeft(array('o' => 'optimized'), 'o.page_id=p.id', null)
+            ->joinLeft(array('pho' => 'page_has_option'), 'p.id=pho.page_id', null)
+            ->joinLeft(array('po' => 'page_option'), 'pho.option_id=po.id', null)
+            ->columns(array(
+                'url'                 => new Zend_Db_Expr('COALESCE(o.url, p.url)'),
+                'h1'                  => new Zend_Db_Expr('COALESCE(o.h1, p.h1)'),
+                'header_title'        => new Zend_Db_Expr('COALESCE(o.header_title, p.header_title)'),
+                'nav_name'            => new Zend_Db_Expr('COALESCE(o.nav_name, p.nav_name)'),
+                'targeted_key_phrase' => new Zend_Db_Expr('COALESCE(o.targeted_key_phrase, p.targeted_key_phrase)'),
+                'meta_description'    => new Zend_Db_Expr('COALESCE(o.meta_description, p.meta_description)'),
+                'meta_keywords'       => new Zend_Db_Expr('COALESCE(o.meta_keywords, p.meta_keywords)'),
+                'teaser_text'         => new Zend_Db_Expr('COALESCE(o.teaser_text, p.teaser_text)'),
+                'optimized'         => new Zend_Db_Expr('COALESCE(o.url, o.h1, o.header_title, o.nav_name, o.targeted_key_phrase, o.meta_description, o.meta_keywords, o.teaser_text, NULL)')
+            ))
+            ->where($where)
+            ->group('p.id')
+            ->order($order)
+            ->limit($limit, $offset);
+
+        $data = $this->getDbTable()->getAdapter()->fetchAll($select);
+
+        return $data;
+    }
+
     /**
      * Fetch pages by given option
      *

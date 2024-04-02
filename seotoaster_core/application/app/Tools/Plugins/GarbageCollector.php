@@ -25,7 +25,8 @@ class Tools_Plugins_GarbageCollector extends Tools_System_GarbageCollector
 
     protected function _runOnDelete()
     {
-        $this->_removePluginOccurrences();
+        //Todo make more universal format
+        //$this->_removePluginOccurrences();
         Tools_Plugins_Tools::removePluginRoute($this->_object->getName());
         $cacheHelper = new Helpers_Action_Cache();
         $cacheHelper->init();

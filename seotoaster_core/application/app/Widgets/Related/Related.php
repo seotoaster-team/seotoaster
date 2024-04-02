@@ -59,7 +59,7 @@ class Widgets_Related_Related extends Widgets_Abstract
         }
 
         if (!empty($this->cropParams)) {
-            $this->cropSizeSubfolder = implode($this->cropParams, '-').DIRECTORY_SEPARATOR;
+            $this->cropSizeSubfolder = implode('-', $this->cropParams).DIRECTORY_SEPARATOR;
         }
 
         $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');

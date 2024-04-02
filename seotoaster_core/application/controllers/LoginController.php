@@ -38,9 +38,23 @@ class LoginController extends Zend_Controller_Action {
 				if($authResult->isValid()) {
 					$authUserData = $authAdapter->getResultRowObject(null, 'password');
 					if(null !== $authUserData) {
+                        $userInfo = (array)$authUserData;
+                        $userRoleId = $userInfo['role_id'];
+					    $ipAddress = Tools_System_Tools::getIpAddress();
+                        if ($userRoleId === Tools_Security_Acl::ROLE_SUPERADMIN) {
+                            $userWhitelistIpsMapper = Application_Model_Mappers_UserWhitelistIpsMapper::getInstance();
+                            $ipWhiteListRecordsExists = $userWhitelistIpsMapper->checkIfRecordsExists();
+                            if (!empty($ipWhiteListRecordsExists)) {
+                                $userWhitelistIpModel = $userWhitelistIpsMapper->findWhiteListedIp($ipAddress, Tools_Security_Acl::ROLE_SUPERADMIN);
+                                if (!$userWhitelistIpModel instanceof Application_Model_Models_UserWhitelistIp) {
+                                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Access not allowed')));
+                                }
+                            }
+                        }
+
 						$user = new Application_Model_Models_User((array)$authUserData);
 						$user->setLastLogin(date(Tools_System_Tools::DATE_MYSQL));
-						$user->setIpaddress($_SERVER['REMOTE_ADDR']);
+						$user->setIpaddress($ipAddress);
 						$this->_helper->session->setCurrentUser($user);
 						Application_Model_Mappers_UserMapper::getInstance()->save($user);
 						unset($user);

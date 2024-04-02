@@ -117,6 +117,18 @@ class Tools_Search_Tools
 
         $document = new Zend_Search_Lucene_Document();
 
+        if (!isset($page['pageFolder'])) {
+            $page['pageFolder'] = null;
+        }
+
+        if (!isset($page['isFolderIndex'])) {
+            $page['isFolderIndex'] = null;
+        }
+
+        if (!isset($page['pageTags'])) {
+            $page['pageTags'] = null;
+        }
+
         $document->addField(Zend_Search_Lucene_Field::keyword('pageId', $page['id']));
         $document->addField(Zend_Search_Lucene_Field::unStored('metaKeyWords', $page['metaKeywords'], 'UTF-8'));
         $document->addField(Zend_Search_Lucene_Field::unStored('metaDescription', $page['metaDescription'], 'UTF-8'));

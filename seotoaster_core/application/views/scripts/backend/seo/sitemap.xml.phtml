@@ -3,6 +3,12 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
             xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
             xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+        <url>
+             <loc><?php echo $this->websiteUrl; ?></loc>
+             <lastmod><?php echo date('c', time()); ?></lastmod>
+             <changefreq><?php echo Tools_Content_Feed::SMFEED_CHANGEFREEQ; ?></changefreq>
+             <priority><?php echo '1'; ?></priority>
+        </url>
         <?php foreach($this->pages as $page): ?>
             <?php if($page->getParentId() != Application_Model_Models_Page::IDCATEGORY_DRAFT): ?>
                 <?php
@@ -26,12 +32,14 @@
                     }
                 }
                 ?>
+                <?php if ($page->getUrl() != 'index.html'):?>
                 <url>
                     <loc><?php echo $this->websiteUrl.(($page->getUrl() == 'index.html') ? '' : $url); ?></loc>
                     <lastmod><?php echo date('c', time()); ?></lastmod>
                     <changefreq><?php echo Tools_Content_Feed::SMFEED_CHANGEFREEQ; ?></changefreq>
-                    <priority><?php echo ($page->getUrl() == Tools_Content_Feed::SMFEED_HIGHPRIORITY_PAGE_URL) ? '1' : '0.8'; ?></priority>
+                    <priority><?php echo '0.8'; ?></priority>
                 </url>
+                <?php endif; ?>
             <?php endif; ?>
         <?php endforeach; ?>
     <?php if(empty($this->sitemapType)):?>

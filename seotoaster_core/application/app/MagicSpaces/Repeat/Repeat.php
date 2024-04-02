@@ -22,7 +22,7 @@ class MagicSpaces_Repeat_Repeat extends Tools_MagicSpaces_Abstract
 
     protected $_recursiveParse = false;
 
-    protected $_excludeItems = '';
+    protected $_excludeItems = array();
 
     protected function _init()
     {

@@ -109,7 +109,7 @@
 <?php echo isset($this->placeholder('seo')->seoBottom) ? $this->placeholder('seo')->seoBottom: ''; ?>
 <input type="hidden" id="website_url" value="<?php echo $this->websiteUrl; ?>" />
 <input type="hidden" id="current_theme" value="<?php echo $this->currentTheme; ?>" />
-<input type="hidden" id="page_id" value="<?php echo $this->pageData['id']; ?>">
+<input type="hidden" id="page_id" value="<?php echo (isset($this->pageData['id'])) ? $this->pageData['id']: ''; ?>">
 <?php if(isset($this->sculptingReplacement)): ?>
     <!-- PRSCULPTING -->
     <script type="text/javascript" charset="utf-8">$(function() {var sculptingReplacement = <?php echo $this->sculptingReplacement; ?>;$.each(sculptingReplacement, function() {$('span.' + this.id).replaceWith(this.repl);})});</script>
