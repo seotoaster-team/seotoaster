@@ -37,7 +37,7 @@
     <p class="mt5px grid_6 omega">
         <label class="pointer">
             <span class="grid_8 alpha"><?php echo $this->translate('Lazyload'); ?></span>
-            <?php echo $this->formCheckbox('galUseLazyload', null, array('id' => 'useLazyload', 'class' => 'allowzero')); ?>
+            <?php echo $this->formCheckbox('galUseLazyload', 1, array('id' => 'useLazyload', 'class' => 'allowzero'), array(1, 0)); ?>
         </label>
     </p>
 
