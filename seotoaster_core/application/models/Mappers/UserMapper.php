@@ -38,7 +38,11 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'remote_authorization_info'  => $user->getRemoteAuthorizationInfo(),
             'remote_authorization_token' => $user->getRemoteAuthorizationToken(),
             'personal_calendar_url'      => $user->getPersonalCalendarUrl(),
-            'avatar_link'                => $user->getAvatarLink()
+            'avatar_link'                => $user->getAvatarLink(),
+            'receive_reports'            => $user->getReceiveReports(),
+            'receive_reports_preferable_time' => $user->getReceiveReportsPreferableTime(),
+            'receive_reports_cc_email'   => $user->getReceiveReportsCcEmail(),
+            'receive_reports_types_list' => $user->getReceiveReportsTypesList(),
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -68,6 +72,134 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
 
 		return parent::fetchAll($where, 'id ASC');
 	}
+
+    /**
+     * Users etc..
+     *
+     * @param string $where SQL where clause
+     * @param string $order OPTIONAL An SQL ORDER clause.
+     * @param int $limit OPTIONAL An SQL LIMIT count.
+     * @param int $offset OPTIONAL An SQL LIMIT offset.
+     * @param bool $withoutCount flag to get with or without records quantity
+     * @param bool $singleRecord flag fetch single record
+     * @param string $having mysql having
+     * @param bool $withTimezoneOffset with timezone offset
+     *
+     * @return array
+     */
+    public function fetchData(
+        $where = null,
+        $order = null,
+        $limit = null,
+        $offset = null,
+        $withoutCount = false,
+        $singleRecord = false,
+        $having = '',
+        $withTimezoneOffset = true
+    )
+    {
+
+        $mysqlOffset = Tools_System_Tools::getUtcOffset('P');
+        if ($withTimezoneOffset === true) {
+            $registrationDate = new Zend_Db_Expr("CONVERT_TZ(`u`.`reg_date`, '+00:00', '$mysqlOffset')");
+            $lastLogin = new Zend_Db_Expr("CONVERT_TZ(`u`.`last_login`, '+00:00', '$mysqlOffset')");
+        } else {
+            $registrationDate = `u`.`reg_date`;
+            $lastLogin = `u`.`last_login`;
+        }
+
+        $params = array(
+            'u.id',
+            'u.role_id',
+            'u.password',
+            'u.email',
+            'u.prefix',
+            'u.full_name',
+            'registrationDate' => $registrationDate,
+            'lastLogin' => $lastLogin,
+            'u.ipaddress',
+            'u.referer',
+            'u.gplus_profile',
+            'u.mobile_phone',
+            'u.voip_phone',
+            'u.notes',
+            'u.timezone',
+            'u.mobile_country_code',
+            'u.mobile_country_code_value',
+            'u.desktop_phone',
+            'u.desktop_country_code',
+            'u.desktop_country_code_value',
+            'u.signature',
+            'u.subscribed',
+            'u.allow_remote_authorization',
+            'u.remote_authorization_info',
+            'u.remote_authorization_token',
+            'u.personal_calendar_url',
+            'u.avatar_link',
+            'u.receive_reports',
+            'u.receive_reports_preferable_time',
+            'u.receive_reports_cc_email',
+            'u.receive_reports_types_list',
+        );
+
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from(array('u' => 'user'),
+                $params
+            );
+
+        if (!empty($having)) {
+            $select->having($having);
+        }
+
+        $select->group('u.id');
+        if (!empty($order)) {
+            $select->order($order);
+        }
+
+        if (!empty($where)) {
+            $select->where($where);
+        }
+
+        $select->limit($limit, $offset);
+
+        if ($singleRecord) {
+            $data = $this->getDbTable()->getAdapter()->fetchRow($select);
+        } else {
+            $data = $this->getDbTable()->getAdapter()->fetchAll($select);
+        }
+
+        if ($withoutCount === false) {
+            $select->reset(Zend_Db_Select::COLUMNS);
+            $select->reset(Zend_Db_Select::FROM);
+            $select->reset(Zend_Db_Select::LIMIT_OFFSET);
+            $select->reset(Zend_Db_Select::LIMIT_COUNT);
+
+            $count = array('count' => new Zend_Db_Expr('COUNT(DISTINCT(u.id))'));
+
+            $select->from(array('u' => 'user'), $count);
+
+            $select = $this->getDbTable()->getAdapter()->select()
+                ->from(
+                    array('subres' => $select),
+                    array('count' => 'SUM(count)')
+                );
+
+            $count = $this->getDbTable()->getAdapter()->fetchRow($select);
+
+            if (empty($count['count'])) {
+                $count['count'] = 0;
+            }
+
+            return array(
+                'totalRecords' => $count['count'],
+                'data' => $data,
+                'offset' => $offset,
+                'limit' => $limit
+            );
+        } else {
+            return $data;
+        }
+    }
 
 	public function findByEmail($email) {
 		$where = $this->getDbTable()->getAdapter()->quoteInto("email = ?", $email);

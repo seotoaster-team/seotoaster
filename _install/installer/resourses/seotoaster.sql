@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.8.0');
+('version',	'3.8.1');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -458,6 +458,10 @@ CREATE TABLE `user` (
   `remote_authorization_token` CHAR(40) DEFAULT NULL,
   `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `receive_reports` ENUM('0', '1') DEFAULT '0',
+  `receive_reports_preferable_time` int(10) unsigned DEFAULT NULL,
+  `receive_reports_cc_email` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `receive_reports_types_list` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)

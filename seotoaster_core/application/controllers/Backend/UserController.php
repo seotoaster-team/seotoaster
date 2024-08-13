@@ -84,6 +84,10 @@ class Backend_UserController extends Zend_Controller_Action {
                         $data['allowRemoteAuthorization'] = $existedUser->getAllowRemoteAuthorization();
                         $data['remoteAuthorizationInfo'] = $existedUser->getRemoteAuthorizationInfo();
                         $data['remoteAuthorizationToken'] = $existedUser->getRemoteAuthorizationToken();
+                        $data['receiveReports'] = $existedUser->getReceiveReports();
+                        $data['receiveReportsPreferableTime'] = $existedUser->getReceiveReportsPreferableTime();
+                        $data['receiveReportsCcEmail'] = $existedUser->getReceiveReportsCcEmail();
+                        $data['receiveReportsTypesList'] = $existedUser->getReceiveReportsTypesList();
                     }
                 } else {
                     $notifyNewUser = true;
