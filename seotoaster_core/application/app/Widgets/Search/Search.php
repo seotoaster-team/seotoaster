@@ -177,6 +177,14 @@ class Widgets_Search_Search extends Widgets_Abstract
             $filterPageType = array_intersect($pageTypes, $filterPageTypeConf);
         }
 
+        if (empty($filterPageType) && !empty($pageTypes)) {
+            $quoteOption = array_search('quote', $pageTypes);
+            if ($quoteOption !== false) {
+                $filterPageType = $pageTypes;
+                unset($filterPageType[$quoteOption]);
+            }
+        }
+
         $additionalOptions = array();
 
         if(in_array('subfolders', $params) || in_array('pagetags', $params)) {
