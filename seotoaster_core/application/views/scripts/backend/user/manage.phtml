@@ -114,7 +114,7 @@
                       $timezones = array('0' => $this->translate('Select default timezone')) + array_combine($timezones, $timezones);
                 ?>
                 <p class="grid_6 alpha">
-                    <label class="grid_5 mt5px"><?php echo $this->translate('Default timezone');?>:</label>
+                    <label class="grid_5 mt5px alpha"><?php echo $this->translate('Default timezone');?>:</label>
                     <select data-default-attr="userDefaultTimezone" id="user-default-timezone" name="user-default-timezone" class="grid_7 omega">
                         <?php foreach($timezones as $timezone):?>
                             <option <?php echo (((!empty($this->userDefaultTimeZone) && $timezone === $this->userDefaultTimeZone)) ? 'selected': '');?> value="<?php echo $timezone;?>"><?php echo $timezone;?></option>
@@ -129,6 +129,16 @@
                         <?php endforeach;?>
                     </select>
                 </p>
+                <p class="grid_6 alpha">
+                    <label>
+                        <input data-default-attr="activateMfa" <?php echo (!empty($this->activateMfa) ? 'checked':'');?> class="grid_2 alpha" id="enable-mfa" type="checkbox" name="enable-mfa" />
+                        <?php echo $this->translate('Enable two factor authentication (2FA) via email');?> <i title="<?php echo $this->translate('Enable for Admin and Sales roles on a per-account basis.');?>" class="ticon-info tooltip icon18"></i>
+                    </label>
+                </p>
+                <p class="grid_6 alpha">
+
+                </p>
+                <hr/>
             </div>
             <form class="grid_10 alpha search" name="search" action="<?php echo $this->websiteUrl; ?>backend/backend_user/manage/by/last_login/order/<?php echo $this->order; ?>" method="get">
                 <div class="grid_3 alpha">
@@ -463,6 +473,17 @@
                     $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
                 }
             }
+        });
+
+        $(document).on('change', '#enable-mfa', function(){
+            var defaultAttrValue = 0,
+                defaultAttrName = $(this).data('default-attr');
+
+            if ($(this).is(':checked')) {
+                defaultAttrValue = 1;
+            }
+
+            saveDefaultParam(defaultAttrName, defaultAttrValue);
         });
 	});
 

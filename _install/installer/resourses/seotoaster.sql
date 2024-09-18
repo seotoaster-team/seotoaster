@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.8.1');
+('version',	'3.8.3');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -97,7 +97,8 @@ INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUE
 (3,	'1',	't_passwordchange',	'Tools_Mail_SystemMailWatchdog'),
 (4,	'1',	't_membersignup',	'Tools_Mail_SystemMailWatchdog'),
 (5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog'),
-(6,	'1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
+(6,	'1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog'),
+(7,	'1',	't_mfanotification', 'Tools_Mail_SystemMailWatchdog');
 
 DROP TABLE IF EXISTS `email_triggers_actions`;
 CREATE TABLE `email_triggers_actions` (
@@ -462,6 +463,10 @@ CREATE TABLE `user` (
   `receive_reports_preferable_time` int(10) unsigned DEFAULT NULL,
   `receive_reports_cc_email` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `receive_reports_types_list` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `enabled_mfa` ENUM('0', '1') DEFAULT '0',
+  `mfa_code` CHAR(6) DEFAULT NULL,
+  `mfa_code_expiration_time` TIMESTAMP NULL,
+  `exclude_weekends` ENUM('0', '1') DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
