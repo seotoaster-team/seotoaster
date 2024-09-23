@@ -14,6 +14,8 @@ class Tools_System_Whitelabel
 
     const REMOTE_DOCUMENTATION_URL = 'https://www.seotoaster.com/';
 
+    const HELP_WEBSITE_REMOTE_URL = 'https://help.seosamba.com/';
+
     const WHITE_LABEL_DOCUMENTATION_DEFAULT_DOMAIN = 'http://help.website-today.org/';
 
     const ORIGINAL_CMS_BRAND_NAME = 'SeoToaster';
@@ -64,7 +66,7 @@ class Tools_System_Whitelabel
             return self::WHITE_LABEL_DOCUMENTATION_DEFAULT_DOMAIN;
         }
 
-        return self::REMOTE_DOCUMENTATION_URL;
+        return self::HELP_WEBSITE_REMOTE_URL;
     }
 
 
