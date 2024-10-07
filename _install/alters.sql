@@ -870,6 +870,16 @@ ALTER TABLE `user` ADD `mfa_code` CHAR(6) DEFAULT NULL;
 ALTER TABLE `user` ADD `mfa_code_expiration_time` TIMESTAMP NULL;
 INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1',	't_mfanotification',	'Tools_Mail_SystemMailWatchdog');
 
+-- 25/09/2024
+-- version: 3.8.3
+-- Pre package version
+
+-- 03/10/2024
+-- version: 3.9.0
+-- Change FR masks format
+UPDATE `masks_list` SET `mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'FR';
+UPDATE `masks_list` SET `full_mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'FR';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.8.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.9.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

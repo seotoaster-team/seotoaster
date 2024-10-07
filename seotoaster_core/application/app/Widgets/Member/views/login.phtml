@@ -1,38 +1,146 @@
-<?php if(($this->userRole == Tools_Security_Acl::ROLE_GUEST) || $this->userRole == Tools_Security_Acl::ROLE_SUPERADMIN): ?>
+<?php if (($this->userRole == Tools_Security_Acl::ROLE_GUEST) || $this->userRole == Tools_Security_Acl::ROLE_SUPERADMIN): ?>
     <?php if (!empty($this->messages)) : ?>
         <ul id="messages" class="ui-state-error w350">
             <?php foreach ($this->messages as $message) : ?>
-                <?php if(is_array($message) && isset($message['email'])): ?>
+                <?php if (is_array($message) && isset($message['email'])): ?>
                     <li><?php echo $message['email']; ?></li>
-                <?php elseif(is_string($message)):?>
+                <?php elseif (is_string($message)): ?>
                     <li><?php echo $message; ?></li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-    <?php
-    $this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');
-    $this->loginForm->getElement('secureToken')->setValue($this->secureToken);
-    echo $this->loginForm;
-    ?>
-    <a href="javascript:;" title="<?php echo $this->translate('Forgot password?'); ?>" class="forgot-password"> <?php echo $this->translate('Forgot password?'); ?></a>
+    <?php $this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');?>
+    <form id="<?php echo $this->loginForm->getId();?>" enctype="application/x-www-form-urlencoded" action="<?php echo $this->loginForm->getAction();?>" method="post">
+        <?php
+        if ($this->mfaEnabled === true && $this->verificationCodeSection === true):?>
+            <p>
+                <label for="login-verification-code"
+                       class="required"><?php echo $this->translate('Enter the verification code'); ?></label>
+                <input id="login-verification-code" type="text" name="login-verification-code" value="">
+            </p>
+            <p>
+                <span><?php echo $this->translate('Didn\'t receive a code?'); ?></span> <a
+                        id="resend-verification-code-link" href="javascript:;"><?php echo $this->translate('Resend'); ?></a>
+            </p>
+        <?php else: ?>
+            <p><?php
+                echo $this->loginForm->getElement('email')->renderLabel();
+                echo $this->loginForm->getElement('email')->renderViewHelper();
+                ?>
+            </p>
+            <p>
+                <?php echo $this->loginForm->getElement('password')->renderLabel(); ?>
+                <?php echo $this->loginForm->getElement('password')->renderViewHelper(); ?>
+            </p>
+            <p class="verification-login-part hidden">
+                <label for="login-verification-code"
+                       class="required"><?php echo $this->translate('Enter the verification code'); ?></label>
+                <input id="login-verification-code" type="text" name="login-verification-code" value="">
+            </p>
+            <p class="verification-login-part hidden">
+                <span><?php echo $this->translate('Didn\'t receive a code?'); ?></span> <a
+                        id="resend-verification-code-link" href="javascript:;"><?php echo $this->translate('Resend'); ?></a>
+            </p>
+        <?php endif; ?>
+        <?php echo $this->loginForm->getElement('submit')->renderViewHelper();?>
+        <input id="secureToken" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
+    </form>
+    <a href="javascript:;" title="<?php echo $this->translate('Forgot password?'); ?>"
+       class="forgot-password"> <?php echo $this->translate('Forgot password?'); ?></a>
     <div class="retrieveFormBlock" style="display: none">
-        <?php echo $this->retrieveForm;?>
-        <a href="javascript:;" title="<?php echo $this->translate('I remembered my password'); ?>" id="remember-password"> <?php echo $this->translate('I remembered my password'); ?></a>
+        <?php echo $this->retrieveForm; ?>
+        <a href="javascript:;" title="<?php echo $this->translate('I remembered my password'); ?>"
+           id="remember-password"> <?php echo $this->translate('I remembered my password'); ?></a>
     </div>
-<?php endif; ?>
-<script type="text/javascript">
-    $(function() {
-        $(document).on('click', '#remember-password', function() {
-            $('.retrieveFormBlock').hide();
-            $('#login-form').show();
-            $('.forgot-password').show();
-        });
 
-        $(document).on('click', '.forgot-password', function() {
-            $('.retrieveFormBlock').show();
-            $('#login-form').hide();
-            $('.forgot-password').hide();
+    <script type="text/javascript">
+        <?php if ($this->mfaEnabled === true):?>
+            $(document).on('submit', '#login-form', function(e){
+                e.preventDefault();
+                showSpinner('#login-form', 'login-form-spinner system-spinner');
+
+                var self = $(this);
+
+                var email = $(this).find('#email').val(),
+                    password = $(this).find('#password').val(),
+                    secureToken = $(this).find('#secureToken').val(),
+                    loginVerificationCode = $(this).find('#login-verification-code').val();
+
+                $.ajax({
+                    'url': '<?php echo $this->websiteUrl;?>'+'backend/login/index/singintype/member/',
+                    'type': 'POST',
+                    'dataType': 'json',
+                    'data': {
+                        'email':email,
+                        'password':password,
+                        'secureToken':secureToken,
+                        'login-verification-code':loginVerificationCode
+                    }
+                }).done(function(response){
+                    hideSpinner('.login-form-spinner');
+                    if (parseInt(response.error) === 1) {
+                        if (typeof response.responseText.message !== 'undefined' && response.responseText.message) {
+                            showMessage(response.responseText.message, true, 3000);
+                            if (typeof response.responseText.refresh !== 'undefined') {
+                                self.find('#email').closest('p').removeClass('hidden');
+                                self.find('#password').closest('p').removeClass('hidden');
+                                self.find('.verification-login-part').addClass('hidden');
+                            }
+                        }
+
+                        if (typeof response.responseText.redirect !== 'undefined') {
+                            window.location.href = response.responseText.redirect;
+                        }
+                    } else {
+                        showMessage(response.responseText.message, false, 3000);
+                        self.find('#email').closest('p').addClass('hidden');
+                        self.find('#password').closest('p').addClass('hidden');
+                        self.find('.verification-login-part').removeClass('hidden');
+                    }
+                }).fail(async function(response){
+                    hideSpinner('.login-form-spinner');
+                });
+
+            });
+
+            $(document).on('click', '#resend-verification-code-link', function(e){
+                e.preventDefault();
+
+                var secureToken = $(this).closest('form').find('#secureToken').val();
+
+                $.ajax({
+                    url:'<?php echo $this->websiteUrl;?>api/toaster/loginverificationcode/',
+                    type:"POST",
+                    dataType:"json",
+                    data:{
+                        'secureToken':secureToken
+                    }
+                }).done(function(response) {
+                    if (parseInt(response.error) === 0) {
+                        showMessage(response.message, false, 2000);
+                    } else {
+                        showMessage(response.message, true, 3000);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 3000);
+                    }
+                });
+            });
+        <?php endif;?>
+
+        $(function () {
+            $(document).on('click', '#remember-password', function () {
+                $('.retrieveFormBlock').hide();
+                $('#login-form').show();
+                $('.forgot-password').show();
+            });
+
+            $(document).on('click', '.forgot-password', function () {
+                $('.retrieveFormBlock').show();
+                $('#login-form').hide();
+                $('.forgot-password').hide();
+            });
         });
-    });
-</script>
+    </script>
+<?php endif; ?>

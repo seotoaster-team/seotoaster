@@ -80,6 +80,7 @@
 <!--                    <label class="inline-block">--><?php //echo $this->translate('Allow remote login');?><!--</label>-->
 <!--                    <i title="--><?php //echo $this->translate('Aka: Single Sign On - Let you log into your system from your Marketing hub dashboard.');?><!--" class="ticon-info tooltip icon18"></i>-->
 <!--                    <input id="allow-remote-login" type="checkbox" name="allowRemoteAuthorization" value="1" />-->
+                    <label><?php echo $this->translate('Enable (2FA) via email');?> <i title="<?php echo $this->translate('Two factor authentication (2FA). Security verification code will be send to your email to protect your account');?>" class="ticon-info tooltip icon18"></i><input id="enabledMfa" type="checkbox" name="enabledMfa" value="1" /></label>
                 </div>
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('signature'); ?>

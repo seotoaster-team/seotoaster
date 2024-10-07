@@ -69,6 +69,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 array(new Zend_Validate_Regex(array('pattern' => '/^[\w\s\']*$/u'))
             )));
             $userForm->getElement('fullName')->getValidator('Zend_Validate_Regex')->setMessage("'%value%' contains characters which are non alphabetic and no digits", Zend_Validate_Regex::NOT_MATCH);
+            $notFilteredData = $this->getRequest()->getParams();
             if($userForm->isValid($this->getRequest()->getParams())) {
                 $data       = $userForm->getValues();
 
@@ -88,7 +89,6 @@ class Backend_UserController extends Zend_Controller_Action {
                         $data['receiveReportsPreferableTime'] = $existedUser->getReceiveReportsPreferableTime();
                         $data['receiveReportsCcEmail'] = $existedUser->getReceiveReportsCcEmail();
                         $data['receiveReportsTypesList'] = $existedUser->getReceiveReportsTypesList();
-                        $data['enabledMfa'] = $existedUser->getEnabledMfa();
                         $data['mfaCode'] = $existedUser->getMfaCode();
                         $data['mfaCodeExpirationTime'] = $existedUser->getMfaCodeExpirationTime();
                         $data['excludeWeekends'] = $existedUser->getExcludeWeekends();
@@ -96,6 +96,8 @@ class Backend_UserController extends Zend_Controller_Action {
                 } else {
                     $notifyNewUser = true;
                 }
+
+                $data['enabledMfa'] = $notFilteredData['enabledMfa'];
 
                 $this->_processUser($data, $userId);
                 if ($oldUserEmailAddress !== $data['email'] && !empty($userId)) {

@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.8.3');
+('version',	'3.9.0');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -658,8 +658,8 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('FM',	'desktop',	'999-9999',	'999-9999'),
 ('FO',	'mobile',	'999-999',	'999-999'),
 ('FO',	'desktop',	'999-999',	'999-999'),
-('FR',  'mobile', '9 99 99 99 99?9', '9 99 99 99 99?9'),
-('FR',  'desktop', '9 99 99 99 99?9', '9 99 99 99 99?9'),
+('FR',  'mobile', '99 99 99 99 9?9', '99 99 99 99 9?9'),
+('FR',  'desktop', '99 99 99 99 9?9', '99 99 99 99 9?9'),
 ('GA',	'mobile',	'9-99-99-99',	'9-99-99-99'),
 ('GA',	'desktop',	'9-99-99-99',	'9-99-99-99'),
 ('GB',	'mobile',	'99-9999-9999?9',	'99-9999-9999?9'),

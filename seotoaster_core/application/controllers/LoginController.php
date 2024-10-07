@@ -8,9 +8,15 @@ class LoginController extends Zend_Controller_Action {
 
     public function indexAction() {
 		$this->_helper->page->doCanonicalRedirect('go');
+
+        $xmlHttpRequest = $this->_request->isXmlHttpRequest();
 		//if logged in user trys to go to the login page - redirect him to the main page
 		if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PAGE_PROTECTED)) {
-			$this->_redirect($this->_helper->website->getUrl());
+            if ($xmlHttpRequest === true) {
+                $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl()));
+            } else {
+                $this->_redirect($this->_helper->website->getUrl());
+            }
 		}
 
         $loginForm = new Application_Form_Login();
@@ -21,7 +27,12 @@ class LoginController extends Zend_Controller_Action {
 			$secureToken = $this->_request->getParam(Tools_System_Tools::CSRF_SECURE_TOKEN, false);
 			$tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_LOGIN);
 			if (!$tokenValid) {
-				$this->_checkRedirect(false, array());
+			    if ($xmlHttpRequest === true) {
+                    $this->_helper->response->fail(array('message' => $this->_helper->language->translate('Wrong token')));
+                } else {
+                    $this->_checkRedirect(false, array());
+                }
+
 			}
 			$loginForm->removeElement(Tools_System_Tools::CSRF_SECURE_TOKEN);
 
@@ -32,16 +43,28 @@ class LoginController extends Zend_Controller_Action {
                 if ($isVerificationCodeValid === false) {
                     Tools_System_MfaTools::cleanVerificationUserId();
                     if (!isset($this->_helper->session->verificationCodeUserId)) {
-                        $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Verification code has been expired. Please re-login.')));
+                        if ($xmlHttpRequest === true) {
+                            $this->_helper->response->fail(array('refresh' => '1', 'message' => $this->_helper->language->translate('Verification code has been expired. Please re-login.')));
+                        } else {
+                            $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Verification code has been expired. Please re-login.')));
+                        }
                     } else {
-                        $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Please enter valid verification code')));
+                        if ($xmlHttpRequest === true) {
+                            $this->_helper->response->fail(array('message' => $this->_helper->language->translate('Please enter valid verification code')));
+                        } else {
+                            $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Please enter valid verification code')));
+                        }
                     }
                 }
 
                 $userMapper = Application_Model_Mappers_UserMapper::getInstance();
                 $userModel = $userMapper->find($this->_helper->session->verificationCodeUserId);
                 if (!$userModel instanceof Application_Model_Models_User) {
-                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('User not found')));
+                    if ($xmlHttpRequest === true) {
+                        $this->_helper->response->fail(array('message' => $this->_helper->language->translate('User not found')));
+                    } else {
+                        $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('User not found')));
+                    }
                 }
 
                 $userModel->setPassword('');
@@ -62,7 +85,11 @@ class LoginController extends Zend_Controller_Action {
                 if($userModel->getRoleId() == Tools_Security_Acl::ROLE_SUPERADMIN) {
                     $superAdminRedirectPageModel = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption('option_adminredirect', true);
                     if ($superAdminRedirectPageModel instanceof Application_Model_Models_Page) {
-                        $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
+                        if ($xmlHttpRequest === true) {
+                            $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl()));
+                        } else {
+                            $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
+                        }
                     }
                 }
 
@@ -72,21 +99,39 @@ class LoginController extends Zend_Controller_Action {
 
                     if (!empty($redirectAdminAfterLogin)) {
                         $redirector = new Zend_Controller_Action_Helper_Redirector();
-                        $redirector->gotoUrl($this->_helper->website->getUrl().$redirectAdminAfterLogin);
+                        if ($xmlHttpRequest === true) {
+                            $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $redirectAdminAfterLogin));
+                        } else {
+                            $redirector->gotoUrl($this->_helper->website->getUrl() . $redirectAdminAfterLogin);
+                        }
                     }
                 }
                 //code verification part end section
 
 
                 if(isset($this->_helper->session->redirectUserTo)) {
-                    $this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
+                    if ($xmlHttpRequest === true) {
+                        $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo));
+                    } else {
+                        $this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
+                    }
+
                 }
                 if (isset($this->_helper->session->loginCustomRedirect)) {
                     $customRedirect = $this->_helper->session->loginCustomRedirect;
                     unset($this->_helper->session->loginCustomRedirect);
-                    $this->redirect($customRedirect, array('exit' => true));
+                    if ($xmlHttpRequest === true) {
+                        $this->_helper->response->fail(array('redirect' => $customRedirect));
+                    } else {
+                        $this->redirect($customRedirect, array('exit' => true));
+                    }
                 }
-                $this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
+
+                if ($xmlHttpRequest === true) {
+                    $this->_helper->response->fail(array('redirect' => (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl()));
+                } else {
+                    $this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
+                }
 			}
 
 			if($loginForm->isValid($this->getRequest()->getParams())) {
@@ -112,36 +157,60 @@ class LoginController extends Zend_Controller_Action {
                             if (!empty($ipWhiteListRecordsExists)) {
                                 $userWhitelistIpModel = $userWhitelistIpsMapper->findWhiteListedIp($ipAddress, Tools_Security_Acl::ROLE_SUPERADMIN);
                                 if (!$userWhitelistIpModel instanceof Application_Model_Models_UserWhitelistIp) {
-                                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Access not allowed')));
+                                    if ($xmlHttpRequest === true) {
+                                        $this->_helper->response->fail(array('message' => $this->_helper->language->translate('Access not allowed')));
+                                    } else {
+                                        $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Access not allowed')));
+                                    }
                                 }
                             }
                         }
 
                         $userModel = Application_Model_Mappers_UserMapper::getInstance()->findByEmail($loginForm->getValue('email'));
                         if (!$userModel instanceof Application_Model_Models_User) {
-                            $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
+                            if ($xmlHttpRequest === true) {
+                                $this->_helper->response->fail(array('message' => $this->_helper->language->translate('There is no user with such login and password.')));
+                            } else {
+                                $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
+                            }
                         }
 
                         $userId = $userModel->getId();
                         if (Tools_System_MfaTools::isUserEligibleForMfa($userId) === true) {
-                            $signInType = $this->getRequest()->getParam('singintype');
-                            if (!empty($signInType) && $signInType == Tools_Security_Acl::ROLE_MEMBER) {
-                                $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Use'). ' <a target="_blank" href="'.$this->_helper->website->getUrl().'go"'.'>'.$this->_helper->website->getUrl().'go</a> ' .$this->_helper->language->translate('to be able to login into the website.')));
-                            }
+//                            $signInType = $this->getRequest()->getParam('singintype');
+//                            if (!empty($signInType) && $signInType == Tools_Security_Acl::ROLE_MEMBER) {
+//                                if ($xmlHttpRequest === true) {
+//                                    $this->_helper->response->fail(array('message' => $this->_helper->language->translate('Use') . ' <a target="_blank" href="' . $this->_helper->website->getUrl() . 'go"' . '>' . $this->_helper->website->getUrl() . 'go</a> ' . $this->_helper->language->translate('to be able to login into the website.')));
+//                                } else {
+//                                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Use') . ' <a target="_blank" href="' . $this->_helper->website->getUrl() . 'go"' . '>' . $this->_helper->website->getUrl() . 'go</a> ' . $this->_helper->language->translate('to be able to login into the website.')));
+//                                }
+//                            }
 
                             $mfaResponse = Tools_System_MfaTools::sendMfaNotification($userId);
                             if (empty($mfaResponse)) {
-                                $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Please contact website administrator')));
+                                if ($xmlHttpRequest === true) {
+                                    $this->_helper->response->fail(array('message' => $this->_helper->language->translate('There is no user with such login and password.')));
+                                } else {
+                                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
+                                }
                             }
 
                             if (!empty($mfaResponse['error'])) {
-                                $this->_checkRedirect(false, array('email' => $mfaResponse['message']));
+                                if ($xmlHttpRequest === true) {
+                                    $this->_helper->response->fail(array('message' => $mfaResponse['message']));
+                                } else {
+                                    $this->_checkRedirect(false, array('email' => $mfaResponse['message']));
+                                }
                             }
 
                             $this->_helper->session->verificationCodeUserId = $userId;
                             $this->_helper->session->verificationCodeUserIdExpiresAt = Tools_System_Tools::convertDateFromTimezone('+10 minutes', 'UTC', 'UTC');
 
-                            $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Verification code was sent to your email.')));
+                            if ($xmlHttpRequest === true) {
+                                $this->_helper->response->success(array('message' => $this->_helper->language->translate('Verification code was sent to your email.')));
+                            } else {
+                                $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Verification code was sent to your email.')));
+                            }
                         }
 
 						$user = new Application_Model_Models_User((array)$authUserData);
@@ -159,7 +228,11 @@ class LoginController extends Zend_Controller_Action {
                         if($authUserData->role_id == Tools_Security_Acl::ROLE_SUPERADMIN) {
                             $superAdminRedirectPageModel = Application_Model_Mappers_PageMapper::getInstance()->fetchByOption('option_adminredirect', true);
                             if ($superAdminRedirectPageModel instanceof Application_Model_Models_Page) {
-                                $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
+                                if ($xmlHttpRequest === true) {
+                                    $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl()));
+                                } else {
+                                    $this->_redirect($this->_helper->website->getUrl() . $superAdminRedirectPageModel->getUrl(), array('exit' => true));
+                                }
                             }
                         }
 
@@ -169,19 +242,36 @@ class LoginController extends Zend_Controller_Action {
 
                             if (!empty($redirectAdminAfterLogin)) {
                                 $redirector = new Zend_Controller_Action_Helper_Redirector();
-                                $redirector->gotoUrl($this->_helper->website->getUrl().$redirectAdminAfterLogin);
+                                if ($xmlHttpRequest === true) {
+                                    $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $redirectAdminAfterLogin));
+                                } else {
+                                    $redirector->gotoUrl($this->_helper->website->getUrl() . $redirectAdminAfterLogin);
+                                }
                             }
                         }
 
 						if(isset($this->_helper->session->redirectUserTo)) {
-							$this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
+                            if ($xmlHttpRequest === true) {
+                                $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo));
+                            } else {
+                                $this->_redirect($this->_helper->website->getUrl() . $this->_helper->session->redirectUserTo, array('exit' => true));
+                            }
 						}
                         if (isset($this->_helper->session->loginCustomRedirect)) {
                             $customRedirect = $this->_helper->session->loginCustomRedirect;
                             unset($this->_helper->session->loginCustomRedirect);
-                            $this->redirect($customRedirect, array('exit' => true));
+                            if ($xmlHttpRequest === true) {
+                                $this->_helper->response->fail(array('redirect' => $customRedirect));
+                            } else {
+                                $this->redirect($customRedirect, array('exit' => true));
+                            }
                         }
-						$this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
+                        if ($xmlHttpRequest === true) {
+                            $this->_helper->response->fail(array('redirect' => (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl()));
+                        } else {
+                            $this->_redirect((isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $this->_helper->website->getUrl());
+                        }
+
 					}
 				}
 
@@ -190,10 +280,18 @@ class LoginController extends Zend_Controller_Action {
 					$this->_memberRedirect(false);
 				}
 
-				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
+                if ($xmlHttpRequest === true) {
+                    $this->_helper->response->fail(array('message' => $this->_helper->language->translate('There is no user with such login and password.')));
+                } else {
+                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('There is no user with such login and password.')));
+                }
 			}
 			else {
-				$this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Login should be a valid email address')));
+                if ($xmlHttpRequest === true) {
+                    $this->_helper->response->fail(array('message' => $this->_helper->language->translate('Login should be a valid email address')));
+                } else {
+                    $this->_checkRedirect(false, array('email' => $this->_helper->language->translate('Login should be a valid email address')));
+                }
 			}
 		}
 		else {
@@ -247,9 +345,14 @@ class LoginController extends Zend_Controller_Action {
 	}
 
 	private function _memberRedirect($success = true) {
-		$landingPage = ($success) ? Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_MEMLAND) : Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_ERRLAND);
+        $xmlHttpRequest = $this->_request->isXmlHttpRequest();
+        $landingPage = ($success) ? Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_MEMLAND) : Tools_Page_Tools::getLandingPage(Application_Model_Models_Page::OPT_ERRLAND);
 		if($landingPage instanceof Application_Model_Models_Page) {
-			$this->redirect($this->_helper->website->getUrl() . $landingPage->getUrl(), array('exit' => true));
+            if ($xmlHttpRequest === true) {
+                $this->_helper->response->fail(array('redirect' => $this->_helper->website->getUrl() . $landingPage->getUrl()));
+            } else {
+                $this->redirect($this->_helper->website->getUrl() . $landingPage->getUrl(), array('exit' => true));
+            }
 		}
 	}
 
