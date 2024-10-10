@@ -39,6 +39,11 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
     const TRIGGER_USERINVITATION     = 't_userinvitation';
 
     /**
+     * User mfa notification
+     */
+    const TRIGGER_MFANOTIFICATION    = 't_mfanotification';
+
+    /**
      * Password change trigger. Launches sending of mails
      */
     const TRIGGER_PASSWORDCHANGE    = 't_passwordchange';
@@ -345,6 +350,32 @@ class Tools_Mail_SystemMailWatchdog implements Interfaces_Observer {
         $mailer->setBody($this->_entityParser->parse($mailBody));
         $mailer->setSubject($subject);
 	    $status = $mailer->send();
+        return $status;
+    }
+
+    protected function _sendTmfanotificationMail(Application_Model_Models_User $userModel)
+    {
+        $mailBody = $this->_prepareEmailBody();
+
+        $wicEmail = $this->_configHelper->getConfig('wicEmail');
+        $this->_entityParser->setDictionary(
+            array(
+                'user:fullname' => $userModel->getFullName(),
+                'user:email' => $userModel->getEmail(),
+                'user:mfacode' => $userModel->getMfaCode(),
+                'request:ipaddress' => $this->_options['ipAddress'],
+                'widcard:BizEmail' => !empty($wicEmail) ? $wicEmail : $this->_configHelper->getConfig('adminEmail')
+            )
+        );
+
+        $mailer = Tools_Mail_Tools::initMailer();
+        $subject = ($this->_options['subject'] == '') ? $this->_websiteHelper->getUrl() . ' ' . $this->_translator->translate('Access from web or mobile device') : $this->_options['subject'];
+
+        $mailer->setMailFrom($this->_parseMailFrom($this->_entityParser->parse($this->_options['from'])));
+        $mailer->setMailTo($userModel->getEmail());
+        $mailer->setBody($this->_entityParser->parse($mailBody));
+        $mailer->setSubject($subject);
+        $status = $mailer->send();
         return $status;
     }
 

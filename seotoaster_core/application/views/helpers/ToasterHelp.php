@@ -10,6 +10,8 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
 
     const REMOTE_URL = 'http://www.seotoaster.com/';
 
+    const HELP_WEBSITE_REMOTE_URL = 'https://help.seosamba.com/';
+
     const SECTION_ADDPAGE = 'addpage';
 
     const SECTION_EDITPAGE = 'editpage';
@@ -91,7 +93,7 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
             $this->_helpHashMap = array_merge($this->_helpHashMap, $hashMap);
         }
         if (array_key_exists($section, $this->_helpHashMap)) {
-            return '<a class="help ticon-help" href="' . self::REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
+            return '<a class="help ticon-help" href="' . self::HELP_WEBSITE_REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
         }
         return '<a class="help ticon-help" href="javascript:;"></a>';
     }

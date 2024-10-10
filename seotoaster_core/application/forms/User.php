@@ -43,6 +43,20 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_avatarLink = null;
 
+    protected $_receiveReports = '0';
+
+    protected $_receiveReportsPreferableTime = '';
+
+    protected $_receiveReportsCcEmail = '';
+
+    protected $_receiveReportsTypesList = '';
+
+    protected $_enabledMfa = '0';
+
+    protected $_mfaCode = '';
+
+    protected $_mfaCodeExpirationTime = '';
+
 	public function init() {
         parent::init();
 
@@ -491,6 +505,108 @@ class Application_Form_User extends Application_Form_Secure {
     {
         $this->_avatarLink = $avatarLink;
         $this->getElement('avatarLink')->setValue($avatarLink);
+        return $this;
+    }
+
+    public function getReceiveReports()
+    {
+        return $this->_receiveReports;
+    }
+
+    public function setReceiveReports($receiveReports)
+    {
+        $this->_receiveReports = $receiveReports;
+        $this->getElement('receiveReports')->setValue($receiveReports);
+        return $this;
+    }
+
+    public function getReceiveReportsPreferableTime()
+    {
+        return $this->_receiveReportsPreferableTime;
+    }
+
+    public function setReceiveReportsPreferableTime($receiveReportsPreferableTime)
+    {
+        $this->_receiveReportsPreferableTime = $receiveReportsPreferableTime;
+        $this->getElement('receiveReportsPreferableTime')->setValue($receiveReportsPreferableTime);
+        return $this;
+    }
+
+    public function getReceiveReportsCcEmail()
+    {
+        return $this->_receiveReportsCcEmail;
+    }
+
+    public function setReceiveReportsCcEmail($receiveReportsCcEmail)
+    {
+        $this->_receiveReportsCcEmail = $receiveReportsCcEmail;
+        $this->getElement('receiveReportsCcEmail')->setValue($receiveReportsCcEmail);
+        return $this;
+    }
+
+    public function getReceiveReportsTypesList()
+    {
+        return $this->_receiveReportsTypesList;
+    }
+
+    public function setReceiveReportsTypesList($receiveReportsTypesList)
+    {
+        $this->_receiveReportsCcEmail = $receiveReportsTypesList;
+        $this->getElement('receiveReportsTypesList')->setValue($receiveReportsTypesList);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnabledMfa()
+    {
+        return $this->_enabledMfa;
+    }
+
+    /**
+     * @param string $enabledMfa
+     */
+    public function setEnabledMfa($enabledMfa)
+    {
+        $this->_enabledMfa = $enabledMfa;
+        $this->getElement('enabledMfa')->setValue($enabledMfa);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMfaCode()
+    {
+        return $this->_mfaCode;
+    }
+
+    /**
+     * @param string $mfaCode
+     */
+    public function setMfaCode($mfaCode)
+    {
+        $this->_mfaCode = $mfaCode;
+        $this->getElement('mfaCode')->setValue($mfaCode);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMfaCodeExpirationTime()
+    {
+        return $this->_mfaCodeExpirationTime;
+    }
+
+    /**
+     * @param string $mfaCodeExpirationTime
+     */
+    public function setMfaCodeExpirationTime($mfaCodeExpirationTime)
+    {
+        $this->_mfaCodeExpirationTime = $mfaCodeExpirationTime;
+        $this->getElement('mfaCodeExpirationTime')->setValue($mfaCodeExpirationTime);
         return $this;
     }
 

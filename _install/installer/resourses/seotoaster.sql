@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.8.0');
+('version',	'3.9.0');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -97,7 +97,8 @@ INSERT INTO `email_triggers` (`id`, `enabled`, `trigger_name`, `observer`) VALUE
 (3,	'1',	't_passwordchange',	'Tools_Mail_SystemMailWatchdog'),
 (4,	'1',	't_membersignup',	'Tools_Mail_SystemMailWatchdog'),
 (5,	'1',	't_systemnotification',	'Tools_Mail_SystemMailWatchdog'),
-(6,	'1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog');
+(6,	'1',	't_userinvitation',	'Tools_Mail_SystemMailWatchdog'),
+(7,	'1',	't_mfanotification', 'Tools_Mail_SystemMailWatchdog');
 
 DROP TABLE IF EXISTS `email_triggers_actions`;
 CREATE TABLE `email_triggers_actions` (
@@ -458,6 +459,14 @@ CREATE TABLE `user` (
   `remote_authorization_token` CHAR(40) DEFAULT NULL,
   `personal_calendar_url` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
   `avatar_link` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `receive_reports` ENUM('0', '1') DEFAULT '0',
+  `receive_reports_preferable_time` int(10) unsigned DEFAULT NULL,
+  `receive_reports_cc_email` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `receive_reports_types_list` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,
+  `enabled_mfa` ENUM('0', '1') DEFAULT '0',
+  `mfa_code` CHAR(6) DEFAULT NULL,
+  `mfa_code_expiration_time` TIMESTAMP NULL,
+  `exclude_weekends` ENUM('0', '1') DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
@@ -649,8 +658,8 @@ INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_
 ('FM',	'desktop',	'999-9999',	'999-9999'),
 ('FO',	'mobile',	'999-999',	'999-999'),
 ('FO',	'desktop',	'999-999',	'999-999'),
-('FR',  'mobile', '9 99 99 99 99?9', '9 99 99 99 99?9'),
-('FR',  'desktop', '9 99 99 99 99?9', '9 99 99 99 99?9'),
+('FR',  'mobile', '99 99 99 99 9?9', '99 99 99 99 9?9'),
+('FR',  'desktop', '99 99 99 99 9?9', '99 99 99 99 9?9'),
 ('GA',	'mobile',	'9-99-99-99',	'9-99-99-99'),
 ('GA',	'desktop',	'9-99-99-99',	'9-99-99-99'),
 ('GB',	'mobile',	'99-9999-9999?9',	'99-9999-9999?9'),

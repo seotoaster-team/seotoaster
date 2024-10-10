@@ -56,6 +56,22 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_avatarLink = '';
 
+    protected $_receiveReports = '0';
+
+    protected $_receiveReportsPreferableTime = '0';
+
+    protected $_receiveReportsCcEmail = '';
+
+    protected $_receiveReportsTypesList = '';
+
+    protected $_enabledMfa = '0';
+
+    protected $_mfaCode = '';
+
+    protected $_mfaCodeExpirationTime = '';
+
+    protected $_excludeWeekends = '0';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -509,6 +525,131 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getReceiveReports()
+    {
+        return $this->_receiveReports;
+    }
+
+    /**
+     * @param string $receiveReports
+     */
+    public function setReceiveReports($receiveReports)
+    {
+        $this->_receiveReports = $receiveReports;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReceiveReportsPreferableTime()
+    {
+        return $this->_receiveReportsPreferableTime;
+    }
+
+    /**
+     * @param string $receiveReportsPreferableTime
+     */
+    public function setReceiveReportsPreferableTime($receiveReportsPreferableTime)
+    {
+        $this->_receiveReportsPreferableTime = $receiveReportsPreferableTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReceiveReportsCcEmail()
+    {
+        return $this->_receiveReportsCcEmail;
+    }
+
+    /**
+     * @param string $receiveReportsCcEmail
+     */
+    public function setReceiveReportsCcEmail($receiveReportsCcEmail)
+    {
+        $this->_receiveReportsCcEmail = $receiveReportsCcEmail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReceiveReportsTypesList()
+    {
+        return $this->_receiveReportsTypesList;
+    }
+
+    /**
+     * @param string $receiveReportsTypesList
+     */
+    public function setReceiveReportsTypesList($receiveReportsTypesList)
+    {
+        $this->_receiveReportsTypesList = $receiveReportsTypesList;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnabledMfa()
+    {
+        return $this->_enabledMfa;
+    }
+
+    /**
+     * @param string $enabledMfa
+     */
+    public function setEnabledMfa($enabledMfa)
+    {
+        $this->_enabledMfa = $enabledMfa;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMfaCode()
+    {
+        return $this->_mfaCode;
+    }
+
+    /**
+     * @param string $mfaCode
+     */
+    public function setMfaCode($mfaCode)
+    {
+        $this->_mfaCode = $mfaCode;
+    }
+
+    public function getExcludeWeekends()
+    {
+        return $this->_excludeWeekends;
+    }
+
+    /**
+     * @param string $excludeWeekends
+     */
+    public function setExcludeWeekends($excludeWeekends)
+    {
+        $this->_excludeWeekends = $excludeWeekends;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getMfaCodeExpirationTime()
+    {
+        return $this->_mfaCodeExpirationTime;
+    }
+
+    /**
+     * @param string $mfaCodeExpirationTime
+     */
+    public function setMfaCodeExpirationTime($mfaCodeExpirationTime)
+    {
+        $this->_mfaCodeExpirationTime = $mfaCodeExpirationTime;
+    }
 
 }
 

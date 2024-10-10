@@ -79,6 +79,32 @@ class Widgets_Member_Member extends Widgets_Abstract {
         $this->_view->retrieveForm = $passwordRetrieveFrom;
         $this->_session->retrieveRedirect = $this->_toasterOptions['url'];
 
+        $configHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('config');
+        $activateMfa = $configHelper->getConfig('activateMfa');
+        $mfaEnabled = false;
+        if (!empty($activateMfa)){
+            $mfaEnabled = true;
+        }
+
+        $translator = Zend_Registry::get('Zend_Translate');
+
+        $this->_view->mfaEnabled = $mfaEnabled;
+
+        Tools_System_MfaTools::cleanVerificationUserId();
+        $verificationCodeSection = false;
+        if (isset($this->_session->verificationCodeUserId)) {
+            $verificationCodeSection = true;
+            if (empty($errorMessages)) {
+                $errorMessages[] = array('email' => $translator->translate('Verification code was sent to your email.'));
+            }
+
+            if (empty($this->_view->messages)) {
+                $this->_view->messages = $errorMessages;
+            }
+        }
+
+        $this->_view->verificationCodeSection = $verificationCodeSection;
+
         unset($this->_session->errMemeberLogin);
 		if(isset($this->_options[0])) {
 			$this->_session->redirectUserTo = $this->_options[0];

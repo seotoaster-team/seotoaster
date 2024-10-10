@@ -30,7 +30,12 @@
         </div>
 
         <?php if (!empty(($this->messages)) && is_array($this->messages)) : ?>
-            <div class="card-messages error">
+            <?php $messageClass = 'error';?>
+            <?php if ($this->verificationCodeSection):?>
+                <?php $messageClass = 'error';?>
+            <?php endif;?>
+
+            <div class="card-messages <?php echo $messageClass;?>">
                 <ul id="messages" class="list-unstyled">
                     <?php $this->messages = array_pop($this->messages);?>
                     <?php foreach ($this->messages as $message) : ?>
@@ -41,25 +46,35 @@
         <?php endif; ?>
 
         <div class="card-content">
-            <div class="field-line"><?php
-                echo $this->loginForm->getElement('email')->renderLabel();
-                echo $this->loginForm->getElement('email')->renderViewHelper();
-                ?>
-            </div>
-            <div class="field-line">
-                <?php echo $this->loginForm->getElement('password')->renderLabel(); ?>
-                <div class="sneak-peek-eye">
-                    <?php echo $this->loginForm->getElement('password')->renderViewHelper(); ?>
-                    <span class="sneak-peek"></span>
+            <?php if ($this->verificationCodeSection === false):?>
+                <div class="field-line"><?php
+                    echo $this->loginForm->getElement('email')->renderLabel();
+                    echo $this->loginForm->getElement('email')->renderViewHelper();
+                    ?>
                 </div>
-            </div>
+                <div class="field-line">
+                    <?php echo $this->loginForm->getElement('password')->renderLabel(); ?>
+                    <div class="sneak-peek-eye">
+                        <?php echo $this->loginForm->getElement('password')->renderViewHelper(); ?>
+                        <span class="sneak-peek"></span>
+                    </div>
+                </div>
+            <?php else:?>
+                <div class="field-line">
+                    <label for="login-verification-code" class="required"><?php echo $this->translate('Enter the verification code'); ?></label>
+                    <input id="login-verification-code" type="text" name="login-verification-code" value="">
+                </div>
+                <div class="field-line">
+                    <span><?php echo $this->translate('Didn\'t receive a code?'); ?></span> <a id="resend-verification-code-link" href="javascript:;"><?php echo $this->translate('Resend'); ?></a>
+                </div>
+            <?php endif;?>
         </div>
 
         <div class="btn-area">
             <a id="forgot-password" href="<?php echo $this->websiteUrl; ?>login/retrieve/"><?php echo $this->translate('Forgot password?'); ?></a>
             <?php echo $this->loginForm->getElement('submit')->renderViewHelper();?>
         </div>
-        <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
+        <input id="secure-token" type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>"/>
     </form>
 
 </main>
@@ -75,6 +90,28 @@
     $('.notvalid').on('keyup', function(){
         $(this).removeClass('notvalid');
         $(this).unbind();
+    });
+    $(document).on('click', '#resend-verification-code-link', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url:'<?php echo $this->websiteUrl;?>api/toaster/loginverificationcode/',
+            type:"POST",
+            dataType:"json",
+            data:{
+                'secureToken':$('#secure-token').val()
+            }
+        }).done(function(response) {
+            if (parseInt(response.error) === 0) {
+                showMessage(response.message, false, 2000);
+            } else {
+                showMessage(response.message, true, 3000);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 3000);
+            }
+        });
+
     });
 <?php $this->jQuery()->onLoadCaptureEnd(); ?>
 </script>

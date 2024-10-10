@@ -20,7 +20,7 @@ class Backend_UserController extends Zend_Controller_Action {
 
     private $_session;
 
-    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode', 'remoteLoginRedirect');
+    public static $_allowedDefaultAttributes = array('userDefaultTimezone', 'userDefaultPhoneMobileCode', 'remoteLoginRedirect', 'activateMfa');
 
 	public function init() {
 		parent::init();
@@ -71,6 +71,7 @@ class Backend_UserController extends Zend_Controller_Action {
                 array(new Zend_Validate_Regex(array('pattern' => '/^[\w\s\']*$/u'))
             )));
             $userForm->getElement('fullName')->getValidator('Zend_Validate_Regex')->setMessage("'%value%' contains characters which are non alphabetic and no digits", Zend_Validate_Regex::NOT_MATCH);
+            $notFilteredData = $this->getRequest()->getParams();
             if($userForm->isValid($this->getRequest()->getParams())) {
                 $data       = $userForm->getValues();
 
@@ -86,10 +87,19 @@ class Backend_UserController extends Zend_Controller_Action {
                         $data['allowRemoteAuthorization'] = $existedUser->getAllowRemoteAuthorization();
                         $data['remoteAuthorizationInfo'] = $existedUser->getRemoteAuthorizationInfo();
                         $data['remoteAuthorizationToken'] = $existedUser->getRemoteAuthorizationToken();
+                        $data['receiveReports'] = $existedUser->getReceiveReports();
+                        $data['receiveReportsPreferableTime'] = $existedUser->getReceiveReportsPreferableTime();
+                        $data['receiveReportsCcEmail'] = $existedUser->getReceiveReportsCcEmail();
+                        $data['receiveReportsTypesList'] = $existedUser->getReceiveReportsTypesList();
+                        $data['mfaCode'] = $existedUser->getMfaCode();
+                        $data['mfaCodeExpirationTime'] = $existedUser->getMfaCodeExpirationTime();
+                        $data['excludeWeekends'] = $existedUser->getExcludeWeekends();
                     }
                 } else {
                     $notifyNewUser = true;
                 }
+
+                $data['enabledMfa'] = $notFilteredData['enabledMfa'];
 
                 $this->_processUser($data, $userId);
                 if ($oldUserEmailAddress !== $data['email'] && !empty($userId)) {
@@ -131,8 +141,9 @@ class Backend_UserController extends Zend_Controller_Action {
 
         $pnum = (int)filter_var($this->getParam('pnum'), FILTER_SANITIZE_NUMBER_INT);
         $offset = 0;
+        $limit = 8;
         if ($pnum) {
-            $offset = 10 * ($pnum - 1);
+            $offset = $limit * ($pnum - 1);
         }
 
         $select = $this->_zendDbTable->getAdapter()->select()->from('user');
@@ -186,10 +197,10 @@ class Backend_UserController extends Zend_Controller_Action {
         $this->view->userRole = $defaultRole;
 
         $adapter = new Zend_Paginator_Adapter_DbSelect($select);
-        $users = $adapter->getItems($offset, 10);
+        $users = $adapter->getItems($offset, $limit);
         $userPaginator = new Zend_Paginator($adapter);
         $userPaginator->setCurrentPageNumber($pnum);
-        $userPaginator->setItemCountPerPage(10);
+        $userPaginator->setItemCountPerPage($limit);
 
 
         $pager = $this->view->paginationControl($userPaginator, 'Sliding', 'backend/user/pager.phtml',
@@ -220,11 +231,13 @@ class Backend_UserController extends Zend_Controller_Action {
         $userDefaultTimezone = $configHelper->getConfig('userDefaultTimezone');
         $userDefaultMobileCountryCode = $configHelper->getConfig('userDefaultPhoneMobileCode');
         $remoteLoginRedirect = $configHelper->getConfig('remoteLoginRedirect');
+        $activateMfa = $configHelper->getConfig('activateMfa');
         if (empty($remoteLoginRedirect)) {
             $remoteLoginRedirect = '';
         }
         $this->view->userDefaultTimeZone = $userDefaultTimezone;
         $this->view->remoteLoginRedirect = $remoteLoginRedirect;
+        $this->view->activateMfa = $activateMfa;
         $userDeleteCustomMessages = Tools_System_Tools::firePluginMethod('userdelete', 'systemUserDeleteMessage');
         $userDeleteCustomMessage = '';
         $userRolesApplyTo = array();
