@@ -880,6 +880,11 @@ INSERT INTO `email_triggers` (`enabled`, `trigger_name`, `observer`) VALUES ('1'
 UPDATE `masks_list` SET `mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'FR';
 UPDATE `masks_list` SET `full_mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'FR';
 
+-- 17/10/2024
+-- version: 3.9.1
+-- Set default superadmin timezone
+UPDATE `user` SET `timezone` = 'America/New_York' WHERE `timezone` IS NULL AND `role_id` = 'superadmin';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.9.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.9.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

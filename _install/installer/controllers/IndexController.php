@@ -369,7 +369,8 @@ class IndexController extends Zend_Controller_Action {
 			'password'	=> md5($data['adminPassword']),
 			'role_id'	=> 'superadmin',
 			'full_name'	=> $data['adminName'],
-			'reg_date'  => date('Y-m-d h:i:s')
+			'reg_date'  => date('Y-m-d h:i:s'),
+			'timezone'  => 'America/New_York'
 		);
 		
 		$userTable = new Zend_Db_Table('user');
