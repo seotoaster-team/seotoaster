@@ -1013,4 +1013,33 @@ class Tools_System_Tools {
 
     }
 
+    /**
+     * Get bundled script name
+     *
+     * @param string $scriptPath script location path
+     * @param string $scriptName script name
+     * @return mixed|string
+     */
+    public static function getBuildScriptFullPath($scriptPath, $scriptName = null)
+    {
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $scriptPath = ltrim($scriptPath, '/');
+        $scriptPath = rtrim($scriptPath, '/');
+        $path = $websiteHelper->getPath() . $scriptPath . DIRECTORY_SEPARATOR . 'manifest.json';
+        try {
+            $srciptData = file_get_contents($path);
+            $srciptData = json_decode($srciptData, 1);
+        } catch (Exception $e) {
+            return "";
+        }
+        if (empty($scriptName)) {
+            return $srciptData;
+        }
+
+        $finalScriptPath = $scriptPath . '/' . str_replace('auto/', '', ltrim($srciptData[$scriptName], '/'));
+
+        return $finalScriptPath;
+    }
+
+
 }
