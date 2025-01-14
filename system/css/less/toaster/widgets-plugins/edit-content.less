@@ -15,11 +15,22 @@
     }
 }
 #frm_content{
+    border: 1px solid #ccc;
     background : @body-bg;
     .mce-flow-layout-item {
         margin-right: 0;
     }
+    
+    .tox-tinymce{
+        border: none;
+    }
+    
+    #content_widgets_text{
+        padding : 0 @padding-small-horizontal;
+        width   : auto;
+    }
 }
+
 #edit-content{
     background : @body-bg;
 
@@ -96,6 +107,24 @@
                     right    : 2%;
                     bottom   : 2%;
                 }
+            }
+        }
+    }
+    .above-editor-links{
+        .shortcut-buttons {
+            display     : flex;
+            align-items : center;
+        
+            input {
+                flex          : 0 0 10%;
+                margin        : 0 1%;
+                text-align    : center;
+                border        : none;
+                border-bottom : 1px solid @input-border-color;
+            }
+        
+            em {
+                color : @input-border-color;
             }
         }
     }
@@ -197,15 +226,7 @@
         }
     }
 }
-#frm_content{
-    #content{
-    }
 
-    #content_widgets_text{
-        padding : 0 @padding-small-horizontal;
-        width   : auto;
-    }
-}
 .chosen-container{
     &.chosen-container-multi{
         .chosen-choices{
