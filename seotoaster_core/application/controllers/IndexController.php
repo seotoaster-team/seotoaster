@@ -64,7 +64,10 @@ class IndexController extends Zend_Controller_Action {
                 if ($page->getIsFolderIndex()) {
                     $this->_helper->page->do301Redirect($pageDetails['folder']);
                     if ($page->getPageFolder() !== trim($this->_request->getRequestUri(), '/')) {
-                        $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $page->getPageFolder() . '/');
+                        $folderParsedUrl = parse_url($this->_request->getRequestUri());
+                        if ($page->getPageFolder() !== trim($folderParsedUrl['path'], '/')) {
+                            $this->_helper->redirector->gotoUrl($this->_helper->website->getUrl() . $page->getPageFolder() . '/');
+                        }
                     }
                 } else {
                     $this->_helper->page->do301Redirect($url);
