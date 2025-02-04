@@ -20,7 +20,7 @@ $(function(){
         selector : "textarea.tinymce",
         skin: 'oxide',//'seotoaster'
         width  : '100%',//'608px',
-        height : '450px',
+        height : '410px',
         menubar: false,
         resize: false,
         convert_urls: false,

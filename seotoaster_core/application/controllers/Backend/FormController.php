@@ -24,7 +24,8 @@ class Backend_FormController extends Zend_Controller_Action {
 			'manageform'  => 'json',
 			'delete'  => 'json',
 			'loadforms'   => 'json',
-			'receiveform' => 'json'
+			'receiveform' => 'json',
+            'gettemplatepreviewlink' => 'json'
 		))->initContext('json');
     }
 
@@ -98,12 +99,74 @@ class Backend_FormController extends Zend_Controller_Action {
 			$formForm->populate($form->toArray());
 		}
 
+		//get email templates page
+        $pageUrlReplyMailTemplate = '';
+        $currentReplyMailTemplate = $formForm->getElement('replyMailTemplate')->getValue();
+        $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('template_id = ?', $currentReplyMailTemplate);
+        $replyMailPageModels = $pageMapper->fetchAll($where, array(), true);
+        if (!empty($replyMailPageModels)) {
+            $currentReplyMailTemplateModel = current($replyMailPageModels);
+            if ($currentReplyMailTemplateModel instanceof Application_Model_Models_Page) {
+                $pageUrlReplyMailTemplate = $currentReplyMailTemplateModel->getUrl();
+            }
+        }
+
+        $pageUrlAdminMailTemplate = '';
+        $currentAdminMailTemplate = $formForm->getElement('adminMailTemplate')->getValue();
+        $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('template_id = ?', $currentAdminMailTemplate);
+        $adminMailTemplateModels = $pageMapper->fetchAll($where, array(), true);
+        if (!empty($adminMailTemplateModels)) {
+            $currentAdminMailTemplateModel = current($adminMailTemplateModels);
+            if ($currentAdminMailTemplateModel instanceof Application_Model_Models_Page) {
+                $pageUrlAdminMailTemplate = $currentAdminMailTemplateModel->getUrl();
+            }
+        }
+
+        $pageUrlAutoReplyPdfTemplate = '';
+        $currentAutoReplyPdfTemplate = $formForm->getElement('autoReplyPdfTemplate')->getValue();
+        $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('template_id = ?', $currentAutoReplyPdfTemplate);
+        $autoReplyPdfTemplateModels = $pageMapper->fetchAll($where, array(), true);
+        if (!empty($autoReplyPdfTemplateModels)) {
+            $autoReplyPdfTemplateModel = current($autoReplyPdfTemplateModels);
+            if ($autoReplyPdfTemplateModel instanceof Application_Model_Models_Page) {
+                $pageUrlAutoReplyPdfTemplate = $autoReplyPdfTemplateModel->getUrl();
+            }
+        }
+
+        $this->view->pageUrlReplyMailTemplate = $pageUrlReplyMailTemplate;
+        $this->view->pageUrlAdminMailTemplate = $pageUrlAdminMailTemplate;
+        $this->view->pageUrlAutoReplyPdfTemplate = $pageUrlAutoReplyPdfTemplate;
+
         $this->view->replyEmail = $replyEmail;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
 	    $this->view->helpSection = 'editform';
 	}
+
+    public function gettemplatepreviewlinkAction()
+    {
+        $templateId = filter_var($this->_request->getParam('templateId'), FILTER_SANITIZE_STRING);
+        if ($this->_request->isGet()) {
+            $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
+            $where = $pageMapper->getDbTable()->getAdapter()->quoteInto('template_id = ?', $templateId);
+            $pageModels = $pageMapper->fetchAll($where, array(), true);
+            if (!empty($pageModels)) {
+                $pageModel = current($pageModels);
+            }
+
+            $pageUrl = '';
+            if ($pageModel instanceof Application_Model_Models_Page) {
+                $pageUrl = $this->_helper->website->getUrl().$pageModel->getUrl();
+            }
+
+            $this->_helper->response->success(array(
+                'pageUrl' => $pageUrl
+            ));
+
+        }
+        $this->_helper->response->fail('');
+    }
 
     public function validateEmail($emails){
         $emailValidation = new Tools_System_CustomEmailValidator();

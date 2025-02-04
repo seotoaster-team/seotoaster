@@ -204,6 +204,7 @@ class Backend_ContentController extends Zend_Controller_Action {
         $secureToken = Tools_System_Tools::initZendFormCsrfToken($this->_contentForm, Tools_System_Tools::ACTION_PREFIX_CONTAINERS);
         $this->view->secureToken = $secureToken;
         $this->view->contentForm = $this->_contentForm;
+        $this->view->wordCountContainer =  150;
 		$rendered = '';
 		switch ($this->_containerType) {
 			case Application_Model_Models_Container::TYPE_REGULARCONTENT:
@@ -220,6 +221,11 @@ class Backend_ContentController extends Zend_Controller_Action {
             if($this->getRequest()->getParam('showMore')){
                 $this->view->showMoreflag = $this->getRequest()->getParam('showMore');
             }
+            $containerAiPageId = (int) $this->getRequest()->getParam('pageId');
+            if (empty($containerAiPageId)) {
+                $containerAiPageId = $this->_contentForm->getElement('pageId')->getValue();
+            }
+            $this->view->containerAiPageId = $containerAiPageId;
             $rendered                       = $this->view->render('backend/content/content.phtml');
 			break;
 			case Application_Model_Models_Container::TYPE_REGULARHEADER:

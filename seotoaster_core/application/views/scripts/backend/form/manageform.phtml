@@ -49,9 +49,22 @@
             <p class="clear-both"></p>
             <fieldset class="grid_6 background mt10px">
                 <legend class="h2 background m0px p5px"><?php echo $this->translate('Lead delivery email setup');?></legend>
-                <p class="grid_6 mt10px">
+                <?php if (empty($this->pageUrlAdminMailTemplate)): ?>
+                    <?php $pageUrlAdminMailTemplatePreviewClass = 'hidden'; ?>
+                    <?php $pageUrlAdminMailTemplatePreviewBlockClass = 'grid_12 alpha omega'; ?>
+                <?php else: ?>
+                    <?php $pageUrlAdminMailTemplatePreviewClass = ''; ?>
+                    <?php $pageUrlAdminMailTemplatePreviewBlockClass = 'grid_10 alpha'; ?>
+                <?php endif; ?>
+
+                <p id="admin-template-page-block" class="grid_6 mt10px">
                     <?php echo $this->formForm->getElement('adminMailTemplate')->renderLabel(); ?>
-                    <?php echo $this->formForm->getElement('adminMailTemplate')->renderViewHelper(); ?>
+                    <span id="admin-template-page-preview-selector-block" class="<?php echo $pageUrlAdminMailTemplatePreviewBlockClass;?>">
+                        <?php echo $this->formForm->getElement('adminMailTemplate')->renderViewHelper(); ?>
+                    </span>
+                    <span id="admin-template-page-preview-link-block" class="grid_2 omega <?php echo $pageUrlAdminMailTemplatePreviewClass;?>">
+                        <a id="admin-template-page-preview-link" target="_blank" href="<?php echo $this->websiteUrl.$this->pageUrlAdminMailTemplate;?>" class="ticon-arrow-right6"></a>
+                    </span>
                 </p>
                 <p class="grid_6 mt10px">
                     <?php echo $this->formForm->getElement('adminFrom')->renderLabel(); ?>
@@ -87,10 +100,24 @@
                     </p>
                 </div>
                 <div class="reply-info grid_12 alpha omega" style="display: <?php echo $this->replyEmail ? 'none' : 'block';?>">
-                    <p class="grid_6">
+                    <?php if (empty($this->pageUrlReplyMailTemplate)): ?>
+                        <?php $pageUrlReplyMailTemplatePreviewClass = 'hidden'; ?>
+                        <?php $pageUrlReplyMailTemplatePreviewBlockClass = 'grid_12 alpha omega'; ?>
+                    <?php else: ?>
+                        <?php $pageUrlReplyMailTemplatePreviewClass = ''; ?>
+                        <?php $pageUrlReplyMailTemplatePreviewBlockClass = 'grid_10 alpha'; ?>
+                    <?php endif; ?>
+
+                    <p id="auto-reply-template-block" class="grid_6">
                         <?php echo $this->formForm->getElement('replyMailTemplate')->renderLabel(); ?>
-                        <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
+                        <span id="auto-reply-template-page-preview-selector-block" class="<?php echo $pageUrlReplyMailTemplatePreviewBlockClass;?>">
+                            <?php echo $this->formForm->getElement('replyMailTemplate')->renderViewHelper(); ?>
+                        </span>
+                        <span id="auto-reply-template-page-preview-link-block" class="grid_2 omega <?php echo $pageUrlReplyMailTemplatePreviewClass;?>">
+                            <a id="auto-reply-template-page-preview-link" target="_blank" href="<?php echo $this->websiteUrl.$this->pageUrlReplyMailTemplate;?>" class="ticon-arrow-right6"></a>
+                        </span>
                     </p>
+
                     <p class="grid_6">
                         <?php echo $this->formForm->getElement('replyFrom')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replyFrom')->renderViewHelper(); ?>
@@ -108,9 +135,23 @@
                         <?php echo $this->formForm->getElement('replyText')->renderLabel(); ?>
                         <?php echo $this->formForm->getElement('replyText')->renderViewHelper(); ?>
                     </p>
-                    <p class="grid_6 mt5px">
+
+                    <?php if (empty($this->pageUrlAutoReplyPdfTemplate)): ?>
+                        <?php $pageUrlAutoReplyPdfTemplatePreviewClass = 'hidden'; ?>
+                        <?php $pageUrlAutoReplyPdfTemplatePreviewBlockClass = 'grid_12 alpha omega'; ?>
+                    <?php else: ?>
+                        <?php $pageUrlAutoReplyPdfTemplatePreviewClass = ''; ?>
+                        <?php $pageUrlAutoReplyPdfTemplatePreviewBlockClass = 'grid_10 alpha'; ?>
+                    <?php endif; ?>
+
+                    <p id="auto-reply-pdf-template-block" class="grid_6 mt5px">
                         <?php echo $this->formForm->getElement('autoReplyPdfTemplate')->renderLabel(); ?>
-                        <?php echo $this->formForm->getElement('autoReplyPdfTemplate')->renderViewHelper(); ?>
+                        <span id="auto-reply-pdf-template-page-preview-selector-block" class="<?php echo $pageUrlAutoReplyPdfTemplatePreviewBlockClass;?>">
+                            <?php echo $this->formForm->getElement('autoReplyPdfTemplate')->renderViewHelper(); ?>
+                        </span>
+                        <span id="auto-reply-pdf-template-page-preview-link-block" class="grid_2 omega <?php echo $pageUrlAutoReplyPdfTemplatePreviewClass;?>">
+                            <a id="auto-reply-pdf-template-page-preview-link" target="_blank" href="<?php echo $this->websiteUrl.$this->pageUrlAutoReplyPdfTemplate;?>" class="ticon-arrow-right6"></a>
+                        </span>
                     </p>
                 </div>
             </fieldset>
@@ -122,3 +163,46 @@
         <?php echo $this->formForm->getElement('submit')->renderViewHelper();?>
     </form>
 </div>
+
+<script type="application/javascript">
+
+$(document).on('change', '#admin-mail-template', function(e){
+    changeEmailTemplatePreview($(e.currentTarget).val(), '#admin-template-page-preview-link', '#admin-template-page-preview-link-block', '#admin-template-page-preview-selector-block');
+});
+
+$(document).on('change', '#reply-mail-template', function(e){
+    changeEmailTemplatePreview($(e.currentTarget).val(), '#auto-reply-template-page-preview-link', '#auto-reply-template-page-preview-link-block', '#auto-reply-template-page-preview-selector-block');
+});
+
+$(document).on('change', '#auto-reply-pdf-template', function(e){
+    changeEmailTemplatePreview($(e.currentTarget).val(), '#auto-reply-pdf-template-page-preview-link', '#auto-reply-pdf-template-page-preview-link-block', '#auto-reply-pdf-template-page-preview-selector-block');
+});
+
+function changeEmailTemplatePreview(templateId, previewLinkId, previewLinkBlockId, selectorBlockId)
+{
+    $.ajax({
+        url: '<?php echo $this->websiteUrl;?>/backend/backend_form/getTemplatePreviewLink/',
+        type: 'GET',
+        data: {
+            'templateId': templateId
+        },
+        dataType: 'json',
+        success: function(response){
+            if (parseInt(response.error) === 1) {
+                showMessage('template preview error', true, 3000);
+                return false
+            }
+
+            if (response.responseText.pageUrl !== '') {
+                $(document).find(previewLinkId).attr('href', response.responseText.pageUrl);
+                $(document).find(previewLinkBlockId).removeClass('hidden');
+                $(document).find(selectorBlockId).addClass('omega').removeClass('grid_12').addClass('grid_10');
+            } else {
+                $(document).find(previewLinkBlockId).addClass('hidden');
+                $(document).find(selectorBlockId).removeClass('omega').removeClass('grid_10').addClass('grid_12');
+            }
+        }
+    });
+}
+
+</script>

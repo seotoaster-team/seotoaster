@@ -127,6 +127,9 @@
 [data-icon]:before {
   content: attr(data-icon);
 }
+.ticon-arrow-right6:before {
+  content: "\e0db";
+}
 .ticon-cancel-search:before {
   content: "\e907";
 }

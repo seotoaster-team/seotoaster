@@ -16,11 +16,20 @@
         <div class="grid_8 above-editor-links">
             <form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
                 <?php echo $this->contentForm->getElement('content'); ?>
+                <div class="shortcut-buttons p5px">
+                    <span id="generate-ai-content-text" class="add-shortcut btn mini outline" title="<?php echo $this->translate('Generate AI description using the product\'s image');?>" data-shortcut="<?php echo $this->translate('Generate AI description using the product\'s image');?>">
+                        <?php echo $this->translate('Generate');?>
+                    </span>
+                    <input id="ai-content-amount" type="text" name="ai-description-amount" class="inline-block" value="<?php echo $this->wordCountContainer;?>">
+                    <em><?php echo $this->translate('words or less with AI');?></em>
+                </div>
                 <?php echo $this->contentForm->getElement('containerType'); ?>
                 <?php echo $this->contentForm->getElement('containerName'); ?>
                 <?php echo $this->contentForm->getElement('pageId'); ?>
                 <?php echo $this->contentForm->getElement('containerId'); ?>
-                <input type="hidden" name="secureToken" class="secureToken" value="<?php echo $this->secureToken;?>" />
+                <input id="container-ai-page-id" type="hidden" value="<?php echo $this->containerAiPageId;?>"/>
+                <input id="container-secure-token" type="hidden" name="secureToken" class="secureToken" value="<?php echo $this->secureToken;?>" />
+                <input id="container-page-id" type="hidden" name="containerPageId" value="<?php echo $this->contentForm->getElement('pageId')->getValue();?>" />
             </form>
         </div>
 
