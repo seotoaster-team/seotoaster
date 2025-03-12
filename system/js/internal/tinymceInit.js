@@ -1,12 +1,12 @@
 $(function(){
-    const dispatchEditorKeyup = (editor, event, keyTime) => {
-        var keyTimer = keyTime;
-        if(keyTimer === null) {
-            keyTimer = setTimeout(function() {
-                keyTimer = null;
-            }, 1000)
-        }
-    };
+    // const dispatchEditorKeyup = (editor, event, keyTime) => {
+    //     var keyTimer = keyTime;
+    //     if(keyTimer === null) {
+    //         keyTimer = setTimeout(function() {
+    //             keyTimer = null;
+    //         }, 1000)
+    //     }
+    // };
 
     var websiteUrl = $('#website_url').val(),
         toolbar = 'bold italic underline lineheight alignleft aligncenter alignright alignjustify bullist numlist forecolor backcolor link unlink anchor image media table hr styleselect formatselect fontsizeselect pastetext visualblocks removeformat wordcount searchreplace codesample code fullscreen stw darkmode ',
