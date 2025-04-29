@@ -886,6 +886,10 @@ UPDATE `masks_list` SET `full_mask_value` = '99 99 99 99 9?9' WHERE `country_cod
 -- Set default superadmin timezone
 UPDATE `user` SET `timezone` = 'America/New_York' WHERE `timezone` IS NULL AND `role_id` = 'superadmin';
 
+-- 16/04/2025
+-- version: 3.9.2
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.9.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.10.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
