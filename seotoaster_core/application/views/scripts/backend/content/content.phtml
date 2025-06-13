@@ -17,7 +17,7 @@
             <form id="frm_content" action="<?php echo $this->url(); ?>" method="post" enctype="application/x-www-form-urlencoded">
                 <?php echo $this->contentForm->getElement('content'); ?>
                 <div class="shortcut-buttons p5px">
-                    <span id="generate-ai-content-text" class="add-shortcut btn mini outline" title="<?php echo $this->translate('Generate AI description using the product\'s image');?>" data-shortcut="<?php echo $this->translate('Generate AI description using the product\'s image');?>">
+                    <span id="generate-ai-content-text" class="add-shortcut btn mini outline">
                         <?php echo $this->translate('Generate');?>
                     </span>
                     <input id="ai-content-amount" type="text" name="ai-description-amount" class="inline-block" value="<?php echo $this->wordCountContainer;?>">
