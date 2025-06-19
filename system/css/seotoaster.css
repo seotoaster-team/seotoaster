@@ -6104,6 +6104,9 @@ label[for*="chr-"] {
 .above-editor-links .shortcut-buttons em {
   color: #ccc;
 }
+#text-only-content .tox-tinymce {
+  border: none;
+}
 #clicktocall-widget-form [type="radio"]:checked ~ span {
   display: inline-block;
   vertical-align: middle;
