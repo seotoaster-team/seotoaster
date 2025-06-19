@@ -6016,7 +6016,6 @@ label[for*="chr-"] {
   border: none;
 }
 #frm_content {
-  border: 1px solid #ccc;
   background: #FFF;
 }
 #frm_content .mce-flow-layout-item {
@@ -6088,18 +6087,21 @@ label[for*="chr-"] {
   right: 2%;
   bottom: 2%;
 }
-#edit-content .above-editor-links .shortcut-buttons {
+.above-editor-links {
+  border: 1px solid #ccc;
+}
+.above-editor-links .shortcut-buttons {
   display: flex;
   align-items: center;
 }
-#edit-content .above-editor-links .shortcut-buttons input {
+.above-editor-links .shortcut-buttons input {
   flex: 0 0 10%;
   margin: 0 1%;
   text-align: center;
   border: none;
   border-bottom: 1px solid #ccc;
 }
-#edit-content .above-editor-links .shortcut-buttons em {
+.above-editor-links .shortcut-buttons em {
   color: #ccc;
 }
 #clicktocall-widget-form [type="radio"]:checked ~ span {

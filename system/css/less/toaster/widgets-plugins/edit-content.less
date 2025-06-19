@@ -15,7 +15,7 @@
     }
 }
 #frm_content{
-    border: 1px solid #ccc;
+    //border: 1px solid #ccc;
     background : @body-bg;
     .mce-flow-layout-item {
         margin-right: 0;
@@ -110,22 +110,23 @@
             }
         }
     }
-    .above-editor-links{
-        .shortcut-buttons {
-            display     : flex;
-            align-items : center;
+}
+.above-editor-links{
+    border: 1px solid #ccc;
+    .shortcut-buttons {
+        display     : flex;
+        align-items : center;
         
-            input {
-                flex          : 0 0 10%;
-                margin        : 0 1%;
-                text-align    : center;
-                border        : none;
-                border-bottom : 1px solid @input-border-color;
-            }
+        input {
+            flex          : 0 0 10%;
+            margin        : 0 1%;
+            text-align    : center;
+            border        : none;
+            border-bottom : 1px solid @input-border-color;
+        }
         
-            em {
-                color : @input-border-color;
-            }
+        em {
+            color : @input-border-color;
         }
     }
 }
